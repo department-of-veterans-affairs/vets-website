@@ -5,6 +5,7 @@ import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
+import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import formConfig from '../config/form';
 
 const App = ({ location, children }) => {
@@ -12,6 +13,7 @@ const App = ({ location, children }) => {
     state => state.featureToggles?.loading || state.user?.profile?.loading,
   );
 
+  useDefaultFormData();
   useBrowserMonitoring({
     loggedIn: undefined,
     toggleName: 'form107959cBrowserMonitoringEnabled',

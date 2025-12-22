@@ -61,7 +61,7 @@ export const getConditionDetails = (
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_conditions_getConditionDetails');
   }
 };
 

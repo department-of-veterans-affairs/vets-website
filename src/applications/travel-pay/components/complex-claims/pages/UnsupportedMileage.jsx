@@ -2,14 +2,19 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { BTSSS_PORTAL_URL } from '../../../constants';
 
 const UnsupportedMileage = () => {
   const navigate = useNavigate();
 
+  const title = 'You’ll need to file this claim in another tool';
+
+  useSetPageTitle(title);
+
   return (
     <>
-      <h1>You’ll need to file this claim in another tool</h1>
+      <h1>{title}</h1>
       <p>
         Right now you can only file travel reimbursement claims on VA.gov if you
         departed from the address we have on file and traveled round trip.
@@ -20,7 +25,7 @@ const UnsupportedMileage = () => {
       </p>
       <va-link
         href={BTSSS_PORTAL_URL}
-        text="Continue this claim on BTSSS"
+        text="Continue this claim in BTSSS"
         external
       />
       <VaButton

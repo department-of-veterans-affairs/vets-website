@@ -102,8 +102,8 @@ const introPage = {
     'ui:description': () => (
       <div>
         <p className="vads-u-margin-top--0">
-          Next we’ll ask you about your dependent children. You may add up to 3
-          dependents.
+          Next we’ll ask you about the Veteran’s dependent children. You may add
+          up to 3 dependents.
         </p>
         {DependentChildDescription}
       </div>

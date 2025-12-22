@@ -1,5 +1,4 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { validObjectCharsOnly } from '../../../shared/validations';
 import {
   fullNameMiddleInitialSchema,
   fullNameMiddleInitialUI,
@@ -16,10 +15,6 @@ export default {
   uiSchema: {
     ...titleUI(PAGE_TITLE),
     applicantName: fullNameMiddleInitialUI,
-    'ui:validations': [
-      (errors, fieldData) =>
-        validObjectCharsOnly(errors, null, fieldData, 'applicantName'),
-    ],
   },
   schema: {
     type: 'object',

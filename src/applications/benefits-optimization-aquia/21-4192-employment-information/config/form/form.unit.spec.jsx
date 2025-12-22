@@ -177,39 +177,19 @@ describe('Form Configuration', () => {
         expect(page.depends).to.be.a('function');
       });
 
-      it('should show page when employment ended (has ending date, not currently employed)', () => {
-        const formData = {
-          employmentDates: {
-            endingDate: '2024-01-15',
-            currentlyEmployed: false,
-          },
-        };
-        expect(page.depends(formData)).to.be.true;
-      });
-
-      it('should show page when has ending date and currentlyEmployed is undefined', () => {
+      it('should show page when employment has ending date', () => {
         const formData = {
           employmentDates: {
             endingDate: '2024-01-15',
           },
         };
         expect(page.depends(formData)).to.be.true;
-      });
-
-      it('should hide page when currently employed (even with ending date)', () => {
-        const formData = {
-          employmentDates: {
-            endingDate: '2024-01-15',
-            currentlyEmployed: true,
-          },
-        };
-        expect(page.depends(formData)).to.be.false;
       });
 
       it('should hide page when no ending date provided', () => {
         const formData = {
           employmentDates: {
-            currentlyEmployed: false,
+            beginningDate: '2020-01-15',
           },
         };
         expect(page.depends(formData)).to.be.false;
@@ -228,39 +208,19 @@ describe('Form Configuration', () => {
         expect(page.depends).to.be.a('function');
       });
 
-      it('should show page when employment ended (has ending date, not currently employed)', () => {
-        const formData = {
-          employmentDates: {
-            endingDate: '2024-01-15',
-            currentlyEmployed: false,
-          },
-        };
-        expect(page.depends(formData)).to.be.true;
-      });
-
-      it('should show page when has ending date and currentlyEmployed is undefined', () => {
+      it('should show page when employment has ending date', () => {
         const formData = {
           employmentDates: {
             endingDate: '2024-01-15',
           },
         };
         expect(page.depends(formData)).to.be.true;
-      });
-
-      it('should hide page when currently employed (even with ending date)', () => {
-        const formData = {
-          employmentDates: {
-            endingDate: '2024-01-15',
-            currentlyEmployed: true,
-          },
-        };
-        expect(page.depends(formData)).to.be.false;
       });
 
       it('should hide page when no ending date provided', () => {
         const formData = {
           employmentDates: {
-            currentlyEmployed: false,
+            beginningDate: '2020-01-15',
           },
         };
         expect(page.depends(formData)).to.be.false;

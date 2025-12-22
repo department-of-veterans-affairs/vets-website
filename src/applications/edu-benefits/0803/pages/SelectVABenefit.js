@@ -6,12 +6,12 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const Options = {
-  chapter30:
-    'Montgomery GI Bill - Active Duty Educational Assistance Program (MGIB) (Chapter 30)',
   chapter33:
     'Post-9/11 GI Bill Including Transfer of Entitlement and Fry Scholarship Recipients (Chapter 33)',
   chapter35:
     'Survivors’ and Dependents’ Educational Assistance Program (DEA) (Chapter 35)',
+  chapter30:
+    'Montgomery GI Bill - Active Duty Educational Assistance Program (MGIB) (Chapter 30)',
   chapter1606:
     'Montgomery GI Bill - Selected Reserve Educational Assistance Program (MGIB-SR) (Chapter 1606)',
 };

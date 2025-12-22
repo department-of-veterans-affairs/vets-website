@@ -24,8 +24,11 @@ import {
   getComplexClaimDetails,
   clearUnsavedExpenseChanges,
 } from '../redux/actions';
-import { STATUSES } from '../constants';
 import UnsavedChangesModal from '../components/UnsavedChangesModal';
+import {
+  hasUnassociatedDocuments,
+  isClaimIncompleteOrSaved,
+} from '../util/complex-claims-helper';
 
 const getBackRoute = ({
   isIntroductionPage,
@@ -61,6 +64,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { apptId, claimId } = useParams();
+  const isErrorRoute = window?.location?.pathname?.endsWith('/get-claim-error');
+  const [shouldRedirect, setShouldRedirect] = useState(false);
   const location = useLocation();
   const [
     isUnsavedChangesModalVisible,
@@ -88,7 +93,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const claimError = complexClaim.fetch?.error;
 
   const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
-
   const isComplexClaimCreationLoading = useSelector(
     selectComplexClaimCreationLoadingState,
   );
@@ -120,7 +124,10 @@ const ComplexClaimSubmitFlowWrapper = () => {
   useEffect(
     () => {
       if (needsClaimData) {
-        dispatch(getComplexClaimDetails(effectiveClaimId));
+        dispatch(getComplexClaimDetails(effectiveClaimId)).catch(() => {
+          // Redirect user to an error page if the GET claim details call errors
+          setShouldRedirect(true);
+        });
       }
       if (needsApptData) {
         dispatch(getAppointmentData(apptId));
@@ -128,6 +135,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
     },
     [dispatch, needsClaimData, needsApptData, effectiveClaimId, apptId],
   );
+
+  if (shouldRedirect && !isErrorRoute) {
+    return (
+      <Navigate to={`/file-new-claim/${apptId}/get-claim-error`} replace />
+    );
+  }
 
   const handleBackLinkClick = e => {
     if (hasUnsavedChanges) {
@@ -178,15 +191,19 @@ const ComplexClaimSubmitFlowWrapper = () => {
     return null;
   }
 
-  // If there's a claim from the appointment and it's submitted,
-  // redirect to claim details page
+  // Redirect to claim details if:
+  // 1) If there's a claim from the appointment and it's not in progress
+  // 2) If claim source isn't VA.gov
+  // 3) There are unassociated expense documents
   if (claimFromAppointment) {
     const { claimStatus, id: claimIdFromAppt } = claimFromAppointment;
-    const isUnsubmittedStatus =
-      claimStatus === STATUSES.Incomplete.name ||
-      claimStatus === STATUSES.Saved.name;
 
-    if (!isUnsubmittedStatus && claimIdFromAppt) {
+    if (
+      (!isClaimIncompleteOrSaved(claimStatus) ||
+        claimData?.claimSource !== 'VaGov' ||
+        hasUnassociatedDocuments(claimData?.documents)) &&
+      claimIdFromAppt
+    ) {
       return <Navigate to={`/claims/${claimIdFromAppt}`} replace />;
     }
   }
