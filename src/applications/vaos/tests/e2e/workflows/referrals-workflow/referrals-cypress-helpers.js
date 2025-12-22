@@ -211,3 +211,69 @@ export function mockAppointmentDetailsApi({
     },
   ).as('v2:get:appointmentDetails');
 }
+
+/**
+ * Selector for the main scrollable container element.
+ * Used to manipulate scroll behavior for full-page screenshots.
+ */
+const SCROLLER = 'body';
+
+/**
+ * Expands the scroll container to its full content height before taking a screenshot.
+ *
+ * By default, Cypress screenshots only capture the visible viewport. This function
+ * temporarily modifies the scroll container's styles to make all content visible
+ * by setting the height to the full scroll height and removing overflow constraints.
+ *
+ * The original styles are saved to a Cypress alias (`scrollerPrevStyles`) so they
+ * can be restored after the screenshot is taken.
+ *
+ * @private
+ */
+function expandScrollerForShot() {
+  cy.get(SCROLLER).then($el => {
+    const el = $el[0];
+    const prev = {
+      height: el.style.height,
+      overflow: el.style.overflow,
+      maxHeight: el.style.maxHeight,
+    };
+
+    el.style.height = `${el.scrollHeight}px`;
+    el.style.maxHeight = 'none';
+    el.style.overflow = 'visible';
+
+    cy.wrap(prev, { log: false }).as('scrollerPrevStyles');
+  });
+}
+
+/**
+ * Restores the scroll container's original styles after a screenshot is taken.
+ *
+ * This function retrieves the previously saved styles from the `scrollerPrevStyles`
+ * Cypress alias and applies them back to the scroll container, returning the page
+ * to its normal scrollable state.
+ *
+ * @private
+ */
+function restoreScrollerAfterShot() {
+  cy.get('@scrollerPrevStyles').then(prev => {
+    cy.get(SCROLLER).then($el => {
+      const el = $el[0];
+      el.style.height = prev.height;
+      el.style.maxHeight = prev.maxHeight;
+      el.style.overflow = prev.overflow;
+    });
+  });
+}
+
+export function takeScreenshot(
+  name,
+  options = { overwrite: true, capture: 'fullPage' },
+) {
+  if (Cypress.env('with_screenshots')) {
+    expandScrollerForShot();
+    cy.screenshot(name, options);
+    restoreScrollerAfterShot();
+  }
+}

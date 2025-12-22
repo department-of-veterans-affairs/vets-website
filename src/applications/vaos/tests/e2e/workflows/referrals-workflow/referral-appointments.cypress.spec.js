@@ -10,6 +10,7 @@ import {
   mockDraftReferralAppointmentApi,
   mockAppointmentDetailsApiWithPolling,
   mockSubmitAppointmentApi,
+  takeScreenshot,
 } from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -73,6 +74,7 @@ describe('VAOS Referral Appointments', () => {
       // Validate we're on the referrals and requests page
       referralsAndRequests.validate();
       cy.injectAxeThenAxeCheck();
+      takeScreenshot('referrals-and-requests-page-no-referrals');
 
       // Verify that no referrals message is displayed
       referralsAndRequests.assertPendingReferrals({ count: 0 });
@@ -170,6 +172,7 @@ describe('VAOS Referral Appointments', () => {
       // Validate we're on the referrals and requests page
       referralsAndRequests.validate();
       cy.injectAxeThenAxeCheck();
+      takeScreenshot('referrals-and-requests-page-with-referrals');
 
       // Verify that referrals are displayed
       referralsAndRequests.assertPendingReferrals({ count: numberOfReferrals });
@@ -180,6 +183,7 @@ describe('VAOS Referral Appointments', () => {
       // Wait for referral detail to load
       cy.wait('@v2:get:referral:detail');
       cy.injectAxeThenAxeCheck();
+      takeScreenshot('referral-detail-page');
 
       // Validate we've reached the Schedule Referral page
       scheduleReferral.validate();
@@ -192,6 +196,7 @@ describe('VAOS Referral Appointments', () => {
       // Wait for draft referral appointment to load
       cy.wait('@v2:post:draftReferralAppointment');
       cy.injectAxeThenAxeCheck();
+      takeScreenshot('referral-selecting-slot-times-no-selection');
 
       // Validate we've reached the choose date and time page
       chooseDateAndTime.validate();
@@ -201,10 +206,12 @@ describe('VAOS Referral Appointments', () => {
 
       // Select the first appointment slot
       chooseDateAndTime.selectAppointmentSlot(0);
+      takeScreenshot('referral-selecting-slot-times-selected-slot');
 
       // Click continue to proceed with scheduling
       chooseDateAndTime.clickContinue();
       cy.injectAxeThenAxeCheck();
+      takeScreenshot('referral-review-page');
 
       // Validate we've reached the review and confirm page
       reviewAndConfirm.validate();
@@ -220,6 +227,7 @@ describe('VAOS Referral Appointments', () => {
       // Wait for first appointment details polling request (should be proposed)
       cy.wait('@v2:get:appointmentDetails:polling');
       cy.injectAxeThenAxeCheck();
+      takeScreenshot('referral-submitting-appointment-loading');
 
       // Wait for additional polling requests to eventually get booked status
       // The app should poll multiple times, then it will get a booked status
@@ -228,6 +236,7 @@ describe('VAOS Referral Appointments', () => {
 
       // Verify we're redirected to the confirmation page
       completeReferral.validate();
+      takeScreenshot('referral-complete-page');
       completeReferral.assertAppointmentDetails();
       completeReferral.assertProviderInfo();
       completeReferral.assertReferralsLink();
@@ -236,6 +245,7 @@ describe('VAOS Referral Appointments', () => {
       // Verify the completed appointment details
       cy.injectAxeThenAxeCheck();
       epsAppointmentDetails.validate();
+      takeScreenshot('referral-appointment-page-details');
       epsAppointmentDetails.assertProviderInfo();
     });
   });
@@ -299,6 +309,7 @@ describe('VAOS Referral Appointments', () => {
 
       // Verify the calendar is not displayed
       cy.findByTestId('cal-widget').should('not.exist');
+      takeScreenshot('referral-no-slots-available-error');
     });
   });
 
@@ -339,6 +350,7 @@ describe('VAOS Referral Appointments', () => {
 
       // Verify online scheduling not available message is displayed
       scheduleReferral.assertOnlineSchedulingNotAvailableAlert();
+      takeScreenshot('referral-no-provider-error');
     });
   });
 
@@ -399,6 +411,7 @@ describe('VAOS Referral Appointments', () => {
       scheduleReferral.validate();
       scheduleReferral.assertReferralDetails();
       scheduleReferral.assertOnlineSchedulingNotAvailableAlert();
+      takeScreenshot('referral-out-of-pilot-station-error');
     });
   });
 });
