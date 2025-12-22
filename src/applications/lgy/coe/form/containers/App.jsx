@@ -17,8 +17,6 @@ import formConfig from '../config/form';
 import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
 import { WIP } from '../../shared/components/WIP';
 
-const EMPTY_FORM_DATA = {}; // Stable reference prevents unnecessary re-renders that break tests
-
 function App({
   children,
   getCoe,
@@ -101,19 +99,19 @@ const mapStateToProps = state => ({
   isLoading: isLoadingFeatures(state),
   canApply: isLoggedIn(state) && selectProfile(state).claims?.coe,
   showCoe: showCoeFeature(state),
-  formData: getFormData(state) || EMPTY_FORM_DATA,
+  formData: getFormData(state) || {},
 });
 
 App.propTypes = {
   children: PropTypes.node.isRequired,
   getCoe: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
   canApply: PropTypes.bool,
   getCoeMock: PropTypes.func,
+  formData: PropTypes.object,
   isLoading: PropTypes.bool,
   showCoe: PropTypes.bool,
-  formData: PropTypes.object,
-  setFormData: PropTypes.func.isRequired,
 };
 
 export default connect(
