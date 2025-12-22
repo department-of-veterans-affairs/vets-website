@@ -35,3 +35,8 @@ va-checkbox[name="issues"]::part(label) {
     color: $vads-color-base !important;
   }
 }
+
+#limited-consent {
+  padding-left: 1rem;
+  border-left: 7px solid $vads-color-primary-alt-light;
+}
