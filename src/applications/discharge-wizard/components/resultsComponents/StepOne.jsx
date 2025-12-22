@@ -185,7 +185,6 @@ const StepOne = ({ formResponses }) => {
         download
         className="vads-u-margin-bottom--1"
         filetype="PDF"
-        pages={3}
         filename={formFileName}
         text={`Download ${formTitle} (opens in a new tab)`}
         href={formLink}
