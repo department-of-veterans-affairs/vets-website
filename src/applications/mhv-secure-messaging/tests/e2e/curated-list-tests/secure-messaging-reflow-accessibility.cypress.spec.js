@@ -72,6 +72,11 @@ describe('SM WCAG 1.4.10 Reflow - Recent Care Teams', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
 
+    // Wait for href to be /recent before clicking to avoid race condition
+    PatientInterstitialPage.getStartMessageLink()
+      .should('have.attr', 'href')
+      .and('include', '/recent');
+
     PatientInterstitialPage.getStartMessageLink().click();
 
     // Verify the page loaded correctly
@@ -123,6 +128,11 @@ describe('SM WCAG 1.4.10 Reflow - Recent Care Teams', () => {
 
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
+
+    // Wait for href to be /recent before clicking to avoid race condition
+    PatientInterstitialPage.getStartMessageLink()
+      .should('have.attr', 'href')
+      .and('include', '/recent');
 
     PatientInterstitialPage.getStartMessageLink().click();
 
