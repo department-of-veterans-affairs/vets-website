@@ -22,7 +22,6 @@ const facilitySidebar = require('@department-of-veterans-affairs/platform-landin
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
-const packageJson = require('../package.json');
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -41,19 +40,17 @@ const getAbsolutePath = relativePath =>
 
 /**
  * Generate application version for Datadog tracking
- * Uses package.json version + optional git hash from environment
- * @returns {string} Version string (e.g., "1.0.1" or "1.0.1-abc123")
+ * Uses git commit hash from environment to uniquely identify deployments
+ * @returns {string} Version string (e.g., "abc1234" or "local")
  */
 const getAppVersion = () => {
-  const baseVersion = packageJson.version;
-  const gitHash = process.env.GIT_SHA || process.env.CI_COMMIT_SHA || '';
+  const gitHash = process.env.GIT_REVISION || process.env.DD_GIT_COMMIT || '';
 
   if (gitHash) {
-    const shortHash = gitHash.substring(0, 7);
-    return `${baseVersion}-${shortHash}`;
+    return gitHash.substring(0, 7);
   }
 
-  return baseVersion;
+  return 'local';
 };
 
 const sharedModules = [
