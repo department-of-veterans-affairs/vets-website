@@ -10,10 +10,8 @@ import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import {
-  applicantInformation,
-  personalInformation,
-} from './chapters/applicant';
+import { applicantInformation } from './chapters/applicant';
+import personalInformation from './chapters/applicant/personalInformation';
 
 import {
   additionalInformation,
@@ -71,7 +69,7 @@ const formConfig = {
   chapters: {
     applicantInformationChapter: {
       title: data => {
-        return data.formData.coeFormRebuildCveteam
+        return data.formData['view:coeFormRebuildCveteam']
           ? 'Your information'
           : 'Your personal information on file';
       },
