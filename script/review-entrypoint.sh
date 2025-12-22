@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Build vets-website
 set -e
