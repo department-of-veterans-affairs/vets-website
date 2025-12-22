@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import {
+  validateChars,
   validateDateRange,
   validateHealthInsurancePlan,
 } from '../../../utils/validation';
@@ -312,5 +313,46 @@ describe('10-7959c `validateHealthInsurancePlan` form validation', () => {
       const item = makeItem({ insuranceCardFront: [{}] });
       expect(validateHealthInsurancePlan(item)).to.be.true;
     });
+  });
+});
+
+describe('10-7959C `validateChars` form validation', () => {
+  let addErrorSpy;
+  let errors;
+
+  beforeEach(() => {
+    addErrorSpy = sinon.spy();
+    errors = { addError: addErrorSpy };
+  });
+
+  afterEach(() => {
+    addErrorSpy.resetHistory();
+  });
+
+  it('should not add error when text contains only valid characters', () => {
+    validateChars(errors, 'Valid text with letters and numbers 123');
+    sinon.assert.notCalled(addErrorSpy);
+  });
+
+  it('should add error when text contains a single invalid character', () => {
+    validateChars(errors, 'text with $ symbol');
+    sinon.assert.calledOnce(addErrorSpy);
+    sinon.assert.calledWith(addErrorSpy, sinon.match(/this character.*\$/));
+  });
+
+  it('should add error when text contains multiple invalid characters', () => {
+    validateChars(errors, 'text with $@# symbols');
+    sinon.assert.calledOnce(addErrorSpy);
+    sinon.assert.calledWith(addErrorSpy, sinon.match(/these characters/));
+  });
+
+  it('should not add error for empty string', () => {
+    validateChars(errors, '');
+    sinon.assert.notCalled(addErrorSpy);
+  });
+
+  it('should allow hyphens, periods, apostrophes, and commas', () => {
+    validateChars(errors, "Text with - . ' , allowed");
+    sinon.assert.notCalled(addErrorSpy);
   });
 });
