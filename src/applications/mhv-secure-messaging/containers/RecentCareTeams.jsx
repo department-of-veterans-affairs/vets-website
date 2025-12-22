@@ -37,7 +37,6 @@ const RecentCareTeams = () => {
   } = recipients;
   const h1Ref = useRef(null);
   const {
-    mhvSecureMessagingCuratedListFlow,
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
   } = useFeatureToggles();
@@ -145,7 +144,7 @@ const RecentCareTeams = () => {
       setError(null); // Clear error on valid submit
       history.push(getDestinationPath());
     },
-    [history, selectedCareTeam],
+    [history, selectedCareTeam, getDestinationPath],
   );
 
   const handleRadioChange = useCallback(
@@ -221,24 +220,14 @@ const RecentCareTeams = () => {
         <VaRadioOption label="A different care team" tile value={OTHER_VALUE} />
       </VaRadio>
 
-      {mhvSecureMessagingCuratedListFlow ? (
-        <va-link-action
-          href={getDestinationPath(true)}
-          text="Continue to start message"
-          data-testid="recent-care-teams-continue-button"
-          onClick={handleContinue}
-          class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-          type="primary"
-        />
-      ) : (
-        <va-button
-          class="vads-u-width--full small-screen:vads-u-width--auto"
-          continue
-          onClick={handleContinue}
-          text="Continue"
-          data-testid="recent-care-teams-continue-button"
-        />
-      )}
+      <va-link-action
+        href={getDestinationPath(true)}
+        text="Continue to start message"
+        data-testid="recent-care-teams-continue-button"
+        onClick={handleContinue}
+        class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+        type="primary"
+      />
     </>
   );
 };
