@@ -236,6 +236,7 @@ const AlertBackgroundBox = props => {
           <RouterLink
             href={Paths.SENT}
             text="Review your sent messages"
+            data-testid="review-sent-messages-link"
             data-dd-action-name="Sent messages link in success alert"
           />
         )}
