@@ -79,7 +79,7 @@ const Verify = () => {
     <Wrapper
       pageTitle={
         !verificationError
-          ? 'Schedule a call to learn about VA benefits and health care'
+          ? 'Schedule an appointment with VA Solid Start'
           : 'We couldn’t verify your information'
       }
       verificationError={verificationError}

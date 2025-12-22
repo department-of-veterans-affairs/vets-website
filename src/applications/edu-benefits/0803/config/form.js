@@ -1,5 +1,4 @@
 // @ts-check
-import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
@@ -8,6 +7,9 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PresubmitInfo from '../components/PresubmitInfo';
+
+import { CustomReviewTopContent } from '../helpers';
 
 import * as PreviouslyApplied from '../pages/PreviouslyApplied';
 import * as SelectVABenefit from '../pages/SelectVABenefit';
@@ -15,6 +17,11 @@ import * as VABenefitWarning from '../pages/VABenefitWarning';
 import * as PayeeNumber from '../pages/PayeeNumber';
 import * as MailingAddress from '../pages/MailingAddress';
 import * as PhoneAndEmail from '../pages/PhoneAndEmail';
+import * as TestNameAndDate from '../pages/TestNameAndDate';
+import * as OrganizationInfo from '../pages/OrganizationInfo';
+import * as TestCost from '../pages/TestCost';
+import * as Remarks from '../pages/Remarks';
+import * as SubmissionInstructions from '../pages/SubmissionInstructions';
 
 import submitForm from './submitForm';
 import transform from './transform';
@@ -51,25 +58,13 @@ const formConfig = {
   prefillTransformer: prefillTransform,
   transformForSubmit: transform,
   preSubmitInfo: {
+    CustomComponent: PresubmitInfo,
+    required: true,
     statementOfTruth: {
-      heading: 'Certification statement',
-      body: (
-        <div>
-          <p>
-            I hereby authorize the release of my test information to the
-            Department of Veterans Affairs (VA).
-          </p>
-          <p>
-            <strong>Penalty:</strong> Willfully false statements as to a
-            material fact in a claim for education benefits payable by VA may
-            result in a fine, imprisonment, or both.
-          </p>
-        </div>
-      ),
       useProfileFullName: true,
-      messageAriaDescribedby: 'I have read and accept the privacy policy.',
     },
   },
+  CustomReviewTopContent,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -138,6 +133,52 @@ const formConfig = {
           title: 'Phone and Email',
           uiSchema: PhoneAndEmail.uiSchema,
           schema: PhoneAndEmail.schema,
+        },
+      },
+    },
+    testInformationChapter: {
+      title: 'Test information',
+      pages: {
+        testNameAndDate: {
+          path: 'test-name-and-date',
+          title: 'Test name and date',
+          uiSchema: TestNameAndDate.uiSchema,
+          schema: TestNameAndDate.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title: 'Organization information',
+          uiSchema: OrganizationInfo.uiSchema,
+          schema: OrganizationInfo.schema,
+        },
+        testCost: {
+          path: 'test-cost',
+          title: 'Test cost',
+          uiSchema: TestCost.uiSchema,
+          schema: TestCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarksPage: {
+          path: 'remarks',
+          title: 'Remarks',
+          uiSchema: Remarks.uiSchema,
+          schema: Remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: 'Submission instructions',
+          uiSchema: SubmissionInstructions.uiSchema,
+          schema: SubmissionInstructions.schema,
         },
       },
     },

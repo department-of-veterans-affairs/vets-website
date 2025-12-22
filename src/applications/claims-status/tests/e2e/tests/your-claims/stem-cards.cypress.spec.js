@@ -1,25 +1,23 @@
 import { createEvidenceSubmission } from '../../support/fixtures/benefitsClaims';
 import { createStemClaim } from '../../support/fixtures/stemClaims';
-import { mockFeatureToggles } from '../../support/helpers/mocks';
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
 
 describe('STEM claim cards', () => {
   const setupStemCardsTest = (stemClaims = []) => {
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: stemClaims,
-    });
+    mockStemEndpoint(stemClaims);
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
   beforeEach(() => {
     mockFeatureToggles({ showDocumentUploadStatus: true });
-
-    cy.intercept('GET', '/v0/benefits_claims', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/appeals', {
-      data: [],
-    });
+    mockClaimsEndpoint();
+    mockAppealsEndpoint();
 
     cy.login();
   });
@@ -55,7 +53,8 @@ describe('STEM claim cards', () => {
         createStemClaim({
           evidenceSubmissions: [
             createEvidenceSubmission({
-              acknowledgementDate: '2050-01-01T12:00:00.000Z',
+              uploadStatus: 'FAILED',
+              acknowledgementDate: '2050-01-01T00:00:00.000Z',
             }),
           ],
         }),

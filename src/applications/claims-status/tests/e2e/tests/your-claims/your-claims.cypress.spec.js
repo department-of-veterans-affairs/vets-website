@@ -1,6 +1,8 @@
 import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
   mockFeatureToggles,
-  mockListPageEndpoints,
+  mockStemEndpoint,
 } from '../../support/helpers/mocks';
 import {
   verifyNeedHelp,
@@ -10,7 +12,9 @@ import {
 describe('Your claims', () => {
   beforeEach(() => {
     mockFeatureToggles();
-    mockListPageEndpoints();
+    mockClaimsEndpoint();
+    mockAppealsEndpoint();
+    mockStemEndpoint();
 
     cy.login();
     cy.visit('/track-claims');
