@@ -37,6 +37,12 @@ va-modal va-radio {
   margin-bottom: 24px;
 }
 
+// Fix for WCAG 1.4.10 Reflow - prevents va-radio-option text from overflowing at high zoom levels
+// See: https://github.com/department-of-veterans-affairs/va.gov-team/issues/119851
+va-radio {
+  word-break: break-word;
+}
+
 .message-box {
   background-color: var(--vads-color-base-lightest);
   border-radius: 4px;
