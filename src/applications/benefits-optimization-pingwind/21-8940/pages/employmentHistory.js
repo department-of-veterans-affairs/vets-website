@@ -42,7 +42,7 @@ export default {
   uiSchema: {
     ...inlineTitleUI(
       'Employment History Details',
-      `Your employment history - last 5 years. List all employment (including self-employment) for the last five years you have worked. Also be sure to include any military duty including inactive duty for training.`,
+      `Your employment history (5 years). List all employment (including self-employment) for the last five years in which you worked. If you haven't worked recently, provide your employment history starting from your most recent job and going back five years from that point. Also be sure to include any military duty including inactive duty for training.`,
     ),
     employersHistory: {
       'ui:field': SafeArrayField,
@@ -96,7 +96,7 @@ export default {
           }),
         ),
         timeLost: numberUI({
-          title: 'Time Lost from Illness (number of days lost)',
+          title: 'Time lost from illness (number of days lost)',
           useDlWrap: true,
         }),
         earnings: numberUI({
@@ -128,7 +128,15 @@ export default {
             timeLost: numberSchema,
             earnings: numberSchema,
           },
-          required: ['employerName', 'typeOfWork', 'employerAddress'],
+          required: [
+            'employerName',
+            'employerAddress',
+            'typeOfWork',
+            'hoursPerWeek',
+            'startDate',
+            'timeLost',
+            'earnings',
+          ],
         },
       },
     },

@@ -48,7 +48,7 @@ describe('21-8940 component/viewElements', () => {
         state: 'VA',
         postalCode: '22150',
       },
-      connectedDisabilities: 'Back pain',
+      connectedDisabilities: ['Back pain', 'PTSD'],
     };
 
     const { container, rerender, getByText } = render(
@@ -59,9 +59,13 @@ describe('21-8940 component/viewElements', () => {
       'Dr. Jane Doe',
     );
     expect(container.querySelector('p').textContent).to.include('123 Main St');
-    expect(container.textContent).to.include(
-      'Connected disabilities: Back pain',
-    );
+    const connectedList = container.querySelectorAll('li');
+    expect(connectedList.length).to.equal(2);
+    expect(connectedList[0].textContent).to.equal('Back pain');
+    expect(connectedList[1].textContent).to.equal('PTSD');
+
+    rerender(<DoctorView formData={{ connectedDisabilities: 'Anxiety' }} />);
+    expect(container.textContent).to.include('Connected disabilities: Anxiety');
 
     rerender(<DoctorView formData={{}} />);
     expect(getByText('Doctor name not provided')).to.exist;
@@ -76,7 +80,7 @@ describe('21-8940 component/viewElements', () => {
         state: 'VA',
         postalCode: '23219',
       },
-      connectedDisabilities: 'Chronic fatigue',
+      connectedDisabilities: ['Chronic fatigue'],
     };
 
     const { container, rerender, getByText } = render(
@@ -89,6 +93,13 @@ describe('21-8940 component/viewElements', () => {
     expect(container.textContent).to.include('456 Elm St');
     expect(container.textContent).to.include(
       'Connected disabilities: Chronic fatigue',
+    );
+
+    rerender(
+      <HospitalView formData={{ connectedDisabilities: 'Back pain' }} />,
+    );
+    expect(container.textContent).to.include(
+      'Connected disabilities: Back pain',
     );
 
     rerender(<HospitalView formData={{}} />);
