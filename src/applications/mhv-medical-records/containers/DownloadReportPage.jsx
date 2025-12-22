@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   selectPatientFacilities,
   selectIsCernerPatient,
@@ -59,8 +60,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const { ccdExtendedFileTypeFlag, ccdOHFlagEnabled } = useSelector(state => ({
     ccdExtendedFileTypeFlag:
-      state.featureToggles?.mhv_medical_records_ccd_extended_file_types,
-    ccdOHFlagEnabled: state.featureToggles?.mhv_medical_records_ccd_oh,
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
+      ],
+    ccdOHFlagEnabled:
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdOH],
   }));
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
