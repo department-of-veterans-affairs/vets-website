@@ -61,6 +61,12 @@ describe('10-7959c `titleWithRoleUI` util', () => {
     expect(result).to.equal('Beneficiary’s mailing address');
   });
 
+  it('should return `Beneficiary’s` when certifier role is missing', () => {
+    const uiSchema = titleWithRoleUI('%s mailing address');
+    const result = subject(uiSchema, {});
+    expect(result).to.equal('Beneficiary’s mailing address');
+  });
+
   it('should handle capitalization option', () => {
     const uiSchema = titleWithRoleUI('%s contact info', null, {
       capitalize: false,
@@ -69,6 +75,24 @@ describe('10-7959c `titleWithRoleUI` util', () => {
     });
     const result = subject(uiSchema, { certifierRole: 'applicant' });
     expect(result).to.equal('your contact info');
+  });
+
+  it('should handle possessive option set to false', () => {
+    const uiSchema = titleWithRoleUI('%s information', null, {
+      possessive: false,
+    });
+    const result = subject(uiSchema, { certifierRole: 'other' });
+    expect(result).to.equal('Beneficiary information');
+  });
+
+  it('should use custom roleKey and matchRole', () => {
+    const uiSchema = titleWithRoleUI('%s preferences', null, {
+      roleKey: 'relationship',
+      matchRole: 'self',
+      self: 'My',
+    });
+    const result = subject(uiSchema, { relationship: 'self' });
+    expect(result).to.equal('My preferences');
   });
 
   it('should return empty string when title is empty', () => {
@@ -129,7 +153,7 @@ describe('10-7959c `titleWithNameUI` util', () => {
     expect(result).to.equal('Contact information for John');
   });
 
-  it('should fallback to `Beneficiary` when name is not available', () => {
+  it('should fallback to `Beneficiary` when name object is empty', () => {
     const uiSchema = titleWithNameUI('%s information');
     const formData = {
       certifierRole: 'other',
@@ -137,6 +161,50 @@ describe('10-7959c `titleWithNameUI` util', () => {
     };
     const result = subject(uiSchema, formData);
     expect(result).to.equal('Beneficiary’s information');
+  });
+
+  it('should fallback to `Beneficiary` when applicantName is missing', () => {
+    const uiSchema = titleWithNameUI('%s information');
+    const formData = {
+      certifierRole: 'other',
+    };
+    const result = subject(uiSchema, formData);
+    expect(result).to.equal('Beneficiary’s information');
+  });
+
+  it('should fallback to `Beneficiary` when first name is undefined', () => {
+    const uiSchema = titleWithNameUI('%s information');
+    const formData = {
+      certifierRole: 'other',
+      applicantName: { first: undefined, last: 'Smith' },
+    };
+    const result = subject(uiSchema, formData);
+    expect(result).to.equal('Beneficiary’s information');
+  });
+
+  it('should use custom nameKey option', () => {
+    const uiSchema = titleWithNameUI('%s medical history', null, {
+      nameKey: 'patientName',
+      other: 'Patient',
+    });
+    const formData = {
+      certifierRole: 'other',
+      patientName: { first: 'Jane' },
+    };
+    const result = subject(uiSchema, formData);
+    expect(result).to.equal('Jane’s medical history');
+  });
+
+  it('should use custom placeholder token', () => {
+    const uiSchema = titleWithNameUI('Review %p information', null, {
+      placeholder: '%p',
+    });
+    const formData = {
+      certifierRole: 'other',
+      applicantName: { first: 'John' },
+    };
+    const result = subject(uiSchema, formData);
+    expect(result).to.equal('Review John’s information');
   });
 
   it('should return empty title when title is empty', () => {
