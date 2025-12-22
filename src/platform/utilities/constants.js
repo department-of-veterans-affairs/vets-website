@@ -13,6 +13,8 @@ export const ERROR_ELEMENTS = [
   '.usa-input-error',
   '.input-error-date',
   '[error]:not([error=""])',
+  '[input-error]:not([input-error=""])',
+  '[checkbox-error]:not([checkbox-error=""])',
 ];
 
 // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content

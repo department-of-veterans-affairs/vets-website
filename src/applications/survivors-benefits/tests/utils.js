@@ -425,7 +425,7 @@ export const checkContentIncomeAssettsInto = () => {
   );
   checkVisibleElementContent(
     'va-radio',
-    'Do you and your dependents have over $75,000 in assets?',
+    'Do you and your dependents have over $25,000 in assets?',
   );
 };
 

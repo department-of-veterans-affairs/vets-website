@@ -14,15 +14,13 @@ const initialState = {
 };
 
 describe('<CopaysCard />', () => {
-  it('should not display if user has no copay statements or total is 0', () => {
+  it('renders CopaysCard without any copay bills', () => {
     const tree = renderWithStoreAndRouter(<CopaysCard />, {
       initialState,
     });
 
-    expect(tree.getByTestId('zero-debt-paragraph')).to.exist;
-    expect(
-      tree.getByText('Your total VA copay balance is $0', { exact: false }),
-    ).to.exist;
+    expect(tree.getByTestId('copay-due-header')).to.exist;
+    expect(tree.getByText('No copay bills', { exact: false })).to.exist;
   });
 
   it('renders one CopaysCard component correctly', () => {

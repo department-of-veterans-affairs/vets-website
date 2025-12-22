@@ -149,4 +149,67 @@ describe('526 summary shared page', () => {
       expect(onSubmit.called).to.be.false;
     });
   });
+
+  it('shows orphan secondary error when a secondary condition is not linked', async () => {
+    const onSubmit = sinon.spy();
+    const data = {
+      [utils.arrayOptions.arrayPath]: [{}],
+      'view:hasConditions': false,
+      newDisabilities: [
+        {
+          cause: 'SECONDARY',
+          causedByDisability: 'Primary Condition',
+          condition: 'Secondary Condition',
+        },
+      ],
+      ratedDisabilities: [],
+    };
+
+    const { container } = mountPage(data, onSubmit);
+    const view = within(container);
+
+    view.getByRole('button', { name: /submit/i }).click();
+
+    const group = container.querySelector('va-radio');
+    expect(group).to.exist;
+
+    await waitFor(() => {
+      const err = group.getAttribute('error') || '';
+      expect(err).to.match(
+        /A secondary condition is no longer linked to an existing condition/i,
+      );
+      expect(onSubmit.called).to.be.false;
+    });
+  });
+
+  it('does not show orphan error when secondary is linked to a rated disability', async () => {
+    const onSubmit = sinon.spy();
+    const data = {
+      [utils.arrayOptions.arrayPath]: [{}],
+      'view:hasConditions': false,
+      newDisabilities: [
+        {
+          cause: 'SECONDARY',
+          causedByDisability: 'Migraines',
+          condition: 'Secondary Condition',
+        },
+      ],
+      ratedDisabilities: [
+        { name: 'migraines' }, // different case, tests normalization
+      ],
+    };
+
+    const { container } = mountPage(data, onSubmit);
+    const view = within(container);
+
+    view.getByRole('button', { name: /submit/i }).click();
+
+    await waitFor(() => {
+      const group = container.querySelector('va-radio');
+      expect(group.getAttribute('error') || '').to.not.match(
+        /secondary condition is no longer linked/i,
+      );
+      expect(onSubmit.calledOnce).to.be.true;
+    });
+  });
 });

@@ -138,7 +138,7 @@ const CurrentSpouseInformation = ({
           <va-button
             onClick={updatePage}
             text="Update page"
-            label="Update your spouse's personal information"
+            label="Update your spouse’s personal information"
             full-width="true"
           />
         ) : (

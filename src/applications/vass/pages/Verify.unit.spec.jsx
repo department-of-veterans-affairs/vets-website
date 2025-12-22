@@ -5,14 +5,26 @@ import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testin
 import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import Verify from './Verify';
+import reducers from '../redux/reducers';
+import { vassApi } from '../redux/api/vassApi';
+
+const defaultRenderOptions = {
+  initialState: {
+    vassForm: {
+      hydrated: false,
+      selectedDate: null,
+      selectedTopics: [],
+    },
+  },
+  reducers,
+  additionalMiddlewares: [vassApi.middleware],
+};
 
 describe('VASS Component: Verify', () => {
   it('should render all content', () => {
     const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
       <Verify />,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(getByTestId('header')).to.exist;
@@ -28,9 +40,7 @@ describe('VASS Component: Verify', () => {
       getByTestId,
       queryByTestId,
       container,
-    } = renderWithStoreAndRouterV6(<Verify />, {
-      initialState: {},
-    });
+    } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
 
     const submitButton = getByTestId('submit-button');
 

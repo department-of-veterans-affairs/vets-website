@@ -55,7 +55,7 @@ export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
     dispatch({ type: Actions.Vitals.GET, vitalType });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_vitals_getVitalDetails');
   }
 };
 

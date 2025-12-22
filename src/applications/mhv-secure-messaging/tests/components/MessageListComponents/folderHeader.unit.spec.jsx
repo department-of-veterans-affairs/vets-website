@@ -536,6 +536,13 @@ describe('Folder Header component', () => {
           [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
           [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilotSystemMaintenanceBanner]: true,
         },
+        user: {
+          profile: {
+            facilities: [],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+          },
+        },
       };
 
       const screen = setup(stateWithFeatureFlag, Paths.INBOX, 1, inbox);
@@ -564,6 +571,13 @@ describe('Folder Header component', () => {
           loading: false,
           [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
           [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilotSystemMaintenanceBanner]: false,
+        },
+        user: {
+          profile: {
+            facilities: [],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+          },
         },
       };
 
@@ -599,6 +613,8 @@ describe('Folder Header component', () => {
                 isCerner: true,
               },
             ],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: false,
           },
         },
       };
@@ -629,6 +645,8 @@ describe('Folder Header component', () => {
         user: {
           profile: {
             facilities: [],
+            userAtPretransitionedOhFacility: false,
+            userFacilityReadyForInfoAlert: false,
           },
         },
       };

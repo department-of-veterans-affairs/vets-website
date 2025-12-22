@@ -33,7 +33,7 @@ import {
   seiSuccessfulDownload,
   seiFailedDownload,
 } from './seiPdf';
-import { profileHasEHRM, profileHasVista, isCerner } from './facilities';
+import { profileHasEHRM, profileHasVista } from './facilities';
 import {
   selectVaPatient,
   selectProfileLoa,
@@ -45,7 +45,6 @@ export {
   hasMhvAccount,
   hasMessagingAccess,
   isAuthenticatedWithSSOe,
-  isCerner,
   isInMPI,
   isLOA3,
   isVAPatient,

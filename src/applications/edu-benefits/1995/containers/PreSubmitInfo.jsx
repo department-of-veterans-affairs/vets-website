@@ -1,6 +1,6 @@
 import React from 'react';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
-import { isProductionOfTestProdEnv, eighteenOrOver } from '../helpers';
+import { eighteenOrOverUpdate } from '../helpers';
 
 export function isActiveDuty(formData) {
   return formData?.isActiveDuty;
@@ -19,13 +19,9 @@ function PreSubmitNotice({
           <strong>By submitting this form</strong> you certify that:
         </p>
         <ul>
-          {!isProductionOfTestProdEnv() &&
-            !eighteenOrOver(formData.dateOfBirth) && (
-              <li>
-                You are the parent, guardian, or custodian of the applicant
-              </li>
-            )}
-          {/* always show below <li> */}
+          {!eighteenOrOverUpdate(formData.dateOfBirth) && (
+            <li>You are the parent, guardian, or custodian of the applicant</li>
+          )}
           <li>
             All statements in this application are true and correct to the best
             of your knowledge and belief

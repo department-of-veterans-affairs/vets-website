@@ -7,6 +7,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateMarriageDate } from '../utils/validation';
 import content from '../locales/en/content.json';
 
 const { spouseFullName } = ezrSchema.properties;
@@ -25,9 +26,10 @@ const spousePersonalInformationPage = (options = {}) => ({
     spouseDateOfBirth: currentOrPastDateUI(
       content['household-spouse-dob-label'],
     ),
-    dateOfMarriage: currentOrPastDateUI(
-      content['household-spouse-marriage-date-label'],
-    ),
+    dateOfMarriage: {
+      ...currentOrPastDateUI(content['household-spouse-marriage-date-label']),
+      'ui:validations': [validateMarriageDate],
+    },
   },
   schema: {
     type: 'object',

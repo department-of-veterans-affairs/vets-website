@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   addressNoMilitarySchema,
   addressNoMilitaryUI,
@@ -12,7 +13,10 @@ import {
   textSchema,
   textareaUI,
   textareaSchema,
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
@@ -30,10 +34,28 @@ const options = {
   maxItems: 5,
   text: {
     getItemName: item => item?.name,
-    cardDescription: item =>
-      `${formatReviewDate(item?.treatmentDates?.from)} - ${formatReviewDate(
-        item?.treatmentDates?.to,
-      )}`,
+    cardDescription: item => {
+      const dateRange = `${formatReviewDate(
+        item?.treatmentDates?.from,
+      )} - ${formatReviewDate(item?.treatmentDates?.to)}`;
+      const docs = item?.supportingDocuments || null;
+      return (
+        <>
+          <span>Treatment dates: {dateRange}</span>
+          {docs &&
+            docs.length && (
+              <>
+                <div>Supporting files:</div>
+                <ul>
+                  {docs.map(doc => (
+                    <li key={doc.name}>{doc.name}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+        </>
+      );
+    },
   },
 };
 
@@ -42,7 +64,7 @@ const introPage = {
   uiSchema: {
     ...titleUI(
       `Treatment records`,
-      `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
+      `In the next few questions, we’ll ask you about the treatm                                                                                                                                                                                                                                                                                                                                         nt records you’re requesting. You must add at least one treatment request. You may add up to ${
         options.maxItems
       }.`,
     ),
@@ -96,6 +118,54 @@ const conditionsTreatedPage = {
       conditionsTreated: textareaSchema,
     },
     required: ['conditionsTreated'],
+  },
+};
+
+/** @returns {PageSchema} */
+const supportingDocuments = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Supporting Documents'),
+    supportingDocuments: fileInputMultipleUI({
+      title: 'Imaging files',
+      required: false,
+      accept: '.png,.pdf,.txt,.jpg,.jpeg',
+      hint: 'Upload a file that is between 1KB and 100MB',
+      headerSize: '4',
+      formNumber: '31-4159',
+      skipUpload: true,
+      maxFileSize: 1024 * 1024 * 100, // 100MB
+      minFileSize: 1024, // 1KB
+      errorMessages: {
+        additionalInput: 'Choose a document type',
+      },
+      additionalInputRequired: true,
+      additionalInput: () => {
+        return (
+          <VaSelect required label="Document type">
+            <option value="xray">X-ray</option>
+            <option value="mri">MRI</option>
+            <option value="ct">CT Scan</option>
+          </VaSelect>
+        );
+      },
+      additionalInputUpdate: (instance, error, data) => {
+        instance.setAttribute('error', error);
+        if (data) {
+          instance.setAttribute('value', data.documentType);
+        }
+      },
+      handleAdditionalInput: e => {
+        const { value } = e.detail;
+        if (value === '') return null;
+        return { documentType: e.detail.value };
+      },
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      supportingDocuments: fileInputMultipleSchema(),
+    },
   },
 };
 
@@ -167,6 +237,12 @@ export const treatmentRecordsPages = arrayBuilderPages(
       path: 'treatment-records/:index/conditions-treated',
       uiSchema: conditionsTreatedPage.uiSchema,
       schema: conditionsTreatedPage.schema,
+    }),
+    treatmentRecordsSupportingDocuments: pageBuilder.itemPage({
+      title: 'Supporting Documents',
+      path: 'treatment-records/:index/supporting-documents',
+      uiSchema: supportingDocuments.uiSchema,
+      schema: supportingDocuments.schema,
     }),
     treatmentRecordTreatmentDatesPage: pageBuilder.itemPage({
       title: 'Treatment dates',

@@ -45,7 +45,7 @@ const fetchIntentToFile = async (
       typeof error.errors[0] === 'string' &&
       error.errors[0].match(/^not allowed/)
     ) {
-      goPath(`${urlPrefix}permission-error`);
+      goPath(`${urlPrefix}intent-to-file-no-representation`);
     } else {
       goNextPath();
     }

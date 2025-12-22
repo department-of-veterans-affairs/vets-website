@@ -272,4 +272,27 @@ describe('Claim overview', () => {
       cy.axeCheck();
     });
   });
+
+  context('when claim is closed', () => {
+    it('should display Step 8 as current step', () => {
+      setupClaimTest({
+        claim: createBenefitsClaim({
+          status: 'COMPLETE',
+          closeDate: '2025-01-15',
+          latestPhaseType: 'COMPLETE',
+        }),
+        path: OVERVIEW_PATH,
+      });
+
+      // Verify Step 8 accordion is expanded (current step)
+      cy.get('va-accordion')
+        .find('va-accordion-item')
+        .eq(7)
+        .shadow()
+        .find('button')
+        .should('have.attr', 'aria-expanded', 'true');
+
+      cy.axeCheck();
+    });
+  });
 });

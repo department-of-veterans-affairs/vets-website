@@ -13,7 +13,7 @@ export default () => {
       url: '/resources/can-i-delete-my-logingov-or-idme-account',
     },
     {
-      text: 'Common issues with Login.gov or ID.me',
+      text: 'Common issues with ID.me or Login.gov',
       url: '/resources/support-for-common-logingov-and-idme-issues/',
     },
   ];

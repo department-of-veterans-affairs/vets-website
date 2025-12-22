@@ -18,8 +18,8 @@ import {
  * @returns {string} The formatted title
  */
 const formatVeteranNameTitle = title => {
-  if (title === 'first name') return "Veteran's first or given name";
-  if (title === 'last name') return "Veteran's last or family name";
+  if (title === 'first or given name') return "Veteran's first or given name";
+  if (title === 'last or family name') return "Veteran's last or family name";
   return title; // Keep defaults for middle name and suffix
 };
 

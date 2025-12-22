@@ -3,6 +3,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import WatchVideoView from '../components/WatchVideoView';
 import SelectPreferenceView from '../components/SelectPreferenceView';
 import ScheduleMeetingView from '../components/ScheduleMeetingView';
+import NeedHelp from '../components/NeedHelp';
 
 const ORIENTATION_TYPE = {
   SCHEDULE_MEETING: 'Schedule a meeting with my local RO',
@@ -122,7 +123,9 @@ export default function OrientationToolsAndResources() {
           )}
         </va-card>
 
-        <div className="vads-u-margin-top--4 medium-screen:vads-u-display--inline-block vads-u-display--none">
+        <NeedHelp />
+
+        <div className="medium-screen:vads-u-display--inline-block vads-u-display--none">
           <va-button back onClick={() => {}} text="Back to Case Tracker" />
         </div>
       </article>

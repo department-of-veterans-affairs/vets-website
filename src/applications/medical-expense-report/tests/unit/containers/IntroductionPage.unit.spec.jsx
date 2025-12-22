@@ -65,4 +65,30 @@ describe('IntroductionPage', () => {
     );
     expect(container).to.exist;
   });
+
+  it('should display example expenses', () => {
+    const { getByText } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+
+    const expense1 = getByText('Hospital and office visits');
+    const expense2 = getByText('Nursing homes and home health services');
+    const expense3 = getByText('Medical supplies');
+    const expense4 = getByText('Prescription and over-the-counter drugs');
+    const expense5 = getByText(
+      'Medical insurance premiums and Medicare deductions',
+    );
+    const expense6 = getByText(
+      'Mileage and transportation for medical purposes',
+    );
+
+    expect(expense1).to.exist;
+    expect(expense2).to.exist;
+    expect(expense3).to.exist;
+    expect(expense4).to.exist;
+    expect(expense5).to.exist;
+    expect(expense6).to.exist;
+  });
 });

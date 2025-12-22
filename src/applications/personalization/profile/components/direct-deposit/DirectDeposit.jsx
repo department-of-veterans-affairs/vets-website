@@ -22,7 +22,10 @@ import { PaymentHistoryCard } from '@@profile/components/direct-deposit/PaymentH
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
 import { COULD_NOT_DETERMINE_DUE_TO_EXCEPTION } from './config/enums';
 
 const cardHeadingId = 'bank-account-information';
@@ -49,10 +52,10 @@ Wrapper.defaultProps = {
   withPaymentHistory: true,
 };
 
-const MontgomeryGiBillDescription = () => (
+const MontgomeryGiBillDescription = className => (
   <va-additional-info
     trigger=" How to update your direct deposit information for Montgomery GI Bill"
-    class="vads-u-margin-top--4 gi-bill-info"
+    class={`${className} gi-bill-info`}
     uswds
     data-testid="gi-bill-additional-info"
   >
@@ -197,12 +200,32 @@ export const DirectDeposit = () => {
             appTitle="direct deposit information page"
             dependencies={[externalServices.LIGHTHOUSE_DIRECT_DEPOSIT]}
           >
-            <ProfileInfoSection
-              title="Bank account information"
-              data={[{ value: cardDataValue }]}
-              namedAnchor={cardHeadingId}
-              level={2}
-            />
+            <Toggler toggleName={TOGGLE_NAMES.profile2Enabled}>
+              <Toggler.Enabled>
+                <h2 className="vads-u-margin-top--4">
+                  Bank account information
+                </h2>
+                <p>
+                  We’ll send payments for your disability compensation, pension,
+                  and education benefits to this bank account.
+                </p>
+                <MontgomeryGiBillDescription className="vads-u-margin-top--2" />
+                <ProfileInfoSection
+                  data={[{ value: cardDataValue }]}
+                  namedAnchor={cardHeadingId}
+                  level={2}
+                />
+              </Toggler.Enabled>
+              <Toggler.Disabled>
+                <ProfileInfoSection
+                  title="Bank account information"
+                  data={[{ value: cardDataValue }]}
+                  namedAnchor={cardHeadingId}
+                  level={2}
+                />
+                <MontgomeryGiBillDescription className="vads-u-margin-top--4" />
+              </Toggler.Disabled>
+            </Toggler>
           </DowntimeNotification>
           <DirectDepositDevWidget
             debugData={{
@@ -220,7 +243,6 @@ export const DirectDeposit = () => {
               setFormData,
             }}
           />
-          <MontgomeryGiBillDescription />
           <FraudVictimSummary />
         </Wrapper>
       </div>

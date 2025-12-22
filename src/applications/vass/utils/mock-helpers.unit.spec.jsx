@@ -73,7 +73,7 @@ describe('generateSlots', () => {
   });
 
   it('should start from tomorrow, not today', () => {
-    const slots = generateSlots(1, 1);
+    const slots = generateSlots(7, 1);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 

@@ -6,6 +6,7 @@ import {
   simulateVaInputChange,
   simulateVaDateChange,
   testVaRadioSelection,
+  simulateVaInputBlur,
 } from '../../util/testing-input-helpers';
 
 // Dummy component for radio tests
@@ -98,6 +99,41 @@ describe('helper functions', () => {
       expect(updatedState.testField).to.equal('option1');
       expect(selectedOption).to.exist;
       expect(selectedOption.getAttribute('checked')).to.equal('true');
+    });
+  });
+
+  describe('simulateVaInputBlur', () => {
+    it('should update the value and fire a bubbling focusout event', () => {
+      // 1. Setup the dummy element
+      const input = document.createElement('input');
+      const eventSpy = sinon.spy();
+
+      // We listen for 'focusout' because that is what React's onBlur uses
+      // and what the updated helper dispatches.
+      input.addEventListener('focusout', eventSpy);
+
+      // 2. Execute the helper
+      const testValue = 'United Airlines';
+      const result = simulateVaInputBlur(input, testValue);
+
+      // 3. Assertions
+      expect(result).to.exist;
+      expect(input.value).to.equal(testValue);
+      expect(result.value).to.equal(testValue);
+
+      // Verify event was fired
+      expect(eventSpy.calledOnce).to.be.true;
+
+      // Verify event properties (Critical for Shadow DOM and React)
+      const event = eventSpy.firstCall.args[0];
+      expect(event.type).to.equal('focusout');
+      expect(event.bubbles).to.be.true;
+      expect(event.composed).to.be.true;
+    });
+
+    it('should return null if no input field is provided', () => {
+      const result = simulateVaInputBlur(null, 'test');
+      expect(result).to.be.null;
     });
   });
 });

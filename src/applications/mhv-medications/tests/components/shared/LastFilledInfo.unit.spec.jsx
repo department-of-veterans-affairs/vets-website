@@ -70,4 +70,25 @@ describe('Medications Medications List Card Last Filled Info', () => {
       ),
     ).to.not.exist;
   });
+
+  describe('Cerner pilot enabled', () => {
+    const setupWithCernerPilot = (rx = prescriptionsListItem) => {
+      return renderWithStoreAndRouterV6(<LastFilledInfo {...rx} />, {
+        initialState: {
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medications_cerner_pilot: true,
+          },
+        },
+        reducers,
+      });
+    };
+
+    it('does not render "Not filled yet" when Cerner pilot is enabled and no dispense date', () => {
+      const rx = { ...prescriptionsListItem, sortedDispensedDate: null };
+      const screen = setupWithCernerPilot(rx);
+      expect(screen.queryByTestId('active-not-filled-rx')).to.not.exist;
+      expect(screen.queryByText('Not filled yet')).to.not.exist;
+    });
+  });
 });

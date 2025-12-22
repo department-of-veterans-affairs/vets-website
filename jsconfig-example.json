@@ -110,7 +110,6 @@
     "src/applications/sah",
     "src/applications/sco",
     "src/applications/search",
-    "src/applications/sign-in-changes",
     "src/applications/simple-forms",
     "src/applications/simple-forms-form-engine",
     "src/applications/static-pages",

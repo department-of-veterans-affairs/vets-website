@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { expect } from 'chai';
-import { daysFromToday } from './utils/dates/dateHelper';
+import { daysFromToday } from '../utils/dates/formatting';
 
 import formConfig from '../config/form';
 import { CHAR_LIMITS } from '../constants';
@@ -59,7 +59,7 @@ describe('transform', () => {
         } catch (e) {
           // Show the contents of the transformed data so we can make a file for it
           // eslint-disable-next-line no-console
-          console.error(
+          console.log(
             `Transformed ${fileName}:`,
             transform(formConfig, rawData),
           );

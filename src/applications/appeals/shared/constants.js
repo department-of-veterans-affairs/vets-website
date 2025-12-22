@@ -65,6 +65,12 @@ export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 export const FORMAT_READABLE_MMYY_DATE_FNS = 'MMMM yyyy';
 
+// VA.gov style guide: months that should NOT be abbreviated in dates
+// March, April, May, June, July stay as full month names
+// Array contains month numbers (0-based): 2=March, 3=April, 4=May, 5=June, 6=July
+// https://design.va.gov/content-style-guide/dates-and-numbers#dates
+export const VA_LONG_FORM_MONTHS = [2, 3, 4, 5, 6];
+
 // Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise
 export const MAX_YEARS_PAST = 100;

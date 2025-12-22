@@ -55,7 +55,7 @@ describe('<PaymentsAndDebts />', () => {
   });
 
   context('when there are no recent payments', () => {
-    it('should render the no payments text', () => {
+    it('should render the no payments text when empty', () => {
       const initialState = {
         featureToggles: {
           [FEATURE_FLAGS.myVaAuthExpRedesignEnabled]: true,
@@ -64,28 +64,7 @@ describe('<PaymentsAndDebts />', () => {
         allPayments: {
           isLoading: false,
           error: null,
-          payments: [
-            {
-              payCheckAmount: '$3,261.10',
-              payCheckDt: '04/01/2019',
-              payCheckId: '001',
-              payCheckReturnFiche: 'C',
-              payCheckType: 'Compensation & Pension - Recurring',
-              paymentMethod: ' Direct Deposit',
-              bankName: 'NAVY FEDERAL CREDIT UNION',
-              accountNumber: '****1234',
-            },
-            {
-              payCheckAmount: '$3,261.10',
-              payCheckDt: '04/01/2019',
-              payCheckId: '001',
-              payCheckReturnFiche: 'C',
-              payCheckType: 'Compensation & Pension - Recurring',
-              paymentMethod: ' Direct Deposit',
-              bankName: 'NAVY FEDERAL CREDIT UNION',
-              accountNumber: '****1234',
-            },
-          ],
+          payments: [],
         },
       };
 
@@ -100,6 +79,52 @@ describe('<PaymentsAndDebts />', () => {
       expect(view.queryByTestId('payment-card')).to.not.exist;
       expect(view.queryByTestId('payments-error')).to.not.exist;
     });
+  });
+
+  it('should render the payments card with no recent payments for nothing within the last 60 days', () => {
+    const initialState = {
+      featureToggles: {
+        [FEATURE_FLAGS.myVaAuthExpRedesignEnabled]: true,
+      },
+      user,
+      allPayments: {
+        isLoading: false,
+        error: null,
+        payments: [
+          {
+            payCheckAmount: '$3,261.10',
+            payCheckDt: '04/01/2019',
+            payCheckId: '001',
+            payCheckReturnFiche: 'C',
+            payCheckType: 'Compensation & Pension - Recurring',
+            paymentMethod: ' Direct Deposit',
+            bankName: 'NAVY FEDERAL CREDIT UNION',
+            accountNumber: '****1234',
+          },
+          {
+            payCheckAmount: '$3,261.10',
+            payCheckDt: '04/01/2019',
+            payCheckId: '001',
+            payCheckReturnFiche: 'C',
+            payCheckType: 'Compensation & Pension - Recurring',
+            paymentMethod: ' Direct Deposit',
+            bankName: 'NAVY FEDERAL CREDIT UNION',
+            accountNumber: '****1234',
+          },
+        ],
+      },
+    };
+
+    const view = renderInReduxProvider(<PaymentsAndDebts />, {
+      initialState,
+      reducers,
+    });
+
+    expect(view.getByTestId('dashboard-section-payment')).to.exist;
+    expect(view.getByTestId('payment-card-view-history-link')).to.exist;
+    expect(view.queryByTestId('payment-card')).to.exist;
+    expect(view.getByText('No recent payments')).to.exist;
+    expect(view.queryByTestId('payments-error')).to.not.exist;
   });
 
   context('when there is a payment error', () => {

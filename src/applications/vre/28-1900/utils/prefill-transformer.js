@@ -1,3 +1,12 @@
+export function getSafeUserFullName(userFullName) {
+  return {
+    first: userFullName?.first ?? '',
+    middle: userFullName?.middle ?? '',
+    last: userFullName?.last ?? '',
+    ...(userFullName?.suffix && { suffix: userFullName.suffix }), // this key shouldn't be included unless it has a value
+  };
+}
+
 /**
  * Map necessary data from prefill to populate initial form data
  * @param {Array} pages - an array of form pages
@@ -21,7 +30,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     dob,
-    fullName: userFullName,
+    fullName: formData['view:vrePrefillName']
+      ? getSafeUserFullName(userFullName)
+      : userFullName,
     veteranAddress: {
       country: countryCodeIso3,
       street: addressLine1,

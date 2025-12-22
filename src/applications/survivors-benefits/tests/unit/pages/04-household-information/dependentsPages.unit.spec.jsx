@@ -77,8 +77,11 @@ describe('Dependents Pages', () => {
     );
 
     // Intro paragraph text
-    expect(form.getByText(/Next we.?ll ask you about your dependent children/i))
-      .to.exist;
+    expect(
+      form.getByText(
+        /Next we.?ll ask you about the Veteran.?s dependent children. You may add up to 3 dependents./i,
+      ),
+    ).to.exist;
 
     // DependentChildDescription paragraph inside additional-info
     expect(

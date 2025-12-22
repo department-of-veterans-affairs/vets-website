@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
+const mockTopics = require('./utils/topic');
 
 const mockUsers = [
   {
@@ -10,6 +11,10 @@ const mockUsers = [
     otc: '123456',
   },
 ];
+
+// Keep a count of how manny attempts to use the OTC have been made for each uuid
+const otcUseCounts = new Map(); // uuid -> count
+const maxOtcUseCount = 3;
 
 const mockAppointments = [
   {
@@ -51,6 +56,8 @@ const responses = {
   },
   'POST /vass/v0/authenticate-otc': (req, res) => {
     const { otc, uuid, lastname, dob } = req.body;
+    const useCount = otcUseCounts.get(uuid) || 0;
+    otcUseCounts.set(uuid, useCount + 1);
     const mockUser = mockUsers.find(user => user.uuid === uuid);
     if (
       otc === mockUser.otc &&
@@ -60,17 +67,30 @@ const responses = {
       return res.json({
         data: {
           token: '<JWT token string>',
-          expiresIn: 3600,
+          expiresIn: 3600, // 1 hour
           tokenType: 'Bearer',
         },
       });
     }
-    return res.json({
+    if (useCount >= maxOtcUseCount) {
+      return res.status(401).json({
+        errors: [
+          {
+            code: 'account_locked',
+            detail: 'Too many failed attempts.  Please request a new OTC.',
+            status: 401, // TODO: confirm status code
+            retryAfter: 900, // 15 minutes TODO
+          },
+        ],
+      });
+    }
+    return res.status(401).json({
       errors: [
         {
           code: 'invalid_otc',
           detail: 'Invalid or expired OTC.  Please try again.',
-          attemptsRemaining: 3,
+          attemptsRemaining: maxOtcUseCount - useCount,
+          status: 401,
         },
       ],
     });
@@ -89,6 +109,13 @@ const responses = {
     );
     return res.json({
       data: mockAppointment,
+    });
+  },
+  'GET /vass/v0/topics': (req, res) => {
+    return res.json({
+      data: {
+        topics: mockTopics,
+      },
     });
   },
 };

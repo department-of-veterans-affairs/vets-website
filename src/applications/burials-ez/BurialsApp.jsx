@@ -7,6 +7,12 @@ import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
+/**
+ * Render the 686C-674 application
+ * @param {object} location - react router location object
+ * @param {JSX.Element} children - child components
+ * @returns {JSX.Element} - rendered component
+ */
 export default function BurialsApp({ location, children }) {
   const { loading: isLoadingFeatures, burialFormEnabled } = useSelector(
     state => state?.featureToggles,

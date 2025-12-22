@@ -54,6 +54,7 @@ describe('526 cause shared page', () => {
         {
           conditionDate: '2025-01-01',
           ratedDisability: 'Sciatica',
+          name: 'Sciatica',
         },
       ],
     };

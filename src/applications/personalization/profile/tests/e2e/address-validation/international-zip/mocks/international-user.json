@@ -74,7 +74,7 @@
           "stateCode": "NE",
           "transactionId": "054c5396-9900-4bb5-ad73-4f06eb7452b5",
           "updatedAt": "2020-07-09T16:18:43.000+00:00",
-          "validationKey": null,
+          "overrideValidationKey": null,
           "vet360Id": "1273780",
           "zipCode": "05050",
           "zipCodeSuffix": null
@@ -108,7 +108,7 @@
           "stateCode": null,
           "transactionId": "6f3e7c8f-6ec2-4f31-b9c1-febc42a69ad9",
           "updatedAt": "2022-04-29T13:29:58.000Z",
-          "validationKey": null,
+          "overrideValidationKey": null,
           "vet360Id": "1550116",
           "zipCode": null,
           "zipCodeSuffix": null

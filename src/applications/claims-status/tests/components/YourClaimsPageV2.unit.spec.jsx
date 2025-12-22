@@ -181,11 +181,17 @@ describe('<YourClaimsPageV2>', () => {
       ...defaultProps,
       list: new Array(12).fill(defaultProps.list[0]),
     };
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.text()).to.include('Showing 1 \u2012 10 of 12 events');
+    // Because Type2FailureAnalyticsProvider is wrapping the component, we need to render the component with the provider to test the pagination.
+    const { container } = renderWithRouter(
+      <Provider store={mockStore}>
+        <YourClaimsPageV2 {...props} />
+      </Provider>,
+    );
+    expect(container.textContent).to.include(
+      'Showing 1 \u2012 10 of 12 events',
+    );
     // web component isn't rendering? But page info does...
     // expect(wrapper.find('va-pagination').length).to.equal(1);
-    wrapper.unmount();
   });
 
   it('should render a no claims message when no claims or appeals present', () => {

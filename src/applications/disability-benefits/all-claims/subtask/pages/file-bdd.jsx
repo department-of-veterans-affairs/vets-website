@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { daysFromToday } from '../../tests/utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 import { parseDate } from '../../utils/dates';
 
 import { BDD_INFO_URL, DISABILITY_526_V2_ROOT_URL } from '../../constants';

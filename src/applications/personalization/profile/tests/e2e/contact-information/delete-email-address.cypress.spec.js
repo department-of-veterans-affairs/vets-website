@@ -36,7 +36,11 @@ const removeEmailAddress = () => {
   cy.get('va-modal').should('be.focused');
 
   // Confirm delete in modal
-  cy.get('[data-testid="confirm-remove-button"]').click();
+  cy.get('[data-testid="confirm-remove-modal"]')
+    .shadow()
+    .find('va-button')
+    .first()
+    .click();
 };
 
 describe('Delete email address', () => {
@@ -49,7 +53,10 @@ describe('Delete email address', () => {
     cy.get('[data-field-name="email"]')
       .find('va-button[text="Remove"]')
       .click();
-    cy.get('[data-testid="cancel-remove-button"]').click();
+    cy.get('[data-testid="confirm-remove-modal"]')
+      .shadow()
+      .find('va-button[secondary]')
+      .click();
     // Confirm modal closes & focus is on the Remove button
     cy.get('va-modal').should('not.exist');
     cy.get('[data-field-name="email"]')

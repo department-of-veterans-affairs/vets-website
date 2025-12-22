@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
  * @property {boolean} selected Dependent's selected state
  * @property {boolean} isStepchild Whether the dependent is a stepchild
  * @property {string} endDate Dependent's end date
- * @property {boolean} endOutsideUS Whether the end location is outside the US
+ * @property {boolean} endOutsideUs Whether the end location is outside the US
  * @property {string} endCity Dependent's end city
  * @property {string} endProvince Dependent's end province
  * @property {string} endCountry Dependent's end country
@@ -104,7 +104,7 @@ export default {
       endCity: PropTypes.string,
       endCountry: PropTypes.string,
       endDate: PropTypes.string,
-      endOutsideUS: PropTypes.bool,
+      endOutsideUs: PropTypes.bool,
       endProvince: PropTypes.string,
       endState: PropTypes.string,
     }),

@@ -19,7 +19,11 @@ describe('Routes Configuration', () => {
 
     it('should have component property', () => {
       expect(routes.component).to.exist;
-      expect(routes.component).to.be.a('function');
+      // Connected component can be a function or object depending on React/Redux version
+      const isValid =
+        typeof routes.component === 'function' ||
+        (typeof routes.component === 'object' && routes.component !== null);
+      expect(isValid).to.be.true;
     });
 
     it('should have indexRoute property', () => {

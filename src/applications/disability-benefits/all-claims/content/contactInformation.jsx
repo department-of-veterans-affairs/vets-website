@@ -3,7 +3,7 @@ import React from 'react';
 
 import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 
-import { parseDate } from '../utils/dates';
+import { formatDate } from '../utils/dates';
 
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
@@ -41,8 +41,15 @@ EmailViewField.propTypes = {
 const EffectiveDateViewField = ({ formData }) => {
   const { from, to } = formData;
   const dateFormat = 'MMM D, YYYY';
-  const fromDateString = from ? parseDate(from).format(dateFormat) : '';
-  const toDateString = to ? parseDate(to).format(dateFormat) : '';
+  const addMonthPeriod = str =>
+    (str || '').replace(
+      /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) /,
+      '$1. ',
+    );
+  const fromDateString = from
+    ? addMonthPeriod(formatDate(from, dateFormat))
+    : '';
+  const toDateString = to ? addMonthPeriod(formatDate(to, dateFormat)) : '';
   return to ? (
     <p>
       We’ll use this address starting on {fromDateString} until {toDateString}:

@@ -39,7 +39,6 @@ describe('Travel Pay – ReviewPage', () => {
         expenseType: 'Parking',
         tripType: 'OneWay',
         costRequested: 50.0,
-        documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
       },
     ],
     documents: [
@@ -48,6 +47,7 @@ describe('Travel Pay – ReviewPage', () => {
         filename: 'test.pdf',
         mimetype: 'application/pdf',
         createdon: '2025-10-01T18:14:37Z',
+        expenseId: 'expense2', // Doc is associated with expense
       },
     ],
   };
@@ -189,9 +189,21 @@ describe('Travel Pay – ReviewPage', () => {
 
     // SummaryBox description text about deductible
     expect(
-      getByText(
-        'Before we can pay you back for expenses, you must pay a deductible. The current deductible is $3 one-way or $6 round-trip for each appointment, up to $18 total each month.',
-      ),
+      getByText((content, element) => {
+        return (
+          element.tagName.toLowerCase() === 'p' &&
+          element.textContent.includes(
+            'Before we can pay you back for expenses, you must pay a deductible. The current deductible is',
+          ) &&
+          element.textContent.includes('$3') &&
+          element.textContent.includes('one-way or') &&
+          element.textContent.includes('$6') &&
+          element.textContent.includes('round-trip for each appointment') &&
+          element.textContent.includes('You’ll pay no more than') &&
+          element.textContent.includes('$18') &&
+          element.textContent.includes('total each month')
+        );
+      }),
     ).to.exist;
 
     // SummaryBox Va link

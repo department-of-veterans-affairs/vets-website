@@ -11,6 +11,8 @@ import * as foreignContributionLimitsAndDegreeLevel from './foreignContributionL
 import * as yellowRibbonProgramRequestSummary from './yellowRibbonProgramRequestSummary';
 import * as pointsOfContanct from './pointsOfContanct';
 import * as additionalPointsOfContact from './additionalPointsOfContact';
+import * as additionalInstitutionDetailsItemWithdrawal from './additionalInstitutionDetailsItemWithdrawal';
+import * as additionalInstitutionDetailsSummaryWithdrawal from './additionalInstitutionDetailsSummaryWithdrawal';
 
 export {
   authorizedOfficial,
@@ -26,4 +28,6 @@ export {
   yellowRibbonProgramRequestSummary,
   pointsOfContanct,
   additionalPointsOfContact,
+  additionalInstitutionDetailsItemWithdrawal,
+  additionalInstitutionDetailsSummaryWithdrawal,
 };

@@ -1,0 +1,46 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "john.veteran@example.com",
+        "loa": { "current": 3 },
+        "first_name": "John",
+        "middle_name": "",
+        "last_name": "Veteran",
+        "gender": "M",
+        "birth_date": "2000-01-01",
+        "verified": true
+      },
+      "veteran_status": {
+        "status": "OK",
+        "is_veteran": true,
+        "served_in_military": true
+      },
+      "in_progress_forms": [],
+      "prefills_available": ["21P-0847"],
+      "services": [
+        "hca",
+        "edu-benefits",
+        "evss-claims",
+        "form526",
+        "user-profile",
+        "health-records",
+        "rx",
+        "messaging"
+      ],
+      "va_profile": {
+        "status": "OK",
+        "birth_date": "20000101",
+        "family_name": "Veteran",
+        "gender": "M",
+        "given_names": ["John", ""],
+        "active_status": "active",
+        "facilities": []
+      }
+    }
+  },
+  "meta": { "errors": null }
+}

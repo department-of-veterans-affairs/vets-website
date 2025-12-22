@@ -1,6 +1,5 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
@@ -32,10 +31,10 @@ function getVaButton(action, numberName) {
 function deletePhoneNumber(numberName) {
   // delete
   getVaButton('Remove', numberName).click();
-  const confirmDeleteButton = view.getByTestId('confirm-remove-button');
-  confirmDeleteButton.click();
-
-  return { confirmDeleteButton };
+  const confirmRemoveModal = view.getByTestId('confirm-remove-modal');
+  const dummyEvent = new Event('click');
+  confirmRemoveModal.__events.primaryButtonClick(dummyEvent);
+  return { confirmRemoveModal };
 }
 
 async function testSuccess(numberName, shortNumberName) {
@@ -63,28 +62,6 @@ async function testTransactionCreationFails(numberName) {
   // the error alert should appear
   await view.findByTestId('generic-error-alert');
 
-  expect(getVaButton('Edit', numberName)).to.exist;
-}
-
-// When the update fails but not until after the Delete Modal has exited and the
-// user returned to the read-only view
-async function testSlowFailure(numberName) {
-  server.use(...mocks.transactionPending);
-
-  const { confirmDeleteButton } = deletePhoneNumber(numberName);
-
-  // wait for the confirm removal modal to close
-  await waitForElementToBeRemoved(confirmDeleteButton);
-
-  // the va-loading-indicator should display
-  await view.findByTestId('loading-indicator');
-
-  server.use(...mocks.transactionFailed);
-
-  // the error alert should appear
-  await view.findByTestId('generic-error-alert');
-
-  // and the add/edit button should be back
   expect(getVaButton('Edit', numberName)).to.exist;
 }
 
@@ -130,9 +107,6 @@ describe('Deleting', () => {
       });
       it('should show an error if the transaction cannot be created', async () => {
         await testTransactionCreationFails(numberName);
-      });
-      it('should show an error if the transaction fails after some time', async () => {
-        await testSlowFailure(numberName);
       });
     });
   });

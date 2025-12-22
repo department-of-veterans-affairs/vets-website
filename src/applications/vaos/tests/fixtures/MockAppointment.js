@@ -31,7 +31,6 @@ export class MockAppointment {
     this.patientComments = 'This is a test:Additional information';
     this.practitioners = [];
     this.preferredProviderName = null;
-    this.reasonForAppointment = 'This is a test';
     this.resourceType = 'MockAppointment';
     this.type = 'VA';
 

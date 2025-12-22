@@ -132,6 +132,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: [lighthouse]
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -141,5 +144,4 @@ jobs:
         with:
           payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload-test/lighthouse/homepage.html|View the results>"}}]}]}'
           channel_id: ${{ env.CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}

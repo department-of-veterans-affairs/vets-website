@@ -11,12 +11,6 @@ import {
   WIZARD_STATUS_NOT_STARTED,
 } from 'platform/site-wide/wizard';
 
-// export const introPageDescription = (automatedTest = false) => {
-//   return isProductionOfTestProdEnv(automatedTest)
-//     ? ' Equal to VA Form 22-1995 (Request for Change of Program or Place of Training).'
-//     : 'Equal to VA Form 22-1995 (Request for Change of Benefit, Program or Place of Training).';
-// };
-
 export class IntroductionPageUpdate extends React.Component {
   state = {
     status: sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,

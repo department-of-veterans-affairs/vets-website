@@ -66,10 +66,14 @@ describe('VAOS Component: ScheduleReferral', () => {
       expect(sessionStorage.getItem(selectedSlotKey)).to.be.null;
     });
   });
-  it('should display warning alert when provider name is not available', async () => {
+  it('should display warning alert when provider npi is not available', async () => {
     const referral = createReferralById(referralDate, '333');
-    // Ensure provider is defined but name is not available
-    referral.attributes.provider = {};
+    // Ensure provider is defined but npi is not available
+    referral.attributes.provider = {
+      npi: null,
+      name: 'Dr. Moreen S. Rafa',
+      facilityName: 'fake facility name',
+    };
 
     const store = createTestStore();
 
@@ -92,11 +96,6 @@ describe('VAOS Component: ScheduleReferral', () => {
     // Verify that the schedule appointment button is not rendered
     const scheduleButton = screen.queryByTestId('schedule-appointment-button');
     expect(scheduleButton).to.be.null;
-
-    // Verify provider info shows "Not available"
-    const details = await screen.findByTestId('referral-details');
-    expect(details).to.contain.text('Provider: Not available');
-    expect(details).to.contain.text('Location: Not available');
   });
 
   it('should display warning alert when station id is not valid', async () => {
@@ -128,11 +127,12 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(details).to.contain.text('Provider: Dr. Moreen S. Rafa');
     expect(details).to.contain.text('Location: fake facility name');
   });
-  it('should display schedule appointment button when provider name is available', async () => {
+  it('should display schedule appointment button when provider npi is available', async () => {
     const referral = createReferralById(referralDate, '444');
     // Add provider data
     referral.attributes.provider = {
       name: 'Dr. Jane Smith',
+      npi: '1234567890',
       facilityName: 'Community Care Clinic',
     };
 
@@ -189,5 +189,18 @@ describe('VAOS Component: ScheduleReferral', () => {
     const details = await screen.findByTestId('referral-details');
     expect(details).to.contain.text('Provider: Not available');
     expect(details).to.contain.text('Location: Not available');
+  });
+  it('should allow user to schedule from pilot expansion station', async () => {
+    const referral = createReferralById(referralDate, '99999');
+    referral.attributes.stationId = '648GE';
+    const store = createTestStore();
+    const screen = renderWithStoreAndRouter(
+      <ScheduleReferral currentReferral={referral} />,
+      { store },
+    );
+    const scheduleButton = await screen.findByTestId(
+      'schedule-appointment-button',
+    );
+    expect(scheduleButton).to.exist;
   });
 });

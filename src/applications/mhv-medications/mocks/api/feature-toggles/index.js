@@ -5,6 +5,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsPartialFillContent = true,
     mhvMedicationsDontIncrementIpeCount = true,
+    mhvAcceleratedDeliveryEnabled = true,
+    mhvAcceleratedDeliveryAllergiesEnabled = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
     mhvSecureMessagingMedicationsRenewalRequest = false,
     mhvMedicationsCernerPilot = true,
@@ -33,6 +35,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_dont_increment_ipe_count',
           value: mhvMedicationsDontIncrementIpeCount,
+        },
+        {
+          name: 'mhv_accelerated_delivery_enabled',
+          value: mhvAcceleratedDeliveryEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_allergies_enabled',
+          value: mhvAcceleratedDeliveryAllergiesEnabled,
         },
         {
           name: 'mhv_medications_display_new_cerner_facility_alert',

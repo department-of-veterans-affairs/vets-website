@@ -51,7 +51,7 @@ const uiSchema = {
     ...textUI({
       title: 'Enter the maximum number of students',
       description:
-        'Enter the total number of students eligible for this contribution. Values over 99,999 are treated as unlimited by the system.',
+        'Enter the total number of students eligible for this contribution. Values equal to or greater than 99,999 are treated as unlimited by the system.',
       errorMessages: {
         required: 'Enter the maximum number of students',
         pattern: 'Enter a whole number',
@@ -122,9 +122,10 @@ const uiSchema = {
   },
   specificContributionAmount: {
     ...currencyUI({
-      title: 'Maximum contribution amount',
+      title:
+        'Enter the maximum annual contribution amount for this degree level or professional school. ',
       description:
-        'Enter the total annual amount per student, not per term or credit hour. Amounts over $99,999 are treated as unlimited by the system.',
+        'Enter the total annual amount per student, not per term or credit hour. Values equal to or greater than 99,999 are treated as unlimited by the system.',
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
       },
@@ -135,7 +136,8 @@ const uiSchema = {
       return currentItem?.maximumContributionAmount === 'specific';
     },
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2 container',
+      classNames:
+        'vads-u-margin-bottom--2 contribution-degree-school container',
       expandUnder: 'maximumContributionAmount',
       expandUnderCondition: 'specific',
     },

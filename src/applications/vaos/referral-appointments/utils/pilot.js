@@ -1,5 +1,5 @@
 const stagingStations = ['984', '983'];
-const prodStations = ['659', '657'];
+const prodStations = ['659', '657', '648'];
 
 /**
  * Determines if a patient is in the Community Care (CC) pilot program user station.
@@ -40,6 +40,18 @@ const getIsInPilotReferralStation = referral => {
     '657GT',
     '657GU',
     '657QD',
+    '648',
+    '648A4',
+    '648GA',
+    '648GB',
+    '648GD',
+    '648GE',
+    '648GF',
+    '648GG',
+    '648GH',
+    '648GI',
+    '648GJ',
+    '648GK',
   ];
   return validStationIds.includes(referral.stationId);
 };

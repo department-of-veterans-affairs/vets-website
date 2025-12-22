@@ -244,5 +244,5 @@ export const getAlert = (props, continueClicked) => {
     return MUST_MATCH_ALERT(props?.name, onCloseAlert, props?.data);
   }
 
-  return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
+  return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert, props?.formNumber);
 };

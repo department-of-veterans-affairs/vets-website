@@ -1,12 +1,22 @@
-/**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
- */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-/* eslint-disable you-dont-need-momentjs/diff */
-/* eslint-disable you-dont-need-momentjs/subtract */
-import moment from 'moment';
+import {
+  format,
+  parse,
+  parseISO,
+  isValid,
+  isBefore,
+  isAfter,
+  isSameMonth,
+  sub,
+  differenceInDays,
+  differenceInMonths,
+  differenceInYears,
+} from 'date-fns';
+
+import {
+  DATE_FULL_MONTH_YEAR_FORMAT,
+  DATE_SHORT_MONTH_DAY_YEAR_FORMAT,
+  DATE_SHORT_MONTH_YEAR_FORMAT,
+} from './formatting';
 
 /**
  * Product-specific date utilities for one-off functionality
@@ -15,13 +25,41 @@ import moment from 'moment';
  */
 
 /**
- * Internal utility to safely create moment objects
+ * Internal utility to safely create date-fns objects
  * @private
  */
-const safeMoment = date => {
+const safeFnsDate = date => {
   if (!date) return null;
-  const momentDate = moment(date);
-  return momentDate.isValid() ? momentDate : null;
+  // Check if the date string contains only non-date characters to avoid parsing errors
+  if (typeof date === 'string' && !/\d/.test(date)) {
+    return null;
+  }
+
+  // Handle Date objects
+  if (date instanceof Date) {
+    return isValid(date) ? date : null;
+  }
+
+  // Try parsing as ISO string first (only if it looks like ISO format)
+  let parsedDate = null;
+  if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(date)) {
+    parsedDate = parseISO(date);
+    if (isValid(parsedDate)) {
+      return parsedDate;
+    }
+  }
+
+  // Try common date formats with a consistent reference date
+  const referenceDate = new Date();
+  const formats = ['MM/dd/yyyy', 'yyyy-MM-dd', 'MM-dd-yyyy'];
+  for (const dateFormat of formats) {
+    parsedDate = parse(date, dateFormat, referenceDate);
+    if (isValid(parsedDate)) {
+      return parsedDate;
+    }
+  }
+
+  return null;
 };
 
 /**
@@ -40,28 +78,23 @@ export const productSpecificDates = {
      * @param {Array} servicePeriods - Array of service periods
      */
     validateIncidentDate: (errors, incidentDate, servicePeriods = []) => {
-      const date = safeMoment(incidentDate);
+      const date = safeFnsDate(incidentDate);
       if (!date) {
         errors.addError('Please provide a valid incident date');
         return;
       }
 
       // Check if in future
-      if (date.isAfter(moment())) {
+      if (isAfter(date, new Date())) {
         errors.addError('Incident date cannot be in the future');
         return;
       }
 
       // Check if within service periods
       const inService = servicePeriods.some(period => {
-        const start = safeMoment(period.dateRange?.from);
-        const end = safeMoment(period.dateRange?.to);
-        return (
-          start &&
-          end &&
-          date.isSameOrAfter(start, 'day') &&
-          date.isSameOrBefore(end, 'day')
-        );
+        const start = safeFnsDate(period.dateRange?.from);
+        const end = safeFnsDate(period.dateRange?.to);
+        return start && end && !isBefore(date, start) && !isAfter(date, end);
       });
 
       if (!inService && servicePeriods.length > 0) {
@@ -81,23 +114,26 @@ export const productSpecificDates = {
 
       // Single date
       if (incidentDate) {
-        const date = safeMoment(incidentDate);
-        return date ? date.format('MMMM YYYY') : 'Unknown';
+        const date = safeFnsDate(incidentDate);
+        return date ? format(date, DATE_FULL_MONTH_YEAR_FORMAT) : 'Unknown';
       }
 
       // Date range
       if (incidentDateRange?.from || incidentDateRange?.to) {
-        const from = safeMoment(incidentDateRange.from);
-        const to = safeMoment(incidentDateRange.to);
+        const from = safeFnsDate(incidentDateRange.from);
+        const to = safeFnsDate(incidentDateRange.to);
 
         if (from && to) {
-          return `${from.format('MMMM YYYY')} to ${to.format('MMMM YYYY')}`;
+          return `${format(from, DATE_FULL_MONTH_YEAR_FORMAT)} to ${format(
+            to,
+            DATE_FULL_MONTH_YEAR_FORMAT,
+          )}`;
         }
         if (from) {
-          return `From ${from.format('MMMM YYYY')}`;
+          return `From ${format(from, DATE_FULL_MONTH_YEAR_FORMAT)}`;
         }
         if (to) {
-          return `Until ${to.format('MMMM YYYY')}`;
+          return `Until ${format(to, DATE_FULL_MONTH_YEAR_FORMAT)}`;
         }
       }
 
@@ -117,8 +153,8 @@ export const productSpecificDates = {
      */
     validateGulfWarDates: (errors, dateRange, warPeriod) => {
       const { from, to } = dateRange || {};
-      const fromDate = safeMoment(from);
-      const toDate = safeMoment(to);
+      const fromDate = safeFnsDate(from);
+      const toDate = safeFnsDate(to);
 
       if (!fromDate || !toDate) {
         errors.addError('Please provide valid service dates');
@@ -127,11 +163,11 @@ export const productSpecificDates = {
 
       // Gulf War 1990-1991 period
       if (warPeriod === '1990') {
-        const warStart = moment('1990-08-02');
-        const warEnd = moment('1991-07-31');
+        const warStart = new Date('1990-08-02');
+        const warEnd = new Date('1991-07-31');
 
         const overlaps =
-          fromDate.isSameOrBefore(warEnd) && toDate.isSameOrAfter(warStart);
+          !isAfter(fromDate, warEnd) && !isBefore(toDate, warStart);
 
         if (!overlaps) {
           errors.addError(
@@ -142,9 +178,9 @@ export const productSpecificDates = {
 
       // Post 9/11 period
       if (warPeriod === '2001') {
-        const warStart = moment('2001-09-11');
+        const warStart = new Date('2001-09-11');
 
-        if (toDate.isBefore(warStart)) {
+        if (isBefore(toDate, warStart)) {
           errors.addError(
             'Service dates must be on or after September 11, 2001',
           );
@@ -160,21 +196,20 @@ export const productSpecificDates = {
     formatExposurePeriod: exposure => {
       const { startDate, endDate, ongoing } = exposure || {};
 
-      const start = safeMoment(startDate);
+      const start = safeFnsDate(startDate);
       if (!start) return 'Unknown period';
 
-      const startFormatted = start.format('MMM YYYY');
-
+      const startFormatted = format(start, DATE_SHORT_MONTH_YEAR_FORMAT);
       if (ongoing) {
         return `${startFormatted} - Present`;
       }
 
-      const end = safeMoment(endDate);
+      const end = safeFnsDate(endDate);
       if (!end) {
         return `Since ${startFormatted}`;
       }
 
-      return `${startFormatted} - ${end.format('MMM YYYY')}`;
+      return `${startFormatted} - ${format(end, DATE_SHORT_MONTH_YEAR_FORMAT)}`;
     },
   },
 
@@ -189,8 +224,8 @@ export const productSpecificDates = {
      * @param {string} lastWorkedDate - Last date worked
      */
     validateDisabilityDate: (errors, disabilityDate, lastWorkedDate) => {
-      const disabledDate = safeMoment(disabilityDate);
-      const lastWorked = safeMoment(lastWorkedDate);
+      const disabledDate = safeFnsDate(disabilityDate);
+      const lastWorked = safeFnsDate(lastWorkedDate);
 
       if (!disabledDate) {
         errors.addError(
@@ -200,13 +235,13 @@ export const productSpecificDates = {
       }
 
       // Cannot be in future
-      if (disabledDate.isAfter(moment())) {
+      if (isAfter(disabledDate, new Date())) {
         errors.addError('Date cannot be in the future');
         return;
       }
 
       // Should be after last worked date if provided
-      if (lastWorked && disabledDate.isBefore(lastWorked)) {
+      if (lastWorked && isBefore(disabledDate, lastWorked)) {
         errors.addError(
           'Date you became disabled must be after the last date you worked',
         );
@@ -219,10 +254,10 @@ export const productSpecificDates = {
      * @returns {number} Number of months unemployed
      */
     calculateUnemploymentDuration: lastWorkedDate => {
-      const lastWorked = safeMoment(lastWorkedDate);
+      const lastWorked = safeFnsDate(lastWorkedDate);
       if (!lastWorked) return 0;
 
-      return moment().diff(lastWorked, 'months');
+      return differenceInMonths(new Date(), lastWorked);
     },
   },
 
@@ -237,8 +272,8 @@ export const productSpecificDates = {
      */
     validateHospitalizationDates: (errors, hospitalization) => {
       const { from, to } = hospitalization || {};
-      const fromDate = safeMoment(from);
-      const toDate = safeMoment(to);
+      const fromDate = safeFnsDate(from);
+      const toDate = safeFnsDate(to);
 
       if (!fromDate) {
         errors.addError('Please provide admission date');
@@ -246,20 +281,20 @@ export const productSpecificDates = {
       }
 
       // Admission cannot be in future
-      if (fromDate.isAfter(moment())) {
+      if (isAfter(fromDate, new Date())) {
         errors.addError('Admission date cannot be in the future');
         return;
       }
 
       // If discharged, validate discharge date
       if (to && toDate) {
-        if (toDate.isBefore(fromDate)) {
+        if (isBefore(toDate, fromDate)) {
           errors.addError('Discharge date must be after admission date');
           return;
         }
 
         // Check for unreasonably long stays (> 2 years)
-        const stayDuration = toDate.diff(fromDate, 'years', true);
+        const stayDuration = differenceInYears(toDate, fromDate);
         if (stayDuration > 2) {
           errors.addError(
             'Please verify the dates. Hospitalization appears to be longer than 2 years.',
@@ -275,22 +310,22 @@ export const productSpecificDates = {
      */
     formatHospitalizationPeriod: hospitalization => {
       const { from, to } = hospitalization || {};
-      const fromDate = safeMoment(from);
+      const fromDate = safeFnsDate(from);
 
       if (!fromDate) return 'Unknown';
 
-      const fromFormatted = fromDate.format('MMM D, YYYY');
-
+      const fromFormatted = format(fromDate, DATE_SHORT_MONTH_DAY_YEAR_FORMAT);
       if (!to) {
         return `Admitted ${fromFormatted} (ongoing)`;
       }
 
-      const toDate = safeMoment(to);
+      const toDate = safeFnsDate(to);
       if (!toDate) return fromFormatted;
 
-      const days = toDate.diff(fromDate, 'days') + 1;
-      return `${fromFormatted} - ${toDate.format(
-        'MMM D, YYYY',
+      const days = differenceInDays(toDate, fromDate) + 1;
+      return `${fromFormatted} - ${format(
+        toDate,
+        'MMM d, yyyy',
       )} (${days} days)`;
     },
   },
@@ -306,11 +341,11 @@ export const productSpecificDates = {
      * @returns {boolean} True if within range
      */
     isEvidenceDateAcceptable: (evidenceDate, maxYears = 5) => {
-      const date = safeMoment(evidenceDate);
+      const date = safeFnsDate(evidenceDate);
       if (!date) return false;
 
-      const cutoffDate = moment().subtract(maxYears, 'years');
-      return date.isAfter(cutoffDate);
+      const cutoffDate = sub(new Date(), { years: maxYears });
+      return isAfter(date, cutoffDate);
     },
 
     /**
@@ -320,23 +355,25 @@ export const productSpecificDates = {
      */
     formatTreatmentPeriod: treatment => {
       const { from, to, ongoing } = treatment || {};
-      const fromDate = safeMoment(from);
+      const fromDate = safeFnsDate(from);
 
       if (!fromDate) return 'Date unknown';
 
       if (ongoing || !to) {
-        return `Since ${fromDate.format('MMMM YYYY')}`;
+        return `Since ${format(fromDate, DATE_FULL_MONTH_YEAR_FORMAT)}`;
       }
 
-      const toDate = safeMoment(to);
-      if (!toDate) return fromDate.format('MMMM YYYY');
-
+      const toDate = safeFnsDate(to);
+      if (!toDate) return format(fromDate, DATE_FULL_MONTH_YEAR_FORMAT);
       // Same month/year
-      if (fromDate.isSame(toDate, 'month')) {
-        return fromDate.format('MMMM YYYY');
+      if (isSameMonth(fromDate, toDate)) {
+        return format(fromDate, DATE_FULL_MONTH_YEAR_FORMAT);
       }
 
-      return `${fromDate.format('MMM YYYY')} - ${toDate.format('MMM YYYY')}`;
+      return `${format(fromDate, DATE_SHORT_MONTH_YEAR_FORMAT)} - ${format(
+        toDate,
+        DATE_SHORT_MONTH_YEAR_FORMAT,
+      )}`;
     },
   },
 };

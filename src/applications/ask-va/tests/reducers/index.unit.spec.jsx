@@ -1,21 +1,5 @@
 import { expect } from 'chai';
-import reducers from '../../reducers';
-
-const initialState = {
-  categoryID: '',
-  topicID: '',
-  subtopicID: '',
-  updatedInReview: '',
-  searchLocationInput: '',
-  getLocationInProgress: false,
-  currentUserLocation: '',
-  getLocationError: false,
-  selectedFacility: null,
-  vaHealthFacility: '',
-  reviewPageView: {
-    openChapters: [],
-  },
-};
+import reducers, { initialReduxState } from '../../reducers';
 
 describe('reducers', () => {
   it('SET_CATEGORY_ID', () => {
@@ -24,7 +8,7 @@ describe('reducers', () => {
       payload: 'test',
     });
     expect(newData).to.deep.equal({
-      ...initialState,
+      ...initialReduxState,
       categoryID: 'test',
     });
   });
@@ -35,7 +19,7 @@ describe('reducers', () => {
       payload: 'test',
     });
     expect(newData).to.deep.equal({
-      ...initialState,
+      ...initialReduxState,
       topicID: 'test',
     });
   });
@@ -46,7 +30,7 @@ describe('reducers', () => {
       payload: 'test',
     });
     expect(newData).to.deep.equal({
-      ...initialState,
+      ...initialReduxState,
       subtopicID: 'test',
     });
   });
@@ -57,7 +41,7 @@ describe('reducers', () => {
       payload: 'test',
     });
     expect(newData).to.deep.equal({
-      ...initialState,
+      ...initialReduxState,
       updatedInReview: 'test',
     });
   });
@@ -68,7 +52,7 @@ describe('reducers', () => {
       openedChapter: 'test',
     });
     expect(newData).to.deep.equal({
-      ...initialState,
+      ...initialReduxState,
       reviewPageView: {
         openChapters: ['test'],
       },
@@ -102,7 +86,7 @@ describe('reducers', () => {
       type: 'GEOLOCATE_USER',
     });
     expect(newData).to.deep.equal({
-      ...initialState,
+      ...initialReduxState,
       getLocationInProgress: true,
     });
   });
@@ -112,7 +96,7 @@ describe('reducers', () => {
       type: 'GEOCODE_FAILED',
     });
     expect(newData).to.deep.equal({
-      ...initialState,
+      ...initialReduxState,
       getLocationError: true,
       getLocationInProgress: false,
     });
@@ -121,11 +105,11 @@ describe('reducers', () => {
   it('GEOCODE_COMPLETE', () => {
     const newData = reducers.askVA(undefined, {
       type: 'GEOCODE_COMPLETE',
-      payload: 'test',
+      payload: [6, 7],
     });
     expect(newData).to.deep.equal({
-      ...initialState,
-      currentUserLocation: 'test',
+      ...initialReduxState,
+      currentUserLocation: [6, 7],
       getLocationInProgress: false,
     });
   });

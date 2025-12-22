@@ -30,6 +30,29 @@ export function simulateVaInputChange(inputField, value) {
 }
 
 /**
+ * Simulates a VA text input blur event by updating the value and
+ * dispatching a bubbling FocusEvent for focusout.
+ * @param {HTMLElement} inputField - The <va-text-input> element.
+ * @param {string|number} value - The value to set.
+ */
+export function simulateVaInputBlur(inputField, value) {
+  if (!inputField) return null;
+
+  // Set the value and dispatch the input event directly
+  const field = inputField;
+  field.value = value;
+
+  const blurEvent = new window.FocusEvent('focusout', {
+    bubbles: true,
+    composed: true,
+  });
+
+  inputField.dispatchEvent(blurEvent);
+
+  return { field: inputField, value, eventFired: true };
+}
+
+/**
  * Simulates a VA date input change event using direct event dispatching.
  * @param {HTMLElement} dateField - The VA date input field element.
  * @param {string|Date} value - The date value to set for the field.

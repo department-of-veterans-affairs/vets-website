@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { RemoveParentAdditionalInfo } from './helpers';
 import propTypes from './types';
 
 const parentOtherExit = {
@@ -49,15 +50,7 @@ const parentOtherExit = {
         <p>If you exit now, we’ll cancel the form you started.</p>
       )}
 
-      <va-additional-info trigger="How can I remove a dependent parent for reasons other than death?">
-        <p>
-          You can only use this form to remove a dependent parent if they died.
-          If your parent is still living and you want to remove them as a
-          dependent, call us at <va-telephone contact="8008271000" /> (
-          <va-telephone contact="711" tty />
-          ).
-        </p>
-      </va-additional-info>
+      <RemoveParentAdditionalInfo />
     </>
   ),
 };

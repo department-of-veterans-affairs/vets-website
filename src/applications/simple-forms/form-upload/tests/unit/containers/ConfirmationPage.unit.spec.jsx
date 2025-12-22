@@ -9,7 +9,7 @@ import * as environment from 'platform/utilities/environment';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 const mockFormConfig = {
-  rootUrl: '/find-forms/upload',
+  rootUrl: '/forms/upload',
   urlPrefix: '/21-0779/',
   formId: '21-0779-UPLOAD',
   title: 'Upload VA Form 21-0779',

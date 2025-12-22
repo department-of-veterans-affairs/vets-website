@@ -50,7 +50,7 @@ const fillOutPicklistPage = dependent => {
   checkElAndFill('endAnnulmentOrVoidDescription', 'fillVaTextInput');
   checkElAndFill('endDate', 'fillVaMemorableDate');
 
-  checkElAndFill('endOutsideUS', 'selectVaCheckbox');
+  checkElAndFill('endOutsideUs', 'selectVaCheckbox');
   checkElAndFill('endCity', 'fillVaTextInput');
   checkElAndFill('endProvince', 'fillVaTextInput');
   checkElAndFill('endCountry', 'selectVaSelect');
@@ -87,8 +87,6 @@ const testConfig = createTestConfig(
         data: {
           type: 'feature_toggles',
           features: [
-            { name: 'vaDependentsV2', value: true },
-            { name: 'va_dependents_v2', value: true },
             { name: 'vaDependentsV3', value: true },
             { name: 'va_dependents_v3', value: true },
             { name: 'vaDependentsNetWorthAndPension', value: false },

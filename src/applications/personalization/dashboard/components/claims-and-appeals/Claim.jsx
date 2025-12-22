@@ -44,7 +44,7 @@ const Claim = ({ claim }) => {
 
   const content = (
     <>
-      <h3 className="vads-u-margin-top--0">
+      <h3 className="vads-u-margin-top--0 dd-privacy-mask">
         {capitalizeFirstLetter(getClaimType(claim))} claim received {dateRecd}
       </h3>
       <div className="vads-u-display--flex">

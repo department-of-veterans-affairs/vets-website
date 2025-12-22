@@ -224,10 +224,46 @@ describe('Form Configuration', () => {
 
   describe('Conditional Page Logic', () => {
     describe('Patient Information Conditional Pages', () => {
-      it('should show claimant pages when patient is spouse or parent', () => {
+      it('should show claimant pages when patient is spouse', () => {
         const formData = {
           claimantQuestion: {
-            patientType: 'spouseOrParent',
+            patientType: 'spouse',
+          },
+        };
+
+        const claimantPersonalInfoPage =
+          formConfig.chapters.patientInformationChapter.pages
+            .claimantPersonalInfo;
+        const claimantIdentificationInfoPage =
+          formConfig.chapters.patientInformationChapter.pages
+            .claimantIdentificationInfo;
+
+        expect(claimantPersonalInfoPage.depends(formData)).to.be.true;
+        expect(claimantIdentificationInfoPage.depends(formData)).to.be.true;
+      });
+
+      it('should show claimant pages when patient is parent', () => {
+        const formData = {
+          claimantQuestion: {
+            patientType: 'parent',
+          },
+        };
+
+        const claimantPersonalInfoPage =
+          formConfig.chapters.patientInformationChapter.pages
+            .claimantPersonalInfo;
+        const claimantIdentificationInfoPage =
+          formConfig.chapters.patientInformationChapter.pages
+            .claimantIdentificationInfo;
+
+        expect(claimantPersonalInfoPage.depends(formData)).to.be.true;
+        expect(claimantIdentificationInfoPage.depends(formData)).to.be.true;
+      });
+
+      it('should show claimant pages when patient is child', () => {
+        const formData = {
+          claimantQuestion: {
+            patientType: 'child',
           },
         };
 

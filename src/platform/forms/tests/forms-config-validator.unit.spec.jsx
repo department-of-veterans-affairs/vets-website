@@ -12,7 +12,7 @@ import trackMemoryUsage from '../../testing/unit/unit-test-track-memory-usage';
 const validatedConfigs = new Map();
 
 const formConfigFnParams = {
-  'form-upload': '/find-forms/upload/21-0779',
+  'form-upload': '/forms/upload/21-0779',
   'representative-form-upload':
     '/representative/representative-form-upload/submit-va-form-21-686c',
 };

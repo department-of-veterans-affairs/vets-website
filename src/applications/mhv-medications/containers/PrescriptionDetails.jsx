@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   updatePageTitle,
   reportGeneratedBy,
@@ -89,7 +96,21 @@ const PrescriptionDetails = () => {
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
 
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
@@ -99,24 +120,34 @@ const PrescriptionDetails = () => {
 
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
-  const refillHistory = getRefillHistory(prescription);
+  const refillHistory = useMemo(() => getRefillHistory(prescription), [
+    prescription,
+  ]);
 
   // Prefetch prescription documentation for faster loading when
   // going to the documentation page
   const prefetchPrescriptionDocumentation = usePrefetch(
     'getPrescriptionDocumentation',
   );
+
+  const hasPrefetched = useRef(false);
+
   useEffect(
     () => {
-      if (!isLoading && hasCmopNdcNumber(refillHistory)) {
+      if (
+        !isLoading &&
+        !hasPrefetched.current &&
+        hasCmopNdcNumber(refillHistory)
+      ) {
         prefetchPrescriptionDocumentation(prescriptionId);
+        hasPrefetched.current = true;
       }
     },
     [
       isLoading,
-      prefetchPrescriptionDocumentation,
       prescriptionId,
       refillHistory,
+      prefetchPrescriptionDocumentation,
     ],
   );
 
@@ -325,22 +356,26 @@ const PrescriptionDetails = () => {
         </>
       );
     }
-    return (
-      <>
-        {prescription?.sortedDispensedDate ? (
-          <span>
-            Last filled on{' '}
-            {dateFormat(
-              prescription.sortedDispensedDate,
-              DATETIME_FORMATS.longMonthDate,
-            )}
-          </span>
-        ) : (
-          <span>Not filled yet</span>
-        )}
-      </>
-    );
+    if (prescription?.sortedDispensedDate) {
+      return (
+        <span>
+          Last filled on{' '}
+          {dateFormat(
+            prescription.sortedDispensedDate,
+            DATETIME_FORMATS.longMonthDate,
+          )}
+        </span>
+      );
+    }
+    if (!isCernerPilot) {
+      return <span>Not filled yet</span>;
+    }
+    return null;
   };
+
+  // Determine if we should show the last filled paragraph
+  const showLastFilledParagraph =
+    nonVaPrescription || prescription?.sortedDispensedDate || !isCernerPilot;
 
   const [isErrorNotificationVisible, setIsErrorNotificationVisible] = useState(
     false,
@@ -447,15 +482,17 @@ const PrescriptionDetails = () => {
               <ApiErrorNotification errorType="access" content="medications" />
             ) : (
               <>
-                <p
-                  id="last-filled"
-                  className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen: vads-u-margin-bottom--2 ${
-                    nonVaPrescription ? 'vads-u-margin-bottom--2' : ''
-                  }`}
-                  data-testid="rx-last-filled-date"
-                >
-                  {filledEnteredDate()}
-                </p>
+                {showLastFilledParagraph && (
+                  <p
+                    id="last-filled"
+                    className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen: vads-u-margin-bottom--2 ${
+                      nonVaPrescription ? 'vads-u-margin-bottom--2' : ''
+                    }`}
+                    data-testid="rx-last-filled-date"
+                  >
+                    {filledEnteredDate()}
+                  </p>
+                )}
                 {prescription.prescriptionSource ===
                   RX_SOURCE.PENDING_DISPENSE && pendingMedAlert()}
                 {isErrorNotificationVisible && (

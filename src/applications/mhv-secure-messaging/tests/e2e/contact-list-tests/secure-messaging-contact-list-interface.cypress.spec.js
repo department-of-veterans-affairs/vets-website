@@ -187,4 +187,29 @@ describe('SM CONTACT LIST', () => {
       );
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
+
+  it(`displays loading indicator when saving contact list`, () => {
+    SecureMessagingSite.login();
+    ContactListPage.loadContactList();
+
+    // Intercept save but delay response to observe loading state
+    cy.intercept('POST', '/my_health/v1/messaging/preferences/recipients', {
+      statusCode: 200,
+      body: {},
+      delay: 500,
+    }).as('saveContactList');
+
+    // Click save button
+    cy.findByTestId('contact-list-save').click();
+
+    // Loading indicator should appear during save
+    cy.findByTestId('contact-list-saving-indicator')
+      .should('exist')
+      .and('have.attr', 'message', 'Saving your contact list...');
+
+    // Wait for save to complete
+    cy.wait('@saveContactList');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
 });

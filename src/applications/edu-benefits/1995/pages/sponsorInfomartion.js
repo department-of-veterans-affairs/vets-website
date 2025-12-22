@@ -1,24 +1,20 @@
 import { pick } from 'lodash';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
+import { sponsorInformationTitle } from '../helpers';
 
 /**
  * Returns a Sponsor page based on the options passed.
  *
  * @param {Object} schema   The full schema for the form
  */
-const noSSNTitle = () => {
-  if (isProductionOfTestProdEnv()) {
-    return 'I don’t have a Social Security number';
-  }
+export const noSSNTitle = () => {
   return "I don't know my sponsor's Social Security number";
 };
 
-const showSponsorInfo = (formData, automatedTest = false) => {
+const showSponsorInfo = formData => {
   return (
-    !isProductionOfTestProdEnv(automatedTest) &&
-    (formData.benefitUpdate === 'chapter35' ||
-      formData.benefitAppliedFor === 'chapter35')
+    formData.benefitUpdate === 'chapter35' ||
+    formData.benefitAppliedFor === 'chapter35'
   );
 };
 

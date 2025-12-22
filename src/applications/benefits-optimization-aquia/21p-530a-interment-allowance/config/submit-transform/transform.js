@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { capitalize } from 'lodash';
-import { DEFAULT_BRANCH_LABELS } from 'platform/forms-system/src/js/web-component-patterns/serviceBranchPattern';
+import DEFAULT_BRANCH_LABELS from 'platform/forms-system/src/js/web-component-patterns/content/serviceBranch.json';
 
 // Custom sanitizer to strip view fields, empty objects, and normalize country codes
 const sanitize = (key, value) => {

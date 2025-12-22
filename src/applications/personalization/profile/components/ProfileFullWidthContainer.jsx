@@ -9,10 +9,14 @@ export const ProfileFullWidthContainer = ({ children, profile2Enabled }) => {
   const profileHealthCareSettingsPage = useToggleValue(
     TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
+  const profileHideHealthCareContacts = useToggleValue(
+    TOGGLE_NAMES.profileHideHealthCareContacts,
+  );
 
   const routesForNav = getRoutesForNav({
     profile2Enabled,
     profileHealthCareSettingsPage,
+    profileHideHealthCareContacts,
   });
 
   return (

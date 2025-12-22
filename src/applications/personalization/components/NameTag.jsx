@@ -180,7 +180,11 @@ const NameTag = ({
       ' ',
     ),
     title: [...titleClasses, ...titleClassesMedium].join(' '),
-    fullName: [...fullNameClasses, ...fullNameClassesMedium].join(' '),
+    fullName: [
+      ...fullNameClasses,
+      ...fullNameClassesMedium,
+      'dd-privacy-mask',
+    ].join(' '),
     latestBranch: [...latestBranchClasses, ...latestBranchClassesMedium].join(
       ' ',
     ),

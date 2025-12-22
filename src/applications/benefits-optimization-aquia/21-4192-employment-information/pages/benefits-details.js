@@ -77,7 +77,8 @@ export const benefitsDetailsUiSchema = {
     }),
     stopReceivingDate: currentOrPastDateUI({
       title: 'Stop receiving date', // Default title, will be updated by updateUiSchema
-      hint: 'Leave blank if still receiving benefits',
+      hint: 'Enter an approximate date if the exact date is unknown',
+      required: false,
     }),
   },
   'ui:options': {

@@ -1,5 +1,8 @@
 import { expect } from 'chai';
-import { isPatientVeteran, isPatientSpouseOrParent } from './patientType';
+import {
+  isPatientVeteran,
+  isPatientSpouseOrParentOrChild,
+} from './patientType';
 
 describe('patientType utilities', () => {
   describe('isPatientVeteran', () => {
@@ -12,10 +15,28 @@ describe('patientType utilities', () => {
       expect(isPatientVeteran(formData)).to.be.true;
     });
 
-    it('should return false when patient type is spouseOrParent', () => {
+    it('should return false when patient type is spouse', () => {
       const formData = {
         claimantQuestion: {
-          patientType: 'spouseOrParent',
+          patientType: 'spouse',
+        },
+      };
+      expect(isPatientVeteran(formData)).to.be.false;
+    });
+
+    it('should return false when patient type is parent', () => {
+      const formData = {
+        claimantQuestion: {
+          patientType: 'parent',
+        },
+      };
+      expect(isPatientVeteran(formData)).to.be.false;
+    });
+
+    it('should return false when patient type is child', () => {
+      const formData = {
+        claimantQuestion: {
+          patientType: 'child',
         },
       };
       expect(isPatientVeteran(formData)).to.be.false;
@@ -52,14 +73,32 @@ describe('patientType utilities', () => {
     });
   });
 
-  describe('isPatientSpouseOrParent', () => {
-    it('should return true when patient type is spouseOrParent', () => {
+  describe('isPatientSpouseOrParentOrChild', () => {
+    it('should return true when patient type is spouse', () => {
       const formData = {
         claimantQuestion: {
-          patientType: 'spouseOrParent',
+          patientType: 'spouse',
         },
       };
-      expect(isPatientSpouseOrParent(formData)).to.be.true;
+      expect(isPatientSpouseOrParentOrChild(formData)).to.be.true;
+    });
+
+    it('should return true when patient type is parent', () => {
+      const formData = {
+        claimantQuestion: {
+          patientType: 'parent',
+        },
+      };
+      expect(isPatientSpouseOrParentOrChild(formData)).to.be.true;
+    });
+
+    it('should return true when patient type is child', () => {
+      const formData = {
+        claimantQuestion: {
+          patientType: 'child',
+        },
+      };
+      expect(isPatientSpouseOrParentOrChild(formData)).to.be.true;
     });
 
     it('should return false when patient type is veteran', () => {
@@ -68,29 +107,29 @@ describe('patientType utilities', () => {
           patientType: 'veteran',
         },
       };
-      expect(isPatientSpouseOrParent(formData)).to.be.false;
+      expect(isPatientSpouseOrParentOrChild(formData)).to.be.false;
     });
 
     it('should return false when formData is null', () => {
-      expect(isPatientSpouseOrParent(null)).to.be.false;
+      expect(isPatientSpouseOrParentOrChild(null)).to.be.false;
     });
 
     it('should return false when formData is undefined', () => {
-      expect(isPatientSpouseOrParent(undefined)).to.be.false;
+      expect(isPatientSpouseOrParentOrChild(undefined)).to.be.false;
     });
 
     it('should return false when formData is an array', () => {
-      expect(isPatientSpouseOrParent([])).to.be.false;
+      expect(isPatientSpouseOrParentOrChild([])).to.be.false;
     });
 
     it('should return false when formData is not an object', () => {
-      expect(isPatientSpouseOrParent('string')).to.be.false;
-      expect(isPatientSpouseOrParent(123)).to.be.false;
+      expect(isPatientSpouseOrParentOrChild('string')).to.be.false;
+      expect(isPatientSpouseOrParentOrChild(123)).to.be.false;
     });
 
     it('should return false when claimantQuestion is missing', () => {
       const formData = {};
-      expect(isPatientSpouseOrParent(formData)).to.be.false;
+      expect(isPatientSpouseOrParentOrChild(formData)).to.be.false;
     });
   });
 });

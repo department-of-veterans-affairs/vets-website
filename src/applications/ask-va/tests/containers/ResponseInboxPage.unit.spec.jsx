@@ -67,7 +67,7 @@ describe('ResponseInboxPage', () => {
 
     store = mockStore({
       askVA: {
-        currentUserLocation: '123456',
+        currentUserLocation: [],
         searchLocationInput: '',
         getLocationInProgress: false,
         getLocationError: false,

@@ -108,7 +108,6 @@ function getDefaultState({
     },
     featureToggles: {
       loading: false,
-      vaDependentsV2: true,
       ...featureToggles,
     },
   };
@@ -274,19 +273,6 @@ describe('App container logic', () => {
       });
 
       expect(getByTestId('children-content')).to.exist;
-    });
-  });
-
-  describe('V2 version handling', () => {
-    it('should redirect to old form when V2 is disabled', () => {
-      delete window.location;
-      window.location = { href: '' };
-
-      renderApp({
-        featureToggles: { vaDependentsV2: false },
-      });
-
-      expect(window.location.href).to.contain('/add-remove-form-21-686c/');
     });
   });
 

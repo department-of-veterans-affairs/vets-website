@@ -76,10 +76,8 @@ describe('1919 Helpers', () => {
       const card = {
         certifyingOfficial: { title: 'Official' },
         fileNumber: '123456AB',
-        enrollmentPeriod: {
-          from: '2024-03-10',
-          to: '2025-04-27',
-        },
+        enrollmentPeriodStart: '2024-03-10',
+        enrollmentPeriodEnd: '2025-04-27',
       };
 
       const description = getCardDescription(card);

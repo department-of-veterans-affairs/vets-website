@@ -6,6 +6,7 @@ import { format } from 'date-fns-tz';
 import {
   addDays,
   differenceInDays,
+  endOfDay,
   endOfMonth,
   isAfter,
   isDate,
@@ -23,6 +24,7 @@ import {
   selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
+  selectFeatureOHDirectSchedule,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -270,7 +272,7 @@ export function getPatientRelationships() {
     const typeOfCare = getTypeOfCare(newAppointment.data);
     const typeOfCareId = typeOfCare;
     const facilityId = newAppointment.data.vaFacility;
-    const hasAvailabilityBefore = addDays(new Date(), 395);
+    const hasAvailabilityBefore = endOfDay(addDays(new Date(), 395));
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
@@ -646,19 +648,13 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(
-  page,
-  uiSchema,
-  schema,
-  updateRequestFlow,
-) {
+export function openReasonForAppointment(page, uiSchema, schema) {
   return async dispatch => {
     dispatch({
       type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
       page,
       uiSchema,
       schema,
-      updateRequestFlow,
     });
   };
 }
@@ -856,7 +852,8 @@ export function submitAppointmentOrRequest(history) {
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
     const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
-    const updateRequestFlow = selectFeatureOHRequest(state);
+    const updateRequestLimits = selectFeatureOHRequest(state);
+    const updateDSLimits = selectFeatureOHDirectSchedule(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -864,7 +861,6 @@ export function submitAppointmentOrRequest(history) {
 
     let additionalEventData = {
       'health-TypeOfCare': typeOfCare,
-      'health-ReasonForAppointment': data?.reasonForAppointment,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -878,7 +874,10 @@ export function submitAppointmentOrRequest(history) {
       try {
         let appointment = null;
         appointment = await createAppointment({
-          appointment: transformFormToVAOSAppointment(getState()),
+          appointment: transformFormToVAOSAppointment(
+            getState(),
+            updateDSLimits,
+          ),
           featureUseBrowserTimezone,
         });
 
@@ -963,7 +962,7 @@ export function submitAppointmentOrRequest(history) {
       try {
         requestBody = isCommunityCare
           ? transformFormToVAOSCCRequest(getState())
-          : transformFormToVAOSVARequest(getState(), updateRequestFlow);
+          : transformFormToVAOSVARequest(getState(), updateRequestLimits);
 
         const requestData = await createAppointment({
           appointment: requestBody,

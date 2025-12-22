@@ -339,7 +339,11 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       }
     }
 
-    if (data.homelessOrAtRisk && data['view:isBddData'] !== true) {
+    if (
+      data.homelessOrAtRisk &&
+      (data.disability526ExtraBDDPagesEnabled ||
+        data['view:isBddData'] !== true)
+    ) {
       cy.contains(/are you homeless or at risk of becoming homeless/i).should(
         'exist',
       );
@@ -368,8 +372,8 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
 
     if (
       !hasRatedDisabilities(data) &&
-      !isBDD(data) &&
-      data['view:isBddData'] !== true
+      (data.disability526ExtraBDDPagesEnabled ||
+        (!isBDD(data) && data['view:isBddData'] !== true))
     ) {
       cy.contains(/have you ever received military retirement pay/i).should(
         'exist',

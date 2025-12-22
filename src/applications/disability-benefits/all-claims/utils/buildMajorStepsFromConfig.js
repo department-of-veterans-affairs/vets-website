@@ -80,13 +80,15 @@ export function buildMajorSteps(formData, pathname) {
     const pathPrefixes = eligiblePageList.filter(p => p.chapterKey === key);
     const primaryPage = pathPrefixes[0];
 
-    steps.push({
-      idx,
-      key,
-      label,
-      path: primaryPage?.path,
-      current: key === currentChapter,
-    });
+    if (primaryPage) {
+      steps.push({
+        idx,
+        key,
+        label,
+        path: primaryPage?.path,
+        current: key === currentChapter,
+      });
+    }
   });
 
   steps.push({

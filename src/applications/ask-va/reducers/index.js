@@ -20,14 +20,14 @@ import {
   GEOLOCATE_USER,
 } from '../actions/geoLocateUser';
 
-const initialState = {
+export const initialReduxState = {
   categoryID: '',
   topicID: '',
   subtopicID: '',
   updatedInReview: '',
   searchLocationInput: '',
   getLocationInProgress: false,
-  currentUserLocation: '',
+  currentUserLocation: [],
   getLocationError: false,
   selectedFacility: null,
   vaHealthFacility: '',
@@ -39,11 +39,11 @@ const initialState = {
 export default {
   form: createSaveInProgressFormReducer(formConfig),
   test: 'test',
-  askVA: (state = initialState, action) => {
+  askVA: (state = initialReduxState, action) => {
     switch (action.type) {
       case CLEAR_FORM_DATA:
         return {
-          ...initialState,
+          ...initialReduxState,
         };
       case SET_CATEGORY_ID:
         return {

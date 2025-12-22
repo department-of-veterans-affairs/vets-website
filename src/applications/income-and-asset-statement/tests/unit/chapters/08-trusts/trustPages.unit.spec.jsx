@@ -643,6 +643,15 @@ describe('trust list and loop pages', () => {
         expect(errors.addError.called).to.be.true;
       });
 
+      it('should add an error when no file has error message', () => {
+        const validation = uiSchema.uploadedDocuments['ui:validations'][0];
+        const errors = { addError: sandbox.spy() };
+        const fieldData = { errorMessage: 'error' };
+
+        validation(errors, fieldData);
+        expect(errors.addError.called).to.be.true;
+      });
+
       it('should NOT add an error when file is uploaded', () => {
         const validation = uiSchema.uploadedDocuments['ui:validations'][0];
         const errors = { addError: sandbox.spy() };

@@ -12,7 +12,10 @@ import {
   formatMultiSelectAndText,
   formatGenderIdentity,
 } from 'platform/user/profile/vap-svc/util/personal-information/personalInformationUtils';
-import { isSchedulingPreference } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
+import {
+  getSchedulingPreferencesOptionDisplayName,
+  isSchedulingPreference,
+} from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
 
 const ProfileInformationView = props => {
@@ -117,6 +120,13 @@ const ProfileInformationView = props => {
       );
 
     return formatMultiSelectAndText(data, fieldName) || unsetFieldTitleSpan;
+  }
+
+  if (fieldName in data && isSchedulingPreference(fieldName)) {
+    return (
+      getSchedulingPreferencesOptionDisplayName(fieldName, data[fieldName]) ||
+      unsetFieldTitleSpan
+    );
   }
 
   return null;

@@ -5,7 +5,10 @@ import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-import { setPageFocus } from '../../combined/utils/helpers';
+import {
+  setPageFocus,
+  showVHAPaymentHistory,
+} from '../../combined/utils/helpers';
 import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
@@ -21,8 +24,9 @@ import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const HTMLStatementPage = ({ match }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
   const showCDPOneThingPerPage = useToggleValue(
     TOGGLE_NAMES.showCDPOneThingPerPage,
@@ -108,7 +112,7 @@ const HTMLStatementPage = ({ match }) => {
               showOneThingPerPage={showCDPOneThingPerPage}
               statementDate={statementDate}
             />
-            {showVHAPaymentHistory ? (
+            {shouldShowVHAPaymentHistory ? (
               <StatementTable
                 charges={charges}
                 formatCurrency={formatCurrency}

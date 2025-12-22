@@ -7,6 +7,18 @@ import {
   checkboxRequiredSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import CapitalizedTextInputField from '../containers/CapitalizedTextInputField';
+import { validateInitials } from '../helpers';
+
+const validateInitialsMatch = (errors, fieldData, formData) => {
+  const firstName = formData?.authorizedOfficial?.fullName?.first || '';
+  const lastName = formData?.authorizedOfficial?.fullName?.last || '';
+  const capitalizedValue = fieldData ? fieldData.toUpperCase() : '';
+
+  const error = validateInitials(capitalizedValue, firstName, lastName);
+  if (error) {
+    errors.addError(error);
+  }
+};
 
 const uiSchema = {
   ...titleUI(
@@ -38,6 +50,7 @@ const uiSchema = {
       minLength: 'Please enter your initials using letters only',
       pattern: 'Please enter your initials using letters only',
     },
+    'ui:validations': [validateInitialsMatch],
   },
   'view:statement2': {
     'ui:description':
@@ -55,6 +68,7 @@ const uiSchema = {
       minLength: 'Please enter your initials using letters only',
       pattern: 'Please enter your initials using letters only',
     },
+    'ui:validations': [validateInitialsMatch],
   },
   'view:statement3': {
     'ui:description':
@@ -72,6 +86,7 @@ const uiSchema = {
       minLength: 'Please enter your initials using letters only',
       pattern: 'Please enter your initials using letters only',
     },
+    'ui:validations': [validateInitialsMatch],
   },
   'view:statement4': {
     'ui:description':
@@ -89,6 +104,7 @@ const uiSchema = {
       minLength: 'Please enter your initials using letters only',
       pattern: 'Please enter your initials using letters only',
     },
+    'ui:validations': [validateInitialsMatch],
   },
   agreementCheckbox: checkboxUI({
     title: 'Our school agrees to provide Yellow Ribbon Program contributions',

@@ -8,7 +8,7 @@ import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/s
 const SendRxRenewalMessage = ({
   rx,
   fallbackContent = null,
-  alwaysShowFallBackContent = false,
+  showFallBackContent = false,
   isActionLink = false,
 }) => {
   const showSecureMessagingRenewalRequest = useSelector(
@@ -34,8 +34,10 @@ const SendRxRenewalMessage = ({
     rx.expirationDate &&
     new Date(rx.expirationDate) >
       new Date(Date.now() - 120 * 24 * 60 * 60 * 1000);
+  const { isRenewable } = rx;
 
   const canSendRenewalRequest =
+    isRenewable ||
     isActiveNoRefills ||
     isActiveNoRefillsRefillInProcess ||
     isActiveNoRefillsSubmitted ||
@@ -44,7 +46,7 @@ const SendRxRenewalMessage = ({
   if (
     !canSendRenewalRequest ||
     !showSecureMessagingRenewalRequest ||
-    alwaysShowFallBackContent
+    showFallBackContent
   ) {
     return fallbackContent || null;
   }
@@ -85,7 +87,6 @@ const SendRxRenewalMessage = ({
 };
 
 SendRxRenewalMessage.propTypes = {
-  alwaysShowFallBackContent: PropTypes.bool,
   fallbackContent: PropTypes.node,
   isActionLink: PropTypes.bool,
   rx: PropTypes.shape({
@@ -93,7 +94,9 @@ SendRxRenewalMessage.propTypes = {
     dispStatus: PropTypes.string,
     expirationDate: PropTypes.string,
     prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    isRenewable: PropTypes.bool,
   }),
+  showFallBackContent: PropTypes.bool,
 };
 
 const RenderLinkVariation = ({

@@ -42,7 +42,7 @@ const stepchildFinancialSupportExit = {
       <p>
         Because you provide at least half of
         <span className="dd-privacy-mask" data-dd-action-name="first name">
-          {makeNamePossessive(firstName)}
+          {` ${makeNamePossessive(firstName)}`}
         </span>{' '}
         financial support, {firstName} is an eligible dependent.
       </p>

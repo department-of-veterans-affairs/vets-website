@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import { daysFromToday } from './dates/dateHelper';
 
 import {
   CHAR_LIMITS,
@@ -52,10 +51,14 @@ import {
   viewifyFields,
 } from '../../utils';
 import {
+  daysFromToday,
   formatDateRange,
   formatDate,
   parseDate,
   formatMonthYearDate,
+  DATE_TEMPLATE,
+  DATE_FORMAT,
+  DATE_FORMAT_SHORT,
 } from '../../utils/dates/formatting';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -973,11 +976,11 @@ describe('526 v2 depends functions', () => {
         expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
       });
       it('should return valid dates with custom format', () => {
-        expect(formatDate('2020-01-31', 'YYYY-MM-DD')).to.equal('2020-01-31');
-        expect(formatDate('2020-05-05', 'MMM DD, YYYY')).to.equal(
-          'May 05, 2020',
+        expect(formatDate('2020-01-31', DATE_TEMPLATE)).to.equal('2020-01-31');
+        expect(formatDate('2020-05-05', DATE_FORMAT)).to.equal('May 5, 2020');
+        expect(formatDate('2020-12-05', DATE_FORMAT_SHORT)).to.equal(
+          '12/05/2020',
         );
-        expect(formatDate('2020-12-05', 'DD/MM/YYYY')).to.equal('05/12/2020');
       });
       it('should return "Unknown" for invalid dates', () => {
         expect(formatDate(true)).to.equal('Unknown');
@@ -1010,7 +1013,7 @@ describe('526 v2 depends functions', () => {
         expect(
           formatDateRange(
             { from: '2020-01-31', to: '2020-02-14' },
-            'YYYY-MM-DD',
+            DATE_TEMPLATE,
           ),
         ).to.equal('2020-01-31 to 2020-02-14');
       });
@@ -1282,7 +1285,8 @@ describe('526 v2 depends functions', () => {
 
 describe('isExpired', () => {
   const getDays = days => ({
-    expiresAt: parseDate(daysFromToday(days)).unix(),
+    // in seconds from epoch as our backend uses that format
+    expiresAt: parseDate(daysFromToday(days)).getTime() / 1000,
   });
   it('should return true for dates that are invalid or in the past', () => {
     expect(isExpired('')).to.be.true;

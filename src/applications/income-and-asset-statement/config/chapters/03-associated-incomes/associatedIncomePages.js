@@ -99,7 +99,7 @@ export const options = {
           )}
         </ul>
       ),
-    reviewAddButtonText: 'Add another financial account',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your financial account information has been updated',
     alertItemDeleted: 'Your financial account information has been deleted',
     cancelAddTitle: 'Cancel adding this financial account',

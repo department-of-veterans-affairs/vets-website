@@ -1,8 +1,8 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 import defaultVitals from '../fixtures/vitals.json';
+import { dateFormatWithoutTimezone } from '../../util/dateHelpers';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -18,9 +18,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      moment
-        .parseZone(defaultVitals.entry[0].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[0].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${
         defaultVitals.entry[0].resource.component[1].valueQuantity.value
       }`,
@@ -30,9 +30,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      moment
-        .parseZone(defaultVitals.entry[10].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[10].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[10].resource.component[0].valueQuantity.value}/${
         defaultVitals.entry[10].resource.component[1].valueQuantity.value
       }`,
@@ -42,9 +42,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      moment
-        .parseZone(defaultVitals.entry[20].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[20].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[20].resource.component[0].valueQuantity.value}/${
         defaultVitals.entry[20].resource.component[1].valueQuantity.value
       }`,
@@ -54,9 +54,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      moment
-        .parseZone(defaultVitals.entry[30].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[30].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[30].resource.component[0].valueQuantity.value}/${
         defaultVitals.entry[30].resource.component[1].valueQuantity.value
       }`,

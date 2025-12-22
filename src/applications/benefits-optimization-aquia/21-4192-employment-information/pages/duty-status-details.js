@@ -42,6 +42,7 @@ export const dutyStatusDetailsUiSchema = {
       title: 'Current duty status',
       charcount: true,
       errorMessages: {
+        required: 'Current duty status is required',
         maxLength: 'Current duty status must be less than 500 characters',
       },
     }),
@@ -81,9 +82,11 @@ export const dutyStatusDetailsUiSchema = {
  */
 export const dutyStatusDetailsSchema = {
   type: 'object',
+  required: ['dutyStatusDetails'],
   properties: {
     dutyStatusDetails: {
       type: 'object',
+      required: ['currentDutyStatus', 'disabilitiesPreventDuties'],
       properties: {
         currentDutyStatus: {
           type: 'string',

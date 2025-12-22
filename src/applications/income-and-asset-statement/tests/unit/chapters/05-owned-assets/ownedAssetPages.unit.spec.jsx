@@ -247,25 +247,6 @@ describe('owned asset list and loop pages', () => {
       });
     });
 
-    describe('reviewAddButtonText function', () => {
-      it('should show updated content', () => {
-        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
-        expect(
-          options.text.reviewAddButtonText({
-            nounSingular: 'custom asset',
-          }),
-        ).to.eql('Add more property or business assets');
-      });
-      it('should show normal content', () => {
-        sandbox.stub(helpers, 'showUpdatedContent').returns(false);
-        expect(
-          options.text.reviewAddButtonText({
-            nounSingular: 'custom assets',
-          }),
-        ).to.eql('Add another custom assets');
-      });
-    });
-
     describe('cardDescription function', () => {
       /* eslint-disable no-unused-vars */
       const {
@@ -868,8 +849,8 @@ describe('owned asset list and loop pages', () => {
         schema,
         uiSchema,
         [
-          'va-text-input[label="Income recipient’s first name"]',
-          'va-text-input[label="Income recipient’s last name"]',
+          'va-text-input[label="Income recipient’s first or given name"]',
+          'va-text-input[label="Income recipient’s last or family name"]',
         ],
         'recipient',
       );
@@ -1046,6 +1027,15 @@ describe('owned asset list and loop pages', () => {
         const validation = uiSchema.uploadedDocuments['ui:validations'][0];
         const errors = { addError: sandbox.spy() };
         const fieldData = {};
+
+        validation(errors, fieldData);
+        expect(errors.addError.called).to.be.true;
+      });
+
+      it('should add an error when no file has error message', () => {
+        const validation = uiSchema.uploadedDocuments['ui:validations'][0];
+        const errors = { addError: sandbox.spy() };
+        const fieldData = { errorMessage: 'error' };
 
         validation(errors, fieldData);
         expect(errors.addError.called).to.be.true;

@@ -325,6 +325,33 @@ describe('Vitals list container with no vitals of a type', () => {
   });
 });
 
+describe('Vitals does not flash NoRecordsMessage before data loads', () => {
+  it('does not show NoRecordsMessage when vitalsList is undefined', () => {
+    const initialState = {
+      user,
+      mr: {
+        vitals: {
+          vitalsList: undefined, // Data not yet fetched
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vitals />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals',
+    });
+
+    // Should NOT show the no records message when data is undefined
+    expect(
+      screen.queryByText('There are no vitals in your VA medical records.', {
+        exact: true,
+      }),
+    ).to.not.exist;
+  });
+});
+
 describe('Vitals list container first time loading', () => {
   const initialState = {
     user,

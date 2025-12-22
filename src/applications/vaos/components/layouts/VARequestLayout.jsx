@@ -40,7 +40,7 @@ export default function VARequestLayout({ data: appointment }) {
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
   const preferredModality = appointment?.preferredModality;
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
 
   let heading = 'We have received your request';
   if (isPendingAppointment && !showConfirmMsg)
@@ -137,11 +137,7 @@ export default function VARequestLayout({ data: appointment }) {
           {facilityPhone && <FacilityPhone contact={facilityPhone} icon />}
           {!facilityPhone && <>Not available</>}
         </Section>
-        <Details
-          reason={reasonForAppointment}
-          otherDetails={patientComments}
-          request
-        />
+        <Details otherDetails={patientComments} request />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />

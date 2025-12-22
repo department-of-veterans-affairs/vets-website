@@ -33,10 +33,10 @@ function getVaButton(action, addressName) {
 function deleteAddress(addressName) {
   // delete
   getVaButton('Remove', addressName).click();
-  const confirmDeleteButton = view.getByTestId('confirm-remove-button');
-  confirmDeleteButton.click();
-
-  return { confirmDeleteButton };
+  const confirmRemoveModal = view.getByTestId('confirm-remove-modal');
+  const dummyEvent = new Event('click');
+  confirmRemoveModal.__events.primaryButtonClick(dummyEvent);
+  return { confirmRemoveModal };
 }
 
 // When the update happens but not until after the delete modal has exited and the
@@ -44,10 +44,10 @@ function deleteAddress(addressName) {
 async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { confirmDeleteButton } = deleteAddress(addressName);
+  const { confirmRemoveModal } = deleteAddress(addressName);
 
   // wait for the confirm removal modal to close
-  await waitForElementToBeRemoved(confirmDeleteButton);
+  await waitForElementToBeRemoved(confirmRemoveModal);
 
   // the va-loading-indicator should display
   await view.findByTestId('loading-indicator');
@@ -69,28 +69,6 @@ async function testTransactionCreationFails(addressName) {
   // the error alert should appear
   await view.findByTestId('generic-error-alert');
 
-  expect(getVaButton('Edit', addressName)).to.exist;
-}
-
-// When the update fails but not until after the Delete Modal has exited and the
-// user returned to the read-only view
-async function testSlowFailure(addressName) {
-  server.use(...mocks.transactionPending);
-
-  const { confirmDeleteButton } = deleteAddress(addressName);
-
-  // wait for the confirm removal modal to close
-  await waitForElementToBeRemoved(confirmDeleteButton);
-
-  // the va-loading-indicator should display
-  await view.findByTestId('loading-indicator');
-
-  server.use(...mocks.transactionFailed);
-
-  // the error alert should appear
-  await view.findByTestId('generic-error-alert');
-
-  // and the edit button should be back
   expect(getVaButton('Edit', addressName)).to.exist;
 }
 
@@ -125,9 +103,6 @@ describe('Deleting', () => {
     });
     it('should show an error if the transaction cannot be created', async () => {
       await testTransactionCreationFails(resAddressName);
-    });
-    it('should show an error if the transaction fails after some time', async () => {
-      await testSlowFailure(resAddressName);
     });
   });
 

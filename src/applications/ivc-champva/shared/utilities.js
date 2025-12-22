@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { fromUnixTime, endOfDay, isPast, isValid } from 'date-fns';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
+import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 // util to check if an in-progress form is expired
 export const isExpired = expiresAt => {
@@ -250,13 +251,14 @@ export function PrivWrappedReview(props) {
   const title = typeof props.title === 'function' ? props.title() : props.title;
   const ariaLabel = props?.uiSchema?.['ui:options']?.itemAriaLabel() ?? title;
   const editAriaLabel = `Edit ${ariaLabel}`;
+  const Heading = isMinimalHeaderApp() ? 'h3' : 'h4';
 
   return (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+        <Heading className="form-review-panel-page-header vads-u-font-size--h5">
           {privWrapper(title)}
-        </h4>
+        </Heading>
         <div className="vads-u-justify-content--flex-end">
           {props.defaultEditButton({ label: editAriaLabel })}
         </div>

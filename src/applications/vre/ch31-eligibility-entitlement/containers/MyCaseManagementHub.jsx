@@ -4,6 +4,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { fetchCh31CaseStatusDetails } from '../actions/ch31-my-eligibility-and-benefits';
 import HubCardList from '../components/HubCardList';
 import ApplicationDiscontinuedAlert from '../components/ApplicationDiscontinuedAlert';
+import NeedHelp from '../components/NeedHelp';
 
 const stepLabels = [
   'Application Received',
@@ -187,6 +188,10 @@ const MyCaseManagementHub = () => {
         </div>
 
         <HubCardList step={current} />
+
+        <div className="usa-width-two-thirds">
+          <NeedHelp />
+        </div>
       </div>
     </div>
   );

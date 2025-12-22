@@ -7,6 +7,21 @@ import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDepende
 import { isServerError, isClientError } from '../util';
 import { errorFragment, noDependentsAlertV2 } from './helpers';
 
+/**
+ * @typedef ViewDependentsLayoutProps
+ * @property {Boolean} error error status
+ * @property {Boolean} hasMinimumRating true if disability rating is 30 or higher
+ * @property {Boolean} loading loading state
+ * @property {Boolean} manageDependentsToggle feature toggle
+ * @property {Array} notOnAwardDependents list of inactive dependents
+ * @property {Array} onAwardDependents list of active dependents
+ */
+/**
+ * Renders view dependents page content
+ * List of view dependent Layout
+ * @param {ViewDependentsLayoutProps} props - Component props
+ * @returns {JSX.Element} View dependents page layout
+ */
 function ViewDependentsLayout(props) {
   let mainContent;
   let hasDependents = false;
@@ -23,8 +38,9 @@ function ViewDependentsLayout(props) {
   ) {
     mainContent = noDependentsAlertV2;
   } else {
-    // Don't show the alert if there are no on award dependents
-    hasDependents = props.onAwardDependents?.length > 0;
+    // Only show the alert if there are on award dependents AND a rating of 30+
+    hasDependents =
+      props.onAwardDependents?.length > 0 && props.hasMinimumRating;
     mainContent = (
       <ViewDependentsLists
         manageDependentsToggle={props.manageDependentsToggle}
@@ -65,6 +81,7 @@ function ViewDependentsLayout(props) {
 ViewDependentsLayout.propTypes = {
   dependentsToggle: PropTypes.bool,
   error: PropTypes.object,
+  hasMinimumRating: PropTypes.bool,
   loading: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,

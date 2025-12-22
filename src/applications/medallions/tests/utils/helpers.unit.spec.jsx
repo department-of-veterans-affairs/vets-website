@@ -105,10 +105,14 @@ describe('medallions/utils/helpers', () => {
 
   describe('isUserSignedIn', () => {
     it('should return true if isLoggedIn is true', () => {
-      expect(helpers.isUserSignedIn({ isLoggedIn: true })).to.be.true;
+      expect(
+        helpers.isUserSignedIn({ 'view:loginState': { isLoggedIn: true } }),
+      ).to.be.true;
     });
     it('should return false if isLoggedIn is false', () => {
-      expect(helpers.isUserSignedIn({ isLoggedIn: false })).to.be.false;
+      expect(
+        helpers.isUserSignedIn({ 'view:loginState': { isLoggedIn: false } }),
+      ).to.be.false;
     });
     it('should return undefined if formData is undefined', () => {
       expect(helpers.isUserSignedIn(undefined)).to.be.undefined;

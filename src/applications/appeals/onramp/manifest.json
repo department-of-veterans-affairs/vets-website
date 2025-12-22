@@ -2,6 +2,6 @@
   "appName": "Decision Reviews Onramp Tool",
   "entryFile": "./app-entry.jsx",
   "entryName": "onramp",
-  "rootUrl": "/decision-reviews/explore-disability-claim-decision-review-options",
+  "rootUrl": "/decision-reviews/explore-disability-claim-options",
   "productId": "76fd4ae2-68e4-45b5-bec2-71bffbc34462"
 }

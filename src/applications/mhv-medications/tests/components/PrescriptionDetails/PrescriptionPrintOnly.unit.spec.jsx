@@ -119,4 +119,58 @@ describe('Prescription print only container', () => {
 
     expect(screen.queryByText('Refill history')).to.not.exist;
   });
+
+  it('should hide "Not filled yet" when Cerner pilot is enabled and no dispense date', () => {
+    const rx = {
+      ...rxDetailsResponse.data.attributes,
+      sortedDispensedDate: null,
+      dispensedDate: null,
+    };
+
+    const initialState = {
+      featureToggles: {
+        /* eslint-disable camelcase */
+        mhv_medications_cerner_pilot: true,
+        /* eslint-enable camelcase */
+      },
+    };
+
+    const screen = renderWithStoreAndRouterV6(
+      <PrescriptionPrintOnly rx={rx} isDetailsRx={false} />,
+      {
+        initialState,
+        reducers: {},
+        initialEntries: ['/prescriptions/1234567891'],
+      },
+    );
+
+    expect(screen.queryByText('Not filled yet')).to.not.exist;
+  });
+
+  it('should show "Not filled yet" when Cerner pilot is disabled and no dispense date', () => {
+    const rx = {
+      ...rxDetailsResponse.data.attributes,
+      sortedDispensedDate: null,
+      dispensedDate: null,
+    };
+
+    const initialState = {
+      featureToggles: {
+        /* eslint-disable camelcase */
+        mhv_medications_cerner_pilot: false,
+        /* eslint-enable camelcase */
+      },
+    };
+
+    const screen = renderWithStoreAndRouterV6(
+      <PrescriptionPrintOnly rx={rx} isDetailsRx={false} />,
+      {
+        initialState,
+        reducers: {},
+        initialEntries: ['/prescriptions/1234567891'],
+      },
+    );
+
+    expect(screen.getByText('Not filled yet')).to.exist;
+  });
 });

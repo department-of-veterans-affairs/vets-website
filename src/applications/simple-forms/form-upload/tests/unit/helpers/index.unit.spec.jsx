@@ -21,32 +21,27 @@ import * as constants from '../../../config/constants';
 // All global.window.location assignments are skipped for node 22 upgrade
 describe('Helpers', () => {
   describe('getFormNumber', () => {
-    it.skip('returns correct path when formNumber matches', () => {
-      global.window.location = {
-        pathname: '/find-forms/upload/21-0779/upload',
-      };
-      expect(getFormNumber()).to.eq('21-0779');
+    it('returns correct path when formNumber matches', () => {
+      expect(getFormNumber('/forms/upload/21-0779/introduction')).to.eq(
+        '21-0779',
+      ); // ✅ Pass pathname
     });
 
-    it.skip('retains upper-case characters from formMappings', () => {
-      global.window.location = {
-        pathname: '/find-forms/upload/21p-0518-1/upload',
-      };
-      expect(getFormNumber()).to.eq('21P-0518-1');
+    it('retains upper-case characters from formMappings', () => {
+      expect(getFormNumber('/forms/upload/21p-0518-1/introduction')).to.eq(
+        '21P-0518-1',
+      );
     });
 
-    it.skip('returns empty string when formNumber does not match', () => {
-      global.window.location = {
-        pathname: 'find-forms/upload/fake-form/upload',
-      };
-      expect(getFormNumber()).to.eq('');
+    it('returns empty string when formNumber does not match', () => {
+      expect(getFormNumber('/forms/upload/fake-form/introduction')).to.eq('');
     });
   });
 
   describe('getFormContent', () => {
     it.skip('returns appropriate content when the form number is mapped', () => {
       global.window.location = {
-        pathname: 'find-forms/upload/21-0779/upload',
+        pathname: 'forms/upload/21-0779/introduction',
       };
       expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
     });

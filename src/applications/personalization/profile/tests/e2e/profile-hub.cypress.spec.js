@@ -8,7 +8,9 @@ import user from '../../mocks/endpoints/user';
 describe('Profile - Hub page', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    mockProfileLOA3(generateFeatureToggles());
+    mockProfileLOA3(
+      generateFeatureToggles({ profileHideHealthCareContacts: false }),
+    );
   });
 
   it('should render the correct content', () => {

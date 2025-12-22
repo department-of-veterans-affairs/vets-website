@@ -10,7 +10,7 @@ import {
   statementOfTruthFullName,
 } from '~/platform/forms/components/review/PreSubmitSection';
 import { autoSaveForm } from '~/platform/forms/save-in-progress/actions';
-import { $, focusElement } from '~/platform/forms-system/src/js/utilities/ui';
+import { scrollToFirstError } from '~/platform/forms-system/src/js/utilities/ui';
 
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
@@ -83,29 +83,11 @@ class SubmitController extends Component {
       this.props.setSubmission('hasAttemptedSubmit', true);
       this.props.setSubmission('timestamp', now);
       // <PreSubmitSection/> is displaying an error for this case
-      // focus on va-privacy-agreement[show-error],
-      // va-statement-of-truth with [input-error] or [checkbox-error], or
-      // any web component with an [error] (e.g., custom statement of truth in
-      // form 20-10207)
+      // Use scrollToFirstError for consistent focus handling across all error types
+      // Add setTimeout to prevent focus conflicts on button clicks
       setTimeout(() => {
-        const error = $(
-          [
-            'va-privacy-agreement[show-error]:not([show-error=""])',
-            'va-statement-of-truth[input-error]:not([input-error=""])',
-            'va-statement-of-truth[checkbox-error]:not([checkbox-error=""])',
-            '[error]:not([error=""])',
-          ].join(','),
-        );
-        if (
-          error?.tagName.startsWith('VA-') &&
-          formConfig?.formOptions?.focusOnAlertRole
-        ) {
-          const webComponent = $('[error]:not([error=""])', error?.shadowRoot);
-          focusElement('[role="alert"]', {}, webComponent?.shadowRoot);
-        } else {
-          focusElement(error);
-        }
-      });
+        scrollToFirstError();
+      }, 0);
       return;
     }
 

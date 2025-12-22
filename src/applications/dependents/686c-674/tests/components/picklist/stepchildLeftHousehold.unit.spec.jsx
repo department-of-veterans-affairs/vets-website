@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import stepchildLeftHousehold from '../../../components/picklist/stepchildLeftHousehold';
 
@@ -73,6 +73,38 @@ describe('stepchildLeftHousehold', () => {
       expect($('va-memorable-date', container).getAttribute('error')).to.equal(
         'Provide a date',
       );
+    });
+  });
+
+  it('should show error messages if a future date is entered', async () => {
+    const goForward = sinon.spy();
+    const futureDate = createDoB(0, -1); // 1 month in the future
+    const { container } = renderComponent({
+      formSubmitted: true,
+      goForward,
+      data: {
+        ...defaultData,
+        endDate: futureDate,
+        endCity: 'Test',
+        endState: 'AK',
+      },
+    });
+
+    $('va-memorable-date', container).__events.dateBlur({
+      target: {
+        name: 'endDate',
+        tagName: 'VA-MEMORABLE-DATE',
+        value: futureDate,
+      },
+    });
+
+    await fireEvent.submit($('form', container));
+
+    await waitFor(() => {
+      const errors = $$('[error]', container);
+      expect(errors.length).to.equal(1);
+      expect(errors[0].getAttribute('error')).to.equal('Enter a past date');
+      expect(goForward.notCalled).to.be.true;
     });
   });
 

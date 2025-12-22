@@ -76,6 +76,11 @@ export const SERVICE_PROVIDERS = {
   },
 };
 
+export const ACTIVE_SERVICE_PROVIDERS = {
+  [CSP_IDS.ID_ME]: SERVICE_PROVIDERS[CSP_IDS.ID_ME],
+  [CSP_IDS.LOGIN_GOV]: SERVICE_PROVIDERS[CSP_IDS.LOGIN_GOV],
+};
+
 export const AUTHN_SETTINGS = {
   RETURN_URL: 'authReturnUrl',
   REDIRECT_EVENT: 'login-auth-redirect',

@@ -64,6 +64,16 @@ const VitalListItem = props => {
 
   const url = `/vitals/${kebabCase(updatedRecordType)}-history`;
 
+  const detailLinkText = `Review your ${
+    displayName === 'Blood oxygen level (pulse oximetry)'
+      ? displayName
+          .toLowerCase()
+          .split(' ')
+          .slice(0, 3)
+          .join(' ')
+      : displayName.toLowerCase()
+  } over time`;
+
   return (
     <va-card
       class="record-list-item vads-u-border--0 vads-u-padding-left--0 vads-u-padding-top--1 mobile-lg:vads-u-padding-top--2"
@@ -123,17 +133,7 @@ const VitalListItem = props => {
               sendDataDogAction(ddLabelName);
             }}
           >
-            <strong>
-              Review your{' '}
-              {displayName === 'Blood oxygen level (pulse oximetry)'
-                ? displayName
-                    .toLowerCase()
-                    .split(' ')
-                    .slice(0, 3)
-                    .join(' ')
-                : displayName.toLowerCase()}{' '}
-              over time
-            </strong>
+            <strong>{detailLinkText}</strong>
             <span aria-hidden="true">
               <va-icon icon="navigate_next" size={1} />
             </span>

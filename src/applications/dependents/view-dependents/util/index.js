@@ -9,7 +9,7 @@ export const TITLE_SUFFIX = ' | Veteran Affairs';
 export async function getData(apiRoute, options) {
   try {
     const response = await apiRequest(apiRoute, options);
-    return response.data.attributes;
+    return response.data?.attributes ? response.data.attributes : response;
   } catch (error) {
     return error;
   }

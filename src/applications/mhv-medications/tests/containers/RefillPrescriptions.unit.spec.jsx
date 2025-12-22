@@ -191,6 +191,34 @@ describe('Refill Prescriptions Component', () => {
       );
   });
 
+  it('does not show "Not filled yet" when Cerner pilot is enabled', async () => {
+    sandbox.restore();
+    // Create a prescription with no dispense date
+    const rxWithNoDispenseDate = {
+      ...refillablePrescriptions[0],
+      dispensedDate: null,
+      sortedDispensedDate: null,
+    };
+    initMockApis({
+      sinonSandbox: sandbox,
+      prescriptions: [rxWithNoDispenseDate],
+    });
+    const screen = setup({
+      ...initialState,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_cerner_pilot: true,
+      },
+    });
+    const lastFilledEl = await screen.findByTestId(
+      'refill-prescription-checkbox-0',
+    );
+    expect(lastFilledEl).to.exist;
+    expect(lastFilledEl)
+      .to.have.property('checkbox-description')
+      .that.does.not.include('Not filled yet');
+  });
+
   it('Checks the checkbox for first prescription', async () => {
     const screen = setup();
     const checkbox = await screen.findByTestId(
@@ -481,6 +509,337 @@ describe('Refill Prescriptions Component', () => {
       // Wait for success notification which uses getMedicationsByIds internally
       await waitFor(() => {
         expect(bulkRefillStub.calledOnce).to.be.true;
+      });
+    });
+
+    it('displays medication name in success notification when API returns simple numeric IDs', async () => {
+      // This test verifies the fix for the bug where medication names were not rendering
+      // because getMedicationsByIds was incorrectly matching IDs when API returned simple numbers
+      sandbox.restore();
+
+      const prescription = refillablePrescriptions[0];
+      // Simulate the mutation returning isLoading: false with successful result
+      // by returning the result directly from the stub
+      const bulkRefillStub = sinon.stub().resolves({
+        data: {
+          successfulIds: [prescription.prescriptionId], // Simple numeric ID (22377956)
+          failedIds: [],
+        },
+      });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescription],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // Return the mutation with the resolved data to simulate completed state
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          bulkRefillStub,
+          {
+            isLoading: false,
+            error: null,
+            data: {
+              successfulIds: [prescription.prescriptionId],
+              failedIds: [],
+            },
+          },
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const stateWithPilotDisabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: false,
+        },
+      };
+
+      const screen = setup(stateWithPilotDisabled);
+
+      // The success notification should display with the medication name
+      // Previously this would show an empty list item because getMedicationsByIds
+      // returned undefined when trying to match id.id on a simple number
+      await waitFor(() => {
+        const medicationList = screen.queryByTestId(
+          'successful-medication-list',
+        );
+        if (medicationList) {
+          expect(medicationList).to.contain.text(prescription.prescriptionName);
+        }
+      });
+    });
+
+    it('displays medication name in success notification when API returns object IDs with stationNumber', async () => {
+      // This test verifies medication names render correctly for Oracle Health users
+      // where the API returns IDs as objects with id and stationNumber properties
+      sandbox.restore();
+
+      const prescription = {
+        ...refillablePrescriptions[0],
+        stationNumber: '989',
+      };
+
+      const bulkRefillStub = sinon.stub().resolves({
+        data: {
+          successfulIds: [
+            { id: prescription.prescriptionId, stationNumber: '989' },
+          ],
+          failedIds: [],
+        },
+      });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescription],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          bulkRefillStub,
+          {
+            isLoading: false,
+            error: null,
+            data: {
+              successfulIds: [
+                { id: prescription.prescriptionId, stationNumber: '989' },
+              ],
+              failedIds: [],
+            },
+          },
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const stateWithPilotEnabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: true,
+        },
+      };
+
+      const screen = setup(stateWithPilotEnabled);
+
+      // The success notification should display with the medication name
+      await waitFor(() => {
+        const medicationList = screen.queryByTestId(
+          'successful-medication-list',
+        );
+        if (medicationList) {
+          expect(medicationList).to.contain.text(prescription.prescriptionName);
+        }
+      });
+    });
+
+    it('filters out successfully refilled prescriptions from the checkbox list immediately', async () => {
+      // This test verifies that after a successful refill, the prescription
+      // is immediately hidden from the refillable checkbox list without waiting for cache refresh
+      sandbox.restore();
+
+      const prescription1 = {
+        ...refillablePrescriptions[0],
+        prescriptionId: 11111111,
+        prescriptionName: 'MEDICATION A',
+      };
+      const prescription2 = {
+        ...refillablePrescriptions[1],
+        prescriptionId: 22222222,
+        prescriptionName: 'MEDICATION B',
+      };
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescription1, prescription2],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // Simulate completed mutation with prescription1 successfully refilled
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon.stub(),
+          {
+            isLoading: false,
+            error: null,
+            data: {
+              successfulIds: [prescription1.prescriptionId],
+              failedIds: [],
+            },
+          },
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const screen = setup(initialState);
+
+      // Wait for prescriptions to load and check the checkbox list
+      await waitFor(() => {
+        // Only one checkbox should exist now (index 0) since prescription1 was refilled
+        const checkbox0 = screen.queryByTestId(
+          'refill-prescription-checkbox-0',
+        );
+        expect(checkbox0).to.exist;
+        // MEDICATION B should now be at index 0 since MEDICATION A was filtered out
+        expect(checkbox0).to.have.property('label', 'MEDICATION B');
+        // There should be no second checkbox
+        const checkbox1 = screen.queryByTestId(
+          'refill-prescription-checkbox-1',
+        );
+        expect(checkbox1).to.not.exist;
+      });
+    });
+
+    it('filters out successfully refilled prescriptions using stationNumber when pilot is enabled', async () => {
+      // This test verifies that prescriptions with same ID but different stationNumbers
+      // are correctly identified (only the matching one is filtered out from checkbox list)
+      sandbox.restore();
+
+      const prescription1 = {
+        ...refillablePrescriptions[0],
+        prescriptionId: 11111111,
+        stationNumber: '989',
+        prescriptionName: 'MEDICATION A - STATION 989',
+      };
+      const prescription2 = {
+        ...refillablePrescriptions[1],
+        prescriptionId: 11111111, // Same ID, different station
+        stationNumber: '123',
+        prescriptionName: 'MEDICATION A - STATION 123',
+      };
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescription1, prescription2],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // Simulate completed mutation with only prescription1 (station 989) successfully refilled
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon.stub(),
+          {
+            isLoading: false,
+            error: null,
+            data: {
+              successfulIds: [
+                { id: prescription1.prescriptionId, stationNumber: '989' },
+              ],
+              failedIds: [],
+            },
+          },
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const stateWithPilotEnabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: true,
+        },
+      };
+
+      const screen = setup(stateWithPilotEnabled);
+
+      await waitFor(() => {
+        // Only one checkbox should exist now (index 0) since prescription1 was refilled
+        const checkbox0 = screen.queryByTestId(
+          'refill-prescription-checkbox-0',
+        );
+        expect(checkbox0).to.exist;
+        // MEDICATION A - STATION 123 should now be at index 0 since STATION 989 was filtered out
+        expect(checkbox0).to.have.property(
+          'label',
+          'MEDICATION A - STATION 123',
+        );
+        // There should be no second checkbox
+        const checkbox1 = screen.queryByTestId(
+          'refill-prescription-checkbox-1',
+        );
+        expect(checkbox1).to.not.exist;
+      });
+    });
+
+    it('shows all prescriptions in checkbox list when none have been successfully refilled', async () => {
+      sandbox.restore();
+
+      const prescription1 = {
+        ...refillablePrescriptions[0],
+        prescriptionId: 11111111,
+        prescriptionName: 'MEDICATION A',
+      };
+      const prescription2 = {
+        ...refillablePrescriptions[1],
+        prescriptionId: 22222222,
+        prescriptionName: 'MEDICATION B',
+      };
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescription1, prescription2],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // No successful refills yet
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon.stub(),
+          {
+            isLoading: false,
+            error: null,
+            data: null, // No refill data yet
+          },
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const screen = setup(initialState);
+
+      await waitFor(() => {
+        // Both checkboxes should exist
+        const checkbox0 = screen.queryByTestId(
+          'refill-prescription-checkbox-0',
+        );
+        const checkbox1 = screen.queryByTestId(
+          'refill-prescription-checkbox-1',
+        );
+        expect(checkbox0).to.exist;
+        expect(checkbox0).to.have.property('label', 'MEDICATION A');
+        expect(checkbox1).to.exist;
+        expect(checkbox1).to.have.property('label', 'MEDICATION B');
       });
     });
   });

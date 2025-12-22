@@ -360,3 +360,21 @@ export const getIncompleteOwnedAssets = (
     hasBusiness: missingAssetTypes.includes('BUSINESS'),
   };
 };
+
+/**
+ * Determines whether to show the declined upload alert for owned assets.
+ *
+ * @param {Object} ownedAssets - The owned assets data.
+ * @returns {boolean} True if any farm or business asset declined upload or has no uploaded document.
+ */
+export const shouldShowDeclinedAlert = ownedAssets =>
+  ownedAssets?.some(item => {
+    const isFarmOrBusiness =
+      item?.assetType === 'FARM' || item?.assetType === 'BUSINESS';
+    const declinedUpload = item?.['view:addFormQuestion'] === false;
+    const saidYesButEmptyArray =
+      item?.['view:addFormQuestion'] === true &&
+      (!item?.uploadedDocuments || !item.uploadedDocuments.name);
+
+    return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
+  });

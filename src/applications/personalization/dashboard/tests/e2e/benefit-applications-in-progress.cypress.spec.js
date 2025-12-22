@@ -46,7 +46,7 @@ describe('The My VA Dashboard', () => {
       lastUpdated: 1611946775,
     },
     {
-      form: '686C-674',
+      form: '686C-674-V2',
       metadata: {
         version: 1,
         returnUrl: '/net-worth',

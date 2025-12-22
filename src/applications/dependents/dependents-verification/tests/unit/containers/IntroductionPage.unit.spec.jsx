@@ -8,7 +8,7 @@ import IntroductionPage from '../../../containers/IntroductionPage';
 const props = {
   route: {
     path: 'introduction',
-    pageList: [],
+    pageList: [{ path: 'test' }, { path: 'test2' }],
     formConfig,
   },
   userLoggedIn: false,

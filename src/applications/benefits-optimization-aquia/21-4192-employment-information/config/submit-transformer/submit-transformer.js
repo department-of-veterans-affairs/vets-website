@@ -198,9 +198,7 @@ const transformEmploymentInformation = data => {
     employerAddress,
     typeOfWorkPerformed: earningsHours.typeOfWork || '',
     beginningDateOfEmployment: formatDate(employmentDates.beginningDate),
-    endingDateOfEmployment: employmentDates.currentlyEmployed
-      ? null
-      : formatDate(employmentDates.endingDate),
+    endingDateOfEmployment: formatDate(employmentDates.endingDate),
     amountEarnedLast12MonthsOfEmployment: formatCurrency(
       earningsHours.amountEarned,
     ),

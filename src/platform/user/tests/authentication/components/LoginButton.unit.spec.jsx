@@ -1,5 +1,5 @@
 import React from 'react';
-import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
+import { ACTIVE_SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
@@ -10,7 +10,7 @@ import LoginButton, {
   loginHandler,
 } from 'platform/user/authentication/components/LoginButton';
 
-const csps = Object.values(SERVICE_PROVIDERS);
+const csps = Object.values(ACTIVE_SERVICE_PROVIDERS);
 
 describe('LoginButton', () => {
   it('should not render with a `csp`', () => {
@@ -27,7 +27,7 @@ describe('LoginButton', () => {
   it('should call the `loginHandler` function on click', () => {
     const loginHandlerSpy = sinon.spy();
     const wrapper = shallow(
-      <LoginButton csp="dslogon" onClick={loginHandlerSpy} />,
+      <LoginButton csp="idme" onClick={loginHandlerSpy} />,
     );
 
     wrapper.find('button').simulate('click');

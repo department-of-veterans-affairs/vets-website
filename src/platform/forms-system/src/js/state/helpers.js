@@ -1,3 +1,4 @@
+import React from 'react';
 import { dropRight, merge } from 'lodash';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import dataGet from '../../../../utilities/data/get';
@@ -464,8 +465,13 @@ function mergeUiSchemasIfDifferent(uiSchema, newUiSchema) {
         `Cannot update uiSchema property '${prop}' using updateUiSchema.`,
       );
     }
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      newValue = mergeUiSchemasIfDifferent(uiSchema[prop], newValue);
+    if (
+      value &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      !React.isValidElement(value)
+    ) {
+      newValue = mergeUiSchemasIfDifferent(uiSchema?.[prop], newValue);
     }
 
     if (updatedUiSchema[prop] !== newValue) {

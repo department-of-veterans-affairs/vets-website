@@ -71,7 +71,7 @@ describe('stepchildFinancialSupportExit', () => {
 
     expect(paragraphs.length).to.be.at.least(2);
     expect(paragraphs[0].textContent).to.include(
-      'Because you provide at least half ofNAOMI',
+      'Because you provide at least half of NAOMI',
     );
     expect(paragraphs[0].textContent).to.include('is an eligible dependent');
     expect(paragraphs[1].textContent).to.include(

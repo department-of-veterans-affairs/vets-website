@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../config/form';
-import { FinancialIntroductionPage } from '../../../definitions/financialIntroduction';
+import FinancialIntroductionPage from '../../../definitions/financialIntroduction';
 import { renderProviderWrappedComponent } from '../../helpers';
 
 describe('ezr FinancialIntroductionPage config', () => {

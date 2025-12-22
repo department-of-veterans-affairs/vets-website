@@ -8,7 +8,7 @@ describe('household income helpers', () => {
       const result = netWorthTitle({ featureFlag: false });
 
       expect(result).to.equal(
-        `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`,
+        `Did your household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`,
       );
     });
 
@@ -16,7 +16,7 @@ describe('household income helpers', () => {
       const result = netWorthTitle({});
 
       expect(result).to.equal(
-        `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`,
+        `Did your household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`,
       );
     });
 

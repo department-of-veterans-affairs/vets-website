@@ -11,7 +11,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { DEFAULT_BRANCH_LABELS } from 'platform/forms-system/src/js/web-component-patterns/serviceBranchPattern';
+import DEFAULT_BRANCH_LABELS from 'platform/forms-system/src/js/web-component-patterns/content/serviceBranch.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
 const formatDate = dateStr => {

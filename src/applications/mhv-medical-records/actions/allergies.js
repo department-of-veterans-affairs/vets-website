@@ -85,7 +85,7 @@ export const getAllergyDetails = (
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_allergies_getAllergyDetails');
   }
 };
 

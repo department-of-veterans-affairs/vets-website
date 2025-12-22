@@ -1,16 +1,17 @@
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
+import { fileInputMultipleSchema } from '~/platform/forms-system/src/js/web-component-patterns';
+import { burialUploadUI } from '../../../utils/upload';
+import { validateFileUploads } from '../../../utils/validation';
 import DeathCertificateUploadMessage from '../../../components/DeathCertificateUploadMessage';
 import { generateTitle } from '../../../utils/helpers';
-import { burialUploadUI } from '../../../utils/upload';
-
-const { files } = fullSchemaBurials.definitions;
 
 export default {
   uiSchema: {
     'ui:title': generateTitle('Death certificate'),
     'ui:description': DeathCertificateUploadMessage,
     deathCertificate: {
-      ...burialUploadUI('Upload the Veteran’s death certificate', {
+      ...burialUploadUI({
+        title: 'Upload the Veteran’s death certificate',
+        required: false,
         fileUploadNetworkErrorMessage:
           'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
         fileUploadNetworkErrorAlert: {
@@ -26,19 +27,7 @@ export default {
           hideAlertIfLoggedIn: true,
         },
       }),
-      'ui:required': form => {
-        const isClaimingBurialAllowance =
-          form['view:claimedBenefits']?.burialAllowance;
-        const serviceRequested =
-          form.burialAllowanceRequested?.service === true;
-        const locationIsVaMedicalCenter =
-          form.locationOfDeath?.location === 'vaMedicalCenter';
-        return !(
-          isClaimingBurialAllowance &&
-          serviceRequested &&
-          locationIsVaMedicalCenter
-        );
-      },
+      'ui:validations': [validateFileUploads({ required: false })],
       // Empty items object required for confirmation page
       items: {},
     },
@@ -46,10 +35,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      deathCertificate: {
-        ...files,
-        min: 1,
-      },
+      deathCertificate: fileInputMultipleSchema(),
     },
   },
 };

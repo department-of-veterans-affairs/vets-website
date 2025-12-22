@@ -272,6 +272,19 @@ describe('transformVAOSAppointment', () => {
     expect(transformedAppt.practitionerName).to.eq('First Middle Last');
   });
 
+  it('returns undefined practitionerName for empty practitioners array', () => {
+    MockDate.set('2025-01-15T15:00:00Z');
+    const apptWithEmptyPractitioners = {
+      ...appt,
+      practitioners: [],
+    };
+    const transformedAppt = transformVAOSAppointment(
+      apptWithEmptyPractitioners,
+    );
+
+    expect(transformedAppt.practitionerName).to.be.undefined;
+  });
+
   it('returns isOutOfBounds:true for appt more than 30 days old', () => {
     MockDate.set('2025-02-30T16:00:00Z');
 

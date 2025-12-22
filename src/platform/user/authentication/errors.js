@@ -49,7 +49,7 @@ export const AUTH_ERRORS = {
   },
   UUID_MISSING: {
     errorCode: '104',
-    message: `UUID Missing (Login.gov or ID.me)`,
+    message: `UUID Missing (ID.me or Login.gov)`,
   },
   MULTIPLE_CORPIDS: {
     errorCode: '106',

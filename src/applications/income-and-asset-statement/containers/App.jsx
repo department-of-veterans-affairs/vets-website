@@ -11,7 +11,17 @@ import { openReviewChapter as openReviewChapterAction } from 'platform/forms-sys
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert';
+import { shouldShowDeclinedAlert } from '../helpers';
 
+/**
+ * Render the 21P-0969 application
+ * @param {object} location - react router location object
+ * @param {JSX.Element} children - child components
+ * @param {boolean} isLoggedIn - user login status
+ * @param {boolean} isLoading - user loading status
+ * @param {object} featureToggles - feature toggles object
+ * @returns {JSX.Element} - rendered component
+ */
 function App({ location, children, isLoggedIn, openReviewChapter }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const incomeAndAssetsFormEnabled = useToggleValue(
@@ -26,6 +36,7 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     state => state?.featureToggles?.loading ?? false,
   );
   const assets = useSelector(state => state?.form?.data?.ownedAssets || []);
+  const trusts = useSelector(state => state?.form?.data?.trusts || []);
 
   const content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -66,13 +77,22 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     () => {
       if (location.pathname === '/review-and-submit') {
         const assetTypes = getAssetTypes(assets);
-        if (assets.length > 0 && assetTypes.length > 0) {
-          // auto-open "Property and business" accordion on review & submit page
+        if (
+          assets.length > 0 &&
+          assetTypes.length > 0 &&
+          shouldShowDeclinedAlert(assets)
+        ) {
           openReviewChapter('ownedAssets');
+        }
+        if (
+          trusts.length > 0 &&
+          trusts.some(trust => trust?.['view:addFormQuestion'] === false)
+        ) {
+          openReviewChapter('trusts');
         }
       }
     },
-    [location, assets, openReviewChapter],
+    [location.pathname, assets, trusts, openReviewChapter],
   );
 
   if (isLoadingFeatures) {

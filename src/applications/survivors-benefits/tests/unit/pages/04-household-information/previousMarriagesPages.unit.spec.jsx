@@ -525,4 +525,41 @@ describe('Previous marriages pages', () => {
     // Because last missing but first present, early return not triggered; suffix appended.
     expect(text.getItemName(firstSuffix)).to.equal('Eva III');
   });
+
+  it('cancels adding previous marriage confirmation texts are correct', () => {
+    const { text } = options;
+
+    expect(text.cancelAddTitle).to.equal(
+      'Cancel adding this previous marriage?',
+    );
+    expect(text.cancelAddDescription).to.equal(
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage.',
+    );
+    expect(text.cancelAddYes).to.equal('Yes, cancel adding');
+    expect(text.cancelAddNo).to.equal('No, continue adding');
+  });
+
+  it('cancels editing previous marriage confirmation texts are correct', () => {
+    const { text } = options;
+
+    expect(text.cancelEditTitle).to.equal(
+      'Cancel editing this previous marriage?',
+    );
+    expect(text.cancelEditDescription).to.equal(
+      'If you cancel, you’ll lose any changes you made to this previous marriage and you will be returned to the previous marriage review page.',
+    );
+    expect(text.cancelEditYes).to.equal('Yes, cancel editing');
+    expect(text.cancelEditNo).to.equal('No, continue editing');
+  });
+
+  it('delete titles and descriptions are set correctly', () => {
+    const { text } = options;
+
+    expect(text.deleteTitle).to.equal('Delete this previous marriage?');
+    expect(text.deleteDescription).to.equal(
+      'This will delete the information from your list of previous marriages. You’ll return to a page where you can add a new previous marriage.',
+    );
+    expect(text.deleteYes).to.equal('Yes, delete');
+    expect(text.deleteNo).to.equal('No, keep');
+  });
 });

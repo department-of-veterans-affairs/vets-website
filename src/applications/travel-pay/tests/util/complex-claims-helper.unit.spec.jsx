@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { getExpenseType, formatAmount } from '../../util/complex-claims-helper';
-import { EXPENSE_TYPES } from '../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../constants';
 
 describe('expense helpers', () => {
   describe('getExpenseType', () => {
@@ -25,11 +25,11 @@ describe('expense helpers', () => {
     });
 
     it('works for other valid expense types', () => {
-      expect(getExpenseType('Airtravel')).to.deep.equal(
-        EXPENSE_TYPES.Airtravel,
+      expect(getExpenseType('AirTravel')).to.deep.equal(
+        EXPENSE_TYPES[EXPENSE_TYPE_KEYS.AIRTRAVEL],
       );
-      expect(getExpenseType('Commoncarrier')).to.deep.equal(
-        EXPENSE_TYPES.Commoncarrier,
+      expect(getExpenseType('CommonCarrier')).to.deep.equal(
+        EXPENSE_TYPES[EXPENSE_TYPE_KEYS.COMMONCARRIER],
       );
     });
   });

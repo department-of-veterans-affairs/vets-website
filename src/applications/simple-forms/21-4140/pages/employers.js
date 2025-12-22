@@ -23,8 +23,16 @@ export const options = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
-  required: false,
-  isItemIncomplete: item => !item?.employerName || !item?.employmentDates?.from,
+  required: true,
+  isItemIncomplete: item =>
+    !item?.employerName ||
+    !item?.employerAddress ||
+    !item?.employmentDates?.from ||
+    !item?.employmentDates?.to ||
+    !item?.typeOfWork ||
+    !item?.hoursPerWeek ||
+    !item?.lostTimeFromIllness ||
+    !item?.highestGrossIncomePerMonth,
   maxItems: 4,
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
@@ -48,7 +56,23 @@ export const options = {
 };
 
 /**
- * Cards are populated on this page above the uiSchema if items are present
+ *
+ * @returns {PageSchema}
+ */
+const employersIntroPage = {
+  uiSchema: {
+    'ui:title': 'Employment Information',
+    'ui:description':
+      'Next we’ll gather details about your current or recent employment. Please provide information about any employers or self-employment in the past 12 months.',
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+/**
+ *
  *
  * @returns {PageSchema}
  */
@@ -97,13 +121,19 @@ const employerNameAndAddressPage = {
         title: 'Employer name',
         hint: 'If self-employed, enter "Self"',
         errorMessages: {
-          required: 'Enter name of employer',
+          required: "Enter the employer's name",
         },
         charcount: true,
       }),
     },
     employerAddress: addressUI({
       omit: ['street2', 'street3', 'isMilitary'],
+      errorMessages: {
+        country: "Select the employer's country.",
+        street: "Enter the employer's street address",
+        city: "Enter the employer's city",
+        postalCode: "Enter the employer's postal code",
+      },
     }),
   },
   schema: {
@@ -216,6 +246,14 @@ const employmentDetailsPage = {
 };
 
 export const employersPages = arrayBuilderPages(options, pageBuilder => ({
+  employersIntro: pageBuilder.introPage({
+    title: 'Employment Information',
+    path: 'employers-intro',
+    uiSchema: employersIntroPage.uiSchema,
+    schema: employersIntroPage.schema,
+
+    CustomPageReview: null,
+  }),
   employersSummary: pageBuilder.summaryPage({
     title:
       'Were you employed or self-employed at any time in the past 12 months?',

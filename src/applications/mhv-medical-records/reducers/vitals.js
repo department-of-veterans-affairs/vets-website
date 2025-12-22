@@ -207,9 +207,19 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_UNIFIED_LIST: {
       const oldList = state.vitalsList;
       const newList =
-        action.response.data?.map(vital => {
-          return convertUnifiedVital(vital);
-        }) || [];
+        action.response.data
+          ?.map(vital => {
+            return convertUnifiedVital(vital);
+          }) // Sort newest first using raw ISO timestamp; invalid/missing dates last
+          .sort((a, b) => {
+            const at = Date.parse(a.effectiveDateTime);
+            const bt = Date.parse(b.effectiveDateTime);
+            const ak = Number.isFinite(at) ? at : -Infinity;
+            const bk = Number.isFinite(bt) ? bt : -Infinity;
+            if (bk !== ak) return bk - ak;
+            // Optional stable tie-breaker by id to keep order deterministic
+            return String(a.id).localeCompare(String(b.id));
+          }) || [];
 
       return {
         ...state,

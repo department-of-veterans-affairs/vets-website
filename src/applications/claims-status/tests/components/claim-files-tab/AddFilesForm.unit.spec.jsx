@@ -8,15 +8,41 @@ import React from 'react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import sinon from 'sinon';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { Provider } from 'react-redux';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
+import { render } from '@testing-library/react';
 import {
   SUBMIT_TEXT,
-  SUBMIT_FILES_FOR_REVIEW_TEXT,
   SEND_YOUR_DOCUMENTS_TEXT,
   ANCHOR_LINKS,
 } from '../../../constants';
 
 import AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';
+
+// Helper to render AddFilesForm with router and redux
+const renderWithRouterAndRedux = (
+  element,
+  { initialState, initialEntries },
+) => {
+  const store = {
+    getState: () => initialState,
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+
+  return render(
+    <Provider store={store}>
+      <MemoryRouter initialEntries={initialEntries}>
+        <Routes>
+          <Route path="/track-claims/your-claims/:id/*" element={element} />
+        </Routes>
+      </MemoryRouter>
+    </Provider>,
+  );
+};
+
+// Default initial entries for router
+const defaultInitialEntries = ['/track-claims/your-claims/123/files'];
 
 // Updated props for va-file-input-multiple implementation
 const fileFormProps = {
@@ -36,13 +62,17 @@ describe('<AddFilesForm>', () => {
       },
     };
 
-    const { container } = renderInReduxProvider(
+    const { container } = renderWithRouterAndRedux(
       <AddFilesForm {...fileFormProps} />,
-      { initialState },
+      { initialState, initialEntries: defaultInitialEntries },
     );
 
     expect($('.add-files-form', container)).to.exist;
     expect($('va-file-input-multiple', container)).to.exist;
+
+    const submitButton = $('va-button', container);
+    expect(submitButton).to.exist;
+    expect(submitButton.getAttribute('text')).to.equal(SUBMIT_TEXT);
   });
 
   describe('cstShowDocumentUploadStatus is false', () => {
@@ -54,28 +84,18 @@ describe('<AddFilesForm>', () => {
       },
     };
 
-    it('should render submit button', () => {
-      const { container } = renderInReduxProvider(
-        <AddFilesForm {...fileFormProps} />,
-        { initialState },
-      );
-      const submitButton = $('va-button', container);
-      expect(submitButton).to.exist;
-      expect(submitButton.getAttribute('text')).to.equal(SUBMIT_TEXT);
-    });
-
     it('should render upload modal when uploading', () => {
-      const { container } = renderInReduxProvider(
+      const { container } = renderWithRouterAndRedux(
         <AddFilesForm {...fileFormProps} uploading />,
-        { initialState },
+        { initialState, initialEntries: defaultInitialEntries },
       );
       expect($('va-modal', container)).to.exist;
     });
 
     it('should include mail info additional info', () => {
-      const { container } = renderInReduxProvider(
+      const { container } = renderWithRouterAndRedux(
         <AddFilesForm {...fileFormProps} />,
-        { initialState },
+        { initialState, initialEntries: defaultInitialEntries },
       );
       // Check for the va-additional-info component
       const additionalInfo = $('va-additional-info', container);
@@ -91,9 +111,9 @@ describe('<AddFilesForm>', () => {
 
     it('should handle submit button click', () => {
       const onSubmit = sinon.spy();
-      const { container } = renderInReduxProvider(
+      const { container } = renderWithRouterAndRedux(
         <AddFilesForm {...fileFormProps} onSubmit={onSubmit} />,
-        { initialState },
+        { initialState, initialEntries: defaultInitialEntries },
       );
 
       const submitButton = $('va-button', container);
@@ -103,18 +123,18 @@ describe('<AddFilesForm>', () => {
     });
 
     it('should render updated file input section ui', () => {
-      const { getByText } = renderInReduxProvider(
+      const { getByText } = renderWithRouterAndRedux(
         <AddFilesForm {...fileFormProps} />,
-        { initialState },
+        { initialState, initialEntries: defaultInitialEntries },
       );
       getByText('Upload documents');
       getByText('If you have a document to upload, you can do that here.');
     });
 
     it('should not render heading section when it is rendered in file tab', () => {
-      const { queryByText } = renderInReduxProvider(
+      const { queryByText } = renderWithRouterAndRedux(
         <AddFilesForm {...fileFormProps} fileTab />,
-        { initialState },
+        { initialState, initialEntries: defaultInitialEntries },
       );
       expect(queryByText('Upload documents')).to.be.null;
       expect(
@@ -132,22 +152,13 @@ describe('<AddFilesForm>', () => {
       },
     };
 
-    it('should render submit button', () => {
-      const { container } = renderInReduxProvider(
-        <AddFilesForm {...fileFormProps} />,
-        { initialState },
-      );
-      const submitButton = $('va-button', container);
-      expect(submitButton).to.exist;
-      expect(submitButton.getAttribute('text')).to.equal(
-        SUBMIT_FILES_FOR_REVIEW_TEXT,
-      );
-    });
-
-    it('should render va-link with correct href and text rather than va-additional-info', () => {
-      const { container } = renderInReduxProvider(
-        <AddFilesForm {...fileFormProps} />,
-        { initialState },
+    it('should render va-link with anchor href when on files tab', () => {
+      const { container } = renderWithRouterAndRedux(
+        <AddFilesForm {...fileFormProps} fileTab />,
+        {
+          initialState,
+          initialEntries: ['/track-claims/your-claims/123/files'],
+        },
       );
       const additionalInfo = $('va-additional-info', container);
       expect(additionalInfo).to.be.null;
@@ -155,6 +166,27 @@ describe('<AddFilesForm>', () => {
       expect(vaLink).to.exist;
       expect(vaLink.getAttribute('href')).to.equal(
         `#${ANCHOR_LINKS.otherWaysToSendDocuments}`,
+      );
+      expect(vaLink.getAttribute('text')).to.equal(SEND_YOUR_DOCUMENTS_TEXT);
+    });
+
+    it('should render va-link with full path when on evidence request page', () => {
+      const claimId = '456';
+      const { container } = renderWithRouterAndRedux(
+        <AddFilesForm {...fileFormProps} />,
+        {
+          initialState,
+          initialEntries: [
+            `/track-claims/your-claims/${claimId}/needed-from-you/789`,
+          ],
+        },
+      );
+      const vaLink = $('va-link', container);
+      expect(vaLink).to.exist;
+      expect(vaLink.getAttribute('href')).to.equal(
+        `/track-claims/your-claims/${claimId}/files#${
+          ANCHOR_LINKS.otherWaysToSendDocuments
+        }`,
       );
       expect(vaLink.getAttribute('text')).to.equal(SEND_YOUR_DOCUMENTS_TEXT);
     });

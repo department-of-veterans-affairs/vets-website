@@ -108,6 +108,7 @@ export const Locators = {
     'recent-care-teams-continue-button',
   COMPOSE_RECIPIENT_TITLE: 'compose-recipient-title',
   COMPOSE_CATEGORY_DROPDOWN: 'compose-message-categories',
+  LOCKED_CATEGORY_DISPLAY: 'locked-category-display',
   INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
@@ -144,7 +145,7 @@ export const Locators = {
     MOVE: `#move-button`,
     TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
-    MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
+    MOVE_BUTTON_TEST_ID: 'move-button-text',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
     SEND_TEST_ID: 'send-button',

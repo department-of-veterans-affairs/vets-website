@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
+import { useSelector } from 'react-redux';
 import DetailCopayPage from './DetailCopayPage';
 import DetailPage from './DetailPage';
+import { showVHAPaymentHistory } from '../../combined/utils/helpers';
 
 const Details = ({ match, ...rest }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showNewDetailPage = useToggleValue(TOGGLE_NAMES.showCDPOneThingPerPage);
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
 
   if (!match?.params?.id) {
@@ -17,7 +19,7 @@ const Details = ({ match, ...rest }) => {
   }
   // DetailCopayPage is the updated page for OTPP and VHA payment history (lighthouse)
   // DetailPage is the legacy page
-  return showNewDetailPage || showVHAPaymentHistory ? (
+  return showNewDetailPage || shouldShowVHAPaymentHistory ? (
     <DetailCopayPage match={match} {...rest} />
   ) : (
     <DetailPage match={match} {...rest} />

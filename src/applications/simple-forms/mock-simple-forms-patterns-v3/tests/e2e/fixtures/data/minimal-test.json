@@ -26,6 +26,34 @@
     },
     "dateOfBirth": "1995-01-09",
     "view:hasEmployers": false,
+    "intHomePhone": {
+      "countryCode": "US",
+      "contact": "(234) 567-8910",
+      "callingCode": "1",
+      "isValid": true,
+      "error": null
+    },
+    "serviceBranch": "NOAA",
+    "uploadedFile": {
+      "name": "my_form.pdf",
+      "size": 12345,
+      "fileType": "application/pdf",
+      "confirmationCode": "7564298",
+      "additionalData": {
+        "documentStatus": "education"
+      }
+    },
+    "supportingDocuments": [
+      {
+        "name": "transcript.pdf",
+        "size": 12345,
+        "fileType": "application/pdf",
+        "confirmationCode": "174987",
+        "additionalData": {
+          "documentStatus": "private"
+        }
+      }
+    ],
     "treatmentRecords": [
       {
         "treatmentDates": {
@@ -41,7 +69,18 @@
           "city": "City",
           "state": "HI",
           "postalCode": "34343"
-        }
+        },
+        "supportingDocuments": [
+          {
+            "name": "xray.pdf",
+            "size": 12345,
+            "fileType": "application/pdf",
+            "confirmationCode": "343224",
+            "additionalData": {
+              "documentType": "xray"
+            }
+          }
+        ]
       },
       {
         "treatmentDates": {
@@ -57,7 +96,18 @@
           "city": "City",
           "state": "HI",
           "postalCode": "34343"
-        }
+        },
+        "supportingDocuments": [
+          {
+            "name": "xray-1.pdf",
+            "size": 12345,
+            "fileType": "application/pdf",
+            "confirmationCode": "349924",
+            "additionalData": {
+              "documentType": "xray"
+            }
+          }
+        ]
       }
     ]
   }

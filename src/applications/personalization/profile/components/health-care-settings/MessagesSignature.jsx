@@ -6,14 +6,17 @@ import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessagingSignature } from 'platform/user/profile/actions';
+import { isVAPatient } from '~/platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import Headline from '../ProfileSectionHeadline';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import MessagingSignature from '../personal-information/MessagingSignature';
+import NonVAPatientMessage from '../personal-health-care-contacts/NonVAPatientMessage';
 
 const MessageSignature = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const vaPatient = useSelector(isVAPatient);
   const userServices = useSelector(state => state.user.profile.services);
   const isMessagingServiceEnabled = userServices.includes(
     backendServices.MESSAGING,
@@ -68,19 +71,24 @@ const MessageSignature = () => {
   return (
     <>
       <Headline>Messages signature</Headline>
+      {vaPatient ? (
+        <>
+          <p>
+            You can add a signature to the messages you send to your health care
+            providers.
+          </p>
+          <p>
+            <VaLink
+              href="/my-health/secure-messages/inbox"
+              text="Review your messages in your inbox"
+            />
+          </p>
 
-      <p>
-        You can add a signature to the messages you send to your health care
-        providers.
-      </p>
-      <p>
-        <VaLink
-          href="/my-health/secure-messages/inbox"
-          text="Review your messages in your inbox"
-        />
-      </p>
-
-      <ProfileInfoSection data={cardFields} level={1} />
+          <ProfileInfoSection data={cardFields} level={1} />
+        </>
+      ) : (
+        <NonVAPatientMessage />
+      )}
     </>
   );
 };

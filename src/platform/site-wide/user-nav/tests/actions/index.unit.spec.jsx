@@ -17,7 +17,7 @@ describe('User Nav Actions', () => {
     let store;
     const oldLocation = global.window.location;
     const featureToggleNotEnabled = {
-      featureToggles: { signInServiceEnabled: false },
+      featureToggles: { cernerNonEligibleSisEnabled: false },
     };
 
     beforeEach(() => {

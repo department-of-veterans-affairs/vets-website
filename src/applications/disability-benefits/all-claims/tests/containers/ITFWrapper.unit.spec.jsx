@@ -10,7 +10,7 @@ import { ITFWrapper } from '../../containers/ITFWrapper';
 import { itfStatuses } from '../../constants';
 
 import { parseDate, parseDateWithTemplate } from '../../utils/dates';
-import { daysFromToday } from '../utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 
 const fetchITF = sinon.spy();
 const createITF = sinon.spy();

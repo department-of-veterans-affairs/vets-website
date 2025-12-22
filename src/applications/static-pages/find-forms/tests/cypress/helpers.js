@@ -32,7 +32,7 @@ export const goToPrevPage = () =>
 
 export const typeSearchTerm = (term = '') =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_INPUT)
     .should('exist')
@@ -44,7 +44,7 @@ export const typeSearchTerm = (term = '') =>
 
 export const clickSearch = () =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_SEARCH)
     .should('exist')
@@ -53,7 +53,7 @@ export const clickSearch = () =>
 
 export const focusSearchButton = () =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_SEARCH)
     .should('exist')
@@ -159,3 +159,20 @@ export const verifyTextInsideLink = (selector, text) =>
 
 export const verifyElementDoesNotExist = selector =>
   cy.get(selector).should('not.exist');
+
+export const waitForPageToLoad = () => {
+  // Wait for the main app container to be present
+  cy.get(APP, { timeout: 15000 }).should('exist');
+
+  // Wait for the search input to be present and ready
+  cy.get(FINDFORM_INPUT_ROOT, { timeout: 15000 })
+    .should('exist')
+    .and('be.visible');
+
+  // Wait for the shadow DOM to be ready
+  cy.get(FINDFORM_INPUT_ROOT)
+    .shadow()
+    .find(FINDFORM_INPUT, { timeout: 10000 })
+    .should('exist')
+    .and('be.visible');
+};

@@ -139,8 +139,8 @@ describe('<FileSubmissionsInProgress>', () => {
       expect(getAllByText('SUBMISSION IN PROGRESS')).to.have.lengthOf(2);
 
       // Check dates
-      expect(getByText('Submitted on January 15, 2024')).to.exist;
-      expect(getByText('Submitted on January 10, 2024')).to.exist;
+      expect(getByText('Submission started on January 15, 2024')).to.exist;
+      expect(getByText('Submission started on January 10, 2024')).to.exist;
     });
   });
 

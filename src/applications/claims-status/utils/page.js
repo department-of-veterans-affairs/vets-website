@@ -40,13 +40,12 @@ export function isTab(url) {
 export const focusNotificationAlert = () => {
   const alert = document.querySelector('.claims-alert');
   if (alert) {
-    setFocus(alert);
-    setTimeout(() => {
-      if (document.activeElement !== alert) {
-        setTimeout(() => {
-          setFocus(alert);
-        }, 150);
-      }
-    }, 0);
+    // Focus headline to preserve SHIFT+TAB navigation to alert's interactive elements
+    const headline = alert.querySelector('h2');
+    if (headline) {
+      setFocus(headline);
+    } else {
+      setFocus(alert);
+    }
   }
 };

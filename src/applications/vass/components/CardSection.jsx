@@ -25,7 +25,9 @@ export default function CardSection({
       {dateContent && (
         <>
           <DateTime dateTime={dateContent.dateTime} />
-          <AddToCalendarButton appointment={dateContent} />
+          {dateContent.showAddToCalendarButton && (
+            <AddToCalendarButton appointment={dateContent} />
+          )}
         </>
       )}
     </div>

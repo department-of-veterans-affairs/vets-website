@@ -677,7 +677,7 @@ describe('profile helpers:', () => {
         expect(presentableFormIDs[VA_FORM_IDS.FORM_21_4142]).to.equal(
           'FORM 21-4142',
         );
-        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_686C]).to.equal(
+        expect(presentableFormIDs[VA_FORM_IDS.FORM_21_686CV2]).to.equal(
           'FORM 686C-674',
         );
         expect(presentableFormIDs[VA_FORM_IDS.FORM_21P_0847]).to.equal(

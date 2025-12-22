@@ -6,7 +6,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { getData, mockFormData } from '../mocks/mockFormData';
 import separationConfig from '../../../pages/separation';
-import { timeServedTypes, timeServedLabels } from '../../../constants/benefits';
+import {
+  separationTypes,
+  separationTypeLabels,
+} from '../../../constants/benefits';
 
 describe('separation page', () => {
   let wrapper;
@@ -54,8 +57,8 @@ describe('separation page', () => {
   });
 
   it('should render the correct labels and values in radio select', () => {
-    const types = Object.values(timeServedTypes);
-    const labels = Object.values(timeServedLabels);
+    const types = Object.values(separationTypes);
+    const labels = Object.values(separationTypeLabels);
     for (let i = 0; i < types.length; i++) {
       const queryString = `va-radio-option[label='${labels[i]}'][value=${
         types[i]

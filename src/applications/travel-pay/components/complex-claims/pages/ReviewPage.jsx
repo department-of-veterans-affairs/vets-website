@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -26,6 +27,10 @@ const ReviewPage = () => {
   const expenses = useSelector(selectAllExpenses) ?? [];
   const documents = useSelector(selectAllDocuments) ?? [];
   const alertMessage = useSelector(selectReviewPageAlert);
+
+  const title = 'Your unsubmitted expenses';
+
+  useSetPageTitle(title);
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
@@ -78,7 +83,7 @@ const ReviewPage = () => {
 
   return (
     <div data-testid="review-page">
-      <h1>Your unsubmitted expenses</h1>
+      <h1>{title}</h1>
       {isAlertVisible && (
         <ReviewPageAlert
           header={alertMessage.title}
@@ -124,20 +129,9 @@ const ReviewPage = () => {
                 {Object.entries(totalByExpenseType)
                   .filter(([_, total]) => total > 0) // only show if total > 0
                   .map(([type, total]) => {
-                    const labelMap = {
-                      Mileage: EXPENSE_TYPES.Mileage.title,
-                      Parking: EXPENSE_TYPES.Parking.title,
-                      Toll: EXPENSE_TYPES.Toll.title,
-                      Commoncarrier: EXPENSE_TYPES.Commoncarrier.title,
-                      Airtravel: EXPENSE_TYPES.Airtravel.title,
-                      Lodging: EXPENSE_TYPES.Lodging.title,
-                      Meal: EXPENSE_TYPES.Meal.title,
-                      Other: EXPENSE_TYPES.Other.title,
-                    };
-
                     return (
                       <li key={type}>
-                        <strong>{labelMap[type] || type}</strong> $
+                        <strong>{EXPENSE_TYPES[type]?.title ?? type}</strong> $
                         {formatAmount(total)}
                       </li>
                     );
@@ -150,8 +144,9 @@ const ReviewPage = () => {
               </p>
               <p>
                 Before we can pay you back for expenses, you must pay a
-                deductible. The current deductible is $3 one-way or $6
-                round-trip for each appointment, up to $18 total each month.
+                deductible. The current deductible is <strong>$3</strong>{' '}
+                one-way or <strong>$6</strong> round-trip for each appointment.
+                You’ll pay no more than <strong>$18</strong> total each month.
               </p>
               <va-link
                 href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"

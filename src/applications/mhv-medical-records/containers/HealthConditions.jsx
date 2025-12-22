@@ -14,7 +14,6 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
-  CernerAlertContent,
   statsdFrontEndActions,
   loadStates,
 } from '../util/constants';
@@ -23,7 +22,6 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -94,10 +92,6 @@ const HealthConditions = () => {
         previous My HealtheVet experience.
       </p>
 
-      <AcceleratedCernerFacilityAlert
-        {...CernerAlertContent.HEALTH_CONDITIONS}
-      />
-
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.HEALTH_CONDITIONS}
@@ -144,14 +138,20 @@ const HealthConditions = () => {
             />
           </div>
         )}
-        {!isLoadingAcceleratedData && !isLoading && conditions?.length ? (
-          <RecordList
-            records={conditions}
-            type={recordType.HEALTH_CONDITIONS}
-          />
-        ) : (
-          <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
-        )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          conditions !== undefined && (
+            <>
+              {conditions?.length ? (
+                <RecordList
+                  records={conditions}
+                  type={recordType.HEALTH_CONDITIONS}
+                />
+              ) : (
+                <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </>
   );

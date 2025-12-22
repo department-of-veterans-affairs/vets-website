@@ -158,6 +158,38 @@ describe('RecentCareTeams component', () => {
       expect(loadingIndicator).to.exist;
       expect(loadingIndicator.getAttribute('message')).to.equal('Loading...');
     });
+
+    it('should not render main content when recentRecipients is undefined', () => {
+      const state = {
+        ...defaultState,
+        sm: {
+          ...defaultState.sm,
+          recipients: {
+            ...defaultState.sm.recipients,
+            recentRecipients: undefined,
+          },
+        },
+      };
+      renderComponent(state);
+
+      // Verify loading indicator is shown instead of main content
+      const loadingIndicator = document.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.exist;
+
+      // Verify h1 heading is NOT rendered
+      const heading = document.querySelector('h1');
+      expect(heading).to.not.exist;
+
+      // Verify radio options are NOT rendered
+      const radioGroup = document.querySelector('va-radio');
+      expect(radioGroup).to.not.exist;
+
+      // Verify continue button is NOT rendered
+      const continueButton = document.querySelector(
+        'va-button[text="Continue"]',
+      );
+      expect(continueButton).to.not.exist;
+    });
   });
 
   describe('Redux Integration', () => {
