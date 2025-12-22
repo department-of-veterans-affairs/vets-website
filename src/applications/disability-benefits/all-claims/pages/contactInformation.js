@@ -4,6 +4,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
@@ -30,11 +31,11 @@ import {
 //   STATE_VALUES,
 // } from '../constants';
 
-// import {
-//   validateMilitaryCity,
-//   validateMilitaryState,
-//   validateZIP,
-// } from '../validations';
+import {
+  // validateMilitaryCity,
+  // validateMilitaryState,
+  validateZIP,
+} from '../validations';
 
 const {
   // forwardingAddress,
@@ -135,14 +136,26 @@ export const uiSchema = {
     primaryPhone: phoneUI('Phone number'),
     emailAddress: emailUI(),
   },
-  mailingAddress: addressUI({
-    keys: {
-      street: 'addressLine1',
-      street2: 'addressLine2',
-      street3: 'addressLine3',
-      postalCode: 'zipCode',
+  mailingAddress: {
+    ...addressUI({
+      keys: {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        street3: 'addressLine3',
+        postalCode: 'zipCode',
+      },
+    }),
+    zipCode: {
+      'ui:title': 'Postal code',
+      'ui:webComponentField': VaTextInputField,
+      'ui:validations': [validateZIP],
+      'ui:options': {
+        hideIf: formData =>
+          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
+          formData.mailingAddress.country !== 'USA',
+      },
     },
-  }),
+  },
   'view:contactInfoDescription': {
     'ui:description': contactInfoUpdateHelpDescription,
   },
