@@ -23,7 +23,7 @@ const AlreadyScheduled = () => {
       testID="already-scheduled-page"
       pageTitle="You already scheduled your appointment with VA Solid Start"
     >
-      <p data-testid="already-scheduled-date-time">
+      <p id="appointment-date-time" data-testid="already-scheduled-date-time">
         Your VA Solid Start appointment is scheduled for{' '}
         {format(appointmentDate, 'MM/dd/yyyy')} at{' '}
         {format(appointmentDate, 'hh:mm a')}.
@@ -36,6 +36,7 @@ const AlreadyScheduled = () => {
       <va-link-action
         href={`/cancel-appointment/${appointmentData.appointmentId}`}
         text="Cancel this appointment"
+        aria-labelledby="appointment-date-time"
         type="secondary"
         data-testid="already-scheduled-cancel-button"
       />
