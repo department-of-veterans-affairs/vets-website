@@ -217,7 +217,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'common carrier',
     title: 'Public transportation, taxi, or rideshare',
     route: 'common-carrier',
-    apiRoute: 'commoncarrier',
+    apiRoute: 'common_carrier',
   },
   [EXPENSE_TYPE_KEYS.AIRTRAVEL]: {
     addButtonText: 'air travel',
