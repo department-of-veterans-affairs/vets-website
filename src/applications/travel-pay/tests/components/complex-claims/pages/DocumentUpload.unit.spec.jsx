@@ -9,7 +9,6 @@ describe('DocumentUpload component', () => {
   const defaultProps = {
     currentDocument: null,
     handleDocumentChange: () => {},
-    loading: false,
     uploadError: '',
   };
 
@@ -18,14 +17,6 @@ describe('DocumentUpload component', () => {
 
     expect(container.querySelector('va-file-input')).to.exist;
     expect(container.querySelector('va-additional-info')).to.exist;
-  });
-
-  it('shows loading indicator when loading is true', () => {
-    const { queryByTestId } = render(
-      <DocumentUpload {...defaultProps} loading />,
-    );
-
-    expect(queryByTestId('travel-pay-document-loading-indicator')).to.exist;
   });
 
   it('calls handleDocumentChange when a file is selected', async () => {
