@@ -32,6 +32,7 @@ import {
   selectExpenseCreationLoadingState,
   selectExpenseWithDocument,
   selectDocumentDeleteLoadingState,
+  selectExpenseFetchLoadingState,
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
@@ -79,6 +80,9 @@ const ExpensePage = () => {
   const isUpdatingExpense = useSelector(selectExpenseUpdateLoadingState);
   const isCreatingExpense = useSelector(selectExpenseCreationLoadingState);
   const isDeletingDocument = useSelector(selectDocumentDeleteLoadingState);
+  const isFetchingExpense = useSelector(
+    state => (isEditMode ? selectExpenseFetchLoadingState(state) : false),
+  );
 
   // Refs
   const initialFormStateRef = useRef({});
@@ -201,14 +205,11 @@ const ExpensePage = () => {
           if (isMounted) {
             hasLoadedExpenseRef.current = true;
             dispatch(fetchExpenseSuccess(expenseId));
+            setIsDocumentLoading(false);
           }
         } catch (err) {
           // Failed to fetch expense or document
           dispatch(fetchExpenseFailure(err?.toString() ?? '', expenseId));
-        } finally {
-          if (isMounted) {
-            setIsDocumentLoading(false);
-          }
         }
       };
 
@@ -299,10 +300,10 @@ const ExpensePage = () => {
   // Field names must match those expected by the expenses_controller in vets-api.
   // The controller converts them to forwards them unchanged to the API.
   const REQUIRED_FIELDS = {
-    Meal: ['vendorName'],
-    Lodging: ['vendor', 'checkInDate', 'checkOutDate'],
-    Commoncarrier: ['carrierType', 'reasonNotUsingPOV'],
-    Airtravel: [
+    [EXPENSE_TYPE_KEYS.MEAL]: ['vendorName'],
+    [EXPENSE_TYPE_KEYS.LODGING]: ['vendor', 'checkInDate', 'checkOutDate'],
+    [EXPENSE_TYPE_KEYS.COMMONCARRIER]: ['carrierType', 'reasonNotUsingPOV'],
+    [EXPENSE_TYPE_KEYS.AIRTRAVEL]: [
       'vendorName',
       'tripType',
       'departureDate',
@@ -563,129 +564,136 @@ const ExpensePage = () => {
       </h1>
 
       <p>{pageDescription}</p>
-      <DocumentUpload
-        loading={isFetchingDocument}
-        currentDocument={expenseDocument}
-        handleDocumentChange={handleDocumentChange}
-        uploadError={extraFieldErrors.receipt || uploadError || undefined}
-      />
-      {isMeal && (
-        <ExpenseMealFields
-          formState={formState}
-          onChange={handleFormChange}
-          errors={extraFieldErrors}
-        />
-      )}
-      {isLodging && (
-        <ExpenseLodgingFields
-          formState={formState}
-          onChange={handleFormChange}
-          errors={extraFieldErrors}
-        />
-      )}
-      {isCommonCarrier && (
-        <ExpenseCommonCarrierFields
-          formState={formState}
-          onChange={handleFormChange}
-          errors={extraFieldErrors}
-        />
-      )}
-      {isAirTravel && (
-        <ExpenseAirTravelFields
-          formState={formState}
-          onChange={handleFormChange}
-          errors={extraFieldErrors}
-        />
-      )}
-      <VaDate
-        label="Date on receipt"
-        name="purchaseDate"
-        value={formState.purchaseDate || ''}
-        required
-        hint={dateHintText}
-        // Needed since we need to remove errors on change
-        onDateChange={e => {
-          handleFormChange(e);
-          validateReceiptDate(
-            e.detail.target?.value,
-            DATE_VALIDATION_TYPE.CHANGE,
-            setExtraFieldErrors,
-          );
-        }}
-        onDateBlur={e =>
-          validateReceiptDate(
-            e.detail.target?.value,
-            DATE_VALIDATION_TYPE.BLUR,
-            setExtraFieldErrors,
-          )
-        }
-        {...extraFieldErrors.purchaseDate && {
-          error: extraFieldErrors.purchaseDate,
-        }}
-      />
+      {isFetchingDocument ||
+      isFetchingExpense ||
+      (isEditMode && !hasLoadedExpenseRef.current) ? (
+        <va-loading-indicator message="Loading expense details..." set-focus />
+      ) : (
+        <>
+          <DocumentUpload
+            currentDocument={expenseDocument}
+            handleDocumentChange={handleDocumentChange}
+            uploadError={extraFieldErrors.receipt || uploadError || undefined}
+          />
+          {isMeal && (
+            <ExpenseMealFields
+              formState={formState}
+              onChange={handleFormChange}
+              errors={extraFieldErrors}
+            />
+          )}
+          {isLodging && (
+            <ExpenseLodgingFields
+              formState={formState}
+              onChange={handleFormChange}
+              errors={extraFieldErrors}
+            />
+          )}
+          {isCommonCarrier && (
+            <ExpenseCommonCarrierFields
+              formState={formState}
+              onChange={handleFormChange}
+              errors={extraFieldErrors}
+            />
+          )}
+          {isAirTravel && (
+            <ExpenseAirTravelFields
+              formState={formState}
+              onChange={handleFormChange}
+              errors={extraFieldErrors}
+            />
+          )}
+          <VaDate
+            label="Date on receipt"
+            name="purchaseDate"
+            value={formState.purchaseDate || ''}
+            required
+            hint={dateHintText}
+            // Needed since we need to remove errors on change
+            onDateChange={e => {
+              handleFormChange(e);
+              validateReceiptDate(
+                e.detail.target?.value,
+                DATE_VALIDATION_TYPE.CHANGE,
+                setExtraFieldErrors,
+              );
+            }}
+            onDateBlur={e =>
+              validateReceiptDate(
+                e.detail.target?.value,
+                DATE_VALIDATION_TYPE.BLUR,
+                setExtraFieldErrors,
+              )
+            }
+            {...extraFieldErrors.purchaseDate && {
+              error: extraFieldErrors.purchaseDate,
+            }}
+          />
 
-      <div className="currency-input-wrapper vads-u-margin-top--2">
-        <span className="currency-symbol">$</span>
-        <VaTextInput
-          className="currency-input-field"
-          label="Amount requested"
-          name="costRequested"
-          value={formState.costRequested || ''}
-          required
-          show-input-error
-          inputmode="decimal"
-          pattern="^[0-9]*(\.[0-9]{0,2})?$"
-          onInput={handleFormChange}
-          onBlur={handleAmountBlur}
-          hint="Enter the amount as dollars and cents. For example, 8.42"
-          {...extraFieldErrors.costRequested && {
-            error: extraFieldErrors.costRequested,
-          }}
-        />
-      </div>
-      <div className="vads-u-margin-top--2">
-        <VaTextarea
-          label="Description"
-          name="description"
-          value={formState.description || ''}
-          required
-          hint="5-2,000 characters allowed"
-          onBlur={e =>
-            validateDescription(
-              e.target.value,
-              setExtraFieldErrors,
-              DATE_VALIDATION_TYPE.BLUR,
-            )
-          }
-          onInput={handleFormChange}
-          {...extraFieldErrors.description && {
-            error: extraFieldErrors.description,
-          }}
-        />
-      </div>
-      {!isEditMode && (
-        <VaButton
-          secondary
-          text="Cancel adding this expense"
-          onClick={handleOpenCancelModal}
-          className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
-        />
+          <div className="currency-input-wrapper vads-u-margin-top--2">
+            <span className="currency-symbol">$</span>
+            <VaTextInput
+              className="currency-input-field"
+              label="Amount requested"
+              name="costRequested"
+              value={formState.costRequested || ''}
+              required
+              show-input-error
+              inputmode="decimal"
+              pattern="^[0-9]*(\.[0-9]{0,2})?$"
+              onInput={handleFormChange}
+              onBlur={handleAmountBlur}
+              hint="Enter the amount as dollars and cents. For example, 8.42"
+              {...extraFieldErrors.costRequested && {
+                error: extraFieldErrors.costRequested,
+              }}
+            />
+          </div>
+          <div className="vads-u-margin-top--2">
+            <VaTextarea
+              label="Description"
+              name="description"
+              value={formState.description || ''}
+              required
+              hint="5-2,000 characters allowed"
+              onBlur={e =>
+                validateDescription(
+                  e.target.value,
+                  setExtraFieldErrors,
+                  DATE_VALIDATION_TYPE.BLUR,
+                )
+              }
+              onInput={handleFormChange}
+              {...extraFieldErrors.description && {
+                error: extraFieldErrors.description,
+              }}
+            />
+          </div>
+          {!isEditMode && (
+            <VaButton
+              secondary
+              text="Cancel adding this expense"
+              onClick={handleOpenCancelModal}
+              className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
+            />
+          )}
+          <TravelPayButtonPair
+            continueText={isEditMode ? 'Save and continue' : 'Continue'}
+            backText={isEditMode ? 'Cancel' : 'Back'}
+            className={isEditMode ? 'vads-u-margin-top--2' : ''}
+            onBack={handleBack}
+            onContinue={handleContinue}
+            loading={isLoadingExpense}
+          />
+          <CancelExpenseModal
+            visible={isCancelModalVisible}
+            onCloseEvent={handleCloseCancelModal}
+            onPrimaryButtonClick={handleConfirmCancel}
+            onSecondaryButtonClick={handleCloseCancelModal}
+            isEditMode={isEditMode}
+          />
+        </>
       )}
-      <TravelPayButtonPair
-        continueText={isEditMode ? 'Save and continue' : 'Continue'}
-        backText={isEditMode ? 'Cancel' : 'Back'}
-        className={isEditMode ? 'vads-u-margin-top--2' : ''}
-        onBack={handleBack}
-        onContinue={handleContinue}
-        loading={isLoadingExpense}
-      />
-      <CancelExpenseModal
-        visible={isCancelModalVisible}
-        onCloseEvent={handleCloseCancelModal}
-        onPrimaryButtonClick={handleConfirmCancel}
-        onSecondaryButtonClick={handleCloseCancelModal}
-        isEditMode={isEditMode}
-      />
     </>
   );
 };
