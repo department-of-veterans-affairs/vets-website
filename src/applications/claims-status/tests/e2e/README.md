@@ -10,6 +10,8 @@
 tests/
 ├── claim-letters/       # Claim letters page tests
 ├── details/             # Detail page tests
+│   ├── appeals/         # Appeals detail page tests
+│   └── claims/          # Claims detail page tests
 ├── shared/              # Cross-cutting tests (loading states, etc.)
 └── your-claims/         # List page tests
 
@@ -21,7 +23,7 @@ support/
 │   └── stemClaims.js    # STEM claim data for /v0/education_benefits_claims/stem_claim_status
 └── helpers/             # Reusable test utilities
     ├── mocks.js         # API mocking (mockFeatureToggles)
-    ├── setup.js         # Test setup (setupClaimTest)
+    ├── setup.js         # Test setup (setupClaimTest, setupAppealTest)
     └── assertions.js    # Common assertions
 ```
 
@@ -126,6 +128,19 @@ describe('Feature flag: cstShowDocumentUploadStatus', () => {
 });
 ```
 
+#### Permanently Enabled Flags
+
+The following flags are permanently enabled in production and should **not** have "disabled" tests.
+
+- `claim_letters_access`
+- `cst_claim_phases`
+- `cst_include_ddl_5103_letters`
+- `cst_include_ddl_boa_letters`
+- `cst_timezone_discrepancy_mitigation`
+- `stem_automated_decision`
+
+These are set as defaults in `support/helpers/mocks.js` via `mockFeatureToggles()`.
+
 ### Path Constants
 
 Define path constants at the top of test files for reusable URL segments:
@@ -137,6 +152,15 @@ const NEEDED_FROM_OTHERS_PATH = 'needed-from-others/123456';
 // Usage
 setupClaimTest({ claim: createBenefitsClaim(), path: OVERVIEW_PATH });
 ```
+
+### Syntax Notes
+
+Minor preferences for consistency:
+
+- **`findByText` doesn't need `.should('be.visible')`** - visibility check is built-in
+- **Prefer full text match over regex** - use regex only when text contains dynamic values
+- **Minimal fixture props** - only expose parameters that tests actually vary
+- **Flatten single-it contexts** - if a `context()` has only one `it()`, merge the condition into the `it()` description
 
 ## Code Coverage
 
@@ -172,21 +196,22 @@ open coverage/index.html
 | Initial                                                                               | 75.07   | 62.43    | 82.86   | 75.13   |
 | [First PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40123) | 76.58   | 64.54    | 83.61   | 76.62   |
 | [Second PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40467) | 78.94   | 69.34    | 85.33   | 78.88   |
+| [Third PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40825) | 80.13   | 70.10    | 86.22   | 80.09   |
+| [Fourth PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40909) | 81.68   | 73.36    | 87.54   | 81.64   |
+
 
 ### Next Priority
 
-| Priority | File                       | Before % | After % | Uncovered Lines               |
-| -------- | -------------------------- | -------- | ------- | ----------------------------- |
-| 1        | appeals-v2-helpers.jsx     | 25.11    |         | 1974-1976,2012,2046,2059-2065 |
-| 2        | Docket.jsx                 | 0        |         | 44-234                        |
-| 3        | AppealsV2StatusPage.jsx    | 52.94    |         | 64-72,86-87                   |
-| 4        | Decision.jsx               | 53.84    |         | 12,15,43,57                   |
-| 5        | FilesWeCouldntReceive.jsx  | 0        |         | 20-203                        |
-| 6        | Standard5103NoticePage.jsx | 0        |         | 20-86                         |
-| 7        | StemClaimStatusPage.jsx    | 0        |         | 15-88                         |
-| 8        | StemDeniedDetails.jsx      | 0        |         | 14-225                        |
-| 9        | ClosedClaimAlert.jsx       | 40       |         | 8-26                          |
-| 10       | helpers.js                 | 68.46    |         | 1491-1493,1498,1520,1529,1560 |
+| Priority | File                       | Branch % | Uncovered Lines                     |
+| -------- | -------------------------- | -------- | ----------------------------------- |
+| 1        | appeals-v2-helpers.jsx     | 27.96    | 1646-1965,1984-1986,2022,2056,2069  |
+| 2        | Decision.jsx               | 53.84    | 12,15,43,57                         |
+| 3        | AppealsV2StatusPage.jsx    | 64.70    | 64-72,86-87                         |
+| 4        | helpers.js                 | 68.53    | 1493-1495,1500,1522,1531,1562,1620  |
+| 5        | FilesReceived.jsx          | 82.22    | 29,54,100                           |
+| 6        | Standard5103NoticePage.jsx | 0        | 20-86                               |
+| 7        | StemClaimStatusPage.jsx    | 0        | 15-88                               |
+| 8        | StemDeniedDetails.jsx      | 0        | 15-221                              |
 
 ## Reference
 
