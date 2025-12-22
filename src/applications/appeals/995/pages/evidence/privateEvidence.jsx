@@ -13,7 +13,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { getAddOrEditMode, getSelectedIssues } from '../../utils/evidence';
-import Authorization from '../../components/4142/Authorization';
+import Authorization from '../../components/4142/AuthorizationNew';
 import {
   EVIDENCE_URLS,
   PRIVATE_EVIDENCE_KEY,
