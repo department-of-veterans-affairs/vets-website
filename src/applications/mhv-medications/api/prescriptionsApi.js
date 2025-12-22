@@ -287,7 +287,9 @@ export const prescriptionsApi = createApi({
           }
         }
       },
-      invalidatesTags: ['Prescription'],
+      // Note: We intentionally don't invalidate tags here because the UI filters out
+      // successfully refilled prescriptions immediately. This avoids an extra API call.
+      // The cache will naturally refresh when the user navigates away and back.
       transformResponse: response => {
         return {
           successfulIds: response?.successfulIds || [],

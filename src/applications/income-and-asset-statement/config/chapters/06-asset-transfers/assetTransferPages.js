@@ -106,7 +106,7 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another asset transfer',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your asset transfer information has been updated',
     alertItemDeleted: 'Your asset transfer information has been deleted',
     cancelAddTitle: 'Cancel adding this asset transfer',

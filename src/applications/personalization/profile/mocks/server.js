@@ -40,6 +40,7 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 const contacts = require('../tests/fixtures/contacts.json');
+const vamcEhr = require('../tests/fixtures/vamc-ehr.json');
 // const contactsSingleEc = require('../tests/fixtures/contacts-single-ec.json');
 // const contactsSingleNok = require('../tests/fixtures/contacts-single-nok.json');
 
@@ -120,10 +121,12 @@ const responses = {
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
             profileSchedulingPreferences: true,
+            profileHideHealthCareContacts: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
             vreCutoverNotice: true,
+            vrePrefillName: true,
             mhvEmailConfirmation: true,
           }),
         ),
@@ -426,6 +429,7 @@ const responses = {
     // Return the transaction immediately - status will be checked via status endpoint
     return res.json(initializationTransaction);
   },
+  'GET /data/cms/vamc-ehr.json': vamcEhr,
   'GET /v0/profile/communication_preferences': (req, res) => {
     if (req?.query?.error === 'true') {
       return res.status(500).json(genericErrors.error500);

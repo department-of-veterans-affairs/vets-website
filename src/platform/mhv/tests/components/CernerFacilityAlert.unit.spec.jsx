@@ -37,7 +37,7 @@ describe('CernerFacilityAlert', () => {
             },
           },
         },
-        CernerAlertContent.LABS_AND_TESTS,
+        CernerAlertContent.MEDICATIONS,
       );
 
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
@@ -59,7 +59,7 @@ describe('CernerFacilityAlert', () => {
     it('renders alert with single facility text', () => {
       const screen = setup(
         stateWithOneFacility,
-        CernerAlertContent.LABS_AND_TESTS,
+        CernerAlertContent.MEDICATIONS,
       );
 
       expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
@@ -70,16 +70,19 @@ describe('CernerFacilityAlert', () => {
 
     it('displays correct domain text in body', () => {
       const screen = setup(stateWithOneFacility, {
-        ...CernerAlertContent.LABS_AND_TESTS,
+        ...CernerAlertContent.MEDICATIONS,
       });
 
       const bodyText = screen.getByTestId('single-cerner-facility-text')
         .textContent;
-      expect(bodyText).to.include('medical records');
+      expect(bodyText).to.include('medications');
     });
 
     it('displays facility name in bold', () => {
-      const screen = setup(stateWithOneFacility, CernerAlertContent.VACCINES);
+      const screen = setup(
+        stateWithOneFacility,
+        CernerAlertContent.MEDICATIONS,
+      );
 
       const facilityElement = screen.getByText('VA Spokane health care');
       expect(facilityElement.tagName).to.equal('STRONG');
@@ -104,7 +107,7 @@ describe('CernerFacilityAlert', () => {
     it('renders alert with list of facilities', () => {
       const screen = setup(
         stateWithMultipleFacilities,
-        CernerAlertContent.VITALS,
+        CernerAlertContent.MEDICATIONS,
       );
 
       expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
@@ -115,7 +118,7 @@ describe('CernerFacilityAlert', () => {
     it('displays all facility names', () => {
       const screen = setup(
         stateWithMultipleFacilities,
-        CernerAlertContent.ALLERGIES,
+        CernerAlertContent.MEDICATIONS,
       );
 
       expect(screen.getByText('VA Spokane health care')).to.exist;
@@ -125,7 +128,7 @@ describe('CernerFacilityAlert', () => {
     it('displays correct plural text for multiple facilities', () => {
       const screen = setup(
         stateWithMultipleFacilities,
-        CernerAlertContent.CARE_SUMMARIES_AND_NOTES,
+        CernerAlertContent.MEDICATIONS,
       );
 
       const headingText = screen.getAllByText(/these facilities/i);
@@ -169,13 +172,20 @@ describe('CernerFacilityAlert', () => {
     });
 
     it('has proper security attributes', () => {
-      const screen = setup(
-        stateWithFacility,
-        CernerAlertContent.LABS_AND_TESTS,
-      );
+      const screen = setup(stateWithFacility, CernerAlertContent.MEDICATIONS);
 
       const link = screen.getByTestId('cerner-facility-action-link');
       expect(link.getAttribute('rel')).to.equal('noopener noreferrer');
+    });
+
+    it('does not render yellow alert when domain is mhv-landing-page', () => {
+      const screen = setup(
+        stateWithFacility,
+        CernerAlertContent.MHV_LANDING_PAGE,
+      );
+
+      // Yellow alert should be suppressed on MHV landing page
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
     });
   });
 
@@ -219,15 +229,14 @@ describe('CernerFacilityAlert', () => {
       },
     };
 
-    // TODO: how to test custom classnames
-    it.skip('adds extra margin when apiError is true', () => {
+    it('adds extra margin when apiError is true', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
         apiError: true,
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      expect(alert.classname).to.include('vads-u-margin-top--2');
+      expect(alert.getAttribute('class')).to.include('vads-u-margin-top--2');
     });
   });
 
@@ -244,21 +253,20 @@ describe('CernerFacilityAlert', () => {
     };
 
     it('has warning status', () => {
-      const screen = setup(stateWithFacility, CernerAlertContent.VITALS);
+      const screen = setup(stateWithFacility, CernerAlertContent.MEDICATIONS);
 
       const alert = screen.getByTestId('cerner-facilities-alert');
       expect(alert.getAttribute('status')).to.equal('warning');
     });
 
-    // TODO: Need to investigate, not quite right
-    it.skip('applies custom className', () => {
+    it('applies custom className', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.VACCINES,
+        ...CernerAlertContent.MEDICATIONS,
         className: 'custom-test-class',
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      expect(alert.className).to.include('custom-test-class');
+      expect(alert.getAttribute('class')).to.include('custom-test-class');
     });
   });
 
@@ -305,18 +313,18 @@ describe('CernerFacilityAlert', () => {
   });
 
   describe('info alert behavior', () => {
-    it('renders the info alert when userFacilityReadyForInfoAlert flag is true', () => {
-      const stateWithFacility = {
-        ...initialState,
-        user: {
-          profile: {
-            facilities: [{ facilityId: '668', isCerner: true }],
-            userAtPretransitionedOhFacility: true,
-            userFacilityReadyForInfoAlert: true,
-          },
+    const stateWithFacility = {
+      ...initialState,
+      user: {
+        profile: {
+          facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: true,
         },
-      };
+      },
+    };
 
+    it('renders the info alert when userFacilityReadyForInfoAlert flag is true', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
       });
@@ -325,10 +333,79 @@ describe('CernerFacilityAlert', () => {
       const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
       expect(infoAlert).to.exist;
       expect(infoAlert.getAttribute('status')).to.equal('info');
+      // Trigger should use the provided infoAlertActionPhrase from props
       expect(infoAlert.getAttribute('trigger')).to.equal(
-        'You can now manage your health care for all VA facilities right here',
+        `You can now ${
+          CernerAlertContent.MEDICATIONS.infoAlertActionPhrase
+        } for all VA facilities right here`,
       );
       expect(screen.getByTestId('cerner-facility-info-text')).to.exist;
+    });
+
+    it('adds margin class when apiError is true on info alert', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+        apiError: true,
+      });
+
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      expect(infoAlert.getAttribute('class')).to.include(
+        'vads-u-margin-top--2',
+      );
+    });
+
+    it('uses infoAlertHeadline when provided (Secure Messaging)', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.SECURE_MESSAGING,
+      });
+
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      expect(infoAlert).to.exist;
+      // When infoAlertHeadline is supplied, the trigger should exactly match it
+      expect(infoAlert.getAttribute('trigger')).to.equal(
+        CernerAlertContent.SECURE_MESSAGING.infoAlertHeadline,
+      );
+    });
+
+    it('displays composed text with infoAlertText when provided (Medications)', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      expect(infoText.textContent).to.include(
+        `We've brought all your VA health care data together so you can manage your care in one place.`,
+      );
+      expect(infoText.textContent).to.include(
+        CernerAlertContent.MEDICATIONS.infoAlertText,
+      );
+    });
+
+    it('displays composed text with infoAlertText when provided (Secure Messaging)', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.SECURE_MESSAGING,
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      expect(infoText.textContent).to.include(
+        `We've brought all your VA health care data together so you can manage your care in one place.`,
+      );
+      expect(infoText.textContent).to.include(
+        CernerAlertContent.SECURE_MESSAGING.infoAlertText,
+      );
+    });
+
+    it('displays only base text when infoAlertText is not provided', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MHV_LANDING_PAGE,
+        domain: 'test-domain', // Override domain to allow alert to render
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      const baseText = `We've brought all your VA health care data together so you can manage your care in one place.`;
+      expect(infoText.textContent).to.include(baseText);
+      // Verify no additional text is appended after the base message
+      expect(infoText.textContent).to.include('Still want to use My VA Health');
     });
   });
 });
