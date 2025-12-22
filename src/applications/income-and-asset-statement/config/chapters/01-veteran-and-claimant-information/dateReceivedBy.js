@@ -5,7 +5,7 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Reporting period',
+  title: 'Initial application or receiving benefits',
   path: 'claimant/has-reporting-period',
   uiSchema: {
     title: 'Reporting period',

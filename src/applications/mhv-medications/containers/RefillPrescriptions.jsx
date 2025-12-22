@@ -46,7 +46,7 @@ const RefillPrescriptions = () => {
     error: refillableError,
   } = useGetRefillablePrescriptionsQuery();
 
-  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
 
   const [
     bulkRefillPrescriptions,
@@ -121,7 +121,29 @@ const RefillPrescriptions = () => {
   } = useAcceleratedData();
 
   // Get refillable list from RTK Query result
-  const fullRefillList = refillableData?.prescriptions || [];
+  // Filter out successfully refilled prescriptions to provide immediate UI feedback
+  const fullRefillList = useMemo(
+    () => {
+      const prescriptions = refillableData?.prescriptions || [];
+      if (!successfulMeds || successfulMeds.length === 0) {
+        return prescriptions;
+      }
+      // Create a Set of composite keys (prescriptionId + stationNumber) for efficient lookup
+      // Station numbers are needed for Oracle Health pilot where prescriptions
+      // are identified by both prescriptionId and stationNumber
+      const successfulKeys = new Set(
+        successfulMeds.map(
+          med => `${med.prescriptionId}-${med.stationNumber || ''}`,
+        ),
+      );
+      return prescriptions.filter(
+        rx =>
+          !successfulKeys.has(`${rx.prescriptionId}-${rx.stationNumber || ''}`),
+      );
+    },
+    [refillableData?.prescriptions, successfulMeds],
+  );
+
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
       isAcceleratingAllergies,
@@ -146,7 +168,7 @@ const RefillPrescriptions = () => {
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => {
-        if (isOracleHealthPilot) {
+        if (isCernerPilot) {
           return { id: rx.prescriptionId, stationNumber: rx.stationNumber };
         }
         return rx.prescriptionId;
@@ -227,6 +249,26 @@ const RefillPrescriptions = () => {
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
+
+  const getCheckboxDescription = prescription => {
+    let lastFilledText = '';
+    if (prescription.sortedDispensedDate || prescription.dispensedDate) {
+      lastFilledText = `Last filled on ${dateFormat(
+        prescription.sortedDispensedDate || prescription.dispensedDate,
+        DATETIME_FORMATS.longMonthDate,
+      )}`;
+    } else if (!isCernerPilot) {
+      lastFilledText = 'Not filled yet';
+    }
+    const descriptionLines = [
+      `Prescription number: ${prescription.prescriptionNumber}`,
+    ];
+    if (lastFilledText) {
+      descriptionLines.push(lastFilledText);
+    }
+    descriptionLines.push(`${prescription.refillRemaining} refills left`);
+    return descriptionLines.join('\n');
+  };
 
   const content = () => {
     if (isLoading || isRefilling) {
@@ -330,20 +372,9 @@ const RefillPrescriptions = () => {
                         }
                         onVaChange={() => onSelectPrescription(prescription)}
                         uswds
-                        checkbox-description={`Prescription number: ${
-                          prescription.prescriptionNumber
-                        }
-                        ${
-                          prescription.sortedDispensedDate ||
-                          prescription.dispensedDate
-                            ? `Last filled on ${dateFormat(
-                                prescription.sortedDispensedDate ||
-                                  prescription.dispensedDate,
-                                DATETIME_FORMATS.longMonthDate,
-                              )}`
-                            : 'Not filled yet'
-                        }
-                        ${prescription.refillRemaining} refills left`}
+                        checkbox-description={getCheckboxDescription(
+                          prescription,
+                        )}
                       />
                     </div>
                   ))}

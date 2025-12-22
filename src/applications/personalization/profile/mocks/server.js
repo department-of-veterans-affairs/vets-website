@@ -121,6 +121,7 @@ const responses = {
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
             profileSchedulingPreferences: true,
+            profileHideHealthCareContacts: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
