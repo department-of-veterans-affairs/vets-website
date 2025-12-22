@@ -108,8 +108,8 @@ App.propTypes = {
   location: PropTypes.object.isRequired,
   setFormData: PropTypes.func.isRequired,
   canApply: PropTypes.bool,
-  getCoeMock: PropTypes.func,
   formData: PropTypes.object,
+  getCoeMock: PropTypes.func,
   isLoading: PropTypes.bool,
   showCoe: PropTypes.bool,
 };
