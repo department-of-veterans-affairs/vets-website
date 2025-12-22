@@ -7,7 +7,7 @@ import {
   useFeatureToggle,
   Toggler,
 } from '~/platform/utilities/feature-toggles';
-import PaymentsCard from './PaymentsCard';
+import PaymentsCardLegacy from './PaymentsCardLegacy';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import { canAccess } from '../../../common/selectors';
@@ -121,7 +121,7 @@ const BenefitPaymentsLegacy = ({
         {lastPayment && (
           <>
             <DashboardWidgetWrapper>
-              <PaymentsCard lastPayment={lastPayment} />
+              <PaymentsCardLegacy lastPayment={lastPayment} />
             </DashboardWidgetWrapper>
             <Toggler
               toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}

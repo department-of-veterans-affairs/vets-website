@@ -206,7 +206,10 @@ const frequencyPage = {
       title: 'How often do you make this payment?',
       labels: careFrequencyLabels,
     }),
-    paymentAmount: currencyUI('How much is each payment?'),
+    paymentAmount: currencyUI({
+      title: 'How much is each payment?',
+      max: 999999.99,
+    }),
   },
   schema: {
     type: 'object',

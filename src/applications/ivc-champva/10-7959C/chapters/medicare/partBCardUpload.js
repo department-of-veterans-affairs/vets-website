@@ -1,27 +1,38 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { createCardUploadSchema } from '../../../shared/components/fileUploads/genericCardUpload';
+import {
+  descriptionUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import MedicarePartBDescription from '../../components/FormDescriptions/MedicarePartBDescription';
+import MedicareCardDescription from '../../components/FormDescriptions/MedicareCardDescription';
+import { attachmentUI, singleAttachmentSchema } from '../../definitions';
+import { ATTACHMENT_IDS } from '../../utils/constants';
+import content from '../../locales/en/content.json';
 
-const { uiSchema, schema } = createCardUploadSchema({
-  frontProperty: 'applicantMedicarePartBFrontCard',
-  backProperty: 'applicantMedicarePartBBackCard',
-  frontImageSrc: '/img/ivc-champva/part_b_card_front_high_res.png',
-  backImageSrc: '/img/ivc-champva/medicare_back_high_res.png',
-  frontAltText:
-    'Red, white, and blue Medicare card. It states “Medicare Health Insurance” and lists the Medicare number and coverage dates for Part B medical coverage.',
-  backAltText:
-    'Back of a red, white, and blue Medicare card. Includes card usage instructions and the Medicare phone number and website.',
-  cardTitle: 'Sample of Medicare Part B card',
-  frontLabel: 'Upload front of Part B Medicare card',
-  backLabel: 'Upload back of Part B Medicare card',
-  frontAttachmentId: 'Front of Medicare Parts A or B card',
-  backAttachmentId: 'Back of Medicare Parts A or B card',
-});
+const TITLE_TEXT = content['medicare--part-b-card-title'];
+const INPUT_LABELS = {
+  cardFront: content['medicare--part-b-card-label--front'],
+  cardBack: content['medicare--part-b-card-label--back'],
+};
 
 export default {
   uiSchema: {
-    ...titleUI('Upload Medicare Part B card', MedicarePartBDescription),
-    ...uiSchema,
+    ...titleUI(TITLE_TEXT, MedicarePartBDescription),
+    ...descriptionUI(MedicareCardDescription({ variant: 'partB' })),
+    medicarePartBFrontCard: attachmentUI({
+      label: INPUT_LABELS.cardFront,
+      attachmentId: ATTACHMENT_IDS.medicareAbCardFront,
+    }),
+    medicarePartBBackCard: attachmentUI({
+      label: INPUT_LABELS.cardBack,
+      attachmentId: ATTACHMENT_IDS.medicareAbCardBack,
+    }),
   },
-  schema,
+  schema: {
+    type: 'object',
+    required: ['medicarePartBFrontCard', 'medicarePartBBackCard'],
+    properties: {
+      medicarePartBFrontCard: singleAttachmentSchema,
+      medicarePartBBackCard: singleAttachmentSchema,
+    },
+  },
 };

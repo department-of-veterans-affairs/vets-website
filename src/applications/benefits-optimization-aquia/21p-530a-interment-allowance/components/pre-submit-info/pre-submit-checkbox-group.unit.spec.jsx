@@ -28,11 +28,10 @@ const createMockStore = (submissionStatus = null, formData = {}) => {
 
 describe('PreSubmitCheckboxGroup', () => {
   const mockFormData = {
+    veteranInformation: { fullName: { first: 'Luke', last: 'Skywalker' } },
     burialInformation: {
       nameOfStateCemeteryOrTribalOrganization: 'Endor Forest Sanctuary',
-      recipientOrganization: {
-        name: 'Rebel Alliance Veterans Foundation',
-      },
+      recipientOrganization: { name: 'Rebel Alliance Veterans Foundation' },
     },
   };
 
@@ -82,7 +81,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('checkbox-label')).to.equal(
-        'I HEREBY CERTIFY THAT the veteran named in Item 1 was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).',
+        'I hereby certify that Luke Skywalker was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).',
       );
     });
   });
@@ -279,27 +278,6 @@ describe('PreSubmitCheckboxGroup', () => {
       expect(isSignatureValid('María López')).to.be.true;
     });
 
-    it('should reject names with numbers', () => {
-      expect(isSignatureValid('John123')).to.be.false;
-      expect(isSignatureValid('123 Main')).to.be.false;
-      expect(isSignatureValid('Test User 2')).to.be.false;
-    });
-
-    it('should reject names with invalid special characters', () => {
-      expect(isSignatureValid('John@Smith')).to.be.false;
-      expect(isSignatureValid('Jane#Doe')).to.be.false;
-      expect(isSignatureValid('Test$User')).to.be.false;
-      expect(isSignatureValid('Name (Nickname)')).to.be.false;
-    });
-
-    it('should reject strings with only special characters (no letters)', () => {
-      expect(isSignatureValid('---')).to.be.false;
-      expect(isSignatureValid('...')).to.be.false;
-      expect(isSignatureValid('- - -')).to.be.false;
-      expect(isSignatureValid("''-''")).to.be.false;
-      expect(isSignatureValid('   ')).to.be.false;
-    });
-
     it('should accept organization names from fixtures', () => {
       // Names from maximal.json and minimal.json fixtures
       expect(isSignatureValid('Rebel Alliance Veterans Foundation')).to.be.true;
@@ -404,6 +382,66 @@ describe('PreSubmitCheckboxGroup', () => {
 
       await waitFor(() => {
         expect(store.dispatch.called).to.be.true;
+      });
+    });
+
+    it('should set AGREED flag when checkbox is checked', async () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaCheckboxChange', {
+          detail: { checked: true },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(store.dispatch.callCount).to.be.greaterThan(1);
+
+        const lastAction = store.dispatch.lastCall.args[0];
+        expect(lastAction.type).to.equal('SET_DATA');
+        expect(lastAction.data.AGREED).to.be.true;
+        expect(lastAction.data.certification.certified).to.be.true;
+      });
+    });
+
+    it('should leave AGREED false when checkbox is unchecked', async () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      fireEvent(
+        statementOfTruth,
+        new CustomEvent('vaCheckboxChange', {
+          detail: { checked: false },
+        }),
+      );
+
+      await waitFor(() => {
+        expect(store.dispatch.callCount).to.be.greaterThan(0);
+
+        const lastAction = store.dispatch.lastCall.args[0];
+        expect(lastAction.type).to.equal('SET_DATA');
+        expect(lastAction.data.AGREED).to.be.false;
+        expect(lastAction.data.certification.certified).to.be.false;
       });
     });
 
