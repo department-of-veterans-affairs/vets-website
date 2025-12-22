@@ -9,14 +9,14 @@ import {
 describe('addressPattern mapping functions', () => {
   describe('addressUI', () => {
     it('should return UI schema with mapped field keys', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         street2: 'addressLine2',
         street3: 'addressLine3',
         postalCode: 'zipCode',
       };
 
-      const result = addressUI({ newSchemaKeys });
+      const result = addressUI({ keys });
 
       // Should have mapped keys instead of standard keys
       expect(result).to.have.property('addressLine1');
@@ -38,12 +38,12 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should preserve field configurations when mapping keys', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
 
-      const result = addressUI({ newSchemaKeys });
+      const result = addressUI({ keys });
 
       // Check that field configurations are preserved
       expect(result.addressLine1).to.have.property('ui:required');
@@ -56,11 +56,11 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should handle partial key mapping correctly', () => {
-      const newSchemaKeys = {
+      const keys = {
         postalCode: 'zipCode',
       };
 
-      const result = addressUI({ newSchemaKeys });
+      const result = addressUI({ keys });
 
       // Should have mapped key
       expect(result).to.have.property('zipCode');
@@ -74,13 +74,13 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should respect omit option with standard keys', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         street2: 'addressLine2',
       };
 
       const result = addressUI({
-        newSchemaKeys,
+        keys,
         omit: ['street3', 'isMilitary'],
       });
 
@@ -94,7 +94,7 @@ describe('addressPattern mapping functions', () => {
       expect(result).to.not.have.property('isMilitary');
     });
 
-    it('should work with no newSchemaKeys provided', () => {
+    it('should work with no keys provided', () => {
       const result = addressUI({});
 
       // Should return standard keys when no mapping provided
@@ -108,12 +108,12 @@ describe('addressPattern mapping functions', () => {
       expect(result).to.have.property('isMilitary');
     });
     it('should omit using mapped field names in omit array', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
       };
 
       const result = addressUI({
-        newSchemaKeys,
+        keys,
         omit: ['addressLine1'], // Omit using the mapped name
       });
 
@@ -123,7 +123,7 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should pass through other options to base addressUI', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
       };
 
@@ -132,7 +132,7 @@ describe('addressPattern mapping functions', () => {
         militaryCheckbox: 'Custom Military Label',
       };
 
-      const result = addressUI({ newSchemaKeys, labels });
+      const result = addressUI({ keys, labels });
 
       // Check that labels are applied correctly
       expect(result.addressLine1['ui:title']).to.equal('Custom Street Label');
@@ -141,8 +141,8 @@ describe('addressPattern mapping functions', () => {
   });
 
   describe('addressSchema with key mapping', () => {
-    describe('without key mapping (newSchemaKeys empty)', () => {
-      it('should return standard schema when no newSchemaKeys provided', () => {
+    describe('without key mapping (keys empty)', () => {
+      it('should return standard schema when no keys provided', () => {
         const result = addressSchema();
 
         expect(result).to.have.property('type', 'object');
@@ -156,7 +156,7 @@ describe('addressPattern mapping functions', () => {
         expect(result.properties).to.have.property('country');
         expect(result.properties).to.have.property('isMilitary');
       });
-      it('should omit specified fields when omit array provided and no newSchemaKeys', () => {
+      it('should omit specified fields when omit array provided and no keys', () => {
         const result = addressSchema({ omit: ['street2', 'street3'] });
 
         // Should have standard fields except omitted ones
@@ -182,16 +182,16 @@ describe('addressPattern mapping functions', () => {
       });
     });
 
-    describe('with key mapping (newSchemaKeys provided)', () => {
-      it('should map field keys when newSchemaKeys provided', () => {
-        const newSchemaKeys = {
+    describe('with key mapping (keys provided)', () => {
+      it('should map field keys when keys provided', () => {
+        const keys = {
           street: 'addressLine1',
           street2: 'addressLine2',
           street3: 'addressLine3',
           postalCode: 'zipCode',
         };
 
-        const result = addressSchema({ newSchemaKeys });
+        const result = addressSchema({ keys });
 
         // Should have mapped keys
         expect(result.properties).to.have.property('addressLine1');
@@ -213,12 +213,12 @@ describe('addressPattern mapping functions', () => {
       });
 
       it('should preserve property configurations when mapping keys', () => {
-        const newSchemaKeys = {
+        const keys = {
           street: 'addressLine1',
           postalCode: 'zipCode',
         };
 
-        const result = addressSchema({ newSchemaKeys });
+        const result = addressSchema({ keys });
 
         // Check that property definitions are preserved
         expect(result.properties.addressLine1).to.have.property(
@@ -235,7 +235,7 @@ describe('addressPattern mapping functions', () => {
       });
 
       it('should apply omit filtering with mapped keys', () => {
-        const newSchemaKeys = {
+        const keys = {
           street: 'addressLine1',
           street2: 'addressLine2',
           street3: 'addressLine3',
@@ -243,7 +243,7 @@ describe('addressPattern mapping functions', () => {
         };
 
         const result = addressSchema({
-          newSchemaKeys,
+          keys,
           omit: ['street3', 'isMilitary'],
         });
 
@@ -263,13 +263,13 @@ describe('addressPattern mapping functions', () => {
         expect(result.properties).to.have.property('country');
       });
       it('should omit using mapped key names in omit array', () => {
-        const newSchemaKeys = {
+        const keys = {
           street: 'addressLine1',
           postalCode: 'zipCode',
         };
 
         const result = addressSchema({
-          newSchemaKeys,
+          keys,
           omit: ['addressLine1', 'zipCode'], // Using mapped names in omit
         });
 
@@ -287,11 +287,11 @@ describe('addressPattern mapping functions', () => {
       });
 
       it('should handle partial key mapping correctly', () => {
-        const newSchemaKeys = {
+        const keys = {
           postalCode: 'zipCode',
         };
 
-        const result = addressSchema({ newSchemaKeys });
+        const result = addressSchema({ keys });
 
         // Should have mapped key
         expect(result.properties).to.have.property('zipCode');
@@ -306,10 +306,10 @@ describe('addressPattern mapping functions', () => {
     });
 
     describe('edge cases', () => {
-      it('should handle empty newSchemaKeys object', () => {
-        const result = addressSchema({ newSchemaKeys: {} });
+      it('should handle empty keys object', () => {
+        const result = addressSchema({ keys: {} });
 
-        // Should behave like no newSchemaKeys provided
+        // Should behave like no keys provided
         expect(result.properties).to.have.property('street');
         expect(result.properties).to.have.property('postalCode');
       });
@@ -322,20 +322,20 @@ describe('addressPattern mapping functions', () => {
         expect(result.properties).to.have.property('street');
       });
 
-      it('should handle options with undefined newSchemaKeys', () => {
-        const result = addressSchema({ newSchemaKeys: undefined });
+      it('should handle options with undefined keys', () => {
+        const result = addressSchema({ keys: undefined });
 
         expect(result.properties).to.have.property('street');
         expect(result.properties).to.have.property('postalCode');
       });
 
       it('should handle mapping keys that do not exist in original schema', () => {
-        const newSchemaKeys = {
+        const keys = {
           street: 'addressLine1',
           nonExistentField: 'mappedNonExistent',
         };
 
-        const result = addressSchema({ newSchemaKeys });
+        const result = addressSchema({ keys });
 
         // Should map existing fields
         expect(result.properties).to.have.property('addressLine1');
@@ -350,7 +350,7 @@ describe('addressPattern mapping functions', () => {
 
   describe('updateFormDataAddress', () => {
     it('should update form data with mapped field keys', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         street2: 'addressLine2',
         postalCode: 'zipCode',
@@ -381,14 +381,14 @@ describe('addressPattern mapping functions', () => {
         formData,
         ['mailingAddress'],
         null,
-        newSchemaKeys,
+        keys,
       );
 
       expect(result).to.deep.equal(formData);
     });
 
     it('should handle military base checkbox toggle correctly', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         city: 'cityName',
         state: 'stateCode',
@@ -417,7 +417,7 @@ describe('addressPattern mapping functions', () => {
         formData,
         ['address'],
         null,
-        newSchemaKeys,
+        keys,
       );
 
       // Should clear city and state when switching to military
@@ -426,7 +426,7 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should restore saved address when unchecking military base', () => {
-      const newSchemaKeys = {
+      const keys = {
         city: 'cityName',
         state: 'stateCode',
       };
@@ -454,7 +454,7 @@ describe('addressPattern mapping functions', () => {
         militaryData,
         ['address'],
         null,
-        newSchemaKeys,
+        keys,
       );
 
       // Now simulate unchecking military base
@@ -479,7 +479,7 @@ describe('addressPattern mapping functions', () => {
         newFormData,
         ['address'],
         null,
-        newSchemaKeys,
+        keys,
       );
 
       // Should restore the previously saved city and state
@@ -487,7 +487,7 @@ describe('addressPattern mapping functions', () => {
       expect(result.address.stateCode).to.equal('NY');
     });
 
-    it('should work with no newSchemaKeys provided', () => {
+    it('should work with no keys provided', () => {
       const oldFormData = {
         address: {
           isMilitary: false,
@@ -522,13 +522,13 @@ describe('addressPattern mapping functions', () => {
 
   describe('integration with existing patterns', () => {
     it('should work seamlessly with existing address validation', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
 
-      const uiSchema = addressUI({ newSchemaKeys });
-      const schema = addressSchema({ newSchemaKeys });
+      const uiSchema = addressUI({ keys });
+      const schema = addressSchema({ keys });
 
       // Should have mapped keys
       expect(schema.properties).to.have.property('addressLine1');
@@ -541,14 +541,14 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should preserve all address functionality with mapped keys', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         street2: 'addressLine2',
         street3: 'addressLine3',
         postalCode: 'zipCode',
       };
 
-      const uiSchema = addressUI({ newSchemaKeys });
+      const uiSchema = addressUI({ keys });
 
       // Should have military checkbox functionality
       expect(uiSchema.isMilitary).to.exist;
@@ -570,12 +570,12 @@ describe('addressPattern mapping functions', () => {
         city: { type: 'string', title: 'City' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
 
-      const result = applyKeyMapping(originalSchema, newSchemaKeys);
+      const result = applyKeyMapping(originalSchema, keys);
 
       // Should have mapped keys
       expect(result).to.have.property('addressLine1');
@@ -605,12 +605,12 @@ describe('addressPattern mapping functions', () => {
         postalCode: { type: 'string' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
 
-      const result = applyKeyMapping(originalSchema, newSchemaKeys, [
+      const result = applyKeyMapping(originalSchema, keys, [
         'street2',
         'street3',
       ]);
@@ -631,11 +631,11 @@ describe('addressPattern mapping functions', () => {
         postalCode: { type: 'string' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
-      const result = applyKeyMapping(originalSchema, newSchemaKeys, [
+      const result = applyKeyMapping(originalSchema, keys, [
         'addressLine1',
         'zipCode',
       ]);
@@ -660,7 +660,7 @@ describe('addressPattern mapping functions', () => {
 
       expect(result).to.deep.equal(originalSchema);
     });
-    it('should return original schema when newSchemaKeys is empty', () => {
+    it('should return original schema when keys is empty', () => {
       const originalSchema = {
         street: { type: 'string' },
         postalCode: { type: 'string' },
@@ -688,12 +688,12 @@ describe('addressPattern mapping functions', () => {
         postalCode: { type: 'string' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
 
-      const result = applyKeyMapping(originalSchema, newSchemaKeys, [
+      const result = applyKeyMapping(originalSchema, keys, [
         'street', // Omit by source name
         'zipCode', // Omit by target name
         'street2', // Omit unmapped field
@@ -718,11 +718,11 @@ describe('addressPattern mapping functions', () => {
         postalCode: { type: 'string', title: 'Postal Code' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1', // Collision: addressLine1 already exists
       };
 
-      expect(() => applyKeyMapping(originalSchema, newSchemaKeys)).to.throw(
+      expect(() => applyKeyMapping(originalSchema, keys)).to.throw(
         /Field mapping would cause key collisions.*'street' -> 'addressLine1'/,
       );
     });
@@ -736,12 +736,12 @@ describe('addressPattern mapping functions', () => {
         postalCode: { type: 'string' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1', // Collision
         postalCode: 'zipCode', // Collision
       };
 
-      expect(() => applyKeyMapping(originalSchema, newSchemaKeys)).to.throw(
+      expect(() => applyKeyMapping(originalSchema, keys)).to.throw(
         /Field mapping would cause key collisions.*'street' -> 'addressLine1'.*'postalCode' -> 'zipCode'/,
       );
     });
@@ -751,13 +751,11 @@ describe('addressPattern mapping functions', () => {
         postalCode: { type: 'string' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'street', // Same name, should be fine
       };
 
-      expect(() =>
-        applyKeyMapping(originalSchema, newSchemaKeys),
-      ).to.not.throw();
+      expect(() => applyKeyMapping(originalSchema, keys)).to.not.throw();
     });
 
     it('should detect collision with case sensitivity', () => {
@@ -766,11 +764,11 @@ describe('addressPattern mapping functions', () => {
         Street: { type: 'string' }, // Different case
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'Street', // Collision due to case
       };
 
-      expect(() => applyKeyMapping(originalSchema, newSchemaKeys)).to.throw(
+      expect(() => applyKeyMapping(originalSchema, keys)).to.throw(
         /Field mapping would cause key collisions.*'street' -> 'Street'/,
       );
     });
@@ -780,11 +778,11 @@ describe('addressPattern mapping functions', () => {
         postalCode: { type: 'string' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1', // addressLine1 doesn't exist in original
         postalCode: 'zipCode', // zipCode doesn't exist in original
       };
-      const result = applyKeyMapping(originalSchema, newSchemaKeys);
+      const result = applyKeyMapping(originalSchema, keys);
 
       expect(result).to.have.property('addressLine1');
       expect(result).to.have.property('zipCode');
@@ -798,13 +796,13 @@ describe('addressPattern mapping functions', () => {
         addressLine1: { type: 'string' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
       };
 
       // Even though addressLine1 would be omitted, the collision should be detected first
       expect(() =>
-        applyKeyMapping(originalSchema, newSchemaKeys, ['addressLine1']),
+        applyKeyMapping(originalSchema, keys, ['addressLine1']),
       ).to.throw(/Field mapping would cause key collisions/);
     });
 
@@ -817,48 +815,48 @@ describe('addressPattern mapping functions', () => {
         targetY: { type: 'string' },
       };
 
-      const newSchemaKeys = {
+      const keys = {
         fieldA: 'targetX', // Collision
         fieldB: 'targetY', // Collision
         fieldC: 'newField', // No collision
       };
 
-      expect(() => applyKeyMapping(originalSchema, newSchemaKeys)).to.throw(
+      expect(() => applyKeyMapping(originalSchema, keys)).to.throw(
         /Field mapping would cause key collisions.*'fieldA' -> 'targetX'.*'fieldB' -> 'targetY'/,
       );
     });
   });
   describe('integration with collision detection', () => {
     it('should prevent addressUI from creating schemas with collisions', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'country', // This would collide with existing country field
       };
 
-      expect(() => addressUI({ newSchemaKeys })).to.throw(
+      expect(() => addressUI({ keys })).to.throw(
         /Field mapping would cause key collisions.*'street' -> 'country'/,
       );
     });
 
     it('should prevent addressSchema from creating schemas with collisions', () => {
-      const newSchemaKeys = {
+      const keys = {
         postalCode: 'city', // This would collide with existing city field
       };
 
-      expect(() => addressSchema({ newSchemaKeys })).to.throw(
+      expect(() => addressSchema({ keys })).to.throw(
         /Field mapping would cause key collisions.*'postalCode' -> 'city'/,
       );
     });
 
     it('should allow safe mappings that do not cause collisions', () => {
-      const newSchemaKeys = {
+      const keys = {
         street: 'addressLine1',
         street2: 'addressLine2',
         postalCode: 'zipCode',
       };
 
       // These should work fine as they don't collide with existing fields
-      expect(() => addressUI({ newSchemaKeys })).to.not.throw();
-      expect(() => addressSchema({ newSchemaKeys })).to.not.throw();
+      expect(() => addressUI({ keys })).to.not.throw();
+      expect(() => addressSchema({ keys })).to.not.throw();
     });
   });
 });
