@@ -25,6 +25,16 @@ export const yesNoType = {
   NO: false,
 };
 
+export const whenToApplySortOrder = {
+  'Up to 2 years before you separate from service': 1,
+  'Up to 180 days before you separate from service': 2,
+  'Before you separate from service': 3,
+  'Up to 180 days before you separate from service or up to 1 year after you separate from service': 4,
+  'Up to 1 year and 120 days after you separate from service': 5,
+  'Before or after you separate from service': 6,
+  'After you separate from service': 7,
+};
+
 export const goalTypes = Object.freeze({
   FINANCIAL: 'FINANCIAL',
   SCHOOL: 'SCHOOL',

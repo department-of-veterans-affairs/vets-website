@@ -14,22 +14,10 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
     });
   };
 
-  const renderLink = (url, text, label, action = false) => {
+  const renderLink = (url, text, label) => {
     if (url) {
-      return action === true ? (
-        <va-link-action
-          href={url}
-          text={text}
-          label={label}
-          type="secondary"
-          disable-analytics
-          onClick={() => {
-            handleClick(url, text, label);
-          }}
-        />
-      ) : (
+      return (
         <va-link
-          active
           href={url}
           text={text}
           label={label}
@@ -78,12 +66,7 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
         )}
         <div className="link-container">
           <div className="vads-u-margin-right--2 vads-u-margin-bottom--1">
-            {renderLink(
-              learnMoreURL,
-              'Learn more',
-              `Learn more about ${name}`,
-              false,
-            )}
+            {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
           </div>
         </div>
       </va-card>

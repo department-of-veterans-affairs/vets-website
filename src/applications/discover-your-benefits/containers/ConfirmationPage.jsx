@@ -11,7 +11,11 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { displayResults as displayResultsAction } from '../reducers/actions';
-import { BENEFITS_LIST, WHEN_TO_APPLY } from '../constants/benefits';
+import {
+  BENEFITS_LIST,
+  WHEN_TO_APPLY,
+  whenToApplySortOrder,
+} from '../constants/benefits';
 import GetFormHelp from '../components/GetFormHelp';
 import Benefits from './components/Benefits';
 
@@ -22,7 +26,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const [benefits, setBenefits] = useState([]);
   const [benefitIds, setBenefitIds] = useState({});
   const [resultsCount, setResultsCount] = useState(0);
-  const [sortValue, setSortValue] = useState('isTimeSensitive');
+  const [sortValue, setSortValue] = useState('expiringSoonest');
   const [filterValues, setFilterValues] = useState(['recommended']);
   const [tempFilterValues, setTempFilterValues] = useState(['recommended']);
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,7 +90,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
           { id: 'Life Insurance', label: 'Life insurance' },
           { id: 'Support', label: 'More support' },
           { id: 'Pension', label: 'Pension' },
-          { id: 'isTimeSensitive', label: 'Time-sensitive' },
         ].map(cat => ({
           ...cat,
           active: tempFilterValues.includes(cat.id),
@@ -173,9 +176,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       if (nonRecommendedFilters.length > 0) {
         filtered = sourceData.filter(benefit =>
           nonRecommendedFilters.some(key => {
-            if (key === 'isTimeSensitive') {
-              return benefit.isTimeSensitive;
-            }
             if (benefit.category?.includes(key)) {
               return true;
             }
@@ -195,8 +195,11 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       const sortKey = sortValue === 'alphabetical' ? 'name' : sortValue;
 
       const sorted = [...filtered].sort((a, b) => {
-        if (sortKey === 'isTimeSensitive') {
-          return a[sortKey] ? -1 : 1;
+        if (sortKey === 'expiringSoonest') {
+          return (
+            whenToApplySortOrder[a.whenToApplyDescription] -
+            whenToApplySortOrder[b.whenToApplyDescription]
+          );
         }
         return (a[sortKey] || '').localeCompare(b[sortKey] || '');
       });
@@ -261,7 +264,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const handleFilterClearAll = useCallback(() => {
     setFilterValues(['recommended']);
     setTempFilterValues(['recommended']);
-    setSortValue('isTimeSensitive');
+    setSortValue('expiringSoonest');
   }, []);
 
   const handlePageChange = useCallback(
@@ -379,7 +382,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         setBenefitIds(
           BENEFITS_LIST.reduce((acc, b) => ({ ...acc, [b.id]: true }), {}),
         );
-        setSortValue('isTimeSensitive');
+        setSortValue('expiringSoonest');
         setCurrentPage(prevPage => (prevPage === 1 ? prevPage : 1));
       } else {
         handleResults();
@@ -448,7 +451,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               onVaSelect={handleSortSelect}
               style={{ maxWidth: '288px' }}
             >
-              <option key="isTimeSensitive" value="isTimeSensitive">
+              <option key="expiringSoonest" value="expiringSoonest">
                 Expiration date (soonest first)
               </option>
               <option key="alphabetical" value="alphabetical">
