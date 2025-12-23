@@ -109,7 +109,9 @@ ClaimantInfoViewField.propTypes = {
       last: PropTypes.string,
     }),
     claimantDateOfBirth: PropTypes.string,
+    isVeteran: PropTypes.oneOf(['yes', 'no']),
   }).isRequired,
+  defaultEditButton: PropTypes.node,
 };
 
 export default ClaimantInfoViewField;

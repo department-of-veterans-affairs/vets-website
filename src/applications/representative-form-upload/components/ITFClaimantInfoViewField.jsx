@@ -122,6 +122,7 @@ ITFClaimantInfoViewField.propTypes = {
     }),
     claimantDateOfBirth: PropTypes.string,
     benefitType: PropTypes.string,
+    isVeteran: PropTypes.oneOf(['yes', 'no']),
   }).isRequired,
   defaultEditButton: PropTypes.func,
 };
