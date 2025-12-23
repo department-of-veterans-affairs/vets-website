@@ -54,7 +54,7 @@ describe('Medications List Card Extra Details', () => {
     { status: dispStatusObjV2.inprogress, testId: 'refill-in-process' },
     {
       status: dispStatusObjV2.active,
-      testId: 'active-parked',
+      testId: 'active',
       refillRemaining: 3,
     },
     { status: dispStatusObjV2.inactive, testId: 'inactive' },
