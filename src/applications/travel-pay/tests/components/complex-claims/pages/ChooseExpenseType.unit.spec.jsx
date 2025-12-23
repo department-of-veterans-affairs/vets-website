@@ -523,6 +523,9 @@ describe('ChooseExpenseType', () => {
         return <div data-testid="location-display">{location.pathname}</div>;
       };
 
+      const modifiedState = { ...initialState };
+      modifiedState.travelPay.complexClaim.expenseBackDestination = 'intro';
+
       const { getByTestId } = renderWithStoreAndRouter(
         <MemoryRouter
           initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
@@ -536,16 +539,7 @@ describe('ChooseExpenseType', () => {
           <LocationDisplay />
         </MemoryRouter>,
         {
-          initialState: {
-            ...initialState,
-            travelPay: {
-              ...initialState.travelPay,
-              complexClaim: {
-                ...initialState.travelPay.complexClaim,
-                expenseBackDestination: 'intro',
-              },
-            },
-          },
+          initialState: { ...modifiedState },
           reducers: reducer,
         },
       );
@@ -571,6 +565,9 @@ describe('ChooseExpenseType', () => {
         return <div data-testid="location-display">{location.pathname}</div>;
       };
 
+      const modifiedState = { ...initialState };
+      modifiedState.travelPay.complexClaim.expenseBackDestination = 'review';
+
       const { getByTestId } = renderWithStoreAndRouter(
         <MemoryRouter
           initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
@@ -584,16 +581,7 @@ describe('ChooseExpenseType', () => {
           <LocationDisplay />
         </MemoryRouter>,
         {
-          initialState: {
-            ...initialState,
-            travelPay: {
-              ...initialState.travelPay,
-              complexClaim: {
-                ...initialState.travelPay.complexClaim,
-                expenseBackDestination: 'review',
-              },
-            },
-          },
+          initialState: { ...modifiedState },
           reducers: reducer,
         },
       );
