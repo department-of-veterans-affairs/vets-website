@@ -1,4 +1,4 @@
 import * as applicantInformation from './applicantInformation';
-import * as personalInformation from './personalInformation';
+import personalInformation from './personalInformation';
 
 export { applicantInformation, personalInformation };
