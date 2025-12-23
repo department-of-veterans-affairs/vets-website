@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 152,
+  "totalApplications": 153,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -374,6 +374,12 @@
       "appName": "Financial Status Report",
       "entryName": "request-debt-help-form-5655",
       "rootUrl": "/manage-va-debt/request-debt-help-form-5655"
+    },
+    {
+      "directoryPath": "src/applications/form-renderer",
+      "appName": "form-renderer",
+      "entryName": "form-renderer",
+      "rootUrl": "/form-renderer"
     },
     {
       "directoryPath": "src/applications/fry-dea",
