@@ -8,8 +8,6 @@ export const FINDFORM_REQUIRED = '[data-e2e-id="find-form-required"]';
 export const FINDFORM_ERROR_MSG = '[data-e2e-id="find-form-error-message"]';
 export const SEARCH_RESULT_TITLE = '[data-e2e-id="result-title"]';
 export const SORT_SELECT_WIDGET = 'va-select[name="findFormsSortBySelect"]';
-export const ADOBE_LINK = '[data-e2e-id="adobe-link"]';
-export const MODAL_DOWNLOAD_LINK = '[data-e2e-id="modal-download-link"]';
 export const MODAL_CLOSE_BUTTON = '.va-modal-close';
 export const MODAL = 'va-modal';
 export const FORM_DETAIL_HEADER = '[data-testid="va_form--downloadable-pdf"]';
