@@ -314,23 +314,20 @@ const formConfig = {
       title: CHAPTER_2.CHAPTER_TITLE,
       hideFormNavProgress: true,
       pages: {
-        attachment: {
-          path: CHAPTER_2.PAGE_4.PATH,
-          title: CHAPTER_2.PAGE_4.TITLE,
-          // CustomPageReview: CustomYourQuestionReviewField,
-          uiSchema: fileUploadPage.uiSchema,
-          schema: fileUploadPage.schema,
-          depends: formData => formData.allowAttachments,
-          onNavForward: ({ goPath }) => {
-            goPath('/your-question');
-          },
-        },
         question: {
           path: CHAPTER_2.PAGE_3.PATH,
           title: CHAPTER_2.PAGE_3.TITLE,
           // CustomPageReview: CustomYourQuestionReviewField,
           uiSchema: yourQuestionPage.uiSchema,
           schema: yourQuestionPage.schema,
+        },
+        attachment: {
+          path: CHAPTER_2.PAGE_4.PATH,
+          title: CHAPTER_2.PAGE_4.TITLE,
+          // CustomPageReview: CustomYourQuestionReviewField,
+          uiSchema: fileUploadPage.uiSchema,
+          schema: fileUploadPage.schema,
+          depends: formData => formData.allowAttachments === true,
           onNavForward: ({ goPath }) => {
             goPath('/review-then-submit');
           },
