@@ -29,7 +29,6 @@ const DownloadModal = ({
         </p>{' '}
         <va-link
           external
-          data-e2e-id="adobe-link"
           href="https://get.adobe.com/reader/"
           text="Get Acrobat Reader for free from Adobe"
         />
@@ -37,7 +36,6 @@ const DownloadModal = ({
           download
           filetype="PDF"
           className="vads-u-margin-top--2"
-          data-e2e-id="modal-download-link"
           href={formUrl}
           text={`Download VA Form ${formName}`}
         />
