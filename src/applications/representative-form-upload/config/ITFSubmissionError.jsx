@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { useSelector } from 'react-redux';
 import { scrollTo } from 'platform/utilities/scroll';
-import recordEvent from 'platform/monitoring/record-event';
 
 const ITFSubmissionError = () => {
   const alertRef = useRef(null);
@@ -19,16 +18,6 @@ const ITFSubmissionError = () => {
     },
     [alertRef],
   );
-  recordEvent({
-    event: 'visible-alert-box',
-    'alert-box-type': 'error',
-    'alert-box-heading': 'Your decision review request didn’t go through',
-    'error-key': 'submission_failure',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': false,
-    'reason-for-alert': 'Submission failure',
-  });
 
   if (
     submissionData.errorMessage === 'vets_server_error: Service Unavailable'
