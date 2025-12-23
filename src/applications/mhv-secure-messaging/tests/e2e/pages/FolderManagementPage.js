@@ -97,7 +97,7 @@ class FolderManagementPage {
   selectFolderFromModal = (folderName = `Trash`) => {
     cy.findByTestId('move-button-text')
       .should('be.visible')
-      .click();
+      .click({ waitForAnimations: true, force: true });
     cy.findByLabelText(folderName)
       .should('be.visible')
       .click();
