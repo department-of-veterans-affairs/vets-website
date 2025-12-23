@@ -370,6 +370,12 @@
       "rootUrl": "/manage-va-debt/request-debt-help-form-5655"
     },
     {
+      "directoryPath": "src/applications/form-renderer",
+      "appName": "form-renderer",
+      "entryName": "form-renderer",
+      "rootUrl": "/form-renderer"
+    },
+    {
       "directoryPath": "src/applications/fry-dea",
       "appName": "Fry/DEA — VA Education Benefits For Survivors And Dependents",
       "entryName": "fry-dea",
