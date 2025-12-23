@@ -1,32 +1,7 @@
 import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
-import FileUpload from '../../../components/FileUpload';
 import FormElementTitle from '../../../components/FormElementTitle';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CategoryEducation, CHAPTER_2 } from '../../../constants';
-
-export const fileSchema = {
-  type: 'array',
-  items: {
-    type: 'object',
-    properties: {
-      fileName: {
-        type: 'string',
-      },
-      fileSize: {
-        type: 'integer',
-      },
-      fileType: {
-        type: 'string',
-      },
-      base64: {
-        type: 'string',
-      },
-      fileID: {
-        type: 'string',
-      },
-    },
-  },
-};
 
 const yourQuestionPage = {
   uiSchema: {
@@ -58,13 +33,6 @@ const yourQuestionPage = {
         useFormsPattern: 'single',
       },
     },
-    fileUpload: {
-      'ui:title': 'Select optional files to upload',
-      'ui:webComponentField': FileUpload,
-      'ui:options': {
-        hideIf: formData => formData.allowAttachments === false,
-      },
-    },
   },
   schema: {
     type: 'object',
@@ -78,7 +46,6 @@ const yourQuestionPage = {
         type: 'string',
         maxLength: 10000,
       },
-      fileUpload: fileSchema,
     },
   },
 };

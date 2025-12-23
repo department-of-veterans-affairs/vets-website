@@ -14,6 +14,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 
 // Your Question
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
+import fileUploadPage from './chapters/attachments/fileUpload';
 
 // Your Personal Information - Authenticated
 import YourPersonalInformationAuthenticated from '../components/YourPersonalInformationAuthenticated';
@@ -313,6 +314,16 @@ const formConfig = {
       title: CHAPTER_2.CHAPTER_TITLE,
       hideFormNavProgress: true,
       pages: {
+        attachment: {
+          path: CHAPTER_2.PAGE_4.PATH,
+          title: CHAPTER_2.PAGE_4.TITLE,
+          // CustomPageReview: CustomYourQuestionReviewField,
+          uiSchema: fileUploadPage.uiSchema,
+          schema: fileUploadPage.schema,
+          onNavForward: ({ goPath }) => {
+            goPath('/your-question');
+          },
+        },
         question: {
           path: CHAPTER_2.PAGE_3.PATH,
           title: CHAPTER_2.PAGE_3.TITLE,

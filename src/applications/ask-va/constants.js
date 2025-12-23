@@ -394,6 +394,12 @@ export const CHAPTER_2 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: "What's your question?",
   },
+  PAGE_4: {
+    PATH: 'file-upload',
+    TITLE: 'Attachment',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Do you have any supporting attachments?',
+  },
 };
 
 // Chapter 3 labels: titles, questions, descriptions
