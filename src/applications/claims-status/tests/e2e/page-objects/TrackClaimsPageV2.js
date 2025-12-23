@@ -981,7 +981,7 @@ class TrackClaimsPageV2 {
   verifyUploadType2ErrorAlert() {
     cy.get('va-alert[status="error"]').should('be.visible');
     cy.get('va-alert[status="error"]')
-      .find('h3')
+      .find('h4')
       .should('contain', 'We need you to submit files by mail or in person');
   }
 
