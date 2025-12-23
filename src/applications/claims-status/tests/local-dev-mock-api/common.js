@@ -968,6 +968,17 @@ const baseClaims = [
     ],
     // Tracked items WITHOUT embedded documents (serializer will add them)
     trackedItems: [
+      // NEEDED_FROM_OTHERS item to test empty p tag bug
+      {
+        id: 110,
+        displayName: 'Private medical records from third party',
+        status: 'NEEDED_FROM_OTHERS',
+        requestedDate: '2025-10-01',
+        receivedDate: null,
+        closedDate: null,
+        suspenseDate: '2025-12-15',
+        type: 'other',
+      },
       // Tracked item with NO documents - will show "File name unknown"
       {
         id: 109,
