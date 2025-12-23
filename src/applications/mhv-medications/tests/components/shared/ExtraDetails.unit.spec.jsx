@@ -158,13 +158,14 @@ describe('Medications List Card Extra Details', () => {
           const statusToTest = useV2
             ? dispStatusObjV2.active
             : dispStatusObj.activeParked;
+          const expectedTestId = useV2 ? 'active' : 'active-parked';
           const screen = setup(
             { ...prescription, dispStatus: statusToTest },
             {},
             cernerPilot,
             v2StatusMapping,
           );
-          expect(await screen.findByTestId('active')).to.exist;
+          expect(await screen.findByTestId(expectedTestId)).to.exist;
         });
       },
     );
