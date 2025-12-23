@@ -112,6 +112,7 @@ export default function DefaultPage({
             <Notification
               title="We need you to submit files by mail or in person"
               body={<Type1UnknownUploadError errorFiles={type1UnknownErrors} />}
+              role="alert"
               type="error"
               onSetFocus={!message ? focusNotificationAlert : undefined}
             />
