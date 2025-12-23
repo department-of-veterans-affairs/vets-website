@@ -116,7 +116,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           );
         }
         return (
-          <p className="vads-u-margin-y--0" data-testid="active-parked">
+          <p className="vads-u-margin-y--0" data-testid="active">
             You can request this prescription when you need it.
           </p>
         );

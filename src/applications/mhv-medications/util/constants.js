@@ -104,7 +104,7 @@ export const filterOptionsV2 = {
       'Includes refill requests you submitted and refills the VA pharmacy is processing',
     url:
       '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
-    showingContentDisplayName: ' in progess',
+    showingContentDisplayName: ' in progress',
   },
   [SHIPPED_FILTER_KEY]: {
     label: 'Shipped',
