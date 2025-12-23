@@ -110,7 +110,6 @@ const initialState = {
     data: null,
   },
   reviewPageAlert: null,
-  expenseBackDestination: null,
   complexClaim: {
     claim: {
       creation: {
@@ -152,10 +151,12 @@ const initialState = {
       isLoading: false,
       error: null,
     },
+    expenseBackDestination: null,
   },
 };
 
 function travelPayReducer(state = initialState, action) {
+  /* eslint-disable sonarjs/max-switch-cases */
   switch (action.type) {
     case FETCH_TRAVEL_CLAIMS_STARTED:
       return {
@@ -622,7 +623,10 @@ function travelPayReducer(state = initialState, action) {
     case SET_EXPENSE_BACK_DESTINATION:
       return {
         ...state,
-        expenseBackDestination: action.payload,
+        complexClaim: {
+          ...state.complexClaim,
+          expenseBackDestination: action.payload,
+        },
       };
 
     default:

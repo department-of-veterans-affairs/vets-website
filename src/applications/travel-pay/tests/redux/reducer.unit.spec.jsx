@@ -339,7 +339,10 @@ describe('Redux - reducer', () => {
       }),
     ).to.deep.equal({
       ...defaultState,
-      expenseBackDestination: 'some-arbitrary-value',
+      complexClaim: {
+        ...defaultState.complexClaim,
+        expenseBackDestination: 'some-arbitrary-value',
+      },
     });
   });
 });

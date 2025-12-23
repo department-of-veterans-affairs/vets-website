@@ -15,7 +15,10 @@ import {
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
-import { clearReviewPageAlert } from '../../../redux/actions';
+import {
+  clearReviewPageAlert,
+  setExpenseBackDestination,
+} from '../../../redux/actions';
 import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = () => {
@@ -71,9 +74,8 @@ const ReviewPage = () => {
   };
 
   const addMoreExpenses = () => {
-    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`, {
-      state: { backDestination: 'review' },
-    });
+    dispatch(setExpenseBackDestination('review'));
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
   const signAgreement = () => {

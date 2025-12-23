@@ -63,4 +63,4 @@ export const selectHasUnsavedExpenseChanges = state =>
 export const selectReviewPageAlert = state => state.travelPay.reviewPageAlert;
 
 export const selectExpenseBackDestination = state =>
-  state.travelPay.expenseBackDestination;
+  state.travelPay.complexClaim.expenseBackDestination;
