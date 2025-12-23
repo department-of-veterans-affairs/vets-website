@@ -21,12 +21,14 @@ describe('DownloadModal', () => {
 
       expect(
         screen
-          .getByRole('link', { name: 'Get Acrobat Reader for free from Adobe' })
+          .getByRole('va-link', {
+            text: 'Get Acrobat Reader for free from Adobe',
+          })
           .getAttribute('href'),
       ).to.eq('https://get.adobe.com/reader/');
       expect(
         screen
-          .getByRole('link', { name: 'Download VA Form 10109 (PDF)' })
+          .getByRole('va-link', { text: 'Download VA Form 10109 (PDF)' })
           .getAttribute('href'),
       ).to.eq(url);
     });
