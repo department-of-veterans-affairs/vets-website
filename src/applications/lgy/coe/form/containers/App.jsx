@@ -34,23 +34,23 @@ function App({
     useToggleValue,
     useToggleLoadingValue,
   } = useFeatureToggle();
-  const newFormDataEnabled = useToggleValue(TOGGLE_NAMES[TOGGLE_KEY]);
+  const coeRebuildEnabled = useToggleValue(TOGGLE_NAMES[TOGGLE_KEY]);
   const isLoadingFeatureFlags = useToggleLoadingValue();
 
   useEffect(
     () => {
       if (
         !isLoadingFeatureFlags &&
-        formData[TOGGLE_KEY] !== newFormDataEnabled
+        formData[TOGGLE_KEY] !== coeRebuildEnabled
       ) {
         setFormData({
           ...formData,
-          [`view:${TOGGLE_KEY}`]: newFormDataEnabled,
+          [`view:${TOGGLE_KEY}`]: coeRebuildEnabled,
         });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoadingFeatureFlags, newFormDataEnabled, formData[TOGGLE_KEY]],
+    [isLoadingFeatureFlags, coeRebuildEnabled, formData[TOGGLE_KEY]],
   );
 
   useEffect(
