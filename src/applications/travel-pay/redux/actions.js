@@ -65,6 +65,7 @@ export const SET_UNSAVED_EXPENSE_CHANGES = 'SET_UNSAVED_EXPENSE_CHANGES';
 export const CLEAR_UNSAVED_EXPENSE_CHANGES = 'CLEAR_UNSAVED_EXPENSE_CHANGES';
 export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
 export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
+export const SET_EXPENSE_BACK_DESTINATION = 'SET_EXPENSE_BACK_DESTINATION';
 
 // Helper function to add isOutOfBounds to claim details
 function addOutOfBoundsFlag(claimData) {
@@ -378,6 +379,12 @@ export const setUnsavedExpenseChanges = hasChanges => ({
 // Clear unsaved expense changes flag
 export const clearUnsavedExpenseChanges = () => ({
   type: CLEAR_UNSAVED_EXPENSE_CHANGES,
+});
+
+// Set expense back destination
+export const setExpenseBackDestination = destination => ({
+  type: SET_EXPENSE_BACK_DESTINATION,
+  payload: destination,
 });
 
 // Updating an expense

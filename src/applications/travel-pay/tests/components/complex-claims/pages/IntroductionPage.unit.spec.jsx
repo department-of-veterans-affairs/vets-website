@@ -573,4 +573,73 @@ describe('Travel Pay – IntroductionPage', () => {
     );
     expect(startButton).to.exist;
   });
+
+  it('navigates to choose-expense with backDestination=intro in location state', async () => {
+    const stateWithExistingClaim = {
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            data: {
+              claimId: '45678',
+            },
+          },
+        },
+      },
+    };
+
+    // Component to verify location state
+    const ChooseExpenseWithStateCheck = () => {
+      const location = useLocation();
+      return (
+        <div data-testid="choose-expense-page">
+          <div data-testid="back-destination">
+            {location.state?.backDestination || 'none'}
+          </div>
+        </div>
+      );
+    };
+
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[
+          { pathname: initialRoute, state: { skipRedirect: true } },
+        ]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId"
+            element={<IntroductionPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            element={<ChooseExpenseWithStateCheck />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: stateWithExistingClaim,
+        reducers: reducer,
+      },
+    );
+
+    // Find and click the start button
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
+    startButton.click();
+
+    // Verify navigation to choose-expense with correct state
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal(
+        '/file-new-claim/12345/45678/choose-expense',
+      );
+      expect(getByTestId('back-destination').textContent).to.equal('intro');
+    });
+  });
 });

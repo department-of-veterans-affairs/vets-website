@@ -448,7 +448,29 @@ describe('ChooseExpenseType', () => {
   });
 
   describe('Navigation', () => {
-    it('navigates back to intro page with skipRedirect state', async () => {
+    const initialState = {
+      travelPay: {
+        appointment: {
+          data: {
+            id: '12345',
+            appointmentDateTime: '2024-01-01T10:00:00Z',
+            facilityName: 'Test Facility',
+          },
+          isLoading: false,
+          error: null,
+        },
+        complexClaim: {
+          claim: { data: null },
+        },
+        claimDetails: {
+          data: {},
+          isLoading: false,
+          error: null,
+        },
+      },
+    };
+
+    it('navigates back to intro page with skipRedirect state when backDestination is not set', async () => {
       // Mock component to capture location state
       const LocationStateCapture = () => {
         const location = useLocation();
@@ -480,34 +502,13 @@ describe('ChooseExpenseType', () => {
           </Routes>
         </MemoryRouter>,
         {
-          initialState: {
-            travelPay: {
-              appointment: {
-                data: {
-                  id: '12345',
-                  appointmentDateTime: '2024-01-01T10:00:00Z',
-                  facilityName: 'Test Facility',
-                },
-                isLoading: false,
-                error: null,
-              },
-              complexClaim: {
-                claim: { data: null },
-              },
-              claimDetails: {
-                data: {},
-                isLoading: false,
-                error: null,
-              },
-            },
-          },
+          initialState: { ...initialState },
           reducers: reducer,
         },
       );
 
       const buttonPair = $('va-button-pair');
 
-      // Click the back button
       fireEvent(
         buttonPair,
         new CustomEvent('secondaryClick', {
@@ -520,6 +521,92 @@ describe('ChooseExpenseType', () => {
         const locationState = getByTestId('location-state');
         expect(locationState.textContent).to.include('skipRedirect');
         expect(locationState.textContent).to.include('true');
+      });
+    });
+
+    it('navigates back to intro page when backDestination is "intro"', async () => {
+      const ReviewCapture = () => <div data-testid="intro-page">Intro</div>;
+      const IntroCapture = () => <div data-testid="intro-page">Intro</div>;
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            {
+              pathname: '/file-new-claim/12345/claim123/choose-expense',
+              state: { backDestination: 'intro' },
+            },
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+            <Route path="/file-new-claim/:apptId" element={<IntroCapture />} />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewCapture />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: { ...initialState, expenseBackDestination: 'intro' },
+          reducers: reducer,
+        },
+      );
+
+      const buttonPair = $('va-button-pair');
+      fireEvent(
+        buttonPair,
+        new CustomEvent('secondaryClick', {
+          detail: {},
+        }),
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('intro-page')).to.exist;
+      });
+    });
+
+    it('navigates back to review page when backDestination is "review"', async () => {
+      const ReviewCapture = () => <div data-testid="review-page">Review</div>;
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            {
+              pathname: '/file-new-claim/12345/claim123/choose-expense',
+              state: { backDestination: 'review' },
+            },
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewCapture />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: { ...initialState, expenseBackDestination: 'review' },
+          reducers: reducer,
+        },
+      );
+
+      const buttonPair = $('va-button-pair');
+      fireEvent(
+        buttonPair,
+        new CustomEvent('secondaryClick', {
+          detail: {},
+        }),
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('review-page')).to.exist;
       });
     });
   });

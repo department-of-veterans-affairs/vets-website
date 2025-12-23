@@ -37,6 +37,7 @@ import {
   UPDATE_EXPENSE_STARTED,
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
+  SET_EXPENSE_BACK_DESTINATION,
 } from './actions';
 
 // Helper function to merge expenses, avoiding duplicates
@@ -109,6 +110,7 @@ const initialState = {
     data: null,
   },
   reviewPageAlert: null,
+  expenseBackDestination: null,
   complexClaim: {
     claim: {
       creation: {
@@ -615,6 +617,12 @@ function travelPayReducer(state = initialState, action) {
       return {
         ...state,
         reviewPageAlert: null,
+      };
+
+    case SET_EXPENSE_BACK_DESTINATION:
+      return {
+        ...state,
+        expenseBackDestination: action.payload,
       };
 
     default:

@@ -71,7 +71,9 @@ const ReviewPage = () => {
   };
 
   const addMoreExpenses = () => {
-    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`, {
+      state: { backDestination: 'review' },
+    });
   };
 
   const signAgreement = () => {

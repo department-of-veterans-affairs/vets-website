@@ -461,4 +461,54 @@ describe('Travel Pay – ReviewPage', () => {
     const expenseTotals = container.querySelectorAll('ul li');
     expect(expenseTotals.length).to.equal(0);
   });
+
+  it('navigates to choose-expense with backDestination=review in location state', async () => {
+    // Component to verify location state
+    const ChooseExpenseWithStateCheck = () => {
+      const location = useLocation();
+      return (
+        <div data-testid="choose-expense-page">
+          <div data-testid="back-destination">
+            {location.state?.backDestination || 'none'}
+          </div>
+        </div>
+      );
+    };
+
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            element={<ChooseExpenseWithStateCheck />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    const addButton = container.querySelector('#add-expense-button');
+    expect(addButton).to.exist;
+
+    // Click the Add more expenses button
+    fireEvent.click(addButton);
+
+    // Verify navigation to choose-expense with correct state
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal(
+        '/file-new-claim/12345/45678/choose-expense',
+      );
+      expect(getByTestId('back-destination').textContent).to.equal('review');
+    });
+  });
 });
