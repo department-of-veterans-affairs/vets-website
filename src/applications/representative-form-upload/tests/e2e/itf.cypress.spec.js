@@ -22,6 +22,120 @@ Cypress.Commands.add('denyArpUser', () => {
   }).as('denyUser');
 });
 
+Cypress.Commands.add('fillVeteranDetail', (fillBirthday = true) => {
+  fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
+  fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
+  cy.get('input[name="root_veteranSsn"]').type(data.ssn);
+
+  if (fillBirthday) {
+    cy.get('select[name="root_veteranDateOfBirthMonth"]').select('February');
+    cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
+    cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
+  }
+  cy.axeCheck();
+  cy.get('input[name="root_vaFileNumber"]').type('123456789');
+});
+
+Cypress.Commands.add('fillClaimantDetail', () => {
+  fillTextWebComponent('claimantFullName_first', data.claimantFullName.first);
+  fillTextWebComponent('claimantFullName_last', data.claimantFullName.last);
+  cy.get('input[name="root_claimantSsn"]').type(data.claimantSsn);
+  cy.get('select[name="root_claimantDateOfBirthMonth"]').select('September');
+  cy.get('input[name="root_claimantDateOfBirthDay"]').type('21');
+  cy.get('input[name="root_claimantDateOfBirthYear"]').type('2009');
+});
+
+Cypress.Commands.add('mockItfCheck', () => {
+  // No ITF exists, allowing user to continue. Delay 500ms so that loading
+  // screen can be checked.
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/accredited_representative_portal/v0/intent_to_file**',
+    },
+    req => {
+      req.reply({
+        statusCode: 404,
+        body: {
+          errors: [
+            {
+              title: 'Resource not found',
+              detail: "No active 'C' intent to file found.",
+            },
+          ],
+        },
+        delay: 500,
+      });
+    },
+  ).as('itfCheck');
+});
+
+Cypress.Commands.add('mockFoundItfCheck', () => {
+  // Mock existing ITF. Delay 500ms so that loading screen can be checked.
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/accredited_representative_portal/v0/intent_to_file**',
+    },
+    req => {
+      req.reply({
+        statusCode: 200,
+        body: {
+          data: {
+            id: '193685',
+            type: 'intent_to_file',
+            attributes: {
+              creationDate: '2021-03-16T19:15:21.000-05:00',
+              expirationDate: '2022-03-16T19:15:20.000-05:00',
+              type: 'compensation',
+              status: 'active',
+            },
+          },
+        },
+        delay: 500,
+      });
+    },
+  ).as('itfCheck');
+});
+
+Cypress.Commands.add('mockMissingPoaItfCheck', () => {
+  // Mock missing POA for veteran. Delay 500ms so that loading screen can be checked.
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/accredited_representative_portal/v0/intent_to_file**',
+    },
+    req => {
+      req.reply({
+        body: {
+          errors: ['not allowed to IntentToFile'],
+        },
+        statusCode: 403,
+        delay: 500,
+      });
+    },
+  ).as('itfCheck');
+});
+
+Cypress.Commands.add('mockFailedItfCheck', () => {
+  // Mock itf check failure. Delay 500ms so that loading screen can be checked.
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/accredited_representative_portal/v0/intent_to_file**',
+    },
+    req => {
+      req.reply({
+        body: {
+          errors: ['unknown error'],
+        },
+        statusCode: 500,
+        delay: 500,
+      });
+    },
+  ).as('itfCheck');
+});
+
 const vamcUser = {
   data: {
     nodeQuery: {
@@ -33,18 +147,6 @@ const vamcUser = {
 
 const setUpIntercepts = featureToggles => {
   cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-  cy.intercept('GET', '/accredited_representative_portal/v0/intent_to_file', {
-    statusCode: 404,
-    body: {
-      errors: [
-        {
-          title: 'Resource not found',
-          detail: "No active 'C' intent to file found.",
-        },
-      ],
-    },
-  }).as('itfCheck');
-
   setFeatureToggles(featureToggles);
 };
 
@@ -55,11 +157,6 @@ describe('Intent to file submission', () => {
       setUpIntercepts({
         isAppEnabled: true,
       });
-      cy.intercept(
-        'POST',
-        '/accredited_representative_portal/v0/intent_to_file',
-        {},
-      );
     });
 
     it('sets sessionStorage flag when "Start the submission" is clicked', () => {
@@ -79,7 +176,17 @@ describe('Intent to file submission', () => {
       cy.axeCheck();
     });
 
-    describe('submit itf', () => {
+    describe('successfully submit itf', () => {
+      beforeEach(() => {
+        cy.mockItfCheck();
+        // Mock form submission
+        cy.intercept(
+          'POST',
+          '/accredited_representative_portal/v0/intent_to_file',
+          {},
+        );
+      });
+
       it('allows veteran claimant submission', () => {
         cy.visit(
           `/representative/representative-form-upload/submit-va-form-21-0966`,
@@ -112,20 +219,7 @@ describe('Intent to file submission', () => {
 
         cy.axeCheck();
 
-        fillTextWebComponent(
-          'veteranFullName_first',
-          data.veteranFullName.first,
-        );
-        fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
-        cy.get('input[name="root_veteranSsn"]').type(data.ssn);
-
-        cy.get('select[name="root_veteranDateOfBirthMonth"]').select(
-          'February',
-        );
-        cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
-        cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
-        cy.axeCheck();
-        cy.get('input[name="root_vaFileNumber"]').type('123456789');
+        cy.fillVeteranDetail();
         cy.get('input[name="root_benefitType"][value="compensation"]').click();
 
         cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -134,7 +228,7 @@ describe('Intent to file submission', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status`,
         );
-        cy.wait(1000);
+        cy.wait('@itfCheck');
 
         cy.location('pathname').should(
           'eq',
@@ -152,167 +246,328 @@ describe('Intent to file submission', () => {
           'You submitted the form and supporting evidence',
         );
       });
-    });
 
-    it('allows non-veteran claimant submission', () => {
-      cy.visit(
-        `/representative/representative-form-upload/submit-va-form-21-0966/`,
-      );
-      cy.injectAxe();
-      cy.axeCheck();
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
-      );
+      it('allows non-veteran claimant submission', () => {
+        cy.visit(
+          `/representative/representative-form-upload/submit-va-form-21-0966/`,
+        );
+        cy.injectAxe();
+        cy.axeCheck();
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
+        );
 
-      cy.get('a[href="#start"]')
-        .contains('Start the submission')
-        .click();
+        cy.get('a[href="#start"]')
+          .contains('Start the submission')
+          .click();
 
-      cy.injectAxe();
-      cy.axeCheck();
+        cy.injectAxe();
+        cy.axeCheck();
 
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/submit-va-form-21-0966/claimant-background',
-      );
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/claimant-background',
+        );
 
-      cy.findByLabelText(
-        /^The claimant is a survivor or dependent of the Veteran$/,
-      ).click();
-      cy.findByRole('button', { name: /^Continue$/ }).click();
-      cy.axeCheck();
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/submit-va-form-21-0966/claimant-information',
-      );
+        cy.findByLabelText(
+          /^The claimant is a survivor or dependent of the Veteran$/,
+        ).click();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.axeCheck();
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/claimant-information',
+        );
 
-      fillTextWebComponent(
-        'claimantFullName_first',
-        data.claimantFullName.first,
-      );
-      fillTextWebComponent('claimantFullName_last', data.claimantFullName.last);
-      cy.get('input[name="root_claimantSsn"]').type(data.claimantSsn);
-      cy.get('select[name="root_claimantDateOfBirthMonth"]').select(
-        'September',
-      );
-      cy.get('input[name="root_claimantDateOfBirthDay"]').type('21');
-      cy.get('input[name="root_claimantDateOfBirthYear"]').type('2009');
-      fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
-      fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
-      cy.get('input[name="root_veteranSsn"]').type(data.ssn);
-      cy.get('input[name="root_vaFileNumber"]').type('123456789');
-      cy.get('input[name="root_selectBenefits_SURVIVOR"]').click();
-      cy.axeCheck();
-      cy.findByRole('button', { name: /^Continue$/ }).click();
-      cy.axeCheck();
+        cy.fillClaimantDetail();
+        cy.fillVeteranDetail(false);
+        cy.get('input[name="root_selectBenefits_SURVIVOR"]').click();
+        cy.axeCheck();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.axeCheck();
 
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status',
-      );
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status',
+        );
 
-      cy.wait(1000);
+        cy.wait('@itfCheck');
 
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit',
-      );
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit',
+        );
 
-      cy.get("va-button[text='Submit form']").click();
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/submit-va-form-21-0966/confirmation',
-      );
-      cy.get('va-alert').should(
-        'contain',
-        'You submitted the form and supporting evidence',
-      );
-    });
-  });
-
-  describe('Transient server error (Service Unavailable)', () => {
-    beforeEach(() => {
-      cy.loginArpUser();
-      setUpIntercepts({
-        isAppEnabled: true,
+        cy.get("va-button[text='Submit form']").click();
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/confirmation',
+        );
+        cy.get('va-alert').should(
+          'contain',
+          'You submitted the form and supporting evidence',
+        );
       });
-      cy.intercept(
-        'POST',
-        '/accredited_representative_portal/v0/intent_to_file',
-        {
-          statusCode: 503,
-        },
-      );
     });
 
-    it('shows the appropriate error message', () => {
-      cy.visit(
-        `/representative/representative-form-upload/submit-va-form-21-0966`,
-      );
+    describe('Transient server error (Service Unavailable)', () => {
+      beforeEach(() => {
+        cy.mockItfCheck();
+        cy.intercept(
+          'POST',
+          '/accredited_representative_portal/v0/intent_to_file',
+          {
+            statusCode: 503,
+          },
+        );
+      });
 
-      cy.injectAxe();
-      cy.axeCheck();
+      it('shows the appropriate error message', () => {
+        cy.visit(
+          `/representative/representative-form-upload/submit-va-form-21-0966`,
+        );
 
-      cy.location('pathname').should(
-        'eq',
-        '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
-      );
+        cy.injectAxe();
+        cy.axeCheck();
 
-      cy.get('a[href="#start"]')
-        .contains('Start the submission')
-        .click();
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
+        );
 
-      cy.injectAxe();
-      cy.axeCheck();
+        cy.get('a[href="#start"]')
+          .contains('Start the submission')
+          .click();
 
-      cy.location('pathname').should(
-        'eq',
-        `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
-      );
+        cy.injectAxe();
+        cy.axeCheck();
 
-      cy.findByLabelText(/^The claimant is the Veteran$/).click();
-      cy.findByRole('button', { name: /^Continue$/ }).click();
-      cy.location('pathname').should(
-        'eq',
-        `/representative/representative-form-upload/submit-va-form-21-0966/veteran-information`,
-      );
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
+        );
 
-      cy.axeCheck();
+        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/veteran-information`,
+        );
 
-      fillTextWebComponent('veteranFullName_first', data.veteranFullName.first);
-      fillTextWebComponent('veteranFullName_last', data.veteranFullName.last);
-      cy.get('input[name="root_veteranSsn"]').type(data.ssn);
+        cy.axeCheck();
 
-      cy.get('select[name="root_veteranDateOfBirthMonth"]').select('February');
-      cy.get('input[name="root_veteranDateOfBirthDay"]').type('15');
-      cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
-      cy.axeCheck();
-      cy.get('input[name="root_vaFileNumber"]').type('123456789');
-      cy.get('input[name="root_benefitType"][value="compensation"]').click();
+        cy.fillVeteranDetail();
+        cy.get('input[name="root_benefitType"][value="compensation"]').click();
 
-      cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
 
-      cy.location('pathname').should(
-        'eq',
-        `/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status`,
-      );
-      cy.wait(1000);
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status',
+        );
 
-      cy.location('pathname').should(
-        'eq',
-        `/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit`,
-      );
+        cy.wait('@itfCheck');
 
-      cy.get("va-button[text='Submit form']").click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit`,
+        );
 
-      cy.location('pathname').should(
-        'eq',
-        `/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit`,
-      );
-      cy.get('#submission-error').contains(
-        'The form couldn’t be submitted because of high system traffic',
-      );
+        cy.get("va-button[text='Submit form']").click();
+
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit`,
+        );
+        cy.get('#submission-error').contains(
+          'The form couldn’t be submitted because of high system traffic',
+        );
+      });
+    });
+
+    describe('existing ITF', () => {
+      beforeEach(() => {
+        cy.mockFoundItfCheck();
+      });
+
+      it('shows the appropriate error message', () => {
+        cy.visit(
+          `/representative/representative-form-upload/submit-va-form-21-0966`,
+        );
+
+        cy.injectAxe();
+        cy.axeCheck();
+
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
+        );
+
+        cy.get('a[href="#start"]')
+          .contains('Start the submission')
+          .click();
+
+        cy.injectAxe();
+        cy.axeCheck();
+
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
+        );
+
+        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/veteran-information`,
+        );
+
+        cy.axeCheck();
+
+        cy.fillVeteranDetail();
+        cy.get('input[name="root_benefitType"][value="compensation"]').click();
+
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status',
+        );
+
+        cy.wait('@itfCheck');
+
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/existing-itf`,
+        );
+        cy.get('va-card').should('contain', 'This claimant has an ITF on file');
+      });
+    });
+
+    describe('veteran does not have representation established', () => {
+      beforeEach(() => {
+        cy.mockMissingPoaItfCheck();
+      });
+
+      it('shows the appropriate error message', () => {
+        cy.visit(
+          `/representative/representative-form-upload/submit-va-form-21-0966`,
+        );
+
+        cy.injectAxe();
+        cy.axeCheck();
+
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
+        );
+
+        cy.get('a[href="#start"]')
+          .contains('Start the submission')
+          .click();
+
+        cy.injectAxe();
+        cy.axeCheck();
+
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
+        );
+
+        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/veteran-information`,
+        );
+
+        cy.axeCheck();
+
+        cy.fillVeteranDetail();
+        cy.get('input[name="root_benefitType"][value="compensation"]').click();
+
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status',
+        );
+
+        cy.wait('@itfCheck');
+
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/intent-to-file-no-representation`,
+        );
+        cy.get('va-alert')
+          .find('h2')
+          .should('have.text', 'You don’t represent this claimant');
+      });
+    });
+
+    describe('representation/itf check fails', () => {
+      beforeEach(() => {
+        cy.mockFailedItfCheck();
+      });
+
+      it('shows the appropriate error message', () => {
+        cy.visit(
+          `/representative/representative-form-upload/submit-va-form-21-0966`,
+        );
+
+        cy.injectAxe();
+        cy.axeCheck();
+
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
+        );
+
+        cy.get('a[href="#start"]')
+          .contains('Start the submission')
+          .click();
+
+        cy.injectAxe();
+        cy.axeCheck();
+
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
+        );
+
+        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/veteran-information`,
+        );
+
+        cy.axeCheck();
+
+        cy.fillVeteranDetail();
+        cy.get('input[name="root_benefitType"][value="compensation"]').click();
+
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status',
+        );
+
+        cy.wait('@itfCheck');
+
+        // uncomment this when #126387 is merged:
+        // cy.location('pathname').should(
+        //   'eq',
+        //   `/representative/representative-form-upload/submit-va-form-21-0966/intent-to-file-unknown`,
+        // );
+        // and remove this:
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit`,
+        );
+      });
     });
   });
 
