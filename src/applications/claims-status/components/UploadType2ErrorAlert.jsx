@@ -99,9 +99,9 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
       status="error"
       visible
     >
-      <h3 className="usa-alert-heading">
+      <h4 className="usa-alert-heading vads-u-font-size--h3">
         We need you to submit files by mail or in person
-      </h3>
+      </h4>
       <div className="vads-u-margin-y--0">{body}</div>
     </VaAlert>
   );
