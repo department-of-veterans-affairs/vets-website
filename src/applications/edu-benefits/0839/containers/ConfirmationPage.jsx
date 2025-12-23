@@ -22,7 +22,7 @@ const confirmationChildContent = (pdfUrl, goBack) => (
       <va-process-list-item header="Download and save your form">
         <div
           itemProp="itemListElement"
-          className="confirmation-save-pdf-download-section screen-only"
+          className="confirmation-save-pdf-download-section screen-only custom-classname"
         >
           <p className="vads-u-margin-top--0">
             Make sure that your completed form is saved as a PDF on your device.{' '}

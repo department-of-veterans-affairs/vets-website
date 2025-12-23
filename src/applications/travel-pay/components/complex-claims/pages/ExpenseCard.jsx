@@ -52,6 +52,9 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
           expenseId,
         ),
       );
+
+      // Clear any existing alerts after successful deletion
+      dispatch(setReviewPageAlert(null));
     } catch (error) {
       // Any error from deleting either the expense or document ends up here
       dispatch(

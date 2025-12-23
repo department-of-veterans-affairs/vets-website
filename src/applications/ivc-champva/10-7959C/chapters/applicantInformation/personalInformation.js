@@ -1,19 +1,15 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   fullNameMiddleInitialSchema,
   fullNameMiddleInitialUI,
 } from '../../definitions';
+import { titleWithRoleUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'name';
-
-const PAGE_TITLE = ({ formData }) =>
-  `${
-    formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-  } ${TITLE_TEXT}`;
+const TITLE_TEXT = content['applicant--name-title'];
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
+    ...titleWithRoleUI(TITLE_TEXT),
     applicantName: fullNameMiddleInitialUI,
   },
   schema: {

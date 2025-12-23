@@ -20,13 +20,10 @@ const ClaimantInfoViewField = props => {
     claimantSsn,
     claimantFullName,
     claimantDateOfBirth,
+    isVeteran,
   } = formData;
 
-  const isDependentClaim =
-    claimantSsn &&
-    claimantFullName?.first &&
-    claimantFullName?.last &&
-    claimantDateOfBirth;
+  const isDependentClaim = isVeteran === 'no';
 
   const veteranDisplay = {
     'First name': veteranFullName.first ? veteranFullName.first : '',
@@ -112,7 +109,9 @@ ClaimantInfoViewField.propTypes = {
       last: PropTypes.string,
     }),
     claimantDateOfBirth: PropTypes.string,
+    isVeteran: PropTypes.oneOf(['yes', 'no']),
   }).isRequired,
+  defaultEditButton: PropTypes.node,
 };
 
 export default ClaimantInfoViewField;

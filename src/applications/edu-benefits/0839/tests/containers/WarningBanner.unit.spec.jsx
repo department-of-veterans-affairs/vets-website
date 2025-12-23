@@ -18,7 +18,6 @@ describe('WarningBanner Component', () => {
             institutionDetails: {
               facilityCode: '12345678',
               yrEligible: true,
-              ihlEligible: true,
               isLoading: false,
             },
           },
@@ -48,9 +47,8 @@ describe('WarningBanner Component', () => {
         form: {
           data: {
             institutionDetails: {
-              facilityCode: '12345678',
+              facilityCode: '12X45678',
               yrEligible: false,
-              ihlEligible: true,
               isLoading: false,
             },
           },
@@ -75,21 +73,17 @@ describe('WarningBanner Component', () => {
       expect(alert).to.exist;
       expect(alert.getAttribute('status')).to.equal('error');
       expect(alert.textContent).to.include(
-        'This institution is unable to participate in the Yellow Ribbon Program',
-      );
-      expect(alert.textContent).to.include(
-        'You can enter a main or branch campus facility code to continue',
+        "This facility code can't be accepted",
       );
     });
 
-    it('renders warning when institution is YR eligible but not IHL', () => {
+    it('renders warning when facility code has X in third position', () => {
       const state = {
         form: {
           data: {
             institutionDetails: {
-              facilityCode: '12345678',
+              facilityCode: '12X45678',
               yrEligible: true,
-              ihlEligible: false,
               isLoading: false,
             },
           },
@@ -113,9 +107,8 @@ describe('WarningBanner Component', () => {
       const alert = container.querySelector('va-alert');
       expect(alert).to.exist;
       expect(alert.textContent).to.include(
-        'This institution is unable to participate in the Yellow Ribbon Program',
+        "This facility code can't be accepted",
       );
-      expect(alert.textContent).to.not.include('main or branch campus');
     });
 
     it('does not render when institution is not found', () => {
@@ -156,7 +149,6 @@ describe('WarningBanner Component', () => {
             institutionDetails: {
               facilityCode: '1234',
               yrEligible: false,
-              ihlEligible: false,
               isLoading: false,
             },
           },
@@ -188,7 +180,6 @@ describe('WarningBanner Component', () => {
             institutionDetails: {
               facilityCode: '12345678',
               yrEligible: false,
-              ihlEligible: false,
               isLoading: true,
             },
           },
@@ -218,9 +209,8 @@ describe('WarningBanner Component', () => {
         form: {
           data: {
             institutionDetails: {
-              facilityCode: '12345678',
+              facilityCode: '12X45678',
               yrEligible: false,
-              ihlEligible: true,
               isLoading: false,
             },
           },
@@ -273,7 +263,6 @@ describe('WarningBanner Component', () => {
               {
                 facilityCode: '12X45678',
                 yrEligible: true,
-                ihlEligible: true,
                 isLoading: false,
               },
             ],
@@ -313,7 +302,6 @@ describe('WarningBanner Component', () => {
               {
                 facilityCode: '99999999',
                 yrEligible: true,
-                ihlEligible: true,
                 isLoading: false,
               },
             ],
@@ -349,7 +337,6 @@ describe('WarningBanner Component', () => {
               {
                 facilityCode: '11111111',
                 yrEligible: true,
-                ihlEligible: true,
                 isLoading: false,
               },
             ],
@@ -385,7 +372,6 @@ describe('WarningBanner Component', () => {
               {
                 facilityCode: '33333333',
                 yrEligible: true,
-                ihlEligible: true,
                 isLoading: false,
               },
             ],
@@ -421,13 +407,11 @@ describe('WarningBanner Component', () => {
               {
                 facilityCode: '11111111',
                 yrEligible: true,
-                ihlEligible: true,
                 isLoading: false,
               },
               {
                 facilityCode: '88888888',
                 yrEligible: true,
-                ihlEligible: true,
                 isLoading: false,
               },
             ],
@@ -543,7 +527,6 @@ describe('WarningBanner Component', () => {
             institutionDetails: {
               facilityCode: '',
               yrEligible: false,
-              ihlEligible: false,
               isLoading: false,
             },
           },
@@ -575,9 +558,8 @@ describe('WarningBanner Component', () => {
         form: {
           data: {
             institutionDetails: {
-              facilityCode: '12345678',
+              facilityCode: '12X45678',
               yrEligible: false,
-              ihlEligible: true,
               isLoading: false,
             },
           },

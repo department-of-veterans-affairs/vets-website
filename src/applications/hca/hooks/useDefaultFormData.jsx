@@ -22,7 +22,7 @@ export const useDefaultFormData = () => {
   const dispatch = useDispatch();
 
   const { veteranFullName } = formData;
-  const { isInsuranceV2Enabled, isRegOnlyEnabled } = featureToggles;
+  const { isRegOnlyEnabled } = featureToggles;
 
   const setFormData = dataToSet => dispatch(setData(dataToSet));
 
@@ -31,7 +31,6 @@ export const useDefaultFormData = () => {
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
         'view:isRegOnlyEnabled': isRegOnlyEnabled,
-        'view:isInsuranceV2Enabled': isInsuranceV2Enabled,
         'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
       const userData = isLoggedIn
@@ -56,7 +55,6 @@ export const useDefaultFormData = () => {
       userFullName,
       veteranFullName,
       isRegOnlyEnabled,
-      isInsuranceV2Enabled,
       totalRating,
     ],
   );

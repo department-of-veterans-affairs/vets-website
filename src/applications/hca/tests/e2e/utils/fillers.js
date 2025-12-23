@@ -115,21 +115,3 @@ export const fillVaFacility = testData => {
     vaMedicalFacility,
   );
 };
-
-export const fillInsuranceInformation = policy => {
-  const {
-    insuranceName,
-    insurancePolicyHolderName,
-    insurancePolicyNumber,
-  } = policy;
-
-  cy.fillVaTextInput('root_insuranceName', insuranceName);
-  cy.fillVaTextInput(
-    'root_insurancePolicyHolderName',
-    insurancePolicyHolderName,
-  );
-  cy.fillVaTextInput(
-    'root_view:policyNumberOrGroupCode_insurancePolicyNumber',
-    insurancePolicyNumber,
-  );
-};

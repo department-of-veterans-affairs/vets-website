@@ -120,8 +120,8 @@ describe('RecentCareTeams component', () => {
       expect(labels).to.include('A different care team');
 
       // Check for continue button
-      const continueButton = document.querySelector(
-        'va-button[text="Continue"]',
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
       );
       expect(continueButton).to.exist;
     });
@@ -407,10 +407,10 @@ describe('RecentCareTeams component', () => {
 
   describe('User Interactions - handleContinue Function', () => {
     it('should show error when continue is clicked without selection', () => {
-      renderComponent();
+      const screen = renderComponent();
 
-      const continueButton = document.querySelector(
-        'va-button[text="Continue"]',
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
       );
       expect(continueButton).to.exist;
 
@@ -440,8 +440,8 @@ describe('RecentCareTeams component', () => {
       );
 
       // Click continue
-      const continueButton = document.querySelector(
-        'va-button[text="Continue"]',
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
       );
       continueButton.click();
 
@@ -463,8 +463,8 @@ describe('RecentCareTeams component', () => {
       );
 
       // Click continue
-      const continueButton = document.querySelector(
-        'va-button[text="Continue"]',
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
       );
       continueButton.click();
 
@@ -475,10 +475,10 @@ describe('RecentCareTeams component', () => {
     });
 
     it('should clear error when valid selection is made', () => {
-      renderComponent();
+      const screen = renderComponent();
 
-      const continueButton = document.querySelector(
-        'va-button[text="Continue"]',
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
       );
       const radioGroup = document.querySelector('va-radio');
 
@@ -498,10 +498,10 @@ describe('RecentCareTeams component', () => {
     });
 
     it('should clear error when continue is clicked with valid selection', () => {
-      renderComponent();
+      const screen = renderComponent();
 
-      const continueButton = document.querySelector(
-        'va-button[text="Continue"]',
+      const continueButton = screen.getByTestId(
+        'recent-care-teams-continue-button',
       );
       const radioGroup = document.querySelector('va-radio');
 

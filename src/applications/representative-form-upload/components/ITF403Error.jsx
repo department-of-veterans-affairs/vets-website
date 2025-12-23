@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import ITFClaimantStatusWrapper from './ITFClaimantStatusWrapper';
 
-const PermissionError = ({ location, route, router }) => {
+const ITF403Error = ({ location, route, router }) => {
   const { data: formData } = useSelector(state => state.form);
   const prevUrl =
     formData.isVeteran === 'yes'
@@ -41,9 +41,9 @@ const PermissionError = ({ location, route, router }) => {
     </ITFClaimantStatusWrapper>
   );
 };
-PermissionError.propTypes = {
+ITF403Error.propTypes = {
   location: PropTypes.object,
   route: PropTypes.object,
   router: PropTypes.object,
 };
-export default PermissionError;
+export default ITF403Error;

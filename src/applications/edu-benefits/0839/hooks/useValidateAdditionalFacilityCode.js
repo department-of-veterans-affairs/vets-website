@@ -51,12 +51,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             ['1', '2', '3'].includes(firstDigit) &&
             ['1', '2', '3', '4'].includes(secondDigit);
 
-          const programTypes = Array.isArray(attrs.programTypes)
-            ? attrs.programTypes
-            : [];
-          const ihlEligible =
-            attrs.programTypes === null ? false : programTypes.includes('IHL');
-
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -77,7 +71,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             ...updatedDetails[index],
             institutionName: response?.data?.attributes?.name,
             institutionAddress,
-            ihlEligible,
             yrEligible,
             isLoading: false,
             isForeignCountry,
@@ -100,7 +93,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             ...updatedDetails[index],
             institutionName: 'not found',
             institutionAddress: {},
-            ihlEligible: null,
             isLoading: false,
             yrEligible: false,
             isForeignCountry: false,

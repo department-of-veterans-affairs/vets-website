@@ -3,23 +3,26 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
+
+const TITLE_TEXT = content['medicare--part-a-effective-date-title'];
+const SUBTITLE_TEXT = content['medicare--part-a-subtitle'];
+const INPUT_LABEL = content['medicare--effective-date-label'];
+const HINT_TEXT = content['medicare--part-a-effective-date-hint'];
 
 export default {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(`${nameWording(formData)} Medicare Part A effective date`),
-    ),
+    ...titleWithNameUI(TITLE_TEXT),
     'view:medicarePartAEffectiveDate': {
       ...titleUI({
-        title: 'Medicare Part A',
+        title: SUBTITLE_TEXT,
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
       applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
-        title: 'Effective date',
-        hint:
-          'This will be on the front of the Medicare card near “Coverage starts” or “Effective date.”',
+        title: INPUT_LABEL,
+        hint: HINT_TEXT,
         classNames: 'vads-u-margin-top--neg1p5',
       }),
     },

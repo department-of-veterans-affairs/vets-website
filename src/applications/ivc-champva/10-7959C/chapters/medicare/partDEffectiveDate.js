@@ -1,14 +1,19 @@
 import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
 import { validateDateRange } from '../../utils/validation';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const PAGE_TITLE = ({ formData }) => {
-  const name = nameWording(formData, undefined, undefined, true);
-  return privWrapper(`${name} Medicare Part D effective date`);
+const TITLE_TEXT = content['medicare--part-d-effective-date-title'];
+const INPUT_LABELS = {
+  effectiveDate: content['medicare--part-d-effective-date-label'],
+  terminationDate: content['medicare--part-d-termination-date-label'],
+};
+const HINT_TEXT = {
+  effectiveDate: content['medicare--part-d-effective-date-hint'],
+  terminationDate: content['medicare--part-d-termination-date-hint'],
 };
 
 const VALIDATIONS = [
@@ -21,14 +26,14 @@ const VALIDATIONS = [
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
+    ...titleWithNameUI(TITLE_TEXT),
     medicarePartDEffectiveDate: currentOrPastDateUI({
-      title: 'Medicare Part D effective date',
-      hint: 'This information is at the top of the card.',
+      title: INPUT_LABELS.effectiveDate,
+      hint: HINT_TEXT.effectiveDate,
     }),
     medicarePartDTerminationDate: currentOrPastDateUI({
-      title: 'Medicare Part D termination date',
-      hint: 'Only enter this date if the plan is inactive.',
+      title: INPUT_LABELS.terminationDate,
+      hint: HINT_TEXT.terminationDate,
     }),
     'ui:validations': VALIDATIONS,
   },

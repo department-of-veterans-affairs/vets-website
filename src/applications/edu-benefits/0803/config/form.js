@@ -1,4 +1,5 @@
 // @ts-check
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
@@ -8,6 +9,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PresubmitInfo from '../components/PresubmitInfo';
+import PersonalInformationNote from '../components/PersonalInformationNote';
 
 import { CustomReviewTopContent } from '../helpers';
 
@@ -112,6 +114,7 @@ const formConfig = {
           dataAdapter: {
             ssnPath: 'ssn',
           },
+          note: <PersonalInformationNote />,
         }),
         payeeNumber: {
           path: 'payee-number',

@@ -22,6 +22,7 @@ describe('ClaimantInfoViewField', () => {
       claimantSsn: '987-65-4321',
       claimantFullName: { first: 'Jane', last: 'Doe' },
       claimantDateOfBirth: '2010-05-21',
+      isVeteran: 'no',
     };
 
     const { getByText } = render(
