@@ -60,12 +60,16 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
-  const mergeCvixWithScdf = useSelector(
-    state =>
+  const { holdTimeMessagingUpdate, mergeCvixWithScdf } = useSelector(state => ({
+    holdTimeMessagingUpdate:
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
+      ],
+    mergeCvixWithScdf:
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
       ],
-  );
+  }));
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
     const isRadRecord =
@@ -168,13 +172,32 @@ const LabsAndTests = () => {
         Lab and test results
       </h1>
 
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        Most lab and test results are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after the lab
-        confirms them. Pathology results may take{' '}
-        <span className="vads-u-font-weight--bold">14 days</span> or longer to
-        confirm.{' '}
-      </p>
+      {holdTimeMessagingUpdate && (
+        <>
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Your test results are available here as soon as they’re ready. You
+            may have access to your results before your care team reviews them.
+          </p>
+          <va-additional-info trigger="What to know before reviewing your results">
+            <p>
+              Please give your care team some time to review your results. Test
+              results can be complex. Your team can help you understand what the
+              results mean for your overall health. If you do review results on
+              your own, remember that many factors can affect what they mean for
+              you. If you have concerns, contact your care team.
+            </p>
+          </va-additional-info>
+        </>
+      )}
+      {!holdTimeMessagingUpdate && (
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Most lab and test results are available{' '}
+          <span className="vads-u-font-weight--bold">36 hours</span> after the
+          lab confirms them. Pathology results may take{' '}
+          <span className="vads-u-font-weight--bold">14 days</span> or longer to
+          confirm.
+        </p>
+      )}
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
