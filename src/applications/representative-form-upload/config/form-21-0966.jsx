@@ -1,3 +1,4 @@
+import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
@@ -10,7 +11,7 @@ import { itfTransformForSubmit } from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 import { getIntentsToFile } from '../helpers/intent-to-file-helper';
-import submissionError from './submissionError';
+import ITFSubmissionError from './ITFSubmissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 import PermissionError from '../components/PermissionError';
 import ExistingItf from '../components/ExistingItf';
@@ -41,7 +42,7 @@ const form210966 = (pathname = null) => {
     version: 0,
     prefillEnabled: false,
     transformForSubmit: itfTransformForSubmit,
-    submissionError,
+    submissionError: ITFSubmissionError,
     defaultDefinitions: {},
     additionalRoutes: [
       {
@@ -71,11 +72,11 @@ const form210966 = (pathname = null) => {
     },
     chapters: {
       isVeteranChapter: {
-        title: 'Claimant background',
+        title: 'Claimant background ',
         pages: {
           isVeteranPage: {
             path: 'claimant-background',
-            title: "Claimant's background",
+            title: 'Claimant background',
             uiSchema: isVeteranPage.uiSchema,
             schema: isVeteranPage.schema,
             CustomPage: IsVeteranPage,
@@ -111,6 +112,11 @@ const form210966 = (pathname = null) => {
       },
       claimantInformationChapter: {
         title: 'Claimant and Veteran information',
+        reviewDescription: () => (
+          <div className="itf-review-heading">
+            Claimant and Veteran information
+          </div>
+        ),
         pages: {
           claimantInformation: {
             path: 'claimant-information',
@@ -138,7 +144,7 @@ const form210966 = (pathname = null) => {
             scrollAndFocusTarget,
             // we want req'd fields prefilled for LOCAL testing/previewing
             // one single initialData prop here will suffice for entire form
-            initialData: getMockData(),
+            initialData: getMockData(true),
           },
         },
       },
