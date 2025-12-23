@@ -23,7 +23,7 @@ const SubmissionErrorAlert = () => {
         <ul data-testid="hca-agreement-statements">
           <li>
             Call us at <va-telephone contact="8772228387" />, Monday through
-            through Friday, 8:00 a.m. to 8:00 p.m. ET.,
+            Friday, 8:00 a.m. to 8:00 p.m. ET.,
             <strong>or</strong>
           </li>
           <li>
