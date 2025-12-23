@@ -133,12 +133,11 @@ describe('10-7959c `titleWithNameUI` util', () => {
       certifierRole: 'other',
       applicantName: {
         first: 'John',
-        middle: 'Michael',
         last: 'Smith',
       },
     };
     const result = subject(uiSchema, formData);
-    expect(result).to.equal('John Michael Smith’s contact info');
+    expect(result).to.equal('John Smith’s contact info');
   });
 
   it('should return name without possessive when `possessive` option is false', () => {

@@ -76,11 +76,11 @@ const nameLabel = (formData, opts) => {
 
 /**
  * Generates a label from the role text.
- * @param {Object} opts - Options containing other and otherIsPossessive
+ * @param {Object} opts - Options containing other and possessive
  * @returns {string} Formatted role label
  */
 const roleLabel = opts =>
-  opts.otherIsPossessive ? makePossessive(opts.other) : opts.other;
+  opts.possessive ? makePossessive(opts.other) : opts.other;
 
 /**
  * Determines the appropriate subject label based on role and mode.
@@ -91,10 +91,9 @@ const roleLabel = opts =>
 const subjectLabel = (formData, options = {}) => {
   const opts = mergeOpts(options);
   if (isSelf(formData, opts)) return opts.self;
-  if (opts.mode === 'role')
-    return roleLabel({ ...opts, otherIsPossessive: true });
+  if (opts.mode === 'role') return roleLabel(opts);
   const label = nameLabel(formData, opts);
-  return label || roleLabel({ ...opts, otherIsPossessive: true });
+  return label || roleLabel(opts);
 };
 
 /**
