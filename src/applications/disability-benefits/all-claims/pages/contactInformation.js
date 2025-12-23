@@ -6,6 +6,8 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
+import constants from 'vets-json-schema/dist/constants.json';
+
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
 import {
@@ -59,6 +61,8 @@ const {
 
 // const countryEnum = fullSchema.definitions.country.enum;
 // const citySchema = fullSchema.definitions.address.properties.city;
+const COUNTRY_VALUES = constants.countries.map(country => country.value);
+const COUNTRY_LABELS = constants.countries.map(country => country.label);
 
 // /**
 //  * Return state of mailing address military base checkbox
@@ -95,33 +99,9 @@ export const updateFormData = (oldFormData, formData) => {
       street2: 'addressLine2',
       street3: 'addressLine3',
       postalCode: 'zipCode',
+      isMilitary: 'view:livesOnMilitaryBase',
     },
   );
-  // let { city, state } = formData.mailingAddress;
-  // const onMilitaryBase = getMilitaryValue(formData);
-  // if (getMilitaryValue(oldFormData) !== onMilitaryBase) {
-  //   if (onMilitaryBase) {
-  //     savedAddress.city = oldFormData.mailingAddress.city || '';
-  //     savedAddress.state = oldFormData.mailingAddress.state || '';
-  //     city = '';
-  //     state = '';
-  //   } else {
-  //     city = MILITARY_CITIES.includes(oldFormData.mailingAddress.city)
-  //       ? savedAddress.city
-  //       : city || savedAddress.city;
-  //     state = MILITARY_STATE_VALUES.includes(oldFormData.mailingAddress.state)
-  //       ? savedAddress.state
-  //       : state || savedAddress.state;
-  //   }
-  // }
-  // return {
-  //   ...formData,
-  //   mailingAddress: {
-  //     ...formData.mailingAddress,
-  //     city,
-  //     state,
-  //   },
-  // };
 };
 
 export const uiSchema = {
@@ -143,6 +123,13 @@ export const uiSchema = {
         street2: 'addressLine2',
         street3: 'addressLine3',
         postalCode: 'zipCode',
+        isMilitary: 'view:livesOnMilitaryBase',
+      },
+      countries: {
+        values: COUNTRY_VALUES,
+        labels: COUNTRY_LABELS,
+        usaValue: 'USA',
+        usaLabel: 'United States',
       },
     }),
     zipCode: {
@@ -171,6 +158,13 @@ export const schema = {
         street2: 'addressLine2',
         street3: 'addressLine3',
         postalCode: 'zipCode',
+        isMilitary: 'view:livesOnMilitaryBase',
+      },
+      countries: {
+        values: COUNTRY_VALUES,
+        labels: COUNTRY_LABELS,
+        usaValue: 'USA',
+        usaLabel: 'United States',
       },
     }),
     'view:contactInfoDescription': {
