@@ -24,15 +24,16 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const hasXInThirdPosition =
     code.length === 8 && !badFormat && code.charAt(2).toUpperCase() === 'X';
 
+  // TODO: move below 'not found' check after new response code is configured
+  if (hasXInThirdPosition) {
+    errors.addError('Codes with an "X" in the third position are not eligible');
+    return;
+  }
+
   if (badFormat || notFound) {
     errors.addError(
       'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
     );
-  }
-
-  if (hasXInThirdPosition) {
-    errors.addError('Codes with an "X" in the third position are not eligible');
-    return;
   }
 
   if (notYR) {

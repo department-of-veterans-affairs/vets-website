@@ -345,6 +345,7 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
       return;
     }
 
+    // TODO: move below 'not found' check after new response code is configured
     if (hasXInThirdPosition) {
       errors.addError(
         'Codes with an "X" in the third position are not eligible',
