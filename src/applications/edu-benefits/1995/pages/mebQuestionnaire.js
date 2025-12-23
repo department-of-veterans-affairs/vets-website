@@ -58,6 +58,11 @@ const getFormInfo = benefitType => {
     linkText: 'Apply for education benefits (VA Form 22-1990e)',
     formName: 'VA Form 22-1990e',
   };
+  const dea = {
+    ...form5490,
+    recentlyUsedBenefit: 'Dependents’ Educational Assistance (DEA, Chapter 35)',
+  };
+
   switch (benefitType) {
     case 'chapter33':
     case 'CH33':
@@ -73,6 +78,7 @@ const getFormInfo = benefitType => {
     case 'CH35':
     case '35':
     case 'DEA':
+      return dea;
     case 'fryScholarship':
     case 'FRY':
     case 'CH33_FRY':
@@ -149,7 +155,11 @@ const SameBenefitResultDescription = ({ formData }) => {
       linkText={formInfo.linkText}
       answers={[
         'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
-        `Your most recently used benefit is ${formInfo.formName}`,
+        `Your most recently used benefit is ${
+          formInfo.recentlyUsedBenefit
+            ? formInfo.recentlyUsedBenefit
+            : formInfo.formName
+        }`,
       ]}
     />
   );
