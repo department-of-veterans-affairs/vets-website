@@ -8,7 +8,7 @@ describe('Confirmation Page', () => {
   });
 
   it('renders the confirmation page with results and additional info', () => {
-    cy.get('h2').should('contain', 'For you');
+    cy.get('h2').should('contain', 'Your results');
 
     cy.get('va-additional-info')
       .should('be.visible')
