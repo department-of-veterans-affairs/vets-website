@@ -11,7 +11,7 @@ import { itfTransformForSubmit } from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 import { getIntentsToFile } from '../helpers/intent-to-file-helper';
-import submissionError from './submissionError';
+import ITFSubmissionError from './ITFSubmissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 import PermissionError from '../components/PermissionError';
 import ExistingItf from '../components/ExistingItf';
@@ -42,7 +42,7 @@ const form210966 = (pathname = null) => {
     version: 0,
     prefillEnabled: false,
     transformForSubmit: itfTransformForSubmit,
-    submissionError,
+    submissionError: ITFSubmissionError,
     defaultDefinitions: {},
     additionalRoutes: [
       {
