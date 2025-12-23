@@ -26,7 +26,15 @@ describe('ezr <ConfirmationScreenView>', () => {
     const mockStore = {
       form: {
         data: {
+          veteranDateOfBirth: '1990-01-01',
+          gender: 'M',
           ...additionalData,
+        },
+        loadedData: {
+          formData: {
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'M',
+          },
         },
       },
       user: {
