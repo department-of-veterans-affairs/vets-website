@@ -253,6 +253,15 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           timeout = setTimeout(() => {
             if (focusRef.current) {
               scrollAndFocus(focusRef.current);
+              // After scrolling, focus the close button for better screen reader support
+              if (focusRef.current?.shadowRoot) {
+                const closeButton = focusRef.current.shadowRoot.querySelector(
+                  'button[aria-label="Close notification"]',
+                );
+                if (closeButton) {
+                  focusElement(closeButton);
+                }
+              }
             }
           }, 300); // need to wait to override pageScrollAndFocus
         }
@@ -366,7 +375,16 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       setRemovedItemIndex(index);
       setShowRemovedAlert(true);
       requestAnimationFrame(() => {
-        focusElement(removedAlertRef.current);
+        if (removedAlertRef.current?.shadowRoot) {
+          const closeButton = removedAlertRef.current.shadowRoot.querySelector(
+            'button[aria-label="Close notification"]',
+          );
+          if (closeButton) {
+            focusElement(closeButton);
+          } else {
+            focusElement(removedAlertRef.current);
+          }
+        }
       });
     }
 
