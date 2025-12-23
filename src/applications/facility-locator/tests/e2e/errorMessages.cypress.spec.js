@@ -57,11 +57,13 @@ for (const featureSet of featureSets) {
         .shadow()
         .find('.usa-error-message')
         .contains('Select a facility type');
+
+      h.errorMessageContains2(faciltyErrorMessage);
+
       cy.get(h.FACILITY_TYPE_DROPDOWN)
         .shadow()
         .find('select')
         .select('VA health');
-      h.errorMessageContains(faciltyErrorMessage);
     });
 
     it('shows error message when leaving service type field empty on submit', () => {
@@ -91,7 +93,7 @@ for (const featureSet of featureSets) {
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
       h.verifyElementExists(h.CCP_SERVICE_TYPE_INPUT);
-      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE_CONTENT);
+      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE_2);
     });
 
     it('shows error message when deleting service after search', () => {
