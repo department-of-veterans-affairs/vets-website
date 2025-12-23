@@ -161,42 +161,83 @@ function mapHealthInsuranceToApplicants(
 }
 
 /**
+ * Filters Medicare documents to only include those valid for the current plan type
+ * @param {Object} medicareItem - A single Medicare item from the medicare array
+ * @returns {Object} Medicare item with only valid document properties
+ */
+const filterMedicareDocumentsByPlanType = item => {
+  const planType = item?.medicarePlanType;
+  const hasMedicarePartD = item?.hasMedicarePartD;
+
+  const validPropertiesByPlanType = {
+    ab: ['medicarePartAPartBFrontCard', 'medicarePartAPartBBackCard'],
+    a: ['medicarePartAFrontCard', 'medicarePartABackCard'],
+    b: [
+      'medicarePartBFrontCard',
+      'medicarePartBBackCard',
+      'medicarePartADenialProof',
+    ],
+    c: [
+      'medicarePartAPartBFrontCard',
+      'medicarePartAPartBBackCard',
+      'medicarePartCFrontCard',
+      'medicarePartCBackCard',
+    ],
+  };
+  const partDProperties = ['medicarePartDFrontCard', 'medicarePartDBackCard'];
+
+  const validProperties = validPropertiesByPlanType[planType] || [];
+  const allValidProperties = hasMedicarePartD
+    ? [...validProperties, ...partDProperties]
+    : validProperties;
+
+  const allDocumentProperties = [
+    ...new Set([
+      ...Object.values(validPropertiesByPlanType).flat(),
+      ...partDProperties,
+    ]),
+  ];
+
+  return Object.fromEntries(
+    Object.entries(item).filter(
+      ([key]) =>
+        !allDocumentProperties.includes(key) ||
+        allValidProperties.includes(key),
+    ),
+  );
+};
+
+/**
  * Collects all supporting documents across applicants and policies
  * @param {Object} data - Form data
  * @returns {Array} Array of supporting documents
  */
-function collectSupportingDocuments(data) {
-  // Get top-level supporting docs
+const collectSupportingDocuments = data => {
   const topLevelDocs = getObjectsWithAttachmentId(data, 'confirmationCode');
 
-  // Collect docs from insurance policies and Medicare
-  const policyDocs = [];
-  ['healthInsurance', 'medicare'].forEach(key => {
-    data[key].forEach(item => {
-      const docs = getObjectsWithAttachmentId(item, 'confirmationCode');
-      policyDocs.push(...docs);
-    });
+  const healthInsuranceDocs = (data.healthInsurance ?? []).flatMap(item =>
+    getObjectsWithAttachmentId(item, 'confirmationCode'),
+  );
+
+  const medicareDocs = (data.medicare ?? []).flatMap(item => {
+    const filtered = filterMedicareDocumentsByPlanType(item);
+    return getObjectsWithAttachmentId(filtered, 'confirmationCode');
   });
 
-  // Collect and enhance applicant supporting docs
-  const applicantDocs = [];
-  data.applicants.forEach(applicant => {
-    if (applicant.applicantSupportingDocuments?.length) {
-      applicant.applicantSupportingDocuments.forEach(doc => {
-        if (doc) {
-          // Add applicant name to document for clarity
-          applicantDocs.push({
-            ...doc,
-            applicantName: applicant.applicantName,
-          });
-        }
-      });
-    }
-  });
+  const applicantDocs = (data.applicants ?? []).flatMap(applicant =>
+    (applicant.applicantSupportingDocuments ?? []).filter(Boolean).map(doc => ({
+      ...doc,
+      applicantName: applicant.applicantName,
+    })),
+  );
 
-  // Combine all documents
-  return [...topLevelDocs.flat(), ...policyDocs, ...applicantDocs];
-}
+  return [
+    ...topLevelDocs.flat(),
+    ...healthInsuranceDocs,
+    ...medicareDocs,
+    ...applicantDocs,
+  ];
+};
 
 /**
  * Main transformer function that prepares form data for submission

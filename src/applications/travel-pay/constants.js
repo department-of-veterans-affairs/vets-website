@@ -176,9 +176,9 @@ export const STATUS_GROUPINGS = [
 ];
 
 export const EXPENSE_TYPE_KEYS = Object.freeze({
-  AIRTRAVEL: 'Airtravel',
+  AIRTRAVEL: 'AirTravel',
   MEAL: 'Meal',
-  COMMONCARRIER: 'Commoncarrier',
+  COMMONCARRIER: 'CommonCarrier',
   LODGING: 'Lodging',
   MILEAGE: 'Mileage',
   PARKING: 'Parking',
@@ -217,7 +217,7 @@ export const EXPENSE_TYPES = Object.freeze({
     name: 'common carrier',
     title: 'Public transportation, taxi, or rideshare',
     route: 'common-carrier',
-    apiRoute: 'commoncarrier',
+    apiRoute: 'common_carrier',
   },
   [EXPENSE_TYPE_KEYS.AIRTRAVEL]: {
     addButtonText: 'air travel',
@@ -256,6 +256,7 @@ export const EXPENSE_TYPES = Object.freeze({
 export const TRANSPORTATION_OPTIONS = Object.freeze([
   'Bus',
   'Subway',
+  'Taxi',
   'Train',
   'Other',
 ]);
