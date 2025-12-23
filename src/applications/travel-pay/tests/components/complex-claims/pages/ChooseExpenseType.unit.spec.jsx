@@ -518,32 +518,34 @@ describe('ChooseExpenseType', () => {
     });
 
     it('navigates back to intro page when backDestination is "intro"', async () => {
-      const ReviewCapture = () => <div data-testid="intro-page">Intro</div>;
-      const IntroCapture = () => <div data-testid="intro-page">Intro</div>;
+      const LocationDisplay = () => {
+        const location = useLocation();
+        return <div data-testid="location-display">{location.pathname}</div>;
+      };
 
       const { getByTestId } = renderWithStoreAndRouter(
         <MemoryRouter
-          initialEntries={[
-            {
-              pathname: '/file-new-claim/12345/claim123/choose-expense',
-              state: { backDestination: 'intro' },
-            },
-          ]}
+          initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
         >
           <Routes>
             <Route
               path="/file-new-claim/:apptId/:claimId/choose-expense"
               element={<ChooseExpenseType />}
             />
-            <Route path="/file-new-claim/:apptId" element={<IntroCapture />} />
-            <Route
-              path="/file-new-claim/:apptId/:claimId/review"
-              element={<ReviewCapture />}
-            />
           </Routes>
+          <LocationDisplay />
         </MemoryRouter>,
         {
-          initialState: { ...initialState, expenseBackDestination: 'intro' },
+          initialState: {
+            ...initialState,
+            travelPay: {
+              ...initialState.travelPay,
+              complexClaim: {
+                ...initialState.travelPay.complexClaim,
+                expenseBackDestination: 'intro',
+              },
+            },
+          },
           reducers: reducer,
         },
       );
@@ -557,35 +559,41 @@ describe('ChooseExpenseType', () => {
       );
 
       await waitFor(() => {
-        expect(getByTestId('intro-page')).to.exist;
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/file-new-claim/12345',
+        );
       });
     });
 
     it('navigates back to review page when backDestination is "review"', async () => {
-      const ReviewCapture = () => <div data-testid="review-page">Review</div>;
+      const LocationDisplay = () => {
+        const location = useLocation();
+        return <div data-testid="location-display">{location.pathname}</div>;
+      };
 
       const { getByTestId } = renderWithStoreAndRouter(
         <MemoryRouter
-          initialEntries={[
-            {
-              pathname: '/file-new-claim/12345/claim123/choose-expense',
-              state: { backDestination: 'review' },
-            },
-          ]}
+          initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
         >
           <Routes>
             <Route
               path="/file-new-claim/:apptId/:claimId/choose-expense"
               element={<ChooseExpenseType />}
             />
-            <Route
-              path="/file-new-claim/:apptId/:claimId/review"
-              element={<ReviewCapture />}
-            />
           </Routes>
+          <LocationDisplay />
         </MemoryRouter>,
         {
-          initialState: { ...initialState, expenseBackDestination: 'review' },
+          initialState: {
+            ...initialState,
+            travelPay: {
+              ...initialState.travelPay,
+              complexClaim: {
+                ...initialState.travelPay.complexClaim,
+                expenseBackDestination: 'review',
+              },
+            },
+          },
           reducers: reducer,
         },
       );
@@ -599,7 +607,9 @@ describe('ChooseExpenseType', () => {
       );
 
       await waitFor(() => {
-        expect(getByTestId('review-page')).to.exist;
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/file-new-claim/12345/claim123/review',
+        );
       });
     });
   });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { useSelector } from 'react-redux';
 import { waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -574,7 +575,7 @@ describe('Travel Pay – IntroductionPage', () => {
     expect(startButton).to.exist;
   });
 
-  it('navigates to choose-expense with backDestination=intro in location state', async () => {
+  it('dispatches setExpenseBackDestination with "intro" when start button is clicked', async () => {
     const stateWithExistingClaim = {
       travelPay: {
         ...getData().travelPay,
@@ -590,14 +591,14 @@ describe('Travel Pay – IntroductionPage', () => {
       },
     };
 
-    // Component to verify location state
-    const ChooseExpenseWithStateCheck = () => {
-      const location = useLocation();
+    // Component to verify Redux state
+    const StateDisplay = () => {
+      const expenseBackDestination = useSelector(
+        state => state.travelPay.complexClaim.expenseBackDestination,
+      );
       return (
-        <div data-testid="choose-expense-page">
-          <div data-testid="back-destination">
-            {location.state?.backDestination || 'none'}
-          </div>
+        <div data-testid="expense-back-destination">
+          {expenseBackDestination || 'none'}
         </div>
       );
     };
@@ -613,12 +614,8 @@ describe('Travel Pay – IntroductionPage', () => {
             path="/file-new-claim/:apptId"
             element={<IntroductionPage />}
           />
-          <Route
-            path="/file-new-claim/:apptId/:claimId/choose-expense"
-            element={<ChooseExpenseWithStateCheck />}
-          />
         </Routes>
-        <LocationDisplay />
+        <StateDisplay />
       </MemoryRouter>,
       {
         initialState: stateWithExistingClaim,
@@ -634,12 +631,11 @@ describe('Travel Pay – IntroductionPage', () => {
     expect(startButton).to.exist;
     startButton.click();
 
-    // Verify navigation to choose-expense with correct state
+    // Verify Redux state is updated
     await waitFor(() => {
-      expect(getByTestId('location-display').textContent).to.equal(
-        '/file-new-claim/12345/45678/choose-expense',
+      expect(getByTestId('expense-back-destination').textContent).to.equal(
+        'intro',
       );
-      expect(getByTestId('back-destination').textContent).to.equal('intro');
     });
   });
 });

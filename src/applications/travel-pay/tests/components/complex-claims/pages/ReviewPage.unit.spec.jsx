@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { useSelector } from 'react-redux';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { fireEvent, waitFor } from '@testing-library/react';
 
@@ -462,15 +463,15 @@ describe('Travel Pay – ReviewPage', () => {
     expect(expenseTotals.length).to.equal(0);
   });
 
-  it('navigates to choose-expense with backDestination=review in location state', async () => {
-    // Component to verify location state
-    const ChooseExpenseWithStateCheck = () => {
-      const location = useLocation();
+  it('dispatches setExpenseBackDestination with "review" when add expense button is clicked', async () => {
+    // Component to verify Redux state
+    const BackDestinationDisplay = () => {
+      const expenseBackDestination = useSelector(
+        state => state.travelPay.complexClaim.expenseBackDestination,
+      );
       return (
-        <div data-testid="choose-expense-page">
-          <div data-testid="back-destination">
-            {location.state?.backDestination || 'none'}
-          </div>
+        <div data-testid="expense-back-destination">
+          {expenseBackDestination || 'none'}
         </div>
       );
     };
@@ -484,12 +485,8 @@ describe('Travel Pay – ReviewPage', () => {
             path="/file-new-claim/:apptId/:claimId/review"
             element={<ReviewPage />}
           />
-          <Route
-            path="/file-new-claim/:apptId/:claimId/choose-expense"
-            element={<ChooseExpenseWithStateCheck />}
-          />
         </Routes>
-        <LocationDisplay />
+        <BackDestinationDisplay />
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -503,10 +500,9 @@ describe('Travel Pay – ReviewPage', () => {
     fireEvent.click(addButton);
 
     await waitFor(() => {
-      expect(getByTestId('location-display').textContent).to.equal(
-        '/file-new-claim/12345/45678/choose-expense',
+      expect(getByTestId('expense-back-destination').textContent).to.equal(
+        'review',
       );
-      expect(getByTestId('back-destination').textContent).to.equal('review');
     });
   });
 });
