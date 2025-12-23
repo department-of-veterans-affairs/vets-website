@@ -53,7 +53,7 @@ const profileContactInfoPages = ({
   // depends callback for contact info page
   depends = null,
   contactInfoUiSchema = {},
-  disableMockContactInfo = false,
+  disableMockContactInfo = true,
   contactSectionHeadingLevel = null,
   editContactInfoHeadingLevel = null,
   prefillPatternEnabled = true,
