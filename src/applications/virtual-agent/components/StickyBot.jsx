@@ -1,25 +1,12 @@
 import React from 'react';
 
+import useSkipLinkFix from '../hooks/useSkipLinkFix';
 import Chatbox from './Chatbox';
 import Disclaimer from './Disclaimer/Disclaimer';
 
-// Update the "Skip to content" link to point to the chatbot header for accessibility
-// https://github.com/department-of-veterans-affairs/va-virtual-agent/issues/2769
-const updateSkipToContentLink = () => {
-  const skipToContentLink = document.querySelector(
-    'a.show-on-focus[href="#content"]',
-  );
-  if (skipToContentLink) {
-    skipToContentLink.removeAttribute('onclick');
-    skipToContentLink.innerHTML = 'Skip to chatbot';
-    skipToContentLink.setAttribute('href', '#chatbot-header');
-  }
-};
-
 export default function StickyBot() {
-  React.useEffect(() => {
-    updateSkipToContentLink();
-  }, []);
+  useSkipLinkFix();
+
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4">
