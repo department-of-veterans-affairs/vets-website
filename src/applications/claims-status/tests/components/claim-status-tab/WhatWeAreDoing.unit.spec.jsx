@@ -544,7 +544,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 2', () => {
         const {
@@ -568,7 +570,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 3', () => {
         const {
@@ -592,7 +596,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 4', () => {
         const {
@@ -616,7 +622,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 5', () => {
         const {
@@ -640,7 +648,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 6', () => {
         const {
@@ -664,7 +674,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 7', () => {
         const {
@@ -688,7 +700,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
     });
   });
@@ -717,7 +731,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 2', () => {
         const {
@@ -741,7 +757,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 3', () => {
         const {
@@ -765,7 +783,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 4', () => {
         const {
@@ -789,7 +809,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 5', () => {
         const {
@@ -813,7 +835,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 6', () => {
         const {
@@ -837,7 +861,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 7', () => {
         const {
@@ -861,7 +887,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
     });
 
@@ -888,7 +916,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 2', () => {
         const {
@@ -912,7 +942,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 3', () => {
         const {
@@ -936,7 +968,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 4', () => {
         const {
@@ -960,7 +994,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 5', () => {
         const {
@@ -984,7 +1020,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 6', () => {
         const {
@@ -1008,7 +1046,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when claim phase 7', () => {
         const {
@@ -1032,7 +1072,9 @@ describe('<WhatWeAreDoing>', () => {
         getByText(getClaimStatusDescription(status));
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
-        expect(getByRole('link')).to.have.text('Overview of the process');
+        expect(getByRole('link')).to.have.text(
+          'Learn more about the review process',
+        );
       });
       it('should render a WhatWereDoing section when current phase back is set to true', () => {
         const {
