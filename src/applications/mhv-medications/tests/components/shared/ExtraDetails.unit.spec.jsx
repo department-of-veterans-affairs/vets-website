@@ -164,7 +164,7 @@ describe('Medications List Card Extra Details', () => {
             cernerPilot,
             v2StatusMapping,
           );
-          expect(await screen.findByTestId('active-parked')).to.exist;
+          expect(await screen.findByTestId('active')).to.exist;
         });
       },
     );
