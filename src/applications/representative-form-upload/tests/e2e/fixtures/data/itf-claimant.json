@@ -1,0 +1,25 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "Chad",
+      "last": "Barrett"
+    },
+    "veteranSsn": "796263749",
+    "veteranDateOfBirth": "1975-05-12",
+    "address": {
+      "country": "USA",
+      "street": "123 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "email": "john@veteran.com",
+    "vaFileNumber": "99999999",
+    "claimantFullName": {
+      "first": "Claimanty",
+      "last": "Jane"
+    },
+    "claimantSsn": "112667849",
+    "claimantDateOfBirth": "1999-09-02"
+  }
+}
