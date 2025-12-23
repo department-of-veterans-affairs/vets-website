@@ -18,8 +18,7 @@ import { shouldShowDeclinedAlert } from '../helpers';
  * @param {object} location - react router location object
  * @param {JSX.Element} children - child components
  * @param {boolean} isLoggedIn - user login status
- * @param {boolean} isLoading - user loading status
- * @param {object} featureToggles - feature toggles object
+ * @param {func} openReviewChapter - helper function
  * @returns {JSX.Element} - rendered component
  */
 function App({ location, children, isLoggedIn, openReviewChapter }) {
