@@ -10,8 +10,8 @@ npm run build -- --buildtype=localhost --api='${API_URL}' --host='${WEB_HOST}' -
 cd ../content-build
 cp .env.example .env && yarn install --production=false
 # Build necessary node modules since ignore-scripts is set globally.
-pushd node_modules/node-libcurl/ && npm run install && popd
-pushd node_modules/node-sass/ && npm run install && popd
+cd node_modules/node-libcurl/ && npm run install && cd -
+cd node_modules/node-sass/ && npm run install && cd -
 npm run fetch-drupal-cache
 
 npm run build -- --buildtype=localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}' --apps-directory-name=application

@@ -36,12 +36,7 @@ const servicePeriodOptions = {
   nounPlural: 'service periods',
   required: false,
   isItemIncomplete: item =>
-    !item.serviceBranch &&
-    !item.dateEnteredService &&
-    !item.placeEnteredService &&
-    !item.rankAtSeparation &&
-    !item.dateLeftService &&
-    !item.placeLeftService,
+    !item.serviceBranch && !item.dateEnteredService && !item.dateLeftService,
   text: {
     summaryTitle: "Review the Veteran's service periods",
     getItemName: item =>
@@ -111,7 +106,6 @@ const serviceLocationsAndRankPage = {
   },
   schema: {
     type: 'object',
-    required: ['placeEnteredService', 'placeLeftService', 'rankAtSeparation'],
     properties: {
       placeEnteredService: textSchema,
       placeLeftService: textSchema,

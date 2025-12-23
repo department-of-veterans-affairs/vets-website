@@ -6,10 +6,6 @@
   "veteranInformation": {
     "dateOfDeath": "2005-05-19",
     "dateOfBirth": "1920-05-04",
-    "placeOfBirth": {
-      "city": "Naboo",
-      "state": "New Mexico"
-    },
     "ssn": "800121234",
     "fullName": {
       "first": "Sheev",
