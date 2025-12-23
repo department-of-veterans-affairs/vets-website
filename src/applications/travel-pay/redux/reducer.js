@@ -156,6 +156,7 @@ const initialState = {
 };
 
 function travelPayReducer(state = initialState, action) {
+  /* eslint-disable sonarjs/max-switch-cases */
   switch (action.type) {
     case FETCH_TRAVEL_CLAIMS_STARTED:
       return {
