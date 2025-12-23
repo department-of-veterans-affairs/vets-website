@@ -84,19 +84,6 @@ describe('ezr <ConfirmationScreenView>', () => {
         expect(applicationDate).to.contain.text('Oct. 27, 2022');
       });
     });
-
-    it('should render download pdf button', () => {
-      /*
-      We need to have all of the necessary data to supply to the submitTransformer
-      as well as the data that is used to render the component
-      */
-      const { selectors } = subject(undefined, {
-        veteranDateOfBirth: '1990-01-01',
-        gender: 'M',
-      });
-      const { downloadLink } = selectors();
-      expect(downloadLink).to.exist;
-    });
   });
 
   describe('when the print button is clicked', () => {

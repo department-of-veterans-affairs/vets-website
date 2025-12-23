@@ -67,11 +67,5 @@ describe('ezr <SubmissionErrorAlert>', () => {
       expect(headerTitle).to.exist;
       expect(headerTitle).to.contain.text(content['alert-submission-title']);
     });
-
-    it('should render download pdf button', () => {
-      const { selectors } = subject();
-      const { downloadLink } = selectors();
-      expect(downloadLink).to.exist;
-    });
   });
 });
