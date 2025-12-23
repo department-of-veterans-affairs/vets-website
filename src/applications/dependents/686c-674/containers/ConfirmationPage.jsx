@@ -68,6 +68,7 @@ export default function ConfirmationPage() {
                 text="Download or print the information you submitted (opens in a new tab)"
                 type="secondary"
                 class="form-renderer"
+                href="/form-renderer"
               />
             </div>
           </section>
