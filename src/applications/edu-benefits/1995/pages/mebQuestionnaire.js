@@ -124,7 +124,11 @@ const ResultDescription = ({
     )}
     <p>{body}</p>
     {linkHref && linkText && (
-      <va-link-action type="primary" href={linkHref} text={linkText} />
+      <va-link-action
+        type="primary"
+        href={linkHref}
+        text={linkText}
+      />
     )}
     <div className="usa-alert background-color-only">
       <h4 className="vads-u-margin-top--0">Your answers:</h4>
