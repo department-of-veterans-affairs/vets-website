@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { replaceStrValues } from '../../helpers/formatting';
+import { replaceStrValues } from '../../../../utils/helpers/formatting';
 
 describe('10-7959c `replaceStrValues` util', () => {
   it('should return empty string when source is falsy', () => {

@@ -40,6 +40,9 @@ export const DELETE_EXPENSE_FAILURE = 'DELETE_EXPENSE_FAILURE';
 export const CREATE_EXPENSE_STARTED = 'CREATE_EXPENSE_STARTED';
 export const CREATE_EXPENSE_SUCCESS = 'CREATE_EXPENSE_SUCCESS';
 export const CREATE_EXPENSE_FAILURE = 'CREATE_EXPENSE_FAILURE';
+export const FETCH_EXPENSE_STARTED = 'FETCH_EXPENSE_STARTED';
+export const FETCH_EXPENSE_SUCCESS = 'FETCH_EXPENSE_SUCCESS';
+export const FETCH_EXPENSE_FAILURE = 'FETCH_EXPENSE_FAILURE';
 export const DELETE_DOCUMENT_STARTED = 'DELETE_DOCUMENT_STARTED';
 export const DELETE_DOCUMENT_SUCCESS = 'DELETE_DOCUMENT_SUCCESS';
 export const DELETE_DOCUMENT_FAILURE = 'DELETE_DOCUMENT_FAILURE';
@@ -392,6 +395,10 @@ const updateExpenseStart = expenseId => ({
   type: UPDATE_EXPENSE_STARTED,
   expenseId,
 });
+const updateExpenseSuccess = expenseId => ({
+  type: UPDATE_EXPENSE_SUCCESS,
+  expenseId,
+});
 const updateExpenseFailure = (error, expenseId) => ({
   type: UPDATE_EXPENSE_FAILURE,
   error,
@@ -427,9 +434,7 @@ export function updateExpense(claimId, expenseType, expenseId, expenseData) {
       // to get the complete expense data with document info
       await dispatch(getComplexClaimDetails(claimId));
 
-      // We don't need to dispatch an updateExpenseSuccess action since
-      // getComplexClaimDetails is responsible for loading the full expense
-      // data into the store
+      dispatch(updateExpenseSuccess(expenseId));
       return response;
     } catch (error) {
       dispatch(updateExpenseFailure(error, expenseId));
@@ -495,6 +500,9 @@ export function deleteExpense(claimId, expenseType, expenseId) {
 const createExpenseStart = () => ({
   type: CREATE_EXPENSE_STARTED,
 });
+const createExpenseSuccess = () => ({
+  type: CREATE_EXPENSE_SUCCESS,
+});
 const createExpenseFailure = error => ({
   type: CREATE_EXPENSE_FAILURE,
   error,
@@ -527,9 +535,7 @@ export function createExpense(claimId, expenseType, expenseData) {
       // to get the complete expense data with document info
       await dispatch(getComplexClaimDetails(claimId));
 
-      // We don't need to dispatch an updateExpenseSuccess action since
-      // getComplexClaimDetails is responsible for loading the full expense
-      // data into the store
+      dispatch(createExpenseSuccess());
       return response;
     } catch (error) {
       dispatch(createExpenseFailure(error));
@@ -537,6 +543,21 @@ export function createExpense(claimId, expenseType, expenseData) {
     }
   };
 }
+
+// Fetching a single expense
+export const fetchExpenseStart = expenseId => ({
+  type: FETCH_EXPENSE_STARTED,
+  expenseId,
+});
+export const fetchExpenseSuccess = expenseId => ({
+  type: FETCH_EXPENSE_SUCCESS,
+  expenseId,
+});
+export const fetchExpenseFailure = (error, expenseId) => ({
+  type: FETCH_EXPENSE_FAILURE,
+  error,
+  expenseId,
+});
 
 // Deleting an document
 const deleteDocumentStart = documentId => ({

@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { SCHEMA_LABELS } from '../../../chapters/healthInsurance/planTypes';
-import HealthInsuranceSummaryCard from '../../../components/FormDescriptions/HealthInsuranceSummaryCard';
+import { SCHEMA_LABELS } from '../../../../chapters/healthInsurance/planTypes';
+import HealthInsuranceSummaryCard from '../../../../components/FormDescriptions/HealthInsuranceSummaryCard';
 
 describe('10-7959c <HealthInsuranceSummaryCard>', () => {
   const subject = ({ item }) => {
