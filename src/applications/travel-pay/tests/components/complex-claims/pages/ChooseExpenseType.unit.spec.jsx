@@ -13,7 +13,6 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { EXPENSE_TYPES } from '../../../../constants';
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
 import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
-import IntroductionPage from '../../../../components/complex-claims/pages/IntroductionPage';
 import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
@@ -471,12 +470,14 @@ describe('ChooseExpenseType', () => {
     };
 
     it('navigates back to intro page with skipRedirect state when backDestination is not set', async () => {
-      // Mock component to capture location state
-      const LocationStateCapture = () => {
+      const IntroWithStateCheck = () => {
         const location = useLocation();
         return (
-          <div data-testid="location-state">
-            {JSON.stringify(location.state)}
+          <div>
+            <div data-testid="intro-page">Intro</div>
+            <div data-testid="skip-redirect">
+              {location.state?.skipRedirect ? 'true' : 'false'}
+            </div>
           </div>
         );
       };
@@ -492,12 +493,7 @@ describe('ChooseExpenseType', () => {
             />
             <Route
               path="/file-new-claim/:apptId"
-              element={
-                <>
-                  <IntroductionPage />
-                  <LocationStateCapture />
-                </>
-              }
+              element={<IntroWithStateCheck />}
             />
           </Routes>
         </MemoryRouter>,
@@ -516,11 +512,8 @@ describe('ChooseExpenseType', () => {
         }),
       );
 
-      // Wait for navigation and verify skipRedirect state is passed
       await waitFor(() => {
-        const locationState = getByTestId('location-state');
-        expect(locationState.textContent).to.include('skipRedirect');
-        expect(locationState.textContent).to.include('true');
+        expect(getByTestId('skip-redirect').textContent).to.equal('true');
       });
     });
 

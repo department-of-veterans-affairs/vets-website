@@ -500,10 +500,8 @@ describe('Travel Pay – ReviewPage', () => {
     const addButton = container.querySelector('#add-expense-button');
     expect(addButton).to.exist;
 
-    // Click the Add more expenses button
     fireEvent.click(addButton);
 
-    // Verify navigation to choose-expense with correct state
     await waitFor(() => {
       expect(getByTestId('location-display').textContent).to.equal(
         '/file-new-claim/12345/45678/choose-expense',
