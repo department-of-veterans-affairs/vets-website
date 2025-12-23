@@ -73,6 +73,29 @@ describe('<DefaultPage>', () => {
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input-multiple', container)).to.exist;
+
+    // Verify "Next steps" section content
+    const bulletItems = container.querySelectorAll('.bullet-disc li');
+    expect(bulletItems.length).to.equal(2);
+    // Bullet points should NOT have terminal periods
+    expect(bulletItems[0].textContent).to.not.match(/\.$/);
+    expect(bulletItems[1].textContent).to.not.match(/\.$/);
+
+    // Verify link text uses action verb
+    const claimLettersLink = $(
+      'va-link[href="/track-claims/your-claim-letters"]',
+      container,
+    );
+    expect(claimLettersLink).to.exist;
+    expect(claimLettersLink.getAttribute('text')).to.equal(
+      'Access your claim letters',
+    );
+
+    // Verify "Find a VA form" link is NOT bold (no active prop)
+    const findFormLink = $('va-link[href="/find-forms"]', container);
+    expect(findFormLink).to.exist;
+    expect(findFormLink.getAttribute('text')).to.equal('Find a VA form');
+    expect(findFormLink.hasAttribute('active')).to.be.false;
   });
 
   it('should render update 21-4142 information', () => {
