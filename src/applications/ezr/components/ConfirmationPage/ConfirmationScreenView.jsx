@@ -2,11 +2,15 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { focusElement } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/scroll';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 import content from '../../locales/en/content.json';
 
 const ConfirmationScreenView = ({ name, timestamp }) => {
-  useEffect(() => focusElement('h2', {}, 'va-alert'), []);
+  useEffect(() => {
+    focusElement('.ezr-success-message');
+    scrollToTop();
+  }, []);
 
   return (
     <>
