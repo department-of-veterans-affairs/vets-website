@@ -12,6 +12,10 @@ import { focusElement } from 'platform/utilities/ui/focus';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { slugifyText } from './helpers';
 
+// Module-level storage to persist max items alert state across component mount/unmount
+// Maps arrayPath to whether the alert has been seen
+const maxItemsAlertSeenMap = {};
+
 const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
   <div className="vads-u-margin-top--2">
     <VaAlert
@@ -100,6 +104,7 @@ export function useSummaryPageAlerts({
     hideMaxItemsAlert,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
+    arrayPath,
   } = arrayBuilderOptions || {};
 
   const { data: formData, reviewErrors, recalculateErrors, name: pageName } =
@@ -120,9 +125,6 @@ export function useSummaryPageAlerts({
   const removedAlertRef = useRef(null);
   const reviewErrorAlertRef = useRef(null);
   const maxItemsAlertRef = useRef(null);
-
-  // Use a ref to track if max items alert has been seen (persists across renders)
-  const maxItemsAlertSeenRef = useRef(false);
 
   // Update showUpdatedAlert when updateItemIndex changes
   useEffect(
@@ -146,13 +148,16 @@ export function useSummaryPageAlerts({
         focusRef = updatedAlertRef;
       } else if (
         isMaxItemsReached &&
-        !maxItemsAlertSeenRef.current &&
+        !maxItemsAlertSeenMap[arrayPath] &&
         maxItemsAlertRef.current
       ) {
         focusRef = maxItemsAlertRef;
       }
 
-      maxItemsAlertSeenRef.current = isMaxItemsReached;
+      // Update persistent storage
+      if (arrayPath) {
+        maxItemsAlertSeenMap[arrayPath] = isMaxItemsReached;
+      }
 
       if (focusRef) {
         timeout = setTimeout(() => {
@@ -164,7 +169,7 @@ export function useSummaryPageAlerts({
 
       return () => timeout && clearTimeout(timeout);
     },
-    [showUpdatedAlert, updateItemIndex, isMaxItemsReached],
+    [showUpdatedAlert, updateItemIndex, isMaxItemsReached, arrayPath],
   );
 
   // Handle review error state
