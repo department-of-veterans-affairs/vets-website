@@ -1,8 +1,10 @@
+// @ts-check
 import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFormFields,
 } from '../../../helpers.spec';
+import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca VeteranContactInformation config', () => {
   const {
@@ -30,4 +32,44 @@ describe('hca VeteranContactInformation config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        email: {
+          type: 'string',
+        },
+        homePhone: {
+          type: 'string',
+        },
+        mobilePhone: {
+          type: 'string',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      email: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:options': {},
+      },
+      homePhone: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:options': {},
+      },
+      mobilePhone: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:options': {},
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

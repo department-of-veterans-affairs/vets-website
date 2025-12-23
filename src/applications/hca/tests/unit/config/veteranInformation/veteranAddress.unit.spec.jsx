@@ -1,8 +1,10 @@
+// @ts-check
 import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFormFields,
 } from '../../../helpers.spec';
+import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca VeteranAddress config', () => {
   const {
@@ -30,4 +32,76 @@ describe('hca VeteranAddress config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        veteranAddress: {
+          type: 'object',
+          properties: {
+            street: {
+              type: 'string',
+            },
+            street2: {
+              type: 'string',
+            },
+            street3: {
+              type: 'string',
+            },
+            city: {
+              type: 'string',
+            },
+            state: {
+              type: 'string',
+            },
+            postalCode: {
+              type: 'string',
+            },
+          },
+        },
+        'view:doesMailingMatchHomeAddress': {
+          type: 'boolean',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      veteranAddress: {
+        'ui:order': {},
+        street: {
+          'ui:title': {},
+          'ui:errorMessages': {},
+        },
+        street2: {
+          'ui:title': {},
+        },
+        street3: {
+          'ui:title': {},
+        },
+        city: {
+          'ui:title': {},
+          'ui:errorMessages': {},
+        },
+        state: {
+          'ui:title': {},
+          'ui:errorMessages': {},
+        },
+        postalCode: {
+          'ui:title': {},
+          'ui:errorMessages': {},
+          'ui:options': {},
+        },
+      },
+      'view:doesMailingMatchHomeAddress': {
+        'ui:title': {},
+        'ui:required': {},
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

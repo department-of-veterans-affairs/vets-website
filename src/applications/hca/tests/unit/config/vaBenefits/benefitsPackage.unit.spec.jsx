@@ -1,8 +1,10 @@
+// @ts-check
 import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFormFields,
 } from '../../../helpers.spec';
+import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca VaBenefitsPackage config', () => {
   const {
@@ -30,4 +32,36 @@ describe('hca VaBenefitsPackage config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:vaBenefitsPackage': {
+          type: 'string',
+          enum: {},
+        },
+        'view:registrationOnlyNote': {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'ui:description': {},
+      'view:vaBenefitsPackage': {
+        'ui:title': {},
+        'ui:options': {},
+      },
+      'view:registrationOnlyNote': {
+        'ui:description': {},
+      },
+    },
+    expectedRequired: ['view:vaBenefitsPackage'],
+    pageName: pageTitle,
+  });
 });

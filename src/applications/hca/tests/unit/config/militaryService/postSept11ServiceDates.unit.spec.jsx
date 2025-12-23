@@ -1,8 +1,10 @@
+// @ts-check
 import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFormFields,
 } from '../../../helpers.spec';
+import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca Post 9/11 Service Dates config', () => {
   const {
@@ -30,4 +32,57 @@ describe('hca Post 9/11 Service Dates config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:gulfWarServiceDates': {
+          type: 'object',
+          properties: {
+            gulfWarStartDate: {
+              type: 'string',
+              pattern: {},
+            },
+            gulfWarEndDate: {
+              type: 'string',
+              pattern: {},
+            },
+          },
+        },
+        'view:dateRange': {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:gulfWarServiceDates': {
+        'ui:validations': {},
+        gulfWarStartDate: {
+          'ui:description': {},
+          'ui:title': {},
+          'ui:errorMessages': {},
+          'ui:validations': {},
+          'ui:options': {},
+        },
+        gulfWarEndDate: {
+          'ui:description': {},
+          'ui:title': {},
+          'ui:errorMessages': {},
+          'ui:validations': {},
+          'ui:options': {},
+        },
+      },
+      'view:dateRange': {
+        'ui:description': {},
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });
