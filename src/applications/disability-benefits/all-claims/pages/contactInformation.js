@@ -4,8 +4,9 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-
+// import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import constants from 'vets-json-schema/dist/constants.json';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
@@ -33,11 +34,12 @@ import {
 //   STATE_VALUES,
 // } from '../constants';
 
-import {
-  // validateMilitaryCity,
-  // validateMilitaryState,
-  validateZIP,
-} from '../validations';
+// import {
+//   // validateMilitaryCity,
+//   // validateMilitaryState,
+//   validateZIP,
+// } from '../validations';
+// import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const {
   // forwardingAddress,
@@ -58,11 +60,36 @@ const {
 //   },
 //   fullSchema.definitions.address,
 // );
+const MILITARY_STATES = [
+  {
+    label:
+      'AA (Armed Forces America) - North and South America, excluding Canada',
+    value: 'AA',
+  },
+  {
+    label:
+      'AE (Armed Forces Europe) - Africa, Canada, Europe, and the Middle East',
+    value: 'AE',
+  },
+  {
+    label: 'AP (Armed Forces Pacific) - Pacific',
+    value: 'AP',
+  },
+];
+
+const MILITARY_STATE_VALUES = MILITARY_STATES.map(state => state.value);
+const MILITARY_STATE_NAMES = MILITARY_STATES.map(state => state.label);
+const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
+
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_NAMES = filteredStates.map(state => state.label);
 
 // const countryEnum = fullSchema.definitions.country.enum;
 // const citySchema = fullSchema.definitions.address.properties.city;
-const COUNTRY_VALUES = constants.countries.map(country => country.value);
-const COUNTRY_LABELS = constants.countries.map(country => country.label);
+// const COUNTRY_VALUES = constants.countries.map(country => country.value);
+// const COUNTRY_LABELS = constants.countries.map(country => country.label);
 
 // /**
 //  * Return state of mailing address military base checkbox
@@ -125,22 +152,59 @@ export const uiSchema = {
         postalCode: 'zipCode',
         isMilitary: 'view:livesOnMilitaryBase',
       },
-      countries: {
-        values: COUNTRY_VALUES,
-        labels: COUNTRY_LABELS,
-        usaValue: 'USA',
-        usaLabel: 'United States',
-      },
     }),
-    zipCode: {
-      'ui:title': 'Postal code',
-      'ui:webComponentField': VaTextInputField,
-      'ui:validations': [validateZIP],
-      'ui:options': {
-        hideIf: formData =>
-          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
-          formData.mailingAddress.country !== 'USA',
+    state: {
+      'ui:title': 'State',
+      'ui:autocomplete': 'address-level1',
+      'ui:webComponentField': VaSelectField,
+      'ui:errorMessages': {
+        required: 'Select a state',
       },
+      'ui:options': {
+        // TODO this hideIf logic is not working
+        hideIf: formData => {
+          const addressData = formData.mailingAddress || {};
+          const isMilitary = addressData['view:livesOnMilitaryBase'];
+          const { country } = addressData;
+
+          return !isMilitary && country !== 'USA';
+        },
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
+        hideEmptyValueInReview: true,
+        replaceSchema: (formData, schema, _uiSchema) => {
+          const addressData = formData.mailingAddress || {};
+          const isMilitary = addressData['view:livesOnMilitaryBase'];
+          const ui = _uiSchema;
+
+          if (isMilitary) {
+            ui['ui:webComponentField'] = VaRadioField;
+            ui['ui:errorMessages'] = {
+              required: 'Select a military state',
+            };
+            return {
+              type: 'string',
+              title: 'State',
+              enum: MILITARY_STATE_VALUES,
+              enumNames: MILITARY_STATE_NAMES,
+            };
+          }
+
+          ui['ui:webComponentField'] = VaSelectField;
+          ui['ui:errorMessages'] = {
+            required: 'Select a state',
+          };
+          return {
+            type: 'string',
+            title: 'State',
+            enum: STATE_VALUES, // You'll need to add US state values
+            enumNames: STATE_NAMES, // You'll need to add US state names
+          };
+        },
+      },
+      'ui:required': formData =>
+        formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress.country === ('USA' || 'United States'),
     },
   },
   'view:contactInfoDescription': {
@@ -159,12 +223,6 @@ export const schema = {
         street3: 'addressLine3',
         postalCode: 'zipCode',
         isMilitary: 'view:livesOnMilitaryBase',
-      },
-      countries: {
-        values: COUNTRY_VALUES,
-        labels: COUNTRY_LABELS,
-        usaValue: 'USA',
-        usaLabel: 'United States',
       },
     }),
     'view:contactInfoDescription': {
