@@ -34,6 +34,7 @@ const ContactInfoOnFile = ({
           <li className="vads-u-margin-y--0p5">
             <strong>Email address: </strong>
             {emailAddress && `${emailAddress} `}
+            <br />
             <va-link
               data-testid="email-address-on-file"
               href={generateContactInfoLink({
@@ -42,7 +43,7 @@ const ContactInfoOnFile = ({
                   PROFILE_PATHS.NOTIFICATION_SETTINGS,
                 ),
               })}
-              class="vads-u-display--block medium-screen:vads-u-display--inline vads-u-margin-bottom--1p5 medium-screen:vads-u-margin-bottom--0 medium-screen:vads-u-margin-left--1"
+              class="vads-u-display--block medium-screen:vads-u-display--inline vads-u-margin-bottom--1p5 medium-screen:vads-u-margin-bottom--0"
               text={
                 emailAddress
                   ? 'Update your email address'
@@ -78,9 +79,10 @@ const ContactInfoOnFile = ({
               />
             </span>
           )}
+          <br />
           <va-link
             href={updateMobileNumberHref}
-            class="vads-u-display--block medium-screen:vads-u-display--inline medium-screen:vads-u-margin-left--1"
+            class="vads-u-display--block medium-screen:vads-u-display--inline"
             aria-label="mobile number"
             text={
               mobilePhoneNumber
