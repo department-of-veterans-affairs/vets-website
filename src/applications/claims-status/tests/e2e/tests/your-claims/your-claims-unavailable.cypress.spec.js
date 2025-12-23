@@ -9,6 +9,9 @@ import {
 } from '../../support/helpers/mocks';
 
 describe('Your claims unavailable,', () => {
+  const bodyText =
+    "We're sorry. There's a problem with our system. Refresh this page or try again later.";
+
   beforeEach(() => {
     mockFeatureToggles();
     mockStemEndpoint();
@@ -24,12 +27,10 @@ describe('Your claims unavailable,', () => {
     cy.injectAxe();
 
     cy.findByRole('heading', {
-      name: 'Claim and Appeal status is unavailable',
+      name: "We can't access some of your claims and appeals right now",
       level: 3,
     });
-    cy.findByText(
-      'VA.gov is having trouble loading claims and appeals information at this time. Check back again in an hour.',
-    );
+    cy.findByText(bodyText);
 
     cy.axeCheck();
   });
@@ -42,12 +43,10 @@ describe('Your claims unavailable,', () => {
     cy.injectAxe();
 
     cy.findByRole('heading', {
-      name: 'Claim status is unavailable',
+      name: "We can't access some of your claims right now",
       level: 3,
     });
-    cy.findByText(
-      'VA.gov is having trouble loading claims information at this time. Check back again in an hour. Note: You are still able to review appeals information.',
-    );
+    cy.findByText(bodyText);
 
     cy.axeCheck();
   });
@@ -60,12 +59,10 @@ describe('Your claims unavailable,', () => {
     cy.injectAxe();
 
     cy.findByRole('heading', {
-      name: 'Appeal status is unavailable',
+      name: "We can't access some of your appeals right now",
       level: 3,
     });
-    cy.findByText(
-      'VA.gov is having trouble loading appeals information at this time. Check back again in an hour. Note: You are still able to review claims information.',
-    );
+    cy.findByText(bodyText);
 
     cy.axeCheck();
   });
