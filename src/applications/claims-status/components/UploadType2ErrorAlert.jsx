@@ -7,6 +7,8 @@ import {
 import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
 import { recordType2FailureEventStatusPage } from '../utils/analytics';
 
+const HEADING = 'We need you to submit files by mail or in person';
+
 function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
   // Record Type 2 failure event every time component mounts with failed submissions
   // Only fires on status page
@@ -99,9 +101,11 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
       status="error"
       visible
     >
-      <h4 className="usa-alert-heading vads-u-font-size--h3">
-        We need you to submit files by mail or in person
-      </h4>
+      {isStatusPage ? (
+        <h4 className="usa-alert-heading vads-u-font-size--h3">{HEADING}</h4>
+      ) : (
+        <h3 className="usa-alert-heading">{HEADING}</h3>
+      )}
       <div className="vads-u-margin-y--0">{body}</div>
     </VaAlert>
   );
