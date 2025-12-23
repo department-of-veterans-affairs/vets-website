@@ -10,8 +10,6 @@ import {
   PersonalInformationNote,
 } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 
-import formConfig from '../config/form';
-
 const CustomPersonalInfo = props => {
   return (
     <PersonalInformation
@@ -25,7 +23,7 @@ const CustomPersonalInfo = props => {
       dataAdapter={{
         ssnPath: 'veteranSsnLastFour',
       }}
-      formOptions={formConfig.formOptions}
+      formOptions={props.formOptions}
     >
       <PersonalInformationHeader>
         <h3 className="vads-u-margin-bottom--3">
@@ -67,11 +65,13 @@ const CustomPersonalInfo = props => {
 
 CustomPersonalInfo.propTypes = {
   formData: PropTypes.object,
+  formOptions: PropTypes.object,
   setFormData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   formData: state.form?.data,
+  formOptions: state.form?.formConfig?.formOptions,
 });
 
 const mapDispatchToProps = {
