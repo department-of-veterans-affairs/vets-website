@@ -1,16 +1,6 @@
-/**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
- */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-/* eslint-disable you-dont-need-momentjs/add */
-/* eslint-disable you-dont-need-momentjs/subtract */
-/* eslint-disable you-dont-need-momentjs/format */
-
 import { expect } from 'chai';
-import moment from 'moment';
 
+import { addDays, subDays, format } from 'date-fns';
 import {
   dateFieldToISO,
   isoToDateField,
@@ -238,22 +228,22 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
     });
 
     it('should validate future dates', () => {
-      const tomorrow = moment().add(1, 'day');
+      const tomorrow = addDays(new Date(), 1);
       const futureField = {
-        month: tomorrow.format('M'),
-        day: tomorrow.format('D'),
-        year: tomorrow.format('YYYY'),
+        month: format(tomorrow, 'M'),
+        day: format(tomorrow, 'd'),
+        year: format(tomorrow, 'yyyy'),
       };
       const futureResult = validateFormDateField(futureField, {
         futureOnly: true,
       });
       expect(futureResult.isValid).to.be.true;
 
-      const yesterday = moment().subtract(1, 'day');
+      const yesterday = subDays(new Date(), 1);
       const pastField = {
-        month: yesterday.format('M'),
-        day: yesterday.format('D'),
-        year: yesterday.format('YYYY'),
+        month: format(yesterday, 'M'),
+        day: format(yesterday, 'd'),
+        year: format(yesterday, 'yyyy'),
       };
       const pastResult = validateFormDateField(pastField, { futureOnly: true });
       expect(pastResult.isValid).to.be.false;
@@ -261,20 +251,20 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
     });
 
     it('should validate past dates', () => {
-      const yesterday = moment().subtract(1, 'day');
+      const yesterday = subDays(new Date(), 1);
       const pastField = {
-        month: yesterday.format('M'),
-        day: yesterday.format('D'),
-        year: yesterday.format('YYYY'),
+        month: format(yesterday, 'M'),
+        day: format(yesterday, 'd'),
+        year: format(yesterday, 'yyyy'),
       };
       const pastResult = validateFormDateField(pastField, { pastOnly: true });
       expect(pastResult.isValid).to.be.true;
 
-      const tomorrow = moment().add(1, 'day');
+      const tomorrow = addDays(new Date(), 1);
       const futureField = {
-        month: tomorrow.format('M'),
-        day: tomorrow.format('D'),
-        year: tomorrow.format('YYYY'),
+        month: format(tomorrow, 'M'),
+        day: format(tomorrow, 'd'),
+        year: format(tomorrow, 'yyyy'),
       };
       const futureResult = validateFormDateField(futureField, {
         pastOnly: true,
@@ -410,12 +400,12 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
 
   describe('getCurrentFormDate', () => {
     it('should return current date as form field', () => {
-      const now = moment();
+      const now = new Date();
       const result = getCurrentFormDate();
       expect(result).to.deep.equal({
-        month: now.format('M'),
-        day: now.format('D'),
-        year: now.format('YYYY'),
+        month: format(now, 'M'),
+        day: format(now, 'd'),
+        year: format(now, 'yyyy'),
       });
     });
 

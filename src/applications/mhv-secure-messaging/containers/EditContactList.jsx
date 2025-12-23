@@ -241,6 +241,14 @@ const EditContactList = () => {
         facilities won’t be listed here.
       </p>
 
+      {isSaving && (
+        <va-loading-indicator
+          message="Saving your contact list..."
+          set-focus
+          data-testid="contact-list-saving-indicator"
+        />
+      )}
+
       {error && (
         <div>
           <VaAlert
