@@ -40,7 +40,7 @@ const fetchIntentToFile = async (
       }/accredited_representative_portal/v0/intent_to_file${params}`,
     );
   } catch (error) {
-    const { status } = error.errors[0];
+    const { status } = error?.errors?.[0] ?? {};
     if (
       error.errors &&
       typeof error.errors[0] === 'string' &&
