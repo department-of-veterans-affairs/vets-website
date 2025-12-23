@@ -119,7 +119,7 @@ describe('<YourClaimsPageV2>', () => {
 
     expect($('va-alert', container)).to.exist;
     expect(container.textContent).to.include(
-      'VA.gov is having trouble loading claims and appeals information',
+      "We can't access some of your claims and appeals right now",
     );
   });
 
