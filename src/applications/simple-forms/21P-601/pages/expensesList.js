@@ -47,6 +47,7 @@ const yesNoOptions = {
 const summaryPage = {
   uiSchema: {
     ...titleUI('Expenses you paid'),
+    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
     'view:expenseInfo': {
       'ui:description': (
         <va-alert status="info" uswds>
@@ -59,13 +60,12 @@ const summaryPage = {
               href="https://www.va.gov/find-forms/about-form-21p-601/"
               external
               rel="noopener noreferrer"
-              text="Download VA Form 21P-601 (PDF)"
+              text="Get VA Form 21P-601 to download (opens in a new tab)"
             />
           </p>
         </va-alert>
       ),
     },
-    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
   },
   schema: {
     type: 'object',
