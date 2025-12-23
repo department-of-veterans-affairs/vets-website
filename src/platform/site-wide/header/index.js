@@ -20,6 +20,14 @@ const setupMinimalHeader = () => {
     if (headerMinimal.dataset?.excludePaths) {
       excludePathsString = headerMinimal.dataset.excludePaths;
       excludePaths = JSON.parse(excludePathsString);
+
+      // never show minimal header on /form-saved page
+      if (
+        Array.isArray(excludePaths) &&
+        !excludePaths.includes('/form-saved')
+      ) {
+        excludePaths.push('/form-saved');
+      }
     }
   }
 

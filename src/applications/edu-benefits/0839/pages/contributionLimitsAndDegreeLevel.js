@@ -4,6 +4,7 @@ import {
   radioUI,
   currencyUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateWhiteSpace } from 'platform/forms/validations';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
 import DegreeLevelDescription from '../components/DegreeLevelDescription';
 
@@ -78,6 +79,7 @@ const uiSchema = {
       errorMessages: {
         required: 'Please enter a degree level',
       },
+      validations: [validateWhiteSpace],
     }),
     'ui:options': {
       classNames:
@@ -92,6 +94,7 @@ const uiSchema = {
       errorMessages: {
         required: 'Enter the college or professional school name',
       },
+      validations: [validateWhiteSpace],
     }),
     'ui:options': {
       classNames:
@@ -175,7 +178,7 @@ const schema = {
     },
     specificContributionAmount: {
       type: 'string',
-      pattern: '^\\d*(\\.\\d{1,2})?$',
+      pattern: '^\\d+(\\.\\d{1,2})?$',
     },
   },
   required: [

@@ -170,6 +170,7 @@ describe('Medical Records download CCD - API Error Handling', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
