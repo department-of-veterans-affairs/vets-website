@@ -209,7 +209,6 @@ const AlertBackgroundBox = props => {
     },
     [props.focus],
   );
-
   return (
     activeAlert &&
     activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
@@ -224,14 +223,22 @@ const AlertBackgroundBox = props => {
         full-width="false"
         show-icon={handleShowIcon()}
         status={activeAlert.alertType}
+        // role="alert"
         onCloseEvent={
           closeAlertBox // success, error, warning, info, continue
         }
         onVa-component-did-load={handleAlertFocus}
       >
-        <h2 slot="headline" data-testid="alert-text">
+        {/* Setting the bold class will impact the font weight for all alerts */}
+        <p
+          className="vads-u-margin-y--0 vads-u-font-weight--bold"
+          data-testid="alert-text"
+        >
           {alertContent}
-        </h2>
+        </p>
+        <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
+          {alertAriaLabel}
+        </SrOnlyTag>
         {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS && (
           <RouterLink
             href={Paths.SENT}
@@ -240,10 +247,6 @@ const AlertBackgroundBox = props => {
             data-dd-action-name="Sent messages link in success alert"
           />
         )}
-
-        <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
-          {alertAriaLabel}
-        </SrOnlyTag>
       </VaAlert>
     )
   );

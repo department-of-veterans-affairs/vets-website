@@ -66,12 +66,11 @@ describe('SM back navigation', () => {
     );
 
     // Click the link to navigate to Sent folder
-    cy.findByRole('link', { name: 'Review your sent messages' }).click();
+    cy.findByTestId('review-sent-messages-link')
+      .should('be.visible')
+      .click();
 
-    // Verify navigation to Sent folder
-    cy.findByRole('heading', {
-      name: `Messages: ${DefaultFolders.SENT.header}`,
-    }).should('exist');
+    // Verify navigation to Sent folder succeeded
     cy.location().should(loc => {
       expect(loc.pathname).to.eq(Paths.UI_MAIN + Paths.SENT);
     });

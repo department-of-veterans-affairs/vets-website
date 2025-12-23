@@ -82,7 +82,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
 
     cy.findByTestId(`alert-text`)
       .should(`be.visible`)
-      .and(`contain.text`, Data.MESSAGE_SENT);
+      .and(`contain.text`, Locators.ALERTS.SEND_MESSAGE_SUCCESS);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
