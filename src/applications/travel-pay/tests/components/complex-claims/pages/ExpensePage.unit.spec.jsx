@@ -1249,48 +1249,73 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
 
   let apiStub;
   beforeEach(() => {
-    apiStub = sinon.stub(api, 'apiRequest').resolves({
-      headers: {
-        get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
-      },
-      arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+    apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
+      // Mock expense fetch
+      if (url.includes('/claims/43555/expenses/meal/')) {
+        return Promise.resolve({
+          id: TEST_EXPENSE_ID,
+          expenseType: 'Meal',
+          vendorName: 'Saved Vendor',
+          dateIncurred: '2025-11-17',
+          costRequested: '10.50',
+          description: 'Test expense description',
+        });
+      }
+      // Mock document fetch
+      if (url.includes('/documents/')) {
+        return Promise.resolve({
+          headers: {
+            get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
+          },
+          arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+        });
+      }
+      return Promise.reject(new Error('Unmocked API call'));
     });
   });
   afterEach(() => {
     apiStub.restore();
   });
 
-  it('pre-fills formState with the stored expense', () => {
+  it('pre-fills formState with the stored expense', async () => {
     const { container } = renderEditPage();
 
-    const vendorField = container.querySelector(
-      'va-text-input[name="vendorName"]',
-    );
-    expect(vendorField.getAttribute('value')).to.equal('Saved Vendor');
+    // Wait for expense to load from API
+    await waitFor(() => {
+      const vendorField = container.querySelector(
+        'va-text-input[name="vendorName"]',
+      );
+      expect(vendorField?.getAttribute('value')).to.equal('Saved Vendor');
+    });
+
     const costField = container.querySelector(
       'va-text-input[name="costRequested"]',
     );
     expect(costField.getAttribute('value')).to.equal('10.50');
   });
 
-  it('uses "Save and continue" text for continue button', () => {
+  it('uses "Save and continue" text for continue button', async () => {
     const { container } = renderEditPage();
 
-    const button = Array.from(container.querySelectorAll('va-button')).find(
-      btn => btn.getAttribute('text') === 'Save and continue',
-    );
-
-    expect(button).to.exist;
+    // Wait for data to load and buttons to render
+    await waitFor(() => {
+      const button = Array.from(container.querySelectorAll('va-button')).find(
+        btn => btn.getAttribute('text') === 'Save and continue',
+      );
+      expect(button).to.exist;
+    });
   });
 
-  it('uses "Cancel" text for back button', () => {
+  it('uses "Cancel" text for back button', async () => {
     const { container } = renderEditPage();
 
-    const button = Array.from(container.querySelectorAll('va-button')).find(
-      btn => btn.getAttribute('text') === 'Cancel',
-    );
-
-    expect(button).to.exist;
+    // Wait for data to load and buttons to render
+    await waitFor(() => {
+      const button = Array.from(container.querySelectorAll('va-button')).find(
+        btn => btn.getAttribute('text') === 'Cancel',
+      );
+      expect(button).to.exist;
+    });
   });
 
   it('does NOT render "Cancel adding this expense" button when in add mode', () => {
@@ -1301,11 +1326,18 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(addCancelButton).to.not.exist;
   });
 
-  it('"Back" button opens modal in edit mode', () => {
+  it('"Back" button opens modal in edit mode', async () => {
     const { container } = renderEditPage();
-    const backButton = Array.from(container.querySelectorAll('va-button')).find(
-      btn => btn.getAttribute('text') === 'Cancel',
-    );
+
+    // Wait for data to load and buttons to render
+    let backButton;
+    await waitFor(() => {
+      backButton = Array.from(container.querySelectorAll('va-button')).find(
+        btn => btn.getAttribute('text') === 'Cancel',
+      );
+      expect(backButton).to.exist;
+    });
+
     fireEvent.click(backButton);
     const modal = container.querySelector('va-modal');
     expect(modal.getAttribute('visible')).to.equal('true');
@@ -1314,16 +1346,19 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   it('loads existing document when documentId is present', async () => {
     const { container } = renderEditPage();
 
-    // Component renders space for existing file
-    const uploadLoading = container.querySelector('va-loading-indicator');
-    expect(uploadLoading).to.exist;
+    // Component shows page-level loading indicator first
+    await waitFor(() => {
+      const loadingIndicator = container.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.exist;
+    });
 
+    // Then shows the form after data loads
     await waitFor(() => {
       expect(container.querySelector('va-file-input')).to.exist;
     });
   });
 
-  it('shows loading state when document is being deleted', () => {
+  it('shows loading state when document is being deleted', async () => {
     const baseState = getEditState([{ ...defaultExpense }]);
     const stateWithDeletion = {
       ...baseState,
@@ -1354,6 +1389,12 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       { initialState: stateWithDeletion, reducers: reducer },
     );
 
+    // Wait for data to load and buttons to render
+    await waitFor(() => {
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      expect(buttonGroup).to.exist;
+    });
+
     const buttonGroup = container.querySelector('.travel-pay-button-group');
     const continueButton = Array.from(
       buttonGroup.querySelectorAll('va-button'),
@@ -1362,7 +1403,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(continueButton.getAttribute('loading')).to.equal('true');
   });
 
-  it('shows loading state when expense is being updated', () => {
+  it('shows loading state when expense is being updated', async () => {
     const baseState = getEditState([{ ...defaultExpense }]);
     const stateWithUpdate = {
       ...baseState,
@@ -1396,6 +1437,12 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       { initialState: stateWithUpdate, reducers: reducer },
     );
 
+    // Wait for data to load and buttons to render
+    await waitFor(() => {
+      const buttonGroup = container.querySelector('.travel-pay-button-group');
+      expect(buttonGroup).to.exist;
+    });
+
     const buttonGroup = container.querySelector('.travel-pay-button-group');
     const continueButton = Array.from(
       buttonGroup.querySelectorAll('va-button'),
@@ -1408,20 +1455,24 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     renderEditPage();
 
     await waitFor(() => {
-      expect(apiStub.calledOnce).to.be.true;
+      // Should call API twice: once for expense, once for document
+      expect(apiStub.callCount).to.equal(2);
     });
 
-    // apiStub should only be called once, even if component re-renders
-    expect(apiStub.callCount).to.equal(1);
+    // apiStub should only be called twice total (expense + document), even if component re-renders
+    expect(apiStub.callCount).to.equal(2);
   });
 
-  it('initializes form fields only once (fieldsInitialized check)', () => {
+  it('initializes form fields only once (fieldsInitialized check)', async () => {
     const { container } = renderEditPage();
 
-    const vendorField = container.querySelector(
-      'va-text-input[name="vendorName"]',
-    );
-    expect(vendorField.getAttribute('value')).to.equal('Saved Vendor');
+    // Wait for expense to load from API
+    await waitFor(() => {
+      const vendorField = container.querySelector(
+        'va-text-input[name="vendorName"]',
+      );
+      expect(vendorField?.getAttribute('value')).to.equal('Saved Vendor');
+    });
 
     // Fields should remain initialized even after potential re-renders
     const costField = container.querySelector(
@@ -1431,12 +1482,39 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   });
 
   it('shows description error for min length', async () => {
-    const { container } = renderEditPage([
-      {
-        ...defaultExpense,
-        description: '123',
-      },
-    ]);
+    // Override API stub for this test to return short description
+    apiStub.restore();
+    apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
+      if (url.includes('/claims/43555/expenses/meal/')) {
+        return Promise.resolve({
+          id: TEST_EXPENSE_ID,
+          expenseType: 'Meal',
+          vendorName: 'Saved Vendor',
+          dateIncurred: '2025-11-17',
+          costRequested: '10.50',
+          description: '123',
+        });
+      }
+      if (url.includes('/documents/')) {
+        return Promise.resolve({
+          headers: {
+            get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
+          },
+          arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+        });
+      }
+      return Promise.reject(new Error('Unmocked API call'));
+    });
+
+    const { container } = renderEditPage();
+
+    // Wait for data to load
+    await waitFor(() => {
+      const inputText = container.querySelector(
+        'va-textarea[name="description"]',
+      );
+      expect(inputText?.getAttribute('value')).to.equal('123');
+    });
 
     const inputText = container.querySelector(
       'va-textarea[name="description"]',
@@ -1461,12 +1539,39 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   });
 
   it('shows description error for max length', async () => {
-    const { container } = renderEditPage([
-      {
-        ...defaultExpense,
-        description: 'a'.repeat(2001),
-      },
-    ]);
+    // Override API stub for this test to return long description
+    apiStub.restore();
+    apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
+      if (url.includes('/claims/43555/expenses/meal/')) {
+        return Promise.resolve({
+          id: TEST_EXPENSE_ID,
+          expenseType: 'Meal',
+          vendorName: 'Saved Vendor',
+          dateIncurred: '2025-11-17',
+          costRequested: '10.50',
+          description: 'a'.repeat(2001),
+        });
+      }
+      if (url.includes('/documents/')) {
+        return Promise.resolve({
+          headers: {
+            get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
+          },
+          arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+        });
+      }
+      return Promise.reject(new Error('Unmocked API call'));
+    });
+
+    const { container } = renderEditPage();
+
+    // Wait for data to load
+    await waitFor(() => {
+      const inputText = container.querySelector(
+        'va-textarea[name="description"]',
+      );
+      expect(inputText?.getAttribute('value')).to.have.length.greaterThan(2000);
+    });
 
     const inputText = container.querySelector(
       'va-textarea[name="description"]',
@@ -1491,12 +1596,39 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   });
 
   it('shows cost requested amount error when value is 0', async () => {
-    const { container } = renderEditPage([
-      {
-        ...defaultExpense,
-        costRequested: '0',
-      },
-    ]);
+    // Override API stub for this test to return 0 cost
+    apiStub.restore();
+    apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
+      if (url.includes('/claims/43555/expenses/meal/')) {
+        return Promise.resolve({
+          id: TEST_EXPENSE_ID,
+          expenseType: 'Meal',
+          vendorName: 'Saved Vendor',
+          dateIncurred: '2025-11-17',
+          costRequested: '0',
+          description: 'Test expense description',
+        });
+      }
+      if (url.includes('/documents/')) {
+        return Promise.resolve({
+          headers: {
+            get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
+          },
+          arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+        });
+      }
+      return Promise.reject(new Error('Unmocked API call'));
+    });
+
+    const { container } = renderEditPage();
+
+    // Wait for data to load
+    await waitFor(() => {
+      const inputText = container.querySelector(
+        'va-text-input[name="costRequested"]',
+      );
+      expect(inputText?.getAttribute('value')).to.equal('0');
+    });
 
     const inputText = container.querySelector(
       'va-text-input[name="costRequested"]',
