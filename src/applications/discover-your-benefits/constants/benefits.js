@@ -201,7 +201,6 @@ export const BENEFITS_LIST = [
     whenToApplyDescription: 'Before you separate from service',
     whenToApplyNote:
       'If you separated before January 1, 2013, you can use this benefit up to 15 years after separation.',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -230,7 +229,6 @@ export const BENEFITS_LIST = [
     description:
       'The DOD SkillBridge program can help you gain valuable civilian work experience through specific industry training, apprenticeships, or internships.',
     whenToApplyDescription: 'Up to 180 days before you separate from service',
-    isTimeSensitive: true,
     whenToApply: [WHEN_TO_APPLY.BEFORE_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
@@ -262,7 +260,6 @@ export const BENEFITS_LIST = [
       'You can apply for free educational and career guidance, planning, and resources through the Personalized Career Planning and Guidance (PCPG) program. Your dependents may also be eligible for this benefit.',
     whenToApplyDescription:
       'Up to 180 days before you separate from service or up to 1 year after you separate from service',
-    isTimeSensitive: true,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -322,7 +319,6 @@ export const BENEFITS_LIST = [
     description:
       'You may be entitled to preference during the hiring process for federal government jobs. You can also get access to other resources to help you find a career in the federal government.',
     whenToApplyDescription: 'After you separate from service',
-    isTimeSensitive: false,
     whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
@@ -353,7 +349,6 @@ export const BENEFITS_LIST = [
     description:
       'If you have a Veteran-owned small business, you may qualify for advantages when bidding on government contracts—along with access to other resources and support—through the Veteran Small Business Certification program (VetCert).',
     whenToApplyDescription: 'After you separate from service',
-    isTimeSensitive: false,
     whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
@@ -375,7 +370,6 @@ export const BENEFITS_LIST = [
     description:
       'The TAP program provides information, services, and training to help you plan for your transition and meet your post-military goals.',
     whenToApplyDescription: 'Up to 2 years before you separate from service',
-    isTimeSensitive: true,
     whenToApply: [WHEN_TO_APPLY.BEFORE_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
@@ -397,7 +391,6 @@ export const BENEFITS_LIST = [
     description:
       'Veteran Readiness and Employment (VR&E) can help you explore employment options. It can also help you with education or training needs. You must have a service-connected disability that limits your ability to work or prevents you from working to be eligible for this program.',
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: true,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -433,7 +426,6 @@ export const BENEFITS_LIST = [
     description:
       "If you're transitioning from military to college life, VSOC counselors can help you with vocational testing and career counseling. You can also get faster access to certain VA benefits while you're attending college.",
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -469,7 +461,6 @@ export const BENEFITS_LIST = [
     description:
       'If you have certain service-connected disabilities, you can apply for a housing grant to help you buy or change a home to meet your needs.',
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -505,7 +496,6 @@ export const BENEFITS_LIST = [
     description:
       'The Veterans Pension program provides monthly payments to wartime Veterans who meet certain requirements.',
     whenToApplyDescription: 'After you separate from service',
-    isTimeSensitive: false,
     whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
@@ -556,7 +546,6 @@ export const BENEFITS_LIST = [
     description:
       "You can use VA mental health services for post-traumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, anxiety, and other needs. You can use some services even if you're not enrolled in VA health care.",
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -589,7 +578,6 @@ export const BENEFITS_LIST = [
     description:
       "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care.",
     whenToApplyDescription: 'After you separate from service',
-    isTimeSensitive: false,
     whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
@@ -623,7 +611,6 @@ export const BENEFITS_LIST = [
       "With Veterans' Group Life Insurance (VGLI), you may be able to keep your life insurance coverage after you leave the military.",
     whenToApplyDescription:
       'Up to 1 year and 120 days after you separate from service',
-    isTimeSensitive: true,
     whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
@@ -654,7 +641,6 @@ export const BENEFITS_LIST = [
     description:
       'VALife provides low-cost coverage to Veterans with service-connected disabilities. You must already have a VA service-connected disability rating to be approved.',
     whenToApplyDescription: 'After you separate from service',
-    isTimeSensitive: false,
     whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
@@ -691,7 +677,6 @@ export const BENEFITS_LIST = [
     description:
       'You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service.',
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -730,7 +715,6 @@ export const BENEFITS_LIST = [
     description:
       "If you're approved, a VA-backed home loan can help you buy, build, improve, or refinance a home. A VA-backed home loan may offer better terms than a traditional loan.",
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -788,7 +772,6 @@ export const BENEFITS_LIST = [
     description:
       "With VA health care, you're covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can also access health care services like home health and geriatric (elder) care, medical equipment, and prescriptions.",
     whenToApplyDescription: 'After you separate from service',
-    isTimeSensitive: false,
     whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
@@ -834,7 +817,6 @@ export const BENEFITS_LIST = [
     description:
       'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery.',
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -879,7 +861,6 @@ export const BENEFITS_LIST = [
     description:
       'Reserves or National Guard members that became disabled or die from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may qualify for burial in a VA National Cemetery.',
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -917,7 +898,6 @@ export const BENEFITS_LIST = [
     description:
       'You may be able to transfer your unused Post-9/11 GI Bill benefits to your spouse or dependent children. Learn more about this process and how to request a transfer of benefits.',
     whenToApplyDescription: 'Before you separate from service',
-    isTimeSensitive: false,
     whenToApply: [WHEN_TO_APPLY.BEFORE_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
@@ -942,7 +922,6 @@ export const BENEFITS_LIST = [
     description:
       'You can get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If we approve your discharge upgrade, you may be eligible for additional VA benefits.',
     whenToApplyDescription: 'After you separate from service',
-    isTimeSensitive: false,
     whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
@@ -970,7 +949,6 @@ export const BENEFITS_LIST = [
     description:
       "You and your family may be eligible for Veterans' benefits provided by your state. Each state has their own list of benefits and resources that they provide.",
     whenToApplyDescription: 'Before or after you separate from service',
-    isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
       WHEN_TO_APPLY.AFTER_SEPARATION,
@@ -994,7 +972,6 @@ export const BENEFITS_LIST = [
   //   id: 'ENPP',
   //   description:
   //     'If you’re leaving active service soon or recently discharged, you and your spouse can get one-on-one career assistance through ENPP. An Employment Navigator can help you find and secure a meaningful post-separation career. Select the learn more link for a list of locations where this program is available.',
-  //   isTimeSensitive: true,
   //   whenToApply: [
   //     WHEN_TO_APPLY.BEFORE_SEPARATION,
   //     WHEN_TO_APPLY.AFTER_SEPARATION,

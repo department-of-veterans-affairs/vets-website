@@ -13,61 +13,63 @@ const mockBenefits = [
     id: '1',
     name: 'GI Bill benefits',
     category: categories.EDUCATION,
-    isTimeSensitive: false,
+    whenToApplyDescription: 'Up to 2 years before you separate from service',
   },
   {
     id: '2',
     name: 'Careers and employment benefit',
     category: categories.EMPLOYMENT,
-    isTimeSensitive: false,
+    whenToApplyDescription: 'Up to 180 days before you separate from service',
   },
   {
     id: '3',
     name: 'More Support benefit',
     category: categories.MORE_SUPPORT,
-    isTimeSensitive: false,
+    whenToApplyDescription: 'Before you separate from service',
   },
   {
     id: '4',
     name: 'Disability Compensation benefit',
     category: categories.DISABILITY,
-    isTimeSensitive: true,
+    whenToApplyDescription:
+      'Up to 180 days before you separate from service or up to 1 year after you separate from service',
   },
   {
     id: '5',
     name: 'Foreign Medical Program benefit',
     category: categories.HEALTH_CARE,
-    isTimeSensitive: true,
+    whenToApplyDescription:
+      'Up to 1 year and 120 days after you separate from service',
   },
   {
     id: '6',
     name: 'Veterans Pension benefit',
     category: categories.PENSION,
-    isTimeSensitive: false,
+    whenToApplyDescription: 'Before or after you separate from service',
   },
   {
     id: '7',
     name: 'VA national cemetery burial benefit',
     category: categories.BURIALS,
-    isTimeSensitive: false,
+    whenToApplyDescription: 'After you separate from service',
   },
   {
     id: '8',
     name: 'Veterans Affairs Life Insurance benefit',
     category: categories.LIFE_INSURANCE,
-    isTimeSensitive: false,
+    whenToApplyDescription: 'After you separate from service',
   },
   {
     id: '9',
     name: 'Disability housing grant benefit',
     category: categories.HOUSING,
-    isTimeSensitive: false,
+    whenToApplyDescription: 'After you separate from service',
   },
   {
     id: '10',
     name: 'Quick Access Benefit benefit',
     category: categories.MORE_SUPPORT,
-    isTimeSensitive: true,
+    whenToApplyDescription: 'After you separate from service',
   },
 ];
 
@@ -329,7 +331,7 @@ describe('sortBenefits', () => {
     expect(benefitNames[9]).to.include('Veterans Pension');
   });
 
-  it('sorts benefits by time sensitivity', async () => {
+  it('sorts benefits by time by expiring soonest', async () => {
     const { mockStore, props } = getData(mockBenefits);
 
     const screen = render(
@@ -343,19 +345,17 @@ describe('sortBenefits', () => {
     fireEvent(
       sortSelect,
       new CustomEvent('vaSelect', {
-        detail: { value: 'isTimeSensitive' },
+        detail: { value: 'expiringSoonest' },
         bubbles: true,
       }),
     );
 
     const listItems = await screen.findAllByRole('listitem');
     const benefitNames = listItems.map(li => li.textContent);
-    const topBenefits = benefitNames.slice(0, 3);
 
-    // Time-sensitive benefits should appear first
-    expect(topBenefits.join(' ')).to.include('Disability Compensation');
-    expect(topBenefits.join(' ')).to.include('Foreign Medical Program');
-    expect(topBenefits.join(' ')).to.include('Quick Access Benefit');
+    for (let i = 0; i < benefitNames.length; i++) {
+      expect(benefitNames[i]).to.include(mockBenefits[i].name);
+    }
   });
 });
 
@@ -481,7 +481,7 @@ describe('pagination', () => {
       id: String(i + 1),
       name: `Benefit ${i + 1}`,
       category: '',
-      isTimeSensitive: false,
+      whenToApplyDescription: 'After you separate from service',
     }));
     const sortedBenefits = [...benefits].sort((a, b) =>
       a.name.localeCompare(b.name),
