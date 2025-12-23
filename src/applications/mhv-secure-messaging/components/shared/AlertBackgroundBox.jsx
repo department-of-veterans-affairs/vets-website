@@ -223,7 +223,6 @@ const AlertBackgroundBox = props => {
         full-width="false"
         show-icon={handleShowIcon()}
         status={activeAlert.alertType}
-        // role="alert"
         onCloseEvent={
           closeAlertBox // success, error, warning, info, continue
         }
@@ -231,7 +230,7 @@ const AlertBackgroundBox = props => {
       >
         {/* Setting the bold class will impact the font weight for all alerts */}
         <p
-          className="vads-u-margin-y--0 vads-u-font-weight--bold"
+          className="vads-u-margin-y--0 vads-u-font-size--lg vads-u-font-weight--bold"
           data-testid="alert-text"
         >
           {alertContent}
