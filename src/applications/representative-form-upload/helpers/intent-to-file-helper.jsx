@@ -40,14 +40,19 @@ const fetchIntentToFile = async (
       }/accredited_representative_portal/v0/intent_to_file${params}`,
     );
   } catch (error) {
+    const { status } = error.errors[0];
     if (
       error.errors &&
       typeof error.errors[0] === 'string' &&
       error.errors[0].match(/^not allowed/)
     ) {
       goPath(`${urlPrefix}intent-to-file-no-representation`);
-    } else {
+      // returns error if there is no ITF, 404 is the happy path
+    } else if (status === '404') {
       goNextPath();
+      // generic error catchall - unknown if itf exists
+    } else {
+      goPath(`${urlPrefix}intent-to-file-unknown`);
     }
     return null;
   }
