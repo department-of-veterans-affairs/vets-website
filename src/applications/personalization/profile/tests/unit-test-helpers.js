@@ -65,7 +65,7 @@ export function getBasicContactInfoState() {
       addressLine1: '34 Blanchard Rd',
       addressLine2: null,
       addressLine3: null,
-      addressPou: 'RESIDENCE/CHOICE',
+      addressPou: 'RESIDENCE',
       addressType: 'DOMESTIC',
       city: 'Shirley Mills',
       countryName: 'United States',

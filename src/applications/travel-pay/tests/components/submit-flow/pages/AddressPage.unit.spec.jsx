@@ -14,7 +14,7 @@ const home = {
   addressLine1: '345 Home Address St.',
   addressLine2: 'Apt. 22B',
   addressLine3: 'Building 2',
-  addressPou: 'RESIDENCE/CHOICE',
+  addressPou: 'RESIDENCE',
   addressType: 'DOMESTIC',
   city: 'San Francisco',
   countryName: 'United States',

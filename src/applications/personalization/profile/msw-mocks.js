@@ -606,7 +606,7 @@ export const editAddressSuccess = [
               addressLine1: '123 Main St',
               addressLine2: null,
               addressLine3: null,
-              addressPou: 'RESIDENCE/CHOICE',
+              addressPou: 'RESIDENCE',
               addressType: 'DOMESTIC',
               city: 'San Francisco',
               countryName: 'United States',

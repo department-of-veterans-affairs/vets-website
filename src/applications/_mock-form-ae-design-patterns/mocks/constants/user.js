@@ -14,7 +14,7 @@ const USER = {
     CITY: 'San Francisco',
     STATE_CODE: 'CA',
     ZIP_CODE: '94118',
-    ADDRESS_POU: 'RESIDENCE/CHOICE',
+    ADDRESS_POU: 'RESIDENCE',
     ADDRESS_TYPE: 'DOMESTIC',
     COUNTRY_NAME: 'United States',
     COUNTRY_CODE_ISO2: 'US',
