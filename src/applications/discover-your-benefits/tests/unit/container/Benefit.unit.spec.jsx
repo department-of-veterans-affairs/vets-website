@@ -39,6 +39,7 @@ describe('Benefits Component', () => {
         handleClick={() => {}}
         results={{ isLoading: false, data: mockBenefits }}
         queryString={{}}
+        isBenefitRecommended={() => false}
       />,
     );
 
@@ -72,6 +73,7 @@ describe('Benefits Component', () => {
         results={{ isLoading: false, data: [] }}
         queryString={{ allBenefits: 'true' }}
         BenefitCard={MockBenefitCard} // Use the mocked component
+        isBenefitRecommended={() => false}
       />,
     );
 
