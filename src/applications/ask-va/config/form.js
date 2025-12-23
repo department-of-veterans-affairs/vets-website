@@ -320,6 +320,7 @@ const formConfig = {
           // CustomPageReview: CustomYourQuestionReviewField,
           uiSchema: fileUploadPage.uiSchema,
           schema: fileUploadPage.schema,
+          depends: formData => formData.allowAttachments,
           onNavForward: ({ goPath }) => {
             goPath('/your-question');
           },
