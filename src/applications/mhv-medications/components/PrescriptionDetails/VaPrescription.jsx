@@ -464,7 +464,6 @@ const VaPrescription = prescription => {
                                   data-testid="rx-refill"
                                   id={refillLabelId}
                                   slot="headline"
-                                  aria-label="refill label"
                                 >
                                   {refillLabel}
                                 </h4>
