@@ -125,9 +125,9 @@ const ResultDescription = ({
           {linkText}
         </a>
       )}
-    <div className="usa-alert background-color-only">
+    <div className="usa-alert background-color-only vads-u-margin-bottom--3">
       <h3 className="vads-u-margin-top--0">Your answers:</h3>
-      <ul className="vads-u-list-style--none vads-u-padding-left--0">
+      <ul className="vads-u-list-style--none vads-u-padding-left--0" >
         {answers.map((answer, index) => (
           <li
             key={index}
@@ -136,13 +136,22 @@ const ResultDescription = ({
             <va-icon
               icon="check"
               size={3}
-              color="green"
               className="vads-u-margin-right--2"
+              style={{color: '#2e8540'}}
             />
             <span>{answer}</span>
           </li>
         ))}
       </ul>
+      <br/>
+    </div>
+    <div>
+      <a
+        href={`${environment.BASE_URL}/education/apply-for-education-benefits/application/1995/introduction`}
+        className="vads-u-display--block vads-u-margin-bottom--3"
+        >
+          Restart questionnaire
+      </a>
     </div>
   </div>
 );
