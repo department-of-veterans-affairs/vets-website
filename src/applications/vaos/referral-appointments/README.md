@@ -139,10 +139,10 @@ yarn cy:run --spec "src/applications/vaos/tests/e2e/**/referral*.cypress.spec.js
 
 ### Screenshots
 
-Screenshots are disabled by default during test runs to speed up regular e2e testing. To capture screenshots, pass the `--env with_screenshots=true` flag:
+Screenshots are disabled by default during test runs to speed up regular e2e testing. To capture screenshots, pass the `--env screenshots=vaos` flag:
 
 ```bash
-yarn cy:run --env with_screenshots=true --spec "src/applications/vaos/tests/e2e/**/referral*.cypress.spec.js"
+yarn cy:run --env screenshots=vaos --spec "src/applications/vaos/tests/e2e/**/referral*.cypress.spec.js"
 ```
 
 After the command completes, screenshots are saved to the `cypress/screenshots` folder at the root of the project. Each Cypress test file gets its own subfolder containing all screenshots from that file:

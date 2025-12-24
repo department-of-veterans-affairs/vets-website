@@ -10,7 +10,7 @@ import {
   mockDraftReferralAppointmentApi,
   mockAppointmentDetailsApi,
   mockSubmitAppointmentApi,
-  takeScreenshot,
+  saveScreenshot,
 } from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -81,7 +81,9 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         referralsAndRequests.assertApiError();
-        takeScreenshot(`referrals-list-api-error-${errorType}`);
+        saveScreenshot(
+          `vaos_ccDirectScheduling_referralsList_apiError_${errorType}`,
+        );
       });
     });
   });
@@ -121,7 +123,9 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         scheduleReferral.assertApiError();
-        takeScreenshot(`referral-detail-api-error-${errorType}`);
+        saveScreenshot(
+          `vaos_ccDirectScheduling_referralDetail_apiError_${errorType}`,
+        );
       });
     });
   });
@@ -181,7 +185,9 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         chooseDateAndTime.assertApiError();
-        takeScreenshot(`referral-selecting-slot-times-api-error-${errorType}`);
+        saveScreenshot(
+          `vaos_ccDirectScheduling_selectingSlotTimes_apiError_${errorType}`,
+        );
       });
     });
   });
@@ -266,8 +272,8 @@ describe('VAOS Referral API Error Handling', () => {
         // Wait for submit appointment API call
         cy.wait('@v2:post:submitAppointment');
         cy.injectAxeThenAxeCheck();
-        takeScreenshot(
-          `referral-submitting-appointment-api-error-${errorType}`,
+        saveScreenshot(
+          `vaos_ccDirectScheduling_reviewAndConfirm_apiError_${errorType}`,
         );
 
         // Verify error message is displayed
@@ -375,8 +381,8 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         completeReferral.assertApiError();
-        takeScreenshot(
-          `referral-appointment-after-submit-api-error-${errorType}`,
+        saveScreenshot(
+          `vaos_ccDirectScheduling_appointmentSubmit_apiError_${errorType}`,
         );
       });
     });
@@ -448,7 +454,7 @@ describe('VAOS Referral API Error Handling', () => {
       // Verify error message is displayed
       completeReferral.assertNotBookedError();
       cy.injectAxeThenAxeCheck();
-      takeScreenshot(`referral-appointment-after-submit-timeout-error`);
+      saveScreenshot(`vaos_ccDirectScheduling_appointmentSubmit_timeoutError`);
     });
   });
 });

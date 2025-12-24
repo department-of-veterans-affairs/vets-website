@@ -267,13 +267,40 @@ function restoreScrollerAfterShot() {
   });
 }
 
-export function takeScreenshot(
+/**
+ * Saves a screenshot of the current page.
+ *
+ * @param {string} name - The name of the screenshot. Must be in the format of 'appName_featureName'.
+ * @param {Object} [options] - The options for the screenshot.
+ * @param {string} [options.overwrite=true] - Whether to overwrite the screenshot if it already exists.
+ * @param {string} [options.capture='fullPage'] - The capture mode for the screenshot.
+ */
+export function saveScreenshot(
   name,
   options = { overwrite: true, capture: 'fullPage' },
 ) {
-  if (Cypress.env('with_screenshots')) {
+  const screenshotOptions = Cypress.env('screenshots');
+  if (!screenshotOptions) {
+    return;
+  }
+
+  const optionsSet = new Set(screenshotOptions.split(','));
+
+  const [appName, featureName] = name.split('_');
+
+  if (
+    !optionsSet.has(appName) &&
+    !optionsSet.has(featureName) &&
+    screenshotOptions !== 'all'
+  ) {
+    return;
+  }
+
+  if (options.capture === 'fullPage') {
     expandScrollerForShot();
-    cy.screenshot(name, options);
+  }
+  cy.screenshot(name, options);
+  if (options.capture === 'fullPage') {
     restoreScrollerAfterShot();
   }
 }
