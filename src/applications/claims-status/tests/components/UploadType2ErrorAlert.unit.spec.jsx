@@ -249,4 +249,34 @@ describe('<UploadType2ErrorAlert>', () => {
       "Review files we couldn't process and learn other ways to send your documents",
     );
   });
+
+  context('heading level based on page context', () => {
+    it('should render h4 heading when isStatusPage is true', () => {
+      const failedSubmissions = [createFailedSubmission()];
+
+      const { container } = render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
+      );
+
+      expect(container.querySelector('h4')).to.exist;
+      expect(container.querySelector('h3')).to.not.exist;
+    });
+
+    it('should render h3 heading when isStatusPage is false', () => {
+      const failedSubmissions = [createFailedSubmission()];
+
+      const { container } = render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage={false}
+        />,
+      );
+
+      expect(container.querySelector('h3')).to.exist;
+      expect(container.querySelector('h4')).to.not.exist;
+    });
+  });
 });
