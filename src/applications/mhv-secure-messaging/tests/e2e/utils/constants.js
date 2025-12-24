@@ -372,6 +372,7 @@ export const Alerts = {
   SEARCH_TERM_REQUIRED: 'Please enter a search term.',
   ERROR_LOADING_RECIPIENTS_HEADER:
     'We can’t load your care team list right now',
+  SEND_MESSAGE_SUCCESS: `Message sent`,
 };
 
 export const Data = {
@@ -398,7 +399,7 @@ export const Data = {
   FOLDER_REMOVED_SUCCESSFULLY: 'Folder was successfully removed.',
   FOLDER_CREATED_SUCCESSFULLY: 'Folder was successfully created.',
   FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
-  SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
+  SECURE_MSG_SENT_SUCCESSFULLY: 'Message sent',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
   PLEASE_SELECT_VALID_RECIPIENT: 'Please select a valid recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
@@ -409,7 +410,6 @@ export const Data = {
   CONTINUE_EDITING: 'Continue editing',
   MESSAGE_MOVED_TO_TRASH:
     'Message conversation was successfully moved to Trash.',
-  MESSAGE_SENT: `Message Sent.`,
   TEST_VIDEO: 'test_video.mp4',
   CREATE_FOLDER_TEST: 'create folder test',
   IS_ACTIVE: 'is-active',
