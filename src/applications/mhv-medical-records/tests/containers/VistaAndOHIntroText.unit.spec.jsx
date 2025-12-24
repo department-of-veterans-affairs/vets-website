@@ -112,4 +112,37 @@ describe('VistaAndOHIntroText', () => {
     expect(getByText('VA Western New York health care')).to.exist;
     expect(getByText('VA Central Ohio health care')).to.exist;
   });
+
+  it('does not render HoldTimeInfo when holdTimeMessagingUpdate is false', () => {
+    const { queryByText } = render(
+      <VistaAndOHIntroText {...defaultProps} holdTimeMessagingUpdate={false} />,
+    );
+    expect(queryByText(/Your test results are available in your reports/)).to
+      .not.exist;
+  });
+
+  it('does not render HoldTimeInfo when holdTimeMessagingUpdate is undefined', () => {
+    const { queryByText } = render(<VistaAndOHIntroText {...defaultProps} />);
+    expect(queryByText(/Your test results are available in your reports/)).to
+      .not.exist;
+  });
+
+  it('renders HoldTimeInfo when holdTimeMessagingUpdate is true', () => {
+    const { getByText } = render(
+      <VistaAndOHIntroText {...defaultProps} holdTimeMessagingUpdate />,
+    );
+    expect(getByText(/Your test results are available in your reports/)).to
+      .exist;
+  });
+
+  it('renders va-additional-info when holdTimeMessagingUpdate is true', () => {
+    const { container } = render(
+      <VistaAndOHIntroText {...defaultProps} holdTimeMessagingUpdate />,
+    );
+    const additionalInfo = container.querySelector('va-additional-info');
+    expect(additionalInfo).to.exist;
+    expect(additionalInfo.getAttribute('trigger')).to.equal(
+      'What to know before reviewing your results',
+    );
+  });
 });

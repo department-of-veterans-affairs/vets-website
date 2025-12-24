@@ -30,15 +30,32 @@ describe('VistaIntroText', () => {
     );
   });
 
-  it('renders exactly one paragraph element', () => {
-    const { container } = render(<VistaIntroText />);
-    const paragraphs = container.querySelectorAll('p');
-    expect(paragraphs.length).to.equal(1);
+  it('does not render HoldTimeInfo when holdTimeMessagingUpdate is false', () => {
+    const { queryByText } = render(
+      <VistaIntroText holdTimeMessagingUpdate={false} />,
+    );
+    expect(queryByText(/Your test results are available in your reports/)).to
+      .not.exist;
   });
 
-  it('renders exactly one h1 element', () => {
-    const { container } = render(<VistaIntroText />);
-    const headings = container.querySelectorAll('h1');
-    expect(headings.length).to.equal(1);
+  it('does not render HoldTimeInfo when holdTimeMessagingUpdate is undefined', () => {
+    const { queryByText } = render(<VistaIntroText />);
+    expect(queryByText(/Your test results are available in your reports/)).to
+      .not.exist;
+  });
+
+  it('renders HoldTimeInfo when holdTimeMessagingUpdate is true', () => {
+    const { getByText } = render(<VistaIntroText holdTimeMessagingUpdate />);
+    expect(getByText(/Your test results are available in your reports/)).to
+      .exist;
+  });
+
+  it('renders va-additional-info when holdTimeMessagingUpdate is true', () => {
+    const { container } = render(<VistaIntroText holdTimeMessagingUpdate />);
+    const additionalInfo = container.querySelector('va-additional-info');
+    expect(additionalInfo).to.exist;
+    expect(additionalInfo.getAttribute('trigger')).to.equal(
+      'What to know before reviewing your results',
+    );
   });
 });
