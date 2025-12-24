@@ -12,14 +12,15 @@ describe('Medications List Page Sort By Last Filled First', () => {
     listPage.visitMedicationsListPageURL(rxList);
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=10&sort=last-fill-date',
+      '/my_health/v1/prescriptions?page=1&per_page=10&sort=last-fill-date',
       sortedData,
     ).as('sortedPrescriptions');
-    listPage.visitMedicationsListPageURL(sortedData);
     listPage.selectSortDropDownOption('Last filled first');
     listPage.validateMedicationsListSorted(sortedData);
     listPage.verifyPaginationDisplayedforSortLastFilledFirst(1, 10, listLength);
-    listPage.verifySortScreenReaderActionText('Sorting: Last filled first');
+    listPage.verifyFilterAriaRegionText(
+      'Showing 1 - 10 of 29 medications, last filled first',
+    );
     cy.injectAxe();
     cy.axeCheck('main');
   });
