@@ -11,15 +11,14 @@ import { openReviewChapter as openReviewChapterAction } from 'platform/forms-sys
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert';
-import { shouldShowDeclinedAlert } from '../helpers';
+import { hasIncompleteTrust, shouldShowDeclinedAlert } from '../helpers';
 
 /**
  * Render the 21P-0969 application
  * @param {object} location - react router location object
  * @param {JSX.Element} children - child components
  * @param {boolean} isLoggedIn - user login status
- * @param {boolean} isLoading - user loading status
- * @param {object} featureToggles - feature toggles object
+ * @param {func} openReviewChapter - helper function
  * @returns {JSX.Element} - rendered component
  */
 function App({ location, children, isLoggedIn, openReviewChapter }) {
@@ -84,10 +83,7 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
         ) {
           openReviewChapter('ownedAssets');
         }
-        if (
-          trusts.length > 0 &&
-          trusts.some(trust => trust?.['view:addFormQuestion'] === false)
-        ) {
+        if (hasIncompleteTrust(trusts)) {
           openReviewChapter('trusts');
         }
       }

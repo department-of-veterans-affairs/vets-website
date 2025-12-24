@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isReviewAndSubmitPage, showUpdatedContent } from '../../helpers';
+import {
+  hasIncompleteTrust,
+  isReviewAndSubmitPage,
+  showUpdatedContent,
+} from '../../helpers';
 import { SupportingDocumentsNeededList } from '../OwnedAssetsDescriptions';
 
 export const TrustSupplementaryFormsAlert = ({ formData, headingLevel }) => {
@@ -10,13 +14,8 @@ export const TrustSupplementaryFormsAlert = ({ formData, headingLevel }) => {
   // Hide when no trusts exist
   if (trusts.length === 0) return null;
 
-  // Determine if any trust item has addFormQuestion === false
-  const hasMissingDocuments = trusts.some(
-    trust => trust?.['view:addFormQuestion'] === false,
-  );
-
-  // Hide when updatedContent is true but none have addFormQuestion === false
-  if (updatedContent && !hasMissingDocuments) return null;
+  // Hide when updatedContent is true and all trusts are complete
+  if (updatedContent && !hasIncompleteTrust(trusts)) return null;
 
   const Heading = headingLevel || (isReviewAndSubmitPage() ? 'h3' : 'h2');
 

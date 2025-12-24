@@ -52,7 +52,7 @@ describe('pension <TrustSupplementaryFormsAlert>', () => {
     expect(container.querySelector('va-alert')).to.not.exist;
   });
 
-  it('should render when showUpdatedContent is true and a trust has addFormQuestion === false', () => {
+  it('should render when showUpdatedContent is true and a trust is incomplete', () => {
     showUpdatedContentStub.returns(true);
 
     const { container } = render(
@@ -68,15 +68,21 @@ describe('pension <TrustSupplementaryFormsAlert>', () => {
     );
   });
 
-  it('should not render when showUpdatedContent is true and all trusts have addFormQuestion === true', () => {
+  it('should not render when showUpdatedContent is true and all trusts are complete', () => {
     showUpdatedContentStub.returns(true);
 
     const { container } = render(
       <TrustSupplementaryFormsAlert
         formData={{
           trusts: [
-            { 'view:addFormQuestion': true },
-            { 'view:addFormQuestion': true },
+            {
+              'view:addFormQuestion': true,
+              uploadedDocuments: [{ name: 'document.jpg' }],
+            },
+            {
+              'view:addFormQuestion': true,
+              uploadedDocuments: [{ name: 'document.jpg' }],
+            },
           ],
         }}
       />,

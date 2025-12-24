@@ -7,6 +7,8 @@ import * as recordEventModule from 'platform/monitoring/record-event';
 import {
   formatFullNameNoSuffix,
   formatPossessiveString,
+  hasUploadedDocuments,
+  hasIncompleteTrust,
   isDefined,
   isReviewAndSubmitPage,
   resolveRecipientFullName,
@@ -293,6 +295,119 @@ describe('Income and Asset helpers', () => {
       const result = formatPossessiveString('Jones');
       expect(result).to.include('’');
       expect(result).to.not.include("'");
+    });
+
+    describe('hasUploadedDocuments', () => {
+      it('returns false when value is not an array', () => {
+        expect(hasUploadedDocuments(undefined)).to.be.false;
+        expect(hasUploadedDocuments(null)).to.be.false;
+        expect(hasUploadedDocuments({})).to.be.false;
+      });
+
+      it('returns false for an empty array', () => {
+        expect(hasUploadedDocuments([])).to.be.false;
+      });
+
+      it('returns false when documents have no name', () => {
+        const uploadedDocuments = [{}, { size: 1234 }];
+        expect(hasUploadedDocuments(uploadedDocuments)).to.be.false;
+      });
+
+      it('returns true when at least one document has a name', () => {
+        const uploadedDocuments = [
+          { name: '' },
+          { name: 'trust-document.pdf' },
+        ];
+
+        expect(hasUploadedDocuments(uploadedDocuments)).to.be.true;
+      });
+
+      it('ignores non-object entries safely', () => {
+        const uploadedDocuments = [
+          null,
+          undefined,
+          'string',
+          { name: 'valid.pdf' },
+        ];
+
+        expect(hasUploadedDocuments(uploadedDocuments)).to.be.true;
+      });
+    });
+
+    describe('hasIncompleteTrust', () => {
+      it('returns false when trusts is undefined or empty', () => {
+        expect(hasIncompleteTrust(undefined)).to.be.false;
+        expect(hasIncompleteTrust([])).to.be.false;
+      });
+
+      it('returns true when user declined to upload documents', () => {
+        const trusts = [
+          {
+            'view:addFormQuestion': false,
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.true;
+      });
+
+      it('returns true when user said yes but uploaded no documents', () => {
+        const trusts = [
+          {
+            'view:addFormQuestion': true,
+            uploadedDocuments: [],
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.true;
+      });
+
+      it('returns false when user said yes and uploaded documents', () => {
+        const trusts = [
+          {
+            'view:addFormQuestion': true,
+            uploadedDocuments: [{ name: 'trust.pdf' }],
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.false;
+      });
+
+      it('returns false when trust has no addFormQuestion value', () => {
+        const trusts = [
+          {
+            uploadedDocuments: [{ name: 'trust.pdf' }],
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.false;
+      });
+
+      it('returns true when at least one trust is incomplete', () => {
+        const trusts = [
+          {
+            'view:addFormQuestion': true,
+            uploadedDocuments: [{ name: 'valid.pdf' }],
+          },
+          {
+            'view:addFormQuestion': false,
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.true;
+      });
+
+      it('handles malformed trust entries safely', () => {
+        const trusts = [
+          null,
+          {},
+          {
+            'view:addFormQuestion': true,
+            uploadedDocuments: [{ name: 'trust.pdf' }],
+          },
+        ];
+
+        expect(hasIncompleteTrust(trusts)).to.be.false;
+      });
     });
   });
 });
