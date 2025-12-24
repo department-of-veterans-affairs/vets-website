@@ -32,7 +32,7 @@ const BENEFIT_TYPE_LABELS = {
   FRY: 'Fry Scholarship (Chapter 33)',
 };
 
-const getBenefitLabel = benefitType => {
+export const getBenefitLabel = benefitType => {
   if (!benefitType) {
     return "We couldn't load your current benefit.";
   }
