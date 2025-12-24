@@ -328,9 +328,6 @@ const formConfig = {
           uiSchema: fileUploadPage.uiSchema,
           schema: fileUploadPage.schema,
           depends: formData => formData.allowAttachments === true,
-          onNavForward: ({ goPath }) => {
-            goPath('/review-then-submit');
-          },
         },
       },
     },
