@@ -44,7 +44,7 @@ const MyCaseManagementHub = () => {
         return;
       }
       const attrs = caseStatusDetails?.attributes;
-      const stateList = attrs?.external_status?.state_list || [];
+      const stateList = attrs?.externalStatus?.stateList || [];
 
       if (!stateList.length) {
         return;
@@ -65,7 +65,7 @@ const MyCaseManagementHub = () => {
 
   let labelsWithStatus = stepLabels;
   const attrs = caseStatusDetails?.attributes;
-  const stateList = attrs?.external_status?.state_list || [];
+  const stateList = attrs?.externalStatus?.stateList || [];
 
   if (Array.isArray(stateList) && stateList.length) {
     labelsWithStatus = stepLabels.map((label, index) => {
