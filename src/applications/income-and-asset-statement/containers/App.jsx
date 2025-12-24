@@ -11,7 +11,7 @@ import { openReviewChapter as openReviewChapterAction } from 'platform/forms-sys
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert';
-import { shouldShowDeclinedAlert } from '../helpers';
+import { hasIncompleteTrust, shouldShowDeclinedAlert } from '../helpers';
 
 /**
  * Render the 21P-0969 application
@@ -83,10 +83,7 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
         ) {
           openReviewChapter('ownedAssets');
         }
-        if (
-          trusts.length > 0 &&
-          trusts.some(trust => trust?.['view:addFormQuestion'] === false)
-        ) {
+        if (hasIncompleteTrust(trusts)) {
           openReviewChapter('trusts');
         }
       }

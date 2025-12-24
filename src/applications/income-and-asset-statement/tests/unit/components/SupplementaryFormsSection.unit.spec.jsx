@@ -58,7 +58,10 @@ describe('<SupplementaryFormsSection />', () => {
 
       const { container, getByText } = render(
         <SupplementaryFormsSection
-          formData={{ trusts: [{}], ownedAssets: [{}] }}
+          formData={{
+            trusts: [{ 'view:addFormQuestion': false }],
+            ownedAssets: [{}],
+          }}
         />,
       );
 
@@ -91,7 +94,10 @@ describe('<SupplementaryFormsSection />', () => {
 
       const { container, getByText, queryByText } = render(
         <SupplementaryFormsSection
-          formData={{ trusts: [{}], ownedAssets: [{}] }}
+          formData={{
+            trusts: [{ 'view:addFormQuestion': false }],
+            ownedAssets: [{}],
+          }}
         />,
       );
 
@@ -124,7 +130,10 @@ describe('<SupplementaryFormsSection />', () => {
 
       const { container, getByText, queryByText } = render(
         <SupplementaryFormsSection
-          formData={{ trusts: [{}], ownedAssets: [{}] }}
+          formData={{
+            trusts: [{ 'view:addFormQuestion': false }],
+            ownedAssets: [{}],
+          }}
         />,
       );
 
@@ -250,7 +259,9 @@ describe('<SupplementaryFormsSection />', () => {
       });
 
       const { container, getByText, queryByText } = render(
-        <SupplementaryFormsSection formData={{ trusts: [{}] }} />,
+        <SupplementaryFormsSection
+          formData={{ trusts: [{ 'view:addFormQuestion': false }] }}
+        />,
       );
 
       getByText(/supporting documents for a trust/i);

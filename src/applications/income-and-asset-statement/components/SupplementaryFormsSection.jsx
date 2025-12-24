@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MailingAddress from './MailingAddress';
-import { getIncompleteOwnedAssets } from '../helpers';
+import { getIncompleteOwnedAssets, hasIncompleteTrust } from '../helpers';
 import { SupportingDocumentsNeededList } from './OwnedAssetsDescriptions';
 
 const bodyTextMap = {
@@ -68,9 +68,7 @@ const SupplementaryFormsSection = ({ formData }) => {
   const { alertAssets, hasFarm, hasBusiness } = getIncompleteOwnedAssets(
     formData,
   );
-
-  const hasTrust =
-    Array.isArray(formData?.trusts) && formData.trusts.length > 0;
+  const hasTrust = hasIncompleteTrust(formData?.trusts);
 
   if (alertAssets.length === 0 && !hasTrust) return null;
 

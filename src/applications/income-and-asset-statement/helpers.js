@@ -362,6 +362,37 @@ export const getIncompleteOwnedAssets = (
 };
 
 /**
+ * Determines whether uploaded documents exist and contain at least one file.
+ *
+ * @param {Array} uploadedDocuments - Array for files
+ * @returns {boolean} True if uploaded documents exist
+ */
+export const hasUploadedDocuments = uploadedDocuments =>
+  Array.isArray(uploadedDocuments) &&
+  uploadedDocuments.some(doc => Boolean(doc?.name));
+
+/**
+ * Determines whether at least one trust is incomplete.
+ *
+ * A trust is considered incomplete if:
+ * - The user declined to upload documents, OR
+ * - The user said they would upload documents but none were provided
+ *
+ * @param {Array} trusts - Trusts array from form data
+ * @return {boolean} True if at least one trust is incomplete
+ */
+export const hasIncompleteTrust = trusts =>
+  (trusts ?? []).some(trust => {
+    const declinedUpload = trust?.['view:addFormQuestion'] === false;
+
+    const saidYesButNoUpload =
+      trust?.['view:addFormQuestion'] === true &&
+      !hasUploadedDocuments(trust?.uploadedDocuments);
+
+    return declinedUpload || saidYesButNoUpload;
+  });
+
+/**
  * Determines whether to show the declined upload alert for owned assets.
  *
  * @param {Object} ownedAssets - The owned assets data.
