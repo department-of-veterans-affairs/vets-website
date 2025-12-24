@@ -256,7 +256,7 @@ export const benefitSwitchPage = () => ({
   uiSchema: {
     mebBenefitSelection: {
       'ui:title': (
-        <h2 className="vads-u-margin-y--0" style={{ whiteSpace: 'nowrap' }}>
+        <h2 className="vads-u-margin-y--0 vads-u-display--inline">
           Benefit you want to change to
         </h2>
       ),
