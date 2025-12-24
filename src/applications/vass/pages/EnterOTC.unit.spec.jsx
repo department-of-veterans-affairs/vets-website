@@ -236,4 +236,55 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
   });
+
+  describe('when cancellation url parameter is true', () => {
+    it('should display the correct page title', () => {
+      const { getByTestId } = renderWithStoreAndRouterV6(<EnterOTC />, {
+        ...defaultRenderOptions,
+        initialEntries: ['/enter-otc?cancel=true'],
+      });
+
+      expect(getByTestId('header').textContent).to.contain(
+        'Cancel VA Solid Start appointment',
+      );
+    });
+
+    it('should navigate to cancel appointment page on successful verification', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          token: 'jwt-token',
+          expiresIn: 3600,
+          tokenType: 'Bearer',
+        },
+      });
+
+      const { container, getByTestId } = renderWithStoreAndRouterV6(
+        <>
+          <Routes>
+            <Route path="/enter-otc" element={<EnterOTC />} />
+            <Route
+              path="/cancel-appointment/:appointmentId"
+              element={<div>Cancel Appointment Page</div>}
+            />
+          </Routes>
+          <LocationDisplay />
+        </>,
+        {
+          ...defaultRenderOptions,
+          initialEntries: ['/enter-otc?cancel=true'],
+          additionalMiddlewares: [vassApi.middleware],
+        },
+      );
+
+      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      const continueButton = getByTestId('continue-button');
+      continueButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/cancel-appointment/abcdef123456',
+        );
+      });
+    });
+  });
 });

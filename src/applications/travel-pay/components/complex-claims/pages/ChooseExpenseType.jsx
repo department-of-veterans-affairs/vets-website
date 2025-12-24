@@ -7,7 +7,10 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
-import { selectComplexClaim } from '../../../redux/selectors';
+import {
+  selectComplexClaim,
+  selectExpenseBackDestination,
+} from '../../../redux/selectors';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
@@ -18,6 +21,8 @@ const ChooseExpenseType = () => {
 
   // Get claim data
   const { data: claim } = useSelector(selectComplexClaim);
+
+  const backDestination = useSelector(selectExpenseBackDestination);
 
   const title = 'What type of expense do you want to add?';
 
@@ -64,7 +69,11 @@ const ChooseExpenseType = () => {
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
+    if (backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
+    }
   };
 
   const hintText = 'You can submit 1 mileage expense for this claim.';
