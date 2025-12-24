@@ -1,10 +1,10 @@
 import {
-  addressSchema,
-  addressUI,
+  addressNoMilitarySchema,
+  addressNoMilitaryUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const pdfSchema = addressSchema({
+const pdfSchema = addressNoMilitarySchema({
   omit: ['street3'],
 });
 pdfSchema.properties.street.maxLength = 30;
@@ -15,7 +15,7 @@ pdfSchema.properties.city.maxLength = 18;
 export default {
   uiSchema: {
     ...titleUI('Mailing address'),
-    claimantMailingAddress: addressUI({
+    claimantMailingAddress: addressNoMilitaryUI({
       omit: ['street3'],
       required: true,
     }),
