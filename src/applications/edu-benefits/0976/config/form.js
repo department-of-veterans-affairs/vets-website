@@ -6,6 +6,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import authorizingOfficialName from '../pages/authorizingOfficialName';
 import whatToExpect from '../pages/whatToExpect';
 import acknowledgement1 from '../pages/acknowledgement1';
+import acknowledgement2 from '../pages/acknowledgement2';
+import acknowledgement3 from '../pages/acknowledgement3';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -61,6 +63,18 @@ const formConfig = {
           title: 'Acknowledgement 1',
           uiSchema: acknowledgement1.uiSchema,
           schema: acknowledgement1.schema,
+        },
+        acknowledgement2: {
+          path: 'acknowledgement-2',
+          title: 'Acknowledgement 2',
+          uiSchema: acknowledgement2.uiSchema,
+          schema: acknowledgement2.schema,
+        },
+        acknowledgement3: {
+          path: 'acknowledgement-3',
+          title: 'Acknowledgement 3',
+          uiSchema: acknowledgement3.uiSchema,
+          schema: acknowledgement3.schema,
         },
       },
     },
