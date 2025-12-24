@@ -58,13 +58,21 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     },
   } = useSelector(state => state);
 
-  const { ccdExtendedFileTypeFlag, ccdOHFlagEnabled } = useSelector(state => ({
+  const {
+    ccdExtendedFileTypeFlag,
+    ccdOHFlagEnabled,
+    holdTimeMessagingUpdate,
+  } = useSelector(state => ({
     ccdExtendedFileTypeFlag:
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
       ],
     ccdOHFlagEnabled:
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdOH],
+    holdTimeMessagingUpdate:
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
+      ],
   }));
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
@@ -267,6 +275,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <VistaAndOHIntroText
             ohFacilityNames={ohFacilityNames}
             vistaFacilityNames={vistaFacilityNames}
+            holdTimeMessagingUpdate={holdTimeMessagingUpdate}
           />
           <VistaAndOHContent
             vistaFacilityNames={vistaFacilityNames}
@@ -296,7 +305,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     if (hasOHOnly) {
       return (
         <div>
-          <OHOnlyIntroText />
+          <OHOnlyIntroText holdTimeMessagingUpdate={holdTimeMessagingUpdate} />
           <OHOnlyContent
             testIdSuffix="OH"
             ddSuffix="OH"
@@ -322,7 +331,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   // Default case: OH CCD is disabled, *OR* user has only VistA facilities
   return (
     <div>
-      <VistaIntroText />
+      <VistaIntroText holdTimeMessagingUpdate={holdTimeMessagingUpdate} />
       <VistaOnlyContent
         ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
         failedSeiDomains={failedSeiDomains}
