@@ -72,6 +72,7 @@ const baseConfig = {
   errorText: ErrorText,
   // Always render the wrapper; it decides which intro component to show once
   introduction: IntroductionRouter,
+  v3SegmentedProgressBar: true,
 };
 
 export default {
