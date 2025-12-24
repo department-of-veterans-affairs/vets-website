@@ -4,6 +4,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import authorizingOfficialName from '../pages/authorizingOfficialName';
+import whatToExpect from '../pages/whatToExpect';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -47,6 +48,12 @@ const formConfig = {
           title: 'Authorizing official name',
           uiSchema: authorizingOfficialName.uiSchema,
           schema: authorizingOfficialName.schema,
+        },
+        whatToExpect: {
+          path: 'what-to-expect',
+          title: 'What to expect',
+          uiSchema: whatToExpect.uiSchema,
+          schema: whatToExpect.schema,
         },
       },
     },

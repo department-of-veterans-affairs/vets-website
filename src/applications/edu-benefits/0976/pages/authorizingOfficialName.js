@@ -30,8 +30,8 @@ export default {
         properties: {
           fullName: firstNameLastNameNoSuffixSchema,
         },
+        required: ['fullName'],
       },
     },
-    required: ['fullName'],
   },
 };
