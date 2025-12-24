@@ -299,7 +299,7 @@ export const benefitSwitchPage = () => ({
           'Post-9/11 GI Bill (PGIB, Chapter 33)',
           'Montgomery GI Bill (MGIB-AD, Chapter 30)',
           'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
-          'Transferred Post-911 GI Bill benefits (Transfer of Entitlement Program, TOE)',
+          'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
           'Dependents’ Education Assistance (DEA, Chapter 35)',
           'Fry Scholarship (Chapter 33)',
         ],
@@ -357,7 +357,7 @@ export const mgibAdResultPage = () =>
   buildResultPage({
     resultHeader: getSwitchFormHeader('mgib-ad'),
     body:
-      'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
+      'Based on your answers, use VA Form 22-1990 to switch your existing education benefit at the start of your next enrollment period.',
     linkHref: `${
       environment.BASE_URL
     }/education/apply-for-gi-bill-form-22-1990/introduction`,
@@ -372,7 +372,7 @@ export const mgibSrResultPage = () =>
   buildResultPage({
     resultHeader: getSwitchFormHeader('mgib-sr'),
     body:
-      'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
+      'Based on your answers, use VA Form 22-1990 to switch your existing education benefit at the start of your next enrollment period.',
     linkHref: `${
       environment.BASE_URL
     }/education/apply-for-gi-bill-form-22-1990/introduction`,
@@ -387,7 +387,7 @@ export const toeResultPage = () =>
   buildResultPage({
     resultHeader: getSwitchFormHeader('toe'),
     body:
-      'Based on your answers, use VA Form 22-1990e switch your existing education benefit at the start of your next enrollment period.',
+      'Based on your answers, use VA Form 22-1990e to switch your existing education benefit at the start of your next enrollment period.',
     linkHref: `${
       environment.BASE_URL
     }/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e`,
@@ -402,7 +402,7 @@ export const deaResultPage = () =>
   buildResultPage({
     resultHeader: getSwitchFormHeader('dea'),
     body:
-      'Based on your answers, use VA Form 22-5490 switch your existing education benefit at the start of your next enrollment period.',
+      'Based on your answers, use VA Form 22-5490 to switch your existing education benefit at the start of your next enrollment period.',
     linkHref: `${
       environment.BASE_URL
     }/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction`,
@@ -417,7 +417,7 @@ export const fryResultPage = () =>
   buildResultPage({
     resultHeader: getSwitchFormHeader('fry'),
     body:
-      'Based on your answers, use VA Form 22-5490 switch your existing education benefit at the start of your next enrollment period.',
+      'Based on your answers, use VA Form 22-5490 to switch your existing education benefit at the start of your next enrollment period.',
     linkHref: `${
       environment.BASE_URL
     }/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction`,
