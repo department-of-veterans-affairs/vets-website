@@ -20,7 +20,7 @@ import {
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { selectHoldTimeMessagingUpdate } from '../../util/selectors';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -91,12 +91,7 @@ const DownloadFileType = props => {
   const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
   const refreshStatus = useSelector(state => state.mr.refresh.status);
-  const holdTimeMessagingUpdate = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
-      ],
-  );
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
@@ -408,6 +403,7 @@ const DownloadFileType = props => {
       formatDateRange,
       recordData,
       recordFilter,
+      holdTimeMessagingUpdate,
       failedDomains,
       name,
       dob,

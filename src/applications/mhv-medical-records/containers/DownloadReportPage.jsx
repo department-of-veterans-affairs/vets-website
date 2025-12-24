@@ -15,6 +15,7 @@ import {
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectHoldTimeMessagingUpdate } from '../util/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -58,22 +59,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     },
   } = useSelector(state => state);
 
-  const {
-    ccdExtendedFileTypeFlag,
-    ccdOHFlagEnabled,
-    holdTimeMessagingUpdate,
-  } = useSelector(state => ({
+  const { ccdExtendedFileTypeFlag, ccdOHFlagEnabled } = useSelector(state => ({
     ccdExtendedFileTypeFlag:
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
       ],
     ccdOHFlagEnabled:
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdOH],
-    holdTimeMessagingUpdate:
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
-      ],
   }));
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);

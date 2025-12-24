@@ -9,6 +9,7 @@ import {
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
+import { selectHoldTimeMessagingUpdate } from '../util/selectors';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -61,16 +62,13 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
-  const { holdTimeMessagingUpdate, mergeCvixWithScdf } = useSelector(state => ({
-    holdTimeMessagingUpdate:
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
-      ],
-    mergeCvixWithScdf:
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
+  const mergeCvixWithScdf = useSelector(
+    state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
       ],
-  }));
+  );
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
     const isRadRecord =
