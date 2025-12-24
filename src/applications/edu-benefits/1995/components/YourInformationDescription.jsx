@@ -40,7 +40,7 @@ export const getBenefitLabel = benefitType => {
 };
 
 const YourInformationDescription = ({ formData }) => (
-  <div className="vads-u-margin-bottom--4">
+  <div className="vads-u-margin-bottom--4" style={{ maxWidth: '35rem' }}>
     <h2 style={{ fontSize: '30px' }}>Your information</h2>
     <div
       className="usa-summary-box"
