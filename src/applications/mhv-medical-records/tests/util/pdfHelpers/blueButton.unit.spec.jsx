@@ -69,7 +69,7 @@ describe('generateBlueButtonData', () => {
     ).to.equal('Test result 1');
   });
 
-  it('should generate data for labs and test: subtitles based on holdTimeMessagingUpdate is true', () => {
+  it('should generate data for labs and tests: subtitles based on holdTimeMessagingUpdate being true', () => {
     const result = generateBlueButtonData({ labsAndTests }, ['labTests'], true);
     const labsAndTestsSection = result.find(
       section => section.type === recordType.LABS_AND_TESTS,
