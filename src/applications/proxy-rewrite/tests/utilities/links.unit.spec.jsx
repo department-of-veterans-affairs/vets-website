@@ -26,6 +26,12 @@ describe('updateLinkDomain utility', () => {
     );
   });
 
+  it('should correctly format a 127.0.0.1 link', () => {
+    expect(updateLinkDomain('http://127.0.0.1:3001/health-care')).to.equal(
+      'https://www.va.gov/health-care',
+    );
+  });
+
   it('should correctly format a staging link without www', () => {
     expect(updateLinkDomain('http://localhost:3002/health-care')).to.equal(
       'https://www.va.gov/health-care',

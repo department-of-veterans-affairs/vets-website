@@ -908,7 +908,21 @@ jobs:
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
+
+      - name: Wait for server
+        run: |
+          echo "Waiting for server to be ready..."
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+          echo "Server failed to start"
+          exit 1
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -999,7 +1013,21 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
+
+      - name: Wait for server
+        run: |
+          echo "Waiting for server to be ready..."
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+          echo "Server failed to start"
+          exit 1
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
