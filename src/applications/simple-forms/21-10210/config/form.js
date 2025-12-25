@@ -1,8 +1,9 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { scrollAndFocus } from 'platform/utilities/scroll';
+import { scrollAndFocus, scrollTo } from 'platform/utilities/scroll';
 
+import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../definitions/constants';
@@ -49,6 +50,16 @@ const pageScrollAndFocus = () => {
     if (!window.Cypress) {
       scrollAndFocus(document.querySelector(focusSelector));
     }
+  };
+};
+
+const pageFocusScrollNoProgressBar = () => {
+  return () => {
+    scrollTo('topScrollElement');
+    setTimeout(() => {
+      const radio = document.querySelector('va-radio[label-header-level]');
+      waitForRenderThenFocus('h2', radio);
+    }, 100);
   };
 };
 
@@ -124,7 +135,7 @@ const formConfig = {
           // chapter's hideFormNavProgress interferes with scrollAndFocusTarget
           // so using a function here to ensure correct focusSelector is used
           // regardless of which page FormNav thinks current page is.
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: pageFocusScrollNoProgressBar(),
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
@@ -140,7 +151,7 @@ const formConfig = {
           path: 'claimant-type',
           title: 'Veteran status',
           // see comment for scrollAndFocusTarget in claimOwnershipPage above
-          scrollAndFocusTarget: pageScrollAndFocus(),
+          scrollAndFocusTarget: pageFocusScrollNoProgressBar(),
           uiSchema: claimantType.uiSchema,
           schema: claimantType.schema,
         },
@@ -160,7 +171,7 @@ const formConfig = {
           },
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: witnessPersInfo.uiSchemaA,
-          schema: witnessPersInfo.schema,
+          schema: witnessPersInfo.schemaA,
         },
         witnessPersInfoPageB: {
           // for Flow 2: 3rd-party claim, non-vet claimant
@@ -172,7 +183,7 @@ const formConfig = {
           },
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: witnessPersInfo.uiSchemaB,
-          schema: witnessPersInfo.schema,
+          schema: witnessPersInfo.schemaB,
         },
         witnessOtherRelationshipPage: {
           path: 'witness-other-relationship',

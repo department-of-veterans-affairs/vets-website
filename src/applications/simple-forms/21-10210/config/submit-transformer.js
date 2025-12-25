@@ -17,22 +17,21 @@ export default function transformForSubmit(formConfig, form) {
   if (witnessRelationshipToClaimantAnswers) {
     const booleanWitnessRelationshipToClaimant = {
       'served-with':
-        witnessRelationshipToClaimantAnswers.includes(SERVED_WITH_CLAIMANT) ||
-        witnessRelationshipToClaimantAnswers.includes(SERVED_WITH_VETERAN),
+        witnessRelationshipToClaimantAnswers[SERVED_WITH_CLAIMANT] ||
+        witnessRelationshipToClaimantAnswers[SERVED_WITH_VETERAN] ||
+        false,
       'family-or-friend':
-        witnessRelationshipToClaimantAnswers.includes(
-          FAMILY_OR_FRIEND_OF_CLAIMANT,
-        ) ||
-        witnessRelationshipToClaimantAnswers.includes(
-          FAMILY_OR_FRIEND_OF_VETERAN,
-        ),
+        witnessRelationshipToClaimantAnswers[FAMILY_OR_FRIEND_OF_CLAIMANT] ||
+        witnessRelationshipToClaimantAnswers[FAMILY_OR_FRIEND_OF_VETERAN] ||
+        false,
       'coworker-or-supervisor':
-        witnessRelationshipToClaimantAnswers.includes(
-          COWORKER_OR_SUPERVISOR_OF_CLAIMANT,
-        ) ||
-        witnessRelationshipToClaimantAnswers.includes(
-          COWORKER_OR_SUPERVISOR_OF_VETERAN,
-        ),
+        witnessRelationshipToClaimantAnswers[
+          COWORKER_OR_SUPERVISOR_OF_CLAIMANT
+        ] ||
+        witnessRelationshipToClaimantAnswers[
+          COWORKER_OR_SUPERVISOR_OF_VETERAN
+        ] ||
+        false,
     };
 
     transformedData = {

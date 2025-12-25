@@ -1,68 +1,70 @@
-import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
+import {
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+  titleUI,
+  checkboxGroupUI,
+  checkboxGroupSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   RELATIONSHIP_TO_VETERAN_OPTIONS,
   RELATIONSHIP_TO_CLAIMANT_OPTIONS,
 } from '../definitions/constants';
-import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
-import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
 /** @type {PageSchema} */
 const commonUiSchema = {
-  witnessFullName: fullNameDeprecatedUI,
+  ...titleUI('Name and date of birth'),
+  witnessFullName: fullNameNoSuffixUI(),
   witnessRelationshipToClaimant: {
-    // different ui:title between uiSchemaA & uiSchemaB
-    'ui:description': 'You can select more than one.',
-    'ui:widget': GroupCheckboxWidget,
-    'ui:errorMessages': {
-      required: 'Please select at least one option',
-    },
-    'ui:options': {
-      forceDivWrapper: true,
-      showFieldLabel: true,
-      // different labels between uiSchemaA & uiSchemaB
-    },
+    // Will be overridden in uiSchemaA & uiSchemaB with different titles and labels
   },
 };
+
 export default {
   uiSchemaA: {
     // Flow 2: vet claimant
     ...commonUiSchema,
-    witnessRelationshipToClaimant: {
-      ...commonUiSchema.witnessRelationshipToClaimant,
-      'ui:title': 'What is your relationship to the Veteran?',
-      'ui:options': {
-        ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
-        labels: RELATIONSHIP_TO_VETERAN_OPTIONS,
-      },
-      'ui:errorMessages': {
+    witnessRelationshipToClaimant: checkboxGroupUI({
+      title: 'What is your relationship to the Veteran?',
+      description: 'You can select more than one.',
+      required: true,
+      labels: RELATIONSHIP_TO_VETERAN_OPTIONS,
+      errorMessages: {
         required: 'Please select at least one relationship',
       },
-    },
+    }),
   },
   uiSchemaB: {
     // Flow 4: non-vet claimant
     ...commonUiSchema,
-    witnessRelationshipToClaimant: {
-      ...commonUiSchema.witnessRelationshipToClaimant,
-      'ui:title':
+    witnessRelationshipToClaimant: checkboxGroupUI({
+      title:
         'What’s your relationship to the person with the existing VA claim (also called the claimant)?',
-      'ui:options': {
-        ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
-        labels: RELATIONSHIP_TO_CLAIMANT_OPTIONS,
-      },
-      'ui:errorMessages': {
+      description: 'You can select more than one.',
+      required: true,
+      labels: RELATIONSHIP_TO_CLAIMANT_OPTIONS,
+      errorMessages: {
         required: 'Please select at least one relationship',
       },
-    },
+    }),
   },
-  schema: {
+  schemaA: {
     type: 'object',
     required: ['witnessFullName', 'witnessRelationshipToClaimant'],
     properties: {
-      witnessFullName: pdfFullNameNoSuffixSchema(),
-      witnessRelationshipToClaimant: {
-        type: 'string',
-      },
+      witnessFullName: fullNameNoSuffixSchema,
+      witnessRelationshipToClaimant: checkboxGroupSchema(
+        Object.keys(RELATIONSHIP_TO_VETERAN_OPTIONS),
+      ),
+    },
+  },
+  schemaB: {
+    type: 'object',
+    required: ['witnessFullName', 'witnessRelationshipToClaimant'],
+    properties: {
+      witnessFullName: fullNameNoSuffixSchema,
+      witnessRelationshipToClaimant: checkboxGroupSchema(
+        Object.keys(RELATIONSHIP_TO_CLAIMANT_OPTIONS),
+      ),
     },
   },
 };
