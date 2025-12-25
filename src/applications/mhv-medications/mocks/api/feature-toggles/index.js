@@ -9,7 +9,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryAllergiesEnabled = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
     mhvSecureMessagingMedicationsRenewalRequest = false,
-    mhvMedicationsCernerPilot = true,
+    mhvMedicationsCernerPilot = false,
+    mhvMedicationsV2StatusMapping = false,
   } = toggles;
 
   return {
@@ -55,6 +56,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_cerner_pilot',
           value: mhvMedicationsCernerPilot,
+        },
+        {
+          name: 'mhv_medications_v2_status_mapping',
+          value: mhvMedicationsV2StatusMapping,
         },
       ],
     },
