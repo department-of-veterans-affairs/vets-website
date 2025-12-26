@@ -31,7 +31,10 @@ export const SpouseAnnualIncomePage = () => ({
     'view:spouseGrossIncome': {
       ...inlineTitleUI(
         content['household-income-gross-title'],
-        content['household-income-gross-description'],
+        replaceStrValues(
+          content['household-income-gross-description'],
+          LAST_YEAR,
+        ),
       ),
       'ui:description': () => GrossIncomeDescription('spouse'),
       spouseGrossIncome: currencyUI(
@@ -44,7 +47,10 @@ export const SpouseAnnualIncomePage = () => ({
     'view:spouseNetIncome': {
       ...inlineTitleUI(
         content['household-income-net-title'],
-        content['household-income-net-description'],
+        replaceStrValues(
+          content['household-income-net-description'],
+          LAST_YEAR,
+        ),
       ),
       'ui:description': () => PreviousNetIncome('spouse'),
       spouseNetIncome: currencyUI(
@@ -57,7 +63,10 @@ export const SpouseAnnualIncomePage = () => ({
     'view:spouseOtherIncome': {
       ...inlineTitleUI(
         content['household-income-other-title'],
-        content['household-income-other-description'],
+        replaceStrValues(
+          content['household-income-other-description'],
+          LAST_YEAR,
+        ),
       ),
       'ui:description': () => OtherIncomeDescription('spouse'),
       spouseOtherIncome: currencyUI(
