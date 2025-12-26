@@ -361,6 +361,14 @@ export function selectPatientProviderRelationships(state) {
   };
 }
 
+export function selectSelectedProvider(state) {
+  const providerRelationships = selectPatientProviderRelationships(state);
+  const data = getFormData(state);
+  return providerRelationships?.patientProviderRelationships?.find(
+    provider => provider.providerId === data.selectedProvider,
+  );
+}
+
 function getChosenVACityState(state) {
   const schema =
     state.newAppointment.pages.ccPreferences?.properties.communityCareSystemId;
