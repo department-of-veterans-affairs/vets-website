@@ -503,6 +503,9 @@ const baseUserResponses = {
             accountType: 'N/A',
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims: {
+            coe: true,
+          },
         },
         vaProfile: {
           status: 'OK',
