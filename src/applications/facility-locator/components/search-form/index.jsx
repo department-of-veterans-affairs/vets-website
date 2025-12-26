@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -9,6 +9,10 @@ import { clearSearchText } from '../../actions/search';
 import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
 import { getProviderSpecialties } from '../../actions/locations';
 import { LocationType } from '../../constants';
+import {
+  validateForm,
+  createFormStateFromQuery,
+} from '../../reducers/searchQuery';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
 
@@ -39,90 +43,140 @@ export const SearchForm = props => {
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
 
-  const handleFacilityTypeChange = e => {
-    onChange({
-      facilityType: e.target.value,
-      serviceType: null,
-      // Since the facility type may cause an error (PPMS), reset it if the type is changed
-      fetchSvcsError: null,
-      error: null,
+  const draftSearchStringRef = useRef(null);
+  const currentQueryRef = useRef(currentQuery);
+
+  const [draftFormState, setDraftFormState] = useState(() =>
+    createFormStateFromQuery(currentQuery),
+  );
+
+  draftSearchStringRef.current = draftFormState.searchString;
+  currentQueryRef.current = currentQuery;
+
+  const updateDraftState = useCallback(updater => {
+    setDraftFormState(prev => {
+      const updates =
+        typeof updater === 'function' ? updater(prev) : { ...prev, ...updater };
+      return { ...updates, ...validateForm(prev, updates) };
     });
-  };
+  }, []);
 
-  const handleServiceTypeChange = ({ target, selectedItem }) => {
-    setSelectedServiceType(selectedItem);
+  const handleVamcDraftChange = useCallback(
+    updates => updateDraftState(updates),
+    [updateDraftState],
+  );
 
-    const option = target.value.trim();
-    const serviceType = option === 'All' ? null : option;
-    onChange({ serviceType });
-  };
+  const handleLocationSelection = useCallback(
+    updates => updateDraftState(updates),
+    [updateDraftState],
+  );
+
+  const handleFacilityTypeChange = useCallback(
+    e => {
+      updateDraftState(prev => ({
+        ...prev,
+        facilityType: e.target.value,
+        serviceType: null,
+        vamcServiceDisplay: null,
+      }));
+    },
+    [updateDraftState],
+  );
+
+  const handleServiceTypeChange = useCallback(
+    ({ target, selectedItem }) => {
+      setSelectedServiceType(selectedItem);
+      const option = target.value.trim();
+      const serviceType = option === 'All' ? null : option;
+      updateDraftState({ serviceType });
+    },
+    [updateDraftState],
+  );
 
   const handleSubmit = e => {
     e.preventDefault();
 
     const isSameQuery =
       lastQueryRef.current &&
-      currentQuery.facilityType === lastQueryRef.current.facilityType &&
-      currentQuery.serviceType === lastQueryRef.current.serviceType &&
-      currentQuery.searchString === lastQueryRef.current.searchString &&
+      draftFormState.facilityType === lastQueryRef.current.facilityType &&
+      draftFormState.serviceType === lastQueryRef.current.serviceType &&
+      draftFormState.searchString === lastQueryRef.current.searchString &&
       currentQuery.zoomLevel === lastQueryRef.current.zoomLevel;
 
     if (isSameQuery) {
       return;
     }
 
-    lastQueryRef.current = currentQuery;
-
-    const {
-      facilityType,
-      serviceType,
-      zoomLevel,
-      isValid,
-      searchString,
-      specialties,
-    } = currentQuery;
-
-    let analyticsServiceType = serviceType;
-
     const updateReduxState = propName => {
       onChange({ [propName]: ' ' });
       onChange({ [propName]: '' });
     };
 
-    if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType || !selectedServiceType) {
-        updateReduxState('serviceType');
-        focusElement('#service-type-ahead-input');
-        return;
-      }
-
-      if (specialties && Object.keys(specialties).includes(serviceType)) {
-        analyticsServiceType = specialties[serviceType];
-      }
-    }
-
-    if (!searchString) {
+    if (!draftFormState.searchString) {
       updateReduxState('searchString');
-      focusElement('#street-city-state-zip');
+      setDraftFormState(prev => ({
+        ...prev,
+        locationChanged: true,
+        isValid: false,
+      }));
+      setTimeout(() => focusElement('#street-city-state-zip'), 0);
       return;
     }
 
-    if (!facilityType) {
+    if (!draftFormState.facilityType) {
       updateReduxState('facilityType');
-      focusElement('#facility-type-dropdown');
+      setDraftFormState(prev => ({
+        ...prev,
+        facilityTypeChanged: true,
+        isValid: false,
+      }));
+      setTimeout(() => focusElement('#facility-type-dropdown'), 0);
       return;
     }
 
-    if (!isValid) {
+    if (
+      draftFormState.facilityType === LocationType.CC_PROVIDER &&
+      (!draftFormState.serviceType || !selectedServiceType)
+    ) {
+      updateReduxState('serviceType');
+      setDraftFormState(prev => ({
+        ...prev,
+        serviceTypeChanged: true,
+        isValid: false,
+      }));
+      setTimeout(() => focusElement('#service-type-ahead-input'), 0);
       return;
     }
 
-    // Report event here to only send analytics event when a user clicks on the button
+    lastQueryRef.current = {
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      zoomLevel: currentQuery.zoomLevel,
+    };
+
+    onChange({
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      vamcServiceDisplay: draftFormState.vamcServiceDisplay,
+    });
+
+    let analyticsServiceType = draftFormState.serviceType;
+    if (
+      draftFormState.facilityType === LocationType.CC_PROVIDER &&
+      currentQuery.specialties &&
+      Object.keys(currentQuery.specialties).includes(draftFormState.serviceType)
+    ) {
+      analyticsServiceType =
+        currentQuery.specialties[draftFormState.serviceType];
+    }
+
     recordEvent({
       event: 'fl-search',
-      'fl-search-fac-type': facilityType,
+      'fl-search-fac-type': draftFormState.facilityType,
       'fl-search-svc-type': analyticsServiceType,
-      'fl-current-zoom-depth': zoomLevel,
+      'fl-current-zoom-depth': currentQuery.zoomLevel,
     });
 
     if (isMobile && mobileMapUpdateEnabled) {
@@ -130,21 +184,44 @@ export const SearchForm = props => {
     }
 
     setSearchInitiated(true);
-    onSubmit();
+    onSubmit({
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      vamcServiceDisplay: draftFormState.vamcServiceDisplay,
+    });
   };
+
+  useEffect(
+    () => {
+      if (currentQuery.searchString !== draftSearchStringRef.current) {
+        updateDraftState({ searchString: currentQuery.searchString || '' });
+      }
+    },
+    [currentQuery.searchString, updateDraftState],
+  );
+
+  useEffect(
+    () => {
+      if (props.location?.search) {
+        setDraftFormState(prev => {
+          const newState = createFormStateFromQuery(currentQueryRef.current);
+          return { ...newState, ...validateForm(prev, newState) };
+        });
+      }
+    },
+    [props.location?.search],
+  );
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
-    recordEvent({
-      event: 'fl-get-geolocation',
-    });
-
+    recordEvent({ event: 'fl-get-geolocation' });
     props.geolocateUser();
   };
 
   const handleClearInput = () => {
     props.clearSearchText();
-    // optional chaining not allowed
+    updateDraftState({ searchString: '' });
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
     }
@@ -197,7 +274,7 @@ export const SearchForm = props => {
   const facilityAndServiceTypeInputs = (
     <>
       <FacilityType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         handleFacilityTypeChange={handleFacilityTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
@@ -206,13 +283,14 @@ export const SearchForm = props => {
         useProgressiveDisclosure={useProgressiveDisclosure}
       />
       <ServiceType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         getProviderSpecialties={props.getProviderSpecialties}
         handleServiceTypeChange={handleServiceTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        onChange={onChange}
+        committedVamcServiceDisplay={currentQuery.vamcServiceDisplay}
+        onVamcDraftChange={handleVamcDraftChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
@@ -248,7 +326,10 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={currentQuery}
+          currentQuery={{
+            ...draftFormState,
+            geolocationInProgress: currentQuery.geolocationInProgress,
+          }}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
@@ -256,6 +337,7 @@ export const SearchForm = props => {
           isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
+          onLocationSelection={handleLocationSelection}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
         {useProgressiveDisclosure ? (
@@ -263,7 +345,7 @@ export const SearchForm = props => {
             {facilityAndServiceTypeInputs}
             <va-button
               id="facility-search"
-              submit="prevent"
+              onClick={handleSubmit}
               text="Search"
               full-width
             />

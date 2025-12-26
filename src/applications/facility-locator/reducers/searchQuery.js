@@ -39,6 +39,22 @@ export const INITIAL_STATE = {
   searchStarted: false,
 };
 
+export const INITIAL_FORM_FLAGS = {
+  isValid: true,
+  locationChanged: false,
+  facilityTypeChanged: false,
+  serviceTypeChanged: false,
+};
+
+export const createFormStateFromQuery = query => ({
+  facilityType: query.facilityType ?? INITIAL_STATE.facilityType,
+  serviceType: query.serviceType ?? INITIAL_STATE.serviceType,
+  searchString: query.searchString ?? INITIAL_STATE.searchString,
+  vamcServiceDisplay:
+    query.vamcServiceDisplay ?? INITIAL_STATE.vamcServiceDisplay,
+  ...INITIAL_FORM_FLAGS,
+});
+
 export const validateForm = (oldState, payload) => {
   const newState = {
     ...oldState,
