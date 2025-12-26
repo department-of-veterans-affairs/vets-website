@@ -1,20 +1,15 @@
 import {
   ssnSchema,
   ssnUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'identification information';
-
-const PAGE_TITLE = ({ formData }) =>
-  privWrapper(
-    `${nameWording(formData, undefined, undefined, true)} ${TITLE_TEXT}`,
-  );
+const TITLE_TEXT = content['applicant--identity-info-title'];
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
+    ...titleWithNameUI(TITLE_TEXT),
     applicantSsn: ssnUI(),
   },
   schema: {
