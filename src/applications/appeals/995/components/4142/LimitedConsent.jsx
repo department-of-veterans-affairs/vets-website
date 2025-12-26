@@ -6,6 +6,16 @@ import {
   VaTextarea,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+export const content = {
+  editPrompt:
+    'Edit how you want to limit consent for the information requested',
+  prompt: 'Do you want to limit consent for the information requested?',
+  radioError: 'Select if we should limit our request',
+  textareaError: 'Tell us how to limit our request',
+  textareaLabel:
+    'How should we limit our request for your medical information?',
+};
+
 const LimitedConsent = ({
   addOrEditMode = 'add',
   currentEvidenceData,
@@ -30,6 +40,10 @@ const LimitedConsent = ({
 
       if (radioError) {
         setShowInputField(false);
+      }
+
+      if (lcPrompt === 'Y') {
+        setShowInputField(true);
       }
     },
     [
@@ -70,17 +84,16 @@ const LimitedConsent = ({
   };
 
   const radioLabel =
-    addOrEditMode === 'add'
-      ? 'Do you want to limit consent for the information requested?'
-      : 'Edit how you want to limit consent for the information requested';
+    addOrEditMode === 'add' ? content.prompt : content.editPrompt;
 
   return (
     <>
       <VaRadio
         data-testid="limited-consent"
-        error={radioError ? 'Select if we should limit our request' : null}
+        error={radioError ? content.radioError : null}
         label={radioLabel}
         label-header-level="3"
+        name="root_limitedConsent"
         onVaValueChange={e => onRadioChange(e.detail.value)}
         required
       >
@@ -94,7 +107,7 @@ const LimitedConsent = ({
           <>
             <VaTextarea
               class="vads-u-margin-left--2"
-              error={textAreaError ? 'Tell us how to limit our request' : null}
+              error={textAreaError ? content.textareaError : null}
               hint="If you choose to limit consent, your private provider, VA Vet
                     Center, or medical facility can’t release certain types or
                     amounts of information to us. For example, you want your doctor
@@ -102,7 +115,7 @@ const LimitedConsent = ({
                     health conditions. It may take us longer to get your medical records from a private
                     provider or VA Vet Center if you limit consent."
               id="limited-consent"
-              label="How should we limit our request for your medical information?"
+              label={content.textareaLabel}
               name="limited-consent-description"
               onInput={e => onInputChange(e.target.value)}
               required

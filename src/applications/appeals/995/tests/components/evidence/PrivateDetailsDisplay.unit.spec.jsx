@@ -14,7 +14,7 @@ import { promptQuestion } from '../../../pages/limitedConsentPrompt';
 import { detailsQuestion } from '../../../pages/limitedConsentDetails';
 import { PrivateDetailsDisplay } from '../../../components/evidence/PrivateDetailsDisplay';
 import { records } from '../../data/evidence-records';
-import { auth4142Title } from '../../../content/evidence/form4142';
+import { content as authContent } from '../../../components/4142/AuthorizationNew';
 import {
   verifyHeader,
   verifyLink,
@@ -31,7 +31,7 @@ const verifyEvidenceHeader = container => {
 };
 
 const verifyAuthorization = (headers, listItems, reviewMode = false) => {
-  verifyHeader(headers, 0, auth4142Title);
+  verifyHeader(headers, 0, authContent.title);
   verifyResponse(listItems, 0, AUTHORIZATION_LABEL);
 
   if (!reviewMode) {

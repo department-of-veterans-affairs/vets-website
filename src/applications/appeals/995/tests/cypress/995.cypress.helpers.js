@@ -551,6 +551,10 @@ export const clickArrayBuilderDeleteCardButton = locationName => {
 export const clickArrayBuilderDeleteModalYesButton = () => {
   cy.get('.usa-button-group__item')
     .eq(0)
+    .find('va-button')
+    .eq(0)
+    .shadow()
+    .find('button')
     .click({ force: true });
 };
 
@@ -564,16 +568,29 @@ export const checkValueOfInput = (selector, value) => {
   cy.get(selector).should('have.value', value);
 };
 
-export const checkAlertText = (name, text) => {
-  cy.get(`va-alert[name="${name}"]`).should('have.text', text);
+export const checkAlertText = (name, text, status = null) => {
+  if (name) {
+    cy.get(`va-alert[name="${name}"]`).should('have.text', text);
+  } else {
+    cy.get(`va-alert[status="${status}"]`)
+      .eq(0)
+      .find('h3')
+      .should('have.text', text);
+  }
+};
+
+export const checkTextareaLabel = (name, text) => {
+  cy.get(`va-textarea[name="${name}"]`)
+    .shadow()
+    .find('label')
+    .should('be.visible')
+    .and('include.text', text);
 };
 
 // ------------ VA EVIDENCE HELPERS ------------ //
 
 export const selectVaPromptResponse = response => {
-  cy.get(
-    `va-radio-option[name="root_hasVaEvidence"][value="${response}"]`,
-  ).click();
+  cy.selectRadio('root_hasVaEvidence', response);
   clickContinue();
 };
 
@@ -652,10 +669,16 @@ export const verifyArrayBuilderReviewVACard = (
 
 // ------------ PRIVATE EVIDENCE HELPERS ------------ //
 
+export const checkValueOfTreatmentDateInput = (index, value) => {
+  cy.get('va-text-input')
+    .eq(index)
+    .shadow()
+    .find('input')
+    .should('have.value', value);
+};
+
 export const selectPrivatePromptResponse = response => {
-  cy.get(
-    `va-radio-option[name="root_hasPrivateEvidence"][value="${response}"]`,
-  ).click();
+  cy.selectRadio('root_hasPrivateEvidence', response);
   clickContinue();
 };
 
@@ -703,33 +726,13 @@ export const addPrivateTreatmentDates = (
   clickContinue();
 };
 
-export const check4142Auth = () => {
-  cy.get('#privacy-agreement')
-    .shadow()
-    .find('div input')
-    .eq(0)
-    .scrollIntoView()
-    .click();
-  clickContinue();
-};
-
 export const verifyArrayBuilderReviewPrivateCard = (
   index,
   location,
-  header,
-  subHeader,
   conditionsCount,
   conditions,
   treatmentDateRange,
 ) => {
-  verifyH3(header, 0);
-
-  cy.get('span h4')
-    .eq(0)
-    .should('exist')
-    .and('be.visible')
-    .and('have.text', subHeader);
-
   cy.get('va-card')
     .eq(index)
     .within(() => {

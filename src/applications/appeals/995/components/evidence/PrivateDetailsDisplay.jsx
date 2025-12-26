@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
-import { auth4142Title } from '../../content/evidence/form4142';
+import { content as authContent } from '../4142/AuthorizationNew';
 import { content } from '../../content/evidence/summary';
 import { detailsQuestion as limitedConsentDetailsQuestion } from '../../pages/limitedConsentDetails';
 import { promptQuestion as limitedConsentPromptQuestion } from '../../pages/limitedConsentPrompt';
@@ -84,7 +84,7 @@ export const PrivateDetailsDisplay = ({
               showListOnly,
             )}`}
           >
-            {auth4142Title}
+            {authContent.title}
           </SubHeader>
           <p>
             {privacyAgreementAccepted ? (
@@ -103,7 +103,7 @@ export const PrivateDetailsDisplay = ({
                 disableAnalytics
                 id="edit-private-authorization"
                 className="edit-item"
-                aria-label={`edit ${auth4142Title}`}
+                aria-label={`edit ${authContent.title}`}
                 data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION_URL : null}
                 path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_URL}`}
                 text={content.edit}
