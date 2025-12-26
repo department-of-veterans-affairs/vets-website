@@ -301,6 +301,25 @@ export const arrayBuilderYesNoUI = (
       updateUiSchema: formData => {
         const arrayData = formData?.[arrayPath];
         const maxItems = maxItemsFn(arrayBuilderOptions.maxItems, formData);
+        const isRequired = requiredFn(formData);
+        const getDefaultHint = ({
+          isArrayRequired,
+          data,
+          singular,
+          plural,
+          max,
+        }) => {
+          const prefix = isArrayRequired
+            ? `You'll need to add at least one ${singular}.`
+            : `If you answer yes, you'll need to add at least one ${singular}.`;
+          const maxHint = maxItemsHint({
+            arrayData: data,
+            nounSingular: singular,
+            nounPlural: plural,
+            maxItems: max,
+          });
+          return maxHint ? `${prefix} ${maxHint}` : prefix;
+        };
         return arrayData?.length
           ? {
               'ui:title':
@@ -357,14 +376,13 @@ export const arrayBuilderYesNoUI = (
                       nounPlural,
                       maxItems,
                     })
-                  : `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
-                      {
-                        arrayData,
-                        nounSingular,
-                        nounPlural,
-                        maxItems,
-                      },
-                    )}`,
+                  : getDefaultHint({
+                      isArrayRequired: isRequired,
+                      data: arrayData,
+                      singular: nounSingular,
+                      plural: nounPlural,
+                      max: maxItems,
+                    }),
                 labels: {
                   Y: yesNoOptionsInitial?.labels?.Y || 'Yes',
                   N: yesNoOptionsInitial?.labels?.N || 'No',
