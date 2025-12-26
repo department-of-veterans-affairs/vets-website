@@ -109,7 +109,6 @@ describe('useServiceType hook for services autosuggest', () => {
 
         const expected = [
           'Case management',
-          'COVID-19 vaccines',
           'Laboratory and pathology',
           'Pharmacy',
           'Telehealth',
@@ -200,18 +199,6 @@ describe('useServiceType hook for services autosuggest', () => {
         );
 
         const expected = ['Rehabilitation and extended care'];
-
-        expect(getServiceNamesOnly(results)).to.eql(expected);
-      });
-
-      it('should return the correct match for a search term', () => {
-        const results = filterMatches(
-          vamcServices,
-          'COVID-19',
-          FACILITY_TYPE_FILTERS.VAMC,
-        );
-
-        const expected = ['COVID-19 vaccines'];
 
         expect(getServiceNamesOnly(results)).to.eql(expected);
       });

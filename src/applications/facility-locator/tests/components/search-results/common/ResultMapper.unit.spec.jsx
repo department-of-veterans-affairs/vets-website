@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import CCProviderResult from '../../../../components/search-results-items/CCProviderResult';
-import Covid19Result from '../../../../components/search-results-items/Covid19Result';
 import EmergencyCareResult from '../../../../components/search-results-items/EmergencyCareResult';
 import PharmacyResult from '../../../../components/search-results-items/PharmacyResult';
 import {
@@ -12,21 +11,6 @@ import VaFacilityResult from '../../../../components/search-results-items/VaFaci
 import { PHARMACY_RETAIL_SERVICE } from '../../../../constants';
 
 describe('ResultMapper', () => {
-  it('should return a Covid19Result when the matching attributes are given', () => {
-    // Facility type: VA health
-    // Service type: COVID-19 vaccines
-    const result = ResultMapper(
-      { id: 0 },
-      {
-        serviceType: 'Covid19Vaccine',
-        facilityType: 'health',
-      },
-      0,
-    );
-
-    expect(result.type).to.equal(Covid19Result);
-  });
-
   it('should return a VaFacilityResult when the matching attributes are given', () => {
     // Facility type: VA health
     // Service type: All VA health services

@@ -9,7 +9,6 @@ const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
   MentalHealth: 'Mental health care',
-  Covid19Vaccine: 'COVID-19 vaccine',
   Dental: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',
