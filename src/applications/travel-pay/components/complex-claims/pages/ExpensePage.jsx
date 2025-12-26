@@ -147,7 +147,9 @@ const ExpensePage = () => {
           // Step 1: Fetch the expense data
           dispatch(fetchExpenseStart(expenseId));
           const expenseConfig = EXPENSE_TYPES[expenseType];
-          const expenseUrl = `${environment.API_URL}/travel_pay/v0/expenses/${
+          const expenseUrl = `${
+            environment.API_URL
+          }/travel_pay/v0/claims/${claimId}/expenses/${
             expenseConfig.apiRoute
           }/${expenseId}`;
           const expenseResponse = await apiRequest(expenseUrl);

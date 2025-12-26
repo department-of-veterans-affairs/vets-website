@@ -13,7 +13,8 @@ import { CustomTopContent } from '../pages/helpers';
 import { getIntentsToFile } from '../helpers/intent-to-file-helper';
 import ITFSubmissionError from './ITFSubmissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
-import PermissionError from '../components/PermissionError';
+import ITF403Error from '../components/ITF403Error';
+import ITF500Error from '../components/ITF500Error';
 import ExistingItf from '../components/ExistingItf';
 
 const form210966 = (pathname = null) => {
@@ -54,7 +55,13 @@ const form210966 = (pathname = null) => {
       {
         path: 'intent-to-file-no-representation',
         pageKey: 'intent-to-file-no-representation',
-        component: PermissionError,
+        component: ITF403Error,
+        depends: formData => formData,
+      },
+      {
+        path: 'intent-to-file-unknown',
+        pageKey: 'intent-to-file-unknown',
+        component: ITF500Error,
         depends: formData => formData,
       },
       {

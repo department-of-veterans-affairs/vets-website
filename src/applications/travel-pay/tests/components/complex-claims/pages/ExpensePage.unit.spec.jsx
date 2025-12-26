@@ -1251,7 +1251,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   beforeEach(() => {
     apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
       // Mock expense fetch
-      if (url.includes('/expenses/meal/')) {
+      if (url.includes('/claims/43555/expenses/meal/')) {
         return Promise.resolve({
           id: TEST_EXPENSE_ID,
           expenseType: 'Meal',
@@ -1485,7 +1485,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     // Override API stub for this test to return short description
     apiStub.restore();
     apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
-      if (url.includes('/expenses/meal/')) {
+      if (url.includes('/claims/43555/expenses/meal/')) {
         return Promise.resolve({
           id: TEST_EXPENSE_ID,
           expenseType: 'Meal',
@@ -1542,7 +1542,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     // Override API stub for this test to return long description
     apiStub.restore();
     apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
-      if (url.includes('/expenses/meal/')) {
+      if (url.includes('/claims/43555/expenses/meal/')) {
         return Promise.resolve({
           id: TEST_EXPENSE_ID,
           expenseType: 'Meal',
@@ -1599,7 +1599,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     // Override API stub for this test to return 0 cost
     apiStub.restore();
     apiStub = sinon.stub(api, 'apiRequest').callsFake(url => {
-      if (url.includes('/expenses/meal/')) {
+      if (url.includes('/claims/43555/expenses/meal/')) {
         return Promise.resolve({
           id: TEST_EXPENSE_ID,
           expenseType: 'Meal',
