@@ -23,7 +23,7 @@ const baseData = {
   },
 };
 
-describe('22-0976 what to expect page', () => {
+describe('22-0976 acknowledgement 3 page', () => {
   it('renders page title', () => {
     const { container } = renderPage(baseData);
     expect(container.textContent).to.contain(

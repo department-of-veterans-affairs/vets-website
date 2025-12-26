@@ -14,7 +14,7 @@ const renderPage = (formData = {}) =>
     />,
   );
 
-describe('22-0976 what to expect page', () => {
+describe('22-0976 acknowledgement 4 page', () => {
   it('renders page title', () => {
     const { container } = renderPage();
     expect(container.textContent).to.contain(
