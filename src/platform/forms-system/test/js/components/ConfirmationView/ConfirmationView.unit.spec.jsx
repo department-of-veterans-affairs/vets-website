@@ -107,7 +107,7 @@ describe('Confirmation view', () => {
   });
 
   it('it should allow for manual child component specification', () => {
-    const { container } = render(
+    const { container, getByText } = render(
       <Provider store={mockStore(storeBase)}>
         <ConfirmationView
           formConfig={formConfig}
@@ -140,6 +140,11 @@ describe('Confirmation view', () => {
       .exist;
     expect(container.querySelector('.confirmation-go-back-link-section')).to
       .exist;
+    expect(
+      getByText(text =>
+        text.includes('You won’t be able to access this page later.'),
+      ),
+    ).to.exist;
   });
 
   it('it should allow for component omission', () => {
