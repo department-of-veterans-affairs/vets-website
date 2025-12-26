@@ -24,42 +24,34 @@ const baseData = {
 };
 
 describe('22-0976 acknowledgement 1 page', () => {
-  // it('renders the static content correctly', () => {
-  //   const { getByText } = renderPage(baseData);
-  //   expect(getByText('What to expect')).to.exist;
-  //   expect(getByText(/In order for a program to be approved/)).to.exist;
-  // });
   it('renders page title', () => {
     const { container } = renderPage(baseData);
     expect(container.textContent).to.contain(
-      'The following are requirements for participation',
+      'Institution Acknowledgements (1 of 5)',
     );
   });
 
   it('renders the input field', () => {
     const { container } = renderPage(baseData);
 
-    const input = container.querySelector(
-      'input[name="root_acknowledgement7"][type="text"]',
-    );
+    const input = container.querySelector('va-text-input');
     expect(input).to.exist;
   });
 
   it('shows error when initials are empty on submit', async () => {
-    const { getByRole } = renderPage(baseData);
+    const { container, getByRole } = renderPage(baseData);
 
     getByRole('button', { name: /submit/i }).click();
 
     await waitFor(() => {
-      const inputError = getByRole('alert');
+      const input = container.querySelector('va-text-input');
 
-      expect(inputError).to.exist;
-      expect(inputError.textContent).to.contain('Enter initials');
+      expect(input.getAttribute('error')).to.equal('Enter initials');
     });
   });
 
   it('shows error when initials do not match', async () => {
-    const { getByRole } = renderPage({
+    const { container, getByRole } = renderPage({
       ...baseData,
       acknowledgement7: 'ZZ',
     });
@@ -67,10 +59,10 @@ describe('22-0976 acknowledgement 1 page', () => {
     getByRole('button', { name: /submit/i }).click();
 
     await waitFor(() => {
-      const inputError = getByRole('alert');
-      expect(inputError).to.exist;
-      expect(inputError.textContent).to.contain(
-        'Initials must match your name',
+      const input = container.querySelector('va-text-input');
+
+      expect(input.getAttribute('error')).to.equal(
+        'Initials must match your name: John Doe',
       );
     });
   });

@@ -27,7 +27,7 @@ describe('22-0976 acknowledgement 3 page', () => {
   it('renders page title', () => {
     const { container } = renderPage(baseData);
     expect(container.textContent).to.contain(
-      'Institution will be financially responsible to VA for the payments',
+      'Institution Acknowledgements (3 of 5)',
     );
   });
 

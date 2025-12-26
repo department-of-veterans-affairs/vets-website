@@ -3,7 +3,9 @@ import React from 'react';
 import {
   textSchema,
   titleUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import InitialsInput from '../components/InitialsInput';
 
 import { validateInitialsMatch } from '../helpers';
 
@@ -12,13 +14,12 @@ export default {
   uiSchema: {
     ...titleUI('Institution Acknowledgements (1 of 5)'),
     acknowledgement7: {
-      'ui:title': (
+      ...textUI(
+        'The following are requirements for participation. VA must be able to verify the following information using the submitted documentation or other published information.',
+      ),
+      'ui:webComponentField': InitialsInput,
+      'ui:description': (
         <div>
-          <p>
-            The following are requirements for participation. VA must be able to
-            verify the following information using the submitted documentation
-            or other published information.
-          </p>
           <ul>
             <li>
               The institution has adequate available space, the appropriate
@@ -46,7 +47,7 @@ export default {
       ),
       'ui:options': {
         width: 'small',
-        classNames: 'vads-u-margin-bottom--6 initials-input',
+        classNames: 'vads-u-margin-bottom--6',
       },
       'ui:errorMessages': {
         required: 'Enter initials',

@@ -27,7 +27,7 @@ describe('22-0976 what to expect page', () => {
   it('renders page title', () => {
     const { container } = renderPage(baseData);
     expect(container.textContent).to.contain(
-      'Maintain sufficient records to show the progress of each VA student',
+      'Institution Acknowledgements (2 of 5)',
     );
   });
 
