@@ -47,7 +47,7 @@ const servicePeriodOptions = {
     cardDescription: item =>
       `Entry date (${formatDate(
         item?.dateEnteredService,
-      )}) - Separation date (${formatDate(item?.dateLeftService)}}`,
+      )}) - Separation date (${formatDate(item?.dateLeftService)})`,
   },
 };
 
