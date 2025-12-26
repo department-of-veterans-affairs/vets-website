@@ -124,7 +124,7 @@ describe('DebtDetailsCard', () => {
     const wrapper = render(
       <Provider store={fakeStore}>
         <BrowserRouter>
-          <DebtDetailsCard debt={debt} showOTPP />
+          <DebtDetailsCard debt={debt} />
         </BrowserRouter>
       </Provider>,
     );
