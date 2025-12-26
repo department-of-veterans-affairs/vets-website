@@ -4,7 +4,7 @@ import MedicationsListPage from './pages/MedicationsListPage';
 import rxTrackingDetails from './fixtures/prescription-tracking-details.json';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsInformationPage from './pages/MedicationsInformationPage';
-import { Data } from './utils/constants';
+import { Data, DownloadFormat } from './utils/constants';
 
 describe('Medications Details Page Medication Information txt download', () => {
   it('visits Medications Info Page Download TXT', () => {
@@ -27,11 +27,13 @@ describe('Medications Details Page Medication Information txt download', () => {
     medInfoPage.verifyDownloadSuccessAlertContentOnMedInfoPage(
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
-    listPage.verifyDownloadTextFileHeadless(
-      'Safari',
-      'Mhvtp',
-      'BACITRACIN 500 UNT/GM OPH OINTMENT',
-    );
+    site.verifyDownloadedFile({
+      prefixString: `medication-information-${
+        rxTrackingDetails.data.attributes.prescriptionName
+      }-Safari-Mhvtp`,
+      searchText: rxTrackingDetails.data.attributes.prescriptionName,
+      format: DownloadFormat.TXT,
+    });
     cy.injectAxe();
     cy.axeCheck('main');
   });

@@ -18,7 +18,7 @@ describe('Medications Download PDF no alert after reloading on Med List Page', (
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
-    site.verifyDownloadedPdfFile('VA-medications-list-Safari-Mhvtp', '');
+    site.verifyDownloadedFile();
     cy.reload();
     listPage.verifyDownloadSuccessMessageBannerNotVisibleAfterReload();
   });

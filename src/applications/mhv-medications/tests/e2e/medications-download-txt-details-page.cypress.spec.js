@@ -3,7 +3,7 @@ import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 import mockPrescriptionDetails from './fixtures/prescription-details.json';
 import rxList from './fixtures/listOfPrescriptions.json';
-import { Data } from './utils/constants';
+import { Data, DownloadFormat } from './utils/constants';
 
 describe('Medications Details Page Download', () => {
   it('visits Medications Details Page Download Txt Dropdown', () => {
@@ -20,7 +20,10 @@ describe('Medications Details Page Download', () => {
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
-    listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');
+    site.verifyDownloadedFile({
+      prefixString: 'VA-medications-details-Safari-Mhvtp',
+      format: DownloadFormat.TXT,
+    });
     cy.injectAxe();
     cy.axeCheck('main');
   });
