@@ -1,0 +1,150 @@
+import manifest from '../../../manifest.json';
+import cypressSetup from '../../../../shared/tests/cypress.setup';
+import * as h from '../995.cypress.helpers';
+import { EVIDENCE_URLS } from '../../../constants';
+import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
+import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
+import { promptContent } from '../../../content/evidence/private';
+import * as sh from '../../../../shared/tests/cypress.helpers';
+import { content as limitedConsentContent } from '../../../components/4142/LimitedConsent';
+import { content as authContent } from '../../../components/4142/AuthorizationNew';
+
+const issues = mockData.data.contestedIssues;
+
+describe('Array Builder evidence flow', () => {
+  describe('Private evidence only', () => {
+    it('navigates through the evidence pages adding single item', () => {
+      cypressSetup();
+
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'decision_review_sc_redesign_nov2025',
+              value: true,
+            },
+          ],
+        },
+      }).as('features');
+
+      cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
+        data: issues,
+      });
+
+      cy.visit(manifest.rootUrl);
+      cy.injectAxeThenAxeCheck();
+
+      h.getToEvidenceFlow();
+
+      // Facility Types
+      h.checkVaFacilityBox();
+      h.clickContinue();
+
+      // VA Prompt
+      h.selectVaPromptResponse('N');
+
+      // ---------------------------------------- FIRST ITEM
+      // Prompt
+      h.verifyFPSH3(
+        'Do you want us to get your private (non-VA) provider or VA Vet Center medical records?',
+      );
+      h.verifyFPSDesc(
+        'You have private provider or VA Vet Center medical records if you were treated by a:',
+      );
+
+      h.selectPrivatePromptResponse('Y');
+
+      // 4142 Auth
+
+      cy.get('#privacy-agreement')
+        .shadow()
+        .find('div input')
+        .eq(0)
+        .scrollIntoView()
+        .click();
+
+      cy.selectRadio('limited-consent', 'Y');
+
+      cy.fillVaTextarea(
+        'limited-consent-description',
+        'Do not include prescription drugs or follow-up visits',
+      );
+
+      h.verifyH3(authContent.title);
+      h.verifyFPSH3(limitedConsentContent.prompt);
+      h.checkTextareaLabel(
+        'limited-consent-description',
+        limitedConsentContent.textareaLabel,
+      );
+
+      h.clickContinue();
+
+      // Location
+      h.verifyH3(
+        'What location should we request your private provider or VA Vet Center records from?',
+      );
+
+      h.addPrivateLocationData(
+        'Rainier Urgent Care',
+        '980 Mountain Rd',
+        'Seattle',
+        'WA',
+        '90839',
+      );
+
+      // Contestable Issues
+      h.verifyH3(
+        'What conditions were you treated for at Rainier Urgent Care?',
+      );
+      cy.get('[name="root_issuesPrivate_Hypertension"]')
+        .eq(0)
+        .click();
+      cy.get('[name="root_issuesPrivate_Tendonitis, left ankle"]')
+        .eq(0)
+        .click();
+
+      h.clickContinue();
+
+      // Treatment Dates
+      h.verifyH3('When were you treated at Rainier Urgent Care?');
+      h.clickContinue();
+
+      h.addPrivateTreatmentDates('2019-11-03', '2020-02-29');
+
+      // Summary
+      h.verifyH3(`Review the evidence you’re submitting`, 0);
+
+      cy.get('span h4')
+        .eq(0)
+        .should('exist')
+        .and('be.visible')
+        .and(
+          'have.text',
+          `Private providers or VA Vet Centers we’ll request your records from`,
+        );
+
+      h.verifyArrayBuilderReviewPrivateCard(
+        0,
+        'Rainier Urgent Care',
+        2,
+        'Hypertension; and Tendonitis, left ankle',
+        'Nov. 3, 2019 to Feb. 29, 2020',
+      );
+
+      // ---------------------------------------- DELETING ONLY ITEM
+      h.clickArrayBuilderDeleteCardButton('Rainier Urgent Care');
+      h.clickArrayBuilderDeleteModalYesButton();
+
+      // Verify we're back to the beginning of the flow
+      // Location
+      sh.verifyCorrectUrl(manifest.rootUrl, EVIDENCE_URLS.privateSummary);
+      h.verifyFPSH3(promptContent.question);
+
+      h.checkAlertText(
+        'record_0',
+        `Rainier Urgent Care’s information has been deleted`,
+      );
+    });
+  });
+});

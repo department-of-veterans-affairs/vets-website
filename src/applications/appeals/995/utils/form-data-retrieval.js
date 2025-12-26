@@ -4,6 +4,7 @@ import {
   HAS_VA_EVIDENCE,
   HAS_PRIVATE_LIMITATION,
   MST_OPTION,
+  VA_TREATMENT_BEFORE_2005_KEY,
 } from '../constants';
 
 export const hasPrivateEvidence = formData =>
@@ -16,3 +17,7 @@ export const hasMstOption = formData => formData?.[MST_OPTION];
 export const hasHousingRisk = formData => formData?.housingRisk;
 export const hasOtherHousingRisk = formData =>
   !!(hasHousingRisk(formData) && formData?.livingSituation?.other);
+
+// VA Evidence List & Loop
+export const hasTreatmentBefore2005 = (formData, index) =>
+  formData?.vaEvidence?.[index]?.[VA_TREATMENT_BEFORE_2005_KEY] === 'Y';

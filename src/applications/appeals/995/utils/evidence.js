@@ -73,6 +73,11 @@ export const removeNonSelectedIssuesFromEvidence = data => {
   };
 };
 
+export const getAddOrEditMode = () => {
+  const search = new URLSearchParams(window.location.search);
+  return search.get('edit') === 'true' ? 'edit' : 'add';
+};
+
 export const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
   // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
@@ -82,11 +87,12 @@ const getContent = (type, numberToWord, addOrEdit) => {
   const content = {
     va: {
       add: `What${numberToWord} VA or military treatment location should we request records from?`,
-      edit: `Edit the${numberToWord} VA or military treatment location`,
+      // ------- ADJUST when design toggle is removed - we won't need the "Edit" text at the beginning anymore
+      edit: `the${numberToWord} VA or military treatment location we should request records from`,
     },
     nonVa: {
       add: `What${numberToWord} location should we request your private provider or VA Vet Center records from?`,
-      edit: `Edit the${numberToWord} provider where you received treatment`,
+      edit: `the${numberToWord} location we should request your private provider or VA Vet Center records from`,
     },
   };
 
@@ -135,4 +141,18 @@ export const getProviderModalDeleteTitle = locationAndName => {
   }
 
   return `Do you want to keep this location?`;
+};
+
+/**
+ * Used to determine which issue checkboxes were selected
+ * in the array builder flow
+ * @param {Object} issues e.g. { Hypertension: true, Tendonitis: undefined }
+ * @returns ['Hypertension']
+ */
+export const getSelectedIssues = issues => {
+  if (!issues) {
+    return null;
+  }
+
+  return Object.keys(issues).filter(issue => issues[issue]);
 };

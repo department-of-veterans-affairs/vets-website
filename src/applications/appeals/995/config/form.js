@@ -42,11 +42,13 @@ import pointOfContact from '../pages/pointOfContact';
 import primaryPhone from '../pages/primaryPhone';
 import privateAuthorization from '../pages/evidence/privateAuthorization';
 import privateDetails from '../pages/evidence/privateDetails';
+import privateEvidence from '../pages/evidence/privateEvidence';
 import privatePrompt from '../pages/evidence/privatePrompt';
 import summary from '../pages/evidence/summary';
 import uploadDetails from '../pages/evidence/uploadDetails';
 import uploadPrompt from '../pages/evidence/uploadPrompt';
 import vaDetails from '../pages/evidence/vaDetails';
+import vaEvidence from '../pages/evidence/vaEvidence';
 import vaPrompt from '../pages/evidence/vaPrompt';
 import veteranInfo from '../pages/veteranInfo';
 // Utils
@@ -60,7 +62,7 @@ import {
   hasHousingRisk,
   hasOtherHousingRisk,
 } from '../utils/form-data-retrieval';
-import { onFormLoaded } from '../utils';
+import { onFormLoaded, redesignActive } from '../utils';
 import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 import manifest from '../manifest.json';
 import {
@@ -71,8 +73,8 @@ import {
   EVIDENCE_PRIVATE_DETAILS_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
-  EVIDENCE_ADDITIONAL_URL,
   EVIDENCE_UPLOAD_URL,
+  EVIDENCE_URLS,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
 import prefillTransformer from './prefill-transformer';
@@ -257,9 +259,13 @@ const formConfig = {
           schema: facilityTypes.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
+        ...vaEvidence,
+        ...privateEvidence,
+        // ------- REMOVE when new design toggle is removed
         vaPrompt: {
           title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
+          depends: formData => !redesignActive(formData),
           CustomPage: VaPrompt,
           CustomPageReview: null,
           uiSchema: vaPrompt.uiSchema,
@@ -269,7 +275,8 @@ const formConfig = {
         vaDetails: {
           title: 'VA medical records details',
           path: EVIDENCE_VA_DETAILS_URL,
-          depends: hasVAEvidence,
+          depends: formData =>
+            !redesignActive(formData) && hasVAEvidence(formData),
           CustomPage: VaDetailsEntry,
           CustomPageReview: null,
           uiSchema: vaDetails.uiSchema,
@@ -285,11 +292,13 @@ const formConfig = {
           uiSchema: privatePrompt.uiSchema,
           schema: privatePrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
+          depends: formData => !redesignActive(formData),
         },
         privateAuthorization: {
           title: 'Non-VA medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
-          depends: hasPrivateEvidence,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
           CustomPage: PrivateRecordsAuthorization,
           CustomPageReview: null,
           uiSchema: privateAuthorization.uiSchema,
@@ -298,7 +307,8 @@ const formConfig = {
         limitedConsentPrompt: {
           title: 'Non-VA medical record: limited consent prompt',
           path: LIMITED_CONSENT_PROMPT_URL,
-          depends: hasPrivateEvidence,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
           uiSchema: limitedConsentPromptPage.uiSchema,
           schema: limitedConsentPromptPage.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -306,7 +316,8 @@ const formConfig = {
         limitedConsentDetails: {
           title: 'Non-VA medical record: limited consent details',
           path: LIMITED_CONSENT_DETAILS_URL,
-          depends: hasPrivateLimitation,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateLimitation(formData),
           uiSchema: limitedConsentDetailsPage.uiSchema,
           schema: limitedConsentDetailsPage.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -314,16 +325,19 @@ const formConfig = {
         privateDetails: {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_DETAILS_URL,
-          depends: hasPrivateEvidence,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
           CustomPage: PrivateDetailsEntry,
           CustomPageReview: null,
           uiSchema: privateDetails.uiSchema,
           schema: privateDetails.schema,
           scrollAndFocusTarget: focusEvidence,
         },
+        // ------- END REMOVE (note this will move down under uploadDetails
+        // once we replace the upload input with v3)
         uploadPrompt: {
           title: 'Upload new and relevant evidence',
-          path: EVIDENCE_ADDITIONAL_URL,
+          path: EVIDENCE_URLS.uploadPrompt,
           uiSchema: uploadPrompt.uiSchema,
           schema: uploadPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
