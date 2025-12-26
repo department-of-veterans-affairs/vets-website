@@ -12,11 +12,15 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
-import AuthorizationAlert from './AuthorizationAlert';
-import { auth4142Title, alertTitle } from '../../content/evidence/form4142';
+import AuthorizationAlert, { alertTitle } from './AuthorizationAlert';
 import { AUTHORIZATION_LABEL } from '../../constants';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
 import LimitedConsent from './LimitedConsent';
+
+export const content = {
+  title:
+    'Authorize the release of private provider or VA Vet Center medical records to VA',
+};
 
 const Authorization = ({
   addOrEditMode,
@@ -213,7 +217,7 @@ const Authorization = ({
             onAnchorClick={handlers.onAnchorClick}
           />
         )}
-        <h3>{auth4142Title}</h3>
+        <h3>{content.title}</h3>
         <p>
           Only provide this authorization if you want us to obtain your medical
           records from private health care providers on your behalf. If you

@@ -1,6 +1,6 @@
 import manifest from '../../../manifest.json';
 import cypressSetup from '../../../../shared/tests/cypress.setup';
-import * as h from '../helpers';
+import * as h from '../995.cypress.helpers';
 import { EVIDENCE_URLS } from '../../../constants';
 import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
 import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
@@ -11,6 +11,8 @@ import {
   treatmentDateContent,
 } from '../../../content/evidence/private';
 import { issuesContent } from '../../../pages/evidence/common';
+import { content as limitedConsentContent } from '../../../components/4142/LimitedConsent';
+import { content as authContent } from '../../../components/4142/AuthorizationNew';
 
 const issues = mockData.data.contestedIssues;
 
@@ -63,7 +65,50 @@ describe('Array Builder evidence flow', () => {
       h.selectPrivatePromptResponse('Y');
 
       // 4142 Auth
-      h.check4142Auth();
+      // Check error handling
+      h.clickContinue();
+
+      h.checkAlertText(
+        null,
+        'We need your authorization to request your medical records',
+        'error',
+      );
+
+      h.checkError(
+        '[name="root_limitedConsent"]',
+        limitedConsentContent.radioError,
+      );
+
+      cy.get('#privacy-agreement')
+        .shadow()
+        .find('div input')
+        .eq(0)
+        .scrollIntoView()
+        .click();
+
+      cy.selectRadio('limited-consent', 'Y');
+
+      // Trigger textarea error
+      h.clickContinue();
+
+      h.checkError(
+        '[name="limited-consent-description"]',
+        limitedConsentContent.textareaError,
+      );
+
+      cy.fillVaTextarea(
+        'limited-consent-description',
+        'Do not include prescription drugs or follow-up visits',
+      );
+
+      h.verifyH3(authContent.title);
+      h.verifyFPSH3(limitedConsentContent.prompt);
+      h.checkTextareaLabel(
+        'limited-consent-description',
+        limitedConsentContent.textareaLabel,
+      );
+
+      h.clickContinue();
 
       // Location
       h.verifyH3(
@@ -124,11 +169,20 @@ describe('Array Builder evidence flow', () => {
       h.addPrivateTreatmentDates('2020-03-01', '2020-11-18');
 
       // Summary
+      h.verifyH3(`Review the evidence you’re submitting`, 0);
+
+      cy.get('span h4')
+        .eq(0)
+        .should('exist')
+        .and('be.visible')
+        .and(
+          'have.text',
+          `Private providers or VA Vet Centers we’ll request your records from`,
+        );
+
       h.verifyArrayBuilderReviewPrivateCard(
         0,
         'Johns Hopkins Hospital',
-        `Review the evidence you’re submitting`,
-        `Private providers or VA Vet Centers we’ll request your records from`,
         2,
         'Hypertension; and Tendonitis, left ankle',
         'March 1, 2020 to Nov. 18, 2020',
@@ -175,8 +229,6 @@ describe('Array Builder evidence flow', () => {
       h.verifyArrayBuilderReviewPrivateCard(
         1,
         'Methodist Stone Oak Hospital',
-        `Review the evidence you’re submitting`,
-        `Private providers or VA Vet Centers we’ll request your records from`,
         2,
         'Headaches and Sleep apnea',
         'July 16, 1980 to Jan. 3, 2001',
@@ -223,8 +275,6 @@ describe('Array Builder evidence flow', () => {
       h.verifyArrayBuilderReviewPrivateCard(
         2,
         'Uptown Urgent Care',
-        `Review the evidence you’re submitting`,
-        `Private providers or VA Vet Centers we’ll request your records from`,
         4,
         'Headaches; Hypertension; Tendonitis, left ankle; and Sleep apnea',
         'Oct. 4, 1999 to Oct. 4, 1999',
@@ -234,6 +284,110 @@ describe('Array Builder evidence flow', () => {
       cy.url().should(
         'contain',
         `${manifest.rootUrl}/${EVIDENCE_URLS.uploadPrompt}`,
+      );
+
+      cy.go('back');
+
+      // ---------------------------------------- EDITING SECOND ITEM
+      h.clickArrayBuilderCardEditLink('Methodist Stone Oak Hospital');
+
+      // Location
+      h.verifyH3(
+        'Edit the second location we should request your private provider or VA Vet Center records from',
+      );
+      h.checkValueOfInput(
+        '[name="root_treatmentLocation"]',
+        'Methodist Stone Oak Hospital',
+      );
+      h.checkValueOfInput('[name="root_address_country"]', 'USA');
+      h.checkValueOfInput('[name="root_address_street"]', '456 Elm Street');
+      h.checkValueOfInput('[name="root_address_city"]', 'Baltimore');
+      h.checkValueOfInput('[name="root_address_state"]', 'MD');
+      h.checkValueOfInput('[name="root_address_postalCode"]', '21287');
+      h.checkValueOfInput('[name="root_address_street2"]', '#235');
+
+      cy.fillVaTextInput(
+        'root_treatmentLocation',
+        'Baltimore Methodist General Hospital',
+      );
+
+      h.clickContinue();
+
+      // Issues
+      h.verifyH3(
+        'Edit the conditions you were treated for at Baltimore Methodist General Hospital',
+      );
+      h.confirmCheckboxesChecked('Private', ['Headaches', 'Sleep apnea']);
+      cy.selectVaCheckbox('root_issuesPrivate_Hypertension', true);
+      h.clickContinue();
+
+      // Treatment Dates
+      h.verifyH3(
+        'Edit when you were treated at Baltimore Methodist General Hospital',
+      );
+      h.checkValueOfTreatmentDateInput(0, '7');
+      h.checkValueOfTreatmentDateInput(1, '16');
+      h.checkValueOfTreatmentDateInput(2, '1980');
+      h.checkValueOfTreatmentDateInput(3, '1');
+      h.checkValueOfTreatmentDateInput(4, '3');
+      h.checkValueOfTreatmentDateInput(5, '2001');
+
+      cy.get('va-text-input')
+        .eq(1)
+        .shadow()
+        .find('input')
+        .focus()
+        .clear();
+
+      h.fillVaTextInputWithoutName('root_treatmentStartDay', '20');
+
+      h.clickContinue();
+
+      // Summary
+      h.verifyArrayBuilderReviewPrivateCard(
+        0,
+        'Johns Hopkins Hospital',
+        2,
+        'Hypertension; and Tendonitis, left ankle',
+        'March 1, 2020 to Nov. 18, 2020',
+      );
+
+      h.verifyArrayBuilderReviewPrivateCard(
+        1,
+        'Baltimore Methodist General Hospital',
+        2,
+        'Headaches, Hypertension, and Sleep apnea',
+        'July 20, 1980 to Jan. 3, 2001',
+      );
+
+      h.verifyArrayBuilderReviewPrivateCard(
+        2,
+        'Uptown Urgent Care',
+        4,
+        'Headaches; Hypertension; Tendonitis, left ankle; and Sleep apnea',
+        'Oct. 4, 1999 to Oct. 4, 1999',
+      );
+
+      // ---------------------------------------- DELETING FIRST ITEM
+      h.clickArrayBuilderDeleteCardButton('Johns Hopkins Hospital');
+      h.clickArrayBuilderDeleteModalYesButton();
+
+      // New first card
+      h.verifyArrayBuilderReviewPrivateCard(
+        0,
+        'Baltimore Methodist General Hospital',
+        2,
+        'Headaches, Hypertension, and Sleep apnea',
+        'July 20, 1980 to Jan. 3, 2001',
+      );
+
+      // New second card
+      h.verifyArrayBuilderReviewPrivateCard(
+        1,
+        'Uptown Urgent Care',
+        4,
+        'Headaches; Hypertension; Tendonitis, left ankle; and Sleep apnea',
+        'Oct. 4, 1999 to Oct. 4, 1999',
       );
     });
   });

@@ -57,11 +57,6 @@ export const summaryContent = {
 
     return (
       <>
-        {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
-          <h3 className="vads-u-margin-top--0">
-            {item[PRIVATE_TREATMENT_LOCATION_KEY]}
-          </h3>
-        )}
         {selectedIssues?.length === 1 && (
           <p>
             <strong>Condition:</strong> {selectedIssues[0]}
