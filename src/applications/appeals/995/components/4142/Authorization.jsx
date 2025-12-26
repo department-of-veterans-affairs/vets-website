@@ -11,8 +11,8 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
-import AuthorizationAlert from './AuthorizationAlert';
-import { auth4142Title, alertTitle } from '../../content/evidence/form4142';
+import AuthorizationAlert, { alertTitle } from './AuthorizationAlert';
+import { content } from './AuthorizationNew';
 import { AUTHORIZATION_LABEL } from '../../constants';
 import { customPageProps995 } from '../../../shared/props';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
@@ -167,7 +167,7 @@ const Authorization = ({
             onAnchorClick={handlers.onAnchorClick}
           />
         )}
-        <h3>{auth4142Title}</h3>
+        <h3>{content.title}</h3>
         <p>
           Only provide this authorization if you want us to obtain your medical
           records from private health care providers on your behalf. If you
