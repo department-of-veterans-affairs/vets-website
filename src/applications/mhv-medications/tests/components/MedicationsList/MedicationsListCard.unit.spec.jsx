@@ -97,7 +97,7 @@ describe('Medication card component', () => {
       ...prescriptionsListItem,
       prescriptionSource: 'NV',
       dispStatus: 'Active: Non-VA',
-      orderedDate: '2024-06-16T04:39:11Z',
+      orderedDate: '2024-06-16T12:00:00Z',
     };
     const { getByTestId } = setup(rx);
     /* eslint-disable prettier/prettier */
