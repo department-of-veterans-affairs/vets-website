@@ -32,7 +32,7 @@ const BENEFIT_TYPE_LABELS = {
   FRY: 'Fry Scholarship (Chapter 33)',
 };
 
-const getBenefitLabel = benefitType => {
+export const getBenefitLabel = benefitType => {
   if (!benefitType) {
     return "We couldn't load your current benefit.";
   }
@@ -40,7 +40,7 @@ const getBenefitLabel = benefitType => {
 };
 
 const YourInformationDescription = ({ formData }) => (
-  <div className="vads-u-margin-bottom--4">
+  <div className="vads-u-margin-bottom--4" style={{ maxWidth: '35rem' }}>
     <h2 style={{ fontSize: '30px' }}>Your information</h2>
     <div
       className="usa-summary-box"
