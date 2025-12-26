@@ -13,6 +13,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import DEFAULT_BRANCH_LABELS from 'platform/forms-system/src/js/web-component-patterns/content/serviceBranch.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { validateEndDateAfterStartDate } from '../utils/validationHelpers';
 
 const formatDate = dateStr => {
   if (!dateStr) return '';
@@ -84,7 +85,20 @@ const serviceDatesPage = {
           : 'Service Dates',
     ),
     dateEnteredService: currentOrPastDateUI('Service start date'),
-    dateLeftService: currentOrPastDateUI('Service end date'),
+    dateLeftService: {
+      ...currentOrPastDateUI('Service end date'),
+      'ui:validations': [
+        (errors, fieldData, formData) => {
+          validateEndDateAfterStartDate(
+            errors,
+            fieldData,
+            formData,
+            'dateEnteredService',
+            'Please enter a service end date later than the service start date.',
+          );
+        },
+      ],
+    },
   },
   schema: {
     type: 'object',
