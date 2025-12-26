@@ -1,8 +1,8 @@
 # 22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test
 
 ## URL
-http://localhost:3001/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272
-https://staging.va.gov/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272
+http://localhost:3001/forms/22-10272/request-prep-course-reimbursement-online
+https://staging.va.gov/forms/22-10272/request-prep-course-reimbursement-online
 
 ## Common commands
 ```bash
