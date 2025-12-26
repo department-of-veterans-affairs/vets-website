@@ -18,7 +18,7 @@ describe('CDP - Debt Letters downloads enabled', () => {
   });
 
   it('displays the current debts section and navigates to debt details', () => {
-    cy.get('[data-testid="debt-details-button"]')
+    cy.get('[data-testid="debt-details-link"]')
       .first()
       .click();
     cy.get('#debtLetterHistory').should('be.visible');

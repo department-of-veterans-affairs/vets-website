@@ -45,7 +45,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       '[data-testid="debt-summary-item"]',
       'Pay your $120.40 balance now or request help by October 18, 2012',
     )
-      .find('a')
+      .findByTestId('debt-details-link')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
@@ -54,10 +54,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
         'Pay your $120.40 balance now or request help by October 18, 2012',
       );
     cy.get('@alert-content')
-      .find('[data-testid="link-make-payment"]')
-      .should('exist');
-    cy.get('@alert-content')
-      .find('[data-testid="link-request-help"]')
+      .find('[data-testid="link-resolve"]')
       .should('exist');
     cy.injectAxeThenAxeCheck();
   });
@@ -67,9 +64,8 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       '[data-testid="debt-summary-item"]',
       'We’re reducing your benefit payments each month until your debt is paid',
     )
-      .find('va-link')
+      .findByTestId('debt-details-link')
       .click({ waitForAnimations: true });
-
     cy.injectAxeThenAxeCheck();
   });
 
@@ -78,7 +74,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       '[data-testid="debt-summary-item"]',
       'Pay your $1,000.00 past due balance in full or request help before May 31, 2017',
     )
-      .find('a')
+      .findByTestId('debt-details-link')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
@@ -87,10 +83,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
         `Pay your $1,000.00 balance in full or request help by May 31, 2017`,
       );
     cy.get('@alert-content')
-      .find('[data-testid="link-make-payment"]')
-      .should('exist');
-    cy.get('@alert-content')
-      .find('[data-testid="link-request-help"]')
+      .find('[data-testid="link-resolve"]')
       .should('exist');
     cy.injectAxeThenAxeCheck();
   });
@@ -100,7 +93,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       '[data-testid="debt-summary-item"]',
       'Pay your $200.00 past due balance now or request help by October 7, 2018',
     )
-      .find('va-link')
+      .findByTestId('debt-details-link')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
@@ -109,10 +102,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
         `Pay your $200.00 balance now or request help by October 7, 2018`,
       );
     cy.get('@alert-content')
-      .find('[data-testid="link-make-payment"]')
-      .should('exist');
-    cy.get('@alert-content')
-      .find('[data-testid="link-request-help"]')
+      .find('[data-testid="link-resolve"]')
       .should('exist');
     cy.injectAxeThenAxeCheck();
   });
