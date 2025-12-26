@@ -61,6 +61,8 @@ Cypress.Commands.add('mockItfCheck', () => {
             {
               title: 'Resource not found',
               detail: "No active 'C' intent to file found.",
+              code: '404',
+              status: '404',
             },
           ],
         },
@@ -557,16 +559,16 @@ describe('Intent to file submission', () => {
 
         cy.wait('@itfCheck');
 
-        // uncomment this when #126387 is merged:
-        // cy.location('pathname').should(
-        //   'eq',
-        //   `/representative/representative-form-upload/submit-va-form-21-0966/intent-to-file-unknown`,
-        // );
-        // and remove this:
         cy.location('pathname').should(
           'eq',
-          `/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit`,
+          `/representative/representative-form-upload/submit-va-form-21-0966/intent-to-file-unknown`,
         );
+        cy.get('va-alert')
+          .find('h2')
+          .should(
+            'have.text',
+            'We can’t confirm whether this claimant already has an intent to file',
+          );
       });
     });
   });
