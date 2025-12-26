@@ -4,28 +4,41 @@ import FinancialInformationReviewWarning from '../../../../components/FormAlerts
 import { renderProviderWrappedComponent } from '../../../helpers';
 
 describe('ezr <FinancialInformationReviewWarning>', () => {
-  context(`when 'isFormReviewPage' is true`, () => {
-    it('should not render', () => {
-      const { container } = renderProviderWrappedComponent(
-        {},
-        <FinancialInformationReviewWarning isFormReviewPage />,
-      );
-      const selector = container.querySelector('va-alert');
+  const subject = () => {
+    const { container } = renderProviderWrappedComponent(
+      {},
+      <FinancialInformationReviewWarning />,
+    );
+    return () => ({ vaAlert: container.querySelector('va-alert') });
+  };
 
-      expect(selector).to.not.exist;
+  context('when on the review and submit page', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/review-and-submit' },
+        configurable: true,
+      });
+    });
+
+    it('should not render alert component', () => {
+      const selectors = subject();
+      expect(selectors().vaAlert).to.not.exist;
     });
   });
 
-  context(`when 'isFormReviewPage' is false`, () => {
-    it('should render `va-alert` with status of `warning`', () => {
-      const { container } = renderProviderWrappedComponent(
-        {},
-        <FinancialInformationReviewWarning isFormReviewPage={false} />,
-      );
-      const selector = container.querySelector('va-alert');
+  context('when on the summary page', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: {
+          pathname: '/household-information/financial-information',
+        },
+        configurable: true,
+      });
+    });
 
-      expect(selector).to.exist;
-      expect(selector).to.have.attr('status', 'warning');
+    it('should render the alert component', () => {
+      const selectors = subject();
+      expect(selectors().vaAlert).to.exist;
     });
   });
 });
