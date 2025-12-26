@@ -48,13 +48,13 @@ export default {
               employee is selected to preform this role.
             </li>
             <li>
-              Institution agrees to adhere to the VA GI Bill{' '}
+              Institution agrees to adhere to the VA GI Bill Trademark Terms of
+              Use. Please click this link for information regarding the Terms of
+              Use.{' '}
               <va-link
-                text="Trademark Terms of Use"
+                text="Trademark Terms of Use - Education and Training (va.gov)"
                 href="https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp"
               />
-              . Please click this link for information regarding the Terms of
-              Use. Trademark Terms of Use - Education and Training (va.gov)
             </li>
             <li>
               Institution agrees to submit all enrollment certifications and any

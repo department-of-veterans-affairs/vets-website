@@ -8,6 +8,7 @@ import whatToExpect from '../pages/whatToExpect';
 import acknowledgement1 from '../pages/acknowledgement1';
 import acknowledgement2 from '../pages/acknowledgement2';
 import acknowledgement3 from '../pages/acknowledgement3';
+import acknowledgement4 from '../pages/acknowledgement4';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -75,6 +76,12 @@ const formConfig = {
           title: 'Acknowledgement 3',
           uiSchema: acknowledgement3.uiSchema,
           schema: acknowledgement3.schema,
+        },
+        acknowledgement4: {
+          path: 'acknowledgement-4',
+          title: 'Acknowledgement 4',
+          uiSchema: acknowledgement4.uiSchema,
+          schema: acknowledgement4.schema,
         },
       },
     },
