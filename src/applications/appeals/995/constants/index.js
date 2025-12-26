@@ -4,6 +4,8 @@ import manifest from '../manifest.json';
 
 export const APP_NAME = 'Supplemental Claim';
 export const FORM_ID = 'VA Form 20-0995';
+export const FORM_IDS_4142 = 'VA Forms 21-4142 and 21-4142a';
+export const APP_SUBHEADER = `${FORM_IDS_4142} with ${FORM_ID}`;
 
 export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';

@@ -68,6 +68,7 @@ const options = {
     alertItemUpdated: ({ itemData }) =>
       summaryContent.alertItemUpdatedText(itemData),
     cardDescription: item => summaryContent.cardDescription(item),
+    getItemName: item => item?.treatmentLocation,
     summaryDescription: summaryContent.descriptionWithItems,
     summaryTitle: summaryContent.titleWithItems,
   },
