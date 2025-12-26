@@ -51,7 +51,7 @@ const DebtSummaryCard = ({ debt }) => {
           label={`Check details for ${debtCardHeading}`}
         />
       </p>
-      {resolveLinkDiaryCodes.includes(debt.diaryCode) ? (
+      {resolveLinkDiaryCodes.includes(debt.diaryCode) && (
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
           <VaLink
             active
@@ -67,7 +67,7 @@ const DebtSummaryCard = ({ debt }) => {
             label={`Resolve ${debtCardHeading}`}
           />
         </p>
-      ) : null}
+      )}
     </va-card>
   );
 };

@@ -97,13 +97,13 @@ const HTMLStatementPage = ({ match }) => {
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
         />
-        {shouldShowVHAPaymentHistory ? (
+        {shouldShowVHAPaymentHistory && (
           <StatementTable
             charges={charges}
             formatCurrency={formatCurrency}
             selectedCopay={selectedCopay}
           />
-        ) : null}
+        )}
         <DownloadStatement
           key={selectedId}
           statementId={selectedId}
