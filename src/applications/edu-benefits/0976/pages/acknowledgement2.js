@@ -5,6 +5,7 @@ import {
   titleUI,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import InitialsInput from '../components/InitialsInput';
 
 import { validateInitialsMatch } from '../helpers';
 
@@ -16,6 +17,7 @@ export default {
       ...textUI(
         'The institution must retain the records and account information of VA students for three years following the ending date of the last period of attendance certified to VA. The institution must make these records available for VA inspection upon request for the purpose of verification of compliance with the following program requirements',
       ),
+      'ui:webComponentField': InitialsInput,
       'ui:description': (
         <div>
           <ul>
@@ -66,7 +68,7 @@ export default {
       ),
       'ui:options': {
         width: 'small',
-        classNames: 'vads-u-margin-bottom--6 initials-input',
+        classNames: 'vads-u-margin-bottom--6',
       },
       'ui:errorMessages': {
         required: 'Enter initials',

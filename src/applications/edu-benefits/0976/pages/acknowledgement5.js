@@ -5,6 +5,7 @@ import {
   titleUI,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import InitialsInput from '../components/InitialsInput';
 
 import { validateInitialsMatch } from '../helpers';
 
@@ -16,6 +17,7 @@ export default {
       ...textUI(
         'Institutions that participate in VA GI Bill programs must agree to electronic funds transfer (EFT) - Direct Deposit transactions for the payments of funds owed to the institution.',
       ),
+      'ui:webComponentField': InitialsInput,
       'ui:description': (
         <p>
           <strong>Note:</strong> VA will contact the institution to make
@@ -25,7 +27,7 @@ export default {
       ),
       'ui:options': {
         width: 'small',
-        classNames: 'vads-u-margin-bottom--6 initials-input',
+        classNames: 'vads-u-margin-bottom--6',
       },
       'ui:errorMessages': {
         required: 'Enter initials',

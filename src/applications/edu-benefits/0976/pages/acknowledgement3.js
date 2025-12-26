@@ -5,6 +5,7 @@ import {
   titleUI,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import InitialsInput from '../components/InitialsInput';
 
 import { validateInitialsMatch } from '../helpers';
 
@@ -16,6 +17,7 @@ export default {
       ...textUI(
         'The institution understands the following important program requirements and/or limitations',
       ),
+      'ui:webComponentField': InitialsInput,
       'ui:description': (
         <div>
           <ul>
@@ -66,7 +68,7 @@ export default {
       ),
       'ui:options': {
         width: 'small',
-        classNames: 'vads-u-margin-bottom--6 initials-input',
+        classNames: 'vads-u-margin-bottom--6',
       },
       'ui:errorMessages': {
         required: 'Enter initials',
