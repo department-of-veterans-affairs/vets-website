@@ -80,6 +80,7 @@
   "disputeDebt": "dispute_debt",
   "emptyStateBenefitLetters": "empty_state_benefit_letters",
   "enrollmentVerification": "enrollment_verification",
+  "ezrBrowserMonitoringEnabled": "ezr_browser_monitoring_enabled",
   "ezrDownloadPdfEnabled": "ezr_download_pdf_enabled",
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrFormPrefillWithProvidersAndDependents": "ezr_form_prefill_with_providers_and_dependents",
