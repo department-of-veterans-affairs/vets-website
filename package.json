@@ -405,6 +405,7 @@
       "src/platform/site-wide",
       "src/platform/forms",
       "src/platform/forms-system",
+      "src/platform/form-renderer",
       "src/platform/monitoring",
       "src/platform/mhv",
       "src/applications/check-in",
