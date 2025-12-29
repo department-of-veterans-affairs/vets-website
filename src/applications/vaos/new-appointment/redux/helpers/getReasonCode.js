@@ -58,7 +58,11 @@ export function getReasonCode({ data, isCC, isDS, updateLimits }) {
     appointmentInfo = ``;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, maxChars)}`;
   }
-  return {
-    text: data.reasonAdditionalInfo ? `${appointmentInfo}|${reasonText}` : null,
-  };
+
+  if (data.reasonAdditionalInfo) {
+    return {
+      text: appointmentInfo ? `${appointmentInfo}|${reasonText}` : reasonText,
+    };
+  }
+  return { text: null };
 }
