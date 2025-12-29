@@ -27,6 +27,7 @@ export const SpouseAnnualIncomePage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: `Spouse's annual income from ${LAST_YEAR}`,
+      showEditExplanationText: false,
     }),
     'view:spouseGrossIncome': {
       ...inlineTitleUI(
