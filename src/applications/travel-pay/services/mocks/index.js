@@ -596,7 +596,10 @@ const responses = {
   },
 
   // GET individual expense endpoints
-  'GET /travel_pay/v0/expenses/mileage/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/claims/:claimId/expenses/mileage/:expenseId': (
+    req,
+    res,
+  ) => {
     const { expenseId } = req.params;
     if (expenseId === 'a48d48d4-cdc5-4922-8355-c1a9b2742feb') {
       return res.json({
@@ -626,7 +629,10 @@ const responses = {
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
-  'GET /travel_pay/v0/expenses/parking/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/claims/:claimId/expenses/parking/:expenseId': (
+    req,
+    res,
+  ) => {
     const { expenseId } = req.params;
     if (expenseId === 'e82h82h8-ghg9-8e66-c799-g5ed16186jif') {
       return res.json({
@@ -642,7 +648,7 @@ const responses = {
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
-  'GET /travel_pay/v0/expenses/toll/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/claims/:claimId/expenses/toll/:expenseId': (req, res) => {
     const { expenseId } = req.params;
     if (expenseId === 'f93i93i9-hih0-9f77-d800-h6fe27297kjg') {
       return res.json({
@@ -658,7 +664,10 @@ const responses = {
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
-  'GET /travel_pay/v0/expenses/commoncarrier/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/claims/:claimId/expenses/commoncarrier/:expenseId': (
+    req,
+    res,
+  ) => {
     const { expenseId } = req.params;
     if (expenseId === 'g04j04j0-iji1-0g88-e911-i7gf38308lkh') {
       return res.json({
@@ -676,7 +685,10 @@ const responses = {
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
-  'GET /travel_pay/v0/expenses/airtravel/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/claims/:claimId/expenses/airtravel/:expenseId': (
+    req,
+    res,
+  ) => {
     const { expenseId } = req.params;
     if (expenseId === 'h15k15k1-jkj2-1h99-f022-j8hg49419mli') {
       return res.json({
@@ -698,7 +710,10 @@ const responses = {
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
-  'GET /travel_pay/v0/expenses/lodging/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/claims/:claimId/expenses/lodging/:expenseId': (
+    req,
+    res,
+  ) => {
     const { expenseId } = req.params;
     if (expenseId === 'b59e59e5-ded6-5b33-9466-d2ba83853gfc') {
       return res.json({
@@ -717,7 +732,7 @@ const responses = {
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
-  'GET /travel_pay/v0/expenses/meal/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/claims/:claimId/expenses/meal/:expenseId': (req, res) => {
     const { expenseId } = req.params;
     if (expenseId === 'c60f60f6-efe7-6c44-a577-e3cb94964hgd') {
       return res.json({
@@ -734,7 +749,10 @@ const responses = {
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
-  'GET /travel_pay/v0/expenses/other/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/claims/:claimId/expenses/other/:expenseId': (
+    req,
+    res,
+  ) => {
     const { expenseId } = req.params;
     if (expenseId === 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe') {
       return res.json({
