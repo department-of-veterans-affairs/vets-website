@@ -5,7 +5,6 @@ import { format } from 'date-fns-tz';
 import { connect } from 'react-redux';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
@@ -178,7 +177,7 @@ export class ApplicationStatus extends React.Component {
               </p>
             )}
             {/* test React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
-            <Modal
+            <va-modal
               cssClass="va-modal-large"
               id="start-over-modal"
               onClose={this.toggleModal}
@@ -192,7 +191,7 @@ export class ApplicationStatus extends React.Component {
                 secondaryLabel="Cancel"
                 onSecondaryClick={this.toggleModal}
               />
-            </Modal>
+            </va-modal>
           </div>
         );
       }
@@ -219,7 +218,7 @@ export class ApplicationStatus extends React.Component {
             </p>
           )}
           {/* React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
-          <Modal
+          <va-modal
             cssClass="va-modal-large"
             id="start-over-modal"
             onClose={this.toggleModal}
@@ -233,7 +232,7 @@ export class ApplicationStatus extends React.Component {
               secondaryLabel="Cancel"
               onSecondaryClick={this.toggleModal}
             />
-          </Modal>
+          </va-modal>
         </div>
       );
     }

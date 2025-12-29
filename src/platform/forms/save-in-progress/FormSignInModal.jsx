@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-
 import recordEvent from '../../monitoring/record-event';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 
@@ -32,7 +30,7 @@ class FormSignInModal extends React.Component {
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
-      <Modal
+      <va-modal
         id="form-sign-in-modal"
         primaryButton={primaryButton}
         secondaryButton={secondaryButton}
@@ -49,7 +47,7 @@ class FormSignInModal extends React.Component {
           in-progress {appType}.
         </p>
         <p>If you sign in now, you’ll need to start over.</p>
-      </Modal>
+      </va-modal>
     );
   }
 }
