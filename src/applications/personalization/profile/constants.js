@@ -1,4 +1,4 @@
-import { SCHEDULING_PREF_PATHS } from '@@vap-svc/constants/schedulingPreferencesConstants';
+import { SCHEDULING_PREF_PATHNAMES } from '@@vap-svc/constants/schedulingPreferencesConstants';
 
 // all the active feature toggles for the profile app with a default value of false
 export const PROFILE_TOGGLES = {
@@ -55,9 +55,10 @@ export const PROFILE_PATHS = Object.freeze({
   HEALTH_CARE_SETTINGS: '/profile/health-care-settings',
   SCHEDULING_PREFERENCES:
     '/profile/health-care-settings/scheduling-preferences',
-  SCHEDULING_PREF_CONTACT_METHOD: SCHEDULING_PREF_PATHS.CONTACT_METHOD,
-  SCHEDULING_PREF_CONTACT_TIMES: SCHEDULING_PREF_PATHS.CONTACT_TIMES,
-  SCHEDULING_PREF_APPOINTMENT_TIMES: SCHEDULING_PREF_PATHS.APPOINTMENT_TIMES,
+  SCHEDULING_PREF_CONTACT_METHOD: SCHEDULING_PREF_PATHNAMES.CONTACT_METHOD,
+  SCHEDULING_PREF_CONTACT_TIMES: SCHEDULING_PREF_PATHNAMES.CONTACT_TIMES,
+  SCHEDULING_PREF_APPOINTMENT_TIMES:
+    SCHEDULING_PREF_PATHNAMES.APPOINTMENT_TIMES,
   HEALTH_CARE_CONTACTS: '/profile/contacts',
   MESSAGES_SIGNATURE: '/profile/message-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',

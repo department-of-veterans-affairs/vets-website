@@ -20,13 +20,14 @@ import InitializeVAPServiceIDContainer from '@@vap-svc/containers/InitializeVAPS
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
 import { isSubtaskSchedulingPreference } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
-import { EditFallbackContent } from './EditFallbackContent';
-import { EditContext } from './EditContext';
-import { EditConfirmCancelModal } from './EditConfirmCancelModal';
-import { EditBreadcrumb } from './EditBreadcrumb';
+import { EditFallbackContent } from '../edit/EditFallbackContent';
+import { EditContext } from '../edit/EditContext';
+import { EditConfirmCancelModal } from '../edit/EditConfirmCancelModal';
+import { EditBreadcrumb } from '../edit/EditBreadcrumb';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import { getRouteInfoFromPath } from '../../../common/helpers';
+import getRoutes from '../../routes';
 import { getRoutesForNav } from '../../routesForNav';
 
 const useQuery = () => {
@@ -61,7 +62,7 @@ const clearBeforeUnloadListener = () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
 };
 
-export const Edit = () => {
+export const ContactMethodEdit = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
@@ -78,6 +79,11 @@ export const Edit = () => {
     TOGGLE_NAMES.profileSchedulingPreferences,
   );
 
+  const routes = getRoutes({
+    profile2Enabled: true,
+    profileHealthCareSettingsPage: true,
+    profileSchedulingPreferencesEnabled: true,
+  });
   const routesForNav = getRoutesForNav({
     profile2Enabled: profile2Toggle,
     profileHealthCareSettingsPage: profileHealthCareSettingsPageToggle,
@@ -88,7 +94,7 @@ export const Edit = () => {
 
   const returnRouteInfo = (() => {
     try {
-      return getRouteInfoFromPath(query.get('returnPath'), routesForNav);
+      return getRouteInfoFromPath(query.get('returnPath'), routes);
     } catch (e) {
       // default to using the root route if the returnPath is invalid
       return {

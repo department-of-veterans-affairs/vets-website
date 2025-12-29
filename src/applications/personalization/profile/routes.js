@@ -3,6 +3,7 @@ import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 import ProfileHub from './components/hub/ProfileHub';
+import { ContactMethodEdit } from './components/health-care-settings/ContactMethodEdit';
 
 const getRoutes = (
   {
@@ -35,27 +36,27 @@ const getRoutes = (
       requiresLOA3: true,
       requiresMVI: true,
     },
-    // {
-    //   component: Edit,
-    //   name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
-    //   path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
-    //   requiresLOA3: true,
-    //   requiresMVI: true,
-    // },
-    // {
-    //   component: Edit,
-    //   name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_TIME,
-    //   path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_TIMES,
-    //   requiresLOA3: true,
-    //   requiresMVI: true,
-    // },
-    // {
-    //   component: Edit,
-    //   name: PROFILE_PATH_NAMES.SCHEDULING_PREF_APPOINTMENT_TIME,
-    //   path: PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
-    //   requiresLOA3: true,
-    //   requiresMVI: true,
-    // },
+    {
+      component: ContactMethodEdit,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
+      path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
+      component: Edit,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_TIME,
+      path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_TIMES,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
+      component: Edit,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_APPOINTMENT_TIME,
+      path: PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
   ];
 };
 
