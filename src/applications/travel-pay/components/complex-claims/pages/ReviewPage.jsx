@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo } from 'platform/utilities/scroll';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
@@ -27,6 +28,7 @@ const ReviewPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
+  const alertRef = useRef(null);
 
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const expenses = useSelector(selectAllExpenses) ?? [];
@@ -36,8 +38,31 @@ const ReviewPage = () => {
   const title = 'Your unsubmitted expenses';
 
   useSetPageTitle(title);
-  useSetScrollFocus();
   useRecordPageview('complex-claims', title);
+
+  useEffect(
+    () => {
+      if (alertMessage) {
+        scrollTo('topScrollElement').then(() => {
+          setTimeout(() => {
+            if (alertRef.current) {
+              focusElement(alertRef.current);
+            }
+          }, 100);
+        });
+      } else {
+        scrollTo('topScrollElement').then(() => {
+          setTimeout(() => {
+            const firstH1 = document.getElementsByTagName('h1')[0];
+            if (firstH1) {
+              focusElement(firstH1);
+            }
+          }, 100);
+        });
+      }
+    },
+    [alertMessage],
+  );
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
@@ -94,6 +119,7 @@ const ReviewPage = () => {
       <h1>{title}</h1>
       {isAlertVisible && (
         <ReviewPageAlert
+          alertRef={alertRef}
           header={alertMessage.title}
           description={alertMessage.description}
           status={alertMessage.type}

@@ -8,10 +8,12 @@ const ReviewPageAlert = ({
   status,
   visible,
   onCloseEvent,
+  alertRef,
 }) => {
   return (
     <>
       <VaAlert
+        ref={alertRef}
         data-testid="review-page-alert"
         close-btn-aria-label="Close notification"
         status={status}
@@ -32,6 +34,7 @@ ReviewPageAlert.propTypes = {
   status: PropTypes.string,
   visible: PropTypes.bool,
   onCloseEvent: PropTypes.func,
+  alertRef: PropTypes.object,
 };
 
 export default ReviewPageAlert;
