@@ -213,6 +213,28 @@ describe('convertAppointment', () => {
       otherDetails: 'No details provided',
     });
   });
+
+  it('should handle non-array serviceCategory without crashing', () => {
+    const appt = {
+      id: '789',
+      attributes: {
+        localStartTime: '2021-05-01T10:00:00',
+        status: 'booked',
+        serviceCategory: 'Not an array', // string instead of array
+      },
+    };
+    expect(() => convertAppointment(appt)).to.not.throw();
+    expect(convertAppointment(appt).detailsShared.reason).to.equal(
+      'Not specified',
+    );
+
+    // Also test undefined and object
+    appt.attributes.serviceCategory = undefined;
+    expect(() => convertAppointment(appt)).to.not.throw();
+
+    appt.attributes.serviceCategory = { text: 'Object' };
+    expect(() => convertAppointment(appt)).to.not.throw();
+  });
 });
 
 describe('convertDemographics', () => {

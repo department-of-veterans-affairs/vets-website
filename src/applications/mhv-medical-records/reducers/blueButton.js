@@ -138,9 +138,11 @@ export const convertAppointment = appt => {
     clinicName: attributes.clinic || 'Unknown clinic',
     clinicPhone: clinic.phoneNumber || 'N/A',
     detailsShared: {
-      reason: attributes.serviceCategory?.[0]?.text
-        ? attributes.serviceCategory.map(item => item.text).join(', ')
-        : 'Not specified',
+      reason:
+        Array.isArray(attributes.serviceCategory) &&
+        attributes.serviceCategory[0]?.text
+          ? attributes.serviceCategory.map(item => item.text).join(', ')
+          : 'Not specified',
       otherDetails: attributes.friendlyName || 'No details provided',
     },
   };
