@@ -6,6 +6,7 @@ import {
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
   selectComplexClaim,
@@ -27,6 +28,7 @@ const ChooseExpenseType = () => {
   const title = 'What type of expense do you want to add?';
 
   useSetPageTitle(title);
+  useSetScrollFocus();
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {

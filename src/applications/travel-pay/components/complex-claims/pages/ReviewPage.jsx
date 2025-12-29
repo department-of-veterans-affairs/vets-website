@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -34,6 +35,7 @@ const ReviewPage = () => {
   const title = 'Your unsubmitted expenses';
 
   useSetPageTitle(title);
+  useSetScrollFocus();
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(

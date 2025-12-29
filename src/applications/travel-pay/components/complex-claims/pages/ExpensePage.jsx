@@ -15,6 +15,7 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
@@ -122,6 +123,8 @@ const ExpensePage = () => {
   const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
   const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
   const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
+
+  useSetScrollFocus();
 
   // Effects
   // Effect 1: Reset loaded flag when expenseId changes

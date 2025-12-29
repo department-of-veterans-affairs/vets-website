@@ -7,6 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
 import {
   createExpense,
   updateExpense,
@@ -33,6 +34,8 @@ const Mileage = () => {
   const { apptId, claimId, expenseId } = useParams();
 
   const isEditMode = !!expenseId;
+
+  useSetScrollFocus();
 
   const { data: appointment } = useSelector(selectAppointment);
   const allExpenses = useSelector(selectAllExpenses);
