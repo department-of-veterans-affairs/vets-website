@@ -53,7 +53,11 @@ export const Balances = ({
                     : balance.pHAmtDue
                 }
                 date={balance.pSStatementDateOutput}
-                city={balance.station.city}
+                city={
+                  showVHAPaymentHistory
+                    ? balance.attributes?.city
+                    : balance.station.city
+                }
                 facility={facilityName}
                 key={balance.id ? balance.id : `${idx}-${facilityName}`}
               />
