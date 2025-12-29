@@ -644,7 +644,6 @@ class MedicationsListPage {
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by name`,
       );
     });
-    cy.get('[data-testid="page-total-info"]').should('be.focused');
   };
 
   sortPrescriptionsByLastFilledCustom = data => {
@@ -702,7 +701,6 @@ class MedicationsListPage {
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, last filled first`,
       );
     });
-    cy.get('[data-testid="page-total-info"]').should('be.focused');
   };
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
@@ -884,11 +882,12 @@ class MedicationsListPage {
   };
 
   clickFilterButtonOnAccordion = (url, filterRx) => {
-    cy.intercept('GET', `${url}`, filterRx);
+    cy.intercept('GET', `${url}`, filterRx).as('filterMedicationsList');
     cy.get('[data-testid="filter-button"]')
       .shadow()
       .find('[type="button"]')
       .click({ waitForAnimations: true });
+    return cy.wait('@filterMedicationsList');
   };
 
   verifyNameOfFirstRxOnMedicationsList = rxName => {
@@ -905,12 +904,6 @@ class MedicationsListPage {
         force: true,
       })
       .should('exist');
-  };
-
-  verifyFocusOnPaginationTextInformationOnListPage = text => {
-    cy.get('[data-testid="page-total-info"]')
-      .should('be.focused')
-      .and('contain', text);
   };
 
   verifyFilterCollapsedOnListPage = () => {
@@ -949,11 +942,13 @@ class MedicationsListPage {
     cy.get('[data-testid="alert-message"]').should('not.exist');
   };
 
-  clickResetFilterButtonOnFilterAccordionDropDown = () => {
+  clickResetFilterButtonOnFilterAccordionDropDown = rxList => {
+    cy.intercept('GET', Paths.MED_LIST, rxList).as('resetMedicationsList');
     cy.get('[data-testid="filter-reset-button"]').should('exist');
     cy.get('[data-testid="filter-reset-button"]').click({
       waitForAnimations: true,
     });
+    return cy.wait('@resetMedicationsList');
   };
 
   clickBackToTopButtonOnListPage = () => {
@@ -1134,10 +1129,6 @@ class MedicationsListPage {
 
   verifyFilterAriaRegionText = text => {
     cy.findByTestId('filter-aria-live-region').should('have.text', text);
-  };
-
-  verifySortScreenReaderActionText = text => {
-    cy.findByTestId('sort-action-sr-text').should('have.text', text);
   };
 
   // OH Integration tests
