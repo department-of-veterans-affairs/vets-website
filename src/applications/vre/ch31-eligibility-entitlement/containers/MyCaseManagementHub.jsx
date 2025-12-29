@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { fetchCh31CaseStatusDetails } from '../actions/ch31-my-eligibility-and-benefits';
 import HubCardList from '../components/HubCardList';
 import ApplicationDiscontinuedAlert from '../components/ApplicationDiscontinuedAlert';
@@ -30,6 +31,11 @@ const MyCaseManagementHub = () => {
   const caseStatusDetails = useSelector(
     state => state?.ch31CaseStatusDetails?.data,
   );
+
+  useEffect(() => {
+    scrollToTop();
+    focusElement('h1');
+  }, []);
 
   useEffect(
     () => {

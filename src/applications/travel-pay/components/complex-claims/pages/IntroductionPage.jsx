@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import { BTSSS_PORTAL_URL } from '../../../constants';
-import { createComplexClaim } from '../../../redux/actions';
+import {
+  createComplexClaim,
+  setExpenseBackDestination,
+} from '../../../redux/actions';
 import ComplexClaimRedirect from './ComplexClaimRedirect';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import {
@@ -42,6 +45,7 @@ const IntroductionPage = () => {
       complexClaim?.data?.claimId || appointment?.travelPayClaim?.claim?.id;
 
     if (existingClaimId) {
+      dispatch(setExpenseBackDestination('intro'));
       navigate(`/file-new-claim/${apptId}/${existingClaimId}/choose-expense`);
       return;
     }
@@ -58,6 +62,7 @@ const IntroductionPage = () => {
         }),
       );
       if (result?.claimId) {
+        dispatch(setExpenseBackDestination('intro'));
         navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
       }
     } catch (error) {
