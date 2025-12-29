@@ -7,14 +7,15 @@ import {
 /**
  * Unit tests for purgeToxicExposureData function
  *
- * Verifies removal of toxic exposure data when users opt out of sections.
+ * Verifies removal of toxic exposure data when users explicitly opt out of sections.
  *
  * Key behaviors tested:
- * 1. Feature flag control
- * 2. "None" condition handling - removes all exposure data except conditions.none
- * 3. Explicit opt-out removal - removes sections when user has all false values or selects 'none'
+ * 1. Feature flag control - purge only runs when flag is enabled
+ * 2. "None" condition handling - removes all exposure data when conditions.none === true
+ * 3. Explicit opt-out removal - removes sections ONLY when exposureType.none === true
  * 4. Detail retention - preserves details only for locations marked true
- * 5. False value preservation - keeps false values when mixed with true values for backend visibility
+ * 5. Section preservation - keeps sections with all false values (not an explicit opt-out)
+ * 6. OtherKey preservation - keeps otherHerbicideLocations/specifyOtherExposures unless none: true
  */
 describe('purgeToxicExposureData', () => {
   describe('when feature flag is disabled', () => {
@@ -45,26 +46,26 @@ describe('purgeToxicExposureData', () => {
   });
 
   describe('when feature flag is enabled', () => {
-    it('should purge when disability526ToxicExposureOptOutDataPurge is true', () => {
-      const formData = {
-        disability526ToxicExposureOptOutDataPurge: true,
-        toxicExposure: {
-          conditions: { none: true },
-          gulfWar1990: { bahrain: true },
-          gulfWar1990Details: {
-            bahrain: { startDate: '1991-01-01', endDate: '1991-12-31' },
+    describe('basic purge behavior', () => {
+      it('should purge when disability526ToxicExposureOptOutDataPurge is true', () => {
+        const formData = {
+          disability526ToxicExposureOptOutDataPurge: true,
+          toxicExposure: {
+            conditions: { none: true },
+            gulfWar1990: { bahrain: true },
+            gulfWar1990Details: {
+              bahrain: { startDate: '1991-01-01', endDate: '1991-12-31' },
+            },
           },
-        },
-      };
+        };
 
-      const result = purgeToxicExposureData(formData);
-      expect(result.toxicExposure).to.deep.equal({
-        conditions: { none: true },
+        const result = purgeToxicExposureData(formData);
+        expect(result.toxicExposure).to.deep.equal({
+          conditions: { none: true },
+        });
       });
     });
-  });
 
-  describe('when feature flag is enabled', () => {
     describe('with no toxic exposure data', () => {
       it('should handle missing or empty toxicExposure', () => {
         // Missing toxicExposure
@@ -169,12 +170,14 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('exposure detail purging', () => {
-      it('should retain details only for locations marked as true', () => {
+      it('should filter gulfWar details but preserve herbicide/otherExposures details', () => {
+        // Sections WITHOUT otherKey (gulfWar1990, gulfWar2001): Filter details based on checkbox state
+        // Sections WITH otherKey (herbicide, otherExposures): Preserve ALL details (no filtering)
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            // Gulf War 1990 exposure
+            // Gulf War 1990 exposure - NO otherKey, filter details
             gulfWar1990: {
               bahrain: true,
               iraq: false,
@@ -183,7 +186,7 @@ describe('purgeToxicExposureData', () => {
               bahrain: { startDate: '1990-01-01', endDate: '1990-12-31' },
               iraq: { startDate: '1991-01-01', endDate: '1991-12-31' },
             },
-            // Gulf War 2001 exposure
+            // Gulf War 2001 exposure - NO otherKey, filter details
             gulfWar2001: {
               afghanistan: true,
               yemen: false,
@@ -192,7 +195,7 @@ describe('purgeToxicExposureData', () => {
               afghanistan: { startDate: '2001-10-01', endDate: '2002-10-01' },
               yemen: { startDate: '2002-01-01', endDate: '2003-01-01' },
             },
-            // Herbicide exposure
+            // Herbicide exposure - HAS otherKey, preserve ALL details
             herbicide: {
               vietnam: true,
               cambodia: false,
@@ -201,7 +204,7 @@ describe('purgeToxicExposureData', () => {
               vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
               cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' },
             },
-            // Other exposures
+            // Other exposures - HAS otherKey, preserve ALL details
             otherExposures: {
               asbestos: true,
               radiation: false,
@@ -215,7 +218,7 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        // Gulf War 1990 details
+        // Gulf War 1990 details - FILTERED (no otherKey)
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
         ).to.have.property('bahrain');
@@ -223,7 +226,7 @@ describe('purgeToxicExposureData', () => {
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
         ).to.not.have.property('iraq');
 
-        // Gulf War 2001 details
+        // Gulf War 2001 details - FILTERED (no otherKey)
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar2001.detailsKey],
         ).to.have.property('afghanistan');
@@ -231,21 +234,33 @@ describe('purgeToxicExposureData', () => {
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar2001.detailsKey],
         ).to.not.have.property('yemen');
 
-        // Herbicide details
+        // Herbicide details - PRESERVED ENTIRELY (has otherKey, skip filtering)
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.detailsKey],
         ).to.have.property('vietnam');
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.detailsKey],
-        ).to.not.have.property('cambodia');
+        ).to.have.property('cambodia');
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.detailsKey],
+        ).to.deep.equal({
+          vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
+          cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' },
+        });
 
-        // Other exposures details
+        // Other exposures details - PRESERVED ENTIRELY (has otherKey, skip filtering)
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey],
         ).to.have.property('asbestos');
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey],
-        ).to.not.have.property('radiation');
+        ).to.have.property('radiation');
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey],
+        ).to.deep.equal({
+          asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
+          radiation: { startDate: '1990-01-01', endDate: '1991-01-01' },
+        });
       });
 
       it('should preserve false location selections while removing their details', () => {
@@ -345,7 +360,7 @@ describe('purgeToxicExposureData', () => {
         expect(result.toxicExposure).to.have.property('specifyOtherExposures');
       });
 
-      it('should remove details object when all details are filtered out (hasNoRetainedDetails check)', () => {
+      it('should keep empty details object when all details are filtered out', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -364,17 +379,23 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        // The details object should be removed entirely when empty after filtering
-        expect(result.toxicExposure).to.not.have.property(
+        // Empty object kept - consistent with preserving null/undefined from form state
+        // Backend handles empty objects same as null/undefined
+        expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey,
         );
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
+        ).to.deep.equal({});
         expect(result.toxicExposure.gulfWar1990).to.deep.equal({
           iraq: true,
           bahrain: false,
         });
       });
 
-      it('should remove otherHerbicideLocations when herbicide.none is selected (hasNoneSelected check)', () => {
+      it('should preserve herbicide section when herbicide.none is selected', () => {
+        // herbicide has otherKey - only removed at conditions level, not when herbicide.none === true
+        // User may have filled "other" text area without checking predefined boxes
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -384,27 +405,37 @@ describe('purgeToxicExposureData', () => {
               vietnam: true,
               cambodia: true,
             },
-            otherHerbicideLocations: { description: 'Should be removed' },
+            otherHerbicideLocations: { description: 'Should be PRESERVED' },
           },
         };
 
         const result = purgeToxicExposureData(formData);
 
-        expect(result.toxicExposure).to.not.have.property(
-          EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
-        );
+        // herbicide has otherKey - PRESERVED even when herbicide.none === true
+        // These are only removed when conditions.none === true or no conditions
+        expect(result.toxicExposure).to.have.property('herbicide');
         expect(result.toxicExposure.herbicide).to.deep.equal({
           none: true,
           vietnam: true,
           cambodia: true,
         });
+        expect(result.toxicExposure).to.have.property(
+          EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
+        );
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.otherKey],
+        ).to.deep.equal({ description: 'Should be PRESERVED' });
       });
 
-      it('should remove entire section when all values are false (shouldRemoveSection check)', () => {
+      it('should filter gulfWar details but preserve herbicide details when all checkboxes false', () => {
+        // Different behavior based on whether section has otherKey:
+        // - gulfWar1990 (no otherKey): Filter details based on checkbox state
+        // - herbicide (has otherKey): Preserve all data unless none === true
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
+            // gulfWar1990: No otherKey - unchecking IS opting out
             gulfWar1990: {
               afghanistan: false,
               bahrain: false,
@@ -413,6 +444,7 @@ describe('purgeToxicExposureData', () => {
               afghanistan: { startDate: '2001-10-01' },
               bahrain: { startDate: '1990-08-15' },
             },
+            // herbicide: Has otherKey - only none: true is opt-out
             herbicide: {
               vietnam: false,
               cambodia: false,
@@ -426,18 +458,43 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        // Both sections should be removed when all values are false
-        expect(result.toxicExposure).to.not.have.property('gulfWar1990');
-        expect(result.toxicExposure).to.not.have.property(
+        // gulfWar1990: Section preserved, details filtered to empty (checkbox-only section)
+        expect(result.toxicExposure).to.have.property('gulfWar1990');
+        expect(result.toxicExposure.gulfWar1990).to.deep.equal({
+          afghanistan: false,
+          bahrain: false,
+        });
+        // Empty object kept - backend handles empty objects
+        expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey,
         );
-        expect(result.toxicExposure).to.not.have.property('herbicide');
-        expect(result.toxicExposure).to.not.have.property(
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
+        ).to.deep.equal({});
+
+        // herbicide: Section AND details PRESERVED (has otherKey, none !== true)
+        expect(result.toxicExposure).to.have.property('herbicide');
+        expect(result.toxicExposure.herbicide).to.deep.equal({
+          vietnam: false,
+          cambodia: false,
+        });
+        // herbicideDetails PRESERVED because herbicide has otherKey
+        expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.detailsKey,
         );
-        expect(result.toxicExposure).to.not.have.property(
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.detailsKey],
+        ).to.deep.equal({
+          vietnam: { startDate: '1968-01-01' },
+        });
+
+        // otherHerbicideLocations PRESERVED (user didn't select 'none')
+        expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
         );
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.otherKey],
+        ).to.deep.equal({ description: 'Other location' });
       });
 
       it('should preserve invalid and falsy values but filter details for invalid parent', () => {
@@ -457,10 +514,13 @@ describe('purgeToxicExposureData', () => {
         expect(result.toxicExposure.conditions).to.deep.equal({ asthma: true });
         // Invalid parent type KEPT
         expect(result.toxicExposure.gulfWar1990).to.equal('not-an-object');
-        // Details removed (no matching keys in invalid parent)
-        expect(result.toxicExposure).to.not.have.property(
+        // Details filtered to empty (no matching keys in invalid parent), empty object kept
+        expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey,
         );
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey],
+        ).to.deep.equal({});
         expect(result.toxicExposure.herbicide).to.deep.equal({ vietnam: true });
 
         // Null and undefined values - KEPT (no orphan cleanup)
@@ -637,7 +697,7 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('acceptance criteria - UX test cases', () => {
-      it('should handle complete opt-out scenario when all conditions and exposures are false (hasNoSelections check)', () => {
+      it('should handle complete opt-out when all conditions and exposures are false', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -696,8 +756,10 @@ describe('purgeToxicExposureData', () => {
         expect(result).to.not.have.property('toxicExposure');
       });
 
-      it('should remove other fields when all parent exposures are false (hasNoSelections and shouldRemoveOtherField check)', () => {
-        // Test otherExposures field removal
+      it('should PRESERVE other fields AND parent sections when all checkboxes are false (user did not select none)', () => {
+        // Test: User has all checkboxes false but did NOT select 'none: true'
+        // Since user didn't explicitly opt out, we keep all their data
+        // This aligns with form flow where user can fill text area without checking boxes
         const exposuresData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -709,19 +771,35 @@ describe('purgeToxicExposureData', () => {
               other: false,
             },
             specifyOtherExposures: {
-              description: 'This should be removed - all exposures are false',
+              description:
+                'Lead exposure from paint - user filled text area only',
               startDate: '2012-03-15',
               endDate: '2013-09-30',
             },
           },
         };
         const result1 = purgeToxicExposureData(exposuresData);
-        expect(result1.toxicExposure).to.not.have.property(
+        // specifyOtherExposures should be PRESERVED (user didn't select none)
+        expect(result1.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.otherExposures.otherKey,
         );
-        expect(result1.toxicExposure).to.not.have.property('otherExposures');
+        expect(
+          result1.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.otherKey],
+        ).to.deep.equal({
+          description: 'Lead exposure from paint - user filled text area only',
+          startDate: '2012-03-15',
+          endDate: '2013-09-30',
+        });
+        // Parent section PRESERVED (none !== true, no explicit opt-out)
+        expect(result1.toxicExposure).to.have.property('otherExposures');
+        expect(result1.toxicExposure.otherExposures).to.deep.equal({
+          asbestos: false,
+          chemical: false,
+          radiation: false,
+          other: false,
+        });
 
-        // Test herbicide field removal
+        // Test: User filled otherHerbicideLocations text area but didn't check any checkboxes
         const herbicideData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -733,17 +811,32 @@ describe('purgeToxicExposureData', () => {
               none: false,
             },
             otherHerbicideLocations: {
-              description: 'This should be removed - all herbicides are false',
+              description: 'Thailand base camps - user filled text area only',
               startDate: '1973-06-01',
               endDate: '1974-12-31',
             },
           },
         };
         const result2 = purgeToxicExposureData(herbicideData);
-        expect(result2.toxicExposure).to.not.have.property(
+        // otherHerbicideLocations should be PRESERVED (user didn't select none)
+        expect(result2.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
         );
-        expect(result2.toxicExposure).to.not.have.property('herbicide');
+        expect(
+          result2.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.otherKey],
+        ).to.deep.equal({
+          description: 'Thailand base camps - user filled text area only',
+          startDate: '1973-06-01',
+          endDate: '1974-12-31',
+        });
+        // Parent section PRESERVED (none !== true, no explicit opt-out)
+        expect(result2.toxicExposure).to.have.property('herbicide');
+        expect(result2.toxicExposure.herbicide).to.deep.equal({
+          cambodia: false,
+          vietnam: false,
+          thailand: false,
+          none: false,
+        });
       });
     });
 
@@ -776,7 +869,9 @@ describe('purgeToxicExposureData', () => {
         expect(result.toxicExposure.conditions).to.deep.equal({ asthma: true });
       });
 
-      it('should filter details based on parent selections, preserve orphaned details', () => {
+      it('should filter gulfWar details while preserving otherExposures details', () => {
+        // gulfWar1990 has no otherKey - filter details based on checkbox state
+        // otherExposures has otherKey - ALL details preserved
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -792,21 +887,23 @@ describe('purgeToxicExposureData', () => {
             otherExposures: { asbestos: true },
             otherExposuresDetails: {
               asbestos: { startDate: '1980-01-01' },
-              radiation: { startDate: '1990-01-01' }, // No parent selection - filtered
+              radiation: { startDate: '1990-01-01' }, // PRESERVED - otherExposures has otherKey
             },
           },
         };
 
         const result = purgeToxicExposureData(formData);
 
-        // Details filtered based on parent selections
+        // gulfWar1990Details filtered based on parent selections (no otherKey)
         expect(result.toxicExposure.gulfWar1990Details).to.deep.equal({
           iraq: { startDate: '1991-01-01' },
         });
         // Orphaned herbicideDetails KEPT - no orphan cleanup
         expect(result.toxicExposure).to.have.property('herbicideDetails');
+        // otherExposuresDetails ALL PRESERVED (otherExposures has otherKey)
         expect(result.toxicExposure.otherExposuresDetails).to.deep.equal({
           asbestos: { startDate: '1980-01-01' },
+          radiation: { startDate: '1990-01-01' },
         });
       });
 
@@ -840,46 +937,65 @@ describe('purgeToxicExposureData', () => {
         expect(result.toxicExposure).to.have.property('specifyOtherExposures');
       });
 
-      it('should handle exposure sections with none: true - removes otherKey when none selected', () => {
+      it('should remove gulfWar sections when none: true but preserve herbicide/otherExposures', () => {
+        // Sections WITHOUT otherKey (gulfWar1990, gulfWar2001): none: true triggers removal
+        // Sections WITH otherKey (herbicide, otherExposures): PRESERVED - only removed at conditions level
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            gulfWar1990: { none: true, iraq: true }, // Has true selection, kept
-            gulfWar2001: { none: true }, // Only none: true, kept (has a true value)
-            herbicide: { none: true, vietnam: true }, // Has true selection, kept
-            otherExposures: { none: true, asbestos: true }, // Has true selection, kept
-            otherHerbicideLocations: { description: 'Test' }, // Removed when none: true
-            specifyOtherExposures: { description: 'Test' }, // Removed when none: true
+            gulfWar1990: { none: true, iraq: true }, // none: true = removed (no otherKey)
+            gulfWar2001: { none: true }, // none: true = removed (no otherKey)
+            herbicide: { none: true, vietnam: true }, // PRESERVED - has otherKey
+            otherExposures: { none: true, asbestos: true }, // PRESERVED - has otherKey
+            otherHerbicideLocations: { description: 'Test' }, // PRESERVED - herbicide has otherKey
+            specifyOtherExposures: { description: 'Test' }, // PRESERVED - otherExposures has otherKey
           },
         };
 
         const result = purgeToxicExposureData(formData);
 
-        // All sections KEPT (they have true values including none)
-        expect(result.toxicExposure).to.have.property('gulfWar1990');
-        expect(result.toxicExposure).to.have.property('gulfWar2001');
-        expect(result.toxicExposure).to.have.property('herbicide');
-        expect(result.toxicExposure).to.have.property('otherExposures');
+        // Sections WITHOUT otherKey REMOVED when none: true
+        expect(result.toxicExposure).to.not.have.property('gulfWar1990');
+        expect(result.toxicExposure).to.not.have.property('gulfWar2001');
 
-        // OtherKey fields removed when none is selected in parent
-        expect(result.toxicExposure).to.not.have.property(
+        // Sections WITH otherKey PRESERVED (only removed at conditions level)
+        expect(result.toxicExposure).to.have.property('herbicide');
+        expect(result.toxicExposure.herbicide).to.deep.equal({
+          none: true,
+          vietnam: true,
+        });
+        expect(result.toxicExposure).to.have.property('otherExposures');
+        expect(result.toxicExposure.otherExposures).to.deep.equal({
+          none: true,
+          asbestos: true,
+        });
+
+        // OtherKey fields PRESERVED (parent sections have otherKey)
+        expect(result.toxicExposure).to.have.property(
           'otherHerbicideLocations',
         );
-        expect(result.toxicExposure).to.not.have.property(
-          'specifyOtherExposures',
-        );
+        expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
+          description: 'Test',
+        });
+        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
+        expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
+          description: 'Test',
+        });
+
+        // conditions remain
+        expect(result.toxicExposure.conditions).to.deep.equal({ asthma: true });
       });
 
-      it('should follow removal logic correctly - only explicit opt-outs removed', () => {
-        // Test: 1. Null parent KEPT, 2. Explicit opt-out (all false) removed, 3. Detail filtering
+      it('should follow removal logic correctly - only none: true triggers section removal', () => {
+        // Test: Only none: true triggers section removal, all false values are preserved
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true, // Flag enabled
           toxicExposure: {
             conditions: { asthma: true, cancer: false }, // Has valid conditions
             gulfWar1990: null, // Null parent - KEPT (no orphan cleanup)
             gulfWar2001: {
-              // All false = explicit opt-out, removed
+              // All false but no none: true - KEPT (not an explicit opt-out)
               afghanistan: false,
               yemen: false,
             },
@@ -909,14 +1025,23 @@ describe('purgeToxicExposureData', () => {
         expect(result.toxicExposure).to.have.property('gulfWar1990');
         expect(result.toxicExposure.gulfWar1990).to.be.null;
 
-        expect(result.toxicExposure).to.not.have.property('gulfWar2001');
+        // gulfWar2001 is KEPT - all false is not an explicit opt-out (none !== true)
+        expect(result.toxicExposure).to.have.property('gulfWar2001');
+        expect(result.toxicExposure.gulfWar2001).to.deep.equal({
+          afghanistan: false,
+          yemen: false,
+        });
+
         expect(result.toxicExposure.herbicide).to.deep.equal({
           vietnam: true,
           cambodia: false,
         }); // False values kept when mixed with true
 
+        // herbicide has otherKey - ALL details PRESERVED (no filtering)
         expect(result.toxicExposure.herbicideDetails).to.deep.equal({
           vietnam: { startDate: '1968-01-01' },
+          cambodia: { startDate: '1969-01-01' },
+          laos: { startDate: '1970-01-01' },
         });
 
         expect(result.toxicExposure).to.have.property(
@@ -949,7 +1074,7 @@ describe('purgeToxicExposureData', () => {
         );
       });
 
-      it('should remove entire toxicExposure when no conditions are selected (hasSelectedConditions check)', () => {
+      it('should remove entire toxicExposure when no conditions are selected', () => {
         // Empty conditions
         const emptyConditions = {
           disability526ToxicExposureOptOutDataPurge: true,
@@ -999,7 +1124,7 @@ describe('purgeToxicExposureData', () => {
         expect(originalFormData).to.deep.equal(formDataCopy);
       });
 
-      it('should remove entire toxicExposure when no meaningful data remains (hasNoMeaningfulData check)', () => {
+      it('should remove entire toxicExposure when no meaningful data remains', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -1020,7 +1145,7 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('integration tests', () => {
-      it('should handle complex form data with mixed true/false selections and preserve valid data (shouldFilterDetails and hasValidSelections check)', () => {
+      it('should handle complex form data with mixed selections and preserve valid data', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -1082,20 +1207,24 @@ describe('purgeToxicExposureData', () => {
           cambodia: false,
           none: false,
         });
+        // herbicide has otherKey - ALL details PRESERVED (no filtering)
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.detailsKey],
         ).to.deep.equal({
           vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
+          cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' },
         });
 
         expect(result.toxicExposure.otherExposures).to.deep.equal({
           asbestos: true,
           radiation: false,
         });
+        // otherExposures has otherKey - ALL details PRESERVED (no filtering)
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey],
         ).to.deep.equal({
           asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
+          radiation: { startDate: '1990-01-01', endDate: '1991-01-01' },
         });
 
         expect(result.toxicExposure).to.have.property(
@@ -1114,6 +1243,98 @@ describe('purgeToxicExposureData', () => {
         ).to.equal('   ');
       });
     });
+  });
+});
+
+describe('purgeToxicExposureData - orphaned otherKey cleanup', () => {
+  const orphanedCleanupTestCases = [
+    {
+      name: 'herbicide',
+      exposureType: 'herbicide',
+      otherKey: 'otherHerbicideLocations',
+      dateFields: { startDate: '1973-06-01', endDate: '1974-12-31' },
+    },
+    {
+      name: 'otherExposures',
+      exposureType: 'otherExposures',
+      otherKey: 'specifyOtherExposures',
+      dateFields: { startDate: '2012-03-15', endDate: '2013-09-30' },
+    },
+  ];
+
+  orphanedCleanupTestCases.forEach(
+    ({ name, exposureType, otherKey, dateFields }) => {
+      describe(`${name} orphaned cleanup`, () => {
+        it(`should REMOVE ${otherKey} when ${exposureType}.none === true AND no description`, () => {
+          const formData = {
+            disability526ToxicExposureOptOutDataPurge: true,
+            toxicExposure: {
+              conditions: { asthma: true },
+              [exposureType]: { none: true },
+              [otherKey]: dateFields,
+            },
+          };
+
+          const result = purgeToxicExposureData(formData);
+
+          expect(result.toxicExposure).to.have.property(exposureType);
+          expect(result.toxicExposure).to.not.have.property(otherKey);
+        });
+
+        it(`should PRESERVE ${otherKey} when ${exposureType}.none === true AND has description`, () => {
+          const otherKeyData = {
+            ...dateFields,
+            description: 'Valid description',
+          };
+          const formData = {
+            disability526ToxicExposureOptOutDataPurge: true,
+            toxicExposure: {
+              conditions: { asthma: true },
+              [exposureType]: { none: true },
+              [otherKey]: otherKeyData,
+            },
+          };
+
+          const result = purgeToxicExposureData(formData);
+
+          expect(result.toxicExposure).to.have.property(otherKey);
+          expect(result.toxicExposure[otherKey]).to.deep.equal(otherKeyData);
+        });
+
+        it(`should PRESERVE ${otherKey} when none !== true even without description`, () => {
+          const formData = {
+            disability526ToxicExposureOptOutDataPurge: true,
+            toxicExposure: {
+              conditions: { asthma: true },
+              [exposureType]: { vietnam: false },
+              [otherKey]: dateFields,
+            },
+          };
+
+          const result = purgeToxicExposureData(formData);
+
+          expect(result.toxicExposure).to.have.property(otherKey);
+          expect(result.toxicExposure[otherKey]).to.deep.equal(dateFields);
+        });
+      });
+    },
+  );
+
+  it('should handle empty description as no description', () => {
+    const formData = {
+      disability526ToxicExposureOptOutDataPurge: true,
+      toxicExposure: {
+        conditions: { asthma: true },
+        herbicide: { none: true },
+        otherHerbicideLocations: { description: '', startDate: '1973-06-01' },
+      },
+    };
+
+    const result = purgeToxicExposureData(formData);
+
+    expect(result.toxicExposure).to.not.have.property(
+      'otherHerbicideLocations',
+    );
   });
 });
 
@@ -1144,13 +1365,14 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
   it('should preserve unknown/future fields in exposure selections and their details (forward compatibility)', () => {
     // This test ensures that when new exposure types are added to the constants
     // (e.g., new values in HERBICIDE_LOCATIONS or ADDITIONAL_EXPOSURES),
-    // the purge logic preserves them and their details based on selection status,
-    // just like it handles known fields.
+    // the purge logic preserves them and their details.
+    // NOTE: herbicide and otherExposures have otherKey, so ALL details are preserved
     const formData = {
       disability526ToxicExposureOptOutDataPurge: true,
       toxicExposure: {
         conditions: { asthma: true },
         // Herbicide with unknown future fields not in current HERBICIDE_LOCATIONS
+        // herbicide has otherKey - ALL details preserved
         herbicide: {
           vietnam: true,
           cambodia: false,
@@ -1159,9 +1381,9 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
         },
         herbicideDetails: {
           vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
-          cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' }, // Should be removed (false)
-          futureLocation1: { startDate: '1975-01-01', endDate: '1976-01-01' }, // Should be kept (true)
-          futureLocation2: { startDate: '1977-01-01', endDate: '1978-01-01' }, // Should be removed (false)
+          cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' }, // PRESERVED (has otherKey)
+          futureLocation1: { startDate: '1975-01-01', endDate: '1976-01-01' }, // PRESERVED
+          futureLocation2: { startDate: '1977-01-01', endDate: '1978-01-01' }, // PRESERVED (has otherKey)
         },
         otherHerbicideLocations: {
           description: 'Other location description',
@@ -1169,6 +1391,7 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
           endDate: '1974-12-31',
         },
         // Other exposures with unknown future fields not in current ADDITIONAL_EXPOSURES
+        // otherExposures has otherKey - ALL details preserved
         otherExposures: {
           asbestos: true,
           radiation: false,
@@ -1177,9 +1400,9 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
         },
         otherExposuresDetails: {
           asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
-          radiation: { startDate: '1990-01-01', endDate: '1991-01-01' }, // Should be removed (false)
-          futureExposure1: { startDate: '2000-01-01', endDate: '2001-01-01' }, // Should be kept (true)
-          futureExposure2: { startDate: '2002-01-01', endDate: '2003-01-01' }, // Should be removed (false)
+          radiation: { startDate: '1990-01-01', endDate: '1991-01-01' }, // PRESERVED (has otherKey)
+          futureExposure1: { startDate: '2000-01-01', endDate: '2001-01-01' }, // PRESERVED
+          futureExposure2: { startDate: '2002-01-01', endDate: '2003-01-01' }, // PRESERVED (has otherKey)
         },
         specifyOtherExposures: {
           description: 'Future exposure description',
@@ -1199,10 +1422,12 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
       futureLocation2: false,
     });
 
-    // Herbicide details should only keep details for true selections (including unknown fields)
+    // Herbicide details - ALL PRESERVED (herbicide has otherKey)
     expect(result.toxicExposure.herbicideDetails).to.deep.equal({
       vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
+      cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' },
       futureLocation1: { startDate: '1975-01-01', endDate: '1976-01-01' },
+      futureLocation2: { startDate: '1977-01-01', endDate: '1978-01-01' },
     });
 
     // otherHerbicideLocations should be preserved when valid
@@ -1220,10 +1445,12 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
       futureExposure2: false,
     });
 
-    // Other exposure details should only keep details for true selections (including unknown fields)
+    // Other exposure details - ALL PRESERVED (otherExposures has otherKey)
     expect(result.toxicExposure.otherExposuresDetails).to.deep.equal({
       asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
+      radiation: { startDate: '1990-01-01', endDate: '1991-01-01' },
       futureExposure1: { startDate: '2000-01-01', endDate: '2001-01-01' },
+      futureExposure2: { startDate: '2002-01-01', endDate: '2003-01-01' },
     });
 
     // specifyOtherExposures should be preserved when valid
@@ -1411,13 +1638,12 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
     expect(result.toxicExposure.herbicide.laos).to.be.true;
     expect(result.toxicExposure.herbicide.thailand).to.be.true;
 
+    // herbicide has otherKey - ALL details PRESERVED (no filtering)
     expect(result.toxicExposure).to.have.property('herbicideDetails');
     expect(result.toxicExposure.herbicideDetails).to.have.property('vietnam');
     expect(result.toxicExposure.herbicideDetails).to.have.property('laos');
     expect(result.toxicExposure.herbicideDetails).to.have.property('thailand');
-    expect(result.toxicExposure.herbicideDetails).to.not.have.property(
-      'cambodia',
-    );
+    expect(result.toxicExposure.herbicideDetails).to.have.property('cambodia');
 
     expect(result.toxicExposure).to.have.property('otherExposures');
     expect(result.toxicExposure.otherExposures.asbestos).to.be.true;
@@ -1427,9 +1653,13 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
     expect(result.toxicExposure.otherExposures.shipyard).to.be.true;
     expect(result.toxicExposure.otherExposures.other).to.be.true;
 
+    // otherExposures has otherKey - ALL details PRESERVED (no filtering)
     expect(result.toxicExposure).to.have.property('otherExposuresDetails');
     expect(result.toxicExposure.otherExposuresDetails).to.have.property(
       'asbestos',
+    );
+    expect(result.toxicExposure.otherExposuresDetails).to.have.property(
+      'chemical',
     );
     expect(result.toxicExposure.otherExposuresDetails).to.have.property(
       'depleted',
@@ -1442,9 +1672,6 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
     );
     expect(result.toxicExposure.otherExposuresDetails).to.have.property(
       'other',
-    );
-    expect(result.toxicExposure.otherExposuresDetails).to.not.have.property(
-      'chemical',
     );
 
     expect(result.toxicExposure).to.have.property(
