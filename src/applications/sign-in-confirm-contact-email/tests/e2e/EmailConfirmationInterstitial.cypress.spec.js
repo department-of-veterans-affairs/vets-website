@@ -1,4 +1,6 @@
 describe('Email Confirmation Interstitial', () => {
+  const MOCK_CONFIRMATION_DATE = '2023-01-01T12:00:00.000Z';
+
   const mockUser = (
     emailData = {
       id: 123,
@@ -104,7 +106,7 @@ describe('Email Confirmation Interstitial', () => {
           type: 'email_addresses',
           attributes: {
             emailAddress: 'test@example.com',
-            confirmationDate: new Date().toISOString(),
+            confirmationDate: MOCK_CONFIRMATION_DATE,
           },
         },
       },
