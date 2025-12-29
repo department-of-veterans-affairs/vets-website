@@ -28,7 +28,12 @@ export const formatName = ({ first, middle, last, suffix }) => {
  */
 export const generatePdfScaffold = (user, title, subject, preface) => {
   const name = formatName(user.userFullName);
-  const dob = formatBirthDateLong(user.dob);
+  let dob = '';
+  try {
+    dob = formatBirthDateLong(user.dob);
+  } catch (error) {
+    dob = '';
+  }
   const scaffold = {
     headerLeft: name,
     headerRight: `Date of birth: ${dob}`,

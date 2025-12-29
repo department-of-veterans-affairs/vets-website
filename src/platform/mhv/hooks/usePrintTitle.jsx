@@ -18,7 +18,12 @@ const usePrintTitle = (
 
       let pageTitle = '';
       if (dob) {
-        const formattedDob = formatBirthDateShort(dob);
+        let formattedDob = '';
+        try {
+          formattedDob = formatBirthDateShort(dob);
+        } catch (error) {
+          formattedDob = '';
+        }
         // eslint-disable-next-line no-irregular-whitespace
         pageTitle = `${name}${name ? '\u2003' : ''}​DOB:​${formattedDob}`;
       }
