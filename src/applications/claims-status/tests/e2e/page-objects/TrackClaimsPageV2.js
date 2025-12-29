@@ -982,10 +982,12 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyUploadType2ErrorAlert() {
+  verifyUploadType2ErrorAlert(isStatusPage = false) {
+    const headingElement = isStatusPage ? 'h4' : 'h3';
+
     cy.get('va-alert[status="error"]').should('be.visible');
     cy.get('va-alert[status="error"]')
-      .find('.usa-alert-heading')
+      .find(headingElement)
       .should('contain', 'We need you to submit files by mail or in person');
   }
 
