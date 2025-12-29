@@ -104,7 +104,7 @@ describe('When feature toggle cst_claim_phases disabled', () => {
       trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
       trackClaimsPage.verifyInProgressClaim(false);
       trackClaimsPage.verifyPrimaryAlert();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 
@@ -243,7 +243,7 @@ describe('When feature toggle cst_claim_phases enabled', () => {
       trackClaimsPage.loadPage(claimsList, claimDetailsOpen, false, true);
       trackClaimsPage.verifyInProgressClaim(false);
       trackClaimsPage.verifyPrimaryAlert();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 

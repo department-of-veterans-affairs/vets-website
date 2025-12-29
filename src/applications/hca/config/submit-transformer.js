@@ -80,14 +80,8 @@ export const submitTransformer = (
   }
 
   // map insurance policies
-  if (form.data['view:isInsuranceV2Enabled']) {
-    const { providers } = dataToMap;
-    dataToMap = set(
-      'isCoveredByHealthInsurance',
-      !!providers?.length,
-      dataToMap,
-    );
-  }
+  const { providers } = dataToMap;
+  dataToMap = set('isCoveredByHealthInsurance', !!providers?.length, dataToMap);
 
   let gaClientId;
   if (!disableAnalytics) {

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import { submitComplexClaim } from '../../../redux/actions';
@@ -19,6 +20,10 @@ const AgreementPage = () => {
   const { isSubmitting } = useSelector(selectComplexClaimSubmissionState);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
   const [isAgreementError, setIsAgreementError] = useState(false);
+
+  const title = 'Beneficiary travel agreement';
+
+  useSetPageTitle(title);
 
   const onSubmit = async () => {
     setIsAgreementError(!isAgreementChecked);
@@ -44,7 +49,7 @@ const AgreementPage = () => {
 
   return (
     <>
-      <h1>Beneficiary travel agreement</h1>
+      <h1>{title}</h1>
       <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-display--inline">
         Penalty statement:
       </p>{' '}

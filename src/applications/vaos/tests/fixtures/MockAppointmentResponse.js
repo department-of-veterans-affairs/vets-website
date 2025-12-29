@@ -1162,11 +1162,6 @@ export default class MockAppointmentResponse {
     return this;
   }
 
-  setReasonForAppointment(value) {
-    this.attributes.reasonForAppointment = value;
-    return this;
-  }
-
   getRequestedPeriods() {
     if (!this.attributes.requestedPeriods)
       throw new Error('Attribute not defined');

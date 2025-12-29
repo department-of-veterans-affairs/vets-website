@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { useSelector } from 'react-redux';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { fireEvent, waitFor } from '@testing-library/react';
 
@@ -39,7 +40,6 @@ describe('Travel Pay – ReviewPage', () => {
         expenseType: 'Parking',
         tripType: 'OneWay',
         costRequested: 50.0,
-        documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
       },
     ],
     documents: [
@@ -48,6 +48,7 @@ describe('Travel Pay – ReviewPage', () => {
         filename: 'test.pdf',
         mimetype: 'application/pdf',
         createdon: '2025-10-01T18:14:37Z',
+        expenseId: 'expense2', // Doc is associated with expense
       },
     ],
   };
@@ -189,9 +190,21 @@ describe('Travel Pay – ReviewPage', () => {
 
     // SummaryBox description text about deductible
     expect(
-      getByText(
-        'Before we can pay you back for expenses, you must pay a deductible. The current deductible is $3 one-way or $6 round-trip for each appointment, up to $18 total each month.',
-      ),
+      getByText((content, element) => {
+        return (
+          element.tagName.toLowerCase() === 'p' &&
+          element.textContent.includes(
+            'Before we can pay you back for expenses, you must pay a deductible. The current deductible is',
+          ) &&
+          element.textContent.includes('$3') &&
+          element.textContent.includes('one-way or') &&
+          element.textContent.includes('$6') &&
+          element.textContent.includes('round-trip for each appointment') &&
+          element.textContent.includes('You’ll pay no more than') &&
+          element.textContent.includes('$18') &&
+          element.textContent.includes('total each month')
+        );
+      }),
     ).to.exist;
 
     // SummaryBox Va link
@@ -448,5 +461,48 @@ describe('Travel Pay – ReviewPage', () => {
     // No individual <li> should exist because totals are 0
     const expenseTotals = container.querySelectorAll('ul li');
     expect(expenseTotals.length).to.equal(0);
+  });
+
+  it('dispatches setExpenseBackDestination with "review" when add expense button is clicked', async () => {
+    // Component to verify Redux state
+    const BackDestinationDisplay = () => {
+      const expenseBackDestination = useSelector(
+        state => state.travelPay.complexClaim.expenseBackDestination,
+      );
+      return (
+        <div data-testid="expense-back-destination">
+          {expenseBackDestination || 'none'}
+        </div>
+      );
+    };
+
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
+        <BackDestinationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    const addButton = container.querySelector('#add-expense-button');
+    expect(addButton).to.exist;
+
+    fireEvent.click(addButton);
+
+    await waitFor(() => {
+      expect(getByTestId('expense-back-destination').textContent).to.equal(
+        'review',
+      );
+    });
   });
 });

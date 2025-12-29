@@ -7,6 +7,7 @@ export default {
   EDUCATION_BENEFITS: 'edu-benefits',
   EVSS_CLAIMS: 'evss-claims',
   LIGHTHOUSE: 'lighthouse',
+  DGI: 'dgi',
   FORM526: 'form526', // like EVSS_CLAIMS, but must also include BIRLS ID
   ORIGINAL_CLAIMS: 'original-claims',
   APPEALS_STATUS: 'appeals-status',

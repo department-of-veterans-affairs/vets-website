@@ -18,7 +18,6 @@ import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
-  CernerAlertContent,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -33,7 +32,6 @@ import DateRangeSelector, {
   getDateRangeList,
 } from '../components/shared/DateRangeSelector';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -159,10 +157,6 @@ const CareSummariesAndNotes = () => {
         <p>This list doesn’t include care summaries from before 2013.</p>
       )}
 
-      <AcceleratedCernerFacilityAlert
-        {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES}
-      />
-
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
@@ -196,26 +190,32 @@ const CareSummariesAndNotes = () => {
           </div>
         )}
         {!isLoadingAcceleratedData &&
-        !isLoading &&
-        careSummariesAndNotes?.length ? (
-          <RecordList
-            records={careSummariesAndNotes}
-            domainOptions={{
-              isAccelerating: isAcceleratingCareNotes,
-              timeFrame: getTimeFrame(dateRange),
-              displayTimeFrame: getDisplayTimeFrame(dateRange),
-            }}
-            type="care summaries and notes"
-            hideRecordsLabel
-          />
-        ) : (
-          <NoRecordsMessage
-            type={recordType.CARE_SUMMARIES_AND_NOTES}
-            timeFrame={
-              isAcceleratingCareNotes ? getDisplayTimeFrame(dateRange) : ''
-            }
-          />
-        )}
+          !isLoading &&
+          careSummariesAndNotes !== undefined && (
+            <>
+              {careSummariesAndNotes?.length ? (
+                <RecordList
+                  records={careSummariesAndNotes}
+                  domainOptions={{
+                    isAccelerating: isAcceleratingCareNotes,
+                    timeFrame: getTimeFrame(dateRange),
+                    displayTimeFrame: getDisplayTimeFrame(dateRange),
+                  }}
+                  type="care summaries and notes"
+                  hideRecordsLabel
+                />
+              ) : (
+                <NoRecordsMessage
+                  type={recordType.CARE_SUMMARIES_AND_NOTES}
+                  timeFrame={
+                    isAcceleratingCareNotes
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
+                />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

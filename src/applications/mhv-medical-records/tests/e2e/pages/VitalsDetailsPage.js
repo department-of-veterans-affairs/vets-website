@@ -2,6 +2,14 @@
 import BaseDetailsPage from './BaseDetailsPage';
 
 class VitalsDetailsPage extends BaseDetailsPage {
+  waitForPageLoad = () => {
+    // Wait for the vital details page to fully render
+    cy.get('[data-testid="vital-date"]', { timeout: 10000 }).should('exist');
+    cy.get('[data-testid="vital-result"]').should('exist');
+    cy.get('[data-testid="vital-location"]').should('exist');
+    cy.get('[data-testid="vital-provider-note"]').should('exist');
+  };
+
   verifyVitalReadingByIndex = (
     index = 0,
     date,
@@ -9,34 +17,28 @@ class VitalsDetailsPage extends BaseDetailsPage {
     location,
     notes,
   ) => {
+    // Wait for enough elements to be rendered for the index we're checking
+    cy.get('[data-testid="vital-date"]').should('have.length.gte', index + 1);
     // Verify date
     cy.get('[data-testid="vital-date"]')
       .eq(index)
-      .should('be.visible');
-    cy.get('[data-testid="vital-date"]')
-      .eq(index)
-      .contains(date);
+      .should('be.visible')
+      .and('contain', date);
     // Verify measurement
     cy.get('[data-testid="vital-result"]')
       .eq(index)
-      .should('be.visible');
-    cy.get('[data-testid="vital-result"]')
-      .eq(index)
-      .contains(measurement);
+      .should('be.visible')
+      .and('contain', measurement);
     // Verify location
     cy.get('[data-testid="vital-location"]')
       .eq(index)
-      .should('be.visible');
-    cy.get('[data-testid="vital-location"]')
-      .eq(index)
-      .contains(location);
+      .should('be.visible')
+      .and('contain', location);
     // Verify provider notes
     cy.get('[data-testid="vital-provider-note"]')
       .eq(index)
-      .should('be.visible');
-    cy.get('[data-testid="vital-provider-note"]')
-      .eq(index)
-      .contains(notes);
+      .should('be.visible')
+      .and('contain', notes);
   };
 
   verifyVitalsPageTitle = title => {

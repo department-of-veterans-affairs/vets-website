@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { waitForRenderThenFocus, waitTime } from 'platform/utilities/ui';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
@@ -89,7 +90,7 @@ export function CCDetails({ otherDetails, request, level = 2 }) {
   return (
     <Section heading={heading} level={level}>
       <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
-        Other details: {`${otherDetails || 'Not available'}`}
+        {`${otherDetails || 'Not available'}`}
       </span>
     </Section>
   );
@@ -101,7 +102,6 @@ CCDetails.propTypes = {
 };
 
 export function Details({
-  reason,
   otherDetails,
   request,
   level = 2,
@@ -115,12 +115,8 @@ export function Details({
     : 'Details you shared with your provider';
   return (
     <Section heading={heading} level={level}>
-      <span data-dd-privacy="mask">
-        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-      </span>
-      <br />
       <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
-        Other details: {`${otherDetails || 'Not available'}`}
+        {`${otherDetails || 'Not available'}`}
       </span>
     </Section>
   );
@@ -204,6 +200,17 @@ export default function DetailPageLayout({
     selectFeatureTravelPaySubmitMileageExpense(state),
   );
 
+  useEffect(() => {
+    // Focus on the heading after render -- added function to utilities/ui/focus.js to shorten this interval
+    // but still allows cypress tests to run properly
+    const wait = waitTime(50);
+    waitForRenderThenFocus(
+      '#vaos-appointment-details-page-heading',
+      document,
+      wait,
+    );
+  }, []);
+
   if (!appointment) return null;
 
   const isPastAppointment = selectIsPast(appointment);
@@ -214,7 +221,11 @@ export default function DetailPageLayout({
     <>
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
-        <h1 className="vaos__dynamic-font-size--h2">
+        <h1
+          id="vaos-appointment-details-page-heading"
+          className="vaos__dynamic-font-size--h2"
+          tabIndex="-1"
+        >
           <span data-dd-privacy="mask">{heading}</span>
         </h1>
         {featureTravelPayViewClaimDetails && (

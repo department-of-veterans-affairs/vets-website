@@ -6,6 +6,7 @@ import {
   usePrintTitle,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
 import {
@@ -17,7 +18,6 @@ import {
   refreshExtractTypes,
   loadStates,
   statsdFrontEndActions,
-  CernerAlertContent,
 } from '../util/constants';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
@@ -25,7 +25,6 @@ import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
@@ -125,7 +124,6 @@ const Vitals = () => {
         Vitals are basic health numbers your providers check at your
         appointments.
       </p>
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VITALS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -150,7 +148,7 @@ const Vitals = () => {
               }}
             />
           )}
-        {isLoadingAcceleratedData || isLoading ? (
+        {(isLoadingAcceleratedData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="vitals-page-spinner"
@@ -159,23 +157,26 @@ const Vitals = () => {
               data-testid="loading-indicator"
             />
           </div>
-        ) : (
-          <>
-            {cards?.length ? (
-              <RecordList
-                records={cards}
-                type={recordType.VITALS}
-                perPage={PER_PAGE}
-                hidePagination
-                domainOptions={{
-                  isAccelerating: isCerner,
-                }}
-              />
-            ) : (
-              <NoRecordsMessage type={recordType.VITALS} />
-            )}
-          </>
         )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          cards !== undefined && (
+            <>
+              {cards?.length ? (
+                <RecordList
+                  records={cards}
+                  type={recordType.VITALS}
+                  perPage={PER_PAGE}
+                  hidePagination
+                  domainOptions={{
+                    isAccelerating: isCerner,
+                  }}
+                />
+              ) : (
+                <NoRecordsMessage type={recordType.VITALS} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );
