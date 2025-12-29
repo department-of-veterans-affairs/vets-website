@@ -7,10 +7,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { scrollToFirstError } from 'platform/utilities/scroll';
 import {
-  VaDate,
   VaTextInput,
   VaButton,
   VaTextarea,
+  VaMemorableDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -97,6 +97,8 @@ const ExpensePage = () => {
     ? isUpdatingExpense || isDeletingDocument
     : isCreatingExpense;
   const filename = expense?.receipt?.filename;
+  const normalizeDateOnly = value =>
+    typeof value === 'string' ? value.split('T')[0] : value;
 
   // Effects
   // Effect 1: Hydrate form fields once when initialFormState is ready
@@ -105,7 +107,7 @@ const ExpensePage = () => {
       if (expenseId && expense && !hasLoadedExpenseRef.current) {
         const initialState = {
           ...expense,
-          purchaseDate: expense.dateIncurred || '',
+          purchaseDate: normalizeDateOnly(expense.dateIncurred) || '',
         };
         setFormState(initialState);
         initialFormStateRef.current = initialState;
@@ -208,8 +210,13 @@ const ExpensePage = () => {
 
   const handleFormChange = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
-    const value =
+    let value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
+    if (name === 'purchaseDate' && typeof value === 'string') {
+      const [dateOnly] = value.split('T');
+      value = dateOnly;
+    }
 
     setFormState(prev => {
       const newFormState = { ...prev, [name]: value };
@@ -557,33 +564,27 @@ const ExpensePage = () => {
           errors={extraFieldErrors}
         />
       )}
-      <VaDate
+      <VaMemorableDate
         label="Date on receipt"
         name="purchaseDate"
-        value={formState.purchaseDate || ''}
+        value={formState.purchaseDate}
+        monthSelect
+        removeDateHint
         required
         hint={dateHintText}
-        // Needed since we need to remove errors on change
+        external-validation
         onDateChange={e => {
           handleFormChange(e);
+        }}
+        onDateBlur={() => {
           validateReceiptDate(
-            e.detail.target?.value,
-            DATE_VALIDATION_TYPE.CHANGE,
+            formState.purchaseDate,
+            DATE_VALIDATION_TYPE.BLUR,
             setExtraFieldErrors,
           );
         }}
-        onDateBlur={e =>
-          validateReceiptDate(
-            e.detail.target?.value,
-            DATE_VALIDATION_TYPE.BLUR,
-            setExtraFieldErrors,
-          )
-        }
-        {...extraFieldErrors.purchaseDate && {
-          error: extraFieldErrors.purchaseDate,
-        }}
+        error={extraFieldErrors.purchaseDate}
       />
-
       <div className="currency-input-wrapper vads-u-margin-top--2">
         <span className="currency-symbol">$</span>
         <VaTextInput

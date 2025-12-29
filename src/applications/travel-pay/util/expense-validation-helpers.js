@@ -75,6 +75,7 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   // Always start by clearing any previous error
   let error = null;
 
+  // Parse date input into parts
   let { month, day, year } = parseDateInput(dateInput);
 
   // Convert to numbers safely
@@ -85,8 +86,13 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   const parts = [month, day, year];
   const isAllEmpty = parts.every(p => !p);
   const isComplete = parts.every(p => Number.isInteger(p));
+  const isPartial = parts.some(p => Number.isInteger(p)) && !isComplete;
 
-  if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
+  if (isPartial) {
+    // Only part of the date entered
+    error = 'Please enter a complete date';
+  } else if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
+    // No date entered on submit
     error = 'Enter the date of your receipt';
   } else if (isComplete) {
     const selectedDate = new Date(year, month - 1, day);
