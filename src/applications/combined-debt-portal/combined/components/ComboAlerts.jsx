@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { ALERT_TYPES } from '../utils/helpers';
+import {
+  ALERT_TYPES,
+  healthResourceCenterPhoneContent,
+  dmcPhoneContent,
+} from '../utils/helpers';
 import ZeroDebtsCopaysSection from './ZeroDebtsCopaysSection';
 
 const ComboAlert = ({ children }) => children;
@@ -15,34 +18,20 @@ ComboAlert.Error = () => {
       data-testid="balance-card-combo-alert-error"
     >
       <h2 slot="headline">
-        We can’t access your debt and copay records right now
+        We can’t access your overpayment and copay records right now
       </h2>
-      <p>
-        We’re sorry. Information about debts and copays you might have is
-        unavailable because something went wrong on our end. Please check back
-        soon.
-      </p>
-      <h3 className="vads-u-font-size--h4">What you can do</h3>
-      <p>
-        If you continue having trouble viewing information about your current
-        debts and bills, contact us online through{' '}
-        <a href="https://ask.va.gov">Ask VA</a>.
-      </p>
-      <p>
-        If you need immediate assistance with overpayment debt, call the Debt
-        Management Center at <va-telephone contact={CONTACTS.DMC} /> (
-        <va-telephone contact={CONTACTS[711]} tty />
-        ). For international callers, use{' '}
-        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re
-        here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-      </p>
-      <p>
-        If you need immediate assistance with copay bills, call the VA Health
-        Resource Center at{' '}
-        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-        <va-telephone contact={CONTACTS[711]} tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-      </p>
+      <p>We’re sorry. Something went wrong on our end. Check back soon</p>
+      <h3 className="vads-u-font-size--h4">What to do if you need help now</h3>
+      <ul>
+        <li>
+          <strong>For benefit overpayments</strong>, call the Debt Management
+          Center at {dmcPhoneContent()}
+        </li>
+        <li>
+          <strong>For medical copay bills</strong>, call the VA Health Resource
+          Center at {healthResourceCenterPhoneContent()}
+        </li>
+      </ul>
       <p className="vads-u-margin-bottom--0">
         <va-link active text="Contact us at Ask VA" url="https://ask.va.gov" />
       </p>
@@ -57,28 +46,24 @@ ComboAlert.Zero = () => {
       status="info"
       data-testid="balance-card-combo-alert-zero"
     >
-      <h2 slot="headline" className="vads-u-font-size--h3">
-        You don’t have any current VA debt or copay bills
+      <h2 slot="headline">
+        You don’t have any outstanding overpayments or copay bills
       </h2>
       <p>
-        Our records show you don’t have any current VA benefit debt and you
-        haven’t received a copay bill in the past 6 months.
+        Our records show you don’t have any outstanding overpayments related to
+        VA benefits and you haven’t received a copay bill in the past 6 months.
       </p>
       <h3 className="vads-u-font-size--h4">
-        What to do if you think you have a VA debt or copay bill:
+        What to do if you think you have an overpayment or copay bill:
       </h3>
       <ul>
         <li>
-          <strong>For benefit debts</strong>, call the Debt Management Center
-          (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
-          <va-telephone tty contact="711" />
-          ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+          <strong>For overpayments</strong>, call the Debt Management Center at{' '}
+          {dmcPhoneContent()}
         </li>
         <li>
           <strong>For medical copay bills</strong>, call the VA Health Resource
-          Center at <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />(
-          <va-telephone tty contact="711" />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          Center at {healthResourceCenterPhoneContent()}
         </li>
       </ul>
       <p className="vads-u-margin-bottom--0">

@@ -5,26 +5,27 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Modals from '../../combined/components/Modals';
-import Alert from '../../combined/components/MCPAlerts';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import StatementCharges from '../components/StatementCharges';
 import HTMLStatementList from '../components/HTMLStatementList';
 import StatementAddresses from '../components/StatementAddresses';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-
 import {
+  showVHAPaymentHistory,
   formatDate,
   verifyCurrentBalance,
   setPageFocus,
 } from '../../combined/utils/helpers';
+
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 
 const DetailCopayPage = ({ match }) => {
   const [alert, setAlert] = useState('status');
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
   const showCDPOneThingPerPage = useToggleValue(
     TOGGLE_NAMES.showCDPOneThingPerPage,
@@ -125,7 +126,9 @@ const DetailCopayPage = ({ match }) => {
         >
           {title}
         </h1>
-        <Alert type={alert} copay={selectedCopay} />
+        <div>
+          <CopayAlertContainer type={alert} copay={selectedCopay} />
+        </div>
         <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
             Copay details
@@ -159,7 +162,7 @@ const DetailCopayPage = ({ match }) => {
         </div>
         <div className="vads-u-margin-y--4">
           {/* Show VHA Lighthouse data | or Current CDW Statement */}
-          {showVHAPaymentHistory ? (
+          {shouldShowVHAPaymentHistory ? (
             <StatementTable
               charges={charges}
               formatCurrency={formatCurrency}

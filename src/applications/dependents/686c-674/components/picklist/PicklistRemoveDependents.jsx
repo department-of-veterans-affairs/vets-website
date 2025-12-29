@@ -14,7 +14,7 @@ import {
   PICKLIST_EDIT_REVIEW_FLAG,
 } from '../../config/constants';
 import { getPicklistRoutes } from './routes';
-import { scrollToError } from './helpers';
+import { RemoveParentAdditionalInfo, scrollToError } from './helpers';
 
 import { getFullName, calculateAge } from '../../../shared/utils';
 
@@ -142,18 +142,7 @@ const RemoveDependentsPicklist = ({
         })}
       </VaCheckboxGroup>
 
-      {hasParentDependent && (
-        <va-additional-info
-          class="vads-u-margin-bottom--4"
-          trigger="How can I remove a dependent parent?"
-        >
-          You can only use this form to remove a dependent parent if they died.
-          If your parent is still living and you want to remove them as a
-          dependent, call us at <va-telephone contact="8008271000" /> (
-          <va-telephone contact="711" tty />
-          ).
-        </va-additional-info>
-      )}
+      {hasParentDependent && <RemoveParentAdditionalInfo />}
 
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} useWebComponents submitToContinue />

@@ -192,7 +192,9 @@ export const handleFormSubmission = async ({
     const transformedData = submitTransformer(formData, files);
 
     const url = `${envUrl}${
-      isLoggedIn && isUserLOA3 ? URL.AUTH_INQUIRIES : URL.INQUIRIES
+      (isLoggedIn && isUserLOA3) || transformedData.requireSignIn
+        ? URL.AUTH_INQUIRIES
+        : URL.INQUIRIES
     }`;
 
     return await submitFormData({

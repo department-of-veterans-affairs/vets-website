@@ -1,67 +1,31 @@
-describe('Your claims cards', () => {
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
+import {
+  createBenefitsClaimListItem,
+  createEvidenceSubmission,
+} from '../../support/fixtures/benefitsClaims';
+
+describe('Claim cards', () => {
   const setupClaimCardsTest = (claims = []) => {
-    cy.intercept('GET', '/v0/benefits_claims', { data: claims });
+    mockClaimsEndpoint(claims);
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
-  const createClaim = ({
-    claimDate = '2025-01-01',
-    phaseChangeDate = '2025-01-02',
-    phaseType = 'CLAIM_RECEIVED',
-    claimTypeBase = 'compensation claim',
-    claimTypeCode,
-    decisionLetterSent,
-    developmentLetterSent,
-    displayTitle = 'Claim for compensation',
-    documentsNeeded,
-    status = 'CLAIM_RECEIVED',
-  }) => {
-    // Commented out properties are part of the claims response but not currently used by the claim cards
-    return {
-      id: '123456789', // For detail page link
-      // type,
-      attributes: {
-        // baseEndProductCode,
-        claimDate, // "Received on..." text
-        claimPhaseDates: {
-          phaseChangeDate, // "Moved to this step on..." text
-          phaseType, // For 8-phase status text
-        },
-        // claimType,
-        claimTypeBase,
-        claimTypeCode, // To determine 5 vs 8 phases
-        // closeDate,
-        decisionLetterSent, // "You have a decision letter ready" text
-        developmentLetterSent, // "We sent you a development letter" text
-        displayTitle, // "Claim for compensation" text
-        documentsNeeded, // "We requested more information from you" info alert
-        // endProductCode,
-        // evidenceWaiverSubmitted5103,
-        // lighthouseId,
-        status, // For status description
-      },
-    };
-  };
-
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [],
-      },
-    });
+    mockFeatureToggles();
+    mockAppealsEndpoint();
+    mockStemEndpoint();
+
     cy.login();
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
-    cy.intercept('GET', '/v0/appeals', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: {},
-    });
   });
 
   it('should display completed compensation claim', () => {
-    setupClaimCardsTest([createClaim({ status: 'COMPLETE' })]);
+    setupClaimCardsTest([createBenefitsClaimListItem({ status: 'COMPLETE' })]);
 
     cy.findByRole('heading', {
       name: 'Claim for compensation Received on January 1, 2025',
@@ -81,7 +45,7 @@ describe('Your claims cards', () => {
   });
 
   it('should display in progress compensation claim', () => {
-    setupClaimCardsTest([createClaim({})]);
+    setupClaimCardsTest([createBenefitsClaimListItem({})]);
 
     cy.findByRole('heading', {
       name: 'In Progress Claim for compensation Received on January 1, 2025',
@@ -96,7 +60,7 @@ describe('Your claims cards', () => {
     cy.axeCheck();
   });
 
-  context('Claim type titles', () => {
+  describe('Claim type titles', () => {
     const claimTypes = [
       {
         displayTitle: 'Claim for expenses related to death or burial',
@@ -130,7 +94,9 @@ describe('Your claims cards', () => {
 
     claimTypes.forEach(({ claimTypeBase, displayTitle }) => {
       it(`should display ${displayTitle}`, () => {
-        setupClaimCardsTest([createClaim({ claimTypeBase, displayTitle })]);
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({ claimTypeBase, displayTitle }),
+        ]);
 
         cy.findByRole('heading', {
           name: `In Progress ${displayTitle} Received on January 1, 2025`,
@@ -141,10 +107,10 @@ describe('Your claims cards', () => {
     });
   });
 
-  context('Communication notifications', () => {
+  describe('Communication notifications', () => {
     it('should display development letter notification', () => {
       setupClaimCardsTest([
-        createClaim({
+        createBenefitsClaimListItem({
           developmentLetterSent: true,
           decisionLetterSent: false,
           status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
@@ -159,7 +125,7 @@ describe('Your claims cards', () => {
 
     it('should display decision letter notification', () => {
       setupClaimCardsTest([
-        createClaim({
+        createBenefitsClaimListItem({
           developmentLetterSent: false,
           decisionLetterSent: true,
           status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
@@ -173,8 +139,8 @@ describe('Your claims cards', () => {
     });
   });
 
-  context('Phase display', () => {
-    context('5-phase system (default)', () => {
+  describe('Phase display', () => {
+    context('when using 5-phase system', () => {
       const phases = [
         {
           status: 'CLAIM_RECEIVED',
@@ -200,7 +166,7 @@ describe('Your claims cards', () => {
 
       phases.forEach(({ status, expected }) => {
         it(`should display ${expected}`, () => {
-          setupClaimCardsTest([createClaim({ status })]);
+          setupClaimCardsTest([createBenefitsClaimListItem({ status })]);
 
           cy.findByText(expected);
 
@@ -209,15 +175,7 @@ describe('Your claims cards', () => {
       });
     });
 
-    context('8-phase system (feature flag enabled)', () => {
-      beforeEach(() => {
-        cy.intercept('GET', '/v0/feature_toggles*', {
-          data: {
-            features: [{ name: 'cst_claim_phases', value: true }],
-          },
-        });
-      });
-
+    context('when using 8-phase system', () => {
       const phases = [
         {
           phaseType: 'CLAIM_RECEIVED',
@@ -263,7 +221,9 @@ describe('Your claims cards', () => {
 
       phases.forEach(({ phaseType, claimTypeCode, expected }) => {
         it(`should display ${expected}`, () => {
-          setupClaimCardsTest([createClaim({ phaseType, claimTypeCode })]);
+          setupClaimCardsTest([
+            createBenefitsClaimListItem({ phaseType, claimTypeCode }),
+          ]);
 
           cy.findByText(expected);
 
@@ -273,10 +233,10 @@ describe('Your claims cards', () => {
     });
   });
 
-  context('Document alerts', () => {
+  describe('Document alerts', () => {
     it('should display documents needed alert', () => {
       setupClaimCardsTest([
-        createClaim({
+        createBenefitsClaimListItem({
           documentsNeeded: true,
           decisionLetterSent: false,
           status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
@@ -287,6 +247,76 @@ describe('Your claims cards', () => {
       cy.findByText('We requested more information from you:');
 
       cy.axeCheck();
+    });
+  });
+
+  describe('Upload error alerts', () => {
+    context('when cst_show_document_upload_status toggle is enabled', () => {
+      beforeEach(() => {
+        mockFeatureToggles({ showDocumentUploadStatus: true });
+        mockAppealsEndpoint();
+        mockStemEndpoint();
+
+        cy.login();
+      });
+
+      it('should display upload error alert for failed submissions within last 30 days', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [
+              createEvidenceSubmission({
+                uploadStatus: 'FAILED',
+                acknowledgementDate: '2050-01-01T00:00:00.000Z',
+              }),
+            ],
+          }),
+        ]);
+
+        cy.get('va-alert').findByText(
+          'We need you to resubmit files for this claim.',
+        );
+
+        cy.axeCheck();
+      });
+
+      it('should not display upload error alert for failed submissions older than 30 days', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [
+              createEvidenceSubmission({
+                acknowledgementDate: '2020-01-01T12:00:00.000Z',
+                failedDate: '2019-12-01T12:00:00.000Z',
+              }),
+            ],
+          }),
+        ]);
+
+        cy.get('va-alert[status="error"]').should('not.exist');
+
+        cy.axeCheck();
+      });
+    });
+
+    context('when cst_show_document_upload_status toggle is disabled', () => {
+      beforeEach(() => {
+        mockFeatureToggles({ showDocumentUploadStatus: false });
+        mockAppealsEndpoint();
+        mockStemEndpoint();
+
+        cy.login();
+      });
+
+      it('should not display upload error alert even with failed submissions', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [createEvidenceSubmission()],
+          }),
+        ]);
+
+        cy.get('va-alert[status="error"]').should('not.exist');
+
+        cy.axeCheck();
+      });
     });
   });
 });

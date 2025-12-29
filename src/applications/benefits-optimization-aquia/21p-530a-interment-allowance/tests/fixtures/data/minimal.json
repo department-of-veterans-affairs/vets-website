@@ -6,10 +6,6 @@
   "veteranInformation": {
     "dateOfDeath": "2005-05-19",
     "dateOfBirth": "1920-05-04",
-    "placeOfBirth": {
-      "city": "Naboo",
-      "state": "New Mexico"
-    },
     "ssn": "800121234",
     "fullName": {
       "first": "Sheev",
@@ -37,20 +33,9 @@
       "name": "Imperial Memorial Services",
       "phoneNumber": "5055551977"
     },
-    "nameOfStateCemeteryOrTribalOrganization": "New Mexico State Veterans Cemetery",
-    "view:relationshipToVeteran": "stateCemetery"
+    "nameOfStateCemeteryOrTribalOrganization": "New Mexico State Veterans Cemetery"
   },
   "titleSchema": {},
-  "periods": [
-    {
-      "placeEnteredService": "Naboo",
-      "placeLeftService": "Coruscant",
-      "rankAtSeparation": "Supreme Chancellor",
-      "dateEnteredService": "1932-01-01",
-      "dateLeftService": "2005-05-19",
-      "serviceBranch": "ARMY"
-    }
-  ],
   "certification": {
     "signature": "Imperial Memorial Services",
     "titleOfStateOrTribalOfficial": "New Mexico State Veterans Cemetery"

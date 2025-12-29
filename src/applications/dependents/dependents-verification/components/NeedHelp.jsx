@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+/**
+ * Need help Component
+ * @typedef {object} NeedHelpProps
+ * @property {boolean} noWrapper - va-need-help wrapper is already provided by
+ * platform FormFooter, but we're using this outside the form system
+ *
+ * @param {NeedHelpProps} props - Component props
+ * @returns {React.Component} - Need help component
+ */
 const NeedHelp = ({ noWrapper = true }) => {
   const Wrap = noWrapper ? React.Fragment : 'va-need-help';
   return (

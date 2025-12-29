@@ -182,6 +182,7 @@ const recipientPage = {
     }),
     paymentRecipient: textUI({
       title: 'Who receives the payment?',
+      hint: 'For example: provider’s name or insurance company',
       'ui:required': true,
     }),
   },
@@ -201,6 +202,7 @@ const purposeDatePage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Expense purpose and date'),
     purpose: textUI({
       title: 'What’s the payment for?',
+      hint: 'For example: insurance premium or medical supplies',
     }),
     paymentDate: currentOrPastDateUI({
       title: 'What’s the date of the payment?',
