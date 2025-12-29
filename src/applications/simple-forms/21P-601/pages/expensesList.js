@@ -60,7 +60,7 @@ const summaryPage = {
               href="https://www.va.gov/find-forms/about-form-21p-601/"
               external
               rel="noopener noreferrer"
-              text="Get VA Form 21P-601 to download"
+              text="Download VA Form 21P-601 (PDF)"
             />
           </p>
         </va-alert>
