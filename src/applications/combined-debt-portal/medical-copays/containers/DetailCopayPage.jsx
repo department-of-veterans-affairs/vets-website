@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-
 import Modals from '../../combined/components/Modals';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
@@ -23,12 +21,8 @@ import CopayAlertContainer from '../components/CopayAlertContainer';
 
 const DetailCopayPage = ({ match }) => {
   const [alert, setAlert] = useState('status');
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
     useSelector(state => state),
-  );
-  const showCDPOneThingPerPage = useToggleValue(
-    TOGGLE_NAMES.showCDPOneThingPerPage,
   );
 
   // Get the selected copay statement ID from the URL
@@ -172,7 +166,6 @@ const DetailCopayPage = ({ match }) => {
             <StatementCharges
               copay={selectedCopay}
               showCurrentStatementHeader
-              showOneThingPerPage={showCDPOneThingPerPage}
             />
           )}
           <DownloadStatement
@@ -182,10 +175,7 @@ const DetailCopayPage = ({ match }) => {
             fullName={fullName}
           />
         </div>
-        <HTMLStatementList
-          selectedId={selectedId}
-          oneThingPerPageActive={showCDPOneThingPerPage}
-        />
+        <HTMLStatementList selectedId={selectedId} />
         <StatementAddresses
           data-testid="statement-addresses"
           copay={selectedCopay}
