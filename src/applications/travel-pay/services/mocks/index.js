@@ -196,6 +196,8 @@ const responses = {
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Taxi to appointment',
         costRequested: 45.0,
+        carrierType: 'Taxi',
+        reasonNotUsingPOV: 'Other',
         costSubmitted: {
           source: '45.0',
           parsedValue: 45.0,
@@ -209,6 +211,12 @@ const responses = {
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Flight to medical appointment',
         costRequested: 350.0,
+        vendorName: 'Airline Name',
+        tripType: 'RoundTrip',
+        departedFrom: 'City A',
+        arrivedTo: 'City B',
+        departureDate: '2025-09-15T10:00:00Z',
+        returnDate: '2025-09-17T18:00:00Z',
         costSubmitted: {
           source: '350.0',
           parsedValue: 350.0,
@@ -222,6 +230,9 @@ const responses = {
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Hotel stay',
         costRequested: 125.0,
+        vendor: 'Hotel Name',
+        checkInDate: '2025-09-15T15:00:00Z',
+        checkOutDate: '2025-09-17T11:00:00Z',
         costSubmitted: {
           source: '125.0',
           parsedValue: 125.0,
@@ -235,6 +246,7 @@ const responses = {
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Breakfast and lunch',
         costRequested: 35.0,
+        vendorName: 'Food Place',
         costSubmitted: {
           source: '35.0',
           parsedValue: 35.0,
