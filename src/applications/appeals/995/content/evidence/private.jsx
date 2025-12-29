@@ -92,7 +92,7 @@ export const detailsEntryContent = {
   question: (formContext, addOrEdit) => {
     const index = formContext?.pagePerItemIndex || 0;
 
-    return getProviderDetailsTitle(addOrEdit, +index + 1, 'nonVa');
+    return getProviderDetailsTitle(addOrEdit, +index + 1, 'nonVa', true);
   },
   label:
     'Enter the name and address of the private provider, facility, medical center, clinic, or VA Vet Center you want us to request your records from.',
