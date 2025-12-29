@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { selectAuthStatus } from '../../../../utils/selectors/auth-status';
+import { selectAuthStatus } from '../../../../utils/selectors';
 
 describe('ezr auth status selectors', () => {
   describe('when `selectAuthStatus` executes', () => {

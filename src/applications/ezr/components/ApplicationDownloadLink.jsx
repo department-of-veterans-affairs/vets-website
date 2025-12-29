@@ -7,7 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import { API_ENDPOINTS } from '../utils/constants';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
-import { ensureValidCSRFToken } from '../utils/actions/ensureValidCSRFToken';
+import { ensureValidCSRFToken } from '../utils/actions';
 import content from '../locales/en/content.json';
 
 const ApplicationDownloadLink = ({ formConfig, linkText }) => {

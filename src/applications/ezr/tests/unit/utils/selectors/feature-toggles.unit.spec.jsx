@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { makeSelectFeatureToggles } from '../../../../utils/selectors/feature-toggles';
+import { makeSelectFeatureToggles } from '../../../../utils/selectors';
 
 describe('ezr FeatureToggles selector', () => {
   const state = {

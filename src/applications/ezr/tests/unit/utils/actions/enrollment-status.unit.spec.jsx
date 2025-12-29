@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as api from 'platform/utilities/api';
-import { fetchEnrollmentStatus } from '../../../../utils/actions/enrollment-status';
+import { fetchEnrollmentStatus } from '../../../../utils/actions';
 import {
   ENROLLMENT_STATUS_ACTIONS,
   MOCK_ENROLLMENT_RESPONSE,

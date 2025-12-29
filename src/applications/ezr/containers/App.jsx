@@ -5,28 +5,18 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
-import { selectAuthStatus } from '../utils/selectors/auth-status';
-import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { selectEnrollmentStatus } from '../utils/selectors';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { useLoa3UserData } from '../hooks/useLoa3UserData';
 import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
-  const {
-    children,
-    features,
-    fetchEnrollmentStatus,
-    formData,
-    location,
-    setFormData,
-    user,
-  } = props;
+  const { children, features, formData, location, setFormData, user } = props;
   const { veteranFullName } = formData;
   const {
     loading: isLoadingFeatures,
-    isProdEnabled,
     isEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled,
     isSpouseConfirmationFlowEnabled,
@@ -38,18 +28,7 @@ const App = props => {
     loading: isLoadingProfile,
   } = user;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
-  const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
-
-  useEffect(
-    () => {
-      if (isUserLOA3) {
-        fetchEnrollmentStatus();
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isUserLOA3],
-  );
 
   /**
    * Set default view fields in the form data
@@ -94,10 +73,13 @@ const App = props => {
     ],
   );
 
-  // Add Datadog UX monitoring to the application
+  // fetch appropriate data for LOA3 users
+  useLoa3UserData();
+
+  // add Datadog UX monitoring
   useBrowserMonitoring();
 
-  return isAppLoading || !isProdEnabled ? (
+  return isAppLoading ? (
     <va-loading-indicator
       message={content['load-app']}
       class="vads-u-margin-y--4"
@@ -116,7 +98,6 @@ App.propTypes = {
     PropTypes.node,
   ]),
   features: PropTypes.object,
-  fetchEnrollmentStatus: PropTypes.func,
   formData: PropTypes.object,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -126,7 +107,6 @@ App.propTypes = {
 const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
-    isProdEnabled: state.featureToggles.ezrProdEnabled,
     isEmergencyContactsEnabled:
       state.featureToggles.ezrEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled:
@@ -141,7 +121,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setFormData: setData,
-  fetchEnrollmentStatus: fetchEnrollmentStatusAction,
 };
 
 export default connect(
