@@ -4,16 +4,22 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import environment from 'platform/utilities/environment';
+import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+
+const bronzeImageSrc = environment.isStaging()
+  ? `${VAGOVSTAGING}/img/medallions-bronze.png`
+  : `${vagovprod}/img/medallions-bronze.png`;
 
 const BronzeSizeDescription = () => {
   return (
     <div>
       <p>
-        You can get a bronze medallion in 3 sizes. Contact the Veteran’s
-        cemetery to check if they’ll accept the size of medallion you request.
+        You can get a bronze medallion in 3 sizes. Contact the Veteran's
+        cemetery to check if they'll accept the size of medallion you request.
       </p>
       <img
-        src="/img/medallions-bronze.png"
+        src={bronzeImageSrc}
         alt="Bronze VA medallions in small, medium, and large sizes"
         className="vads-u-margin-y--2 vads-u-display--block"
         style={{ maxWidth: '100%', width: '400px' }}
