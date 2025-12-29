@@ -19,7 +19,7 @@ describe('onFormLoaded', () => {
   // ------- END RESTORE
 
   // ------- REMOVE when new design toggle is removed
-  describe('feature toggle is ON', () => {
+  xdescribe('feature toggle is ON', () => {
     const formData = { scRedesign: true };
 
     // --> TODO

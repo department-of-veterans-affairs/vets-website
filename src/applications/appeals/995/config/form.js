@@ -361,6 +361,7 @@ const formConfig = {
           uiSchema: summary.uiSchema,
           schema: summary.schema,
           scrollAndFocusTarget: focusAlertH3,
+          depends: formData => !redesignActive(formData),
         },
       },
     },
