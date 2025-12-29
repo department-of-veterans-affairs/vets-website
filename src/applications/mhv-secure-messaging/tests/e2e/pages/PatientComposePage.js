@@ -162,7 +162,7 @@ class PatientComposePage {
   typeMessageBody = (text = '') => {
     return this.getMessageBodyField()
       .should('be.visible')
-      .should('not.be.disabled')
+      .should('be.enabled')
       .clear()
       .type(text);
   };
