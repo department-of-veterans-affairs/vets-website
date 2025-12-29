@@ -56,8 +56,15 @@ const DateTimeSelection = () => {
   );
 
   const onChange = selectedDateTimes => {
+    // Selecting a day on the calendar fires an onChange event with an empty array even
+    // when the day is is the same as the currently selected slot time. To avoid
+    // deselecting the slot, we don't save anything if the selected date times is an empty array
+    const selectedSlotTime = selectedDateTimes[0];
+    if (!selectedSlotTime) {
+      return;
+    }
     // Update selected dates and clear any previous error state
-    saveDate(selectedDateTimes[0]);
+    saveDate(selectedSlotTime);
     setHasAttemptedSubmit(false);
   };
 
@@ -108,7 +115,7 @@ const DateTimeSelection = () => {
         availableSlots={draftAppointmentInfo.attributes.slots}
         value={selectedDate ? [selectedDate] : []}
         id="dateTime"
-        timezone="America/New_York"
+        timezone="America/New_York" // TODO: get timezone
         additionalOptions={{
           required: true,
         }}

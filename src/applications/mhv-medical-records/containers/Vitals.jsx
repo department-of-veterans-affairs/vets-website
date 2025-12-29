@@ -6,9 +6,7 @@ import {
   usePrintTitle,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
 import {
@@ -126,7 +124,6 @@ const Vitals = () => {
         Vitals are basic health numbers your providers check at your
         appointments.
       </p>
-      <CernerFacilityAlert {...CernerAlertContent.VITALS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -151,7 +148,7 @@ const Vitals = () => {
               }}
             />
           )}
-        {isLoadingAcceleratedData || isLoading ? (
+        {(isLoadingAcceleratedData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="vitals-page-spinner"
@@ -160,23 +157,26 @@ const Vitals = () => {
               data-testid="loading-indicator"
             />
           </div>
-        ) : (
-          <>
-            {cards?.length ? (
-              <RecordList
-                records={cards}
-                type={recordType.VITALS}
-                perPage={PER_PAGE}
-                hidePagination
-                domainOptions={{
-                  isAccelerating: isCerner,
-                }}
-              />
-            ) : (
-              <NoRecordsMessage type={recordType.VITALS} />
-            )}
-          </>
         )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          cards !== undefined && (
+            <>
+              {cards?.length ? (
+                <RecordList
+                  records={cards}
+                  type={recordType.VITALS}
+                  perPage={PER_PAGE}
+                  hidePagination
+                  domainOptions={{
+                    isAccelerating: isCerner,
+                  }}
+                />
+              ) : (
+                <NoRecordsMessage type={recordType.VITALS} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

@@ -14,6 +14,7 @@ export const PROFILE_TOGGLES = {
   profile2Enabled: false,
   profileHealthCareSettingsPage: false,
   profileSchedulingPreferences: false,
+  profileHideHealthCareContacts: false,
 };
 
 // The values of these constants map to the possible values that come back from

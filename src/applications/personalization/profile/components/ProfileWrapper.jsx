@@ -66,10 +66,14 @@ const ProfileWrapper = ({
   const profileHealthCareSettingsPage = useToggleValue(
     TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
+  const profileHideHealthCareContacts = useToggleValue(
+    TOGGLE_NAMES.profileHideHealthCareContacts,
+  );
 
   const routesForNav = getRoutesForNav({
     profile2Enabled,
     profileHealthCareSettingsPage,
+    profileHideHealthCareContacts,
   });
 
   const layout = useMemo(

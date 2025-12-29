@@ -125,8 +125,8 @@ export default function TravelReimbursementSection({ appointment }) {
               onPrimaryButtonClick={() => {
                 setShowModal(false);
                 setClaimEntry();
-                window.location.href = `/my-health/travel-pay/file-new-claim/${
-                  appointment.id
+                window.location.href = `/my-health/travel-pay/claims/${
+                  claimData.claim.id
                 }`;
               }}
               onSecondaryButtonClick={() => setShowModal(false)}
@@ -159,7 +159,7 @@ export default function TravelReimbursementSection({ appointment }) {
           <p className="vads-u-margin-y--0p5">
             <va-link
               data-testid="view-claim-link"
-              href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+              href={`/my-health/travel-pay/claims/${claimData.claim.id}`}
               onClick={setClaimEntry}
               text="Complete and file your claim"
             />

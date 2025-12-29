@@ -1,4 +1,4 @@
-/* 
+/*
 The VA is using an old version of ESLint, which is why we are sticking with .eslintrc.js files.
 Once they upgrade, we can consider moving to other formats:
 https://eslint.org/docs/latest/use/configure/configuration-files
@@ -17,4 +17,13 @@ module.exports = {
     'valid-jsdoc': 'warn', // https://eslint.org/docs/latest/rules/valid-jsdoc
     'no-unused-vars': 'warn', // https://eslint.org/docs/latest/rules/no-unused-vars
   },
+  overrides: [
+    {
+      files: ['**/tests/**', '**/*.spec.js'],
+      rules: {
+        'require-jsdoc': 'off',
+        'valid-jsdoc': 'off',
+      },
+    },
+  ],
 };
