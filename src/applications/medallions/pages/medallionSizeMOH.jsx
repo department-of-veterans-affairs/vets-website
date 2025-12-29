@@ -15,8 +15,8 @@ const MOHSizeDescription = () => {
   return (
     <div>
       <p>
-        You can get a Medal of Honor in 2 sizes. Contact the Veteran's cemetery
-        to check if they'll accept the size of medallion you request.
+        You can get a Medal of Honor in 2 sizes. Contact the Veteran’s cemetery
+        to check if they’ll accept the size of medallion you request.
       </p>
       <img
         src={mohImageSrc}
