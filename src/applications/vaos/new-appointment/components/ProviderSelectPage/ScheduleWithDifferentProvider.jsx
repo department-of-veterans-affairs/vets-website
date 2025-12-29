@@ -59,7 +59,10 @@ export default function ScheduleWithDifferentProvider({
         Call and ask to schedule with that provider:{' '}
         <FacilityPhone contact={facilityPhone} icon={false} />
       </p>
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
+      <hr
+        aria-hidden="true"
+        className="vads-u-margin-y--2 vads-u-border-color--gray-medium"
+      />
     </>
   );
 }
