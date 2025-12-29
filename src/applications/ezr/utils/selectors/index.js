@@ -1,3 +1,3 @@
 export * from './auth-status';
-export * from './entrollment-status';
+export * from './enrollment-status';
 export * from './feature-toggles';

@@ -7,13 +7,10 @@ export const useLoa3UserData = () => {
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const dispatch = useDispatch();
 
-  const getEnrollmentStatus = () => dispatch(fetchEnrollmentStatus());
-
   useEffect(
     () => {
-      if (isUserLOA3) getEnrollmentStatus();
+      if (isUserLOA3) dispatch(fetchEnrollmentStatus());
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isUserLOA3],
+    [dispatch, isUserLOA3],
   );
 };
