@@ -15,7 +15,10 @@ import {
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
-import { clearReviewPageAlert } from '../../../redux/actions';
+import {
+  clearReviewPageAlert,
+  setExpenseBackDestination,
+} from '../../../redux/actions';
 import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = () => {
@@ -71,6 +74,7 @@ const ReviewPage = () => {
   };
 
   const addMoreExpenses = () => {
+    dispatch(setExpenseBackDestination('review'));
     navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
@@ -129,20 +133,9 @@ const ReviewPage = () => {
                 {Object.entries(totalByExpenseType)
                   .filter(([_, total]) => total > 0) // only show if total > 0
                   .map(([type, total]) => {
-                    const labelMap = {
-                      Mileage: EXPENSE_TYPES.Mileage.title,
-                      Parking: EXPENSE_TYPES.Parking.title,
-                      Toll: EXPENSE_TYPES.Toll.title,
-                      Commoncarrier: EXPENSE_TYPES.Commoncarrier.title,
-                      Airtravel: EXPENSE_TYPES.Airtravel.title,
-                      Lodging: EXPENSE_TYPES.Lodging.title,
-                      Meal: EXPENSE_TYPES.Meal.title,
-                      Other: EXPENSE_TYPES.Other.title,
-                    };
-
                     return (
                       <li key={type}>
-                        <strong>{labelMap[type] || type}</strong> $
+                        <strong>{EXPENSE_TYPES[type]?.title ?? type}</strong> $
                         {formatAmount(total)}
                       </li>
                     );

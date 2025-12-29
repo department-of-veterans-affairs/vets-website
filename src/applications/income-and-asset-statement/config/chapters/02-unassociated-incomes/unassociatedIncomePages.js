@@ -93,7 +93,7 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another recurring income',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your recurring income information has been updated',
     alertItemDeleted: 'Your recurring income information has been deleted',
     cancelAddTitle: 'Cancel adding this recurring income',

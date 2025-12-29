@@ -10,7 +10,6 @@ import {
   formatDateLong,
   isValidFullDate,
   isValidYear,
-  isValidPartialDate,
   validateAge,
   validateSeparationDate,
   validateServicePeriod,
@@ -180,28 +179,8 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     });
   });
 
-  describe('isValidPartialDate', () => {
-    it('should validate year-only format', () => {
-      expect(isValidPartialDate('2023')).to.be.true;
-      expect(isValidPartialDate(MIN_VALID_YEAR.toString())).to.be.true;
-    });
-
-    it('should validate year-month format', () => {
-      expect(isValidPartialDate('2023-01')).to.be.true;
-      expect(isValidPartialDate('2023-12')).to.be.true;
-    });
-
-    it('should reject invalid formats', () => {
-      expect(isValidPartialDate('23')).to.be.false;
-      expect(isValidPartialDate('2023-13')).to.be.false;
-      expect(isValidPartialDate('invalid')).to.be.false;
-    });
-
-    it('should handle null/undefined', () => {
-      expect(isValidPartialDate(null)).to.be.false;
-      expect(isValidPartialDate('')).to.be.false;
-    });
-  });
+  // isValidPartialDate function has been removed - partial date validation
+  // is now handled by validateApproximateDate in validations.js
 
   describe('validateAge', () => {
     it('should add error if date is before 13th birthday', () => {
