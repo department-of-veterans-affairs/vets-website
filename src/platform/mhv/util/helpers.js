@@ -156,12 +156,19 @@ export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
  * If a date of birth is present in the user profile, it returns the formatted date
  * (e.g., "January 1, 1980"). If not, it returns the string "Not found".
  *
+ * Also returns "Not found" if the date is invalid.
+ *
  * @param {Object} userProfile - The user profile object, typically from Redux state.
  * @param {string} userProfile.dob - The user's date of birth in ISO string format.
  * @returns {string} A formatted date string or "Not found" if the DOB is missing.
  */
 export const formatUserDob = userProfile => {
-  return userProfile?.dob ? formatBirthDateLong(userProfile.dob) : 'Not found';
+  if (!userProfile?.dob) return 'Not found';
+  try {
+    return formatBirthDateLong(userProfile.dob);
+  } catch (error) {
+    return 'Not found';
+  }
 };
 
 /**
