@@ -93,9 +93,9 @@ describe('Delete Draft component', () => {
       expect(deleteDraftModal).to.have.attribute('visible', 'true');
       expect(deleteDraftModal).to.have.attribute(
         'modal-title',
-        Prompts.Draft.DELETE_DRAFT_CONFIRM,
+        Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER,
       );
-      screen.getByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE);
+      screen.getByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT);
       screen.getByText('Delete draft');
       screen.getByTestId('cancel-delete-draft');
     });
@@ -294,7 +294,7 @@ describe('Delete Draft component', () => {
       'true',
     );
     expect(screen.getByTestId('delete-draft-modal')).to.have.text(
-      Prompts.Draft.DELETE_NEW_DRAFT_CONTENT,
+      Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT,
     );
     fireEvent.click(screen.getByTestId('cancel-delete-draft'));
     expect(screen.queryByTestId('delete-draft-modal')).to.have.attribute(
@@ -346,7 +346,7 @@ describe('Delete Draft component', () => {
     );
 
     expect(screen.getByTestId('delete-draft-modal')).to.have.text(
-      Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE,
+      Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT,
     );
     fireEvent.click(screen.getByTestId('cancel-delete-draft'));
     expect(screen.queryByTestId('delete-draft-modal')).to.have.attribute(
@@ -400,7 +400,9 @@ describe('Delete Draft component', () => {
     const deleteModal = getByTestId('delete-draft-modal');
     expect(deleteModal).to.exist;
     expect(deleteModal).to.have.attribute('visible', 'true');
-    expect(deleteModal).to.have.text(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE);
+    expect(deleteModal).to.have.text(
+      Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT,
+    );
 
     const deleteModalButton = getByTestId('confirm-delete-draft');
     fireEvent.click(deleteModalButton);
