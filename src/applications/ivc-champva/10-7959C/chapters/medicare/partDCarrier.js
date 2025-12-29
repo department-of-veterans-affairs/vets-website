@@ -3,29 +3,32 @@ import {
   currentOrPastDateUI,
   textSchema,
   textUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
 import { validateChars } from '../../utils/validation';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const PAGE_TITLE = ({ formData }) => {
-  const name = nameWording(formData, undefined, undefined, true);
-  return privWrapper(`${name} Medicare Part D carrier`);
+const TITLE_TEXT = content['medicare--part-d-carrier-title'];
+const INPUT_LABELS = {
+  carrier: content['medicare--carrier-label'],
+  effectiveDate: content['medicare--part-d-effective-date-label'],
+};
+const HINT_TEXT = {
+  carrier: content['medicare--carrier-hint--alt'],
+  effectiveDate: content['medicare--part-d-effective-date-hint'],
 };
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
-    applicantMedicarePartDCarrier: {
-      ...textUI({
-        title: 'Name of insurance carrier',
-        hint: 'Your insurance carrier is your insurance company.',
-        validations: [validateChars],
-      }),
-    },
+    ...titleWithNameUI(TITLE_TEXT),
+    applicantMedicarePartDCarrier: textUI({
+      title: INPUT_LABELS.carrier,
+      hint: HINT_TEXT.carrier,
+      validations: [validateChars],
+    }),
     applicantMedicarePartDEffectiveDate: currentOrPastDateUI({
-      title: 'Medicare Part D effective date',
-      hint: 'This information is at the top of the card.',
+      title: INPUT_LABELS.effectiveDate,
+      hint: HINT_TEXT.effectiveDate,
     }),
   },
   schema: {
