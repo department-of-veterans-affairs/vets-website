@@ -54,6 +54,7 @@ export default {
               Use. Please click this link for information regarding the Terms of
               Use.{' '}
               <va-link
+                external
                 text="Trademark Terms of Use - Education and Training (va.gov)"
                 href="https://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp"
               />
