@@ -112,7 +112,7 @@ export const militarySexualTraumaSupportTextBlob = (
 
 export const rememberTextBlob = (
   <p>
-    <strong>Remember: </strong>
+    <strong>Note: </strong>
     Any information you provide will help us understand your situation and
     identify evidence to support your claim. But you can skip questions you
     can’t or don’t want to answer. And you can save your in-progress online form
