@@ -56,7 +56,6 @@ export const summaryContent = {
     `${itemData?.[VA_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
     const selectedIssues = getSelectedIssues(item?.issuesVA);
-    console.log('item: ', item);
 
     return (
       <>
@@ -94,10 +93,12 @@ export const locationContent = {
     // ------- Remove the .replace when the design toggle is removed
     // The current content requires the word "Edit" but it is baked into
     // array builder so we won't need it when that is the default path
-    return getProviderDetailsTitle(addOrEdit, Number(index) + 1, 'va').replace(
-      'Edit',
-      '',
-    );
+    return getProviderDetailsTitle(
+      addOrEdit,
+      Number(index) + 1,
+      'va',
+      true,
+    ).replace('Edit', '');
   },
   label: 'Enter the name of facility or provider that treated you',
   hint: 'You can add the names of more locations later',
