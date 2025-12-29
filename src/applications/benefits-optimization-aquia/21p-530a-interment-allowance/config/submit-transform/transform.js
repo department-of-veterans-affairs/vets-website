@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { capitalize } from 'lodash';
-import { DEFAULT_BRANCH_LABELS } from 'platform/forms-system/src/js/web-component-patterns/serviceBranchPattern';
+import DEFAULT_BRANCH_LABELS from 'platform/forms-system/src/js/web-component-patterns/content/serviceBranch.json';
 
 // Custom sanitizer to strip view fields, empty objects, and normalize country codes
 const sanitize = (key, value) => {
@@ -55,7 +55,8 @@ export const transform = (formConfig, form) => {
   }, '');
 
   // convert service period branch name to label
-  const convertedServicePeriods = periods.map(period => {
+  // Handle optional periods - default to empty array if not provided
+  const convertedServicePeriods = (periods || []).map(period => {
     const { label } = DEFAULT_BRANCH_LABELS[period.serviceBranch];
     const serviceBranch = label ?? period.serviceBranch;
     return {

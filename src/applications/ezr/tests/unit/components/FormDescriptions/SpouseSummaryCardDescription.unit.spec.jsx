@@ -1,87 +1,94 @@
 import { expect } from 'chai';
 import React from 'react';
-import SpouseSummaryCardDescription from '../../../../components/FormDescriptions/SpouseSummaryCardDescription';
+import SpouseSummaryCardDescription, {
+  maritalStatusesWithDateOfMarriage,
+} from '../../../../components/FormDescriptions/SpouseSummaryCardDescription';
 import { renderProviderWrappedComponent } from '../../../helpers';
 
 describe('ezr <SpouseSummaryCardDescription>', () => {
-  context('when item is null', () => {
-    it('should still render the marital status', () => {
-      const { container } = renderProviderWrappedComponent(
-        {
-          form: {
-            data: {
-              'view:maritalStatus': {
-                maritalStatus: 'married',
+  maritalStatusesWithDateOfMarriage.forEach(status => {
+    context(
+      `when marital status is ${status} and there is NO MARRIAGE DATE`,
+      () => {
+        it(`should render the marital status and 'Date of Marriage:' (no date)`, () => {
+          const { container } = renderProviderWrappedComponent(
+            {
+              form: {
+                data: {
+                  'view:maritalStatus': {
+                    maritalStatus: status,
+                  },
+                  spouseInformation: [{}],
+                },
               },
             },
-          },
-        },
-        <SpouseSummaryCardDescription item={null} />,
-      );
-
-      // Component renders marital status regardless of item prop
-      expect(container).to.not.be.empty;
-      expect(container.textContent.trim()).to.equal('married');
-    });
+            <SpouseSummaryCardDescription />,
+          );
+          const ul = container.querySelector('ul');
+          const items = Array.from(ul.children);
+          const match = items.filter(i =>
+            i.textContent.includes('Date of Marriage:'),
+          );
+          expect(match.length).to.be.greaterThan(0);
+        });
+      },
+    );
   });
 
-  context('when item is not null and marital status is married', () => {
-    it('should render the marital status', () => {
-      const { container } = renderProviderWrappedComponent(
-        {
-          form: {
-            data: {
-              'view:maritalStatus': {
-                maritalStatus: 'married',
+  maritalStatusesWithDateOfMarriage.forEach(status => {
+    context(
+      `when marital status is ${status} and there IS a marriage date`,
+      () => {
+        it('should render the marital status and the date of marriage', () => {
+          const { container } = renderProviderWrappedComponent(
+            {
+              form: {
+                data: {
+                  'view:maritalStatus': {
+                    maritalStatus: status,
+                  },
+                  spouseInformation: [
+                    {
+                      dateOfMarriage: '1995-02-22',
+                    },
+                  ],
+                },
               },
             },
-          },
-        },
-        <SpouseSummaryCardDescription item={{}} />,
-      );
-
-      expect(container).to.not.be.empty;
-      expect(container.textContent.trim()).to.equal('married');
-    });
+            <SpouseSummaryCardDescription />,
+          );
+          const ul = container.querySelector('ul');
+          const items = Array.from(ul.children);
+          const match = items.filter(i =>
+            i.textContent.includes('Date of Marriage: 1995-02-22'),
+          );
+          expect(match.length).to.be.greaterThan(0);
+        });
+      },
+    );
   });
 
-  context('when item is not null and marital status is separated', () => {
-    it('should render the marital status', () => {
+  context(`when marital status is single`, () => {
+    it('should render ONLY the marital status', () => {
       const { container } = renderProviderWrappedComponent(
         {
           form: {
             data: {
               'view:maritalStatus': {
-                maritalStatus: 'separated',
+                maritalStatus: 'never married',
               },
+              spouseInformation: [
+                {
+                  dateOfMarriage: '1995-02-22',
+                },
+              ],
             },
           },
         },
-        <SpouseSummaryCardDescription item={{}} />,
+        <SpouseSummaryCardDescription />,
       );
-
       expect(container).to.not.be.empty;
-      expect(container.textContent.trim()).to.equal('separated');
-    });
-  });
-
-  context('when item is not null and marital status is divorced', () => {
-    it('should render the marital status', () => {
-      const { container } = renderProviderWrappedComponent(
-        {
-          form: {
-            data: {
-              'view:maritalStatus': {
-                maritalStatus: 'divorced',
-              },
-            },
-          },
-        },
-        <SpouseSummaryCardDescription item={{}} />,
-      );
-
-      expect(container).to.not.be.empty;
-      expect(container.textContent.trim()).to.equal('divorced');
+      expect(container.textContent.trim()).to.equal(`never married`);
     });
   });
 });

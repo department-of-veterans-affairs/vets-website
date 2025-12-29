@@ -29,6 +29,18 @@ const childContent = (
         <Link to="/phone-and-email-address">Phone and email address</Link>
       </li>
       <li>
+        <Link to="/international-contact">International contact</Link>
+      </li>
+      <li>
+        <Link to="/service-branch">Service branch</Link>
+      </li>
+      <li>
+        <Link to="/upload-file">File upload</Link>
+      </li>
+      <li>
+        <Link to="/supporting-documents">File upload multiple</Link>
+      </li>
+      <li>
         <Link to="/treatment-records">
           Multiple responses list & loop (required) [Treatment records]
         </Link>
@@ -84,6 +96,42 @@ const childContent = (
           href="https://www.figma.com/file/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates%2C-Patterns%2C-and-Forms?type=design&node-id=2988-9602&mode=design&t=G7cHyOgjfgKxCDPo-11"
         >
           Phone and email address
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.figma.com/design/afurtw4iqQe6y4gXfNfkkk/VADS-Component-Library?node-id=31366-83&p=f&t=NnDlLac4F9xmwC6o-0"
+        >
+          International contact
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.figma.com/design/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates--Patterns--and-Forms?node-id=2988-28636&p=f&t=6U0yAXfFmWc95Kt9-0"
+        >
+          Service branch
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.figma.com/design/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates--Patterns--and-Forms?node-id=2988-63596&p=f&t=6U0yAXfFmWc95Kt9-0"
+        >
+          File upload
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.figma.com/design/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates--Patterns--and-Forms?node-id=2988-63596&p=f&t=6U0yAXfFmWc95Kt9-0"
+        >
+          File upload multiple
         </a>
       </li>
       <li>
@@ -147,6 +195,42 @@ const childContent = (
         <a
           target="_blank"
           rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/internationalContact.js"
+        >
+          International Contact
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/serviceBranch.js"
+        >
+          Service branch
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/upload.js"
+        >
+          File upload
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/supportingDocuments.js"
+        >
+          File upload multiple
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
           href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/platform/forms-system/src/js/patterns/array-builder/README.md"
         >
           Multiple responses list & loop README.md
@@ -180,6 +264,15 @@ const childContent = (
           href="https://staging.va.gov/mock-form-minimal-header"
         >
           Mock form minimal header
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://staging.va.gov/mock-form-prefill/introduction"
+        >
+          Mock form prefill
         </a>
       </li>
     </ul>

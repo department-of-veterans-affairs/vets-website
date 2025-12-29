@@ -9,7 +9,10 @@ import IntroductionPage from '../../containers/IntroductionPage';
 const baseProps = {
   route: {
     path: 'introduction',
-    pageList: [],
+    pageList: [
+      { path: '/introduction', title: 'Introduction' },
+      { path: '/first-page', title: 'First Page' },
+    ],
     formConfig,
   },
   userLoggedIn: false,

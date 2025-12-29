@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { useSelector } from 'react-redux';
 import { waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -270,6 +271,74 @@ describe('Travel Pay – IntroductionPage', () => {
     expect(getByTestId('introduction-page')).to.exist;
   });
 
+  it('hides the start button when appointment is community care (isCC)', () => {
+    const stateWithCCAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: true,
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithCCAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the start button does not exist
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.not.exist;
+  });
+
+  it('shows the start button when appointment is not community care', () => {
+    const stateWithNonCCAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: false,
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithNonCCAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the start button exists
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
+  });
+
   it('navigates using appointment claim ID when complexClaim data is null', async () => {
     // Set up state with claim ID on appointment but null complexClaim data
     const stateWithAppointmentClaim = {
@@ -504,5 +573,69 @@ describe('Travel Pay – IntroductionPage', () => {
       container,
     );
     expect(startButton).to.exist;
+  });
+
+  it('dispatches setExpenseBackDestination with "intro" when start button is clicked', async () => {
+    const stateWithExistingClaim = {
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            data: {
+              claimId: '45678',
+            },
+          },
+        },
+      },
+    };
+
+    // Component to verify Redux state
+    const StateDisplay = () => {
+      const expenseBackDestination = useSelector(
+        state => state.travelPay.complexClaim.expenseBackDestination,
+      );
+      return (
+        <div data-testid="expense-back-destination">
+          {expenseBackDestination || 'none'}
+        </div>
+      );
+    };
+
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[
+          { pathname: initialRoute, state: { skipRedirect: true } },
+        ]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId"
+            element={<IntroductionPage />}
+          />
+        </Routes>
+        <StateDisplay />
+      </MemoryRouter>,
+      {
+        initialState: stateWithExistingClaim,
+        reducers: reducer,
+      },
+    );
+
+    // Find and click the start button
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
+    startButton.click();
+
+    // Verify Redux state is updated
+    await waitFor(() => {
+      expect(getByTestId('expense-back-destination').textContent).to.equal(
+        'intro',
+      );
+    });
   });
 });

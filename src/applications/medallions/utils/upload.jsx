@@ -1,4 +1,4 @@
-import FileField from 'platform/forms-system/src/js/fields/FileField';
+import FileField from '../components/FileField';
 import { createPayload, parseResponse } from './helpers';
 
 function validImageType(file) {
