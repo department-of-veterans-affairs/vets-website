@@ -49,7 +49,7 @@ describe('<ServiceUnavailableAlert>', () => {
 
       const heading = container.querySelector('h3');
       expect(heading.textContent).to.equal(
-        "We can't access some of your claims and appeals right now",
+        "We can't access some of your claims or appeals right now",
       );
     });
 

@@ -5,7 +5,7 @@ import { SERVICE_REGISTRY } from '../constants';
 
 const listFmt = new Intl.ListFormat('en', {
   style: 'long',
-  type: 'conjunction',
+  type: 'disjunction',
 });
 
 function formatServiceNames(services, useSingular) {

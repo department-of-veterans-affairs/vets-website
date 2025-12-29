@@ -27,7 +27,7 @@ describe('Your claims unavailable,', () => {
     cy.injectAxe();
 
     cy.findByRole('heading', {
-      name: "We can't access some of your claims and appeals right now",
+      name: "We can't access some of your claims or appeals right now",
       level: 3,
     });
     cy.findByText(bodyText);

@@ -119,7 +119,7 @@ describe('<YourClaimsPageV2>', () => {
 
     expect($('va-alert', container)).to.exist;
     expect(container.textContent).to.include(
-      "We can't access some of your claims and appeals right now",
+      "We can't access some of your claims or appeals right now",
     );
   });
 

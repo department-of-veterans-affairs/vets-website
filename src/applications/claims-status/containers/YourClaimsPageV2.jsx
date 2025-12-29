@@ -238,7 +238,6 @@ class YourClaimsPageV2 extends React.Component {
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
-            <div>{this.renderErrorMessages()}</div>
             <div className="additional-info-loading-container">
               <va-additional-info
                 id="claims-combined"
@@ -252,6 +251,7 @@ class YourClaimsPageV2 extends React.Component {
                 </div>
               </va-additional-info>
             </div>
+            <div>{this.renderErrorMessages()}</div>
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">
