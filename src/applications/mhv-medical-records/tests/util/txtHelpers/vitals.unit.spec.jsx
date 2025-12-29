@@ -25,4 +25,11 @@ describe('parseVitals', () => {
     expect(result).to.contain('72 bpm');
     expect(result).to.contain('16 breaths/min');
   });
+
+  it('should handle null/undefined records without crashing', () => {
+    expect(() => parseVitals(undefined)).to.not.throw();
+    expect(() => parseVitals(null)).to.not.throw();
+    const result = parseVitals(null);
+    expect(result).to.include('Vitals');
+  });
 });

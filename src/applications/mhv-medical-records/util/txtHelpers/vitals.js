@@ -2,7 +2,7 @@ import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 
 const formatVitals = vitals => {
   const typeArray = [];
-  vitals.map(
+  (vitals ?? []).map(
     record => !typeArray.includes(record.type) && typeArray.push(record.type),
   );
   return typeArray;
@@ -33,7 +33,7 @@ ${vitalTypes
       vitalType => `
 ${vitalNameParse(vitalType)}
 ${txtLineDotted}
-  ${records
+  ${(records ?? [])
     .filter(record => record.type === vitalType)
     .map(
       record => `

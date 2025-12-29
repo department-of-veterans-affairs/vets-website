@@ -53,4 +53,16 @@ describe('parseAllergies', () => {
     expect(result).to.include('Observed or historical: Reported');
     expect(result).to.include('Provider notes: ');
   });
+
+  it('should handle null/undefined records and reaction fields without crashing', () => {
+    // Test undefined records
+    expect(() => parseAllergies(undefined)).to.not.throw();
+    expect(() => parseAllergies(null)).to.not.throw();
+
+    // Test record with undefined reaction
+    const recordWithNoReaction = [{ name: 'Test Allergy', date: '2021-01-01' }];
+    expect(() => parseAllergies(recordWithNoReaction)).to.not.throw();
+    const result = parseAllergies(recordWithNoReaction);
+    expect(result).to.include('Signs and symptoms:');
+  });
 });
