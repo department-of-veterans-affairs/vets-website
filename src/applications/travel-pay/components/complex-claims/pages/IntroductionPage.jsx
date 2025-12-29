@@ -12,6 +12,7 @@ import {
 import ComplexClaimRedirect from './ComplexClaimRedirect';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   selectAppointment,
   selectComplexClaim,
@@ -31,6 +32,7 @@ const IntroductionPage = () => {
 
   useSetPageTitle(title);
   useSetScrollFocus();
+  useRecordPageview('complex-claims', title);
 
   const apptId = appointment?.id;
 

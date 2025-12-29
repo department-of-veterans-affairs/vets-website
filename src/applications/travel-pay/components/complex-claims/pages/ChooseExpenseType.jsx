@@ -7,6 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
   selectComplexClaim,
@@ -29,6 +30,7 @@ const ChooseExpenseType = () => {
 
   useSetPageTitle(title);
   useSetScrollFocus();
+  useRecordPageview('complex-claims', title);
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {

@@ -4,6 +4,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import { BTSSS_PORTAL_URL } from '../../../constants';
 
 const UnsupportedMileage = () => {
@@ -13,6 +14,7 @@ const UnsupportedMileage = () => {
 
   useSetPageTitle(title);
   useSetScrollFocus();
+  useRecordPageview('complex-claims', title);
 
   return (
     <>

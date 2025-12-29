@@ -6,6 +6,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -36,6 +37,7 @@ const ReviewPage = () => {
 
   useSetPageTitle(title);
   useSetScrollFocus();
+  useRecordPageview('complex-claims', title);
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(

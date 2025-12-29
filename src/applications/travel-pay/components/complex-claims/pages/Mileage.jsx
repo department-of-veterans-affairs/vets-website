@@ -8,6 +8,7 @@ import {
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   createExpense,
   updateExpense,
@@ -44,6 +45,7 @@ const Mileage = () => {
   const title = 'Mileage';
 
   useSetPageTitle(title);
+  useRecordPageview('complex-claims', title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode

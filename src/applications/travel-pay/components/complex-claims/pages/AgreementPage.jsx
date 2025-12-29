@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import { submitComplexClaim } from '../../../redux/actions';
@@ -26,6 +27,7 @@ const AgreementPage = () => {
 
   useSetPageTitle(title);
   useSetScrollFocus();
+  useRecordPageview('complex-claims', title);
 
   const onSubmit = async () => {
     setIsAgreementError(!isAgreementChecked);

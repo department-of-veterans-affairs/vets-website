@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import { PAST_APPOINTMENTS_LINK } from '../../../constants';
 import WhatHappensNextSection from './WhatHappensNextSection';
 import { ComplexClaimsHelpSection } from '../../HelpText';
@@ -16,6 +17,7 @@ const ClaimErrorPage = ({ isCreate }) => {
     : 'We’re sorry. We can’t access your claim information right now. Try again later.';
   useSetPageTitle(header);
   useSetScrollFocus();
+  useRecordPageview('complex-claims', header);
   return (
     <div>
       <h1>{header}</h1>

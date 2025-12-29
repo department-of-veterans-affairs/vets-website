@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import { formatDateTime } from '../../../util/dates';
 import {
   selectAppointment,
@@ -48,6 +49,7 @@ const ConfirmationPage = () => {
 
   useSetPageTitle(pageHeader);
   useSetScrollFocus();
+  useRecordPageview('complex-claims', pageHeader);
 
   return (
     <>
