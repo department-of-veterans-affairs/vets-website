@@ -9,7 +9,11 @@ import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import mockPdfDownload from './fixtures/mocks/mock-pdf-download.json';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
-import { selectYesNoWebComponent, goToNextPage } from './helpers';
+import {
+  selectYesNoWebComponent,
+  goToNextPage,
+  acceptPrivacyAgreement,
+} from './helpers';
 import {
   fillContactPersonalInfo,
   fillContactAddress,
@@ -164,12 +168,7 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(
-            'va-checkbox[name="privacyAgreementAccepted"]',
-          ).scrollIntoView();
-          cy.get('va-checkbox[name="privacyAgreementAccepted"]').shadow();
-          cy.get('va-checkbox[name="privacyAgreementAccepted"]').find('label');
-          cy.get('va-checkbox[name="privacyAgreementAccepted"]').click();
+          acceptPrivacyAgreement();
           cy.findByText(/submit/i, { selector: 'button' }).click();
 
           cy.get(`va-link[text="${content['button-pdf-download']}"]`)

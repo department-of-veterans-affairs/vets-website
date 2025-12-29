@@ -3,6 +3,13 @@ import maxTestData from '../fixtures/data/maximal-test.json';
 
 const { data: testData } = maxTestData;
 
+export const acceptPrivacyAgreement = () => {
+  cy.get('va-checkbox[name="privacyAgreementAccepted"]')
+    .shadow()
+    .find('label')
+    .click();
+};
+
 // navigation helpers
 export const goToNextPage = (pagePath, isArrayBuilderEditPage = false) => {
   // clicks Continue button, and optionally checks destination path.

@@ -3,7 +3,7 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { goToNextPage } from './helpers';
+import { acceptPrivacyAgreement, goToNextPage } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import {
   advanceToHouseholdSection,
@@ -47,12 +47,7 @@ describe('EZR No Financial Submission', () => {
 
     advanceFromHouseholdToReview();
 
-    // accept the privacy agreement
-    cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('label')
-      .click();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();

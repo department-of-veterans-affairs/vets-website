@@ -5,7 +5,7 @@ import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { goToNextPage } from './helpers';
+import { acceptPrivacyAgreement, goToNextPage } from './helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
   MOCK_ENROLLMENT_RESPONSE,
@@ -38,11 +38,7 @@ function submitDependentInformation(dependent, showIncomePages) {
 
   advanceFromDependentsToReview(testData);
 
-  // accept the privacy agreement
-  cy.get('va-checkbox[name="privacyAgreementAccepted"]').scrollIntoView();
-  cy.get('va-checkbox[name="privacyAgreementAccepted"]').shadow();
-  cy.get('va-checkbox[name="privacyAgreementAccepted"]').find('label');
-  cy.get('va-checkbox[name="privacyAgreementAccepted"]').click();
+  acceptPrivacyAgreement();
 
   // submit form
   cy.findByText(/submit/i, { selector: 'button' }).click();

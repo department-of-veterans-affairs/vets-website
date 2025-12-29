@@ -4,7 +4,7 @@ import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { goToNextPage } from './helpers';
+import { acceptPrivacyAgreement, goToNextPage } from './helpers';
 import {
   INSURANCE_VIEW_FIELDS,
   MOCK_ENROLLMENT_RESPONSE,
@@ -59,12 +59,7 @@ describe('EZR Insurance Policies', () => {
 
     goToNextPage('review-and-submit');
 
-    // accept the privacy agreement
-    cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('label')
-      .click();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
