@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
@@ -21,7 +22,7 @@ const MedicationsListCard = ({ rx }) => {
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
-
+  // console.log(rx);
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {
       return (
@@ -95,6 +96,21 @@ const MedicationsListCard = ({ rx }) => {
         pendingMed || pendingRenewal ? 'pending-med-or-renewal' : ''
       } vads-u-margin-y--2 no-break`}
     >
+      {rx?.dispStatus === 'Expired' && (
+        <div className="rx-card-header" data-testid="rx-card-header">
+          <VaAlert
+            status="warning"
+            visible
+            className="vads-u-margin-bottom--3"
+            data-testid="mhv-rx--delayed-refill-alert"
+            data-dd-privacy="mask"
+          >
+            <p>
+              You may have already requested a renewal. Check your sent messages
+            </p>
+          </VaAlert>
+        </div>
+      )}
       <div className="rx-card-details" data-testid="rx-card-info">
         <Link
           id={`card-header-${rx.prescriptionId}`}
@@ -119,7 +135,7 @@ const MedicationsListCard = ({ rx }) => {
               data-dd-privacy="mask"
               id={`prescription-number-${rx.prescriptionId}`}
             >
-              Prescription number:{' '}
+              Prescription number: CHECKKKKS{' '}
               <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
             </p>
           )}
