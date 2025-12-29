@@ -4,7 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 
-import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
+import {
+  FIELD_NAMES,
+  FIELD_SECTION_HEADERS,
+  FIELD_TITLES,
+} from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { isFieldEmpty } from '@@vap-svc/util';
@@ -15,14 +19,16 @@ import InitializeVAPServiceIDContainer from '@@vap-svc/containers/InitializeVAPS
 
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
+import { isSubtaskSchedulingPreference } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { EditFallbackContent } from './EditFallbackContent';
 import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
-import { getRoutesForNav } from '../../routesForNav';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import { getRouteInfoFromPath } from '../../../common/helpers';
+import getRoutes from '../../routes';
+import { getRoutesForNav } from '../../routesForNav';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -36,11 +42,14 @@ const getFieldInfo = fieldName => {
   if (!fieldNameKey) {
     return null;
   }
+  const fieldTitle = isSubtaskSchedulingPreference(fieldName)
+    ? `Edit ${FIELD_SECTION_HEADERS?.[fieldName]}`
+    : FIELD_TITLES?.[fieldName];
 
   return {
     fieldName,
     fieldKey: fieldNameKey,
-    title: FIELD_TITLES?.[fieldName] || '',
+    title: fieldTitle,
   };
 };
 
@@ -63,16 +72,29 @@ export const Edit = () => {
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const profile2Toggle = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const profileHealthCareSettingsPageToggle = useToggleValue(
+    TOGGLE_NAMES.profileHealthCareSettingsPage,
+  );
+  const profileSchedulingPreferencesToggle = useToggleValue(
+    TOGGLE_NAMES.profileSchedulingPreferences,
+  );
 
+  const routes = getRoutes({
+    profile2Enabled: profile2Toggle,
+    profileHealthCareSettingsPage: profileHealthCareSettingsPageToggle,
+    profileSchedulingPreferencesEnabled: profileSchedulingPreferencesToggle,
+  });
   const routesForNav = getRoutesForNav({
     profile2Enabled: profile2Toggle,
+    profileHealthCareSettingsPage: profileHealthCareSettingsPageToggle,
+    profileSchedulingPreferencesEnabled: profileSchedulingPreferencesToggle,
   });
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
 
   const returnRouteInfo = (() => {
     try {
-      return getRouteInfoFromPath(query.get('returnPath'), routesForNav);
+      return getRouteInfoFromPath(query.get('returnPath'), routes);
     } catch (e) {
       // default to using the root route if the returnPath is invalid
       return {
@@ -100,6 +122,11 @@ export const Edit = () => {
 
   const editPageHeadingString = useMemo(
     () => {
+      if (isSubtaskSchedulingPreference(fieldInfo?.fieldName)) {
+        return `Edit ${FIELD_SECTION_HEADERS?.[
+          fieldInfo.fieldName
+        ].toLowerCase()}`;
+      }
       const addOrUpdate = isFieldEmpty(fieldData, fieldInfo?.fieldName)
         ? 'Add'
         : 'Update';

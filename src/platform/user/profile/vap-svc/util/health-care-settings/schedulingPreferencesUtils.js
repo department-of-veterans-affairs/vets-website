@@ -75,7 +75,19 @@ export const getSchedulingPreferencesOptionDisplayName = (
 
 export const schedulingPreferencesUiSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
-    return { [fieldname]: {} }; // To be replaced with subtask UI schema
+    return {
+      [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
+        'ui:title': FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
+        'ui:widget': 'select',
+        'ui:required': () => true,
+        'ui:options': {
+          labels:
+            FIELD_OPTION_IDS_INVERTED[
+              FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+            ],
+        },
+      },
+    }; // To be replaced with subtask UI schema
   }
   return {
     [fieldname]: radioUI({
@@ -87,7 +99,64 @@ export const schedulingPreferencesUiSchema = fieldname => {
 
 export const schedulingPreferencesFormSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
-    return { type: 'object', properties: {} }; // To be replaced with subtask form schema
+    switch (fieldname) {
+      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+        return {
+          type: 'object',
+          properties: {
+            [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
+              type: 'string',
+              enum: Object.keys(
+                FIELD_OPTION_IDS_INVERTED[
+                  FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+                ],
+              ),
+            },
+          },
+        };
+      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+        return {
+          type: 'object',
+          properties: {
+            [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
+              type: 'array',
+              items: {
+                type: 'string',
+                enum: Object.keys(
+                  FIELD_OPTION_IDS_INVERTED[
+                    FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
+                  ],
+                ),
+              },
+              uniqueItems: true,
+            },
+          },
+        };
+      case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+        return {
+          type: 'object',
+          properties: {
+            [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: {
+              type: 'array',
+              items: {
+                type: 'string',
+                enum: Object.keys(
+                  FIELD_OPTION_IDS_INVERTED[
+                    FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
+                  ],
+                ),
+              },
+              uniqueItems: true,
+            },
+          },
+        };
+      default:
+        return {
+          type: 'object',
+          properties: {},
+        };
+    }
+    // return { type: 'object', properties: {} }; // To be replaced with subtask form schema
   }
   return {
     type: 'object',

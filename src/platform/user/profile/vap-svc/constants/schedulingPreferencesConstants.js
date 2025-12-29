@@ -72,14 +72,14 @@ export const FIELD_OPTION_IDS = {
 
 export const FIELD_OPTION_IDS_INVERTED = {
   [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
-    1: 'TELEPHONE_MOBILE',
-    38: 'TELEPHONE_HOME',
-    39: 'TELEPHONE_WORK',
-    2: 'TEXT_MESSAGE',
-    3: 'SECURE_MESSAGE',
-    4: 'US_POST',
-    5: 'EMAIL',
-    6: 'NO_PREFERENCE',
+    6: 'No preference',
+    5: 'Contact email',
+    38: 'Phone call: home phone',
+    1: 'Phone call: mobile phone',
+    39: 'Phone call: work phone',
+    2: 'Text message: mobile phone',
+    3: 'Secure message',
+    4: 'Mailing address',
   },
   [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
     7: 'MONDAY_MORNING',
@@ -92,7 +92,7 @@ export const FIELD_OPTION_IDS_INVERTED = {
     14: 'THURSDAY_AFTERNOON',
     15: 'FRIDAY_MORNING',
     16: 'FRIDAY_AFTERNOON',
-    17: 'NO_PREFERENCE',
+    17: 'No preference',
   },
   [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: {
     18: 'MONDAY_MORNING',
@@ -105,7 +105,7 @@ export const FIELD_OPTION_IDS_INVERTED = {
     25: 'THURSDAY_AFTERNOON',
     26: 'FRIDAY_MORNING',
     27: 'FRIDAY_AFTERNOON',
-    28: 'NO_PREFERENCE',
+    28: 'No preference',
   },
   [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]: {
     29: 'Yes',
@@ -175,27 +175,16 @@ export const API_ROUTES = {
 };
 
 const BASE_PATH = '/profile/health-care-settings/scheduling-preferences';
-
-const SCHEDULING_PREF_BASE_PATHS = {
-  CONTACT_METHOD: `${BASE_PATH}/contact-method`,
-  CONTACT_TIMES: `${BASE_PATH}/contact-times`,
-  APPOINTMENT_TIMES: `${BASE_PATH}/appointment-times`,
-};
+const PROFILE_EDIT = '/profile/edit';
 
 export const SCHEDULING_PREF_PATHS = {
-  CONTACT_METHOD: `${SCHEDULING_PREF_BASE_PATHS.CONTACT_METHOD}?fieldName=${
+  CONTACT_METHOD: `${PROFILE_EDIT}?fieldName=${
     FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
-  }&returnPath=${encodeURIComponent(
-    SCHEDULING_PREF_BASE_PATHS.CONTACT_METHOD,
-  )}`,
-  CONTACT_TIMES: `${SCHEDULING_PREF_BASE_PATHS.CONTACT_TIMES}?fieldName=${
+  }&returnPath=${encodeURIComponent(BASE_PATH)}`,
+  CONTACT_TIMES: `${PROFILE_EDIT}?fieldName=${
     FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
-  }&returnPath=${encodeURIComponent(SCHEDULING_PREF_BASE_PATHS.CONTACT_TIMES)}`,
-  APPOINTMENT_TIMES: `${
-    SCHEDULING_PREF_BASE_PATHS.APPOINTMENT_TIMES
-  }?fieldName=${
+  }&returnPath=${encodeURIComponent(BASE_PATH)}`,
+  APPOINTMENT_TIMES: `${PROFILE_EDIT}?fieldName=${
     FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
-  }&returnPath=${encodeURIComponent(
-    SCHEDULING_PREF_BASE_PATHS.APPOINTMENT_TIMES,
-  )}`,
+  }&returnPath=${encodeURIComponent(BASE_PATH)}`,
 };
