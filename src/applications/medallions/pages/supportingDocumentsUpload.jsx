@@ -1,7 +1,12 @@
 import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  titleUI,
+  fileInputUI,
+  fileInputSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
 import { supportingDocsInfo } from '../utils/helpers';
-import { fileUploadUi } from '../utils/upload';
+// import { fileUploadUi } from '../utils/upload';
 
 const description = formData => {
   return (
@@ -29,34 +34,47 @@ export default {
   uiSchema: {
     ...titleUI('Upload your supporting documents'),
     'ui:description': formData => description(formData),
-    supportingDocuments: fileUploadUi({}),
+    // supportingDocuments: fileUploadUi({}),
+    supportingDocuments: fileInputUI({
+      title: 'Upload your supporting documents',
+      required: false, // Set to true if required
+      hint:
+        'You can upload a .jpg, .pdf, or .png file. A .jpg or .png file must be less than 50MB. A .pdf file must be less than 100MB.',
+      accept: '.pdf,.jpg,.jpeg,.png',
+      maxFileSize: 100 * 1024 * 1024, // 100MB for PDF
+      minFileSize: 1024, // 1KB minimum
+      skipUpload: true, // Set to false when backend is ready
+      formNumber: 'medallions-form', // Update with actual form number
+      disallowEncryptedPdfs: true,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      supportingDocuments: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            fileName: {
-              type: 'string',
-            },
-            fileSize: {
-              type: 'integer',
-            },
-            confirmationNumber: {
-              type: 'string',
-            },
-            errorMessage: {
-              type: 'string',
-            },
-            uploading: {
-              type: 'boolean',
-            },
-          },
-        },
-      },
+      // supportingDocuments: {
+      //   type: 'array',
+      //   items: {
+      //     type: 'object',
+      //     properties: {
+      //       fileName: {
+      //         type: 'string',
+      //       },
+      //       fileSize: {
+      //         type: 'integer',
+      //       },
+      //       confirmationNumber: {
+      //         type: 'string',
+      //       },
+      //       errorMessage: {
+      //         type: 'string',
+      //       },
+      //       uploading: {
+      //         type: 'boolean',
+      //       },
+      //     },
+      //   },
+      // },
+      supportingDocuments: fileInputSchema(),
     },
   },
 };

@@ -336,7 +336,6 @@ const formConfig = {
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
-        // FIX LIVES HERE
         supportingDocumentsUpload: {
           path: 'supporting-documents-upload',
           title: 'Supporting Documents',
