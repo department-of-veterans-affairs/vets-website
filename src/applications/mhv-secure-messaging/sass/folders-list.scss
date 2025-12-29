@@ -77,3 +77,24 @@
     margin: 0;
   }
 }
+
+.folder-new-tag {
+  display: inline-block;
+  background-color: var(--vads-color-primary);
+  color: var(--vads-color-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 8px;
+  text-transform: uppercase;
+}
+
+.create-folder-inline-form {
+  margin-top: 16px;
+  max-width: 400px;
+
+  .input {
+    margin-left: 0;
+  }
+}
