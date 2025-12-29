@@ -8,6 +8,7 @@ import { logout as IAMLogout } from 'platform/user/authentication/utilities';
 import { refresh, logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { initializeProfile } from 'platform/user/profile/actions';
 import {
@@ -94,7 +95,7 @@ export class SessionTimeoutModal extends React.Component {
 
   render() {
     return (
-      <va-modal
+      <Modal
         hideCloseButton
         id="session-timeout-modal"
         focusSelector="button"
@@ -128,7 +129,7 @@ export class SessionTimeoutModal extends React.Component {
             Sign out
           </button>
         </div>
-      </va-modal>
+      </Modal>
     );
   }
 }
