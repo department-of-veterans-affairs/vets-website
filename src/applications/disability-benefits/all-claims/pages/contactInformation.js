@@ -157,9 +157,10 @@ export const uiSchema = {
       'ui:title': 'State',
       'ui:autocomplete': 'address-level1',
       'ui:webComponentField': VaSelectField,
-      'ui:errorMessages': {
-        required: 'Select a state',
-      },
+      // 'ui:errorMessages': {
+      //   required: 'Select a state',
+      // },
+      // hideIf: () => true,
       'ui:options': {
         // TODO this hideIf logic is not working
         hideIf: formData => {
@@ -172,7 +173,7 @@ export const uiSchema = {
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         hideEmptyValueInReview: true,
-        replaceSchema: (formData, schema, _uiSchema) => {
+        updateSchema: (formData, schema, _uiSchema) => {
           const addressData = formData.mailingAddress || {};
           const isMilitary = addressData['view:livesOnMilitaryBase'];
           const ui = _uiSchema;
@@ -191,9 +192,9 @@ export const uiSchema = {
           }
 
           ui['ui:webComponentField'] = VaSelectField;
-          ui['ui:errorMessages'] = {
-            required: 'Select a state',
-          };
+          // ui['ui:errorMessages'] = {
+          //   required: 'Select a state',
+          // };
           return {
             type: 'string',
             title: 'State',
