@@ -5,9 +5,53 @@ import {
   convertDemographics,
   convertAccountSummary,
   blueButtonReducer,
+  formatPractitionerName,
 } from '../../reducers/blueButton';
 import { Actions } from '../../util/actionTypes';
 import { NONE_RECORDED, UNKNOWN } from '../../util/constants';
+
+describe('formatPractitionerName', () => {
+  it('should format valid practitioner names correctly', () => {
+    expect(
+      formatPractitionerName({
+        name: { given: ['John', 'Michael'], family: 'Doe' },
+      }),
+    ).to.equal('John Michael Doe');
+    expect(
+      formatPractitionerName({ name: { given: ['Jane'], family: 'Smith' } }),
+    ).to.equal('Jane Smith');
+    expect(formatPractitionerName({ name: { given: ['Alice'] } })).to.equal(
+      'Alice',
+    );
+    expect(formatPractitionerName({ name: { family: 'Doe' } })).to.equal('Doe');
+  });
+
+  it('should handle missing or invalid given name gracefully', () => {
+    expect(
+      formatPractitionerName({ name: { given: undefined, family: 'Johnson' } }),
+    ).to.equal('Johnson');
+    expect(
+      formatPractitionerName({ name: { given: null, family: 'Williams' } }),
+    ).to.equal('Williams');
+    expect(
+      formatPractitionerName({ name: { given: [], family: 'Brown' } }),
+    ).to.equal('Brown');
+    expect(
+      formatPractitionerName({
+        name: { given: 'Not an array', family: 'Test' },
+      }),
+    ).to.equal('Test');
+  });
+
+  it('should return "Not available" for invalid or empty practitioners', () => {
+    expect(formatPractitionerName(null)).to.equal('Not available');
+    expect(formatPractitionerName(undefined)).to.equal('Not available');
+    expect(formatPractitionerName({})).to.equal('Not available');
+    expect(
+      formatPractitionerName({ name: { given: [], family: '' } }),
+    ).to.equal('Not available');
+  });
+});
 
 describe('convertMedication', () => {
   it('should return null when passed null or undefined', () => {
