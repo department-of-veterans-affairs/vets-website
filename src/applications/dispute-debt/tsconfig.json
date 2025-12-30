@@ -13,13 +13,15 @@
     "baseUrl": "../../../src",
     "paths": {
       "platform/*": ["platform/*"],
-      "~/*": ["*"]
+      "~/*": ["*"],
+      "@config/*": ["../../../config/*"]
     }
   },
   "include": [
     "**/*",
     "../../../config/web-components.d.ts",
     "../../../config/global-state.d.ts",
+    "../../../config/router-types.d.ts",
     "types/**/*"
   ]
 }
