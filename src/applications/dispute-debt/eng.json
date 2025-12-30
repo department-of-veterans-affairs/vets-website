@@ -1,7 +1,7 @@
 {
   "dispute-submission-alert": {
     "title": "Your dispute submission is in progress",
-    "description": "We sent a confirmation email to <bold>{{ email }}</bold>. We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.\n We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
+    "description": "We sent a confirmation email to <bold>{{ email }}</bold>. We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.<br/><br/> We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
   },
   "dispute-submitted-whats-next": {
     "first-action": {
@@ -101,7 +101,7 @@
       "type-header": "Submission type",
       "dmc-title": "Submission details",
       "vet-title": "Form submitted on {{date}}",
-      "text": "We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.\nWe expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
+      "text": "We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.\n\nWe expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
     },
     "section-headings": {
       "information-submitted": "Information submitted on this dispute",
