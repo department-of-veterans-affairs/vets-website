@@ -237,7 +237,7 @@ describe('Travel Pay – IntroductionPage', () => {
 
     expect($('va-omb-info[exp-date="11/30/2027"]'), container).to.exist;
     expect($('va-omb-info[omb-number="2900-0798"]'), container).to.exist;
-    expect($('va-omb-info[res-burden="15"]'), container).to.exist;
+    expect($('va-omb-info[res-burden="10"]'), container).to.exist;
   });
 
   it('renders the Need help section with contact info', () => {
