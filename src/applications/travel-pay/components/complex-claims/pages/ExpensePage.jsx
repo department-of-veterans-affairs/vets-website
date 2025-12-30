@@ -39,6 +39,7 @@ import {
   validateCommonCarrierFields,
   validateLodgingFields,
   validateMealFields,
+  normalizeISODate,
 } from '../../../util/expense-validation-helpers';
 
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
@@ -108,6 +109,8 @@ const ExpensePage = () => {
         const initialState = {
           ...expense,
           purchaseDate: normalizeDateOnly(expense.dateIncurred) || '',
+          checkInDate: normalizeDateOnly(expense.checkInDate) || '',
+          checkOutDate: normalizeDateOnly(expense.checkOutDate) || '',
         };
         setFormState(initialState);
         initialFormStateRef.current = initialState;
@@ -213,9 +216,11 @@ const ExpensePage = () => {
     let value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
-    if (name === 'purchaseDate' && typeof value === 'string') {
-      const [dateOnly] = value.split('T');
-      value = dateOnly;
+    if (
+      ['purchaseDate', 'checkInDate', 'checkOutDate'].includes(name) &&
+      typeof value === 'string'
+    ) {
+      value = normalizeISODate(value);
     }
 
     setFormState(prev => {

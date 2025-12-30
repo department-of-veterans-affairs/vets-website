@@ -128,7 +128,9 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     if (!root) return;
 
     // ---- COMMON FIELDS ----
-    const purchaseDate = root.querySelector('va-date[name="purchaseDate"]');
+    const purchaseDate = root.querySelector(
+      'va-memorable-date[name="purchaseDate"]',
+    );
     const costRequested = root.querySelector(
       'va-text-input[name="costRequested"]',
     );
@@ -197,8 +199,12 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
       }
       case 'Lodging': {
         const vendor = root.querySelector('va-text-input[name="vendor"]');
-        const checkIn = root.querySelector('va-date[name="checkInDate"]');
-        const checkOut = root.querySelector('va-date[name="checkOutDate"]');
+        const checkIn = root.querySelector(
+          'va-memorable-date[name="checkInDate"]',
+        );
+        const checkOut = root.querySelector(
+          'va-memorable-date[name="checkOutDate"]',
+        );
         if (vendor) {
           vendor.value = 'Test Hotel';
           const vendorEvent = new Event('input', { bubbles: true });
@@ -437,11 +443,11 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           );
 
           const dateInput = container.querySelector(
-            'va-date[name="purchaseDate"]',
+            'va-memorable-date[name="purchaseDate"]',
           );
           expect(dateInput).to.exist;
 
-          // The hint text is rendered in the 'hint' attribute of the va-date component
+          // The hint text is rendered in the 'hint' attribute of the va-memorable-date component
           const hintAttr = dateInput.getAttribute('hint');
           expect(hintAttr).to.equal(
             'Enter the date on your receipt, even if it’s the same as your check in or check out dates.',
@@ -452,7 +458,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           const mealConfig = EXPENSE_TYPES.Meal;
           const { container } = renderPage(mealConfig);
           const dateInput = container.querySelector(
-            'va-date[name="purchaseDate"]',
+            'va-memorable-date[name="purchaseDate"]',
           );
           expect(dateInput).to.exist;
           expect(dateInput.getAttribute('hint')).to.equal('');
@@ -471,7 +477,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           fireEvent.click(continueButton);
 
           const purchaseDateInput = container.querySelector(
-            'va-date[name="purchaseDate"]',
+            'va-memorable-date[name="purchaseDate"]',
           );
           const amountInput = container.querySelector(
             'va-text-input[name="costRequested"]',
@@ -566,7 +572,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
               await waitFor(() => {
                 const dateInput = container.querySelector(
-                  'va-date[name="purchaseDate"]',
+                  'va-memorable-date[name="purchaseDate"]',
                 );
                 const amountInput = container.querySelector(
                   'va-text-input[name="costRequested"]',
@@ -591,10 +597,10 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                     'va-text-input[name="vendor"]',
                   );
                   const checkInDateInput = container.querySelector(
-                    'va-date[name="checkInDate"]',
+                    'va-memorable-date[name="checkInDate"]',
                   );
                   const checkOutDate = container.querySelector(
-                    'va-date[name="checkOutDate"]',
+                    'va-memorable-date[name="checkOutDate"]',
                   );
                   expect(vendorInput.getAttribute('error')).to.exist;
                   expect(checkInDateInput.getAttribute('error')).to.exist;
@@ -660,7 +666,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
               // Wait for errors to appear
               await waitFor(() => {
                 const dateInput = container.querySelector(
-                  'va-date[name="purchaseDate"]',
+                  'va-memorable-date[name="purchaseDate"]',
                 );
                 expect(dateInput.getAttribute('error')).to.exist;
                 const amountInput = container.querySelector(
@@ -850,7 +856,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
                 await waitFor(() => {
                   const dateInput = container.querySelector(
-                    'va-date[name="purchaseDate"]',
+                    'va-memorable-date[name="purchaseDate"]',
                   );
                   const amountInput = container.querySelector(
                     'va-text-input[name="costRequested"]',
@@ -916,7 +922,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                 // Wait for errors to appear
                 await waitFor(() => {
                   const dateInput = container.querySelector(
-                    'va-date[name="purchaseDate"]',
+                    'va-memorable-date[name="purchaseDate"]',
                   );
                   expect(dateInput.getAttribute('error')).to.exist;
                   const amountInput = container.querySelector(
@@ -952,11 +958,11 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                     );
                     expect(vendor.getAttribute('error')).to.exist;
                     const checkInDate = container.querySelector(
-                      'va-date[name="checkInDate"]',
+                      'va-memorable-date[name="checkInDate"]',
                     );
                     expect(checkInDate.getAttribute('error')).to.exist;
                     const checkOutDate = container.querySelector(
-                      'va-date[name="checkOutDate"]',
+                      'va-memorable-date[name="checkOutDate"]',
                     );
                     expect(checkOutDate.getAttribute('error')).to.exist;
                   }
