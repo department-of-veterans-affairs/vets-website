@@ -145,7 +145,7 @@ const CAN_STATE_NAMES = constants.states.CAN.map(state => state.label);
 const MEX_STATE_VALUES = constants.states.MEX.map(state => state.value);
 const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
 
-const schemaCrossXRef = {
+export const schemaCrossXRef = {
   isMilitary: 'isMilitary',
   'view:militaryBaseDescription': 'view:militaryBaseDescription',
   country: 'country',
