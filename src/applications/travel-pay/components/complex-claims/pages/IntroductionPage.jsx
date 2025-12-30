@@ -11,6 +11,8 @@ import {
 } from '../../../redux/actions';
 import ComplexClaimRedirect from './ComplexClaimRedirect';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   selectAppointment,
   selectComplexClaim,
@@ -29,6 +31,8 @@ const IntroductionPage = () => {
   const title = 'File a travel reimbursement claim';
 
   useSetPageTitle(title);
+  useSetFocus();
+  useRecordPageview('complex-claims', title);
 
   const apptId = appointment?.id;
 
@@ -154,7 +158,7 @@ const IntroductionPage = () => {
 
         <div className="vads-u-margin--2">
           <va-omb-info
-            res-burden={15}
+            res-burden={10}
             omb-number="2900-0798"
             exp-date="11/30/2027"
           />
