@@ -4,7 +4,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import constants from 'vets-json-schema/dist/constants.json';
@@ -33,11 +33,11 @@ import {
   // FORM_PROFILE_STATES,
 } from '../constants';
 
-// import {
-//   // validateMilitaryCity,
-//   // validateMilitaryState,
-//   validateZIP,
-// } from '../validations';
+import {
+  //   // validateMilitaryCity,
+  //   // validateMilitaryState,
+  validateZIP,
+} from '../validations';
 // import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const {
@@ -197,6 +197,30 @@ export const uiSchema = {
       'ui:required': formData =>
         formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
         formData.mailingAddress.country === ('USA' || 'United States'),
+    },
+    zipCode: {
+      // is there a way to get this from addressUI?
+      // ...addressUI().postalCode,
+      'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
+      'ui:webComponentField': VaTextInputField,
+      'ui:required': formData =>
+        !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
+        formData.mailingAddress.country === ('USA' || 'United States'),
+      'ui:validations': [validateZIP],
+      'ui:errorMessages': {
+        required: 'Please enter a postal code',
+        pattern:
+          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+      },
+      'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
+        widgetClassNames: 'usa-input-medium',
+        hideIf: formData =>
+          formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
+          formData.mailingAddress.country !== 'USA',
+      },
     },
   },
   'view:contactInfoDescription': {
