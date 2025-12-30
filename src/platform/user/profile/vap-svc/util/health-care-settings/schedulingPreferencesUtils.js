@@ -39,7 +39,12 @@ export const isSubtaskSchedulingPreference = fieldName => {
   return SUBTASK_SCHEDULING_PREFERENCES.includes(fieldName);
 };
 
-const schedulingPreferenceOptions = fieldName => {
+export const schedulingPreferenceOptions = fieldName => {
+  if (fieldName === FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD) {
+    return FIELD_OPTION_IDS_INVERTED[
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+    ];
+  }
   if (fieldName === FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER) {
     return FIELD_OPTION_IDS_INVERTED[
       FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER
@@ -103,6 +108,7 @@ export const schedulingPreferencesFormSchema = fieldname => {
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
         return {
           type: 'object',
+          required: [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
           properties: {
             [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
               type: 'string',
@@ -110,7 +116,7 @@ export const schedulingPreferencesFormSchema = fieldname => {
                 FIELD_OPTION_IDS_INVERTED[
                   FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
                 ],
-              ).map(key => key.replace('option-', '')),
+              ),
             },
           },
         };
@@ -126,7 +132,7 @@ export const schedulingPreferencesFormSchema = fieldname => {
                   FIELD_OPTION_IDS_INVERTED[
                     FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
                   ],
-                ).map(key => key.replace('option-', '')),
+                ),
               },
               uniqueItems: true,
             },
@@ -144,7 +150,7 @@ export const schedulingPreferencesFormSchema = fieldname => {
                   FIELD_OPTION_IDS_INVERTED[
                     FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
                   ],
-                ).map(key => key.replace('option-', '')),
+                ),
               },
               uniqueItems: true,
             },

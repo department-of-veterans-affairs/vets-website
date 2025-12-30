@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // platform level imports
-import { redirect } from '../../../exportsFile';
+import { redirect } from '../../../authentication/utilities';
 import recordEvent from '../../../../monitoring/record-event';
 import { isVAPatient } from '../../../selectors';
 import { waitForRenderThenFocus } from '../../../../utilities/ui';
