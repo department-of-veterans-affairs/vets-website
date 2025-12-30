@@ -45,7 +45,7 @@ export default function ReasonForAppointmentSection({ data }) {
           <div>
             <va-link
               href={reason.url}
-              label="Edit details you’d like to share with your provider"
+              label="Edit reason for appointment"
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, home, reason)}
