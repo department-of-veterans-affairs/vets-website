@@ -49,7 +49,10 @@ export default function transform(formConfig, form) {
 
     clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
       request => {
-        const yearRange = request.academicYearDisplay.split('-');
+        const yearRange = request.academicYearDisplay
+          ? request.academicYearDisplay.split('-')
+          : request.academicYear.split('-');
+
         request.yearRange = {
           from: `${yearRange[0]}-XX-XX`,
           to: `${yearRange[1]}-XX-XX`,
@@ -234,7 +237,6 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  // Set *dateSigned* field to today's date
   const dateTransform = formData => {
     const clonedData = cloneDeep(formData);
 
@@ -246,9 +248,12 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  // Stringifies the form data and removes empty fields
   const usFormTransform = formData =>
-    transformForSubmit(formConfig, { ...form, data: formData });
+    transformForSubmit(
+      formConfig,
+      { ...form, data: formData },
+      { allowPartialAddress: true },
+    );
 
   const transformedData = [
     authorizedOfficialTransform,
@@ -263,8 +268,6 @@ export default function transform(formConfig, form) {
   ].reduce((formData, transformer) => {
     return transformer(formData);
   }, form.data);
-
-  // console.log('transformedData', transformedData);
 
   return JSON.stringify({
     educationBenefitsClaim: {
