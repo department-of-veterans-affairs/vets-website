@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  numberUI,
   textUI,
   radioUI,
   currencyUI,
@@ -49,10 +50,11 @@ const uiSchema = {
   },
 
   maximumStudents: {
-    ...textUI({
+    ...numberUI({
       title: 'Enter the maximum number of students',
       description:
         'Enter the total number of students eligible for this contribution. Values equal to or greater than 99,999 are treated as unlimited by the system.',
+      max: 99998,
       errorMessages: {
         required: 'Enter the maximum number of students',
         pattern: 'Enter a whole number',
@@ -64,7 +66,6 @@ const uiSchema = {
       return currentItem?.maximumStudentsOption === 'specific';
     },
     'ui:options': {
-      inputType: 'number',
       classNames:
         'vads-u-margin-bottom--2 contribution-degree-school container',
       expandUnder: 'maximumStudentsOption',
@@ -132,6 +133,7 @@ const uiSchema = {
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
       },
+      max: 99998.99,
     }),
     'ui:required': (formData, index) => {
       const currentItem =
