@@ -9,9 +9,15 @@ const listFmt = new Intl.ListFormat('en', {
 });
 
 const CONTENT = {
-  heading: names => `${names} status is unavailable`,
-  body: names =>
-    `VA.gov is having trouble loading ${names} information at this time. Check back again in an hour.`,
+  heading: headingNames => `${headingNames} status is unavailable`,
+  body: bodyNames =>
+    `VA.gov is having trouble loading ${bodyNames} information at this time. Check back again in an hour.`,
+  note: names => (
+    <>
+      {' '}
+      <strong>Note:</strong> You are still able to review {names} information.
+    </>
+  ),
 };
 
 function formatServiceNames(services, property) {
@@ -44,13 +50,7 @@ function ServiceUnavailableAlert({ services, headerLevel = 3 }) {
       <HeadingTag slot="headline">{CONTENT.heading(headingNames)}</HeadingTag>
       <p className="vads-u-margin-y--0">
         {CONTENT.body(bodyNames)}
-        {availableNames && (
-          <>
-            {' '}
-            <strong>Note:</strong> You are still able to review {availableNames}{' '}
-            information.
-          </>
-        )}
+        {availableNames && CONTENT.note(availableNames)}
       </p>
     </va-alert>
   );

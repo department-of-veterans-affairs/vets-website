@@ -20,7 +20,7 @@ describe('<ServiceUnavailableAlert>', () => {
     expect(heading.textContent).to.equal('Claim status is unavailable');
 
     // Test static text once
-    expect(within(container).getByText(/Check back again in an hour/i)).to.be
+    expect(within(container).getByText(/Check back again in an hour./i)).to.be
       .visible;
   });
 
@@ -32,7 +32,7 @@ describe('<ServiceUnavailableAlert>', () => {
 
       expect(
         within(container).getByText(
-          /VA.gov is having trouble loading claims information/i,
+          /VA.gov is having trouble loading claims information at this time\. Check back again in an hour\./,
         ),
       ).to.be.visible;
 
@@ -44,7 +44,7 @@ describe('<ServiceUnavailableAlert>', () => {
       // Verify the rest of the note text
       expect(
         within(container).getByText(
-          /You are still able to review appeals information/i,
+          /You are still able to review appeals information\./,
         ),
       ).to.be.visible;
     });
@@ -58,7 +58,7 @@ describe('<ServiceUnavailableAlert>', () => {
 
       expect(
         within(container).getByText(
-          /VA.gov is having trouble loading appeals information/i,
+          /VA\.gov is having trouble loading appeals information at this time\. Check back again in an hour\./,
         ),
       ).to.be.visible;
 
@@ -70,7 +70,7 @@ describe('<ServiceUnavailableAlert>', () => {
       // Verify the rest of the note text
       expect(
         within(container).getByText(
-          /You are still able to review claims information/i,
+          /You are still able to review claims information\./,
         ),
       ).to.be.visible;
     });
@@ -84,7 +84,7 @@ describe('<ServiceUnavailableAlert>', () => {
 
       expect(
         within(container).getByText(
-          /VA.gov is having trouble loading claims and appeals information/i,
+          'VA.gov is having trouble loading claims and appeals information at this time. Check back again in an hour.',
         ),
       ).to.be.visible;
 
