@@ -10,14 +10,16 @@
  */
 
 import type { InferProps } from 'prop-types';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+// Import the base component (named export) to access PropTypes
+// The default export is the connected/wrapped component which doesn't expose propTypes
+import { RoutedSavableApp as BaseRoutedSavableApp } from 'platform/forms/save-in-progress/RoutedSavableApp';
 // Import the base component (before connect) to access PropTypes
 // The named export is the base component, default export is the connected one
 import { DowntimeNotification as BaseDowntimeNotification } from 'platform/monitoring/DowntimeNotification/containers/DowntimeNotification';
 
 // Infer types from PropTypes - automatically stays in sync with component definitions
 export type RoutedSavableAppProps = InferProps<
-  typeof RoutedSavableApp.propTypes
+  typeof BaseRoutedSavableApp.propTypes
 >;
 
 export type DowntimeNotificationProps = InferProps<
