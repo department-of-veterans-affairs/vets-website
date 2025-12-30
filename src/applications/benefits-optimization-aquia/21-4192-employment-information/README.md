@@ -204,7 +204,7 @@ The form uses helper functions to adjust language based on whether the veteran i
 
 ## Content Widget
 
-This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/find-forms/about-form-21-4192/`).
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/about-form-21-4192/`).
 
 - **Widget Type**: `form214192`
 - **Feature Flag**: `form_4192_enabled`

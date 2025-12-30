@@ -200,7 +200,7 @@ The form uses multi-page list & loop patterns for repeating data:
 
 ## Content Widget
 
-This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/find-forms/about-form-21p-530a/`).
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/about-form-21p-530a/`).
 
 - **Widget Type**: `form21p530a`
 - **Feature Flag**: `form_530a_enabled`

@@ -45,7 +45,7 @@ export const App = ({ location, router, children }) => {
 
   // Redirect to home if form is disabled
   if (!formEnabled) {
-    window.location.replace('/find-forms/about-form-21-0779/');
+    window.location.replace('/forms/about-form-21-0779/');
     return null;
   }
 

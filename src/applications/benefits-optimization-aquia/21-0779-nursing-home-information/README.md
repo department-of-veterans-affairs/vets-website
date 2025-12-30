@@ -222,7 +222,7 @@ yarn watch --env entry=auth,static-pages,login-page,21-0779-nursing-home-informa
 
 ## Content Widget
 
-This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/find-forms/about-form-21-0779/`).
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/about-form-21-0779/`).
 
 - **Widget Type**: `form210779`
 - **Feature Flag**: `form_0779_enabled`

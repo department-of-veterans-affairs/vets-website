@@ -237,7 +237,7 @@ yarn watch --env entry=auth,static-pages,dashboard,find-forms,login-page,21-2680
 
 ## Content Widget
 
-This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/find-forms/about-form-21-2680/`).
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/about-form-21-2680/`).
 
 - **Widget Type**: `form212680`
 - **Feature Flag**: `form_2680_enabled`
