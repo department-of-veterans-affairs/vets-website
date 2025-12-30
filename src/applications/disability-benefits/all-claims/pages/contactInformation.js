@@ -7,7 +7,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import constants from 'vets-json-schema/dist/constants.json';
+// import constants from 'vets-json-schema/dist/constants.json';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
@@ -24,15 +24,15 @@ import {
 
 // import { addressUISchema } from '../utils/schemas';
 
-// import {
-//   ADDRESS_PATHS,
-//   USA,
-//   MILITARY_STATE_LABELS,
-//   MILITARY_STATE_VALUES,
-//   MILITARY_CITIES,
-//   STATE_LABELS,
-//   STATE_VALUES,
-// } from '../constants';
+import {
+  // ADDRESS_PATHS,
+  // USA,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  MILITARY_CITIES,
+  STATE_LABELS,
+  STATE_VALUES,
+} from '../constants';
 
 // import {
 //   // validateMilitaryCity,
@@ -60,31 +60,31 @@ const {
 //   },
 //   fullSchema.definitions.address,
 // );
-const MILITARY_STATES = [
-  {
-    label:
-      'AA (Armed Forces America) - North and South America, excluding Canada',
-    value: 'AA',
-  },
-  {
-    label:
-      'AE (Armed Forces Europe) - Africa, Canada, Europe, and the Middle East',
-    value: 'AE',
-  },
-  {
-    label: 'AP (Armed Forces Pacific) - Pacific',
-    value: 'AP',
-  },
-];
+// const MILITARY_STATES = [
+//   {
+//     label:
+//       'AA (Armed Forces America) - North and South America, excluding Canada',
+//     value: 'AA',
+//   },
+//   {
+//     label:
+//       'AE (Armed Forces Europe) - Africa, Canada, Europe, and the Middle East',
+//     value: 'AE',
+//   },
+//   {
+//     label: 'AP (Armed Forces Pacific) - Pacific',
+//     value: 'AP',
+//   },
+// ];
 
-const MILITARY_STATE_VALUES = MILITARY_STATES.map(state => state.value);
-const MILITARY_STATE_NAMES = MILITARY_STATES.map(state => state.label);
-const filteredStates = constants.states.USA.filter(
-  state => !MILITARY_STATE_VALUES.includes(state.value),
-);
+// const MILITARY_STATE_VALUES = MILITARY_STATES.map(state => state.value);
+// const MILITARY_STATE_NAMES = MILITARY_STATES.map(state => state.label);
+// const filteredStates = constants.states.USA.filter(
+//   state => !MILITARY_STATE_VALUES.includes(state.value),
+// );
 
-const STATE_VALUES = filteredStates.map(state => state.value);
-const STATE_NAMES = filteredStates.map(state => state.label);
+// const STATE_VALUES = filteredStates.map(state => state.value);
+// const STATE_NAMES = filteredStates.map(state => state.label);
 
 // const countryEnum = fullSchema.definitions.country.enum;
 // const citySchema = fullSchema.definitions.address.properties.city;
@@ -162,46 +162,68 @@ export const uiSchema = {
       // },
       // hideIf: () => true,
       'ui:options': {
-        // TODO this hideIf logic is not working
-        hideIf: formData => {
-          const addressData = formData.mailingAddress || {};
-          const isMilitary = addressData['view:livesOnMilitaryBase'];
-          const { country } = addressData;
-
-          return !isMilitary && country !== 'USA';
-        },
+        hideIf: formData =>
+          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
+          formData.mailingAddress.country !== 'USA',
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         hideEmptyValueInReview: true,
         updateSchema: (formData, schema, _uiSchema) => {
-          const addressData = formData.mailingAddress || {};
-          const isMilitary = addressData['view:livesOnMilitaryBase'];
           const ui = _uiSchema;
 
-          if (isMilitary) {
+          if (
+            formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
+            MILITARY_CITIES.includes(formData.mailingAddress.city)
+          ) {
             ui['ui:webComponentField'] = VaRadioField;
             ui['ui:errorMessages'] = {
-              required: 'Select a military state',
+              enum: 'Select a military state',
             };
             return {
-              type: 'string',
-              title: 'State',
+              //  type: 'string',
+              // title: 'State',
               enum: MILITARY_STATE_VALUES,
-              enumNames: MILITARY_STATE_NAMES,
+              enumNames: MILITARY_STATE_LABELS,
             };
           }
-
           ui['ui:webComponentField'] = VaSelectField;
-          // ui['ui:errorMessages'] = {
-          //   required: 'Select a state',
-          // };
+          ui['ui:errorMessages'] = {
+            required: 'Select a state',
+          };
           return {
-            type: 'string',
-            title: 'State',
-            enum: STATE_VALUES, // You'll need to add US state values
-            enumNames: STATE_NAMES, // You'll need to add US state names
+            enum: STATE_VALUES,
+            enumNames: STATE_LABELS,
           };
         },
+
+        // const addressData = formData.mailingAddress || {};
+        // const isMilitary = addressData['view:livesOnMilitaryBase'];
+        // const ui = _uiSchema;
+
+        // if (isMilitary) {
+        //   ui['ui:webComponentField'] = VaRadioField;
+        //   ui['ui:errorMessages'] = {
+        //     required: 'Select a military state',
+        //   };
+        //   return {
+        //     type: 'string',
+        //     title: 'State',
+        //     enum: MILITARY_STATE_VALUES,
+        //     enumNames: MILITARY_STATE_NAMES,
+        //   };
+        // }
+
+        // ui['ui:webComponentField'] = VaSelectField;
+        // ui['ui:errorMessages'] = {
+        //   required: 'Select a state',
+        // };
+        // return {
+        //   type: 'string',
+        //   title: 'State',
+        //   enum: STATE_VALUES, // You'll need to add US state values
+        //   enumNames: STATE_NAMES, // You'll need to add US state names
+        // };
+        // },
       },
       'ui:required': formData =>
         formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
