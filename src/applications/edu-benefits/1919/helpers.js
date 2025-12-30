@@ -278,6 +278,7 @@ export const validateConflictOfInterestEndDate = (errors, dateString) => {
 
   if (!isValidDateString(dateString)) errors.addError('Enter a valid date');
 };
+
 export const ProprietaryProfitAdditionalInfo = () => (
   <va-additional-info trigger="What is a proprietary school?">
     <p>
@@ -286,3 +287,11 @@ export const ProprietaryProfitAdditionalInfo = () => (
     </p>
   </va-additional-info>
 );
+
+export const CustomReviewTopContent = () => {
+  return (
+    <h3 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--3">
+      Review your form
+    </h3>
+  );
+};
