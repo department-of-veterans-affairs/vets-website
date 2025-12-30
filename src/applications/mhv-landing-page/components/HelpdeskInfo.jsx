@@ -10,13 +10,8 @@ const HelpdeskInfo = () => {
         Call the My HealtheVet help desk at{' '}
         <va-telephone contact="8773270022" />. We’re here Monday through Friday,
         8:00 a.m to 8:00 p.m ET. If you have hearing loss, call{' '}
-        <va-telephone contact="711" tty="true" />.
-      </p>
-      <p>
-        <b>Note:</b> To find out when and how your account was used to access
-        your health care information, contact the help desk. The help desk
-        representative will ask you for the date range you’d like them to
-        review.
+        <va-telephone contact="711" tty="true" />. The help desk can also help
+        you review a log of your activity on My HealtheVet on VA.gov.
       </p>
     </div>
   );
