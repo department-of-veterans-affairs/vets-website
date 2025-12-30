@@ -6,7 +6,7 @@
  * add their typed versions here.
  * 
  * Usage:
- *   import { RoutedSavableApp, DowntimeNotification } from '../types/platform-components-typed';
+ *   import { RoutedSavableApp, DowntimeNotification } from '../../config/globalTypes/platform-components-typed';
  * 
  * Pattern for adding new components:
  *   1. Add the props type to platform-components.ts
@@ -19,7 +19,10 @@ import type { ComponentType } from 'react';
 import RoutedSavableAppBase from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { DowntimeNotification as DowntimeNotificationBase } from 'platform/monitoring/DowntimeNotification';
 
-import type { RoutedSavableAppProps, DowntimeNotificationProps } from './platform-components';
+import type {
+  RoutedSavableAppProps,
+  DowntimeNotificationPublicProps,
+} from './platform-components';
 
 // RoutedSavableApp - wrapped with connect() and withRouter()
 // @ts-expect-error - HOC typing limitation - types still inferred from PropTypes
@@ -27,4 +30,4 @@ export const RoutedSavableApp: ComponentType<RoutedSavableAppProps> = RoutedSava
 
 // DowntimeNotification - wrapped with connect()
 // @ts-expect-error - HOC typing limitation - types still inferred from PropTypes
-export const DowntimeNotification: ComponentType<DowntimeNotificationProps> = DowntimeNotificationBase;
+export const DowntimeNotification: ComponentType<DowntimeNotificationPublicProps> = DowntimeNotificationBase;
