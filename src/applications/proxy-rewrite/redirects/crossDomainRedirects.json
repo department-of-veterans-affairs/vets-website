@@ -2177,6 +2177,12 @@
   "catchAll": true
 },
 {
+  "domain": "www.benefits.va.gov",
+  "src": "/rosandiego",
+  "dest": "/san-diego-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
   "domain": "www.caregiver.va.gov",
   "src": "/support/New_CSC_Page.asp",
   "dest": "/resources/caregiver-support-teams/",
