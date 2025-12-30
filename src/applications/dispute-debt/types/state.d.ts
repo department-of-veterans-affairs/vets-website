@@ -6,69 +6,55 @@
  * - Platform-wide common reducers (user, scheduledDowntime, etc.)
  */
 
-export interface DisputeDebtState {
-  // App-specific state
+import type {
+  GlobalState,
+  UserState,
+  ScheduledDowntimeState,
+} from '../../../config/global-state';
+
+/**
+ * Complete state for dispute-debt app - extends GlobalState with app-specific state
+ */
+export interface DisputeDebtGlobalState extends GlobalState {
+  // App-specific state (dispute-debt)
   form: FormState;
   availableDebts: AvailableDebtsState;
   vapService: VAPServiceState;
-
-  // Platform-wide common state
-  user: UserState;
-  scheduledDowntime: ScheduledDowntimeState;
-  announcements: AnnouncementsState;
-  headerMenuReducer: HeaderMenuState;
-  externalServiceStatuses: ExternalServiceStatusesState;
-  featureToggles: FeatureTogglesState;
-  drupalStaticData: DrupalStaticDataState;
-  navigation: NavigationState;
-  layout: LayoutState;
-  megaMenu: MegaMenuState;
-  i18State: I18State;
 }
+
+/**
+ * Dispute-debt app state - only includes state we actually access in this app
+ * Uses Pick to select only the properties we need from DisputeDebtGlobalState
+ */
+export type DisputeDebtState = Pick<
+  DisputeDebtGlobalState,
+  | 'form'
+  | 'availableDebts'
+  | 'vapService'
+  | 'user'
+  | 'scheduledDowntime'
+>;
 
 /**
  * Form state from platform/forms/save-in-progress
  * Created by createSaveInProgressFormReducer
  */
+/**
+ * Form state - only typing the property we actually access
+ * Other properties exist in the form system but we don't use them here
+ */
 export interface FormState {
   data?: FormData;
-  pages?: Record<string, PageState>;
-  initialData?: FormData;
-  savedStatus?: string;
-  autoSavedStatus?: string;
-  loadedStatus?: string;
-  prefillStatus?: string;
-  isStartingOver?: boolean;
-  lastSavedDate?: string | null;
-  expirationDate?: string | null;
-  inProgressFormId?: string | null;
-  loadedData?: {
-    formData: FormData;
-    metadata?: Record<string, unknown>;
-  };
-  version?: string;
-  formId?: string;
-  disableSave?: boolean;
-  migrations?: unknown[];
-  prefillTransformer?: unknown;
-  trackingPrefix?: string;
-  additionalRoutes?: unknown[];
 }
 
-/**
- * Page state structure
- */
-export interface PageState {
-  [key: string]: unknown;
-}
 
 /**
  * Form data structure - the actual form values
+ * Additional fields are allowed but not typed here
  */
 export interface FormData {
   selectedDebts?: SelectedDebt[];
   veteran?: VeteranFormData;
-  [key: string]: unknown; // Additional form fields
 }
 
 /**
@@ -109,7 +95,6 @@ export interface AddressData {
   zipCode?: string;
   zipCodeSuffix?: string;
   countryName?: string;
-  [key: string]: unknown;
 }
 
 /**
@@ -119,7 +104,6 @@ export interface PhoneData {
   areaCode?: string;
   phoneNumber?: string;
   extension?: string;
-  [key: string]: unknown;
 }
 
 /**
@@ -150,152 +134,11 @@ export interface Debt {
   rcvblId: string;
 }
 
-/**
- * User state from platform/user
- * Contains login and profile sub-reducers
- */
-export interface UserState {
-  login: LoginState;
-  profile: ProfileState;
-}
+// Platform state types are imported from config/global-state.d.ts
 
 /**
- * Login state
- * From platform/user/authentication/reducers
- */
-export interface LoginState {
-  currentlyLoggedIn: boolean;
-  hasCheckedKeepAlive: boolean;
-}
-
-/**
- * Profile state
- * From platform/user/profile/reducers
- */
-export interface ProfileState {
-  userFullName: {
-    first: string | null;
-    middle: string | null;
-    last: string | null;
-    suffix: string | null;
-  };
-  preferredName: string | null;
-  createdAt: string | null;
-  email: string | null;
-  dob: string | null;
-  gender: string | null;
-  accountType: string | null;
-  accountUuid: string | null;
-  isCernerPatient: boolean;
-  loa: {
-    current: number | null;
-    highest: number | null;
-  };
-  verified: boolean;
-  mhvAccount: {
-    accountLevel: string | null;
-    accountState: string | null;
-    errors: unknown | null;
-    loading: boolean;
-    termsAndConditionsAccepted: boolean;
-    messagingSignature: string | null;
-  };
-  vapContactInfo: Record<string, unknown>;
-  savedForms: Array<{ form: string; [key: string]: unknown }>;
-  prefillsAvailable: string[];
-  loading: boolean;
-  services: string[];
-  session: Record<string, unknown>;
-  mhvTransitionEligible: boolean;
-  userAtPretransitionedOhFacility: boolean;
-  userFacilityReadyForInfoAlert: boolean;
-  errors: boolean;
-}
-
-/**
- * Scheduled Downtime state
- * From platform/monitoring/DowntimeNotification/reducer
- */
-export interface ScheduledDowntimeState {
-  globalDowntime: GlobalDowntime | null;
-  isReady: boolean;
-  isPending: boolean;
-  serviceMap: ServiceMap | null;
-  dismissedDowntimeWarnings: string[];
-}
-
-/**
- * Global downtime information
- */
-export interface GlobalDowntime {
-  startTime: string | Date;
-  endTime: string | Date;
-  [key: string]: unknown;
-}
-
-/**
- * Service map - maps external service names to downtime information
- */
-export interface ServiceMap {
-  [serviceName: string]: ServiceDowntimeInfo;
-}
-
-/**
- * Service downtime information
- */
-export interface ServiceDowntimeInfo {
-  externalService: string;
-  startTime: string | Date;
-  endTime: string | Date | null;
-  description?: string;
-  [key: string]: unknown;
-}
-
-/**
- * VAP Service state
+ * VAP Service state - we don't access this in dispute-debt
  * From @@vap-svc/reducers
+ * Minimal typing since we don't use it
  */
-export interface VAPServiceState {
-  [key: string]: unknown;
-}
-
-/**
- * Platform state types - these are less critical for dispute-debt app
- * but included for completeness. Can be expanded as needed.
- */
-
-export interface AnnouncementsState {
-  [key: string]: unknown;
-}
-
-export interface HeaderMenuState {
-  [key: string]: unknown;
-}
-
-export interface ExternalServiceStatusesState {
-  [key: string]: unknown;
-}
-
-export interface FeatureTogglesState {
-  [toggleName: string]: boolean | unknown;
-}
-
-export interface DrupalStaticDataState {
-  [key: string]: unknown;
-}
-
-export interface NavigationState {
-  [key: string]: unknown;
-}
-
-export interface LayoutState {
-  [key: string]: unknown;
-}
-
-export interface MegaMenuState {
-  [key: string]: unknown;
-}
-
-export interface I18State {
-  [key: string]: unknown;
-}
+export type VAPServiceState = Record<string, string | number | boolean>;
