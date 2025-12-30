@@ -249,18 +249,15 @@ Each form has its own dedicated vets-api endpoint:
 
 ## Content Widgets
 
-Each form has a content widget that controls the "Submit online" link on its Drupal CMS "about" page (e.g., `/forms/about-form-21-0779/`). These widgets check feature flags to show or hide the digital form link, preventing broken links when forms are toggled off.
+Forms a content widget that controls the "Submit online" link on its Drupal CMS "about" page (e.g., `/forms/about-form-21-2680/`). These widgets check feature flags to show or hide the digital form link, preventing broken links when forms are toggled off.
 
 ### Widget Location
 
 ```text
 src/applications/static-pages/benefits-optimization-aquia/
-├── 21-0779/
-│   ├── App.js      # React component with feature toggle logic
-│   └── entry.js    # Widget creator function
 ├── 21-2680/
-├── 21-4192/
-└── 21P-530a/
+│   ├── App.js      # React component with feature toggle logic
+└── └── entry.js    # Widget creator function
 ```
 
 ### Drupal CMS Configuration
@@ -269,10 +266,7 @@ When configuring the React Widget paragraph in Drupal, use these `fieldWidgetTyp
 
 | Form     | Widget Type   | Feature Flag (vets-api) |
 | -------- | ------------- | ----------------------- |
-| 21-0779  | `form210779`  | `form_0779_enabled`     |
 | 21-2680  | `form212680`  | `form_2680_enabled`     |
-| 21-4192  | `form214192`  | `form_4192_enabled`     |
-| 21P-530a | `form21p530a` | `form_530a_enabled`     |
 
 ### Widget Behavior
 
