@@ -9,19 +9,20 @@ import {
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
-import { getFormNumber } from '../helpers';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
+import { getFormContent, getFormNumber } from '../helpers';
 import { ITF_PATH } from '../constants';
 
-const IntroductionPage = ({ route, router }) => {
+const IntroductionPageITF = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
-
+  const { subTitle } = getFormContent();
   const startBtn = useMemo(
     () => {
       const startForm = () => {
         sessionStorage.setItem('formIncompleteARP', 'true');
         recordEvent({ event: `${formNumber}-start-form` });
-        return router.push(`${ITF_PATH}/is-veteran`);
+        return router.push(`${ITF_PATH}/claimant-background`);
       };
       return (
         <VaLinkAction
@@ -34,18 +35,14 @@ const IntroductionPage = ({ route, router }) => {
         />
       );
     },
-    [route.pageList, router],
+    [route.pageList, router, formNumber],
   );
   useEffect(() => {
     focusElement('h1');
   }, []);
   return (
     <article className="schemaform-intro representative-form">
-      <h1 data-testid="form-title">Submit VA Form {formNumber}</h1>
-      <p className="va-introtext">
-        Intent to File a Claim for Compensation and/or Pension, or Survivors
-        Pension and/or DIC
-      </p>
+      <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
       <h2 className="representative-form__h2">
         Follow these steps to complete the submission
       </h2>
@@ -65,13 +62,16 @@ const IntroductionPage = ({ route, router }) => {
   );
 };
 
-IntroductionPage.propTypes = {
+IntroductionPageITF.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool.isRequired,
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-export default IntroductionPage;
+export default IntroductionPageITF;

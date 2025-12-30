@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -6,15 +6,20 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   createExpense,
   updateExpense,
+  setUnsavedExpenseChanges,
   setReviewPageAlert,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
   selectAllExpenses,
+  selectAppointment,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import {
@@ -30,6 +35,17 @@ const Mileage = () => {
   const { apptId, claimId, expenseId } = useParams();
 
   const isEditMode = !!expenseId;
+
+  useSetFocus();
+
+  const { data: appointment } = useSelector(selectAppointment);
+  const allExpenses = useSelector(selectAllExpenses);
+  const address = useSelector(selectVAPResidentialAddress);
+
+  const title = 'Mileage';
+
+  useSetPageTitle(title);
+  useRecordPageview('complex-claims', title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode
@@ -37,127 +53,165 @@ const Mileage = () => {
         : selectExpenseCreationLoadingState(state),
   );
 
-  const allExpenses = useSelector(selectAllExpenses);
+  const initialFormStateRef = useRef({
+    departureAddress: '',
+    tripType: '',
+  });
+  const previousHasChangesRef = useRef(false);
 
-  const address = useSelector(selectVAPResidentialAddress);
-
-  const [departureAddress, setDepartureAddress] = useState('');
-  const [tripType, setTripType] = useState('');
+  const [formState, setFormState] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showTripTypeError, setShowTripTypeError] = useState(false);
+  const [showDepartureAddressError, setShowDepartureAddresError] = useState(
+    false,
+  );
 
-  const handleDepartureAddressChange = event => {
-    setDepartureAddress(event.detail.value);
+  // Handle form changes
+  const handleFormChange = (event, explicitName) => {
+    const name = explicitName ?? event.target?.name ?? event.detail?.name; // rarely used, but safe to include
+    const value =
+      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+    setFormState(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleTripTypeChange = event => {
-    setTripType(event.detail.value);
-  };
+  // Track unsaved changes
+  useEffect(
+    () => {
+      const hasChanges =
+        JSON.stringify(formState) !==
+        JSON.stringify(initialFormStateRef.current);
+      // Only dispatch if the hasChanges value actually changed
+      if (hasChanges !== previousHasChangesRef.current) {
+        dispatch(setUnsavedExpenseChanges(hasChanges));
+        previousHasChangesRef.current = hasChanges;
+      }
+    },
+    [formState, dispatch],
+  );
 
-  const handleOpenModal = () => {
-    setIsModalVisible(true);
-  };
+  // Initialize form state for edit or default
+  useEffect(
+    () => {
+      const hasMileageExpense = (allExpenses ?? []).some(
+        e => e.expenseType === EXPENSE_TYPE_KEYS.MILEAGE,
+      );
 
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
+      if (expenseId || hasMileageExpense) {
+        const initialState = {
+          departureAddress: 'home-address',
+          tripType: TRIP_TYPES.ROUND_TRIP.value,
+        };
+        setFormState(initialState);
+        initialFormStateRef.current = initialState;
+      }
+    },
+    [allExpenses, expenseId],
+  );
 
-  const handleConfirmCancel = () => {
-    handleCloseModal();
-    if (isEditMode) {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+  const validatePage = () => {
+    const requiredFields = ['departureAddress', 'tripType'];
+    const emptyFields = requiredFields.filter(field => !formState[field]);
+    if (emptyFields.includes('departureAddress')) {
+      setShowDepartureAddresError(true);
     } else {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+      setShowDepartureAddresError(false); // Set to false if previously shown
     }
+    if (emptyFields.includes('tripType')) {
+      setShowTripTypeError(true);
+    } else {
+      setShowTripTypeError(false); // Set to false if previously shown
+    }
+    return emptyFields.length === 0;
   };
 
   const handleContinue = async () => {
-    const expenseData = {
-      tripType,
-      expenseType: EXPENSE_TYPE_KEYS.MILEAGE,
-    };
+    if (!validatePage()) return;
 
     // Check if user selected "another-address" or "one-way"
     if (
-      departureAddress === 'another-address' ||
-      tripType === TRIP_TYPES.ONE_WAY.key
+      formState.departureAddress === 'another-address' ||
+      formState.tripType === TRIP_TYPES.ONE_WAY.value
     ) {
       navigate(`/file-new-claim/${apptId}/${claimId}/unsupported`);
-    } else {
-      try {
-        if (isEditMode) {
-          await dispatch(
-            updateExpense(
-              claimId,
-              EXPENSE_TYPES.Mileage.apiRoute,
-              expenseId,
-              expenseData,
-            ),
-          );
-        } else {
-          await dispatch(
-            createExpense(claimId, EXPENSE_TYPES.Mileage.apiRoute, expenseData),
-          );
-        }
+      return;
+    }
 
-        // Set success alert in Redux
-        dispatch(
-          setReviewPageAlert({
-            title: '',
-            description: `You successfully ${
-              isEditMode ? 'updated your' : 'added a'
-            } ${EXPENSE_TYPES.Mileage.expensePageText} expense.`,
-            type: 'success',
-          }),
+    // Building the mileage expense request body
+    const expenseData = {
+      purchaseDate: appointment?.localStartTime
+        ? appointment.localStartTime.slice(0, 10) // Only the date portion of the localStartTime
+        : '',
+      description: 'Mileage',
+      tripType: formState.tripType,
+    };
+
+    try {
+      if (isEditMode) {
+        await dispatch(
+          updateExpense(
+            claimId,
+            EXPENSE_TYPES.Mileage.apiRoute,
+            expenseId,
+            expenseData,
+          ),
         );
-      } catch (error) {
-        // Set error alert
-        const verb = isEditMode ? 'edit' : 'add';
-        dispatch(
-          setReviewPageAlert({
-            title: `We couldn't ${verb} this expense right now`,
-            description: `We're sorry. We can't ${
-              isEditMode ? 'edit' : 'add'
-            } this expense${
-              isEditMode ? '' : ' to your claim'
-            }. Try again later.`,
-            type: 'error',
-          }),
+      } else {
+        await dispatch(
+          createExpense(claimId, EXPENSE_TYPES.Mileage.apiRoute, expenseData),
         );
       }
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+
+      initialFormStateRef.current = formState;
+      dispatch(setUnsavedExpenseChanges(false));
+
+      dispatch(
+        setReviewPageAlert({
+          title: '',
+          description: `You successfully ${
+            isEditMode ? 'updated your' : 'added a'
+          } ${EXPENSE_TYPES.Mileage.expensePageText} expense.`,
+          type: 'success',
+        }),
+      );
+    } catch {
+      const verb = isEditMode ? 'edit' : 'add';
+      dispatch(
+        setReviewPageAlert({
+          title: `We couldn't ${verb} this expense right now`,
+          description: `We're sorry. We can't ${verb} this expense${
+            isEditMode ? '' : ' to your claim'
+          }. Try again later.`,
+          type: 'error',
+        }),
+      );
     }
+
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {
     if (isEditMode) {
       setIsModalVisible(true);
     } else {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };
 
-  useEffect(
-    () => {
-      const hasMileageExpense = (allExpenses ?? []).some(
-        e => e.expenseType === EXPENSE_TYPE_KEYS.MILEAGE,
-      );
-      if (expenseId ?? hasMileageExpense) {
-        setDepartureAddress('home-address');
-        setTripType(TRIP_TYPES.ROUND_TRIP.key);
-      }
-    },
-    [claimId, allExpenses, expenseId],
-  );
+  const handleOpenModal = () => setIsModalVisible(true);
+  const handleCloseModal = () => setIsModalVisible(false);
+  const handleConfirmCancel = () => {
+    handleCloseModal();
+    dispatch(setUnsavedExpenseChanges(false));
+    navigate(
+      isEditMode
+        ? `/file-new-claim/${apptId}/${claimId}/review`
+        : `/file-new-claim/${apptId}/${claimId}/choose-expense`,
+    );
+  };
 
   return (
     <>
-      <h1>Mileage</h1>
+      <h1>{title}</h1>
       <va-additional-info
         class="vads-u-margin-y--3"
         trigger="How we calculate mileage"
@@ -169,7 +223,7 @@ const Mileage = () => {
           </li>
           <li>
             We calculate the miles you drove to the appointment based on your
-            starting address, then compensate you a set amount per mile.
+            starting address, then pay you a set amount per mile.
           </li>
           <li>We pay round-trip mileage for your scheduled appointments.</li>
           <li>
@@ -184,11 +238,12 @@ const Mileage = () => {
         />
       </va-additional-info>
       <VaRadio
-        id="departure-address"
-        onVaValueChange={handleDepartureAddressChange}
-        value={departureAddress}
+        name="departureAddress"
+        value={formState.departureAddress}
         label="Which address did you depart from?"
         required
+        error={showDepartureAddressError ? 'Select a departure address' : null}
+        onVaValueChange={handleFormChange}
       >
         <va-radio-option
           label={`${address.addressLine1} ${address.addressLine2 ??
@@ -196,36 +251,32 @@ const Mileage = () => {
             address.stateCode
           } ${address.zipCode}`}
           value="home-address"
-          name="departure-address"
-          checked={departureAddress === 'home-address'}
+          checked={formState.departureAddress === 'home-address'}
         />
         <va-radio-option
           label="Another address"
           value="another-address"
-          name="departure-address"
-          checked={departureAddress === 'another-address'}
+          checked={formState.departureAddress === 'another-address'}
         />
       </VaRadio>
+
       <VaRadio
-        id="trip-type"
-        onVaValueChange={handleTripTypeChange}
-        value={tripType}
-        label="Was your trip round trip or one way?"
+        name="tripType"
+        value={formState.tripType}
+        label="Was your drive round trip or one way?"
         required
+        error={showTripTypeError ? 'Select a trip type' : null}
+        onVaValueChange={handleFormChange}
       >
         <va-radio-option
           label={TRIP_TYPES.ROUND_TRIP.label}
-          value={TRIP_TYPES.ROUND_TRIP.key}
-          key="trip-round-trip"
-          name="trip-type"
-          checked={tripType === TRIP_TYPES.ROUND_TRIP.key}
+          value={TRIP_TYPES.ROUND_TRIP.value}
+          checked={formState.tripType === TRIP_TYPES.ROUND_TRIP.value}
         />
         <va-radio-option
           label={TRIP_TYPES.ONE_WAY.label}
-          value={TRIP_TYPES.ONE_WAY.key}
-          key="trip-one-way"
-          name="trip-type"
-          checked={tripType === TRIP_TYPES.ONE_WAY.key}
+          value={TRIP_TYPES.ONE_WAY.value}
+          checked={formState.tripType === TRIP_TYPES.ONE_WAY.value}
         />
       </VaRadio>
 
@@ -237,14 +288,16 @@ const Mileage = () => {
           className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
         />
       )}
+
       <TravelPayButtonPair
-        continueText={expenseId ? 'Save and continue' : 'Continue'}
-        backText={expenseId ? 'Cancel' : 'Back'}
-        className={expenseId ? 'vads-u-margin-top--2' : ''}
+        continueText={isEditMode ? 'Save and continue' : 'Continue'}
+        backText={isEditMode ? 'Cancel' : 'Back'}
+        className={isEditMode ? 'vads-u-margin-top--2' : ''}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}
       />
+
       <CancelExpenseModal
         visible={isModalVisible}
         onCloseEvent={handleCloseModal}

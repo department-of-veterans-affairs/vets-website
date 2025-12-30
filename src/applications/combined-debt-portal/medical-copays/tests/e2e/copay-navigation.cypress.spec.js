@@ -31,7 +31,6 @@ describe('CDP - Copay generic navigation & content', () => {
   });
 
   it('displays copay balances - C12576', () => {
-    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`balance-card-${id}`).should('exist');
     cy.findByTestId(`amount-${id}`).contains('$15.00');
     cy.findByTestId(`facility-city-${id}`).contains(
@@ -41,31 +40,28 @@ describe('CDP - Copay generic navigation & content', () => {
   });
 
   it('navigates to the detail page - C12577', () => {
-    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
-    cy.findByTestId('detail-page-title').should('exist');
-    cy.findByTestId(`updated-date`).contains('November 15, 2019');
-    cy.findByTestId(`past-due-balance-alert`).contains(
+    cy.findByTestId('detail-copay-page-title-otpp').should('exist');
+    // cy.findByTestId(`updated-date`).contains('November 15, 2019');
+    cy.findByTestId(`copay-past-due-alert`).contains(
       'Your balance may be overdue',
     );
-    cy.findByTestId(`how-to-pay`).contains('How to make a payment');
     cy.injectAxeThenAxeCheck();
   });
 
   it('displays helper components', () => {
-    cy.findByTestId(`how-to-pay`).should('exist');
+    cy.findByTestId(`resolve-link-${id}`).click();
+    cy.findByTestId(`how-to-pay`).contains('How to make a payment');
     cy.findByTestId(`financial-help`).should('exist');
     cy.findByTestId(`dispute-charges`).should('exist');
-    cy.findByTestId(`balance-questions`).should('exist');
     // need-help added with vha_show_payment_history
-    cy.findByTestId(`need-help`).should('not.exist');
+    cy.findByTestId(`need-help`).should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
   it('displays download statements - C12578', () => {
-    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
-    cy.findByTestId('detail-page-title').should('exist');
+    cy.findByTestId('detail-copay-page-title-otpp').should('exist');
     cy.findByTestId(`view-statements`).should('exist');
     cy.findAllByText(/November 15, 2019/i).should('exist');
     cy.injectAxeThenAxeCheck();

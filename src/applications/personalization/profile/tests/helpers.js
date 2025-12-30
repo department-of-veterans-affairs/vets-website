@@ -1,31 +1,26 @@
-import moment from 'moment';
-
-const oneDayInMS = 24 * 60 * 60 * 1000;
-const oneWeekInMS = oneDayInMS * 7;
-const oneYearInMS = oneDayInMS * 365;
+import { format, add, sub } from 'date-fns';
 
 export function oneWeekAgo() {
-  return Date.now() - oneWeekInMS;
+  return sub(new Date(), { weeks: 1 }).getTime();
 }
 
 export function oneDayAgo() {
-  return Date.now() - oneDayInMS;
+  return sub(new Date(), { days: 1 }).getTime();
 }
 
 export function oneDayFromNow() {
-  return Date.now() + oneDayInMS;
+  return add(new Date(), { days: 1 }).getTime();
 }
 
 export function oneWeekFromNow() {
-  return Date.now() + oneWeekInMS;
+  return add(new Date(), { weeks: 1 }).getTime();
 }
 
 export function oneYearFromNow() {
-  return Date.now() + oneYearInMS;
+  return add(new Date(), { years: 1 }).getTime();
 }
 
 // returns a date string in the format: '1999-01-31'
 export function daysAgo(days) {
-  const now = Date.now();
-  return moment(now - oneDayInMS * days).format('YYYY-MM-DD');
+  return format(sub(new Date(), { days }), 'yyyy-MM-dd');
 }

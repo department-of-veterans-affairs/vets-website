@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
@@ -14,8 +14,22 @@ const mockUsers = [
   },
 ];
 
+const getPageTitle = (cancellationFlow, verificationError) => {
+  if (verificationError) {
+    return 'We couldn’t verify your information';
+  }
+  if (cancellationFlow) {
+    return 'Cancel VA Solid Start appointment';
+  }
+  return 'Schedule an appointment with VA Solid Start';
+};
+
 const Verify = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Check for cancel=true URL parameter to initiate cancellation flow
+  const cancellationFlow = searchParams.get('cancel') === 'true';
 
   const [lastname, setLastname] = useState('');
   const [dob, setDob] = useState('');
@@ -23,6 +37,8 @@ const Verify = () => {
   const [error, setError] = useState(false);
   const [lastnameError, setLastnameError] = useState(undefined);
   const [dobError, setDobError] = useState(undefined);
+  const [attemptCount, setAttemptCount] = useState(1);
+  const [verificationError, setVerificationError] = useState(undefined);
   const [focusTrigger, setFocusTrigger] = useState(0);
 
   useEffect(
@@ -59,15 +75,28 @@ const Verify = () => {
     );
     // confirm auth here
     if (mockUser) {
+      let otcRoute = '/enter-otc';
+      if (cancellationFlow) {
+        otcRoute += '?cancel=true';
+      }
       setError(false);
-      navigate('/enter-otc');
+      navigate(otcRoute);
     } else {
-      setError(true);
+      if (attemptCount === 3) {
+        setVerificationError(
+          'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
+        );
+      } else {
+        setError(true);
+      }
+      setAttemptCount(count => count + 1);
     }
   };
 
+  const pageTitle = getPageTitle(cancellationFlow, verificationError);
+
   return (
-    <Wrapper pageTitle="Schedule a call to learn about VA benefits and health care">
+    <Wrapper pageTitle={pageTitle} verificationError={verificationError}>
       <p data-testid="verify-intro-text">
         First, we’ll need your information so we can send you a one-time
         verification code to verify your identity.

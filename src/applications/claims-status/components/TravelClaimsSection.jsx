@@ -1,5 +1,5 @@
 import React from 'react';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function TravelClaimsSection() {
   const recordLinkClick = () =>

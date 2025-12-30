@@ -36,6 +36,7 @@ const options = {
 
 const yesNoOptions = {
   title: 'Do you have an expense to add?',
+  hint: `You can add up to ${options.maxItems}`,
 };
 
 /**
@@ -56,7 +57,7 @@ const summaryPage = {
           <p>
             <va-link
               href="https://www.va.gov/find-forms/about-form-21p-601/"
-              target="_blank"
+              external
               rel="noopener noreferrer"
               text="Download VA Form 21P-601 (PDF)"
             />

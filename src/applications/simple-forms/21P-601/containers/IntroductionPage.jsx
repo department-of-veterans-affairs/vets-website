@@ -9,7 +9,7 @@ import { IntroductionPageView } from '../../shared/components/IntroductionPageVi
 const content = {
   formTitle: 'Apply for accrued benefits online',
   formSubTitle:
-    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
+    'Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   authStartFormText: 'Apply for accrued benefits',
   displayNonVeteranMessaging: true,
 };

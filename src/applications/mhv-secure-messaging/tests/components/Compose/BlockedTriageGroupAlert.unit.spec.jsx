@@ -84,7 +84,46 @@ describe('BlockedTriageGroupAlert component', () => {
         "You can't send messages to ###PQR TRIAGE_TEAM 747###",
       );
     });
-    expect(screen.getByText('Find your VA health facility')).to.exist;
+    const findFacilityLink = screen.container.querySelector(
+      'va-link-action[href*="/find-locations"]',
+    );
+    expect(findFacilityLink).to.exist;
+  });
+
+  it('uses VaLinkAction for /find-locations (cross-app destination)', async () => {
+    // /find-locations is a different SPA (facility-locator), so we need
+    // VaLinkAction for full browser navigation, not RouterLinkAction
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          associatedBlockedTriageGroupsQty: 1,
+          blockedRecipients: [{ id: 222333 }],
+          allRecipients: [{ id: 222333 }],
+        },
+      },
+    };
+    const screen = setup(customState, {
+      currentRecipient: {
+        recipientId: 222333,
+        name: 'Test Team',
+        type: Recipients.CARE_TEAM,
+        status: RecipientStatus.BLOCKED,
+      },
+      alertStyle: BlockedTriageAlertStyles.ALERT,
+    });
+
+    await waitFor(() => {
+      const findFacilityLink = screen.container.querySelector(
+        'va-link-action[href*="/find-locations"]',
+      );
+      expect(findFacilityLink).to.exist;
+      expect(findFacilityLink.tagName).to.equal('VA-LINK-ACTION');
+      expect(findFacilityLink.getAttribute('text')).to.equal(
+        'Find your VA health facility',
+      );
+    });
   });
 
   it('displays all blocked teams if multiple are blocked', async () => {

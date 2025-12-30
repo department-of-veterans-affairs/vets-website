@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { renderToStaticMarkup } from 'react-dom/server';
 import {
   validateInitials,
   formatAddress,
@@ -11,6 +12,7 @@ import {
   getAdditionalContactTitle,
   capitalizeFirstLetter,
   matchYearPattern,
+  additionalInstitutionDetailsArrayOptions,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -273,75 +275,162 @@ describe('0839 Helpers', () => {
     });
   });
 
-  describe('createBannerMessage', () => {
-    const mainInstitution = {
-      facilityCode: '12345678',
-      facilityMap: {
-        branches: [
-          { institution: { facilityCode: '11111111' } },
-          { institution: { facilityCode: '22222222' } },
-        ],
-        extensions: [
-          { institution: { facilityCode: '33333333' } },
-          { institution: { facilityCode: '44444444' } },
-        ],
-      },
-    };
+  describe('additionalInstitutionDetailsArrayOptions', () => {
+    it('has expected base configuration', () => {
+      expect(additionalInstitutionDetailsArrayOptions.arrayPath).to.equal(
+        'additionalInstitutionDetails',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.nounSingular).to.equal(
+        'location',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.nounPlural).to.equal(
+        'locations',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.required).to.equal(false);
+      expect(additionalInstitutionDetailsArrayOptions.maxItems).to.equal(10);
+    });
 
+    describe('isItemIncomplete', () => {
+      it('returns true when facilityCode is missing', () => {
+        expect(additionalInstitutionDetailsArrayOptions.isItemIncomplete({})).to
+          .be.true;
+        expect(
+          additionalInstitutionDetailsArrayOptions.isItemIncomplete({
+            facilityCode: '',
+          }),
+        ).to.be.true;
+        expect(additionalInstitutionDetailsArrayOptions.isItemIncomplete(null))
+          .to.be.true;
+      });
+
+      it('returns false when facilityCode is present', () => {
+        expect(
+          additionalInstitutionDetailsArrayOptions.isItemIncomplete({
+            facilityCode: '12345678',
+          }),
+        ).to.be.false;
+      });
+    });
+
+    describe('text.summaryTitle', () => {
+      it('returns plural title when count is > 1', () => {
+        const props = {
+          formData: {
+            additionalInstitutionDetails: [
+              { facilityCode: '12345678' },
+              { facilityCode: '87654321' },
+            ],
+          },
+        };
+
+        expect(
+          additionalInstitutionDetailsArrayOptions.text.summaryTitle(props),
+        ).to.equal('Review your additional locations ');
+      });
+    });
+
+    describe('text.summaryDescriptionWithoutItems', () => {
+      it('renders ADD copy when agreementType is not withdraw', () => {
+        const props = {
+          formData: {
+            agreementType: 'addToYellowRibbonProgram',
+          },
+        };
+
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          props,
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include('You can add more locations to this agreement');
+        expect(html).to.include(
+          'If you have any more campuses or additional locations to add to this agreement',
+        );
+        expect(html).to.include(
+          'You will need a facility code for each location you would like to add.',
+        );
+      });
+
+      it('renders WITHDRAW copy when agreementType is withdraw', () => {
+        const props = {
+          formData: {
+            agreementType: 'withdrawFromYellowRibbonProgram',
+          },
+        };
+
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          props,
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include(
+          'You can withdraw more locations from this agreement',
+        );
+        expect(html).to.include(
+          'If you have any more campuses or additional locations to withdraw from this agreement',
+        );
+        expect(html).to.include(
+          'You will need a facility code for each location you would like to withdraw.',
+        );
+      });
+
+      it('defaults to ADD copy when agreementType is missing', () => {
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          { formData: {} },
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include('You can add more locations to this agreement');
+      });
+    });
+  });
+  describe('createBannerMessage', () => {
     describe('for main institution (isArrayItem = false)', () => {
       it('returns null when institution is not found', () => {
         const details = {
           facilityCode: '12345678',
           institutionName: 'not found',
         };
-        const result = createBannerMessage(details, false, mainInstitution);
+        const result = createBannerMessage(details);
         expect(result).to.be.null;
       });
 
-      it('returns message when institution is not YR eligible', () => {
+      it('returns message when facility code has X in third position', () => {
         const details = {
-          facilityCode: '12345678',
+          facilityCode: '12X45678',
           yrEligible: false,
-          ihlEligible: true,
         };
-        const result = createBannerMessage(details, false, mainInstitution);
+        const result = createBannerMessage(details);
         expect(result).to.equal(
-          'This institution is unable to participate in the Yellow Ribbon Program. You can enter a main or branch campus facility code to continue.',
+          "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.",
         );
       });
 
-      it('returns message when institution is YR eligible but not IHL', () => {
+      it('returns null when facility code does not have X in third position', () => {
         const details = {
           facilityCode: '12345678',
           yrEligible: true,
-          ihlEligible: false,
         };
-        const result = createBannerMessage(details, false, mainInstitution);
-        expect(result).to.equal(
-          'This institution is unable to participate in the Yellow Ribbon Program.',
-        );
-      });
-
-      it('returns null when institution is both YR and IHL eligible', () => {
-        const details = {
-          facilityCode: '12345678',
-          yrEligible: true,
-          ihlEligible: true,
-        };
-        const result = createBannerMessage(details, false, mainInstitution);
+        const result = createBannerMessage(details);
         expect(result).to.be.null;
       });
 
-      it('returns null when institution is not IHL and not YR eligible', () => {
+      it('returns null when institution is YR eligible', () => {
+        const details = {
+          facilityCode: '12345678',
+          yrEligible: true,
+        };
+        const result = createBannerMessage(details);
+        expect(result).to.be.null;
+      });
+
+      it('returns null when institution is not YR eligible', () => {
         const details = {
           facilityCode: '12345678',
           yrEligible: false,
-          ihlEligible: false,
         };
-        const result = createBannerMessage(details, false, mainInstitution);
-        expect(result).to.equal(
-          'This institution is unable to participate in the Yellow Ribbon Program. You can enter a main or branch campus facility code to continue.',
-        );
+        const result = createBannerMessage(details);
+        expect(result).to.be.null;
       });
     });
 
@@ -350,21 +439,19 @@ describe('0839 Helpers', () => {
         const details = {
           facilityCode: '12X45678',
           yrEligible: true,
-          ihlEligible: true,
         };
-        const result = createBannerMessage(details, true, mainInstitution);
+        const result = createBannerMessage(details);
         expect(result).to.equal(
           "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.",
         );
       });
 
-      it('returns null when code is not in branches or extensions', () => {
+      it('returns null when code does not have X in third position', () => {
         const details = {
           facilityCode: '99999999',
           yrEligible: true,
-          ihlEligible: true,
         };
-        const result = createBannerMessage(details, true, mainInstitution);
+        const result = createBannerMessage(details);
         expect(result).to.be.null;
       });
 
@@ -372,9 +459,8 @@ describe('0839 Helpers', () => {
         const details = {
           facilityCode: '11111111',
           yrEligible: true,
-          ihlEligible: true,
         };
-        const result = createBannerMessage(details, true, mainInstitution);
+        const result = createBannerMessage(details);
         expect(result).to.be.null;
       });
 
@@ -382,9 +468,8 @@ describe('0839 Helpers', () => {
         const details = {
           facilityCode: '33333333',
           yrEligible: true,
-          ihlEligible: true,
         };
-        const result = createBannerMessage(details, true, mainInstitution);
+        const result = createBannerMessage(details);
         expect(result).to.be.null;
       });
     });
@@ -417,7 +502,6 @@ describe('0839 Helpers', () => {
               isLoading: true,
               institutionName: 'not found',
               yrEligible: false,
-              ihlEligible: false,
             },
           ],
         };
@@ -443,7 +527,6 @@ describe('0839 Helpers', () => {
               isLoading: false,
               institutionName: 'Test Institution',
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -469,7 +552,6 @@ describe('0839 Helpers', () => {
               isLoading: false,
               institutionName: 'Test Institution',
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -564,7 +646,6 @@ describe('0839 Helpers', () => {
               isLoading: false,
               institutionName: 'Test Institution',
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -616,7 +697,6 @@ describe('0839 Helpers', () => {
               institutionName: 'Harvard University',
               isLoading: false,
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -642,7 +722,6 @@ describe('0839 Helpers', () => {
               institutionName: 'Test Institution',
               isLoading: false,
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -666,7 +745,6 @@ describe('0839 Helpers', () => {
               institutionName: 'Test Branch Institution',
               isLoading: false,
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -690,7 +768,6 @@ describe('0839 Helpers', () => {
               institutionName: 'Test Extension Institution',
               isLoading: false,
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -714,7 +791,6 @@ describe('0839 Helpers', () => {
               institutionName: 'Test Institution',
               isLoading: false,
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -734,7 +810,6 @@ describe('0839 Helpers', () => {
               institutionName: 'Test Institution',
               isLoading: false,
               yrEligible: true,
-              ihlEligible: true,
             },
           ],
         };
@@ -759,7 +834,6 @@ describe('0839 Helpers', () => {
               facilityCode: 'ABCD1234',
               institutionName: 'Test Institution',
               yrEligible: false,
-              ihlEligible: true,
               isLoading: false,
             },
           ],
@@ -785,7 +859,6 @@ describe('0839 Helpers', () => {
               facilityCode: '21234567',
               institutionName: 'Test Institution',
               yrEligible: true,
-              ihlEligible: true,
               isLoading: false,
             },
           ],
@@ -808,109 +881,6 @@ describe('0839 Helpers', () => {
             {
               facilityCode: 'ABCD1234',
               institutionName: 'Test Institution',
-              ihlEligible: true,
-              isLoading: false,
-            },
-          ],
-        };
-
-        facilityCodeUIValidation(errors, 'ABCD1234', formData);
-        expect(errors.message).to.be.undefined;
-      });
-    });
-
-    describe('IHL eligibility validation', () => {
-      it('adds error when institution is not IHL eligible but is YR eligible', () => {
-        const formData = {
-          institutionDetails: {
-            facilityCode: '12345678',
-            facilityMap: {
-              branches: [{ institution: { facilityCode: '14234567' } }],
-              extensions: [],
-            },
-          },
-          additionalInstitutionDetails: [
-            {
-              facilityCode: '14234567',
-              institutionName: 'Test Institution',
-              yrEligible: true,
-              ihlEligible: false,
-              isLoading: false,
-            },
-          ],
-        };
-
-        facilityCodeUIValidation(errors, '14234567', formData);
-        expect(errors.message).to.equal(
-          'This institution is not an IHL. Please see information below.',
-        );
-      });
-
-      it('does not add IHL error when institution is not YR eligible', () => {
-        const formData = {
-          institutionDetails: {
-            facilityCode: '12345678',
-            facilityMap: {
-              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
-              extensions: [],
-            },
-          },
-          additionalInstitutionDetails: [
-            {
-              facilityCode: 'ABCD1234',
-              institutionName: 'Test Institution',
-              yrEligible: false,
-              ihlEligible: false,
-              isLoading: false,
-            },
-          ],
-        };
-
-        facilityCodeUIValidation(errors, 'ABCD1234', formData);
-        // Should fail with YR error, not IHL error
-        expect(errors.message).to.equal(
-          "The institution isn't eligible for the Yellow Ribbon Program.",
-        );
-      });
-
-      it('does not add error when both YR and IHL eligible', () => {
-        const formData = {
-          institutionDetails: {
-            facilityCode: '12345678',
-            facilityMap: {
-              branches: [{ institution: { facilityCode: '31234567' } }],
-              extensions: [],
-            },
-          },
-          additionalInstitutionDetails: [
-            {
-              facilityCode: '31234567',
-              institutionName: 'Test Institution',
-              yrEligible: true,
-              ihlEligible: true,
-              isLoading: false,
-            },
-          ],
-        };
-
-        facilityCodeUIValidation(errors, '31234567', formData);
-        expect(errors.message).to.be.undefined;
-      });
-
-      it('does not add IHL error when ihlEligible is undefined', () => {
-        const formData = {
-          institutionDetails: {
-            facilityCode: '12345678',
-            facilityMap: {
-              branches: [{ institution: { facilityCode: 'ABCD1234' } }],
-              extensions: [],
-            },
-          },
-          additionalInstitutionDetails: [
-            {
-              facilityCode: 'ABCD1234',
-              institutionName: 'Test Institution',
-              yrEligible: true,
               isLoading: false,
             },
           ],
@@ -936,7 +906,6 @@ describe('0839 Helpers', () => {
               facilityCode: '12X45678',
               institutionName: 'not found',
               yrEligible: false,
-              ihlEligible: false,
               isLoading: false,
             },
           ],
@@ -962,7 +931,6 @@ describe('0839 Helpers', () => {
               facilityCode: '1234',
               institutionName: 'Test',
               yrEligible: false,
-              ihlEligible: false,
               isLoading: false,
             },
           ],
@@ -988,7 +956,6 @@ describe('0839 Helpers', () => {
               facilityCode: 'ZZZZ9999',
               institutionName: 'Test Institution',
               yrEligible: false,
-              ihlEligible: false,
               isLoading: false,
             },
           ],
@@ -1000,7 +967,7 @@ describe('0839 Helpers', () => {
         );
       });
 
-      it('prioritizes YR eligibility over IHL eligibility', () => {
+      it('prioritizes YR eligibility validation', () => {
         const formData = {
           institutionDetails: {
             facilityCode: '12345678',
@@ -1014,7 +981,6 @@ describe('0839 Helpers', () => {
               facilityCode: 'ABCD1234',
               institutionName: 'Test Institution',
               yrEligible: false,
-              ihlEligible: false,
               isLoading: false,
             },
           ],

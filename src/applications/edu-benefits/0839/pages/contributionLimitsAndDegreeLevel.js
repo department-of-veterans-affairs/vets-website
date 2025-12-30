@@ -4,6 +4,7 @@ import {
   radioUI,
   currencyUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateWhiteSpace } from 'platform/forms/validations';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
 import DegreeLevelDescription from '../components/DegreeLevelDescription';
 
@@ -51,7 +52,7 @@ const uiSchema = {
     ...textUI({
       title: 'Enter the maximum number of students',
       description:
-        'Enter the total number of students eligible for this contribution. Values over 99,999 are treated as unlimited by the system.',
+        'Enter the total number of students eligible for this contribution. Values equal to or greater than 99,999 are treated as unlimited by the system.',
       errorMessages: {
         required: 'Enter the maximum number of students',
         pattern: 'Enter a whole number',
@@ -78,6 +79,7 @@ const uiSchema = {
       errorMessages: {
         required: 'Please enter a degree level',
       },
+      validations: [validateWhiteSpace],
     }),
     'ui:options': {
       classNames:
@@ -92,6 +94,7 @@ const uiSchema = {
       errorMessages: {
         required: 'Enter the college or professional school name',
       },
+      validations: [validateWhiteSpace],
     }),
     'ui:options': {
       classNames:
@@ -122,9 +125,10 @@ const uiSchema = {
   },
   specificContributionAmount: {
     ...currencyUI({
-      title: 'Maximum contribution amount',
+      title:
+        'Enter the maximum annual contribution amount for this degree level or professional school. ',
       description:
-        'Enter the total annual amount per student, not per term or credit hour. Amounts over $99,999 are treated as unlimited by the system.',
+        'Enter the total annual amount per student, not per term or credit hour. Values equal to or greater than 99,999 are treated as unlimited by the system.',
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
       },
@@ -135,7 +139,8 @@ const uiSchema = {
       return currentItem?.maximumContributionAmount === 'specific';
     },
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2 container',
+      classNames:
+        'vads-u-margin-bottom--2 contribution-degree-school container',
       expandUnder: 'maximumContributionAmount',
       expandUnderCondition: 'specific',
     },
@@ -173,7 +178,7 @@ const schema = {
     },
     specificContributionAmount: {
       type: 'string',
-      pattern: '^\\d*(\\.\\d{1,2})?$',
+      pattern: '^\\d+(\\.\\d{1,2})?$',
     },
   },
   required: [

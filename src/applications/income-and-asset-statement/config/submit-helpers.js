@@ -39,7 +39,7 @@ export function collectAttachmentFiles(data) {
 
   const assets = data.ownedAssets || [];
   assets.forEach(asset => {
-    if (asset.uploadedDocuments) {
+    if (asset.uploadedDocuments && !Array.isArray(asset.uploadedDocuments)) {
       // Owned assets can only have one supporting document each
       attachments.push(asset.uploadedDocuments);
     }

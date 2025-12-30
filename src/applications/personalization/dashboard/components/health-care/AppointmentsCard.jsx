@@ -28,15 +28,17 @@ export const AppointmentsCard = ({ appointments }) => {
   const content = (
     <>
       <h3 className="vads-u-margin-top--0">Next appointment</h3>
-      <p className="vads-u-margin-bottom--1">
+      <p className="vads-u-margin-bottom--1 dd-privacy-mask">
         {formatInTimeZone(localStartTime, timeZoneId, 'eeee, MMMM d, yyyy')}
       </p>
-      <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
+      <p className="vads-u-margin-bottom--1 vads-u-margin-top--1 dd-privacy-mask">
         {`Time: ${formatInTimeZone(localStartTime, timeZoneId, 'h:mm aaaa')} ${
           timeZone.abbreviation
         }`}
       </p>
-      {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
+      {locationName && (
+        <p className="vads-u-margin-top--1 dd-privacy-mask">{locationName}</p>
+      )}
       <CTALink
         text="Schedule and manage your appointments"
         href="/my-health/appointments"

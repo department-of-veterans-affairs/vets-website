@@ -96,6 +96,48 @@ describe('submit-helpers.js', () => {
       ]);
     });
 
+    context('when there are no uploadedDocuments (not required)', () => {
+      it('should handle ownedAssets with no uploadedDocuments gracefully', () => {
+        const formData = {
+          ownedAssets: [
+            {
+              uploadedDocuments: { name: 'onlyFile.pdf' },
+            },
+            {
+              someOtherField: 'no files here', // no uploadedDocuments field
+            },
+            {
+              uploadedDocuments: [], // This is the behavior we see with the forms system
+            },
+          ],
+        };
+
+        const attachments = collectAttachmentFiles(formData);
+
+        expect(attachments).to.deep.equal([{ name: 'onlyFile.pdf' }]);
+      });
+
+      it('should handle trusts with no uploadedDocuments gracefully', () => {
+        const formData = {
+          trusts: [
+            {
+              uploadedDocuments: [{ name: 'trustFile.pdf' }],
+            },
+            {
+              someOtherField: 'no files here',
+            },
+            {
+              uploadedDocuments: [], // This is the behavior we see with the forms system
+            },
+          ],
+        };
+
+        const attachments = collectAttachmentFiles(formData);
+
+        expect(attachments).to.deep.equal([{ name: 'trustFile.pdf' }]);
+      });
+    });
+
     it('should return an empty array when no attachments are present', () => {
       const formData = {
         trusts: [
