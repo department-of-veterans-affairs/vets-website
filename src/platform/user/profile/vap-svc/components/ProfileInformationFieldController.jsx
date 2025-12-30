@@ -309,6 +309,7 @@ class ProfileInformationFieldController extends React.Component {
         default:
           return;
       }
+      return;
     }
     // Use inline editing flow
     this.openEditModal();
