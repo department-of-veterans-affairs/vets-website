@@ -74,10 +74,21 @@ function Form1995Entry({
 
   const formKey = rerouteFlag ? 'reroute' : 'legacy';
 
+  const modifiedConfig = {
+    ...formConfig,
+    chapters: {
+      ...formConfig.chapters,
+      questionnaire: {
+        ...formConfig.chapters.questionnaire,
+        hideFormNavProgress: rerouteFlag === true,
+      },
+    },
+  };
+
   return (
     <RoutedSavableApp
       key={formKey}
-      formConfig={formConfig}
+      formConfig={modifiedConfig}
       currentLocation={location}
     >
       {children}
