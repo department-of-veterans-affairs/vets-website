@@ -11,7 +11,7 @@ import {
 } from '../../../redux/actions';
 import ComplexClaimRedirect from './ComplexClaimRedirect';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   selectAppointment,
@@ -31,7 +31,7 @@ const IntroductionPage = () => {
   const title = 'File a travel reimbursement claim';
 
   useSetPageTitle(title);
-  useSetScrollFocus();
+  useSetFocus();
   useRecordPageview('complex-claims', title);
 
   const apptId = appointment?.id;

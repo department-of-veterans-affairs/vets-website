@@ -15,7 +15,7 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
@@ -125,7 +125,7 @@ const ExpensePage = () => {
   const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
   const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
 
-  useSetScrollFocus();
+  useSetFocus();
   useRecordPageview('complex-claims', expenseTypeFields?.label || 'Expense');
 
   // Effects

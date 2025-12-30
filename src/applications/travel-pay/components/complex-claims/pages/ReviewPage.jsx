@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement } from 'platform/utilities/ui/focus';
-import { scrollTo } from 'platform/utilities/scroll';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useRecordPageview from '../../../hooks/useRecordPageview';
 import ReviewPageAlert from './ReviewPageAlert';
@@ -42,32 +41,16 @@ const ReviewPage = () => {
 
   useEffect(
     () => {
-      let timeoutId;
-
       if (alertMessage) {
-        scrollTo('topScrollElement').then(() => {
-          timeoutId = setTimeout(() => {
-            if (alertRef.current) {
-              focusElement(alertRef.current);
-            }
-          }, 100);
-        });
-      } else {
-        scrollTo('topScrollElement').then(() => {
-          timeoutId = setTimeout(() => {
-            const firstH1 = document.getElementsByTagName('h1')[0];
-            if (firstH1) {
-              focusElement(firstH1);
-            }
-          }, 100);
-        });
-      }
-
-      return () => {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
+        if (alertRef.current) {
+          focusElement(alertRef.current);
         }
-      };
+      } else {
+        const firstH1 = document.getElementsByTagName('h1')[0];
+        if (firstH1) {
+          focusElement(firstH1);
+        }
+      }
     },
     [alertMessage],
   );

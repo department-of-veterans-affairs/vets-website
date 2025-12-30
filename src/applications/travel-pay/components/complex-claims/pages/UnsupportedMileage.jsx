@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
 import { BTSSS_PORTAL_URL } from '../../../constants';
 
@@ -13,7 +13,7 @@ const UnsupportedMileage = () => {
   const title = 'You’ll need to file this claim in another tool';
 
   useSetPageTitle(title);
-  useSetScrollFocus();
+  useSetFocus();
   useRecordPageview('complex-claims', title);
 
   return (

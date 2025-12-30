@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useSetScrollFocus from '../../../hooks/useSetScrollFocus';
+import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
 import { formatDateTime } from '../../../util/dates';
 import {
@@ -48,7 +48,7 @@ const ConfirmationPage = () => {
     : [null, null];
 
   useSetPageTitle(pageHeader);
-  useSetScrollFocus();
+  useSetFocus();
   useRecordPageview('complex-claims', pageHeader);
 
   return (
