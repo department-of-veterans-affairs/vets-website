@@ -621,3 +621,154 @@ describe('conditionReducer', () => {
     });
   });
 });
+
+describe('Undefined Access Protection Tests for Conditions', () => {
+  describe('extractLocation with undefined array access', () => {
+    it('should not throw when recorder.extension array is empty', () => {
+      const condition = {
+        recorder: {
+          extension: [],
+        },
+      };
+      expect(() => extractLocation(condition)).to.not.throw();
+      expect(extractLocation(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should not throw when recorder.extension[0] is undefined', () => {
+      const condition = {
+        recorder: {
+          extension: [undefined],
+        },
+      };
+      expect(() => extractLocation(condition)).to.not.throw();
+      expect(extractLocation(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should not throw when extension[0] has no valueReference', () => {
+      const condition = {
+        recorder: {
+          extension: [{}],
+        },
+      };
+      expect(() => extractLocation(condition)).to.not.throw();
+      expect(extractLocation(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should handle null recorder gracefully', () => {
+      const condition = {
+        recorder: null,
+      };
+      expect(() => extractLocation(condition)).to.not.throw();
+      expect(extractLocation(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should handle missing recorder property', () => {
+      const condition = {};
+      expect(() => extractLocation(condition)).to.not.throw();
+      expect(extractLocation(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should correctly extract location when valid data exists', () => {
+      const condition = {
+        recorder: {
+          extension: [
+            {
+              valueReference: { reference: '#org1' },
+            },
+          ],
+        },
+        contained: [
+          {
+            id: 'org1',
+            name: 'Test Facility',
+          },
+        ],
+      };
+      expect(extractLocation(condition)).to.equal('Test Facility');
+    });
+  });
+
+  describe('extractProvider with undefined array access', () => {
+    it('should not throw when org.name array is empty', () => {
+      const condition = {
+        recorder: {
+          reference: '#prov1',
+        },
+        contained: [
+          {
+            id: 'prov1',
+            name: [],
+          },
+        ],
+      };
+      expect(() => extractProvider(condition)).to.not.throw();
+      expect(extractProvider(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should not throw when org.name[0] is undefined', () => {
+      const condition = {
+        recorder: {
+          reference: '#prov1',
+        },
+        contained: [
+          {
+            id: 'prov1',
+            name: [undefined],
+          },
+        ],
+      };
+      expect(() => extractProvider(condition)).to.not.throw();
+      expect(extractProvider(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should handle org.name[0] without text property', () => {
+      const condition = {
+        recorder: {
+          reference: '#prov1',
+        },
+        contained: [
+          {
+            id: 'prov1',
+            name: [{}],
+          },
+        ],
+      };
+      expect(() => extractProvider(condition)).to.not.throw();
+      expect(extractProvider(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should correctly extract provider name when valid', () => {
+      const condition = {
+        recorder: {
+          reference: '#prov1',
+        },
+        contained: [
+          {
+            id: 'prov1',
+            name: [
+              {
+                text: 'DOE, JOHN',
+              },
+            ],
+          },
+        ],
+      };
+      const result = extractProvider(condition);
+      expect(result).to.equal('JOHN DOE');
+    });
+
+    it('should handle missing recorder gracefully', () => {
+      const condition = {};
+      expect(() => extractProvider(condition)).to.not.throw();
+      expect(extractProvider(condition)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should handle null recorder', () => {
+      const condition = {
+        recorder: null,
+      };
+      expect(() => extractProvider(condition)).to.not.throw();
+      expect(extractProvider(condition)).to.equal(EMPTY_FIELD);
+    });
+  });
+});

@@ -38,7 +38,7 @@ export const generateAllergyItem = record => {
           title: `Signs and symptoms${multipleReactions ? ':' : ''}`,
           value: multipleReactions
             ? [{ value: record.reaction, indent: 15, paragraphGap: 0 }]
-            : record.reaction[0],
+            : record.reaction?.[0],
           isRich: multipleReactions,
           inline: !multipleReactions,
         },
@@ -72,7 +72,7 @@ export const generateAllergyItem = record => {
         title: `Signs and symptoms${multipleReactions ? ':' : ''}`,
         value: multipleReactions
           ? [{ value: record.reaction, indent: 15, paragraphGap: 0 }]
-          : record.reaction[0],
+          : record.reaction?.[0],
         isRich: multipleReactions,
         inline: !multipleReactions,
       },

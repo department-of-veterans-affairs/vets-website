@@ -1215,3 +1215,114 @@ describe('labsAndTestsReducer - hardened array coercion', () => {
     expect(state.labsAndTestsList.length).to.equal(0);
   });
 });
+
+describe('Undefined Access Protection Tests for Labs and Tests', () => {
+  describe('extractPractitioner with undefined array access', () => {
+    it('should not throw when practitioner.name array is empty', () => {
+      const svcReq = { requester: { reference: '#Prac-1' } };
+      const record = {
+        contained: [
+          {
+            resourceType: 'Practitioner',
+            id: 'Prac-1',
+            name: [],
+          },
+        ],
+      };
+      expect(() => extractPractitioner(record, svcReq)).to.not.throw();
+      expect(extractPractitioner(record, svcReq)).to.be.null;
+    });
+
+    it('should not throw when practitioner.name[0] is undefined', () => {
+      const svcReq = { requester: { reference: '#Prac-1' } };
+      const record = {
+        contained: [
+          {
+            resourceType: 'Practitioner',
+            id: 'Prac-1',
+            name: [undefined],
+          },
+        ],
+      };
+      expect(() => extractPractitioner(record, svcReq)).to.not.throw();
+      expect(extractPractitioner(record, svcReq)).to.be.null;
+    });
+
+    it('should not throw when practitioner.name[0] has no family/given', () => {
+      const svcReq = { requester: { reference: '#Prac-1' } };
+      const record = {
+        contained: [
+          {
+            resourceType: 'Practitioner',
+            id: 'Prac-1',
+            name: [{}],
+          },
+        ],
+      };
+      expect(() => extractPractitioner(record, svcReq)).to.not.throw();
+      expect(extractPractitioner(record, svcReq)).to.be.null;
+    });
+
+    it('should handle null practitioner gracefully', () => {
+      const svcReq = { requester: { reference: '#Prac-1' } };
+      const record = {
+        contained: [
+          {
+            resourceType: 'Practitioner',
+            id: 'Prac-1',
+            name: null,
+          },
+        ],
+      };
+      expect(() => extractPractitioner(record, svcReq)).to.not.throw();
+      expect(extractPractitioner(record, svcReq)).to.be.null;
+    });
+
+    it('should correctly extract practitioner name when valid', () => {
+      const svcReq = { requester: { reference: '#Prac-1' } };
+      const record = {
+        contained: [
+          {
+            resourceType: 'Practitioner',
+            id: 'Prac-1',
+            name: [
+              {
+                family: 'SMITH',
+                given: ['JOHN', 'Q'],
+              },
+            ],
+          },
+        ],
+      };
+      expect(extractPractitioner(record, svcReq)).to.equal('JOHN Q SMITH');
+    });
+
+    it('should handle missing serviceRequest gracefully', () => {
+      const record = {
+        contained: [
+          {
+            resourceType: 'Practitioner',
+            id: 'Prac-1',
+            name: [{ family: 'DOE', given: ['JANE'] }],
+          },
+        ],
+      };
+      expect(() => extractPractitioner(record, null)).to.not.throw();
+      expect(extractPractitioner(record, null)).to.be.null;
+    });
+
+    it('should handle undefined serviceRequest', () => {
+      const record = {
+        contained: [
+          {
+            resourceType: 'Practitioner',
+            id: 'Prac-1',
+            name: [{ family: 'DOE', given: ['JANE'] }],
+          },
+        ],
+      };
+      expect(() => extractPractitioner(record, undefined)).to.not.throw();
+      expect(extractPractitioner(record, undefined)).to.be.null;
+    });
+  });
+});

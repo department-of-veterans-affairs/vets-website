@@ -474,3 +474,159 @@ describe('convertVital function', () => {
     });
   });
 });
+
+describe('Undefined Access Protection Tests', () => {
+  describe('extractLocation with undefined array access', () => {
+    it('should not throw when performer array is empty', () => {
+      const vital = { performer: [] };
+      expect(() => extractLocation(vital)).to.not.throw();
+      expect(extractLocation(vital)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should not throw when performer[0] is undefined', () => {
+      const vital = { performer: [undefined] };
+      expect(() => extractLocation(vital)).to.not.throw();
+      expect(extractLocation(vital)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should not throw when extension array is empty', () => {
+      const vital = { performer: [{ extension: [] }] };
+      expect(() => extractLocation(vital)).to.not.throw();
+      expect(extractLocation(vital)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should not throw when extension[0] is undefined', () => {
+      const vital = { performer: [{ extension: [undefined] }] };
+      expect(() => extractLocation(vital)).to.not.throw();
+      expect(extractLocation(vital)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should handle null performer gracefully', () => {
+      const vital = { performer: null };
+      expect(() => extractLocation(vital)).to.not.throw();
+      expect(extractLocation(vital)).to.equal(EMPTY_FIELD);
+    });
+
+    it('should handle missing performer property', () => {
+      const vital = {};
+      expect(() => extractLocation(vital)).to.not.throw();
+      expect(extractLocation(vital)).to.equal(EMPTY_FIELD);
+    });
+  });
+
+  describe('convertVital with undefined array access', () => {
+    it('should not throw when code.coding array is empty', () => {
+      const record = {
+        id: '1',
+        code: { coding: [] },
+      };
+      expect(() => convertVital(record)).to.not.throw();
+      const result = convertVital(record);
+      expect(result.id).to.equal('1');
+    });
+
+    it('should not throw when code.coding[0] is undefined', () => {
+      const record = {
+        id: '1',
+        code: { coding: [undefined] },
+      };
+      expect(() => convertVital(record)).to.not.throw();
+    });
+
+    it('should handle missing code.coding gracefully', () => {
+      const record = {
+        id: '1',
+        code: { text: 'Blood Pressure' },
+      };
+      expect(() => convertVital(record)).to.not.throw();
+      const result = convertVital(record);
+      expect(result.name).to.equal('Blood Pressure');
+    });
+
+    it('should not throw when note array is empty', () => {
+      const record = {
+        id: '1',
+        code: { text: 'Temperature' },
+        note: [],
+      };
+      expect(() => convertVital(record)).to.not.throw();
+      const result = convertVital(record);
+      expect(result.notes).to.equal(EMPTY_FIELD);
+    });
+
+    it('should not throw when note[0] is undefined', () => {
+      const record = {
+        id: '1',
+        code: { text: 'Temperature' },
+        note: [undefined],
+      };
+      expect(() => convertVital(record)).to.not.throw();
+      const result = convertVital(record);
+      expect(result.notes).to.equal(EMPTY_FIELD);
+    });
+
+    it('should handle note[0] without text property', () => {
+      const record = {
+        id: '1',
+        code: { text: 'Temperature' },
+        note: [{}],
+      };
+      expect(() => convertVital(record)).to.not.throw();
+      const result = convertVital(record);
+      expect(result.notes).to.equal(EMPTY_FIELD);
+    });
+
+    it('should correctly extract note text when present', () => {
+      const record = {
+        id: '1',
+        code: { text: 'Temperature' },
+        note: [{ text: 'Patient was feverish' }],
+      };
+      const result = convertVital(record);
+      expect(result.notes).to.equal('Patient was feverish');
+    });
+  });
+
+  describe('convertUnifiedVital with undefined array access', () => {
+    it('should not throw when notes array is empty', () => {
+      const record = {
+        id: '1',
+        attributes: {
+          name: 'Blood Pressure',
+          type: 'BLOOD_PRESSURE',
+          notes: [],
+        },
+      };
+      expect(() => convertUnifiedVital(record)).to.not.throw();
+      const result = convertUnifiedVital(record);
+      expect(result.notes).to.equal(EMPTY_FIELD);
+    });
+
+    it('should not throw when notes[0] is undefined', () => {
+      const record = {
+        id: '1',
+        attributes: {
+          name: 'Blood Pressure',
+          type: 'BLOOD_PRESSURE',
+          notes: [undefined],
+        },
+      };
+      expect(() => convertUnifiedVital(record)).to.not.throw();
+      const result = convertUnifiedVital(record);
+      expect(result.notes).to.equal(EMPTY_FIELD);
+    });
+
+    it('should correctly extract note when present', () => {
+      const record = {
+        id: '1',
+        attributes: {
+          name: 'Blood Pressure',
+          type: 'BLOOD_PRESSURE',
+          notes: ['Patient was nervous'],
+        },
+      };
+      const result = convertUnifiedVital(record);
+      expect(result.notes).to.equal('Patient was nervous');
+    });
+  });
+});
