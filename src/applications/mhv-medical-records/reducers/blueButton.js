@@ -88,7 +88,7 @@ export const convertMedication = med => {
 };
 
 /**
- * Format a practitioner's name from a FHIR-style practitioner object.
+ * Format a practitioner's name from a practitioner object.
  * @param {Object} practitioner - The practitioner object with name.given and name.family
  * @returns {string} The formatted name or 'Not available' if name data is missing
  */
