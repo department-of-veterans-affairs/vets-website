@@ -3,8 +3,8 @@
 // Toggle these to test different service unavailability scenarios
 // ============================================================
 const SERVICE_AVAILABILITY = {
-  claims: false, // Set to false to simulate claims API returning 500
-  appeals: false, // Set to false to simulate appeals API returning 500
+  claims: true, // Set to false to simulate claims API returning 500
+  appeals: true, // Set to false to simulate appeals API returning 500
 };
 
 // ============================================================
@@ -13,8 +13,8 @@ const SERVICE_AVAILABILITY = {
 // (services return 200 OK but with empty arrays)
 // ============================================================
 const RETURN_EMPTY_DATA = {
-  claims: true, // Set to true to return empty claims array
-  appeals: true, // Set to true to return empty appeals array
+  claims: false, // Set to true to return empty claims array
+  appeals: false, // Set to true to return empty appeals array
 };
 
 // Helpers
