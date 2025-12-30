@@ -2,7 +2,7 @@ import { vitalTypeDisplayNames } from '../constants';
 
 export const generateVitalsIntro = (records, lastUpdated) => {
   return {
-    title: vitalTypeDisplayNames[records[0].type],
+    title: vitalTypeDisplayNames[(records?.[0]?.type)],
     subject: 'VA Medical Record',
     subtitles: [
       'Vitals are basic health numbers your providers check at your appointments.',
@@ -45,7 +45,7 @@ export const generateVitalContent = records => ({
 // used for Blue Button
 export const generateVitalsContent = records => ({
   results: {
-    header: records[0].name,
+    header: records?.[0]?.name,
     headerType: 'H3',
     headerIndent: 30,
     preface: `Showing ${records?.length} records, from newest to oldest`,

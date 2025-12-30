@@ -237,3 +237,129 @@ describe('Download Actions', () => {
     });
   });
 });
+
+describe('Undefined Access Protection Tests for Downloads', () => {
+  describe('genAndDownloadCCD with undefined array access', () => {
+    let clickToRestore = null;
+    beforeEach(() => {
+      clickToRestore = HTMLAnchorElement.prototype.click;
+      HTMLAnchorElement.prototype.click = sinon.spy();
+      window.URL = {
+        createObjectURL: sinon.stub().returns('test'),
+        revokeObjectURL: sinon.spy(),
+      };
+      window.location = { assign: sinon.spy() };
+    });
+    afterEach(() => {
+      delete window.URL;
+      HTMLAnchorElement.prototype.click = clickToRestore;
+    });
+
+    it('should not throw when generate array is empty', async () => {
+      const dispatch = sinon.spy();
+      const firstName = 'first';
+      const lastName = 'last';
+      mockApiRequest([]);
+      await expect(genAndDownloadCCD(firstName, lastName)(dispatch)).to.not.be
+        .rejected;
+    });
+
+    it('should not throw when generate[0] is undefined', async () => {
+      const dispatch = sinon.spy();
+      const firstName = 'first';
+      const lastName = 'last';
+      mockApiRequest([undefined]);
+      await expect(genAndDownloadCCD(firstName, lastName)(dispatch)).to.not.be
+        .rejected;
+    });
+
+    it('should not throw when generate[0].status is undefined', async () => {
+      const dispatch = sinon.spy();
+      const firstName = 'first';
+      const lastName = 'last';
+      mockApiRequest([{}]);
+      await expect(genAndDownloadCCD(firstName, lastName)(dispatch)).to.not.be
+        .rejected;
+    });
+
+    it('should handle null generate response', async () => {
+      const dispatch = sinon.spy();
+      const firstName = 'first';
+      const lastName = 'last';
+      mockApiRequest(null);
+      await expect(genAndDownloadCCD(firstName, lastName)(dispatch)).to.be
+        .rejected;
+    });
+
+    it('should correctly handle COMPLETE status at index 0', async () => {
+      const dispatch = sinon.spy();
+      const firstName = 'first';
+      const lastName = 'last';
+      const dateGenerated = '2024-10-30T10:00:40.000-0400';
+      const completeRequest = {
+        shouldResolve: true,
+        response: [{ status: 'COMPLETE', dateGenerated }],
+      };
+      const downloadRequest = {
+        shouldResolve: true,
+        response: {
+          ok: true,
+          blob: sinon
+            .stub()
+            .resolves(new Blob(['<ClinicalDocument/>'], { type: '' })),
+        },
+      };
+      mockMultipleApiRequests([completeRequest, downloadRequest]);
+      await genAndDownloadCCD(firstName, lastName)(dispatch);
+      expect(dispatch.callCount).to.be.equal(3);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Downloads.DOWNLOAD_CCD,
+      );
+    });
+
+    it('should correctly handle ERROR status at index 0', async () => {
+      const dispatch = sinon.spy();
+      const firstName = 'first';
+      const lastName = 'last';
+      const dateGenerated = '2024-10-30T10:00:40.000-0400';
+      mockApiRequest([{ status: 'ERROR', dateGenerated }]);
+      await genAndDownloadCCD(firstName, lastName)(dispatch);
+      expect(dispatch.callCount).to.be.equal(3);
+      expect(dispatch.thirdCall.args[0].type).to.equal(
+        Actions.Downloads.CCD_GENERATION_ERROR,
+      );
+      expect(dispatch.thirdCall.args[0].response).to.equal(dateGenerated);
+    });
+
+    it('should handle array with multiple items correctly', async () => {
+      const dispatch = sinon.spy();
+      const firstName = 'first';
+      const lastName = 'last';
+      const dateGenerated = '2024-10-30T10:00:40.000-0400';
+      // Only the first item should be checked
+      const completeRequest = {
+        shouldResolve: true,
+        response: [
+          { status: 'COMPLETE', dateGenerated },
+          { status: 'ERROR', dateGenerated: 'other-date' },
+        ],
+      };
+      const downloadRequest = {
+        shouldResolve: true,
+        response: {
+          ok: true,
+          blob: sinon
+            .stub()
+            .resolves(new Blob(['<ClinicalDocument/>'], { type: '' })),
+        },
+      };
+      mockMultipleApiRequests([completeRequest, downloadRequest]);
+      await genAndDownloadCCD(firstName, lastName)(dispatch);
+      expect(dispatch.callCount).to.be.equal(3);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Downloads.DOWNLOAD_CCD,
+      );
+      expect(dispatch.secondCall.args[0].response).to.equal(dateGenerated);
+    });
+  });
+});

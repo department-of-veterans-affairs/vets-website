@@ -1221,3 +1221,83 @@ describe('resolveAcceleratedDateRange', () => {
     expect(result.fallbackApplied).to.be.true;
   });
 });
+
+describe('Undefined Access Protection Tests for Helpers', () => {
+  describe('focusOnErrorField', () => {
+    let querySelectorAllStub;
+    let clock;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers();
+      querySelectorAllStub = sinon.stub(document, 'querySelectorAll');
+    });
+
+    afterEach(() => {
+      clock.restore();
+      querySelectorAllStub.restore();
+    });
+
+    it('should not throw when errors array is empty', () => {
+      querySelectorAllStub.returns([]);
+      const { focusOnErrorField } = require('../../util/helpers');
+      expect(() => focusOnErrorField()).to.not.throw();
+      clock.tick(300);
+    });
+
+    it('should not throw when errors[0] is undefined', () => {
+      querySelectorAllStub.returns([undefined]);
+      const { focusOnErrorField } = require('../../util/helpers');
+      expect(() => focusOnErrorField()).to.not.throw();
+      clock.tick(300);
+    });
+
+    it('should not throw when errors[0].shadowRoot is null', () => {
+      const mockElement = {
+        shadowRoot: null,
+        querySelector: sinon.stub().returns(null),
+      };
+      querySelectorAllStub.returns([mockElement]);
+      const { focusOnErrorField } = require('../../util/helpers');
+      expect(() => focusOnErrorField()).to.not.throw();
+      clock.tick(300);
+    });
+
+    it('should not throw when querySelector returns null', () => {
+      const mockShadowRoot = {
+        querySelector: sinon.stub().returns(null),
+      };
+      const mockElement = {
+        shadowRoot: mockShadowRoot,
+        querySelector: sinon.stub().returns(null),
+      };
+      querySelectorAllStub.returns([mockElement]);
+      const { focusOnErrorField } = require('../../util/helpers');
+      expect(() => focusOnErrorField()).to.not.throw();
+      clock.tick(300);
+    });
+
+    it('should handle NodeList with multiple undefined elements', () => {
+      querySelectorAllStub.returns([undefined, undefined, undefined]);
+      const { focusOnErrorField } = require('../../util/helpers');
+      expect(() => focusOnErrorField()).to.not.throw();
+      clock.tick(300);
+    });
+
+    it('should not throw when va-checkbox shadowRoot is null', () => {
+      const mockCheckbox = {
+        shadowRoot: null,
+      };
+      const mockElement = {
+        shadowRoot: null,
+        querySelector: sinon
+          .stub()
+          .withArgs('va-checkbox')
+          .returns(mockCheckbox),
+      };
+      querySelectorAllStub.returns([mockElement]);
+      const { focusOnErrorField } = require('../../util/helpers');
+      expect(() => focusOnErrorField()).to.not.throw();
+      clock.tick(300);
+    });
+  });
+});

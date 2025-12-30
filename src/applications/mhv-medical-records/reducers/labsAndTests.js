@@ -120,7 +120,7 @@ export const extractPractitioner = (record, serviceRequest) => {
   const practitionerRef = serviceRequest?.requester?.reference;
   const practitioner = extractContainedResource(record, practitionerRef);
   if (isArrayAndHasItems(practitioner?.name)) {
-    const practitionerName = practitioner?.name[0];
+    const practitionerName = practitioner?.name?.[0];
     return formatNameFirstToLast(practitionerName);
   }
   return null;

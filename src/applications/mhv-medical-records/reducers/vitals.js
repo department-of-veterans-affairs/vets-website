@@ -92,10 +92,10 @@ export const getMeasurement = (record, type) => {
 
 export const extractLocation = vital => {
   if (isArrayAndHasItems(vital.performer)) {
-    const firstPerformer = vital.performer[0];
+    const firstPerformer = vital.performer?.[0];
 
     if (isArrayAndHasItems(firstPerformer?.extension)) {
-      const refId = firstPerformer.extension[0]?.valueReference?.reference;
+      const refId = firstPerformer?.extension?.[0]?.valueReference?.reference;
       const location = extractContainedResource(vital, refId);
       return location?.name || EMPTY_FIELD;
     }
@@ -134,7 +134,7 @@ export const convertVital = record => {
     name:
       record.code?.text ||
       (isArrayAndHasItems(record.code?.coding) &&
-        record.code?.coding[0]?.display),
+        record.code?.coding?.[0]?.display),
     type,
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
@@ -145,7 +145,8 @@ export const convertVital = record => {
     location: extractLocation(record),
     // TODO: This should be changed to accommodate multiple notes
     notes:
-      (isArrayAndHasItems(record.note) && record.note[0]?.text) || EMPTY_FIELD,
+      (isArrayAndHasItems(record.note) && record.note?.[0]?.text) ||
+      EMPTY_FIELD,
   };
 };
 
@@ -169,7 +170,7 @@ export const convertUnifiedVital = record => {
     // TODO: This should be changed to accommodate multiple notes
     notes:
       (isArrayAndHasItems(record.attributes.notes) &&
-        record.attributes.notes[0]) ||
+        record.attributes.notes?.[0]) ||
       EMPTY_FIELD,
   };
 };

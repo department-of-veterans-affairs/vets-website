@@ -80,7 +80,7 @@ export const genAndDownloadCCD = (
     const generate = await generateCCD();
 
     // SUCCESSFUL CCD GENERATION
-    if (generate[0]?.status === 'COMPLETE') {
+    if (generate?.[0]?.status === 'COMPLETE') {
       // getting the timestamp and filename for download
       const timestamp = generate[0].dateGenerated;
       const timestampDate = new Date(timestamp);
@@ -103,7 +103,7 @@ export const genAndDownloadCCD = (
     }
 
     // ERROR IN GENERATION (API SIDE)
-    else if (generate[0]?.status === 'ERROR') {
+    else if (generate?.[0]?.status === 'ERROR') {
       const timestamp = generate[0].dateGenerated;
       localStorage.setItem('lastCCDError', timestamp);
       dispatch({
