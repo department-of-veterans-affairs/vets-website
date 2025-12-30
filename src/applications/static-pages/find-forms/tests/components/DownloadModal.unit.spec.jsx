@@ -9,8 +9,8 @@ const url = 'https://test.com/';
 
 describe('DownloadModal', () => {
   describe('download button', () => {
-    it('should have the correct attributes', () => {
-      const screen = render(
+    it('should have the correct attributes', async () => {
+      const { container } = render(
         <DownloadModal
           closeModal={removeSpy}
           formName={10109}
@@ -19,18 +19,18 @@ describe('DownloadModal', () => {
         />,
       );
 
-      expect(
-        screen
-          .getByRole('va-link', {
-            text: 'Get Acrobat Reader for free from Adobe',
-          })
-          .getAttribute('href'),
-      ).to.eq('https://get.adobe.com/reader/');
-      expect(
-        screen
-          .getByRole('va-link', { text: 'Download VA Form 10109 (PDF)' })
-          .getAttribute('href'),
-      ).to.eq(url);
+      const links = container.querySelectorAll('va-link');
+
+      expect(links[0].getAttribute('href')).to.eq(
+        'https://get.adobe.com/reader/',
+      );
+      expect(links[0].getAttribute('text')).to.eq(
+        'Get Acrobat Reader for free from Adobe',
+      );
+
+      expect(links[1].getAttribute('href')).to.eq(url);
+      expect(links[1].getAttribute('text')).to.eq('Download VA Form 10109');
+      expect(links[1].getAttribute('filetype')).to.eq('PDF');
     });
   });
 });
