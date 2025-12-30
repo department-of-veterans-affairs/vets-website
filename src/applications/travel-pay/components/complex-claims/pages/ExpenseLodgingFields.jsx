@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   VaTextInput,
-  VaDate,
+  VaMemorableDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
@@ -18,23 +18,29 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
         {...errors.vendor && { error: errors.vendor }}
       />
     </div>
-    <VaDate
+    <VaMemorableDate
       label="Check in date"
       name="checkInDate"
       value={formState.checkInDate || ''}
+      monthSelect
+      removeDateHint
+      external-validation
       required
       onDateChange={onChange}
       onDateBlur={onChange}
-      {...errors.checkInDate && { error: errors.checkInDate }}
+      error={errors.checkInDate}
     />
-    <VaDate
+    <VaMemorableDate
       label="Check out date"
       name="checkOutDate"
       value={formState.checkOutDate || ''}
+      monthSelect
+      removeDateHint
+      external-validation
       required
       onDateChange={onChange}
       onDateBlur={onChange}
-      {...errors.checkOutDate && { error: errors.checkOutDate }}
+      error={errors.checkOutDate}
     />
   </>
 );

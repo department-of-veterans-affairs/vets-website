@@ -28,8 +28,12 @@ describe('ExpenseLodgingFields', () => {
 
   it('renders the check-in and check-out date inputs', () => {
     const { container } = render(<ExpenseLodgingFields {...defaultProps} />);
-    const checkIn = container.querySelector('va-date[name="checkInDate"]');
-    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+    const checkIn = container.querySelector(
+      'va-memorable-date[name="checkInDate"]',
+    );
+    const checkOut = container.querySelector(
+      'va-memorable-date[name="checkOutDate"]',
+    );
 
     expect(checkIn).to.exist;
     expect(checkIn.getAttribute('label')).to.equal('Check in date');
@@ -54,8 +58,12 @@ describe('ExpenseLodgingFields', () => {
     );
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
-    const checkIn = container.querySelector('va-date[name="checkInDate"]');
-    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+    const checkIn = container.querySelector(
+      'va-memorable-date[name="checkInDate"]',
+    );
+    const checkOut = container.querySelector(
+      'va-memorable-date[name="checkOutDate"]',
+    );
 
     expect(vendorInput.getAttribute('value')).to.equal('Marriott');
     expect(checkIn.getAttribute('value')).to.equal('2025-11-10');
@@ -85,7 +93,9 @@ describe('ExpenseLodgingFields', () => {
       <ExpenseLodgingFields {...defaultProps} onChange={onChangeSpy} />,
     );
 
-    const checkIn = container.querySelector('va-date[name="checkInDate"]');
+    const checkIn = container.querySelector(
+      'va-memorable-date[name="checkInDate"]',
+    );
     simulateVaDateChange(checkIn, '2025-11-10');
 
     await waitFor(() => {
@@ -102,7 +112,9 @@ describe('ExpenseLodgingFields', () => {
       <ExpenseLodgingFields {...defaultProps} onChange={onChangeSpy} />,
     );
 
-    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+    const checkOut = container.querySelector(
+      'va-memorable-date[name="checkOutDate"]',
+    );
     simulateVaDateChange(checkOut, '2025-11-15');
 
     await waitFor(() => {
@@ -125,8 +137,12 @@ describe('ExpenseLodgingFields', () => {
     );
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
-    const checkIn = container.querySelector('va-date[name="checkInDate"]');
-    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+    const checkIn = container.querySelector(
+      'va-memorable-date[name="checkInDate"]',
+    );
+    const checkOut = container.querySelector(
+      'va-memorable-date[name="checkOutDate"]',
+    );
 
     expect(vendorInput.getAttribute('error')).to.equal('Vendor is required');
     expect(checkIn.getAttribute('error')).to.equal('Check-in date is required');
@@ -141,8 +157,12 @@ describe('ExpenseLodgingFields', () => {
     );
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
-    const checkIn = container.querySelector('va-date[name="checkInDate"]');
-    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+    const checkIn = container.querySelector(
+      'va-memorable-date[name="checkInDate"]',
+    );
+    const checkOut = container.querySelector(
+      'va-memorable-date[name="checkOutDate"]',
+    );
 
     expect(vendorInput.getAttribute('error')).to.be.null;
     expect(checkIn.getAttribute('error')).to.be.null;
