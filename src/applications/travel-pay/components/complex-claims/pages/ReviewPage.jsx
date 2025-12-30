@@ -42,9 +42,11 @@ const ReviewPage = () => {
 
   useEffect(
     () => {
+      let timeoutId;
+
       if (alertMessage) {
         scrollTo('topScrollElement').then(() => {
-          setTimeout(() => {
+          timeoutId = setTimeout(() => {
             if (alertRef.current) {
               focusElement(alertRef.current);
             }
@@ -52,7 +54,7 @@ const ReviewPage = () => {
         });
       } else {
         scrollTo('topScrollElement').then(() => {
-          setTimeout(() => {
+          timeoutId = setTimeout(() => {
             const firstH1 = document.getElementsByTagName('h1')[0];
             if (firstH1) {
               focusElement(firstH1);
@@ -60,6 +62,12 @@ const ReviewPage = () => {
           }, 100);
         });
       }
+
+      return () => {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+      };
     },
     [alertMessage],
   );
