@@ -78,6 +78,7 @@
   "medicare--general-pharmacy-title": "%s Medicare pharmacy benefits",
   "medicare--general-pharmacy-label": "Does the beneficiary’s Medicare plan provide pharmacy benefits?",
   "medicare--general-pharmacy-hint": "You can find this information on the front of the Medicare card.",
+  "medicare--intro-title": "Report Medicare",
   "medicare--parts-ab-card-title": "Upload Medicare card for Hospital and Medical insurance",
   "medicare--parts-ab-card-label--front": "Upload front of Original Medicare card",
   "medicare--parts-ab-card-label--back": "Upload back of Original Medicare card",

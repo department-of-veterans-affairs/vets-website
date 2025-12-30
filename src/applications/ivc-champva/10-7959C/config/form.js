@@ -30,6 +30,7 @@ import medicareCardUpload from '../chapters/medicare/partsABCardUpload';
 import medicarePartDStatus from '../chapters/medicare/partDStatus';
 import medicarePartDCarrier from '../chapters/medicare/partDCarrier';
 import medicarePartDCardUpload from '../chapters/medicare/partDCardUpload';
+import { medicarePagesRev2025 } from '../chapters/medicare';
 
 import {
   applicantHasInsuranceSchema,
@@ -232,16 +233,20 @@ const formConfig = {
     medicareInformation: {
       title: 'Medicare information',
       pages: {
+        ...medicarePagesRev2025,
         hasMedicareAB: {
           path: 'medicare-ab-status',
           title: 'Report Medicare plans',
+          depends: formData => !formData[REV2025_TOGGLE_KEY],
           ...medicareReportPlans,
           scrollAndFocusTarget,
         },
         medicareClass: {
           path: 'medicare-plan',
           title: 'Medicare plan types',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           ...medicarePlanTypes,
           scrollAndFocusTarget,
         },
@@ -249,7 +254,7 @@ const formConfig = {
           path: 'medicare-pharmacy',
           title: 'Medicare pharmacy benefits',
           depends: formData =>
-            !formData['view:champvaForm107959cRev2025'] &&
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData) &&
             ['advantage', 'other'].includes(
               get('applicantMedicareClass', formData),
@@ -260,21 +265,27 @@ const formConfig = {
         partACarrier: {
           path: 'medicare-a-carrier',
           title: 'Medicare Part A carrier',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           ...medicarePartACarrier,
           scrollAndFocusTarget,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
           title: 'Medicare Part B carrier',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           ...medicarePartBCarrier,
           scrollAndFocusTarget,
         },
         medicareABCards: {
           path: 'medicare-ab-upload',
           title: 'Medicare card for hospital and medical coverage',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...medicareCardUpload,
@@ -283,7 +294,9 @@ const formConfig = {
         hasMedicareD: {
           path: 'medicare-d-status',
           title: 'Medicare Part D status',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           ...medicarePartDStatus,
           scrollAndFocusTarget,
         },
@@ -291,6 +304,7 @@ const formConfig = {
           path: 'medicare-d-carrier',
           title: 'Medicare Part D carrier',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
           ...medicarePartDCarrier,
@@ -300,6 +314,7 @@ const formConfig = {
           path: 'medicare-d-upload',
           title: 'Medicare Part D card',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
           CustomPage: FileFieldWrapped,
