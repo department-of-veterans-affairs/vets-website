@@ -207,15 +207,21 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       }
 
       const sortKey = sortValue === 'alphabetical' ? 'name' : sortValue;
-
-      const sorted = [...filtered].sort((a, b) => {
+      // sort alpgabetically before sorting any other way
+      const alphabeticallySorted = [...filtered].sort((a, b) =>
+        (a.name || '').localeCompare(b.name || ''),
+      );
+      const sorted = [...alphabeticallySorted].sort((a, b) => {
         if (sortKey === 'expiringSoonest') {
           return (
             whenToApplySortOrder[a.whenToApplyDescription] -
             whenToApplySortOrder[b.whenToApplyDescription]
           );
         }
-        return (a[sortKey] || '').localeCompare(b[sortKey] || '');
+        if (sortKey === 'category') {
+          return (a[sortKey] || '').localeCompare(b[sortKey] || '');
+        }
+        return 0;
       });
 
       setBenefits(sorted);
