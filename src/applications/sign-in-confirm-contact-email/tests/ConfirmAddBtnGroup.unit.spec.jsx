@@ -12,9 +12,7 @@ describe('ConfirmAddBtnGroup', () => {
     );
     const link = container.querySelector('va-link-action');
     expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal(
-      'https://va.gov/profile/contact-information',
-    );
+    expect(link.getAttribute('href')).to.equal('/profile/contact-information');
     expect(link.getAttribute('text')).to.equal('Add email in profile');
   });
 
@@ -63,9 +61,7 @@ describe('ConfirmAddBtnGroup', () => {
     window.location = { href: '' };
 
     fireEvent.click(updateButton);
-    expect(window.location.href).to.equal(
-      'https://www.va.gov/profile/contact-information',
-    );
+    expect(window.location.href).to.equal('/profile/contact-information');
     window.location = originalLocation;
   });
 });
