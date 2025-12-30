@@ -11,7 +11,7 @@ import { fetchDebts } from '../actions';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 import type { DisputeDebtState } from '../types/state';
-import type { AppLocation } from '../../../../config/router-types.d';
+import type { AppLocation } from '../../../../config/globalTypes/router-types.d';
 
 interface DisputeDebtProps extends React.PropsWithChildren {
   location: AppLocation;

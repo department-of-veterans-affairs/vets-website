@@ -19,9 +19,9 @@
   },
   "include": [
     "**/*",
-    "../../../config/web-components.d.ts",
-    "../../../config/global-state.d.ts",
-    "../../../config/router-types.d.ts",
+    "../../../config/globalTypes/web-components.d.ts",
+    "../../../config/globalTypes/global-state.d.ts",
+    "../../../config/globalTypes/router-types.d.ts",
     "types/**/*"
   ]
 }
