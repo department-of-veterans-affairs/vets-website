@@ -20,28 +20,44 @@ export const DATE_VALIDATION_TYPE = Object.freeze({
 /**
  * Normalizes date values coming from VaMemorableDate into a safe ISO format.
  *
- * VaMemorableDate emits date strings with non-padded month/day values
- * (e.g. "2025-8-5") and sometimes includes a time portion
- * (e.g. "2025-8-5T08:30:00Z").
+ * VaMemorableDate can emit:
+ *  - Strings with non-padded month/day values (e.g. "2025-8-5")
+ *    and sometimes includes a time portion (e.g. "2025-8-5T08:30:00Z").
+ *  - Objects with separate year, month, and day fields
+ *    (e.g. { year: "2025", month: "8", day: "5" }).
  *
  * This helper:
- *  - Strips any time information
- *  - Zero-pads month and day
- *  - Returns a consistent "YYYY-MM-DD" string
+ *  - Handles both string and object inputs
+ *  - Returns partial objects as-is without modifying them
+ *  - Strips any time information from string inputs
+ *  - Zero-pads month and day for complete dates
+ *  - Returns a consistent "YYYY-MM-DD" string for complete dates
  *
- * This ensures reliable date comparisons and consistent backend payloads.
+ * This ensures reliable date comparisons and consistent backend payloads
+ * while avoiding errors when partial dates are entered.
  */
 export const normalizeISODate = value => {
-  if (typeof value !== 'string') return value;
+  if (!value) return '';
 
-  const [dateOnly] = value.split('T');
-  const parts = dateOnly.split('-');
+  // Handle object input (partial or full)
+  if (typeof value === 'object') {
+    const { year, month, day } = value;
+    if (!year || !month || !day) return value; // partial object, return as-is
+    return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+  }
 
-  if (parts.length !== 3) return dateOnly;
+  // Handle string input
+  if (typeof value === 'string') {
+    if (!value.includes('-')) return value; // malformed string, return as-is
+    const [dateOnly] = value.split('T');
+    const parts = dateOnly.split('-');
+    if (parts.length !== 3) return value; // partial string, return as-is
+    const [year, month, day] = parts;
+    return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+  }
 
-  const [year, month, day] = parts;
-
-  return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+  // For any other type, just return it
+  return value;
 };
 
 /**

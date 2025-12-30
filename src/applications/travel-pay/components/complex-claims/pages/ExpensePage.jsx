@@ -578,15 +578,23 @@ const ExpensePage = () => {
         required
         hint={dateHintText}
         external-validation
-        onDateChange={e => {
-          handleFormChange(e);
-        }}
-        onDateBlur={() => {
-          validateReceiptDate(
-            formState.purchaseDate,
-            DATE_VALIDATION_TYPE.BLUR,
-            setExtraFieldErrors,
-          );
+        // onDateChange={e => {
+        //   handleFormChange(e);
+        // }}
+        onDateBlur={e => {
+          const valueObj = e.target.value; // { month, day, year }
+          if (valueObj.year && valueObj.month && valueObj.day) {
+            const normalized = normalizeISODate(valueObj);
+            handleFormChange(e);
+            validateReceiptDate(
+              normalized,
+              DATE_VALIDATION_TYPE.BLUR,
+              setExtraFieldErrors,
+            );
+          } else {
+            // Only update formState with the partial object
+            handleFormChange(e);
+          }
         }}
         error={extraFieldErrors.purchaseDate}
       />
