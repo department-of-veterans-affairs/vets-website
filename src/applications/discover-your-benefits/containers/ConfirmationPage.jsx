@@ -169,24 +169,38 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       const filterKeys = filterValues;
       const isRecommendedOnly = filterKeys.includes('recommended');
       const sourceData = isRecommendedOnly ? resultsData || [] : BENEFITS_LIST;
+      const whenToApplyFilters = filterKeys.filter(
+        f =>
+          f === WHEN_TO_APPLY.BEFORE_SEPARATION ||
+          f === WHEN_TO_APPLY.AFTER_SEPARATION,
+      );
       const nonRecommendedFilters = filterKeys.filter(
-        f => f !== 'recommended' && f !== 'all',
+        f =>
+          f !== 'recommended' &&
+          f !== 'all' &&
+          f !== WHEN_TO_APPLY.BEFORE_SEPARATION &&
+          f !== WHEN_TO_APPLY.AFTER_SEPARATION,
       );
       let filtered = sourceData;
-      if (nonRecommendedFilters.length > 0) {
+      if (whenToApplyFilters.length > 0) {
         filtered = sourceData.filter(benefit =>
-          nonRecommendedFilters.some(key => {
-            if (benefit.category?.includes(key)) {
-              return true;
-            }
-
+          whenToApplyFilters.some(key => {
             if (
               key === WHEN_TO_APPLY.BEFORE_SEPARATION ||
               key === WHEN_TO_APPLY.AFTER_SEPARATION
             ) {
               return benefit.whenToApply?.includes(key);
             }
-
+            return false;
+          }),
+        );
+      }
+      if (nonRecommendedFilters.length > 0) {
+        filtered = filtered.filter(benefit =>
+          nonRecommendedFilters.some(key => {
+            if (benefit.category?.includes(key)) {
+              return true;
+            }
             return false;
           }),
         );
