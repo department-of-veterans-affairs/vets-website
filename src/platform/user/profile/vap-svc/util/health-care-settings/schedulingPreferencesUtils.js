@@ -110,7 +110,7 @@ export const schedulingPreferencesFormSchema = fieldname => {
                 FIELD_OPTION_IDS_INVERTED[
                   FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
                 ],
-              ),
+              ).map(key => key.replace('option-', '')),
             },
           },
         };
@@ -126,7 +126,7 @@ export const schedulingPreferencesFormSchema = fieldname => {
                   FIELD_OPTION_IDS_INVERTED[
                     FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
                   ],
-                ),
+                ).map(key => key.replace('option-', '')),
               },
               uniqueItems: true,
             },
@@ -144,7 +144,7 @@ export const schedulingPreferencesFormSchema = fieldname => {
                   FIELD_OPTION_IDS_INVERTED[
                     FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
                   ],
-                ),
+                ).map(key => key.replace('option-', '')),
               },
               uniqueItems: true,
             },
@@ -173,7 +173,9 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   fieldName,
 ) => {
   const itemId = getSchedulingPreferenceItemId(fieldName);
-  const optionIds = Object.values(data);
+  const optionIds = Object.values(data).map(value => {
+    return value.replace('option-', '');
+  });
   // const optionIds = getSchedulingPreferencesOptionIds(fieldName, data);
   // if we need more granular handling of option IDs, we can adjust this logic
 
@@ -189,7 +191,7 @@ export const convertSchedulingPreferencesToReduxFormat = items => {
     );
     if (isInlineSchedulingPreference(fieldName)) {
       const [firstOptionId] = item.optionIds;
-      formattedData[fieldName] = firstOptionId;
+      formattedData[fieldName] = `option-${firstOptionId}`;
     } else {
       formattedData[fieldName] = item.optionIds.length
         ? item.optionIds.map(optionId =>
