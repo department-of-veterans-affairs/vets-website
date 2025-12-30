@@ -28,7 +28,11 @@ const form210966 = (pathname = null) => {
     submitUrl: `${
       environment.API_URL
     }/accredited_representative_portal/v0/intent_to_file`,
-    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    dev: {
+      collapsibleNavLinks: true,
+      showNavLinks: !window.Cypress,
+      disableWindowUnloadInCI: true,
+    },
     disableSave: true,
     trackingPrefix,
     introduction: IntroductionPageITF,
