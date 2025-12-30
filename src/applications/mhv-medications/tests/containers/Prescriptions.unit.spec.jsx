@@ -365,7 +365,7 @@ describe('Medications Prescriptions container', () => {
       });
     });
 
-    it('should render without error when SHIPPED filter is applied with BOTH CernerPilot and  V2StatusMapping flags disabled', async () => {
+    it('should render without error when SHIPPED filter is applied with BOTH CernerPilot and V2StatusMapping flags disabled', async () => {
       const stateWithShippedFilter = {
         ...initialState,
         rx: {
@@ -386,7 +386,7 @@ describe('Medications Prescriptions container', () => {
       expect(screen.getByText('Medications')).to.exist;
     });
 
-    it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and  V2StatusMapping flags enabled', async () => {
+    it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and V2StatusMapping flags enabled', async () => {
       const stateWithShippedFilter = {
         ...initialState,
         rx: {

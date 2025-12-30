@@ -218,7 +218,7 @@ describe('component that displays Status', () => {
         .exist;
     });
 
-    it('V2 Active has correct definition text when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+    it('V2 Active has correct definition text when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
       const screen = renderStatus('Active', true, true);
       const definition = screen.getByTestId('active-status-definition');
       expect(definition.textContent).to.include(
@@ -226,7 +226,7 @@ describe('component that displays Status', () => {
       );
     });
 
-    it('V2 In progress has correct definition text when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+    it('V2 In progress has correct definition text when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
       const screen = renderStatus('In progress', true, true);
       const definition = screen.getByTestId('inprogress-status-definition');
       expect(definition.textContent).to.include(
@@ -234,7 +234,7 @@ describe('component that displays Status', () => {
       );
     });
 
-    it('V2 Inactive has correct definition text when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+    it('V2 Inactive has correct definition text when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
       const screen = renderStatus('Inactive', true, true);
       const definition = screen.getByTestId('inactive-status-definition');
       expect(definition.textContent).to.include(
@@ -242,7 +242,7 @@ describe('component that displays Status', () => {
       );
     });
 
-    it('V2 Transferred has correct definition text when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+    it('V2 Transferred has correct definition text when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
       const screen = renderStatus('Transferred', true, true);
       const definition = screen.getByTestId('transferred-status-definition');
       expect(definition.textContent).to.include(
@@ -250,7 +250,7 @@ describe('component that displays Status', () => {
       );
     });
 
-    it('V2 Status not available has correct definition text when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+    it('V2 Status not available has correct definition text when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
       const screen = renderStatus('Status not available', true, true);
       const definition = screen.getByTestId('unknown-status-definition');
       expect(definition.textContent).to.include(
