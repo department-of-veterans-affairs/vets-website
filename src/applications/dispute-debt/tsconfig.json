@@ -22,7 +22,6 @@
     "../../../config/web-components.d.ts",
     "../../../config/global-state.d.ts",
     "../../../config/router-types.d.ts",
-    "types/**/*",
-    "types/platform-components-module.d.ts"
+    "types/**/*"
   ]
 }
