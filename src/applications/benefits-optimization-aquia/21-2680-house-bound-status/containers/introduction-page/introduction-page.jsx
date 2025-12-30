@@ -26,6 +26,29 @@ const OMB_NUMBER = '2900-0721';
 const OMB_EXP_DATE = '02/28/2026';
 
 /**
+ * Custom start link component using va-link-action with primary-entry type
+ * @param {Object} props - Component properties
+ * @param {string} props.href - Link href
+ * @param {Function} props.onClick - Click handler
+ * @param {React.ReactNode} props.children - Link text
+ * @returns {React.ReactElement} Action link
+ */
+const StartApplicationLink = ({ href, onClick, children }) => (
+  <va-link-action
+    href={href}
+    onClick={onClick}
+    text={children}
+    type="primary"
+  />
+);
+
+StartApplicationLink.propTypes = {
+  children: PropTypes.node.isRequired,
+  href: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+/**
  * Process list component
  * @returns {React.ReactElement} Process steps
  */
@@ -138,7 +161,8 @@ export const IntroductionPage = ({ route }) => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start your application"
+          startText="Start your VA Form 21-2680 application"
+          customLink={StartApplicationLink}
           hideUnauthedStartLink
           devOnly={{
             forceShowFormControls: true,
