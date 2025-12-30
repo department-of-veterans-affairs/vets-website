@@ -30,13 +30,13 @@ describe('Medications List component', () => {
     state = initialState,
     sortOption = 'alphabeticallyByStatus',
     isCernerPilot = false,
-    // isV2StatusMapping = false,
+    isV2StatusMapping = false,
   ) => {
     const fullState = {
       ...state,
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
-        // [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
         ...state.featureToggles,
       },
       rx: {
@@ -130,40 +130,40 @@ describe('Medications List component', () => {
     const numToNums = screen.getByTestId('page-total-info');
     expect(numToNums).to.contain.text('Showing 0 - 0');
   });
-  // describe('dual flag requirement validation', () => {
-  //   const FLAG_COMBINATIONS = [
-  //     {
-  //       cernerPilot: false,
-  //       v2StatusMapping: false,
-  //       desc: 'both flags disabled',
-  //     },
-  //     {
-  //       cernerPilot: true,
-  //       v2StatusMapping: false,
-  //       desc: 'only cernerPilot enabled',
-  //     },
-  //     {
-  //       cernerPilot: false,
-  //       v2StatusMapping: true,
-  //       desc: 'only v2StatusMapping enabled',
-  //     },
-  //     {
-  //       cernerPilot: true,
-  //       v2StatusMapping: true,
-  //       desc: 'both flags enabled',
-  //     },
-  //   ];
+  describe('dual flag requirement validation', () => {
+    const FLAG_COMBINATIONS = [
+      {
+        cernerPilot: false,
+        v2StatusMapping: false,
+        desc: 'both flags disabled',
+      },
+      {
+        cernerPilot: true,
+        v2StatusMapping: false,
+        desc: 'only cernerPilot enabled',
+      },
+      {
+        cernerPilot: false,
+        v2StatusMapping: true,
+        desc: 'only v2StatusMapping enabled',
+      },
+      {
+        cernerPilot: true,
+        v2StatusMapping: true,
+        desc: 'both flags enabled',
+      },
+    ];
 
-  //   FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
-  //     it(`renders correctly when ${desc}`, () => {
-  //       const screen = setup(
-  //         initialState,
-  //         'alphabeticallyByStatus',
-  //         cernerPilot,
-  //         v2StatusMapping,
-  //       );
-  //       expect(screen.getByTestId('page-total-info')).to.exist;
-  //     });
-  //   });
-  // });
+    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
+      it(`renders correctly when ${desc}`, () => {
+        const screen = setup(
+          initialState,
+          'alphabeticallyByStatus',
+          cernerPilot,
+          v2StatusMapping,
+        );
+        expect(screen.getByTestId('page-total-info')).to.exist;
+      });
+    });
+  });
 });
