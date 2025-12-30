@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import WatchVideoView from '../components/WatchVideoView';
 import SelectPreferenceView from '../components/SelectPreferenceView';
 import ScheduleMeetingView from '../components/ScheduleMeetingView';
@@ -17,6 +18,11 @@ export default function OrientationToolsAndResources() {
   const showOrientationToolsAndResourcesPage = useToggleValue(
     TOGGLE_NAMES.vre_eligibility_status_phase_2_updates,
   );
+
+  useEffect(() => {
+    scrollToTop();
+    focusElement('h1');
+  }, []);
 
   if (!showOrientationToolsAndResourcesPage) {
     return (

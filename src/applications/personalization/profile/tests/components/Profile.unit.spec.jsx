@@ -218,6 +218,7 @@ describe('mapStateToProps', () => {
       'isInMVI',
       'isLOA3',
       'shouldFetchDirectDeposit',
+      'shouldHideHealthCareContactsPage',
       'shouldShowAccreditedRepTab',
       'shouldShowProfile2',
       'shouldShowHealthCareSettingsPage',

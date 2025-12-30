@@ -1,11 +1,12 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import _ from 'lodash';
-import { getTransformIntlPhoneNumber } from '../helpers';
+import { getTransformIntlPhoneNumber, todaysDate } from '../helpers';
 
 export default function transform(formConfig, form) {
   const data = _.cloneDeep(form.data);
 
   delete data.statementOfTruthCertified;
+  delete data.AGREED;
 
   // phone numbers are from 'international phone' input, and
   // so come as an object, but we only want to send a string
@@ -20,9 +21,16 @@ export default function transform(formConfig, form) {
     delete data.mobilePhone;
   }
 
+  // Make sure testCost is sent as a number
   if (data.testCost) {
     data.testCost = parseInt(data.testCost, 10);
   }
+
+  // Organization address is assumed to be within the US
+  data.organizationAddress.country = 'USA';
+
+  // Set dateSigned
+  data.dateSigned = todaysDate();
 
   const submitData = transformForSubmit(formConfig, { ...form, data });
 
