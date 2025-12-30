@@ -61,7 +61,7 @@ const previousNamePage = {
     servicePeriod: {
       ...titleUI(
         'Service periods',
-        'Please list which service periods the veteran served under this name (ex. Navy).',
+        'Please list which service periods the Veteran served under this name (ex. Navy).',
       ),
       'ui:widget': 'textarea',
       'ui:options': {
