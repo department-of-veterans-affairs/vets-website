@@ -7,7 +7,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-// import constants from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
@@ -30,8 +30,7 @@ import {
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
   MILITARY_CITIES,
-  STATE_LABELS,
-  STATE_VALUES,
+  // FORM_PROFILE_STATES,
 } from '../constants';
 
 // import {
@@ -79,12 +78,12 @@ const {
 
 // const MILITARY_STATE_VALUES = MILITARY_STATES.map(state => state.value);
 // const MILITARY_STATE_NAMES = MILITARY_STATES.map(state => state.label);
-// const filteredStates = constants.states.USA.filter(
-//   state => !MILITARY_STATE_VALUES.includes(state.value),
-// );
+const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
 
-// const STATE_VALUES = filteredStates.map(state => state.value);
-// const STATE_NAMES = filteredStates.map(state => state.label);
+const FILTERED_STATE_VALUES = filteredStates.map(state => state.value);
+const FILTERED_STATE_LABELS = filteredStates.map(state => state.label);
 
 // const countryEnum = fullSchema.definitions.country.enum;
 // const citySchema = fullSchema.definitions.address.properties.city;
@@ -160,7 +159,6 @@ export const uiSchema = {
       // 'ui:errorMessages': {
       //   required: 'Select a state',
       // },
-      // hideIf: () => true,
       'ui:options': {
         hideIf: formData =>
           !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
@@ -170,7 +168,7 @@ export const uiSchema = {
         hideEmptyValueInReview: true,
         updateSchema: (formData, schema, _uiSchema) => {
           const ui = _uiSchema;
-
+          // console.log('formData in state updateSchema:', formData);
           if (
             formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
             MILITARY_CITIES.includes(formData.mailingAddress.city)
@@ -191,39 +189,10 @@ export const uiSchema = {
             required: 'Select a state',
           };
           return {
-            enum: STATE_VALUES,
-            enumNames: STATE_LABELS,
+            enum: FILTERED_STATE_VALUES,
+            enumNames: FILTERED_STATE_LABELS,
           };
         },
-
-        // const addressData = formData.mailingAddress || {};
-        // const isMilitary = addressData['view:livesOnMilitaryBase'];
-        // const ui = _uiSchema;
-
-        // if (isMilitary) {
-        //   ui['ui:webComponentField'] = VaRadioField;
-        //   ui['ui:errorMessages'] = {
-        //     required: 'Select a military state',
-        //   };
-        //   return {
-        //     type: 'string',
-        //     title: 'State',
-        //     enum: MILITARY_STATE_VALUES,
-        //     enumNames: MILITARY_STATE_NAMES,
-        //   };
-        // }
-
-        // ui['ui:webComponentField'] = VaSelectField;
-        // ui['ui:errorMessages'] = {
-        //   required: 'Select a state',
-        // };
-        // return {
-        //   type: 'string',
-        //   title: 'State',
-        //   enum: STATE_VALUES, // You'll need to add US state values
-        //   enumNames: STATE_NAMES, // You'll need to add US state names
-        // };
-        // },
       },
       'ui:required': formData =>
         formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
