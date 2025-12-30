@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { I18nextProvider } from 'react-i18next';
@@ -13,15 +12,10 @@ import { fetchDebts } from '../actions';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 import type { DisputeDebtState } from '../types/state';
-
-type Location = {
-  pathname: string;
-  href?: string;
-  search?: string;
-};
+import type { AppLocation } from '../../../../config/router-types.d';
 
 interface DisputeDebtProps extends React.PropsWithChildren {
-  location: Location;
+  location: AppLocation;
 }
 
 export const App = ({ children, location }: DisputeDebtProps) => {
@@ -69,9 +63,3 @@ export const App = ({ children, location }: DisputeDebtProps) => {
     </RoutedSavableApp>
   );
 }
-
-App.propTypes = {
-  children: PropTypes.element,
-  isDebtPending: PropTypes.bool,
-  location: PropTypes.object,
-};
