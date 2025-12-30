@@ -47,17 +47,11 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       {
         id: 0,
         label: 'Show results',
-        isRadio: true,
         category: [
           {
             id: 'recommended',
-            label: 'Recommended for you',
+            label: 'Show only results recommended for you',
             active: tempFilterValues.includes('recommended'),
-          },
-          {
-            id: 'all',
-            label: 'All results',
-            active: tempFilterValues.includes('all'),
           },
         ],
       },
