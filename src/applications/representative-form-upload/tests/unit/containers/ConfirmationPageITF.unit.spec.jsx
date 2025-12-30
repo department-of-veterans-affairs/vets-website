@@ -8,7 +8,6 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import ConfirmationPageITF from '../../../containers/ConfirmationPageITF';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/confirmation';
 const config = formConfig;
 
 const veteranFullName = {
@@ -39,10 +38,6 @@ const storeBase = {
 };
 
 describe('Confirmation page', () => {
-  beforeEach(() => {
-    window.location = new URL(TEST_URL);
-  });
-
   afterEach(() => {
     cleanup();
   });
