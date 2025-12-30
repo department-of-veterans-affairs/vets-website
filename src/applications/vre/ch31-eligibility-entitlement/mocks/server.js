@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/ch31_case_details': {
+  'GET /vre/v0/ch31_case_details': {
     data: {
       id: '',
       type: 'ch31_case_details',

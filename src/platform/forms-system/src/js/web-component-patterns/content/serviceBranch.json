@@ -1,0 +1,102 @@
+{
+  "AAC": {
+    "label": "Army Air Corps or Army Air Force",
+    "group": "Army"
+  },
+  "ARMY": {
+    "label": "Army",
+    "group": "Army"
+  },
+  "AR": {
+    "label": "Army Reserves",
+    "group": "Army"
+  },
+  "ARNG": {
+    "label": "Army National Guard",
+    "group": "Army"
+  },
+  "WAC": {
+    "label": "Women's Army Corps",
+    "group": "Army"
+  },
+  "PA": {
+    "label": "Philippine Army",
+    "group": "Army"
+  },
+  "NAVY": {
+    "label": "Navy",
+    "group": "Navy"
+  },
+  "NR": {
+    "label": "Navy Reserves",
+    "group": "Navy"
+  },
+  "N ACAD": {
+    "label": "Naval Academy",
+    "group": "Navy"
+  },
+  "PN": {
+    "label": "Philippine Navy",
+    "group": "Navy"
+  },
+  "MC": {
+    "label": "Marine Corps",
+    "group": "Marine Corps"
+  },
+  "MCR": {
+    "label": "Marine Corps Reserves",
+    "group": "Marine Corps"
+  },
+  "AF": {
+    "label": "Air Force",
+    "group": "Air Force"
+  },
+  "AFR": {
+    "label": "Air Force Reserves",
+    "group": "Air Force"
+  },
+  "ANG": {
+    "label": "Air National Guard",
+    "group": "Air Force"
+  },
+  "AF ACAD": {
+    "label": "Air Force Academy",
+    "group": "Air Force"
+  },
+  "PAF": {
+    "label": "Philippine Air Force",
+    "group": "Air Force"
+  },
+  "SF": {
+    "label": "Space Force",
+    "group": "Space Force"
+  },
+  "CG": {
+    "label": "Coast Guard",
+    "group": "Coast Guard"
+  },
+  "CGR": {
+    "label": "Coast Guard Reserves",
+    "group": "Coast Guard"
+  },
+  "CG ACAD": {
+    "label": "Coast Guard Academy",
+    "group": "Coast Guard"
+  },
+  "PHS": {
+    "label": "Public Health Service (USPHS)",
+    "group": "Other"
+  },
+  "NOAA": {
+    "label": "National Oceanic & Atmospheric Administration",
+    "group": "Other"
+  },
+  "USMA": {
+    "label": "US Military Academy",
+    "group": "Other"
+  },
+  "MM": {
+    "label": "Merchant Marine",
+    "group": "Other"
+  }
+}

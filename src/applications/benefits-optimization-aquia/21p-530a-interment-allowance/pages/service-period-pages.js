@@ -11,7 +11,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { DEFAULT_BRANCH_LABELS } from 'platform/forms-system/src/js/web-component-patterns/serviceBranchPattern';
+import DEFAULT_BRANCH_LABELS from 'platform/forms-system/src/js/web-component-patterns/content/serviceBranch.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
 const formatDate = dateStr => {
@@ -36,12 +36,7 @@ const servicePeriodOptions = {
   nounPlural: 'service periods',
   required: false,
   isItemIncomplete: item =>
-    !item.serviceBranch &&
-    !item.dateEnteredService &&
-    !item.placeEnteredService &&
-    !item.rankAtSeparation &&
-    !item.dateLeftService &&
-    !item.placeLeftService,
+    !item.serviceBranch && !item.dateEnteredService && !item.dateLeftService,
   text: {
     summaryTitle: "Review the Veteran's service periods",
     getItemName: item =>
@@ -111,7 +106,6 @@ const serviceLocationsAndRankPage = {
   },
   schema: {
     type: 'object',
-    required: ['placeEnteredService', 'placeLeftService', 'rankAtSeparation'],
     properties: {
       placeEnteredService: textSchema,
       placeLeftService: textSchema,

@@ -8,6 +8,10 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PresubmitInfo from '../components/PresubmitInfo';
+import PersonalInformationNote from '../components/PersonalInformationNote';
+
+import { CustomReviewTopContent } from '../helpers';
 
 import * as PreviouslyApplied from '../pages/PreviouslyApplied';
 import * as SelectVABenefit from '../pages/SelectVABenefit';
@@ -18,6 +22,8 @@ import * as PhoneAndEmail from '../pages/PhoneAndEmail';
 import * as TestNameAndDate from '../pages/TestNameAndDate';
 import * as OrganizationInfo from '../pages/OrganizationInfo';
 import * as TestCost from '../pages/TestCost';
+import * as Remarks from '../pages/Remarks';
+import * as SubmissionInstructions from '../pages/SubmissionInstructions';
 
 import submitForm from './submitForm';
 import transform from './transform';
@@ -54,25 +60,13 @@ const formConfig = {
   prefillTransformer: prefillTransform,
   transformForSubmit: transform,
   preSubmitInfo: {
+    CustomComponent: PresubmitInfo,
+    required: true,
     statementOfTruth: {
-      heading: 'Certification statement',
-      body: (
-        <div>
-          <p>
-            I hereby authorize the release of my test information to the
-            Department of Veterans Affairs (VA).
-          </p>
-          <p>
-            <strong>Penalty:</strong> Willfully false statements as to a
-            material fact in a claim for education benefits payable by VA may
-            result in a fine, imprisonment, or both.
-          </p>
-        </div>
-      ),
       useProfileFullName: true,
-      messageAriaDescribedby: 'I have read and accept the privacy policy.',
     },
   },
+  CustomReviewTopContent,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -120,6 +114,7 @@ const formConfig = {
           dataAdapter: {
             ssnPath: 'ssn',
           },
+          note: <PersonalInformationNote />,
         }),
         payeeNumber: {
           path: 'payee-number',
@@ -164,6 +159,29 @@ const formConfig = {
           title: 'Test cost',
           uiSchema: TestCost.uiSchema,
           schema: TestCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarksPage: {
+          path: 'remarks',
+          title: 'Remarks',
+          uiSchema: Remarks.uiSchema,
+          schema: Remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: 'Submission instructions',
+          uiSchema: SubmissionInstructions.uiSchema,
+          schema: SubmissionInstructions.schema,
         },
       },
     },
