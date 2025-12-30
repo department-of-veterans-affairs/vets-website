@@ -234,8 +234,8 @@ IntroductionPage.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
-  meb1995InstructionPageUpdateV3: PropTypes.bool,
   showMeb5490EMaintenanceAlert: PropTypes.bool,
+  meb1995InstructionPageUpdateV3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
