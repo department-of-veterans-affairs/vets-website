@@ -197,7 +197,7 @@ export const IntroductionPage = ({
               <strong>Note:</strong> In some cases, we may need more time to
               make a decision. If you don’t get an automatic decision right
               after you apply, you’ll receive a decision letter in the mail in
-              about 30 days. We’ll contact you if we need more information.
+              about 30 days. And we’ll contact you if we need more information.
             </p>
           </va-additional-info>
         </va-process-list-item>
@@ -234,8 +234,8 @@ IntroductionPage.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
-  showMeb5490EMaintenanceAlert: PropTypes.bool,
   meb1995InstructionPageUpdateV3: PropTypes.bool,
+  showMeb5490EMaintenanceAlert: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
