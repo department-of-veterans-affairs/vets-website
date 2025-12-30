@@ -29,12 +29,12 @@ const ReviewPageAlert = ({
 };
 
 ReviewPageAlert.propTypes = {
+  alertRef: PropTypes.object,
   description: PropTypes.string,
   header: PropTypes.string,
   status: PropTypes.string,
   visible: PropTypes.bool,
   onCloseEvent: PropTypes.func,
-  alertRef: PropTypes.object,
 };
 
 export default ReviewPageAlert;
