@@ -11,6 +11,7 @@ import acknowledgement3 from '../pages/acknowledgement3';
 import acknowledgement4 from '../pages/acknowledgement4';
 import acknowledgement5 from '../pages/acknowledgement5';
 import hasVaFacilityCode from '../pages/hasVaFacilityCode';
+import primaryInstitutionDetails from '../pages/primaryInstitutionDetails';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -101,6 +102,13 @@ const formConfig = {
           title: 'Has VA facility code',
           uiSchema: hasVaFacilityCode.uiSchema,
           schema: hasVaFacilityCode.schema,
+        },
+        primaryInstitutionDetails: {
+          path: 'primary-institution-details',
+          title: 'Primary institution details',
+          uiSchema: primaryInstitutionDetails.uiSchema,
+          schema: primaryInstitutionDetails.schema,
+          depends: formData => !!formData?.hasVaFacilityCode,
         },
       },
     },
