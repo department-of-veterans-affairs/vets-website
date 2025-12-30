@@ -1,53 +1,93 @@
 import React from 'react';
 import { expect } from 'chai';
+
 import { waitFor } from '@testing-library/react';
 import { render } from '../unit-spec-helpers';
 import HeaderLayout from '../../components/HeaderLayout';
 
 describe('MHV Landing Page -- Header Layout', () => {
+  const stateFn = ({
+    loading = false,
+    confirmationDate = '2025-09-30T12:00:00.000+00:00',
+    emailAddress = 'vet@va.gov',
+    updatedAt = '2025-09-30T12:00:00.000+00:00',
+    oracleHealth = false,
+  } = {}) => ({
+    featureToggles: {
+      loading: false,
+      mhvEmailConfirmation: true,
+    },
+    user: {
+      profile: {
+        loading,
+        vaPatient: true,
+        vapContactInfo: {
+          email: {
+            confirmationDate,
+            emailAddress,
+            updatedAt,
+          },
+        },
+        userAtPretransitionedOhFacility: oracleHealth,
+        userFacilityReadyForInfoAlert: oracleHealth,
+      },
+    },
+  });
+
   it('renders', async () => {
     const { getByTestId } = render(<HeaderLayout />);
     await waitFor(() => {
       getByTestId('mhv-header-layout--milestone-2');
     });
   });
-  it('renders OH/My VA Health link when told to', async () => {
-    const { getByTestId, getByRole } = render(<HeaderLayout isCerner />);
-    await waitFor(() => {
-      getByTestId('mhv-header-layout--milestone-2');
-      const ohLink = getByRole('link', {
-        name: /Go to the My VA Health portal/,
+  describe('showCernerInfoAlert prop', () => {
+    const initialState = stateFn({ oracleHealth: true });
+    it('renders info alert when showCernerInfoAlert is true', async () => {
+      const { getByTestId } = render(<HeaderLayout showCernerInfoAlert />, {
+        initialState,
       });
-      expect(ohLink.href).to.match(/patientportal\.myhealth\.va\.gov/);
+      await waitFor(() => {
+        expect(getByTestId('cerner-facilities-info-alert')).to.exist;
+      });
+    });
+    it('renders learn more text and link when showCernerInfoAlert is true', async () => {
+      const { getByText, container } = render(
+        <HeaderLayout showCernerInfoAlert />,
+        {
+          initialState,
+        },
+      );
+      await waitFor(() => {
+        expect(getByText(/Want to learn more about what/)).to.exist;
+        const learnMoreLink = container.querySelector(
+          'va-link[text="Learn more about My HealtheVet on VA.gov"]',
+        );
+        expect(learnMoreLink).to.exist;
+        expect(learnMoreLink.getAttribute('href')).to.equal(
+          '/resources/my-healthevet-on-vagov-what-to-know',
+        );
+      });
+    });
+    it('does not render info alert or learn more when showCernerInfoAlert is false', async () => {
+      const { queryByTestId, queryByText, container } = render(
+        <HeaderLayout />,
+        {
+          initialState: stateFn(),
+        },
+      );
+      await waitFor(() => {
+        queryByTestId('mhv-header-layout--milestone-2');
+        expect(queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+        expect(queryByText(/Want to learn more about what/)).to.not.exist;
+        const learnMoreLink = container.querySelector(
+          'va-link[text="Learn more about My HealtheVet on VA.gov"]',
+        );
+        expect(learnMoreLink).to.not.exist;
+      });
     });
   });
 
   describe('MhvAlertConfirmEmail component', () => {
-    const stateFn = ({
-      loading = false,
-      confirmationDate = '2025-09-30T12:00:00.000+00:00',
-      emailAddress = 'vet@va.gov',
-      updatedAt = '2025-09-30T12:00:00.000+00:00',
-    } = {}) => ({
-      featureToggles: {
-        loading: false,
-        mhvEmailConfirmation: true,
-      },
-      user: {
-        profile: {
-          loading,
-          vaPatient: true,
-          vapContactInfo: {
-            email: {
-              confirmationDate,
-              emailAddress,
-              updatedAt,
-            },
-          },
-        },
-      },
-    });
-
     it('renders nothing', async () => {
       const { queryByTestId } = render(<HeaderLayout />, {
         initialState: stateFn(),

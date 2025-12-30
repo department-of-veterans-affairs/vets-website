@@ -43,6 +43,17 @@
         "documentStatus": "education"
       }
     },
+    "supportingDocuments": [
+      {
+        "name": "transcript.pdf",
+        "size": 12345,
+        "fileType": "application/pdf",
+        "confirmationCode": "174987",
+        "additionalData": {
+          "documentStatus": "private"
+        }
+      }
+    ],
     "treatmentRecords": [
       {
         "treatmentDates": {
