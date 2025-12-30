@@ -158,7 +158,7 @@ const IntroductionPage = () => {
 
         <div className="vads-u-margin--2">
           <va-omb-info
-            res-burden={15}
+            res-burden={10}
             omb-number="2900-0798"
             exp-date="11/30/2027"
           />
