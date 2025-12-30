@@ -2,6 +2,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import { formatDateTime } from '../../../util/dates';
 import {
   selectAppointment,
@@ -43,6 +46,10 @@ const ConfirmationPage = () => {
   const [formattedDate, formattedTime] = appointmentData?.localStartTime
     ? formatDateTime(appointmentData.localStartTime)
     : [null, null];
+
+  useSetPageTitle(pageHeader);
+  useSetFocus();
+  useRecordPageview('complex-claims', pageHeader);
 
   return (
     <>
@@ -122,7 +129,7 @@ const ConfirmationPage = () => {
           {!submitError && (
             <div className="vads-u-margin-top--2">
               <va-link-action
-                text="Review your appointments to submit another travel reimbursement claim"
+                text="Go to your past appointments to file another claim"
                 href="/my-health/appointments/past"
               />
             </div>

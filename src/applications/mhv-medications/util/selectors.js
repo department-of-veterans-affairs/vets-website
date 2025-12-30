@@ -27,3 +27,6 @@ export const selectSecureMessagingMedicationsRenewalRequestFlag = state =>
 
 export const selectCernerPilotFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot];
+
+// Hardcoded to true temporarily until feature flag is added in separate PR
+export const selectV2StatusMappingFlag = () => true;

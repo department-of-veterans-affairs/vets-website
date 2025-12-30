@@ -106,10 +106,9 @@ describe('DebtDetailsCard', () => {
     expect(wrapper.find('p').text()).includes(
       'To avoid collection actions on your bill, you must pay your full balance or request financial help.',
     );
-    expect(wrapper.find('va-link-action')).to.have.lengthOf(2);
   });
 
-  it('should render OTPP version when showOTPP is true', () => {
+  it('should always render OTPP version since its the standard implementation now', () => {
     const debt = {
       compositeDebtId: '441300',
       currentAr: 5000,
@@ -125,7 +124,7 @@ describe('DebtDetailsCard', () => {
     const wrapper = render(
       <Provider store={fakeStore}>
         <BrowserRouter>
-          <DebtDetailsCard debt={debt} showOTPP />
+          <DebtDetailsCard debt={debt} />
         </BrowserRouter>
       </Provider>,
     );

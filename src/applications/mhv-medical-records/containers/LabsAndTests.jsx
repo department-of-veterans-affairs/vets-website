@@ -19,7 +19,6 @@ import {
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
-  CernerAlertContent,
   accessAlertTypes,
   labTypes,
   pageTitles,
@@ -41,7 +40,6 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import DateRangeSelector, {
   getDateRangeList,
 } from '../components/shared/DateRangeSelector';
@@ -96,6 +94,9 @@ const LabsAndTests = () => {
 
   const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
 
+  const isLoadingAcceleratedData =
+    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
+
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
@@ -129,9 +130,6 @@ const LabsAndTests = () => {
     updateListActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
     reloadRecordsAction: reloadRecords,
   });
-
-  const isLoadingAcceleratedData =
-    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
   useEffect(
     () => {
@@ -177,8 +175,6 @@ const LabsAndTests = () => {
         <span className="vads-u-font-weight--bold">14 days</span> or longer to
         confirm.{' '}
       </p>
-
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -226,7 +222,8 @@ const LabsAndTests = () => {
           </div>
         )}
         {!isLoadingAcceleratedData &&
-          !isLoading && (
+          !isLoading &&
+          labsAndTests !== undefined && (
             <>
               {labsAndTests?.length ? (
                 <>
