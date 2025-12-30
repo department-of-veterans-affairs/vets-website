@@ -4,7 +4,6 @@ import { TRIP_TYPES } from '../../constants';
 
 import {
   DATE_VALIDATION_TYPE,
-  parseDateInput,
   validateReceiptDate,
   validateDescription,
   validateRequestedAmount,
@@ -12,6 +11,7 @@ import {
   validateCommonCarrierFields,
   validateLodgingFields,
   validateMealFields,
+  normalizeISODate,
 } from '../../util/expense-validation-helpers';
 
 const mockSetExtraFieldErrors = () => {
@@ -36,51 +36,41 @@ const mockSetFormState = () => {
   return fn;
 };
 
-describe('parseDateInput', () => {
-  it('returns null values when input is falsy', () => {
-    expect(parseDateInput(null)).to.deep.equal({
-      month: null,
-      day: null,
-      year: null,
-    });
+describe('normalizeISODate', () => {
+  it('returns non-string values unchanged', () => {
+    expect(normalizeISODate(null)).to.equal(null);
+    expect(normalizeISODate(undefined)).to.equal(undefined);
+    expect(normalizeISODate(123)).to.equal(123);
+    expect(normalizeISODate({})).to.deep.equal({});
   });
 
-  it('parses YYYY-MM-DD string correctly', () => {
-    const result = parseDateInput('2025-01-04');
-
-    expect(result).to.deep.equal({
-      month: '01',
-      day: '04',
-      year: '2025',
-    });
+  it('returns the value unchanged if it is not in YYYY-MM-DD format', () => {
+    expect(normalizeISODate('')).to.equal('');
+    expect(normalizeISODate('2025')).to.equal('2025');
+    expect(normalizeISODate('2025-08')).to.equal('2025-08');
+    expect(normalizeISODate('08-15-2025')).to.equal('08-15-2025');
   });
 
-  it('trims object input values', () => {
-    const result = parseDateInput({
-      month: ' 2 ',
-      day: ' 5 ',
-      year: ' 2024 ',
-    });
-
-    expect(result).to.deep.equal({
-      month: '2',
-      day: '5',
-      year: '2024',
-    });
+  it('zero-pads single-digit month and day values', () => {
+    expect(normalizeISODate('2025-8-5')).to.equal('2025-08-05');
+    expect(normalizeISODate('2025-1-15')).to.equal('2025-01-15');
+    expect(normalizeISODate('2025-12-3')).to.equal('2025-12-03');
   });
 
-  it('returns null for empty object fields', () => {
-    const result = parseDateInput({
-      month: '',
-      day: '',
-      year: '',
-    });
+  it('preserves already padded month and day values', () => {
+    expect(normalizeISODate('2025-08-05')).to.equal('2025-08-05');
+    expect(normalizeISODate('2025-12-31')).to.equal('2025-12-31');
+  });
 
-    expect(result).to.deep.equal({
-      month: null,
-      day: null,
-      year: null,
-    });
+  it('strips the time portion before normalizing the date', () => {
+    expect(normalizeISODate('2025-8-5T08:30:00Z')).to.equal('2025-08-05');
+    expect(normalizeISODate('2025-08-05T23:59:59')).to.equal('2025-08-05');
+  });
+
+  it('handles malformed date strings defensively', () => {
+    expect(normalizeISODate('2025--5')).to.equal('2025-00-05');
+    expect(normalizeISODate('--')).to.equal('-00-00');
+    expect(normalizeISODate('2025-8-')).to.equal('2025-08-00');
   });
 });
 
@@ -104,7 +94,7 @@ describe('validateReceiptDate', () => {
     });
   });
 
-  it('does not show required error on CHANGE', () => {
+  it('does not show required error on CHANGE when date is empty', () => {
     const setErrors = mockSetExtraFieldErrors();
 
     const isValid = validateReceiptDate(
@@ -119,7 +109,7 @@ describe('validateReceiptDate', () => {
     });
   });
 
-  it('does not error on partial date', () => {
+  it('shows error for a partial date', () => {
     const setErrors = mockSetExtraFieldErrors();
 
     const isValid = validateReceiptDate(
@@ -128,9 +118,9 @@ describe('validateReceiptDate', () => {
       setErrors,
     );
 
-    expect(isValid).to.be.true;
+    expect(isValid).to.be.false;
     expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: null,
+      purchaseDate: 'Please enter a complete date',
     });
   });
 
@@ -139,7 +129,7 @@ describe('validateReceiptDate', () => {
     const setErrors = mockSetExtraFieldErrors();
 
     const isValid = validateReceiptDate(
-      { month: '12', day: '31', year: '2025' },
+      '2025-12-31',
       DATE_VALIDATION_TYPE.SUBMIT,
       setErrors,
     );
@@ -156,6 +146,22 @@ describe('validateReceiptDate', () => {
 
     const isValid = validateReceiptDate(
       '2025-01-01',
+      DATE_VALIDATION_TYPE.SUBMIT,
+      setErrors,
+    );
+
+    expect(isValid).to.be.true;
+    expect(setErrors.calls.pop()).to.deep.equal({
+      purchaseDate: null,
+    });
+  });
+
+  it('normalizes non-padded dates before validation', () => {
+    MockDate.set('2025-09-01T00:00:00Z');
+    const setErrors = mockSetExtraFieldErrors();
+
+    const isValid = validateReceiptDate(
+      '2025-8-15',
       DATE_VALIDATION_TYPE.SUBMIT,
       setErrors,
     );
@@ -481,12 +487,18 @@ describe('validateLodgingFields', () => {
   let errors;
 
   beforeEach(() => {
+    MockDate.set('2025-02-01T00:00:00Z');
+
     formState = {
       vendor: '',
       checkInDate: '',
       checkOutDate: '',
     };
     errors = {};
+  });
+
+  afterEach(() => {
+    MockDate.reset();
   });
 
   it('validates all fields at once and sets errors for empty values', () => {
@@ -520,6 +532,38 @@ describe('validateLodgingFields', () => {
     const nextErrors = validateLodgingFields(formState, errors, 'checkOutDate');
 
     expect(nextErrors.checkOutDate).to.equal('Enter the date you checked out');
+  });
+
+  it('shows partial date error for checkInDate', () => {
+    formState.checkInDate = '2025-01';
+
+    const nextErrors = validateLodgingFields(formState, errors, 'checkInDate');
+
+    expect(nextErrors.checkInDate).to.equal('Please enter a complete date');
+  });
+
+  it('shows partial date error for checkOutDate', () => {
+    formState.checkOutDate = '2025-01';
+
+    const nextErrors = validateLodgingFields(formState, errors, 'checkOutDate');
+
+    expect(nextErrors.checkOutDate).to.equal('Please enter a complete date');
+  });
+
+  it('flags error if checkInDate is in the future', () => {
+    formState.checkInDate = '2025-03-20';
+
+    const nextErrors = validateLodgingFields(formState, errors, 'checkInDate');
+
+    expect(nextErrors.checkInDate).to.equal("Don't enter a future date");
+  });
+
+  it('flags error if checkOutDate is in the future', () => {
+    formState.checkOutDate = '2025-03-20';
+
+    const nextErrors = validateLodgingFields(formState, errors, 'checkOutDate');
+
+    expect(nextErrors.checkOutDate).to.equal("Don't enter a future date");
   });
 
   it('flags error if checkInDate >= checkOutDate', () => {

@@ -18,37 +18,84 @@ export const DATE_VALIDATION_TYPE = Object.freeze({
 });
 
 /**
- * Parses a date input from the form and returns an object with month, day, and year.
+ * Normalizes date values coming from VaMemorableDate into a safe ISO format.
  *
- * The date input can be either:
- *  - A string in "YYYY-MM-DD" format (ISO date format), e.g. "2025-01-04"
- *  - An object with { month, day, year } properties (all strings)
+ * VaMemorableDate emits date strings with non-padded month/day values
+ * (e.g. "2025-8-5") and sometimes includes a time portion
+ * (e.g. "2025-8-5T08:30:00Z").
  *
- * Rules:
- *  - Returns { month: null, day: null, year: null } if the input is falsy.
- *  - For string input, splits by "-" and maps to { month, day, year } in the format expected
- *    by the receipt date validation logic (month/day/year).
- *  - For object input, safely trims each field and sets null for empty values.
+ * This helper:
+ *  - Strips any time information
+ *  - Zero-pads month and day
+ *  - Returns a consistent "YYYY-MM-DD" string
  *
- * @param {string|object} dateInput - The date input from the form
- * @returns {{month: string|null, day: string|null, year: string|null}} Parsed date components
+ * This ensures reliable date comparisons and consistent backend payloads.
  */
-export const parseDateInput = dateInput => {
-  if (!dateInput) return { month: null, day: null, year: null };
+export const normalizeISODate = value => {
+  if (typeof value !== 'string') return value;
 
-  // If string in "YYYY-MM-DD" format
-  if (typeof dateInput === 'string') {
-    const [year, month, day] = dateInput.split('-').map(p => p?.trim() || null);
-    return { month, day, year };
-  }
+  const [dateOnly] = value.split('T');
+  const parts = dateOnly.split('-');
 
-  // If object, destructure safely
-  const { month, day, year } = dateInput;
+  if (parts.length !== 3) return dateOnly;
+
+  const [year, month, day] = parts;
+
+  return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+};
+
+/**
+ * Parses a YYYY-MM-DD (or partial) date string into parts
+ */
+const parseISODateParts = value => {
+  if (typeof value !== 'string') return {};
+
+  const [dateOnly] = value.split('T');
+  const [year, month, day] = dateOnly.split('-');
+
+  return { year, month, day };
+};
+
+/**
+ * Determines date completeness
+ */
+const getDateCompleteness = value => {
+  const { year, month, day } = parseISODateParts(value);
+
+  const y = year ? parseInt(year, 10) : null;
+  const m = month ? parseInt(month, 10) : null;
+  const d = day ? parseInt(day, 10) : null;
+
+  const parts = [y, m, d];
+
   return {
-    month: month?.trim() || null,
-    day: day?.trim() || null,
-    year: year?.trim() || null,
+    isAllEmpty: parts.every(p => !p),
+    isComplete: parts.every(p => Number.isInteger(p)),
+    isPartial: parts.some(Number.isInteger) && !parts.every(Number.isInteger),
   };
+};
+
+/**
+ * Returns true if the given ISO date (YYYY-MM-DD) is in the future.
+ */
+const isFutureDate = isoDate => {
+  if (typeof isoDate !== 'string') return false;
+
+  const { year, month, day } = parseISODateParts(isoDate);
+
+  if (!year || !month || !day) return false;
+
+  const selectedDate = new Date(
+    parseInt(year, 10),
+    parseInt(month, 10) - 1,
+    parseInt(day, 10),
+  );
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  selectedDate.setHours(0, 0, 0, 0);
+
+  return selectedDate > today;
 };
 
 /**
@@ -75,18 +122,19 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   // Always start by clearing any previous error
   let error = null;
 
-  // Parse date input into parts
-  let { month, day, year } = parseDateInput(dateInput);
+  const rawDate =
+    typeof dateInput === 'object' && dateInput !== null
+      ? [dateInput.year, dateInput.month, dateInput.day]
+          .filter(Boolean)
+          .join('-')
+      : dateInput;
 
-  // Convert to numbers safely
-  month = month ? parseInt(month, 10) : null;
-  day = day ? parseInt(day, 10) : null;
-  year = year ? parseInt(year, 10) : null;
+  // Normalize first to ensure consistent YYYY-MM-DD shape
+  const normalizedDate = normalizeISODate(rawDate);
 
-  const parts = [month, day, year];
-  const isAllEmpty = parts.every(p => !p);
-  const isComplete = parts.every(p => Number.isInteger(p));
-  const isPartial = parts.some(p => Number.isInteger(p)) && !isComplete;
+  const { isAllEmpty, isComplete, isPartial } = getDateCompleteness(
+    normalizedDate,
+  );
 
   if (isPartial) {
     // Only part of the date entered
@@ -94,15 +142,8 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   } else if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
     // No date entered on submit
     error = 'Enter the date of your receipt';
-  } else if (isComplete) {
-    const selectedDate = new Date(year, month - 1, day);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize to midnight
-    selectedDate.setHours(0, 0, 0, 0); // Normalize selected date
-
-    if (selectedDate > today) {
-      error = "Don't enter a future date";
-    }
+  } else if (isComplete && isFutureDate(normalizedDate)) {
+    error = "Don't enter a future date";
   }
 
   setExtraFieldErrors(prev => ({
@@ -449,20 +490,39 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
 
   // vendor
   if (fieldsToValidate.includes('vendor')) {
-    if (!formState.vendor) nextErrors.vendor = 'Enter the name on your receipt';
-    else delete nextErrors.vendor;
+    if (!formState.vendor) {
+      nextErrors.vendor = 'Enter the name on your receipt';
+    } else {
+      delete nextErrors.vendor;
+    }
   }
 
   // checkInDate
   if (fieldsToValidate.includes('checkInDate')) {
-    if (!formState.checkInDate)
+    const normalizedCheckIn = normalizeISODate(formState.checkInDate);
+    const { isAllEmpty, isPartial, isComplete } = getDateCompleteness(
+      normalizedCheckIn,
+    );
+
+    if (isPartial) {
+      nextErrors.checkInDate = 'Please enter a complete date';
+    } else if (isAllEmpty) {
       nextErrors.checkInDate = 'Enter the date you checked in';
-    else if (
+    } else if (isComplete && isFutureDate(normalizedCheckIn)) {
+      nextErrors.checkInDate = "Don't enter a future date";
+    } else if (
+      isComplete &&
       formState.checkOutDate &&
-      formState.checkInDate >= formState.checkOutDate
+      getDateCompleteness(formState.checkOutDate).isComplete
     ) {
-      nextErrors.checkInDate =
-        'Check-in date must be earlier than check-out date';
+      const normalizedCheckOut = normalizeISODate(formState.checkOutDate);
+
+      if (normalizedCheckIn >= normalizedCheckOut) {
+        nextErrors.checkInDate =
+          'Check-in date must be earlier than check-out date';
+      } else {
+        delete nextErrors.checkInDate;
+      }
     } else {
       delete nextErrors.checkInDate;
     }
@@ -470,16 +530,32 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
 
   // checkOutDate
   if (fieldsToValidate.includes('checkOutDate')) {
-    if (!formState.checkOutDate)
+    const normalizedCheckOut = normalizeISODate(formState.checkOutDate);
+    const { isAllEmpty, isPartial, isComplete } = getDateCompleteness(
+      normalizedCheckOut,
+    );
+    if (isPartial) {
+      nextErrors.checkOutDate = 'Please enter a complete date';
+    } else if (isAllEmpty) {
       nextErrors.checkOutDate = 'Enter the date you checked out';
-    else if (
+    } else if (isComplete && isFutureDate(normalizedCheckOut)) {
+      nextErrors.checkOutDate = "Don't enter a future date";
+    } else if (
+      isComplete &&
       formState.checkInDate &&
-      formState.checkOutDate &&
-      formState.checkOutDate <= formState.checkInDate
+      getDateCompleteness(formState.checkInDate).isComplete
     ) {
-      nextErrors.checkOutDate =
-        'Check-out date must be later than check-in date';
-    } else delete nextErrors.checkOutDate;
+      const normalizedCheckIn = normalizeISODate(formState.checkInDate);
+
+      if (normalizedCheckOut <= normalizedCheckIn) {
+        nextErrors.checkOutDate =
+          'Check-out date must be later than check-in date';
+      } else {
+        delete nextErrors.checkOutDate;
+      }
+    } else {
+      delete nextErrors.checkOutDate;
+    }
   }
 
   return nextErrors;
