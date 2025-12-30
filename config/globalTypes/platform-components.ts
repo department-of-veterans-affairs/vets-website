@@ -25,3 +25,26 @@ export type RoutedSavableAppProps = InferProps<
 export type DowntimeNotificationProps = InferProps<
   typeof BaseDowntimeNotification.propTypes
 >;
+
+// HOC-injected props that are provided by connect() - these shouldn't be required when using the component
+type DowntimeNotificationHOCProps =
+  | 'dismissDowntimeWarning'
+  | 'getGlobalDowntime'
+  | 'getScheduledDowntime'
+  | 'initializeDowntimeWarnings'
+  | 'globalDowntime'
+  | 'isReady'
+  | 'isPending'
+  | 'shouldSendRequest'
+  | 'isDowntimeWarningDismissed'
+  | 'status'
+  | 'startTime'
+  | 'endTime'
+  | 'description'
+  | 'externalService';
+
+// Public props that consumers should provide (excludes HOC-injected props)
+export type DowntimeNotificationPublicProps = Omit<
+  DowntimeNotificationProps,
+  DowntimeNotificationHOCProps
+>;
