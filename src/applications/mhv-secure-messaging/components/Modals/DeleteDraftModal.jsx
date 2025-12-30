@@ -59,7 +59,6 @@ const DeleteDraftModal = props => {
 DeleteDraftModal.propTypes = {
   draftSequence: PropTypes.number,
   id: PropTypes.number,
-  unsavedDraft: PropTypes.bool,
   visible: PropTypes.bool,
   onClose: PropTypes.func,
   onDelete: PropTypes.func,

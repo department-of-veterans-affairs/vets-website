@@ -114,7 +114,6 @@ describe('Delete Draft component', () => {
       draftId: 123456,
       draftsCount: 1,
       savedDraft: true,
-      unsavedDraft: false,
       activeFolder: { folderId: '1' },
     };
 
@@ -194,7 +193,6 @@ describe('Delete Draft component', () => {
       draftBody: '',
       messageBody: '',
       savedDraft: false,
-      unsavedDraft: true,
       editableDraft: false,
     };
 
@@ -273,7 +271,6 @@ describe('Delete Draft component', () => {
         draftId={undefined}
         formPopulated={undefined}
         messageBody=""
-        unsavedDraft
         blankReplyDraft
         draftBody={undefined}
         savedReplyDraft={false}
@@ -325,7 +322,6 @@ describe('Delete Draft component', () => {
       <DeleteDraft
         draftId={mockDraft[0].messageId}
         messageBody={mockDraft[0].body}
-        unsavedDraft={false}
         blankReplyDraft={false}
         draftBody={mockDraft[0].body}
         savedReplyDraft
@@ -377,7 +373,6 @@ describe('Delete Draft component', () => {
       <DeleteDraft
         draftId={mockDraft[0].messageId}
         messageBody={mockDraft[0].body}
-        unsavedDraft={false}
         blankReplyDraft={false}
         draftBody={mockDraft[0].body}
         savedReplyDraft
