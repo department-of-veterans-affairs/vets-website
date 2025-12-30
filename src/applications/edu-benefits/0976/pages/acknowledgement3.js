@@ -70,11 +70,12 @@ export default {
       'ui:options': {
         width: 'small',
         classNames: 'vads-u-margin-bottom--6',
+        messageAriaDescribedby: 'Enter your initials',
       },
       'ui:errorMessages': {
         required: 'Enter initials',
-        minLength: 'Please enter your initials using letters only',
-        pattern: 'Please enter your initials using letters only',
+        minLength: 'Enter your initials using letters only',
+        pattern: 'Enter your initials using letters only',
       },
       'ui:validations': [validateInitialsMatch],
     },

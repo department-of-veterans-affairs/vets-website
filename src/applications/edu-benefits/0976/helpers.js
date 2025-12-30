@@ -32,7 +32,7 @@ export function validateInitialsMatch(errors, fieldData, formData) {
 
   const lettersOnlyPattern = /^[A-Za-z]+$/;
   if (!lettersOnlyPattern.test(givenValue)) {
-    errors.addError('Please enter your initials using letters only');
+    errors.addError('Enter your initials using letters only');
     return;
   }
 
