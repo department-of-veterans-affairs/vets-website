@@ -4,8 +4,7 @@ import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { I18nextProvider } from 'react-i18next';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
+import { RoutedSavableApp, DowntimeNotification } from '../types/platform-components-typed';
 import i18nDebtApp from '../i18n';
 import formConfig from '../config/form';
 import { fetchDebts } from '../actions';
@@ -54,6 +53,7 @@ export const App = ({ children, location }: DisputeDebtProps) => {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {/* @ts-expect-error - HOC-injected props provided automatically by connect() */}
       <DowntimeNotification
         appTitle="dispute debt system"
         dependencies={formConfig.downtime.dependencies}
