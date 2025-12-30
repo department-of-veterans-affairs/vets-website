@@ -168,4 +168,82 @@ describe('ExpenseLodgingFields', () => {
     expect(checkIn.getAttribute('error')).to.be.null;
     expect(checkOut.getAttribute('error')).to.be.null;
   });
+
+  it('renders partial date error for checkInDate', () => {
+    const errors = { checkInDate: 'Please enter a complete date' };
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={errors} />,
+    );
+
+    const checkIn = container.querySelector(
+      'va-memorable-date[name="checkInDate"]',
+    );
+    expect(checkIn.getAttribute('error')).to.equal(
+      'Please enter a complete date',
+    );
+  });
+
+  it('renders partial date error for checkOutDate', () => {
+    const errors = { checkOutDate: 'Please enter a complete date' };
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={errors} />,
+    );
+
+    const checkOut = container.querySelector(
+      'va-memorable-date[name="checkOutDate"]',
+    );
+    expect(checkOut.getAttribute('error')).to.equal(
+      'Please enter a complete date',
+    );
+  });
+
+  it('renders future date error for checkInDate', () => {
+    const errors = { checkInDate: "Don't enter a future date" };
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={errors} />,
+    );
+
+    const checkIn = container.querySelector(
+      'va-memorable-date[name="checkInDate"]',
+    );
+    expect(checkIn.getAttribute('error')).to.equal("Don't enter a future date");
+  });
+
+  it('renders future date error for checkOutDate', () => {
+    const errors = { checkOutDate: "Don't enter a future date" };
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={errors} />,
+    );
+
+    const checkOut = container.querySelector(
+      'va-memorable-date[name="checkOutDate"]',
+    );
+    expect(checkOut.getAttribute('error')).to.equal(
+      "Don't enter a future date",
+    );
+  });
+
+  it('renders error when checkInDate >= checkOutDate', () => {
+    const errors = {
+      checkInDate: 'Check-in date must be earlier than check-out date',
+      checkOutDate: 'Check-out date must be later than check-in date',
+    };
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={errors} />,
+    );
+
+    const checkIn = container.querySelector(
+      'va-memorable-date[name="checkInDate"]',
+    );
+    const checkOut = container.querySelector(
+      'va-memorable-date[name="checkOutDate"]',
+    );
+
+    expect(checkIn.getAttribute('error')).to.equal(
+      'Check-in date must be earlier than check-out date',
+    );
+    expect(checkOut.getAttribute('error')).to.equal(
+      'Check-out date must be later than check-in date',
+    );
+  });
 });
