@@ -18,7 +18,6 @@ type Location = {
   pathname: string;
   href?: string;
   search?: string;
-  [key: string]: unknown;
 };
 
 interface DisputeDebtProps extends React.PropsWithChildren {

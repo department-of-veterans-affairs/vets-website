@@ -19,6 +19,7 @@
   "include": [
     "**/*",
     "../../../config/web-components.d.ts",
+    "../../../config/global-state.d.ts",
     "types/**/*"
   ]
 }
