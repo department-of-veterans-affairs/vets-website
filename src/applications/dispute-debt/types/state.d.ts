@@ -10,7 +10,7 @@ import type {
   GlobalState,
   UserState,
   ScheduledDowntimeState,
-} from '../../../config/global-state';
+} from '../../../config/globalTypes/global-state';
 
 /**
  * Complete state for dispute-debt app - extends GlobalState with app-specific state
@@ -134,7 +134,7 @@ export interface Debt {
   rcvblId: string;
 }
 
-// Platform state types are imported from config/global-state.d.ts
+// Platform state types are imported from config/globalTypes/global-state.d.ts
 
 /**
  * VAP Service state - we don't access this in dispute-debt
