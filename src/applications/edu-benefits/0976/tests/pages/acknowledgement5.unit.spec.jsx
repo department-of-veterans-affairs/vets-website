@@ -46,7 +46,7 @@ describe('22-0976 acknowledgement 5 page', () => {
     await waitFor(() => {
       const input = container.querySelector('va-text-input');
 
-      expect(input.getAttribute('error')).to.equal('Enter initials');
+      expect(input.getAttribute('error')).to.equal('Enter your initials');
     });
   });
 

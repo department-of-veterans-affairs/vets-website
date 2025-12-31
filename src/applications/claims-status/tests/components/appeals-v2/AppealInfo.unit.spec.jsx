@@ -173,13 +173,13 @@ describe('<AppealInfo>', () => {
     wrapper.unmount();
   });
 
-  it('should render no records warning when user forbidden', () => {
+  it('should render ServiceUnavailableAlert when user forbidden', () => {
     const props = {
       ...defaultProps,
       appealsAvailability: USER_FORBIDDEN_ERROR,
     };
     const wrapper = shallow(<AppealInfo {...props} />);
-    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -193,34 +193,34 @@ describe('<AppealInfo>', () => {
     wrapper.unmount();
   });
 
-  it('should render system down message when VALIDATION_ERROR present', () => {
+  it('should render ServiceUnavailableAlert when VALIDATION_ERROR present', () => {
     const props = { ...defaultProps, appealsAvailability: VALIDATION_ERROR };
     const wrapper = shallow(<AppealInfo {...props} />);
-    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render system down message when BACKEND_SERVICE_ERROR present', () => {
+  it('should render ServiceUnavailableAlert when BACKEND_SERVICE_ERROR present', () => {
     const props = {
       ...defaultProps,
       appealsAvailability: BACKEND_SERVICE_ERROR,
     };
     const wrapper = shallow(<AppealInfo {...props} />);
-    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render system down message when FETCH_APPEALS_ERROR present', () => {
+  it('should render ServiceUnavailableAlert when FETCH_APPEALS_ERROR present', () => {
     const props = { ...defaultProps, appealsAvailability: FETCH_APPEALS_ERROR };
     const wrapper = shallow(<AppealInfo {...props} />);
-    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render appeals down message when other error present', () => {
+  it('should render ServiceUnavailableAlert when other error present', () => {
     const props = { ...defaultProps, appealsAvailability: 'SOME_OTHER_ERROR' };
     const wrapper = shallow(<AppealInfo {...props} />);
-    expect(wrapper.find('#appealsDownMessage').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 });

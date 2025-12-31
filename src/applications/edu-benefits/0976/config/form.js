@@ -46,6 +46,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  useCustomScrollAndFocus: true,
   chapters: {
     authorizingOfficialAndAcknowledgements: {
       title: 'Authorizing official details and acknowledgements',

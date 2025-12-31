@@ -160,8 +160,8 @@ const FilesWeCouldntReceive = () => {
 
                   const link = {
                     href: `/track-claims/your-claims/${file.claimId}/status`,
-                    text: 'Go to claim this file was uploaded for',
-                    label: `Go to the claim this file was uploaded for: ${
+                    text: 'Go to the claim associated with this file',
+                    label: `Go to the claim associated with this file: ${
                       file.fileName
                     }`,
                   };
