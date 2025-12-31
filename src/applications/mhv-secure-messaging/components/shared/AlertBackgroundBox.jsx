@@ -29,10 +29,11 @@ import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
-import { Alerts, Categories, Errors } from '../../util/constants';
+import { Alerts, Categories, Errors, Paths } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
+import RouterLink from './RouterLink';
 
 const AlertBackgroundBox = props => {
   const { setShowAlertBackgroundBox = () => {} } = props;
@@ -208,42 +209,45 @@ const AlertBackgroundBox = props => {
     },
     [props.focus],
   );
-
   return (
-    <>
-      {activeAlert &&
-        activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
-          <VaAlert
-            uswds
-            ref={alertRef}
-            background-only
-            closeable={props.closeable}
-            className="vads-u-margin-bottom--1 va-alert"
-            close-btn-aria-label="Close notification"
-            disable-analytics="false"
-            full-width="false"
-            show-icon={handleShowIcon()}
-            status={activeAlert.alertType}
-            onCloseEvent={
-              closeAlertBox // success, error, warning, info, continue
-            }
-            onVa-component-did-load={handleAlertFocus}
-          >
-            <div>
-              <p className="vads-u-margin-y--0" data-testid="alert-text">
-                {alertContent}
-                <SrOnlyTag
-                  className="sr-only"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {alertAriaLabel}
-                </SrOnlyTag>
-              </p>
-            </div>
-          </VaAlert>
+    activeAlert &&
+    activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
+      <VaAlert
+        uswds
+        ref={alertRef}
+        background-only
+        closeable={props.closeable}
+        className="vads-u-margin-bottom--1 va-alert"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        full-width="false"
+        show-icon={handleShowIcon()}
+        status={activeAlert.alertType}
+        onCloseEvent={
+          closeAlertBox // success, error, warning, info, continue
+        }
+        onVa-component-did-load={handleAlertFocus}
+      >
+        {/* Setting the bold class will impact the font weight for all alerts */}
+        <p
+          className="vads-u-margin-y--0 vads-u-font-size--lg vads-u-font-weight--bold"
+          data-testid="alert-text"
+        >
+          {alertContent}
+        </p>
+        <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
+          {alertAriaLabel}
+        </SrOnlyTag>
+        {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS && (
+          <RouterLink
+            href={Paths.SENT}
+            text="Review your sent messages"
+            data-testid="review-sent-messages-link"
+            data-dd-action-name="Sent messages link in success alert"
+          />
         )}
-    </>
+      </VaAlert>
+    )
   );
 };
 
