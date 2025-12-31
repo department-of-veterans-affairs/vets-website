@@ -263,3 +263,16 @@ export function standardTitle(title) {
     </h3>
   );
 }
+
+export function customTitleWithTag(title, headingTag) {
+  return (
+    <hgroup className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
+      <h3 className="vads-u-display--block vads-u-font-size--h3 vads-u-color--base">
+        {title}
+      </h3>
+      <p className="vads-u-margin--0 vads-u-display--block vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+        {headingTag}
+      </p>
+    </hgroup>
+  );
+}
