@@ -364,6 +364,9 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
     formState,
   );
 
+  const departureDateComplete = isCompleteDate(formState.departureDate);
+  const returnDateComplete = isCompleteDate(formState.returnDate);
+
   // vendorName
   if (fieldsToValidate.includes('vendorName')) {
     if (!formState.vendorName) nextErrors.vendorName = 'Enter the company name';
@@ -387,13 +390,13 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
 
     if (!departureDate) {
       nextErrors.departureDate = 'Enter a departure date';
-    } else if (departureDate && isCompleteDate(departureDate)) {
+    } else if (departureDateComplete) {
       const [year, month, day] = departureDate.split('-');
       const futureDateError = getFutureDateError({ year, month, day });
 
       if (futureDateError) {
         nextErrors.departureDate = futureDateError;
-      } else if (isCompleteDate(returnDate) && departureDate > returnDate) {
+      } else if (returnDateComplete && departureDate > returnDate) {
         nextErrors.departureDate = 'Departure date must be before return date';
       }
     } else {
@@ -407,13 +410,13 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
 
     if (tripType === TRIP_TYPES.ROUND_TRIP.value && !returnDate) {
       nextErrors.returnDate = 'Enter a return date';
-    } else if (returnDate && isCompleteDate(returnDate)) {
+    } else if (returnDate && returnDateComplete) {
       const [year, month, day] = returnDate.split('-');
       const futureDateError = getFutureDateError({ year, month, day });
 
       if (futureDateError) {
         nextErrors.returnDate = futureDateError;
-      } else if (isCompleteDate(departureDate) && returnDate < departureDate) {
+      } else if (departureDateComplete && returnDate < departureDate) {
         nextErrors.returnDate = 'Return date must be later than departure date';
       } else if (tripType === TRIP_TYPES.ONE_WAY.value && returnDate) {
         nextErrors.returnDate = 'You entered a return date for a one-way trip';
@@ -507,17 +510,21 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
 
   // Use helper to determine which fields to validate
   const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
+  const checkInDateComplete = isCompleteDate(formState.checkInDate);
+  const checkOutDateComplete = isCompleteDate(formState.checkOutDate);
 
   // If one of the date fields is being updated, also validate the other
   if (
     fieldName === 'checkInDate' &&
-    formState.checkOutDate &&
+    checkInDateComplete &&
+    checkOutDateComplete &&
     !fieldsToValidate.includes('checkOutDate')
   ) {
     fieldsToValidate.push('checkOutDate');
   } else if (
     fieldName === 'checkOutDate' &&
-    formState.checkInDate &&
+    checkOutDateComplete &&
+    checkInDateComplete &&
     !fieldsToValidate.includes('checkInDate')
   ) {
     fieldsToValidate.push('checkInDate');
@@ -533,14 +540,14 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
   if (fieldsToValidate.includes('checkInDate')) {
     const { checkInDate, checkOutDate } = formState;
     if (!checkInDate) nextErrors.checkInDate = 'Enter the date you checked in';
-    else {
+    else if (checkInDateComplete) {
       const [year, month, day] = checkInDate.split('-');
 
       const futureDateError = getFutureDateError({ year, month, day });
 
       if (futureDateError) {
         nextErrors.checkInDate = futureDateError;
-      } else if (checkOutDate && checkInDate >= checkOutDate) {
+      } else if (checkOutDateComplete && checkInDate >= checkOutDate) {
         nextErrors.checkInDate =
           'Check-in date must be earlier than check-out date';
       } else {
@@ -555,19 +562,19 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
 
     if (!checkOutDate) {
       nextErrors.checkOutDate = 'Enter the date you checked out';
-    } else {
+    } else if (checkOutDateComplete) {
       const [year, month, day] = checkOutDate.split('-');
 
       const futureDateError = getFutureDateError({ year, month, day });
 
       if (futureDateError) {
         nextErrors.checkOutDate = futureDateError;
-      } else if (checkInDate && checkOutDate <= checkInDate) {
+      } else if (checkInDateComplete && checkOutDate <= checkInDate) {
         nextErrors.checkOutDate =
           'Check-out date must be later than check-in date';
-      } else {
-        delete nextErrors.checkOutDate;
       }
+    } else {
+      delete nextErrors.checkOutDate;
     }
   }
 
