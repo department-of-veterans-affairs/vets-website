@@ -242,14 +242,17 @@ describe('VistaAndOHContent', () => {
   });
 
   describe('CCD Download Success Alert', () => {
-    it('renders CCD download success alert when generatingCCD is true and no error', () => {
-      const { getByText } = renderComponent({
+    it('does not render CCD download success alert when only generatingCCD is true, but shows spinner', () => {
+      const { queryByText, getByTestId } = renderComponent({
         generatingCCD: true,
+        ccdDownloadSuccess: false,
         ccdError: false,
         CCDRetryTimestamp: null,
       });
 
-      expect(getByText(/Continuity of Care Document download/)).to.exist;
+      expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
+      expect(getByTestId('generating-ccd-Vista-indicator')).to.exist;
+      expect(getByTestId('generating-ccd-OH-indicator')).to.exist;
     });
 
     it('renders CCD download success alert when ccdDownloadSuccess is true and no error', () => {
@@ -476,30 +479,23 @@ describe('VistaAndOHContent', () => {
     });
 
     it('shows loading spinner when generatingCCD is true', () => {
-      const { container, queryByTestId } = renderComponent({
+      const { getByTestId, queryByTestId } = renderComponent({
         ccdExtendedFileTypeFlag: false,
         generatingCCD: true,
       });
 
-      const spinnerContainer = container.querySelector(
-        '#generating-ccd-indicator',
-      );
-      expect(spinnerContainer).to.exist;
-      expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
+      expect(getByTestId('generating-ccd-indicator')).to.exist;
 
       expect(queryByTestId('generateCcdButtonXml')).to.not.exist;
     });
 
     it('does not show loading spinner when generatingCCD is false', () => {
-      const { container, getByTestId } = renderComponent({
+      const { queryByTestId, getByTestId } = renderComponent({
         ccdExtendedFileTypeFlag: false,
         generatingCCD: false,
       });
 
-      const spinnerContainer = container.querySelector(
-        '#generating-ccd-indicator',
-      );
-      expect(spinnerContainer).to.not.exist;
+      expect(queryByTestId('generating-ccd-indicator')).to.not.exist;
       expect(getByTestId('generateCcdButtonXml')).to.exist;
     });
   });
