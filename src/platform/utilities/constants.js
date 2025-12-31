@@ -40,3 +40,6 @@ export const FOCUSABLE_ELEMENTS = [
   // 'object[usemap]',
   // 'video[controls]',
 ];
+
+// Temporary update for running tests
+export const EXAMPLE = 'example';
