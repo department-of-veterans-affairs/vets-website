@@ -25,7 +25,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler, useFeatureToggle } from 'platform/utilities/feature-toggles';
 import Announcements from '../components/Announcements';
 import {
   getVAStatusFromCRM,
@@ -67,6 +67,16 @@ const IntroductionPage = props => {
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   // TODO Feature toggle this for CRM announcements on/off
   const showAnnouncements = false;
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+
+  useFormFeatureToggleSync([
+    // Feature toggle name & form data key will be the same
+    'askVaABrelease',
+    // {
+    //   toggleName: TOGGLE_NAMES.askVaABrelease, // feature toggle name
+    //   formKey: 'askVaABrelease', // form data name
+    // },
+  ]);
 
   const showSignInModal = useCallback(
     () => {

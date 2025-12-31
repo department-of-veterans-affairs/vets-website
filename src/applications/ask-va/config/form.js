@@ -94,24 +94,9 @@ const formConfig = {
   footerContent: Footer,
   defaultDefinitions: {},
   chapters: {
-    questionFirst: {
-      title: 'Pilot',
-      hideFormNavProgress: true,
-      depends: formData => formData.askVaABrelease,
-      pages: {
-        question: {
-          path: CHAPTER_2.PAGE_3.PATH,
-          title: CHAPTER_2.PAGE_3.TITLE,
-          // CustomPageReview: CustomYourQuestionReviewField,
-          uiSchema: yourQuestionPage.uiSchema,
-          schema: yourQuestionPage.schema,
-        },
-      },
-    },
     categoryAndTopic: {
       title: CHAPTER_1.CHAPTER_TITLE,
       hideFormNavProgress: true,
-      depends: formData => !formData.askVaABrelease,
       pages: {
         yourPersonalInformation: {
           // Auth only - hidden on review page
@@ -124,6 +109,14 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
+        },
+        question: {
+          path: CHAPTER_2.PAGE_3.PATH,
+          title: CHAPTER_2.PAGE_3.TITLE,
+          // CustomPageReview: CustomYourQuestionReviewField,
+          depends: formData => formData.askVaABrelease === true,
+          uiSchema: yourQuestionPage.uiSchema,
+          schema: yourQuestionPage.schema,
         },
         selectCategory: {
           path: CHAPTER_1.PAGE_1.PATH,
@@ -332,6 +325,7 @@ const formConfig = {
           path: CHAPTER_2.PAGE_3.PATH,
           title: CHAPTER_2.PAGE_3.TITLE,
           // CustomPageReview: CustomYourQuestionReviewField,
+          depends: formData => formData.askVaABrelease === false,
           uiSchema: yourQuestionPage.uiSchema,
           schema: yourQuestionPage.schema,
           onNavForward: ({ goPath }) => {
