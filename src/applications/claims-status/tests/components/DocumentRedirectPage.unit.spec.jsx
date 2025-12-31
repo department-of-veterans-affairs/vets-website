@@ -122,14 +122,14 @@ describe('Empty directory redirects', () => {
 
   it('redirects /needed-from-you (no trackedItemId) to /your-claims', () => {
     const { getByText } = renderWithRoutes('/your-claims/123/needed-from-you');
-    expect(getByText('Your claims page')).to.exist;
+    expect(getByText('Claim status')).to.exist;
   });
 
   it('redirects /needed-from-others (no trackedItemId) to /your-claims', () => {
     const { getByText } = renderWithRoutes(
       '/your-claims/123/needed-from-others',
     );
-    expect(getByText('Your claims page')).to.exist;
+    expect(getByText('Claim status')).to.exist;
   });
 
   it('renders DocumentRequestPage when trackedItemId is provided', () => {
@@ -137,6 +137,6 @@ describe('Empty directory redirects', () => {
       '/your-claims/123/needed-from-you/456',
     );
     expect(getByText('Document request page')).to.exist;
-    expect(queryByText('Your claims page')).not.to.exist;
+    expect(queryByText('Claim status')).not.to.exist;
   });
 });

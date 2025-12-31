@@ -46,7 +46,7 @@ const routes = (
         />
         <Route
           path="needed-from-you"
-          element={<Navigate to="../.." replace />}
+          element={<Navigate to="../status" replace />}
         />
         <Route
           path="needed-from-you/:trackedItemId"
@@ -54,7 +54,7 @@ const routes = (
         />
         <Route
           path="needed-from-others"
-          element={<Navigate to="../.." replace />}
+          element={<Navigate to="../status" replace />}
         />
         <Route
           path="needed-from-others/:trackedItemId"
