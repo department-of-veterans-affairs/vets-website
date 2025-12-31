@@ -1,4 +1,5 @@
-import { addDays, isLastDayOfMonth } from 'date-fns';
+import { addDays, isLastDayOfMonth, lastDayOfMonth } from 'date-fns';
+import MockDate from 'mockdate';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
@@ -174,8 +175,12 @@ describe('VAOS select appointment date', () => {
 
     it('should fetch slots when moving between months', () => {
       // Arrange
-      // Add one day since same day appointments are not allowed.
-      const firstDate = addDays(new Date(), 1);
+      MockDate.set(lastDayOfMonth(new Date()));
+
+      // Add two days since date is set to the last day of the month end of day.
+      // Timezone conversion for MT will result in the previous day thus the need
+      // to add 2 days. NOTE: Same day appointments are not allowed.
+      const firstDate = addDays(new Date(), 2);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       mockSlotsApi({
@@ -227,14 +232,16 @@ describe('VAOS select appointment date', () => {
         .clickNextMonth()
         .assertCallCount({
           alias: '@v2:get:slots',
-          count: 1,
+          count: 2,
         })
         .clickNextMonth()
         .wait({ alias: '@v2:get:slots' })
         .assertCallCount({
           alias: '@v2:get:slots',
-          count: 2,
+          count: 3,
         });
+
+      MockDate.reset();
 
       // Assert
       cy.axeCheckBestPractice();
