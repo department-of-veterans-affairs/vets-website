@@ -1,5 +1,3 @@
-import SubTask from 'platform/forms/sub-task';
-
 import React, { useMemo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,21 +10,19 @@ import {
   FIELD_SECTION_HEADERS,
   FIELD_TITLES,
 } from '@@vap-svc/constants';
-import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+// import { selectVAProfileSchedulingPreferences } from '@@vap-svc/selectors';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { isFieldEmpty } from '@@vap-svc/util';
 import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
-// import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-// import InitializeVAPServiceIDContainer from '@@vap-svc/containers/InitializeVAPServiceID';
 
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
-import { isSubtaskSchedulingPreference } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
-import { FormFooter } from 'platform/forms/exportsFile';
-import { getFormSchema } from '@@vap-svc/components/SchedulingPreferences/preferred-contact-method';
-import pages from './pages';
-// import { EditFallbackContent } from '../../../edit/EditFallbackContent';
+import {
+  isSubtaskSchedulingPreference,
+  schedulingPreferenceOptions,
+} from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EditContext } from '../../../edit/EditContext';
 import { EditConfirmCancelModal } from '../../../edit/EditConfirmCancelModal';
 import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
@@ -34,6 +30,8 @@ import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../../constants';
 import { getRouteInfoFromPath } from '../../../../../common/helpers';
 import { getRoutesForNav } from '../../../../routesForNav';
+import { ContactMethodConfirm } from './pages/ContactMethodConfirm';
+import { ContactMethodSelect } from './pages/ContactMethodSelect';
 
 const getFieldInfo = fieldName => {
   const fieldNameKey = Object.entries(FIELD_NAMES).find(
@@ -62,16 +60,19 @@ const clearBeforeUnloadListener = () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
 };
 
-const formConfig = getFormSchema();
-
-export const ContactMethodSubTaskContainer = () => {
+export const ContactMethodContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const fieldName = 'preferredContactMethod';
   const defaultReturnPath = PROFILE_PATHS.SCHEDULING_PREFERENCES;
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);
+  const [pageData, setPageData] = useState({
+    data: {},
+    quickExit: false,
+  });
+  const [step, setStep] = useState('select');
+  const [error, setError] = useState(false);
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const profile2Toggle = useToggleValue(TOGGLE_NAMES.profile2Enabled);
@@ -88,6 +89,7 @@ export const ContactMethodSubTaskContainer = () => {
     profileSchedulingPreferencesEnabled: profileSchedulingPreferencesToggle,
   });
 
+  const fieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
   const fieldInfo = getFieldInfo(fieldName);
 
   const returnRouteInfo = (() => {
@@ -113,8 +115,8 @@ export const ContactMethodSubTaskContainer = () => {
     state => state.vapService.hasUnsavedEdits,
   );
 
-  const fieldData = useSelector(state =>
-    selectVAPContactInfoField(state, fieldInfo?.fieldName),
+  const fieldData = useSelector(
+    state => state.vaProfile.schedulingPreferences[fieldName] || {},
   );
 
   const editPageHeadingString = useMemo(
@@ -212,6 +214,15 @@ export const ContactMethodSubTaskContainer = () => {
     [hasUnsavedEdits, hasBeforeUnloadListener],
   );
 
+  const optionsMap = schedulingPreferenceOptions(fieldName);
+  const options = Object.entries(optionsMap).map(([value, label]) => ({
+    value: String(value),
+    label,
+  }));
+  const optionValues = options.map(option => option.value);
+
+  const validate = data => optionValues.includes(data?.[fieldName]);
+
   const handlers = {
     cancel: () => {
       clearBeforeUnloadListener();
@@ -221,6 +232,13 @@ export const ContactMethodSubTaskContainer = () => {
       dispatch(openModal(null));
 
       history.push(returnPath);
+    },
+    continue: () => {
+      if (!validate(pageData.data)) {
+        setError(true);
+        return;
+      }
+      setStep('confirm');
     },
     success: () => {
       clearBeforeUnloadListener();
@@ -240,6 +258,46 @@ export const ContactMethodSubTaskContainer = () => {
       handlers.cancel();
     },
   };
+
+  let content;
+  switch (step) {
+    case 'confirm':
+      content = (
+        <ContactMethodConfirm pageData={pageData} setPageData={setPageData} />
+      );
+      break;
+    case 'select':
+    default:
+      content = (
+        <ContactMethodSelect
+          data={fieldData}
+          error={error}
+          options={options}
+          setPageData={setPageData}
+        />
+      );
+      break;
+  }
+
+  let buttons = (
+    <VaButtonPair
+      onPrimaryClick={handlers.continue}
+      onSecondaryClick={handlers.cancel}
+      leftButtonText="Continue"
+      rightButtonText="Cancel"
+    />
+  );
+  if (pageData.quickExit) {
+    buttons = (
+      <VaButtonPair
+        onPrimaryClick={handlers.success}
+        onSecondaryClick={handlers.cancel}
+        leftButtonText="Save to profile"
+        rightButtonText="Cancel"
+      />
+    );
+  }
+
   return (
     <EditContext.Provider value={{ onCancel: handlers.cancel }}>
       {fieldInfo && !hasVAPServiceError ? (
@@ -266,9 +324,9 @@ export const ContactMethodSubTaskContainer = () => {
             <div className="vads-l-grid-container vads-u-padding-x--0 large-screen:vads-u-padding-x--2">
               <div className="vads-l-row">
                 <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-                  <SubTask pages={pages} />
+                  {content}
+                  <div className="vads-u-margin-top--2">{buttons}</div>
                 </div>
-                <FormFooter formConfig={formConfig} />
               </div>
             </div>
           </div>
@@ -278,4 +336,4 @@ export const ContactMethodSubTaskContainer = () => {
   );
 };
 
-export default ContactMethodSubTaskContainer;
+export default ContactMethodContainer;

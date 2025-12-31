@@ -3,7 +3,7 @@ import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 import ProfileHub from './components/hub/ProfileHub';
-import { ContactMethodSubTaskContainer } from './components/health-care-settings/sub-tasks/contact-method/ContactMethodSubTaskContainer';
+import { ContactMethodContainer } from './components/health-care-settings/sub-tasks/contact-method/ContactMethodContainer';
 
 const getRoutes = (
   {
@@ -37,7 +37,7 @@ const getRoutes = (
       requiresMVI: true,
     },
     {
-      component: ContactMethodSubTaskContainer,
+      component: ContactMethodContainer,
       name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
       path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
       requiresLOA3: true,
