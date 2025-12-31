@@ -265,7 +265,6 @@ const formConfig = {
         },
         ...vaEvidence,
         ...privateEvidence,
-        // ------- REMOVE when new design toggle is removed
         vaPrompt: {
           title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
@@ -337,8 +336,6 @@ const formConfig = {
           schema: privateDetails.schema,
           scrollAndFocusTarget: focusEvidence,
         },
-        // ------- END REMOVE (note this will move down under uploadDetails
-        // once we replace the upload input with v3)
         uploadPrompt: {
           title: 'Upload new and relevant evidence',
           path: EVIDENCE_URLS.uploadPrompt,
