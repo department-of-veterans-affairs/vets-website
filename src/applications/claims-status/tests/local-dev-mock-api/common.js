@@ -1850,7 +1850,7 @@ const responses = {
     // - 'invalidClaimant',
     // - 'unknown'
     // - null for success only
-    const errorPattern = ['duplicate'];
+    const errorPattern = ['unknown'];
 
     return (_req, res) => {
       uploadCount += 1;
