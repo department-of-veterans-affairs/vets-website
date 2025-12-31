@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "strict": true,
     "noImplicitAny": true,
+    "types": ["mocha", "chai"],
     "baseUrl": "../../../src",
     "paths": {
       "platform/*": ["platform/*"],
