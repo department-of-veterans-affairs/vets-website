@@ -337,8 +337,7 @@ export const Categories = {
 };
 
 export const SelectCareTeamPage = {
-  CANT_FIND_CARE_TEAM_NOTE: `If you can’t find the care team you want to
-              select, update your contact list to add it here.`,
+  CANT_FIND_CARE_TEAM_NOTE: `If you can’t find the care team you want to select, update your contact list to add it here.`,
   CANT_FIND_CARE_TEAM_LINK: `Learn what to do if you can’t find your care team`,
 };
 
