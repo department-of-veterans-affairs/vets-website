@@ -1,148 +1,90 @@
 import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
-
-import * as redux from 'react-redux';
-import * as featureToggleHook from 'platform/utilities/feature-toggles';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
 
 import OverviewPage from '../../containers/SummaryPage';
 import DetailCopayPage from '../../containers/DetailCopayPage';
 
+/**
+ * Helper to render components with a mock Redux store
+ */
+const renderWithStore = (component, initialState) => {
+  const store = createStore(
+    combineReducers({
+      combinedPortal: (state = initialState.combinedPortal) => state,
+      user: (state = initialState.user) => state,
+      featureToggles: (state = { loading: false }) => state,
+    }),
+  );
+  return render(<Provider store={store}>{component}</Provider>);
+};
+
 describe('CDP – Copay Pages (unit)', () => {
-  const copayId = 'f4385298-08a6-42f8-a86f-50e97033fb85';
-  let sandbox;
+  const selectedCopay = {
+    id: 'f4385298-08a6-42f8-a86f-50e97033fb85',
+    pHAmtDue: 15.0,
+    pHNewBalance: 15.0,
+    pHTotCharges: 10,
+    pHTotCredits: 5,
+    pSStatementDateOutput: '11/05/2023',
+    pSFacilityNum: '534',
+    station: {
+      facilityName:
+        'Ralph H. Johnson Department of Veterans Affairs Medical Center',
+      city: 'Charleston',
+    },
+    details: [],
+  };
 
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-
-    // =======================
-    // Mock feature toggles
-    // =======================
-    sandbox.stub(featureToggleHook, 'useFeatureToggle').returns({
-      useToggleValue: () => false,
-      useToggleLoadingValue: () => false,
-      TOGGLE_NAMES: {
-        showVHAPaymentHistory: 'showVHAPaymentHistory',
-        showCDPOneThingPerPage: 'showCDPOneThingPerPage',
-        showOneVADebtLetter: 'showOneVADebtLetter',
+  const initialState = {
+    combinedPortal: {
+      mcp: {
+        statements: [selectedCopay],
+        error: null,
       },
-    });
-
-    // =======================
-    // Mock react-redux
-    // =======================
-    sandbox.stub(redux, 'useSelector').callsFake(selector =>
-      selector({
-        combinedPortal: {
-          debtLetters: {
-            debts: [],
-            isError: false,
-            isPending: false,
-            isProfileUpdating: false,
-          },
-          mcp: {
-            pending: false,
-            error: null,
-            statements: [
-              {
-                id: copayId,
-                pSFacilityNum: '123',
-                pSStatementDate: '2019-11-15',
-                station: {
-                  facilityName:
-                    'Ralph H. Johnson Department of Veterans Affairs Medical Center',
-                  teLNum: '123-456-7890',
-                },
-                accountNumber: '123456',
-                pHNewBalance: 15.0,
-                pSStatementDateOutput: '11/15/2019',
-                details: [],
-              },
-            ],
-          },
-        },
-        user: {
-          profile: {
-            userFullName: { first: 'John', last: 'Doe' },
-          },
-        },
-      }),
-    );
-
-    // =======================
-    // Stub child components
-    // =======================
-    sandbox
-      .stub(require('../../components/Balances'), 'default')
-      .callsFake(({ statements }) => (
-        <div data-testid={`balance-card-${statements?.[0]?.id || copayId}`}>
-          <span data-testid={`amount-${statements?.[0]?.id || copayId}`}>
-            $15.00
-          </span>
-          <span data-testid={`facility-city-${statements?.[0]?.id || copayId}`}>
-            Ralph H. Johnson Department of Veterans Affairs Medical Center
-          </span>
-          <a
-            data-testid={`detail-link-${statements?.[0]?.id || copayId}`}
-            href={`/medical-copays/${statements?.[0]?.id || copayId}`}
-          >
-            View details
-          </a>
-        </div>
-      ));
-
-    sandbox
-      .stub(require('../../components/NeedHelpCopay'), 'default')
-      .callsFake(() => <div data-testid="need-help" />);
-
-    // Stub other DetailCopayPage components
-    sandbox
-      .stub(require('../../components/HTMLStatementList'), 'default')
-      .callsFake(() => <div data-testid="html-statement-list" />);
-    sandbox
-      .stub(require('../../components/CopayAlertContainer'), 'default')
-      .callsFake(() => <div data-testid="copay-alert-container" />);
-    sandbox
-      .stub(require('../../../combined/components/Modals'), 'default')
-      .callsFake(({ children }) => <div data-testid="modals">{children}</div>);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+      debtLetters: {
+        debts: [],
+        errors: [],
+      },
+    },
+    user: {
+      profile: {
+        userFullName: { first: 'Jane', last: 'Doe' },
+      },
+    },
+  };
 
   // =======================
   // OverviewPage tests
   // =======================
   describe('OverviewPage', () => {
     it('displays copay balances - C12576', () => {
-      const screen = render(<OverviewPage />);
+      const screen = renderWithStore(<OverviewPage />, initialState);
 
       expect(screen.getByTestId('summary-page-title')).to.exist;
-      expect(screen.getByTestId(`balance-card-${copayId}`)).to.exist;
+      expect(screen.getByTestId(`balance-card-${selectedCopay.id}`)).to.exist;
 
-      expect(screen.getByTestId(`amount-${copayId}`)).to.have.text('$15.00');
+      const amountElement = screen.getByTestId(`amount-${selectedCopay.id}`);
+      expect(amountElement.textContent).to.contain('$15.00');
+      expect(amountElement.textContent).to.not.contain('NaN');
 
-      expect(screen.getByTestId(`facility-city-${copayId}`)).to.have.text(
-        'Ralph H. Johnson Department of Veterans Affairs Medical Center',
-      );
+      expect(
+        screen.getByTestId(`facility-city-${selectedCopay.id}`),
+      ).to.contain.text('Ralph H. Johnson');
     });
 
     it('renders link to copay detail page - C12577', () => {
-      const screen = render(<OverviewPage />);
-
-      const link = screen.getByTestId(`detail-link-${copayId}`);
+      const screen = renderWithStore(<OverviewPage />, initialState);
+      const link = screen.getByTestId(`detail-link-${selectedCopay.id}`);
 
       expect(link).to.exist;
-      expect(link.tagName.toLowerCase()).to.equal('a');
-      expect(link.getAttribute('href')).to.equal(
-        '/medical-copays/f4385298-08a6-42f8-a86f-50e97033fb85',
-      );
+      expect(link.getAttribute('href')).to.contain(selectedCopay.id);
     });
 
     it('displays NeedHelp section', () => {
-      const screen = render(<OverviewPage />);
+      const screen = renderWithStore(<OverviewPage />, initialState);
       expect(screen.getByTestId('need-help')).to.exist;
     });
   });
@@ -151,16 +93,30 @@ describe('CDP – Copay Pages (unit)', () => {
   // DetailCopayPage tests
   // =======================
   describe('DetailCopayPage', () => {
-    const match = { params: { id: copayId } };
+    const match = { params: { id: selectedCopay.id } };
 
     it('displays copay details', () => {
-      const screen = render(<DetailCopayPage match={match} />);
+      const screen = renderWithStore(
+        <DetailCopayPage match={match} />,
+        initialState,
+      );
 
-      expect(screen.getByTestId('detail-copay-page-title-otpp')).to.exist;
-      expect(screen.getByTestId('copay-alert-container')).to.exist;
-      expect(screen.getByTestId('html-statement-list')).to.exist;
-      expect(screen.getByTestId('modals')).to.exist;
-      expect(screen.getByTestId('need-help')).to.exist;
+      // Verify the title
+      expect(
+        screen.getByTestId('detail-copay-page-title-otpp'),
+      ).to.contain.text('Ralph H. Johnson');
+
+      // Use getAllByText because $15.00 appears in the alert AND the details list
+      const balanceElements = screen.getAllByText('$15.00');
+      expect(balanceElements.length).to.be.at.least(1);
+
+      // Verify key structural elements are present
+      expect(screen.getByTestId('copay-past-due-alert')).to.exist;
+      expect(screen.getByTestId('statement-charges-head')).to.exist;
+      expect(screen.getByTestId('download-statement-section')).to.exist;
+
+      // Verify payment due date logic (calculated as +30 days from statement date)
+      expect(screen.getByText(/December 5, 2023/)).to.exist;
     });
   });
 });
