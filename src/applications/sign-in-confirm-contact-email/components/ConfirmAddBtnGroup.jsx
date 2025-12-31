@@ -31,7 +31,7 @@ export default function ConfirmAddBtnGroup({ email, handleConfirmation }) {
               text="Update email in profile"
               secondary
               onClick={() => {
-                window.location.href = '/profile/contact-information';
+                window.location.pathname = '/profile/contact-information';
               }}
             />
           </div>
