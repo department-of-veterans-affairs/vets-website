@@ -112,4 +112,40 @@ describe('ExpenseLodgingFields', () => {
       expect(value).to.equal('2025-11-15');
     });
   });
+
+  // --- New tests for error prop ---
+  it('renders errors for each field if provided', () => {
+    const errorProps = {
+      vendor: 'Vendor is required',
+      checkInDate: 'Check-in date is required',
+      checkOutDate: 'Check-out date is required',
+    };
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={errorProps} />,
+    );
+
+    const vendorInput = container.querySelector('va-text-input[name="vendor"]');
+    const checkIn = container.querySelector('va-date[name="checkInDate"]');
+    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+
+    expect(vendorInput.getAttribute('error')).to.equal('Vendor is required');
+    expect(checkIn.getAttribute('error')).to.equal('Check-in date is required');
+    expect(checkOut.getAttribute('error')).to.equal(
+      'Check-out date is required',
+    );
+  });
+
+  it('renders correctly with empty errors object', () => {
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={{}} />,
+    );
+
+    const vendorInput = container.querySelector('va-text-input[name="vendor"]');
+    const checkIn = container.querySelector('va-date[name="checkInDate"]');
+    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+
+    expect(vendorInput.getAttribute('error')).to.be.null;
+    expect(checkIn.getAttribute('error')).to.be.null;
+    expect(checkOut.getAttribute('error')).to.be.null;
+  });
 });

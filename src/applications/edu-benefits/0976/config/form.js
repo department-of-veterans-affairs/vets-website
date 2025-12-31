@@ -3,10 +3,13 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import authorizingOfficialName from '../pages/authorizingOfficialName';
+import whatToExpect from '../pages/whatToExpect';
+import acknowledgement1 from '../pages/acknowledgement1';
+import acknowledgement2 from '../pages/acknowledgement2';
+import acknowledgement3 from '../pages/acknowledgement3';
+import acknowledgement4 from '../pages/acknowledgement4';
+import acknowledgement5 from '../pages/acknowledgement5';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -41,43 +44,52 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  useCustomScrollAndFocus: true,
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    authorizingOfficialAndAcknowledgements: {
+      title: 'Authorizing official details and acknowledgements',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        authorizingOfficialName: {
+          path: 'authorizing-official-name',
+          title: 'Authorizing official name',
+          uiSchema: authorizingOfficialName.uiSchema,
+          schema: authorizingOfficialName.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        whatToExpect: {
+          path: 'what-to-expect',
+          title: 'What to expect',
+          uiSchema: whatToExpect.uiSchema,
+          schema: whatToExpect.schema,
         },
-      },
-    },
-    mailingAddressChapter: {
-      title: 'Mailing address',
-      pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+        acknowledgement1: {
+          path: 'acknowledgement-1',
+          title: 'Acknowledgement 1',
+          uiSchema: acknowledgement1.uiSchema,
+          schema: acknowledgement1.schema,
         },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Contact information',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        acknowledgement2: {
+          path: 'acknowledgement-2',
+          title: 'Acknowledgement 2',
+          uiSchema: acknowledgement2.uiSchema,
+          schema: acknowledgement2.schema,
+        },
+        acknowledgement3: {
+          path: 'acknowledgement-3',
+          title: 'Acknowledgement 3',
+          uiSchema: acknowledgement3.uiSchema,
+          schema: acknowledgement3.schema,
+        },
+        acknowledgement4: {
+          path: 'acknowledgement-4',
+          title: 'Acknowledgement 4',
+          uiSchema: acknowledgement4.uiSchema,
+          schema: acknowledgement4.schema,
+        },
+        acknowledgement5: {
+          path: 'acknowledgement-5',
+          title: 'Acknowledgement 5',
+          uiSchema: acknowledgement5.uiSchema,
+          schema: acknowledgement5.schema,
         },
       },
     },
