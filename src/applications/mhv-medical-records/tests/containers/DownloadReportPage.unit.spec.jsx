@@ -102,8 +102,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
   });
 
   it('generates CCD (PDF) on button click', () => {
@@ -119,8 +118,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
   });
 
   it('generates CCD (HTML) on button click', () => {
@@ -136,8 +134,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
   });
 });
 
