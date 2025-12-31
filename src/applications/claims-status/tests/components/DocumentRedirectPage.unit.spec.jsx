@@ -101,7 +101,7 @@ describe('Empty directory redirects', () => {
         <Routes>
           <Route
             path="/your-claims/:id/needed-from-you"
-            element={<Navigate to="/your-claims" replace />}
+            element={<Navigate to="/your-claims/:id/status" replace />}
           />
           <Route
             path="/your-claims/:id/needed-from-you/:trackedItemId"
@@ -109,23 +109,26 @@ describe('Empty directory redirects', () => {
           />
           <Route
             path="/your-claims/:id/needed-from-others"
-            element={<Navigate to="/your-claims" replace />}
+            element={<Navigate to="/your-claims/:id/status" replace />}
           />
           <Route
             path="/your-claims/:id/needed-from-others/:trackedItemId"
             element={<div>Document request page</div>}
           />
-          <Route path="/your-claims" element={<div>Your claims page</div>} />
+          <Route
+            path="/your-claims/:id/status"
+            element={<div>Claim status</div>}
+          />
         </Routes>
       </MemoryRouter>,
     );
 
-  it('redirects /needed-from-you (no trackedItemId) to /your-claims', () => {
+  it('redirects /needed-from-you (no trackedItemId) to /your-claims/123/status', () => {
     const { getByText } = renderWithRoutes('/your-claims/123/needed-from-you');
     expect(getByText('Claim status')).to.exist;
   });
 
-  it('redirects /needed-from-others (no trackedItemId) to /your-claims', () => {
+  it('redirects /needed-from-others (no trackedItemId) to /your-claims/123/status', () => {
     const { getByText } = renderWithRoutes(
       '/your-claims/123/needed-from-others',
     );
