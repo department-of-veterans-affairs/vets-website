@@ -220,6 +220,16 @@ yarn watch --env entry=auth,static-pages,login-page,21-0779-nursing-home-informa
 
 - Date Medicaid coverage began
 
+## Content Widget
+
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/about-form-21-0779/`).
+
+- **Widget Type**: `form210779`
+- **Feature Flag**: `form_0779_enabled`
+- **Widget Location**: `src/applications/static-pages/benefits-optimization-aquia/21-0779/`
+
+When the feature flag is off, the widget shows "Submit this form by mail" instead of a link to the digital form.
+
 ## Support
 
 For questions or issues:
