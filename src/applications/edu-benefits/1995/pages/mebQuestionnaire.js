@@ -268,12 +268,17 @@ export const benefitSwitchPage = () => ({
       'ui:widget': 'radio',
       'ui:options': {
         updateSchema: (formData, schema) => {
-          const exclude = mapCurrentToSelection(formData?.currentBenefitType);
-          if (exclude) {
+          const currentBenefit = mapCurrentToSelection(formData?.currentBenefitType)
+          const exclude = [currentBenefit];
+          if(['dea', 'fry'].includes(currentBenefit)) {
+            exclude.push('dea', 'fry');
+          }
+
+          if (exclude.length > 0) {
             const newEnum = [];
             const newEnumNames = [];
             schema.enum.forEach((val, idx) => {
-              if (val !== exclude) {
+              if (!exclude.includes(val)) {
                 newEnum.push(val);
                 newEnumNames.push(schema.enumNames[idx]);
               }
