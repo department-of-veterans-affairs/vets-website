@@ -2248,6 +2248,7 @@
   "dest": "/resources/services-and-support-for-caregivers/",
   "catchAll": true
 },
+{
   "domain": "www.benefits.va.gov",
   "src": "/cleveland",
   "dest": "/cleveland-va-regional-benefit-office/",
