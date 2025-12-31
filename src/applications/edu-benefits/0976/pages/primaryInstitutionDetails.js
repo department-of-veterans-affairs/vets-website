@@ -37,13 +37,6 @@ export default {
         }),
         'ui:validations': [facilityCodeUIValidation],
       },
-      'view:additionalInfo': {
-        'ui:description': (
-          <va-additional-info trigger="Learn more about VA facility codes">
-            <p>TODO</p>
-          </va-additional-info>
-        ),
-      },
       'view:institutionSelector': {
         'ui:description': (
           <InstitutionSelector dataPath="primaryInstitutionDetails" />
@@ -59,7 +52,6 @@ export default {
         type: 'object',
         properties: {
           facilityCode: { ...textSchema, minLength: 8, maxLength: 8 },
-          'view:additionalInfo': { type: 'object', properties: {} },
           'view:institutionSelector': { type: 'object', properties: {} },
         },
         required: ['facilityCode'],

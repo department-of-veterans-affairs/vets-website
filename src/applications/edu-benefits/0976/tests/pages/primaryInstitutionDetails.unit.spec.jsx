@@ -11,15 +11,15 @@ import * as useValidateFacilityCodeModule from '../../hooks/useValidateFacilityC
 
 const mockStore = configureStore([]);
 
-const renderPage = (data = {}) => {
-  const store = mockStore(data);
+const renderPage = (storeData = {}) => {
+  const store = mockStore(storeData);
   return render(
     <Provider store={store}>
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={page.schema}
         uiSchema={page.uiSchema}
-        data={{}}
+        data={storeData.form.data}
       />
     </Provider>,
   );
@@ -37,7 +37,7 @@ const buildState = details => {
   };
 };
 
-describe('22-0976 what to expect page', () => {
+describe('22-0976 primary institution details page', () => {
   let useValidateFacilityCodeStub;
 
   beforeEach(() => {
@@ -67,6 +67,16 @@ describe('22-0976 what to expect page', () => {
     expect(container.querySelectorAll('va-text-input').length).to.equal(1);
   });
 
+  it('shows a loading state if loading', () => {
+    useValidateFacilityCodeStub.returns({
+      loading: true,
+      hasError: false,
+    });
+    const { container } = renderPage(buildState({ facilityCode: '1234567' }));
+
+    expect(container.querySelector('va-loading-indicator')).to.exist;
+  });
+
   it('shows institution data when available', () => {
     const { container } = renderPage(
       buildState({
@@ -94,9 +104,9 @@ describe('22-0976 what to expect page', () => {
   it('shows an error when input is invalid', async () => {
     const { container, getByRole } = renderPage(
       buildState({
-        facilityCode: '1234567',
+        facilityCode: '1234567$',
         name: '',
-        failedToLoad: true,
+        failedToLoad: false,
       }),
     );
 

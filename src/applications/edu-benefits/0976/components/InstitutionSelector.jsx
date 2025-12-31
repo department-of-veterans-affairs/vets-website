@@ -6,6 +6,7 @@ import { INSTITUTION_TYPES } from '../constants';
 
 const EmptyCard = (
   <>
+    <p>Institution name and mailing address</p>
     <h3>--</h3>
     <p>--</p>
   </>
@@ -30,6 +31,11 @@ export default function InstitutionSelector({ dataPath }) {
   const formData = useSelector(state => state.form.data);
   const { loading, hasError } = useValidateFacilityCode(formData, dataPath);
   const institutionDetails = getAtPath(formData, dataPath);
+  const isPresent = [
+    institutionDetails.name,
+    institutionDetails.type,
+    institutionDetails.mailingAddress,
+  ].every(Boolean);
 
   if (loading) {
     return (
@@ -37,7 +43,7 @@ export default function InstitutionSelector({ dataPath }) {
     );
   }
 
-  if (hasError || !institutionDetails.name) {
+  if (hasError || !isPresent) {
     return EmptyCard;
   }
 
