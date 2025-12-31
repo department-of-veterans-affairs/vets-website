@@ -272,7 +272,7 @@ export const benefitSwitchPage = () => ({
             formData?.currentBenefitType,
           );
           const exclude = [currentBenefit];
-          if(['dea', 'fry'].includes(currentBenefit)) {
+          if (['dea', 'fry'].includes(currentBenefit)) {
             exclude.push('dea', 'fry');
           }
 
