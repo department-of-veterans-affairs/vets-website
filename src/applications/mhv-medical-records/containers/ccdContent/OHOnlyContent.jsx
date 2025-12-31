@@ -13,6 +13,7 @@ import {
 } from '../../util/constants';
 import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
 import DownloadSuccessAlert from '../../components/shared/DownloadSuccessAlert';
+import AccessErrors from '../../components/DownloadRecords/AccessErrors';
 
 const OHOnlyContent = ({
   ccdDownloadSuccess,
@@ -24,10 +25,10 @@ const OHOnlyContent = ({
   handleDownload,
   testIdSuffix,
   lastSuccessfulUpdate,
-  accessErrors,
   activeAlert,
   successfulSeiDownload,
   failedSeiDomains,
+  seiPdfGenerationError,
 }) => {
   return (
     <>
@@ -55,7 +56,11 @@ const OHOnlyContent = ({
               {lastSuccessfulUpdate.time} on {lastSuccessfulUpdate.date}
             </va-card>
           )}
-          {accessErrors()}
+          <AccessErrors
+            CCDRetryTimestamp={CCDRetryTimestamp}
+            failedSeiDomains={failedSeiDomains}
+            seiPdfGenerationError={seiPdfGenerationError}
+          />
           {/* redux action/server errors */}
           {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
             <AccessTroubleAlertBox
@@ -157,7 +162,6 @@ const OHOnlyContent = ({
 };
 
 OHOnlyContent.propTypes = {
-  accessErrors: PropTypes.func.isRequired,
   ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
   ddSuffix: PropTypes.string.isRequired,
   failedSeiDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -173,6 +177,7 @@ OHOnlyContent.propTypes = {
     date: PropTypes.string,
     time: PropTypes.string,
   }),
+  seiPdfGenerationError: PropTypes.bool,
 };
 
 export default OHOnlyContent;

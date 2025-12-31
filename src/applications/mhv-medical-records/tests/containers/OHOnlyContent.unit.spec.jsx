@@ -34,7 +34,6 @@ describe('OHOnlyContent', () => {
     handleDownload: () => {},
     testIdSuffix: 'OH',
     lastSuccessfulUpdate: null,
-    accessErrors: () => null,
     activeAlert: null,
     successfulSeiDownload: false,
     failedSeiDomains: [],
@@ -42,6 +41,7 @@ describe('OHOnlyContent', () => {
     ccdDownloadSuccess: false,
     ccdError: false,
     CCDRetryTimestamp: null,
+    seiPdfGenerationError: false,
   };
 
   const renderComponent = (props = {}, state = {}) => {
@@ -280,14 +280,12 @@ describe('OHOnlyContent', () => {
     expect(queryAllByTestId('expired-alert-message').length).to.equal(0);
   });
 
-  it('calls accessErrors function', () => {
-    const accessErrors = sinon.spy(() => (
-      <div data-testid="custom-access-error">Custom Error</div>
-    ));
-    const { getByTestId } = renderComponent({ accessErrors });
+  it('renders AccessErrors with CCD error when CCDRetryTimestamp is set', () => {
+    const { getAllByTestId } = renderComponent({
+      CCDRetryTimestamp: '2025-01-01T00:00:00Z',
+    });
 
-    expect(accessErrors.called).to.be.true;
-    expect(getByTestId('custom-access-error')).to.exist;
+    expect(getAllByTestId('expired-alert-message').length).to.be.greaterThan(0);
   });
 
   it('renders MissingRecordsError and DownloadSuccessAlert when SEI download is successful with some failed domains', () => {

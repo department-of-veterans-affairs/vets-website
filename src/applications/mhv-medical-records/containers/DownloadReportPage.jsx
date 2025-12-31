@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
   updatePageTitle,
   generateSEIPdf,
-  SEI_DOMAINS,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -22,15 +21,12 @@ import {
   sendDataDogAction,
 } from '../util/helpers';
 import {
-  accessAlertTypes,
-  documentTypes,
   pageTitles,
   refreshExtractTypes,
   statsdFrontEndActions,
 } from '../util/constants';
 import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import { Actions } from '../util/actionTypes';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import OHOnlyContent from './ccdContent/OHOnlyContent';
 import VistaOnlyContent from './ccdContent/VistaOnlyContent';
@@ -173,33 +169,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [expandSelfEntered],
   );
 
-  const accessErrors = () => {
-    // CCD generation Error
-    if (CCDRetryTimestamp) {
-      return (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.CCD}
-          className="vads-u-margin-bottom--1"
-        />
-      );
-    }
-    // SEI Access Error: If all SEI domains failed
-    if (
-      failedSeiDomains.length === SEI_DOMAINS.length ||
-      seiPdfGenerationError
-    ) {
-      return (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.SEI}
-          className="vads-u-margin-bottom--1"
-        />
-      );
-    }
-    return null;
-  };
-
   const lastSuccessfulUpdate = useMemo(
     () => {
       return getLastSuccessfulUpdate(refreshStatus, [
@@ -282,12 +251,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             selfEnteredPdfLoading={selfEnteredPdfLoading}
             successfulSeiDownload={successfulSeiDownload}
             activeAlert={activeAlert}
-            accessErrors={accessErrors}
             ccdError={ccdError}
             ccdDownloadSuccess={ccdDownloadSuccess}
             CCDRetryTimestamp={CCDRetryTimestamp}
             failedBBDomains={failedBBDomains}
             successfulBBDownload={successfulBBDownload}
+            seiPdfGenerationError={seiPdfGenerationError}
           />
           <NeedHelpSection />
         </div>
@@ -304,13 +273,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             handleDownload={handleDownloadCCDV2}
             ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
             lastSuccessfulUpdate={lastSuccessfulUpdate}
-            accessErrors={accessErrors}
             activeAlert={activeAlert}
             successfulSeiDownload={successfulSeiDownload}
             failedSeiDomains={failedSeiDomains}
             ccdDownloadSuccess={ccdDownloadSuccess}
             ccdError={ccdError}
             CCDRetryTimestamp={CCDRetryTimestamp}
+            seiPdfGenerationError={seiPdfGenerationError}
           />
 
           <NeedHelpSection />
@@ -336,12 +305,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
         successfulSeiDownload={successfulSeiDownload}
         activeAlert={activeAlert}
-        accessErrors={accessErrors}
         ccdError={ccdError}
         ccdDownloadSuccess={ccdDownloadSuccess || false}
         CCDRetryTimestamp={CCDRetryTimestamp}
         failedBBDomains={failedBBDomains}
         successfulBBDownload={successfulBBDownload || false}
+        seiPdfGenerationError={seiPdfGenerationError}
       />
       <NeedHelpSection />
     </div>

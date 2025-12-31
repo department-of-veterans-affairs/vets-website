@@ -20,9 +20,9 @@ import {
 
 import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
 import { sendDataDogAction } from '../../util/helpers';
+import AccessErrors from '../../components/DownloadRecords/AccessErrors';
 
 const VistaOnlyContent = ({
-  accessErrors,
   activeAlert,
   ccdError,
   CCDRetryTimestamp,
@@ -38,6 +38,7 @@ const VistaOnlyContent = ({
   selfEnteredPdfLoading,
   handleDownloadSelfEnteredPdf,
   lastSuccessfulUpdate,
+  seiPdfGenerationError,
   successfulSeiDownload,
   successfulBBDownload,
 }) => {
@@ -102,7 +103,11 @@ const VistaOnlyContent = ({
           />
         )}
 
-      {accessErrors()}
+      <AccessErrors
+        CCDRetryTimestamp={CCDRetryTimestamp}
+        failedSeiDomains={failedSeiDomains}
+        seiPdfGenerationError={seiPdfGenerationError}
+      />
 
       {/* redux action/server errors */}
       {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
@@ -198,7 +203,6 @@ const VistaOnlyContent = ({
 };
 
 VistaOnlyContent.propTypes = {
-  accessErrors: PropTypes.func.isRequired,
   ccdDownloadSuccess: PropTypes.bool.isRequired,
   ccdError: PropTypes.bool.isRequired,
   ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
@@ -216,6 +220,7 @@ VistaOnlyContent.propTypes = {
   CCDRetryTimestamp: PropTypes.string,
   activeAlert: PropTypes.object,
   lastSuccessfulUpdate: PropTypes.object,
+  seiPdfGenerationError: PropTypes.bool,
 };
 
 export default VistaOnlyContent;

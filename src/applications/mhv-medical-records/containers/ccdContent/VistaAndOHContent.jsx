@@ -20,9 +20,9 @@ import {
 import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
 import { sendDataDogAction } from '../../util/helpers';
 import { formatFacilityList } from '../../util/facilityHelpers';
+import AccessErrors from '../../components/DownloadRecords/AccessErrors';
 
 const VistaAndOHContent = ({
-  accessErrors,
   activeAlert,
   ccdError,
   ccdExtendedFileTypeFlag,
@@ -38,6 +38,7 @@ const VistaAndOHContent = ({
   handleDownloadSelfEnteredPdf,
   lastSuccessfulUpdate,
   selfEnteredPdfLoading,
+  seiPdfGenerationError,
   successfulSeiDownload,
   successfulBBDownload,
   vistaFacilityNames,
@@ -91,7 +92,11 @@ const VistaAndOHContent = ({
         data-testid="go-to-download-all"
       />
       <h2>Download your Continuity of Care Document</h2>
-      {accessErrors()}
+      <AccessErrors
+        CCDRetryTimestamp={CCDRetryTimestamp}
+        failedSeiDomains={failedSeiDomains}
+        seiPdfGenerationError={seiPdfGenerationError}
+      />
       {/* redux action/server errors */}
       {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
         <AccessTroubleAlertBox
@@ -228,7 +233,6 @@ const VistaAndOHContent = ({
 };
 
 VistaAndOHContent.propTypes = {
-  accessErrors: PropTypes.func.isRequired,
   ccdError: PropTypes.bool.isRequired,
   ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
   failedBBDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -246,6 +250,7 @@ VistaAndOHContent.propTypes = {
   activeAlert: PropTypes.object,
   ccdDownloadSuccess: PropTypes.bool,
   lastSuccessfulUpdate: PropTypes.object,
+  seiPdfGenerationError: PropTypes.bool,
   successfulBBDownload: PropTypes.bool,
 };
 
