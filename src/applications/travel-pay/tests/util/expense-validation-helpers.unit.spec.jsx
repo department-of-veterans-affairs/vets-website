@@ -348,7 +348,6 @@ describe('validateAirTravelFields', () => {
 
   it('validates all fields at once and sets errors for empty values', () => {
     const nextErrors = validateAirTravelFields(formState, errors);
-
     expect(nextErrors).to.deep.equal({
       vendorName: 'Enter the company name',
       tripType: 'Select a trip type',
@@ -365,15 +364,21 @@ describe('validateAirTravelFields', () => {
     expect(nextErrors.vendorName).to.be.undefined;
   });
 
-  it('checks departureDate < returnDate logic', () => {
-    formState.departureDate = '2025-01-10';
-    formState.returnDate = '2025-01-05';
-
-    const nextErrors = validateAirTravelFields(formState, errors);
+  it('throws error when departureDate is after returnDate and both are complete', () => {
+    const nextErrors = validateAirTravelFields(
+      {
+        departureDate: '2025-01-15',
+        returnDate: '2025-01-10',
+        tripType: TRIP_TYPES.ROUND_TRIP.value,
+      },
+      {},
+      'departureDate',
+    );
 
     expect(nextErrors.departureDate).to.equal(
       'Departure date must be before return date',
     );
+
     expect(nextErrors.returnDate).to.equal(
       'Return date must be later than departure date',
     );
@@ -400,7 +405,6 @@ describe('validateAirTravelFields', () => {
     formState.returnDate = '';
 
     const nextErrors = validateAirTravelFields(formState, errors);
-
     expect(nextErrors.returnDate).to.equal('Enter a return date');
   });
 
@@ -569,6 +573,34 @@ describe('validateLodgingFields', () => {
     expect(nextErrors.vendor).to.be.undefined;
     expect(nextErrors.checkInDate).to.be.undefined;
     expect(nextErrors.checkOutDate).to.be.undefined;
+  });
+
+  it('does not throw ordering error when departureDate is incomplete', () => {
+    const nextErrors = validateAirTravelFields(
+      {
+        departureDate: '2025-01',
+        returnDate: '2025-01-10',
+        tripType: TRIP_TYPES.ROUND_TRIP.value,
+      },
+      {},
+      'departureDate',
+    );
+
+    expect(nextErrors.departureDate).to.be.undefined;
+  });
+
+  it('does not throw ordering error when returnDate is incomplete', () => {
+    const nextErrors = validateAirTravelFields(
+      {
+        departureDate: '2025-01-10',
+        returnDate: '2025-01',
+        tripType: TRIP_TYPES.ROUND_TRIP.value,
+      },
+      {},
+      'returnDate',
+    );
+
+    expect(nextErrors.returnDate).to.be.undefined;
   });
 
   it('requires checkInDate if empty', () => {
