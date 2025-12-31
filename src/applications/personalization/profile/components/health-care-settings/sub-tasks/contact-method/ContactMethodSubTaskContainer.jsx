@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
+import { Element } from 'platform/utilities/scroll';
 
 import {
   FIELD_NAMES,
@@ -22,6 +23,8 @@ import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAtt
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
 import { isSubtaskSchedulingPreference } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
+import { FormFooter } from 'platform/forms/exportsFile';
+import { getFormSchema } from '@@vap-svc/components/SchedulingPreferences/preferred-contact-method';
 import pages from './pages';
 // import { EditFallbackContent } from '../../../edit/EditFallbackContent';
 import { EditContext } from '../../../edit/EditContext';
@@ -58,6 +61,8 @@ const beforeUnloadHandler = e => {
 const clearBeforeUnloadListener = () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
 };
+
+const formConfig = getFormSchema();
 
 export const ContactMethodSubTaskContainer = () => {
   const dispatch = useDispatch();
@@ -251,17 +256,19 @@ export const ContactMethodSubTaskContainer = () => {
               onClickHandler={handlers.breadCrumbClick}
               href={returnPath}
             >
-              {`Back to ${returnPathName}`}
+              {returnPathName}
             </EditBreadcrumb>
 
             <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
               {editPageHeadingString}
             </h1>
+            <Element name="topContentElement" />
             <div className="vads-l-grid-container vads-u-padding-x--0 large-screen:vads-u-padding-x--2">
               <div className="vads-l-row">
                 <div className="vads-l-col--12 medium-screen:vads-l-col--8">
                   <SubTask pages={pages} />
                 </div>
+                <FormFooter formConfig={formConfig} />
               </div>
             </div>
           </div>

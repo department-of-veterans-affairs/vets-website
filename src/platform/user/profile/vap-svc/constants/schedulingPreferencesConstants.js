@@ -18,14 +18,14 @@ export const FIELD_ITEM_IDS = {
 
 export const FIELD_OPTION_IDS = {
   [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
-    TELEPHONE_MOBILE: 1,
-    TELEPHONE_HOME: 38,
-    TELEPHONE_WORK: 39,
-    TEXT_MESSAGE: 2,
-    SECURE_MESSAGE: 3,
-    US_POST: 4,
-    EMAIL: 5,
-    NO_PREFERENCE: 6,
+    TELEPHONE_MOBILE: 'option-1',
+    TELEPHONE_HOME: 'option-38',
+    TELEPHONE_WORK: 'option-39',
+    TEXT_MESSAGE: 'option-2',
+    SECURE_MESSAGE: 'option-3',
+    US_POST: 'option-4',
+    EMAIL: 'option-5',
+    NO_PREFERENCE: 'option-6',
   },
   [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
     MONDAY_MORNING: 7,
@@ -122,6 +122,20 @@ export const FIELD_OPTION_IDS_INVERTED = {
     'option-36': 'Female',
     'option-37': 'No preference',
   },
+};
+
+export const FIELD_OPTION_IN_COPY = {
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
+    'option-6': 'no preference',
+    'option-5': 'contact email',
+    'option-38': 'home phone number',
+    'option-1': 'mobile phone number',
+    'option-39': 'work phone number',
+    'option-2': 'mobile phone number',
+    'option-3': 'secure message',
+    'option-4': 'mailing address',
+  },
+  // Additional fields can be added here as needed
 };
 
 export const FIELD_TITLES = {

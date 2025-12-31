@@ -8,7 +8,13 @@ import {
   FIELD_ITEM_IDS,
   FIELD_OPTION_IDS,
   FIELD_OPTION_IDS_INVERTED,
+  FIELD_OPTION_IN_COPY,
 } from '../../constants/schedulingPreferencesConstants';
+
+import {
+  getFormSchema as getContactMethodFormSchema,
+  getUiSchema as getContactMethodUiSchema,
+} from '../../components/SchedulingPreferences/preferred-contact-method';
 
 // Simple fields that can edit inline (single-select radio buttons)
 const INLINE_SCHEDULING_PREFERENCES = [
@@ -78,20 +84,14 @@ export const getSchedulingPreferencesOptionDisplayName = (
   return FIELD_OPTION_IDS_INVERTED[fieldName]?.[itemId];
 };
 
+export const getSchedulingPreferencesOptionInCopy = (fieldName, itemId) => {
+  return FIELD_OPTION_IN_COPY[fieldName]?.[itemId];
+};
+
 export const schedulingPreferencesUiSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
     return {
-      [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
-        'ui:title': FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
-        'ui:widget': 'select',
-        'ui:required': () => true,
-        'ui:options': {
-          labels:
-            FIELD_OPTION_IDS_INVERTED[
-              FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
-            ],
-        },
-      },
+      [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: getContactMethodUiSchema(),
     }; // To be replaced with subtask UI schema
   }
   return {
@@ -106,20 +106,7 @@ export const schedulingPreferencesFormSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
     switch (fieldname) {
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
-        return {
-          type: 'object',
-          required: [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
-          properties: {
-            [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
-              type: 'string',
-              enum: Object.keys(
-                FIELD_OPTION_IDS_INVERTED[
-                  FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
-                ],
-              ),
-            },
-          },
-        };
+        return getContactMethodFormSchema();
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
         return {
           type: 'object',
