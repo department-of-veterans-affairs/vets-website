@@ -494,7 +494,7 @@ describe('Submit Transform', () => {
       const result = JSON.parse(transform({}, form));
 
       expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
-        'John Doe (Army 1968-1972)',
+        'John Doe, Service Periods: Army 1968-1972',
       );
     });
 
@@ -522,7 +522,7 @@ describe('Submit Transform', () => {
       const result = JSON.parse(transform({}, form));
 
       expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
-        'John Doe (Army 1968-1972); Jane Marie Smith (Navy 1975-1980)',
+        'John Doe, Service Periods: Army 1968-1972; Jane Marie Smith, Service Periods: Navy 1975-1980',
       );
     });
 
@@ -567,7 +567,7 @@ describe('Submit Transform', () => {
       const result = JSON.parse(transform({}, form));
 
       expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
-        'John Doe (Army 1968-1972); Jane Smith',
+        'John Doe, Service Periods: Army 1968-1972; Jane Smith',
       );
     });
   });

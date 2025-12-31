@@ -54,7 +54,7 @@ export const transform = (formConfig, form) => {
 
     // Add service period if provided
     const nameWithService = servicePeriod
-      ? `${formattedName} (${servicePeriod})`
+      ? `${formattedName}, Service Periods: ${servicePeriod}`
       : formattedName;
 
     return `${acc ? `${acc}; ` : ''}${nameWithService}`;
