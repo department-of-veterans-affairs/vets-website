@@ -198,7 +198,7 @@ export const BENEFITS_LIST = [
     id: 'GIB',
     description:
       "Gl Bill benefits can help you pay for school and cover expenses while you're training for a job.",
-    whenToApplyDescription: 'Before you separate from service',
+    whenToApplyDescription: 'Before or after you separate from service',
     whenToApplyNote:
       'If you separated before January 1, 2013, you can use this benefit up to 15 years after separation.',
     whenToApply: [
