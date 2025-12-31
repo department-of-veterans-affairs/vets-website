@@ -64,7 +64,7 @@ describe('ConfirmAddBtnGroup', () => {
 
     await fireEvent.click(updateButton);
     await waitFor(() => {
-      expect(window.location.href).to.equal('/profile/contact-information');
+      expect(window.location.pathname).to.equal('/profile/contact-information');
       window.location = originalLocation;
     });
   });
