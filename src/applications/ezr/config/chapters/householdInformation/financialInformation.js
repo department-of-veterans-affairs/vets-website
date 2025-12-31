@@ -1,4 +1,3 @@
-import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import content from '../../../locales/en/content.json';
 import {
@@ -13,11 +12,11 @@ import { SpouseAnnualIncomePage } from '../../../definitions/spouseAnnualIncome'
 import { FinancialSummaryPage } from '../../../definitions/financialSummary';
 import FinancialIntroductionPage from '../../../definitions/financialIntroduction';
 import FinancialSummaryCardDescription from '../../../components/FormDescriptions/FinancialSummaryCardDescription';
+
 /**
  * Declare attributes for array builder pattern
  * @type {ArrayBuilderOptions}
  */
-
 const options = {
   arrayPath: 'financialInformation',
   nounPlural: `income and deductible for ${LAST_YEAR}`,
@@ -27,16 +26,8 @@ const options = {
   hideMaxItemsAlert: true,
   text: {
     getItemName: `Your annual income from ${LAST_YEAR}`,
-    summaryDescription: () => (
-      <FinancialInformationReviewWarning
-        isFormReviewPage={window?.location?.pathname.includes(
-          'review-and-submit',
-        )}
-      />
-    ),
-    cardDescription: item => {
-      return FinancialSummaryCardDescription(item);
-    },
+    summaryDescription: FinancialInformationReviewWarning,
+    cardDescription: FinancialSummaryCardDescription,
     editSaveButtonText: 'Continue',
     alertItemUpdated: `Your income and deductible for ${LAST_YEAR} has been updated`,
     alertItemDeleted: `Your income and deductible for ${LAST_YEAR} has been deleted`,
