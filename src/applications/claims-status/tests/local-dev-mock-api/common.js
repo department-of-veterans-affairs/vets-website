@@ -1,3 +1,22 @@
+// ============================================================
+// SERVICE AVAILABILITY CONFIGURATION
+// Toggle these to test different service unavailability scenarios
+// ============================================================
+const SERVICE_AVAILABILITY = {
+  claims: true, // Set to false to simulate claims API returning 500
+  appeals: true, // Set to false to simulate appeals API returning 500
+};
+
+// ============================================================
+// EMPTY DATA CONFIGURATION
+// Toggle these to test scenarios with no claims/appeals data
+// (services return 200 OK but with empty arrays)
+// ============================================================
+const RETURN_EMPTY_DATA = {
+  claims: false, // Set to true to return empty claims array
+  appeals: false, // Set to true to return empty appeals array
+};
+
 // Helpers
 const createClaimPhaseDates = (claimDate, phaseType, previousPhases = {}) => ({
   phaseChangeDate: claimDate,
@@ -1495,16 +1514,25 @@ const responses = {
     },
   },
 
-  'GET /v0/benefits_claims': {
-    data: claimsToUse.map(getClaimSummary),
-    meta: {
-      pagination: {
-        currentPage: 1,
-        perPage: 10,
-        totalPages: 3,
-        totalEntries: 30,
+  'GET /v0/benefits_claims': (_req, res) => {
+    if (!SERVICE_AVAILABILITY.claims) {
+      // Only status code matters - frontend doesn't parse error body
+      return res.status(500).json({ errors: [] });
+    }
+    const claimsData = RETURN_EMPTY_DATA.claims
+      ? []
+      : claimsToUse.map(getClaimSummary);
+    return res.status(200).json({
+      data: claimsData,
+      meta: {
+        pagination: {
+          currentPage: 1,
+          perPage: 10,
+          totalPages: RETURN_EMPTY_DATA.claims ? 0 : 3,
+          totalEntries: RETURN_EMPTY_DATA.claims ? 0 : claimsData.length,
+        },
       },
-    },
+    });
   },
 
   'GET /v0/benefits_claims/failed_upload_evidence_submissions': {
@@ -1711,7 +1739,13 @@ const responses = {
   'GET /v0/benefits_claims/11': getClaimDataById('11'),
 
   'GET /v0/appeals': (_req, res) => {
-    return res.status(200).json(appealData);
+    if (!SERVICE_AVAILABILITY.appeals) {
+      // Only status code matters - frontend doesn't parse error body
+      return res.status(500).json({ errors: [] });
+    }
+    return res
+      .status(200)
+      .json(RETURN_EMPTY_DATA.appeals ? { data: [] } : appealData);
   },
 
   'GET /v0/appeals/1': {
