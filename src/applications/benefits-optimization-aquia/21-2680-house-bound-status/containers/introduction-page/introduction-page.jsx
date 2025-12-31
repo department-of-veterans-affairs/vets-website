@@ -61,12 +61,11 @@ const ProcessList = () => {
       <va-process-list-item header="Fill out the form">
         <p>Fill out the form and sign it digitally.</p>
       </va-process-list-item>
-      <va-process-list-item header="Send your form to an examiner">
+      <va-process-list-item header="Have an examiner complete the remaining sections">
         <p>
           Download a PDF version of the form after you finish it. Then send it
           to an examiner so they can fill out their portion with medical
-          information about the person applying. We recommend sending it via
-          email.
+          information about the person applying.
         </p>
         <p>
           The examiner must be a Medical Doctor (MD) or Doctor of Osteopathic
@@ -78,8 +77,13 @@ const ProcessList = () => {
           signed it, they’ll return it to you.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Submit your application">
-        <p>Upload the completed form to VA.gov.</p>
+      <va-process-list-item header="Upload your fully completed form.">
+        <p>
+          <va-link-action
+            href="/find-forms/upload/21-2680/introduction"
+            text="Upload your completed VA form 21-2680"
+          />
+        </p>
       </va-process-list-item>
     </va-process-list>
   );

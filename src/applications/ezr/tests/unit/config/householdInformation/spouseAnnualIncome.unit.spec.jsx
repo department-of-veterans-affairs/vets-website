@@ -7,7 +7,7 @@ import formConfig from '../../../../config/form';
 const {
   chapters: {
     householdInformation: {
-      pages: { spouseAnnualIncome },
+      pages: { spouseAnnualIncomeV1: spouseAnnualIncome },
     },
   },
 } = formConfig;

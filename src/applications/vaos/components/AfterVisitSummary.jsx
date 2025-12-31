@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 
 import InfoAlert from './InfoAlert';
 import { GA_PREFIX } from '../utils/constants';
@@ -13,9 +14,18 @@ import Section from './Section';
 import { revokeObjectUrls } from '../utils/avs';
 import useAmbAvs from './hooks/useAmbAvs';
 
-function handleClick() {
+function handleLegacyAvsClick() {
   recordEvent({
     event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
+  });
+}
+
+function handleOhAvsPdfClick(pdfCount) {
+  recordEvent({
+    event: `${GA_PREFIX}-after-visit-summary-pdf-link-clicked`,
+  });
+  datadogRum.addAction(`${GA_PREFIX}-oh-avs-pdf-link-clicked`, {
+    pdfCount,
   });
 }
 
@@ -34,6 +44,21 @@ export default function AfterVisitSummary({ data: appointment }) {
     featureAddOHAvs,
   );
   const hasAvs = Boolean(appointment.avsPath) || hasValidPdfAvs;
+
+  // Track when OH AVS PDFs are rendered (fire only once per render)
+  const hasTrackedRender = useRef(false);
+  useEffect(
+    () => {
+      if (featureAddOHAvs && hasValidPdfAvs && !hasTrackedRender.current) {
+        hasTrackedRender.current = true;
+        datadogRum.addAction(`${GA_PREFIX}-oh-avs-pdf-rendered`, {
+          pdfCount: avsPairs.length,
+        });
+      }
+    },
+    [featureAddOHAvs, hasValidPdfAvs, avsPairs.length],
+  );
+
   useEffect(
     () => () => {
       revokeObjectUrls(objectUrls);
@@ -90,7 +115,7 @@ export default function AfterVisitSummary({ data: appointment }) {
                   text={linkText}
                   data-testid={`after-visit-summary-pdf-${file?.id}`}
                   aria-label={`${linkText} PDF`}
-                  onClick={handleClick}
+                  onClick={() => handleOhAvsPdfClick(avsPairs.length)}
                 />
               </li>
             );
@@ -105,7 +130,7 @@ export default function AfterVisitSummary({ data: appointment }) {
         href={`${appointment?.avsPath}`}
         text="Go to after visit summary"
         data-testid="after-vist-summary-link"
-        onClick={handleClick}
+        onClick={handleLegacyAvsClick}
       />
     </Section>
   );

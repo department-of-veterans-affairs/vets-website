@@ -221,10 +221,10 @@ function Docket({
           )}
           {!aod && (
             <div>
-              <h4>
+              <h3>
                 If I switch to a different appeal option, will I lose my place
                 in line?
-              </h4>
+              </h3>
               <p>
                 If you switch to a different appeal option, you will keep the
                 same docket date, and your appeal will be decided at the same

@@ -46,7 +46,11 @@ describe('Contact info update success alert', () => {
 
     // confirm the deletion action. This button is _not_ the same as the one
     // that was just clicked in the previous step
-    cy.get('va-button[data-testid="confirm-remove-button"]').click();
+    cy.get('va-modal')
+      .shadow()
+      .find('va-button')
+      .first()
+      .click();
 
     cy.injectAxeThenAxeCheck();
 

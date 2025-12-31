@@ -49,6 +49,10 @@ const CategorySelectPage = props => {
         selectCategory: '',
         allowAttachments: false,
         categoryRequiresSignIn: false,
+        requireSignInLogic: {
+          ...formData.requireSignInLogic,
+          category: false,
+        },
         contactPreferences: null,
       });
       return;
@@ -99,6 +103,16 @@ const CategorySelectPage = props => {
       contactPreferences: selected.attributes.contactPreferences,
       categoryRequiresSignIn:
         selected.attributes.requiresAuthentication && !isLOA3,
+      requireSignInLogic: formData.requireSignInLogic
+        ? {
+            ...formData.requireSignInLogic,
+            category: selected.attributes.requiresAuthentication,
+          }
+        : {
+            category: selected.attributes.requiresAuthentication,
+            topic: false,
+            personQuestionIsAbout: false,
+          },
     });
   };
 

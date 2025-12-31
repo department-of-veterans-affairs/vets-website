@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { Toggler } from '~/platform/utilities/feature-toggles';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import ConfirmationPage, {
   getNewConditionsNames,
 } from '../../containers/ConfirmationPage';
@@ -168,7 +169,7 @@ describe('ConfirmationPage', () => {
   };
 
   it('should render confirmation page when submission succeeded with claim id', () => {
-    verifyConfirmationPage('12345678', false, submissionStatuses.succeeded);
+    verifyConfirmationPage(12345678, false, submissionStatuses.succeeded);
   });
 
   it('should render confirmation page when submission succeeded with no claim id', () => {
@@ -176,7 +177,7 @@ describe('ConfirmationPage', () => {
   });
 
   it('should render success with BDD SHA alert when submission succeeded with claim id for BDD', () => {
-    verifyConfirmationPage('12345678', true, submissionStatuses.succeeded);
+    verifyConfirmationPage(12345678, true, submissionStatuses.succeeded);
   });
 
   it('should render success when form submitted successfully but submission status has api failure', () => {
@@ -190,11 +191,73 @@ describe('ConfirmationPage', () => {
 
   it('should render confirmation review section accordion when toggle is on', () => {
     verifyConfirmationPage(
-      '12345678',
+      12345678,
       false,
       submissionStatuses.succeeded,
       true, // disability526ShowConfirmationReview toggle
     );
+  });
+
+  describe('Error Boundary Tests', () => {
+    let consoleErrorStub;
+    let sinon;
+
+    beforeEach(() => {
+      sinon = require('sinon');
+      consoleErrorStub = sinon.stub(console, 'error');
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+
+    it('should catch errors in ChapterSectionCollection and display the rest of the page', () => {
+      // Stub ChapterSectionCollection to throw an error during render
+      const chapterStub = sinon.stub(
+        ConfirmationView,
+        'ChapterSectionCollection',
+      );
+      chapterStub.throws(new Error('ChapterSectionCollection error'));
+
+      try {
+        const store = mockStore(
+          getData({
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: true,
+            },
+          }),
+        );
+
+        const { container, getByText, queryByText } = render(
+          <Provider store={store}>
+            <ConfirmationPage
+              {...defaultProps}
+              submissionStatus={submissionStatuses.succeeded}
+            />
+          </Provider>,
+        );
+
+        // ChapterSectionCollection accordion does not render (error boundary caught it)
+        expect(queryByText('Information you submitted on this form')).to.not
+          .exist;
+
+        // No error UI shown to user (silent degradation via error boundary)
+        const errorAlerts = container.querySelectorAll(
+          'va-alert[status="error"]',
+        );
+        expect(errorAlerts.length).to.equal(0);
+
+        // The rest of the confirmation page content is still visible
+        expect(getByText('Disability Compensation Claim')).to.exist;
+        expect(getByText('For Hector Lee Brooks Sr.')).to.exist;
+        expect(getByText('Date submitted')).to.exist;
+        expect(getByText('November 7, 2024')).to.exist;
+        expect(getByText('Print this confirmation page')).to.exist;
+        expect(getByText('What to expect')).to.exist;
+      } finally {
+        chapterStub.restore();
+      }
+    });
   });
 });
 
@@ -205,19 +268,17 @@ describe('getNewConditionsNames', () => {
     ).to.deep.equal(['Low Back Pain', 'Knee Pain']);
   });
 
-  it('includes only NEW/SECONDARY objects, ignores others and blanks', () => {
-    const input = [
-      { condition: 'tinnitus', cause: 'secondary' },
-      { condition: 'sleep apnea', cause: 'NEW' },
-      { condition: 'flu', cause: 'primary' },
-      { condition: ' ', cause: 'NEW' },
-      { condition: 'tinnitus', cause: 'SECONDARY' },
-      undefined,
-    ];
-    expect(getNewConditionsNames(input)).to.deep.equal([
-      'Tinnitus',
-      'Sleep Apnea',
-    ]);
+  it('ignores blanks/invalids and dedupes', () => {
+    expect(
+      getNewConditionsNames([
+        'tinnitus',
+        ' ',
+        null,
+        undefined,
+        'Tinnitus',
+        'sleep apnea',
+      ]),
+    ).to.deep.equal(['Tinnitus', 'Sleep Apnea']);
   });
 
   it('returns empty list for empty/invalid inputs', () => {

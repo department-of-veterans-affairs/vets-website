@@ -66,6 +66,8 @@ const defaultUser = {
         ],
         va_patient: true,
         mhv_account_state: 'OK',
+        userAtPretransitionedOhFacility: false,
+        userFacilityReadyForInfoAlert: false,
       },
     },
   },
@@ -96,6 +98,8 @@ const generateUser = ({
           mhv_account_state: mhvAccountState,
           va_patient: vaPatient,
           facilities,
+          userAtPretransitionedOhFacility: oracleHealth,
+          userFacilityReadyForInfoAlert: oracleHealth,
         },
         profile: {
           ...defaultUser.data.attributes.profile,

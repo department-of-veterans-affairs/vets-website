@@ -460,6 +460,13 @@ export const studentProgramInfoPage = {
         'ui:options': {
           width: 'xl',
         },
+        'ui:validations': [
+          (errors, schoolName) => {
+            if (schoolName?.length > 80) {
+              errors.addError('School name must be 80 characters or less');
+            }
+          },
+        ],
       },
     },
   },

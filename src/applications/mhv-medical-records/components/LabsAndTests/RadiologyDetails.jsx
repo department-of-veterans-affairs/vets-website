@@ -257,6 +257,7 @@ ${record.results}`;
           <h3
             aria-describedby="in-progress-description"
             ref={processingAlertHeadingRef}
+            slot="headline"
           >
             Image request
           </h3>
@@ -423,7 +424,9 @@ ${record.results}`;
             role="alert"
             data-testid="alert-download-started"
           >
-            <h3 className="vads-u-font-size--lg no-print">Images ready</h3>
+            <h3 className="vads-u-font-size--lg no-print" slot="headline">
+              Images ready
+            </h3>
             {renderJobCompleteAlert()}
           </VaAlert>
         )}
