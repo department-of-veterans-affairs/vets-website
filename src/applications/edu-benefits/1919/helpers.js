@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import { isValidDateString } from 'platform/utilities/date';
 
 export const showConflictOfInterestText = () => {
   window.dataLayer.push({
@@ -45,11 +46,11 @@ export const getCardDescription = item => {
         {item.certifyingOfficial?.title || 'Title'}
       </p>
       <p data-testid="card-file-number">{item.fileNumber || 'File number'}</p>
-      {item.enrollmentPeriod?.from && (
+      {item.enrollmentPeriodStart && (
         <p data-testid="card-enrollment-period">
-          {formatReviewDate(item.enrollmentPeriod.from)}
-          {item.enrollmentPeriod?.to &&
-            ` - ${formatReviewDate(item.enrollmentPeriod.to)}`}
+          {formatReviewDate(item.enrollmentPeriodStart)}
+          {item.enrollmentPeriodEnd &&
+            ` - ${formatReviewDate(item.enrollmentPeriodEnd)}`}
         </p>
       )}
     </>
@@ -61,6 +62,7 @@ export const allProprietaryProfitConflictsArrayOptions = {
   nounSingular: 'individual',
   nounPlural: 'individuals',
   required: false,
+  maxItems: 2,
   text: {
     getItemName: item => getCardTitle(item),
     cardDescription: item => getCardDescription(item),
@@ -76,6 +78,7 @@ export const proprietaryProfitConflictsArrayOptions = {
   nounSingular: 'individual',
   nounPlural: 'individuals',
   required: false,
+  maxItems: 3,
   text: {
     getItemName: item =>
       `${item?.affiliatedIndividuals?.first || ''} ${item?.affiliatedIndividuals
@@ -240,4 +243,55 @@ export const getTitle = role => {
   }
 
   return title;
+};
+
+export const validateConflictOfInterestStartDate = (
+  errors,
+  fieldData,
+  formData,
+) => {
+  if (!fieldData) return;
+
+  if (!isValidDateString(fieldData)) errors.addError('Enter a valid date');
+
+  if (!isValidDateString(formData.enrollmentPeriodEnd)) return;
+
+  const start = new Date(formData.enrollmentPeriodStart);
+  const end = new Date(formData.enrollmentPeriodEnd);
+
+  if (end < start) {
+    errors.addError(
+      'The enrollment start date cannot be after the enrollment end date',
+    );
+  }
+  if (
+    start.getFullYear() === end.getFullYear() &&
+    start.getMonth() === end.getMonth() &&
+    start.getDate() === end.getDate()
+  ) {
+    errors.addError('The start date and end date cannot be the same');
+  }
+};
+
+export const validateConflictOfInterestEndDate = (errors, dateString) => {
+  if (!dateString) return;
+
+  if (!isValidDateString(dateString)) errors.addError('Enter a valid date');
+};
+
+export const ProprietaryProfitAdditionalInfo = () => (
+  <va-additional-info trigger="What is a proprietary school?">
+    <p>
+      Proprietary schools include all private schools, both non-profit and
+      profit.
+    </p>
+  </va-additional-info>
+);
+
+export const CustomReviewTopContent = () => {
+  return (
+    <h3 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--3">
+      Review your form
+    </h3>
+  );
 };

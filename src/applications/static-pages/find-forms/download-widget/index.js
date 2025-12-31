@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { checkFormValidity, fetchFormsApi } from '../api';
-import { createLogMessage } from '../helpers/sentryLogger';
+import { createLogMessage } from '../helpers/datadogLogger';
 import InvalidFormAlert from '../components/InvalidFormAlert';
 import DownloadModal from '../components/DownloadModal';
 
@@ -94,7 +94,7 @@ const onDownloadLinkClick = async (event, reduxStore) => {
         pdfDownloadButton,
       );
     } else {
-      // If the form is not valid, log to Sentry and render the error banner
+      // If the form is not valid, log to Datadog and render the error banner
       const alertDiv = document.createElement('div');
 
       createLogMessage(

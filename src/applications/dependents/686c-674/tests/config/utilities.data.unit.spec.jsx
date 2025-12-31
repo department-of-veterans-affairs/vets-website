@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   customFormReplacer,
-  validateName,
   spouseEvidence,
   childEvidence,
   buildSubmissionData,
@@ -43,16 +42,6 @@ describe('Utilities', () => {
     expect(customFormReplacer('phoneNumber', '123-456-7890 blah')).to.be.eq(
       '1234567890',
     );
-  });
-});
-
-describe('validateName', () => {
-  it('should validate the name', () => {
-    const response1 = validateName(
-      { first: false, last: false },
-      { first: 'Bob', last: 'Last' },
-    );
-    expect(response1).to.be.undefined;
   });
 });
 
@@ -460,6 +449,108 @@ describe('buildSubmissionData', () => {
       reportDivorce: true,
     });
   });
+
+  it('should not set flags when options are true but data is missing', () => {
+    // This test verifies the fix for the bug where flags could be set
+    // without corresponding data, causing backend errors
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: true,
+        addChild: true,
+        report674: true,
+        addDisabledChild: false,
+      },
+      [dataOptions]: {
+        reportDivorce: true,
+        reportDeath: true,
+        reportStepchildNotInHousehold: true,
+        reportMarriageOfChildUnder18: false,
+        reportChild18OrOlderIsNotAttendingSchool: false,
+      },
+      // Remove the actual data - simulating the bug scenario
+      currentMarriageInformation: undefined,
+      doesLiveWithSpouse: undefined,
+      spouseInformation: undefined,
+      spouseSupportingDocuments: undefined,
+      spouseMarriageHistory: undefined,
+      veteranMarriageHistory: undefined,
+      childrenToAdd: undefined,
+      childSupportingDocuments: undefined,
+      studentInformation: undefined,
+      reportDivorce: undefined,
+      deaths: undefined,
+      stepChildren: undefined,
+    });
+    const result = buildSubmissionData(payload);
+
+    // Flags should NOT be set because data is missing
+    expect(result.data['view:addDependentOptions']).to.be.undefined;
+    expect(result.data[dataOptions]).to.be.undefined;
+    expect(result.data['view:selectable686Options']).to.be.undefined;
+
+    // Verify data fields are not present
+    expect(result.data.spouseInformation).to.be.undefined;
+    expect(result.data.childrenToAdd).to.be.undefined;
+    expect(result.data.studentInformation).to.be.undefined;
+    expect(result.data.reportDivorce).to.be.undefined;
+    expect(result.data.deaths).to.be.undefined;
+    expect(result.data.stepChildren).to.be.undefined;
+  });
+
+  it('should only set flags for workflows that have data, not all selected options', () => {
+    // Test mixed scenario: some workflows have data, others don't
+    const payload = createTestData({
+      'view:addDependentOptions': {
+        addSpouse: true, // Has data
+        addChild: true, // No data
+        report674: true, // Has data
+        addDisabledChild: false,
+      },
+      [dataOptions]: {
+        reportDivorce: true, // Has data
+        reportDeath: true, // No data
+        reportStepchildNotInHousehold: false,
+        reportMarriageOfChildUnder18: false,
+        reportChild18OrOlderIsNotAttendingSchool: false,
+      },
+      // Only include some data
+      currentMarriageInformation: { typeOfMarriage: 'CIVIL' },
+      doesLiveWithSpouse: { spouseDoesLiveWithVeteran: true },
+      spouseInformation: { fullName: { first: 'John', last: 'Doe' } },
+      spouseSupportingDocuments: [{ name: 'doc.pdf' }],
+      spouseMarriageHistory: [{ fullName: { first: 'Ex', last: 'Spouse' } }],
+      veteranMarriageHistory: [{ fullName: { first: 'Ex', last: 'Spouse' } }],
+      studentInformation: [{ fullName: { first: 'Student', last: 'Doe' } }],
+      reportDivorce: { fullName: { first: 'Ex', last: 'Spouse' } },
+      // Missing: childrenToAdd AND childSupportingDocuments (both required for addChild flag)
+      childrenToAdd: undefined,
+      childSupportingDocuments: undefined,
+      deaths: undefined,
+    });
+    const result = buildSubmissionData(payload);
+
+    // Should only include flags for workflows that have data
+    expect(result.data['view:addDependentOptions']).to.deep.equal({
+      addSpouse: true,
+      report674: true,
+    });
+    expect(result.data[dataOptions]).to.deep.equal({
+      reportDivorce: true,
+    });
+    expect(result.data['view:selectable686Options']).to.deep.equal({
+      addSpouse: true,
+      report674: true,
+      reportDivorce: true,
+    });
+
+    // Verify data presence/absence
+    expect(result.data.spouseInformation).to.not.be.undefined;
+    expect(result.data.studentInformation).to.not.be.undefined;
+    expect(result.data.reportDivorce).to.not.be.undefined;
+    expect(result.data.childrenToAdd).to.be.undefined;
+    expect(result.data.childSupportingDocuments).to.be.undefined;
+    expect(result.data.deaths).to.be.undefined;
+  });
 });
 
 describe('showDupeModalIfEnabled', () => {
@@ -522,6 +613,15 @@ describe('showOptionsSelection', () => {
       showOptionsSelection({
         vaDependentsV3: true,
         dependents: { awarded: [] },
+      }),
+    ).to.be.false;
+  });
+  it('should return false if the feature flag is on and there is an API error', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: true,
+        dependents: { awarded: [{}] },
+        'view:dependentsApiError': true,
       }),
     ).to.be.false;
   });
@@ -834,6 +934,7 @@ describe('transformPicklistToV2', () => {
           endDate: '2020-01-01',
           endOutsideUs: true,
           endCity: 'Paris',
+          endProvince: 'Test',
           endCountry: 'FRA',
         },
       ],
@@ -848,6 +949,7 @@ describe('transformPicklistToV2', () => {
       outsideUsa: true,
       location: {
         city: 'Paris',
+        state: 'Test',
         country: 'FRA',
       },
     });
@@ -883,6 +985,7 @@ describe('transformPicklistToV2', () => {
         outsideUsa: true,
         location: {
           city: 'London',
+          state: '',
           country: 'GBR',
         },
       },
@@ -1312,6 +1415,12 @@ describe('transformPicklistToV2', () => {
     expect(result[dataOptions]).to.deep.equal(v3Result[dataOptions]);
     expect(result['view:selectable686Options']).to.deep.equal(
       v3Result['view:selectable686Options'],
+    );
+    expect(result['view:addDependentOptions']).to.deep.equal(
+      v3Result['view:addDependentOptions'],
+    );
+    expect(result['view:removeDependentOptions']).to.deep.equal(
+      v3Result['view:removeDependentOptions'],
     );
   });
 });

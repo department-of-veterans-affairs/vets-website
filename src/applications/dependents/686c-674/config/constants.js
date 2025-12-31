@@ -28,13 +28,11 @@ export const MARRIAGE_TYPES = {
 export const SERVER_ERROR_REGEX = /^5\d{2}$/;
 export const CLIENT_ERROR_REGEX = /^4\d{2}$/;
 
-export const NETWORTH_VALUE = '159,240';
+export const NETWORTH_VALUE = '163,699';
 
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
-
-export const V2_LAUNCH_DATE = 'July 28th, 2025';
 
 export const PICKLIST_DATA = 'view:removeDependentPickList';
 export const PICKLIST_PATHS = 'view:removeDependentPaths';

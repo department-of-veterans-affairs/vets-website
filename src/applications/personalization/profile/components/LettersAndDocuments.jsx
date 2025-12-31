@@ -7,13 +7,13 @@ const LettersAndDocuments = () => {
   return (
     <Tier2PageContent pageHeader="Letters and documents">
       <ProfileHubItem
-        heading="VA letters and documents"
-        content="Download your VA Benefit Summary Letter (sometimes called a VA award letter) and other benefit letters and documents"
+        heading="VA benefit letters and documents"
+        content="Access and download your VA Benefit Summary Letter (sometimes called a VA award letter) and other benefit letters and documents."
         href="/records/download-va-letters/letters"
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.VETERAN_STATUS_CARD}
-        content="Your Veteran Status Card makes it easy to prove your service and access Veteran discounts"
+        content="Get your Veteran Status Card to prove your service and access Veteran discounts."
         href={PROFILE_PATHS.VETERAN_STATUS_CARD}
         reactLink
       />
