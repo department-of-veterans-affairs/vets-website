@@ -220,7 +220,6 @@ export const chapters = {
 export const mebChapters = {
   questionnaire: {
     title: 'Determine your path',
-    hideFormNavProgress: true,
     pages: {
       mebYourInformation: {
         path: 'questionnaire/your-information',
