@@ -136,7 +136,7 @@ const ResultDescription = ({
             className="vads-u-display--flex vads-u-align-items--start vads-u-margin-bottom--2"
           >
             <span className="vads-u-margin-right--1">
-              <va-icon icon="check" size={3} style={{ color: '#00a91c' }} />
+              <va-icon icon="check" size={3} style={{ color: '#008817' }} />
             </span>
             <span>{answer}</span>
           </li>
@@ -268,7 +268,9 @@ export const benefitSwitchPage = () => ({
       'ui:widget': 'radio',
       'ui:options': {
         updateSchema: (formData, schema) => {
-          const currentBenefit = mapCurrentToSelection(formData?.currentBenefitType)
+          const currentBenefit = mapCurrentToSelection(
+            formData?.currentBenefitType,
+          );
           const exclude = [currentBenefit];
           if(['dea', 'fry'].includes(currentBenefit)) {
             exclude.push('dea', 'fry');
