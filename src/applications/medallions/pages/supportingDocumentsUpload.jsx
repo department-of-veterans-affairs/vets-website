@@ -20,11 +20,11 @@ const description = formData => {
         <strong>Note:</strong> If you want to mail or fax your documents,
         instructions will be provided after you submit this form.
       </p>
-      <p style={{ marginBottom: 0 }}>Select a file to upload</p>
+      {/* <p style={{ marginBottom: 0 }}>Select a file to upload</p>
       <p style={{ color: '#757575', margin: 0 }}>
         You can upload a .jpg, .pdf, or .png file. A .jpg or .png file must be
         less than 50MB. A .pdf file must be less than 100MB.
-      </p>
+      </p> */}
     </div>
   );
 };
@@ -36,15 +36,14 @@ export default {
     'ui:description': formData => description(formData),
     // supportingDocuments: fileUploadUi({}),
     supportingDocuments: fileInputUI({
-      title: 'Upload your supporting documents',
+      title: 'Select a file to upload',
       required: false, // Set to true if required
       hint:
         'You can upload a .jpg, .pdf, or .png file. A .jpg or .png file must be less than 50MB. A .pdf file must be less than 100MB.',
       accept: '.pdf,.jpg,.jpeg,.png',
       maxFileSize: 100 * 1024 * 1024, // 100MB for PDF
-      minFileSize: 1024, // 1KB minimum
       skipUpload: true, // Set to false when backend is ready
-      formNumber: 'medallions-form', // Update with actual form number
+      formNumber: '40-1330M', // Update with actual form number
       disallowEncryptedPdfs: true,
     }),
   },
