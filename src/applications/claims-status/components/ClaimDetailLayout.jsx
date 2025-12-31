@@ -152,7 +152,11 @@ export default function ClaimDetailLayout(props) {
     bodyContent = (
       <>
         <h1>We encountered a problem</h1>
-        <ServiceUnavailableAlert services={['claims']} headerLevel={2} />
+        <ServiceUnavailableAlert
+          headerLevel={2}
+          services={['claims']}
+          useSingular
+        />
       </>
     );
   }

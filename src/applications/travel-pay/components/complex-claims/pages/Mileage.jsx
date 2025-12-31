@@ -7,6 +7,8 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   createExpense,
   updateExpense,
@@ -34,6 +36,8 @@ const Mileage = () => {
 
   const isEditMode = !!expenseId;
 
+  useSetFocus();
+
   const { data: appointment } = useSelector(selectAppointment);
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
@@ -41,6 +45,7 @@ const Mileage = () => {
   const title = 'Mileage';
 
   useSetPageTitle(title);
+  useRecordPageview('complex-claims', title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode
