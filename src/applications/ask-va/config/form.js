@@ -94,9 +94,24 @@ const formConfig = {
   footerContent: Footer,
   defaultDefinitions: {},
   chapters: {
+    questionFirst: {
+      title: 'Pilot',
+      hideFormNavProgress: true,
+      depends: formData => formData.askVaABrelease,
+      pages: {
+        question: {
+          path: CHAPTER_2.PAGE_3.PATH,
+          title: CHAPTER_2.PAGE_3.TITLE,
+          // CustomPageReview: CustomYourQuestionReviewField,
+          uiSchema: yourQuestionPage.uiSchema,
+          schema: yourQuestionPage.schema,
+        },
+      },
+    },
     categoryAndTopic: {
       title: CHAPTER_1.CHAPTER_TITLE,
       hideFormNavProgress: true,
+      depends: formData => !formData.askVaABrelease,
       pages: {
         yourPersonalInformation: {
           // Auth only - hidden on review page

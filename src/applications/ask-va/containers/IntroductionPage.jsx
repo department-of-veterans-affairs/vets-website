@@ -25,6 +25,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import Announcements from '../components/Announcements';
 import {
   getVAStatusFromCRM,
@@ -301,6 +302,14 @@ const IntroductionPage = props => {
             Text <a href="tel:+1838255">838255</a>.
           </li>
         </ul>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.askVaABrelease}>
+          <Toggler.Enabled>
+            <p>Enabled unauth ask_va_ab_release</p>
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <p>Disabled unauthask_va_ab_release</p>
+          </Toggler.Disabled>
+        </Toggler>
         <h2 className="vads-u-margin-top--6 vads-u-margin-bottom-2">
           Check the status of your question
         </h2>
@@ -358,6 +367,14 @@ const IntroductionPage = props => {
           </div>
         </va-additional-info>
       </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.askVaABrelease}>
+        <Toggler.Enabled>
+          <p>Enabled auth ask_va_ab_release</p>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <p>Disabled auth ask_va_ab_release</p>
+        </Toggler.Disabled>
+      </Toggler>
       <SaveInProgressIntro
         formConfig={formConfig}
         messages={route.formConfig.savedFormMessages}

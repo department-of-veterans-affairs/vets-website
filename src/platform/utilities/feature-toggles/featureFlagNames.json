@@ -9,6 +9,7 @@
   "armUseDatadogRealUserMonitoring": "arm_use_datadog_real_user_monitoring",
   "askVaAnnouncementBanner": "ask_va_ask_va_announcement_banner",
   "askVaCanaryRelease": "ask_va_canary_release",
+  "askVaABrelease": "ask_va_ab_release",
   "askVaAlertLinkToOldPortal": "ask_va_alert_link_to_old_portal",
   "askVaMockApiForTesting": "ask_va_mock_api_for_testing",
   "authExpVbaDowntimeMessage": "auth_exp_vba_downtime_message",
