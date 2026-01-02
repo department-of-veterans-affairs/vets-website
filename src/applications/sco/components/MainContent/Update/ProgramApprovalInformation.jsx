@@ -67,7 +67,7 @@ const ProgramApprovalInformation = () => {
         pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship (OJT/APP) programs."
       />
       <LiSpanAndVaLinkAndPTag
-        href="https://www.va.gov/education/choosing-a-school/principles-of-excellence/"
+        href="https://benefits.va.gov/gibill/principles-of-excellence.asp"
         hrefText="Principles of Excellence"
         pText="Understand the guidelines required by schools receiving federal funding through the GI Bill."
       />
