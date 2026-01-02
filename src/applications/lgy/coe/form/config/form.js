@@ -119,12 +119,18 @@ const formConfig = {
         serviceStatus: {
           path: 'service-status',
           title: 'Service status',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
         },
         militaryHistoryPage: {
           path: 'military-history',
           title: 'Military history',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
         },
