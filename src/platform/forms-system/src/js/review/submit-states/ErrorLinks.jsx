@@ -24,7 +24,6 @@ const ErrorLinks = props => {
       // Move focus to legend
       if (
         errors.length > 0 &&
-        errorRef.current &&
         !errorRef.current.classList.contains('has-focused')
       ) {
         // initially focus on alert legend immediately above error links
@@ -34,10 +33,6 @@ const ErrorLinks = props => {
     },
     [errors, errorRef],
   );
-
-  if (errors.length === 0 && !hadErrors) {
-    return null;
-  }
 
   return (
     <va-alert
