@@ -13,6 +13,7 @@ const generateFeatureToggles = (toggles = {}) => {
     // OH integration work
     mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvMedicalRecordsCcdOH = true,
+    mhvMedicalRecordsHoldTimeMessagingUpdate = true,
     mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
@@ -114,6 +115,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_ccd_oh',
           value: mhvMedicalRecordsCcdOH,
+        },
+        {
+          name: 'mhv_medical_records_hold_time_messaging_update',
+          value: mhvMedicalRecordsHoldTimeMessagingUpdate,
         },
         {
           name: 'mhv_medical_records_merge_cvix_into_scdf',

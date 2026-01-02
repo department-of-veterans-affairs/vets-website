@@ -1,8 +1,9 @@
-import { expect } from 'chai';
 import React from 'react';
+import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
 import { beforeEach } from 'mocha';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
@@ -67,8 +68,10 @@ describe('LabsAndTests list container', () => {
 });
 
 describe('Labs and tests list container still loading', () => {
-  it('displays a loading indicator', () => {
-    const initialState = {
+  let initialState;
+
+  beforeEach(() => {
+    initialState = {
       user,
       mr: {
         labsAndTests: {
@@ -83,7 +86,9 @@ describe('Labs and tests list container still loading', () => {
         },
       },
     };
+  });
 
+  it('displays a loading indicator', () => {
     const screen = renderWithStoreAndRouter(<LabsAndTests />, {
       initialState,
       reducers: reducer,
@@ -94,25 +99,8 @@ describe('Labs and tests list container still loading', () => {
   });
 
   it('displays a loading indicator when feature toggles global loading is true', () => {
-    const initialState = {
-      user,
-      featureToggles: {
-        loading: true,
-      },
-      drupalStaticData: {
-        vamcEhrData: { loading: false },
-      },
-      mr: {
-        labsAndTests: {
-          dateRange: {
-            option: '3',
-            fromDate: '2025-08-13',
-            toDate: '2025-11-13',
-          },
-        },
-        alerts: { alertList: [] },
-      },
-    };
+    initialState.featureToggles = { loading: true };
+    initialState.drupalStaticData = { vamcEhrData: { loading: false } };
 
     const screen = renderWithStoreAndRouter(<LabsAndTests />, {
       initialState,
@@ -124,25 +112,8 @@ describe('Labs and tests list container still loading', () => {
   });
 
   it('displays a loading indicator when drupal vamcEhrData loading is true', () => {
-    const initialState = {
-      user,
-      featureToggles: {
-        loading: false,
-      },
-      drupalStaticData: {
-        vamcEhrData: { loading: true },
-      },
-      mr: {
-        labsAndTests: {
-          dateRange: {
-            option: '3',
-            fromDate: '2025-08-13',
-            toDate: '2025-11-13',
-          },
-        },
-        alerts: { alertList: [] },
-      },
-    };
+    initialState.featureToggles = { loading: false };
+    initialState.drupalStaticData = { vamcEhrData: { loading: true } };
 
     const screen = renderWithStoreAndRouter(<LabsAndTests />, {
       initialState,
@@ -326,5 +297,86 @@ describe('Labs and tests list container with radiology images ready', () => {
         `/labs-and-tests/${radiologyTestsMhv[0].id}/images`,
       );
     });
+  });
+});
+
+describe('Labs and tests list container with holdTimeMessagingUpdate feature flag', () => {
+  const labsAndTestsFhir = labsAndTests.entry.map(item =>
+    convertLabsAndTestsRecord(item),
+  );
+  const radiologyTestsMhv = radiologyTests.map(item =>
+    convertLabsAndTestsRecord(item),
+  );
+
+  let initialState;
+
+  beforeEach(() => {
+    initialState = {
+      mr: {
+        labsAndTests: {
+          labsAndTestsList: [...labsAndTestsFhir, ...radiologyTestsMhv],
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate]: false,
+      },
+    };
+  });
+
+  it('displays the old hold time message when holdTimeMessagingUpdate is false', () => {
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.getByText(/Most lab and test results are available/i)).to
+      .exist;
+    expect(screen.getByText(/36 hours/i)).to.exist;
+    expect(screen.getByText(/14 days/i)).to.exist;
+  });
+
+  it('displays the new HoldTimeInfo when holdTimeMessagingUpdate is true', () => {
+    initialState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    const paragraph = screen.container.querySelector('p');
+    expect(paragraph.textContent).to.include(
+      'Your test results are available here',
+    );
+
+    // does not display old hold time message
+    expect(screen.queryByText(/36 hours/i)).to.not.exist;
+    expect(screen.queryByText(/14 days/i)).to.not.exist;
+  });
+
+  it('displays va-additional-info when holdTimeMessagingUpdate is true', () => {
+    initialState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvMedicalRecordsHoldTimeMessagingUpdate
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    const additionalInfo = screen.container.querySelector('va-additional-info');
+    expect(additionalInfo).to.exist;
+    expect(additionalInfo.getAttribute('trigger')).to.equal(
+      'What to know before reviewing your results',
+    );
   });
 });
