@@ -341,6 +341,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      checks: write
     needs:
       [
         testing-reports-prep,

@@ -22,6 +22,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
     ]);
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
+    cy.wait('@featureToggle');
   });
 
   describe('Basic flow navigation', () => {
@@ -280,7 +281,9 @@ describe('Recent care teams', () => {
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     // Navigate forward to select care team
-    cy.findByLabelText('A different care team').click();
+    cy.findByLabelText('A different care team').click({
+      waitForAnimations: true,
+    });
     cy.findByTestId('recent-care-teams-continue-button').click();
     GeneralFunctionsPage.verifyPageHeader('Select care team');
 
@@ -336,7 +339,9 @@ describe('Recent care teams', () => {
     );
 
     // Forward: Recent care teams → Select care team
-    cy.findByLabelText('A different care team').click();
+    cy.findByLabelText('A different care team').click({
+      waitForAnimations: true,
+    });
     cy.findByTestId('recent-care-teams-continue-button').click();
     GeneralFunctionsPage.verifyPageHeader('Select care team');
     cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
