@@ -892,6 +892,8 @@ describe('Google Analytics', () => {
     clickSubmitButton(SUBMIT_TEXT);
 
     cy.wait('@uploadRequest');
+    // Wait for upload modal to close before running axe check
+    cy.get('#upload-status').should('not.be.visible');
 
     assertDataLayerEvent('claims-upload-success', [
       'event',
@@ -917,6 +919,8 @@ describe('Google Analytics', () => {
     clickSubmitButton(SUBMIT_TEXT);
 
     cy.wait('@uploadRequest');
+    // Wait for upload modal to close before running axe check
+    cy.get('#upload-status').should('not.be.visible');
 
     assertDataLayerEvent('claims-upload-failure', [
       'event',
