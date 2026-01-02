@@ -37,5 +37,6 @@ export default {
         serviceStatuses.DRNA,
       ]),
     },
+    required: ['militaryHistory'],
   },
 };
