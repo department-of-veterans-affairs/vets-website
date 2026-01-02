@@ -110,6 +110,10 @@ export const options = {
       )}`;
     },
     cardDescription: item => {
+      if (!item) {
+        return undefined;
+      }
+
       const mvpContent = [
         <li key="income">
           Gross monthly income:{' '}
@@ -133,7 +137,7 @@ export const options = {
             <span className="vads-u-font-weight--bold">
               {item?.['view:addFormQuestion'] === true &&
               isDefined(item?.uploadedDocuments) &&
-              item.uploadedDocuments.name
+              item?.uploadedDocuments?.name
                 ? item.uploadedDocuments.name
                 : 'No'}
             </span>
