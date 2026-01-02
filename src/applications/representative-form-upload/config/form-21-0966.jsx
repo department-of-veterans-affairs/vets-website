@@ -107,7 +107,6 @@ const form210966 = (pathname = null) => {
                 goPath,
                 goNextPath,
                 setFormData,
-                urlPrefix: `submit-va-form-${formNumber}/`,
               }),
             schema: itfVeteranInformationPage.schema,
             scrollAndFocusTarget,
@@ -135,16 +134,12 @@ const form210966 = (pathname = null) => {
               );
             },
             onNavForward: ({ formData, goPath, goNextPath, setFormData }) => {
-              const survivorFormData = setFormData({
-                ...formData,
-                benefitType: 'survivor',
-              });
+              const survivorFormData = { ...formData, benefitType: 'survivor' };
               getIntentsToFile({
-                formData: survivorFormData.data,
+                formData: survivorFormData,
                 goPath,
                 goNextPath,
                 setFormData,
-                urlPrefix: `submit-va-form-${formNumber}/`,
               });
             },
             schema: itfClaimantInformationPage.schema,
