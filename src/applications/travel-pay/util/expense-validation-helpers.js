@@ -398,9 +398,9 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
         nextErrors.departureDate = futureDateError;
       } else if (returnDateComplete && departureDate > returnDate) {
         nextErrors.departureDate = 'Departure date must be before return date';
+      } else {
+        delete nextErrors.departureDate;
       }
-    } else {
-      delete nextErrors.departureDate;
     }
   }
 
@@ -410,7 +410,7 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
 
     if (tripType === TRIP_TYPES.ROUND_TRIP.value && !returnDate) {
       nextErrors.returnDate = 'Enter a return date';
-    } else if (returnDate && returnDateComplete) {
+    } else if (returnDateComplete) {
       const [year, month, day] = returnDate.split('-');
       const futureDateError = getFutureDateError({ year, month, day });
 
@@ -423,8 +423,6 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
       } else {
         delete nextErrors.returnDate;
       }
-    } else {
-      delete nextErrors.returnDate;
     }
   }
 
@@ -572,9 +570,9 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
       } else if (checkInDateComplete && checkOutDate <= checkInDate) {
         nextErrors.checkOutDate =
           'Check-out date must be later than check-in date';
+      } else {
+        delete nextErrors.checkOutDate;
       }
-    } else {
-      delete nextErrors.checkOutDate;
     }
   }
 
