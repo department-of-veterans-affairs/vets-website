@@ -24,6 +24,7 @@ const ContactMethodConfirm = ({ pageData = {}, error, setPageData }) => {
   switch (data[fieldName]) {
     case 'option-6':
       // 'no preference',
+      // This page isn't reachable for this option
       break;
     case 'option-5':
       // 'contact email',
@@ -33,18 +34,29 @@ const ContactMethodConfirm = ({ pageData = {}, error, setPageData }) => {
       break;
     case 'option-38':
       // 'home phone',
+      cardContent.title = 'Home phone number';
+      cardContent.description =
+        FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.HOME_PHONE];
+      cardContent.body = '(555) 555-2000';
       break;
     case 'option-1':
+    case 'option-2':
       // 'mobile phone'
+      cardContent.title = 'Mobile phone number';
+      cardContent.description =
+        FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MOBILE_PHONE];
+      cardContent.body = '(555) 555-2000';
       break;
     case 'option-39':
       // 'work phone',
-      break;
-    case 'option-2':
-      // 'mobile phone
+      cardContent.title = 'Work phone number';
+      cardContent.description =
+        FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.WORK_PHONE];
+      cardContent.body = '(555) 555-2000';
       break;
     case 'option-3':
       // 'secure message
+      // This page isn't reachable for this option
       break;
     case 'option-4':
       // 'mailing address',

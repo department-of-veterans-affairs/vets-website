@@ -1,15 +1,12 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, connect } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { Element } from 'platform/utilities/scroll';
+// import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-import {
-  FIELD_NAMES,
-  FIELD_SECTION_HEADERS,
-  FIELD_TITLES,
-} from '@@vap-svc/constants';
+import { FIELD_NAMES, FIELD_SECTION_HEADERS } from '@@vap-svc/constants';
 // import { selectVAProfileSchedulingPreferences } from '@@vap-svc/selectors';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { isFieldEmpty } from '@@vap-svc/util';
@@ -23,6 +20,12 @@ import {
   schedulingPreferenceOptions,
 } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { createSchedulingPreferencesUpdate } from '@@vap-svc/actions/schedulingPreferences';
+// import {
+//   getFormSchema,
+//   getUiSchema,
+// } from '@@vap-svc/components/SchedulingPreferences/preferred-contact-method';
+// import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { EditContext } from '../../../edit/EditContext';
 import { EditConfirmCancelModal } from '../../../edit/EditConfirmCancelModal';
 import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
@@ -32,6 +35,7 @@ import { getRouteInfoFromPath } from '../../../../../common/helpers';
 import { getRoutesForNav } from '../../../../routesForNav';
 import { ContactMethodConfirm } from './pages/ContactMethodConfirm';
 import { ContactMethodSelect } from './pages/ContactMethodSelect';
+// import { selectVAProfileSchedulingPreferences } from '@@vap-svc/selectors';
 
 const getFieldInfo = fieldName => {
   const fieldNameKey = Object.entries(FIELD_NAMES).find(
@@ -40,9 +44,7 @@ const getFieldInfo = fieldName => {
   if (!fieldNameKey) {
     return null;
   }
-  const fieldTitle = isSubtaskSchedulingPreference(fieldName)
-    ? `Edit ${FIELD_SECTION_HEADERS?.[fieldName]}`
-    : FIELD_TITLES?.[fieldName];
+  const fieldTitle = `Edit ${FIELD_SECTION_HEADERS?.[fieldName]}`;
 
   return {
     fieldName,
@@ -240,7 +242,30 @@ export const ContactMethodContainer = () => {
       }
       setStep('confirm');
     },
-    success: () => {
+    save: event => {
+      event.preventDefault();
+      const {
+        apiRoute,
+        convertCleanDataToPayload,
+      } = getProfileInfoFieldAttributes(fieldName);
+      const payload = convertCleanDataToPayload(
+        {
+          [fieldName]: pageData.data[fieldName],
+        },
+        fieldName,
+      );
+
+      dispatch(
+        createSchedulingPreferencesUpdate({
+          route: apiRoute,
+          method: 'POST',
+          fieldName,
+          payload,
+          analyticsSectionName: 'scheduling-preferences-contact-method',
+          value: pageData.data[fieldName],
+        }),
+      );
+
       clearBeforeUnloadListener();
 
       history.push(returnPath, {
@@ -290,10 +315,20 @@ export const ContactMethodContainer = () => {
   if (pageData.quickExit) {
     buttons = (
       <VaButtonPair
-        onPrimaryClick={handlers.success}
+        onPrimaryClick={handlers.save}
         onSecondaryClick={handlers.cancel}
         leftButtonText="Save to profile"
         rightButtonText="Cancel"
+      />
+    );
+  }
+  if (step === 'confirm') {
+    buttons = (
+      <VaButtonPair
+        onPrimaryClick={handlers.save}
+        onSecondaryClick={handlers.cancel}
+        leftButtonText="Confirm information"
+        rightButtonText="Update information"
       />
     );
   }
@@ -324,8 +359,10 @@ export const ContactMethodContainer = () => {
             <div className="vads-l-grid-container vads-u-padding-x--0 large-screen:vads-u-padding-x--2">
               <div className="vads-l-row">
                 <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-                  {content}
-                  <div className="vads-u-margin-top--2">{buttons}</div>
+                  <form onSubmit={handlers.save} noValidate>
+                    {content}
+                    <div className="vads-u-margin-top--2">{buttons}</div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -336,4 +373,39 @@ export const ContactMethodContainer = () => {
   );
 };
 
-export default ContactMethodContainer;
+// export const mapStateToProps = (state, ownProps) => {
+//   const { fieldName } = ownProps;
+//   const { transaction, transactionRequest } = selectVAPServiceTransaction(
+//     state,
+//     fieldName,
+//   );
+//   const data = selectVAProfileSchedulingPreferences(state, fieldName);
+//   const activeEditView = selectCurrentlyOpenEditModal(state);
+
+//   return {
+//     /*
+//         This ternary is to deal with an edge case: if the user is currently viewing
+//         the address validation view we need to handle things differently or text in
+//         the modal would be inaccurate. This is an unfortunate hack to get around an
+//         existing hack we've been using to determine if we need to show the address
+//         validation view or not.
+//         */
+//     activeEditView,
+//     data,
+//     fieldName,
+//     analyticsSectionName: ANALYTICS_FIELD_MAP[fieldName],
+//     field: selectEditedFormField(state, fieldName),
+//     transaction,
+//     transactionRequest,
+//     editViewData: selectEditViewData(state),
+//   };
+// };
+
+const mapDispatchToProps = {
+  createSchedulingPreferencesUpdate,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ContactMethodContainer);

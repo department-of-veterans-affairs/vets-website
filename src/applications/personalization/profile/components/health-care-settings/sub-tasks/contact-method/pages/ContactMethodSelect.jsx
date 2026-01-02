@@ -24,10 +24,6 @@ const ContactMethodSelect = ({ data = {}, error, options, setPageData }) => {
   const fieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
 
   const content = {
-    title:
-      'How should we contact you to schedule your health care appointments?',
-    description:
-      'This helps us know the best way to contact you when we need to schedule, reschedule, or cancel your health care appointments.',
     errorMessage: 'Please select a contact method',
   };
 
@@ -48,6 +44,15 @@ const ContactMethodSelect = ({ data = {}, error, options, setPageData }) => {
       }
     },
   };
+
+  // return (
+  //   <ProfileInformationFieldController
+  //     fieldName={fieldName}
+  //     data={data[fieldName]}
+  //     error={error}
+  //     setPageData={setPageData}
+  //   />
+  // );
 
   return (
     <>

@@ -111,6 +111,9 @@ export const FIELD_TITLE_DESCRIPTIONS = {
   [FIELD_NAMES.MAILING_ADDRESS]:
     'We send your VA letters, bills, and prescriptions to this address.',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'This is where you currently live.',
+  [FIELD_NAMES.HOME_PHONE]: 'We use this phone number to contact you.',
+  [FIELD_NAMES.MOBILE_PHONE]: 'We use this phone number to contact you.',
+  [FIELD_NAMES.WORK_PHONE]: 'We use this phone number to contact you.',
 };
 
 // These are intended to be used as values for HTML element id attributes

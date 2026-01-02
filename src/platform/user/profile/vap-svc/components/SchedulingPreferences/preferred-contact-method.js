@@ -21,15 +21,18 @@ const formSchema = {
 };
 
 const uiSchema = {
-  preferredContactMethod: {
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
     'ui:title': FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
     'ui:widget': 'select',
-    'ui:required': () => true,
+    // 'ui:required': () => true,
     'ui:options': {
       labels:
         FIELD_OPTION_IDS_INVERTED[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
     },
     'ui:webComponentField': VaSelectField,
+    // 'ui:errorMessages': {
+    //   required: 'Please select a contact method',
+    // },
   },
 };
 
