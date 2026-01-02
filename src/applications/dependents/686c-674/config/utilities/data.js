@@ -737,12 +737,20 @@ export function customTransformForSubmit(formConfig, form) {
     payload,
   );
 
-  // Transform V3 picklist data to V2 format if V3 is enabled
-  const updatedData = showV3Picklist(withoutInactivePages)
-    ? transformPicklistToV2(withoutInactivePages)
-    : withoutInactivePages;
+  // Extract data for transformation functions (they expect data object, not payload)
+  const dataWithoutInactivePages =
+    withoutInactivePages.data || withoutInactivePages;
 
-  const cleanedPayload = buildSubmissionData(updatedData);
+  // Transform V3 picklist data to V2 format if V3 is enabled
+  const updatedData = showV3Picklist(dataWithoutInactivePages)
+    ? transformPicklistToV2(dataWithoutInactivePages)
+    : dataWithoutInactivePages;
+
+  // Wrap data back into payload for buildSubmissionData
+  const cleanedPayload = buildSubmissionData({
+    ...withoutInactivePages,
+    data: updatedData,
+  });
 
   return {
     body: JSON.stringify(cleanedPayload, customFormReplacer) || '{}',
