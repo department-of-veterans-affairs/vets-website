@@ -7,8 +7,10 @@ import { selectProfile } from 'platform/user/selectors';
 // Content
 import { title995 } from '../content/title';
 import { PrivateDetailsDisplay } from './evidence/PrivateDetailsDisplay';
+import { PrivateDetailsDisplayNew } from './evidence/PrivateDetailsDisplayNew';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { VaDetailsDisplay } from './evidence/VaDetailsDisplay';
+import { VaDetailsDisplayNew } from './evidence/VaDetailsDisplayNew';
 import { content as notice5103Content } from '../content/notice5103';
 import { facilityTypeTitle, facilityTypeList } from '../content/facilityTypes';
 import { content as evidenceContent } from '../content/evidence/summary';
@@ -20,9 +22,11 @@ import {
 
 // Utils
 import {
-  getVAEvidence,
-  getPrivateEvidence,
+  getArrayBuilderPrivateEvidence,
+  getArrayBuilderVAEvidence,
   getOtherEvidence,
+  getPrivateEvidence,
+  getVAEvidence,
 } from '../utils/form-data-retrieval';
 import { HAS_PRIVATE_LIMITATION } from '../constants';
 import { getReadableDate } from '../../shared/utils/dates';
@@ -44,14 +48,23 @@ export const ConfirmationPage = () => {
   resetStoredSubTask();
   const form = useSelector(state => state.form || {});
   const profile = useSelector(state => selectProfile(state));
-
+  const isScRedesign = useSelector(state => state.form?.data?.scRedesign);
   // Fix this after Lighthouse sets up the download URL
   const downloadUrl = ''; // SC_PDF_DOWNLOAD_URL;
 
   const { submission, data = {} } = form; // maxData;
 
-  const vaEvidence = getVAEvidence(data);
-  const privateEvidence = getPrivateEvidence(data);
+  let privateEvidence;
+  let vaEvidence;
+
+  if (!isScRedesign) {
+    vaEvidence = getVAEvidence(data);
+    privateEvidence = getPrivateEvidence(data);
+  } else {
+    vaEvidence = getArrayBuilderVAEvidence(data);
+    privateEvidence = getArrayBuilderPrivateEvidence(data);
+  }
+
   const otherEvidence = getOtherEvidence(data);
   const noEvidence =
     vaEvidence.length + privateEvidence.length + otherEvidence.length === 0;
@@ -180,19 +193,39 @@ export const ConfirmationPage = () => {
           </div>
         </>
       )}
+<<<<<<< HEAD
       {vaEvidence.length ? (
         <VaDetailsDisplay list={vaEvidence} reviewMode showListOnly />
       ) : null}
       {privateEvidence.length ? (
+=======
+      {!isScRedesign && vaEvidence.length ? (
+        <VaDetailsDisplay list={vaEvidence} reviewMode showListOnly />
+      ) : null}
+      {isScRedesign && vaEvidence.length ? (
+        <VaDetailsDisplayNew list={vaEvidence} reviewMode showListOnly />
+      ) : null}
+      {!isScRedesign && privateEvidence.length ? (
+>>>>>>> 034c79ffd0 (Wrapping up changes to data display on confirmation page)
         <PrivateDetailsDisplay
-          list={privateEvidence}
           limitedConsent={data?.limitedConsent}
+          limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
+          list={privateEvidence}
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
-          limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
         />
       ) : null}
+<<<<<<< HEAD
+=======
+      {isScRedesign && privateEvidence.length ? (
+        <PrivateDetailsDisplayNew
+          list={privateEvidence}
+          reviewMode
+          showListOnly
+        />
+      ) : null}
+>>>>>>> 034c79ffd0 (Wrapping up changes to data display on confirmation page)
       {otherEvidence.length ? (
         <EvidenceUploadContent list={otherEvidence} reviewMode showListOnly />
       ) : null}
