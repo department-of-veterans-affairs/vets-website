@@ -9,7 +9,7 @@ const url = 'https://test.com/';
 
 describe('DownloadModal', () => {
   describe('download button', () => {
-    it('should have the correct attributes', async () => {
+    it('should have the correct attributes', () => {
       const { container } = render(
         <DownloadModal
           closeModal={removeSpy}
