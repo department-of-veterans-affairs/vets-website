@@ -6,6 +6,7 @@ import {
   spouseEvidence,
   childEvidence,
   buildSubmissionData,
+  customTransformForSubmit,
   showDupeModalIfEnabled,
   hasAwardedDependents,
   showV3Picklist,
@@ -550,6 +551,153 @@ describe('buildSubmissionData', () => {
     expect(result.data.childrenToAdd).to.be.undefined;
     expect(result.data.childSupportingDocuments).to.be.undefined;
     expect(result.data.deaths).to.be.undefined;
+  });
+
+  it('should not set reportStepchildNotInHousehold flag when stepChildren array is empty (regression test)', () => {
+    const payload = createTestData({
+      [dataOptions]: {
+        reportDivorce: false,
+        reportDeath: false,
+        reportStepchildNotInHousehold: true, // User selected this option
+        reportMarriageOfChildUnder18: false,
+        reportChild18OrOlderIsNotAttendingSchool: false,
+      },
+      // Simulate empty stepChildren (user didn't complete the flow, or all items removed)
+      stepChildren: [],
+      // Remove other removal data to focus on stepchildren
+      reportDivorce: undefined,
+      deaths: undefined,
+      childMarriage: undefined,
+      childStoppedAttendingSchool: undefined,
+    });
+    const result = buildSubmissionData(payload);
+
+    // The flag should NOT be set because stepChildren is empty
+    expect(
+      result.data['view:selectable686Options']?.reportStepchildNotInHousehold,
+    ).to.be.undefined;
+    expect(result.data[dataOptions]?.reportStepchildNotInHousehold).to.be
+      .undefined;
+
+    // stepChildren should not be in the submission
+    expect(result.data.stepChildren).to.be.undefined;
+  });
+
+  it('should not set reportStepchildNotInHousehold flag when stepChildren is undefined', () => {
+    const payload = createTestData({
+      [dataOptions]: {
+        reportDivorce: false,
+        reportDeath: false,
+        reportStepchildNotInHousehold: true, // User selected this option
+        reportMarriageOfChildUnder18: false,
+        reportChild18OrOlderIsNotAttendingSchool: false,
+      },
+      stepChildren: undefined, // User never added any stepchildren
+      reportDivorce: undefined,
+      deaths: undefined,
+      childMarriage: undefined,
+      childStoppedAttendingSchool: undefined,
+    });
+    const result = buildSubmissionData(payload);
+
+    // The flag should NOT be set because stepChildren doesn't exist
+    expect(
+      result.data['view:selectable686Options']?.reportStepchildNotInHousehold,
+    ).to.be.undefined;
+    expect(result.data[dataOptions]?.reportStepchildNotInHousehold).to.be
+      .undefined;
+    expect(result.data.stepChildren).to.be.undefined;
+  });
+});
+
+describe('customTransformForSubmit - integration tests', () => {
+  // Mock formConfig with minimal required structure
+  const mockFormConfig = {
+    chapters: {},
+    pages: [],
+  };
+
+  it('should correctly handle V2 flow with empty stepChildren through full transformation pipeline', () => {
+    // This integration test verifies the full data flow from form submission
+    // through filterInactivePageData, type extraction, and buildSubmissionData
+    const form = {
+      data: {
+        'view:addOrRemoveDependents': { add: false, remove: true },
+        'view:removeDependentOptions': {
+          reportStepchildNotInHousehold: true,
+        },
+        stepChildren: [], // Empty array - the bug scenario
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    const result = customTransformForSubmit(mockFormConfig, form);
+
+    // Parse the JSON body to verify what would be sent to backend
+    const submittedData = JSON.parse(result.body);
+
+    // Critical assertion: reportStepchildNotInHousehold should NOT be in selectable options
+    expect(
+      submittedData['view:selectable686Options']?.reportStepchildNotInHousehold,
+    ).to.be.undefined;
+
+    // stepChildren should not be present (empty arrays are filtered out)
+    expect(submittedData.stepChildren).to.be.undefined;
+
+    // Other fields should be present
+    expect(submittedData.useV2).to.be.true;
+    expect(submittedData.veteranInformation).to.not.be.undefined;
+  });
+
+  it('should correctly handle V3 flow transformation with picklist data', () => {
+    // Test V3 flow where picklist data is transformed to V2 format
+    const form = {
+      data: {
+        vaDependentsV3: true, // Enable V3 flow
+        'view:addOrRemoveDependents': { add: false, remove: true },
+        [PICKLIST_DATA]: [
+          {
+            fullName: { first: 'STEP', last: 'CHILD' },
+            dateOfBirth: '2010-01-15',
+            ssn: '123456789',
+            relationshipToVeteran: 'Child',
+            isStepchild: 'Y',
+            selected: true,
+            removalReason: 'stepchildNotMember',
+            endDate: '2024-06-01',
+            whoDoesTheStepchildLiveWith: { first: 'Other', last: 'Parent' },
+            address: {
+              street: '123 Main St',
+              city: 'Testville',
+              state: 'CA',
+              postalCode: '12345',
+              country: 'USA',
+            },
+          },
+        ],
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    const result = customTransformForSubmit(mockFormConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    // V3 data should be transformed to V2 stepChildren array
+    expect(submittedData.stepChildren).to.be.an('array');
+    expect(submittedData.stepChildren).to.have.lengthOf(1);
+
+    // Flag should be set because we have stepChildren data
+    expect(
+      submittedData['view:selectable686Options'].reportStepchildNotInHousehold,
+    ).to.be.true;
   });
 });
 

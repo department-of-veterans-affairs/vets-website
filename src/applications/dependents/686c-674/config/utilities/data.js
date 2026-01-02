@@ -83,8 +83,20 @@ function extractDataFields(sourceData, fields) {
 
 /**
  * Transform form data into submission data format
- * @param {object} payload - form object from Redux store
- * @returns {object} - submission data object
+ *
+ * SINGLE SOURCE OF TRUTH for submission flags:
+ * This function is the authoritative source for view:selectable686Options
+ * in the final submission. It rebuilds these flags based on actual data
+ * presence, not on what the user selected in the wizard.
+ *
+ * Why this matters:
+ * - User might select an option in the wizard but not complete the data entry
+ * - Pages may be visible during editing (wizard sets navigation flags)
+ * - But submission should only include flags for workflows with actual data
+ * - This prevents backend errors like "flag is true but data is nil"
+ *
+ * @param {object} payload - form object from Redux store with structure { data: {...}, ... }
+ * @returns {object} - submission data object with validated flags
  */
 export function buildSubmissionData(payload) {
   if (!payload?.data) {
@@ -737,7 +749,21 @@ export function customTransformForSubmit(formConfig, form) {
     payload,
   );
 
-  // Extract data for transformation functions (they expect data object, not payload)
+  /**
+   * TYPE EXTRACTION FIX:
+   * filterInactivePageData returns a payload object { data: {...}, ... }
+   * but transformPicklistToV2 and showV3Picklist expect a data object.
+   *
+   * We extract the data, transform it, then wrap it back into a payload
+   * for buildSubmissionData. This ensures all functions receive the correct
+   * type and buildSubmissionData can properly rebuild the submission flags.
+   *
+   * Without this extraction:
+   * - transformPicklistToV2 would look for payload['view:removeDependentPickList']
+   *   instead of payload.data['view:removeDependentPickList']
+   * - buildSubmissionData would receive data instead of payload and skip flag validation
+   * - Result: backend receives flags without corresponding data (the original bug)
+   */
   const dataWithoutInactivePages =
     withoutInactivePages.data || withoutInactivePages;
 
