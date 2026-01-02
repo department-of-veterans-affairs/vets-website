@@ -93,6 +93,24 @@ const SelectCareTeam = () => {
     [draftInProgress.recipientId],
   );
 
+  useEffect(
+    () => {
+      if (
+        !!draftInProgress?.recipientId &&
+        draftInProgress?.navigationError?.title ===
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title &&
+        !draftInProgress?.messageId
+      ) {
+        dispatch(
+          updateDraftInProgress({
+            navigationError: null,
+          }),
+        );
+      }
+    },
+    [draftInProgress.messageId, draftInProgress?.recipientId, dispatch],
+  );
+
   const careTeamHandler = useCallback(
     recipient => {
       const newId = recipient?.id ? recipient.id.toString() : null;
