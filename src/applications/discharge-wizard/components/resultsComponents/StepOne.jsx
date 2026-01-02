@@ -166,6 +166,7 @@ const StepOne = ({ formResponses }) => {
 
   const { num: formNumber, link: formLink } = determineFormData(formResponses);
   let formTitle = `Form ${formNumber}`;
+  const formFileName = formLink.split('/').pop();
 
   if ([293, 149].includes(formNumber)) {
     formTitle = `DOD Form ${formNumber}`;
@@ -180,21 +181,18 @@ const StepOne = ({ formResponses }) => {
       RESPONSES.REASON_DD215_UPDATE_TO_DD214
         ? dd214Tips
         : nonDd2014Tips}
-      {/* Intentionally not using <va-link> per Platform Analytics team */}
-      <a
-        className="vads-u-display--block vads-u-margin-bottom--1 step-1-download"
+      <va-link
         download
+        className="vads-u-margin-bottom--1"
+        filetype="PDF"
+        filename={formFileName}
+        text={`Download ${formTitle} (opens in a new tab)`}
         href={formLink}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <va-icon
-          icon="file_download"
-          size={3}
-          className="vads-u-margin-top--0p5 vads-u-padding-right--1"
-        />
-        Download {formTitle} (opens in a new tab)
-      </a>
+        onClick={e => {
+          e.preventDefault();
+          window.open(formLink, '_blank');
+        }}
+      />
       <AlertMessage
         content={
           <>
@@ -204,13 +202,11 @@ const StepOne = ({ formResponses }) => {
             <p>
               You can appoint an accredited attorney, claims agent, or Veterans
               Service Organization (VSO) representative.{' '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
+              <va-link
+                external
+                text="Get help from an accredited representative"
                 href="/get-help-from-accredited-representative/find-rep"
-              >
-                Get help from an accredited representative (opens in a new tab)
-              </a>
+              />
               .
             </p>
           </>
