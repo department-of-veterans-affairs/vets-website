@@ -13,15 +13,18 @@ const SKILL_EVENT_VALUE = `${BOT_SESSION_PREFIX}skillEventValue`;
 
 function setStorageItem(key, value, json = false) {
   if (json) {
-    sessionStorage.setItem(key, JSON.stringify(value));
+    const stringValue = JSON.stringify(value);
+    sessionStorage.setItem(key, stringValue);
+    localStorage.setItem(key, stringValue);
   } else {
     sessionStorage.setItem(key, value);
+    localStorage.setItem(key, value);
   }
 }
 
 function getStorageItem(key, json = false) {
   if (json) {
-    const raw = sessionStorage.getItem(key);
+    const raw = sessionStorage.getItem(key) || localStorage.getItem(key);
     if (raw === null) return null;
     try {
       return JSON.parse(raw);
@@ -29,7 +32,7 @@ function getStorageItem(key, json = false) {
       return null;
     }
   }
-  return sessionStorage.getItem(key);
+  return sessionStorage.getItem(key) || localStorage.getItem(key);
 }
 
 export function getEventSkillValue() {
@@ -116,7 +119,9 @@ export function setConversationTokenKey(value) {
 // First-connection helpers removed; key is still used to preserve the flag during session clears for backward compatibility
 
 export function clearBotSessionStorage(forceClear) {
-  const botSessionKeys = Object.keys(sessionStorage);
+  const sessionKeys = Object.keys(sessionStorage);
+  const localKeys = Object.keys(localStorage);
+  const botSessionKeys = [...new Set([...sessionKeys, ...localKeys])];
   const loggedInFlow = getLoggedInFlow();
   const inAuthExp = getInAuthExp();
   const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
@@ -157,6 +162,7 @@ export function clearBotSessionStorage(forceClear) {
         !excludeClear.includes(sessionKey)
       ) {
         sessionStorage.removeItem(sessionKey);
+        localStorage.removeItem(sessionKey);
       }
     });
   }

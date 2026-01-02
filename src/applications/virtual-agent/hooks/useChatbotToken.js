@@ -33,6 +33,15 @@ function clearSessionForNewConversation() {
     sessionStorage.removeItem('va-bot.isTrackingUtterances');
     sessionStorage.removeItem('va-bot.skillEventValue');
     sessionStorage.removeItem('va-bot.conversationToken');
+
+    localStorage.removeItem('va-bot.token');
+    localStorage.removeItem('va-bot.conversationId');
+    localStorage.removeItem('va-bot.code');
+    localStorage.removeItem('va-bot.tokenExpiresAt');
+    localStorage.removeItem('va-bot.recentUtterances');
+    localStorage.removeItem('va-bot.isTrackingUtterances');
+    localStorage.removeItem('va-bot.skillEventValue');
+    localStorage.removeItem('va-bot.conversationToken');
   } catch (e) {
     // no-op
   }
@@ -134,7 +143,7 @@ export default function useChatbotToken() {
             setToken,
             setCode,
             setLoadingStatus,
-            false,
+            true,
             setExpiresAt,
             setExpired,
           );

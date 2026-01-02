@@ -73,16 +73,16 @@ describe('useChatbotToken', () => {
       expect(sessionStorage.getItem('va-bot.code')).to.equal('code-new');
     });
 
-    it('should reuse existing token/conversationId; fetch meta but not overwrite token', async () => {
+    it('should start new session if metadata (expiry) is missing', async () => {
       // Pre-populate existing values
       sessionStorage.setItem('va-bot.token', 't-existing');
       sessionStorage.setItem('va-bot.conversationId', 'c-existing');
       sessionStorage.setItem('va-bot.code', 'code-existing');
 
       const retryStub = sandbox.stub(RetryOnce, 'default').resolves({
-        token: 't-should-not-be-used',
-        conversationId: 'c-should-not-be-used',
-        code: 'code-meta',
+        token: 't-new',
+        conversationId: 'c-new',
+        code: 'code-new',
         expiresIn: 3600,
       });
 
@@ -93,18 +93,17 @@ describe('useChatbotToken', () => {
         });
       });
 
-      expect(result.result.current.token).to.equal('t-existing');
+      // Should use NEW token because expiry was missing
+      expect(result.result.current.token).to.equal('t-new');
       expect(result.result.current.loadingStatus).to.equal(COMPLETE);
-      expect(retryStub.called).to.be.true; // meta fetch occurs
-      // Ensure values not overwritten by meta fetch
-      expect(sessionStorage.getItem('va-bot.token')).to.equal('t-existing');
-      expect(sessionStorage.getItem('va-bot.conversationId')).to.equal(
-        'c-existing',
-      );
-      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-meta');
+      expect(retryStub.called).to.be.true;
+
+      expect(sessionStorage.getItem('va-bot.token')).to.equal('t-new');
+      expect(sessionStorage.getItem('va-bot.conversationId')).to.equal('c-new');
+      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-new');
     });
 
-    it('should fetch to obtain code when missing while preserving existing token/conversationId', async () => {
+    it('should start new session if code is missing', async () => {
       // Pre-populate existing token/conversationId but no code
       sessionStorage.setItem('va-bot.token', 't-existing');
       sessionStorage.setItem('va-bot.conversationId', 'c-existing');
@@ -112,7 +111,7 @@ describe('useChatbotToken', () => {
       const retryStub = sandbox.stub(RetryOnce, 'default').resolves({
         token: 't-new',
         conversationId: 'c-new',
-        code: 'code-fetched',
+        code: 'code-new',
       });
 
       let result;
@@ -122,15 +121,13 @@ describe('useChatbotToken', () => {
         });
       });
 
-      // token used by hook remains existing, and code is stored from fetch
-      expect(result.result.current.token).to.equal('t-existing');
+      // Should use NEW token because code was missing
+      expect(result.result.current.token).to.equal('t-new');
       expect(result.result.current.loadingStatus).to.equal(COMPLETE);
       expect(retryStub.calledOnce).to.be.true;
-      expect(sessionStorage.getItem('va-bot.token')).to.equal('t-existing');
-      expect(sessionStorage.getItem('va-bot.conversationId')).to.equal(
-        'c-existing',
-      );
-      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-fetched');
+      expect(sessionStorage.getItem('va-bot.token')).to.equal('t-new');
+      expect(sessionStorage.getItem('va-bot.conversationId')).to.equal('c-new');
+      expect(sessionStorage.getItem('va-bot.code')).to.equal('code-new');
     });
 
     it('should set expired=true when within alert buffer window', async () => {
@@ -302,6 +299,41 @@ describe('useChatbotToken', () => {
         window.dispatchEvent(new Event('va-chatbot-connection-error'));
       });
       expect(result.result.current.expired).to.equal(true);
+    });
+
+    it('should retrieve session data from localStorage if sessionStorage is empty', async () => {
+      // Simulate data in localStorage only
+      localStorage.setItem('va-bot.token', 't-local');
+      localStorage.setItem('va-bot.conversationId', 'c-local');
+      localStorage.setItem('va-bot.code', 'code-local');
+      localStorage.setItem(
+        'va-bot.tokenExpiresAt',
+        String(Date.now() + 3600000),
+      );
+
+      const retryStub = sandbox.stub(RetryOnce, 'default').resolves({
+        token: 't-new',
+        conversationId: 'c-new',
+        code: 'code-new',
+      });
+
+      let result;
+      await act(async () => {
+        result = renderHook(() => useChatbotToken(), {
+          wrapper: createWrapper(true), // persistence enabled
+        });
+      });
+
+      // Should use values from localStorage
+      expect(result.result.current.token).to.equal('t-local');
+      expect(result.result.current.code).to.equal('code-local');
+      expect(result.result.current.loadingStatus).to.equal(COMPLETE);
+
+      // Should NOT have called API
+      expect(retryStub.called).to.be.false;
+
+      // Verify sessionStorage is populated (optional side effect of getting?)
+      // Actually, getStorageItem doesn't populate sessionStorage back, but that's fine.
     });
   });
 });

@@ -103,10 +103,10 @@ describe('sessionStorage', () => {
       const result = getTokenKey();
       expect(result).to.equal('def');
     });
-    it('should set token key', () => {
+    it('should set token key in both session and local storage', () => {
       setTokenKey('def');
-      const result = sessionStorage.getItem('va-bot.token');
-      expect(result).to.equal('def');
+      expect(sessionStorage.getItem('va-bot.token')).to.equal('def');
+      expect(localStorage.getItem('va-bot.token')).to.equal('def');
     });
   });
   describe('codeKey', () => {
@@ -115,28 +115,41 @@ describe('sessionStorage', () => {
       const result = getCodeKey();
       expect(result).to.equal('ghi');
     });
-    it('should set code key', () => {
-      setCodeKey('ghi');
-      const result = sessionStorage.getItem('va-bot.code');
+    it('should retrieve code key from localStorage if sessionStorage is missing', () => {
+      localStorage.setItem('va-bot.code', 'ghi');
+      sessionStorage.removeItem('va-bot.code');
+      const result = getCodeKey();
       expect(result).to.equal('ghi');
+    });
+    it('should set code key in both storages', () => {
+      setCodeKey('ghi');
+      expect(sessionStorage.getItem('va-bot.code')).to.equal('ghi');
+      expect(localStorage.getItem('va-bot.code')).to.equal('ghi');
     });
   });
   describe('clearBotSessionStorage', () => {
-    it('should clear bot session storage items with prefixed keys when forceClear is true', () => {
-      // Set up the sessionStorage mock with the desired values
+    it('should clear bot session storage items with prefixed keys from both storages when forceClear is true', () => {
+      // Set up the sessionStorage/localStorage mock
       setLoggedInFlow('true');
       setInAuthExp('true');
       sessionStorage.setItem('itemToNotClear', 'apple');
+      localStorage.setItem('itemToNotClear', 'apple');
 
       clearBotSessionStorage(true);
 
       const loggedInFlow = getLoggedInFlow();
       const inAuthExp = getInAuthExp();
-      const itemToClear = sessionStorage.getItem('itemToNotClear');
+      const itemToClearSession = sessionStorage.getItem('va-bot.loggedInFlow');
+      const itemToClearLocal = localStorage.getItem('va-bot.loggedInFlow');
+      const itemToNotClearSession = sessionStorage.getItem('itemToNotClear');
+      const itemToNotClearLocal = localStorage.getItem('itemToNotClear');
 
       expect(loggedInFlow).to.be.null;
       expect(inAuthExp).to.be.null;
-      expect(itemToClear).to.equal('apple');
+      expect(itemToClearSession).to.be.null;
+      expect(itemToClearLocal).to.be.null;
+      expect(itemToNotClearSession).to.equal('apple');
+      expect(itemToNotClearLocal).to.equal('apple');
     });
     it('should exclude specific keys from clearing when loggedInFlow is true and inAuthExp is false', () => {
       // Set up the sessionStorage mock with the desired values
