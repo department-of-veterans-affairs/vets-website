@@ -5,9 +5,6 @@ export default function transform(formConfig, form) {
   const authorizedOfficialTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    clonedData.authorizedOfficial = formData.authorizedOfficial;
-
-    // verify phone number transform -- international vs us phone number -- concat callingCode and contact?
     clonedData.authorizedOfficial.phoneNumber =
       clonedData.authorizedOfficial.phoneNumber.contact;
 
@@ -52,7 +49,10 @@ export default function transform(formConfig, form) {
 
     clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
       request => {
-        const yearRange = request.academicYearDisplay.split('-');
+        const yearRange = request.academicYearDisplay
+          ? request.academicYearDisplay.split('-')
+          : request.academicYear.split('-');
+
         request.yearRange = {
           from: `${yearRange[0]}-XX-XX`,
           to: `${yearRange[1]}-XX-XX`,
@@ -106,7 +106,6 @@ export default function transform(formConfig, form) {
   const institutionDetailsTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    // underscore marks them as intentionally unused to satisfy linter
     const clearValues = ({
       facilityMap: _facilityMap,
       ihlEligible: _ihlEligible,
@@ -117,21 +116,23 @@ export default function transform(formConfig, form) {
       ...rest
     }) => rest;
 
-    if (clonedData.hasAdditionalInstitutionDetails === true) {
-      if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+    if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+      if (clonedData.additionalInstitutionDetails?.length > 0) {
         clonedData.withdrawFromYellowRibbonProgram = [
           clonedData.institutionDetails,
           ...clonedData.additionalInstitutionDetails,
         ].map(clearValues);
       } else {
-        clonedData.institutionDetails = [
+        clonedData.withdrawFromYellowRibbonProgram = [
           clonedData.institutionDetails,
-          ...clonedData.additionalInstitutionDetails,
         ].map(clearValues);
       }
-    } else if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
-      clonedData.withdrawFromYellowRibbonProgram = [
+
+      delete clonedData.institutionDetails;
+    } else if (clonedData.additionalInstitutionDetails?.length > 0) {
+      clonedData.institutionDetails = [
         clonedData.institutionDetails,
+        ...clonedData.additionalInstitutionDetails,
       ].map(clearValues);
     } else {
       clonedData.institutionDetails = [clonedData.institutionDetails].map(
@@ -148,61 +149,83 @@ export default function transform(formConfig, form) {
   const pointOfContactTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    const roles = {
-      YellowRibbonProgramPOC:
-        clonedData.pointsOfContact.roles.isYellowRibbonProgramPointOfContact,
-      schoolCertifyingOfficial:
-        clonedData.pointsOfContact.roles.isSchoolCertifyingOfficial,
-      schoolFinancialRepresentative:
-        clonedData.pointsOfContact.roles.isSchoolFinancialRepresentative,
-    };
+    if (clonedData.pointsOfContact && clonedData.pointsOfContact.fullName) {
+      clonedData.pointOfContact = formData.pointsOfContact;
 
-    clonedData.pointOfContact = formData.pointsOfContact;
+      const roles = {
+        YellowRibbonProgramPOC:
+          clonedData.pointsOfContact.roles.isYellowRibbonProgramPointOfContact,
+        schoolCertifyingOfficial:
+          clonedData.pointsOfContact.roles.isSchoolCertifyingOfficial,
+        schoolFinancialRepresentative:
+          clonedData.pointsOfContact.roles.isSchoolFinancialRepresentative,
+      };
 
-    clonedData.pointOfContact.phoneNumber =
-      clonedData.pointsOfContact.phoneNumber.callingCode +
-      clonedData.pointsOfContact.phoneNumber.contact;
+      const pointOfContactRole = Object.keys(roles).filter(
+        role => roles[role] === true,
+      );
 
-    clonedData.pointOfContact.emailAddress = clonedData.pointsOfContact.email;
-    delete clonedData.pointOfContact.email;
+      clonedData.pointOfContact.phoneNumber =
+        clonedData.pointsOfContact.phoneNumber.callingCode +
+        clonedData.pointsOfContact.phoneNumber.contact;
 
-    clonedData.pointOfContact.role = Object.keys(roles).filter(
-      role => roles[role] === true,
-    )[0];
+      clonedData.pointOfContact.emailAddress = clonedData.pointsOfContact.email;
 
-    delete clonedData.pointOfContact.email;
-    delete clonedData.pointOfContact.roles;
+      if (pointOfContactRole.length === 3) {
+        clonedData.pointOfContactTwo = clonedData.pointsOfContact;
 
-    if (
-      Object.values(formData.additionalPointsOfContact.fullName).every(
-        value => !value,
-      ) === false
-    ) {
-      clonedData.pointOfContactTwo = formData.additionalPointsOfContact;
-
-      clonedData.pointOfContactTwo.phoneNumber =
-        clonedData.additionalPointsOfContact.phoneNumber.callingCode +
-        clonedData.additionalPointsOfContact.phoneNumber.contact;
-
-      clonedData.pointOfContactTwo.emailAddress =
-        clonedData.additionalPointsOfContact.email;
-
-      if (
-        clonedData.pointOfContact.role === 'YellowRibbonProgramPOC' ||
-        clonedData.pointOfContact.role === 'schoolFinancialRepresentative'
-      ) {
+        clonedData.pointOfContact.role = 'YellowRibbonProgramPOC';
         clonedData.pointOfContactTwo.role = 'schoolCertifyingOfficial';
-      } else {
-        clonedData.pointOfContactTwo.role = 'YellowRibbonProgramPOC';
+
+        clonedData.pointOfContactTwo.phoneNumber =
+          clonedData.pointsOfContact.phoneNumber.callingCode +
+          clonedData.pointsOfContact.phoneNumber.contact;
+
+        clonedData.pointOfContactTwo.emailAddress =
+          clonedData.pointsOfContact.email;
+
+        delete clonedData.pointOfContactTwo.email;
+        delete clonedData.pointOfContactTwo.roles;
       }
 
-      delete clonedData.pointOfContactTwo.email;
-      delete clonedData.pointOfContactTwo.roles;
+      delete clonedData.pointOfContact.email;
+      delete clonedData.pointOfContact.roles;
+
+      if (
+        formData.additionalPointsOfContact &&
+        Object.values(formData.additionalPointsOfContact.fullName).every(
+          value => !value,
+        ) === false
+      ) {
+        clonedData.pointOfContactTwo = formData.additionalPointsOfContact;
+
+        clonedData.pointOfContactTwo.phoneNumber =
+          clonedData.additionalPointsOfContact.phoneNumber.callingCode +
+          clonedData.additionalPointsOfContact.phoneNumber.contact;
+
+        clonedData.pointOfContactTwo.emailAddress =
+          clonedData.additionalPointsOfContact.email;
+
+        if (
+          pointOfContactRole.includes('YellowRibbonProgramPOC') ||
+          pointOfContactRole.includes('schoolFinancialRepresentative')
+        ) {
+          clonedData.pointOfContact.role = 'YellowRibbonProgramPOC';
+          clonedData.pointOfContactTwo.role = 'schoolCertifyingOfficial';
+        } else if (pointOfContactRole.includes('schoolCertifyingOfficial')) {
+          clonedData.pointOfContact.role = 'schoolCertifyingOfficial';
+          clonedData.pointOfContactTwo.role = 'YellowRibbonProgramPOC';
+        }
+
+        delete clonedData.pointOfContactTwo.email;
+        delete clonedData.pointOfContactTwo.roles;
+      }
+
+      delete clonedData.pointsOfContact;
+      delete clonedData.additionalPointsOfContact;
+
+      return clonedData;
     }
-
-    delete clonedData.pointsOfContact;
-    delete clonedData.additionalPointsOfContact;
-
     return clonedData;
   };
 
@@ -214,7 +237,6 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  // Set *dateSigned* field to today's date
   const dateTransform = formData => {
     const clonedData = cloneDeep(formData);
 
@@ -226,9 +248,12 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  // Stringifies the form data and removes empty fields
   const usFormTransform = formData =>
-    transformForSubmit(formConfig, { ...form, data: formData });
+    transformForSubmit(
+      formConfig,
+      { ...form, data: formData },
+      { allowPartialAddress: true },
+    );
 
   const transformedData = [
     authorizedOfficialTransform,

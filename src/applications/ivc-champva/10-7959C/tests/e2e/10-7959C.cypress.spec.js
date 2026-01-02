@@ -65,7 +65,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.applicantAddressInfo.path]: ({ afterHook }) => {
+      [ALL_PAGES.beneficiaryAddress.path]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(

@@ -30,7 +30,6 @@ const App = props => {
     isEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled,
     isSpouseConfirmationFlowEnabled,
-    isDownloadPdfEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -71,7 +70,6 @@ const App = props => {
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
           'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
           'view:isSpouseConfirmationFlowEnabled': !!isSpouseConfirmationFlowEnabled,
-          'view:isDownloadPdfEnabled': !!isDownloadPdfEnabled,
         };
 
         setFormData({
@@ -90,7 +88,6 @@ const App = props => {
       veteranFullName,
       isProvidersAndDependentsPrefillEnabled,
       isSpouseConfirmationFlowEnabled,
-      isDownloadPdfEnabled,
     ],
   );
 
@@ -133,7 +130,6 @@ const mapStateToProps = state => ({
       state.featureToggles.ezrFormPrefillWithProvidersAndDependents,
     isSpouseConfirmationFlowEnabled:
       state.featureToggles.ezrSpouseConfirmationFlowEnabled,
-    isDownloadPdfEnabled: state.featureToggles.ezrDownloadPdfEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,

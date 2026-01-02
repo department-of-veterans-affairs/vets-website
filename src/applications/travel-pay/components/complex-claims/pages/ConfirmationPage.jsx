@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import { formatDateTime } from '../../../util/dates';
 import {
   selectAppointment,
@@ -46,6 +48,8 @@ const ConfirmationPage = () => {
     : [null, null];
 
   useSetPageTitle(pageHeader);
+  useSetFocus();
+  useRecordPageview('complex-claims', pageHeader);
 
   return (
     <>

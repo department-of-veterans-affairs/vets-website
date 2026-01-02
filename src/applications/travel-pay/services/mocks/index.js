@@ -195,6 +195,8 @@ const responses = {
         name: 'Common Carrier Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Taxi to appointment',
+        carrierType: 'Taxi',
+        reasonNotUsingPOV: 'Other',
         costRequested: 45.0,
         costSubmitted: {
           source: '45.0',
@@ -208,6 +210,12 @@ const responses = {
         name: 'Air Travel Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Flight to medical appointment',
+        vendorName: 'Airline Name',
+        tripType: 'RoundTrip',
+        departedFrom: 'City A',
+        arrivedTo: 'City B',
+        departureDate: '2025-09-15T10:00:00Z',
+        returnDate: '2025-09-17T18:00:00Z',
         costRequested: 350.0,
         costSubmitted: {
           source: '350.0',
@@ -221,6 +229,9 @@ const responses = {
         name: 'Lodging Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Hotel stay',
+        vendor: 'Hotel Name',
+        checkInDate: '2025-09-15T15:00:00Z',
+        checkOutDate: '2025-09-17T11:00:00Z',
         costRequested: 125.0,
         costSubmitted: {
           source: '125.0',
@@ -234,6 +245,7 @@ const responses = {
         name: 'Meal Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Breakfast and lunch',
+        vendorName: 'Food Place',
         costRequested: 35.0,
         costSubmitted: {
           source: '35.0',
