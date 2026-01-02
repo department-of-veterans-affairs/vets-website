@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
-  getVAEvidence,
-  getPrivateEvidence,
   getOtherEvidence,
-} from '../utils/evidence';
+  getPrivateEvidence,
+  getVAEvidence,
+} from '../utils/form-data-retrieval';
 import { content } from '../content/evidence/summary';
 import { PrivateDetailsDisplay } from './evidence/PrivateDetailsDisplay';
 import { EvidenceUploadContent } from './EvidenceUploadContent';

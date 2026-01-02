@@ -5,10 +5,10 @@ import { focusElement } from 'platform/utilities/ui/focus';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { Element, scrollTo } from 'platform/utilities/scroll';
 import {
-  getVAEvidence,
-  getPrivateEvidence,
   getOtherEvidence,
-} from '../../utils/evidence';
+  getPrivateEvidence,
+  getVAEvidence,
+} from '../../utils/form-data-retrieval';
 import { content } from '../../content/evidence/summary';
 import { PrivateDetailsDisplay } from './PrivateDetailsDisplay';
 import { EvidenceUploadContent } from '../EvidenceUploadContent';
