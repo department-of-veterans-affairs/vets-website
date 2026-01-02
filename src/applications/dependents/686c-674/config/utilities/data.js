@@ -712,6 +712,62 @@ export function transformPicklistToV2(data) {
 }
 
 /**
+ * Enrich reportDivorce with SSN from awarded dependents if available
+ * Matches by fullName and birthDate to find the spouse in the awarded dependents
+ * @param {Object} data - Form data object
+ * @returns {Object} data - Enriched data object
+ */
+export function enrichDivorceWithSSN(data) {
+  // Only process if reportDivorce exists and doesn't already have SSN
+  if (!data?.reportDivorce || data.reportDivorce.ssn) {
+    return data;
+  }
+
+  const { reportDivorce } = data;
+  const awardedDependents = data?.dependents?.awarded || [];
+
+  // Find matching spouse in awarded dependents
+  const matchingSpouse = awardedDependents.find(dependent => {
+    // Match by relationship type
+    if (dependent.relationshipToVeteran !== 'Spouse') {
+      return false;
+    }
+
+    // Match by name (case-insensitive)
+    const firstNameMatch =
+      dependent.fullName?.first?.toLowerCase() ===
+      reportDivorce.fullName?.first?.toLowerCase();
+    const lastNameMatch =
+      dependent.fullName?.last?.toLowerCase() ===
+      reportDivorce.fullName?.last?.toLowerCase();
+    const middleNameMatch =
+      dependent.fullName?.middle?.toLowerCase() ===
+        reportDivorce.fullName?.middle?.toLowerCase() ||
+      (!dependent.fullName?.middle && !reportDivorce.fullName?.middle);
+
+    const namesMatch = firstNameMatch && lastNameMatch && middleNameMatch;
+
+    // Match by birthDate (formats: 'yyyy-MM-dd' in dependents, same in reportDivorce)
+    const birthDatesMatch = dependent.dateOfBirth === reportDivorce.birthDate;
+
+    return namesMatch && birthDatesMatch;
+  });
+
+  // If we found a match, add the SSN
+  if (matchingSpouse?.ssn) {
+    return {
+      ...data,
+      reportDivorce: {
+        ...reportDivorce,
+        ssn: matchingSpouse.ssn,
+      },
+    };
+  }
+
+  return data;
+}
+
+/**
  * Get form data for submission
  * @param {object} formConfig - form configuration object
  * @param {object} form - form object from Redux store
@@ -742,7 +798,10 @@ export function customTransformForSubmit(formConfig, form) {
     ? transformPicklistToV2(withoutInactivePages)
     : withoutInactivePages;
 
-  const cleanedPayload = buildSubmissionData(updatedData);
+  // Enrich reportDivorce with SSN from awarded dependents (for V2 flow)
+  const enrichedData = enrichDivorceWithSSN(updatedData);
+
+  const cleanedPayload = buildSubmissionData(enrichedData);
 
   return {
     body: JSON.stringify(cleanedPayload, customFormReplacer) || '{}',
