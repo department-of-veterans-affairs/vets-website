@@ -198,3 +198,60 @@ export const convertSchedulingPreferencesToReduxFormat = items => {
 
   return formattedData;
 };
+
+export const getSchedulingPreferencesContactMethodDisplay = itemId => {
+  const display = {
+    title: getSchedulingPreferencesOptionDisplayName(
+      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
+      itemId,
+    ),
+    description: '',
+  };
+  switch (itemId) {
+    case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+      .TELEPHONE_MOBILE:
+    case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+      .TEXT_MESSAGE:
+      display.description = 'TELEPHONE_MOBILE';
+      display.link = `/profile/edit?fieldName=mobilePhone&returnPath=${encodeURIComponent(
+        '/profile/health-care-settings/scheduling-preferences/contact-method',
+      )}`;
+      display.linkTitle = 'mobile phone number';
+      break;
+    case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+      .TELEPHONE_HOME:
+      display.description = 'TELEPHONE_HOME';
+      display.link = `/profile/edit?fieldName=homePhone&returnPath=${encodeURIComponent(
+        '/profile/health-care-settings/scheduling-preferences/contact-method',
+      )}`;
+      display.linkTitle = 'home phone number';
+      break;
+    case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+      .TELEPHONE_WORK:
+      display.description = 'TELEPHONE_WORK';
+      display.link = `/profile/edit?fieldName=workPhone&returnPath=${encodeURIComponent(
+        '/profile/health-care-settings/scheduling-preferences/contact-method',
+      )}`;
+      display.linkTitle = 'work phone number';
+      break;
+    case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD].EMAIL:
+      display.description = 'EMAIL';
+      display.link = `/profile/edit?fieldName=email&returnPath=${encodeURIComponent(
+        '/profile/health-care-settings/scheduling-preferences/contact-method',
+      )}`;
+      display.linkTitle = 'email address';
+      break;
+    case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+      .MAILING_ADDRESS:
+      display.description = 'MAILING_ADDRESS';
+      display.link = `/profile/edit?fieldName=mailingAddress&returnPath=${encodeURIComponent(
+        '/profile/health-care-settings/scheduling-preferences/contact-method',
+      )}`;
+      display.linkTitle = 'mailing address';
+      break;
+    default:
+      break;
+  }
+
+  return display;
+};

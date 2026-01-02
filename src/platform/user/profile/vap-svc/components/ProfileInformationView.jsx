@@ -13,10 +13,12 @@ import {
   formatGenderIdentity,
 } from 'platform/user/profile/vap-svc/util/personal-information/personalInformationUtils';
 import {
+  getSchedulingPreferencesContactMethodDisplay,
   getSchedulingPreferencesOptionDisplayName,
   isSchedulingPreference,
 } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title, id } = props;
@@ -123,10 +125,38 @@ const ProfileInformationView = props => {
   }
 
   if (fieldName in data && isSchedulingPreference(fieldName)) {
-    return (
+    displayTitle =
       getSchedulingPreferencesOptionDisplayName(fieldName, data[fieldName]) ||
-      unsetFieldTitleSpan
+      unsetFieldTitleSpan;
+    const displayDetails = getSchedulingPreferencesContactMethodDisplay(
+      data[fieldName],
     );
+    switch (fieldName) {
+      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+        return (
+          <>
+            {!displayDetails.description && <p>{displayDetails.title}</p>}
+            {displayDetails.description && (
+              <>
+                <p>
+                  <strong>{displayDetails.title}</strong>
+                </p>
+                <p>{displayDetails.description}</p>
+                <VaLink
+                  href={displayDetails.link}
+                  text={`Update your ${displayDetails.linkTitle}`}
+                />
+              </>
+            )}
+          </>
+        );
+      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+        return displayTitle;
+      case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+        return displayTitle;
+      default:
+        return displayTitle;
+    }
   }
 
   return null;
