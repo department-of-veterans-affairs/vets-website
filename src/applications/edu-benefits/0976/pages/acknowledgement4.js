@@ -30,8 +30,9 @@ export default {
             additional guidance if needed).
           </p>
           <p>
-            Note: USE Department of Education, Title IV school participants are
-            not required to provide financial statement with the application.
+            <strong>Note:</strong> USE Department of Education, Title IV school
+            participants are not required to provide financial statement with
+            the application.
           </p>
         </div>,
       ),
