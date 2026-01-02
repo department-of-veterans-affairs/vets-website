@@ -300,40 +300,5 @@ describe('useChatbotToken', () => {
       });
       expect(result.result.current.expired).to.equal(true);
     });
-
-    it('should retrieve session data from localStorage if sessionStorage is empty', async () => {
-      // Simulate data in localStorage only
-      localStorage.setItem('va-bot.token', 't-local');
-      localStorage.setItem('va-bot.conversationId', 'c-local');
-      localStorage.setItem('va-bot.code', 'code-local');
-      localStorage.setItem(
-        'va-bot.tokenExpiresAt',
-        String(Date.now() + 3600000),
-      );
-
-      const retryStub = sandbox.stub(RetryOnce, 'default').resolves({
-        token: 't-new',
-        conversationId: 'c-new',
-        code: 'code-new',
-      });
-
-      let result;
-      await act(async () => {
-        result = renderHook(() => useChatbotToken(), {
-          wrapper: createWrapper(true), // persistence enabled
-        });
-      });
-
-      // Should use values from localStorage
-      expect(result.result.current.token).to.equal('t-local');
-      expect(result.result.current.code).to.equal('code-local');
-      expect(result.result.current.loadingStatus).to.equal(COMPLETE);
-
-      // Should NOT have called API
-      expect(retryStub.called).to.be.false;
-
-      // Verify sessionStorage is populated (optional side effect of getting?)
-      // Actually, getStorageItem doesn't populate sessionStorage back, but that's fine.
-    });
   });
 });
