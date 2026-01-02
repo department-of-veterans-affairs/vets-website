@@ -33,6 +33,23 @@ export const recordLinkClick = (variant, page, text, url) => {
   });
 };
 
+export const recordCheckboxEvent = (variant, label) => {
+  recordEvent({
+    event: `${variant}-checkbox`,
+    action: 'check',
+    'checkbox-label': label,
+  });
+};
+
+export const recordRadioOptionClick = (label, optionLabel, required = true) => {
+  recordEvent({
+    event: 'int-radio-option-click',
+    'radio-button-label': label,
+    'radio-button-optionLabel': optionLabel,
+    'radio-button-required': required,
+  });
+};
+
 // Legacy wrappers for backwards compatibility
 export const recordSmocPageview = page => recordPageview('smoc', page);
 export const recordSmocButtonClick = (page, event) =>
