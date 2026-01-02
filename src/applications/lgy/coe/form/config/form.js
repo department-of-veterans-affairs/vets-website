@@ -25,6 +25,7 @@ import { serviceStatus, serviceHistory } from './chapters/service';
 import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
+import militaryHistory from '../pages/militaryHistory';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
@@ -120,6 +121,12 @@ const formConfig = {
           title: 'Service status',
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
+        },
+        militaryHistoryPage: {
+          path: 'military-history',
+          title: 'Military history',
+          uiSchema: militaryHistory.uiSchema,
+          schema: militaryHistory.schema,
         },
         serviceHistory: {
           path: 'service-history',
