@@ -35,6 +35,10 @@ const ErrorLinks = props => {
     [errors, errorRef],
   );
 
+  if (errors.length === 0 && !hadErrors) {
+    return null;
+  }
+
   return (
     <va-alert
       status="error"
