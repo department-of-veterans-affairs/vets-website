@@ -32,13 +32,18 @@ export const IntroductionPageRedirect = ({ route, router }) => {
     buttonOnly => (
       <SaveInProgressIntro
         buttonOnly={buttonOnly}
+        prefillEnabled={route.formConfig.prefillEnabled}
         messages={route.formConfig.savedFormMessages}
         pageList={route.pageList}
         startText="Start your questionnaire"
         unauthStartText="Sign in to get started"
       />
     ),
-    [route.formConfig.savedFormMessages, route.pageList],
+    [
+      route.formConfig.prefillEnabled,
+      route.formConfig.savedFormMessages,
+      route.pageList,
+    ],
   );
 
   useEffect(
