@@ -398,9 +398,9 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
         nextErrors.departureDate = futureDateError;
       } else if (returnDateComplete && departureDate > returnDate) {
         nextErrors.departureDate = 'Departure date must be before return date';
-      } else {
-        delete nextErrors.departureDate;
       }
+    } else {
+      delete nextErrors.departureDate;
     }
   }
 
@@ -570,9 +570,9 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
       } else if (checkInDateComplete && checkOutDate <= checkInDate) {
         nextErrors.checkOutDate =
           'Check-out date must be later than check-in date';
-      } else {
-        delete nextErrors.checkOutDate;
       }
+    } else {
+      delete nextErrors.checkOutDate;
     }
   }
 
