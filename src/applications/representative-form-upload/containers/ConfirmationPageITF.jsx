@@ -3,27 +3,16 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationPageViewITF } from '../components/ConfirmationPageViewITF';
 
-const content = {
-  headlineText: 'You’ve submitted your form',
-  nextStepsText: (
-    <p>We’ll review your form and contact you if we need more information.</p>
-  ),
-};
-
 const ConfirmationPageITF = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const { benefitType } = form.data;
-  const submitDate =
-    submission.response.attributes &&
-    submission.response.attributes.creationDate
-      ? new Date(submission.response.attributes.creationDate)
-      : null;
-  const expirationDate =
-    submission.response.attributes &&
-    submission.response.attributes.expirationDate
-      ? new Date(submission.response.attributes.expirationDate)
-      : null;
+  const submitDate = submission.response?.attributes?.creationDate
+    ? new Date(submission.response.attributes.creationDate)
+    : null;
+  const expirationDate = submission.response?.attributes?.expirationDate
+    ? new Date(submission.response.attributes.expirationDate)
+    : null;
 
   const { first, last } = form.data.veteranFullName;
   const { city, state, postalCode } = form.data.address;
@@ -40,10 +29,8 @@ const ConfirmationPageITF = () => {
       submitDate={submitDate}
       expirationDate={expirationDate}
       benefitType={benefitType}
-      content={content}
       address={address}
       name={name}
-      childContent={<></>}
     />
   );
 };

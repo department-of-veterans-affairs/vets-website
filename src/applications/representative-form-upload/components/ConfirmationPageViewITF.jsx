@@ -11,7 +11,6 @@ export const ConfirmationPageViewITF = ({
   benefitType,
   address,
   name,
-  childContent = null,
 }) => {
   const { first, last } = name;
   const alertRef = useRef(null);
@@ -31,7 +30,12 @@ export const ConfirmationPageViewITF = ({
       ? `${address.city}, ${address.state} ${address.postalCode}`
       : null;
 
-  const itfTypes = { compensation: 'Compensation', pension: 'Pension' };
+  const itfTypes = {
+    compensation: 'Disability compensation',
+    pension: 'Pension',
+    survivor:
+      'Survivors pension and/or dependency and indemnity compensation (DIC)',
+  };
 
   useEffect(
     () => {
@@ -71,7 +75,7 @@ export const ConfirmationPageViewITF = ({
         </h2>
         {formattedAddress && <div>{formattedAddress}</div>}
         <p className="vads-u-margin-bottom--0">
-          <b>Benefit:</b> {itfTypes[benefitType]} <br />
+          <b>Benefit:</b> {itfTypes[benefitType]} (VA Form 21-526EZ) <br />
           <b>ITF Date:</b> {formattedSubmitDate} (Expires in 365 days)
         </p>
       </va-card>
@@ -96,7 +100,6 @@ export const ConfirmationPageViewITF = ({
         text="Go back to submissions"
         type="primary"
       />
-      {childContent || null}
     </div>
   );
 };
@@ -108,7 +111,6 @@ ConfirmationPageViewITF.propTypes = {
     state: PropTypes.string,
   }),
   benefitType: PropTypes.string,
-  childContent: PropTypes.node,
   expirationDate: PropTypes.string,
   name: PropTypes.shape({
     first: PropTypes.string,
