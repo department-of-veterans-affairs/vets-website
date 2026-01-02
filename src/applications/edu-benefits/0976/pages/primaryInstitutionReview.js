@@ -2,8 +2,7 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { useSelector } from 'react-redux';
-import { INSTITUTION_TYPES } from '../constants';
-import FacilityCodeAdditionalInfo from '../components/FacilityCodeAdditionalInfo';
+import { DetailsCard } from '../components/InstitutionCards';
 
 function PrimaryInstitutionSummary() {
   const formData = useSelector(state => state.form.data);
@@ -13,35 +12,12 @@ function PrimaryInstitutionSummary() {
     primaryInstitutionDetails?.type,
     primaryInstitutionDetails?.mailingAddress,
   ].every(Boolean);
+
   if (!isPresent) {
     return <div />;
   }
 
-  const {
-    street,
-    street2,
-    street3,
-    city,
-    state,
-    postalCode,
-  } = primaryInstitutionDetails.mailingAddress;
-
-  return (
-    <div>
-      <h3>{primaryInstitutionDetails.name}</h3>
-      <p className="vads-u-margin-bottom--0">{street}</p>
-      {street2 && <p className="vads-u-margin-y--0">{street2}</p>}
-      {street3 && <p className="vads-u-margin-y--0">{street3}</p>}
-      <p className="vads-u-margin-top--0">
-        {city}, {state} {postalCode}
-      </p>
-      <FacilityCodeAdditionalInfo />
-      <p>
-        <strong>The institution is classified as:</strong>
-      </p>
-      <p>{INSTITUTION_TYPES[primaryInstitutionDetails.type] || 'Other'}</p>
-    </div>
-  );
+  return <DetailsCard details={primaryInstitutionDetails} />;
 }
 
 /** @type {PageSchema} */

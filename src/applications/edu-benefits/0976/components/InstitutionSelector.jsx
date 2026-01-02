@@ -2,16 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useValidateFacilityCode } from '../hooks/useValidateFacilityCode';
 import { getAtPath } from '../helpers';
-import { INSTITUTION_TYPES } from '../constants';
-import FacilityCodeAdditionalInfo from './FacilityCodeAdditionalInfo';
-
-const EmptyCard = (
-  <>
-    <p>Institution name and mailing address</p>
-    <h3>--</h3>
-    <p>--</p>
-  </>
-);
+import { EmptyCard, DetailsCard } from './InstitutionCards';
 
 export default function InstitutionSelector({ dataPath }) {
   const formData = useSelector(state => state.form.data);
@@ -30,33 +21,18 @@ export default function InstitutionSelector({ dataPath }) {
   }
 
   if (hasError || !isPresent) {
-    return EmptyCard;
+    return (
+      <div>
+        <p>Institution name and mailing address</p>
+        <EmptyCard />
+      </div>
+    );
   }
-
-  const {
-    street,
-    street2,
-    street3,
-    city,
-    state,
-    postalCode,
-  } = institutionDetails.mailingAddress;
 
   return (
     <div>
       <p>Institution name and mailing address</p>
-      <h3>{institutionDetails.name}</h3>
-      <p className="vads-u-margin-bottom--0">{street}</p>
-      {street2 && <p className="vads-u-margin-y--0">{street2}</p>}
-      {street3 && <p className="vads-u-margin-y--0">{street3}</p>}
-      <p className="vads-u-margin-top--0">
-        {city}, {state} {postalCode}
-      </p>
-      <FacilityCodeAdditionalInfo />
-      <p>
-        <strong>The institution is classified as:</strong>
-      </p>
-      <p>{INSTITUTION_TYPES[institutionDetails.type] || 'Other'}</p>
+      <DetailsCard details={institutionDetails} />
     </div>
   );
 }
