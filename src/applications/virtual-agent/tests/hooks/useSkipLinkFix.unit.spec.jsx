@@ -8,7 +8,7 @@ describe('useSkipLinkFix', () => {
     document.body.innerHTML = '';
   });
 
-  it('updates the skip link to target the chatbot header', () => {
+  it('adds a chatbot skip link after the content skip link', () => {
     const skipLink = document.createElement('a');
     skipLink.className = 'show-on-focus';
     skipLink.setAttribute('href', '#content');
@@ -18,9 +18,15 @@ describe('useSkipLinkFix', () => {
 
     renderHook(() => useSkipLinkFix());
 
-    expect(skipLink.hasAttribute('onclick')).to.be.false;
-    expect(skipLink.innerHTML).to.equal('Skip to chatbot');
-    expect(skipLink.getAttribute('href')).to.equal('#chatbot-header');
+    expect(skipLink.hasAttribute('onclick')).to.be.true;
+    expect(skipLink.innerHTML).to.equal('Skip to content');
+    expect(skipLink.getAttribute('href')).to.equal('#content');
+
+    const chatbotSkipLink = skipLink.nextElementSibling;
+    expect(chatbotSkipLink).to.not.equal(null);
+    expect(chatbotSkipLink.className).to.equal('show-on-focus');
+    expect(chatbotSkipLink.getAttribute('href')).to.equal('#chatbot-header');
+    expect(chatbotSkipLink.innerHTML).to.equal('Skip to Chatbot');
   });
 
   it('ignores the DOM when the skip link does not match', () => {
@@ -33,5 +39,6 @@ describe('useSkipLinkFix', () => {
 
     expect(otherLink.getAttribute('href')).to.equal('#other');
     expect(otherLink.innerHTML).to.equal('');
+    expect(otherLink.nextElementSibling).to.equal(null);
   });
 });

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 /**
- * Updates the "Skip to content" link to point at the chatbot container header for accessibility.
+ * Adds a "Skip to Chatbot" link after the existing "Skip to content" link for accessibility.
  * Runs once on mount and mutates the DOM outside virtual agent's app render tree (the website header).
  */
 const useSkipLinkFix = () => {
@@ -10,9 +10,11 @@ const useSkipLinkFix = () => {
       'a.show-on-focus[href="#content"]',
     );
     if (skipToContentLink) {
-      skipToContentLink.removeAttribute('onclick');
-      skipToContentLink.innerHTML = 'Skip to chatbot';
-      skipToContentLink.setAttribute('href', '#chatbot-header');
+      const chatbotSkipLink = document.createElement('a');
+      chatbotSkipLink.className = 'show-on-focus';
+      chatbotSkipLink.setAttribute('href', '#chatbot-header');
+      chatbotSkipLink.innerHTML = 'Skip to Chatbot';
+      skipToContentLink.after(chatbotSkipLink);
     }
   }, []);
 };
