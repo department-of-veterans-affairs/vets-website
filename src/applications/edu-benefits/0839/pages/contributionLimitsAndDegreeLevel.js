@@ -50,17 +50,15 @@ const uiSchema = {
       classNames: 'vads-u-margin-bottom--2 container',
     },
   }),
-  maximumStudents: {
-    ...numberUI({
-      title: 'Enter the maximum number of students',
-      description:
-        'Enter the total number of students eligible for this contribution. Values equal to or greater than 99,999 are treated as unlimited by the system.',
-      max: 99998,
-      errorMessages: {
-        required: 'Enter the maximum number of students',
-        pattern: 'Enter a whole number',
-      },
-    }),
+  maximumStudents: numberUI({
+    title: 'Enter the maximum number of students',
+    description:
+      'Enter the total number of students eligible for this contribution. Values equal to or greater than 99,999 are treated as unlimited by the system.',
+    max: 99998,
+    errorMessages: {
+      required: 'Enter the maximum number of students',
+      pattern: 'Enter a whole number',
+    },
     'ui:required': (formData, index) => {
       const currentItem =
         formData?.yellowRibbonProgramRequest?.[index] || formData;
@@ -72,8 +70,7 @@ const uiSchema = {
       expandUnder: 'maximumStudentsOption',
       expandUnderCondition: 'specific',
     },
-  },
-
+  }),
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
