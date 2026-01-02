@@ -40,3 +40,46 @@ export function validateInitialsMatch(errors, fieldData, formData) {
     errors.addError(`Initials must match your name: ${firstName} ${lastName}`);
   }
 }
+
+export function getAtPath(data, path) {
+  const parts = path.split('.');
+  return parts.reduce((acc, val) => acc[val], data);
+}
+
+export function setAtPath(data, path, value) {
+  const parts = path.split('.');
+  const lastPart = parts.pop();
+
+  let temp = data;
+  parts.forEach(part => {
+    temp = temp[part];
+  });
+  temp[lastPart] = value;
+}
+
+export function institutionResponseToObject(responseData) {
+  const attrs = responseData.attributes || {};
+
+  return {
+    name: attrs.name,
+    type: attrs.type,
+    mailingAddress: {
+      street: attrs.address1 || '',
+      street2: attrs.address2 || '',
+      street3: attrs.address3 || '',
+      city: attrs.city || '',
+      state: attrs.state || '',
+      postalCode: attrs.zip || '',
+      country: attrs.country || '',
+    },
+    physicalAddress: {
+      street: attrs.physicalAddress1 || '',
+      street2: attrs.physicalAddress2 || '',
+      street3: attrs.physicalAddress3 || '',
+      city: attrs.physicalCity || '',
+      state: attrs.physicalState || '',
+      postalCode: attrs.physicalZip || '',
+      country: attrs.physicalCountry || '',
+    },
+  };
+}

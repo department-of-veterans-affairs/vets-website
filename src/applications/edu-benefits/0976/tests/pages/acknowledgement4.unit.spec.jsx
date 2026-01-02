@@ -22,11 +22,10 @@ describe('22-0976 acknowledgement 4 page', () => {
     );
   });
 
-  it('renders the input fields', () => {
+  it('renders the input field', () => {
     const { container } = renderPage();
 
     expect(container.querySelector('va-radio')).to.exist;
-    expect(container.querySelector('va-textarea')).to.exist;
   });
 
   it('shows error when no option is selected', async () => {
@@ -37,7 +36,7 @@ describe('22-0976 acknowledgement 4 page', () => {
       const radioInput = container.querySelector('va-radio');
 
       expect(radioInput.getAttribute('error')).to.equal(
-        'You must provide a response',
+        'You must make a selection.',
       );
     });
   });
