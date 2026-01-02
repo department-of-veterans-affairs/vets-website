@@ -68,6 +68,7 @@ const formConfig = {
   },
   title: 'Request a VA home loan Certificate of Eligibility (COE)',
   subTitle: 'VA Form 26-1880',
+  useCustomScrollAndFocus: true,
   defaultDefinitions: definitions,
   chapters: {
     applicantInformationChapter: {
