@@ -134,7 +134,7 @@ const IntroductionPage = () => {
                 You’ll be asked to submit receipts when you file your claim.
               </p>
               <p>
-                <strong>Note:</strong> If you’re applying for a one-way trip, or
+                <strong>Note:</strong> If you’re applying for a one way trip, or
                 if you started from an address other than the one we have on
                 file, you’ll need to use the{' '}
                 <va-link
