@@ -139,6 +139,7 @@ const IntroductionPage = () => {
                 file, you’ll need to use the{' '}
                 <va-link
                   href={BTSSS_PORTAL_URL}
+                  external
                   text="Beneficiary Travel Self Service System (BTSSS)"
                 />{' '}
                 to file your claim.
