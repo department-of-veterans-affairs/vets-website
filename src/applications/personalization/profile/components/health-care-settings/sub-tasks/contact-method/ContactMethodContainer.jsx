@@ -242,8 +242,11 @@ export const ContactMethodContainer = () => {
       }
       setStep('confirm');
     },
-    save: event => {
-      event.preventDefault();
+    save: () => {
+      if (!validate(pageData.data)) {
+        setError(true);
+        return;
+      }
       const {
         apiRoute,
         convertCleanDataToPayload,
@@ -255,6 +258,7 @@ export const ContactMethodContainer = () => {
         fieldName,
       );
 
+      dispatch(openModal(null));
       dispatch(
         createSchedulingPreferencesUpdate({
           route: apiRoute,
@@ -262,7 +266,7 @@ export const ContactMethodContainer = () => {
           fieldName,
           payload,
           analyticsSectionName: 'scheduling-preferences-contact-method',
-          value: pageData.data[fieldName],
+          value: pageData.data,
         }),
       );
 
