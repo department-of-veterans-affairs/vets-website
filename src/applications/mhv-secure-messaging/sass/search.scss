@@ -7,12 +7,12 @@
 
   h2 {
     margin-top: 0;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 700;
     font-style: normal;
     letter-spacing: 0px;
     text-align: left;
-    line-height: 26px;
+    line-height: 1.625rem;
   }
 
   va-accordion {
@@ -60,7 +60,7 @@
 
   @media (min-width: $small-screen) {
     #additional-filter-accordion::part(accordion-header) {
-      width: 166px;
+      width: 10.375rem;
     }
   }
 
