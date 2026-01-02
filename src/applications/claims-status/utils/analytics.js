@@ -1,5 +1,54 @@
 import recordEvent from 'platform/monitoring/record-event';
 
+/**
+ * Analytics Event Schema for Upload Events
+ *
+ * All upload-related events follow a standardized structure for consistent
+ * querying in Google Analytics. Each event populates relevant fields and
+ * sets others to undefined.
+ *
+ * @typedef {Object} UploadAnalyticsEvent
+ * @property {string} event - Event name (e.g., 'claims-upload-start', 'claims-upload-success')
+ * @property {string} api-name - Human-readable API identifier
+ * @property {string|undefined} api-status - 'started' | 'successful' | 'failed'
+ * @property {string|undefined} error-key - Error code/identifier when applicable
+ * @property {number|undefined} upload-fail-alert-count - Count of Type 2 failure alerts visible
+ * @property {number|undefined} upload-fail-file-count - Number of files that failed upload
+ * @property {number|undefined} upload-file-count - Total files in upload batch
+ * @property {boolean|undefined} upload-retry - Whether this upload includes retry attempts
+ * @property {number|undefined} upload-retry-file-count - Number of files being retried
+ * @property {number|undefined} upload-success-file-count - Number of files successfully uploaded
+ */
+
+/**
+ * Base metadata keys for all upload analytics events.
+ * Ensures consistent structure across all events for easier querying.
+ * @type {Partial<UploadAnalyticsEvent>}
+ */
+const BASE_UPLOAD_EVENT_KEYS = {
+  'api-name': undefined,
+  'api-status': undefined,
+  'error-key': undefined,
+  'upload-fail-alert-count': undefined,
+  'upload-fail-file-count': undefined,
+  'upload-file-count': undefined,
+  'upload-retry': undefined,
+  'upload-retry-file-count': undefined,
+  'upload-success-file-count': undefined,
+};
+
+/**
+ * Creates an upload analytics event with standardized structure.
+ * @param {string} eventName - The event name
+ * @param {Partial<UploadAnalyticsEvent>} data - Event-specific data to merge with base keys
+ * @returns {UploadAnalyticsEvent} The complete event object
+ */
+const createUploadEvent = (eventName, data) => ({
+  event: eventName,
+  ...BASE_UPLOAD_EVENT_KEYS,
+  ...data,
+});
+
 // Session storage keys for upload tracking
 const STORAGE_KEYS = {
   UPLOAD_ATTEMPTS: 'cst_upload_attempts',
@@ -210,18 +259,12 @@ export const clearUploadTracking = claimId => {
  * @param {number} params.count - Number of slim alerts visible
  */
 export const recordType2FailureEvent = ({ count }) => {
-  recordEvent({
-    event: 'claims-upload-failure-type-2',
-    'api-name': 'Claims and Appeals Upload Fail Type 2 Alert',
-    'api-status': undefined,
-    'error-key': undefined,
-    'upload-fail-alert-count': count,
-    'upload-fail-file-count': undefined,
-    'upload-file-count': undefined,
-    'upload-retry': undefined,
-    'upload-retry-file-count': undefined,
-    'upload-success-file-count': undefined,
-  });
+  recordEvent(
+    createUploadEvent('claims-upload-failure-type-2', {
+      'api-name': 'Claims and Appeals Upload Fail Type 2 Alert',
+      'upload-fail-alert-count': count,
+    }),
+  );
 };
 
 /**
@@ -260,18 +303,15 @@ export const recordUploadStartEvent = ({ files, claimId }) => {
     fileInfo => fileInfo.retryInfo.isRetry,
   ).length;
 
-  recordEvent({
-    event: 'claims-upload-start',
-    'api-name': 'Claims and Appeals Upload',
-    'api-status': 'started',
-    'error-key': undefined,
-    'upload-fail-alert-count': undefined,
-    'upload-fail-file-count': undefined,
-    'upload-file-count': files.length,
-    'upload-retry': retryFileCount > 0,
-    'upload-retry-file-count': retryFileCount,
-    'upload-success-file-count': undefined,
-  });
+  recordEvent(
+    createUploadEvent('claims-upload-start', {
+      'api-name': 'Claims and Appeals Upload',
+      'api-status': 'started',
+      'upload-file-count': files.length,
+      'upload-retry': retryFileCount > 0,
+      'upload-retry-file-count': retryFileCount,
+    }),
+  );
 
   return { filesWithRetryInfo, retryFileCount };
 };
@@ -311,18 +351,15 @@ export const recordUploadFailureEvent = ({
     }
   });
 
-  recordEvent({
-    event: 'claims-upload-failure',
-    'api-name': 'Claims and Appeals Upload',
-    'api-status': 'failed',
-    'error-key': errorFiles[0]?.errors?.[0]?.detail || UNKNOWN_DOC_TYPE,
-    'upload-fail-alert-count': undefined,
-    'upload-fail-file-count': errorFiles.length,
-    'upload-file-count': undefined,
-    'upload-retry': retryFileCount > 0,
-    'upload-retry-file-count': undefined,
-    'upload-success-file-count': undefined,
-  });
+  recordEvent(
+    createUploadEvent('claims-upload-failure', {
+      'api-name': 'Claims and Appeals Upload',
+      'api-status': 'failed',
+      'error-key': errorFiles[0]?.errors?.[0]?.detail || UNKNOWN_DOC_TYPE,
+      'upload-fail-file-count': errorFiles.length,
+      'upload-retry': retryFileCount > 0,
+    }),
+  );
 };
 
 /**
@@ -332,16 +369,12 @@ export const recordUploadFailureEvent = ({
  * @param {number} params.retryFileCount - Number of files that were retries
  */
 export const recordUploadSuccessEvent = ({ fileCount, retryFileCount }) => {
-  recordEvent({
-    event: 'claims-upload-success',
-    'api-name': 'Claims and Appeals Upload',
-    'api-status': 'successful',
-    'error-key': undefined,
-    'upload-fail-alert-count': undefined,
-    'upload-fail-file-count': undefined,
-    'upload-file-count': undefined,
-    'upload-retry': retryFileCount > 0,
-    'upload-retry-file-count': undefined,
-    'upload-success-file-count': fileCount,
-  });
+  recordEvent(
+    createUploadEvent('claims-upload-success', {
+      'api-name': 'Claims and Appeals Upload',
+      'api-status': 'successful',
+      'upload-retry': retryFileCount > 0,
+      'upload-success-file-count': fileCount,
+    }),
+  );
 };
