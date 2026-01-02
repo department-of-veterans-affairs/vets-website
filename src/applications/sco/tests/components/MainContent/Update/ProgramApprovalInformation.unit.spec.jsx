@@ -21,7 +21,7 @@ describe('ProgramApprovalInformation', () => {
       },
     );
 
-    const valink = $('va-link[data-testid="form-10275-link', container);
+    const valink = $('va-link[data-testid="form-10275-link"]', container);
     expect(valink.getAttribute('text')).to.contain(
       'Commit to the Principles of Excellence for educational institutions',
     );
