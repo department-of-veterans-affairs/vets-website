@@ -3,7 +3,7 @@
     "id": "1234",
     "type": "in_progress_forms",
     "attributes": {
-      "formId": "FORM_MOCK_PREFILL",
+      "formId": "FORM-MOCK-PREFILL",
       "createdAt": "2025-01-15T00:00:00.000Z",
       "updatedAt": "2025-01-15T00:00:00.000Z",
       "metadata": {

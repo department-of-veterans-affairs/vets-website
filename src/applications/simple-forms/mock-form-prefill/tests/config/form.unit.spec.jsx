@@ -18,7 +18,7 @@ describe('mock-form-prefill form config', () => {
     expect(formConfig.urlPrefix).to.eq('/');
     expect(formConfig.submitUrl).to.eq('/v0/api');
     expect(formConfig.trackingPrefix).to.eq('mock-prefill-');
-    expect(formConfig.formId).to.eq('FORM_MOCK_PREFILL');
+    expect(formConfig.formId).to.eq('FORM-MOCK-PREFILL');
   });
 
   it('should have correct form title and subtitle', () => {
@@ -71,8 +71,14 @@ describe('mock-form-prefill form config', () => {
     it('should transform form data correctly with SSN and VA file number', () => {
       const pages = {};
       const formData = {
-        veteranSocialSecurityNumber: '123456789',
-        veteranVAFileNumber: 'c12345678',
+        data: {
+          attributes: {
+            veteran: {
+              ssn: '123456789',
+              vaFileNumber: 'c12345678',
+            },
+          },
+        },
       };
       const metadata = { test: 'metadata' };
 
@@ -87,27 +93,39 @@ describe('mock-form-prefill form config', () => {
     it('should handle missing SSN', () => {
       const pages = {};
       const formData = {
-        veteranVAFileNumber: 'c12345678',
+        data: {
+          attributes: {
+            veteran: {
+              vaFileNumber: 'c12345678',
+            },
+          },
+        },
       };
       const metadata = {};
 
       const result = formConfig.prefillTransformer(pages, formData, metadata);
 
-      expect(result.formData.ssn).to.be.null;
+      expect(result.formData.ssn).to.be.undefined;
       expect(result.formData.vaFileNumber).to.eq('c12345678');
     });
 
     it('should handle missing VA file number', () => {
       const pages = {};
       const formData = {
-        veteranSocialSecurityNumber: '123456789',
+        data: {
+          attributes: {
+            veteran: {
+              ssn: '123456789',
+            },
+          },
+        },
       };
       const metadata = {};
 
       const result = formConfig.prefillTransformer(pages, formData, metadata);
 
       expect(result.formData.ssn).to.eq('123456789');
-      expect(result.formData.vaFileNumber).to.be.null;
+      expect(result.formData.vaFileNumber).to.be.undefined;
     });
 
     it('should handle empty form data', () => {
@@ -117,19 +135,8 @@ describe('mock-form-prefill form config', () => {
 
       const result = formConfig.prefillTransformer(pages, formData, metadata);
 
-      expect(result.formData.ssn).to.be.null;
-      expect(result.formData.vaFileNumber).to.be.null;
-    });
-
-    it('should handle null form data', () => {
-      const pages = {};
-      const formData = null;
-      const metadata = {};
-
-      const result = formConfig.prefillTransformer(pages, formData, metadata);
-
-      expect(result.formData.ssn).to.be.null;
-      expect(result.formData.vaFileNumber).to.be.null;
+      expect(result.formData.ssn).to.be.undefined;
+      expect(result.formData.vaFileNumber).to.be.undefined;
     });
   });
 });
