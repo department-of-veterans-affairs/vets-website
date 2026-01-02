@@ -67,7 +67,7 @@ export default function ProviderCard({ provider }) {
 
       <hr
         aria-hidden="true"
-        className="vads-u-margin-bottom--2 vads-u-margin-top--2"
+        className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-border-color--gray-medium"
       />
     </div>
   );
