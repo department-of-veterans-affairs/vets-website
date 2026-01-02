@@ -5,11 +5,12 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import environment from 'platform/utilities/environment';
-import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+import buckets from 'site/constants/buckets';
+import { VAGOVPROD, VAGOVSTAGING } from 'site/constants/environments';
 
-const mohImageSrc = environment.isStaging()
-  ? `${VAGOVSTAGING}/img/medallions-moh.png`
-  : `${vagovprod}/img/medallions-moh.png`;
+const mohImageSrc = environment.isProduction()
+  ? `${buckets[VAGOVPROD]}/img/medallions-moh.png`
+  : `${buckets[VAGOVSTAGING]}/img/medallions-moh.png`;
 
 const MOHSizeDescription = () => {
   return (
