@@ -116,7 +116,7 @@ const expensePaidByPage = {
       return provider ? `Who paid ${provider}?` : 'Who paid this expense?';
     }),
     paidBy: textUI({
-      title: 'Who paid this expense? (optional)',
+      title: 'Who paid this expense?',
       hint:
         'For example: the estate or another family member. Leave blank if you paid.',
     }),
