@@ -858,9 +858,16 @@ describe('Google Analytics', () => {
     clickSubmitButton(SUBMIT_TEXT);
 
     assertDataLayerEvent('claims-upload-start', [
-      'file-count',
-      'retry-file-count',
-      'total-retry-attempts',
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
     ]);
 
     cy.axeCheck();
@@ -886,7 +893,18 @@ describe('Google Analytics', () => {
 
     cy.wait('@uploadRequest');
 
-    assertDataLayerEvent('claims-upload-success', ['file-count']);
+    assertDataLayerEvent('claims-upload-success', [
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
+    ]);
 
     cy.axeCheck();
   });
@@ -901,8 +919,16 @@ describe('Google Analytics', () => {
     cy.wait('@uploadRequest');
 
     assertDataLayerEvent('claims-upload-failure', [
-      'failed-file-count',
-      'error-code',
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
     ]);
 
     cy.axeCheck();
@@ -920,8 +946,16 @@ describe('Google Analytics', () => {
 
     // Verify failure event fired on first attempt (retryable)
     assertDataLayerEvent('claims-upload-failure', [
-      'failed-file-count',
-      'error-code',
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
     ]);
 
     // Wait for error alert to appear
@@ -939,10 +973,20 @@ describe('Google Analytics', () => {
     uploadFileAndSelectType('test-document.txt', 'L034', 0, true); // force: true for retry
     clickSubmitButton(SUBMIT_TEXT);
 
+    cy.wait('@uploadRequest');
+
     // Verify retry event fired (retryable)
     assertDataLayerEvent('claims-upload-start', [
-      'retry-file-count',
-      'total-retry-attempts',
+      'event',
+      'api-name',
+      'api-status',
+      'error-key',
+      'upload-fail-alert-count',
+      'upload-fail-file-count',
+      'upload-file-count',
+      'upload-retry',
+      'upload-retry-file-count',
+      'upload-success-file-count',
     ]);
 
     cy.axeCheck();
