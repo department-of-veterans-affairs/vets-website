@@ -1,4 +1,9 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  titleUI,
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { serviceStatuses } from '../utils';
 
 export default {
   uiSchema: {
@@ -6,10 +11,31 @@ export default {
       'Service status',
       'Later in this form you will be asked to upload documents confirming your service.',
     ),
-    militaryHistory: {},
+    militaryHistory: radioUI({
+      title: 'Which of these describes you?',
+      labels: {
+        [serviceStatuses.VETERAN]:
+          "I'm a Veteran, or previously activated member of the National Guard or Reserves",
+        [serviceStatuses.ADSM]: "I'm an active-duty service member",
+        [serviceStatuses.NADNA]:
+          "I'm a current member of the National Guard or Reserves and was never activated",
+        [serviceStatuses.DNANA]:
+          "I'm a discharged member of the National Guard and was never activated",
+        [serviceStatuses.DRNA]:
+          "I'm a discharged member of the Reserves and was never activated",
+      },
+    }),
   },
   schema: {
     type: 'object',
-    properties: {},
+    properties: {
+      militaryHistory: radioSchema([
+        serviceStatuses.VETERAN,
+        serviceStatuses.ADSM,
+        serviceStatuses.NADNA,
+        serviceStatuses.DNANA,
+        serviceStatuses.DRNA,
+      ]),
+    },
   },
 };
