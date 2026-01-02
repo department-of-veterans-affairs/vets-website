@@ -18,6 +18,7 @@ import {
 } from '../util/helpers';
 import { resetRecentRecipient } from './recipients';
 import { setThreadRefetchRequired } from './threads';
+import { clearPrescription } from './prescription';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -200,6 +201,7 @@ export const sendMessage = (
     }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
+    dispatch(clearPrescription());
   } catch (e) {
     const errorCode = e.errors?.[0]?.code;
     const errorDetail = e.errors?.[0]?.detail || e.message;

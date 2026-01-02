@@ -13,6 +13,7 @@ import * as Constants from '../util/constants';
 import { decodeHtmlEntities, sendDatadogError } from '../util/helpers';
 import { resetRecentRecipient } from './recipients';
 import { setThreadRefetchRequired } from './threads';
+import { clearPrescription } from './prescription';
 
 const sendSaveDraft = async (messageData, id) => {
   try {
@@ -218,6 +219,7 @@ export const deleteDraft = messageId => async dispatch => {
       ),
     );
     dispatch(setThreadRefetchRequired(true));
+    dispatch(clearPrescription());
   } catch (e) {
     sendDatadogError(e, 'action_draftDetails_deleteDraft');
     dispatch(

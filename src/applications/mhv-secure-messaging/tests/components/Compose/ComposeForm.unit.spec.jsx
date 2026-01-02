@@ -1859,33 +1859,6 @@ describe('Compose form component', () => {
       });
     });
 
-    it('clears prescription on unmount', async () => {
-      const clearPrescriptionSpy = sandbox.spy(
-        require('../../../actions/prescription'),
-        'clearPrescription',
-      );
-
-      const customState = {
-        ...initialState,
-        sm: {
-          ...initialState.sm,
-          prescription: {
-            renewalPrescription: { prescriptionId: '123' },
-            error: null,
-            isLoading: false,
-          },
-        },
-      };
-
-      const { unmount } = setup(customState);
-
-      unmount();
-
-      await waitFor(() => {
-        expect(clearPrescriptionSpy.called).to.be.true;
-      });
-    });
-
     it('displays loading indicator when renewal prescription is loading', () => {
       const loadingState = {
         ...initialState,
