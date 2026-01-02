@@ -6,9 +6,14 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
+import {
+  recordButtonClick,
+  recordCheckboxEvent,
+} from '../../../util/events-helpers';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import { submitComplexClaim } from '../../../redux/actions';
+import { COMPLEX_CLAIMS_ANALYTICS_NAMESPACE } from '../../../constants';
 import {
   selectComplexClaim,
   selectComplexClaimSubmissionState,
@@ -27,12 +32,18 @@ const AgreementPage = () => {
 
   useSetPageTitle(title);
   useSetFocus();
-  useRecordPageview('complex-claims', title);
+  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title);
 
   const onSubmit = async () => {
     setIsAgreementError(!isAgreementChecked);
 
     if (isAgreementChecked) {
+      recordButtonClick(
+        COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+        title,
+        'Submit claim',
+      );
+
       try {
         // Submit the complex claim via Redux action
         // Any errors from submission are stored in Redux under:
@@ -44,6 +55,18 @@ const AgreementPage = () => {
         // Navigate to confimration page on submission failure and show error
         navigate(`/file-new-claim/${apptId}/${claimId}/confirmation`);
       }
+    }
+  };
+
+  const handleAgreementChange = () => {
+    const newValue = !isAgreementChecked;
+    setIsAgreementChecked(newValue);
+
+    if (newValue) {
+      recordCheckboxEvent(
+        COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+        'Accept beneficiary travel agreement',
+      );
     }
   };
 
@@ -79,7 +102,7 @@ const AgreementPage = () => {
         }
         hint={null}
         label="I confirm that the information is true and correct to the best of my knowledge and belief. I’ve read and I accept the beneficiary travel agreement."
-        onVaChange={() => setIsAgreementChecked(!isAgreementChecked)}
+        onVaChange={handleAgreementChange}
         required
       />
       <TravelPayButtonPair

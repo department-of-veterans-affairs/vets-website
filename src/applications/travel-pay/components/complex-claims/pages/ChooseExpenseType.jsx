@@ -8,7 +8,12 @@ import {
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
-import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
+import { recordRadioOptionClick } from '../../../util/events-helpers';
+import {
+  EXPENSE_TYPES,
+  EXPENSE_TYPE_KEYS,
+  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+} from '../../../constants';
 import {
   selectComplexClaim,
   selectExpenseBackDestination,
@@ -30,7 +35,7 @@ const ChooseExpenseType = () => {
 
   useSetPageTitle(title);
   useSetFocus();
-  useRecordPageview('complex-claims', title);
+  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title);
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {
@@ -100,7 +105,20 @@ const ChooseExpenseType = () => {
         class="vads-u-margin-top--2"
         error={showError || mileageError ? errorMessage : null}
         onVaValueChange={event => {
-          setSelectedExpenseType(event.detail.value);
+          const newValue = event.detail.value;
+          setSelectedExpenseType(newValue);
+
+          // Find expense type title for analytics
+          const selectedOption = expenseOptions.find(
+            opt => opt.route === newValue,
+          );
+          if (selectedOption) {
+            recordRadioOptionClick(
+              'Select an expense type',
+              selectedOption.title,
+            );
+          }
+
           if (showError) setShowError(false);
           if (mileageError) setMileageError(false);
         }}

@@ -14,7 +14,10 @@ import {
 } from '../../../redux/selectors';
 import { ComplexClaimsHelpSection } from '../../HelpText';
 import ExpensesAccordion from './ExpensesAccordion';
-import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
+import {
+  TRAVEL_PAY_INFO_LINK,
+  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+} from '../../../constants';
 import WhatHappensNextSection from './WhatHappensNextSection';
 
 const ConfirmationPage = () => {
@@ -49,7 +52,7 @@ const ConfirmationPage = () => {
 
   useSetPageTitle(pageHeader);
   useSetFocus();
-  useRecordPageview('complex-claims', pageHeader);
+  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, pageHeader);
 
   return (
     <>

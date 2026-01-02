@@ -29,6 +29,7 @@ import {
   hasUnassociatedDocuments,
   isClaimIncompleteOrSaved,
 } from '../util/complex-claims-helper';
+import { recordLinkClick } from '../util/events-helpers';
 
 const getBackRoute = ({
   isIntroductionPage,
@@ -109,6 +110,13 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const effectiveClaimId = claimId || claimFromAppointment?.id;
 
   const isIntroductionPage = location.pathname === `/file-new-claim/${apptId}`;
+  const backText = isIntroductionPage ? 'Back to appointment' : 'Back';
+  const backHref = getBackRoute({
+    isIntroductionPage,
+    apptId,
+    entryPoint,
+    effectiveClaimId,
+  }).href;
 
   const needsClaimData = effectiveClaimId && !claimData && !claimError;
   const needsApptData = apptId && !apptData && !apptError;
@@ -143,6 +151,7 @@ const ComplexClaimSubmitFlowWrapper = () => {
   }
 
   const handleBackLinkClick = e => {
+    recordLinkClick('complex-claims', 'wrapper', backText, backHref);
     if (hasUnsavedChanges) {
       e.preventDefault();
       setIsUnsavedChangesModalVisible(true);
@@ -155,13 +164,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
     setIsUnsavedChangesModalVisible(false);
 
     // Navigate to the appropriate back location
-    const backHref = getBackRoute({
-      isIntroductionPage,
-      apptId,
-      entryPoint,
-      effectiveClaimId,
-    });
-
     if (backHref.interAppRoute) {
       window.location.assign(backHref.href);
     } else {
@@ -216,15 +218,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
             back
             data-testid="complex-claim-back-link"
             disable-analytics
-            href={
-              getBackRoute({
-                isIntroductionPage,
-                apptId,
-                entryPoint,
-                effectiveClaimId,
-              }).href
-            }
-            text={isIntroductionPage ? 'Back to appointment' : 'Back'}
+            href={backHref}
+            text={backText}
             onClick={handleBackLinkClick}
           />
         </div>
