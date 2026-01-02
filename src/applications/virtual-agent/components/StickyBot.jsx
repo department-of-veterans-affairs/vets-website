@@ -1,8 +1,12 @@
 import React from 'react';
-import Disclaimer from './Disclaimer/Disclaimer';
+
+import useSkipLinkFix from '../hooks/useSkipLinkFix';
 import Chatbox from './Chatbox';
+import Disclaimer from './Disclaimer/Disclaimer';
 
 export default function StickyBot() {
+  useSkipLinkFix();
+
   return (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4">
