@@ -59,6 +59,8 @@ const uiSchema = {
       required: 'Enter the maximum number of students',
       pattern: 'Enter a whole number',
     },
+    expandUnder: 'maximumStudentsOption',
+    expandUnderCondition: 'specific',
     'ui:required': (formData, index) => {
       const currentItem =
         formData?.yellowRibbonProgramRequest?.[index] || formData;
@@ -67,8 +69,6 @@ const uiSchema = {
     'ui:options': {
       classNames:
         'vads-u-margin-bottom--2 contribution-degree-school container',
-      expandUnder: 'maximumStudentsOption',
-      expandUnderCondition: 'specific',
     },
   }),
   degreeLevel: {

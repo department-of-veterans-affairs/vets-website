@@ -65,11 +65,11 @@ const uiSchema = {
         formData?.yellowRibbonProgramRequest?.[index] || formData;
       return currentItem?.maximumStudentsOption === 'specific';
     },
+    expandUnder: 'maximumStudentsOption',
+    expandUnderCondition: 'specific',
     'ui:options': {
       classNames:
         'vads-u-margin-bottom--2 contribution-degree-school container',
-      expandUnder: 'maximumStudentsOption',
-      expandUnderCondition: 'specific',
     },
   }),
   degreeLevel: {
@@ -100,7 +100,7 @@ const uiSchema = {
     title: 'Maximum contribution amount',
     descriptions: {
       unlimited:
-        'Values equal to or greater than 99,999 are treated as unlimited by the system',
+        'Values equal to or greater than 99,999 USD are treated as unlimited by the system',
     },
     labels: {
       unlimited:
@@ -119,7 +119,7 @@ const uiSchema = {
       title:
         'Enter the maximum annual contribution amount for this degree level or professional school. ',
       description:
-        'Enter the total annual amount per student, not per term or credit hour. Maximum limit is 99,998.99.',
+        'Enter the total annual amount per student, not per term or credit hour. Maximum limit is 99,998.99 USD.',
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
       },
