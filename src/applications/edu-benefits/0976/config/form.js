@@ -116,21 +116,21 @@ const formConfig = {
           depends: formData => !!formData?.hasVaFacilityCode,
         },
         primaryInstitutionType: {
-          path: 'primary-institution-type',
+          path: 'primary-institution-details-2',
           title: 'Primary institution type',
           uiSchema: primaryInstitutionType.uiSchema,
           schema: primaryInstitutionType.schema,
           depends: formData => !formData?.hasVaFacilityCode,
         },
         primaryInstitutionNameAndMailingAddress: {
-          path: 'primary-institution-name-and-mailing-address',
+          path: 'primary-institution-details-3',
           title: 'Primary institution name and mailing address',
           uiSchema: primaryInstitutionNameAndMailingAddress.uiSchema,
           schema: primaryInstitutionNameAndMailingAddress.schema,
           depends: formData => !formData?.hasVaFacilityCode,
         },
         primaryInstitutionPhysicalAddress: {
-          path: 'primary-institution-physical-address',
+          path: 'primary-institution-details-4',
           title: 'Primary institution physical address',
           uiSchema: primaryInstitutionPhysicalAddress.uiSchema,
           schema: primaryInstitutionPhysicalAddress.schema,
@@ -139,7 +139,7 @@ const formConfig = {
             !!formData?.primaryInstitutionDetails?.differentPhysicalAddress,
         },
         primaryInstitutionReview: {
-          path: 'primary-institution-review',
+          path: 'primary-institution-details-5',
           title: 'Primary institution review',
           uiSchema: primaryInstitutionReview.uiSchema,
           schema: primaryInstitutionReview.schema,
