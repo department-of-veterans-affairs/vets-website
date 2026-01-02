@@ -71,7 +71,7 @@ const formConfig = {
   chapters: {
     applicantInformationChapter: {
       title: data => {
-        return data.formData.coeFormRebuildCveteam
+        return data.formData['view:coeFormRebuildCveteam']
           ? 'Your information'
           : 'Your personal information on file';
       },
@@ -109,7 +109,11 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Your service history',
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Military history'
+          : 'Your service history';
+      },
       pages: {
         serviceStatus: {
           path: 'service-status',
