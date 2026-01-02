@@ -10,6 +10,8 @@ import acknowledgement2 from '../pages/acknowledgement2';
 import acknowledgement3 from '../pages/acknowledgement3';
 import acknowledgement4 from '../pages/acknowledgement4';
 import acknowledgement5 from '../pages/acknowledgement5';
+import hasVaFacilityCode from '../pages/hasVaFacilityCode';
+import primaryInstitutionDetails from '../pages/primaryInstitutionDetails';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -90,6 +92,24 @@ const formConfig = {
           title: 'Acknowledgement 5',
           uiSchema: acknowledgement5.uiSchema,
           schema: acknowledgement5.schema,
+        },
+      },
+    },
+    institutionDetails: {
+      title: 'Institution details',
+      pages: {
+        hasVaFacilityCode: {
+          path: 'primary-institution-details',
+          title: 'Has VA facility code',
+          uiSchema: hasVaFacilityCode.uiSchema,
+          schema: hasVaFacilityCode.schema,
+        },
+        primaryInstitutionDetails: {
+          path: 'primary-institution-details-1',
+          title: 'Primary institution details',
+          uiSchema: primaryInstitutionDetails.uiSchema,
+          schema: primaryInstitutionDetails.schema,
+          depends: formData => !!formData?.hasVaFacilityCode,
         },
       },
     },
