@@ -134,15 +134,17 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      <CernerFacilityAlert
-        {...CernerAlertContent.APPOINTMENTS}
-        className="vaos-hide-for-print vads-u-margin-bottom--3"
-        onLinkClick={() => {
-          window.recordEvent({
-            event: `${GA_PREFIX}-cerner-redirect-appointments-landing-page`,
-          });
-        }}
-      />
+      {pageTitle === 'Appointments' && (
+        <CernerFacilityAlert
+          {...CernerAlertContent.APPOINTMENTS}
+          className="vaos-hide-for-print vads-u-margin-bottom--3"
+          onLinkClick={() => {
+            window.recordEvent({
+              event: `${GA_PREFIX}-cerner-redirect-appointments-landing-page`,
+            });
+          }}
+        />
+      )}
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
           className="vads-u-margin-bottom--3"
