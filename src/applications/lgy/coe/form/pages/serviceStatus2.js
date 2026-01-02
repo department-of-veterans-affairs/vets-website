@@ -11,7 +11,7 @@ export default {
       'Service status',
       'Later in this form you will be asked to upload documents confirming your service.',
     ),
-    militaryHistory: radioUI({
+    identity: radioUI({
       title: 'Which of these describes you?',
       labels: {
         [serviceStatuses.VETERAN]:
@@ -29,7 +29,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      militaryHistory: radioSchema([
+      identity: radioSchema([
         serviceStatuses.VETERAN,
         serviceStatuses.ADSM,
         serviceStatuses.NADNA,
@@ -37,6 +37,6 @@ export default {
         serviceStatuses.DRNA,
       ]),
     },
-    required: ['militaryHistory'],
+    required: ['identity'],
   },
 };

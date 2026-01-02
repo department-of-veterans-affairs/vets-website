@@ -25,7 +25,7 @@ import { serviceStatus, serviceHistory } from './chapters/service';
 import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
-import militaryHistory from '../pages/militaryHistory';
+import serviceStatus2 from '../pages/serviceStatus2';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
@@ -126,14 +126,14 @@ const formConfig = {
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
         },
-        militaryHistoryPage: {
-          path: 'military-history',
-          title: 'Military history',
+        serviceStatus2: {
+          path: 'service-status-2',
+          title: 'Service status',
           depends: formData => {
             return formData['view:coeFormRebuildCveteam'];
           },
-          uiSchema: militaryHistory.uiSchema,
-          schema: militaryHistory.schema,
+          uiSchema: serviceStatus2.uiSchema,
+          schema: serviceStatus2.schema,
         },
         serviceHistory: {
           path: 'service-history',
