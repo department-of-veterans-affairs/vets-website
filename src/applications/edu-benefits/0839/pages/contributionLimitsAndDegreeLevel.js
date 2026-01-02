@@ -33,22 +33,23 @@ const uiSchema = {
       </p>
     </>
   ),
-  maximumStudentsOption: {
-    ...radioUI({
-      title: 'Maximum number of students',
-      options: [
-        { value: 'unlimited', label: 'Unlimited number of students' },
-        { value: 'specific', label: 'Enter the maximum number of students' },
-      ],
-      errorMessages: {
-        required: 'Select a maximum number of students option',
-      },
-    }),
+  maximumStudentsOption: radioUI({
+    title: 'Maximum number of students',
+    errorMessages: {
+      required: 'Select a maximum number of students option',
+    },
+    descriptions: {
+      unlimited:
+        'Values equal to or greater than 99,999 are treated as unlimited by the system',
+    },
+    labels: {
+      unlimited: 'Unlimited number of students',
+      specific: 'Enter a specific number of students',
+    },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
     },
-  },
-
+  }),
   maximumStudents: {
     ...numberUI({
       title: 'Enter the maximum number of students',
@@ -102,34 +103,30 @@ const uiSchema = {
         'vads-u-margin-bottom--2 contribution-degree-school container',
     },
   },
-  maximumContributionAmount: {
-    ...radioUI({
-      title: 'Maximum contribution amount',
-      options: [
-        {
-          value: 'unlimited',
-          label:
-            "Pay remaining tuition that Post-9/11 GI Bill doesn't cover (unlimited)",
-        },
-        {
-          value: 'specific',
-          label: 'Enter a maximum annual contribution amount',
-        },
-      ],
-      errorMessages: {
-        required: 'Select a maximum contribution amount option',
-      },
-    }),
+  maximumContributionAmount: radioUI({
+    title: 'Maximum contribution amount',
+    descriptions: {
+      unlimited:
+        'Values equal to or greater than 99,999 are treated as unlimited by the system',
+    },
+    labels: {
+      unlimited:
+        'Pay remaining mandatory tuition and fees not covered by Post-9/11 GI Bill (unlimited)',
+      specific: 'Enter a maximum annual contribution amount',
+    },
+    errorMessages: {
+      required: 'Select a maximum contribution amount option',
+    },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
     },
-  },
+  }),
   specificContributionAmount: {
     ...currencyUI({
       title:
         'Enter the maximum annual contribution amount for this degree level or professional school. ',
       description:
-        'Enter the total annual amount per student, not per term or credit hour. Values equal to or greater than 99,999 are treated as unlimited by the system.',
+        'Enter the total annual amount per student, not per term or credit hour. Maximum limit is 99,998.99.',
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
       },
@@ -155,10 +152,6 @@ const schema = {
     maximumStudentsOption: {
       type: 'string',
       enum: ['unlimited', 'specific'],
-      enumNames: [
-        'Unlimited number of students',
-        'Enter a specific number of students',
-      ],
     },
     maximumStudents: {
       type: 'string',
@@ -173,10 +166,6 @@ const schema = {
     maximumContributionAmount: {
       type: 'string',
       enum: ['unlimited', 'specific'],
-      enumNames: [
-        "Pay remaining tuition that Post-9/11 GI Bill doesn't cover (unlimited)",
-        'Enter a maximum annual contribution amount',
-      ],
     },
     specificContributionAmount: {
       type: 'string',
