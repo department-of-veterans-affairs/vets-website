@@ -103,13 +103,13 @@ const formConfig = {
       title: 'Institution details',
       pages: {
         hasVaFacilityCode: {
-          path: 'has-va-facility-code',
+          path: 'primary-institution-details',
           title: 'Has VA facility code',
           uiSchema: hasVaFacilityCode.uiSchema,
           schema: hasVaFacilityCode.schema,
         },
         primaryInstitutionDetails: {
-          path: 'primary-institution-details',
+          path: 'primary-institution-details-1',
           title: 'Primary institution details',
           uiSchema: primaryInstitutionDetails.uiSchema,
           schema: primaryInstitutionDetails.schema,
