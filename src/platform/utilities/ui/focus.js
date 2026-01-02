@@ -2,6 +2,8 @@ import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
 
 import environment from '../environment';
 
+// eslint-disable test
+
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
 export const defaultFocusSelector =
   '.nav-header > h2, va-segmented-progress-bar[heading-text][header-level="2"]';
