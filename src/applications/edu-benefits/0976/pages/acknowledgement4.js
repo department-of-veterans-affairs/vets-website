@@ -16,7 +16,7 @@ export default {
       financiallySound: {
         ...yesNoUI({
           title:
-            'The facility is financially sound and fully capable of meeting its obligations related to training activities. as part of this application, the facility agrees to submit financial documentation that substantiates its financial stability.(Examples of documentation may include copies of tax returns, or  financial reports that reports the financial position of the institution or establishment, as prepared by any appropriate third-party entity. New facilities are requested to  submit 24 months of financial data to determine financial soundness. Please contact your Education Liaison Representative (ELR)/State Approving Agency (SAA) for  additional guidance if needed).',
+            'The facility is financially sound and fully capable of meeting its obligations related to training activities. As part of this application, the facility agrees to submit financial documentation that substantiates its financial stability.(Examples of documentation may include copies of tax returns, or  financial reports that reports the financial position of the institution or establishment, as prepared by any appropriate third-party entity. New facilities are requested to  submit 24 months of financial data to determine financial soundness. Please contact your Education Liaison Representative (ELR)/State Approving Agency (SAA) for  additional guidance if needed).',
           description: (
             <p>
               <strong>Note:</strong> USE Department of Education, Title IV
@@ -52,7 +52,10 @@ export default {
         type: 'object',
         properties: {
           financiallySound: yesNoSchema,
-          financialSoundnessExplanation: textareaSchema,
+          financialSoundnessExplanation: {
+            ...textareaSchema,
+            maxLength: 500,
+          },
         },
         required: ['financiallySound'],
       },
