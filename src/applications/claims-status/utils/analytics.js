@@ -284,12 +284,14 @@ export const recordUploadStartEvent = ({ files, claimId }) => {
  * @param {Array<Object>} params.files - Original files array (for matching file objects)
  * @param {Array<Object>} params.filesWithRetryInfo - Files with retry info from start event
  * @param {string} params.claimId - Claim ID
+ * @param {number} params.retryFileCount - Number of files that were retries
  */
 export const recordUploadFailureEvent = ({
   errorFiles,
   files,
   filesWithRetryInfo,
   claimId,
+  retryFileCount,
 }) => {
   // Store each failed upload in sessionStorage for retry tracking
   errorFiles.forEach((error, index) => {
@@ -317,7 +319,7 @@ export const recordUploadFailureEvent = ({
     'upload-fail-alert-count': undefined,
     'upload-fail-file-count': errorFiles.length,
     'upload-file-count': undefined,
-    'upload-retry': undefined,
+    'upload-retry': retryFileCount > 0,
     'upload-retry-file-count': undefined,
     'upload-success-file-count': undefined,
   });

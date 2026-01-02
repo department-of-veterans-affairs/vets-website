@@ -515,6 +515,7 @@ export function submitFiles(
                   files,
                   filesWithRetryInfo,
                   claimId,
+                  retryFileCount,
                 });
                 dispatch({
                   type: SET_UPLOAD_ERROR,

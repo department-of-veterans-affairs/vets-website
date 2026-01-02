@@ -402,6 +402,7 @@ describe('analytics helpers', () => {
         files,
         filesWithRetryInfo,
         claimId: TEST_CLAIM_ID,
+        retryFileCount: 0,
       });
 
       expect(window.dataLayer.length).to.equal(1);
@@ -413,7 +414,7 @@ describe('analytics helpers', () => {
         'upload-fail-alert-count': undefined,
         'upload-fail-file-count': 1,
         'upload-file-count': undefined,
-        'upload-retry': undefined,
+        'upload-retry': false,
         'upload-retry-file-count': undefined,
         'upload-success-file-count': undefined,
       });
@@ -432,6 +433,7 @@ describe('analytics helpers', () => {
         files: [],
         filesWithRetryInfo: [],
         claimId: TEST_CLAIM_ID,
+        retryFileCount: 0,
       });
 
       expect(window.dataLayer.length).to.equal(1);
@@ -462,6 +464,7 @@ describe('analytics helpers', () => {
         files,
         filesWithRetryInfo,
         claimId: TEST_CLAIM_ID,
+        retryFileCount: 0,
       });
 
       const storedFailures = getStoredFailures();
@@ -495,6 +498,7 @@ describe('analytics helpers', () => {
         files,
         filesWithRetryInfo,
         claimId: TEST_CLAIM_ID,
+        retryFileCount: 0,
       });
 
       const storedFailures = getStoredFailures();
