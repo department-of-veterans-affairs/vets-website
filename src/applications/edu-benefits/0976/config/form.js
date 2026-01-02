@@ -12,6 +12,10 @@ import acknowledgement4 from '../pages/acknowledgement4';
 import acknowledgement5 from '../pages/acknowledgement5';
 import hasVaFacilityCode from '../pages/hasVaFacilityCode';
 import primaryInstitutionDetails from '../pages/primaryInstitutionDetails';
+import primaryInstitutionType from '../pages/primaryInstitutionType';
+import primaryInstitutionNameAndMailingAddress from '../pages/primaryInstitutionNameAndMailingAddress';
+import primaryInstitutionPhysicalAddress from '../pages/primaryInstitutionPhysicalAddress';
+import primaryInstitutionReview from '../pages/primaryInstitutionReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -110,6 +114,36 @@ const formConfig = {
           uiSchema: primaryInstitutionDetails.uiSchema,
           schema: primaryInstitutionDetails.schema,
           depends: formData => !!formData?.hasVaFacilityCode,
+        },
+        primaryInstitutionType: {
+          path: 'primary-institution-type',
+          title: 'Primary institution type',
+          uiSchema: primaryInstitutionType.uiSchema,
+          schema: primaryInstitutionType.schema,
+          depends: formData => !formData?.hasVaFacilityCode,
+        },
+        primaryInstitutionNameAndMailingAddress: {
+          path: 'primary-institution-name-and-mailing-address',
+          title: 'Primary institution name and mailing address',
+          uiSchema: primaryInstitutionNameAndMailingAddress.uiSchema,
+          schema: primaryInstitutionNameAndMailingAddress.schema,
+          depends: formData => !formData?.hasVaFacilityCode,
+        },
+        primaryInstitutionPhysicalAddress: {
+          path: 'primary-institution-physical-address',
+          title: 'Primary institution physical address',
+          uiSchema: primaryInstitutionPhysicalAddress.uiSchema,
+          schema: primaryInstitutionPhysicalAddress.schema,
+          depends: formData =>
+            !formData?.hasVaFacilityCode &&
+            !!formData?.primaryInstitutionDetails?.differentPhysicalAddress,
+        },
+        primaryInstitutionReview: {
+          path: 'primary-institution-review',
+          title: 'Primary institution review',
+          uiSchema: primaryInstitutionReview.uiSchema,
+          schema: primaryInstitutionReview.schema,
+          depends: formData => !formData?.hasVaFacilityCode,
         },
       },
     },

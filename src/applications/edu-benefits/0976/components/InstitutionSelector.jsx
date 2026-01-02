@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useValidateFacilityCode } from '../hooks/useValidateFacilityCode';
 import { getAtPath } from '../helpers';
 import { INSTITUTION_TYPES } from '../constants';
+import FacilityCodeAdditionalInfo from './FacilityCodeAdditionalInfo';
 
 const EmptyCard = (
   <>
@@ -10,21 +11,6 @@ const EmptyCard = (
     <h3>--</h3>
     <p>--</p>
   </>
-);
-
-const AdditionalInfo = (
-  <va-additional-info trigger="What to do if this name or address looks incorrect">
-    <p>
-      After you have verified the facility code is correctly entered, if either
-      the facility name or address is incorrect, please contact your State
-      Approving Agency (SAA) to have your approval updated.&nbsp;
-      <va-link
-        text="Go here to find your SAA’s email address"
-        href="https://nasaa-vetseducation.com/nasaa-contacts/"
-        external
-      />
-    </p>
-  </va-additional-info>
 );
 
 export default function InstitutionSelector({ dataPath }) {
@@ -66,7 +52,7 @@ export default function InstitutionSelector({ dataPath }) {
       <p className="vads-u-margin-top--0">
         {city}, {state} {postalCode}
       </p>
-      {AdditionalInfo}
+      <FacilityCodeAdditionalInfo />
       <p>
         <strong>The institution is classified as:</strong>
       </p>
