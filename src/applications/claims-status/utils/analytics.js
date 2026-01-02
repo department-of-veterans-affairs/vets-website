@@ -262,8 +262,8 @@ export const recordUploadStartEvent = ({ files, claimId }) => {
 
   recordEvent({
     event: 'claims-upload-start',
-    'api-name': 'Claims and Appeals Upload Fail Type 2 Alert',
-    'api-status': 'successful',
+    'api-name': 'Claims and Appeals Upload',
+    'api-status': 'started',
     'error-key': undefined,
     'upload-fail-alert-count': undefined,
     'upload-fail-file-count': undefined,
@@ -339,7 +339,7 @@ export const recordUploadSuccessEvent = ({ fileCount, retryFileCount }) => {
     'upload-fail-file-count': undefined,
     'upload-file-count': undefined,
     'upload-retry': retryFileCount > 0,
-    'upload-retry-file-count': retryFileCount,
+    'upload-retry-file-count': undefined,
     'upload-success-file-count': fileCount,
   });
 };

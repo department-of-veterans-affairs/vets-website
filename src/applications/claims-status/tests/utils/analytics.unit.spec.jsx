@@ -322,10 +322,18 @@ describe('analytics helpers', () => {
       const result = recordUploadStartEvent({ files, claimId: TEST_CLAIM_ID });
 
       expect(window.dataLayer.length).to.equal(1);
-      expect(window.dataLayer[0].event).to.equal('claims-upload-start');
-      expect(window.dataLayer[0]['upload-file-count']).to.equal(2);
-      expect(window.dataLayer[0]['upload-retry']).to.equal(false);
-      expect(window.dataLayer[0]['upload-retry-file-count']).to.equal(0);
+      expect(window.dataLayer[0]).to.deep.equal({
+        event: 'claims-upload-start',
+        'api-name': 'Claims and Appeals Upload',
+        'api-status': 'started',
+        'error-key': undefined,
+        'upload-fail-alert-count': undefined,
+        'upload-fail-file-count': undefined,
+        'upload-file-count': 2,
+        'upload-retry': false,
+        'upload-retry-file-count': 0,
+        'upload-success-file-count': undefined,
+      });
       expect(result.filesWithRetryInfo).to.have.lengthOf(2);
       expect(result.filesWithRetryInfo[0]).to.have.property('docInstanceId');
       expect(result.retryFileCount).to.equal(0);
@@ -512,7 +520,7 @@ describe('analytics helpers', () => {
         'upload-fail-file-count': undefined,
         'upload-file-count': undefined,
         'upload-retry': true,
-        'upload-retry-file-count': 1,
+        'upload-retry-file-count': undefined,
         'upload-success-file-count': 2,
       });
     });
