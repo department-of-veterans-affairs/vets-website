@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -15,13 +17,17 @@ import {
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
-import { clearReviewPageAlert } from '../../../redux/actions';
+import {
+  clearReviewPageAlert,
+  setExpenseBackDestination,
+} from '../../../redux/actions';
 import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
+  const alertRef = useRef(null);
 
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const expenses = useSelector(selectAllExpenses) ?? [];
@@ -31,6 +37,23 @@ const ReviewPage = () => {
   const title = 'Your unsubmitted expenses';
 
   useSetPageTitle(title);
+  useRecordPageview('complex-claims', title);
+
+  useEffect(
+    () => {
+      if (alertMessage) {
+        if (alertRef.current) {
+          focusElement(alertRef.current);
+        }
+      } else {
+        const firstH1 = document.getElementsByTagName('h1')[0];
+        if (firstH1) {
+          focusElement(firstH1);
+        }
+      }
+    },
+    [alertMessage],
+  );
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
@@ -71,6 +94,7 @@ const ReviewPage = () => {
   };
 
   const addMoreExpenses = () => {
+    dispatch(setExpenseBackDestination('review'));
     navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
@@ -86,6 +110,7 @@ const ReviewPage = () => {
       <h1>{title}</h1>
       {isAlertVisible && (
         <ReviewPageAlert
+          alertRef={alertRef}
           header={alertMessage.title}
           description={alertMessage.description}
           status={alertMessage.type}

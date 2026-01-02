@@ -109,7 +109,7 @@ This uses the Health Care Application EZR API endpoints:
 - Names start with `ezr` for both long-lived and feature-development toggles:
 - `ezrProdEnabled` - Enables the EZR application in production
 - Some overarching Health Applications functionality, prefixed with `hca`, also affects EZR:
-- `hcaBrowserMonitoringEnabled` - Enables DataDog browser monitoring for the application
+- `ezrBrowserMonitoringEnabled` - Enables DataDog browser monitoring for the application
 
 ### Data Flow
 

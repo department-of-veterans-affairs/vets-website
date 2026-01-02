@@ -266,11 +266,8 @@ export const Prompts = {
       'Messages in the trash folder won’t be permanently deleted.',
   },
   Draft: {
-    DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
-    DELETE_DRAFT_CONFIRM_NOTE:
-      "Drafts are permanently deleted and this action can't be undone. Deleting a draft won't affect other messages in this conversation.",
-    DELETE_NEW_DRAFT_TITLE: 'Delete this draft?',
-    DELETE_NEW_DRAFT_CONTENT: `If you delete a draft, you can't get it back.`,
+    DELETE_DRAFT_CONFIRM_HEADER: 'Delete this draft?',
+    DELETE_DRAFT_CONFIRM_CONTENT: `If you delete a draft, you can’t get it back. But deleting it won’t affect other messages in this conversation.`,
   },
 };
 
@@ -337,6 +334,11 @@ export const Categories = {
   TEST_RESULTS: 'Test',
   TEST_RESULT: 'Test',
   EDUCATION: 'Education',
+};
+
+export const SelectCareTeamPage = {
+  CANT_FIND_CARE_TEAM_NOTE: `If you can’t find the care team you want to select, update your contact list to add it here.`,
+  CANT_FIND_CARE_TEAM_LINK: `Learn what to do if you can’t find your care team`,
 };
 
 export const MessageHintText = {

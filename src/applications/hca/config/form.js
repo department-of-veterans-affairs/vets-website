@@ -106,8 +106,7 @@ import DependentsInformationPage from '../components/FormPages/DependentsInforma
 import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
-import general from './chapters/insuranceInformation/general';
-import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
+import insurancePolicyPages from './chapters/insuranceInformation/policies';
 import vaFacilityPage from './chapters/insuranceInformation/vaFacility';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
@@ -553,13 +552,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
-        },
-        general: {
-          path: 'insurance-information/general',
-          title: 'Other coverage',
-          depends: formData => !formData['view:isInsuranceV2Enabled'],
-          uiSchema: general.uiSchema,
-          schema: general.schema,
         },
         ...insurancePolicyPages,
         vaFacility: {

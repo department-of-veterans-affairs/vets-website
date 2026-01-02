@@ -26,7 +26,10 @@ export default {
     'view:veteranGrossIncome': {
       ...inlineTitleUI(
         content['household-income-gross-title'],
-        content['household-income-gross-description'],
+        replaceStrValues(
+          content['household-income-gross-description'],
+          LAST_YEAR,
+        ),
       ),
       'ui:description': () => GrossIncomeDescription('veteran'),
       veteranGrossIncome: currencyUI(
@@ -39,7 +42,10 @@ export default {
     'view:veteranNetIncome': {
       ...inlineTitleUI(
         content['household-income-net-title'],
-        content['household-income-net-description'],
+        replaceStrValues(
+          content['household-income-net-description'],
+          LAST_YEAR,
+        ),
       ),
       veteranNetIncome: currencyUI(
         replaceStrValues(
@@ -51,7 +57,10 @@ export default {
     'view:veteranOtherIncome': {
       ...inlineTitleUI(
         content['household-income-other-title'],
-        content['household-income-other-description'],
+        replaceStrValues(
+          content['household-income-other-description'],
+          LAST_YEAR,
+        ),
       ),
       'ui:description': () => OtherIncomeDescription('veteran'),
       veteranOtherIncome: currencyUI(

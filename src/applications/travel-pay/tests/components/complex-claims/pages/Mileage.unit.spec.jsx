@@ -28,6 +28,7 @@ describe('Complex Claims Mileage - Add', () => {
           },
           appointmentDate: '2024-01-15',
           appointmentTime: '10:00 AM',
+          localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
         isLoading: false,
@@ -186,8 +187,11 @@ describe('Complex Claims Mileage - Add', () => {
       );
       fireEvent.click(continueBtn);
 
-      // Assert createExpense received correct description
-      expect(stub.firstCall.args[2].description).to.equal('Mileage');
+      // Assert createExpense received correct data
+      const expenseData = stub.firstCall.args[2];
+      expect(expenseData.purchaseDate).to.equal('2024-01-15');
+      expect(expenseData.description).to.equal('Mileage');
+      expect(expenseData.tripType).to.equal('RoundTrip');
 
       stub.restore();
     });
@@ -384,6 +388,7 @@ describe('Complex Claims Mileage - Edit', () => {
           },
           appointmentDate: '2024-01-15',
           appointmentTime: '10:00 AM',
+          localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
         isLoading: false,
@@ -518,8 +523,11 @@ describe('Complex Claims Mileage - Edit', () => {
       );
       fireEvent.click(continueBtn);
 
-      // Assert updateExpense received correct description
-      expect(stub.firstCall.args[3].description).to.equal('Mileage');
+      // Assert updateExpense received correct data
+      const expenseData = stub.firstCall.args[3];
+      expect(expenseData.purchaseDate).to.equal('2024-01-15');
+      expect(expenseData.description).to.equal('Mileage');
+      expect(expenseData.tripType).to.equal('RoundTrip');
     });
   });
 

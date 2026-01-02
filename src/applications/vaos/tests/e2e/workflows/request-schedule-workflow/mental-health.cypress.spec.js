@@ -37,6 +37,7 @@ import {
 } from '../../vaos-cypress-helpers';
 import TypeOfVisitPageObject from '../../page-objects/TypeOfVisitPageObject';
 
+const labelRegexReasonForAppointment = /Enter a brief reason for this appointment\. Your provider will contact you if they need more details\./;
 const typeOfCareRegex = /Mental health/i;
 
 describe('VAOS request schedule flow - Mental health', () => {
@@ -142,7 +143,7 @@ describe('VAOS request schedule flow - Mental health', () => {
               name: /What.s the reason for this appointment/i,
             })
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({
               content: 'This is a test',
@@ -287,7 +288,7 @@ describe('VAOS request schedule flow - Mental health', () => {
               name: /What.s the reason for this appointment/i,
             })
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({
               content: 'This is a test',

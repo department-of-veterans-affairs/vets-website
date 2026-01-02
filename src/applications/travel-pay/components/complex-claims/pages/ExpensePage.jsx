@@ -15,6 +15,8 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
@@ -123,6 +125,9 @@ const ExpensePage = () => {
   const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
   const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
 
+  useSetFocus();
+  useRecordPageview('complex-claims', expenseTypeFields?.label || 'Expense');
+
   // Effects
   // Effect 1: Reset loaded flag when expenseId changes
   useEffect(
@@ -147,7 +152,9 @@ const ExpensePage = () => {
           // Step 1: Fetch the expense data
           dispatch(fetchExpenseStart(expenseId));
           const expenseConfig = EXPENSE_TYPES[expenseType];
-          const expenseUrl = `${environment.API_URL}/travel_pay/v0/expenses/${
+          const expenseUrl = `${
+            environment.API_URL
+          }/travel_pay/v0/claims/${claimId}/expenses/${
             expenseConfig.apiRoute
           }/${expenseId}`;
           const expenseResponse = await apiRequest(expenseUrl);

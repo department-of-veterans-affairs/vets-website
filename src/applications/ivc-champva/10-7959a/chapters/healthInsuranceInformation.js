@@ -135,7 +135,7 @@ const policyPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Policy information',
-      nounSingular: insuranceOptions.nounSingular,
+      showEditExplanationText: false,
     }),
     name: textUI('Name of insurance provider'),
     policyNum: textUI('Policy number'),

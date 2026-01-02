@@ -22,9 +22,6 @@ describe('generateTimestampForFilename function', () => {
     );
 
     const formattedTimestamp = generateTimestampForFilename();
-    expect(formattedTimestamp).to.be.oneOf([
-      formattedNow.toLowerCase(),
-      formattedOneSecond.toLowerCase(),
-    ]);
+    expect(formattedTimestamp).to.be.oneOf([formattedNow, formattedOneSecond]);
   });
 });

@@ -17,6 +17,7 @@ import {
   DELETE_DOCUMENT_STARTED,
   DELETE_DOCUMENT_SUCCESS,
   DELETE_DOCUMENT_FAILURE,
+  SET_EXPENSE_BACK_DESTINATION,
 } from '../../redux/actions';
 
 const { travelPay: reducer } = travelPayReducer;
@@ -327,6 +328,21 @@ describe('Redux - reducer', () => {
           },
         },
       });
+    });
+  });
+
+  it('should update state as expected for SET_EXPENSE_BACK_DESTINATION action', () => {
+    expect(
+      reducer(defaultState, {
+        type: SET_EXPENSE_BACK_DESTINATION,
+        payload: 'some-arbitrary-value',
+      }),
+    ).to.deep.equal({
+      ...defaultState,
+      complexClaim: {
+        ...defaultState.complexClaim,
+        expenseBackDestination: 'some-arbitrary-value',
+      },
     });
   });
 });

@@ -338,7 +338,7 @@ export const PrintThisPage = ({ className = '' }) => {
       <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
       <p>
         If you’d like to keep a copy of the information on this page, you can
-        print it now.
+        print it now. You won’t be able to access this page later.
       </p>
       <va-button
         onClick={onPrintPageClick}

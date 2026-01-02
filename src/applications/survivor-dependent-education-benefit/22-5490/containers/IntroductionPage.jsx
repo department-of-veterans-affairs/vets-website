@@ -197,7 +197,7 @@ export const IntroductionPage = ({
               <strong>Note:</strong> In some cases, we may need more time to
               make a decision. If you don’t get an automatic decision right
               after you apply, you’ll receive a decision letter in the mail in
-              about 30 days. We’ll contact you if we need more information.
+              about 30 days. And we’ll contact you if we need more information.
             </p>
           </va-additional-info>
         </va-process-list-item>

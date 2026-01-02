@@ -347,7 +347,12 @@ const ArrayBuilderCards = ({
                       >
                         {itemName}
                       </CardTitle>
-                      {itemDescription}
+                      <div
+                        className="dd-privacy-mask"
+                        data-dd-action-name="Item Description"
+                      >
+                        {itemDescription}
+                      </div>
                       {alert}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">

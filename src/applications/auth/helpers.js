@@ -46,6 +46,13 @@ export const emailNeedsConfirmation = ({
     return false;
   }
 
+  // Has no email address
+  const hasNoEmailAddress =
+    !vet360ContactInformation?.email?.emailAddress ||
+    vet360ContactInformation?.email?.emailAddress === '' ||
+    vet360ContactInformation?.email?.emailAddress === undefined ||
+    vet360ContactInformation?.email?.emailAddress === null;
+
   // Confirmation Date is null
   const hasNoConfirmationDate =
     vet360ContactInformation?.email?.confirmationDate === null;
@@ -66,7 +73,7 @@ export const emailNeedsConfirmation = ({
     profile?.verified && // Verified User
     vaProfile?.vaPatient && // VA Patient
     vaProfile?.facilities?.length > 0 && // Assigned to a facility
-    (hasNoConfirmationDate || confirmationDateIsBefore) // Confirmation Date related
+    (hasNoConfirmationDate || confirmationDateIsBefore || hasNoEmailAddress) // Confirmation Date or email related
   );
 };
 

@@ -29,11 +29,11 @@ const {
  * Declare schema attributes for next of kins page
  * @returns {PageSchema}
  */
-export const nextOfKinPage = options => ({
+export const nextOfKinPage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: content['next-of-kin-title'],
-      nounSingular: options.nounSingular,
+      showEditExplanationText: false,
     }),
     fullName: fullNameUI(title => `Next of kin's ${title}`, {
       first: {

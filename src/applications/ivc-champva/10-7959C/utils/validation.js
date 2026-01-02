@@ -53,8 +53,6 @@ export const validateDateRange = (errors, data, options = {}) => {
  * @property {string} [item.medigapPlan] Required when `insuranceType === 'medigap'`.
  * @property {boolean} [item.throughEmployer] Required boolean indicating if insurance is through employer.
  * @property {boolean} [item.eob] Required boolean indicating if insurance covers prescriptions.
- * @property {string} [item.additionalComments] Optional additional comments (max 200 chars).
- * @property {Object} [item.healthcareParticipants] Required object indicating which applicants are covered.
  * @property {Array} [item.insuranceCardFront] Required uploaded file array for front of insurance card.
  * @property {Array} [item.insuranceCardBack] Required uploaded file array for back of insurance card.
  *
@@ -69,8 +67,6 @@ export const validateHealthInsurancePlan = (item = {}) => {
     medigapPlan,
     throughEmployer,
     eob,
-    additionalComments,
-    healthcareParticipants,
     insuranceCardFront,
     insuranceCardBack,
   } = item;
@@ -82,16 +78,8 @@ export const validateHealthInsurancePlan = (item = {}) => {
     return isValidDateRange(fromDate, toDate);
   };
 
-  const hasValidParticipants = participants => {
-    if (!participants || typeof participants !== 'object') return false;
-    return Object.values(participants).some(value => value === true);
-  };
-
   const hasValidUpload = fileArray =>
     Array.isArray(fileArray) && fileArray[0]?.name;
-
-  const isValidComments = comments =>
-    !comments || (typeof comments === 'string' && comments.length <= 200);
 
   const isValidPastDate = dateString => {
     if (!dateString) return false;
@@ -110,9 +98,6 @@ export const validateHealthInsurancePlan = (item = {}) => {
   if (insuranceType === 'medigap' && !medigapPlan) return true;
   if (throughEmployer === undefined || throughEmployer === null) return true;
   if (eob === undefined || eob === null) return true;
-
-  if (!isValidComments(additionalComments)) return true;
-  if (!hasValidParticipants(healthcareParticipants)) return true;
 
   return (
     !hasValidUpload(insuranceCardFront) || !hasValidUpload(insuranceCardBack)

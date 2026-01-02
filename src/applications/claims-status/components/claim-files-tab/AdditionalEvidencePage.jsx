@@ -102,7 +102,7 @@ class AdditionalEvidencePage extends React.Component {
               {filesNeeded.map(item => (
                 <FilesNeeded
                   key={item.id}
-                  id={claim.id}
+                  claimId={claim.id}
                   item={item}
                   evidenceWaiverSubmitted5103={
                     claim.attributes.evidenceWaiverSubmitted5103

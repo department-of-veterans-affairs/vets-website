@@ -93,9 +93,9 @@ describe('Delete Draft component', () => {
       expect(deleteDraftModal).to.have.attribute('visible', 'true');
       expect(deleteDraftModal).to.have.attribute(
         'modal-title',
-        Prompts.Draft.DELETE_DRAFT_CONFIRM,
+        Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER,
       );
-      screen.getByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE);
+      screen.getByText(Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT);
       screen.getByText('Delete draft');
       screen.getByTestId('cancel-delete-draft');
     });
@@ -114,7 +114,6 @@ describe('Delete Draft component', () => {
       draftId: 123456,
       draftsCount: 1,
       savedDraft: true,
-      unsavedDraft: false,
       activeFolder: { folderId: '1' },
     };
 
@@ -194,7 +193,6 @@ describe('Delete Draft component', () => {
       draftBody: '',
       messageBody: '',
       savedDraft: false,
-      unsavedDraft: true,
       editableDraft: false,
     };
 
@@ -273,7 +271,6 @@ describe('Delete Draft component', () => {
         draftId={undefined}
         formPopulated={undefined}
         messageBody=""
-        unsavedDraft
         blankReplyDraft
         draftBody={undefined}
         savedReplyDraft={false}
@@ -294,7 +291,7 @@ describe('Delete Draft component', () => {
       'true',
     );
     expect(screen.getByTestId('delete-draft-modal')).to.have.text(
-      Prompts.Draft.DELETE_NEW_DRAFT_CONTENT,
+      Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT,
     );
     fireEvent.click(screen.getByTestId('cancel-delete-draft'));
     expect(screen.queryByTestId('delete-draft-modal')).to.have.attribute(
@@ -325,7 +322,6 @@ describe('Delete Draft component', () => {
       <DeleteDraft
         draftId={mockDraft[0].messageId}
         messageBody={mockDraft[0].body}
-        unsavedDraft={false}
         blankReplyDraft={false}
         draftBody={mockDraft[0].body}
         savedReplyDraft
@@ -346,7 +342,7 @@ describe('Delete Draft component', () => {
     );
 
     expect(screen.getByTestId('delete-draft-modal')).to.have.text(
-      Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE,
+      Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT,
     );
     fireEvent.click(screen.getByTestId('cancel-delete-draft'));
     expect(screen.queryByTestId('delete-draft-modal')).to.have.attribute(
@@ -377,7 +373,6 @@ describe('Delete Draft component', () => {
       <DeleteDraft
         draftId={mockDraft[0].messageId}
         messageBody={mockDraft[0].body}
-        unsavedDraft={false}
         blankReplyDraft={false}
         draftBody={mockDraft[0].body}
         savedReplyDraft
@@ -400,7 +395,9 @@ describe('Delete Draft component', () => {
     const deleteModal = getByTestId('delete-draft-modal');
     expect(deleteModal).to.exist;
     expect(deleteModal).to.have.attribute('visible', 'true');
-    expect(deleteModal).to.have.text(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE);
+    expect(deleteModal).to.have.text(
+      Prompts.Draft.DELETE_DRAFT_CONFIRM_CONTENT,
+    );
 
     const deleteModalButton = getByTestId('confirm-delete-draft');
     fireEvent.click(deleteModalButton);

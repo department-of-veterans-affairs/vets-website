@@ -11,7 +11,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
-import { PageHeaders, Paths } from '../../util/constants';
+import { PageHeaders, Paths, SelectCareTeamPage } from '../../util/constants';
 
 describe('App', () => {
   const initialState = {
@@ -329,7 +329,7 @@ describe('App', () => {
 
     // Navigate to Care Team Help route
     const link = await screen.findByText(
-      'What to do if you can’t find your care team',
+      SelectCareTeamPage.CANT_FIND_CARE_TEAM_LINK,
     );
     fireEvent.click(link);
 

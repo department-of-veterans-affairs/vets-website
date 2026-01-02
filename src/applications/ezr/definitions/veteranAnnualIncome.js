@@ -27,11 +27,15 @@ export const VeteranAnnualIncomePage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: `Your annual income from ${LAST_YEAR}`,
+      showEditExplanationText: false,
     }),
     'view:veteranGrossIncome': {
       ...inlineTitleUI(
         content['household-income-gross-title'],
-        content['household-income-gross-description'],
+        replaceStrValues(
+          content['household-income-gross-description'],
+          LAST_YEAR,
+        ),
       ),
       'ui:description': () => GrossIncomeDescription('veteran'),
       veteranGrossIncome: currencyUI(
@@ -44,7 +48,10 @@ export const VeteranAnnualIncomePage = () => ({
     'view:veteranNetIncome': {
       ...inlineTitleUI(
         content['household-income-net-title'],
-        content['household-income-net-description'],
+        replaceStrValues(
+          content['household-income-net-description'],
+          LAST_YEAR,
+        ),
       ),
       'ui:description': () => PreviousNetIncome('veteran'),
       veteranNetIncome: currencyUI(
@@ -57,7 +64,10 @@ export const VeteranAnnualIncomePage = () => ({
     'view:veteranOtherIncome': {
       ...inlineTitleUI(
         content['household-income-other-title'],
-        content['household-income-other-description'],
+        replaceStrValues(
+          content['household-income-other-description'],
+          LAST_YEAR,
+        ),
       ),
       'ui:description': () => OtherIncomeDescription('veteran'),
       veteranOtherIncome: currencyUI(

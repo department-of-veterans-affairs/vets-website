@@ -357,12 +357,6 @@ export const FacilityLocatorDescription = (
   </>
 );
 
-export const GroupCodeDescription = (
-  <div className="vads-u-color--gray-medium">
-    Either this or the policy number is required
-  </div>
-);
-
 export const MedicaidDescription = (
   <>
     <span className="vads-u-display--block vads-u-margin-y--2">
@@ -418,27 +412,6 @@ export const MedicareEffectiveDateDescription = (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--4 vads-u-color--gray-medium">
     You’ll find this date under “coverage starts” on the front of your Medicare
     card.
-  </div>
-);
-
-export const PolicyNumberDescription = (
-  <div className="vads-u-color--gray-medium">
-    Either this or the group code is required
-  </div>
-);
-
-export const PolicyOrDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5 vads-u-color--primary-darker">
-    or
-  </div>
-);
-
-export const PolicyOrGroupDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-top--6 vads-u-margin-bottom--2 vads-u-color--primary-darker">
-    Provide either your insurance policy number or group code.{' '}
-    <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-      (*Required)
-    </span>
   </div>
 );
 

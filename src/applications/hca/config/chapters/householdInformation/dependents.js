@@ -77,6 +77,7 @@ const DependentsPages = arrayBuilderPages(options, pagebuilder => ({
             options.nounSingular,
           ),
         ),
+        showEditExplanationText: false,
       }),
       ...dependentUISchema.basic,
     },

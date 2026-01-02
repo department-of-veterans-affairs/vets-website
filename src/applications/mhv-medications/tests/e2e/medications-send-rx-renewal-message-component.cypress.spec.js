@@ -146,7 +146,7 @@ describe('Send Rx Renewal Message Component', () => {
 
         const discontinuedText = $discontinued.text();
         expect(discontinuedText).to.include(
-          'You can’t refill this prescription',
+          "You can't refill this prescription",
         );
 
         cy.wrap($discontinued)

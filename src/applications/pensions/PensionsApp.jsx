@@ -5,11 +5,20 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import IntentToFile from 'platform/shared/itf/IntentToFile';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
-import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 
+/**
+ * Pensions Application
+ * @typedef {object} PensionsAppProps
+ * @property {object} location - current location object
+ * @property {node} children - child components
+ *
+ * @param {PensionsAppProps} props - Component props
+ * @returns {React.Component} - Pensions Application
+ */
 export default function PensionEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
@@ -22,6 +31,9 @@ export default function PensionEntry({ location, children }) {
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
   );
+  const isLoggedIn = useSelector(
+    state => state?.user?.login?.currentlyLoggedIn,
+  );
   const redirectToHowToPage =
     pensionFormEnabled === false &&
     !location.pathname?.includes('/introduction');
@@ -30,7 +42,20 @@ export default function PensionEntry({ location, children }) {
   }
 
   // Add Datadog UX monitoring to the application
-  useBrowserMonitoring();
+  useBrowserMonitoring({
+    loggedIn: isLoggedIn,
+    toggleName: 'pensionsBrowserMonitoringEnabled',
+
+    applicationId: 'b3319250-eeb3-419c-b596-3422aec52e4d',
+    clientToken: 'pubd03b9c29b16b25a9fa3ba5cbe8670658',
+    service: 'benefits-pension',
+    version: '1.0.0',
+
+    // record 100% of staging & production sessions; adjust the dashboard
+    // retention filters to manage volume & cost
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 100,
+  });
 
   useEffect(
     () => {

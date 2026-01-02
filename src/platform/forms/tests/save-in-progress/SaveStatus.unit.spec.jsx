@@ -1,9 +1,10 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import SaveStatus from '../../save-in-progress/SaveStatus.jsx';
+import SaveStatus from '../../save-in-progress/SaveStatus';
 import { SAVE_STATUSES } from '../../save-in-progress/actions';
 
 describe('<SaveStatus>', () => {
@@ -107,5 +108,24 @@ describe('<SaveStatus>', () => {
     const text = tree.subTree('.saved-success-container').text();
     expect(text).to.include('September 18, 2017, at');
     expect(text).to.include('custom application type ID number is 98765');
+  });
+
+  it('should unmask in-progress form ID in DataDog RUM', () => {
+    const { container } = render(
+      <SaveStatus
+        form={{
+          formId: VA_FORM_IDS.FORM_10_10EZ,
+          lastSavedDate: 1505770055000,
+          autoSavedStatus: 'success',
+          inProgressFormId: 98765,
+        }}
+        formConfig={{}}
+      />,
+    );
+    const strongElement = container.querySelector('strong');
+    expect(strongElement.getAttribute('data-dd-privacy')).to.equal('allow');
+    expect(strongElement.getAttribute('data-dd-action-name')).to.equal(
+      'in-progress-form-id',
+    );
   });
 });

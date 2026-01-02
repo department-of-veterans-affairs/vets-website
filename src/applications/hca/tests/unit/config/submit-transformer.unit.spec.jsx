@@ -112,11 +112,10 @@ describe('hca `submitTransformer` utility', () => {
     expect(Object.keys(dependents[0])).to.have.lengthOf(13);
   });
 
-  it('should set `isCoveredByHealthInsurance` to `true` when insurance v2 is enabled and providers exist', () => {
+  it('should set `isCoveredByHealthInsurance` to `true` when providers exist', () => {
     const testData = {
       ...maxTestData,
       isCoveredByHealthInsurance: undefined,
-      'view:isInsuranceV2Enabled': true,
     };
     const form = getForm({ formData: testData });
     const transformedData = submitTransformer(formConfig, form);
@@ -125,12 +124,11 @@ describe('hca `submitTransformer` utility', () => {
     expect(isCoveredByHealthInsurance).to.equal(true);
   });
 
-  it('should set `isCoveredByHealthInsurance` to `false` when insurance v2 is enabled and providers are empty/missing', () => {
+  it('should set `isCoveredByHealthInsurance` to `false` when providers are empty/missing', () => {
     // Case 1: explicitly empty array
     const withEmptyProviders = {
       ...minTestData,
       isCoveredByHealthInsurance: undefined,
-      'view:isInsuranceV2Enabled': true,
     };
     const form1 = getForm({ formData: withEmptyProviders });
     const transformed1 = submitTransformer(formConfig, form1);
@@ -143,27 +141,12 @@ describe('hca `submitTransformer` utility', () => {
       ...minTestData,
       providers: undefined,
       isCoveredByHealthInsurance: undefined,
-      'view:isInsuranceV2Enabled': true,
     };
     const form2 = getForm({ formData: withoutProviders });
     const transformed2 = submitTransformer(formConfig, form2);
     const { form: formData2 } = JSON.parse(transformed2);
     const parsed2 = JSON.parse(formData2);
     expect(parsed2.isCoveredByHealthInsurance).to.equal(false);
-  });
-
-  it('should not set `isCoveredByHealthInsurance` when insurance v2 is disabled', () => {
-    const testData = {
-      ...maxTestData,
-      'view:isInsuranceV2Enabled': false,
-    };
-    const form = getForm({ formData: testData });
-    const transformedData = submitTransformer(formConfig, form);
-    const { form: formData } = JSON.parse(transformedData);
-    const { isCoveredByHealthInsurance } = JSON.parse(formData);
-    expect(isCoveredByHealthInsurance).to.equal(
-      testData.isCoveredByHealthInsurance,
-    );
   });
 
   it('should default dependent income/expense values to `0` when omitted', () => {

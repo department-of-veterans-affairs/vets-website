@@ -40,8 +40,7 @@ const formConfig = {
         label: 'Reimbursements',
       },
       {
-        href:
-          '/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272',
+        href: '/forms/22-10272/request-prep-course-reimbursement-online',
         label: 'Test reimbursement 22 10272',
       },
     ],

@@ -40,7 +40,7 @@ export default function WhatWeAreDoing({
     : getClaimStatusDescription(status);
   const linkText = showEightPhases
     ? 'Learn more about this step'
-    : 'Overview of the process';
+    : 'Learn more about the review process';
 
   return (
     <div className="what-were-doing-container vads-u-margin-bottom--4">

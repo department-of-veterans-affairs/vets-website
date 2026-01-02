@@ -29,6 +29,7 @@ export const DeductibleExpensesPage = () => ({
       title: `Deductible expenses from ${LAST_YEAR}`,
       description:
         'These deductible expenses will lower the amount of money we count as your income.',
+      showEditExplanationText: false,
     }),
     'view:deductibleMedicalExpenses': {
       'ui:title': content['household-expenses-medical-title'],

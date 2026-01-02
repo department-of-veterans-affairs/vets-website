@@ -32,7 +32,7 @@ export default function ReasonForAppointmentSection({ data }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-              Details to share with your provider
+              Reason for appointment
             </h2>
             {!reasonAdditionalInfo && <span>No details shared</span>}
             <span
@@ -45,7 +45,7 @@ export default function ReasonForAppointmentSection({ data }) {
           <div>
             <va-link
               href={reason.url}
-              label="Edit details you’d like to share with your provider"
+              label="Edit reason for appointment"
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, home, reason)}

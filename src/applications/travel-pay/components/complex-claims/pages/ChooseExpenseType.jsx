@@ -6,8 +6,13 @@ import {
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
-import { selectComplexClaim } from '../../../redux/selectors';
+import {
+  selectComplexClaim,
+  selectExpenseBackDestination,
+} from '../../../redux/selectors';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
@@ -19,9 +24,13 @@ const ChooseExpenseType = () => {
   // Get claim data
   const { data: claim } = useSelector(selectComplexClaim);
 
+  const backDestination = useSelector(selectExpenseBackDestination);
+
   const title = 'What type of expense do you want to add?';
 
   useSetPageTitle(title);
+  useSetFocus();
+  useRecordPageview('complex-claims', title);
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {
@@ -64,7 +73,11 @@ const ChooseExpenseType = () => {
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
+    if (backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
+    }
   };
 
   const hintText = 'You can submit 1 mileage expense for this claim.';

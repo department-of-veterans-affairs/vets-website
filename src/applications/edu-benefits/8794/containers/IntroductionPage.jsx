@@ -178,16 +178,14 @@ const IntroductionPage = ({ route }) => {
           </p>
         </va-process-list-item>
         <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA)">
-          <p className="vads-u-margin-top--1">
-            <strong>If your institution has a facility code:</strong> Go to the
-            Education File Upload Portal and upload the completed PDF document
-            that you downloaded. This is how you submit this form.
+          <p className="vads-u-margin-top--1p5">
+            <strong>If your institution has a VA facility code:</strong> Go to
+            the Education File Upload Portal and upload the completed PDF
+            document that you downloaded. This is how you submit this form.
           </p>
           <p>
             <strong>
-              If your institution doesn’t have a VA facility code or if you are
-              submitting the form because your institution has changed
-              ownership:
+              If your institution doesn’t have a VA facility code:
             </strong>{' '}
             Email your completed PDF to your State Approving Agency (SAA). If
             you need help finding their email address,{' '}

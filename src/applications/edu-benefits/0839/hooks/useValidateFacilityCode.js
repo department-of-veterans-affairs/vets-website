@@ -45,10 +45,6 @@ export const useValidateFacilityCode = formData => {
             ['1', '2', '3'].includes(firstDigit) &&
             ['1', '2', '3', '4'].includes(secondDigit);
 
-          const programTypes = Array.isArray(attrs.programTypes)
-            ? attrs.programTypes
-            : [];
-          const ihlEligible = programTypes.includes('IHL');
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -58,7 +54,6 @@ export const useValidateFacilityCode = formData => {
             postalCode: attrs.zip || '',
             country: attrs.country || '',
           };
-          const facilityMap = attrs.facilityMap.main;
 
           setInstitutionData(response?.data);
           setLoader(false);
@@ -70,8 +65,6 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: response?.data?.attributes?.name,
                 institutionAddress,
-                facilityMap,
-                ihlEligible,
                 yrEligible,
                 isLoading: false,
                 isUsaSchool:
@@ -90,7 +83,6 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: 'not found',
                 institutionAddress: {},
-                ihlEligible: null,
                 isLoading: false,
               },
             }),

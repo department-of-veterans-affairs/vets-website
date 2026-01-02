@@ -35,7 +35,11 @@ import {
   routeToPreviousAppointmentPage,
   routeToRequestAppointmentPage,
 } from '../../redux/actions';
-import { getChosenClinicInfo, getDateTimeSelect } from '../../redux/selectors';
+import {
+  getChosenClinicInfo,
+  getDateTimeSelect,
+  selectSelectedProvider,
+} from '../../redux/selectors';
 import UrgentCareLinks from '../UrgentCareLinks';
 
 const pageKey = 'selectDateTime';
@@ -228,6 +232,7 @@ export default function DateTimeSelectPage() {
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const clinic = useSelector(state => getChosenClinicInfo(state));
+  const selectedProvider = useSelector(state => selectSelectedProvider(state));
   const upcomingAppointments = useSelector(selectUpcomingAppointments);
 
   // Effect to focus on validation message whenever error state changes
@@ -315,8 +320,10 @@ export default function DateTimeSelectPage() {
         (loadingSlots || slotAvailable) && (
           <>
             <p>
-              {clinic && `Scheduling at ${clinic.serviceName}`}
-              {clinic && timezone && <br />}
+              {clinic && `Scheduling at ${clinic.serviceName}.`}
+              {selectedProvider &&
+                `Scheduling with ${selectedProvider.providerName}.`}
+              {(clinic || selectedProvider) && timezone ? <span> </span> : null}
               {timezone && `Times are displayed in ${timezoneDescription}.`}
             </p>
             <CalendarWidget

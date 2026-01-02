@@ -36,6 +36,12 @@ const mockSetFormState = () => {
   return fn;
 };
 
+const getFutureDateString = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().split('T')[0];
+};
+
 describe('parseDateInput', () => {
   it('returns null values when input is falsy', () => {
     expect(parseDateInput(null)).to.deep.equal({
@@ -342,7 +348,6 @@ describe('validateAirTravelFields', () => {
 
   it('validates all fields at once and sets errors for empty values', () => {
     const nextErrors = validateAirTravelFields(formState, errors);
-
     expect(nextErrors).to.deep.equal({
       vendorName: 'Enter the company name',
       tripType: 'Select a trip type',
@@ -359,15 +364,21 @@ describe('validateAirTravelFields', () => {
     expect(nextErrors.vendorName).to.be.undefined;
   });
 
-  it('checks departureDate < returnDate logic', () => {
-    formState.departureDate = '2025-01-10';
-    formState.returnDate = '2025-01-05';
-
-    const nextErrors = validateAirTravelFields(formState, errors);
+  it('throws error when departureDate is after returnDate and both are complete', () => {
+    const nextErrors = validateAirTravelFields(
+      {
+        departureDate: '2025-01-15',
+        returnDate: '2025-01-10',
+        tripType: TRIP_TYPES.ROUND_TRIP.value,
+      },
+      {},
+      'departureDate',
+    );
 
     expect(nextErrors.departureDate).to.equal(
       'Departure date must be before return date',
     );
+
     expect(nextErrors.returnDate).to.equal(
       'Return date must be later than departure date',
     );
@@ -394,7 +405,6 @@ describe('validateAirTravelFields', () => {
     formState.returnDate = '';
 
     const nextErrors = validateAirTravelFields(formState, errors);
-
     expect(nextErrors.returnDate).to.equal('Enter a return date');
   });
 
@@ -429,6 +439,63 @@ describe('validateAirTravelFields', () => {
     const nextErrors = validateAirTravelFields(formState, errors);
 
     expect(nextErrors.returnDate).to.be.undefined;
+  });
+
+  it('errors if departureDate is in the future', () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const futureDate = tomorrow.toISOString().split('T')[0];
+
+    formState.departureDate = futureDate;
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.departureDate).to.equal("Don't enter a future date");
+  });
+
+  it('errors if returnDate is in the future', () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const futureDate = tomorrow.toISOString().split('T')[0];
+
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = futureDate;
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.equal("Don't enter a future date");
+  });
+
+  it('future departureDate error takes priority over date ordering error', () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const futureDate = tomorrow.toISOString().split('T')[0];
+
+    formState.departureDate = futureDate;
+    formState.returnDate = '2025-01-01';
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.departureDate).to.equal("Don't enter a future date");
+  });
+
+  it('future returnDate error takes priority over date ordering error', () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const futureDate = tomorrow.toISOString().split('T')[0];
+
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    formState.departureDate = '2025-01-01';
+    formState.returnDate = futureDate;
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.equal("Don't enter a future date");
   });
 });
 
@@ -508,6 +575,32 @@ describe('validateLodgingFields', () => {
     expect(nextErrors.checkOutDate).to.be.undefined;
   });
 
+  it('does not throw ordering error when checkInDate is incomplete', () => {
+    const nextErrors = validateLodgingFields(
+      {
+        checkInDate: '2025-01',
+        checkOutDate: '2025-01-10',
+      },
+      {},
+      'checkInDate',
+    );
+
+    expect(nextErrors.checkInDate).to.be.undefined;
+  });
+
+  it('does not throw ordering error when checkOutDate is incomplete', () => {
+    const nextErrors = validateLodgingFields(
+      {
+        checkInDate: '2025-01-10',
+        checkOutDate: '2025-01',
+      },
+      {},
+      'checkOutDate',
+    );
+
+    expect(nextErrors.checkOutDate).to.be.undefined;
+  });
+
   it('requires checkInDate if empty', () => {
     formState.checkOutDate = '2025-01-10';
     const nextErrors = validateLodgingFields(formState, errors, 'checkInDate');
@@ -522,17 +615,21 @@ describe('validateLodgingFields', () => {
     expect(nextErrors.checkOutDate).to.equal('Enter the date you checked out');
   });
 
-  it('flags error if checkInDate >= checkOutDate', () => {
-    formState.checkInDate = '2025-01-10';
-    formState.checkOutDate = '2025-01-05';
-
-    const nextErrors = validateLodgingFields(formState, errors);
-
-    expect(nextErrors.checkInDate).to.equal(
-      'Check-in date must be earlier than check-out date',
+  it('flags error if checkInDate >= checkOutDate and both dates are complete', () => {
+    const nextErrors = validateLodgingFields(
+      {
+        checkInDate: '2025-01-10',
+        checkOutDate: '2025-01-05',
+      },
+      {},
+      'checkInDate',
     );
+
     expect(nextErrors.checkOutDate).to.equal(
       'Check-out date must be later than check-in date',
+    );
+    expect(nextErrors.checkInDate).to.equal(
+      'Check-in date must be earlier than check-out date',
     );
   });
 
@@ -544,6 +641,41 @@ describe('validateLodgingFields', () => {
     const nextErrors = validateLodgingFields(formState, errors);
 
     expect(nextErrors).to.deep.equal({});
+  });
+
+  it('flags error if checkInDate is in the future', () => {
+    formState.checkInDate = getFutureDateString();
+    formState.checkOutDate = '2025-01-10';
+
+    const nextErrors = validateLodgingFields(formState, errors);
+
+    expect(nextErrors.checkInDate).to.equal("Don't enter a future date");
+  });
+
+  it('flags error if checkOutDate is in the future', () => {
+    formState.checkInDate = '2025-01-05';
+    formState.checkOutDate = getFutureDateString();
+
+    const nextErrors = validateLodgingFields(formState, errors);
+
+    expect(nextErrors.checkOutDate).to.equal("Don't enter a future date");
+  });
+
+  it('allows ordering error on checkOutDate even when checkInDate is future', () => {
+    const futureDate = getFutureDateString();
+
+    const nextErrors = validateLodgingFields(
+      {
+        checkInDate: futureDate,
+        checkOutDate: '2025-01-01',
+      },
+      {},
+    );
+
+    expect(nextErrors.checkInDate).to.equal("Don't enter a future date");
+    expect(nextErrors.checkOutDate).to.equal(
+      'Check-out date must be later than check-in date',
+    );
   });
 });
 

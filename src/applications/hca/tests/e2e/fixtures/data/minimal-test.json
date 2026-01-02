@@ -4,7 +4,6 @@
       "view:facilityState": "MA",
       "vaMedicalFacility": "631"
     },
-    "isCoveredByHealthInsurance": false,
     "isMedicaidEligible": false,
     "isEnrolledMedicarePartA": false,
     "discloseFinancialInformation": false,

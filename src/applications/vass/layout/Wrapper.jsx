@@ -117,8 +117,8 @@ export default Wrapper;
 
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  pageTitle: PropTypes.string.isRequired,
   className: PropTypes.string,
+  pageTitle: PropTypes.string,
   required: PropTypes.bool,
   showBackLink: PropTypes.bool,
   testID: PropTypes.string,

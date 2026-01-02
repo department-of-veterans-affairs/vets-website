@@ -67,9 +67,12 @@ describe('Claim status', () => {
         });
 
         // Verify navigation to document request page
-        cy.findByRole('link', {
-          name: 'About this request for Medical records',
-        }).click();
+        cy.get(
+          'va-link-action[aria-label="About this request for Medical records"]',
+        )
+          .shadow()
+          .findByText('About this request')
+          .click();
         cy.url().should('contain', '/needed-from-you/1');
 
         cy.axeCheck();
@@ -240,7 +243,9 @@ describe('Claim status', () => {
             cy.findByText(expectedStep);
             cy.findByText(expectedDescription);
             cy.findByText('Moved to this step on January 2, 2025');
-            cy.findByRole('link', { name: 'Overview of the process' });
+            cy.findByRole('link', {
+              name: 'Learn more about the review process',
+            });
 
             cy.axeCheck();
           });

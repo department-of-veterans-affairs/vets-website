@@ -14,6 +14,7 @@ import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import CopyOfExam from '../components/CopyOfExam';
+import ServiceUnavailableAlert from '../components/ServiceUnavailableAlert';
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 
@@ -32,20 +33,6 @@ const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
-
-const appealsDownMessage = (
-  <div className="row" id="appealsDownMessage">
-    <div className="small-12 columns">
-      <div className="react-container">
-        <h3>We’re sorry. Something went wrong on our end.</h3>
-        <p>
-          Please refresh this page or try again later. If it still doesn’t work,
-          you can <CallVBACenter />
-        </p>
-      </div>
-    </div>
-  </div>
-);
 
 const recordsNotFoundMessage = (
   <div className="row" id="recordsNotFoundMessage">
@@ -150,7 +137,16 @@ export class AppealInfo extends React.Component {
       //  VALIDATION_ERROR,
       //  BACKEND_SERVICE_ERROR,
       //  FETCH_APPEALS_ERROR
-      appealContent = appealsDownMessage;
+      appealContent = (
+        <>
+          <h1>We encountered a problem</h1>
+          <ServiceUnavailableAlert
+            headerLevel={2}
+            services={['appeals']}
+            useSingular
+          />
+        </>
+      );
     }
 
     const crumb = {

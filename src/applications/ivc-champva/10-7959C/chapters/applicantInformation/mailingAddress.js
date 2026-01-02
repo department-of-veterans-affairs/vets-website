@@ -2,38 +2,30 @@ import {
   addressSchema,
   radioSchema,
   radioUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
 import { addressWithValidationUI } from '../../definitions';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'mailing address';
-const DESC_TEXT =
-  'We’ll send any important information about this form to this address.';
+const TITLE_TEXT = content['applicant--address-title'];
+const DESC_TEXT = content['applicant--address-description'];
 
-const LABEL_STREET3 = 'Apartment or unit number';
-const LABEL_MILITARY =
-  'Address is on a U.S. military base outside of the United States.';
-const ADDRESS_INPUT_LABEL =
-  'Has the beneficiary’s mailing address changed since their last CHAMPVA form submission?';
-const ADDRESS_HINT_TEXT =
-  'If yes, we will update our records with the new mailing address.';
+const LABEL_STREET3 = content['applicant--address-label--street3'];
+const LABEL_MILITARY = content['applicant--address-label--military'];
+
+const ADDRESS_INPUT_LABEL = content['applicant--address-change-label'];
+const ADDRESS_HINT_TEXT = content['applicant--address-change-hint'];
 
 const SCHEMA_LABELS = {
-  yes: 'Yes',
-  no: 'No',
-  unknown: 'I’m not sure',
+  yes: content['form--option--yes'],
+  no: content['form--option--no'],
+  unknown: content['form--option--unsure'],
 };
 const SCHEMA_ENUM = Object.keys(SCHEMA_LABELS);
 
-const PAGE_TITLE = ({ formData }) =>
-  privWrapper(
-    `${nameWording(formData, undefined, undefined, true)} ${TITLE_TEXT}`,
-  );
-
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE, DESC_TEXT),
+    ...titleWithNameUI(TITLE_TEXT, DESC_TEXT),
     applicantAddress: addressWithValidationUI({
       labels: {
         street3: LABEL_STREET3,

@@ -1203,11 +1203,3 @@ export const humanize = s =>
 // de-dupe + lowercase the record’s categories
 export const tagsForRecord = rec =>
   Array.from(new Set((rec?.categories || []).map(norm)));
-
-export const formatMDY = date => {
-  if (!date) return '';
-  const [y, m, d] = String(date)
-    .split('T')[0]
-    .split('-'); // "2022-01-20"
-  return `${m.padStart(2, '0')}/${d.padStart(2, '0')}/${y}`;
-};
