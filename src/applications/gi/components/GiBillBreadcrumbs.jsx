@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   isSearchByNamePage,
   isSearchByLocationPage,
@@ -8,7 +9,11 @@ import {
 } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
-  const institutionName = localStorage.getItem('institutionName');
+  const institutionNameFromStore = useSelector(
+    state => state?.profile?.attributes?.name,
+  );
+  const institutionName =
+    institutionNameFromStore || localStorage.getItem('institutionName') || '';
   const location = useLocation();
 
   const schoolsEmployersMatch = useRouteMatch('/schools-and-employers');

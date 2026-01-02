@@ -1,6 +1,6 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user.json';
-import mockPrefill from './fixtures/mocks/mock-prefill-with-non-prefill-data.json';
+import mockPrefill from './fixtures/mocks/mock-prefill-with-v2-prefill-data.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage } from './helpers';
 import {
