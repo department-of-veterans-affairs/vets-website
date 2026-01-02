@@ -12,8 +12,8 @@ import {
 import { content } from '../../../content/evidence/summary';
 import { promptQuestion } from '../../../pages/limitedConsentPrompt';
 import { detailsQuestion } from '../../../pages/limitedConsentDetails';
-import { PrivateDetailsDisplay } from '../../../components/evidence/PrivateDetailsDisplay';
-import { records } from '../../data/evidence-records';
+import { PrivateDetailsDisplayNew } from '../../../components/evidence/PrivateDetailsDisplayNew';
+import { privateEvidence } from '../../data/array-builder-evidence';
 import { content as authContent } from '../../../components/4142/AuthorizationNew';
 import {
   verifyHeader,
@@ -21,8 +21,6 @@ import {
   verifyProviderPrivate,
   verifyResponse,
 } from '../../unit-test-helpers';
-
-const limitedConsentDetails = 'Testing limited consent content';
 
 const verifyEvidenceHeader = container => {
   expect($('.private-title', container).textContent).to.contain(
@@ -57,17 +55,17 @@ const verifyLimitedConsentDetails = (
   reviewMode = false,
 ) => {
   verifyHeader(headers, 2, detailsQuestion);
-  verifyResponse(listItems, 2, limitedConsentDetails);
+  verifyResponse(listItems, 2, privateEvidence[0].lcDetails);
 
   if (!reviewMode) {
     verifyLink('#edit-limitation', `/${LIMITED_CONSENT_DETAILS_URL}`);
   }
 };
 
-describe('PrivateDetailsDisplay', () => {
+describe('PrivateDetailsDisplayNew', () => {
   describe('when no private evidence is provided', () => {
     it('should render nothing', () => {
-      const { container } = render(<PrivateDetailsDisplay list={[]} />);
+      const { container } = render(<PrivateDetailsDisplayNew list={[]} />);
 
       expect(container.innerHTML).to.be.empty;
     });
@@ -76,16 +74,13 @@ describe('PrivateDetailsDisplay', () => {
   describe('when on the evidence review page', () => {
     it('should render the proper content', () => {
       const { container } = render(
-        <PrivateDetailsDisplay
-          list={records().providerFacility}
-          limitedConsent={limitedConsentDetails}
+        <PrivateDetailsDisplayNew
+          list={privateEvidence}
           isOnReviewPage={undefined}
           reviewMode={false}
           handlers={{ showModal: () => {} }}
-          privacyAgreementAccepted
           testing={false}
           showListOnly={false}
-          limitedConsentResponse
         />,
       );
 
@@ -98,13 +93,17 @@ describe('PrivateDetailsDisplay', () => {
       verifyLimitedConsentPrompt(headers, listItems);
       verifyLimitedConsentDetails(headers, listItems);
 
+      const firstProvider = privateEvidence[0];
+      const secondProvider = privateEvidence[1];
+      const thirdProvider = privateEvidence[2];
+
       verifyProviderPrivate(
         headers,
         listItems,
         {
-          providerName: 'Provider One',
-          issues: 'Hypertension, Right Knee Injury, and Migraines',
-          dates: 'May 6, 2015 – May 8, 2015',
+          providerName: firstProvider.treatmentLocation,
+          issues: 'Hypertension and Impotence',
+          dates: `Oct. 10, 2019 – Oct. 11, 2019`,
         },
         3,
         0,
@@ -115,9 +114,9 @@ describe('PrivateDetailsDisplay', () => {
         headers,
         listItems,
         {
-          providerName: 'Provider Two',
-          issues: 'Right Knee Injury and Migraines',
-          dates: 'Dec 13, 2010 – Dec 15, 2010',
+          providerName: secondProvider.treatmentLocation,
+          issues: 'Hypertension and Impotence',
+          dates: `May 5, 2025 – May 6, 2025`,
         },
         4,
         1,
@@ -128,9 +127,9 @@ describe('PrivateDetailsDisplay', () => {
         headers,
         listItems,
         {
-          providerName: 'Provider Three',
-          issues: 'Hypertension and Right Knee Injury',
-          dates: 'Mar 13, 2018 – May 26, 2020',
+          providerName: thirdProvider.treatmentLocation,
+          issues: 'Hypertension; and Tendonitis, left ankle',
+          dates: 'Aug. 1, 1997 – May 6, 2025',
         },
         5,
         2,
@@ -142,16 +141,13 @@ describe('PrivateDetailsDisplay', () => {
   describe('when on the app review page', () => {
     it('should render the proper content', () => {
       const { container } = render(
-        <PrivateDetailsDisplay
-          list={records().providerFacility}
-          limitedConsent={limitedConsentDetails}
+        <PrivateDetailsDisplayNew
+          list={privateEvidence}
           isOnReviewPage
           reviewMode
           handlers={{ showModal: () => {} }}
-          privacyAgreementAccepted
           testing={false}
           showListOnly={false}
-          limitedConsentResponse
         />,
       );
 
@@ -164,13 +160,17 @@ describe('PrivateDetailsDisplay', () => {
       verifyLimitedConsentPrompt(headers, listItems, true);
       verifyLimitedConsentDetails(headers, listItems, true);
 
+      const firstProvider = privateEvidence[0];
+      const secondProvider = privateEvidence[1];
+      const thirdProvider = privateEvidence[2];
+
       verifyProviderPrivate(
         headers,
         listItems,
         {
-          providerName: 'Provider One',
-          issues: 'Hypertension, Right Knee Injury, and Migraines',
-          dates: 'May 6, 2015 – May 8, 2015',
+          providerName: firstProvider.treatmentLocation,
+          issues: 'Hypertension and Impotence',
+          dates: `Oct. 10, 2019 – Oct. 11, 2019`,
         },
         3,
         0,
@@ -181,9 +181,9 @@ describe('PrivateDetailsDisplay', () => {
         headers,
         listItems,
         {
-          providerName: 'Provider Two',
-          issues: 'Right Knee Injury and Migraines',
-          dates: 'Dec 13, 2010 – Dec 15, 2010',
+          providerName: secondProvider.treatmentLocation,
+          issues: 'Hypertension and Impotence',
+          dates: `May 5, 2025 – May 6, 2025`,
         },
         4,
         1,
@@ -194,9 +194,9 @@ describe('PrivateDetailsDisplay', () => {
         headers,
         listItems,
         {
-          providerName: 'Provider Three',
-          issues: 'Hypertension and Right Knee Injury',
-          dates: 'Mar 13, 2018 – May 26, 2020',
+          providerName: thirdProvider.treatmentLocation,
+          issues: 'Hypertension; and Tendonitis, left ankle',
+          dates: 'Aug. 1, 1997 – May 6, 2025',
         },
         5,
         2,
@@ -208,16 +208,13 @@ describe('PrivateDetailsDisplay', () => {
   describe('when on the confirmation page', () => {
     it('should render the proper content', () => {
       const { container } = render(
-        <PrivateDetailsDisplay
-          list={records().providerFacility}
-          limitedConsent={limitedConsentDetails}
+        <PrivateDetailsDisplayNew
+          list={privateEvidence}
           isOnReviewPage={false}
           reviewMode
           handlers={{ showModal: () => {} }}
-          privacyAgreementAccepted
           testing={false}
           showListOnly
-          limitedConsentResponse
         />,
       );
 
@@ -230,18 +227,17 @@ describe('PrivateDetailsDisplay', () => {
       verifyLimitedConsentPrompt(headers, listItems, true);
       verifyLimitedConsentDetails(headers, listItems, true);
 
+      const firstProvider = privateEvidence[0];
+      const secondProvider = privateEvidence[1];
+      const thirdProvider = privateEvidence[2];
+
       verifyProviderPrivate(
         headers,
         listItems,
         {
-          providerName: 'Provider One',
-          issues: 'Hypertension, Right Knee Injury, and Migraines',
-          dates: 'May 6, 2015 – May 8, 2015',
-          address: [
-            '123 Main Street',
-            'Street address 2',
-            'San Antonio, TX 78258',
-          ],
+          providerName: firstProvider.treatmentLocation,
+          issues: 'Hypertension and Impotence',
+          dates: `Oct. 10, 2019 – Oct. 11, 2019`,
         },
         3,
         0,
@@ -252,10 +248,9 @@ describe('PrivateDetailsDisplay', () => {
         headers,
         listItems,
         {
-          providerName: 'Provider Two',
-          issues: 'Right Knee Injury and Migraines',
-          dates: 'Dec 13, 2010 – Dec 15, 2010',
-          address: ['456 Elm Street', 'Tallahassee, FL 87582'],
+          providerName: secondProvider.treatmentLocation,
+          issues: 'Hypertension and Impotence',
+          dates: `May 5, 2025 – May 6, 2025`,
         },
         4,
         1,
@@ -266,10 +261,9 @@ describe('PrivateDetailsDisplay', () => {
         headers,
         listItems,
         {
-          providerName: 'Provider Three',
-          issues: 'Hypertension and Right Knee Injury',
-          dates: 'Mar 13, 2018 – May 26, 2020',
-          address: ['987 Oak Street', 'Madison, AL 18375'],
+          providerName: thirdProvider.treatmentLocation,
+          issues: 'Hypertension; and Tendonitis, left ankle',
+          dates: 'Aug. 1, 1997 – May 6, 2025',
         },
         5,
         2,
@@ -279,42 +273,24 @@ describe('PrivateDetailsDisplay', () => {
   });
 
   describe('when parts of the data are missing', () => {
-    const fullData = {
-      providerFacilityName: 'Provider Three',
-      providerFacilityAddress: {
-        country: 'USA',
-        street: '987 Oak Street',
-        street2: '',
-        city: 'Madison',
-        state: 'AL',
-        postalCode: '18375',
-      },
-      issues: ['Hypertension', 'Right Knee Injury'],
-      treatmentDateRange: {
-        from: '2018-03-13',
-        to: '2020-05-26',
-      },
-    };
+    const fullData = privateEvidence[0];
 
     const getContainer = partialData => {
       return render(
-        <PrivateDetailsDisplay
+        <PrivateDetailsDisplayNew
           list={[partialData]}
-          limitedConsent={limitedConsentDetails}
           isOnReviewPage={false}
           reviewMode
           handlers={{ showModal: () => {} }}
-          privacyAgreementAccepted
           testing={false}
           showListOnly
-          limitedConsentResponse
         />,
       );
     };
 
     describe('when the provider name is missing', () => {
       it('should render the proper errors', () => {
-        const partialData = { ...fullData, providerFacilityName: '' };
+        const partialData = { ...fullData, treatmentLocation: '' };
         getContainer(partialData);
 
         const error = $$('.usa-input-error-message')[0];
@@ -324,7 +300,7 @@ describe('PrivateDetailsDisplay', () => {
 
     describe('when the issues are missing', () => {
       it('should render the proper errors', () => {
-        const partialData = { ...fullData, issues: [] };
+        const partialData = { ...fullData, issuesPrivate: {} };
         getContainer(partialData);
 
         const error = $$('.usa-input-error-message')[0];
@@ -336,8 +312,8 @@ describe('PrivateDetailsDisplay', () => {
       it('should render the proper errors', () => {
         const partialData = {
           ...fullData,
-          providerFacilityAddress: {
-            ...fullData.providerFacilityAddress,
+          address: {
+            ...fullData.address,
             city: '',
           },
         };
@@ -353,10 +329,7 @@ describe('PrivateDetailsDisplay', () => {
       it('should render the proper errors', () => {
         const partialData = {
           ...fullData,
-          treatmentDateRange: {
-            ...fullData.treatmentDateRange,
-            from: undefined,
-          },
+          treatmentStart: '',
         };
 
         getContainer(partialData);
@@ -370,10 +343,7 @@ describe('PrivateDetailsDisplay', () => {
       it('should render the proper errors', () => {
         const partialData = {
           ...fullData,
-          treatmentDateRange: {
-            ...fullData.treatmentDateRange,
-            to: '',
-          },
+          treatmentEnd: '',
         };
 
         getContainer(partialData);
@@ -387,11 +357,8 @@ describe('PrivateDetailsDisplay', () => {
       it('should render the proper errors', () => {
         const partialData = {
           ...fullData,
-          treatmentDateRange: {
-            ...fullData.treatmentDateRange,
-            from: '',
-            to: '',
-          },
+          treatmentStart: '',
+          treatmentEnd: '',
         };
 
         getContainer(partialData);
@@ -407,8 +374,8 @@ describe('PrivateDetailsDisplay', () => {
     const handlers = { showModal: removeSpy };
 
     const { container } = render(
-      <PrivateDetailsDisplay
-        list={records().providerFacility}
+      <PrivateDetailsDisplayNew
+        list={privateEvidence}
         handlers={handlers}
         testing
       />,

@@ -61,7 +61,10 @@ export const verifyLink = (selector, expectedPath) => {
 export const verifyProvider = (headers, listItems, listIndex, data) => {
   verifyHeader(headers, listIndex, data.providerName);
   verifyResponse(listItems, listIndex, data.issues);
-  verifyResponse(listItems, listIndex, data.dates);
+
+  if (data.dates) {
+    verifyResponse(listItems, listIndex, data.dates);
+  }
 
   if (data.address) {
     data.address.forEach(chunk => {

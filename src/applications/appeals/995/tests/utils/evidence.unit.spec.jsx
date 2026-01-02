@@ -1,19 +1,12 @@
 import { expect } from 'chai';
 import {
-  getVAEvidence,
-  getPrivateEvidence,
-  getOtherEvidence,
   getIndex,
   getProviderDetailsTitle,
   getProviderModalDeleteTitle,
   evidenceNeedsUpdating,
   removeNonSelectedIssuesFromEvidence,
 } from '../../utils/evidence';
-import {
-  HAS_VA_EVIDENCE,
-  HAS_PRIVATE_EVIDENCE,
-  HAS_OTHER_EVIDENCE,
-} from '../../constants';
+import { HAS_VA_EVIDENCE, HAS_PRIVATE_EVIDENCE } from '../../constants';
 import { SELECTED } from '../../../shared/constants';
 
 describe('getIndex', () => {
@@ -41,85 +34,6 @@ describe('getIndex', () => {
 
   it('should return zero when missing an index & testIndex', () => {
     expect(getIndex(testData, null, '?test=a')).to.eq(0);
-  });
-});
-
-describe('getVAEvidence', () => {
-  it('should return expected value', () => {
-    expect(
-      getVAEvidence({ [HAS_VA_EVIDENCE]: undefined, locations: [{}] }),
-    ).to.deep.equal([]);
-
-    expect(
-      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [{}] }),
-    ).to.deep.equal([{}]);
-
-    expect(
-      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [] }),
-    ).to.deep.equal([]);
-
-    expect(
-      getVAEvidence({ [HAS_VA_EVIDENCE]: false, locations: [{}] }),
-    ).to.deep.equal([]);
-
-    expect(
-      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [{ test: 'test' }] }),
-    ).to.deep.equal([{ test: 'test' }]);
-  });
-});
-
-describe('getPrivateEvidence', () => {
-  it('should return expected value', () => {
-    expect(
-      getPrivateEvidence({
-        [HAS_PRIVATE_EVIDENCE]: undefined,
-        providerFacility: [{}],
-      }),
-    ).to.deep.equal([]);
-    expect(
-      getPrivateEvidence({
-        [HAS_PRIVATE_EVIDENCE]: true,
-        providerFacility: [{}],
-      }),
-    ).to.deep.equal([{}]);
-    expect(
-      getPrivateEvidence({
-        [HAS_PRIVATE_EVIDENCE]: true,
-        providerFacility: [],
-      }),
-    ).to.deep.equal([]);
-    expect(
-      getPrivateEvidence({
-        [HAS_PRIVATE_EVIDENCE]: false,
-        providerFacility: [{}],
-      }),
-    ).to.deep.equal([]);
-  });
-});
-
-describe('getOtherEvidence', () => {
-  it('should return expected value', () => {
-    expect(
-      getOtherEvidence({
-        [HAS_OTHER_EVIDENCE]: undefined,
-        additionalDocuments: [{}],
-      }),
-    ).to.deep.equal([]);
-    expect(
-      getOtherEvidence({
-        [HAS_OTHER_EVIDENCE]: true,
-        additionalDocuments: [{}],
-      }),
-    ).to.deep.equal([{}]);
-    expect(
-      getOtherEvidence({ [HAS_OTHER_EVIDENCE]: true, additionalDocuments: [] }),
-    ).to.deep.equal([]);
-    expect(
-      getOtherEvidence({
-        [HAS_OTHER_EVIDENCE]: false,
-        additionalDocuments: [{}],
-      }),
-    ).to.deep.equal([]);
   });
 });
 
@@ -332,23 +246,23 @@ describe('getProviderDetailsTitle', () => {
     describe('edit mode', () => {
       it('should the correct title with spelled out index', () => {
         expect(getProviderDetailsTitle('edit', 1, 'nonVa')).to.contain(
-          'Edit the first provider where you received treatment',
+          'Edit the first location we should request your private provider or VA Vet Center records from',
         );
 
         expect(getProviderDetailsTitle('edit', 3, 'nonVa')).to.contain(
-          'Edit the third provider where you received treatment',
+          'Edit the third location we should request your private provider or VA Vet Center records from',
         );
 
         expect(getProviderDetailsTitle('edit', 20, 'nonVa')).to.contain(
-          'Edit the 20th provider where you received treatment',
+          'Edit the 20th location we should request your private provider or VA Vet Center records from',
         );
 
         expect(getProviderDetailsTitle('edit', 31, 'nonVa')).to.contain(
-          'Edit the 31st provider where you received treatment',
+          'Edit the 31st location we should request your private provider or VA Vet Center records from',
         );
 
         expect(getProviderDetailsTitle('edit', 63, 'nonVa')).to.contain(
-          'Edit the 63rd provider where you received treatment',
+          'Edit the 63rd location we should request your private provider or VA Vet Center records from',
         );
       });
     });

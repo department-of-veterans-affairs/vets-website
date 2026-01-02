@@ -35,17 +35,19 @@ import { isOutsideForm } from '../../shared/utils/helpers';
 import { data995 } from '../../shared/props';
 
 export const App = ({
-  loggedIn,
-  location,
-  children,
-  formData,
-  setFormData,
-  router,
-  getContestableIssues,
-  contestableIssues,
-  legacyCount,
   accountUuid,
+  children,
+  contestableIssues,
+  formData,
+  getContestableIssues,
   inProgressFormId,
+  legacyCount,
+  location,
+  loggedIn,
+  router,
+  savedForms,
+  scRedesign,
+  setFormData,
 }) => {
   // ------- REMOVE when new design toggle is removed
   const TOGGLE_KEY = 'decisionReviewsScRedesign';
@@ -57,6 +59,22 @@ export const App = ({
       formKey: 'scRedesign',
     },
   ]);
+
+  // Initialize combined feature flag and new-flow-only behavior
+  // useEffect(
+  //   () => {
+  //     const hasSavedForm =
+  //       savedForms?.length &&
+  //       savedForms?.filter(form => form.form === '20-0995')?.length;
+
+  //     setFormData({
+  //       ...formData,
+  //       showArrayBuilder: scRedesign && !hasSavedForm,
+  //     });
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [scRedesign, setFormData],
+  // );
   // ------- END REMOVE
 
   const { pathname } = location || {};
@@ -200,6 +218,7 @@ App.propTypes = {
     pathname: PropTypes.string,
   }),
   loggedIn: PropTypes.bool,
+  privateEvidence: PropTypes.array,
   profile: PropTypes.shape({
     vapContactInfo: PropTypes.shape({}),
   }),
@@ -207,16 +226,21 @@ App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  scRedesign: PropTypes.bool,
+  vaEvidence: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
-  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
-  loggedIn: isLoggedIn(state),
-  formData: state.form?.data || {},
-  savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
+  formData: state.form?.data || {},
+  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   legacyCount: state.legacyCount || 0,
+  loggedIn: isLoggedIn(state),
+  privateEvidence: state.form?.data?.privateEvidence || [],
+  savedForms: state.user?.profile?.savedForms || [],
+  scRedesign: state?.form?.data?.scRedesign,
+  vaEvidence: state.form?.data?.vaEvidence,
 });
 
 const mapDispatchToProps = {
