@@ -1,97 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ALERT_TYPE_SEI_ERROR,
   SEI_DOMAINS,
+  ALERT_TYPE_SEI_ERROR,
   MissingRecordsError,
 } from '@department-of-veterans-affairs/mhv/exports';
-
-import TrackedSpinner from '../../components/shared/TrackedSpinner';
-import { DownloadSection } from '../ccdAccordionItem/CCDAccordionItemVista';
-import DownloadSuccessAlert from '../../components/shared/DownloadSuccessAlert';
+import { AccessErrors } from './AccessErrors';
+import CCDDownloadSection from './CCDDownloadSection';
+import AccessTroubleAlertBox from '../shared/AccessTroubleAlertBox';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import TrackedSpinner from '../shared/TrackedSpinner';
+import useSelfEnteredPdf from '../../hooks/useSelfEnteredPdf';
 import {
   accessAlertTypes,
-  ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_CCD_ERROR,
-  BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
 } from '../../util/constants';
-
-import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
-import { sendDataDogAction } from '../../util/helpers';
 import { formatFacilityList } from '../../util/facilityHelpers';
-import AccessErrors from '../../components/DownloadRecords/AccessErrors';
 
 const VistaAndOHContent = ({
   activeAlert,
   ccdError,
   ccdExtendedFileTypeFlag,
   CCDRetryTimestamp,
-  handleDownloadCCDV2,
   ohFacilityNames,
   ccdDownloadSuccess,
-  failedBBDomains,
-  failedSeiDomains,
-  getFailedDomainList,
   generatingCCD,
   handleDownloadCCD,
-  handleDownloadSelfEnteredPdf,
-  lastSuccessfulUpdate,
-  selfEnteredPdfLoading,
-  seiPdfGenerationError,
-  successfulSeiDownload,
-  successfulBBDownload,
+  handleDownloadCCDV2,
   vistaFacilityNames,
+  runningUnitTest,
 }) => {
+  const {
+    loading: selfEnteredPdfLoading,
+    success: successfulSeiDownload,
+    failedDomains: failedSeiDomains,
+    error: seiPdfGenerationError,
+    handleDownload: handleDownloadSelfEnteredPdf,
+  } = useSelfEnteredPdf(runningUnitTest);
+
   return (
     <div className="vads-u-margin-y--2">
-      {lastSuccessfulUpdate && (
-        <va-card
-          className="vads-u-margin-y--2"
-          background
-          aria-live="polite"
-          data-testid="new-records-last-updated"
-        >
-          Records in these reports last updated at {lastSuccessfulUpdate.time}{' '}
-          on {lastSuccessfulUpdate.date}
-        </va-card>
-      )}
-      <h2>Download your VA Blue Button report</h2>
-      {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.BB}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-      {successfulBBDownload === true && (
-        <>
-          <MissingRecordsError
-            documentType="VA Blue Button report"
-            recordTypes={getFailedDomainList(
-              failedBBDomains,
-              BB_DOMAIN_DISPLAY_MAP,
-            )}
-          />
-          <DownloadSuccessAlert
-            type="Your VA Blue Button report download has"
-            className="vads-u-margin-bottom--1"
-          />
-        </>
-      )}
-      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
-        First, select the types of records you want in your report. Then
-        download.
-      </p>
-      <va-link-action
-        href="/my-health/medical-records/download/date-range"
-        label="Select records and download report"
-        text="Select records and download report"
-        data-dd-action-name="Select records and download"
-        onClick={() => sendDataDogAction('Select records and download')}
-        data-testid="go-to-download-all"
-      />
       <h2>Download your Continuity of Care Document</h2>
+      {ccdDownloadSuccess &&
+        (!ccdError && !CCDRetryTimestamp) && (
+          <DownloadSuccessAlert
+            type="Continuity of Care Document download"
+            className="vads-u-margin-bottom--1"
+            focusId="ccd-download-success"
+          />
+        )}
       <AccessErrors
         CCDRetryTimestamp={CCDRetryTimestamp}
         failedSeiDomains={failedSeiDomains}
@@ -105,35 +63,7 @@ const VistaAndOHContent = ({
           className="vads-u-margin-bottom--1"
         />
       )}
-      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.SEI}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-      {successfulSeiDownload === true &&
-        failedSeiDomains.length !== SEI_DOMAINS.length && (
-          <>
-            <MissingRecordsError
-              documentType="Self-entered health information report"
-              recordTypes={failedSeiDomains}
-            />
-            <DownloadSuccessAlert
-              type="Self-entered health information report download"
-              className="vads-u-margin-bottom--1"
-            />
-          </>
-        )}
-      {ccdDownloadSuccess &&
-        !ccdError &&
-        !CCDRetryTimestamp && (
-          <DownloadSuccessAlert
-            type="Continuity of Care Document download"
-            className="vads-u-margin-bottom--1"
-            focusId="ccd-download-success"
-          />
-        )}
+
       <p className="vads-u-margin-bottom--3">
         This Continuity of Care Document (CCD) is a summary of your VA medical
         records that you can share with non-VA providers in your community. It
@@ -148,10 +78,11 @@ const VistaAndOHContent = ({
             </p>
 
             <div className="vads-u-margin-bottom--4">
-              <DownloadSection
+              <CCDDownloadSection
+                isExtendedFileType={ccdExtendedFileTypeFlag}
                 isLoading={generatingCCD}
                 handleDownload={handleDownloadCCD}
-                testIdSuffix="Vista"
+                testIdSuffix="VistA"
                 ddSuffix="VistA"
               />
             </div>
@@ -160,7 +91,8 @@ const VistaAndOHContent = ({
               CCD: medical records from {formatFacilityList(ohFacilityNames)}
             </p>
 
-            <DownloadSection
+            <CCDDownloadSection
+              isExtendedFileType={ccdExtendedFileTypeFlag}
               isLoading={generatingCCD}
               handleDownload={handleDownloadCCDV2}
               testIdSuffix="OH"
@@ -196,6 +128,28 @@ const VistaAndOHContent = ({
         )}
       </div>
       <h2>Download your self-entered health information</h2>
+      {/* redux action/server errors */}
+      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
+      {successfulSeiDownload === true &&
+        failedSeiDomains.length !== SEI_DOMAINS.length && (
+          <>
+            <MissingRecordsError
+              documentType="Self-entered health information report"
+              recordTypes={failedSeiDomains}
+            />
+            <DownloadSuccessAlert
+              type="Self-entered health information report download"
+              className="vads-u-margin-bottom--1"
+            />
+          </>
+        )}
       <p className="vads-u-margin--0">
         This report includes all the health information you entered yourself in
         the previous version of My HealtheVet.
@@ -235,23 +189,15 @@ const VistaAndOHContent = ({
 VistaAndOHContent.propTypes = {
   ccdError: PropTypes.bool.isRequired,
   ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
-  failedBBDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
-  failedSeiDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
   generatingCCD: PropTypes.bool.isRequired,
-  getFailedDomainList: PropTypes.func.isRequired,
   handleDownloadCCD: PropTypes.func.isRequired,
   handleDownloadCCDV2: PropTypes.func.isRequired,
-  handleDownloadSelfEnteredPdf: PropTypes.func.isRequired,
   ohFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selfEnteredPdfLoading: PropTypes.bool.isRequired,
-  successfulSeiDownload: PropTypes.bool.isRequired,
   vistaFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   CCDRetryTimestamp: PropTypes.string,
   activeAlert: PropTypes.object,
   ccdDownloadSuccess: PropTypes.bool,
-  lastSuccessfulUpdate: PropTypes.object,
-  seiPdfGenerationError: PropTypes.bool,
-  successfulBBDownload: PropTypes.bool,
+  runningUnitTest: PropTypes.bool,
 };
 
 export default VistaAndOHContent;

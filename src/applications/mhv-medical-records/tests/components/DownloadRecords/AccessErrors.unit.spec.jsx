@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { SEI_DOMAINS } from '@department-of-veterans-affairs/mhv/exports';
-import AccessErrors from '../../components/DownloadRecords/AccessErrors';
+import { AccessErrors } from '../../../components/DownloadRecords/AccessErrors';
 
 describe('AccessErrors', () => {
   it('renders nothing when no error conditions are present', () => {

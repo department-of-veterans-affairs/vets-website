@@ -67,8 +67,8 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
 
     it('displays CCD download section for VistA facilities', () => {
       // VistaAndOHContent uses DownloadSection from CCDAccordionItemVista
-      // which renders download links with testIdSuffix="Vista"
-      cy.get('[data-testid="generateCcdButtonXmlVista"]').should('exist');
+      // which renders download links with testIdSuffix="VistA"
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -180,10 +180,10 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       // Click to expand accordion
       DownloadReportsPage.clickCcdAccordionItem();
 
-      // Verify VistA download buttons are visible (without Vista suffix for non-hybrid users)
-      cy.get('[data-testid="generateCcdButtonXml"]').should('exist');
-      cy.get('[data-testid="generateCcdButtonPdf"]').should('exist');
-      cy.get('[data-testid="generateCcdButtonHtml"]').should('exist');
+      // Verify VistA download buttons are visible (with VistA suffix)
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonPdfVistA"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonHtmlVistA"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -210,9 +210,9 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
 
       DownloadReportsPage.clickCcdAccordionItem();
 
-      // With flag enabled, should see PDF and HTML buttons
-      cy.get('[data-testid="generateCcdButtonPdf"]').should('exist');
-      cy.get('[data-testid="generateCcdButtonHtml"]').should('exist');
+      // With flag enabled, should see PDF and HTML buttons (with VistA suffix)
+      cy.get('[data-testid="generateCcdButtonPdfVistA"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonHtmlVistA"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -228,11 +228,11 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       DownloadReportsPage.clickCcdAccordionItem();
 
       // With flag disabled, should NOT see PDF and HTML buttons
-      cy.get('[data-testid="generateCcdButtonPdf"]').should('not.exist');
-      cy.get('[data-testid="generateCcdButtonHtml"]').should('not.exist');
+      cy.get('[data-testid="generateCcdButtonPdfVistA"]').should('not.exist');
+      cy.get('[data-testid="generateCcdButtonHtmlVistA"]').should('not.exist');
 
-      // But XML should still exist
-      cy.get('[data-testid="generateCcdButtonXml"]').should('exist');
+      // But XML should still exist (with VistA suffix)
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -283,10 +283,10 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       });
       DownloadReportsPage.goToReportsPage();
 
-      // Both VistA and OH download sections should be visible
-      cy.get('[data-testid="generateCcdButtonXmlVista"]').should('exist');
-      cy.get('[data-testid="generateCcdButtonPdfVista"]').should('exist');
-      cy.get('[data-testid="generateCcdButtonHtmlVista"]').should('exist');
+      // Both VistA and OH download sections should be visible (VistA suffix with capital A)
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonPdfVistA"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonHtmlVistA"]').should('exist');
       cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
       cy.get('[data-testid="generateCcdButtonPdfOH"]').should('exist');
       cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('exist');
@@ -556,10 +556,10 @@ describe('Medical Records Download Page - Loading States', () => {
         });
       });
 
-      cy.get('[data-testid="generateCcdButtonXml"]').click();
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]').click();
 
-      // Verify loading indicator appears
-      cy.get('#generating-ccd-indicator').should('exist');
+      // Verify loading indicator appears (with VistA suffix)
+      cy.get('#generating-ccd-VistA-indicator').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });

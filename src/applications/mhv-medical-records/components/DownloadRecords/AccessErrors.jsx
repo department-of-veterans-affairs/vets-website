@@ -4,7 +4,7 @@ import { SEI_DOMAINS } from '@department-of-veterans-affairs/mhv/exports';
 import { accessAlertTypes, documentTypes } from '../../util/constants';
 import AccessTroubleAlertBox from '../shared/AccessTroubleAlertBox';
 
-const AccessErrors = ({
+export const AccessErrors = ({
   CCDRetryTimestamp,
   failedSeiDomains = [],
   seiPdfGenerationError = false,
@@ -37,5 +37,3 @@ AccessErrors.propTypes = {
   failedSeiDomains: PropTypes.arrayOf(PropTypes.string),
   seiPdfGenerationError: PropTypes.bool,
 };
-
-export default AccessErrors;

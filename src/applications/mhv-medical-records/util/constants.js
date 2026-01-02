@@ -7,6 +7,12 @@ export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
 };
 
+export const dataSourceTypes = {
+  VISTA_ONLY: 'vistaOnly',
+  OH_ONLY: 'ohOnly',
+  BOTH: 'both',
+};
+
 /** for use in Datadog RUM IDs, e.g. 'allergies-list-spinner' */
 export const recordTypeKeyNames = {
   [recordType.ALLERGIES]: 'allergies',

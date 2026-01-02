@@ -1,0 +1,119 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import TrackedSpinner from '../shared/TrackedSpinner';
+
+export const CCDDownloadLinksExtended = ({
+  ddSuffix,
+  handleDownload,
+  testIdSuffix,
+}) => (
+  <div className="vads-u-display--flex vads-u-flex-direction--column">
+    <span className="vads-u-margin-bottom--2">
+      <va-link
+        download
+        href="#"
+        onClick={e => handleDownload(e, 'xml')}
+        text="Download XML (best for sharing with your provider)"
+        data-testid={`generateCcdButtonXml${testIdSuffix}`}
+        data-dd-action-name={`Download CCD XML ${ddSuffix}`}
+      />
+    </span>
+    <span className="vads-u-margin-bottom--2">
+      <va-link
+        download
+        href="#"
+        onClick={e => handleDownload(e, 'pdf')}
+        text="Download PDF (best for printing)"
+        data-testid={`generateCcdButtonPdf${testIdSuffix}`}
+        data-dd-action-name={`Download CCD PDF ${ddSuffix}`}
+      />
+    </span>
+    <va-link
+      download
+      href="#"
+      onClick={e => handleDownload(e, 'html')}
+      text="Download HTML (best for screen readers, enlargers, and refreshable Braille displays)"
+      data-testid={`generateCcdButtonHtml${testIdSuffix}`}
+      data-dd-action-name={`Download CCD HTML ${ddSuffix}`}
+    />
+  </div>
+);
+
+CCDDownloadLinksExtended.propTypes = {
+  ddSuffix: PropTypes.string.isRequired,
+  handleDownload: PropTypes.func.isRequired,
+  testIdSuffix: PropTypes.string.isRequired,
+};
+
+export const CCDDownloadLinksBasic = ({
+  ddSuffix,
+  handleDownload,
+  testIdSuffix,
+}) => (
+  <div className="vads-u-display--flex vads-u-flex-direction--column">
+    <va-link
+      download
+      href="#"
+      onClick={e => handleDownload(e, 'xml')}
+      text="Download Continuity of Care Document (XML)"
+      data-testid={`generateCcdButtonXml${testIdSuffix}`}
+      data-dd-action-name={`Download CCD XML ${ddSuffix}`}
+    />
+  </div>
+);
+
+CCDDownloadLinksBasic.propTypes = {
+  ddSuffix: PropTypes.string.isRequired,
+  handleDownload: PropTypes.func.isRequired,
+  testIdSuffix: PropTypes.string.isRequired,
+};
+
+const CCDDownloadSection = ({
+  isLoading,
+  isExtendedFileType = false,
+  handleDownload,
+  testIdSuffix,
+  ddSuffix,
+}) => {
+  if (isLoading)
+    return (
+      <div
+        id={`generating-ccd-${testIdSuffix}-indicator`}
+        data-testid={`generating-ccd-${testIdSuffix}-indicator`}
+      >
+        <TrackedSpinner
+          id={`download-ccd-${testIdSuffix}-spinner`}
+          label="Loading"
+          message="Preparing your download..."
+        />
+      </div>
+    );
+
+  return (
+    <>
+      {isExtendedFileType ? (
+        <CCDDownloadLinksExtended
+          handleDownload={handleDownload}
+          testIdSuffix={testIdSuffix}
+          ddSuffix={ddSuffix}
+        />
+      ) : (
+        <CCDDownloadLinksBasic
+          handleDownload={handleDownload}
+          testIdSuffix={testIdSuffix}
+          ddSuffix={ddSuffix}
+        />
+      )}
+    </>
+  );
+};
+
+CCDDownloadSection.propTypes = {
+  ddSuffix: PropTypes.string,
+  handleDownload: PropTypes.func,
+  isExtendedFileType: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  testIdSuffix: PropTypes.string,
+};
+
+export default CCDDownloadSection;

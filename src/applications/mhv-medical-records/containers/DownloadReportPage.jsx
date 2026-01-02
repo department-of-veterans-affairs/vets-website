@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  updatePageTitle,
-  generateSEIPdf,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -15,26 +12,22 @@ import {
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
-import {
-  getFailedDomainList,
-  getLastSuccessfulUpdate,
-  sendDataDogAction,
-} from '../util/helpers';
+import { getLastSuccessfulUpdate, sendDataDogAction } from '../util/helpers';
 import {
   pageTitles,
   refreshExtractTypes,
   statsdFrontEndActions,
+  dataSourceTypes,
 } from '../util/constants';
 import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
-import OHOnlyContent from './ccdContent/OHOnlyContent';
-import VistaOnlyContent from './ccdContent/VistaOnlyContent';
-import VistaAndOHContent from './ccdContent/VistaAndOHContent';
+import OHOnlyContent from '../components/DownloadRecords/OHOnlyContent';
+import VistaOnlyContent from '../components/DownloadRecords/VistaOnlyContent';
+import VistaAndOHContent from '../components/DownloadRecords/VistaAndOHContent';
+import BlueButtonSection from '../components/DownloadRecords/BlueButtonSection';
+import IntroSection from '../components/DownloadRecords/IntroSection';
 import { postRecordDatadogAction } from '../api/MrApi';
-import OHOnlyIntroText from './ccdContent/OHOnlyIntroText';
-import VistaIntroText from './ccdContent/VistaIntroText';
-import VistaAndOHIntroText from './ccdContent/VistaAndOHIntroText';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -63,10 +56,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdOH],
   }));
 
-  const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
-  const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
-  const [failedSeiDomains, setFailedSeiDomains] = useState([]);
-  const [seiPdfGenerationError, setSeiPdfGenerationError] = useState(null);
   const [expandSelfEntered, setExpandSelfEntered] = useState(false);
 
   const activeAlert = useAlerts(dispatch);
@@ -206,112 +195,78 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     sendDataDogAction(`Download CCD V2 ${fileType} link`);
   };
 
-  const handleDownloadSelfEnteredPdf = e => {
-    e.preventDefault();
-    setSelfEnteredPdfLoading(true);
-    generateSEIPdf(userProfile, runningUnitTest)
-      .then(res => {
-        if (res.success) {
-          const { failedDomains } = res;
-          setFailedSeiDomains(failedDomains);
-          setSuccessfulSeiDownload(true);
-          setSelfEnteredPdfLoading(false);
-        } else {
-          setSeiPdfGenerationError(true);
-          setSelfEnteredPdfLoading(false);
-        }
-      })
-      .catch(err => {
-        setSeiPdfGenerationError(err);
-        setSelfEnteredPdfLoading(false);
-      });
-    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_SEI);
-    sendDataDogAction('Download self-entered health information PDF link');
+  // Determine which data source type to use for rendering
+  // When ccdOHFlagEnabled is disabled, it defaults to displaying VistA-only content for all users
+  const getDataSourceType = () => {
+    if (!ccdOHFlagEnabled) return dataSourceTypes.VISTA_ONLY;
+    if (hasBothDataSources) return dataSourceTypes.BOTH;
+    if (hasOHOnly) return dataSourceTypes.OH_ONLY;
+    return dataSourceTypes.VISTA_ONLY;
   };
 
-  if (ccdOHFlagEnabled) {
-    if (hasBothDataSources) {
-      return (
-        <div>
-          <VistaAndOHIntroText
-            ohFacilityNames={ohFacilityNames}
-            vistaFacilityNames={vistaFacilityNames}
-          />
+  const dataSourceType = getDataSourceType();
+
+  // Shared props for all content components
+  const sharedProps = {
+    ccdExtendedFileTypeFlag,
+    generatingCCD,
+    activeAlert,
+    ccdError,
+    ccdDownloadSuccess,
+    CCDRetryTimestamp,
+    runningUnitTest,
+  };
+
+  // Render the appropriate content component based on data source type
+  const renderContent = () => {
+    switch (dataSourceType) {
+      case dataSourceTypes.BOTH:
+        return (
           <VistaAndOHContent
+            {...sharedProps}
             vistaFacilityNames={vistaFacilityNames}
             ohFacilityNames={ohFacilityNames}
-            handleDownloadCCDV2={handleDownloadCCDV2}
-            ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-            failedSeiDomains={failedSeiDomains}
-            getFailedDomainList={getFailedDomainList}
-            lastSuccessfulUpdate={lastSuccessfulUpdate}
-            generatingCCD={generatingCCD}
             handleDownloadCCD={handleDownloadCCD}
-            handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
-            selfEnteredPdfLoading={selfEnteredPdfLoading}
-            successfulSeiDownload={successfulSeiDownload}
-            activeAlert={activeAlert}
-            ccdError={ccdError}
-            ccdDownloadSuccess={ccdDownloadSuccess}
-            CCDRetryTimestamp={CCDRetryTimestamp}
-            failedBBDomains={failedBBDomains}
-            successfulBBDownload={successfulBBDownload}
-            seiPdfGenerationError={seiPdfGenerationError}
+            handleDownloadCCDV2={handleDownloadCCDV2}
           />
-          <NeedHelpSection />
-        </div>
-      );
-    }
-    if (hasOHOnly) {
-      return (
-        <div>
-          <OHOnlyIntroText />
+        );
+      case dataSourceTypes.OH_ONLY:
+        return (
           <OHOnlyContent
-            testIdSuffix="OH"
-            ddSuffix="OH"
-            generatingCCD={generatingCCD}
-            handleDownload={handleDownloadCCDV2}
-            ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-            lastSuccessfulUpdate={lastSuccessfulUpdate}
-            activeAlert={activeAlert}
-            successfulSeiDownload={successfulSeiDownload}
-            failedSeiDomains={failedSeiDomains}
-            ccdDownloadSuccess={ccdDownloadSuccess}
-            ccdError={ccdError}
-            CCDRetryTimestamp={CCDRetryTimestamp}
-            seiPdfGenerationError={seiPdfGenerationError}
+            {...sharedProps}
+            handleDownloadCCD={handleDownloadCCD}
+            handleDownloadCCDV2={handleDownloadCCDV2}
           />
-
-          <NeedHelpSection />
-        </div>
-      );
+        );
+      default:
+        return (
+          <VistaOnlyContent
+            {...sharedProps}
+            handleDownloadCCD={handleDownloadCCD}
+            expandSelfEntered={expandSelfEntered}
+            selfEnteredAccordionRef={selfEnteredAccordionRef}
+            ccdDownloadSuccess={ccdDownloadSuccess || false}
+          />
+        );
     }
-  }
+  };
 
-  // Default case: OH CCD is disabled, *OR* user has only VistA facilities
   return (
     <div>
-      <VistaIntroText />
-      <VistaOnlyContent
-        ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-        failedSeiDomains={failedSeiDomains}
-        getFailedDomainList={getFailedDomainList}
+      <IntroSection
+        dataSourceType={dataSourceType}
         lastSuccessfulUpdate={lastSuccessfulUpdate}
-        generatingCCD={generatingCCD}
-        handleDownloadCCD={handleDownloadCCD}
-        expandSelfEntered={expandSelfEntered}
-        selfEnteredAccordionRef={selfEnteredAccordionRef}
-        selfEnteredPdfLoading={selfEnteredPdfLoading}
-        handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
-        successfulSeiDownload={successfulSeiDownload}
-        activeAlert={activeAlert}
-        ccdError={ccdError}
-        ccdDownloadSuccess={ccdDownloadSuccess || false}
-        CCDRetryTimestamp={CCDRetryTimestamp}
-        failedBBDomains={failedBBDomains}
-        successfulBBDownload={successfulBBDownload || false}
-        seiPdfGenerationError={seiPdfGenerationError}
+        ohFacilityNames={ohFacilityNames}
+        vistaFacilityNames={vistaFacilityNames}
       />
+      {dataSourceType !== dataSourceTypes.OH_ONLY && (
+        <BlueButtonSection
+          activeAlert={activeAlert}
+          failedBBDomains={failedBBDomains}
+          successfulBBDownload={successfulBBDownload}
+        />
+      )}
+      {renderContent()}
       <NeedHelpSection />
     </div>
   );
