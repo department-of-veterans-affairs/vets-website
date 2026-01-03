@@ -180,37 +180,33 @@ const FormsAndApplications = ({
           const continueUrl = `${getFormLink(formId)}resume`;
           // TODO: consider combining all "Application Cards" into single component
 
-          cards.inProgressCardList.push(
-            <DraftCard
-              key={formId}
-              continueUrl={continueUrl}
-              expirationDate={expirationDate}
-              formId={formId}
-              formTitle={isForm ? formTitle : formatFormTitle(formTitle)}
-              lastSavedDate={lastSavedDate}
-              presentableFormId={hasBenefit ? presentableFormId : false}
-              isForm={isForm}
-            />,
-          );
+          cards.inProgressCardList.push({
+            continueUrl,
+            expirationDate,
+            formId,
+            formTitle: isForm ? formTitle : formatFormTitle(formTitle),
+            isForm,
+            lastSavedDate,
+            presentableFormId: hasBenefit ? presentableFormId : false,
+          });
         } else if (formStatus) {
           // if form is not a Draft and has status, render Status Card
           const { createdAt } = form || {};
           const submittedDate = format(fromUnixTime(createdAt), 'MMMM d, yyyy');
           const cardStatus = normalizeSubmissionStatus(formStatus);
 
-          const card = (
-            <SubmissionCard
-              key={formId}
-              formId={formId}
-              formTitle={formTitle}
-              guid={form.id}
-              lastSavedDate={lastSavedDate}
-              submittedDate={submittedDate}
-              pdfSupport={pdfSupport}
-              presentableFormId={hasBenefit ? presentableFormId : false}
-              status={cardStatus}
-            />
-          );
+          const card = {
+            formId,
+            formTitle,
+            guid: form.id,
+            lastSavedDate,
+            pdfSupport,
+            presentableFormId: hasBenefit ? presentableFormId : false,
+            status: cardStatus,
+            submittedDate,
+          };
+
+          // "actionNeeded" is also an In Progress card
           if (cardStatus === 'actionNeeded') {
             cards.inProgressCardList.push(card);
           } else {
@@ -244,7 +240,27 @@ const FormsAndApplications = ({
           {inProgressCardList.length === 0 ? (
             <ApplicationsEmptyText emptyText="You don't have any benefit forms or applications in progress." />
           ) : (
-            inProgressCardList
+            <div
+              className="vads-l-grid-container--full"
+              style={{ overflow: 'hidden' }}
+            >
+              <div className="vads-l-row vads-u-margin-right--neg3">
+                {inProgressCardList.map(card => {
+                  // A SubmissionCard with 'action needed' status is also an In Progress card
+                  // Cards in the 'in progress' list without the `continueUrl` render with SubmissionCard instead of Draft
+                  const isDraft = !!card.continueUrl;
+                  return (
+                    <DashboardWidgetWrapper key={card.formId}>
+                      {isDraft ? (
+                        <DraftCard {...card} />
+                      ) : (
+                        <SubmissionCard {...card} />
+                      )}
+                    </DashboardWidgetWrapper>
+                  );
+                })}
+              </div>
+            </div>
           )}
 
           {/* Completed forms */}
@@ -257,7 +273,18 @@ const FormsAndApplications = ({
                 header="Completed forms"
                 id="completed-forms-accordion-item"
               >
-                {completedCardList}
+                <div
+                  className="vads-l-grid-container--full"
+                  style={{ overflow: 'hidden' }}
+                >
+                  <div className="vads-l-row vads-u-margin-right--neg3">
+                    {completedCardList.map(card => (
+                      <DashboardWidgetWrapper key={card.formId}>
+                        <SubmissionCard {...card} />
+                      </DashboardWidgetWrapper>
+                    ))}
+                  </div>
+                </div>
               </va-accordion-item>
             </va-accordion>
           )}
