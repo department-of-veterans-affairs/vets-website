@@ -161,7 +161,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
-      'not.be.visible',
+      'not.exist',
     );
     cy.findByTestId(`continue-button`).click();
     PatientComposePage.getMessageBodyField()
@@ -225,7 +225,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
-      'not.be.visible',
+      'not.exist',
     );
     cy.findByTestId(`continue-button`).click();
     PatientComposePage.getMessageBodyField()
