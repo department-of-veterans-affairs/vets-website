@@ -84,6 +84,7 @@ export default function EpsAppointmentDetailsPage() {
   return (
     <PageLayout showNeedHelp>
       <EpsAppointmentHeading
+        appointment={appointment}
         isPastAppointment={isPastAppointment}
         cancellingAppointment={!!cancelAppointment.id}
         cancelSuccess={cancelAppointment.confirmed}

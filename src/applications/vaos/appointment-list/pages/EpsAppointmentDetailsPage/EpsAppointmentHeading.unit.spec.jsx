@@ -9,6 +9,10 @@ import EpsAppointmentHeading from './EpsAppointmentHeading';
 
 describe('EpsAppointmentHeading', () => {
   const defaultProps = {
+    appointment: {
+      status: 'booked',
+      provider: { name: 'Dr. Smith Cardiology' },
+    },
     isPastAppointment: false,
     cancellingAppointment: false,
     cancelSuccess: false,
@@ -323,6 +327,153 @@ describe('EpsAppointmentHeading', () => {
       expect(queryByText('Would you like to cancel this appointment?')).to.not
         .exist;
       expect(queryByText('You have canceled your appointment')).to.not.exist;
+    });
+  });
+
+  describe('Already cancelled appointment state', () => {
+    it('should show cancellation message with "You" when patient cancelled', () => {
+      const appointment = {
+        status: 'cancelled',
+        cancelationReason: 'pat',
+        provider: { name: 'Dr. Smith Cardiology' },
+      };
+      const store = createTestStore({});
+      const { getByText } = renderWithStoreAndRouter(
+        <EpsAppointmentHeading {...defaultProps} appointment={appointment} />,
+        { store },
+      );
+
+      expect(getByText('You canceled this appointment')).to.exist;
+      expect(
+        getByText(
+          'If you want to reschedule, call us or schedule a new appointment online.',
+        ),
+      ).to.exist;
+    });
+
+    it('should show cancellation message with provider name when facility cancelled', () => {
+      const appointment = {
+        status: 'cancelled',
+        cancelationReason: 'prov',
+        provider: { name: 'Dr. Smith Cardiology' },
+      };
+      const store = createTestStore({});
+      const { getByText } = renderWithStoreAndRouter(
+        <EpsAppointmentHeading {...defaultProps} appointment={appointment} />,
+        { store },
+      );
+
+      expect(getByText('Dr. Smith Cardiology canceled this appointment')).to
+        .exist;
+    });
+
+    it('should show "Facility" when provider name not available', () => {
+      const appointment = {
+        status: 'cancelled',
+        cancelationReason: 'prov',
+        provider: {},
+      };
+      const store = createTestStore({});
+      const { getByText } = renderWithStoreAndRouter(
+        <EpsAppointmentHeading {...defaultProps} appointment={appointment} />,
+        { store },
+      );
+
+      expect(getByText('Facility canceled this appointment')).to.exist;
+    });
+
+    it('should show provider name when no cancelationReason provided', () => {
+      const appointment = {
+        status: 'cancelled',
+        provider: { name: 'Dr. Smith Cardiology' },
+      };
+      const store = createTestStore({});
+      const { getByText } = renderWithStoreAndRouter(
+        <EpsAppointmentHeading {...defaultProps} appointment={appointment} />,
+        { store },
+      );
+
+      expect(getByText('Dr. Smith Cardiology canceled this appointment')).to
+        .exist;
+    });
+
+    it('should not show cancelled message when in cancellation flow', () => {
+      const appointment = {
+        status: 'cancelled',
+        cancelationReason: 'pat',
+        provider: { name: 'Dr. Smith Cardiology' },
+      };
+      const store = createTestStore({});
+      const { queryByText, getByText } = renderWithStoreAndRouter(
+        <EpsAppointmentHeading
+          {...defaultProps}
+          appointment={appointment}
+          cancellingAppointment
+        />,
+        { store },
+      );
+
+      expect(queryByText(/canceled this appointment/)).to.not.exist;
+      expect(getByText('Would you like to cancel this appointment?')).to.exist;
+    });
+
+    it('should render back link with correct text for upcoming appointments', () => {
+      const appointment = {
+        status: 'cancelled',
+        cancelationReason: 'pat',
+        provider: { name: 'Dr. Smith Cardiology' },
+      };
+      const store = createTestStore({});
+      const { getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentHeading {...defaultProps} appointment={appointment} />,
+        { store },
+      );
+
+      const backLink = getByTestId('back-link');
+      expect(backLink).to.have.attribute('text', 'Back to appointments');
+      expect(backLink).to.have.attribute('href', '/my-health/appointments');
+    });
+
+    it('should render back link with correct text for past appointments', () => {
+      const appointment = {
+        status: 'cancelled',
+        cancelationReason: 'pat',
+        provider: { name: 'Dr. Smith Cardiology' },
+      };
+      const store = createTestStore({});
+      const { getByTestId } = renderWithStoreAndRouter(
+        <EpsAppointmentHeading
+          {...defaultProps}
+          appointment={appointment}
+          isPastAppointment
+        />,
+        { store },
+      );
+
+      const backLink = getByTestId('back-link');
+      expect(backLink).to.have.attribute('text', 'Back to past appointments');
+      expect(backLink).to.have.attribute(
+        'href',
+        '/my-health/appointments/past',
+      );
+    });
+
+    it('should navigate to appointments list when back link is clicked', async () => {
+      const appointment = {
+        status: 'cancelled',
+        cancelationReason: 'pat',
+        provider: { name: 'Dr. Smith Cardiology' },
+      };
+      const store = createTestStore({});
+      const { getByTestId, history } = renderWithStoreAndRouter(
+        <EpsAppointmentHeading {...defaultProps} appointment={appointment} />,
+        { store },
+      );
+
+      const backLink = getByTestId('back-link');
+      await userEvent.click(backLink);
+
+      expect(history.push.calledWith('/')).to.be.true;
     });
   });
 });
