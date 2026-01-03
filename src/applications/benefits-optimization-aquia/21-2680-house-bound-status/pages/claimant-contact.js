@@ -11,6 +11,8 @@ import {
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { getClaimantName } from '../utils/name-helpers';
+
 /**
  * uiSchema for Claimant Contact page
  * Collects claimant's phone numbers and email
@@ -24,40 +26,22 @@ export const claimantContactUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const data = fullData || formData;
-      const firstName =
-        data?.claimantInformation?.claimantFullName?.first || '';
-      const lastName = data?.claimantInformation?.claimantFullName?.last || '';
-      const fullName = `${firstName} ${lastName}`.trim();
 
-      const title = fullName
-        ? `${fullName}'s phone number and email address`
-        : "Claimant's phone number and email address";
-
-      const homePhoneLabel = fullName
-        ? `${fullName}'s home phone number`
-        : "Claimant's home phone number";
-
-      const mobilePhoneLabel = fullName
-        ? `${fullName}'s mobile phone number`
-        : "Claimant's mobile phone number";
-
-      const emailLabel = fullName
-        ? `${fullName}'s email address`
-        : "Claimant's email address";
+      const claimantName = getClaimantName(data, 'Claimant');
 
       return {
-        'ui:title': title,
+        'ui:title': `${claimantName}'s phone number and email address`,
         'ui:description':
           'We may use their contact information to contact them if we have questions about their application or if we need more information.',
         claimantContact: {
           claimantPhoneNumber: {
-            'ui:title': homePhoneLabel,
+            'ui:title': `${claimantName}'s home phone number`,
           },
           claimantMobilePhone: {
-            'ui:title': mobilePhoneLabel,
+            'ui:title': `${claimantName}'s mobile phone number`,
           },
           claimantEmail: {
-            'ui:title': emailLabel,
+            'ui:title': `${claimantName}'s email address`,
           },
         },
       };
