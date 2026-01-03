@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HubCard from './HubCard';
 
 const orientationCard = {
@@ -10,19 +11,15 @@ const orientationCard = {
 const careerPlanningCard = {
   title: 'Career Planning',
   body: 'Learn about the program and how to get started.',
-  icon: 'location_city',
+  icon: 'work',
 };
 
 const schedulingCard = {
-  title: 'Scheduling your appointment',
+  title: 'Scheduling',
   body: 'Review available options and how to schedule your intake appointment.',
   icon: 'event',
 };
 
-// Step → cards logic
-// 1,2,3 -> orientation + career planning
-// 4 -> scheduling
-// 5,6,7 -> no cards
 const getCardsForStep = step => {
   switch (step) {
     case 1:
@@ -30,7 +27,11 @@ const getCardsForStep = step => {
     case 3:
       return [orientationCard, careerPlanningCard];
     case 4:
-      return [schedulingCard];
+      return [schedulingCard, careerPlanningCard];
+    case 5:
+    case 6:
+    case 7:
+      return [careerPlanningCard];
     default:
       return [];
   }
@@ -55,6 +56,10 @@ const HubCardList = ({ step }) => {
       ))}
     </div>
   );
+};
+
+HubCardList.propTypes = {
+  step: PropTypes.number.isRequired,
 };
 
 export default HubCardList;
