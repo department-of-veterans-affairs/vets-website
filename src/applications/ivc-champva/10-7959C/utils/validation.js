@@ -1,10 +1,11 @@
 import { isBefore, isValid } from 'date-fns';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
+import content from '../locales/en/content.json';
 
 /**
  * Generic validator for date ranges with effective/termination or effective/expiration date patterns
- * @param {Object} errors - object holding the error message content
+ * @param {Object} errors - The rjsf/vets-forms error object
  * @param {Object} data - field data from the form inputs
  * @param {Object} options - configuration options
  * @param {string} options.startDateKey - key name for the effective/start date field
@@ -52,8 +53,6 @@ export const validateDateRange = (errors, data, options = {}) => {
  * @property {string} [item.medigapPlan] Required when `insuranceType === 'medigap'`.
  * @property {boolean} [item.throughEmployer] Required boolean indicating if insurance is through employer.
  * @property {boolean} [item.eob] Required boolean indicating if insurance covers prescriptions.
- * @property {string} [item.additionalComments] Optional additional comments (max 200 chars).
- * @property {Object} [item.healthcareParticipants] Required object indicating which applicants are covered.
  * @property {Array} [item.insuranceCardFront] Required uploaded file array for front of insurance card.
  * @property {Array} [item.insuranceCardBack] Required uploaded file array for back of insurance card.
  *
@@ -68,8 +67,6 @@ export const validateHealthInsurancePlan = (item = {}) => {
     medigapPlan,
     throughEmployer,
     eob,
-    additionalComments,
-    healthcareParticipants,
     insuranceCardFront,
     insuranceCardBack,
   } = item;
@@ -81,16 +78,8 @@ export const validateHealthInsurancePlan = (item = {}) => {
     return isValidDateRange(fromDate, toDate);
   };
 
-  const hasValidParticipants = participants => {
-    if (!participants || typeof participants !== 'object') return false;
-    return Object.values(participants).some(value => value === true);
-  };
-
   const hasValidUpload = fileArray =>
     Array.isArray(fileArray) && fileArray[0]?.name;
-
-  const isValidComments = comments =>
-    !comments || (typeof comments === 'string' && comments.length <= 200);
 
   const isValidPastDate = dateString => {
     if (!dateString) return false;
@@ -110,10 +99,33 @@ export const validateHealthInsurancePlan = (item = {}) => {
   if (throughEmployer === undefined || throughEmployer === null) return true;
   if (eob === undefined || eob === null) return true;
 
-  if (!isValidComments(additionalComments)) return true;
-  if (!hasValidParticipants(healthcareParticipants)) return true;
-
   return (
     !hasValidUpload(insuranceCardFront) || !hasValidUpload(insuranceCardBack)
   );
+};
+
+/**
+ * Validates a text field for disallowed characters and adds an error message
+ * when any invalid characters are found.
+ *
+ * @param {Object} errors - The rjsf/vets-forms error object
+ * @param {string} fieldData - The input string to validate
+ */
+export const validateChars = (errors, fieldData) => {
+  const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
+  const matches = fieldData.match(invalidCharsPattern);
+
+  if (!matches) return;
+
+  const uniqueChars = [...new Set(matches)];
+  const isPlural = uniqueChars.length > 1;
+  const charsList = uniqueChars.join(' ');
+
+  const msgPlural = content['validation--text-characters--plural'];
+  const msgSingular = content['validation--text-characters--singular'];
+  const message = isPlural
+    ? `${msgPlural}: ${charsList}`
+    : `${msgSingular}: ${charsList}`;
+
+  errors.addError(message);
 };

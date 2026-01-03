@@ -1,13 +1,3 @@
-import { selectProfile } from '~/platform/user/selectors';
-
-/**
- * Determines if the profile has Cerner facilities.
- * @param {Object} state The current application state.
- * @returns {Boolean} The isCerner state.
- */
-export const isCerner = state =>
-  selectProfile(state).facilities?.some(facility => facility.isCerner);
-
 /**
  * Determines if the profile has EHRM(isCerner) facilities
  * @param {user.profile} profile Current user profile.

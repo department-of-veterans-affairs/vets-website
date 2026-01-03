@@ -20,7 +20,10 @@ const SCHEMA_ENUM = Object.keys(SCHEMA_LABELS);
 
 export default {
   uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI({ title: TITLE_TEXT }),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: TITLE_TEXT,
+      showEditExplanationText: false,
+    }),
     insuranceType: radioUI({
       title: INPUT_LABEL,
       hint: HINT_TEXT,
