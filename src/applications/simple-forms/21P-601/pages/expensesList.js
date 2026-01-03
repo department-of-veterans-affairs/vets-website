@@ -47,6 +47,7 @@ const yesNoOptions = {
 const summaryPage = {
   uiSchema: {
     ...titleUI('Expenses you paid'),
+    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
     'view:expenseInfo': {
       'ui:description': (
         <va-alert status="info" uswds>
@@ -57,7 +58,7 @@ const summaryPage = {
           <p>
             <va-link
               href="https://www.va.gov/find-forms/about-form-21p-601/"
-              target="_blank"
+              external
               rel="noopener noreferrer"
               text="Download VA Form 21P-601 (PDF)"
             />
@@ -65,7 +66,6 @@ const summaryPage = {
         </va-alert>
       ),
     },
-    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
   },
   schema: {
     type: 'object',
@@ -116,7 +116,7 @@ const expensePaidByPage = {
       return provider ? `Who paid ${provider}?` : 'Who paid this expense?';
     }),
     paidBy: textUI({
-      title: 'Who paid this expense? (optional)',
+      title: 'Who paid this expense?',
       hint:
         'For example: the estate or another family member. Leave blank if you paid.',
     }),
