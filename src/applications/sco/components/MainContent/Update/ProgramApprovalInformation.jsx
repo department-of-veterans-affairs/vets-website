@@ -1,8 +1,12 @@
 import React from 'react';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import MainContentSubDiv from '../../HubRail/shared/mainContentSubDiv';
 import LiSpanAndVaLinkAndPTag from '../../HubRail/shared/liSpanAndVaLinkAndPTag';
 
 const ProgramApprovalInformation = () => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const form10275Toggle = useToggleValue(TOGGLE_NAMES.form10275Release);
+
   return (
     <MainContentSubDiv
       id="program-approval-information"
@@ -66,11 +70,29 @@ const ProgramApprovalInformation = () => {
         hrefText="Federal on-the-job training/apprenticeship approvals"
         pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship (OJT/APP) programs."
       />
-      <LiSpanAndVaLinkAndPTag
-        href="https://www.va.gov/education/choosing-a-school/principles-of-excellence/"
-        hrefText="Principles of Excellence"
-        pText="Understand the guidelines required by schools receiving federal funding through the GI Bill."
-      />
+      {form10275Toggle ? (
+        <li>
+          <va-link
+            href="https://www.va.gov/education/choosing-a-school/principles-of-excellence/"
+            text="Principles of Excellence"
+          />
+          <p className="vads-u-margin-top--0">
+            Understand the guidelines required by schools receiving federal
+            funding through the GI Bill.{' '}
+            <va-link
+              data-testid="form-10275-link"
+              href="https://www.va.gov/school-administrators/commit-principles-of-excellence-form-22-10275"
+              text="Commit to the Principles of Excellence for educational institutions"
+            />
+          </p>
+        </li>
+      ) : (
+        <LiSpanAndVaLinkAndPTag
+          href="https://www.va.gov/education/choosing-a-school/principles-of-excellence/"
+          hrefText="Principles of Excellence"
+          pText="Understand the guidelines required by schools receiving federal funding through the GI Bill."
+        />
+      )}
       <LiSpanAndVaLinkAndPTag
         href="https://www.benefits.va.gov/gibill/yellow_ribbon/yellow_ribbon_info_schools.asp"
         hrefText="Yellow Ribbon Program"
