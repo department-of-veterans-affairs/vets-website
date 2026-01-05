@@ -101,7 +101,6 @@ describe('22-1919 Edu form', () => {
     cy.tabToElement('input[name="root_institutionDetails_facilityCode"]');
     cy.typeInFocused('10002000');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(600);
     cy.tabToContinueForm();
 
     // Proprietary profit classification page
