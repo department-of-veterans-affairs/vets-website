@@ -42,7 +42,7 @@ const formConfig = {
   submitUrl: SUBMIT_URL,
   submit: submitForm,
   trackingPrefix: 'edu-0839-',
-  introduction: IntroductionPage,
+  introduction: ConfirmationPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_0839,
   saveInProgress: {
@@ -80,6 +80,7 @@ const formConfig = {
     reviewPageTitle: 'Review form',
     submitButtonText: 'Continue',
   },
+  useCustomScrollAndFocus: true,
   transformForSubmit: transform,
   chapters: {
     personalInformationChapter: {
