@@ -9,7 +9,10 @@ import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
-import { recordRadioOptionClick } from '../../../util/events-helpers';
+import {
+  recordRadioOptionClick,
+  recordButtonClick,
+} from '../../../util/events-helpers';
 import {
   createExpense,
   updateExpense,
@@ -154,6 +157,12 @@ const Mileage = () => {
       return;
     }
 
+    recordButtonClick(
+      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+      title,
+      isEditMode ? 'Save and continue' : 'Continue',
+    );
+
     // Building the mileage expense request body
     const expenseData = {
       purchaseDate: appointment?.localStartTime
@@ -208,6 +217,11 @@ const Mileage = () => {
   };
 
   const handleBack = () => {
+    recordButtonClick(
+      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+      title,
+      isEditMode ? 'Cancel' : 'Back',
+    );
     if (isEditMode) {
       setIsModalVisible(true);
     } else {

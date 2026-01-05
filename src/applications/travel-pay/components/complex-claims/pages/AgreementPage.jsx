@@ -71,6 +71,7 @@ const AgreementPage = () => {
   };
 
   const onBack = () => {
+    recordButtonClick(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title, 'Back');
     navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 

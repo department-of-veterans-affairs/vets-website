@@ -17,8 +17,13 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
+import { recordButtonClick } from '../../../util/events-helpers';
 import DocumentUpload from './DocumentUpload';
-import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
+import {
+  EXPENSE_TYPES,
+  EXPENSE_TYPE_KEYS,
+  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+} from '../../../constants';
 import {
   createExpense,
   updateExpenseDeleteDocument,
@@ -393,6 +398,18 @@ const ExpensePage = () => {
       return;
     }
 
+    const pageTitle = expenseTypeFields?.expensePageText
+      ? `${expenseTypeFields.expensePageText
+          .charAt(0)
+          .toUpperCase()}${expenseTypeFields.expensePageText.slice(1)} expense`
+      : 'Unknown expense';
+
+    recordButtonClick(
+      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+      pageTitle,
+      isEditMode ? 'Save and continue' : 'Continue',
+    );
+
     const expenseConfig = EXPENSE_TYPES[expenseType];
 
     try {
@@ -469,6 +486,17 @@ const ExpensePage = () => {
   };
 
   const handleBack = () => {
+    const pageTitle = expenseTypeFields?.expensePageText
+      ? `${expenseTypeFields.expensePageText
+          .charAt(0)
+          .toUpperCase()}${expenseTypeFields.expensePageText.slice(1)} expense`
+      : 'Unknown expense';
+
+    recordButtonClick(
+      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
+      pageTitle,
+      isEditMode ? 'Cancel' : 'Back',
+    );
     if (isEditMode) {
       setIsCancelModalVisible(true);
     } else {
