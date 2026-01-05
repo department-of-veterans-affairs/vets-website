@@ -1,9 +1,11 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import {
   addressUI,
   addressSchema,
   applyKeyMapping,
   updateFormDataAddress,
+  getFieldValue,
 } from '../../../src/js/web-component-patterns/addressPattern';
 
 describe('addressPattern mapping functions', () => {
@@ -857,6 +859,636 @@ describe('addressPattern mapping functions', () => {
       // These should work fine as they don't collide with existing fields
       expect(() => addressUI({ keys })).to.not.throw();
       expect(() => addressSchema({ keys })).to.not.throw();
+    });
+  });
+
+  describe('getFieldValue helper', () => {
+    it('should return field value without key mapping', () => {
+      const addressData = {
+        street: '123 Main St',
+        city: 'Anytown',
+        state: 'CA',
+        postalCode: '12345',
+      };
+
+      const result = getFieldValue('street', addressData);
+
+      expect(result).to.equal('123 Main St');
+    });
+
+    it('should return field value with key mapping', () => {
+      const addressData = {
+        addressLine1: '123 Main St',
+        city: 'Anytown',
+        state: 'CA',
+        zipCode: '12345',
+      };
+
+      const keys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const streetResult = getFieldValue('street', addressData, keys);
+      const postalResult = getFieldValue('postalCode', addressData, keys);
+
+      expect(streetResult).to.equal('123 Main St');
+      expect(postalResult).to.equal('12345');
+    });
+
+    it('should handle unmapped fields correctly', () => {
+      const addressData = {
+        addressLine1: '123 Main St',
+        city: 'Anytown',
+        zipCode: '12345',
+      };
+
+      const keys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const cityResult = getFieldValue('city', addressData, keys);
+
+      expect(cityResult).to.equal('Anytown');
+    });
+
+    it('should return undefined for missing fields', () => {
+      const addressData = {
+        street: '123 Main St',
+        city: 'Anytown',
+      };
+
+      const result = getFieldValue('postalCode', addressData);
+
+      expect(result).to.be.undefined;
+    });
+
+    it('should handle null addressData gracefully', () => {
+      const result = getFieldValue('street', null);
+
+      expect(result).to.be.undefined;
+    });
+
+    it('should handle undefined addressData gracefully', () => {
+      const result = getFieldValue('street', undefined);
+
+      expect(result).to.be.undefined;
+    });
+
+    it('should handle empty keys object', () => {
+      const addressData = {
+        street: '123 Main St',
+        postalCode: '12345',
+      };
+
+      const streetResult = getFieldValue('street', addressData, {});
+      const postalResult = getFieldValue('postalCode', addressData, {});
+
+      expect(streetResult).to.equal('123 Main St');
+      expect(postalResult).to.equal('12345');
+    });
+
+    it('should handle undefined keys parameter', () => {
+      const addressData = {
+        street: '123 Main St',
+        postalCode: '12345',
+      };
+
+      const streetResult = getFieldValue('street', addressData);
+      const postalResult = getFieldValue('postalCode', addressData);
+
+      expect(streetResult).to.equal('123 Main St');
+      expect(postalResult).to.equal('12345');
+    });
+
+    it('should work with all address field types', () => {
+      const addressData = {
+        addressLine1: '123 Main St',
+        addressLine2: 'Apt 4B',
+        addressLine3: 'Building C',
+        cityName: 'Anytown',
+        stateCode: 'CA',
+        zipCode: '12345',
+        countryCode: 'USA',
+        militaryBase: true,
+      };
+
+      const keys = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        street3: 'addressLine3',
+        city: 'cityName',
+        state: 'stateCode',
+        postalCode: 'zipCode',
+        country: 'countryCode',
+        isMilitary: 'militaryBase',
+      };
+
+      expect(getFieldValue('street', addressData, keys)).to.equal(
+        '123 Main St',
+      );
+      expect(getFieldValue('street2', addressData, keys)).to.equal('Apt 4B');
+      expect(getFieldValue('street3', addressData, keys)).to.equal(
+        'Building C',
+      );
+      expect(getFieldValue('city', addressData, keys)).to.equal('Anytown');
+      expect(getFieldValue('state', addressData, keys)).to.equal('CA');
+      expect(getFieldValue('postalCode', addressData, keys)).to.equal('12345');
+      expect(getFieldValue('country', addressData, keys)).to.equal('USA');
+      expect(getFieldValue('isMilitary', addressData, keys)).to.equal(true);
+    });
+
+    it('should handle empty string values correctly', () => {
+      const addressData = {
+        street: '',
+        city: 'Anytown',
+      };
+
+      const result = getFieldValue('street', addressData);
+
+      expect(result).to.equal('');
+    });
+
+    it('should handle false boolean values correctly', () => {
+      const addressData = {
+        isMilitary: false,
+        street: '123 Main St',
+      };
+
+      const result = getFieldValue('isMilitary', addressData);
+
+      expect(result).to.equal(false);
+    });
+
+    it('should handle zero numeric values correctly', () => {
+      const addressData = {
+        someNumericField: 0,
+        street: '123 Main St',
+      };
+
+      const result = getFieldValue('someNumericField', addressData);
+
+      expect(result).to.equal(0);
+    });
+
+    it('should prefer mapped key over standard key when both exist', () => {
+      const addressData = {
+        street: '123 Main St',
+        addressLine1: '456 Oak Ave',
+      };
+
+      const keys = {
+        street: 'addressLine1',
+      };
+
+      const result = getFieldValue('street', addressData, keys);
+
+      // Should return the mapped field value, not the standard field value
+      expect(result).to.equal('456 Oak Ave');
+    });
+  });
+
+  describe('unsafe mapping warnings', () => {
+    let consoleWarnStub;
+
+    beforeEach(() => {
+      consoleWarnStub = sinon.stub(console, 'warn');
+    });
+
+    afterEach(() => {
+      consoleWarnStub.restore();
+    });
+
+    it('should not log warnings when only safe fields are mapped', () => {
+      const schema = {
+        street: { type: 'string' },
+        street2: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const keys = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        postalCode: 'zipCode',
+      };
+
+      applyKeyMapping(schema, keys);
+
+      expect(consoleWarnStub.called).to.be.false;
+    });
+
+    it('should log warnings when unsafe fields are mapped', () => {
+      const schema = {
+        country: { type: 'string' },
+        city: { type: 'string' },
+        state: { type: 'string' },
+        street: { type: 'string' },
+      };
+
+      const keys = {
+        country: 'countryCode',
+        city: 'cityName',
+        state: 'stateCode',
+        street: 'addressLine1', // This one is safe
+      };
+
+      applyKeyMapping(schema, keys);
+
+      expect(consoleWarnStub.calledOnce).to.be.true;
+      const warning = consoleWarnStub.getCall(0).args[0];
+      expect(warning).to.include(
+        'WARNING: Mapping fields [country, city, state]',
+      );
+      expect(warning).to.include('may cause runtime errors');
+      expect(warning).to.include(
+        'Safe fields to map: [street, street2, street3, postalCode, isMilitary]',
+      );
+      expect(warning).to.include('See JSDoc for addressUI for details');
+    });
+
+    it('should log warnings for individual unsafe fields', () => {
+      const schema = {
+        country: { type: 'string' },
+        street: { type: 'string' },
+      };
+
+      const keys = {
+        country: 'countryCode',
+      };
+
+      applyKeyMapping(schema, keys);
+
+      expect(consoleWarnStub.calledOnce).to.be.true;
+      const warning = consoleWarnStub.getCall(0).args[0];
+      expect(warning).to.include('WARNING: Mapping fields [country]');
+    });
+
+    it('should handle multiple separate unsafe field mappings', () => {
+      const schema = {
+        city: { type: 'string' },
+        state: { type: 'string' },
+        street: { type: 'string' },
+      };
+
+      const keys = {
+        city: 'cityName',
+        state: 'stateCode',
+      };
+
+      applyKeyMapping(schema, keys);
+
+      expect(consoleWarnStub.calledOnce).to.be.true;
+      const warning = consoleWarnStub.getCall(0).args[0];
+      expect(warning).to.include('WARNING: Mapping fields [city, state]');
+    });
+
+    it('should not log warnings when no mapping keys are provided', () => {
+      const schema = {
+        country: { type: 'string' },
+        city: { type: 'string' },
+        state: { type: 'string' },
+      };
+
+      applyKeyMapping(schema, {}); // No keys provided
+
+      expect(consoleWarnStub.called).to.be.false;
+    });
+  });
+
+  describe('validateMilitaryBaseZipCode with key mappings', () => {
+    let mockErrors;
+
+    beforeEach(() => {
+      mockErrors = {
+        postalCode: { addError: sinon.spy() },
+        zipCode: { addError: sinon.spy() },
+        customPostalCode: { addError: sinon.spy() },
+      };
+    });
+
+    it('should validate military zip codes without key mappings (standard behavior)', () => {
+      const uiSchema = addressUI({});
+      const addressData = {
+        isMilitary: true,
+        state: 'AE',
+        postalCode: '09123', // Valid AE postal code
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.postalCode.addError.called).to.be.false;
+    });
+
+    it('should validate military zip codes with isMilitary field mapped', () => {
+      const keys = { isMilitary: 'militaryBase' };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true, // Mapped field
+        state: 'AE',
+        postalCode: '09123', // Valid AE postal code
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.postalCode.addError.called).to.be.false;
+    });
+
+    it('should validate military zip codes with postalCode field mapped', () => {
+      const keys = { postalCode: 'zipCode' };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        isMilitary: true,
+        state: 'AE',
+        zipCode: '09123', // Mapped field with valid AE postal code
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.called).to.be.false;
+    });
+
+    it('should validate military zip codes with both fields mapped', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true, // Mapped isMilitary field
+        state: 'AE',
+        zipCode: '09123', // Mapped postalCode field with valid AE postal code
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.called).to.be.false;
+    });
+
+    it('should add errors to mapped postalCode field when validation fails', () => {
+      const keys = { postalCode: 'zipCode' };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        isMilitary: true,
+        state: 'AE',
+        zipCode: '12345', // Invalid for AE state (should be 09xxx)
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.calledOnce).to.be.true;
+      expect(mockErrors.postalCode.addError.called).to.be.false;
+    });
+
+    it('should validate AA state with correct postal codes using mapped fields', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true,
+        state: 'AA',
+        zipCode: '34012', // Valid AA postal code
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.called).to.be.false;
+    });
+
+    it('should add error for AA state with incorrect postal code using mapped fields', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true,
+        state: 'AA',
+        zipCode: '12345', // Invalid for AA state (should be 340xx)
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.calledOnce).to.be.true;
+    });
+
+    it('should validate AP state with correct postal codes using mapped fields', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true,
+        state: 'AP',
+        zipCode: '96234', // Valid AP postal code
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.called).to.be.false;
+    });
+
+    it('should add error for AP state with incorrect postal code using mapped fields', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true,
+        state: 'AP',
+        zipCode: '12345', // Invalid for AP state (should be 962xx-966xx)
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.calledOnce).to.be.true;
+    });
+
+    it('should not validate when isMilitary field is false with mapped field', () => {
+      const keys = { isMilitary: 'militaryBase' };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: false, // Not military
+        state: 'AE',
+        postalCode: '12345', // Invalid military code but should not be validated
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.postalCode.addError.called).to.be.false;
+    });
+
+    it('should not validate when state field is missing', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true,
+        // state is missing
+        zipCode: '12345',
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.called).to.be.false;
+    });
+
+    it('should not validate for non-military states even when isMilitary is mapped', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true,
+        state: 'CA', // Non-military state
+        zipCode: '12345',
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.called).to.be.false;
+    });
+
+    it('should handle edge case with custom mapped field names', () => {
+      const keys = {
+        isMilitary: 'isOnMilitaryBase',
+        postalCode: 'customPostalCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        isOnMilitaryBase: true,
+        state: 'AE',
+        customPostalCode: '12345', // Invalid for AE
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.customPostalCode.addError.calledOnce).to.be.true;
+      expect(mockErrors.postalCode.addError.called).to.be.false;
+      expect(mockErrors.zipCode.addError.called).to.be.false;
+    });
+
+    it('should include mapped field name in error message', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true,
+        state: 'AE',
+        zipCode: '12345', // Invalid for AE
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.calledOnce).to.be.true;
+      const errorMessage = mockErrors.zipCode.addError.getCall(0).args[0];
+      expect(errorMessage).to.include(
+        'This postal code is within the United States',
+      );
+      expect(errorMessage).to.include('APO/FPO/DPO address');
+    });
+
+    it('should handle mixed mapping scenarios correctly', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        // postalCode is not mapped, should use standard field
+      };
+      const uiSchema = addressUI({ keys });
+
+      const addressData = {
+        militaryBase: true, // Mapped field
+        state: 'AE',
+        postalCode: '12345', // Standard field name, invalid for AE
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.postalCode.addError.calledOnce).to.be.true;
+      expect(mockErrors.zipCode.addError.called).to.be.false;
+    });
+
+    it('should validate with partial postal codes using mapped fields', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const uiSchema = addressUI({ keys });
+
+      // Test partial valid codes
+      const testCases = [
+        { state: 'AA', zipCode: '340', expected: false }, // Valid AA start
+        { state: 'AE', zipCode: '090', expected: false }, // Valid AE start (3 chars minimum)
+        { state: 'AP', zipCode: '962', expected: false }, // Valid AP start
+        { state: 'AA', zipCode: '341', expected: true }, // Invalid AA start
+        { state: 'AE', zipCode: '080', expected: true }, // Invalid AE start
+        { state: 'AP', zipCode: '961', expected: true }, // Invalid AP start
+      ];
+
+      testCases.forEach(({ state, zipCode, expected }) => {
+        // Reset spy
+        mockErrors.zipCode.addError.reset();
+
+        const addressData = {
+          militaryBase: true,
+          state,
+          zipCode,
+        };
+
+        uiSchema['ui:validations'][0](mockErrors, addressData);
+
+        expect(mockErrors.zipCode.addError.called).to.equal(
+          expected,
+          `Expected ${
+            expected ? 'error' : 'no error'
+          } for state ${state} with zipCode ${zipCode}`,
+        );
+      });
+    });
+
+    it('should use custom military checkbox title in error messages', () => {
+      const keys = {
+        isMilitary: 'militaryBase',
+        postalCode: 'zipCode',
+      };
+      const customLabel = 'Custom military base checkbox';
+      const uiSchema = addressUI({
+        keys,
+        labels: { militaryCheckbox: customLabel },
+      });
+
+      const addressData = {
+        militaryBase: true,
+        state: 'AE',
+        zipCode: '12345', // Invalid for AE
+      };
+
+      uiSchema['ui:validations'][0](mockErrors, addressData);
+
+      expect(mockErrors.zipCode.addError.calledOnce).to.be.true;
+      const errorMessage = mockErrors.zipCode.addError.getCall(0).args[0];
+      expect(errorMessage).to.include(customLabel);
     });
   });
 });

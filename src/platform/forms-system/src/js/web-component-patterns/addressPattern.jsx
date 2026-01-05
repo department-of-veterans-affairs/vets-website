@@ -211,7 +211,7 @@ const getAddressPath = path => {
 };
 
 // This is a helper function for getting a field value from address data, taking into account any mapped schema keys
-function getFieldValue(fieldName, addressData, keys = {}) {
+export function getFieldValue(fieldName, addressData, keys = {}) {
   const mappedKey = keys[fieldName] || fieldName;
   return addressData?.[mappedKey];
 }
@@ -228,7 +228,7 @@ const UNSAFE_FIELDS = ['country', 'city', 'state'];
 /**
  * Validates mappable fields and provides warnings for unsafe mappings
  */
-function validateMappableFields(keys = {}) {
+function warnAboutUnsafeMappings(keys = {}) {
   const attemptedMappings = Object.keys(keys);
   const unsafeMappings = attemptedMappings.filter(field =>
     UNSAFE_FIELDS.includes(field),
@@ -270,7 +270,7 @@ function detectKeyCollisions(schema, keys = {}) {
 
   if (collisions.length > 0) {
     throw new Error(
-      `ERROR: Field mapping would cause key collisions: ${collisions.join(
+      `Field mapping would cause key collisions: ${collisions.join(
         ', ',
       )}. Cannot map to field names that already exist in the schema.`,
     );
@@ -304,8 +304,8 @@ export function applyKeyMapping(schema, keys = {}, omit = []) {
     }
     return utilsOmit(schema, omit);
   }
-  // Validate that only safe fields are being mapped
-  validateMappableFields(keys);
+  // Validate that only safe fields are being mapped by logging warnings
+  warnAboutUnsafeMappings(keys);
   detectKeyCollisions(schema, keys);
 
   const mappedSchema = {};
@@ -416,12 +416,11 @@ export const updateFormDataAddress = (
  * @param {Object} [options]
  * @param {Object} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
  *
- * **IMPORTANT**: Only street, street2, street3, and postalCode should be mapped without code modifications.
+ * **IMPORTANT**: Only street, street2, street3, postalCode, and isMilitary should be mapped without code modifications.
  *
  * Other fields (country, city, state) have dynamic schema functions (updateSchema/replaceSchema)
  * that access form data using hardcoded field names. Mapping these fields will cause runtime errors because:
  * - State field's replaceSchema accesses `data.country`
- * - Military validation function accesses `addr.state`
  *
  * To map other fields, you must:
  * 1. Update all dynamic schema functions to use getFieldValue() helper
@@ -443,12 +442,12 @@ export const updateFormDataAddress = (
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
-  const { keys = {} } = options || {};
+  const { keys = {} } = options;
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
-  const omit = key => options?.omit?.includes(key);
-  let customRequired = key => options?.required?.[key];
+  const omit = key => options.omit?.includes(key);
+  let customRequired = key => options.required?.[key];
   if (options?.required === false) {
     customRequired = () => () => false;
   }
@@ -471,14 +470,17 @@ export function addressUI(options = {}) {
       const postalCode = getFieldValue('postalCode', addr, mappedKeys);
       const postalCodeKey = mappedKeys.postalCode || 'postalCode';
 
-      const isAA = addr.state === 'AA' && /^340\d*/.test(postalCode);
-      const isAE = addr.state === 'AE' && /^09[0-9]\d*/.test(postalCode);
-      const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(postalCode);
+      const state = getFieldValue('state', addr, mappedKeys);
+
+      const isAA = state === 'AA' && /^340\d*/.test(postalCode);
+      const isAE = state === 'AE' && /^09[0-9]\d*/.test(postalCode);
+      const isAP = state === 'AP' && /^96[2-6]\d*/.test(postalCode);
       if (!(isAA || isAE || isAP)) {
+        const militaryTitle =
+          options.labels?.militaryCheckbox ??
+          'I live on a U.S. military base outside of the United States.';
         errors[postalCodeKey].addError(
-          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
-            uiSchema.isMilitary['ui:title']
-          }". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
+          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${militaryTitle}". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
         );
       }
     }
@@ -592,9 +594,6 @@ export function addressUI(options = {}) {
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         replaceSchema: (_, schema) => {
-          // Example if you ever need to access mapped fields:
-          // replaceSchema: (formData, schema, _uiSchema, index, path) => {
-          //  const streetValue = getAddressFieldValue('street', formData, path, keys);
           return {
             ...schema,
             pattern: NONBLANK_PATTERN,
@@ -871,7 +870,7 @@ export function addressUI(options = {}) {
       },
     };
   }
-  return applyKeyMapping(uiSchema, keys, options?.omit || []);
+  return applyKeyMapping(uiSchema, keys, options.omit || []);
 }
 
 /**
