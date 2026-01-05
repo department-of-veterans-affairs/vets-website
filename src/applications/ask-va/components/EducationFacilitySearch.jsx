@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
+import { VaRadioOption } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { URL, envUrl } from '../constants';
 import { convertLocation } from '../utils/mapbox';
 import EducationSearchItem from './search/EducationSearchItem';
@@ -13,6 +15,7 @@ const facilities = {
 };
 
 export default function EducationFacilitySearch({ onChange }) {
+  const school = useSelector(state => state.form?.data?.school);
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
@@ -77,6 +80,8 @@ export default function EducationFacilitySearch({ onChange }) {
     return getFacilitiesByCode(input);
   };
 
+  const showInitialValue = school && !isSearching && !apiData.data?.length;
+
   return (
     <div className="facility-locator vads-u-margin-top--2">
       <SearchControls
@@ -85,6 +90,7 @@ export default function EducationFacilitySearch({ onChange }) {
         searchTitle="Search for your school"
         searchHint="You can search by school name, code or location."
       />
+      {showInitialValue && <VaRadioOption label={school} checked />}
       {isSearching ? (
         <va-loading-indicator label="Loading" message="Loading..." set-focus />
       ) : (
@@ -94,6 +100,7 @@ export default function EducationFacilitySearch({ onChange }) {
           getData={getApiData}
           onChange={onChange}
           dataError={fetchDataError}
+          defaultValue={school}
         />
       )}
     </div>
