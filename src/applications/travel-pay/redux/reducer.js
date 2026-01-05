@@ -42,6 +42,7 @@ import {
   CREATE_EXPENSE_SUCCESS,
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
+  SET_EXPENSE_BACK_DESTINATION,
 } from './actions';
 
 // Helper function to merge expenses, avoiding duplicates
@@ -160,10 +161,12 @@ const initialState = {
       isLoading: false,
       error: null,
     },
+    expenseBackDestination: null,
   },
 };
 
 function travelPayReducer(state = initialState, action) {
+  /* eslint-disable sonarjs/max-switch-cases */
   switch (action.type) {
     case FETCH_TRAVEL_CLAIMS_STARTED:
       return {
@@ -725,6 +728,15 @@ function travelPayReducer(state = initialState, action) {
       return {
         ...state,
         reviewPageAlert: null,
+      };
+
+    case SET_EXPENSE_BACK_DESTINATION:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenseBackDestination: action.payload,
+        },
       };
 
     default:
