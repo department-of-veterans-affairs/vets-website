@@ -1,11 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
 import { isLOA3 } from 'platform/user/selectors';
 import YourInformationDescription, {
   getBenefitLabel,
 } from '../components/YourInformationDescription';
-import { useSelector } from 'react-redux';
 
 const mapCurrentToSelection = type => {
   if (!type) return undefined;
