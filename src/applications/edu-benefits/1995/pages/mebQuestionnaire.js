@@ -4,6 +4,8 @@ import environment from 'platform/utilities/environment';
 import YourInformationDescription, {
   getBenefitLabel,
 } from '../components/YourInformationDescription';
+import { useSelector } from 'react-redux';
+import { isLOA3 } from 'platform/user/selectors';
 
 const mapCurrentToSelection = type => {
   if (!type) return undefined;
@@ -179,11 +181,24 @@ SameBenefitResultDescription.propTypes = {
   }),
 };
 
+const YourInformationTitle = () => {
+  const isLoa3 = useSelector(isLOA3);
+
+  return (
+    isLoa3 ? 
+      <span>What do you want to do?</span>
+      :
+      <h2 className="vads-u-margin-y--0 vads-u-display--inline">
+        What do you want to do?
+      </h2> 
+  )
+}
+
 export const yourInformationPage = () => ({
   uiSchema: {
     'ui:description': YourInformationDescription,
     mebWhatDoYouWantToDo: {
-      'ui:title': 'What do you want to do?',
+      'ui:title': <YourInformationTitle />,
       'ui:widget': 'radio',
     },
   },
@@ -207,12 +222,12 @@ export const yourInformationPage = () => ({
 export const sameBenefitSelectionPage = () => ({
   uiSchema: {
     mebSameBenefitSelection: {
-      'ui:title': 'Which benefit have you most recently used?',
-      'ui:description': (
-        <p className="vads-u-margin-top--2">
-          <strong>(*Required)</strong>
-        </p>
+      'ui:title': (
+        <h2 className="vads-u-margin-y--0 vads-u-display--inline">
+          Which benefit have you most recently used?
+        </h2>
       ),
+      'ui:description': BenefitSwitchDescription,
       'ui:widget': 'radio',
     },
   },
