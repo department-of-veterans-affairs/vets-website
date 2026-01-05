@@ -217,7 +217,7 @@ export const uiSchema = {
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         widgetClassNames: 'usa-input-medium',
         hideIf: formData =>
-          formData.mailingAddress.country === ('USA' || 'United States'),
+          formData.mailingAddress.country !== ('USA' || 'United States'),
       },
     },
   },
