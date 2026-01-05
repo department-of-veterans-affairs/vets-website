@@ -10,7 +10,7 @@ import { scrollToFirstError, scrollTo } from 'platform/utilities/scroll';
 import {
   form0781HeadingTag,
   mentalHealthSupportAlert,
-  customTitleWithTag,
+  titleWithTag,
 } from '../form0781';
 import { checkValidations } from '../../utils/submit';
 
@@ -551,7 +551,8 @@ const WorkflowChoicePage = props => {
       </VaAlert>
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
-          {customTitleWithTag(workflowChoicePageTitle, form0781HeadingTag)}
+          {/* {customTitleWithTag(workflowChoicePageTitle, form0781HeadingTag)} */}
+          {titleWithTag(workflowChoicePageTitle, form0781HeadingTag)}
         </legend>
         <div>
           {workflowChoicePageDescription(data)}
