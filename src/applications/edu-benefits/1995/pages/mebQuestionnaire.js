@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
+import { isLOA3 } from 'platform/user/selectors';
 import YourInformationDescription, {
   getBenefitLabel,
 } from '../components/YourInformationDescription';
 import { useSelector } from 'react-redux';
-import { isLOA3 } from 'platform/user/selectors';
 
 const mapCurrentToSelection = type => {
   if (!type) return undefined;
@@ -178,21 +178,76 @@ const SameBenefitResultDescription = ({ formData }) => {
 SameBenefitResultDescription.propTypes = {
   formData: PropTypes.shape({
     currentBenefitType: PropTypes.string,
+    mebSameBenefitSelection: PropTypes.string,
+  }),
+};
+
+const BenefitSwitchDescription = ({ formData }) => {
+  const header = getSwitchFormHeader(formData?.mebBenefitSelection);
+
+  return (
+    <>
+      {header && <h2 className="vads-u-font-size--h2">{header}</h2>}
+      <va-additional-info
+        onClick={function noRefCheck() {}}
+        trigger="Learn more about these benefits"
+        style={{ maxWidth: '36rem' }}
+      >
+        <ul className="vads-u-margin-top--1">
+          <li>
+            <a
+              href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
+              Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
+              Reserve (MGIB-SR) (opens in a new tab)
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Learn about survivors' and dependents' assistance: transferred
+              Post-9/11 GI Bill benefits (opens in a new tab)
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Survivors' and Dependents' Education Assistance (DEA), Fry
+              Scholarship
+            </a>
+          </li>
+        </ul>
+      </va-additional-info>
+    </>
+  );
+};
+
+BenefitSwitchDescription.propTypes = {
+  formData: PropTypes.shape({
+    mebBenefitSelection: PropTypes.string,
   }),
 };
 
 const YourInformationTitle = () => {
   const isLoa3 = useSelector(isLOA3);
 
-  return (
-    isLoa3 ? 
-      <span>What do you want to do?</span>
-      :
-      <h2 className="vads-u-margin-y--0 vads-u-display--inline">
-        What do you want to do?
-      </h2> 
-  )
-}
+  return isLoa3 ? (
+    <span>What do you want to do?</span>
+  ) : (
+    <h2 className="vads-u-margin-y--0 vads-u-display--inline">
+      What do you want to do?
+    </h2>
+  );
+};
 
 export const yourInformationPage = () => ({
   uiSchema: {
@@ -257,61 +312,6 @@ export const sameBenefitSelectionPage = () => ({
     },
   },
 });
-
-const BenefitSwitchDescription = ({ formData }) => {
-  const header = getSwitchFormHeader(formData?.mebBenefitSelection);
-
-  return (
-    <>
-      {header && <h2 className="vads-u-font-size--h2">{header}</h2>}
-      <va-additional-info
-        onClick={function noRefCheck() {}}
-        trigger="Learn more about these benefits"
-        style={{ maxWidth: '36rem' }}
-      >
-        <ul className="vads-u-margin-top--1">
-          <li>
-            <a
-              href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
-              Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
-              Reserve (MGIB-SR) (opens in a new tab)
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn about survivors' and dependents' assistance: transferred
-              Post-9/11 GI Bill benefits (opens in a new tab)
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Survivors' and Dependents' Education Assistance (DEA), Fry
-              Scholarship
-            </a>
-          </li>
-        </ul>
-      </va-additional-info>
-    </>
-  );
-};
-
-BenefitSwitchDescription.propTypes = {
-  formData: PropTypes.shape({
-    mebBenefitSelection: PropTypes.string,
-  }),
-};
 
 export const benefitSwitchPage = () => ({
   uiSchema: {
