@@ -1,0 +1,24 @@
+services:
+  vets-website:
+    platform: linux/amd64
+    image: vets-website-local
+    container_name: vets-website
+    user: root
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+      - vets_website_node_modules:/workspace/node_modules
+    command: bash -lc "yarn install && yarn watch --env api=http://localhost:3000 --env entry=static-pages,auth,login-page,form-upload-flow,terms-of-use,representative --env host=0.0.0.0"
+    environment:
+      - NODE_ENV=development
+      - WDS_SOCKET_HOST=localhost
+      - WDS_SOCKET_PORT=3001
+      - WDS_SOCKET_PROTOCOL=ws
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "3001:3001"
+    tty: true
+
+volumes:
+  vets_website_node_modules:
