@@ -183,10 +183,6 @@ class MedicationsDetailsPage {
     });
   };
 
-  verifyLoadingSpinnerForDownloadOnDetailsPage = () => {
-    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
-  };
-
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('have.text', 'Download a PDF of this page')

@@ -4,6 +4,7 @@ import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import testData from '../tests/e2e/fixtures/data/veteran.json';
+import claimantTestData from '../tests/e2e/fixtures/data/itf-claimant.json';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
@@ -27,6 +28,7 @@ const formMappings = {
 };
 
 export const mockData = testData.data;
+export const claimantMockData = claimantTestData.data;
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
@@ -95,10 +97,11 @@ export const onCloseAlert = e => {
   e.target.visible = false;
 };
 
-export const getMockData = () => {
-  return !!mockData && environment.isLocalhost() && !window.Cypress
-    ? mockData
-    : undefined;
+export const getMockData = (dependent = false) => {
+  if (!environment.isLocalhost() || window.Cypress) {
+    return undefined;
+  }
+  return dependent ? mockData : claimantMockData;
 };
 
 export const formattedPhoneNumber = phoneNumber => {
