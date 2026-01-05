@@ -156,9 +156,9 @@ export const uiSchema = {
       'ui:title': 'State',
       'ui:autocomplete': 'address-level1',
       'ui:webComponentField': VaSelectField,
-      // 'ui:errorMessages': {
-      //   required: 'Select a state',
-      // },
+      'ui:errorMessages': {
+        required: 'Select a state',
+      },
       'ui:options': {
         hideIf: formData =>
           !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
@@ -205,7 +205,6 @@ export const uiSchema = {
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
       'ui:required': formData =>
-        !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
         formData.mailingAddress.country === ('USA' || 'United States'),
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
@@ -218,8 +217,7 @@ export const uiSchema = {
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         widgetClassNames: 'usa-input-medium',
         hideIf: formData =>
-          formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
-          formData.mailingAddress.country !== 'USA',
+          formData.mailingAddress.country === ('USA' || 'United States'),
       },
     },
   },
