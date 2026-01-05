@@ -76,6 +76,10 @@ const Mileage = () => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name; // rarely used, but safe to include
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
+    // Only process when value actually changes (prevents duplicate events)
+    if (!value || formState[name] === value) return;
+
     setFormState(prev => ({ ...prev, [name]: value }));
 
     // Track radio button selections

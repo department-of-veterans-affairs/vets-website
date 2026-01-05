@@ -112,21 +112,25 @@ const ChooseExpenseType = () => {
         error={showError || mileageError ? errorMessage : null}
         onVaValueChange={event => {
           const newValue = event.detail.value;
-          setSelectedExpenseType(newValue);
 
-          // Find expense type title for analytics
-          const selectedOption = expenseOptions.find(
-            opt => opt.route === newValue,
-          );
-          if (selectedOption) {
-            recordRadioOptionClick(
-              'Select an expense type',
-              selectedOption.title,
+          // Only process when value actually changes (prevents duplicate events)
+          if (newValue && newValue !== selectedExpenseType) {
+            setSelectedExpenseType(newValue);
+
+            // Find expense type title for analytics
+            const selectedOption = expenseOptions.find(
+              opt => opt.route === newValue,
             );
-          }
+            if (selectedOption) {
+              recordRadioOptionClick(
+                'Select an expense type',
+                selectedOption.title,
+              );
+            }
 
-          if (showError) setShowError(false);
-          if (mileageError) setMileageError(false);
+            if (showError) setShowError(false);
+            if (mileageError) setMileageError(false);
+          }
         }}
       >
         {expenseOptions.map(option => (
