@@ -1,9 +1,11 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import {
   addressUI,
   addressSchema,
   applyKeyMapping,
   updateFormDataAddress,
+  getFieldValue,
 } from '../../../src/js/web-component-patterns/addressPattern';
 
 describe('addressPattern mapping functions', () => {
@@ -857,6 +859,300 @@ describe('addressPattern mapping functions', () => {
       // These should work fine as they don't collide with existing fields
       expect(() => addressUI({ keys })).to.not.throw();
       expect(() => addressSchema({ keys })).to.not.throw();
+    });
+  });
+
+  describe('getFieldValue helper', () => {
+    it('should return field value without key mapping', () => {
+      const addressData = {
+        street: '123 Main St',
+        city: 'Anytown',
+        state: 'CA',
+        postalCode: '12345',
+      };
+
+      const result = getFieldValue('street', addressData);
+
+      expect(result).to.equal('123 Main St');
+    });
+
+    it('should return field value with key mapping', () => {
+      const addressData = {
+        addressLine1: '123 Main St',
+        city: 'Anytown',
+        state: 'CA',
+        zipCode: '12345',
+      };
+
+      const keys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const streetResult = getFieldValue('street', addressData, keys);
+      const postalResult = getFieldValue('postalCode', addressData, keys);
+
+      expect(streetResult).to.equal('123 Main St');
+      expect(postalResult).to.equal('12345');
+    });
+
+    it('should handle unmapped fields correctly', () => {
+      const addressData = {
+        addressLine1: '123 Main St',
+        city: 'Anytown',
+        zipCode: '12345',
+      };
+
+      const keys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const cityResult = getFieldValue('city', addressData, keys);
+
+      expect(cityResult).to.equal('Anytown');
+    });
+
+    it('should return undefined for missing fields', () => {
+      const addressData = {
+        street: '123 Main St',
+        city: 'Anytown',
+      };
+
+      const result = getFieldValue('postalCode', addressData);
+
+      expect(result).to.be.undefined;
+    });
+
+    it('should handle null addressData gracefully', () => {
+      const result = getFieldValue('street', null);
+
+      expect(result).to.be.undefined;
+    });
+
+    it('should handle undefined addressData gracefully', () => {
+      const result = getFieldValue('street', undefined);
+
+      expect(result).to.be.undefined;
+    });
+
+    it('should handle empty keys object', () => {
+      const addressData = {
+        street: '123 Main St',
+        postalCode: '12345',
+      };
+
+      const streetResult = getFieldValue('street', addressData, {});
+      const postalResult = getFieldValue('postalCode', addressData, {});
+
+      expect(streetResult).to.equal('123 Main St');
+      expect(postalResult).to.equal('12345');
+    });
+
+    it('should handle undefined keys parameter', () => {
+      const addressData = {
+        street: '123 Main St',
+        postalCode: '12345',
+      };
+
+      const streetResult = getFieldValue('street', addressData);
+      const postalResult = getFieldValue('postalCode', addressData);
+
+      expect(streetResult).to.equal('123 Main St');
+      expect(postalResult).to.equal('12345');
+    });
+
+    it('should work with all address field types', () => {
+      const addressData = {
+        addressLine1: '123 Main St',
+        addressLine2: 'Apt 4B',
+        addressLine3: 'Building C',
+        cityName: 'Anytown',
+        stateCode: 'CA',
+        zipCode: '12345',
+        countryCode: 'USA',
+        militaryBase: true,
+      };
+
+      const keys = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        street3: 'addressLine3',
+        city: 'cityName',
+        state: 'stateCode',
+        postalCode: 'zipCode',
+        country: 'countryCode',
+        isMilitary: 'militaryBase',
+      };
+
+      expect(getFieldValue('street', addressData, keys)).to.equal(
+        '123 Main St',
+      );
+      expect(getFieldValue('street2', addressData, keys)).to.equal('Apt 4B');
+      expect(getFieldValue('street3', addressData, keys)).to.equal(
+        'Building C',
+      );
+      expect(getFieldValue('city', addressData, keys)).to.equal('Anytown');
+      expect(getFieldValue('state', addressData, keys)).to.equal('CA');
+      expect(getFieldValue('postalCode', addressData, keys)).to.equal('12345');
+      expect(getFieldValue('country', addressData, keys)).to.equal('USA');
+      expect(getFieldValue('isMilitary', addressData, keys)).to.equal(true);
+    });
+
+    it('should handle empty string values correctly', () => {
+      const addressData = {
+        street: '',
+        city: 'Anytown',
+      };
+
+      const result = getFieldValue('street', addressData);
+
+      expect(result).to.equal('');
+    });
+
+    it('should handle false boolean values correctly', () => {
+      const addressData = {
+        isMilitary: false,
+        street: '123 Main St',
+      };
+
+      const result = getFieldValue('isMilitary', addressData);
+
+      expect(result).to.equal(false);
+    });
+
+    it('should handle zero numeric values correctly', () => {
+      const addressData = {
+        someNumericField: 0,
+        street: '123 Main St',
+      };
+
+      const result = getFieldValue('someNumericField', addressData);
+
+      expect(result).to.equal(0);
+    });
+
+    it('should prefer mapped key over standard key when both exist', () => {
+      const addressData = {
+        street: '123 Main St',
+        addressLine1: '456 Oak Ave',
+      };
+
+      const keys = {
+        street: 'addressLine1',
+      };
+
+      const result = getFieldValue('street', addressData, keys);
+
+      // Should return the mapped field value, not the standard field value
+      expect(result).to.equal('456 Oak Ave');
+    });
+  });
+
+  describe('unsafe mapping warnings', () => {
+    let consoleWarnStub;
+
+    beforeEach(() => {
+      consoleWarnStub = sinon.stub(console, 'warn');
+    });
+
+    afterEach(() => {
+      consoleWarnStub.restore();
+    });
+
+    it('should not log warnings when only safe fields are mapped', () => {
+      const schema = {
+        street: { type: 'string' },
+        street2: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const keys = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        postalCode: 'zipCode',
+      };
+
+      applyKeyMapping(schema, keys);
+
+      expect(consoleWarnStub.called).to.be.false;
+    });
+
+    it('should log warnings when unsafe fields are mapped', () => {
+      const schema = {
+        country: { type: 'string' },
+        city: { type: 'string' },
+        state: { type: 'string' },
+        street: { type: 'string' },
+      };
+
+      const keys = {
+        country: 'countryCode',
+        city: 'cityName',
+        state: 'stateCode',
+        street: 'addressLine1', // This one is safe
+      };
+
+      applyKeyMapping(schema, keys);
+
+      expect(consoleWarnStub.calledOnce).to.be.true;
+      const warning = consoleWarnStub.getCall(0).args[0];
+      expect(warning).to.include(
+        'WARNING: Mapping fields [country, city, state]',
+      );
+      expect(warning).to.include('may cause runtime errors');
+      expect(warning).to.include(
+        'Safe fields to map: [street, street2, street3, postalCode, isMilitary]',
+      );
+      expect(warning).to.include('See JSDoc for addressUI for details');
+    });
+
+    it('should log warnings for individual unsafe fields', () => {
+      const schema = {
+        country: { type: 'string' },
+        street: { type: 'string' },
+      };
+
+      const keys = {
+        country: 'countryCode',
+      };
+
+      applyKeyMapping(schema, keys);
+
+      expect(consoleWarnStub.calledOnce).to.be.true;
+      const warning = consoleWarnStub.getCall(0).args[0];
+      expect(warning).to.include('WARNING: Mapping fields [country]');
+    });
+
+    it('should handle multiple separate unsafe field mappings', () => {
+      const schema = {
+        city: { type: 'string' },
+        state: { type: 'string' },
+        street: { type: 'string' },
+      };
+
+      const keys = {
+        city: 'cityName',
+        state: 'stateCode',
+      };
+
+      applyKeyMapping(schema, keys);
+
+      expect(consoleWarnStub.calledOnce).to.be.true;
+      const warning = consoleWarnStub.getCall(0).args[0];
+      expect(warning).to.include('WARNING: Mapping fields [city, state]');
+    });
+
+    it('should not log warnings when no mapping keys are provided', () => {
+      const schema = {
+        country: { type: 'string' },
+        city: { type: 'string' },
+        state: { type: 'string' },
+      };
+
+      applyKeyMapping(schema, {}); // No keys provided
+
+      expect(consoleWarnStub.called).to.be.false;
     });
   });
 });
