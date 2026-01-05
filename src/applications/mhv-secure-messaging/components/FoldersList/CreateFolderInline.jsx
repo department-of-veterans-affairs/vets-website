@@ -85,10 +85,7 @@ const CreateFolderInline = ({ folders, onConfirm, onFolderCreated }) => {
   }
 
   return (
-    <div
-      className="create-folder-inline-form"
-      data-testid="create-folder-inline"
-    >
+    <div className="vads-u-margin-top--2" data-testid="create-folder-inline">
       <VaTextInput
         data-dd-privacy="mask"
         ref={folderNameInput}

@@ -43,7 +43,7 @@ const FoldersList = props => {
                     {highlightName &&
                       folder.name === highlightName && (
                         <span
-                          className="folder-new-tag"
+                          className="usa-label vads-u-background-color--primary vads-u-margin-left--1"
                           data-testid="folder-new-tag"
                         >
                           NEW
