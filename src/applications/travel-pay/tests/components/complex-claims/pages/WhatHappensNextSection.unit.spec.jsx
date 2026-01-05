@@ -53,7 +53,7 @@ describe('<WhatHappensNextSection />', () => {
     // Process list item headers
     expect(
       container.querySelector(
-        `va-process-list-item[header="We'll review your claim"]`,
+        `va-process-list-item[header="We’ll review your claim"]`,
       ),
     ).to.exist;
     expect(
@@ -88,7 +88,7 @@ describe('<WhatHappensNextSection />', () => {
     // Should still show success content
     expect(
       container.querySelector(
-        `va-process-list-item[header="We'll review your claim"]`,
+        `va-process-list-item[header="We’ll review your claim"]`,
       ),
     ).to.exist;
   });

@@ -43,7 +43,7 @@ const WhatHappensNextSection = ({ isError }) => {
       ) : (
         <>
           <va-process-list>
-            <va-process-list-item header="We'll review your claim">
+            <va-process-list-item header="We’ll review your claim">
               <p>
                 You can check the status of this claim or review all your travel
                 claims on your travel reimbursement claims page.
