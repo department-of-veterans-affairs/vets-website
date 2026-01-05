@@ -73,7 +73,6 @@ const StatementCharges = ({ copay, showCurrentStatementHeader = false }) => {
 StatementCharges.propTypes = {
   copay: PropTypes.object,
   showCurrentStatementHeader: PropTypes.bool,
-  showOneThingPerPage: PropTypes.bool,
 };
 
 export default StatementCharges;

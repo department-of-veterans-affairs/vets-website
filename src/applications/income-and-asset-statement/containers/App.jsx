@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import environment from 'platform/utilities/environment';
 import { openReviewChapter as openReviewChapterAction } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
@@ -14,12 +13,15 @@ import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert'
 import { hasIncompleteTrust, shouldShowDeclinedAlert } from '../helpers';
 
 /**
- * Render the 21P-0969 application
- * @param {object} location - react router location object
- * @param {JSX.Element} children - child components
- * @param {boolean} isLoggedIn - user login status
- * @param {func} openReviewChapter - helper function
- * @returns {JSX.Element} - rendered component
+ * Income and Asset Statement Application
+ * @typedef {object} IncomeAndAssetStatementAppProps
+ * @property {object} location - current location object
+ * @property {node} children - child components
+ * @property {boolean} isLoggedIn - user login status
+ * @property {function} openReviewChapter - action to open a chapter on review & submit page
+ *
+ * @param {IncomeAndAssetStatementAppProps} props - Component props
+ * @returns {React.Component} - Income and Asset Statement Application
  */
 function App({ location, children, isLoggedIn, openReviewChapter }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -47,17 +49,16 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
   useBrowserMonitoring({
     loggedIn: isLoggedIn,
     toggleName: 'incomeAndAssetsBrowserMonitoringEnabled',
+
     applicationId: '58e7ffff-9710-46f0-bf72-bf1f7b0f1ba4',
     clientToken: 'puba95e30e73b0bae094ea212fca3870ef3',
-    // `site` refers to the Datadog site parameter of your organization
-    // see https://docs.datadoghq.com/getting_started/site/
     service: 'benefits-income-and-assets',
     version: '1.0.0',
-    // record 100% of staging sessions, but only 20% of production
-    sessionReplaySampleRate:
-      environment.vspEnvironment() === 'staging' ? 100 : 20,
+
+    // record 100% of staging & production sessions; adjust the dashboard
+    // retention filters to manage volume & cost
     sessionSampleRate: 100,
-    defaultPrivacyLevel: 'mask-user-input',
+    sessionReplaySampleRate: 100,
   });
 
   useEffect(
