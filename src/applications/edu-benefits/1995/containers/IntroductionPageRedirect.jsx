@@ -72,7 +72,8 @@ export const IntroductionPageRedirect = ({ route, router }) => {
         messages={route.formConfig.savedFormMessages}
         pageList={route.pageList}
         startText="Start your questionnaire"
-        unauthStartText="Sign in to get started"
+        formConfig={{ customText: { appType: 'questionnaire' } }}
+        unauthStartText="Sign in or create an account"
       />
     ),
     [
