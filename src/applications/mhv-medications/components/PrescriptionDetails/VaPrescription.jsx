@@ -432,6 +432,7 @@ const VaPrescription = prescription => {
                           bordered
                           data-testid="refill-history-accordion"
                           uswds
+                          headingLevel={4}
                           onAccordionItemToggled={handleAccordionItemToggle}
                         >
                           {refillHistory.map((entry, i) => {
