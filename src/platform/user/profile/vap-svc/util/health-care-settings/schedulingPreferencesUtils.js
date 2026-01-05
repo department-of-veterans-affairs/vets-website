@@ -30,6 +30,11 @@ const SUBTASK_SCHEDULING_PREFERENCES = [
   FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES,
 ];
 
+const SINGLE_VALUE_SCHEDULING_PREFERENCES = [
+  ...INLINE_SCHEDULING_PREFERENCES,
+  FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
+];
+
 export const isSchedulingPreference = fieldName => {
   return [
     ...INLINE_SCHEDULING_PREFERENCES,
@@ -39,6 +44,10 @@ export const isSchedulingPreference = fieldName => {
 
 export const isInlineSchedulingPreference = fieldName => {
   return INLINE_SCHEDULING_PREFERENCES.includes(fieldName);
+};
+
+export const isSingleSchedulingPreference = fieldName => {
+  return SINGLE_VALUE_SCHEDULING_PREFERENCES.includes(fieldName);
 };
 
 export const isSubtaskSchedulingPreference = fieldName => {
@@ -182,7 +191,7 @@ export const convertSchedulingPreferencesToReduxFormat = items => {
     const fieldName = Object.keys(FIELD_ITEM_IDS).find(
       key => FIELD_ITEM_IDS[key] === item.itemId,
     );
-    if (isInlineSchedulingPreference(fieldName)) {
+    if (isSingleSchedulingPreference(fieldName)) {
       const [firstOptionId] = item.optionIds;
       formattedData[fieldName] = `option-${firstOptionId}`;
     } else {
