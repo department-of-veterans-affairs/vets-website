@@ -700,7 +700,6 @@ import {
   setDatadogRumUser,
   MhvSecondaryNav,
   useBackToTop,
-  formatBirthDate,
 } from '@department-of-veterans-affairs/mhv/exports';
 ```
 
