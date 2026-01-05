@@ -58,19 +58,25 @@ const VAMCServiceAutosuggest = ({
     [serviceTypeFilter],
   );
 
+  // Initialize services when selector data becomes available
   useEffect(
     () => {
-      if (selector?.data) {
+      if (selector?.data && !allVAMCServices.length) {
         getServices();
       }
+    },
+    [selector, allVAMCServices.length, getServices],
+  );
 
-      // Handles edge cases where the form might be re-rendered between
-      // viewpoints or for any other reason and the autosuggest input is lost
+  // Handles edge cases where the form might be re-rendered between
+  // viewpoints or for any other reason and the autosuggest input is lost
+  useEffect(
+    () => {
       if (!inputValueRef.current && committedServiceDisplay) {
         setInputValue(committedServiceDisplay);
       }
     },
-    [selector, committedServiceDisplay, getServices],
+    [committedServiceDisplay],
   );
 
   // If the user has not typed a service at all, or types something that does not
