@@ -179,8 +179,8 @@ export const PrivateDetailsDisplayNew = ({
         {list.map((facility, index) => {
           const {
             address,
+            privateTreatmentLocation,
             treatmentEnd,
-            treatmentLocation,
             treatmentStart,
             issuesPrivate,
           } = facility || {};
@@ -200,7 +200,7 @@ export const PrivateDetailsDisplayNew = ({
           );
 
           const errors = {
-            name: treatmentLocation ? '' : content.missing.facility,
+            name: privateTreatmentLocation ? '' : content.missing.facility,
             issues: selectedIssues.length ? '' : content.missing.condition,
             address:
               address.country &&
@@ -219,7 +219,7 @@ export const PrivateDetailsDisplayNew = ({
 
           return (
             <li
-              key={treatmentLocation + index}
+              key={privateTreatmentLocation + index}
               className={`${listClassNames(
                 !showListOnly,
               )} vads-u-margin-bottom--2`}
@@ -230,7 +230,7 @@ export const PrivateDetailsDisplayNew = ({
                     className="private-facility vads-u-margin-bottom--2 dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                     data-dd-action-name="Non-VA facility name"
                   >
-                    {treatmentLocation}
+                    {privateTreatmentLocation}
                   </SubHeader>
                 )}
                 {showListOnly ? (
@@ -260,7 +260,7 @@ export const PrivateDetailsDisplayNew = ({
                       id={`edit-private-${index}`}
                       className="edit-item"
                       path={path}
-                      aria-label={`${content.edit} ${treatmentLocation}`}
+                      aria-label={`${content.edit} ${privateTreatmentLocation}`}
                       data-link={testing ? path : null}
                       text={content.edit}
                     />
@@ -269,7 +269,7 @@ export const PrivateDetailsDisplayNew = ({
                       data-type="private"
                       onClick={handlers.showModal}
                       class={removeButtonClass}
-                      label={`${content.remove} ${treatmentLocation}`}
+                      label={`${content.remove} ${privateTreatmentLocation}`}
                       text={content.remove}
                       secondary
                     />

@@ -595,7 +595,7 @@ export const selectVaPromptResponse = response => {
 };
 
 export const addVaLocation = location => {
-  cy.fillVaTextInput('root_treatmentLocation', location);
+  cy.fillVaTextInput('root_vaTreatmentLocation', location);
   clickContinue();
 };
 
@@ -690,7 +690,7 @@ export const addPrivateLocationData = (
   zip,
   addressLine2 = null,
 ) => {
-  cy.fillVaTextInput('root_treatmentLocation', name);
+  cy.fillVaTextInput('root_privateTreatmentLocation', name);
   cy.selectVaSelect('root_address_country', 'USA');
   cy.fillVaTextInput('root_address_street', addressLine1);
 

@@ -35,7 +35,7 @@ describe('VaDetailsDisplayNew', () => {
         h5s,
         listItems,
         {
-          providerName: firstProvider.treatmentLocation,
+          providerName: firstProvider.vaTreatmentLocation,
           issues: 'Hypertension, Impotence, and Left Knee Instability',
           dates: 'Jan. 1, 2000',
         },
@@ -48,7 +48,7 @@ describe('VaDetailsDisplayNew', () => {
         h5s,
         listItems,
         {
-          providerName: secondProvider.treatmentLocation,
+          providerName: secondProvider.vaTreatmentLocation,
           issues: 'Impotence and Left Knee Instability',
         },
         1,
@@ -60,7 +60,7 @@ describe('VaDetailsDisplayNew', () => {
         h5s,
         listItems,
         {
-          providerName: thirdProvider.treatmentLocation,
+          providerName: thirdProvider.vaTreatmentLocation,
           issues: 'Hypertension and Sleep apnea',
         },
         2,
@@ -93,7 +93,7 @@ describe('VaDetailsDisplayNew', () => {
         h6s,
         listItems,
         {
-          providerName: firstProvider.treatmentLocation,
+          providerName: firstProvider.vaTreatmentLocation,
           issues: 'Hypertension, Impotence, and Left Knee Instability',
           dates: 'Jan. 1, 2000',
         },
@@ -106,7 +106,7 @@ describe('VaDetailsDisplayNew', () => {
         h6s,
         listItems,
         {
-          providerName: secondProvider.treatmentLocation,
+          providerName: secondProvider.vaTreatmentLocation,
           issues: 'Impotence and Left Knee Instability',
         },
         1,
@@ -118,7 +118,7 @@ describe('VaDetailsDisplayNew', () => {
         h6s,
         listItems,
         {
-          providerName: thirdProvider.treatmentLocation,
+          providerName: thirdProvider.vaTreatmentLocation,
           issues: 'Hypertension and Sleep apnea',
         },
         2,
@@ -150,7 +150,7 @@ describe('VaDetailsDisplayNew', () => {
           h5s,
           listItems,
           {
-            providerName: firstProvider.treatmentLocation,
+            providerName: firstProvider.vaTreatmentLocation,
             issues: 'Hypertension',
             dates: 'Jan. 1, 2000',
           },
@@ -163,7 +163,7 @@ describe('VaDetailsDisplayNew', () => {
           h5s,
           listItems,
           {
-            providerName: secondProvider.treatmentLocation,
+            providerName: secondProvider.vaTreatmentLocation,
             issues: 'Impotence and Left Knee Instability',
           },
           1,
@@ -175,7 +175,7 @@ describe('VaDetailsDisplayNew', () => {
           h5s,
           listItems,
           {
-            providerName: thirdProvider.treatmentLocation,
+            providerName: thirdProvider.vaTreatmentLocation,
             issues: 'Hypertension and Sleep apnea',
           },
           2,
@@ -210,7 +210,7 @@ describe('VaDetailsDisplayNew', () => {
 
     describe('when the provider name is missing', () => {
       it('should render the proper errors', () => {
-        const partialData = { ...fullData, treatmentLocation: '' };
+        const partialData = { ...fullData, vaTreatmentLocation: '' };
         getContainer(partialData);
 
         const error = $$('.usa-input-error-message')[0];
@@ -220,7 +220,7 @@ describe('VaDetailsDisplayNew', () => {
 
     describe('when the issues are missing', () => {
       it('should render the proper errors', () => {
-        const partialData = { ...fullData, issuesVA: {} };
+        const partialData = { ...fullData, issuesVa: {} };
         getContainer(partialData);
 
         const error = $$('.usa-input-error-message')[0];

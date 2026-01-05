@@ -18,6 +18,7 @@ import {
   EVIDENCE_URLS,
   PRIVATE_EVIDENCE_KEY,
   PRIVATE_EVIDENCE_PROMPT_KEY,
+  PRIVATE_TREATMENT_LOCATION_KEY,
 } from '../../constants';
 import {
   detailsEntryContent,
@@ -36,7 +37,12 @@ import { issuesPage } from './common';
  * @returns bool
  */
 const itemIsComplete = item => {
-  const { address, treatmentStart, treatmentEnd, treatmentLocation } = item;
+  const {
+    address,
+    privateTreatmentLocation,
+    treatmentStart,
+    treatmentEnd,
+  } = item;
   const { city, country, postalCode, state, street } = address;
   const issuesComplete = getSelectedIssues(item)?.length > 0;
   const addressIsComplete =
@@ -47,7 +53,7 @@ const itemIsComplete = item => {
     addressIsComplete &&
     issuesComplete &&
     treatmentDatesComplete &&
-    treatmentLocation
+    privateTreatmentLocation
   );
 };
 
@@ -68,7 +74,7 @@ const options = {
     alertItemUpdated: ({ itemData }) =>
       summaryContent.alertItemUpdatedText(itemData),
     cardDescription: item => summaryContent.cardDescription(item),
-    getItemName: item => item?.treatmentLocation,
+    getItemName: item => item?.[PRIVATE_TREATMENT_LOCATION_KEY],
     summaryDescription: summaryContent.descriptionWithItems,
     summaryTitle: summaryContent.titleWithItems,
   },
@@ -151,7 +157,7 @@ const locationPage = {
         {detailsEntryContent.label}
       </p>
     ),
-    treatmentLocation: textUI({
+    privateTreatmentLocation: textUI({
       title: detailsEntryContent.locationLabel,
       errorMessages: {
         required: detailsEntryContent.locationRequiredError,
@@ -166,7 +172,7 @@ const locationPage = {
   schema: {
     type: 'object',
     properties: {
-      treatmentLocation: textSchema,
+      privateTreatmentLocation: textSchema,
       address: addressNoMilitarySchema({
         omit: ['street3'],
       }),

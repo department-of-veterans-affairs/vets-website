@@ -70,7 +70,7 @@ const options = {
     alertItemUpdated: ({ itemData }) =>
       summaryContent.alertItemUpdatedText(itemData),
     cardDescription: item => summaryContent.cardDescription(item),
-    getItemName: item => item?.treatmentLocation,
+    getItemName: item => item?.[VA_TREATMENT_LOCATION_KEY],
     summaryDescription: summaryContent.descriptionWithItems,
     summaryTitle: summaryContent.titleWithItems,
   },
