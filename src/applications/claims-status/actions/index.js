@@ -442,7 +442,10 @@ export function submitFiles(
   const trackedItemId = trackedItem ? trackedItem.id : null;
 
   // Record enhanced upload start event and get retry info for each file
-  const filesWithRetryInfo = recordUploadStartEvent({ files, claimId });
+  const { filesWithRetryInfo, retryFileCount } = recordUploadStartEvent({
+    files,
+    claimId,
+  });
 
   return dispatch => {
     dispatch(clearNotification());
@@ -480,7 +483,10 @@ export function submitFiles(
           callbacks: {
             onAllComplete: () => {
               if (!hasError) {
-                recordUploadSuccessEvent({ fileCount: totalFiles });
+                recordUploadSuccessEvent({
+                  fileCount: totalFiles,
+                  retryFileCount,
+                });
                 dispatch({
                   type: DONE_UPLOADING,
                 });
@@ -509,6 +515,7 @@ export function submitFiles(
                   files,
                   filesWithRetryInfo,
                   claimId,
+                  retryFileCount,
                 });
                 dispatch({
                   type: SET_UPLOAD_ERROR,

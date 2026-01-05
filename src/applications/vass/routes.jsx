@@ -7,6 +7,8 @@ import TopicSelection from './pages/TopicSelection';
 import Review from './pages/Review';
 import Confirmation from './pages/Confirmation';
 import CancelAppointment from './pages/CancelAppointment';
+import CancelAppointmentConfirmation from './pages/CancelConfirmation';
+import AlreadyScheduled from './pages/AlreadyScheduled';
 
 const routes = () => {
   return (
@@ -21,6 +23,11 @@ const routes = () => {
         path="/cancel-appointment/:appointmentId"
         element={<CancelAppointment />}
       />
+      <Route
+        path="/cancel-appointment/confirmation"
+        element={<CancelAppointmentConfirmation />}
+      />
+      <Route path="/already-scheduled" element={<AlreadyScheduled />} />
     </Routes>
   );
 };

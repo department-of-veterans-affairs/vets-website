@@ -11,6 +11,7 @@
  * @param {boolean} overrides.developmentLetterSent - Whether development letter was sent
  * @param {string} overrides.displayTitle - Display title for the claim
  * @param {boolean} overrides.documentsNeeded - Whether documents are needed
+ * @param {Array} overrides.evidenceSubmissions - Evidence submissions array (use createEvidenceSubmission)
  * @param {string} overrides.status - Claim status
  * @returns {Object} Claim list item object
  */
@@ -24,6 +25,7 @@ export const createBenefitsClaimListItem = ({
   developmentLetterSent,
   displayTitle = 'Claim for compensation',
   documentsNeeded,
+  evidenceSubmissions = [],
   status = 'CLAIM_RECEIVED',
 } = {}) => ({
   id: '123456789',
@@ -39,6 +41,7 @@ export const createBenefitsClaimListItem = ({
     developmentLetterSent,
     displayTitle,
     documentsNeeded,
+    evidenceSubmissions,
     status,
   },
 });
@@ -49,61 +52,161 @@ export const createBenefitsClaimListItem = ({
  *
  * @param {Object} overrides - Properties to override defaults
  * @param {number} overrides.id - Submission ID
- * @param {string} overrides.uploadStatus - Upload status
+ * @param {string} overrides.uploadStatus - Upload status (QUEUED, PENDING, SUCCESS, FAILED)
  * @param {string} overrides.acknowledgementDate - Future date ensures submission is always within the 30-day alert window
- * @param {string} overrides.failedDate - Date the upload failed
+ * @param {string} overrides.createdAt - Date the submission was created
+ * @param {string} overrides.failedDate - Date the upload failed (null for non-failed submissions)
  * @param {string} overrides.documentType - Document type
+ * @param {string} overrides.fileName - File name for the submission
+ * @param {number|null} overrides.trackedItemId - Associated tracked item ID
+ * @param {string|null} overrides.trackedItemDisplayName - Display name of associated tracked item
  * @returns {Object} Evidence submission object
  */
 export const createEvidenceSubmission = ({
   id = 12345,
-  uploadStatus = 'FAILED', // Tests currently only use failed submissions
-  acknowledgementDate = '2050-01-01T12:00:00.000Z',
-  failedDate = '2025-01-15T12:00:00.000Z',
-  // Configurable for context-appropriate values (e.g., 'STEM Supporting Documents' for STEM claims)
+  uploadStatus = 'QUEUED',
+  acknowledgementDate = null,
+  createdAt = '2025-01-15T12:00:00.000Z',
+  failedDate = null,
   documentType = 'Supporting Documents',
+  fileName = 'document.pdf',
+  trackedItemId = null,
+  trackedItemDisplayName = null,
 } = {}) => ({
   id,
   claimId: '123456789',
   uploadStatus,
   acknowledgementDate,
-  createdAt: failedDate,
+  createdAt,
   deleteDate: null,
   documentType,
   failedDate,
-  fileName: 'document.pdf',
+  fileName,
   lighthouseUpload: true,
-  trackedItemId: null,
-  trackedItemDisplayName: null,
-  vaNotifyStatus: 'SENT',
+  trackedItemId,
+  trackedItemDisplayName,
+  vaNotifyStatus: uploadStatus === 'FAILED' ? 'SENT' : null,
 });
+
+/**
+ * Creates multiple evidence submissions for pagination testing
+ *
+ * @param {number} count - Number of evidence submissions to create
+ * @param {Object} overrides - Properties to override defaults for each submission
+ * @returns {Array} Array of evidence submission objects
+ */
+export const createMultipleEvidenceSubmissions = (count, overrides = {}) => {
+  return Array.from({ length: count }, (_, i) =>
+    createEvidenceSubmission({
+      id: i + 1,
+      fileName: `document-${i + 1}.pdf`,
+      ...overrides,
+    }),
+  );
+};
+
+/**
+ * Creates a supporting document (files received/reviewed by VA)
+ *
+ * @param {Object} overrides - Properties to override defaults
+ * @param {string} overrides.documentId - Unique document ID
+ * @param {string} overrides.documentTypeLabel - Document type label
+ * @param {string} overrides.originalFileName - Original file name
+ * @param {number|null} overrides.trackedItemId - Associated tracked item ID
+ * @param {string} overrides.uploadDate - Date the document was uploaded
+ * @param {string} overrides.date - Date for FilesReceived (uses date property)
+ * @returns {Object} Supporting document object
+ */
+export const createSupportingDocument = ({
+  documentId = '{54EF0C16-A9E7-4C3F-B876-B2C7BEC1F834}',
+  documentTypeLabel = 'Correspondence',
+  originalFileName = 'document.pdf',
+  trackedItemId = null,
+  uploadDate = '2025-01-15',
+  date = '2025-01-15',
+} = {}) => ({
+  documentId,
+  documentTypeLabel,
+  originalFileName,
+  trackedItemId,
+  uploadDate,
+  date,
+});
+
+/**
+ * Creates multiple supporting documents for pagination testing
+ *
+ * @param {number} count - Number of supporting documents to create
+ * @param {Object} overrides - Properties to override defaults for each document
+ * @returns {Array} Array of supporting document objects
+ */
+export const createMultipleSupportingDocuments = (count, overrides = {}) => {
+  return Array.from({ length: count }, (_, i) =>
+    createSupportingDocument({
+      documentId: `{54EF0C16-A9E7-4C3F-B876-B2C7BEC1F${String(834 + i).padStart(
+        3,
+        '0',
+      )}}`,
+      originalFileName: `document-${i + 1}.pdf`,
+      uploadDate: `2025-01-${String(1 + i).padStart(2, '0')}`,
+      ...overrides,
+    }),
+  );
+};
 
 /**
  * Creates a tracked item
  *
  * @param {Object} overrides - Properties to override defaults
+ * @param {number} overrides.id - Tracked item ID
  * @param {string} overrides.displayName - Display name (determines heading logic via evidenceDictionary)
+ * @param {string} overrides.status - Tracked item status
+ * @param {string} overrides.requestedDate - Date the item was requested
+ * @param {string|null} overrides.closedDate - Date the item was closed (for NO_LONGER_REQUIRED status)
  * @returns {Object} Tracked item object
  */
 export const createTrackedItem = ({
+  id = 123456,
   displayName = 'Medical Records Request',
+  status = 'NEEDED_FROM_YOU',
+  requestedDate = '2025-05-01',
+  closedDate = null,
 } = {}) => ({
-  id: 1,
-  status: 'NEEDED_FROM_YOU',
+  id,
+  status,
   friendlyName: 'Medical records',
   displayName,
   suspenseDate: '2050-01-01',
   shortDescription: 'Please provide your medical records.',
   description: '',
-  closedDate: null,
+  closedDate,
+  date: null,
+  documents: [],
   overdue: false,
   receivedDate: null,
-  requestedDate: '2025-05-01',
+  requestedDate,
   uploadsAllowed: true,
   canUploadFile: true,
   activityDescription: null,
   supportAliases: ['Medical Records Request'],
 });
+
+/**
+ * Creates multiple tracked items for pagination testing
+ *
+ * @param {number} count - Number of tracked items to create
+ * @param {Object} overrides - Properties to override defaults for each item
+ * @returns {Array} Array of tracked item objects
+ */
+export const createMultipleTrackedItems = (count, overrides = {}) => {
+  return Array.from({ length: count }, (_, i) =>
+    createTrackedItem({
+      id: i + 1,
+      displayName: `Test request ${i + 1}`,
+      ...overrides,
+    }),
+  );
+};
 
 /**
  * Creates a claim detail for /v0/benefits_claims/:id
@@ -114,17 +217,29 @@ export const createTrackedItem = ({
  * @param {string|null} overrides.closeDate - Claim close date
  * @param {Array} overrides.evidenceSubmissions - Evidence submissions array
  * @param {Array} overrides.trackedItems - Tracked items
+ * @param {Array} overrides.supportingDocuments - Supporting documents (additional evidence)
  * @param {boolean} overrides.currentPhaseBack - Whether claim moved back to current phase
+ * @param {boolean} overrides.decisionLetterSent - Whether decision letter was sent (for closed claims)
+ * @param {Object} overrides.previousPhases - Previous phase completion dates (for Recent Activity)
  * @returns {Object} Claim detail object
  */
 export const createBenefitsClaim = ({
   claimTypeCode = '010LCOMP',
   currentPhaseBack = false,
+  decisionLetterSent = false,
   latestPhaseType = 'GATHERING_OF_EVIDENCE',
   closeDate = null,
-  contentions = [{ name: 'Tinnitus' }, { name: 'Hearing Loss' }],
+  contentions = [
+    { name: 'Asthma' },
+    { name: 'Emphysema' },
+    { name: 'Hearing Loss' },
+    { name: 'Sleep Apnea' },
+    { name: 'Tinnitus' },
+  ],
   evidenceSubmissions = [],
+  previousPhases = { phase1CompleteDate: '2025-01-02' },
   status = 'EVIDENCE_GATHERING_REVIEW_DECISION',
+  supportingDocuments = [],
   trackedItems,
 } = {}) => {
   // Commented out properties are part of the claim response but not currently used in the detail
@@ -138,14 +253,12 @@ export const createBenefitsClaim = ({
         phaseChangeDate: '2025-01-02',
         currentPhaseBack,
         latestPhaseType,
-        previousPhases: {
-          phase1CompleteDate: '2025-01-02',
-        },
+        previousPhases,
       },
       claimType: 'Compensation',
       closeDate,
       contentions,
-      decisionLetterSent: false,
+      decisionLetterSent,
       developmentLetterSent: true,
       documentsNeeded: true,
       endProductCode: '016',
@@ -159,7 +272,7 @@ export const createBenefitsClaim = ({
       status,
       submitterApplicationCode: 'VBMS',
       submitterRoleCode: 'VBA',
-      supportingDocuments: [],
+      supportingDocuments,
       tempJurisdiction: 'Milwaukee',
       trackedItems: trackedItems || [
         {

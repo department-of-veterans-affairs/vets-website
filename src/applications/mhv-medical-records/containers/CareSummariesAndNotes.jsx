@@ -7,8 +7,6 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import {
   getCareSummariesAndNotesList,
@@ -159,8 +157,6 @@ const CareSummariesAndNotes = () => {
         <p>This list doesn’t include care summaries from before 2013.</p>
       )}
 
-      <CernerFacilityAlert {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES} />
-
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
@@ -194,26 +190,32 @@ const CareSummariesAndNotes = () => {
           </div>
         )}
         {!isLoadingAcceleratedData &&
-        !isLoading &&
-        careSummariesAndNotes?.length ? (
-          <RecordList
-            records={careSummariesAndNotes}
-            domainOptions={{
-              isAccelerating: isAcceleratingCareNotes,
-              timeFrame: getTimeFrame(dateRange),
-              displayTimeFrame: getDisplayTimeFrame(dateRange),
-            }}
-            type="care summaries and notes"
-            hideRecordsLabel
-          />
-        ) : (
-          <NoRecordsMessage
-            type={recordType.CARE_SUMMARIES_AND_NOTES}
-            timeFrame={
-              isAcceleratingCareNotes ? getDisplayTimeFrame(dateRange) : ''
-            }
-          />
-        )}
+          !isLoading &&
+          careSummariesAndNotes !== undefined && (
+            <>
+              {careSummariesAndNotes?.length ? (
+                <RecordList
+                  records={careSummariesAndNotes}
+                  domainOptions={{
+                    isAccelerating: isAcceleratingCareNotes,
+                    timeFrame: getTimeFrame(dateRange),
+                    displayTimeFrame: getDisplayTimeFrame(dateRange),
+                  }}
+                  type="care summaries and notes"
+                  hideRecordsLabel
+                />
+              ) : (
+                <NoRecordsMessage
+                  type={recordType.CARE_SUMMARIES_AND_NOTES}
+                  timeFrame={
+                    isAcceleratingCareNotes
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
+                />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

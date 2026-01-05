@@ -35,12 +35,13 @@ function generateAppointmentDates(daysOffset) {
   // Set appointment time to 8:00 AM local time
   appointmentDate.setHours(8, 0, 0, 0);
 
-  // Format as ISO string with timezone offset for localStartTime
+  // IMPORTANT: localStartTime has proper timezone offset (e.g. -08:00 for PST)
+  // This represents actual local time: 8:00 AM PST
   const localStartTime = appointmentDate.toISOString().replace('Z', '-08:00');
 
-  // Create UTC times for start and end (8:00 AM PST = 4:00 PM UTC)
+  // start is in true UTC (8:00 AM PST = 4:00 PM UTC)
   const startDate = new Date(appointmentDate);
-  startDate.setHours(startDate.getHours() + 8); // Convert to UTC
+  startDate.setHours(startDate.getHours() + 8); // Convert PST to UTC
   const start = startDate.toISOString();
 
   const endDate = new Date(startDate);
@@ -159,6 +160,7 @@ const responses = {
           source: '0.0',
           parsedValue: 0,
         },
+        tripType: 'RoundTrip',
         id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
         documentId: '',
       },
@@ -189,10 +191,12 @@ const responses = {
         documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
       },
       {
-        expenseType: 'Commoncarrier',
+        expenseType: 'CommonCarrier',
         name: 'Common Carrier Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Taxi to appointment',
+        carrierType: 'Taxi',
+        reasonNotUsingPOV: 'Other',
         costRequested: 45.0,
         costSubmitted: {
           source: '45.0',
@@ -202,23 +206,32 @@ const responses = {
         documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
       },
       {
-        expenseType: 'Airtravel',
+        expenseType: 'AirTravel',
         name: 'Air Travel Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Flight to medical appointment',
+        vendorName: 'Airline Name',
+        tripType: 'RoundTrip',
+        departedFrom: 'City A',
+        arrivedTo: 'City B',
+        departureDate: '2025-09-15T10:00:00Z',
+        returnDate: '2025-09-17T18:00:00Z',
         costRequested: 350.0,
         costSubmitted: {
           source: '350.0',
           parsedValue: 350.0,
         },
         id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
-        documentId: '12fcfecc-5132-4c16-8a9a-7af07b714cd4',
+        documentId: '0ab14628-6531-4a6c-b836-97a92fb35a9e',
       },
       {
         expenseType: 'Lodging',
         name: 'Lodging Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Hotel stay',
+        vendor: 'Hotel Name',
+        checkInDate: '2025-09-15T15:00:00Z',
+        checkOutDate: '2025-09-17T11:00:00Z',
         costRequested: 125.0,
         costSubmitted: {
           source: '125.0',
@@ -232,6 +245,7 @@ const responses = {
         name: 'Meal Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Breakfast and lunch',
+        vendorName: 'Food Place',
         costRequested: 35.0,
         costSubmitted: {
           source: '35.0',
@@ -261,42 +275,49 @@ const responses = {
         mimetype:
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         createdon: '2025-03-12T21:15:27Z',
+        expenseId: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
       },
       {
         documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
         filename: 'Toll.pdf',
         mimetype: 'application/pdf',
         createdon: '2025-03-12T21:15:33Z',
+        expenseId: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
       },
       {
         documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
         filename: 'CommonCarrier.jpg',
         mimetype: 'image/jpeg',
         createdon: '2025-03-24T14:02:52.893Z',
+        expenseId: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
       },
       {
-        documentId: '12fcfecc-5132-4c16-8a9a-7af07b714cd4',
+        documentId: '0ab14628-6531-4a6c-b836-97a92fb35a9e',
         filename: 'Airtravel.jpg',
         mimetype: 'image/jpeg',
         createdon: '2025-03-24T14:04:00.893Z',
+        expenseId: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a054fd968b',
         filename: 'lodging.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
+        expenseId: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
         filename: 'meal.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
+        expenseId: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a053re44wr',
         filename: 'other.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
+        expenseId: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
       },
     ];
     return res.json(details);
@@ -444,7 +465,7 @@ const responses = {
       }
       default:
         // For any other ID, return the original mock
-        return res.json(appointment.original);
+        return res.json(appointment.savedClaim);
     }
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
@@ -459,8 +480,78 @@ const responses = {
   //     ],
   //   });
   // },
-  // Get appointments
+  // Get appointments - handles both date range queries and list view
   'GET /vaos/v2/appointments': (req, res) => {
+    const { start: startParam, end: endParam } = req.query;
+
+    // If querying by date range (used by getAppointmentDataByDateTime action)
+    if (startParam && endParam) {
+      const startDate = new Date(startParam);
+      const endDate = new Date(endParam);
+
+      // Create appointment matching the claim details mock datetime
+      const claimDetailsDateTime = '2025-03-20T16:30:00Z';
+      const appointmentDate = new Date(claimDetailsDateTime);
+
+      // Check if this appointment falls within the requested range
+      if (appointmentDate >= startDate && appointmentDate <= endDate) {
+        // IMPORTANT: Claim's appointmentDateTime has 'Z' suffix but represents local time (bad data)
+        // Convert it to proper localStartTime format with timezone offset
+        // Example: "2025-03-20T16:30:00Z" (claim) -> "2025-03-20T16:30:00.000-08:00" (localStartTime)
+        const localStartTime = claimDetailsDateTime.replace('Z', '.000-08:00');
+
+        const matchingAppointment = {
+          ...appointment.claim.data,
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          type: 'appointments',
+          attributes: {
+            ...appointment.claim.data.attributes,
+            id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            localStartTime, // Proper format with timezone offset
+            start: claimDetailsDateTime, // Keep as UTC for backend consistency
+            end: new Date(
+              appointmentDate.getTime() + 30 * 60 * 1000,
+            ).toISOString(),
+          },
+        };
+
+        // Add non-matching appointments to test filtering logic
+        return res.json({
+          data: [
+            {
+              ...appointment.noClaim.data,
+              id: 'non-match-1',
+              type: 'appointments',
+              attributes: {
+                ...appointment.noClaim.data.attributes,
+                id: 'non-match-1',
+                localStartTime: '2025-03-20T10:00:00.000-08:00', // Different time - won't match
+                start: '2025-03-20T18:00:00Z',
+                end: '2025-03-20T18:30:00Z',
+              },
+            },
+            {
+              ...appointment.noClaim.data,
+              id: 'non-match-2',
+              type: 'appointments',
+              attributes: {
+                ...appointment.noClaim.data.attributes,
+                id: 'non-match-2',
+                localStartTime: '2025-03-20T20:00:00.000-08:00', // Different time - won't match
+                start: '2025-03-21T04:00:00Z',
+                end: '2025-03-21T04:30:00Z',
+              },
+            },
+            matchingAppointment,
+          ],
+        });
+      }
+
+      // Return empty array if no appointments match the range
+      return res.json({ data: [] });
+    }
+
+    // Default behavior - return all appointments (list view)
     const appointments = [
       appointment.noClaim,
       appointment.claim,
@@ -514,6 +605,179 @@ const responses = {
       };
     });
     return res.json({ data: appointments });
+  },
+
+  // GET individual expense endpoints
+  'GET /travel_pay/v0/claims/:claimId/expenses/mileage/:expenseId': (
+    req,
+    res,
+  ) => {
+    const { expenseId } = req.params;
+    if (expenseId === 'a48d48d4-cdc5-4922-8355-c1a9b2742feb') {
+      return res.json({
+        id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
+        expenseType: 'Mileage',
+        name: 'Mileage Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'mileage',
+        costRequested: 1.16,
+        costSubmitted: 0,
+        tripType: 'RoundTrip',
+        requestedMileage: 2.0,
+        challengeMileage: false,
+        challengeRequestedMileage: 0,
+        challengeReason: '',
+        address: {
+          addressLine1: '345 Home Address St.',
+          addressLine2: 'Apt. 123',
+          addressLine3: '',
+          city: 'San Francisco',
+          countryName: 'United States',
+          stateCode: 'CA',
+          zipCode: '94118',
+        },
+      });
+    }
+    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
+  },
+
+  'GET /travel_pay/v0/claims/:claimId/expenses/parking/:expenseId': (
+    req,
+    res,
+  ) => {
+    const { expenseId } = req.params;
+    if (expenseId === 'e82h82h8-ghg9-8e66-c799-g5ed16186jif') {
+      return res.json({
+        id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
+        expenseType: 'Parking',
+        name: 'Parking Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Hospital parking',
+        costRequested: 15.0,
+        costSubmitted: 15.0,
+      });
+    }
+    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
+  },
+
+  'GET /travel_pay/v0/claims/:claimId/expenses/toll/:expenseId': (req, res) => {
+    const { expenseId } = req.params;
+    if (expenseId === 'f93i93i9-hih0-9f77-d800-h6fe27297kjg') {
+      return res.json({
+        id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
+        expenseType: 'Toll',
+        name: 'Toll Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Highway toll',
+        costRequested: 5.5,
+        costSubmitted: 5.5,
+      });
+    }
+    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
+  },
+
+  'GET /travel_pay/v0/claims/:claimId/expenses/commoncarrier/:expenseId': (
+    req,
+    res,
+  ) => {
+    const { expenseId } = req.params;
+    if (expenseId === 'g04j04j0-iji1-0g88-e911-i7gf38308lkh') {
+      return res.json({
+        id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
+        expenseType: 'CommonCarrier',
+        name: 'Common Carrier Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Taxi to appointment',
+        costRequested: 45.0,
+        costSubmitted: 45.0,
+        carrierType: 'Taxi',
+        reasonNotUsingPOV: 'PrivatelyOwnedVehicleNotAvailable',
+      });
+    }
+    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
+  },
+
+  'GET /travel_pay/v0/claims/:claimId/expenses/airtravel/:expenseId': (
+    req,
+    res,
+  ) => {
+    const { expenseId } = req.params;
+    if (expenseId === 'h15k15k1-jkj2-1h99-f022-j8hg49419mli') {
+      return res.json({
+        id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
+        expenseType: 'AirTravel',
+        name: 'Air Travel Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Flight to medical appointment',
+        costRequested: 350.0,
+        costSubmitted: 350.0,
+        tripType: 'RoundTrip',
+        vendorName: 'United Airlines',
+        departedFrom: 'San Francisco, CA',
+        departureDate: '2025-09-15T06:00:00Z',
+        arrivedTo: 'Los Angeles, CA',
+        returnDate: '2025-09-15T08:00:00Z',
+      });
+    }
+    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
+  },
+
+  'GET /travel_pay/v0/claims/:claimId/expenses/lodging/:expenseId': (
+    req,
+    res,
+  ) => {
+    const { expenseId } = req.params;
+    if (expenseId === 'b59e59e5-ded6-5b33-9466-d2ba83853gfc') {
+      return res.json({
+        id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
+        expenseType: 'Lodging',
+        name: 'Lodging Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Hotel stay',
+        costRequested: 125.0,
+        costSubmitted: 125.0,
+        vendor: 'Holiday Inn',
+        checkInDate: '2025-09-15',
+        checkOutDate: '2025-09-16',
+      });
+    }
+    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
+  },
+
+  'GET /travel_pay/v0/claims/:claimId/expenses/meal/:expenseId': (req, res) => {
+    const { expenseId } = req.params;
+    if (expenseId === 'c60f60f6-efe7-6c44-a577-e3cb94964hgd') {
+      return res.json({
+        id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
+        expenseType: 'Meal',
+        name: 'Meal Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Breakfast and lunch',
+        costRequested: 35.0,
+        costSubmitted: 35.0,
+        vendorName: 'Restaurant Name',
+      });
+    }
+    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
+  },
+
+  'GET /travel_pay/v0/claims/:claimId/expenses/other/:expenseId': (
+    req,
+    res,
+  ) => {
+    const { expenseId } = req.params;
+    if (expenseId === 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe') {
+      return res.json({
+        id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
+        expenseType: 'Other',
+        name: 'Other Expense',
+        dateIncurred: '2025-09-16T08:30:00Z',
+        description: 'Medical supplies',
+        costRequested: 50.0,
+        costSubmitted: 50.0,
+      });
+    }
+    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
   // Document download

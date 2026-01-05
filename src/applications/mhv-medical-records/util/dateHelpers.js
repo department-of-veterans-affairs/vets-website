@@ -129,10 +129,22 @@ export const currentDateAddHours = hours => {
 };
 
 /**
+ * Formats a date for file download matching expected filename format
+ * @param {number} seconds
+ * @returns {String} Date/time string.
+ * @example 11-21-2025_010829PM
+ */
+export const formatDateForDownload = seconds => {
+  const now = new Date();
+  const date = addSeconds(now, seconds);
+  return format(date, "M-d-yyyy'_'hhmmssa");
+};
+
+/**
  * Current date formatted "MM-dd-yyyy'_'hhmmssa".
  * @param {Date} newDate - Date object to format.
  * @returns {string} Date/time string.
- * @example 11-21-2025_010829p.m.
+ * @example 11-21-2025_010829PM
  */
 const formatDateTimeForFileDownload = newDate => {
   return formatInTimeZone(newDate, 'UTC', "MM-dd-yyyy'_'hhmmssa");
@@ -142,7 +154,7 @@ const formatDateTimeForFileDownload = newDate => {
  * Current date minus seconds formatted "MM-dd-yyyy'_'hhmmssa".
  * @param {number} seconds - Seconds to add to now.
  * @returns {string} Date/time string.
- * @example 11-21-2025_010829p.m.
+ * @example 11-21-2025_010829PM
  */
 export const currentDateAddSecondsForFileDownload = seconds => {
   const newDate = addSeconds(new Date(), seconds);

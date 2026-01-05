@@ -16,9 +16,19 @@ const StatementCharges = ({ copay, showCurrentStatementHeader = false }) => {
           .replace('-', '')
           .replace(/[^\d.-]/g, '')}`}
       >
-        <span>{item.pDTransDescOutput.replace(/&nbsp;/g, '')}</span>
-        <span className="vads-u-width--fit">{item.pDRefNo}</span>
-        <span className="vads-u-width--fit">
+        <span data-testId="statement-charges-description">
+          {item.pDTransDescOutput.replace(/&nbsp;/g, '')}
+        </span>
+        <span
+          data-testId="statement-charges-reference"
+          className="vads-u-width--fit"
+        >
+          {item.pDRefNo}
+        </span>
+        <span
+          data-testId="statement-charges-transaction-amount"
+          className="vads-u-width--fit"
+        >
           $
           {item.pDTransAmtOutput
             .replace('&nbsp', '')
@@ -63,7 +73,6 @@ const StatementCharges = ({ copay, showCurrentStatementHeader = false }) => {
 StatementCharges.propTypes = {
   copay: PropTypes.object,
   showCurrentStatementHeader: PropTypes.bool,
-  showOneThingPerPage: PropTypes.bool,
 };
 
 export default StatementCharges;
