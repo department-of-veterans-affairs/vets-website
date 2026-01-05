@@ -67,6 +67,11 @@ const ProgramApprovalInformation = () => {
         pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship (OJT/APP) programs."
       />
       <LiSpanAndVaLinkAndPTag
+        href="https://benefits.va.gov/gibill/valor.asp"
+        hrefText="VALOR ACT Approvals"
+        pText="Discover essential information and answers to common questions about the Veterans Apprenticeship and Labor Opportunity Reform (VALOR) Act program."
+      />
+      <LiSpanAndVaLinkAndPTag
         href="https://benefits.va.gov/gibill/principles-of-excellence.asp"
         hrefText="Principles of Excellence"
         pText="Understand the guidelines required by schools receiving federal funding through the GI Bill."
