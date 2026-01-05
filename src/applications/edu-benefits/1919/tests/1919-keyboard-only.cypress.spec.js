@@ -14,6 +14,22 @@ describe('22-1919 Edu form', () => {
         ],
       },
     });
+    cy.intercept('GET', '/v0/gi/institutions/*', {
+      data: {
+        attributes: {
+          name: 'INSTITUTE OF TESTING',
+          facilityCode: '10002000',
+          type: 'FOR PROFIT',
+          city: 'SAN FRANCISCO',
+          state: 'CA',
+          zip: '13579',
+          country: 'USA',
+          address1: '123 STREET WAY',
+        },
+      },
+    });
+
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
 
     // Go to application, should go to Introduction page
     cy.visit(`${manifest.rootUrl}/introduction`);
@@ -83,7 +99,7 @@ describe('22-1919 Edu form', () => {
     );
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('input[name="root_institutionDetails_facilityCode"]');
-    cy.typeInFocused('25007120');
+    cy.typeInFocused('10002000');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(600);
     cy.tabToContinueForm();
