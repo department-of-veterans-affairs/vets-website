@@ -215,7 +215,7 @@ const getAddressPath = path => {
 };
 
 // This is a helper function for getting a field value from address data, taking into account any mapped schema keys
-function getFieldValue(fieldName, addressData, keys = {}) {
+export function getFieldValue(fieldName, addressData, keys = {}) {
   const mappedKey = keys[fieldName] || fieldName;
   return addressData?.[mappedKey];
 }
@@ -232,7 +232,7 @@ const UNSAFE_FIELDS = ['country', 'city', 'state'];
 /**
  * Validates mappable fields and provides warnings for unsafe mappings
  */
-function validateMappableFields(keys = {}) {
+function warnAboutUnsafeMappings(keys = {}) {
   const attemptedMappings = Object.keys(keys);
   const unsafeMappings = attemptedMappings.filter(field =>
     UNSAFE_FIELDS.includes(field),
@@ -309,7 +309,7 @@ export function applyKeyMapping(schema, keys = {}, omit = []) {
     return utilsOmit(schema, omit);
   }
   // Validate that only safe fields are being mapped by logging warnings
-  validateMappableFields(keys);
+  warnAboutUnsafeMappings(keys);
   detectKeyCollisions(schema, keys);
 
   const mappedSchema = {};
