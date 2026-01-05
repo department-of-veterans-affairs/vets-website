@@ -435,6 +435,7 @@ const DownloadFileType = props => {
             user,
             dateRange,
             failedDomainsList,
+            holdTimeMessagingUpdate,
           );
 
           generateTextFile(content, pdfName, user);
@@ -447,7 +448,15 @@ const DownloadFileType = props => {
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
-    [dispatch, failedDomains, formatDateRange, isDataFetched, recordData, user],
+    [
+      dispatch,
+      failedDomains,
+      formatDateRange,
+      holdTimeMessagingUpdate,
+      isDataFetched,
+      recordData,
+      user,
+    ],
   );
 
   const checkFileTypeValidity = useCallback(
