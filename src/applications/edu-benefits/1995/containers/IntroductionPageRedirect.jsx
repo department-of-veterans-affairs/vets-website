@@ -22,6 +22,8 @@ export const IntroductionPageRedirect = ({ route, router }) => {
         '.va-alert-sign-in__body',
         'va-alert-sign-in',
       );
+
+      if (!alertContent) return;
       alertContent.innerHTML = `
         <h2 class="headline">Sign in with a verified account</h2>
         <p>
