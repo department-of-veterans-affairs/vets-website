@@ -526,13 +526,11 @@ const VaPrescription = prescription => {
                                           i === 0 ? 'vads-u-margin-top--2 ' : ''
                                         }vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0`}
                                         data-testid="med-image"
-                                        aria-hidden="true"
                                       >
                                         Image
                                       </h5>
                                       <div
                                         className="no-print"
-                                        aria-hidden="true"
                                       >
                                         {entry.cmopNdcNumber ? (
                                           <>
