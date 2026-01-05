@@ -1036,6 +1036,3 @@ export const TRACKING_PREFIXES = MY_VA_SIP_FORMS.reduce((acc, form) => {
   acc[form.id] = form.trackingPrefix;
   return acc;
 }, {});
-
-// Temporary update for running tests
-export const EXAMPLE = 'example';

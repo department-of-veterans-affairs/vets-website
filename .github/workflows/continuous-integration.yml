@@ -74,7 +74,7 @@ jobs:
                 # Count lines to determine if changes are substantial
                 CHANGE_COUNT=$(echo "$NON_APPROVED_LOCK_CHANGES" | wc -l)
 
-                # If there are more than 10 lines of non-approved package changes, it's likely other packages
+                # If there are more than 250 lines of non-approved package changes, it's likely other packages
                 # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
                 if [ "$CHANGE_COUNT" -gt 250 ]; then
                   echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
