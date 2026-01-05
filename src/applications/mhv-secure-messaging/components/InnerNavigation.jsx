@@ -52,6 +52,7 @@ const InnerNavigation = () => {
           <div
             key={i}
             data-testid={path.datatestid}
+            activetab={handleActiveLinksStyle(path)}
             className={`
               vads-u-font-size--lg
               vads-u-display--flex
@@ -66,7 +67,11 @@ const InnerNavigation = () => {
               to={path.path}
               data-dd-action-name={`${path.label} link`}
               onClick={handleLinkClick}
-              aria-current={handleActiveLinksStyle(path) ? 'page' : undefined}
+              aria-current={
+                handleActiveLinksStyle(path) === 'active-innerNav-link'
+                  ? 'page'
+                  : undefined
+              }
             >
               {path.label}
             </Link>
