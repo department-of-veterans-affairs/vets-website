@@ -5,6 +5,7 @@ import {
   fullNameNoSuffixSchema,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
@@ -19,7 +20,7 @@ const formatName = name => {
 };
 
 /**
- * Configuration for the veteran's previous names
+ * Configuration for the Veteran's previous names
  */
 /** @type {ArrayBuilderOptions} */
 const previousNameOptions = {
@@ -39,7 +40,7 @@ const previousNameOptions = {
 const previousNamePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Name the veteran served under',
+      title: 'Name the Veteran served under',
       nounSingular: previousNameOptions.nounSingular,
     }),
     previousName: {
@@ -57,11 +58,24 @@ const previousNamePage = {
         'ui:title': 'Last or family name',
       },
     },
+    servicePeriod: {
+      ...titleUI(
+        'Service periods',
+        'Please list which service periods the Veteran served under this name (ex. Navy).',
+      ),
+      'ui:widget': 'textarea',
+      'ui:options': {
+        rows: 2,
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
       previousName: fullNameNoSuffixSchema,
+      servicePeriod: {
+        type: 'string',
+      },
     },
   },
 };

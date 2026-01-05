@@ -5,24 +5,22 @@ import {
   textSchema,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { validFieldCharsOnly } from '../../../shared/validations';
-import { validateDateRange } from '../../utils/validation';
+import { validateChars, validateDateRange } from '../../utils/validation';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Health insurance information';
-const PROVIDER_LABEL = 'Name of insurance provider';
+const TITLE_TEXT = content['health-insurance--provider-title'];
+const PROVIDER_LABEL = content['health-insurance--provider-label'];
 
 const INPUT_LABELS = {
-  effectiveDate: 'Insurance start date',
-  expirationDate: 'Insurance termination date',
+  effectiveDate: content['health-insurance--effective-date-label'],
+  expirationDate: content['health-insurance--termination-date-label'],
 };
 const HINT_TEXT = {
-  effectiveDate:
-    'This information is on the insurance policy declarations page.',
-  expirationDate: 'Only enter this date if the policy is inactive.',
+  effectiveDate: content['health-insurance--effective-date-hint'],
+  expirationDate: content['health-insurance--termination-date-hint'],
 };
 
 const VALIDATIONS = [
-  (errors, formData) => validFieldCharsOnly(errors, null, formData, 'provider'),
   (errors, formData) =>
     validateDateRange(errors, formData, {
       startDateKey: 'effectiveDate',
@@ -33,7 +31,7 @@ const VALIDATIONS = [
 export default {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(TITLE_TEXT),
-    provider: textUI(PROVIDER_LABEL),
+    provider: textUI({ title: PROVIDER_LABEL, validations: [validateChars] }),
     effectiveDate: currentOrPastDateUI({
       title: INPUT_LABELS.effectiveDate,
       hint: HINT_TEXT.effectiveDate,

@@ -30,7 +30,6 @@ const App = props => {
     isEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled,
     isSpouseConfirmationFlowEnabled,
-    isDownloadPdfEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -71,7 +70,6 @@ const App = props => {
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
           'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
           'view:isSpouseConfirmationFlowEnabled': !!isSpouseConfirmationFlowEnabled,
-          'view:isDownloadPdfEnabled': !!isDownloadPdfEnabled,
         };
 
         setFormData({
@@ -83,7 +81,10 @@ const App = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       isAppLoading,
+      veteranGender,
+      veteranDateOfBirth,
       canSubmitFinancialInfo,
+      isEmergencyContactsEnabled,
       veteranFullName,
       isProvidersAndDependentsPrefillEnabled,
       isSpouseConfirmationFlowEnabled,
@@ -126,10 +127,9 @@ const mapStateToProps = state => ({
     isEmergencyContactsEnabled:
       state.featureToggles.ezrEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled:
-      state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
+      state.featureToggles.ezrFormPrefillWithProvidersAndDependents,
     isSpouseConfirmationFlowEnabled:
       state.featureToggles.ezrSpouseConfirmationFlowEnabled,
-    isDownloadPdfEnabled: state.featureToggles.ezrDownloadPdfEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
