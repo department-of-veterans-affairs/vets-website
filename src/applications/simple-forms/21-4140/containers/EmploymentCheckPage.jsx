@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 
 import { scrollTo } from 'platform/utilities/scroll';
 import {
+  VaAlert,
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import {
   employmentCheckFields,
   employedByVAFields,
 } from '../definitions/constants';
+
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 const EMPLOYERS_PATH = 'employers';
 const SECTION_TWO_KEYS = [
@@ -230,7 +232,7 @@ const EmploymentCheckPage = ({
 
     // Defer until after focus settles so we can detect moves within the radio group
     setTimeout(() => {
-      const { activeElement } = document;
+      const activeElement = document.activeElement;
       if (
         activeElement === currentTarget ||
         currentTarget.contains(activeElement)
@@ -247,10 +249,10 @@ const EmploymentCheckPage = ({
   return (
     <div className="schemaform-intro">
       <h1 className="vads-u-margin-bottom--2" id="main-content">
-        Were you employed or self-employed at any time in the past 12 months?
+        Were you employed or self-employed at any time in the past 12 months? 
       </h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
-        You’ll need to add at least 1 employer. You can add up to 4.
+        If you have employment to report, you'll need to add at least one employer. You can add up to four.
       </p>
       <VaRadio
         name="employment-check"
@@ -278,6 +280,7 @@ const EmploymentCheckPage = ({
           value="no"
         />
       </VaRadio>
+    
       <NavButtons goBack={goBack} goForward={handleContinue} submitToContinue />
     </div>
   );

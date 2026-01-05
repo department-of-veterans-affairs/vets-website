@@ -1,4 +1,5 @@
 // @ts-check
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -69,7 +70,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Section I: Your personal information',
       pages: {
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
@@ -80,7 +81,7 @@ const formConfig = {
       },
     },
     identificationInformationChapter: {
-      title: 'Your identification information',
+      title: 'Section I: Your identification information',
       pages: {
         identificationInformation: {
           path: 'identification-information',
@@ -91,7 +92,7 @@ const formConfig = {
       },
     },
     mailingInformationChapter: {
-      title: 'Your mailing information',
+      title: 'Section I: Your mailing information',
       pages: {
         address: {
           path: 'address',
@@ -102,7 +103,7 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Your contact information',
+      title: 'Section I: Your contact information',
       pages: {
         phoneAndEmailAddress: {
           path: 'phone-and-email-address',
@@ -112,8 +113,8 @@ const formConfig = {
         },
       },
     },
-    employmentChapter: {
-      title: 'Employment information',
+    employmentCheckChapter: {
+      title: 'Section I: Employment Confirmation',
       pages: {
         employmentCheck: {
           path: 'employment-check',
@@ -126,6 +127,11 @@ const formConfig = {
             properties: {},
           },
         },
+      },
+    },
+    employmentChapter: {
+      title: 'Section II: Employment information',
+      pages: {
         ...Object.fromEntries(
           Object.entries(employersPages).map(([key, page]) => [
             key,
@@ -151,7 +157,11 @@ const formConfig = {
           schema: employed.schema,
           depends: shouldShowEmploymentSection,
         },
-
+      },
+    },
+    unemploymentChapter: {
+      title: 'Section III: Unemployment information',
+      pages: {
         unemployed: {
           path: 'unemployed',
           title: 'Unemployed',
@@ -163,7 +173,7 @@ const formConfig = {
     },
 
     evidenceChapter: {
-      title: 'Evidence',
+      title: 'Supporting documentation',
       pages: {
         evidence: {
           path: 'evidence',
