@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
+  makeSchemaForRatedDisabilitiesInNewDisabilities,
   makeSchemaForAllDisabilities,
 } from '../../utils/schemas';
 
@@ -129,6 +130,52 @@ describe('makeSchemaForRatedDisabilities', () => {
       properties: {
         diabetesmellitus: {
           title: 'Diabetes Mellitus',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+});
+
+describe('makeSchemaForRatedDisabilitiesInNewDisabilities', () => {
+  it('should return schema for selected rated disabilities in the newDisabilities list only', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': true,
+      },
+      newDisabilities: [
+        {
+          condition: 'Bradycardia',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Hypertension',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Emphysema',
+        },
+      ],
+      ratedDisabilities: [
+        {
+          name: 'Ptsd personal trauma',
+          'view:selected': false,
+        },
+        {
+          name: 'Diabetes mellitus',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeSchemaForRatedDisabilitiesInNewDisabilities(formData)).to.eql({
+      properties: {
+        emphysema: {
+          title: 'Emphysema',
+          type: 'boolean',
+        },
+        hypertension: {
+          title: 'Hypertension',
           type: 'boolean',
         },
       },
