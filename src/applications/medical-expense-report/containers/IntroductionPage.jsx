@@ -43,6 +43,15 @@ const ProcessList = () => {
             keep your receipts for your own records.
           </li>
         </ul>
+        <va-additional-info trigger="Why you should keep your receipts">
+          <p>
+            We recommend keeping all receipts or other documentation of payments
+            for at least 3 years after receiving a decision on your medical
+            expense claim. If we need to verify your expenses later and these
+            records aren’t available, your benefits may be retroactively reduced
+            or discontinued.
+          </p>
+        </va-additional-info>
       </va-process-list-item>
       <va-process-list-item header="Types of expenses you may report">
         <ul className="vads-u-padding-top--1p5">
