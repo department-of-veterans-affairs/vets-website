@@ -6,7 +6,7 @@ export default function ConfirmAddBtnGroup({ email, handleConfirmation }) {
       {email === 'No email provided' ? (
         <div className="vads-u-margin-y--2">
           <va-link-action
-            href="https://va.gov/profile/contact-information"
+            href="/profile/contact-information"
             text="Add email in profile"
             type="primary-entry"
           />
@@ -31,8 +31,7 @@ export default function ConfirmAddBtnGroup({ email, handleConfirmation }) {
               text="Update email in profile"
               secondary
               onClick={() => {
-                window.location.href =
-                  'https://www.va.gov/profile/contact-information';
+                window.location.pathname = '/profile/contact-information';
               }}
             />
           </div>

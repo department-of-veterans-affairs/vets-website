@@ -442,7 +442,7 @@ export const Data = {
   READ_RECEIPT: `Opened by your care team`,
   UNREAD_RECEIPT: `Not yet opened by your care team`,
   CURATED_LIST: {
-    CANT_FIND_TEAM: `What to do if you can’t find your care team`,
+    CANT_FIND_TEAM_LINK: `Learn what to do if you can’t find your care team`,
     CONTACT_LIST_UPDATE: `Update your contact list`,
     SELECT_CARE_TEAM: `Select a different care team`,
   },
