@@ -15,7 +15,6 @@ import {
   dateFormat,
   dateFormatWithoutTimezone,
   dispatchDetails,
-  errorForUnequalBirthDates,
   extractContainedByRecourceType,
   extractContainedResource,
   formatDate,
@@ -1117,65 +1116,6 @@ describe('formatDateTime', () => {
 
     expect(formattedDate).to.equal('January 5, 2025');
     expect(formattedTime).to.equal('12:00 AM');
-  });
-});
-
-describe('errorForUnequalBirthDates (no sinon)', () => {
-  it('does not throw when using default functions', () => {
-    expect(() => errorForUnequalBirthDates('2000-09-01')).to.not.throw();
-  });
-
-  it('does not throw when dates are equal', () => {
-    const deps = {
-      formatDateLong: () => 'September 1, 2000',
-      formatBirthDate: () => 'September 1, 2000',
-    };
-
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.not.throw();
-  });
-
-  it('throws when formatDateLong is earlier than formatBirthDate', () => {
-    const deps = {
-      formatDateLong: () => 'September 1, 2000',
-      formatBirthDate: () => 'September 2, 2000',
-    };
-
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
-      /formatDateLong is earlier than formatBirthDate/,
-    );
-  });
-
-  it('throws when formatBirthDate is earlier than formatDateLong', () => {
-    const deps = {
-      formatDateLong: () => 'September 2, 2000',
-      formatBirthDate: () => 'September 1, 2000',
-    };
-
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
-      /formatBirthDate is earlier than formatDateLong/,
-    );
-  });
-
-  it('throws when formatDateLong returns an invalid date string', () => {
-    const deps = {
-      formatDateLong: () => 'not a date',
-      formatBirthDate: () => 'September 1, 2000',
-    };
-
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
-      /Invalid birth date via formatDateLong/,
-    );
-  });
-
-  it('throws when formatBirthDate returns an invalid date string', () => {
-    const deps = {
-      formatDateLong: () => 'September 1, 2000',
-      formatBirthDate: () => 'not a date',
-    };
-
-    expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
-      /Invalid birth date via formatBirthDate/,
-    );
   });
 });
 

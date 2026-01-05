@@ -166,8 +166,8 @@ describe('<DocumentCard>', () => {
   describe('link', () => {
     const linkProps = {
       href: '/track-claims/your-claims/123/status',
-      text: 'Go to claim this file was uploaded for',
-      label: 'Go to the claim this file was uploaded for: test.pdf',
+      text: 'Go to the claim associated with this file',
+      label: 'Go to the claim associated with this file: test.pdf',
     };
 
     it('should not render link when not provided', () => {

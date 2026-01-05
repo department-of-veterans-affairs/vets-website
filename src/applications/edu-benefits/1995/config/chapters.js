@@ -28,6 +28,7 @@ import {
   toeResultPage,
   deaResultPage,
   fryResultPage,
+  pgibResultPage,
 } from '../pages/mebQuestionnaire';
 
 const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
@@ -219,7 +220,6 @@ export const chapters = {
 export const mebChapters = {
   questionnaire: {
     title: 'Determine your path',
-    hideFormNavProgress: true,
     pages: {
       mebYourInformation: {
         path: 'questionnaire/your-information',
@@ -310,6 +310,17 @@ export const mebChapters = {
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...fryResultPage(),
+      },
+      pgibResult: {
+        path: 'results/pgib',
+        title: 'Application for VA Education Benefits (VA Form 22-1990)',
+        depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
+          formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
+          formData.mebBenefitSelection === 'pgib',
+        hideSaveLinkAndStatus: true,
+        hideNavButtons: true,
+        ...pgibResultPage(),
       },
     },
   },
