@@ -148,27 +148,31 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
     cy.findByText(/Update your contact list/i).click();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
+      'not.exist',
+    );
+    cy.findByTestId(`contact-list-go-back`).click();
+    cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
+      'not.exist',
+    );
+    cy.findByTestId(`continue-button`).click();
+    PatientComposePage.selectCategory(draftMessage.category);
+    PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
+    cy.findByText(/Select a different care team/i).click();
+    cy.findByText(/Update your contact list/i).click();
+    cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
       'be.visible',
     );
 
     cy.get('va-modal[modal-title="We can\'t save this message yet"]')
       .find('va-button[text="Edit draft"]')
       .click();
-    cy.findByTestId(`continue-button`).click();
-    PatientComposePage.selectCategory(draftMessage.category);
-    PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
 
-    cy.findByText(/Select a different care team/i).click();
-    cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
-      'not.exist',
-    );
     cy.findByTestId(`continue-button`).click();
     PatientComposePage.getMessageBodyField()
       .clear()
       .type(draftMessage.body);
     const saveDraftResponse = {
       ...newDraft.data,
-      // type: 'message_drafts',
       attributes: {
         ...newDraft.data.attributes,
         ...draftMessage,
@@ -212,19 +216,17 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
     cy.findByText(/Update your contact list/i).click();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
-      'be.visible',
+      'not.exist',
     );
 
-    cy.get('va-modal[modal-title="We can\'t save this message yet"]')
-      .find('va-button[text="Edit draft"]')
-      .click();
+    cy.findByTestId(`contact-list-go-back`).click();
     cy.findByTestId(`continue-button`).click();
     PatientComposePage.selectCategory(draftMessage.category);
     PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
 
     cy.findByText(/Select a different care team/i).click();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
-      'not.exist',
+      'not.be.visible',
     );
     cy.findByTestId(`continue-button`).click();
     PatientComposePage.getMessageBodyField()

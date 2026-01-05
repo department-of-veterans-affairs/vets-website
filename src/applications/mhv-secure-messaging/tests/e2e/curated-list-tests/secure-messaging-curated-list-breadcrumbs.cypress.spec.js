@@ -60,8 +60,6 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       SharedComponents.clickBackBreadcrumb();
 
-      cy.findByTestId('route-guard-secondary-button').click();
-
       GeneralFunctionsPage.verifyPageHeader(
         'Only use messages for non-urgent needs',
       );
