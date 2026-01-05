@@ -50,6 +50,14 @@ export function transform(formConfig, form) {
     ? _.cloneDeep(separationLocation)
     : undefined;
 
+  // Save toxicExposure before filterEmptyObjects strips empty objects
+  // This prevents false positives in backend monitoring by keeping
+  // InProgressForm and Submitted data identical when no TE selections made
+  const { toxicExposure } = form.data;
+  const savedToxicExposure = toxicExposure
+    ? _.cloneDeep(toxicExposure)
+    : undefined;
+
   // Define the transformations
   const filterEmptyObjects = formData =>
     removeDeeplyEmptyObjects(
@@ -66,6 +74,16 @@ export function transform(formConfig, form) {
     savedRatedDisabilities?.length
       ? _.set('ratedDisabilities', savedRatedDisabilities, formData)
       : formData;
+
+  // Restore toxicExposure stripped by filterEmptyObjects, then apply purge logic
+  // 1. Restores original toxicExposure so empty objects match InProgressForm
+  // 2. Purges only explicit user opt-outs (not empty form scaffolding)
+  const transformToxicExposure = formData => {
+    const restoredData = savedToxicExposure
+      ? _.set('toxicExposure', savedToxicExposure, formData)
+      : formData;
+    return purgeToxicExposureData(restoredData);
+  };
 
   const addBackAndTransformSeparationLocation = formData =>
     formData.serviceInformation?.separationLocation
@@ -271,6 +289,7 @@ export function transform(formConfig, form) {
     filterEmptyObjects,
     addBackRatedDisabilities, // Must run after filterEmptyObjects
     addBackAndTransformSeparationLocation, // Must run after filterEmptyObjects
+    transformToxicExposure, // Restore + purge toxic exposure (must run after filterEmptyObjects)
     normalizeIncreases,
     sanitizeNewDisabilities,
     setActionTypes, // Must run after addBackRatedDisabilities
@@ -278,7 +297,6 @@ export function transform(formConfig, form) {
     filterServicePeriods,
     removeExtraData, // Removed data EVSS doesn't want
     cleanUpMailingAddress,
-    purgeToxicExposureData,
     addPOWSpecialIssues,
     addPTSDCause,
     addRequiredDescriptionsToDisabilitiesBDD,

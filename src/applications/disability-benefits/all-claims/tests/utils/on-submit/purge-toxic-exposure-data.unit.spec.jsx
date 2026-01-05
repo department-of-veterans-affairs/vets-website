@@ -11,11 +11,12 @@ import {
  *
  * Key behaviors tested:
  * 1. Feature flag control - purge only runs when flag is enabled
- * 2. "None" condition handling - removes all exposure data when conditions.none === true
- * 3. Explicit opt-out removal - removes sections ONLY when exposureType.none === true
- * 4. Detail retention - preserves details only for locations marked true
- * 5. Section preservation - keeps sections with all false values (not an explicit opt-out)
- * 6. OtherKey preservation - keeps otherHerbicideLocations/specifyOtherExposures unless none: true
+ * 2. No conditions selected - keeps only conditions object, removes orphaned exposure data
+ * 3. gulfWar sections with none=true - removes section and details
+ * 4. gulfWar detail filtering - filters details based on checkbox state
+ * 5. Orphaned dates removal - removes otherHerbicideLocations/specifyOtherExposures when no description
+ * 6. Valid description preservation - keeps other fields when they have valid descriptions
+ * 7. herbicide/otherExposures sections preserved - only removed at conditions level
  */
 describe('purgeToxicExposureData', () => {
   describe('when feature flag is disabled', () => {
@@ -68,14 +69,16 @@ describe('purgeToxicExposureData', () => {
 
     describe('with no toxic exposure data', () => {
       it('should handle missing or empty toxicExposure', () => {
-        // Missing toxicExposure
+        // Missing toxicExposure - returns unchanged
         const missingData = {
           disability526ToxicExposureOptOutDataPurge: true,
           newDisabilities: [{ condition: 'Chronic Bronchitis' }],
         };
         expect(purgeToxicExposureData(missingData)).to.deep.equal(missingData);
 
-        // Empty toxicExposure
+        // Empty toxicExposure with empty conditions - returns UNCHANGED
+        // No actual user data to purge (just empty form scaffolding)
+        // This prevents false positive "data purged" logging
         const emptyData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -84,14 +87,39 @@ describe('purgeToxicExposureData', () => {
             herbicide: null,
           },
         };
-        expect(purgeToxicExposureData(emptyData)).to.not.have.property(
-          'toxicExposure',
-        );
+        const result = purgeToxicExposureData(emptyData);
+        // No actual data = return unchanged (avoid false positive logging)
+        expect(result).to.deep.equal(emptyData);
       });
     });
 
     describe('with "none" condition selected', () => {
-      it('should retain only none condition when selected alone', () => {
+      it('should return unchanged when none condition selected but no actual data (false positive prevention)', () => {
+        // This prevents false positive "data purged" logging on the backend
+        // User selected "no" to claiming toxic exposure but never entered any exposure data
+        // The form scaffolding (empty objects) should NOT be purged
+        const formData = {
+          disability526ToxicExposureOptOutDataPurge: true,
+          toxicExposure: {
+            conditions: { none: true },
+            gulfWar1990: {}, // Empty - just form initialization, no user data
+            gulfWar1990Details: {
+              afghanistan: {},
+              bahrain: {},
+              iraq: {},
+            }, // Empty nested objects - form scaffolding
+            herbicide: {},
+            otherExposures: {},
+          },
+        };
+
+        const result = purgeToxicExposureData(formData);
+
+        // No actual data = return unchanged (avoid false positive logging)
+        expect(result).to.deep.equal(formData);
+      });
+
+      it('should purge when none condition selected AND has actual exposure data', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -547,21 +575,23 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('other fields cleanup (otherHerbicideLocations & specifyOtherExposures)', () => {
-      it('should preserve other fields when no parent exists (no orphan cleanup)', () => {
+      it('should preserve valid descriptions when no parent exists, but REMOVE whitespace-only values', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            otherHerbicideLocations: '   ',
-            specifyOtherExposures: { description: 'Should be kept' },
+            otherHerbicideLocations: '   ', // Whitespace-only string - REMOVED
+            specifyOtherExposures: { description: 'Should be kept' }, // Has valid description - KEPT
           },
         };
 
         const result = purgeToxicExposureData(formData);
 
-        expect(result.toxicExposure).to.have.property(
+        // Whitespace-only string is orphaned - REMOVED
+        expect(result.toxicExposure).to.not.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
         );
+        // Valid description - KEPT
         expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.otherExposures.otherKey,
         );
@@ -637,7 +667,7 @@ describe('purgeToxicExposureData', () => {
         });
       });
 
-      it('should preserve other fields with empty/whitespace descriptions (backend validates)', () => {
+      it('should REMOVE other fields with empty/whitespace descriptions (orphaned dates)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -658,20 +688,13 @@ describe('purgeToxicExposureData', () => {
         };
 
         const result = purgeToxicExposureData(formData);
-        expect(result.toxicExposure).to.have.property(
+        // Empty/whitespace descriptions mean orphaned dates - REMOVED
+        expect(result.toxicExposure).to.not.have.property(
           'otherHerbicideLocations',
         );
-        expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
-          description: '',
-          startDate: '1973-06-01',
-          endDate: '1974-12-31',
-        });
-        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
-        expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
-          description: '   ',
-          startDate: '1980-01-01',
-          endDate: '1985-01-01',
-        });
+        expect(result.toxicExposure).to.not.have.property(
+          'specifyOtherExposures',
+        );
       });
 
       it('should preserve other fields when set to undefined (backend validates)', () => {
@@ -697,7 +720,9 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('acceptance criteria - UX test cases', () => {
-      it('should handle complete opt-out when all conditions and exposures are false', () => {
+      it('should return unchanged when all conditions are false and no actual data (empty scaffolding)', () => {
+        // All false values = no actual user-entered data, just empty form scaffolding
+        // Return unchanged to avoid false positive "data purged" logging
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -753,7 +778,8 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        expect(result).to.not.have.property('toxicExposure');
+        // No actual data = return unchanged (avoid false positive logging)
+        expect(result).to.deep.equal(formData);
       });
 
       it('should PRESERVE other fields AND parent sections when all checkboxes are false (user did not select none)', () => {
@@ -1055,7 +1081,7 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('edge cases', () => {
-      it('should remove toxicExposure for invalid types (no valid conditions)', () => {
+      it('should return unchanged for invalid types (no actual data to purge)', () => {
         const stringCase = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: 'not-an-object',
@@ -1065,17 +1091,13 @@ describe('purgeToxicExposureData', () => {
           toxicExposure: [],
         };
 
-        // Invalid types have no selected conditions, so toxicExposure is removed
-        expect(purgeToxicExposureData(stringCase)).to.not.have.property(
-          'toxicExposure',
-        );
-        expect(purgeToxicExposureData(arrayCase)).to.not.have.property(
-          'toxicExposure',
-        );
+        // Invalid types have no actual data - return unchanged (avoid false positive logging)
+        expect(purgeToxicExposureData(stringCase)).to.deep.equal(stringCase);
+        expect(purgeToxicExposureData(arrayCase)).to.deep.equal(arrayCase);
       });
 
-      it('should remove entire toxicExposure when no conditions are selected', () => {
-        // Empty conditions
+      it('should keep only conditions when no conditions are selected (orphaned exposure data removed)', () => {
+        // Empty conditions - keeps conditions, removes orphaned exposure data
         const emptyConditions = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -1083,10 +1105,11 @@ describe('purgeToxicExposureData', () => {
             gulfWar1990: { bahrain: true },
           },
         };
-        expect(purgeToxicExposureData(emptyConditions).toxicExposure).to.be
-          .undefined;
+        expect(
+          purgeToxicExposureData(emptyConditions).toxicExposure,
+        ).to.deep.equal({ conditions: {} });
 
-        // Missing conditions
+        // Missing conditions - treats as empty conditions
         const missingConditions = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -1094,10 +1117,11 @@ describe('purgeToxicExposureData', () => {
             herbicide: { vietnam: true },
           },
         };
-        expect(purgeToxicExposureData(missingConditions).toxicExposure).to.be
-          .undefined;
+        expect(
+          purgeToxicExposureData(missingConditions).toxicExposure,
+        ).to.deep.equal({ conditions: {} });
 
-        // All false conditions
+        // All false conditions - no conditions selected
         const falseConditions = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -1105,8 +1129,9 @@ describe('purgeToxicExposureData', () => {
             gulfWar1990: { bahrain: true },
           },
         };
-        expect(purgeToxicExposureData(falseConditions).toxicExposure).to.be
-          .undefined;
+        expect(
+          purgeToxicExposureData(falseConditions).toxicExposure,
+        ).to.deep.equal({ conditions: { asthma: false, cancer: false } });
       });
 
       it('should not mutate original form data', () => {
@@ -1124,23 +1149,22 @@ describe('purgeToxicExposureData', () => {
         expect(originalFormData).to.deep.equal(formDataCopy);
       });
 
-      it('should remove entire toxicExposure when no meaningful data remains', () => {
+      it('should return unchanged when no meaningful conditions and no actual data (empty scaffolding)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
-            conditions: {}, // Empty object after false values removed
-            gulfWar1990: {}, // Empty object after cleanup
-            herbicideDetails: {}, // Empty object after cleanup
-            otherExposures: null, // Null will be filtered as not meaningful
-            specifyOtherExposures: undefined, // Undefined will be filtered as not meaningful
+            conditions: {}, // Empty conditions
+            gulfWar1990: {}, // Empty exposure data - no actual data
+            herbicideDetails: {}, // Empty details - no actual data
+            otherExposures: null, // Null - no actual data
+            specifyOtherExposures: undefined, // Undefined - no actual data
           },
         };
 
         const result = purgeToxicExposureData(formData);
 
-        // The entire toxicExposure should be removed when it has no meaningful data
-        expect(result.toxicExposure).to.be.undefined;
-        expect(result).to.not.have.property('toxicExposure');
+        // No actual data = return unchanged (avoid false positive logging)
+        expect(result).to.deep.equal(formData);
       });
     });
 
@@ -1179,8 +1203,8 @@ describe('purgeToxicExposureData', () => {
               asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
               radiation: { startDate: '1990-01-01', endDate: '1991-01-01' },
             },
-            otherHerbicideLocations: { description: '' },
-            specifyOtherExposures: '   ',
+            otherHerbicideLocations: { description: '' }, // Empty description = REMOVED
+            specifyOtherExposures: '   ', // Whitespace-only = REMOVED
           },
         };
 
@@ -1227,20 +1251,13 @@ describe('purgeToxicExposureData', () => {
           radiation: { startDate: '1990-01-01', endDate: '1991-01-01' },
         });
 
-        expect(result.toxicExposure).to.have.property(
+        // Empty/whitespace descriptions are orphaned - REMOVED
+        expect(result.toxicExposure).to.not.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
         );
-        expect(
-          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.otherKey],
-        ).to.deep.equal({
-          description: '',
-        });
-        expect(result.toxicExposure).to.have.property(
+        expect(result.toxicExposure).to.not.have.property(
           EXPOSURE_TYPE_MAPPING.otherExposures.otherKey,
         );
-        expect(
-          result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.otherKey],
-        ).to.equal('   ');
       });
     });
   });
@@ -1301,20 +1318,21 @@ describe('purgeToxicExposureData - orphaned otherKey cleanup', () => {
           expect(result.toxicExposure[otherKey]).to.deep.equal(otherKeyData);
         });
 
-        it(`should PRESERVE ${otherKey} when none !== true even without description`, () => {
+        it(`should REMOVE ${otherKey} when it has only dates (orphaned - no description)`, () => {
+          // Dates without description are orphaned and meaningless
           const formData = {
             disability526ToxicExposureOptOutDataPurge: true,
             toxicExposure: {
               conditions: { asthma: true },
               [exposureType]: { vietnam: false },
-              [otherKey]: dateFields,
+              [otherKey]: dateFields, // Only dates, no description = orphaned
             },
           };
 
           const result = purgeToxicExposureData(formData);
 
-          expect(result.toxicExposure).to.have.property(otherKey);
-          expect(result.toxicExposure[otherKey]).to.deep.equal(dateFields);
+          // Orphaned dates REMOVED regardless of none status
+          expect(result.toxicExposure).to.not.have.property(otherKey);
         });
       });
     },
