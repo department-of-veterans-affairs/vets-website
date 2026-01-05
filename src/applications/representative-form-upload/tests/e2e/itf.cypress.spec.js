@@ -185,7 +185,7 @@ describe('Intent to file submission', () => {
         cy.intercept(
           'POST',
           '/accredited_representative_portal/v0/intent_to_file',
-          {},
+          data,
         );
       });
 
@@ -243,10 +243,7 @@ describe('Intent to file submission', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-21-0966/confirmation`,
         );
-        cy.get('va-alert').should(
-          'contain',
-          'You submitted the form and supporting evidence',
-        );
+        cy.get('va-alert').should('contain', 'We recorded the intent to file');
       });
 
       it('allows non-veteran claimant submission', () => {
@@ -306,10 +303,7 @@ describe('Intent to file submission', () => {
           'eq',
           '/representative/representative-form-upload/submit-va-form-21-0966/confirmation',
         );
-        cy.get('va-alert').should(
-          'contain',
-          'You submitted the form and supporting evidence',
-        );
+        cy.get('va-alert').should('contain', 'We recorded the intent to file');
       });
     });
 
