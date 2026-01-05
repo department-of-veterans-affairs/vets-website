@@ -475,9 +475,11 @@ export function addressUI(options = {}) {
       const postalCode = getFieldValue('postalCode', addr, mappedKeys);
       const postalCodeKey = mappedKeys.postalCode || 'postalCode';
 
-      const isAA = addr.state === 'AA' && /^340\d*/.test(postalCode);
-      const isAE = addr.state === 'AE' && /^09[0-9]\d*/.test(postalCode);
-      const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(postalCode);
+      const state = getFieldValue('state', addr, mappedKeys);
+
+      const isAA = state === 'AA' && /^340\d*/.test(postalCode);
+      const isAE = state === 'AE' && /^09[0-9]\d*/.test(postalCode);
+      const isAP = state === 'AP' && /^96[2-6]\d*/.test(postalCode);
       if (!(isAA || isAE || isAP)) {
         const militaryTitle =
           options.labels?.militaryCheckbox ??
