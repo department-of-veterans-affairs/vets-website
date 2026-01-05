@@ -16,8 +16,8 @@ import {
   dmcPhoneContent,
 } from '../utils/helpers';
 import {
-  calculateTotalDebts,
   calculateTotalBills,
+  calculateTotalDebts,
 } from '../utils/balance-helpers';
 import { GenericDisasterAlert } from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
@@ -39,14 +39,6 @@ const OverviewPage = () => {
   const debtError = debtLetters.errors?.length > 0;
   const bothError = billError && debtError;
 
-  // get totals
-  const { debts } = debtLetters;
-  const totalDebts = calculateTotalDebts(debts);
-  const bills = mcp.statements;
-  const totalBills = calculateTotalBills(bills);
-  const bothZero =
-    totalDebts === 0 && totalBills === 0 && !billError && !debtError;
-
   // feature toggle stuff for One VA Debt Letter flag
   const {
     useToggleValue,
@@ -59,6 +51,18 @@ const OverviewPage = () => {
   const showOneVADebtLetterLink = useToggleValue(
     TOGGLE_NAMES.showOneVADebtLetter,
   );
+  const showVHAPaymentHistory = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
+
+  // get totals
+  const { debts } = debtLetters;
+  const totalDebts = calculateTotalDebts(debts);
+  const totalBills = showVHAPaymentHistory
+    ? mcp.statements.meta.total
+    : calculateTotalBills(mcp.statements);
+  const bothZero =
+    totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
