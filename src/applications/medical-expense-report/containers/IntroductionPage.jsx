@@ -32,7 +32,8 @@ const ProcessList = () => {
         <ul className="vads-u-padding-top--1p5">
           <li>
             You can report expenses that you’ve paid for yourself or for a
-            family member living in your household.
+            dependent family member living in your household, such as a spouse,
+            child, grandchild, or parent.
           </li>
           <li>
             Don’t report expenses that were already reimbursed or will be
