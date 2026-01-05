@@ -475,10 +475,11 @@ export function addressUI(options = {}) {
       const isAE = addr.state === 'AE' && /^09[0-9]\d*/.test(postalCode);
       const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(postalCode);
       if (!(isAA || isAE || isAP)) {
+        const militaryTitle =
+          options.labels?.militaryCheckbox ??
+          'I live on a U.S. military base outside of the United States.';
         errors[postalCodeKey].addError(
-          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
-            uiSchema[militaryKey]['ui:title']
-          }". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
+          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${militaryTitle}". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
         );
       }
     }
