@@ -1,31 +1,24 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, connect } from 'react-redux';
+
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { Element } from 'platform/utilities/scroll';
-// import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { hasVAPServiceConnectionError } from 'platform/user/selectors';
 
 import { FIELD_NAMES, FIELD_SECTION_HEADERS } from '@@vap-svc/constants';
-// import { selectVAProfileSchedulingPreferences } from '@@vap-svc/selectors';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { isFieldEmpty } from '@@vap-svc/util';
 import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
-
-import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
-
 import {
   isSubtaskSchedulingPreference,
   schedulingPreferenceOptions,
 } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { createSchedulingPreferencesUpdate } from '@@vap-svc/actions/schedulingPreferences';
-// import {
-//   getFormSchema,
-//   getUiSchema,
-// } from '@@vap-svc/components/SchedulingPreferences/preferred-contact-method';
-// import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { EditContext } from '../../../edit/EditContext';
 import { EditConfirmCancelModal } from '../../../edit/EditConfirmCancelModal';
 import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
@@ -33,9 +26,8 @@ import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../../constants';
 import { getRouteInfoFromPath } from '../../../../../common/helpers';
 import { getRoutesForNav } from '../../../../routesForNav';
-import { ContactMethodConfirm } from './pages/ContactMethodConfirm';
+import ContactMethodConfirm from './pages/ContactMethodConfirm';
 import { ContactMethodSelect } from './pages/ContactMethodSelect';
-// import { selectVAProfileSchedulingPreferences } from '@@vap-svc/selectors';
 
 const getFieldInfo = fieldName => {
   const fieldNameKey = Object.entries(FIELD_NAMES).find(
@@ -288,25 +280,17 @@ export const ContactMethodContainer = () => {
     },
   };
 
-  let content;
-  switch (step) {
-    case 'confirm':
-      content = (
-        <ContactMethodConfirm pageData={pageData} setPageData={setPageData} />
-      );
-      break;
-    case 'select':
-    default:
-      content = (
-        <ContactMethodSelect
-          data={fieldData}
-          error={error}
-          options={options}
-          setPageData={setPageData}
-        />
-      );
-      break;
-  }
+  const content =
+    step === 'select' ? (
+      <ContactMethodSelect
+        data={fieldData}
+        error={error}
+        options={options}
+        setPageData={setPageData}
+      />
+    ) : (
+      <ContactMethodConfirm pageData={pageData} setPageData={setPageData} />
+    );
 
   let buttons = (
     <VaButtonPair
@@ -376,34 +360,6 @@ export const ContactMethodContainer = () => {
     </EditContext.Provider>
   );
 };
-
-// export const mapStateToProps = (state, ownProps) => {
-//   const { fieldName } = ownProps;
-//   const { transaction, transactionRequest } = selectVAPServiceTransaction(
-//     state,
-//     fieldName,
-//   );
-//   const data = selectVAProfileSchedulingPreferences(state, fieldName);
-//   const activeEditView = selectCurrentlyOpenEditModal(state);
-
-//   return {
-//     /*
-//         This ternary is to deal with an edge case: if the user is currently viewing
-//         the address validation view we need to handle things differently or text in
-//         the modal would be inaccurate. This is an unfortunate hack to get around an
-//         existing hack we've been using to determine if we need to show the address
-//         validation view or not.
-//         */
-//     activeEditView,
-//     data,
-//     fieldName,
-//     analyticsSectionName: ANALYTICS_FIELD_MAP[fieldName],
-//     field: selectEditedFormField(state, fieldName),
-//     transaction,
-//     transactionRequest,
-//     editViewData: selectEditViewData(state),
-//   };
-// };
 
 const mapDispatchToProps = {
   createSchedulingPreferencesUpdate,

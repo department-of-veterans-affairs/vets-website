@@ -1,15 +1,25 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui/focus';
+import { connect } from 'react-redux';
 
+import { focusElement } from 'platform/utilities/ui/focus';
+import { formatAddress } from 'platform/forms/exportsFile';
 import { getSchedulingPreferencesOptionInCopy } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import {
   FIELD_NAMES,
   FIELD_TITLE_DESCRIPTIONS,
+  selectVAPContactInfoField,
 } from 'platform/user/exportsFile';
+import { formatPhoneNumber } from 'platform/static-data/utilities/sign-in-phone-utils';
 
-// eslint-disable-next-line no-unused-vars
-const ContactMethodConfirm = ({ pageData = {}, error, setPageData }) => {
+const ContactMethodConfirm = ({
+  pageData = {},
+  email,
+  mailingAddress,
+  mobilePhone,
+  homePhone,
+  workPhone,
+}) => {
   const data = pageData.data || {};
   const fieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
   useEffect(() => {
@@ -30,14 +40,16 @@ const ContactMethodConfirm = ({ pageData = {}, error, setPageData }) => {
       // 'contact email',
       cardContent.title = 'Contact email';
       cardContent.description = FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.EMAIL];
-      cardContent.body = 'test@email.com';
+      cardContent.body = email.emailAddress;
       break;
     case 'option-38':
       // 'home phone',
       cardContent.title = 'Home phone number';
       cardContent.description =
         FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.HOME_PHONE];
-      cardContent.body = '(555) 555-2000';
+      cardContent.body = formatPhoneNumber(
+        `${homePhone.areaCode}${homePhone?.phoneNumber}`,
+      );
       break;
     case 'option-1':
     case 'option-2':
@@ -45,14 +57,18 @@ const ContactMethodConfirm = ({ pageData = {}, error, setPageData }) => {
       cardContent.title = 'Mobile phone number';
       cardContent.description =
         FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MOBILE_PHONE];
-      cardContent.body = '(555) 555-2000';
+      cardContent.body = formatPhoneNumber(
+        `${mobilePhone.areaCode}${mobilePhone?.phoneNumber}`,
+      );
       break;
     case 'option-39':
       // 'work phone',
       cardContent.title = 'Work phone number';
       cardContent.description =
         FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.WORK_PHONE];
-      cardContent.body = '(555) 555-2000';
+      cardContent.body = formatPhoneNumber(
+        `${workPhone.areaCode}${workPhone?.phoneNumber}`,
+      );
       break;
     case 'option-3':
       // 'secure message
@@ -60,6 +76,20 @@ const ContactMethodConfirm = ({ pageData = {}, error, setPageData }) => {
       break;
     case 'option-4':
       // 'mailing address',
+      cardContent.title = 'Mailing address';
+      cardContent.description =
+        FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MAILING_ADDRESS];
+      cardContent.customBody = mailingAddress ? (
+        <p className="vads-u-margin-bottom--0">
+          {mailingAddress.street}
+          <br />
+          {mailingAddress.cityStateZip}
+          <br />
+          {mailingAddress.country}
+        </p>
+      ) : (
+        ''
+      );
       break;
     default:
       return null;
@@ -80,17 +110,36 @@ const ContactMethodConfirm = ({ pageData = {}, error, setPageData }) => {
             {cardContent.title}
           </h2>
           <p className="vads-u-color--gray">{cardContent.description}</p>
-          <p className="vads-u-margin-bottom--0">{cardContent.body}</p>
+          {cardContent.customBody || (
+            <p className="vads-u-margin-bottom--0">{cardContent.body}</p>
+          )}
         </div>
       </va-card>
     </>
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    email: selectVAPContactInfoField(state, 'email'),
+    mailingAddress: formatAddress(
+      selectVAPContactInfoField(state, 'mailingAddress'),
+    ),
+    mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
+    homePhone: selectVAPContactInfoField(state, 'homePhone'),
+    workPhone: selectVAPContactInfoField(state, 'workPhone'),
+  };
+};
+
 ContactMethodConfirm.propTypes = {
   pageData: PropTypes.object.isRequired,
   setPageData: PropTypes.func.isRequired,
+  email: PropTypes.object,
   error: PropTypes.bool,
+  homePhone: PropTypes.object,
+  mailingAddress: PropTypes.object,
+  mobilePhone: PropTypes.object,
+  workPhone: PropTypes.object,
 };
 
-export { ContactMethodConfirm };
+export default connect(mapStateToProps)(ContactMethodConfirm);

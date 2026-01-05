@@ -240,8 +240,7 @@ export const getSchedulingPreferencesContactMethodDisplay = itemId => {
       )}`;
       display.linkTitle = 'email address';
       break;
-    case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
-      .MAILING_ADDRESS:
+    case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD].US_POST:
       display.field = 'mailingAddress';
       display.link = `/profile/edit?fieldName=mailingAddress&returnPath=${encodeURIComponent(
         '/profile/health-care-settings/scheduling-preferences',

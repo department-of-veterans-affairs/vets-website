@@ -133,14 +133,21 @@ const ProfileInformationView = props => {
     );
     const { email, mailingAddress, mobilePhone, homePhone, workPhone } = props;
     let contactDetail;
+    let customDetails;
     switch (displayDetails.field) {
       case 'email':
         contactDetail = email?.emailAddress;
         break;
       case 'mailingAddress':
-        contactDetail = mailingAddress
-          ? formatAddress(mailingAddress).street
-          : null;
+        customDetails = mailingAddress ? (
+          <p className="vads-u-margin-y--0">
+            {mailingAddress.street}
+            <br />
+            {mailingAddress.cityStateZip}
+            <br />
+            {mailingAddress.country}
+          </p>
+        ) : null;
         break;
       case 'mobilePhone':
         contactDetail = mobilePhone
@@ -164,13 +171,17 @@ const ProfileInformationView = props => {
     }
     return (
       <>
-        {!displayDetails.field && <p>{displayDetails.title}</p>}
+        {!displayDetails.field && (
+          <p className="vads-u-margin-y--0">{displayDetails.title}</p>
+        )}
         {displayDetails.field && (
           <>
             <p className="vads-u-margin-y--0">
               <strong>{displayDetails.title}</strong>
             </p>
-            <p className="vads-u-margin-y--0">{contactDetail}</p>
+            {customDetails || (
+              <p className="vads-u-margin-y--0">{contactDetail}</p>
+            )}
             <p className="vads-u-margin-y--0">
               <VaLink
                 href={displayDetails.link}
@@ -205,7 +216,9 @@ const ProfileInformationView = props => {
 const mapStateToProps = state => {
   return {
     email: selectVAPContactInfoField(state, 'email'),
-    mailingAddress: selectVAPContactInfoField(state, 'mailingAddress'),
+    mailingAddress: formatAddress(
+      selectVAPContactInfoField(state, 'mailingAddress'),
+    ),
     mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
     homePhone: selectVAPContactInfoField(state, 'homePhone'),
     workPhone: selectVAPContactInfoField(state, 'workPhone'),
