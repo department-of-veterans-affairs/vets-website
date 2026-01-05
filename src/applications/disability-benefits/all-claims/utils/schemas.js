@@ -112,6 +112,42 @@ export const makeSchemaForRatedDisabilities = createSelector(
   }),
 );
 
+export const makeSchemaForRatedDisabilitiesInNewDisabilities = createSelector(
+  formData =>
+    Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
+
+  (newRatedDisabilities = []) => {
+    const raw = newRatedDisabilities
+      .map(d => {
+        const condition =
+          typeof d?.condition === 'string' ? d.condition.trim() : '';
+
+        const ratedDisability =
+          typeof d?.ratedDisability === 'string'
+            ? d.ratedDisability.trim()
+            : '';
+        if (!ratedDisability || !isPlaceholderRated(condition)) {
+          return '';
+        }
+
+        return ratedDisability;
+      })
+      .filter(s => s.length > 0);
+
+    const normalized = raw.map(pretty);
+    const unique = [...new Set(normalized)];
+
+    const properties = unique.reduce((schema, name) => {
+      return _.set(
+        [sippableId(name)],
+        { title: name, type: 'boolean' },
+        schema,
+      );
+    }, {});
+
+    return { properties };
+  },
+);
 /**
  * Dynamically creates the checkbox schema for new conditions and/or rated
  * disabilities, based on the claim type user has selected
@@ -119,8 +155,18 @@ export const makeSchemaForRatedDisabilities = createSelector(
 export const makeSchemaForAllDisabilities = createSelector(
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
-  (newDisabilitiesSchema, ratedDisabilitiesSchema) =>
-    merge({}, newDisabilitiesSchema, ratedDisabilitiesSchema),
+  makeSchemaForRatedDisabilitiesInNewDisabilities,
+  (
+    newDisabilitiesSchema,
+    ratedDisabilitiesSchema,
+    ratedDisabilitiesNewConditionsSchema,
+  ) =>
+    merge(
+      {},
+      newDisabilitiesSchema,
+      ratedDisabilitiesSchema,
+      ratedDisabilitiesNewConditionsSchema,
+    ),
 );
 
 /**
