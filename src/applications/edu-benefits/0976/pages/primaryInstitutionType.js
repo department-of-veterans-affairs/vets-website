@@ -11,7 +11,7 @@ import { INSTITUTION_TYPES } from '../constants';
 export default {
   uiSchema: {
     primaryInstitutionDetails: {
-      ...titleUI('Select a classification for this institution'),
+      ...titleUI('Institution classification'),
       type: {
         ...radioUI({
           title: 'Which best describes this institution?',
