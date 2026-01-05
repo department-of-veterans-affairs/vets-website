@@ -50,7 +50,7 @@ const transform = data => {
 export const getStatements = async dispatch => {
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
 
-  const dataUrl = `${environment.API_URL}/v1/medical_copays`;
+  const dataUrl = `${environment.API_URL}/v0/medical_copays`;
 
   return apiRequest(dataUrl)
     .then(({ data }) => {

@@ -33,7 +33,6 @@ export const Balances = ({
           systems are updated with your next monthly statement.
         </p>
       )}
-
       <ul className="no-bullets vads-u-padding-x--0">
         {statements?.map((balance, idx) => {
           const facilityName = showVHAPaymentHistory

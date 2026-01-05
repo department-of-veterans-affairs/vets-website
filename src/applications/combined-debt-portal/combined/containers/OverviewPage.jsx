@@ -14,6 +14,7 @@ import {
   setPageFocus,
   healthResourceCenterPhoneContent,
   dmcPhoneContent,
+  showVHAPaymentHistory,
 } from '../utils/helpers';
 import {
   calculateTotalBills,
@@ -51,14 +52,14 @@ const OverviewPage = () => {
   const showOneVADebtLetterLink = useToggleValue(
     TOGGLE_NAMES.showOneVADebtLetter,
   );
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
 
   // get totals
   const { debts } = debtLetters;
   const totalDebts = calculateTotalDebts(debts);
-  const totalBills = showVHAPaymentHistory
+  const totalBills = shouldShowVHAPaymentHistory
     ? mcp.statements.meta.total
     : calculateTotalBills(mcp.statements);
   const bothZero =

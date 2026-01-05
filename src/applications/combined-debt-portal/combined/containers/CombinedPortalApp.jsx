@@ -12,7 +12,7 @@ import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
   debtLettersShowLettersVBMS,
-  showPaymentHistory,
+  showVHAPaymentHistory,
 } from '../utils/helpers';
 
 const CombinedPortalApp = ({ children }) => {
@@ -38,8 +38,8 @@ const CombinedPortalApp = ({ children }) => {
   const { isPending, isPendingVBMS, isProfileUpdating } = debtLetters;
   const isDebtLoading = isPending || isPendingVBMS || isProfileUpdating;
 
-  const shouldUseLightHouseCopayData = useSelector(state =>
-    showPaymentHistory(state),
+  const shouldUseLightHouseCopayData = showVHAPaymentHistory(
+    useSelector(state => state),
   );
 
   useEffect(
