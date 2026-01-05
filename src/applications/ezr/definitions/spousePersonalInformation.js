@@ -13,11 +13,11 @@ import content from '../locales/en/content.json';
 const { spouseFullName } = ezrSchema.properties;
 
 /** @returns {PageSchema} */
-const spousePersonalInformationPage = (options = {}) => ({
+const spousePersonalInformationPage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: content['household-spouse-information-title'],
-      nounSingular: options.nounSingular,
+      showEditExplanationText: false,
     }),
     spouseFullName: fullNameUI(
       title => `${content['household-spouse-name-prefix']} ${title}`,

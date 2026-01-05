@@ -19,7 +19,6 @@ import {
   combinedPortalAccess,
   debtLettersShowLettersVBMS,
   showPaymentHistory,
-  showOneThingPerPage,
   cdpAccessToggle,
 } from '../../utils/helpers';
 
@@ -560,28 +559,6 @@ describe('Helper Functions', () => {
       };
 
       const result = showPaymentHistory(mockState);
-      expect(result).to.be.false;
-    });
-
-    it('showOneThingPerPage should return feature flag value true', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.showCDPOneThingPerPage]: true,
-        },
-      };
-
-      const result = showOneThingPerPage(mockState);
-      expect(result).to.be.true;
-    });
-
-    it('showOneThingPerPage should return feature flag value false', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.showCDPOneThingPerPage]: false,
-        },
-      };
-
-      const result = showOneThingPerPage(mockState);
       expect(result).to.be.false;
     });
 

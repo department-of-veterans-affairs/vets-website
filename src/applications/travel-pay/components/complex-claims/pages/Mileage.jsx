@@ -7,6 +7,8 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   createExpense,
   updateExpense,
@@ -17,6 +19,7 @@ import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
   selectAllExpenses,
+  selectAppointment,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import {
@@ -33,12 +36,16 @@ const Mileage = () => {
 
   const isEditMode = !!expenseId;
 
+  useSetFocus();
+
+  const { data: appointment } = useSelector(selectAppointment);
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
 
   const title = 'Mileage';
 
   useSetPageTitle(title);
+  useRecordPageview('complex-claims', title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode
@@ -46,7 +53,10 @@ const Mileage = () => {
         : selectExpenseCreationLoadingState(state),
   );
 
-  const initialFormStateRef = useRef({ departureAddress: '', tripType: '' });
+  const initialFormStateRef = useRef({
+    departureAddress: '',
+    tripType: '',
+  });
   const previousHasChangesRef = useRef(false);
 
   const [formState, setFormState] = useState({});
@@ -117,11 +127,6 @@ const Mileage = () => {
   const handleContinue = async () => {
     if (!validatePage()) return;
 
-    const expenseData = {
-      ...formState,
-      expenseType: EXPENSE_TYPE_KEYS.MILEAGE,
-    };
-
     // Check if user selected "another-address" or "one-way"
     if (
       formState.departureAddress === 'another-address' ||
@@ -130,6 +135,15 @@ const Mileage = () => {
       navigate(`/file-new-claim/${apptId}/${claimId}/unsupported`);
       return;
     }
+
+    // Building the mileage expense request body
+    const expenseData = {
+      purchaseDate: appointment?.localStartTime
+        ? appointment.localStartTime.slice(0, 10) // Only the date portion of the localStartTime
+        : '',
+      description: 'Mileage',
+      tripType: formState.tripType,
+    };
 
     try {
       if (isEditMode) {
@@ -209,7 +223,7 @@ const Mileage = () => {
           </li>
           <li>
             We calculate the miles you drove to the appointment based on your
-            starting address, then compensate you a set amount per mile.
+            starting address, then pay you a set amount per mile.
           </li>
           <li>We pay round-trip mileage for your scheduled appointments.</li>
           <li>

@@ -141,7 +141,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -183,7 +183,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -227,7 +227,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -288,7 +288,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -346,7 +346,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -391,7 +391,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -422,96 +422,6 @@ describe('useValidateAdditionalFacilityCode', () => {
         );
       expect(successCall).to.exist;
       expect(successCall.args[0].additionalInstitutionDetails[0].yrEligible).to
-        .be.false;
-    });
-  });
-
-  it('should calculate IHL eligibility correctly when program types include IHL', async () => {
-    const mockResponse = {
-      data: {
-        attributes: {
-          name: 'Test University',
-          address1: '123 Main St',
-          city: 'Boston',
-          state: 'MA',
-          zip: '02101',
-          country: 'USA',
-          programTypes: ['IHL', 'OJT'],
-        },
-      },
-    };
-
-    apiRequestStub.resolves(mockResponse);
-
-    const formData = {
-      additionalInstitutionDetails: [
-        {
-          facilityCode: '12345678',
-        },
-      ],
-    };
-
-    renderHook(() => useValidateAdditionalFacilityCode(formData, 0), {
-      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
-    });
-
-    await waitFor(() => {
-      const successCall = setDataStub
-        .getCalls()
-        .find(
-          call =>
-            call.args[0].additionalInstitutionDetails &&
-            call.args[0].additionalInstitutionDetails[0] &&
-            call.args[0].additionalInstitutionDetails[0].ihlEligible !==
-              undefined,
-        );
-      expect(successCall).to.exist;
-      expect(successCall.args[0].additionalInstitutionDetails[0].ihlEligible).to
-        .be.true;
-    });
-  });
-
-  it('should calculate IHL eligibility correctly when program types do not include IHL', async () => {
-    const mockResponse = {
-      data: {
-        attributes: {
-          name: 'Test University',
-          address1: '123 Main St',
-          city: 'Boston',
-          state: 'MA',
-          zip: '02101',
-          country: 'USA',
-          programTypes: ['OJT', 'FLIGHT'],
-        },
-      },
-    };
-
-    apiRequestStub.resolves(mockResponse);
-
-    const formData = {
-      additionalInstitutionDetails: [
-        {
-          facilityCode: '12345678',
-        },
-      ],
-    };
-
-    renderHook(() => useValidateAdditionalFacilityCode(formData, 0), {
-      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
-    });
-
-    await waitFor(() => {
-      const successCall = setDataStub
-        .getCalls()
-        .find(
-          call =>
-            call.args[0].additionalInstitutionDetails &&
-            call.args[0].additionalInstitutionDetails[0] &&
-            call.args[0].additionalInstitutionDetails[0].ihlEligible !==
-              undefined,
-        );
-      expect(successCall).to.exist;
-      expect(successCall.args[0].additionalInstitutionDetails[0].ihlEligible).to
         .be.false;
     });
   });
@@ -552,12 +462,10 @@ describe('useValidateAdditionalFacilityCode', () => {
           call =>
             call.args[0].additionalInstitutionDetails &&
             call.args[0].additionalInstitutionDetails[0] &&
-            call.args[0].additionalInstitutionDetails[0].ihlEligible !==
-              undefined,
+            call.args[0].additionalInstitutionDetails[0].institutionName ===
+              'Test University',
         );
       expect(successCall).to.exist;
-      expect(successCall.args[0].additionalInstitutionDetails[0].ihlEligible).to
-        .be.false;
     });
   });
 
@@ -591,8 +499,6 @@ describe('useValidateAdditionalFacilityCode', () => {
       expect(
         errorCall.args[0].additionalInstitutionDetails[0].institutionAddress,
       ).to.deep.equal({});
-      expect(errorCall.args[0].additionalInstitutionDetails[0].ihlEligible).to
-        .be.null;
     });
   });
 
@@ -601,7 +507,7 @@ describe('useValidateAdditionalFacilityCode', () => {
       data: {
         attributes: {
           name: 'Test University',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -654,7 +560,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -696,7 +602,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -710,7 +616,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02139',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };
@@ -801,7 +707,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'MA',
           zip: '02101',
           country: 'USA',
-          programTypes: ['IHL'],
+          programTypes: ['OJT'],
         },
       },
     };

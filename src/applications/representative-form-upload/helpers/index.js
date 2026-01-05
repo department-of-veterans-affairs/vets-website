@@ -4,6 +4,7 @@ import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import testData from '../tests/e2e/fixtures/data/veteran.json';
+import claimantTestData from '../tests/e2e/fixtures/data/itf-claimant.json';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
@@ -21,11 +22,13 @@ const formMappings = {
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf',
   },
   '21-0966': {
-    subTitle: 'Application Request for an Intent to File',
+    subTitle:
+      'Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC',
   },
 };
 
 export const mockData = testData.data;
+export const claimantMockData = claimantTestData.data;
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
@@ -94,10 +97,11 @@ export const onCloseAlert = e => {
   e.target.visible = false;
 };
 
-export const getMockData = () => {
-  return !!mockData && environment.isLocalhost() && !window.Cypress
-    ? mockData
-    : undefined;
+export const getMockData = (dependent = false) => {
+  if (!environment.isLocalhost() || window.Cypress) {
+    return undefined;
+  }
+  return dependent ? mockData : claimantMockData;
 };
 
 export const formattedPhoneNumber = phoneNumber => {
