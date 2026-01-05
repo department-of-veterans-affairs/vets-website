@@ -864,6 +864,21 @@ const baseClaims = [
           documents: '[]',
           date: '2024-03-07',
         },
+        // Test item for generic "Next steps" content (not in evidenceDictionary)
+        {
+          closedDate: null,
+          description: 'Generic document request for testing',
+          displayName: 'Generic Document Request',
+          canUploadFile: true,
+          id: 99999,
+          overdue: false,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2025-12-31',
+          uploadsAllowed: true,
+          date: '2024-03-07',
+        },
       ],
     },
     false,
@@ -1850,7 +1865,7 @@ const responses = {
     // - 'invalidClaimant',
     // - 'unknown'
     // - null for success only
-    const errorPattern = ['duplicate'];
+    const errorPattern = ['unknown'];
 
     return (_req, res) => {
       uploadCount += 1;
