@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const DisputeCharges = ({ showOneThingPerPage = false }) => (
+const DisputeCharges = () => (
   <article className="vads-u-padding--0" data-testid="dispute-charges">
     <h2 id="dispute-charges">How to dispute your copay charges</h2>
     <p>
@@ -15,15 +14,6 @@ const DisputeCharges = ({ showOneThingPerPage = false }) => (
       administration office at your nearest VA medical center. If you send your
       dispute by mail, please include "Billing Dispute" on the mailing envelope.
     </p>
-    {showOneThingPerPage ? null : (
-      <p>
-        <va-link-action
-          href="/find-locations/"
-          text="Find your nearest VA medical center"
-          type="secondary"
-        />
-      </p>
-    )}
     <p>
       <va-link-action
         href="/health-care/pay-copay-bill/dispute-charges/"
@@ -33,9 +23,5 @@ const DisputeCharges = ({ showOneThingPerPage = false }) => (
     </p>
   </article>
 );
-
-DisputeCharges.propTypes = {
-  showOneThingPerPage: PropTypes.bool,
-};
 
 export default DisputeCharges;
