@@ -5,6 +5,7 @@ import { waitFor } from '@testing-library/react';
 import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import {
+  formatCurrency,
   formatFullNameNoSuffix,
   formatPossessiveString,
   hasUploadedDocuments,
@@ -104,6 +105,31 @@ describe('Income and Asset helpers', () => {
           expect(apiRequestStub.callCount).to.equal(3);
         });
       });
+    });
+  });
+
+  describe('formatCurrency', () => {
+    it('formats a whole number as currency', () => {
+      expect(formatCurrency(1000)).to.equal('$1,000');
+    });
+
+    it('formats a decimal number as currency', () => {
+      expect(formatCurrency(1234.56)).to.equal('$1,234.56');
+    });
+
+    it('formats zero correctly', () => {
+      expect(formatCurrency(0)).to.equal('$0');
+    });
+
+    it('formats negative numbers correctly', () => {
+      expect(formatCurrency(-500)).to.equal('$-500');
+    });
+
+    it('returns empty string when input is not a number', () => {
+      expect(formatCurrency(null)).to.equal('');
+      expect(formatCurrency(undefined)).to.equal('');
+      expect(formatCurrency('100')).to.equal('');
+      expect(formatCurrency({})).to.equal('');
     });
   });
 

@@ -28,7 +28,8 @@ export const hasSession = () => {
   return localStorage.getItem('hasSession') === 'true';
 };
 
-export const formatCurrency = num => `$${num.toLocaleString()}`;
+export const formatCurrency = num =>
+  typeof num === 'number' ? `$${num.toLocaleString()}` : '';
 
 /**
  * Formats a name object into a capitalized full name string with middle initial.
