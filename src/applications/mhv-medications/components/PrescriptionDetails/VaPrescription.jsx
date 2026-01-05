@@ -432,7 +432,6 @@ const VaPrescription = prescription => {
                           bordered
                           data-testid="refill-history-accordion"
                           uswds
-                          level={4}
                           onAccordionItemToggled={handleAccordionItemToggle}
                         >
                           {refillHistory.map((entry, i) => {
@@ -464,7 +463,7 @@ const VaPrescription = prescription => {
                                   'Filled on ',
                                 )}
                               >
-                                <h5
+                                <h4
                                   className="vads-u-font-size--h6"
                                   data-testid="rx-refill"
                                   id={refillLabelId}
@@ -472,7 +471,7 @@ const VaPrescription = prescription => {
                                   aria-label="refill label"
                                 >
                                   {refillLabel}
-                                </h5>
+                                </h4>
                                 {showPartialFillContent &&
                                   isPartialFill && (
                                     <>
