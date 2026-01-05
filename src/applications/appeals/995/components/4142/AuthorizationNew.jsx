@@ -117,7 +117,7 @@ const Authorization = ({
   const { authorization, lcPrompt, lcDetails } = currentEvidenceData || {};
 
   const allDataIsPresent = () => {
-    const lcDetailsRequirement = lcPrompt === 'Y' && lcDetails;
+    const lcDetailsRequirement = lcPrompt === 'Y' && !!lcDetails;
     return authorization && (lcPrompt === 'N' || lcDetailsRequirement);
   };
 
@@ -172,8 +172,6 @@ const Authorization = ({
           lcPrompt,
           lcDetails,
         };
-
-        onChange(newData);
 
         setCheckboxError(false);
         goForward({ formData: newData });

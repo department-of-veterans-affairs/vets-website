@@ -2,7 +2,7 @@ export const vaEvidence = [
   {
     treatmentMonthYear: '2000-01',
     treatmentBefore2005: 'Y',
-    issuesVA: {
+    issuesVa: {
       Hypertension: true,
       Impotence: true,
       'Left Knee Instability': true,
@@ -11,7 +11,7 @@ export const vaEvidence = [
   },
   {
     treatmentBefore2005: 'N',
-    issuesVA: {
+    issuesVa: {
       Impotence: true,
       'Left Knee Instability': true,
     },
@@ -19,7 +19,7 @@ export const vaEvidence = [
   },
   {
     treatmentBefore2005: 'N',
-    issuesVA: {
+    issuesVa: {
       Hypertension: true,
       'Sleep apnea': true,
     },

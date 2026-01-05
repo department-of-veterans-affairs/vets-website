@@ -62,6 +62,9 @@ export const App = ({
   const addUserAccountIdToRUM = useToggleValue(
     TOGGLE_NAMES.decisionReviewAddUserAccountIdToRUM,
   );
+  
+  const hasNewEvidenceData =
+    !!formData?.vaEvidence || !!formData?.privateEvidence;
 
   useFormFeatureToggleSync([
     {
@@ -71,21 +74,20 @@ export const App = ({
   ]);
 
   // Initialize combined feature flag and new-flow-only behavior
-  // useEffect(
-  //   () => {
-  //     const hasSavedForm =
-  //       savedForms?.length &&
-  //       savedForms?.filter(form => form.form === '20-0995')?.length;
+  useEffect(
+    () => {
+      const hasSavedForm =
+        savedForms?.length > 0 &&
+        savedForms?.filter(form => form.form === '20-0995')?.length > 0;
 
-  //     setFormData({
-  //       ...formData,
-  //       showArrayBuilder: scRedesign && !hasSavedForm,
-  //     });
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [scRedesign, setFormData],
-  // );
-  // ------- END REMOVE
+      setFormData({
+        ...formData,
+        showArrayBuilder: scRedesign && (!hasSavedForm || hasNewEvidenceData),
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [hasNewEvidenceData, savedForms, scRedesign, setFormData],
+  );
 
   const { pathname } = location || {};
   // Make sure we're only loading issues once - see

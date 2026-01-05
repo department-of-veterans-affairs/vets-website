@@ -226,11 +226,11 @@ export default arrayBuilderPages(options, pageBuilder => ({
     schema: locationPage.schema,
     depends: formData => redesignActive(formData),
   }),
-  issuesVA: pageBuilder.itemPage({
+  issuesVa: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.vaIssues,
-    uiSchema: issuesPage('va', 'issuesVA').uiSchema,
-    schema: issuesPage('va', 'issuesVA').schema,
+    uiSchema: issuesPage('va', 'issuesVa').uiSchema,
+    schema: issuesPage('va', 'issuesVa').schema,
     depends: formData => redesignActive(formData),
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
