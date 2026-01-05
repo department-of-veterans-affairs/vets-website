@@ -158,8 +158,8 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     cy.findByTestId(`continue-button`).click();
     PatientComposePage.selectCategory(draftMessage.category);
     PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
-    cy.findByText(/Select a different care team/i).click();
-    cy.findByText(/Update your contact list/i).click();
+    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    cy.findByText(Data.CURATED_LIST.CONTACT_LIST_UPDATE).click();
 
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
       'be.visible',
