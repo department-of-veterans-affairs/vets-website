@@ -416,12 +416,11 @@ export const updateFormDataAddress = (
  * @param {Object} [options]
  * @param {Object} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
  *
- * **IMPORTANT**: Only street, street2, street3, and postalCode should be mapped without code modifications.
+ * **IMPORTANT**: Only street, street2, street3, postalCode, and isMilitary should be mapped without code modifications.
  *
  * Other fields (country, city, state) have dynamic schema functions (updateSchema/replaceSchema)
  * that access form data using hardcoded field names. Mapping these fields will cause runtime errors because:
  * - State field's replaceSchema accesses `data.country`
- * - Military validation function accesses `addr.state`
  *
  * To map other fields, you must:
  * 1. Update all dynamic schema functions to use getFieldValue() helper
