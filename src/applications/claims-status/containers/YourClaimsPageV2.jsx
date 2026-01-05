@@ -205,6 +205,7 @@ class YourClaimsPageV2 extends React.Component {
           {pageInfo}
           <div className="claim-list">
             {pageItems.map(claim => this.renderListItem(claim))}
+            <ClaimCardLoadingSkeleton isLoading={false} />
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
