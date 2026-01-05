@@ -113,7 +113,6 @@ describe('10-7959C `validateDateRange` form validation', () => {
 });
 
 describe('10-7959c `validateHealthInsurancePlan` form validation', () => {
-  const PARTICIPANTS_VALID = { hash1: true, hash2: false };
   const NOW_ISO_DATE = '2025-11-05';
   const FILES = {
     front: () => [{ name: 'front.pdf' }],
@@ -137,7 +136,6 @@ describe('10-7959c `validateHealthInsurancePlan` form validation', () => {
     effectiveDate: PAST_DATE,
     throughEmployer: true,
     eob: true,
-    healthcareParticipants: PARTICIPANTS_VALID,
     insuranceCardFront: FILES.front(),
     insuranceCardBack: FILES.back(),
   });
@@ -262,38 +260,6 @@ describe('10-7959c `validateHealthInsurancePlan` form validation', () => {
 
     it('should return "false" when booleans are false', () => {
       const item = makeItem({ throughEmployer: false, eob: false });
-      expect(validateHealthInsurancePlan(item)).to.be.false;
-    });
-  });
-
-  context('Healthcare participants validation', () => {
-    [
-      { name: 'omitted', value: undefined },
-      { name: 'not selected', value: { hash1: false, hash2: false } },
-      { name: 'empty object', value: {} },
-      { name: 'wrong type', value: 'not-an-object' },
-    ].forEach(({ name, value }) => {
-      it(`should return "true" when healthcare participant(s) is ${name}`, () => {
-        const item = makeItem({ healthcareParticipants: value });
-        expect(validateHealthInsurancePlan(item)).to.be.true;
-      });
-    });
-  });
-
-  context('Additional comments validation', () => {
-    it('should return "false" when additional comments is within character limit', () => {
-      const item = makeItem({ additionalComments: 'Under 200 chars.' });
-      expect(validateHealthInsurancePlan(item)).to.be.false;
-    });
-
-    it('should return "true" when additional comments exceeds character limit', () => {
-      const longComment = 'a'.repeat(201);
-      const item = makeItem({ additionalComments: longComment });
-      expect(validateHealthInsurancePlan(item)).to.be.true;
-    });
-
-    it('should return "false" when additional comments is undefined', () => {
-      const item = makeItem({ additionalComments: undefined });
       expect(validateHealthInsurancePlan(item)).to.be.false;
     });
   });

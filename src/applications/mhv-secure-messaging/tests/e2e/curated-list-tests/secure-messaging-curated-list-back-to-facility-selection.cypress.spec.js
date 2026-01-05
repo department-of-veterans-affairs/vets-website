@@ -1,6 +1,6 @@
 import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths, Data } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
@@ -125,6 +125,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       .shadow()
       .find('input')
       .should('have.value', 'TG-7410');
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify route guard when draft is not saved', () => {
@@ -146,7 +147,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
       'sentThreadsResponse',
     );
-    cy.findByText(/Update your contact list/i).click();
+    cy.findByText(Data.CURATED_LIST.CONTACT_LIST_UPDATE).click();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
       'not.exist',
     );
@@ -159,6 +160,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
     cy.findByText(/Select a different care team/i).click();
     cy.findByText(/Update your contact list/i).click();
+
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
       'be.visible',
     );
@@ -186,8 +188,8 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
     cy.wait('@new_draft');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-    cy.findByText(/Select a different care team/i).click();
-    cy.findByText(/Update your contact list/i).click();
+    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    cy.findByText(Data.CURATED_LIST.CONTACT_LIST_UPDATE).click();
     cy.get(
       'va-modal[modal-title="Do you want to save your changes to this draft?"]',
     ).should('not.exist');
@@ -214,7 +216,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
       'sentThreadsResponse',
     );
-    cy.findByText(/Update your contact list/i).click();
+    cy.findByText(Data.CURATED_LIST.CONTACT_LIST_UPDATE).click();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
       'not.exist',
     );
@@ -224,7 +226,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientComposePage.selectCategory(draftMessage.category);
     PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
 
-    cy.findByText(/Select a different care team/i).click();
+    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
       'not.be.visible',
     );
@@ -248,11 +250,11 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
     cy.wait('@new_draft');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-    cy.findByText(/Select a different care team/i).click();
+    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
     cy.findByTestId(`compose-recipient-combobox`).click();
     PatientComposePage.selectComboBoxRecipient('###ABC_XYZ_TRIAGE_TEAM###');
 
-    cy.findByText(/Update your contact list/i).click();
+    cy.findByText(Data.CURATED_LIST.CONTACT_LIST_UPDATE).click();
     cy.get(
       'va-modal[modal-title="Do you want to save your changes to this draft?"]',
     ).should('exist');
@@ -269,7 +271,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
 
     PatientComposePage.selectComboBoxRecipient('Jeasmitha-Cardio-Clinic');
 
-    cy.contains(/What to do if you can’t find your care team/i).click({
+    cy.contains(Data.CURATED_LIST.CANT_FIND_TEAM_LINK).click({
       force: true,
     });
 

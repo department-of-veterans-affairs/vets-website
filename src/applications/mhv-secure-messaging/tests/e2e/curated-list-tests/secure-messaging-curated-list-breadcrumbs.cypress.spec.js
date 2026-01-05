@@ -73,7 +73,9 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       // Navigate to Care team help page via link
-      cy.findByRole('link', { name: Data.CURATED_LIST.CANT_FIND_TEAM }).click();
+      cy.findByRole('link', {
+        name: Data.CURATED_LIST.CANT_FIND_TEAM_LINK,
+      }).click();
 
       // Removed the "Can't" in verifyPageHeader for testing purposes
       GeneralFunctionsPage.verifyPageHeader('find your care team?');

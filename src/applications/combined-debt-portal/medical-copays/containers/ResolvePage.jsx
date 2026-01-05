@@ -84,8 +84,8 @@ const ResolvePage = ({ match }) => {
           statementDate={selectedCopay?.pSStatementDate}
           fullName={fullName}
         />
-        <FinancialHelp showOneThingPerPage />
-        <DisputeCharges showOneThingPerPage />
+        <FinancialHelp />
+        <DisputeCharges />
         <NeedHelpCopay />
       </div>
     </>

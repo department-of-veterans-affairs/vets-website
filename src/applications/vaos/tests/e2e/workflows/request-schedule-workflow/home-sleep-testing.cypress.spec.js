@@ -40,6 +40,7 @@ const { idV2: typeOfCareId } = getTypeOfCareById(
   TYPE_OF_CARE_IDS.HOME_SLEEP_TESTING_ID,
 );
 const typeOfCareRegex = /Sleep medicine/i;
+const labelRegexReasonForAppointment = /Enter a brief reason for this appointment\. Your provider will contact you if they need more details\./;
 
 describe('VAOS request schedule flow - sleep care', () => {
   describe('When patient has no history and flipper for MH past filtering is enabled', () => {
@@ -141,7 +142,7 @@ describe('VAOS request schedule flow - sleep care', () => {
             name: /What.s the reason for this appointment/i,
           })
           .assertLabel({
-            label: /Add any details you.d like to share with your provider/,
+            label: labelRegexReasonForAppointment,
           })
           .typeAdditionalText({
             content: 'This is a test',

@@ -243,7 +243,7 @@ class YourClaimsPageV2 extends React.Component {
               <va-additional-info
                 id="claims-combined"
                 class="claims-combined"
-                trigger="Find out why we sometimes combine claims."
+                trigger="Find out why we sometimes combine claims"
               >
                 <div>
                   If you turn in a new claim while we’re reviewing another one

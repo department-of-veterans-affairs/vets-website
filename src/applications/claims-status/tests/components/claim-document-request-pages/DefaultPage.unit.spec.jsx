@@ -73,6 +73,24 @@ describe('<DefaultPage>', () => {
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input-multiple', container)).to.exist;
+
+    // Verify "Next steps" section content
+    const bulletItems = container.querySelectorAll('.bullet-disc li');
+    expect(bulletItems.length).to.equal(2);
+    // Bullet points should NOT have terminal periods
+    bulletItems.forEach(bulletItem => {
+      expect(bulletItem.textContent).to.not.match(/\.$/);
+    });
+
+    // Verify link text uses action verb
+    const claimLettersLink = $(
+      'va-link[href="/track-claims/your-claim-letters"]',
+      container,
+    );
+    expect(claimLettersLink).to.exist;
+    expect(claimLettersLink.getAttribute('text')).to.equal(
+      'Access your claim letters',
+    );
   });
 
   it('should render update 21-4142 information', () => {
