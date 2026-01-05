@@ -5,6 +5,7 @@ import {
   fullNameNoSuffixSchema,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
@@ -57,11 +58,24 @@ const previousNamePage = {
         'ui:title': 'Last or family name',
       },
     },
+    servicePeriod: {
+      ...titleUI(
+        'Service periods',
+        'Please list which service periods the Veteran served under this name (ex. Navy).',
+      ),
+      'ui:widget': 'textarea',
+      'ui:options': {
+        rows: 2,
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
       previousName: fullNameNoSuffixSchema,
+      servicePeriod: {
+        type: 'string',
+      },
     },
   },
 };

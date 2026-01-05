@@ -7,7 +7,7 @@ import { getAppUrl } from '~/platform/utilities/registry-helpers';
 export const viewDependentsUrl = getAppUrl('dependents-view-dependents');
 
 export const disabilityBenefitsUrls = {
-  '686c': getAppUrl('686C-674'),
+  '686c': getAppUrl('686C-674-v2'),
   'view-payments': getAppUrl('view-payments'),
 };
 
