@@ -270,7 +270,7 @@ function detectKeyCollisions(schema, keys = {}) {
 
   if (collisions.length > 0) {
     throw new Error(
-      `ERROR: Field mapping would cause key collisions: ${collisions.join(
+      `Field mapping would cause key collisions: ${collisions.join(
         ', ',
       )}. Cannot map to field names that already exist in the schema.`,
     );
@@ -304,7 +304,7 @@ export function applyKeyMapping(schema, keys = {}, omit = []) {
     }
     return utilsOmit(schema, omit);
   }
-  // Validate that only safe fields are being mapped
+  // Validate that only safe fields are being mapped by logging warnings
   validateMappableFields(keys);
   detectKeyCollisions(schema, keys);
 
@@ -443,12 +443,12 @@ export const updateFormDataAddress = (
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
-  const { keys = {} } = options || {};
+  const { keys = {} } = options;
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
-  const omit = key => options?.omit?.includes(key);
-  let customRequired = key => options?.required?.[key];
+  const omit = key => options.omit?.includes(key);
+  let customRequired = key => options.required?.[key];
   if (options?.required === false) {
     customRequired = () => () => false;
   }
@@ -477,7 +477,7 @@ export function addressUI(options = {}) {
       if (!(isAA || isAE || isAP)) {
         errors[postalCodeKey].addError(
           `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
-            uiSchema.isMilitary['ui:title']
+            uiSchema[militaryKey]['ui:title']
           }". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
         );
       }
@@ -592,9 +592,6 @@ export function addressUI(options = {}) {
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         replaceSchema: (_, schema) => {
-          // Example if you ever need to access mapped fields:
-          // replaceSchema: (formData, schema, _uiSchema, index, path) => {
-          //  const streetValue = getAddressFieldValue('street', formData, path, keys);
           return {
             ...schema,
             pattern: NONBLANK_PATTERN,
@@ -871,7 +868,7 @@ export function addressUI(options = {}) {
       },
     };
   }
-  return applyKeyMapping(uiSchema, keys, options?.omit || []);
+  return applyKeyMapping(uiSchema, keys, options.omit || []);
 }
 
 /**
