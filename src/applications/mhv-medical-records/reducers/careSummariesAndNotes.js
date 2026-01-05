@@ -231,7 +231,7 @@ export const getRecordType = record => {
   };
 
   for (const [code, noteType] of Object.entries(typeMapping)) {
-    if (record?.type?.coding.some(coding => coding.code === code)) {
+    if (record?.type?.coding?.some(coding => coding.code === code)) {
       return noteType;
     }
   }
