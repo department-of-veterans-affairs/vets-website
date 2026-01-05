@@ -14,9 +14,9 @@ describe('sameBenefitSelectionPage', () => {
     expect(schema.properties.mebSameBenefitSelection.type).to.equal('string');
 
     // Verify UI schema configuration
-    expect(uiSchema.mebSameBenefitSelection['ui:title']['props']['children']).to.equal(
-      'Which benefit have you most recently used?',
-    );
+    expect(
+      uiSchema.mebSameBenefitSelection['ui:title'].props.children,
+    ).to.equal('Which benefit have you most recently used?');
     expect(uiSchema.mebSameBenefitSelection['ui:widget']).to.equal('radio');
   });
 
