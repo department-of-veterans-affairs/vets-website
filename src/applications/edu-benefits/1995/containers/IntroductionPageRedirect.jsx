@@ -18,7 +18,10 @@ export const IntroductionPageRedirect = ({ route, router }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
     const updateSignInAlertCopy = async () => {
-      const alertContent = await querySelectorWithShadowRoot('.va-alert-sign-in__body', 'va-alert-sign-in');
+      const alertContent = await querySelectorWithShadowRoot(
+        '.va-alert-sign-in__body',
+        'va-alert-sign-in',
+      );
       alertContent.innerHTML = `
         <h2 class="headline">Sign in with a verified account</h2>
         <p>
@@ -45,7 +48,7 @@ export const IntroductionPageRedirect = ({ route, router }) => {
         <p>
           <slot name="SignInButton"></slot>
         </p>
-      `
+      `;
     };
 
     updateSignInAlertCopy();
