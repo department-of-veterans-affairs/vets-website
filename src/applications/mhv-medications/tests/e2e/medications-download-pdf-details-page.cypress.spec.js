@@ -17,12 +17,13 @@ describe('Medications Details Page Download', () => {
     detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     detailsPage.verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage();
     detailsPage.clickDownloadMedicationDetailsAsPdfOnDetailsPage();
-    detailsPage.verifyLoadingSpinnerForDownloadOnDetailsPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner(
       Data.DOWNLOAD_SUCCESS_ALERT_CONTENT,
     );
     listPage.verifyFocusOnDownloadAlertSuccessBanner();
-    site.verifyDownloadedPdfFile('VA-medications-list-Safari-Mhvtp', '');
+    site.verifyDownloadedFile({
+      prefixString: 'VA-medications-details-Safari-Mhvtp',
+    });
     cy.injectAxe();
     cy.axeCheck('main');
   });

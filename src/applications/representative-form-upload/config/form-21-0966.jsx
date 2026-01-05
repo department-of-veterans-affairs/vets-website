@@ -2,7 +2,7 @@ import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPageITF from '../containers/ConfirmationPageITF';
 import IntroductionPageITF from '../containers/IntroductionPageITF';
 import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
 import { itfVeteranInformationPage } from '../pages/itfVeteranInformation';
@@ -22,17 +22,21 @@ const form210966 = (pathname = null) => {
   const trackingPrefix = `form-${formNumber.toLowerCase()}-`;
 
   return {
-    formId: formNumber,
+    formId: '21-0966',
     rootUrl: manifest.rootUrl,
     urlPrefix: `/submit-va-form-${formNumber}/`,
     submitUrl: `${
       environment.API_URL
     }/accredited_representative_portal/v0/intent_to_file`,
-    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    dev: {
+      collapsibleNavLinks: true,
+      showNavLinks: !window.Cypress,
+      disableWindowUnloadInCI: true,
+    },
     disableSave: true,
     trackingPrefix,
     introduction: IntroductionPageITF,
-    confirmation: ConfirmationPage,
+    confirmation: ConfirmationPageITF,
     CustomTopContent,
     customText: {
       appType: 'form',
