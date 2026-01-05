@@ -81,7 +81,7 @@ export const VaDetailsDisplayNew = ({
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((location, index) => {
           const {
-            issuesVA = [],
+            issuesVa = [],
             treatmentBefore2005,
             treatmentLocation,
             treatmentMonthYear = '',
@@ -92,8 +92,8 @@ export const VaDetailsDisplayNew = ({
             treatmentMonthYear,
           );
 
-          const selectedIssues = Object.keys(issuesVA).filter(
-            issue => issuesVA[issue],
+          const selectedIssues = Object.keys(issuesVa).filter(
+            issue => issuesVa[issue],
           );
 
           const { errors, hasErrors } = getLocationErrors(
