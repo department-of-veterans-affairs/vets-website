@@ -734,21 +734,28 @@ export function enrichDivorceWithSSN(data) {
     }
 
     // Match by name (case-insensitive)
-    const firstNameMatch =
-      dependent.fullName?.first?.toLowerCase() ===
-      reportDivorce.fullName?.first?.toLowerCase();
-    const lastNameMatch =
-      dependent.fullName?.last?.toLowerCase() ===
-      reportDivorce.fullName?.last?.toLowerCase();
+    const {
+      dateOfBirth: dependentBirthDate,
+      fullName: { first, last, middle } = {},
+    } = dependent;
+    const {
+      birthDate: reportDivorceBirthDate,
+      fullName: {
+        first: divorceFirst,
+        last: divorceLast,
+        middle: divorceMiddle,
+      } = {},
+    } = reportDivorce;
+    const firstNameMatch = first?.toLowerCase() === divorceFirst?.toLowerCase();
+    const lastNameMatch = last?.toLowerCase() === divorceLast?.toLowerCase();
     const middleNameMatch =
-      dependent.fullName?.middle?.toLowerCase() ===
-        reportDivorce.fullName?.middle?.toLowerCase() ||
-      (!dependent.fullName?.middle && !reportDivorce.fullName?.middle);
+      middle?.toLowerCase() === divorceMiddle?.toLowerCase() ||
+      (!middle && !divorceMiddle);
 
     const namesMatch = firstNameMatch && lastNameMatch && middleNameMatch;
 
     // Match by birthDate (formats: 'yyyy-MM-dd' in dependents, same in reportDivorce)
-    const birthDatesMatch = dependent.dateOfBirth === reportDivorce.birthDate;
+    const birthDatesMatch = dependentBirthDate === reportDivorceBirthDate;
 
     return namesMatch && birthDatesMatch;
   });
