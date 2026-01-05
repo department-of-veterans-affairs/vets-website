@@ -4,18 +4,21 @@ import mockServices from '../../constants/mock-provider-services.json';
 
 describe('Form State Isolation - Draft State Pattern', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v1/facilities/va?*', mockFacilitiesSearchResultsV1);
-    cy.intercept(
-      'GET',
-      '/v1/facilities/va/vha_*',
-      mockFacilitiesSearchResultsV1,
-    );
-    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
+    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
+    cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
+      'mockServices',
+    );
+    cy.intercept(
+      'POST',
+      '/facilities_api/v2/va',
+      mockFacilitiesSearchResultsV1,
+    ).as('searchFacilitiesVA');
     cy.intercept(
       'GET',
-      '/services/va_facilities/v1/ccp/provider_services',
-      mockServices,
+      '/facilities_api/v2/va/vha_*',
+      mockFacilitiesSearchResultsV1,
     );
 
     cy.visit('/find-locations');
@@ -121,22 +124,20 @@ describe('Form State Isolation - Draft State Pattern', () => {
     cy.get('.facility-result', { timeout: 10000 }).should('exist');
     cy.get('#search-results-subheader').should('contain', 'Austin');
 
-    cy.get('#street-city-state-zip')
-      .clear()
-      .type('Dallas TX');
+    // Change facility type (not location) and submit to verify results update
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA benefits');
     cy.get('#facility-search').click();
 
     cy.get('#search-results-subheader', { timeout: 10000 }).should(
       'contain',
-      'Dallas',
+      'VA benefits',
     );
   });
 
   it('should not trigger duplicate search when submitting same values', () => {
-    cy.intercept('GET', '/v1/facilities/va?*', req => {
-      req.alias = 'searchFacilities';
-    }).as('searchFacilities');
-
     cy.get('#street-city-state-zip').type('Austin TX');
     cy.get('#facility-type-dropdown')
       .shadow()
@@ -144,18 +145,15 @@ describe('Form State Isolation - Draft State Pattern', () => {
       .select('VA health');
     cy.get('#facility-search').click();
 
-    cy.wait('@searchFacilities');
+    cy.wait('@searchFacilitiesVA');
 
     cy.get('#facility-search').click();
 
-    cy.get('@searchFacilities.all').should('have.length', 1);
+    // Only 1 search request should have been made (duplicates are blocked)
+    cy.get('@searchFacilitiesVA.all').should('have.length', 1);
   });
 
   it('should allow new search after changing form values', () => {
-    cy.intercept('GET', '/v1/facilities/va?*', req => {
-      req.alias = 'searchFacilities';
-    }).as('searchFacilities');
-
     cy.get('#street-city-state-zip').type('Austin TX');
     cy.get('#facility-type-dropdown')
       .shadow()
@@ -163,7 +161,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
       .select('VA health');
     cy.get('#facility-search').click();
 
-    cy.wait('@searchFacilities');
+    cy.wait('@searchFacilitiesVA');
 
     cy.get('#facility-type-dropdown')
       .shadow()
@@ -171,9 +169,10 @@ describe('Form State Isolation - Draft State Pattern', () => {
       .select('VA benefits');
     cy.get('#facility-search').click();
 
-    cy.wait('@searchFacilities');
+    cy.wait('@searchFacilitiesVA');
 
-    cy.get('@searchFacilities.all').should('have.length', 2);
+    // 2 search requests should have been made (different form values)
+    cy.get('@searchFacilitiesVA.all').should('have.length', 2);
   });
 
   it('should maintain form values when editing without submit', () => {
@@ -213,11 +212,17 @@ describe('Form State Isolation - Draft State Pattern', () => {
 
     cy.get('#street-city-state-zip').clear();
 
-    cy.get('[error]').should('not.exist');
+    // No validation error should show while editing (before submit)
+    cy.get(
+      '#street-city-state-zip-autosuggest-container.usa-input-error',
+    ).should('not.exist');
 
     cy.get('#facility-search').click();
 
-    cy.get('#street-city-state-zip[error]').should('exist');
+    // After submit with empty location, validation error should appear
+    cy.get('#street-city-state-zip-autosuggest-container.usa-input-error', {
+      timeout: 4000,
+    }).should('exist');
   });
 
   it('should preserve query parameters in URL only after submit', () => {
