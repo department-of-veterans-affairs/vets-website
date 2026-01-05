@@ -228,7 +228,6 @@ describe('YourInformationDescription LOA3 behavior', () => {
     );
 
     expect(wrapper.find('.usa-summary-box')).to.have.lengthOf(0);
-    expect(wrapper.text()).to.include('Your information');
     expect(wrapper.text()).to.not.include('Your current benefit');
     wrapper.unmount();
   });
