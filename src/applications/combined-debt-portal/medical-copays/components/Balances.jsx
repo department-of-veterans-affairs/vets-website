@@ -2,6 +2,7 @@ import React from 'react';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import PropTypes from 'prop-types';
 import BalanceCard from './BalanceCard';
+import { formatISODateToMMDDYYYY } from '../../combined/utils/helpers';
 
 export const Balances = ({
   statements,
@@ -50,7 +51,11 @@ export const Balances = ({
                     ? balance.attributes.currentBalance
                     : balance.pHAmtDue
                 }
-                date={balance.pSStatementDateOutput}
+                date={
+                  showVHAPaymentHistory
+                    ? formatISODateToMMDDYYYY(balance.attributes.lastUpdatedAt)
+                    : balance.pSStatementDateOutput
+                }
                 city={
                   showVHAPaymentHistory
                     ? balance.attributes?.city

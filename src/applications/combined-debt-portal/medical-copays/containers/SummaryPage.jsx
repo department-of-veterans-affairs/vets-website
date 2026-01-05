@@ -99,7 +99,7 @@ const OverviewPage = () => {
     ? mcp.statements.data ?? []
     : sortStatementsByDate(statements || []);
   const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-    ? mcp.statements.data
+    ? uniqBy(mcp.statements.data, 'facilityId')
     : uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Copay balances';
   useHeaderPageTitle(title);
