@@ -432,7 +432,7 @@ const VaPrescription = prescription => {
                           bordered
                           data-testid="refill-history-accordion"
                           uswds
-                          headingLevel={4}
+                          level={4}
                           onAccordionItemToggled={handleAccordionItemToggle}
                         >
                           {refillHistory.map((entry, i) => {
@@ -529,9 +529,7 @@ const VaPrescription = prescription => {
                                       >
                                         Image
                                       </h5>
-                                      <div
-                                        className="no-print"
-                                      >
+                                      <div className="no-print">
                                         {entry.cmopNdcNumber ? (
                                           <>
                                             <img
