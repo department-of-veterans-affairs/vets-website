@@ -147,7 +147,10 @@ const ResultDescription = ({
 );
 
 const SameBenefitResultDescription = ({ formData }) => {
-  const formInfo = getFormInfo(formData?.currentBenefitType);
+  // Use mebSameBenefitSelection if available (non-LOA3), otherwise use currentBenefitType (LOA3)
+  const benefitType =
+    formData?.mebSameBenefitSelection || formData?.currentBenefitType;
+  const formInfo = getFormInfo(benefitType);
   const recentlyUsedBenefit =
     formInfo.recentlyUsedBenefit &&
     formInfo.recentlyUsedBenefit !== "We couldn't load your current benefit."
@@ -195,6 +198,45 @@ export const yourInformationPage = () => ({
           'Apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
           'Update my Certificate of Eligibility (COE) for a foreign school',
           'Apply to switch my existing education benefit and get a new Certificate of Eligibility (COE)',
+        ],
+      },
+    },
+  },
+});
+
+export const sameBenefitSelectionPage = () => ({
+  uiSchema: {
+    mebSameBenefitSelection: {
+      'ui:title': 'Which benefit have you most recently used?',
+      'ui:description': (
+        <p className="vads-u-margin-top--2">
+          <strong>(*Required)</strong>
+        </p>
+      ),
+      'ui:widget': 'radio',
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['mebSameBenefitSelection'],
+    properties: {
+      mebSameBenefitSelection: {
+        type: 'string',
+        enum: [
+          'chapter33',
+          'chapter30',
+          'chapter1606',
+          'transferOfEntitlement',
+          'chapter35',
+          'fryScholarship',
+        ],
+        enumNames: [
+          'Post-9/11 GI Bill (PGIB, Chapter 33)',
+          'Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)',
+          'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
+          'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
+          "Dependents' Educational Assistance (DEA, Chapter 35)",
+          'Fry Scholarship (Chapter 33)',
         ],
       },
     },
