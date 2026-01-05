@@ -269,7 +269,7 @@ describe('<FilesWeCouldntReceive>', () => {
       ];
 
       vaLinks.forEach((link, index) => {
-        const expectedLabel = `Go to the claim this file was uploaded for: ${
+        const expectedLabel = `Go to the claim associated with this file: ${
           expectedFileOrder[index]
         }`;
         expect(link).to.have.attribute('label', expectedLabel);

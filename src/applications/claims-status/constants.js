@@ -8,12 +8,12 @@ import { MAX_FILE_SIZE_MB, MAX_PDF_SIZE_MB } from './utils/validations';
  */
 export const SERVICE_REGISTRY = {
   claims: {
-    singularTitle: 'Claim',
-    lowercase: 'claims',
+    singular: 'claim',
+    plural: 'claims',
   },
   appeals: {
-    singularTitle: 'Appeal',
-    lowercase: 'appeals',
+    singular: 'appeal',
+    plural: 'appeals',
   },
 };
 

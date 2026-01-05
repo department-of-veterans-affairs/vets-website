@@ -307,6 +307,10 @@ export function fetchProfile(facilityCode, version) {
         throw new Error(res.statusText);
       })
       .then(institution => {
+        const name = institution?.data?.attributes?.name;
+        if (name) {
+          localStorage.setItem('institutionName', name);
+        }
         const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
         return dispatch({
           type: FETCH_PROFILE_SUCCEEDED,

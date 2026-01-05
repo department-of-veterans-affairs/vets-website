@@ -6,6 +6,7 @@ import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID'
 import ContactInformationSection from './ContactInformationSection';
 import { EmailInformationSection } from './email-addresses';
 import LoadFail from '../alerts/LoadFail';
+import PhoneNumbersTable from './phone-numbers/PhoneNumbersTable';
 
 const ContactInformationContent = ({ hasVAPServiceError, showBadAddress }) => {
   return (
@@ -19,6 +20,7 @@ const ContactInformationContent = ({ hasVAPServiceError, showBadAddress }) => {
             showBadAddress={showBadAddress}
           />
           <EmailInformationSection />
+          <PhoneNumbersTable className="vads-u-margin-bottom--6" />
         </InitializeVAPServiceID>
       )}
     </>
