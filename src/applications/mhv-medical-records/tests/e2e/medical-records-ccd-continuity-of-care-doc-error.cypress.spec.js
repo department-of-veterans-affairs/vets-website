@@ -144,7 +144,7 @@ describe('Medical Records download CCD - API Error Handling', () => {
         body: { error: 'Internal Server Error' },
       }).as('ccdGenerateError');
 
-      cy.get('[data-testid="generateCcdButtonXml"]').click();
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]').click();
       cy.wait('@ccdGenerateError');
 
       // The error should be handled gracefully
@@ -158,7 +158,7 @@ describe('Medical Records download CCD - API Error Handling', () => {
         forceNetworkError: true,
       });
 
-      cy.get('[data-testid="generateCcdButtonXml"]').click();
+      cy.get('[data-testid="generateCcdButtonXmlVistA"]').click();
 
       // The error should be handled gracefully
       cy.injectAxeThenAxeCheck();
