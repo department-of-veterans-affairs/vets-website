@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
@@ -19,6 +20,8 @@ import {
 } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { formatPhoneNumber } from 'platform/static-data/utilities/sign-in-phone-utils';
+import { selectVAPContactInfoField } from '../selectors';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title, id } = props;
@@ -124,32 +127,69 @@ const ProfileInformationView = props => {
     return formatMultiSelectAndText(data, fieldName) || unsetFieldTitleSpan;
   }
 
+  const preferredContactMethodDisplay = () => {
+    const displayDetails = getSchedulingPreferencesContactMethodDisplay(
+      data[fieldName],
+    );
+    const { email, mailingAddress, mobilePhone, homePhone, workPhone } = props;
+    let contactDetail;
+    switch (displayDetails.field) {
+      case 'email':
+        contactDetail = email?.emailAddress;
+        break;
+      case 'mailingAddress':
+        contactDetail = mailingAddress
+          ? formatAddress(mailingAddress).street
+          : null;
+        break;
+      case 'mobilePhone':
+        contactDetail = mobilePhone
+          ? formatPhoneNumber(
+              `${mobilePhone.areaCode}${mobilePhone.phoneNumber}`,
+            )
+          : null;
+        break;
+      case 'homePhone':
+        contactDetail = homePhone
+          ? formatPhoneNumber(`${homePhone.areaCode}${homePhone.phoneNumber}`)
+          : null;
+        break;
+      case 'workPhone':
+        contactDetail = workPhone
+          ? formatPhoneNumber(`${workPhone.areaCode}${workPhone.phoneNumber}`)
+          : null;
+        break;
+      default:
+        contactDetail = null;
+    }
+    return (
+      <>
+        {!displayDetails.field && <p>{displayDetails.title}</p>}
+        {displayDetails.field && (
+          <>
+            <p className="vads-u-margin-y--0">
+              <strong>{displayDetails.title}</strong>
+            </p>
+            <p className="vads-u-margin-y--0">{contactDetail}</p>
+            <p className="vads-u-margin-y--0">
+              <VaLink
+                href={displayDetails.link}
+                text={`Update your ${displayDetails.linkTitle}`}
+              />
+            </p>
+          </>
+        )}
+      </>
+    );
+  };
+
   if (fieldName in data && isSchedulingPreference(fieldName)) {
     displayTitle =
       getSchedulingPreferencesOptionDisplayName(fieldName, data[fieldName]) ||
       unsetFieldTitleSpan;
-    const displayDetails = getSchedulingPreferencesContactMethodDisplay(
-      data[fieldName],
-    );
     switch (fieldName) {
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
-        return (
-          <>
-            {!displayDetails.description && <p>{displayDetails.title}</p>}
-            {displayDetails.description && (
-              <>
-                <p>
-                  <strong>{displayDetails.title}</strong>
-                </p>
-                <p>{displayDetails.description}</p>
-                <VaLink
-                  href={displayDetails.link}
-                  text={`Update your ${displayDetails.linkTitle}`}
-                />
-              </>
-            )}
-          </>
-        );
+        return preferredContactMethodDisplay();
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
         return displayTitle;
       case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
@@ -162,11 +202,26 @@ const ProfileInformationView = props => {
   return null;
 };
 
+const mapStateToProps = state => {
+  return {
+    email: selectVAPContactInfoField(state, 'email'),
+    mailingAddress: selectVAPContactInfoField(state, 'mailingAddress'),
+    mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
+    homePhone: selectVAPContactInfoField(state, 'homePhone'),
+    workPhone: selectVAPContactInfoField(state, 'workPhone'),
+  };
+};
+
 ProfileInformationView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   data: PropTypes.object,
+  email: PropTypes.object,
+  homePhone: PropTypes.object,
   id: PropTypes.string,
+  mailingAddress: PropTypes.object,
+  mobilePhone: PropTypes.object,
   title: PropTypes.string,
+  workPhone: PropTypes.object,
 };
 
-export default ProfileInformationView;
+export default connect(mapStateToProps)(ProfileInformationView);
