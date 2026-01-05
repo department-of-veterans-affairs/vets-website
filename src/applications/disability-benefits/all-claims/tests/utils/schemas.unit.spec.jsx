@@ -204,6 +204,10 @@ describe('makeSchemaForAllDisabilities', () => {
         {
           condition: 'A new Condition.',
         },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Emphysema',
+        },
       ],
     };
     expect(makeSchemaForAllDisabilities(formData)).to.eql({
@@ -214,6 +218,10 @@ describe('makeSchemaForAllDisabilities', () => {
         },
         anewcondition: {
           title: 'A New Condition.',
+          type: 'boolean',
+        },
+        emphysema: {
+          title: 'Emphysema',
           type: 'boolean',
         },
       },
