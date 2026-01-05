@@ -24,8 +24,9 @@ describe('Medical Records View Vaccines', () => {
     // With no page specified, default is page 1 but focus should be on <h1>
     cy.get('h1').should('be.focused');
 
-    // Wait for pagination to be visible before interacting
-    cy.get('va-pagination').should('exist');
+    // Scroll pagination into view and wait for it to be visible before interacting
+    cy.get('va-pagination').scrollIntoView();
+    cy.get('va-pagination').should('be.visible');
 
     // Click page 2 in the pagination
     cy.get('va-pagination')
