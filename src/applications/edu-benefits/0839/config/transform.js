@@ -60,7 +60,7 @@ export default function transform(formConfig, form) {
 
         const maximumNumberOfStudents =
           request.maximumStudentsOption === 'unlimited'
-            ? 1000000
+            ? 99999
             : Number(request.maximumStudents);
         request.maximumNumberofStudents = maximumNumberOfStudents;
 
