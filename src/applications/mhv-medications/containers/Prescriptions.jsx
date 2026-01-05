@@ -157,7 +157,9 @@ const Prescriptions = () => {
     [prescriptionsData],
   );
 
-  const filteredList = prescriptionsData?.prescriptions || [];
+  const filteredList = useMemo(() => prescriptionsData?.prescriptions || [], [
+    prescriptionsData?.prescriptions,
+  ]);
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
@@ -167,8 +169,7 @@ const Prescriptions = () => {
     false,
   );
   const isAlertVisible = useMemo(() => false, []);
-  const isFirstLoadRef = useRef(true);
-  const isFirstLoad = isFirstLoadRef.current;
+  const isFirstLoad = useRef(true); // NOTE: this should not be set back to true after initial load
   const [loadingMessage, setLoadingMessage] = useState('');
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -220,7 +221,6 @@ const Prescriptions = () => {
         }
 
         dispatch(setFilterOption(newFilterOption));
-        dispatch(setPageNumber(1));
       }
 
       if (newSortOption && newSortOption !== selectedSortOption) {
@@ -232,6 +232,7 @@ const Prescriptions = () => {
           ...pdfTxtGenerateStatus,
           status: PDF_TXT_GENERATE_STATUS.NotStarted,
         });
+        dispatch(setPageNumber(1));
       }
 
       // Only update if we have changes
@@ -260,7 +261,7 @@ const Prescriptions = () => {
       if (!isLoading) {
         if (prescriptionId) {
           goToPrevious();
-        } else if (isFirstLoad) {
+        } else if (isFirstLoad.current) {
           focusElement(document.querySelector('h1'));
         }
       }
@@ -284,7 +285,7 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (!isFirstLoad && !isLoading) {
+      if (!isFirstLoad.current && !isLoading) {
         const showingRx = document.getElementById('showingRx');
         if (showingRx) {
           const displayNums = fromToNumbs(
@@ -315,8 +316,8 @@ const Prescriptions = () => {
         return;
       }
 
-      if (isLoading === false && isFirstLoad) {
-        isFirstLoadRef.current = false;
+      if (isLoading === false && isFirstLoad.current) {
+        isFirstLoad.current = false;
       }
     },
     [

@@ -37,7 +37,7 @@ const MedicationsListResultsAriaRegion = ({
           setAriaRegionText(updatedAriaText);
         } else {
           // Clearing the filters is instant, so the results text will overwrite on the next render, causing a message set here to render unreliably.
-          // Instead, set this flag to true and it in the results text update.
+          // Instead, set this flag to true and include it in the results text update.
           wasFilterCleared.current = true;
         }
 

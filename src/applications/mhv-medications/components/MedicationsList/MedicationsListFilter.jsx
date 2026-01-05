@@ -90,15 +90,16 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
   };
 
   const handleFilterSubmit = () => {
-    /* eslint-disable camelcase */
     recordEvent({
       event: 'form_radio_button_submit',
       action: 'click',
+      // eslint-disable-next-line camelcase
       form_field_type: 'radio button',
+      // eslint-disable-next-line camelcase
       form_field_label: 'Select a filter',
+      // eslint-disable-next-line camelcase
       form_field_option_label: selectedFilterOption,
     });
-    /* eslint-enable camelcase */
 
     updateFilter(selectedFilterOption);
   };

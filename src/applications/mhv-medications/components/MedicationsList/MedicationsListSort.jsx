@@ -53,11 +53,6 @@ const MedicationsListSort = props => {
             );
           })}
         </VaSelect>
-        <div
-          className="sr-only"
-          data-testid="sort-action-sr-text"
-          role="status"
-        />
       </div>
     </div>
   );
