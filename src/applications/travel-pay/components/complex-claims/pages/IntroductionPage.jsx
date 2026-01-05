@@ -161,6 +161,7 @@ const IntroductionPage = () => {
                     href="#"
                     text="Start your travel reimbursement claim"
                     type="primary"
+                    disable-analytics
                   />
                 )}
             </va-process-list-item>
