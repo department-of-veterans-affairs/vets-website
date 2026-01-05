@@ -8,7 +8,10 @@ import {
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
 import useRecordPageview from '../../../hooks/useRecordPageview';
-import { recordRadioOptionClick } from '../../../util/events-helpers';
+import {
+  recordRadioOptionClick,
+  recordButtonClick,
+} from '../../../util/events-helpers';
 import {
   EXPENSE_TYPES,
   EXPENSE_TYPE_KEYS,
@@ -65,6 +68,8 @@ const ChooseExpenseType = () => {
       return;
     }
 
+    recordButtonClick(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title, 'Continue');
+
     setShowError(false);
     setMileageError(false);
     // Navigate to the route defined in the constant
@@ -78,6 +83,7 @@ const ChooseExpenseType = () => {
   };
 
   const handleBack = () => {
+    recordButtonClick(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title, 'Back');
     if (backDestination === 'review') {
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
