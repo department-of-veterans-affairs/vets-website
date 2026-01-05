@@ -551,7 +551,6 @@ const WorkflowChoicePage = props => {
       </VaAlert>
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
-          {/* {customTitleWithTag(workflowChoicePageTitle, form0781HeadingTag)} */}
           {titleWithTag(workflowChoicePageTitle, form0781HeadingTag)}
         </legend>
         <div>
