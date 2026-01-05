@@ -24,11 +24,11 @@ export const getFormattedTreatmentDate = treatmentDate => {
 export const getLocationErrors = (
   issues,
   treatmentBefore2005,
-  treatmentLocation,
   treatmentMonthYear,
+  vaTreatmentLocation,
 ) => {
   const errors = {
-    name: treatmentLocation ? '' : content.missing.location,
+    name: vaTreatmentLocation ? '' : content.missing.location,
     issues: issues.length ? '' : content.missing.condition,
     treatmentMonthYear:
       treatmentBefore2005 === 'Y' && !treatmentMonthYear
@@ -83,8 +83,8 @@ export const VaDetailsDisplayNew = ({
           const {
             issuesVa = [],
             treatmentBefore2005,
-            treatmentLocation,
             treatmentMonthYear = '',
+            vaTreatmentLocation,
           } = location || {};
           const path = `/${EVIDENCE_VA_DETAILS_URL}?index=${index}`;
 
@@ -99,13 +99,13 @@ export const VaDetailsDisplayNew = ({
           const { errors, hasErrors } = getLocationErrors(
             selectedIssues,
             treatmentBefore2005,
-            treatmentLocation,
+            vaTreatmentLocation,
             treatmentMonthYear,
           );
 
           return (
             <li
-              key={treatmentLocation + index}
+              key={vaTreatmentLocation + index}
               className={`${listClassNames(
                 !showListOnly,
               )} vads-u-margin-bottom--2`}
@@ -116,7 +116,7 @@ export const VaDetailsDisplayNew = ({
                     className="va-location vads-u-margin-bottom--2 dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold"
                     data-dd-action-name="VA location name"
                   >
-                    {treatmentLocation}
+                    {vaTreatmentLocation}
                   </SubHeader>
                 )}
                 <p
@@ -141,7 +141,7 @@ export const VaDetailsDisplayNew = ({
                       id={`edit-va-${index}`}
                       className="edit-item"
                       path={path}
-                      aria-label={`${content.edit} ${treatmentLocation}`}
+                      aria-label={`${content.edit} ${vaTreatmentLocation}`}
                       data-link={testing ? path : null}
                       text={content.edit}
                     />
@@ -150,7 +150,7 @@ export const VaDetailsDisplayNew = ({
                       data-type="va"
                       onClick={handlers.showModal}
                       class={removeButtonClass}
-                      label={`${content.remove} ${treatmentLocation}`}
+                      label={`${content.remove} ${vaTreatmentLocation}`}
                       text={content.remove}
                       secondary
                     />

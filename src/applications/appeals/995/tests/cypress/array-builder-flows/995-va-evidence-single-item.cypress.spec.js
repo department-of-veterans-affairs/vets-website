@@ -57,8 +57,8 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'What conditions were you treated for at Central Boston VA Hospital?',
       );
-      cy.selectVaCheckbox('root_issuesVA_Headaches', true);
-      cy.selectVaCheckbox('root_issuesVA_Sleep apnea', true);
+      cy.selectVaCheckbox('root_issuesVa_Headaches', true);
+      cy.selectVaCheckbox('root_issuesVa_Sleep apnea', true);
 
       h.clickContinue();
 
@@ -100,11 +100,11 @@ describe('Array Builder evidence flow', () => {
         'Edit the first VA or military treatment location we should request records from',
       );
       h.checkValueOfInput(
-        'input[name="root_treatmentLocation"]',
+        'input[name="root_vaTreatmentLocation"]',
         'Central Boston VA Hospital',
       );
       cy.fillVaTextInput(
-        'root_treatmentLocation',
+        'root_vaTreatmentLocation',
         'Presbyterian Hospital (North Side)',
       );
       h.clickContinue();
@@ -113,8 +113,8 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'Edit the conditions you were treated for at Presbyterian Hospital (North Side)',
       );
-      h.confirmCheckboxesChecked('VA', ['Headaches', 'Sleep apnea']);
-      cy.selectVaCheckbox('root_issuesVA_Headaches', false);
+      h.confirmCheckboxesChecked('Va', ['Headaches', 'Sleep apnea']);
+      cy.selectVaCheckbox('root_issuesVa_Headaches', false);
       h.clickContinue();
 
       // Treatment Before 2005

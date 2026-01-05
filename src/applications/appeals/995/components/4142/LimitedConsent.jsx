@@ -38,12 +38,14 @@ const LimitedConsent = ({
         setTextAreaError(false);
       }
 
-      if (radioError) {
+      if (radioError && showInputField) {
         setShowInputField(false);
       }
 
-      if (lcPrompt === 'Y') {
+      if (lcPrompt === 'Y' && !showInputField) {
         setShowInputField(true);
+      } else if (lcPrompt === 'N' && showInputField) {
+        setShowInputField(false);
       }
     },
     [
@@ -53,6 +55,7 @@ const LimitedConsent = ({
       setRadioError,
       setShowInputField,
       setTextAreaError,
+      showInputField,
       textAreaError,
     ],
   );

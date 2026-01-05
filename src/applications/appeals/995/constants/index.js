@@ -49,7 +49,7 @@ export const EVIDENCE_URLS = {
   privateIssues: 'supporting-evidence/:index/private-medical-records/condition',
   privateTreatmentDate:
     'supporting-evidence/:index/private-medical-records-dates',
-  privateSummary: 'supporting-evidence/private-medical-records-review',
+  privateSummary: 'supporting-evidence/private-medical-summary',
   uploadPrompt: 'supporting-evidence/add-supporting-evidence',
 };
 
@@ -74,8 +74,8 @@ export const VA_EVIDENCE_PROMPT_KEY = 'hasVaEvidence';
 export const VA_EVIDENCE_KEY = 'vaEvidence';
 export const PRIVATE_EVIDENCE_PROMPT_KEY = 'hasPrivateEvidence';
 export const PRIVATE_EVIDENCE_KEY = 'privateEvidence';
-export const VA_TREATMENT_LOCATION_KEY = 'treatmentLocation';
-export const PRIVATE_TREATMENT_LOCATION_KEY = 'treatmentLocation';
+export const VA_TREATMENT_LOCATION_KEY = 'vaTreatmentLocation';
+export const PRIVATE_TREATMENT_LOCATION_KEY = 'privateTreatmentLocation';
 export const VA_TREATMENT_BEFORE_2005_KEY = 'treatmentBefore2005';
 export const VA_TREATMENT_MONTH_YEAR_KEY = 'treatmentMonthYear';
 

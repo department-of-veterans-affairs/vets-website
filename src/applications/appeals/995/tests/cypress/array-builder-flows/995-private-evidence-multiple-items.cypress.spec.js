@@ -118,7 +118,7 @@ describe('Array Builder evidence flow', () => {
       // Check error handling
       h.clickContinue();
       h.checkError(
-        '[name="root_treatmentLocation"]',
+        '[name="root_privateTreatmentLocation"]',
         detailsEntryContent.locationRequiredError,
       );
       h.checkError('[name="root_address_country"]', 'Select a country');
@@ -296,7 +296,7 @@ describe('Array Builder evidence flow', () => {
         'Edit the second location we should request your private provider or VA Vet Center records from',
       );
       h.checkValueOfInput(
-        '[name="root_treatmentLocation"]',
+        '[name="root_privateTreatmentLocation"]',
         'Methodist Stone Oak Hospital',
       );
       h.checkValueOfInput('[name="root_address_country"]', 'USA');
@@ -307,7 +307,7 @@ describe('Array Builder evidence flow', () => {
       h.checkValueOfInput('[name="root_address_street2"]', '#235');
 
       cy.fillVaTextInput(
-        'root_treatmentLocation',
+        'root_privateTreatmentLocation',
         'Baltimore Methodist General Hospital',
       );
 

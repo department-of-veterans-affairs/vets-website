@@ -7,7 +7,7 @@ export const vaEvidence = [
       Impotence: true,
       'Left Knee Instability': true,
     },
-    treatmentLocation: 'Midwest Alabama VA Facility',
+    vaTreatmentLocation: 'Midwest Alabama VA Facility',
   },
   {
     treatmentBefore2005: 'N',
@@ -15,7 +15,7 @@ export const vaEvidence = [
       Impotence: true,
       'Left Knee Instability': true,
     },
-    treatmentLocation: 'South Texas VA Facility',
+    vaTreatmentLocation: 'South Texas VA Facility',
   },
   {
     treatmentBefore2005: 'N',
@@ -23,7 +23,7 @@ export const vaEvidence = [
       Hypertension: true,
       'Sleep apnea': true,
     },
-    treatmentLocation: 'Northeast Kentucky VA Medical Center',
+    vaTreatmentLocation: 'Northeast Kentucky VA Medical Center',
   },
 ];
 
@@ -35,7 +35,7 @@ export const privateEvidence = [
       Hypertension: true,
       Impotence: true,
     },
-    treatmentLocation: 'Edith Nourse Rogers Memorial',
+    privateTreatmentLocation: 'Edith Nourse Rogers Memorial',
     address: {
       'view:militaryBaseDescription': {},
       country: 'USA',
@@ -56,7 +56,7 @@ export const privateEvidence = [
       Hypertension: true,
       Impotence: true,
     },
-    treatmentLocation: 'Northeast Methodist Hospital',
+    privateTreatmentLocation: 'Northeast Methodist Hospital',
     address: {
       'view:militaryBaseDescription': {},
       country: 'USA',
@@ -74,7 +74,7 @@ export const privateEvidence = [
       'Tendonitis, left ankle': true,
       Impotence: false,
     },
-    treatmentLocation: 'Meadows Neighborhood Hospital',
+    privateTreatmentLocation: 'Meadows Neighborhood Hospital',
     address: {
       'view:militaryBaseDescription': {},
       country: 'USA',

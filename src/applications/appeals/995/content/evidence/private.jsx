@@ -102,7 +102,7 @@ export const detailsEntryContent = {
 
 export const treatmentDateContent = {
   question: (formContext, addOrEdit) => {
-    const location = formContext?.treatmentLocation;
+    const location = formContext?.[PRIVATE_TREATMENT_LOCATION_KEY];
 
     if (addOrEdit === 'add') {
       return location

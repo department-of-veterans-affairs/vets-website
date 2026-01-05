@@ -62,7 +62,7 @@ describe('Array Builder evidence flow', () => {
         'What VA or military treatment location should we request records from?',
       );
       h.checkErrorHandlingWithClass(
-        '[name="root_treatmentLocation"]',
+        '[name="root_vaTreatmentLocation"]',
         locationContent.requiredError,
       );
       h.addVaLocation('South Texas VA Hospital');
@@ -72,13 +72,13 @@ describe('Array Builder evidence flow', () => {
         'What conditions were you treated for at South Texas VA Hospital?',
       );
       h.checkErrorHandlingWithClass(
-        '[name="root_issuesVA"]',
+        '[name="root_issuesVa"]',
         issuesContent.requiredError,
       );
-      cy.selectVaCheckbox('root_issuesVA_Headaches', true);
-      cy.selectVaCheckbox('root_issuesVA_Hypertension', true);
-      cy.selectVaCheckbox('root_issuesVA_Tendonitis, left ankle', true);
-      cy.selectVaCheckbox('root_issuesVA_Sleep apnea', true);
+      cy.selectVaCheckbox('root_issuesVa_Headaches', true);
+      cy.selectVaCheckbox('root_issuesVa_Hypertension', true);
+      cy.selectVaCheckbox('root_issuesVa_Tendonitis, left ankle', true);
+      cy.selectVaCheckbox('root_issuesVa_Sleep apnea', true);
 
       h.clickContinue();
 
@@ -135,8 +135,8 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'What conditions were you treated for at Midwest Alabama VA Clinic?',
       );
-      cy.selectVaCheckbox('root_issuesVA_Hypertension', true);
-      cy.selectVaCheckbox('root_issuesVA_Tendonitis, left ankle', true);
+      cy.selectVaCheckbox('root_issuesVa_Hypertension', true);
+      cy.selectVaCheckbox('root_issuesVa_Tendonitis, left ankle', true);
 
       h.clickContinue();
 
@@ -166,8 +166,8 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'What conditions were you treated for at Northern California VA Urgent Care?',
       );
-      cy.selectVaCheckbox('root_issuesVA_Headaches', true);
-      cy.selectVaCheckbox('root_issuesVA_Sleep apnea', true);
+      cy.selectVaCheckbox('root_issuesVa_Headaches', true);
+      cy.selectVaCheckbox('root_issuesVa_Sleep apnea', true);
 
       h.clickContinue();
 
@@ -205,8 +205,8 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'What conditions were you treated for at Central Mississippi VA Medical Complex?',
       );
-      cy.selectVaCheckbox('root_issuesVA_Hypertension', true);
-      cy.selectVaCheckbox('root_issuesVA_Tendonitis, left ankle', true);
+      cy.selectVaCheckbox('root_issuesVa_Hypertension', true);
+      cy.selectVaCheckbox('root_issuesVa_Tendonitis, left ankle', true);
 
       h.clickContinue();
 
@@ -239,11 +239,11 @@ describe('Array Builder evidence flow', () => {
         'Edit the first VA or military treatment location we should request records from',
       );
       h.checkValueOfInput(
-        'input[name="root_treatmentLocation"]',
+        'input[name="root_vaTreatmentLocation"]',
         'South Texas VA Hospital',
       );
       cy.fillVaTextInput(
-        'root_treatmentLocation',
+        'root_vaTreatmentLocation',
         'South Texas VA Medical Center',
       );
       h.clickContinue();
@@ -252,13 +252,13 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'Edit the conditions you were treated for at South Texas VA Medical Center',
       );
-      h.confirmCheckboxesChecked('VA', [
+      h.confirmCheckboxesChecked('Va', [
         'Headaches',
         'Hypertension',
         'Tendonitis, left ankle',
         'Sleep apnea',
       ]);
-      cy.selectVaCheckbox('root_issuesVA_Hypertension', false);
+      cy.selectVaCheckbox('root_issuesVa_Hypertension', false);
       h.clickContinue();
 
       // Treatment Before 2005

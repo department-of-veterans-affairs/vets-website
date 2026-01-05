@@ -101,7 +101,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: firstProvider.treatmentLocation,
+          providerName: firstProvider.privateTreatmentLocation,
           issues: 'Hypertension and Impotence',
           dates: `Oct. 10, 2019 – Oct. 11, 2019`,
         },
@@ -114,7 +114,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: secondProvider.treatmentLocation,
+          providerName: secondProvider.privateTreatmentLocation,
           issues: 'Hypertension and Impotence',
           dates: `May 5, 2025 – May 6, 2025`,
         },
@@ -127,7 +127,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: thirdProvider.treatmentLocation,
+          providerName: thirdProvider.privateTreatmentLocation,
           issues: 'Hypertension; and Tendonitis, left ankle',
           dates: 'Aug. 1, 1997 – May 6, 2025',
         },
@@ -168,7 +168,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: firstProvider.treatmentLocation,
+          providerName: firstProvider.privateTreatmentLocation,
           issues: 'Hypertension and Impotence',
           dates: `Oct. 10, 2019 – Oct. 11, 2019`,
         },
@@ -181,7 +181,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: secondProvider.treatmentLocation,
+          providerName: secondProvider.privateTreatmentLocation,
           issues: 'Hypertension and Impotence',
           dates: `May 5, 2025 – May 6, 2025`,
         },
@@ -194,7 +194,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: thirdProvider.treatmentLocation,
+          providerName: thirdProvider.privateTreatmentLocation,
           issues: 'Hypertension; and Tendonitis, left ankle',
           dates: 'Aug. 1, 1997 – May 6, 2025',
         },
@@ -235,7 +235,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: firstProvider.treatmentLocation,
+          providerName: firstProvider.privateTreatmentLocation,
           issues: 'Hypertension and Impotence',
           dates: `Oct. 10, 2019 – Oct. 11, 2019`,
         },
@@ -248,7 +248,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: secondProvider.treatmentLocation,
+          providerName: secondProvider.privateTreatmentLocation,
           issues: 'Hypertension and Impotence',
           dates: `May 5, 2025 – May 6, 2025`,
         },
@@ -261,7 +261,7 @@ describe('PrivateDetailsDisplayNew', () => {
         headers,
         listItems,
         {
-          providerName: thirdProvider.treatmentLocation,
+          providerName: thirdProvider.privateTreatmentLocation,
           issues: 'Hypertension; and Tendonitis, left ankle',
           dates: 'Aug. 1, 1997 – May 6, 2025',
         },
@@ -290,7 +290,7 @@ describe('PrivateDetailsDisplayNew', () => {
 
     describe('when the provider name is missing', () => {
       it('should render the proper errors', () => {
-        const partialData = { ...fullData, treatmentLocation: '' };
+        const partialData = { ...fullData, privateTreatmentLocation: '' };
         getContainer(partialData);
 
         const error = $$('.usa-input-error-message')[0];
