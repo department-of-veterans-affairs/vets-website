@@ -144,18 +144,14 @@ const ResultDescription = ({
           </li>
         ))}
       </ul>
-      <br />
     </div>
-    <div>
-      <a
-        href={`${
-          environment.BASE_URL
-        }/education/apply-for-education-benefits/application/1995/introduction`}
-        className="vads-u-display--block vads-u-margin-bottom--3"
-      >
-        Restart questionnaire
-      </a>
-    </div>
+    <va-link
+      href={`${
+        environment.BASE_URL
+      }/education/apply-for-education-benefits/application/1995/introduction`}
+      text="Restart questionnaire"
+      class="vads-u-display--block vads-u-margin-top--3"
+    />   
   </div>
 );
 
@@ -233,8 +229,8 @@ const BenefitSwitchDescription = () => {
             external
             href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
             text="Survivors' and Dependents' Education Assistance (DEA)"
-          />
-          {' '}and{' '}
+          />{' '}
+          and{' '}
           <va-link
             external
             href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/"
