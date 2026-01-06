@@ -370,5 +370,29 @@ describe('ConfirmationNewDisabilities', () => {
       expect(getByText('Condition A')).to.exist;
       expect(getByText('Caused by description A')).to.exist;
     });
+
+    it('should not render when condition is Rated Disability', () => {
+      const formData = {
+        newDisabilities: [{ condition: 'Rated Disability', cause: 'NEW' }],
+      };
+
+      const { container } = render(
+        <ConfirmationNewDisabilities formData={formData} />,
+      );
+
+      expect(container.querySelectorAll('li')).to.have.length(0);
+    });
+
+    it('does not render when condition is Rated Disability', () => {
+      const formData = {
+        newDisabilities: [{ condition: 'Rated Disability' }],
+      };
+
+      const { container } = render(
+        <ConfirmationNewDisabilities formData={formData} />,
+      );
+
+      expect(container.querySelectorAll('li')).to.have.length(0);
+    });
   });
 });
