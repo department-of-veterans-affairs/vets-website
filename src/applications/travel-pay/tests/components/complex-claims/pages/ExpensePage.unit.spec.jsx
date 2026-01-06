@@ -1651,6 +1651,167 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       { timeout: 3000 },
     );
   });
+
+  describe('Cancel modal navigation with backDestination', () => {
+    it('navigates to review page when confirming cancel in add mode with backDestination="review"', async () => {
+      const baseState = getEditState([]);
+      const stateWithBackDestination = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenseBackDestination: 'review',
+          },
+        },
+      };
+
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/meal']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div data-testid="review-page" />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithBackDestination, reducers: reducer },
+      );
+
+      // Wait for page to load
+      await waitFor(() => {
+        expect(container.querySelector('h1')).to.exist;
+      });
+
+      // Open the cancel modal
+      const cancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+      expect(cancelButton).to.exist;
+      fireEvent.click(cancelButton);
+
+      // Wait for modal to be visible
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+      });
+
+      // Confirm cancellation by triggering the modal's primary button click event
+      const modal = container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to review page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/review',
+        );
+      });
+    });
+
+    it('navigates to choose-expense page when confirming cancel in add mode without backDestination', async () => {
+      const baseState = getEditState([]);
+      const stateWithoutBackDestination = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenseBackDestination: undefined,
+          },
+        },
+      };
+
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/meal']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<div data-testid="choose-expense-page" />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithoutBackDestination, reducers: reducer },
+      );
+
+      // Wait for page to load
+      await waitFor(() => {
+        expect(container.querySelector('h1')).to.exist;
+      });
+
+      // Open the cancel modal
+      const cancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+      expect(cancelButton).to.exist;
+      fireEvent.click(cancelButton);
+
+      // Wait for modal to be visible
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+      });
+
+      // Confirm cancellation by triggering the modal's primary button click event
+      const modal = container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to choose-expense page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/choose-expense',
+        );
+      });
+    });
+
+    it('navigates to review page when confirming cancel in edit mode', async () => {
+      const { container, getByTestId } = renderEditPage();
+
+      // Wait for data to load
+      await waitFor(() => {
+        const vendorField = container.querySelector(
+          'va-text-input[name="vendorName"]',
+        );
+        expect(vendorField?.getAttribute('value')).to.equal('Saved Vendor');
+      });
+
+      // Click Cancel button to open modal
+      const cancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel');
+      expect(cancelButton).to.exist;
+      fireEvent.click(cancelButton);
+
+      // Wait for modal to be visible
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+      });
+
+      // Confirm cancellation by triggering the modal's primary button click event
+      const modal = container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to review page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/review',
+        );
+      });
+    });
+  });
 });
 
 describe('toBase64 helper function', () => {
