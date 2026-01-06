@@ -266,24 +266,27 @@ export function createArrayBuilderItemEditPath({ path, index, isReview }) {
   }`;
 }
 
-export function slugifyText(nounSingular) {
-  return nounSingular.toLowerCase().replace(/ /g, '-');
+export function slugifyText(text) {
+  if (!text) return '';
+  return text
+    .replace(/([a-z])([A-Z])/g, '$1-$2') // camelCase -> kebab-case
+    .toLowerCase()
+    .replace(/\s+/g, '-') // spaces -> dashes
+    .replace(/[^a-z0-9-]/g, '') // remove special chars
+    .replace(/-+/g, '-') // collapse multiple dashes
+    .replace(/^-+|-+$/g, ''); // trim leading/trailing dashes
 }
 
 /**
  * Creates a path with a `updated` query param
  * @param {Object} props
- * @param {string} props.path e.g. `/path-summary`
- * @param {string} props.nounSingular e.g. `employer`
+ * @param {string} props.basePath e.g. `/path-summary`
+ * @param {string} props.arrayPath e.g. `employers`
  * @param {string | number} props.index
- * @returns {string} e.g. `/path-summary?updated=employer-0`
+ * @returns {string} e.g. `/path-summary?updated=employers-0`
  */
-export function createArrayBuilderUpdatedPath({
-  basePath,
-  nounSingular,
-  index,
-}) {
-  return `${basePath}?updated=${slugifyText(nounSingular)}-${index}`;
+export function createArrayBuilderUpdatedPath({ basePath, arrayPath, index }) {
+  return `${basePath}?updated=${slugifyText(arrayPath)}-${index}`;
 }
 
 export function isDeepEmpty(obj) {
@@ -306,10 +309,10 @@ export function getArrayIndexFromPathName(
 }
 
 /**
- * Gets the nounSingular and index from the URL `updated=` path
- * @param {string} [search] e.g. `?add=true`
+ * Gets the arrayPathSlug and index from the URL `updated=` query parameter
+ * @param {string} [search] e.g. `?updated=employers-0`
  * @returns {{
- *   nounSingular: string | null,
+ *   arrayPathSlug: string | null,
  *   index: number | null,
  * }}
  */
@@ -318,7 +321,7 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
   const updatedValue = urlParams.get('updated');
 
   const updatedItem = {
-    nounSingular: null,
+    arrayPathSlug: null,
     index: null,
   };
 
@@ -327,7 +330,7 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
     if (parts?.length) {
       const index = Number(parts.pop());
       updatedItem.index = index;
-      updatedItem.nounSingular = parts.join(' ');
+      updatedItem.arrayPathSlug = parts.join('-');
     }
   } catch (e) {
     // do nothing
