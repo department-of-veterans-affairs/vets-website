@@ -321,7 +321,7 @@ export const Alerts = {
     SAVED: 'Contact list changes saved',
     EMPTY: `Select at least one team`,
     SAVE_API_ERROR: `We're sorry. We couldn't save your changes. Try saving again.`,
-    LOAD_API_ERROR: `Error Alert We can't load your contact list right now`,
+    LOAD_API_ERROR: `Error Alert We can’t load your contact list right now`,
   },
   ATTACHMENT: {
     TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, JPEG, PDF, PNG, RTF, TXT, XLS, XLSX, JFIF, PJPEG, or PJP.`,
