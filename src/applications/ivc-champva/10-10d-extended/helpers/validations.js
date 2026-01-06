@@ -542,7 +542,7 @@ export const validateApplicant = (item = {}) => {
  * Validates that a date is not more than one year in the future.
  *
  * Ensures the date is valid, within the allowed year range (minYear to current year + 1),
- * and not more than 365 days from today. Used for dates that should be current or near-future.
+ * and not more than one calendar year from today. Used for dates that should be current or near-future.
  *
  * @param {Object} errors - The errors object to add validation errors to
  * @param {string} dateString - The date string to validate (format: 'YYYY-MM-DD')
@@ -572,7 +572,8 @@ export const validateFutureDate = (
     maxYear,
   );
 
-  if (isAfter(new Date(dateString), yearFromToday)) {
+  const date = dateString ? new Date(dateString) : null;
+  if (date && isValid(date) && isAfter(date, yearFromToday)) {
     errors.addError(ERR_FUTURE_DATE);
   }
 };

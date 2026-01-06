@@ -6,7 +6,7 @@ import content from '../locales/en/content.json';
 
 const INPUT_LABEL = content['dates--default-label'];
 const ERR_MSG_PATTERN = content['validation--date-pattern'];
-const ERR_MES_REQUIRED = content['validation--required'];
+const ERR_MSG_REQUIRED = content['validation--required'];
 
 export const futureDateUI = options => {
   const { title, errorMessages, required, validations, ...uiOptions } =
@@ -18,7 +18,7 @@ export const futureDateUI = options => {
     'ui:validations': validations ?? [validateFutureDate],
     'ui:errorMessages': {
       pattern: errorMessages?.pattern || ERR_MSG_PATTERN,
-      required: errorMessages?.required || ERR_MES_REQUIRED,
+      required: errorMessages?.required || ERR_MSG_REQUIRED,
     },
     'ui:options': { ...uiOptions },
     'ui:reviewField': DateReviewField,

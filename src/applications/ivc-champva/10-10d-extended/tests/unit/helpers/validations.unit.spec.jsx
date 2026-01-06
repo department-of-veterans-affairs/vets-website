@@ -1407,6 +1407,8 @@ describe('1010d `validateFutureDate` form validation', () => {
     },
     { title: 'date is far in the future', dateString: '2030-01-01' },
     { title: 'date year exceeds maxYear', dateString: '2028-01-01' },
+    { title: 'date has invalid month', dateString: '2026-13-01' },
+    { title: 'date has invalid day', dateString: '2026-02-30' },
   ];
 
   errorCases.forEach(({ title, dateString }) => {

@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 
 const DateReviewField = ({ children }) => {
   const { formData, uiSchema } = children.props;
-  const formattedDate = format(formData, 'MM/dd/yyyy');
+  const localeOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate =
+    formData &&
+    new Date(`${formData}T00:00:00`).toLocaleDateString('en-us', localeOptions);
   return (
     <div className="review-row">
       <dt>{uiSchema['ui:title']}</dt>
