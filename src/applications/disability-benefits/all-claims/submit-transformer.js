@@ -58,6 +58,10 @@ export function transform(formConfig, form) {
     ? _.cloneDeep(toxicExposure)
     : undefined;
 
+  // Save feature flag before transformForSubmit strips it (not in schema)
+  const savedToxicExposurePurgeFlag =
+    form.data.disability526ToxicExposureOptOutDataPurge;
+
   // Define the transformations
   const filterEmptyObjects = formData =>
     removeDeeplyEmptyObjects(
@@ -77,12 +81,27 @@ export function transform(formConfig, form) {
 
   // Restore toxicExposure stripped by filterEmptyObjects, then apply purge logic
   // 1. Restores original toxicExposure so empty objects match InProgressForm
-  // 2. Purges only explicit user opt-outs (not empty form scaffolding)
+  // 2. Restores feature flag (stripped by transformForSubmit since not in schema)
+  // 3. Purges only explicit user opt-outs (not empty form scaffolding)
+  // 4. Removes feature flag from output (not user data)
   const transformToxicExposure = formData => {
-    const restoredData = savedToxicExposure
+    let restoredData = savedToxicExposure
       ? _.set('toxicExposure', savedToxicExposure, formData)
       : formData;
-    return purgeToxicExposureData(restoredData);
+
+    // Restore feature flag for purgeToxicExposureData to check
+    if (savedToxicExposurePurgeFlag !== undefined) {
+      restoredData = _.set(
+        'disability526ToxicExposureOptOutDataPurge',
+        savedToxicExposurePurgeFlag,
+        restoredData,
+      );
+    }
+
+    const purgedData = purgeToxicExposureData(restoredData);
+
+    // Remove feature flag from output (not user data, only needed for purge logic)
+    return _.unset('disability526ToxicExposureOptOutDataPurge', purgedData);
   };
 
   const addBackAndTransformSeparationLocation = formData =>

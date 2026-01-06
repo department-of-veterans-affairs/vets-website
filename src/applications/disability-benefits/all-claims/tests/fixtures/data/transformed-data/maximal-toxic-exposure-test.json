@@ -85,7 +85,12 @@
         "guam": {
           "startDate": "1967-01-01",
           "endDate": "1967-12-31"
-        }
+        },
+        "cambodia": {},
+        "koreandemilitarizedzone": {},
+        "johnston": {},
+        "thailand": {},
+        "vietnam": {}
       },
       "otherHerbicideLocations": {
         "description": "Test location 1",
@@ -104,7 +109,10 @@
         "mos": {
           "startDate": "2001-01-08",
           "endDate": "2001-12-31"
-        }
+        },
+        "chemical": {},
+        "water": {},
+        "mustardgas": {}
       },
       "specifyOtherExposures": {
         "startDate": "2000-03-20",
