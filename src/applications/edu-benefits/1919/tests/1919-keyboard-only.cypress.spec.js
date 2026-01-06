@@ -31,11 +31,11 @@ describe('22-1919 Edu form', () => {
 
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
 
-    // cy.intercept('POST', SUBMIT_URL, {
-    //   "attributes": {
-    //     "confirmationNumber": "123123123"
-    //   }
-    // });
+    cy.intercept('POST', '/v0/education_benefits_claims/1919', {
+      attributes: {
+        confirmationNumber: '123123123',
+      },
+    });
 
     // Go to application, should go to Introduction page
     cy.visit(`${manifest.rootUrl}/introduction`);
