@@ -24,11 +24,17 @@ describe('Medical Records View Vaccines', () => {
     // With no page specified, default is page 1 but focus should be on <h1>
     cy.get('h1').should('be.focused');
 
+    // Wait for the record list to fully render before interacting with pagination
+    cy.get('[data-testid="record-list-item"]', { timeout: 10000 }).should(
+      'have.length.at.least',
+      1,
+    );
+
     // Click page 2 in the pagination (wait for shadow DOM to be ready)
-    cy.get('va-pagination')
+    cy.get('va-pagination', { timeout: 10000 })
       .shadow()
       .find('a[aria-label="page 2, last page"]')
-      .should('exist')
+      .should('be.visible')
       .click();
 
     // After page change, focus should be on "Showing..."
@@ -38,6 +44,7 @@ describe('Medical Records View Vaccines', () => {
     cy.get('va-pagination')
       .shadow()
       .find('a[aria-label="page 1, first page"]')
+      .should('be.visible')
       .click();
 
     // After page change back to page 1, focus should remain on "Showing..."
