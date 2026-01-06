@@ -8,6 +8,7 @@ import {
   FIELD_OPTION_IDS,
 } from '@@vap-svc/constants/schedulingPreferencesConstants';
 import { FIELD_NAMES } from 'platform/user/exportsFile';
+import { useSelector } from 'react-redux';
 
 /**
  * Contact method selection page
@@ -17,6 +18,9 @@ import { FIELD_NAMES } from 'platform/user/exportsFile';
  * @returns {JSX}
  */
 const ContactMethodSelect = ({ data = {}, error, options, setPageData }) => {
+  const isLoading = useSelector(
+    state => state.vaProfile.schedulingPreferences.loading,
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -45,21 +49,16 @@ const ContactMethodSelect = ({ data = {}, error, options, setPageData }) => {
     },
   };
 
-  // return (
-  //   <ProfileInformationFieldController
-  //     fieldName={fieldName}
-  //     data={data[fieldName]}
-  //     error={error}
-  //     setPageData={setPageData}
-  //   />
-  // );
+  if (isLoading) {
+    return <va-loading-indicator message="Loading contact methods..." />;
+  }
 
   return (
     <>
       <VaSelect
         label={FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]}
         name={FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD}
-        value={data[fieldName] || ''}
+        value={data || ''}
         error={error ? content.errorMessage : null}
         onVaSelect={handlers.setContactMethod}
         required
