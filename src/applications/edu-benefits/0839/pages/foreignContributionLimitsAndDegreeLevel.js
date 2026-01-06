@@ -73,7 +73,7 @@ const uiSchema = {
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
-      hint: `Provide a degree level such as undergraduate, graduate, doctoral, or all.`,
+      description: `Provide a degree level such as undergraduate, graduate, doctoral, or all.`,
       errorMessages: {
         required: 'Please enter a degree level',
       },

@@ -7,7 +7,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
-import DegreeLevelDescription from '../components/DegreeLevelDescription';
 
 const uiSchema = {
   'ui:title': () => (
@@ -72,7 +71,8 @@ const uiSchema = {
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
-      description: <DegreeLevelDescription />,
+      description:
+        'Provide a degree level such as undergraduate, graduate, doctoral, or all. If you’d like to specify a school, you can do so in the "College or professional school" field below.',
       errorMessages: {
         required: 'Please enter a degree level',
       },
