@@ -3,6 +3,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayOptions, createNewConditionName } from './utils';
+import ConfirmationDisabilityConditions from '../../../components/confirmationFields/ConfirmationDisabilityConditions';
 
 const isOrphanSecondary = (item, fullData = {}) => {
   if (!item || item.cause !== 'SECONDARY') return false;
@@ -45,6 +46,7 @@ const summaryPage = {
         },
       ],
     },
+    'ui:confirmationField': ConfirmationDisabilityConditions,
   },
   schema: {
     type: 'object',
