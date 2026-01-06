@@ -35,6 +35,7 @@ import {
   selectExpenseWithDocument,
   selectDocumentDeleteLoadingState,
   selectExpenseFetchLoadingState,
+  selectExpenseBackDestination,
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
@@ -85,6 +86,7 @@ const ExpensePage = () => {
   const isFetchingExpense = useSelector(
     state => (isEditMode ? selectExpenseFetchLoadingState(state) : false),
   );
+  const backDestination = useSelector(selectExpenseBackDestination);
 
   // Refs
   const initialFormStateRef = useRef({});
@@ -293,14 +295,10 @@ const ExpensePage = () => {
     handleCloseCancelModal();
     // Clear unsaved changes when canceling
     dispatch(setUnsavedExpenseChanges(false));
-    if (isEditMode) {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    if (isEditMode || backDestination === 'review') {
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
 

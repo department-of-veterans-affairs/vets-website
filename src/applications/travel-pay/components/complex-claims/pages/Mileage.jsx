@@ -20,6 +20,7 @@ import {
   selectExpenseCreationLoadingState,
   selectAllExpenses,
   selectAppointment,
+  selectExpenseBackDestination,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import {
@@ -41,6 +42,7 @@ const Mileage = () => {
   const { data: appointment } = useSelector(selectAppointment);
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
+  const backDestination = useSelector(selectExpenseBackDestination);
 
   const title = 'Mileage';
 
@@ -192,6 +194,8 @@ const Mileage = () => {
   const handleBack = () => {
     if (isEditMode) {
       setIsModalVisible(true);
+    } else if (backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
@@ -202,11 +206,12 @@ const Mileage = () => {
   const handleConfirmCancel = () => {
     handleCloseModal();
     dispatch(setUnsavedExpenseChanges(false));
-    navigate(
-      isEditMode
-        ? `/file-new-claim/${apptId}/${claimId}/review`
-        : `/file-new-claim/${apptId}/${claimId}/choose-expense`,
-    );
+
+    if (isEditMode || backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    }
   };
 
   return (
