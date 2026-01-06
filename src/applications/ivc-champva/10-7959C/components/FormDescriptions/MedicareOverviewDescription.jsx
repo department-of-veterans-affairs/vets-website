@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MedicareIntroDescription = (
+const MedicareOverviewDescription = (
   <ul>
     <li>
       <strong>If you currently have Medicare</strong>, provide your plan
@@ -17,4 +17,4 @@ const MedicareIntroDescription = (
   </ul>
 );
 
-export default MedicareIntroDescription;
+export default MedicareOverviewDescription;

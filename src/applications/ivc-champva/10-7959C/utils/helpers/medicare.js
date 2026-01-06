@@ -18,5 +18,9 @@ export const hasPartsABorC = formData =>
 export const hasPartD = formData =>
   hasMedicare(formData) && hasPartsABorC(formData) && formData.hasMedicarePartD;
 
+export const needsPartADenialNotice = formData =>
+  hasPartB(formData) ||
+  (!hasMedicare(formData) && formData['view:beneficiaryAgeOver65']);
+
 export const hasPartADenialNotice = formData =>
-  hasMedicare(formData) && hasPartB(formData) && formData.hasPartADenial;
+  needsPartADenialNotice(formData) && formData.hasPartADenial;
