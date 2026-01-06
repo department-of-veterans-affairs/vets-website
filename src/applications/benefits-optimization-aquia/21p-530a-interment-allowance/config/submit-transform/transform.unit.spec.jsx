@@ -408,7 +408,7 @@ describe('Submit Transform', () => {
       );
     });
 
-    it('should join multiple previous names with comma', () => {
+    it('should join multiple previous names with semicolon', () => {
       const form = createFormData({
         previousNames: [
           {
@@ -429,7 +429,7 @@ describe('Submit Transform', () => {
       const result = JSON.parse(transform({}, form));
 
       expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
-        'Anakin Skywalker, Darth Vader',
+        'Anakin Skywalker; Darth Vader',
       );
     });
 
@@ -475,6 +475,99 @@ describe('Submit Transform', () => {
       // Should handle gracefully without crashing
       expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
         '',
+      );
+    });
+
+    it('should include service period when provided', () => {
+      const form = createFormData({
+        previousNames: [
+          {
+            previousName: {
+              first: 'john',
+              last: 'doe',
+            },
+            servicePeriod: 'Army 1968-1972',
+          },
+        ],
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
+        'John Doe, Service Periods: Army 1968-1972',
+      );
+    });
+
+    it('should format multiple names with service periods', () => {
+      const form = createFormData({
+        previousNames: [
+          {
+            previousName: {
+              first: 'john',
+              last: 'doe',
+            },
+            servicePeriod: 'Army 1968-1972',
+          },
+          {
+            previousName: {
+              first: 'jane',
+              middle: 'marie',
+              last: 'smith',
+            },
+            servicePeriod: 'Navy 1975-1980',
+          },
+        ],
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
+        'John Doe, Service Periods: Army 1968-1972; Jane Marie Smith, Service Periods: Navy 1975-1980',
+      );
+    });
+
+    it('should handle name without service period', () => {
+      const form = createFormData({
+        previousNames: [
+          {
+            previousName: {
+              first: 'john',
+              last: 'doe',
+            },
+          },
+        ],
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
+        'John Doe',
+      );
+    });
+
+    it('should handle mix of names with and without service periods', () => {
+      const form = createFormData({
+        previousNames: [
+          {
+            previousName: {
+              first: 'john',
+              last: 'doe',
+            },
+            servicePeriod: 'Army 1968-1972',
+          },
+          {
+            previousName: {
+              first: 'jane',
+              last: 'smith',
+            },
+          },
+        ],
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(result.veteranServicePeriods.servedUnderDifferentName).to.equal(
+        'John Doe, Service Periods: Army 1968-1972; Jane Smith',
       );
     });
   });

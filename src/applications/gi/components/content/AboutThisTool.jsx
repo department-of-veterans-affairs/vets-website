@@ -5,6 +5,7 @@ function AboutThisTool() {
     <div className="row">
       <div className="center columns about-this-tool">
         <a
+          className="vads-u-margin-right--2"
           href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp"
           target="_blank"
           rel="noopener noreferrer"
@@ -12,14 +13,13 @@ function AboutThisTool() {
         >
           About this tool
         </a>
-
-        <a
-          className="about-this-tool-mobile"
-          href="https://www.benefits.va.gov/GIBILL/docs/job_aids/ComparisonToolData.xlsx"
+        <va-link
           id="download-all-data"
-        >
-          Download data on all schools (XLS)
-        </a>
+          download
+          filetype="XLS"
+          href="https://www.benefits.va.gov/GIBILL/docs/job_aids/ComparisonToolData.xlsx"
+          text="Download data on all schools"
+        />
       </div>
     </div>
   );

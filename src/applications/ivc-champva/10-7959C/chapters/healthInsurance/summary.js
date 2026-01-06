@@ -3,7 +3,7 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateHealthInsurancePlan } from '../../utils/validation';
-import { replaceStrValues } from '../../helpers/formatting';
+import { replaceStrValues } from '../../utils/helpers';
 import { OHI_ITEM_MAX } from '../../utils/constants';
 import HealthInsuranceSummaryCard from '../../components/FormDescriptions/HealthInsuranceSummaryCard';
 import content from '../../locales/en/content.json';

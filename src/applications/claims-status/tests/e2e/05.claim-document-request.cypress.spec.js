@@ -82,7 +82,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         trackClaimsPage.verifyDocRequestforDefaultPage();
         trackClaimsPage.verifyDocRequestBreadcrumbs();
         trackClaimsPage.submitFilesForReview();
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
     });
 
@@ -102,7 +102,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         trackClaimsPage.verifyDocRequestfor5103Notice();
         trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitEvidenceWaiver();
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
     });
   });
@@ -124,7 +124,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         trackClaimsPage.verifyDocRequestforDefaultPage();
         trackClaimsPage.verifyDocRequestBreadcrumbs(true);
         trackClaimsPage.submitFilesForReview();
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
     });
 
@@ -145,7 +145,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         trackClaimsPage.verifyDocRequestfor5103Notice();
         trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
         trackClaimsPage.submitEvidenceWaiver();
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
     });
   });
