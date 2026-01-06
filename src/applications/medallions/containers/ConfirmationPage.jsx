@@ -204,7 +204,7 @@ const ConfirmationPage = props => {
       </p>
       <p>
         Or, you can fax your supporting documents to{' '}
-        <va-international-phone contact="18004557143" />.
+        <va-telephone contact="8004557143" />.
       </p>
       <p>
         <strong>Note: </strong>
