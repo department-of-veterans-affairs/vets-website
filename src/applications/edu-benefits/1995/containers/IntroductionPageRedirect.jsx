@@ -4,16 +4,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import { fetchClaimantInfo } from '../actions';
 import { selectMeb1995Reroute } from '../selectors/featureToggles';
 
-export const IntroductionPageRedirect = ({ route }) => {
+export const IntroductionPageRedirect = ({ route, router }) => {
   const dispatch = useDispatch();
   const rerouteFlag = useSelector(selectMeb1995Reroute);
+  const { user, formData } = useSelector(state => getIntroState(state));
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
+  const handleStartQuestionnaire = useCallback(
+    () => {
+      const data = formData || {};
+      const startingPath = route.pageList[0]?.path;
+      const startPage = getNextPagePath(route.pageList, data, startingPath);
+      router.push(startPage);
+    },
+    [formData, route.pageList, router],
+  );
 
   const renderSaveInProgressIntro = useCallback(
     buttonOnly => (
@@ -55,21 +68,45 @@ export const IntroductionPageRedirect = ({ route }) => {
       <FormTitle title="Change your education benefits" />
       <va-alert status="info" visible uswds>
         <h3 slot="headline">Update your benefits without VA Form 22-1995</h3>
-        <p>
+        <p className="vads-u-margin-y--0">
           If you need to change or update your benefit for a new Certificate of
           Eligibility (COE), you’re in the right place. We’ll help you find the
           right form.
         </p>
       </va-alert>
 
-      <h2 className="vads-u-font-size--h3 vads-u-margin-top--4">
+      <h2 className="vads-u-font-size--h2 vads-u-margin-top--4">
         Determine which form to use
       </h2>
       <p>Answer a few questions to determine which form you need.</p>
 
-      <div className="vads-u-margin-y--4">
-        {renderSaveInProgressIntro(false)}
-      </div>
+      {user?.login?.currentlyLoggedIn ? (
+        <>
+          <div className="vads-u-margin-y--4">
+            <va-link-action
+              href="#start"
+              onClick={event => {
+                event.preventDefault();
+                handleStartQuestionnaire();
+              }}
+              text="Start your questionnaire"
+            />
+          </div>
+          <div className="vads-u-margin-y--4">
+            <va-alert status="info" visible uswds>
+              <h3 slot="headline">We’ve prefilled some of your information</h3>
+              <p className="vads-u-margin-y--0">
+                Since you’re signed in, we can prefill part of your
+                questionnaire based on your profile details.
+              </p>
+            </va-alert>
+          </div>
+        </>
+      ) : (
+        <div className="vads-u-margin-y--4">
+          {renderSaveInProgressIntro(false)}
+        </div>
+      )}
 
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
         <va-omb-info
@@ -90,14 +127,8 @@ IntroductionPageRedirect.propTypes = {
     }),
     pageList: PropTypes.array,
   }).isRequired,
-};
-IntroductionPageRedirect.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool,
-      savedFormMessages: PropTypes.shape({}),
-    }),
-    pageList: PropTypes.array,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
