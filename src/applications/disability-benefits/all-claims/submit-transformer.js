@@ -264,6 +264,11 @@ export function transform(formConfig, form) {
 
     const currentCountry = formData.mailingAddress.country;
 
+    // Keep USA as-is, convert other country codes to full names
+    if (currentCountry === 'USA') {
+      return formData;
+    }
+
     // If it's a country code, convert to full name
     if (COUNTRY_CODE_TO_NAME[currentCountry]) {
       return _.set(
