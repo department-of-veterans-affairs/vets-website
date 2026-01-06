@@ -164,6 +164,7 @@ const ArrayBuilderCancelButton = ({
       >
         <div
           className="dd-privacy-mask"
+          data-dd-privacy="mask"
           data-dd-action-name="Cancel Confirmation"
         >
           {getText(modalDescriptionKey, currentItem, formData, arrayIndex)}

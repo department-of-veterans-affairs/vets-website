@@ -343,12 +343,14 @@ const ArrayBuilderCards = ({
                       {label}
                       <CardTitle
                         className={`vads-u-margin-top--0${cardHeadingStyling} dd-privacy-mask`}
+                        data-dd-privacy="mask"
                         data-dd-action-name="Item Name"
                       >
                         {itemName}
                       </CardTitle>
                       <div
                         className="dd-privacy-mask"
+                        data-dd-privacy="mask"
                         data-dd-action-name="Item Description"
                       >
                         {itemDescription}
@@ -421,6 +423,7 @@ const ArrayBuilderCards = ({
       >
         <div
           className="dd-privacy-mask"
+          data-dd-privacy="mask"
           data-dd-action-name="Delete Confirmation"
         >
           {required(formData) && arrayData?.length === 1
