@@ -15,6 +15,7 @@ import { isFieldEmpty } from '@@vap-svc/util';
 import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
 import {
+  getSchedulingPreferencesContactMethodDisplay,
   isSubtaskSchedulingPreference,
   schedulingPreferenceOptions,
 } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
@@ -217,6 +218,32 @@ export const ContactMethodContainer = () => {
 
   const validate = data => optionValues.includes(data?.[fieldName]);
 
+  const saveContactMethod = () => {
+    const {
+      apiRoute,
+      convertCleanDataToPayload,
+    } = getProfileInfoFieldAttributes(fieldName);
+    const payload = convertCleanDataToPayload(
+      {
+        [fieldName]: pageData.data[fieldName],
+      },
+      fieldName,
+    );
+
+    dispatch(openModal(null));
+    dispatch(
+      createSchedulingPreferencesUpdate({
+        route: apiRoute,
+        method: 'POST',
+        fieldName,
+        payload,
+        analyticsSectionName: 'scheduling-preferences-contact-method',
+        value: pageData.data,
+      }),
+    );
+    clearBeforeUnloadListener();
+  };
+
   const handlers = {
     cancel: () => {
       clearBeforeUnloadListener();
@@ -239,30 +266,8 @@ export const ContactMethodContainer = () => {
         setError(true);
         return;
       }
-      const {
-        apiRoute,
-        convertCleanDataToPayload,
-      } = getProfileInfoFieldAttributes(fieldName);
-      const payload = convertCleanDataToPayload(
-        {
-          [fieldName]: pageData.data[fieldName],
-        },
-        fieldName,
-      );
 
-      dispatch(openModal(null));
-      dispatch(
-        createSchedulingPreferencesUpdate({
-          route: apiRoute,
-          method: 'POST',
-          fieldName,
-          payload,
-          analyticsSectionName: 'scheduling-preferences-contact-method',
-          value: pageData.data,
-        }),
-      );
-
-      clearBeforeUnloadListener();
+      saveContactMethod();
 
       history.push(returnPath, {
         fieldInfo,
@@ -277,6 +282,25 @@ export const ContactMethodContainer = () => {
       }
 
       handlers.cancel();
+    },
+
+    updateContactInfo: () => {
+      if (!validate(pageData.data)) {
+        setError(true);
+        return;
+      }
+      // First save the contact method preference
+      saveContactMethod();
+
+      // Then navigate to the profile sub task flow to edit the related contact info field
+      const relatedField = getSchedulingPreferencesContactMethodDisplay(
+        fieldData,
+      );
+      history.push(
+        `${PROFILE_PATHS.EDIT}?returnPath=${encodeURIComponent(
+          returnPath,
+        )}&fieldName=${encodeURIComponent(relatedField.field)}`,
+      );
     },
   };
 
@@ -316,7 +340,7 @@ export const ContactMethodContainer = () => {
     buttons = (
       <VaButtonPair
         onPrimaryClick={handlers.save}
-        onSecondaryClick={handlers.cancel}
+        onSecondaryClick={handlers.updateContactInfo}
         leftButtonText="Confirm information"
         rightButtonText="Update information"
         data-testid="confirm-update-buttons"

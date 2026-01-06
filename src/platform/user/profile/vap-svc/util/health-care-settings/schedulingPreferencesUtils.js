@@ -208,14 +208,14 @@ export const convertSchedulingPreferencesToReduxFormat = items => {
   return formattedData;
 };
 
-export const getSchedulingPreferencesContactMethodDisplay = itemId => {
+export const getSchedulingPreferencesContactMethodDisplay = optionId => {
   const display = {
     title: getSchedulingPreferencesOptionDisplayName(
       FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
-      itemId,
+      optionId,
     ),
   };
-  switch (itemId) {
+  switch (optionId) {
     case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
       .TELEPHONE_MOBILE:
     case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
