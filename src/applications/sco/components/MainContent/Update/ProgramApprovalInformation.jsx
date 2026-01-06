@@ -10,45 +10,32 @@ const ProgramApprovalInformation = () => {
     >
       <li>
         <va-link
-          href="https://inquiry.vba.va.gov/weamspub/buildSearchInstitutionCriteria.do"
-          text="WEAMS Institution Search"
+          href="https://www.va.gov/education/gi-bill-comparison-tool/schools-and-employers"
+          text="GI Bill® Comparison Tool"
         />
         <p className="vads-u-margin-top--0">
-          Use the Web Enabled Approval Management System (WEAMS) to identify
-          educational institutions offering programs approved for Veterans
-          training.{' '}
-          <va-link
-            href="https://www.va.gov/education/gi-bill-comparison-tool/schools-and-employers"
-            text="Access this information using the GI Bill® Comparison Tool"
-          />
+          Use the GI Bill® Comparison Tool to identify educational institutions
+          offering programs approved for Veterans’ training.
         </p>
       </li>
       <li>
         <va-link
-          href="https://inquiry.vba.va.gov/weamspub/buildSearchCountryLCCriteria.do"
-          text="Licenses, certifications, and prep courses"
+          href="https://www.va.gov/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses"
+          text="Licensing & certification tests and test preparatory courses"
         />
         <p className="vads-u-margin-top--0">
-          Search WEAMS for approved licensing, certification and related
-          preparatory courses.{' '}
-          <va-link
-            href="https://www.va.gov/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses"
-            text="Access this information using the GI Bill® Comparison Tool"
-          />
+          Search GI Bill® Comparison Tool for approved licensing & certification
+          tests, and related test preparatory courses.
         </p>
       </li>
       <li>
         <va-link
-          href="https://inquiry.vba.va.gov/weamspub/buildSearchNE.do"
-          text="National exams"
+          href="https://www.va.gov/education/gi-bill-comparison-tool/national-exams"
+          text="National Exams"
         />
         <p className="vads-u-margin-top--0">
-          Search WEAMS to identify approved National Exams such as ACT, CLEP,
-          MCAT, and more.{' '}
-          <va-link
-            href="https://www.va.gov/education/gi-bill-comparison-tool/national-exams"
-            text="Access this information using the GI Bill® Comparison Tool"
-          />
+          Search GI Bill® Comparison Tool to identify approved National Exams
+          such as ACT, CLEP, MCAT, and more.
         </p>
       </li>
       <LiSpanAndVaLinkAndPTag
