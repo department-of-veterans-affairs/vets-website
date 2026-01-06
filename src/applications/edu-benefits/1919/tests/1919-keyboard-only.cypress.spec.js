@@ -3,35 +3,39 @@ import formConfig from '../config/form';
 
 describe('22-1919 Edu form', () => {
   it('should be keyboard-only navigable', () => {
-    beforeEach(function beforeEachHook() {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'form_1919_release',
-              value: true,
-            },
-          ],
-        },
-      });
-      cy.intercept('GET', '/v0/gi/institutions/*', {
-        data: {
-          attributes: {
-            name: 'INSTITUTE OF TESTING',
-            facilityCode: '10002000',
-            type: 'FOR PROFIT',
-            city: 'SAN FRANCISCO',
-            state: 'CA',
-            zip: '13579',
-            country: 'USA',
-            address1: '123 STREET WAY',
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'form_1919_release',
+            value: true,
           },
-        },
-      });
-
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+        ],
+      },
     });
+    cy.intercept('GET', '/v0/gi/institutions/*', {
+      data: {
+        attributes: {
+          name: 'INSTITUTE OF TESTING',
+          facilityCode: '10002000',
+          type: 'FOR PROFIT',
+          city: 'SAN FRANCISCO',
+          state: 'CA',
+          zip: '13579',
+          country: 'USA',
+          address1: '123 STREET WAY',
+        },
+      },
+    });
+
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+
+    // cy.intercept('POST', SUBMIT_URL, {
+    //   "attributes": {
+    //     "confirmationNumber": "123123123"
+    //   }
+    // });
 
     // Go to application, should go to Introduction page
     cy.visit(`${manifest.rootUrl}/introduction`);
