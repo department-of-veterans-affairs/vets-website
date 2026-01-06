@@ -239,11 +239,7 @@ describe('Email Confirmation Interstitial', () => {
     // Verify Add email button
     cy.get('va-link-action')
       .should('have.attr', 'text', 'Add email in profile')
-      .should(
-        'have.attr',
-        'href',
-        'https://va.gov/profile/contact-information',
-      );
+      .should('have.attr', 'href', '/profile/contact-information');
 
     // Verify Confirm button is not present
     cy.get('.confirm-button').should('not.exist');
