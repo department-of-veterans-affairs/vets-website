@@ -1,4 +1,4 @@
-export const hasMedicare = formData => formData['view:hasMedicare'];
+export const hasMedicare = formData => !!formData['view:hasMedicare'];
 
 export const hasPartsAB = formData =>
   hasMedicare(formData) && formData.medicarePlanType === 'ab';
@@ -23,4 +23,5 @@ export const needsPartADenialNotice = formData =>
   (!hasMedicare(formData) && formData['view:beneficiaryAgeOver65']);
 
 export const hasPartADenialNotice = formData =>
-  needsPartADenialNotice(formData) && formData.hasPartADenial;
+  needsPartADenialNotice(formData) &&
+  formData['view:hasPartADenial'].hasPartADenial;
