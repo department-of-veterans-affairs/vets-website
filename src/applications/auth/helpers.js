@@ -55,15 +55,13 @@ export const emailNeedsConfirmation = ({
 
   // Confirmation Date is null
   const hasNoConfirmationDate =
-    vet360ContactInformation?.email?.confirmationDate === null;
+    vet360ContactInformation?.email?.updatedAt === null;
 
   // Confirmation Date is before March 1, 2025
   const confirmationDateIsBefore =
     hasNoConfirmationDate === false
       ? isBefore(
-          parseISO(
-            userAttributes.vet360ContactInformation?.email?.confirmationDate,
-          ),
+          parseISO(userAttributes.vet360ContactInformation?.email?.updatedAt),
           beforeDate,
         )
       : false;

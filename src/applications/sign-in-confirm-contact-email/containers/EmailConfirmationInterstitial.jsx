@@ -35,6 +35,10 @@ export default function EmailConfirmationInterstitial() {
         email_address: emailAddress,
         // eslint-disable-next-line camelcase
         confirmation_date: new Date().toISOString(),
+        // eslint-disable-next-line camelcase
+        updated_at: new Date().toISOString(),
+        // eslint-disable-next-line camelcase
+        source_date: new Date().toISOString(),
       }),
       credentials: 'include',
       headers: {
