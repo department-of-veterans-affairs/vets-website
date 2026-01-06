@@ -179,6 +179,42 @@ describe('Compose form component', () => {
     });
   });
 
+  it('records analytics when user clears prefilled textarea', async () => {
+    window.dataLayer = [];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        preferences: signatureReducers.signatureEnabled,
+        threadDetails: {
+          ...threadDetailsReducer.threadDetails,
+          draftInProgress: {
+            ...threadDetailsReducer.threadDetails.draftInProgress,
+          },
+        },
+      },
+    };
+
+    const screen = setup(customState, Paths.COMPOSE, {
+      ...signatureReducers.signatureEnabled,
+    });
+
+    const messageEl = await screen.getByTestId('message-body-field');
+    // Ensure prefilled (signature) value is present
+    expect(messageEl).to.have.attribute('value');
+
+    // Clear the textarea value and dispatch input
+    messageEl.value = '';
+    messageEl.dispatchEvent(new Event('input', { bubbles: true }));
+
+    await waitFor(() => {
+      const hasClearedEvent = window.dataLayer?.some(
+        e => e?.event === 'sm_editor_prefill_cleared',
+      );
+      expect(hasClearedEvent).to.be.true;
+    });
+  });
+
   it('displays compose fields if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 

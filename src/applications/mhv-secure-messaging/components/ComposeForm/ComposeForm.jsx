@@ -105,6 +105,8 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [isAutoSave, setIsAutoSave] = useState(true);
+  const initialTextareaValueRef = useRef(undefined);
+  const prefillClearedReportedRef = useRef(false);
 
   const recipientExists = useCallback(
     recipientId => {
@@ -154,6 +156,14 @@ const ComposeForm = props => {
     },
     [dispatch],
   );
+
+  // Capture the initial value shown in the textarea (prefill), once on mount
+  useEffect(() => {
+    if (initialTextareaValueRef.current === undefined) {
+      initialTextareaValueRef.current = (messageBody || formattedSignature || '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(
     () => {
@@ -882,13 +892,23 @@ const ComposeForm = props => {
   };
 
   const messageBodyHandler = e => {
-    setMessageBody(e.target.value);
+    const newValue = e.target.value;
+    if (
+      newValue === '' &&
+      !prefillClearedReportedRef.current &&
+      initialTextareaValueRef.current &&
+      initialTextareaValueRef.current.length > 0
+    ) {
+      recordEvent({ event: 'sm_editor_prefill_cleared' });
+      prefillClearedReportedRef.current = true;
+    }
+    setMessageBody(newValue);
     dispatch(
       updateDraftInProgress({
-        body: e.target.value,
+        body: newValue,
       }),
     );
-    if (e.target.value) setBodyError('');
+    if (newValue) setBodyError('');
     setUnsavedNavigationError();
   };
 
