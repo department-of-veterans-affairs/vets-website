@@ -6,6 +6,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
+import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import constants from 'vets-json-schema/dist/constants.json';
 
@@ -15,7 +16,7 @@ import {
   addressUI,
   addressSchema,
   updateFormDataAddress,
-} from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   contactInfoDescription,
   contactInfoUpdateHelpDescription,
@@ -165,6 +166,22 @@ export const uiSchema = {
         isMilitary: 'view:livesOnMilitaryBase',
       },
     }),
+    'ui:title': 'Mailing address',
+    'ui:field': ReviewCardField,
+    'ui:options': {
+      ...addressUI({
+        keys: {
+          street: 'addressLine1',
+          street2: 'addressLine2',
+          street3: 'addressLine3',
+          postalCode: 'zipCode',
+          isMilitary: 'view:livesOnMilitaryBase',
+        },
+      })['ui:options'],
+      viewComponent: AddressViewField,
+      classNames:
+        'vads-web-component-pattern vads-web-component-pattern-address',
+    },
     // Override country field to display 'USA' instead of 'United States'
     country: {
       'ui:title': 'Country',
