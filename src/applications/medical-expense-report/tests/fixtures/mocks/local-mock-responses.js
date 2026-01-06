@@ -2,6 +2,7 @@
 const mockUser = require('./user.json');
 const features = require('./feature-flags');
 const submit = require('./completed.json');
+const mockItf = require('./mock-itf');
 
 const completedForm = require('./completed-form.json');
 
@@ -63,6 +64,16 @@ const responses = {
     });
   },
   'POST /medical_expense_reports/v0/form8416': submit,
+  'GET /v0/intent_to_file/pension': (req, res) => {
+    return res.json({
+      ...mockItf.getItf(),
+    });
+  },
+  'POST /v0/intent_to_file/pension': (req, res) => {
+    return res.json({
+      ...mockItf.postItf(),
+    });
+  },
 };
 
 module.exports = responses;
