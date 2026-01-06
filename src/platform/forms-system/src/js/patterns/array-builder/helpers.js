@@ -266,15 +266,18 @@ export function createArrayBuilderItemEditPath({ path, index, isReview }) {
   }`;
 }
 
-export function slugifyText(text) {
+export function slugifyText(text, { kebabCase = true } = {}) {
   if (!text) return '';
-  return text
-    .replace(/([a-z])([A-Z])/g, '$1-$2') // camelCase -> kebab-case
-    .toLowerCase()
-    .replace(/\s+/g, '-') // spaces -> dashes
-    .replace(/[^a-z0-9-]/g, '') // remove special chars
-    .replace(/-+/g, '-') // collapse multiple dashes
-    .replace(/^-+|-+$/g, ''); // trim leading/trailing dashes
+  let result = text;
+
+  if (kebabCase) {
+    // camel to kebab
+    result = result.replace(/([a-z])([A-Z])/g, '$1-$2');
+  }
+
+  result = result.toLowerCase().replace(/ /g, '-');
+  result = result.replace(/^-+|-+$/g, '');
+  return result;
 }
 
 /**
@@ -595,10 +598,14 @@ export const processArrayData = array => {
   if (!Array.isArray(array)) {
     throw new Error('Processing array data requires an array', array);
   }
-  // Make sure we're not slugifying strings with only spaces
-  return slugifyText(
-    array.map(item => (item || '').toString().trim()).join(';'),
-  );
+  // Slugify each item individually, then join with semicolons
+  // We need to preserve semicolons as separators between items
+  // Use kebabCase: false to preserve original duplicate check behavior (just lowercase)
+  return array
+    .map(item =>
+      slugifyText((item || '').toString().trim(), { kebabCase: false }),
+    )
+    .join(';');
 };
 
 /**

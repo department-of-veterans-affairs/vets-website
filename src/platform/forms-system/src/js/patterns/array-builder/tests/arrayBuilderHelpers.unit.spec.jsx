@@ -575,26 +575,37 @@ describe('slugifyText', () => {
   });
 
   describe('features', () => {
-    it('should convert camelCase to kebab-case', () => {
+    it('should convert camelCase to kebab-case by default', () => {
       expect(helpers.slugifyText('employerName')).to.equal('employer-name');
       expect(helpers.slugifyText('myVeryLongCamelCaseString')).to.equal(
         'my-very-long-camel-case-string',
       );
     });
 
-    it('should remove special characters', () => {
-      expect(helpers.slugifyText('name (with) parens')).to.equal(
-        'name-with-parens',
-      );
-      expect(helpers.slugifyText('test!@#$%^&*()test')).to.equal('testtest');
+    it('should preserve camelCase (just lowercase) when kebabCase is false', () => {
+      expect(
+        helpers.slugifyText('employerName', { kebabCase: false }),
+      ).to.equal('employername');
+      expect(
+        helpers.slugifyText('myVeryLongCamelCaseString', { kebabCase: false }),
+      ).to.equal('myverylongcamelcasestring');
     });
 
-    it('should collapse multiple spaces and dashes', () => {
+    it('should preserve special characters', () => {
+      expect(helpers.slugifyText('name (with) parens')).to.equal(
+        'name-(with)-parens',
+      );
+      expect(helpers.slugifyText('test!@#$%^&*()test')).to.equal(
+        'test!@#$%^&*()test',
+      );
+    });
+
+    it('should preserve multiple spaces as multiple dashes', () => {
       expect(helpers.slugifyText('multiple  spaces')).to.equal(
-        'multiple-spaces',
+        'multiple--spaces',
       );
       expect(helpers.slugifyText('too---many---dashes')).to.equal(
-        'too-many-dashes',
+        'too---many---dashes',
       );
     });
 
@@ -602,7 +613,7 @@ describe('slugifyText', () => {
       expect(helpers.slugifyText('')).to.equal('');
       expect(helpers.slugifyText(null)).to.equal('');
       expect(helpers.slugifyText(undefined)).to.equal('');
-      expect(helpers.slugifyText('   ')).to.equal('');
+      expect(helpers.slugifyText('   ', { trim: true })).to.equal('');
       expect(helpers.slugifyText('test 123 name')).to.equal('test-123-name');
     });
   });
