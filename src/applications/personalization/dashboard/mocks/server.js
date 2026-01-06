@@ -68,7 +68,7 @@ const responses = {
       case 'loa1NoEmail':
         return res.status(200).json(user.loa1UserWithNoEmail); // This is an LOA1 user with no email
       default:
-        return res.status(200).json({});
+        return res.status(200).json('');
     }
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
@@ -83,7 +83,7 @@ const responses = {
       case 'failure':
         return res.status(500).json(user81ErrorCopays);
       default:
-        return res.status(200).json({});
+        return res.status(200).json('');
     }
   },
   'GET /v0/profile/payment_history': (req, res) => {
@@ -96,7 +96,7 @@ const responses = {
       case 'failure':
         return res.status(500).json(createFailurePayment());
       default:
-        return res.status(200).json({});
+        return res.status(200).json('');
     }
   },
   'GET /v0/profile/service_history': {
@@ -128,7 +128,7 @@ const responses = {
       case 'failure':
         return res.status(400).json(createAppealsFailure());
       default:
-        return res.status(200).json({});
+        return '';
     }
   },
   'GET /v0/benefits_claims': (_req, res) => {
@@ -141,7 +141,7 @@ const responses = {
       case 'failure':
         return res.status(400).json(createClaimsFailure());
       default:
-        return res.status(200).json({});
+        return '';
     }
   },
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
@@ -157,7 +157,7 @@ const responses = {
           .status(500)
           .json({ error: 'Failed to fetch message folders' });
       default:
-        return res.status(200).json({});
+        return res.status(200).json('');
     }
   },
   'GET /v0/my_va/submission_statuses': createApplications(),
@@ -201,7 +201,7 @@ const responses = {
       case 'failure':
         return res.status(500).json(createDebtsFailure());
       default:
-        return res.status(200).json({});
+        return res.status(200).json('');
     }
   },
   'GET /v0/onsite_notifications': notifications.hasMultiple,
@@ -233,7 +233,7 @@ const responses = {
       case 'failure':
         return res.status(400).json(createDisabilityRatingFailure());
       default:
-        return res.status(200).json({});
+        return '';
     }
   },
   'GET /vaos/v2/appointments': (_req, res) => {
@@ -246,7 +246,7 @@ const responses = {
       case 'empty':
         return res.status(200).json({ data: [] });
       default:
-        return res.status(200).json({});
+        return '';
     }
   },
   'GET /data/cms/vamc-ehr.json': vamcEhr,
