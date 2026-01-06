@@ -5,11 +5,9 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
-  selectMerge1995And5490,
   selectShowEduBenefits1995Wizard,
   selectMeb1995Reroute,
 } from './selectors/featureToggles';
-import { useSetToggleParam } from '../hooks/useSetToggleParam';
 import formConfig from './config/form';
 
 function Form1995Entry({
@@ -17,7 +15,6 @@ function Form1995Entry({
   claimantCurrentBenefit,
   formData,
   location,
-  mergeFlag,
   rerouteFlag,
   rudisillFlag,
   setFormData,
@@ -25,7 +22,15 @@ function Form1995Entry({
   const { useToggleLoadingValue } = useFeatureToggle();
   const isLoadingToggles = useToggleLoadingValue();
 
-  useSetToggleParam(mergeFlag, rudisillFlag);
+  // Store Rudisill flag in sessionStorage for helpers.jsx usage
+  useEffect(
+    () => {
+      if (rudisillFlag !== undefined) {
+        sessionStorage.setItem('isRudisill1995', JSON.stringify(rudisillFlag));
+      }
+    },
+    [rudisillFlag],
+  );
 
   useEffect(
     () => {
@@ -69,10 +74,21 @@ function Form1995Entry({
 
   const formKey = rerouteFlag ? 'reroute' : 'legacy';
 
+  const modifiedConfig = {
+    ...formConfig,
+    chapters: {
+      ...formConfig.chapters,
+      questionnaire: {
+        ...formConfig.chapters.questionnaire,
+        hideFormNavProgress: rerouteFlag === true,
+      },
+    },
+  };
+
   return (
     <RoutedSavableApp
       key={formKey}
-      formConfig={formConfig}
+      formConfig={modifiedConfig}
       currentLocation={location}
     >
       {children}
@@ -89,7 +105,6 @@ Form1995Entry.propTypes = {
   claimantCurrentBenefit: PropTypes.string,
   formData: PropTypes.object,
   location: PropTypes.object,
-  mergeFlag: PropTypes.bool,
   rerouteFlag: PropTypes.bool,
   rudisillFlag: PropTypes.bool,
 };
@@ -98,7 +113,6 @@ const mapStateToProps = state => ({
   claimantCurrentBenefit:
     state.data?.claimantInfo?.data?.attributes?.claimant?.currentBenefitType,
   formData: state.form?.data || {},
-  mergeFlag: selectMerge1995And5490(state),
   rerouteFlag: selectMeb1995Reroute(state),
   rudisillFlag: selectShowEduBenefits1995Wizard(state),
 });

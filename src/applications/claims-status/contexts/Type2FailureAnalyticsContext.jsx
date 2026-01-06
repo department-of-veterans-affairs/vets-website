@@ -7,7 +7,7 @@ import React, {
   useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
-import { recordType2FailureEventListPage } from '../utils/analytics';
+import { recordType2FailureEvent } from '../utils/analytics';
 
 const Type2FailureAnalyticsContext = createContext(null);
 
@@ -51,7 +51,7 @@ export function Type2FailureAnalyticsProvider({ children }) {
     const count = registeredAlertsRef.current.size;
     // Only fire if we have alerts and haven't fired yet
     if (count > 0 && !hasFiredRef.current) {
-      recordType2FailureEventListPage({ count });
+      recordType2FailureEvent({ count });
 
       hasFiredRef.current = true;
     }

@@ -34,9 +34,9 @@ export default function ScheduleWithDifferentProvider({
       <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-margin-top--1">
         Option 1: Request your preferred date and time online
       </h3>
-      <p className="vads-u-margin-top--0">
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
         We’ll contact you within 2 business days after we receive your request
-        and help you finish scheduling your appointment.
+        to help you finish scheduling your appointment.
       </p>
       <va-link
         active
@@ -50,7 +50,7 @@ export default function ScheduleWithDifferentProvider({
       />
 
       <h3
-        className="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-margin-top--1"
+        className="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-margin-top--3"
         data-testid="cc-eligible-header"
       >
         Option 2: Call the facility
@@ -59,7 +59,10 @@ export default function ScheduleWithDifferentProvider({
         Call and ask to schedule with that provider:{' '}
         <FacilityPhone contact={facilityPhone} icon={false} />
       </p>
-      <hr aria-hidden="true" className="vads-u-margin-y--2" />
+      <hr
+        aria-hidden="true"
+        className="vads-u-margin-y--2 vads-u-border-color--gray-medium"
+      />
     </>
   );
 }
