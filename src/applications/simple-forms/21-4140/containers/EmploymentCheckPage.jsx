@@ -251,7 +251,8 @@ const EmploymentCheckPage = ({
         Were you employed or self-employed at any time in the past 12 months?
       </h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
-        If you have employment to report, you'll need to add at least one employer. You can add up to four.
+        If you have employment to report, you'll need to add at least one
+	  employer. You can add up to four.
       </p>
       <VaRadio
         name="employment-check"
