@@ -8,6 +8,7 @@ import HubCardList from '../components/HubCardList';
 import NeedHelp from '../components/NeedHelp';
 import AppointmentScheduledAlert from '../components/AppointmentScheduledAlert';
 import CaseProgressDescription from '../components/CaseProgressDescription';
+import ApplicationDiscontinuedAlert from '../components/ApplicationDiscontinuedAlert';
 
 const stepLabels = [
   'Application Received',
@@ -103,6 +104,11 @@ const MyCaseManagementHub = () => {
     );
   }
 
+  const isDiscontinued =
+    caseStatusDetails?.attributes?.externalStatus?.isDiscontinued;
+  const discontinuedReason =
+    caseStatusDetails?.attributes?.externalStatus?.discontinuedReason;
+
   return (
     <div className="row">
       <div className="vads-u-margin-top--0p5 vads-u-margin-x--1 vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--0">
@@ -117,8 +123,12 @@ const MyCaseManagementHub = () => {
         <h2>Chapter 31 Case Progress</h2>
 
         {showAppointmentAlert && <AppointmentScheduledAlert />}
+        {isDiscontinued && (
+          <ApplicationDiscontinuedAlert
+            discontinuedReason={discontinuedReason}
+          />
+        )}
 
-        {/* <ApplicationDiscontinuedAlert /> */}
         <div className="usa-width-one-whole vads-u-margin-top--2">
           <va-segmented-progress-bar
             counters="small"

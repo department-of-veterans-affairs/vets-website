@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const ApplicationDiscontinuedAlert = () => {
+const ApplicationDiscontinuedAlert = ({ discontinuedReason }) => {
   return (
     <div className="usa-width-two-thirds vads-u-margin-y--3">
       <va-alert
@@ -16,7 +17,7 @@ const ApplicationDiscontinuedAlert = () => {
         </p>
         <p>
           Your application has been discontinued and it’s ineligible for Chapter
-          31 benefits for the following reason:
+          31 benefits for the following reason: {discontinuedReason}
         </p>
         <p>
           More information can be found in your letter and you can download a
@@ -33,6 +34,10 @@ const ApplicationDiscontinuedAlert = () => {
       </va-alert>
     </div>
   );
+};
+
+ApplicationDiscontinuedAlert.propTypes = {
+  discontinuedReason: PropTypes.string,
 };
 
 export default ApplicationDiscontinuedAlert;
