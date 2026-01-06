@@ -75,15 +75,11 @@ const formConfig = {
   version: 0,
   // or prefill-transformer from PR
   // https://github.com/department-of-veterans-affairs/vets-website/commit/7f49c3bdc4d1aeda2a81f74cd2735e93ff9a55fa#diff-3af1e5e44b3300d11a660f138dcdc67d2a15d1317c96c392139ba2801929fd87R1-R46
-  prefillTransformer(pages, formData, metadata) {
-    const { dateOfBirth, firstName, middleName, lastName, ssn, vaFileNumber } =
-      formData?.data?.attributes?.veteran || {};
-
+  prefillTransformer: (pages, formData, metadata) => {
+    const { ssn, vaFileNumber } = formData?.data?.attributes?.veteran || {};
     return {
       metadata,
       formData: {
-        dateOfBirth,
-        fullName: `${firstName} ${middleName} ${lastName}`,
         ssn,
         vaFileNumber,
       },
