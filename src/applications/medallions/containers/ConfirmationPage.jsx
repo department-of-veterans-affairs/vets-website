@@ -2,39 +2,143 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
+import classNames from 'classnames';
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import {
+  VaProcessList,
+  VaProcessListItem,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import recordEvent from 'platform/monitoring/record-event';
 
-const HowToContactContent = () => (
-  <>
-    <p>
-      Call us at <va-telephone contact="8005351117" /> (
-      <va-telephone tty="true" contact={CONTACTS[711]} />
-      ). We’re here Monday through Friday, 8:00 a.m. to 7:30 p.m. ET, and
-      Saturday 9:00 a.m. to 5:30 p.m. ET.
-    </p>
-    <p>
-      Or, check our resources and support section for answers to common
-      questions.
-    </p>
-    <p>
-      <va-link
-        external
-        href="https://ask.va.gov/"
-        text="Go to resources and support section on VA.gov"
+const PrintThisPage = ({ className = '' }) => {
+  const onPrintPageClick = () => {
+    window.print();
+  };
+
+  return (
+    <div
+      className={classNames(
+        'confirmation-print-this-page-section',
+        'screen-only',
+        className,
+      )}
+    >
+      <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
+      <p>
+        If you’d like to keep a copy of the information on this page, you can
+        print it now. You won’t be able to access this page later.
+      </p>
+      <va-button
+        onClick={onPrintPageClick}
+        text="Print this page for your records"
       />
-    </p>
-  </>
-);
+    </div>
+  );
+};
+
+const WhatsNextProcessList = ({
+  trackingPrefix,
+  className = '',
+  item1Header,
+  item1Content,
+  item1Actions,
+  item2Header,
+  item2Content,
+  item3Header,
+  item3Content,
+}) => {
+  const onCheckVaStatusClick = () => {
+    recordEvent({
+      event: `${trackingPrefix}confirmation-check-status-my-va`,
+    });
+  };
+
+  const item1 = (
+    <VaProcessListItem
+      header={
+        item1Header || 'We’ll confirm when we receive your form in our system'
+      }
+    >
+      {item1Content === undefined ? (
+        <p>
+          This can take up to 30 days. When we receive your form, we’ll update
+          the status on My VA.
+        </p>
+      ) : (
+        item1Content
+      )}
+      {item1Actions === undefined ? (
+        <p>
+          <va-link
+            href="/my-va#benefit-applications"
+            onClick={onCheckVaStatusClick}
+            text="Check the status of your form on My VA"
+          />
+        </p>
+      ) : (
+        item1Actions
+      )}
+    </VaProcessListItem>
+  );
+
+  const item2 = (
+    <VaProcessListItem
+      header={item2Header || 'We’ll review your form'}
+      className="vads-u-margin-bottom--neg2"
+    >
+      {item2Content === undefined ? (
+        <p>
+          If we need more information after reviewing your form, we’ll contact
+          you.
+        </p>
+      ) : (
+        item2Content
+      )}
+    </VaProcessListItem>
+  );
+
+  const item3 = (
+    <VaProcessListItem
+      header={item3Header || 'We’ll review your form'}
+      className="vads-u-margin-bottom--neg2"
+    >
+      {item3Content === undefined ? (
+        <p>
+          If we need more information after reviewing your form, we’ll contact
+          you.
+        </p>
+      ) : (
+        item3Content
+      )}
+    </VaProcessListItem>
+  );
+
+  // Add additional customization as needed
+  return (
+    <div
+      className={classNames(
+        'confirmation-whats-next-process-list-section',
+        className,
+      )}
+    >
+      <h2>What to expect</h2>
+      <VaProcessList>
+        {item1}
+        {item2}
+        {item3}
+      </VaProcessList>
+    </div>
+  );
+};
 
 const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const { formConfig } = props?.route;
   const submitDate = submission?.timestamp || submission?.submittedAt;
-  const confirmationNumber = submission?.response?.confirmationNumber || '';
+  const confirmationNumber = submission?.response?.confirmationNumber || 'N/A'; // Default to 'N/A' if empty
 
   useEffect(() => {
     scrollToTop('topScrollElement');
@@ -52,8 +156,8 @@ const ConfirmationPage = props => {
       }
     >
       <ConfirmationView.SubmissionAlert
-        title="You’ve submitted your application"
-        content="You’ll receive a confirmation email shortly. We’ll let you know by mail or phone if we need more details."
+        title="We sent your application to the cemetery"
+        content={`Your confirmation number is ${confirmationNumber}`}
         actions={null}
       />
       <ConfirmationView.SavePdfDownload
@@ -61,13 +165,31 @@ const ConfirmationPage = props => {
         content="If you’d like a PDF copy of your completed application, you can download it."
       />
       <ConfirmationView.ChapterSectionCollection header="Information you submitted on this application" />
-      <ConfirmationView.PrintThisPage />
-      <ConfirmationView.WhatsNextProcessList
-        item1Header="We’ll review your application"
-        item1Content="If we need more information about your information, we’ll contact you."
+      <PrintThisPage />
+      <WhatsNextProcessList
+        item1Header="We’ll send your application to the Veteran’s cemetery"
+        item1Content={
+          <>
+            We’ll ask the representative from the Veteran’s cemetery to review
+            and sign your application. They’ll also need to provide a delivery
+            address for the medallion.
+            <br />
+            They must sign it before your application expires on{' '}
+            {new Date(
+              new Date(submitDate).setDate(new Date(submitDate).getDate() + 30),
+            ).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+            .
+          </>
+        }
         item1Actions={null}
-        item2Header="We’ll reach a decision"
-        item2Content="You’ll receive a pre-need decision letter notifying you of your eligibility for burial in a VA national cemetery."
+        item2Header="We’ll review your application"
+        item2Content="If we need more information about your application, we’ll contact you. If we don’t approve your application, we’ll mail you a letter with our decision. This can take up to 30 days."
+        item3Header="We’ll mail the medallion"
+        item3Content="If we approve your application, we’ll send the medallion to the delivery address provided by the representative from the Veteran’s cemetery. This can take up to 60 days."
       />
       <h2>If you need to submit supporting documents</h2>
       <p className="mail-or-fax-message">
@@ -82,21 +204,31 @@ const ConfirmationPage = props => {
       </p>
       <p>
         Or, you can fax your supporting documents to{' '}
-        <va-telephone contact="8558408299" />.
+        <va-international-phone contact="18004557143" />.
       </p>
       <p>
         <strong>Note: </strong>
-        Don’t submit your original documents. We can’t return them. Submit
-        copies of your documents only.
+        Don’t submit your original documents by mail. We can’t return them.
+        Submit copies of your documents only.
       </p>
       <p>
         <va-link
           external
-          href="https://www.cem.va.gov/hmm/discharge_documents.asp"
+          href="https://www.va.gov/supporting-forms-for-claims/"
           text="Learn more about the supporting documents you can submit"
         />
       </p>
-      <ConfirmationView.HowToContact content={<HowToContactContent />} />
+      <h2>Rescoures and Support</h2>
+      <p>
+        Check our resources and support section for answers to common questions.
+      </p>
+      <p>
+        <va-link
+          external
+          href="https://ask.va.gov/"
+          text="Go to resources and support section on VA.gov"
+        />
+      </p>
       <ConfirmationView.GoBackLink />
     </ConfirmationView>
   );
