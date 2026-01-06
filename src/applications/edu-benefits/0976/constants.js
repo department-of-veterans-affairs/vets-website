@@ -6,8 +6,4 @@ export const INSTITUTION_TYPES = {
   PUBLIC: 'Public institution',
   'FOR PROFIT': 'Private for profit institution',
   PRIVATE: 'Private non profit institution',
-  OJT: 'Other', // TODO?
-  FLIGHT: 'Other', // TODO?
-  FOREIGN: 'Other', // TODO?
-  CORRESPONDENCE: 'Other', // TODO?
 };
