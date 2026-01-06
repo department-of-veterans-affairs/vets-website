@@ -116,8 +116,8 @@ export const makeSchemaForRatedDisabilitiesInNewDisabilities = createSelector(
   formData =>
     Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
 
-  (newRatedDisabilities = []) => {
-    const raw = newRatedDisabilities
+  (newDisabilities = []) => {
+    const raw = newDisabilities
       .map(d => {
         const condition =
           typeof d?.condition === 'string' ? d.condition.trim() : '';
@@ -126,11 +126,11 @@ export const makeSchemaForRatedDisabilitiesInNewDisabilities = createSelector(
           typeof d?.ratedDisability === 'string'
             ? d.ratedDisability.trim()
             : '';
-        if (!ratedDisability || !isPlaceholderRated(condition)) {
-          return '';
+        if (isPlaceholderRated(condition) && ratedDisability) {
+          return ratedDisability;
         }
 
-        return ratedDisability;
+        return '';
       })
       .filter(s => s.length > 0);
 
