@@ -6,6 +6,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
+import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { fetchClaimantInfo } from '../actions';
 import { selectMeb1995Reroute } from '../selectors/featureToggles';
 
@@ -16,6 +17,43 @@ export const IntroductionPageRedirect = ({ route, router }) => {
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
+    const updateSignInAlertCopy = async () => {
+      const alertContent = await querySelectorWithShadowRoot(
+        '.va-alert-sign-in__body',
+        'va-alert-sign-in',
+      );
+
+      if (!alertContent) return;
+      alertContent.innerHTML = `
+        <h2 class="headline">Sign in with a verified account</h2>
+        <p>
+          Here’s how signing in with an identity-verified account helps you:
+        </p>
+        <ul>
+          <li>
+            We can fill in some of your information for you to save you time.
+          </li>
+        </ul>
+        <p>
+          <strong>Don’t yet have a verified account?</strong> Create a
+          <strong>Login.gov</strong> or <strong>ID.me</strong> account.
+          We’ll help you verify your identity for your account now.
+        </p>
+        <p>
+          <strong>Not sure if your account is verified?</strong> Sign in here.
+          If you still need to verify your identity, we’ll help you do that now.
+        </p>
+        <p>
+          <strong>Note:</strong> You can sign in after you start filling out
+          your questionnaire. But you’ll lose any information you already filled in.
+        </p>
+        <p>
+          <slot name="SignInButton"></slot>
+        </p>
+      `;
+    };
+
+    updateSignInAlertCopy();
   }, []);
 
   const handleStartQuestionnaire = useCallback(
@@ -36,7 +74,8 @@ export const IntroductionPageRedirect = ({ route, router }) => {
         messages={route.formConfig.savedFormMessages}
         pageList={route.pageList}
         startText="Start your questionnaire"
-        unauthStartText="Sign in to get started"
+        formConfig={{ customText: { appType: 'questionnaire' } }}
+        unauthStartText="Sign in or create an account"
       />
     ),
     [
