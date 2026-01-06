@@ -333,7 +333,7 @@ describe('dynamically updating healthcare system', () => {
     cy.findByTestId('compose-recipient-combobox')
       .shadow()
       .find('input')
-      .should('have.value', 'TG-7410');
+      .should('have.value', '###ABC_XYZ_TRIAGE_TEAM###');
 
     cy.findByTestId('compose-recipient-combobox')
       .shadow()
