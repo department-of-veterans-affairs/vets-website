@@ -151,7 +151,7 @@ const ResultDescription = ({
       }/education/apply-for-education-benefits/application/1995/introduction`}
       text="Restart questionnaire"
       class="vads-u-display--block vads-u-margin-top--3"
-    />   
+    />
   </div>
 );
 
