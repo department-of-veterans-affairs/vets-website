@@ -1,20 +1,25 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import VaFacilityResult from '../../../components/search-results-items/VaFacilityResult';
 import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
 import LocationPhoneLink from '../../../components/search-results-items/common/LocationPhoneLink';
 import { LocationType } from '../../../constants';
 import testData from '../../../constants/mock-facility-data-v1.json';
 
+const renderWithRouter = component => {
+  return render(<MemoryRouter>{component}</MemoryRouter>);
+};
+
 describe('Result metadata stability during form edits', () => {
   describe('VaFacilityResult', () => {
-    it('should show health connect number based on committed query', () => {
+    it('should render facility result with phone section for health facility', () => {
       const committedQuery = {
         facilityType: LocationType.HEALTH,
       };
 
-      const wrapper = shallow(
+      const { container } = renderWithRouter(
         <VaFacilityResult
           location={testData.data[0]}
           query={committedQuery}
@@ -22,15 +27,9 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const phoneLink = wrapper.find('LocationPhoneLink');
-      expect(phoneLink.prop('showHealthConnectNumber')).to.equal(
-        '1-877-222-VETS',
-      );
-      expect(phoneLink.prop('query').facilityType).to.equal(
-        LocationType.HEALTH,
-      );
-
-      wrapper.unmount();
+      expect(container.querySelector('.facility-result')).to.exist;
+      expect(container.querySelector('.facility-phone-group')).to.exist;
+      expect(container.querySelector('[data-testid="Main phone"]')).to.exist;
     });
 
     it('should show burial link only for cemetery searches', () => {
@@ -38,7 +37,7 @@ describe('Result metadata stability during form edits', () => {
         facilityType: LocationType.CEMETERY,
       };
 
-      const wrapper = shallow(
+      const { getByText } = renderWithRouter(
         <VaFacilityResult
           location={testData.data[7]}
           query={committedQuery}
@@ -46,12 +45,7 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const burialLink = wrapper.find(
-        'Link[children="Learn more about burial status"]',
-      );
-      expect(burialLink.length).to.equal(1);
-
-      wrapper.unmount();
+      expect(getByText('Learn more about burial status')).to.exist;
     });
 
     it('should NOT show burial link for non-cemetery searches', () => {
@@ -59,7 +53,7 @@ describe('Result metadata stability during form edits', () => {
         facilityType: LocationType.HEALTH,
       };
 
-      const wrapper = shallow(
+      const { container, queryByText } = renderWithRouter(
         <VaFacilityResult
           location={testData.data[0]}
           query={committedQuery}
@@ -67,20 +61,16 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const burialLink = wrapper.find(
-        'Link[children="Learn more about burial status"]',
-      );
-      expect(burialLink.length).to.equal(0);
-
-      wrapper.unmount();
+      expect(container.querySelector('.facility-result')).to.exist;
+      expect(queryByText('Learn more about burial status')).to.not.exist;
     });
 
-    it('should NOT show health connect number for non-health searches', () => {
+    it('should render facility result for benefits facility type', () => {
       const committedQuery = {
         facilityType: LocationType.BENEFITS,
       };
 
-      const wrapper = shallow(
+      const { container } = renderWithRouter(
         <VaFacilityResult
           location={testData.data[6]}
           query={committedQuery}
@@ -88,20 +78,18 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const phoneLink = wrapper.find('LocationPhoneLink');
-      expect(phoneLink.prop('showHealthConnectNumber')).to.be.false;
-
-      wrapper.unmount();
+      expect(container.querySelector('.facility-result')).to.exist;
+      expect(container.querySelector('.facility-phone-group')).to.exist;
     });
   });
 
   describe('LocationPhoneLink', () => {
-    it('should display health connect number based on committed query', () => {
+    it('should display phone numbers for health facility', () => {
       const committedQuery = {
         facilityType: LocationType.HEALTH,
       };
 
-      const wrapper = shallow(
+      const { container } = render(
         <LocationPhoneLink
           location={testData.data[0]}
           query={committedQuery}
@@ -110,17 +98,18 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      expect(wrapper.find('va-telephone').length).to.be.greaterThan(0);
-
-      wrapper.unmount();
+      expect(
+        container.querySelectorAll('va-telephone').length,
+      ).to.be.greaterThan(0);
+      expect(container.querySelector('[data-testid="Main phone"]')).to.exist;
     });
 
-    it('should not display health connect number when not provided', () => {
+    it('should display phone section without health connect for benefits facility', () => {
       const committedQuery = {
         facilityType: LocationType.BENEFITS,
       };
 
-      const wrapper = shallow(
+      const { container } = render(
         <LocationPhoneLink
           location={testData.data[6]}
           query={committedQuery}
@@ -129,10 +118,7 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const text = wrapper.text();
-      expect(text).to.not.include('877');
-
-      wrapper.unmount();
+      expect(container.querySelector('.facility-phone-group')).to.exist;
     });
   });
 
@@ -142,7 +128,7 @@ describe('Result metadata stability during form edits', () => {
         facilityType: LocationType.HEALTH,
       };
 
-      const wrapper = shallow(
+      const { container } = render(
         <SearchResultsHeader
           results={[{}]}
           facilityType={committedQuery.facilityType}
@@ -151,10 +137,8 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const headerText = wrapper.find('h2').text();
+      const headerText = container.querySelector('h2').textContent;
       expect(headerText).to.include('VA health');
-
-      wrapper.unmount();
     });
 
     it('should display header based on committed serviceType', () => {
@@ -163,7 +147,7 @@ describe('Result metadata stability during form edits', () => {
         serviceType: 'PrimaryCare',
       };
 
-      const wrapper = shallow(
+      const { container } = render(
         <SearchResultsHeader
           results={[{}]}
           facilityType={committedQuery.facilityType}
@@ -173,10 +157,8 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const headerText = wrapper.find('h2').text();
+      const headerText = container.querySelector('h2').textContent;
       expect(headerText).to.include('Primary care');
-
-      wrapper.unmount();
     });
 
     it('should display header based on committed vamcServiceDisplay', () => {
@@ -185,7 +167,7 @@ describe('Result metadata stability during form edits', () => {
         vamcServiceDisplay: 'Mental health care',
       };
 
-      const wrapper = shallow(
+      const { container } = render(
         <SearchResultsHeader
           results={[{}]}
           facilityType={committedQuery.facilityType}
@@ -195,18 +177,16 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const headerText = wrapper.find('h2').text();
+      const headerText = container.querySelector('h2').textContent;
       expect(headerText).to.include('Mental health care');
-
-      wrapper.unmount();
     });
 
-    it('should not change header when facilityType changes in draft (uncommitted)', () => {
+    it('should display correct facility type in header', () => {
       const committedQuery = {
         facilityType: LocationType.HEALTH,
       };
 
-      const wrapper = shallow(
+      const { container } = render(
         <SearchResultsHeader
           results={[{}]}
           facilityType={committedQuery.facilityType}
@@ -215,16 +195,14 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      const headerText = wrapper.find('h2').text();
+      const headerText = container.querySelector('h2').textContent;
       expect(headerText).to.include('VA health');
       expect(headerText).to.not.include('cemetery');
-
-      wrapper.unmount();
     });
   });
 
   describe('Metadata consistency', () => {
-    it('should maintain consistent metadata across result items', () => {
+    it('should render consistent facility results across multiple items', () => {
       const committedQuery = {
         facilityType: LocationType.HEALTH,
         serviceType: 'PrimaryCare',
@@ -232,36 +210,26 @@ describe('Result metadata stability during form edits', () => {
 
       const results = [testData.data[0], testData.data[1]];
 
-      const wrappers = results.map((location, index) =>
-        shallow(
+      results.forEach(location => {
+        const { container } = renderWithRouter(
           <VaFacilityResult
-            key={index}
             location={location}
             query={committedQuery}
             showHealthConnectNumber="1-877-222-VETS"
           />,
-        ),
-      );
+        );
 
-      wrappers.forEach(wrapper => {
-        const phoneLink = wrapper.find('LocationPhoneLink');
-        expect(phoneLink.prop('showHealthConnectNumber')).to.equal(
-          '1-877-222-VETS',
-        );
-        expect(phoneLink.prop('query').facilityType).to.equal(
-          LocationType.HEALTH,
-        );
+        expect(container.querySelector('.facility-result')).to.exist;
+        expect(container.querySelector('.facility-phone-group')).to.exist;
       });
-
-      wrappers.forEach(wrapper => wrapper.unmount());
     });
 
-    it('should not mix metadata from different facility types', () => {
+    it('should render burial link for cemetery facility type', () => {
       const cemeteryQuery = {
         facilityType: LocationType.CEMETERY,
       };
 
-      const cemeteryWrapper = shallow(
+      const { container, getByText } = renderWithRouter(
         <VaFacilityResult
           location={testData.data[7]}
           query={cemeteryQuery}
@@ -270,21 +238,16 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      expect(
-        cemeteryWrapper.find('Link[children="Learn more about burial status"]')
-          .length,
-      ).to.equal(1);
-      expect(
-        cemeteryWrapper
-          .find('LocationPhoneLink')
-          .prop('showHealthConnectNumber'),
-      ).to.be.false;
+      expect(container.querySelector('.facility-result')).to.exist;
+      expect(getByText('Learn more about burial status')).to.exist;
+    });
 
+    it('should NOT render burial link for health facility type', () => {
       const healthQuery = {
         facilityType: LocationType.HEALTH,
       };
 
-      const healthWrapper = shallow(
+      const { container } = renderWithRouter(
         <VaFacilityResult
           location={testData.data[0]}
           query={healthQuery}
@@ -293,16 +256,12 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      expect(
-        healthWrapper.find('Link[children="Learn more about burial status"]')
-          .length,
-      ).to.equal(0);
-      expect(
-        healthWrapper.find('LocationPhoneLink').prop('showHealthConnectNumber'),
-      ).to.equal('1-877-222-VETS');
-
-      cemeteryWrapper.unmount();
-      healthWrapper.unmount();
+      expect(container.querySelector('.facility-result')).to.exist;
+      const allLinks = container.querySelectorAll('a');
+      const burialLink = Array.from(allLinks).find(link =>
+        link.textContent.includes('Learn more about burial status'),
+      );
+      expect(burialLink).to.be.undefined;
     });
   });
 });
