@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 // platform level imports
-import { redirect } from '../../../authentication/utilities';
 import recordEvent from '../../../../monitoring/record-event';
 import { isVAPatient } from '../../../selectors';
 import { waitForRenderThenFocus } from '../../../../utilities/ui';
@@ -298,13 +298,13 @@ class ProfileInformationFieldController extends React.Component {
     if (isSubtaskSchedulingPreference(this.props.fieldName)) {
       switch (this.props.fieldName) {
         case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
-          redirect(SCHEDULING_PREF_PATHS.CONTACT_METHOD);
+          this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_METHOD);
           break;
         case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
-          redirect(SCHEDULING_PREF_PATHS.CONTACT_TIMES);
+          this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_TIMES);
           break;
         case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
-          redirect(SCHEDULING_PREF_PATHS.APPOINTMENT_TIMES);
+          this.props.history.push(SCHEDULING_PREF_PATHS.APPOINTMENT_TIMES);
           break;
         default:
           return;
@@ -844,6 +844,6 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProfileInformationFieldController);
+)(withRouter(ProfileInformationFieldController));
 
 export { ProfileInformationFieldController };

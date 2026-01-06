@@ -189,23 +189,8 @@ export const API_ROUTES = {
 };
 
 const BASE_PATH = '/profile/health-care-settings/scheduling-preferences';
-export const SCHEDULING_PREF_PATHNAMES = {
+export const SCHEDULING_PREF_PATHS = {
   CONTACT_METHOD: `${BASE_PATH}/contact-method`,
   CONTACT_TIMES: `${BASE_PATH}/contact-times`,
   APPOINTMENT_TIMES: `${BASE_PATH}/appointment-times`,
 };
-
-export const SCHEDULING_PREF_PATHS = {
-  CONTACT_METHOD: SCHEDULING_PREF_PATHNAMES.CONTACT_METHOD,
-  CONTACT_TIMES: `${SCHEDULING_PREF_PATHNAMES.CONTACT_TIMES}?fieldName=${
-    FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
-  }&returnPath=${encodeURIComponent(BASE_PATH)}`,
-  APPOINTMENT_TIMES: `${
-    SCHEDULING_PREF_PATHNAMES.APPOINTMENT_TIMES
-  }?fieldName=${
-    FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
-  }&returnPath=${encodeURIComponent(BASE_PATH)}`,
-};
-
-// /profile/health-care-settings/scheduling-preferences/contact-method?fieldName=preferredContactMethod&returnPath=%2Fprofile%2Fhealth-care-settings%2Fscheduling-preferences
-// /profile/health-care-settings/scheduling-preferences/contact-method?fieldName=preferredContactMethod&returnPath=%2Fprofile%2Fhealth-care-settings%2Fscheduling-preferences
