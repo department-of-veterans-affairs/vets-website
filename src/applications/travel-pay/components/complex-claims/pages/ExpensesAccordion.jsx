@@ -44,6 +44,7 @@ const ExpensesAccordion = ({
           <va-accordion-item
             key={type}
             header={`${getExpenseType(type).title} (${expensesList.length})`}
+            level={3}
           >
             <ExpenseCardList
               expensesList={expensesList}
