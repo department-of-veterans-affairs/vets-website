@@ -21,6 +21,7 @@ import { updateApplicantInformationPage } from '../../utils/helpers';
 import {
   yourInformationPage,
   benefitSwitchPage,
+  sameBenefitSelectionPage,
   sameBenefitResultPage,
   foreignSchoolResultPage,
   mgibAdResultPage,
@@ -236,13 +237,24 @@ export const mebChapters = {
         hideSaveLinkAndStatus: true,
         ...benefitSwitchPage(),
       },
+      sameBenefitSelection: {
+        path: 'questionnaire/same-benefit-selection',
+        title: 'Which benefit have you most recently used?',
+        depends: formData =>
+          isRerouteEnabledOnForm(formData) &&
+          formData.mebWhatDoYouWantToDo === 'same-benefit' &&
+          !formData.currentBenefitType,
+        hideSaveLinkAndStatus: true,
+        ...sameBenefitSelectionPage(),
+      },
       sameBenefitResult: {
         path: 'results/same-benefit',
         title:
           "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
-          formData.mebWhatDoYouWantToDo === 'same-benefit',
+          formData.mebWhatDoYouWantToDo === 'same-benefit' &&
+          (formData.currentBenefitType || formData.mebSameBenefitSelection),
         hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...sameBenefitResultPage(),

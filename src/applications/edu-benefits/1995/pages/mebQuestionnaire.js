@@ -1,6 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
+import { isLOA3 } from 'platform/user/selectors';
 import YourInformationDescription, {
   getBenefitLabel,
 } from '../components/YourInformationDescription';
@@ -142,23 +144,22 @@ const ResultDescription = ({
           </li>
         ))}
       </ul>
-      <br />
     </div>
-    <div>
-      <a
-        href={`${
-          environment.BASE_URL
-        }/education/apply-for-education-benefits/application/1995/introduction`}
-        className="vads-u-display--block vads-u-margin-bottom--3"
-      >
-        Restart questionnaire
-      </a>
-    </div>
+    <va-link
+      href={`${
+        environment.BASE_URL
+      }/education/apply-for-education-benefits/application/1995/introduction`}
+      text="Restart questionnaire"
+      class="vads-u-display--block vads-u-margin-top--3"
+    />
   </div>
 );
 
 const SameBenefitResultDescription = ({ formData }) => {
-  const formInfo = getFormInfo(formData?.currentBenefitType);
+  // Use mebSameBenefitSelection if available (non-LOA3), otherwise use currentBenefitType (LOA3)
+  const benefitType =
+    formData?.mebSameBenefitSelection || formData?.currentBenefitType;
+  const formInfo = getFormInfo(benefitType);
   const recentlyUsedBenefit =
     formInfo.recentlyUsedBenefit &&
     formInfo.recentlyUsedBenefit !== "We couldn't load your current benefit."
@@ -184,14 +185,80 @@ const SameBenefitResultDescription = ({ formData }) => {
 SameBenefitResultDescription.propTypes = {
   formData: PropTypes.shape({
     currentBenefitType: PropTypes.string,
+    mebSameBenefitSelection: PropTypes.string,
   }),
+};
+
+const BenefitSwitchDescription = () => {
+  return (
+    <va-additional-info
+      onClick={function noRefCheck() {}}
+      trigger="Learn more about these benefits"
+    >
+      <ul className="vads-u-margin-top--1">
+        <li>
+          Learn about GI Bill benefits:{' '}
+          <va-link
+            external
+            href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
+            text="Post-9/11 GI Bill, Montgomery GI Bill Active Duty (MGIB-AD)"
+          />
+          ,{' '}
+          <va-link
+            external
+            href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty"
+            text="Montgomery GI Bill Active Duty (MGIB-AD)"
+          />
+          , and{' '}
+          <va-link
+            external
+            href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve"
+            text="Montgomery GI Bill Selected Reserve (MGIB-SR)"
+          />
+        </li>
+        <li>
+          <va-link
+            external
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits"
+            text="Learn about transferred Post-9/11 GI Bill benefits"
+          />
+        </li>
+        <li>
+          Learn about survivors’ and dependents’ assistance:{' '}
+          <va-link
+            external
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
+            text="Survivors' and Dependents' Education Assistance (DEA)"
+          />{' '}
+          and{' '}
+          <va-link
+            external
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/"
+            text="Fry Scholarship"
+          />
+        </li>
+      </ul>
+    </va-additional-info>
+  );
+};
+
+const YourInformationTitle = () => {
+  const isLoa3 = useSelector(isLOA3);
+
+  return isLoa3 ? (
+    <span>What do you want to do?</span>
+  ) : (
+    <h2 className="vads-u-margin-y--0 vads-u-display--inline">
+      What do you want to do?
+    </h2>
+  );
 };
 
 export const yourInformationPage = () => ({
   uiSchema: {
     'ui:description': YourInformationDescription,
     mebWhatDoYouWantToDo: {
-      'ui:title': 'What do you want to do?',
+      'ui:title': <YourInformationTitle />,
       'ui:widget': 'radio',
     },
   },
@@ -212,60 +279,44 @@ export const yourInformationPage = () => ({
   },
 });
 
-const BenefitSwitchDescription = ({ formData }) => {
-  const header = getSwitchFormHeader(formData?.mebBenefitSelection);
-
-  return (
-    <>
-      {header && <h2 className="vads-u-font-size--h2">{header}</h2>}
-      <va-additional-info
-        onClick={function noRefCheck() {}}
-        trigger="Learn more about these benefits"
-        style={{ maxWidth: '36rem' }}
-      >
-        <ul className="vads-u-margin-top--1">
-          <li>
-            <a
-              href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
-              Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
-              Reserve (MGIB-SR) (opens in a new tab)
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn about survivors' and dependents' assistance: transferred
-              Post-9/11 GI Bill benefits (opens in a new tab)
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Survivors' and Dependents' Education Assistance (DEA), Fry
-              Scholarship
-            </a>
-          </li>
-        </ul>
-      </va-additional-info>
-    </>
-  );
-};
-
-BenefitSwitchDescription.propTypes = {
-  formData: PropTypes.shape({
-    mebBenefitSelection: PropTypes.string,
-  }),
-};
+export const sameBenefitSelectionPage = () => ({
+  uiSchema: {
+    mebSameBenefitSelection: {
+      'ui:title': (
+        <h2 className="vads-u-margin-y--0 vads-u-display--inline">
+          Which benefit have you most recently used?
+        </h2>
+      ),
+      'ui:description': BenefitSwitchDescription,
+      'ui:widget': 'radio',
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['mebSameBenefitSelection'],
+    properties: {
+      mebSameBenefitSelection: {
+        type: 'string',
+        enum: [
+          'chapter33',
+          'chapter30',
+          'chapter1606',
+          'transferOfEntitlement',
+          'chapter35',
+          'fryScholarship',
+        ],
+        enumNames: [
+          'Post-9/11 GI Bill (PGIB, Chapter 33)',
+          'Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)',
+          'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
+          'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
+          "Dependents' Educational Assistance (DEA, Chapter 35)",
+          'Fry Scholarship (Chapter 33)',
+        ],
+      },
+    },
+  },
+});
 
 export const benefitSwitchPage = () => ({
   uiSchema: {
