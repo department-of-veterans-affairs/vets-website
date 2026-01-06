@@ -97,6 +97,7 @@ const directDeposit33 = {
           'ui:errorMessages': {
             pattern: 'Please enter a valid 9-digit routing number',
           },
+          'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [
             (errors, fieldData, formData) => {
               if (formData?.mebBankInfoConfirmationField === true) {
@@ -138,6 +139,7 @@ const directDeposit33 = {
           'ui:errorMessages': {
             pattern: 'Please enter a valid 5-17 digit account number',
           },
+          'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [
             (errors, fieldData, formData) => {
               if (formData?.mebBankInfoConfirmationField === true) {
