@@ -134,7 +134,7 @@ export default function useChatbotToken() {
             setToken,
             setCode,
             setLoadingStatus,
-            false,
+            true,
             setExpiresAt,
             setExpired,
           );
