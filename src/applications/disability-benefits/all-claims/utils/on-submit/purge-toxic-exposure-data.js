@@ -90,19 +90,22 @@ const hasToxicExposureData = toxicExposure => {
 /**
  * Purges data for a single exposure type based on user opt-out actions.
  *
- * Note: Behavior differs based on whether the section has an "other" text area.
+ * Note: Behavior differs based on whether the section has an "Other" free-text field.
  *
  * Sections WITHOUT otherKey (gulfWar1990, gulfWar2001):
- * - exposureType.none === true triggers removal of the entire section
- * - Unchecking a checkbox IS opting out of that specific location
- * - Filter details to only keep data for checked locations
- * - Empty details objects kept (backend handles empty objects consistently)
+ * - Only have predefined checkbox options (e.g., Afghanistan, Iraq, Yemen)
+ * - Selecting "None of these locations" is a complete opt-out of the section
+ * - When none === true: Remove the entire section (exposureType + details)
+ * - When none !== true: Filter details to only keep checked locations
  *
  * Sections WITH otherKey (herbicide, otherExposures):
- * - exposureType.none === true AND otherKey has no description => Remove orphaned otherKey
- * - exposureType.none === true AND otherKey has description => N/A (form flow prevents)
- * - User may use the "other" text area without checking predefined options
- * - Main section data preserved; only orphaned date fields in otherKey are removed
+ * - Have predefined checkboxes PLUS an "Other" free-text field
+ * - Users can describe custom exposures without checking any predefined options
+ * - Example: User checks "None of these" but types "Thailand base camp" in Other
+ * - Because of this, "None of these" only means "none of the PREDEFINED options"
+ *   NOT "I have no exposures at all"
+ * - We preserve the main section and only remove orphaned otherKey data
+ *   (dates without a description are meaningless)
  *
  * @param {Object} toxicExposure - Toxic exposure data object
  * @param {string} exposureType - Exposure type key (e.g., 'gulfWar1990', 'herbicide')
