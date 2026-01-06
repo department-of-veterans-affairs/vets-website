@@ -6,7 +6,7 @@
   "claimantMiddleName": "Polite",
   "claimantLastName": "Barakat",
   "claimSource": "VaGov",
-  "claimStatus": "PartialPayment",
+  "claimStatus": "ApprovedForPayment",
   "appointmentDate": "2026-01-01T16:45:34.465Z",
   "facilityName": "Cheyenne VA Medical Center",
   "totalCostRequested": 100.55,

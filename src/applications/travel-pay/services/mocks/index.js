@@ -37,7 +37,7 @@ const claimDetails = {
 };
 
 // Change the claim details here to see the different claim status for mocks
-const claim = claimDetails.claimSaved;
+const claim = claimDetails.v2;
 
 const maintenanceWindows = {
   none: require('./maintenance-windows/none.json'),
