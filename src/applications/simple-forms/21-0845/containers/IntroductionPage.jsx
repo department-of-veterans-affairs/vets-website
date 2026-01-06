@@ -23,7 +23,7 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Authorize VA to release your information to a third-party source"
+          title="Authorize VA to release your information to a third-party sources"
           subTitle="Authorization To Disclose Personal Information To a Third Party (VA Form 21-0845)"
         />
         <p>
