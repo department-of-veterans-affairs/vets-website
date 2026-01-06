@@ -238,3 +238,60 @@ describe('Select preferred contact method', () => {
     },
   );
 });
+
+describe('Cancel editing preferred contact method', () => {
+  beforeEach(() => {
+    setup();
+  });
+
+  it('should allow canceling out of edit flow', () => {
+    // Click edit button in the contact email section to enter edit view
+    clickEdit();
+
+    // Click to cancel
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.findByTestId('continue-cancel-buttons')
+      .shadow()
+      .wait(1) // wait needed to ensure button is clickable for some reason
+      .find('va-button')
+      .last()
+      .shadow()
+      .find('button')
+      .click();
+
+    // Confirm we are back on the scheduling preferences main page
+    cy.url().should(
+      'eq',
+      `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
+    );
+
+    cy.injectAxeThenAxeCheck();
+  });
+});
+
+describe('Scheduling preferences contact method - error handling', () => {
+  beforeEach(() => {
+    setup();
+  });
+
+  it('should show an error message when the API call fails', () => {
+    // Mock POST request to return API error response
+    cy.intercept('POST', '/v0/profile/scheduling_preferences', {
+      statusCode: 500,
+      body: {},
+    }).as('updateSchedulingPreferencesError');
+
+    // Select no preference and click save
+    clickEdit();
+    selectPreferredMethod('option-6');
+    clickQuickExitSave();
+
+    // Wait for the API call to complete
+    cy.wait('@updateSchedulingPreferencesError');
+
+    // Confirm error message is shown
+    cy.findByText(/We’re sorry./i).should('exist');
+
+    cy.injectAxeThenAxeCheck();
+  });
+});
