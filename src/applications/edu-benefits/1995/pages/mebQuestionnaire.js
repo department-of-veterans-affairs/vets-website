@@ -206,35 +206,42 @@ const BenefitSwitchDescription = ({ formData }) => {
       >
         <ul className="vads-u-margin-top--1">
           <li>
-            <a
+            Learn about GI Bill benefits:{' '}
+            <va-link
+              external
               href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
-              Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
-              Reserve (MGIB-SR) (opens in a new tab)
-            </a>
+              text="Post-9/11 GI Bill, Montgomery GI Bill Active Duty (MGIB-AD)"
+            />,{' '}
+            <va-link
+              external
+              href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty"
+              text="Montgomery GI Bill Active Duty (MGIB-AD)"
+            />, and{' '}
+            <va-link
+              external
+              href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve"
+              text="Montgomery GI Bill Selected Reserve (MGIB-SR)"
+            />{' '}
           </li>
           <li>
-            <a
-              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn about survivors' and dependents' assistance: transferred
-              Post-9/11 GI Bill benefits (opens in a new tab)
-            </a>
+            Learn about survivors' and dependents' assistance:{' '}
+            <va-link
+              external
+              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits"
+              text="transferred Post-9/11 GI Bill benefits"
+            />
           </li>
           <li>
-            <a
+            <va-link
+              external
               href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Survivors' and Dependents' Education Assistance (DEA), Fry
-              Scholarship
-            </a>
+              text="Survivors' and Dependents' Education Assistance (DEA)"
+            />,{' '}
+            <va-link
+              external
+              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/"
+              text="Fry Scholarship"
+            />
           </li>
         </ul>
       </va-additional-info>
