@@ -91,6 +91,13 @@ const filteredStates = constants.states.USA.filter(
 const FILTERED_STATE_VALUES = filteredStates.map(state => state.value);
 const FILTERED_STATE_LABELS = filteredStates.map(state => state.label);
 
+// Helper function to determine if zipCode should be shown/required
+const shouldShowZipCode = formData => {
+  const isMilitary = formData.mailingAddress?.['view:livesOnMilitaryBase'];
+  const isUSA = formData.mailingAddress?.country === 'USA';
+  return isMilitary || isUSA;
+};
+
 // const countryEnum = fullSchema.definitions.country.enum;
 // const citySchema = fullSchema.definitions.address.properties.city;
 // const COUNTRY_VALUES = constants.countries.map(country => country.value);
@@ -248,7 +255,7 @@ export const uiSchema = {
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
-      'ui:required': formData => formData.mailingAddress.country === 'USA',
+      'ui:required': shouldShowZipCode,
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
         required: 'Please enter a postal code',
@@ -259,7 +266,7 @@ export const uiSchema = {
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         widgetClassNames: 'usa-input-medium',
-        hideIf: formData => formData.mailingAddress.country !== 'USA',
+        hideIf: formData => !shouldShowZipCode(formData),
       },
     },
     addressLine1: {
