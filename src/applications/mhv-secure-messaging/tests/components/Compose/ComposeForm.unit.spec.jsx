@@ -10,6 +10,7 @@ import {
   mockApiRequest,
   inputVaTextInput,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+// recordEvent ultimately pushes to window.dataLayer; we assert on that side effect
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
@@ -152,6 +153,30 @@ describe('Compose form component', () => {
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
+  });
+
+  it('records prefilling analytics when Rx renewal draft loads', async () => {
+    window.dataLayer = [];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        prescription: {
+          ...initialState.sm.prescription,
+          renewalPrescription: {
+            prescriptionId: 123,
+          },
+        },
+      },
+    };
+
+    setup(customState, Paths.COMPOSE);
+
+    await waitFor(() => {
+      expect(
+        window.dataLayer?.some(e => e?.event === 'sm_editor_prefill_loaded'),
+      ).to.be.true;
+    });
   });
 
   it('displays compose fields if path is /new-message', async () => {

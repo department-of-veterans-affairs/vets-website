@@ -110,6 +110,7 @@ describe('SelectCareTeam', () => {
     });
     const vaRadio = screen.container.querySelector('va-radio');
     expect(vaRadio).to.exist;
+    expect(vaRadio.hasAttribute('enable-analytics')).to.be.true;
     expect(vaRadio.getAttribute('label')).to.equal(
       'Select a VA health care system',
     );
@@ -166,6 +167,8 @@ describe('SelectCareTeam', () => {
 
     await waitFor(() => {
       const careSystemSelect = screen.getByTestId('care-system-select');
+      // Ensure enable-analytics is present on VaSelect
+      expect(careSystemSelect.hasAttribute('enable-analytics')).to.be.true;
 
       const options = careSystemSelect.querySelectorAll('option');
       expect(options).to.have.lengthOf(

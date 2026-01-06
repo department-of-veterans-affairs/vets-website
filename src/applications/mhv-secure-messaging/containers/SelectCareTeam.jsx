@@ -397,6 +397,7 @@ const SelectCareTeam = () => {
     ) {
       return (
         <VaRadio
+          enableAnalytics
           label="Select a VA health care system"
           name="va-health-care-system"
           onVaValueChange={onRadioChangeHandler}
@@ -428,7 +429,7 @@ const SelectCareTeam = () => {
     if (allFacilities?.length >= MAX_RADIO_OPTIONS) {
       return (
         <VaSelect
-          enable-analytics
+          enableAnalytics
           id="care-system-dropdown"
           label="Select a VA health care system"
           name="to-care-system"

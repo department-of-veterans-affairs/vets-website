@@ -10,6 +10,7 @@ import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   DowntimeNotification,
   externalServices,
@@ -170,6 +171,8 @@ const ComposeForm = props => {
             category: Categories.MEDICATIONS.value,
           }),
         );
+
+        recordEvent({ event: 'sm_editor_prefill_loaded' });
       }
     },
     [renewalPrescription, isRxRenewalDraft, rxError, dispatch],
