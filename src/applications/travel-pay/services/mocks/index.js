@@ -19,7 +19,25 @@ const user = {
 const claimDetails = {
   v1: require('./travel-claim-details-v1.json'),
   v2: require('./travel-claim-details-v2.json'),
+  incomplete: require('./travel-claim-details-incomplete.json'),
+  saved: require('./travel-claim-details-saved-all-expense-types.json'),
+  inProcess: require('./travel-claim-details-inprocess.json'),
+  claimSubmitted: require('./travel-claim-details-claimsubmitted.json'),
+  inManualReview: require('./travel-claim-details-inmanualreview.json'),
+  onHold: require('./travel-claim-details-onhold.json'),
+  appealed: require('./travel-claim-details-appealed.json'),
+  partialPayment: require('./travel-claim-details-partialpayment.json'),
+  denied: require('./travel-claim-details-denied-has-decision-letter.json'),
+  closedWithNoPayment: require('./travel-claim-details-closedwithnopayment.json'),
+  approvedForPayment: require('./travel-claim-details-approvedforpayment.json'),
+  submittedForPayment: require('./travel-claim-details-submittedforpayment.json'),
+  fiscalRescinded: require('./travel-claim-details-fiscalrescinded.json'),
+  claimPaid: require('./travel-claim-details-claimpaid.json'),
+  paymentCanceled: require('./travel-claim-details-paymentcanceled.json'),
 };
+
+// Change the claim details here to see the different claim status for mocks
+const claim = claimDetails.claimSaved;
 
 const maintenanceWindows = {
   none: require('./maintenance-windows/none.json'),
@@ -145,183 +163,9 @@ const responses = {
   //     ],
   //   });
   // },
-  // 'GET /travel_pay/v0/claims/:id': claimDetails.v2,
-  'GET /travel_pay/v0/claims/:id': (req, res) => {
-    const details = { ...claimDetails.v2 };
-    // Added a documentId to the expense mocks. Upper envs with have this data once the API team makes their changes
-    details.expenses = [
-      {
-        expenseType: 'Mileage',
-        name: 'Mileage Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'mileage',
-        costRequested: 1.16,
-        costSubmitted: {
-          source: '0.0',
-          parsedValue: 0,
-        },
-        tripType: 'RoundTrip',
-        id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
-        documentId: '',
-      },
-      {
-        expenseType: 'Parking',
-        name: 'Parking Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Hospital parking',
-        costRequested: 15.0,
-        costSubmitted: {
-          source: '15.0',
-          parsedValue: 15.0,
-        },
-        id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
-        documentId: '4f6f751b-87ff-ef11-9341-001dd809b68c',
-      },
-      {
-        expenseType: 'Toll',
-        name: 'Toll Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Highway toll',
-        costRequested: 5.5,
-        costSubmitted: {
-          source: '5.5',
-          parsedValue: 5.5,
-        },
-        id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
-        documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
-      },
-      {
-        expenseType: 'CommonCarrier',
-        name: 'Common Carrier Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Taxi to appointment',
-        carrierType: 'Taxi',
-        reasonNotUsingPOV: 'Other',
-        costRequested: 45.0,
-        costSubmitted: {
-          source: '45.0',
-          parsedValue: 45.0,
-        },
-        id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
-        documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
-      },
-      {
-        expenseType: 'AirTravel',
-        name: 'Air Travel Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Flight to medical appointment',
-        vendorName: 'Airline Name',
-        tripType: 'RoundTrip',
-        departedFrom: 'City A',
-        arrivedTo: 'City B',
-        departureDate: '2025-09-15T10:00:00Z',
-        returnDate: '2025-09-17T18:00:00Z',
-        costRequested: 350.0,
-        costSubmitted: {
-          source: '350.0',
-          parsedValue: 350.0,
-        },
-        id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
-        documentId: '0ab14628-6531-4a6c-b836-97a92fb35a9e',
-      },
-      {
-        expenseType: 'Lodging',
-        name: 'Lodging Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Hotel stay',
-        vendor: 'Hotel Name',
-        checkInDate: '2025-09-15T15:00:00Z',
-        checkOutDate: '2025-09-17T11:00:00Z',
-        costRequested: 125.0,
-        costSubmitted: {
-          source: '125.0',
-          parsedValue: 125.0,
-        },
-        id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
-        documentId: '887ead10-d849-428c-b83b-50a054fd968b',
-      },
-      {
-        expenseType: 'Meal',
-        name: 'Meal Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Breakfast and lunch',
-        vendorName: 'Food Place',
-        costRequested: 35.0,
-        costSubmitted: {
-          source: '35.0',
-          parsedValue: 35.0,
-        },
-        id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
-        documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
-      },
-      {
-        expenseType: 'Other',
-        name: 'Other Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Medical supplies',
-        costRequested: 50.0,
-        costSubmitted: {
-          source: '50.0',
-          parsedValue: 50.0,
-        },
-        id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
-        documentId: '887ead10-d849-428c-b83b-50a053re44wr',
-      },
-    ];
-    details.documents = [
-      {
-        documentId: '4f6f751b-87ff-ef11-9341-001dd809b68c',
-        filename: 'Parking.docx',
-        mimetype:
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        createdon: '2025-03-12T21:15:27Z',
-        expenseId: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
-      },
-      {
-        documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
-        filename: 'Toll.pdf',
-        mimetype: 'application/pdf',
-        createdon: '2025-03-12T21:15:33Z',
-        expenseId: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
-      },
-      {
-        documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
-        filename: 'CommonCarrier.jpg',
-        mimetype: 'image/jpeg',
-        createdon: '2025-03-24T14:02:52.893Z',
-        expenseId: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
-      },
-      {
-        documentId: '0ab14628-6531-4a6c-b836-97a92fb35a9e',
-        filename: 'Airtravel.jpg',
-        mimetype: 'image/jpeg',
-        createdon: '2025-03-24T14:04:00.893Z',
-        expenseId: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
-      },
-      {
-        documentId: '887ead10-d849-428c-b83b-50a054fd968b',
-        filename: 'lodging.txt',
-        mimetype: '',
-        createdon: '2025-03-24T14:06:52.893Z',
-        expenseId: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
-      },
-      {
-        documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
-        filename: 'meal.txt',
-        mimetype: '',
-        createdon: '2025-03-24T14:06:52.893Z',
-        expenseId: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
-      },
-      {
-        documentId: '887ead10-d849-428c-b83b-50a053re44wr',
-        filename: 'other.txt',
-        mimetype: '',
-        createdon: '2025-03-24T14:06:52.893Z',
-        expenseId: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
-      },
-    ];
-    return res.json(details);
-  },
+  //
+  'GET /travel_pay/v0/claims/:id': claim,
+  //
   // 'GET /travel_pay/v0/claims/:id': (req, res) => {
   //   return res.status(403).json({
   //     errors: [
@@ -490,7 +334,7 @@ const responses = {
       const endDate = new Date(endParam);
 
       // Create appointment matching the claim details mock datetime
-      const claimDetailsDateTime = '2025-03-20T16:30:00Z';
+      const claimDetailsDateTime = claim.appointmentDate;
       const appointmentDate = new Date(claimDetailsDateTime);
 
       // Check if this appointment falls within the requested range
@@ -502,11 +346,11 @@ const responses = {
 
         const matchingAppointment = {
           ...appointment.claim.data,
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          id: claim.appointment.id,
           type: 'appointments',
           attributes: {
             ...appointment.claim.data.attributes,
-            id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            id: claim.appointment.id,
             localStartTime, // Proper format with timezone offset
             start: claimDetailsDateTime, // Keep as UTC for backend consistency
             end: new Date(
