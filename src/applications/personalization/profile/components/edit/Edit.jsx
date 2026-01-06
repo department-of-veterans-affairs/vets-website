@@ -114,9 +114,16 @@ export const Edit = () => {
     selectVAPContactInfoField(state, fieldInfo?.fieldName),
   );
 
+  const isReturningToSchedulingPreferences = path => {
+    return path === PROFILE_PATHS.SCHEDULING_PREFERENCES;
+  };
+
   const editPageHeadingString = useMemo(
     () => {
-      if (isSubtaskSchedulingPreference(fieldInfo?.fieldName)) {
+      if (
+        isSubtaskSchedulingPreference(fieldInfo?.fieldName) ||
+        isReturningToSchedulingPreferences(returnPath)
+      ) {
         return `Edit ${FIELD_SECTION_HEADERS?.[
           fieldInfo.fieldName
         ].toLowerCase()}`;
@@ -127,7 +134,7 @@ export const Edit = () => {
 
       return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
     },
-    [fieldData, fieldInfo],
+    [fieldData, fieldInfo, returnPath],
   );
 
   const internationalPhonesToggleValue = useToggleValue(
@@ -264,6 +271,13 @@ export const Edit = () => {
             <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
               {editPageHeadingString}
             </h1>
+
+            {isReturningToSchedulingPreferences(returnPath) && (
+              <p>
+                Enter the {fieldInfo.title.toLowerCase()} you want to use for
+                scheduling. We’ll also update this information in your profile.
+              </p>
+            )}
 
             <InitializeVAPServiceIDContainer>
               {/* the EditConfirmCancelModal is passed here as props to allow a custom modal to be used

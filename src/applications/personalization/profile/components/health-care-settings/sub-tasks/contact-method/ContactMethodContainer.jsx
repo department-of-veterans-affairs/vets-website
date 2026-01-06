@@ -294,7 +294,7 @@ export const ContactMethodContainer = () => {
 
       // Then navigate to the profile sub task flow to edit the related contact info field
       const relatedField = getSchedulingPreferencesContactMethodDisplay(
-        fieldData,
+        pageData.data[fieldName],
       );
       history.push(
         `${PROFILE_PATHS.EDIT}?returnPath=${encodeURIComponent(
