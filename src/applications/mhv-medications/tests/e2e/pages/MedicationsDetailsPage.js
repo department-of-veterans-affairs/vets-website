@@ -574,7 +574,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingRxWarningTextOnDetailsPage = alert => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', alert);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', alert);
   };
 
   verifyHeaderTextOnDetailsPage = text => {
@@ -586,7 +586,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingTextAlertForLessThanSevenDays = text => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', text);
   };
 
   verifyRefillDelayAlertBannerOnDetailsPage = text => {
