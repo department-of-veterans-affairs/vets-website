@@ -5,7 +5,7 @@ import {
   mockGETEndpoints,
 } from '@@profile/tests/e2e/helpers';
 
-const setup = () => {
+const setup = (preferences = []) => {
   cy.login(mockUser);
 
   mockFeatureToggles(() => ({
@@ -47,7 +47,7 @@ const setup = () => {
       data: {
         type: 'schedulingPreferences',
         attributes: {
-          preferences: [],
+          preferences,
         },
       },
     },
@@ -134,7 +134,7 @@ const clickConfirmSave = () => {
     .click();
 };
 
-describe('Select preferred contact method', () => {
+describe('Scheduling preferences contact method - select preferred contact method', () => {
   beforeEach(() => {
     setup();
   });
@@ -239,7 +239,7 @@ describe('Select preferred contact method', () => {
   );
 });
 
-describe('Cancel editing preferred contact method', () => {
+describe('Scheduling preferences contact method - cancel button', () => {
   beforeEach(() => {
     setup();
   });
@@ -291,6 +291,40 @@ describe('Scheduling preferences contact method - error handling', () => {
 
     // Confirm error message is shown
     cy.findByText(/We’re sorry./i).should('exist');
+
+    cy.injectAxeThenAxeCheck();
+  });
+});
+
+describe('Scheduling preferences contact method - remove preference', () => {
+  beforeEach(() => {
+    setup([
+      {
+        itemId: 1,
+        optionIds: [3], // no preference
+      },
+    ]);
+  });
+
+  it('should show and allow preference to be removed', () => {
+    cy.get(
+      '#remove-whats-the-best-way-to-contact-you-to-schedule-your-appointments',
+    ).click();
+
+    cy.findByTestId('confirm-remove-modal').within(() => {
+      cy.findByText(/This will remove your/i).should('exist');
+    });
+
+    cy.findByTestId('confirm-remove-modal')
+      .shadow()
+      .find('va-button')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
+
+    // Confirm that the preference has been removed
+    cy.findByText(/Update saved./i).should('exist');
 
     cy.injectAxeThenAxeCheck();
   });
