@@ -156,6 +156,17 @@ describe('makeSchemaForRatedDisabilitiesInNewDisabilities', () => {
           condition: 'Rated Disability',
           ratedDisability: 'Emphysema',
         },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: '',
+        },
+        {
+          condition: 'Rated Disability',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: "A condition I haven't claimed before",
+        },
       ],
       ratedDisabilities: [
         {

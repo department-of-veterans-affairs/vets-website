@@ -19,6 +19,7 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
+  NEW_CONDITION_OPTION,
   STATE_LABELS,
   STATE_VALUES,
   MAX_FILE_SIZE_BYTES,
@@ -126,7 +127,14 @@ export const makeSchemaForRatedDisabilitiesInNewDisabilities = createSelector(
           typeof d?.ratedDisability === 'string'
             ? d.ratedDisability.trim()
             : '';
-        if (isPlaceholderRated(condition) && ratedDisability) {
+
+        const isNewConditionOption = ratedDisability === NEW_CONDITION_OPTION;
+
+        if (
+          isPlaceholderRated(condition) &&
+          ratedDisability &&
+          !isNewConditionOption
+        ) {
           return ratedDisability;
         }
 
