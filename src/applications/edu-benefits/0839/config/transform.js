@@ -272,8 +272,6 @@ export default function transform(formConfig, form) {
     return transformer(formData);
   }, form.data);
 
-  console.log('transformedData', transformedData);
-
   return JSON.stringify({
     educationBenefitsClaim: {
       form: transformedData,
