@@ -182,50 +182,59 @@ describe('Select preferred contact method', () => {
     {
       label: 'should allow selection of home phone',
       option: 'option-38',
+      confirmationText: /This is the home phone number we have on file for you./,
       expectedText: /Phone call: home phone/i,
     },
     {
       label: 'should allow selection of mobile phone (call)',
       option: 'option-1',
+      confirmationText: /This is the mobile phone number we have on file for you./,
       expectedText: /Phone call: mobile phone/i,
     },
     {
       label: 'should allow selection of mobile phone (text)',
       option: 'option-2',
+      confirmationText: /This is the mobile phone number we have on file for you./,
       expectedText: /Text message: mobile phone/i,
     },
     {
       label: 'should allow selection of work phone',
       option: 'option-39',
+      confirmationText: /This is the work phone number we have on file for you./,
       expectedText: /Phone call: work phone/i,
     },
     {
       label: 'should allow selection of mailing address',
       option: 'option-4',
+      confirmationText: /This is the mailing address we have on file for you./,
       expectedText: /Mailing address/i,
     },
   ];
 
-  confirmSaveTests.forEach(({ label, option, expectedText }) => {
-    it(label, () => {
-      // Mock POST request to return API error response
-      interceptSchedulingPreferencesSuccess();
+  confirmSaveTests.forEach(
+    ({ label, option, expectedText, confirmationText }) => {
+      it(label, () => {
+        // Mock POST request to return API error response
+        interceptSchedulingPreferencesSuccess();
 
-      // Update the email address & click to save
-      clickEdit();
-      selectPreferredMethod(option);
+        // Update the email address & click to save
+        clickEdit();
+        selectPreferredMethod(option);
 
-      // Click to continue to confirm page
-      clickContinueCancelButton();
+        // Click to continue to confirm page
+        clickContinueCancelButton();
 
-      clickConfirmSave();
+        cy.findByText(confirmationText).should('exist');
 
-      // Wait for the API call to complete
-      cy.wait('@updateSchedulingPreferencesSuccess');
+        clickConfirmSave();
 
-      cy.findByText(expectedText).should('exist');
+        // Wait for the API call to complete
+        cy.wait('@updateSchedulingPreferencesSuccess');
 
-      cy.injectAxeThenAxeCheck();
-    });
-  });
+        cy.findByText(expectedText).should('exist');
+
+        cy.injectAxeThenAxeCheck();
+      });
+    },
+  );
 });
