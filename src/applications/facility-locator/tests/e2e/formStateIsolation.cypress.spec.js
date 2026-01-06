@@ -44,6 +44,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
     cy.get('#search-results-subheader').should('contain', 'VA health');
     cy.get('#search-results-subheader').should('not.contain', 'VA cemeteries');
     cy.get('.facility-result').should('exist');
+    cy.axeCheck();
   });
 
   it('should not update results header during form editing', () => {
@@ -66,6 +67,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
 
     cy.get('#search-results-subheader').should('contain', 'Primary care');
     cy.get('#search-results-subheader').should('not.contain', 'Mental health');
+    cy.axeCheck();
   });
 
   it('should update results header only after form submit', () => {
@@ -92,6 +94,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
       'Mental health',
     );
     cy.get('#search-results-subheader').should('not.contain', 'Primary care');
+    cy.axeCheck();
   });
 
   it('should not change location text when editing without submit', () => {
@@ -111,6 +114,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
 
     cy.get('#search-results-subheader').should('contain', 'Austin');
     cy.get('#search-results-subheader').should('not.contain', 'Dallas');
+    cy.axeCheck();
   });
 
   it('should update location in results only after submit', () => {
@@ -135,6 +139,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
       'contain',
       'VA benefits',
     );
+    cy.axeCheck();
   });
 
   it('should not trigger duplicate search when submitting same values', () => {
@@ -149,8 +154,8 @@ describe('Form State Isolation - Draft State Pattern', () => {
 
     cy.get('#facility-search').click();
 
-    // Only 1 search request should have been made (duplicates are blocked)
     cy.get('@searchFacilitiesVA.all').should('have.length', 1);
+    cy.axeCheck();
   });
 
   it('should allow new search after changing form values', () => {
@@ -171,8 +176,8 @@ describe('Form State Isolation - Draft State Pattern', () => {
 
     cy.wait('@searchFacilitiesVA');
 
-    // 2 search requests should have been made (different form values)
     cy.get('@searchFacilitiesVA.all').should('have.length', 2);
+    cy.axeCheck();
   });
 
   it('should maintain form values when editing without submit', () => {
@@ -201,6 +206,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
     cy.get('.service-type-dropdown-tablet')
       .find('select')
       .should('have.value', 'MentalHealth');
+    cy.axeCheck();
   });
 
   it('should not show validation errors during form editing', () => {
@@ -219,10 +225,10 @@ describe('Form State Isolation - Draft State Pattern', () => {
 
     cy.get('#facility-search').click();
 
-    // After submit with empty location, validation error should appear
     cy.get('#street-city-state-zip-autosuggest-container.usa-input-error', {
       timeout: 4000,
     }).should('exist');
+    cy.axeCheck();
   });
 
   it('should preserve query parameters in URL only after submit', () => {
@@ -240,5 +246,6 @@ describe('Form State Isolation - Draft State Pattern', () => {
     cy.get('#facility-search').click();
 
     cy.url({ timeout: 10000 }).should('include', 'facilityType=health');
+    cy.axeCheck();
   });
 });
