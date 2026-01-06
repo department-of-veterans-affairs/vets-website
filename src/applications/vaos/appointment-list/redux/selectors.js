@@ -190,6 +190,8 @@ export function getUpcomingAppointmentListInfo(state) {
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
+    hasBackendServiceFailures:
+      state.appointments?.backendServiceFailures?.meta.length || false,
   };
 }
 
