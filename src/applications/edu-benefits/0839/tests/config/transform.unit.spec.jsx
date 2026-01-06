@@ -133,7 +133,7 @@ describe('transform function', () => {
 
       expect(
         formData.yellowRibbonProgramAgreementRequest[0].maximumNumberofStudents,
-      ).to.equal(1000000);
+      ).to.equal(99999);
       expect(
         formData.yellowRibbonProgramAgreementRequest[0]
           .maximumContributionAmount,
