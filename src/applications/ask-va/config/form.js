@@ -14,6 +14,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 
 // Your Question
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
+import yourQuestionPageB from './chapters/yourQuestion/yourQuestionB';
 
 // Your Personal Information - Authenticated
 import YourPersonalInformationAuthenticated from '../components/YourPersonalInformationAuthenticated';
@@ -108,6 +109,19 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {},
+          },
+        },
+        yourQuestionB: {
+          title: CHAPTER_2.CHAPTER_TITLE,
+          hideFormNavProgress: true,
+          pages: {
+            question: {
+              path: CHAPTER_2.PAGE_3.PATH,
+              title: CHAPTER_2.PAGE_3.TITLE,
+              // CustomPageReview: CustomYourQuestionReviewField,
+              uiSchema: yourQuestionPageB.uiSchema,
+              schema: yourQuestionPageB.schema,
+            },
           },
         },
         selectCategory: {
