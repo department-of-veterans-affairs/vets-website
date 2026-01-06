@@ -252,7 +252,7 @@ const EmploymentCheckPage = ({
       </h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         If you have employment to report, you'll need to add at least one
-       employer. You can add up to four.
+        employer. You can add up to four.
       </p>
       <VaRadio
         name="employment-check"
