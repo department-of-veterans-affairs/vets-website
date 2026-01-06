@@ -110,7 +110,7 @@ export const ContactMethodContainer = () => {
   );
 
   const fieldData = useSelector(
-    state => state.vaProfile.schedulingPreferences[fieldName] || {},
+    state => state.vaProfile.schedulingPreferences[fieldName] || '',
   );
 
   const editPageHeadingString = useMemo(
