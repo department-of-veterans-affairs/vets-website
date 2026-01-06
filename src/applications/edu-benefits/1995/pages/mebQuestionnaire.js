@@ -144,6 +144,17 @@ const ResultDescription = ({
           </li>
         ))}
       </ul>
+      <br />
+    </div>
+    <div>
+      <a
+        href={`${
+          environment.BASE_URL
+        }/education/apply-for-education-benefits/application/1995/introduction`}
+        className="vads-u-display--block vads-u-margin-bottom--3"
+      >
+        Restart questionnaire
+      </a>
     </div>
     <va-link
       href={`${
