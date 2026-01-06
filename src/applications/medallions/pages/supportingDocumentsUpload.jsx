@@ -32,7 +32,7 @@ export default {
       title: 'Select a file to upload',
       required: false,
       hint:
-        'You can upload a .jpg, .pdf, or .png file. A .jpg or .png file must be less than 50MB. A .pdf file must be less than 100MB.',
+        'You can upload a .jpg, .pdf, or .png file. All files must be less than 100MB.',
       accept: '.pdf,.jpg,.jpeg,.png',
       maxFileSize: 100 * 1024 * 1024,
       skipUpload: true, // Set to false if needed for API connection in the future
