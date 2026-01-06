@@ -20,7 +20,10 @@ export const AccessErrors = ({
     );
   }
   // SEI Access Error: If all SEI domains failed
-  if (failedSeiDomains.length === SEI_DOMAINS.length || seiPdfGenerationError) {
+  if (
+    (failedSeiDomains?.length ?? 0) === SEI_DOMAINS.length ||
+    seiPdfGenerationError
+  ) {
     return (
       <AccessTroubleAlertBox
         alertType={accessAlertTypes.DOCUMENT}

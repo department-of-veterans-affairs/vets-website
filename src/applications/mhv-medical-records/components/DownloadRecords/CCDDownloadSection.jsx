@@ -40,9 +40,9 @@ export const CCDDownloadLinksExtended = ({
 );
 
 CCDDownloadLinksExtended.propTypes = {
-  ddSuffix: PropTypes.string.isRequired,
   handleDownload: PropTypes.func.isRequired,
-  testIdSuffix: PropTypes.string.isRequired,
+  ddSuffix: PropTypes.string,
+  testIdSuffix: PropTypes.string,
 };
 
 export const CCDDownloadLinksBasic = ({
@@ -63,9 +63,9 @@ export const CCDDownloadLinksBasic = ({
 );
 
 CCDDownloadLinksBasic.propTypes = {
-  ddSuffix: PropTypes.string.isRequired,
   handleDownload: PropTypes.func.isRequired,
-  testIdSuffix: PropTypes.string.isRequired,
+  ddSuffix: PropTypes.string,
+  testIdSuffix: PropTypes.string,
 };
 
 const CCDDownloadSection = ({
@@ -112,8 +112,8 @@ const CCDDownloadSection = ({
 };
 
 CCDDownloadSection.propTypes = {
+  handleDownload: PropTypes.func.isRequired,
   ddSuffix: PropTypes.string,
-  handleDownload: PropTypes.func,
   isExtendedFileType: PropTypes.bool,
   isLoading: PropTypes.bool,
   testIdSuffix: PropTypes.string,

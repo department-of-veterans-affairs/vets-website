@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
@@ -170,31 +176,47 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [refreshStatus],
   );
 
-  const handleDownloadCCD = (e, fileType) => {
-    e.preventDefault();
-    dispatch(
-      genAndDownloadCCD(
-        userProfile?.userFullName?.first || '',
-        userProfile?.userFullName?.last || '',
-        fileType,
-      ),
-    );
-    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
-    sendDataDogAction(`Download Continuity of Care Document ${fileType} link`);
-  };
+  const handleDownloadCCD = useCallback(
+    (e, fileType) => {
+      e.preventDefault();
+      dispatch(
+        genAndDownloadCCD(
+          userProfile?.userFullName?.first || '',
+          userProfile?.userFullName?.last || '',
+          fileType,
+        ),
+      );
+      postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
+      sendDataDogAction(
+        `Download Continuity of Care Document ${fileType} link`,
+      );
+    },
+    [
+      dispatch,
+      userProfile?.userFullName?.first,
+      userProfile?.userFullName?.last,
+    ],
+  );
 
-  const handleDownloadCCDV2 = (e, fileType) => {
-    e.preventDefault();
-    dispatch(
-      downloadCCDV2(
-        userProfile?.userFullName?.first || '',
-        userProfile?.userFullName?.last || '',
-        fileType,
-      ),
-    );
-    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
-    sendDataDogAction(`Download CCD V2 ${fileType} link`);
-  };
+  const handleDownloadCCDV2 = useCallback(
+    (e, fileType) => {
+      e.preventDefault();
+      dispatch(
+        downloadCCDV2(
+          userProfile?.userFullName?.first || '',
+          userProfile?.userFullName?.last || '',
+          fileType,
+        ),
+      );
+      postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
+      sendDataDogAction(`Download CCD V2 ${fileType} link`);
+    },
+    [
+      dispatch,
+      userProfile?.userFullName?.first,
+      userProfile?.userFullName?.last,
+    ],
+  );
 
   // Determine which data source type to use for rendering
   // When ccdOHFlagEnabled is disabled, it defaults to displaying VistA-only content for all users
