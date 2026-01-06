@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   SEI_DOMAINS,
   ALERT_TYPE_SEI_ERROR,
@@ -17,20 +16,22 @@ import {
   documentTypes,
 } from '../../util/constants';
 import { formatFacilityList } from '../../util/facilityHelpers';
+import { useDownloadReport } from '../../context/DownloadReportContext';
 
-const VistaAndOHContent = ({
-  activeAlert,
-  ccdError,
-  ccdExtendedFileTypeFlag,
-  CCDRetryTimestamp,
-  ohFacilityNames,
-  ccdDownloadSuccess,
-  generatingCCD,
-  handleDownloadCCD,
-  handleDownloadCCDV2,
-  vistaFacilityNames,
-  runningUnitTest,
-}) => {
+const VistaAndOHContent = () => {
+  const {
+    activeAlert,
+    ccdError,
+    ccdExtendedFileTypeFlag,
+    CCDRetryTimestamp,
+    ohFacilityNames,
+    ccdDownloadSuccess,
+    generatingCCD,
+    handleDownloadCCD,
+    handleDownloadCCDV2,
+    vistaFacilityNames,
+    runningUnitTest,
+  } = useDownloadReport();
   const {
     loading: selfEnteredPdfLoading,
     success: successfulSeiDownload,
@@ -184,20 +185,6 @@ const VistaAndOHContent = ({
       </p>
     </div>
   );
-};
-
-VistaAndOHContent.propTypes = {
-  ccdError: PropTypes.bool.isRequired,
-  ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
-  generatingCCD: PropTypes.bool.isRequired,
-  handleDownloadCCD: PropTypes.func.isRequired,
-  handleDownloadCCDV2: PropTypes.func.isRequired,
-  ohFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-  vistaFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-  CCDRetryTimestamp: PropTypes.string,
-  activeAlert: PropTypes.object,
-  ccdDownloadSuccess: PropTypes.bool,
-  runningUnitTest: PropTypes.bool,
 };
 
 export default VistaAndOHContent;

@@ -7,6 +7,7 @@ import { ALERT_TYPE_SEI_ERROR } from '@department-of-veterans-affairs/mhv/export
 import VistaAndOHContent from '../../../components/DownloadRecords/VistaAndOHContent';
 import { ALERT_TYPE_CCD_ERROR } from '../../../util/constants';
 import reducer from '../../../reducers';
+import { DownloadReportProvider } from '../../../context/DownloadReportContext';
 
 describe('VistaAndOHContent', () => {
   const initialState = {
@@ -25,7 +26,7 @@ describe('VistaAndOHContent', () => {
     },
   };
 
-  const defaultProps = {
+  const defaultContextValue = {
     activeAlert: null,
     ccdError: false,
     CCDRetryTimestamp: null,
@@ -37,11 +38,16 @@ describe('VistaAndOHContent', () => {
     runningUnitTest: true,
     vistaFacilityNames: ['VA Western New York health care'],
     ohFacilityNames: ['VA Central Ohio health care'],
+    expandSelfEntered: false,
+    selfEnteredAccordionRef: { current: null },
   };
 
-  const renderComponent = (props = {}, state = {}) => {
+  const renderComponent = (contextOverrides = {}, state = {}) => {
+    const contextValue = { ...defaultContextValue, ...contextOverrides };
     return renderWithStoreAndRouter(
-      <VistaAndOHContent {...defaultProps} {...props} />,
+      <DownloadReportProvider value={contextValue}>
+        <VistaAndOHContent />
+      </DownloadReportProvider>,
       {
         initialState: { ...initialState, ...state },
         reducers: reducer,

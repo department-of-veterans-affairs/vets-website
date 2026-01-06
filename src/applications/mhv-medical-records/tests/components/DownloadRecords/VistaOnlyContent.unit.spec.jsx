@@ -5,6 +5,7 @@ import { ALERT_TYPE_SEI_ERROR } from '@department-of-veterans-affairs/mhv/export
 import VistaOnlyContent from '../../../components/DownloadRecords/VistaOnlyContent';
 import { ALERT_TYPE_CCD_ERROR } from '../../../util/constants';
 import reducer from '../../../reducers';
+import { DownloadReportProvider } from '../../../context/DownloadReportContext';
 
 describe('VistaOnlyContent', () => {
   const initialState = {
@@ -23,25 +24,28 @@ describe('VistaOnlyContent', () => {
     },
   };
 
-  const defaultProps = {
+  const defaultContextValue = {
     activeAlert: null,
     ccdError: false,
     CCDRetryTimestamp: null,
     ccdExtendedFileTypeFlag: false,
     ccdDownloadSuccess: false,
-    hasBothDataSources: false,
-    hasOHOnly: false,
     generatingCCD: false,
     handleDownloadCCD: () => {},
     handleDownloadCCDV2: () => {},
     expandSelfEntered: false,
     selfEnteredAccordionRef: { current: null },
     runningUnitTest: true,
+    vistaFacilityNames: [],
+    ohFacilityNames: [],
   };
 
-  const renderComponent = (props = {}, state = {}) => {
+  const renderComponent = (contextOverrides = {}, state = {}) => {
+    const contextValue = { ...defaultContextValue, ...contextOverrides };
     return renderWithStoreAndRouter(
-      <VistaOnlyContent {...defaultProps} {...props} />,
+      <DownloadReportProvider value={contextValue}>
+        <VistaOnlyContent />
+      </DownloadReportProvider>,
       {
         initialState: { ...initialState, ...state },
         reducers: reducer,

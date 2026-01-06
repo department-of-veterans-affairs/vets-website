@@ -7,6 +7,7 @@ import { ALERT_TYPE_SEI_ERROR } from '@department-of-veterans-affairs/mhv/export
 import OHOnlyContent from '../../../components/DownloadRecords/OHOnlyContent';
 import { ALERT_TYPE_CCD_ERROR } from '../../../util/constants';
 import reducer from '../../../reducers';
+import { DownloadReportProvider } from '../../../context/DownloadReportContext';
 
 describe('OHOnlyContent', () => {
   const initialState = {
@@ -25,7 +26,7 @@ describe('OHOnlyContent', () => {
     },
   };
 
-  const defaultProps = {
+  const defaultContextValue = {
     generatingCCD: false,
     handleDownloadCCD: () => {},
     handleDownloadCCDV2: () => {},
@@ -34,11 +35,19 @@ describe('OHOnlyContent', () => {
     ccdDownloadSuccess: false,
     ccdError: false,
     CCDRetryTimestamp: null,
+    runningUnitTest: true,
+    vistaFacilityNames: [],
+    ohFacilityNames: [],
+    expandSelfEntered: false,
+    selfEnteredAccordionRef: { current: null },
   };
 
-  const renderComponent = (props = {}, state = {}) => {
+  const renderComponent = (contextOverrides = {}, state = {}) => {
+    const contextValue = { ...defaultContextValue, ...contextOverrides };
     return renderWithStoreAndRouter(
-      <OHOnlyContent {...defaultProps} {...props} />,
+      <DownloadReportProvider value={contextValue}>
+        <OHOnlyContent />
+      </DownloadReportProvider>,
       {
         initialState: { ...initialState, ...state },
         reducers: reducer,

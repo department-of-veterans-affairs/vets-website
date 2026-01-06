@@ -28,6 +28,7 @@ import VistaAndOHContent from '../components/DownloadRecords/VistaAndOHContent';
 import BlueButtonSection from '../components/DownloadRecords/BlueButtonSection';
 import IntroSection from '../components/DownloadRecords/IntroSection';
 import { postRecordDatadogAction } from '../api/MrApi';
+import { DownloadReportProvider } from '../context/DownloadReportContext';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -206,69 +207,79 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const dataSourceType = getDataSourceType();
 
-  // Shared props for all content components
-  const sharedProps = {
-    ccdExtendedFileTypeFlag,
-    generatingCCD,
-    activeAlert,
-    ccdError,
-    ccdDownloadSuccess,
-    CCDRetryTimestamp,
-    runningUnitTest,
-  };
+  // Context value shared with all content components
+  const downloadReportContextValue = useMemo(
+    () => ({
+      // Feature flags
+      ccdExtendedFileTypeFlag,
+      // CCD state
+      generatingCCD,
+      ccdError,
+      ccdDownloadSuccess,
+      CCDRetryTimestamp,
+      // Handlers
+      handleDownloadCCD,
+      handleDownloadCCDV2,
+      // Alert state
+      activeAlert,
+      // Test utilities
+      runningUnitTest,
+      // Facility data
+      vistaFacilityNames,
+      ohFacilityNames,
+      // Self-entered accordion state (only used by VistaOnlyContent)
+      expandSelfEntered,
+      selfEnteredAccordionRef,
+    }),
+    [
+      ccdExtendedFileTypeFlag,
+      generatingCCD,
+      ccdError,
+      ccdDownloadSuccess,
+      CCDRetryTimestamp,
+      handleDownloadCCD,
+      handleDownloadCCDV2,
+      activeAlert,
+      runningUnitTest,
+      vistaFacilityNames,
+      ohFacilityNames,
+      expandSelfEntered,
+      selfEnteredAccordionRef,
+    ],
+  );
 
   // Render the appropriate content component based on data source type
   const renderContent = () => {
     switch (dataSourceType) {
       case dataSourceTypes.BOTH:
-        return (
-          <VistaAndOHContent
-            {...sharedProps}
-            vistaFacilityNames={vistaFacilityNames}
-            ohFacilityNames={ohFacilityNames}
-            handleDownloadCCD={handleDownloadCCD}
-            handleDownloadCCDV2={handleDownloadCCDV2}
-          />
-        );
+        return <VistaAndOHContent />;
       case dataSourceTypes.OH_ONLY:
-        return (
-          <OHOnlyContent
-            {...sharedProps}
-            handleDownloadCCD={handleDownloadCCD}
-            handleDownloadCCDV2={handleDownloadCCDV2}
-          />
-        );
+        return <OHOnlyContent />;
       default:
-        return (
-          <VistaOnlyContent
-            {...sharedProps}
-            handleDownloadCCD={handleDownloadCCD}
-            expandSelfEntered={expandSelfEntered}
-            selfEnteredAccordionRef={selfEnteredAccordionRef}
-            ccdDownloadSuccess={ccdDownloadSuccess || false}
-          />
-        );
+        return <VistaOnlyContent />;
     }
   };
 
   return (
-    <div>
-      <IntroSection
-        dataSourceType={dataSourceType}
-        lastSuccessfulUpdate={lastSuccessfulUpdate}
-        ohFacilityNames={ohFacilityNames}
-        vistaFacilityNames={vistaFacilityNames}
-      />
-      {dataSourceType !== dataSourceTypes.OH_ONLY && (
-        <BlueButtonSection
-          activeAlert={activeAlert}
-          failedBBDomains={failedBBDomains}
-          successfulBBDownload={successfulBBDownload}
+    <DownloadReportProvider value={downloadReportContextValue}>
+      <div>
+        <IntroSection
+          dataSourceType={dataSourceType}
+          lastSuccessfulUpdate={lastSuccessfulUpdate}
+          ohFacilityNames={ohFacilityNames}
+          vistaFacilityNames={vistaFacilityNames}
         />
-      )}
-      {renderContent()}
-      <NeedHelpSection />
-    </div>
+        {dataSourceType !== dataSourceTypes.OH_ONLY && (
+          <BlueButtonSection
+            activeAlert={activeAlert}
+            failedBBDomains={failedBBDomains}
+            successfulBBDownload={successfulBBDownload}
+          />
+        )}
+        {renderContent()}
+        <NeedHelpSection />
+      </div>
+    </DownloadReportProvider>
   );
 };
 

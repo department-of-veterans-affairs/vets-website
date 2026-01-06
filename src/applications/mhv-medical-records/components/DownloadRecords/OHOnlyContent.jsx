@@ -1,19 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { AccessErrors } from './AccessErrors';
 import CCDAlertSection from './CCDAlertSection';
 import CCDDownloadSection from './CCDDownloadSection';
+import { useDownloadReport } from '../../context/DownloadReportContext';
 
-const OHOnlyContent = ({
-  activeAlert,
-  ccdDownloadSuccess,
-  ccdError,
-  ccdExtendedFileTypeFlag,
-  CCDRetryTimestamp,
-  generatingCCD,
-  handleDownloadCCD,
-  handleDownloadCCDV2,
-}) => {
+const OHOnlyContent = () => {
+  const {
+    activeAlert,
+    ccdDownloadSuccess,
+    ccdError,
+    ccdExtendedFileTypeFlag,
+    CCDRetryTimestamp,
+    generatingCCD,
+    handleDownloadCCD,
+    handleDownloadCCDV2,
+  } = useDownloadReport();
   return (
     <div className="vads-u-margin-y--2">
       <h2>Download your Continuity of Care Document</h2>
@@ -51,17 +52,6 @@ const OHOnlyContent = ({
       />
     </div>
   );
-};
-
-OHOnlyContent.propTypes = {
-  ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
-  generatingCCD: PropTypes.bool.isRequired,
-  handleDownloadCCD: PropTypes.func.isRequired,
-  handleDownloadCCDV2: PropTypes.func.isRequired,
-  CCDRetryTimestamp: PropTypes.string,
-  activeAlert: PropTypes.object,
-  ccdDownloadSuccess: PropTypes.bool,
-  ccdError: PropTypes.bool,
 };
 
 export default OHOnlyContent;

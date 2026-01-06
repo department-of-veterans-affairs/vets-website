@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   ALERT_TYPE_SEI_ERROR,
   SEI_DOMAINS,
@@ -18,19 +17,21 @@ import AccessTroubleAlertBox from '../shared/AccessTroubleAlertBox';
 import { AccessErrors } from './AccessErrors';
 import CCDDownloadSection from './CCDDownloadSection';
 import useSelfEnteredPdf from '../../hooks/useSelfEnteredPdf';
+import { useDownloadReport } from '../../context/DownloadReportContext';
 
-const VistaOnlyContent = ({
-  activeAlert,
-  ccdError,
-  CCDRetryTimestamp,
-  ccdExtendedFileTypeFlag,
-  ccdDownloadSuccess,
-  generatingCCD,
-  handleDownloadCCD,
-  expandSelfEntered,
-  selfEnteredAccordionRef,
-  runningUnitTest,
-}) => {
+const VistaOnlyContent = () => {
+  const {
+    activeAlert,
+    ccdError,
+    CCDRetryTimestamp,
+    ccdExtendedFileTypeFlag,
+    ccdDownloadSuccess,
+    generatingCCD,
+    handleDownloadCCD,
+    expandSelfEntered,
+    selfEnteredAccordionRef,
+    runningUnitTest,
+  } = useDownloadReport();
   const {
     loading: selfEnteredPdfLoading,
     success: successfulSeiDownload,
@@ -159,19 +160,6 @@ const VistaOnlyContent = ({
       </p>
     </div>
   );
-};
-
-VistaOnlyContent.propTypes = {
-  ccdDownloadSuccess: PropTypes.bool.isRequired,
-  ccdError: PropTypes.bool.isRequired,
-  ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
-  expandSelfEntered: PropTypes.bool.isRequired,
-  generatingCCD: PropTypes.bool.isRequired,
-  handleDownloadCCD: PropTypes.func.isRequired,
-  selfEnteredAccordionRef: PropTypes.object.isRequired,
-  CCDRetryTimestamp: PropTypes.string,
-  activeAlert: PropTypes.object,
-  runningUnitTest: PropTypes.bool,
 };
 
 export default VistaOnlyContent;
