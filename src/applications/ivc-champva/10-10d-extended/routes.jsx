@@ -1,5 +1,4 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-// Trigger e2e tests
 import formConfig from './config/form';
 import App from './containers/App';
 
