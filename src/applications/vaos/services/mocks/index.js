@@ -686,7 +686,27 @@ const responses = {
           'rx',
           'messaging',
         ],
-        vaProfile: cernerUser.data.attributes.vaProfile,
+        vaProfile: {
+          ...cernerUser.data.attributes.vaProfile,
+          facilities: [
+            {
+              facility_id: '556',
+              is_cerner: false,
+            },
+            {
+              facility_id: '984',
+              is_cerner: false,
+            },
+            {
+              facility_id: '983',
+              is_cerner: false,
+            },
+            {
+              facility_id: '692',
+              is_cerner: true,
+            },
+          ],
+        },
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
