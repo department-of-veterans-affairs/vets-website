@@ -478,9 +478,9 @@ const VaPrescription = prescription => {
                                         This fill has a smaller quantity on
                                         purpose.
                                       </p>
-                                      <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0">
+                                      <h5 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0">
                                         Quantity
-                                      </h4>
+                                      </h5>
                                       <p
                                         data-testid="rx-quantity-partial"
                                         className="vads-u-margin--0 vads-u-margin-bottom--1"
@@ -495,12 +495,12 @@ const VaPrescription = prescription => {
                                 {i === 0 &&
                                   !isPartialFill && (
                                     <>
-                                      <h4
+                                      <h5
                                         className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0"
                                         data-testid="shipped-date"
                                       >
                                         Shipped on
-                                      </h4>
+                                      </h5>
                                       <p
                                         className="vads-u-margin--0 vads-u-margin-bottom--1"
                                         data-testid="shipped-on"
@@ -519,19 +519,15 @@ const VaPrescription = prescription => {
                                 {!isCernerPilot &&
                                   !isPartialFill && (
                                     <>
-                                      <h4
+                                      <h5
                                         className={`${
                                           i === 0 ? 'vads-u-margin-top--2 ' : ''
                                         }vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0`}
                                         data-testid="med-image"
-                                        aria-hidden="true"
                                       >
                                         Image
-                                      </h4>
-                                      <div
-                                        className="no-print"
-                                        aria-hidden="true"
-                                      >
+                                      </h5>
+                                      <div className="no-print">
                                         {entry.cmopNdcNumber ? (
                                           <>
                                             <img
@@ -554,12 +550,12 @@ const VaPrescription = prescription => {
                                           </p>
                                         )}
                                       </div>
-                                      <h4
+                                      <h5
                                         className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                                         data-testid="med-description"
                                       >
                                         Medication description
-                                      </h4>
+                                      </h5>
                                       <div data-testid="rx-description">
                                         <MedicationDescription
                                           shape={shape}
