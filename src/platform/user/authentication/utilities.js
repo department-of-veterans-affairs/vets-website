@@ -454,12 +454,9 @@ export const logoutUrl = () => {
 
 /**
  * @description See https://github.com/department-of-veterans-affairs/identity-documentation/issues/260 for technical diagram
- * @param {Boolean} cernerNonEligibleSisEnabled feature toggle that controls logic
  * @returns {Boolean} Returns a boolean to determine AuthBroker
  */
-export const determineAuthBroker = (featureFlagEnabled, toggleIsLoading) => {
-  if (!featureFlagEnabled && !toggleIsLoading) return false;
-
+export const determineAuthBroker = () => {
   const cookieValue = Cookies.get('CERNER_ELIGIBLE');
 
   /**
