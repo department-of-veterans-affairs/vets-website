@@ -107,6 +107,7 @@ const ComposeForm = props => {
   const [isAutoSave, setIsAutoSave] = useState(true);
   const initialTextareaValueRef = useRef(undefined);
   const prefillClearedReportedRef = useRef(false);
+  const prefillEditedReportedRef = useRef(false);
 
   const recipientExists = useCallback(
     recipientId => {
@@ -899,8 +900,17 @@ const ComposeForm = props => {
       initialTextareaValueRef.current &&
       initialTextareaValueRef.current.length > 0
     ) {
-      recordEvent({ event: 'sm_editor_prefill_cleared' });
+      recordEvent({ event: 'sm_editor_prefill_deleted' });
       prefillClearedReportedRef.current = true;
+    }
+    if (
+      newValue !== '' &&
+      !prefillEditedReportedRef.current &&
+      initialTextareaValueRef.current !== undefined &&
+      initialTextareaValueRef.current !== newValue
+    ) {
+      recordEvent({ event: 'sm_editor_prefill_edited' });
+      prefillEditedReportedRef.current = true;
     }
     setMessageBody(newValue);
     dispatch(
