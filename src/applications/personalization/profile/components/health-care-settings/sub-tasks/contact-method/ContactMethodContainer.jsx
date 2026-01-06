@@ -298,6 +298,7 @@ export const ContactMethodContainer = () => {
       onSecondaryClick={handlers.cancel}
       leftButtonText="Continue"
       rightButtonText="Cancel"
+      data-testid="continue-cancel-buttons"
     />
   );
   if (pageData.quickExit) {
@@ -307,6 +308,7 @@ export const ContactMethodContainer = () => {
         onSecondaryClick={handlers.cancel}
         leftButtonText="Save to profile"
         rightButtonText="Cancel"
+        data-testid="quick-exit-cancel-buttons"
       />
     );
   }
@@ -317,6 +319,7 @@ export const ContactMethodContainer = () => {
         onSecondaryClick={handlers.cancel}
         leftButtonText="Confirm information"
         rightButtonText="Update information"
+        data-testid="confirm-update-buttons"
       />
     );
   }

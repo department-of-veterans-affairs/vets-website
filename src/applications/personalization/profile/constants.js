@@ -1,5 +1,3 @@
-import { SCHEDULING_PREF_PATHNAMES } from '@@vap-svc/constants/schedulingPreferencesConstants';
-
 // all the active feature toggles for the profile app with a default value of false
 export const PROFILE_TOGGLES = {
   profileShowPronounsAndSexualOrientation: false,
@@ -44,6 +42,9 @@ export const PROFILE_BREADCRUMB_BASE = [
   { href: '/profile', label: 'Profile', isRouterLink: true },
 ];
 
+const SCHEDULING_PREF_BASE_PATH =
+  '/profile/health-care-settings/scheduling-preferences';
+
 export const PROFILE_PATHS = Object.freeze({
   PROFILE_ROOT: '/profile',
   PERSONAL_INFORMATION: '/profile/personal-information',
@@ -55,10 +56,9 @@ export const PROFILE_PATHS = Object.freeze({
   HEALTH_CARE_SETTINGS: '/profile/health-care-settings',
   SCHEDULING_PREFERENCES:
     '/profile/health-care-settings/scheduling-preferences',
-  SCHEDULING_PREF_CONTACT_METHOD: SCHEDULING_PREF_PATHNAMES.CONTACT_METHOD,
-  SCHEDULING_PREF_CONTACT_TIMES: SCHEDULING_PREF_PATHNAMES.CONTACT_TIMES,
-  SCHEDULING_PREF_APPOINTMENT_TIMES:
-    SCHEDULING_PREF_PATHNAMES.APPOINTMENT_TIMES,
+  SCHEDULING_PREF_CONTACT_METHOD: `${SCHEDULING_PREF_BASE_PATH}/contact-method`,
+  SCHEDULING_PREF_CONTACT_TIMES: `${SCHEDULING_PREF_BASE_PATH}/contact-times`,
+  SCHEDULING_PREF_APPOINTMENT_TIMES: `${SCHEDULING_PREF_BASE_PATH}/appointment-times`,
   HEALTH_CARE_CONTACTS: '/profile/contacts',
   MESSAGES_SIGNATURE: '/profile/message-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
