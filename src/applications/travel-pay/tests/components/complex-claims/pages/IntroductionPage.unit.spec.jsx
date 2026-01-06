@@ -137,7 +137,10 @@ describe('Travel Pay – IntroductionPage', () => {
       ),
     ).to.exist;
 
-    expect($(`va-link[href="${BTSSS_PORTAL_URL}"]`, container)).to.exist;
+    const btsssPortalLink = $(`va-link[href="${BTSSS_PORTAL_URL}"]`, container);
+    expect(btsssPortalLink).to.exist;
+    expect(btsssPortalLink).to.have.attribute('external');
+
     expect($(`va-link[href="${FIND_FACILITY_TP_CONTACT_LINK}"]`, container)).to
       .exist;
   });

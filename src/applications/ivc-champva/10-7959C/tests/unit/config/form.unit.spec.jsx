@@ -47,12 +47,12 @@ describe('title text logic', () => {
 });
 
 describe('Beneficiary information', () => {
-  const { pages } = formConfig.chapters.applicantInformation;
+  const { pages } = formConfig.chapters.beneficiaryInformation;
 
   testNumberOfWebComponentFields(
     formConfig,
-    pages.applicantNameDob.schema,
-    pages.applicantNameDob.uiSchema,
+    pages.beneficiaryName.schema,
+    pages.beneficiaryName.uiSchema,
     4,
     'Beneficiary name',
     { ...mockData.data },
@@ -60,8 +60,8 @@ describe('Beneficiary information', () => {
 
   testNumberOfWebComponentFields(
     formConfig,
-    pages.applicantIdentity.schema,
-    pages.applicantIdentity.uiSchema,
+    pages.beneficiaryIdentityInfo.schema,
+    pages.beneficiaryIdentityInfo.uiSchema,
     1,
     'Beneficiary identification information',
     { ...mockData.data },
@@ -69,8 +69,8 @@ describe('Beneficiary information', () => {
 
   testNumberOfWebComponentFields(
     formConfig,
-    pages.applicantAddressInfo.schema,
-    pages.applicantAddressInfo.uiSchema,
+    pages.beneficiaryAddress.schema,
+    pages.beneficiaryAddress.uiSchema,
     9,
     'Beneficiary mailing address',
     { ...mockData.data },
@@ -78,8 +78,8 @@ describe('Beneficiary information', () => {
 
   testNumberOfWebComponentFields(
     formConfig,
-    pages.applicantContactInfo.schema,
-    pages.applicantContactInfo.uiSchema,
+    pages.beneficiaryContactInfo.schema,
+    pages.beneficiaryContactInfo.uiSchema,
     2,
     'Beneficiary contact information',
     { ...mockData.data },
@@ -87,10 +87,19 @@ describe('Beneficiary information', () => {
 
   testNumberOfWebComponentFields(
     formConfig,
-    pages.applicantGender.schema,
-    pages.applicantGender.uiSchema,
+    pages.beneficiaryBirthSex.schema,
+    pages.beneficiaryBirthSex.uiSchema,
     1,
     'Beneficiary birth sex',
+    { ...mockData.data },
+  );
+
+  testNumberOfWebComponentFields(
+    formConfig,
+    pages.beneficiaryAge.schema,
+    pages.beneficiaryAge.uiSchema,
+    1,
+    'Beneficiary age',
     { ...mockData.data },
   );
 });

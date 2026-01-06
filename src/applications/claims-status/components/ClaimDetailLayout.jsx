@@ -106,6 +106,7 @@ export default function ClaimDetailLayout(props) {
                 body={
                   <Type1UnknownUploadError errorFiles={type1UnknownErrors} />
                 }
+                role="alert"
                 type="error"
                 onSetFocus={focusNotificationAlert}
               />

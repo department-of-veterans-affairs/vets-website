@@ -336,6 +336,11 @@ export const Categories = {
   EDUCATION: 'Education',
 };
 
+export const SelectCareTeamPage = {
+  CANT_FIND_CARE_TEAM_NOTE: `If you can’t find the care team you want to select, update your contact list to add it here.`,
+  CANT_FIND_CARE_TEAM_LINK: `Learn what to do if you can’t find your care team`,
+};
+
 export const MessageHintText = {
   RX_RENEWAL_ERROR: 'Include as many of these medication details as possible.',
   RX_RENEWAL_SUCCESS: 'Review the medication details we added to your message.',
