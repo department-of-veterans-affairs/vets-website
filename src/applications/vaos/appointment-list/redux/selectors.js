@@ -191,7 +191,7 @@ export function getUpcomingAppointmentListInfo(state) {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
     hasBackendServiceFailures:
-      state.appointments?.backendServiceFailures?.meta.length || false,
+      state.appointments?.backendServiceFailures?.meta?.length || false,
   };
 }
 
