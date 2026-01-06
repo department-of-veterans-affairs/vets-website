@@ -193,66 +193,57 @@ SameBenefitResultDescription.propTypes = {
   }),
 };
 
-const BenefitSwitchDescription = ({ formData }) => {
-  const header = getSwitchFormHeader(formData?.mebBenefitSelection);
-
+const BenefitSwitchDescription = () => {
   return (
-    <>
-      {header && <h2 className="vads-u-font-size--h2">{header}</h2>}
-      <va-additional-info
-        onClick={function noRefCheck() {}}
-        trigger="Learn more about these benefits"
-        style={{ maxWidth: '36rem' }}
-      >
-        <ul className="vads-u-margin-top--1">
-          <li>
-            Learn about GI Bill benefits:{' '}
-            <va-link
-              external
-              href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
-              text="Post-9/11 GI Bill, Montgomery GI Bill Active Duty (MGIB-AD)"
-            />,{' '}
-            <va-link
-              external
-              href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty"
-              text="Montgomery GI Bill Active Duty (MGIB-AD)"
-            />, and{' '}
-            <va-link
-              external
-              href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve"
-              text="Montgomery GI Bill Selected Reserve (MGIB-SR)"
-            />{' '}
-          </li>
-          <li>
-            Learn about survivors' and dependents' assistance:{' '}
-            <va-link
-              external
-              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits"
-              text="transferred Post-9/11 GI Bill benefits"
-            />
-          </li>
-          <li>
-            <va-link
-              external
-              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
-              text="Survivors' and Dependents' Education Assistance (DEA)"
-            />,{' '}
-            <va-link
-              external
-              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/"
-              text="Fry Scholarship"
-            />
-          </li>
-        </ul>
-      </va-additional-info>
-    </>
+    <va-additional-info
+      onClick={function noRefCheck() {}}
+      trigger="Learn more about these benefits"
+    >
+      <ul className="vads-u-margin-top--1">
+        <li>
+          Learn about GI Bill benefits:{' '}
+          <va-link
+            external
+            href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
+            text="Post-9/11 GI Bill, Montgomery GI Bill Active Duty (MGIB-AD)"
+          />
+          ,{' '}
+          <va-link
+            external
+            href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty"
+            text="Montgomery GI Bill Active Duty (MGIB-AD)"
+          />
+          , and{' '}
+          <va-link
+            external
+            href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve"
+            text="Montgomery GI Bill Selected Reserve (MGIB-SR)"
+          />
+        </li>
+        <li>
+          <va-link
+            external
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits"
+            text="Learn about transferred Post-9/11 GI Bill benefits"
+          />
+        </li>
+        <li>
+          Learn about survivors’ and dependents’ assistance:{' '}
+          <va-link
+            external
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
+            text="Survivors' and Dependents' Education Assistance (DEA)"
+          />
+          {' '}and{' '}
+          <va-link
+            external
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/"
+            text="Fry Scholarship"
+          />
+        </li>
+      </ul>
+    </va-additional-info>
   );
-};
-
-BenefitSwitchDescription.propTypes = {
-  formData: PropTypes.shape({
-    mebBenefitSelection: PropTypes.string,
-  }),
 };
 
 const YourInformationTitle = () => {
