@@ -14,9 +14,9 @@ const HINT_TEXT = content['medicare--part-a-denial-notice-hint'];
 export default {
   uiSchema: {
     ...descriptionUI(ProofOfMedicareAlert),
-    'view:partADenialNotice': {
+    'view:hasPartADenial': {
       ...titleWithNameUI(TITLE_TEXT),
-      applicantMedicarePartADenialNotice: yesNoUI({
+      hasPartADenial: yesNoUI({
         title: INPUT_LABEL,
         hint: HINT_TEXT,
       }),
@@ -25,11 +25,11 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:partADenialNotice': {
+      'view:hasPartADenial': {
         type: 'object',
-        required: ['applicantMedicarePartADenialNotice'],
+        required: ['hasPartADenial'],
         properties: {
-          applicantMedicarePartADenialNotice: yesNoSchema,
+          hasPartADenial: yesNoSchema,
         },
       },
     },
