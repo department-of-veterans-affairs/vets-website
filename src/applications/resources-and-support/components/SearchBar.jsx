@@ -11,7 +11,6 @@ import {
   SEARCH_APP_USED,
   SEARCH_LOCATION,
   SEARCH_SELECTION,
-  SEARCH_TYPEAHEAD_ENABLED,
   addSearchGADataToStorage,
 } from 'platform/site-wide/search-analytics';
 import URLSearchParams from 'url-search-params';
@@ -98,7 +97,6 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
         [SEARCH_LOCATION]: RESOURCES,
         [SEARCH_APP_USED]: false,
         [SEARCH_SELECTION]: 'All VA.gov',
-        [SEARCH_TYPEAHEAD_ENABLED]: false,
       });
     }
 

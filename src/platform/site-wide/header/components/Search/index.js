@@ -4,12 +4,8 @@ import {
   SEARCH_LOCATION,
   SEARCH_APP_USED,
   SEARCH_SELECTION,
-  SEARCH_TYPEAHEAD_ENABLED,
-  TYPEAHEAD_CLICKED,
-  TYPEAHEAD_LIST,
   addSearchGADataToStorage,
 } from 'platform/site-wide/search-analytics';
-import SearchDropdownComponent from './SearchDropdownComponent';
 import { replaceWithStagingDomain } from '../../../../utilities/environment/stagingDomains';
 
 const Search = () => {
@@ -25,8 +21,6 @@ const Search = () => {
       [SEARCH_LOCATION]: 'Mobile Header Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
-      [TYPEAHEAD_LIST]: validSuggestions,
     });
 
     const searchUrl = replaceWithStagingDomain(
@@ -51,9 +45,6 @@ const Search = () => {
       [SEARCH_LOCATION]: 'Mobile Header Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
-      [TYPEAHEAD_CLICKED]: true,
-      [TYPEAHEAD_LIST]: validSuggestions,
     });
 
     const searchUrl = replaceWithStagingDomain(
@@ -74,24 +65,6 @@ const Search = () => {
       >
         Search
       </label>
-      <SearchDropdownComponent
-        buttonText=""
-        canSubmit
-        id="search-header-dropdown"
-        componentClassName="vads-u-padding-x--0p5"
-        containerClassName="vads-u-padding-bottom--2 vads-u-margin--0 search-input-container"
-        buttonClassName="search-button"
-        inputClassName="search-input"
-        suggestionsListClassName=""
-        suggestionClassName=""
-        fullWidthSuggestions
-        formatSuggestions
-        startingValue=""
-        submitOnClick
-        submitOnEnter
-        onInputSubmit={onInputSubmit}
-        onSuggestionSubmit={onSuggestionSubmit}
-      />
     </>
   );
 };

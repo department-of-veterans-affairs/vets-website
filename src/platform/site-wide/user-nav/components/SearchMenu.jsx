@@ -5,7 +5,6 @@ import {
   SEARCH_LOCATION,
   SEARCH_APP_USED,
   SEARCH_SELECTION,
-  SEARCH_TYPEAHEAD_ENABLED,
   TYPEAHEAD_CLICKED,
   TYPEAHEAD_LIST,
   addSearchGADataToStorage,
@@ -49,7 +48,6 @@ export class SearchMenu extends React.Component {
       [SEARCH_LOCATION]: 'Desktop Header Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
       [TYPEAHEAD_LIST]: validSuggestions,
     });
 
@@ -75,7 +73,6 @@ export class SearchMenu extends React.Component {
       [SEARCH_LOCATION]: 'Desktop Header Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
       [TYPEAHEAD_CLICKED]: true,
       [TYPEAHEAD_LIST]: validSuggestions,
     };

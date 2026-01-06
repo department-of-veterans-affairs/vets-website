@@ -21,7 +21,6 @@ import {
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
 import {
-  fetchTypeaheadSuggestions,
   isSearchTermValid,
 } from '~/platform/utilities/search-utilities';
 
@@ -58,8 +57,6 @@ const SearchApp = ({
   const [page, setPage] = useState(pageFromURL);
   const [typeAheadWasUsed, setTypeAheadWasUsed] = useState(typeaheadUsed);
   const [formWasSubmitted, setFormWasSubmitted] = useState(false);
-
-  const instance = useRef({ typeaheadTimer: null });
 
   const {
     currentPage,
@@ -177,31 +174,6 @@ const SearchApp = ({
     [searchIsLoading, searchesPerformed],
   );
 
-  const fetchSuggestions = useCallback(
-    async searchValue => {
-      const typeaheadSuggestions = await fetchTypeaheadSuggestions(searchValue);
-
-      if (typeaheadSuggestions?.length) {
-        setSuggestions(typeaheadSuggestions);
-      }
-    },
-    [setSuggestions],
-  );
-
-  useEffect(
-    () => {
-      // We landed on the page with a search term in the URL; fetch suggestions
-      if (userInput) {
-        const initialSuggestions = fetchSuggestions(userInput);
-
-        if (initialSuggestions?.length) {
-          setSuggestions(initialSuggestions);
-        }
-      }
-    },
-    [fetchSuggestions, setSuggestions],
-  );
-
   const updateURL = options => {
     router.push({
       pathname: '',
@@ -306,12 +278,6 @@ const SearchApp = ({
       setFormWasSubmitted(false);
     }
 
-    clearTimeout(instance.current.typeaheadTimer);
-
-    instance.current.typeaheadTimer = setTimeout(() => {
-      fetchSuggestions(userInput);
-    }, 200);
-
     setUserInput(event.target.value);
 
     if (userInput?.length <= 2) {
@@ -414,7 +380,6 @@ const SearchApp = ({
                   id="search-results-page-dropdown-input-field"
                   data-e2e-id="search-results-page-dropdown-input-field"
                   label="Enter a keyword, phrase, or question"
-                  onBlur={() => clearTimeout(instance.current.typeaheadTimer)}
                   onInput={handleInputChange}
                   onSubmit={event => onInputSubmit(event)}
                   suggestions={suggestions}
