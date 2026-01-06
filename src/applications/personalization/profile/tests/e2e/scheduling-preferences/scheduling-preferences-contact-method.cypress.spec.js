@@ -73,6 +73,14 @@ const successResponseObject = {
   },
 };
 
+const interceptSchedulingPreferencesSuccess = () => {
+  cy.intercept(
+    'POST',
+    '/v0/profile/scheduling_preferences',
+    successResponseObject,
+  ).as('updateSchedulingPreferencesSuccess');
+};
+
 const clickEdit = () => {
   // Click edit button in the contact email section to enter edit view
   cy.get(
@@ -100,12 +108,38 @@ const clickQuickExitSave = () => {
     .click();
 };
 
+const clickContinueCancelButton = () => {
+  // Click to save
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.findByTestId('continue-cancel-buttons')
+    .shadow()
+    .wait(1) // wait needed to ensure button is clickable for some reason
+    .find('va-button')
+    .first()
+    .shadow()
+    .find('button')
+    .click();
+};
+
+const clickConfirmSave = () => {
+  // Click to save
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.findByTestId('confirm-update-buttons')
+    .shadow()
+    .wait(1) // wait needed to ensure button is clickable for some reason
+    .find('va-button')
+    .first()
+    .shadow()
+    .find('button')
+    .click();
+};
+
 describe('Select preferred contact method', () => {
   beforeEach(() => {
     setup();
   });
 
-  const testCases = [
+  const quickExitTests = [
     {
       label: 'should allow selection of secured message',
       option: 'option-3',
@@ -118,19 +152,16 @@ describe('Select preferred contact method', () => {
     },
   ];
 
-  testCases.forEach(({ label, option, expectedText }) => {
+  quickExitTests.forEach(({ label, option, expectedText }) => {
     it(label, () => {
       // Mock POST request to return API error response
-      cy.intercept(
-        'POST',
-        '/v0/profile/scheduling_preferences',
-        successResponseObject,
-      ).as('updateSchedulingPreferencesSuccess');
+      interceptSchedulingPreferencesSuccess();
 
       // Update the email address & click to save
       clickEdit();
       selectPreferredMethod(option);
 
+      // Click to save via quick exit
       clickQuickExitSave();
 
       // Wait for the API call to complete
@@ -140,6 +171,57 @@ describe('Select preferred contact method', () => {
       cy.get(
         '#remove-whats-the-best-way-to-contact-you-to-schedule-your-appointments',
       ).should('be.visible');
+
+      cy.findByText(expectedText).should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  const confirmSaveTests = [
+    {
+      label: 'should allow selection of home phone',
+      option: 'option-38',
+      expectedText: /Phone call: home phone/i,
+    },
+    {
+      label: 'should allow selection of mobile phone (call)',
+      option: 'option-1',
+      expectedText: /Phone call: mobile phone/i,
+    },
+    {
+      label: 'should allow selection of mobile phone (text)',
+      option: 'option-2',
+      expectedText: /Text message: mobile phone/i,
+    },
+    {
+      label: 'should allow selection of work phone',
+      option: 'option-39',
+      expectedText: /Phone call: work phone/i,
+    },
+    {
+      label: 'should allow selection of mailing address',
+      option: 'option-4',
+      expectedText: /Mailing address/i,
+    },
+  ];
+
+  confirmSaveTests.forEach(({ label, option, expectedText }) => {
+    it(label, () => {
+      // Mock POST request to return API error response
+      interceptSchedulingPreferencesSuccess();
+
+      // Update the email address & click to save
+      clickEdit();
+      selectPreferredMethod(option);
+
+      // Click to continue to confirm page
+      clickContinueCancelButton();
+
+      clickConfirmSave();
+
+      // Wait for the API call to complete
+      cy.wait('@updateSchedulingPreferencesSuccess');
 
       cy.findByText(expectedText).should('exist');
 
