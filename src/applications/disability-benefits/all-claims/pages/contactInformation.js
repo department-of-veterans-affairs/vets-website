@@ -45,6 +45,12 @@ const {
   phoneAndEmail,
 } = fullSchema.properties;
 
+// Create custom country names that display 'USA' instead of 'United States'
+const COUNTRY_VALUES = constants.countries.map(country => country.value);
+const COUNTRY_NAMES = constants.countries.map(
+  country => (country.value === 'USA' ? 'USA' : country.label),
+);
+
 // const mailingAddress = merge(
 //   {
 //     properties: {
@@ -152,6 +158,44 @@ export const uiSchema = {
         isMilitary: 'view:livesOnMilitaryBase',
       },
     }),
+    // Override country field to display 'USA' instead of 'United States'
+    country: {
+      'ui:title': 'Country',
+      'ui:autocomplete': 'country',
+      'ui:webComponentField': VaSelectField,
+      'ui:errorMessages': {
+        required: 'Select a country',
+      },
+      'ui:required': formData => {
+        const addressData = formData.mailingAddress || {};
+        return !addressData['view:livesOnMilitaryBase'];
+      },
+      'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
+        updateSchema: (formData, schema, _uiSchema) => {
+          const countryUI = _uiSchema;
+          const addressFormData = formData.mailingAddress || {};
+          const isMilitary = addressFormData['view:livesOnMilitaryBase'];
+
+          if (isMilitary) {
+            countryUI['ui:options'].inert = true;
+            addressFormData.country = 'USA';
+            return {
+              enum: ['USA'],
+              enumNames: ['USA'],
+              default: 'USA',
+            };
+          }
+          countryUI['ui:options'].inert = false;
+          return {
+            type: 'string',
+            enum: COUNTRY_VALUES,
+            enumNames: COUNTRY_NAMES,
+          };
+        },
+      },
+    },
     state: {
       'ui:title': 'State',
       'ui:autocomplete': 'address-level1',
@@ -196,7 +240,7 @@ export const uiSchema = {
       },
       'ui:required': formData =>
         formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
-        formData.mailingAddress.country === ('USA' || 'United States'),
+        formData.mailingAddress.country === 'USA',
     },
     zipCode: {
       // is there a way to get this from addressUI?
@@ -204,8 +248,7 @@ export const uiSchema = {
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
-      'ui:required': formData =>
-        formData.mailingAddress.country === ('USA' || 'United States'),
+      'ui:required': formData => formData.mailingAddress.country === 'USA',
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
         required: 'Please enter a postal code',
@@ -216,9 +259,53 @@ export const uiSchema = {
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         widgetClassNames: 'usa-input-medium',
-        hideIf: formData =>
-          formData.mailingAddress.country !== ('USA' || 'United States'),
+        hideIf: formData => formData.mailingAddress.country !== 'USA',
       },
+    },
+    addressLine1: {
+      ...addressUI().street,
+      'ui:validations': [
+        (errors, value) => {
+          if (value) {
+            const maxLength = 20;
+            if (value.length > maxLength) {
+              errors.addError(
+                `Address line 1 must be ${maxLength} characters or less`,
+              );
+            }
+          }
+        },
+      ],
+    },
+    addressLine2: {
+      ...addressUI().street2,
+      'ui:validations': [
+        (errors, value) => {
+          if (value) {
+            const maxLength = 20;
+            if (value.length > maxLength) {
+              errors.addError(
+                `Address line 2 must be ${maxLength} characters or less`,
+              );
+            }
+          }
+        },
+      ],
+    },
+    addressLine3: {
+      ...addressUI().street3,
+      'ui:validations': [
+        (errors, value) => {
+          if (value) {
+            const maxLength = 20;
+            if (value.length > maxLength) {
+              errors.addError(
+                `Address line 3 must be ${maxLength} characters or less`,
+              );
+            }
+          }
+        },
+      ],
     },
   },
   'view:contactInfoDescription': {
