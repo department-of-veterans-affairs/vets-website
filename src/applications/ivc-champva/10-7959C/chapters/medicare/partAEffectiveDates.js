@@ -20,7 +20,7 @@ export default {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
+      medicarePartAEffectiveDate: currentOrPastDateUI({
         title: INPUT_LABEL,
         hint: HINT_TEXT,
         classNames: 'vads-u-margin-top--neg1p5',
@@ -32,9 +32,9 @@ export default {
     properties: {
       'view:medicarePartAEffectiveDate': {
         type: 'object',
-        required: ['applicantMedicarePartAEffectiveDate'],
+        required: ['medicarePartAEffectiveDate'],
         properties: {
-          applicantMedicarePartAEffectiveDate: currentOrPastDateSchema,
+          medicarePartAEffectiveDate: currentOrPastDateSchema,
         },
       },
     },
