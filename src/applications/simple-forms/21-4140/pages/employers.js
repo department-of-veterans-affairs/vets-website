@@ -99,7 +99,7 @@ const summaryPage = {
           N: "No, I don't have any employment to report",
         },
         hint:
-         "If you have employment to report, you'll need to add at least one employer. You can add up to four.",
+          "If you have employment to report, you'll need to add at least one employer. You can add up to four.",
         errorMessages: {
           required: 'Select if you have employment to report.',
         },
