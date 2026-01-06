@@ -67,6 +67,11 @@ const InnerNavigation = () => {
               to={path.path}
               data-dd-action-name={`${path.label} link`}
               onClick={handleLinkClick}
+              aria-current={
+                handleActiveLinksStyle(path) === 'active-innerNav-link'
+                  ? 'page'
+                  : undefined
+              }
             >
               {path.label}
             </Link>

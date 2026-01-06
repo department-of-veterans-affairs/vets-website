@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import {
+  validateChars,
   validateDateRange,
   validateHealthInsurancePlan,
 } from '../../../utils/validation';
@@ -112,7 +113,6 @@ describe('10-7959C `validateDateRange` form validation', () => {
 });
 
 describe('10-7959c `validateHealthInsurancePlan` form validation', () => {
-  const PARTICIPANTS_VALID = { hash1: true, hash2: false };
   const NOW_ISO_DATE = '2025-11-05';
   const FILES = {
     front: () => [{ name: 'front.pdf' }],
@@ -136,7 +136,6 @@ describe('10-7959c `validateHealthInsurancePlan` form validation', () => {
     effectiveDate: PAST_DATE,
     throughEmployer: true,
     eob: true,
-    healthcareParticipants: PARTICIPANTS_VALID,
     insuranceCardFront: FILES.front(),
     insuranceCardBack: FILES.back(),
   });
@@ -265,38 +264,6 @@ describe('10-7959c `validateHealthInsurancePlan` form validation', () => {
     });
   });
 
-  context('Healthcare participants validation', () => {
-    [
-      { name: 'omitted', value: undefined },
-      { name: 'not selected', value: { hash1: false, hash2: false } },
-      { name: 'empty object', value: {} },
-      { name: 'wrong type', value: 'not-an-object' },
-    ].forEach(({ name, value }) => {
-      it(`should return "true" when healthcare participant(s) is ${name}`, () => {
-        const item = makeItem({ healthcareParticipants: value });
-        expect(validateHealthInsurancePlan(item)).to.be.true;
-      });
-    });
-  });
-
-  context('Additional comments validation', () => {
-    it('should return "false" when additional comments is within character limit', () => {
-      const item = makeItem({ additionalComments: 'Under 200 chars.' });
-      expect(validateHealthInsurancePlan(item)).to.be.false;
-    });
-
-    it('should return "true" when additional comments exceeds character limit', () => {
-      const longComment = 'a'.repeat(201);
-      const item = makeItem({ additionalComments: longComment });
-      expect(validateHealthInsurancePlan(item)).to.be.true;
-    });
-
-    it('should return "false" when additional comments is undefined', () => {
-      const item = makeItem({ additionalComments: undefined });
-      expect(validateHealthInsurancePlan(item)).to.be.false;
-    });
-  });
-
   context('Card upload validation', () => {
     it('should return "true" when front card is omitted', () => {
       const item = makeItem({ insuranceCardFront: FILES.empty() });
@@ -312,5 +279,46 @@ describe('10-7959c `validateHealthInsurancePlan` form validation', () => {
       const item = makeItem({ insuranceCardFront: [{}] });
       expect(validateHealthInsurancePlan(item)).to.be.true;
     });
+  });
+});
+
+describe('10-7959C `validateChars` form validation', () => {
+  let addErrorSpy;
+  let errors;
+
+  beforeEach(() => {
+    addErrorSpy = sinon.spy();
+    errors = { addError: addErrorSpy };
+  });
+
+  afterEach(() => {
+    addErrorSpy.resetHistory();
+  });
+
+  it('should not add error when text contains only valid characters', () => {
+    validateChars(errors, 'Valid text with letters and numbers 123');
+    sinon.assert.notCalled(addErrorSpy);
+  });
+
+  it('should add error when text contains a single invalid character', () => {
+    validateChars(errors, 'text with $ symbol');
+    sinon.assert.calledOnce(addErrorSpy);
+    sinon.assert.calledWith(addErrorSpy, sinon.match(/this character.*\$/));
+  });
+
+  it('should add error when text contains multiple invalid characters', () => {
+    validateChars(errors, 'text with $@# symbols');
+    sinon.assert.calledOnce(addErrorSpy);
+    sinon.assert.calledWith(addErrorSpy, sinon.match(/these characters/));
+  });
+
+  it('should not add error for empty string', () => {
+    validateChars(errors, '');
+    sinon.assert.notCalled(addErrorSpy);
+  });
+
+  it('should allow hyphens, periods, apostrophes, and commas', () => {
+    validateChars(errors, "Text with - . ' , allowed");
+    sinon.assert.notCalled(addErrorSpy);
   });
 });
