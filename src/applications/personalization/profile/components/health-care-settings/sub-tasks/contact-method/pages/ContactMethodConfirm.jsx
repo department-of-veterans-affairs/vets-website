@@ -133,7 +133,6 @@ const mapStateToProps = state => {
 
 ContactMethodConfirm.propTypes = {
   pageData: PropTypes.object.isRequired,
-  setPageData: PropTypes.func.isRequired,
   email: PropTypes.object,
   error: PropTypes.bool,
   homePhone: PropTypes.object,

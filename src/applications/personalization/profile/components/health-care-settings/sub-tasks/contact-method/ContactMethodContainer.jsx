@@ -313,7 +313,7 @@ export const ContactMethodContainer = () => {
         setPageData={setPageData}
       />
     ) : (
-      <ContactMethodConfirm pageData={pageData} setPageData={setPageData} />
+      <ContactMethodConfirm pageData={pageData} />
     );
 
   let buttons = (

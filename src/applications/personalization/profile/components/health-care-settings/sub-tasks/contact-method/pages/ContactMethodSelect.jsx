@@ -40,9 +40,15 @@ const ContactMethodSelect = ({ error, options, setPageData }) => {
           FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
             .SECURE_MESSAGE
       ) {
-        setPageData({ quickExit: true, data: { [fieldName]: value } });
+        setPageData({
+          quickExit: true,
+          data: { [fieldName]: value },
+        });
       } else {
-        setPageData({ quickExit: false, data: { [fieldName]: value || null } });
+        setPageData({
+          quickExit: false,
+          data: { [fieldName]: value || null },
+        });
       }
     },
     [setPageData, fieldName],
