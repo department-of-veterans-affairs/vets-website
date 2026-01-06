@@ -33,13 +33,6 @@ ApplicationsStatusHeader.propTypes = {
   headingText: PropTypes.string.isRequired,
 };
 
-const ApplicationsEmptyText = ({ emptyText }) => (
-  <p data-testid="applications-in-progress-empty-state">{emptyText}</p>
-);
-ApplicationsEmptyText.propTypes = {
-  emptyText: PropTypes.string.isRequired,
-};
-
 const FormsAndApplications = ({
   savedForms,
   submittedError,
@@ -238,11 +231,14 @@ const FormsAndApplications = ({
           {/* In progress forms */}
           <ApplicationsStatusHeader headingText="In-progress forms" />
           {inProgressCardList.length === 0 ? (
-            <ApplicationsEmptyText emptyText="You don't have any benefit forms or applications in progress." />
+            <p data-testid="applications-in-progress-empty-state">
+              You don’t have any benefit forms or applications in progress.
+            </p>
           ) : (
             <div
               className="vads-l-grid-container--full"
               style={{ overflow: 'hidden' }}
+              data-testid="applications-in-progress-list"
             >
               <div className="vads-l-row vads-u-margin-right--neg3">
                 {inProgressCardList.map(card => {
@@ -266,7 +262,10 @@ const FormsAndApplications = ({
           {/* Completed forms */}
           <ApplicationsStatusHeader headingText="Completed forms" />
           {completedCardList.length === 0 ? (
-            <ApplicationsEmptyText emptyText="You don't have any completed benefit forms or applications to show." />
+            <p data-testid="applications-completed-empty-state">
+              You don’t have any completed benefit forms or applications to
+              show.
+            </p>
           ) : (
             <va-accordion open-single>
               <va-accordion-item
@@ -276,6 +275,7 @@ const FormsAndApplications = ({
                 <div
                   className="vads-l-grid-container--full"
                   style={{ overflow: 'hidden' }}
+                  data-testid="applications-completed-list"
                 >
                   <div className="vads-l-row vads-u-margin-right--neg3">
                     {completedCardList.map(card => (
