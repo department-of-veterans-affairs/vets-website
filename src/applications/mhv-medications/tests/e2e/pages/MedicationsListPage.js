@@ -965,17 +965,17 @@ class MedicationsListPage {
   };
 
   verifyNeedHelpSectionOnListPage = text => {
-    cy.get('[data-testid="rx-need-help-container"]')
+    cy.findByTestId('rx-need-help-container')
       .should('contain', text)
       .and('be.visible');
   };
 
   verifyGoToUseMedicationLinkOnListPage = () => {
-    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+    cy.findByTestId('go-to-use-medications-link').should('be.visible');
   };
 
   verifyStartANewMessageLinkOnListPage = () => {
-    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
+    cy.findByTestId('start-a-new-message-link').should('be.visible');
   };
 
   verifyTitleNotesOnListPage = text => {
@@ -1038,8 +1038,8 @@ class MedicationsListPage {
       });
   };
 
-  verifyErroMessageforFailedAPICallListPage = text => {
-    cy.get('[data-testid="no-medications-list"]').should('contain', text);
+  verifyErrorMessageforFailedAPICallListPage = text => {
+    cy.findByTestId('no-medications-list').should('contain', text);
   };
 
   loadListPageWithoutToolTip = () => {
