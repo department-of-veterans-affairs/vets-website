@@ -3,19 +3,6 @@
     "id": "",
     "type": "users_scaffolds",
     "attributes": {
-      "profile": {
-        "sign_in": {
-          "service_name": "idme"
-        },
-        "email": "john.doe@example.com",
-        "loa": { "current": 3 },
-        "first_name": "John",
-        "middle_name": "",
-        "last_name": "Doe",
-        "gender": "M",
-        "birth_date": "1985-01-01",
-        "verified": true
-      },
       "veteran_status": {
         "status": "OK",
         "is_veteran": true,
