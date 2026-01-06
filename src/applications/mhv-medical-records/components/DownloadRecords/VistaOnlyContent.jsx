@@ -15,6 +15,7 @@ import {
 
 import AccessTroubleAlertBox from '../shared/AccessTroubleAlertBox';
 import { AccessErrors } from './AccessErrors';
+import CCDDescription from './CCDDescription';
 import CCDDownloadSection from './CCDDownloadSection';
 import useSelfEnteredPdf from '../../hooks/useSelfEnteredPdf';
 import { useDownloadReport } from '../../context/DownloadReportContext';
@@ -94,19 +95,7 @@ const VistaOnlyContent = () => {
           <h3 slot="headline">
             Continuity of Care Document for non-VA providers
           </h3>
-          <p>
-            This Continuity of Care Document (CCD) is a summary of your VA
-            medical records that you can share with non-VA providers in your
-            community. It includes your allergies, medications, recent lab
-            results, and more. We used to call this report your VA Health
-            Summary.
-          </p>
-          {!ccdExtendedFileTypeFlag && (
-            <p>
-              You can download this report in .xml format, a standard file
-              format that works with other providers’ medical records systems.
-            </p>
-          )}
+          <CCDDescription showXmlFormatText={!ccdExtendedFileTypeFlag} />
           <CCDDownloadSection
             isExtendedFileType={ccdExtendedFileTypeFlag}
             isLoading={generatingCCD}

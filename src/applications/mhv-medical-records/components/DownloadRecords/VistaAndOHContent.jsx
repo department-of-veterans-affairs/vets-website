@@ -17,6 +17,7 @@ import {
 } from '../../util/constants';
 import { formatFacilityList } from '../../util/facilityHelpers';
 import { useDownloadReport } from '../../context/DownloadReportContext';
+import CCDDescription from './CCDDescription';
 
 const VistaAndOHContent = () => {
   const {
@@ -64,14 +65,8 @@ const VistaAndOHContent = () => {
           className="vads-u-margin-bottom--1"
         />
       )}
-
-      <p className="vads-u-margin-bottom--3">
-        This Continuity of Care Document (CCD) is a summary of your VA medical
-        records that you can share with non-VA providers in your community. It
-        includes your allergies, medications, recent lab results, and more. We
-        used to call this report your VA Health Summary.
-      </p>
-      <div className="vads-u-margin-bottom--4">
+      <CCDDescription showXmlFormatText={!ccdExtendedFileTypeFlag} />
+      <div className="vads-u-margin-top--3, vads-u-margin-bottom--4">
         {ccdExtendedFileTypeFlag ? (
           <>
             <p className="vads-u-font-weight--bold">
@@ -101,31 +96,38 @@ const VistaAndOHContent = () => {
             />
           </>
         ) : (
-          <>
-            {generatingCCD ? (
-              <div
-                id="generating-ccd-indicator"
-                data-testid="generating-ccd-indicator"
-              >
-                <TrackedSpinner
-                  id="download-ccd-spinner"
-                  label="Loading"
-                  message="Preparing your download..."
-                />
-              </div>
-            ) : (
-              <div className="vads-u-display--flex vads-u-flex-direction--column">
-                <va-link
-                  download
-                  href="#"
-                  onClick={e => handleDownloadCCD(e, 'xml')}
-                  text="Download Continuity of Care Document (XML)"
-                  data-testid="generateCcdButtonXml"
-                  data-dd-action-name="Download CCD XML"
-                />
-              </div>
-            )}
-          </>
+          <CCDDownloadSection
+            isExtendedFileType={ccdExtendedFileTypeFlag}
+            isLoading={generatingCCD}
+            handleDownload={handleDownloadCCD}
+            testIdSuffix=""
+            ddSuffix=""
+          />
+          // <>
+          //   {generatingCCD ? (
+          //     <div
+          //       id="generating-ccd-indicator"
+          //       data-testid="generating-ccd-indicator"
+          //     >
+          //       <TrackedSpinner
+          //         id="download-ccd-spinner"
+          //         label="Loading"
+          //         message="Preparing your download..."
+          //       />
+          //     </div>
+          //   ) : (
+          //     <div className="vads-u-display--flex vads-u-flex-direction--column">
+          //       <va-link
+          //         download
+          //         href="#"
+          //         onClick={e => handleDownloadCCD(e, 'xml')}
+          //         text="Download Continuity of Care Document (XML)"
+          //         data-testid="generateCcdButtonXml"
+          //         data-dd-action-name="Download CCD XML"
+          //       />
+          //     </div>
+          //   )}
+          // </>
         )}
       </div>
       <h2>Download your self-entered health information</h2>

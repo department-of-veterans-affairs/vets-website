@@ -75,14 +75,17 @@ const CCDDownloadSection = ({
   testIdSuffix,
   ddSuffix,
 }) => {
+  // When testIdSuffix is empty, don't add the hyphen separator
+  const indicatorSuffix = testIdSuffix ? `-${testIdSuffix}` : '';
+
   if (isLoading)
     return (
       <div
-        id={`generating-ccd-${testIdSuffix}-indicator`}
-        data-testid={`generating-ccd-${testIdSuffix}-indicator`}
+        id={`generating-ccd${indicatorSuffix}-indicator`}
+        data-testid={`generating-ccd${indicatorSuffix}-indicator`}
       >
         <TrackedSpinner
-          id={`download-ccd-${testIdSuffix}-spinner`}
+          id={`download-ccd${indicatorSuffix}-spinner`}
           label="Loading"
           message="Preparing your download..."
         />

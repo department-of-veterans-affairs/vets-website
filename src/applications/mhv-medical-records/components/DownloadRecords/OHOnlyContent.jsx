@@ -1,6 +1,7 @@
 import React from 'react';
 import { AccessErrors } from './AccessErrors';
 import CCDAlertSection from './CCDAlertSection';
+import CCDDescription from './CCDDescription';
 import CCDDownloadSection from './CCDDownloadSection';
 import { useDownloadReport } from '../../context/DownloadReportContext';
 
@@ -28,18 +29,7 @@ const OHOnlyContent = () => {
         CCDRetryTimestamp={CCDRetryTimestamp}
       />
 
-      <p>
-        This Continuity of Care Document (CCD) is a summary of your VA medical
-        records that you can share with non-VA providers in your community. It
-        includes your allergies, medications, recent lab results, and more. We
-        used to call this report your VA Health Summary.
-      </p>
-      {!ccdExtendedFileTypeFlag && (
-        <p>
-          You can download this report in .xml format, a standard file format
-          that works with other providers' medical records systems.
-        </p>
-      )}
+      <CCDDescription showXmlFormatText={!ccdExtendedFileTypeFlag} />
 
       <CCDDownloadSection
         isExtendedFileType={ccdExtendedFileTypeFlag}
