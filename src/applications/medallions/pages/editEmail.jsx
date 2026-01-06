@@ -43,11 +43,11 @@ const EditEmail = ({ goToPath, contentBeforeButtons, contentAfterButtons }) => {
     },
     cancel: () => {
       setReturnState('email', 'canceled');
-      goToPath('applicant-contact-details-logged-in', { force: true });
+      goToPath('applicant-contact-info-logged-in', { force: true });
     },
     success: () => {
       setReturnState('email', 'updated');
-      goToPath('applicant-contact-details-logged-in', { force: true });
+      goToPath('applicant-contact-info-logged-in', { force: true });
     },
   };
 

@@ -43,11 +43,11 @@ const EditPhone = ({ goToPath, contentAfterButtons }) => {
     },
     cancel: () => {
       setReturnState('phone', 'canceled');
-      goToPath('applicant-contact-details-logged-in', { force: true });
+      goToPath('applicant-contact-info-logged-in', { force: true });
     },
     success: () => {
       setReturnState('phone', 'updated');
-      goToPath('applicant-contact-details-logged-in', { force: true });
+      goToPath('applicant-contact-info-logged-in', { force: true });
     },
   };
 
