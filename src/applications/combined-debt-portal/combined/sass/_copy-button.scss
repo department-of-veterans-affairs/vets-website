@@ -1,0 +1,38 @@
+.copy-button-container {
+  display: inline-flex;
+  color: var(--vads-color-primary) !important;
+  width: 110px;
+
+  va-button {
+    margin-left: 0.2rem;
+  }
+
+  va-button::part(button) {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.94rem;
+    justify-content: normal;
+  }
+}
+
+.copy-error {
+  color: var(--vads-color-error);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+// Screen reader only class
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

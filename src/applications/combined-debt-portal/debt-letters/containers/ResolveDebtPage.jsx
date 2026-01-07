@@ -27,6 +27,7 @@ const ResolveDebtPage = ({ match }) => {
   );
 
   const howToUserData = {
+    currentAr: currentDebt.currentAr,
     fileNumber: currentDebt.fileNumber,
     payeeNumber: currentDebt.payeeNumber,
     personEntitled: currentDebt.personEntitled,

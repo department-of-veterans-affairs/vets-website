@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "./copy-button";
 
 .no-wrap {
   white-space: nowrap;
@@ -49,4 +50,11 @@
   vertical-align: baseline;
   position: relative;
   top: 3px;
+}
+
+.debt-copy-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 270px;
 }
