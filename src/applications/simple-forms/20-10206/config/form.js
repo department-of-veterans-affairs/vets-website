@@ -96,7 +96,7 @@ const formConfig = {
       pages: {
         preparerTypePage: {
           path: 'preparer-type',
-          title: 'Preparer type',
+          title: 'Citizenship',
           uiSchema: preparerTypePg.uiSchema,
           schema: preparerTypePg.schema,
           pageClass: 'preparer-type-page',
