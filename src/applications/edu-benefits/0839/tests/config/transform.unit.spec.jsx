@@ -45,10 +45,10 @@ describe('transform function', () => {
       const formData = parsed.educationBenefitsClaim.form;
 
       expect(formData.yellowRibbonProgramTerms).to.deep.equal({
-        firstAcknowledgement: 'yes',
-        secondAcknowledgement: 'yes',
-        thirdAcknowledgement: 'yes',
-        fourthAcknowledgement: 'yes',
+        firstAcknowledgement: 'X',
+        secondAcknowledgement: 'Y',
+        thirdAcknowledgement: 'Z',
+        fourthAcknowledgement: 'W',
         agreeToProvideYellowRibbonProgramContributions: true,
       });
       expect(formData.statement1Initial).to.be.undefined;
@@ -66,6 +66,10 @@ describe('transform function', () => {
             phoneNumber: { contact: '5551234567' },
           },
           agreementType: 'modifyExistingAgreement',
+          statement1Initial: 'yes',
+          statement2Initial: 'yes',
+          statement3Initial: 'yes',
+          statement4Initial: 'yes',
           institutionDetails: { isUsaSchool: true },
           yellowRibbonProgramRequest: [],
         },
