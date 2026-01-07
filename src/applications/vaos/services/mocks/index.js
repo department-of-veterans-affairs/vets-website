@@ -72,9 +72,6 @@ const requestsV2 = require('./v2/requests.json');
 // Oracle Health appointment requests
 const requestsOh = require('./v2/requests_oh.json');
 
-// Uncomment to produce backend service errors
-// const meta = require('./v2/meta_failures.json');
-
 const appointmentRequests = {
   data: requestsV2.data.concat(requestsOh.data),
 };
@@ -88,6 +85,9 @@ const MockReferralSubmitAppointmentResponse = require('../../tests/fixtures/Mock
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
+// Uncomment to produce backend service errors
+// const meta = require('./v2/meta_failures.json');
+
 const features = require('./featureFlags');
 
 const mockAppts = [];
@@ -469,7 +469,7 @@ const responses = {
     });
   },
   'GET /vaos/v2/relationships': (req, res) => {
-    return res.json(patientProviderRelationships);
+    return res.json({ data: patientProviderRelationships, meta });
   },
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json(
