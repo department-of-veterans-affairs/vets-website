@@ -30,7 +30,7 @@ export const veteranBurialInformationPage = {
     },
     burialInformation: {
       dateOfBurial: {
-        ...currentOrPastDateUI('Date of interment'),
+        ...currentOrPastDateUI('Date of burial'),
         'ui:validations': [
           (errors, fieldData, formData) => {
             validateEndDateAfterStartDate(
@@ -38,7 +38,7 @@ export const veteranBurialInformationPage = {
               fieldData,
               formData.veteranInformation,
               'dateOfDeath',
-              'Please enter a date of interment later than the date of death.',
+              'Please enter a date of burial later than the date of death.',
             );
           },
         ],

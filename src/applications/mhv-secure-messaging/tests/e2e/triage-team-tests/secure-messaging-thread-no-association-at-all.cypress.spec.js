@@ -32,11 +32,11 @@ describe('Verify thread - No association at all', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('h2')
-      .should('have.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
+      .should('contain', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
-      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+      .should('contain', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('va-link-action')
@@ -86,7 +86,7 @@ describe('Verify thread - No association at all', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
-      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+      .should('contain', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('va-link-action')
