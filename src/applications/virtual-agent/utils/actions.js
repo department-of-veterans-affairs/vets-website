@@ -19,7 +19,6 @@ import {
 } from './sessionStorage';
 import { sendWindowEventWithActionPayload } from './events';
 import submitForm from './submitForm';
-import processCSAT from './processCSAT';
 
 const START_CONVERSATION = 'startConversation';
 const EVENT = 'event';
@@ -164,7 +163,7 @@ export const processIncomingActivity = ({
   const isMessageFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
   const isFormPostButton = data.value?.type === 'FormPostButton';
-  const isCSATSurveyResponse = data.valueType === 'CSATSurveyResponse';
+  // Ticket #2768: CSAT star rating survey removed due to accessibility issues
 
   if (!getIsTrackingUtterances()) {
     setIsTrackingUtterances(true);
@@ -194,24 +193,6 @@ export const processIncomingActivity = ({
 
   if (isComponentToggleOn && isFormPostButton) {
     submitForm(data.value.url, data.value.body);
-  }
-
-  if (isCSATSurveyResponse) {
-    try {
-      // Defer to next frame to allow Adaptive Card DOM to render
-      requestAnimationFrame(() => {
-        try {
-          processCSAT(data);
-        } catch (e) {
-          // Safeguard to prevent crashing the chat UI
-          // eslint-disable-next-line no-console
-          console.warn('CSAT processing error (deferred):', e);
-        }
-      });
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.warn('CSAT processing error:', e);
-    }
   }
 
   handleSkillEntryEvent(action);

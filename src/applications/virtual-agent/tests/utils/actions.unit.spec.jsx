@@ -10,7 +10,7 @@ import {
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as EventsModule from '../../utils/events';
 import * as SubmitFormModule from '../../utils/submitForm';
-import * as ProcessCSATModule from '../../utils/processCSAT';
+// Ticket #2768: CSAT star rating survey removed due to accessibility issues
 
 describe('actions', () => {
   let sandbox;
@@ -455,49 +455,7 @@ describe('actions', () => {
       expect(submitFormStub.notCalled).to.be.true;
     });
 
-    it('should call processCSAT when activity is CSATSurveyResponse', () => {
-      const action = {
-        payload: {
-          activity: {
-            valueType: 'CSATSurveyResponse',
-          },
-        },
-      };
-
-      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
-      const originalRAF = window.requestAnimationFrame;
-      const originalGlobalRAF = global.requestAnimationFrame;
-      window.requestAnimationFrame = cb => cb();
-      global.requestAnimationFrame = cb => cb();
-
-      processIncomingActivity({
-        action,
-        dispatch: sandbox.spy(),
-      })();
-
-      expect(processCSATStub.calledOnce).to.be.true;
-      window.requestAnimationFrame = originalRAF;
-      global.requestAnimationFrame = originalGlobalRAF;
-    });
-
-    it('should not call processCSAT when activity is not CSATSurveyResponse', () => {
-      const action = {
-        payload: {
-          activity: {
-            valueType: 'other',
-          },
-        },
-      };
-
-      const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
-
-      processIncomingActivity({
-        action,
-        dispatch: sandbox.spy(),
-      })();
-
-      expect(processCSATStub.notCalled).to.be.true;
-    });
+    // Ticket #2768: CSAT star rating survey tests removed - feature removed due to accessibility issues
 
     it('should emit RAG Agent Entry on RAG_ENTRY for non-RootBot skill', () => {
       const action = {
