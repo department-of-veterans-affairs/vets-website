@@ -9,7 +9,6 @@ import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformationV1,
-  includeSpousalInformationV2,
   includeHouseholdInformation,
   includeHouseholdInformationV1,
   includeHouseholdInformationV2,
@@ -36,9 +35,7 @@ import {
   canVeteranProvideCombatOperationsResponse,
   canVeteranProvideAgentOrangeResponse,
   includeHouseholdInformationWithV1Prefill,
-  includeHouseholdInformationWithV2Prefill,
   includeSpousalInformationWithV1Prefill,
-  includeSpousalInformationWithV2Prefill,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -371,10 +368,6 @@ const formConfig = {
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
-        spouseInformationSummary: {
-          ...spousalInformationPages.spouseInformationSummaryPage,
-          depends: includeSpousalInformationV2,
-        },
         ...spousalInformationPages,
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
@@ -425,15 +418,8 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        financialInformationIntroduction: {
-          ...FinancialInformationPages.financialInformationIntroduction,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        financialInformationSummary: {
-          ...FinancialInformationPages.financialInformationSummary,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        veteranAnnualIncome: {
+        ...FinancialInformationPages,
+        veteranAnnualIncomeV1: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
@@ -441,11 +427,7 @@ const formConfig = {
           uiSchema: veteranAnnualIncome.uiSchema,
           schema: veteranAnnualIncome.schema,
         },
-        veteranAnnualIncomeV2: {
-          ...FinancialInformationPages.veteranAnnualIncome,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        spouseAnnualIncome: {
+        spouseAnnualIncomeV1: {
           path: 'household-information/spouse-annual-income',
           title: 'Spouse\u2019s annual income',
           initialData: {},
@@ -453,21 +435,13 @@ const formConfig = {
           uiSchema: spouseAnnualIncome.uiSchema,
           schema: spouseAnnualIncome.schema,
         },
-        spouseAnnualIncomeV2: {
-          ...FinancialInformationPages.spouseAnnualIncome,
-          depends: includeSpousalInformationWithV2Prefill,
-        },
-        deductibleExpenses: {
+        deductibleExpensesV1: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           initialData: {},
           depends: includeHouseholdInformationWithV1Prefill,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
-        },
-        deductibleExpensesV2: {
-          ...FinancialInformationPages.veteranDeductible,
-          depends: includeHouseholdInformationWithV2Prefill,
         },
       },
     },

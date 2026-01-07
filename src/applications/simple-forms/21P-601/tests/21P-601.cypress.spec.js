@@ -11,11 +11,8 @@ import {
   fillDateWebComponentPattern,
   fillTextAreaWebComponent,
   selectRadioWebComponent,
-  selectCheckboxGroupWebComponent,
   reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
-
-import { fillDateDigitsWebComponentPattern } from './e2e/helpers';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -141,7 +138,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillDateDigitsWebComponentPattern(
+            fillDateWebComponentPattern(
               'beneficiaryDateOfDeath',
               data.beneficiaryDateOfDeath,
             );
@@ -241,28 +238,6 @@ const testConfig = createTestConfig(
         });
       },
 
-      'surviving-relatives': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const relativesData = {
-              hasSpouse: data.survivors.hasSpouse || false,
-              hasChildren: data.survivors.hasChildren || false,
-              hasParents: data.survivors.hasParents || false,
-              hasNone: data.survivors.hasNone || false,
-            };
-            cy.selectVaCheckbox(
-              `consent-checkbox`,
-              data.consentToMailMissingRequiredFiles,
-            );
-            selectCheckboxGroupWebComponent(relativesData);
-
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
       // Array builder pages are handled automatically by the form tester
 
       'reimbursement-claim': ({ afterHook }) => {
@@ -337,7 +312,7 @@ const testConfig = createTestConfig(
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

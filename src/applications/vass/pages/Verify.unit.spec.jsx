@@ -1,70 +1,163 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import { waitFor } from '@testing-library/react';
+import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
+import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import Verify from './Verify';
+import reducers from '../redux/reducers';
+import { vassApi } from '../redux/api/vassApi';
+
+// Helper component to display current location for testing navigation
+const LocationDisplay = () => {
+  const location = useLocation();
+  return (
+    <div data-testid="location-display">
+      {location.pathname}
+      {location.search}
+    </div>
+  );
+};
+
+const defaultRenderOptions = {
+  initialState: {
+    vassForm: {
+      hydrated: false,
+      selectedDate: null,
+      selectedTopics: [],
+    },
+  },
+  reducers,
+  additionalMiddlewares: [vassApi.middleware],
+};
 
 describe('VASS Component: Verify', () => {
-  it('should render page title', () => {
-    const screen = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
+  it('should render all content', () => {
+    const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
+      <Verify />,
+      defaultRenderOptions,
     );
 
-    expect(screen.getByTestId('header')).to.exist;
+    expect(getByTestId('header')).to.exist;
+    expect(getByTestId('verify-intro-text')).to.exist;
+    expect(getByTestId('last-name-input')).to.exist;
+    expect(getByTestId('dob-input')).to.exist;
+    expect(getByTestId('submit-button')).to.exist;
+    expect(queryByTestId('verify-error-alert')).to.not.exist;
   });
 
-  it('should render introductory text about verification', () => {
-    const { getByText } = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
+  it('should display error alert when submitting with incorrect credentials', async () => {
+    const {
+      getByTestId,
+      queryByTestId,
+      container,
+    } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
+
+    const submitButton = getByTestId('submit-button');
+
+    const dobInput = container.querySelector(
+      'va-memorable-date[data-testid="dob-input"]',
+    );
+    dobInput.__events.dateChange({ target: { value: '1990-01-01' } });
+
+    inputVaTextInput(
+      container,
+      'WrongName',
+      'va-text-input[data-testid="last-name-input"]',
     );
 
-    expect(
-      getByText(
-        /First, we’ll need your information so we can send you a one-time verification code/i,
-      ),
-    ).to.exist;
+    submitButton.click();
+
+    await waitFor(() => {
+      expect(queryByTestId('verify-error-alert')).to.exist;
+    });
   });
 
-  it('should render last name input field', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
-    );
-    const lastNameInput = container.querySelector(
-      'va-text-input[name="last-name"]',
-    );
+  describe('when cancellation url parameter is true', () => {
+    it('should display the correct page title', () => {
+      const { getByTestId } = renderWithStoreAndRouterV6(<Verify />, {
+        ...defaultRenderOptions,
+        initialEntries: ['/verify?cancel=true'],
+      });
 
-    expect(lastNameInput).to.exist;
-    expect(lastNameInput.getAttribute('label')).to.equal('Your last name');
-    expect(lastNameInput.getAttribute('required')).to.exist;
+      expect(getByTestId('header').textContent).to.contain(
+        'Cancel VA Solid Start appointment',
+      );
+    });
+
+    it('should navigate to enter otc page passing cancel=true as a url parameter', async () => {
+      const { container, getByTestId } = renderWithStoreAndRouterV6(
+        <>
+          <Routes>
+            <Route path="/verify" element={<Verify />} />
+            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+          </Routes>
+          <LocationDisplay />
+        </>,
+        {
+          ...defaultRenderOptions,
+          initialEntries: ['/verify?cancel=true'],
+        },
+      );
+
+      // Fill in valid credentials
+      inputVaTextInput(
+        container,
+        'Smith',
+        'va-text-input[data-testid="last-name-input"]',
+      );
+      const dobInput = container.querySelector(
+        'va-memorable-date[data-testid="dob-input"]',
+      );
+      dobInput.__events.dateChange({ target: { value: '1935-04-07' } });
+
+      const submitButton = getByTestId('submit-button');
+      submitButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/enter-otc?cancel=true',
+        );
+      });
+    });
   });
 
-  it('should render date of birth field', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
-    );
-    const dobInput = container.querySelector('#dob-input');
+  describe('successful verification navigation', () => {
+    it('should navigate to enter-otc page with valid credentials', async () => {
+      const { container, getByTestId } = renderWithStoreAndRouterV6(
+        <>
+          <Routes>
+            <Route path="/verify" element={<Verify />} />
+            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+          </Routes>
+          <LocationDisplay />
+        </>,
+        {
+          ...defaultRenderOptions,
+          initialEntries: ['/verify'],
+        },
+      );
 
-    expect(dobInput).to.exist;
-  });
+      // Fill in valid credentials
+      inputVaTextInput(
+        container,
+        'Smith',
+        'va-text-input[data-testid="last-name-input"]',
+      );
+      const dobInput = container.querySelector(
+        'va-memorable-date[data-testid="dob-input"]',
+      );
+      dobInput.__events.dateChange({ target: { value: '1935-04-07' } });
 
-  it('should render submit button', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Verify />
-      </MemoryRouter>,
-    );
-    const submitButton = container.querySelector('va-button');
+      const submitButton = getByTestId('submit-button');
+      submitButton.click();
 
-    expect(submitButton).to.exist;
-    expect(submitButton.getAttribute('text')).to.equal('Submit');
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/enter-otc',
+        );
+      });
+    });
   });
 });

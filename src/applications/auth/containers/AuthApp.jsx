@@ -10,7 +10,6 @@ import {
   FORCE_NEEDED,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
 import { setupProfileSession } from 'platform/user/profile/utilities';
@@ -26,6 +25,7 @@ import {
   emailNeedsConfirmation,
   generateSentryAuthError,
   handleTokenRequest,
+  checkPortalRequirements,
 } from '../helpers';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(['/auth/login/callback'].join('|'));
@@ -49,11 +49,11 @@ export default function AuthApp({ location }) {
   const isFeatureToggleLoading = useSelector(
     store => store?.featureToggles?.loading,
   );
-  const isInterstitialEnabled = useSelector(
-    store => store?.featureToggles?.dslogonInterstitialRedirect,
-  );
   const isEmailInterstitialEnabled = useSelector(
     store => store?.featureToggles?.confirmContactEmailInterstitialEnabled,
+  );
+  const isPortalNoticeInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.portalNoticeInterstitialEnabled,
   );
 
   const handleAuthError = (error, codeOverride) => {
@@ -77,11 +77,6 @@ export default function AuthApp({ location }) {
   };
 
   const redirect = () => {
-    if (isInterstitialEnabled && CSP_IDS.DS_LOGON === loginType) {
-      window.location.replace('/sign-in-changes-reminder');
-      return;
-    }
-
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
@@ -125,7 +120,9 @@ export default function AuthApp({ location }) {
       );
       if (!termsResponse?.provisioned) {
         handleAuthError(null, '111');
+        return false;
       }
+      return true;
     } catch (err) {
       const message = err?.error;
       if (message === 'Agreement not accepted') {
@@ -137,6 +134,7 @@ export default function AuthApp({ location }) {
       } else {
         handleAuthError(err, '110');
       }
+      return false;
     }
   }
 
@@ -151,6 +149,7 @@ export default function AuthApp({ location }) {
   const handleAuthSuccess = async ({
     response = {},
     skipToRedirect = false,
+    isMyVAHealth = false,
   } = {}) => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const authMetrics = new AuthMetrics(
@@ -159,13 +158,27 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
-      await handleProvisioning();
-    }
+    const provisioned = isMyVAHealth && (await handleProvisioning());
     const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
-    if (!skipToRedirect) {
+    const { needsPortalNotice, needsMyHealth } = checkPortalRequirements({
+      isPortalNoticeInterstitialEnabled,
+      userAttributes,
+      provisioned,
+    });
+    if (
+      !skipToRedirect &&
+      (!isMyVAHealth || needsPortalNotice || needsMyHealth)
+    ) {
       setupProfileSession(userProfile);
+    }
+    if (needsPortalNotice) {
+      window.location.replace('/sign-in-health-portal');
+      return;
+    }
+    if (needsMyHealth) {
+      window.location.replace('/my-health');
+      return;
     }
     if (
       emailNeedsConfirmation({
@@ -191,7 +204,13 @@ export default function AuthApp({ location }) {
       });
     }
 
-    const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
+    const isMyVAHealth = returnUrl.includes(
+      EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+    );
+    const skipToRedirect =
+      !hasError &&
+      checkReturnUrl(returnUrl) &&
+      (!isPortalNoticeInterstitialEnabled || !isMyVAHealth);
 
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
@@ -200,7 +219,11 @@ export default function AuthApp({ location }) {
     } else {
       try {
         const response = await apiRequest('/user');
-        await handleAuthSuccess({ response, skipToRedirect: false });
+        await handleAuthSuccess({
+          response,
+          skipToRedirect: false,
+          isMyVAHealth,
+        });
       } catch (error) {
         handleAuthError(error);
       }

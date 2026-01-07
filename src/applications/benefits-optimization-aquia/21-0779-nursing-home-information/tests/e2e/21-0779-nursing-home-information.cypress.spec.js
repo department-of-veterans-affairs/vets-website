@@ -8,7 +8,7 @@ import { featureToggles, user, mockSubmit } from '../fixtures/mocks';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataSets: ['minimal-test', 'maximal-test', 'va-file-number-only'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {

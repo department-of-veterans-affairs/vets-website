@@ -41,6 +41,7 @@ import {
 import { setPageFocus } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
+import { Type2FailureAnalyticsProvider } from '../contexts/Type2FailureAnalyticsContext';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -202,7 +203,7 @@ class YourClaimsPageV2 extends React.Component {
       }
 
       content = (
-        <>
+        <Type2FailureAnalyticsProvider key={this.state.page}>
           {pageInfo}
           <div className="claim-list">
             {pageItems.map(claim => this.renderListItem(claim))}
@@ -215,7 +216,7 @@ class YourClaimsPageV2 extends React.Component {
               />
             )}
           </div>
-        </>
+        </Type2FailureAnalyticsProvider>
       );
     } else if (allRequestsLoaded) {
       content = <NoClaims />;
@@ -242,7 +243,7 @@ class YourClaimsPageV2 extends React.Component {
               <va-additional-info
                 id="claims-combined"
                 class="claims-combined"
-                trigger="Find out why we sometimes combine claims."
+                trigger="Find out why we sometimes combine claims"
               >
                 <div>
                   If you turn in a new claim while we’re reviewing another one

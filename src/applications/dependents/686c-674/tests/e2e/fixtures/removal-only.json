@@ -1,0 +1,201 @@
+{
+  "vaDependentsNetWorthAndPension": false,
+  "view:additionalEvidenceDescription": {},
+  "view:householdIncome": false,
+  "view:completedChildStoppedAttendingSchool": false,
+  "view:completedMarriedChild": false,
+  "view:completedDependent": false,
+  "view:completedHouseholdChild": false,
+  "view:removeDependentOptions": {
+    "reportDivorce": true,
+    "reportDeath": true,
+    "reportStepchildNotInHousehold": true,
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": true
+  },
+  "view:addOrRemoveDependents": {
+    "remove": true
+  },
+  "householdIncome": false,
+  "reportDivorce": {
+    "spouseIncome": "N",
+    "date": "2019-03-02",
+    "divorceLocation": {
+      "outsideUsa": true,
+      "location": {
+        "city": "Fakesville",
+        "state": "FM",
+        "country": "BGD"
+      }
+    },
+    "reasonMarriageEnded": "Other",
+    "explanationOfOther": "Other",
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "birthDate": "1991-03-19",
+    "view:cancelDivorce": {}
+  },
+  "dependents": {
+    "hasDependents": true,
+    "awarded": [
+      {
+        "fullName": {
+          "first": "SPOUSY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1980-07-07",
+        "ssn": "702023332",
+        "relationshipToVeteran": "Spouse",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "PENNY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2014-08-08",
+        "ssn": "793473479",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "STACY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2025-06-10",
+        "ssn": "798703232",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "PETER",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1943-03-01",
+        "ssn": "997010104",
+        "relationshipToVeteran": "Parent",
+        "awardIndicator": "Y"
+      }
+    ],
+    "notAwarded": [
+      {
+        "fullName": {
+          "first": "NOMY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2000-09-09",
+        "ssn": "793473470",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      }
+    ]
+  },
+  "veteranContactInformation": {
+    "veteranAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake st",
+      "city": "Fakesville",
+      "state": "NV",
+      "postalCode": "89131"
+    },
+    "phoneNumber": "8008885555",
+    "emailAddress": "nope@nope.com"
+  },
+  "stepChildren": [
+    {
+      "dateStepchildLeftHousehold": "2000-02-02",
+      "whoDoesTheStepchildLiveWith": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "city": "Las Vegas",
+        "state": "NV",
+        "postalCode": "12345"
+      },
+      "livingExpensesPaid": "More than half",
+      "supportingStepchild": true,
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "2012-02-19"
+    }
+  ],
+  "deaths": [
+    {
+      "dependentDeathLocation": {
+        "outsideUsa": false,
+        "location": {
+          "city": "Fakesville",
+          "state": "CO"
+        }
+      },
+      "deceasedDependentIncome": "N",
+      "dependentDeathDate": "1991-05-19",
+      "dependentType": "SPOUSE",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-06-19"
+    }
+  ],
+  "childMarriage": [
+    {
+      "dependentIncome": "N",
+      "dateMarried": "1991-01-19",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-02-19"
+    }
+  ],
+  "childStoppedAttendingSchool": [
+    {
+      "dependentIncome": "N",
+      "dateChildLeftSchool": "1991-03-19",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "333445555",
+      "birthDate": "1991-01-19"
+    }
+  ],
+  "view:selectable686Options": {
+    "reportDivorce": true,
+    "reportDeath": true,
+    "reportStepchildNotInHousehold": true,
+    "reportMarriageOfChildUnder18": true,
+    "reportChild18OrOlderIsNotAttendingSchool": true
+  },
+  "veteranInformation": {
+    "fullName": {
+      "first": "Pauline",
+      "middle": "E",
+      "last": "Foster"
+    },
+    "ssn": "796330625",
+    "birthDate": "1976-06-09",
+    "ssnLastFour": "0625",
+    "vaFileLastFour": "0625",
+    "isInReceiptOfPension": -1
+  },
+  "useV2": true,
+  "daysTillExpires": 365,
+  "statementOfTruthSignature": "Pauline E Foster",
+  "statementOfTruthCertified": true
+}

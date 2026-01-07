@@ -8,8 +8,10 @@ import manifest from './manifest.json';
 import AppProviders from './containers/AppProviders';
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
-import { allergiesLoader } from './loaders/allergiesLoader';
-import { prescriptionsLoader } from './loaders/prescriptionsLoader';
+// import { allergiesLoader } from './loaders/allergiesLoader';
+// Disabling loaders temporarily while rolling out Oracle Health Pilot
+// TODO: When the pilot is complete, re-enable loaders
+// import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
 const Prescriptions = lazy(() => import('./containers/Prescriptions'));
 const RefillPrescriptions = lazy(() =>
@@ -64,22 +66,22 @@ const routes = [
   {
     path: 'refill',
     element: <RouteWrapper Component={RefillPrescriptions} />,
-    loader: prescriptionsLoader,
+    // loader: prescriptionsLoader,
   },
   {
     path: '/',
     element: <RouteWrapper Component={Prescriptions} />,
-    loader: prescriptionsLoader,
+    // loader: prescriptionsLoader,
   },
   {
     path: 'prescription/:prescriptionId/documentation',
     element: <RouteWrapper Component={PrescriptionDetailsDocumentation} />,
-    loader: prescriptionsLoader,
+    // loader: prescriptionsLoader,
   },
   {
     path: 'prescription/:prescriptionId',
     element: <RouteWrapper Component={PrescriptionDetails} />,
-    loader: allergiesLoader,
+    // loader: allergiesLoader,
   },
   {
     path: '*',

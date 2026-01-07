@@ -18,17 +18,103 @@ const appointment = {
 const claimId = 'test-claim-id-123';
 const apptId = 'appt-123';
 
-const initialState = {
+const defaultClaim = {
+  claimId,
+  totalCostRequested: 100.25,
+  expenses: [
+    {
+      id: 'expense1',
+      expenseType: 'Mileage',
+      tripType: 'OneWay',
+      address: {
+        addressLine1: '123 Main St',
+        addressLine2: 'Suite 100',
+        city: 'Denver',
+        stateCode: 'CO',
+        zipCode: '80202',
+      },
+      costRequested: 50.25,
+    },
+    {
+      id: 'expense2',
+      expenseType: 'Parking',
+      tripType: 'OneWay',
+      costRequested: 50.0,
+    },
+  ],
+  documents: [
+    {
+      documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
+      filename: 'test.pdf',
+      mimetype: 'application/pdf',
+      createdon: '2025-10-01T18:14:37Z',
+      expenseId: 'expense2', // Doc is associated with expense
+    },
+  ],
+};
+
+const getData = () => ({
   travelPay: {
     appointment: {
       isLoading: false,
       error: null,
       data: appointment,
     },
+    claimSubmission: { isSubmitting: false, error: null, data: null },
+    claimDetails: {
+      data: {
+        [claimId]: defaultClaim,
+      },
+    },
+    complexClaim: {
+      claim: {
+        creation: {
+          isLoading: false,
+          error: null,
+        },
+        submission: {
+          id: '',
+          isSubmitting: false,
+          error: null,
+          data: null,
+        },
+        data: null,
+      },
+      expenses: {
+        creation: {
+          isLoading: false,
+          error: null,
+        },
+        update: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
+        delete: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
+        data: defaultClaim.expenses,
+      },
+    },
   },
-};
+  user: {
+    profile: {
+      vapContactInfo: {
+        residentialAddress: {
+          addressLine1: '123 Test St',
+          addressLine2: '',
+          city: 'Test City',
+          stateCode: 'CO',
+          zipCode: '80202',
+        },
+      },
+    },
+  },
+});
 
-const renderConfirmationPage = (state = initialState) => {
+const renderConfirmationPage = (state = getData()) => {
   return renderWithStoreAndRouter(
     <MemoryRouter
       initialEntries={[`/file-new-claim/${apptId}/${claimId}/confirmation`]}
@@ -47,9 +133,110 @@ const renderConfirmationPage = (state = initialState) => {
   );
 };
 
+const stateWithSuccess = {
+  ...getData(),
+  travelPay: {
+    ...getData().travelPay,
+    complexClaim: {
+      ...getData().travelPay.complexClaim,
+      claim: {
+        ...getData().travelPay.complexClaim.claim,
+        submission: {
+          isSubmitting: false,
+          error: null,
+          data: { claimNumber: claimId },
+        },
+      },
+    },
+  },
+};
+
+const stateWithoutAppointment = {
+  ...getData(),
+  travelPay: {
+    ...getData().travelPay,
+    appointment: {
+      isLoading: false,
+      error: null,
+      data: null, // no appointment data
+    },
+    complexClaim: {
+      ...getData().travelPay.complexClaim,
+      claim: {
+        ...getData().travelPay.complexClaim.claim,
+        submission: {
+          isSubmitting: false,
+          error: null,
+          data: { claimNumber: claimId }, // submission exists so success alert renders
+        },
+      },
+    },
+  },
+};
+
+const stateWithError = {
+  ...getData(),
+  travelPay: {
+    ...getData().travelPay,
+    complexClaim: {
+      ...getData().travelPay.complexClaim,
+      claim: {
+        ...getData().travelPay.complexClaim.claim,
+        submission: {
+          isSubmitting: false,
+          error: new Error('Forced submit error for testing'), // just needs to exist
+          data: null,
+        },
+      },
+    },
+  },
+};
+
+const stateSubmitting = {
+  ...getData(),
+  travelPay: {
+    ...getData().travelPay,
+    complexClaim: {
+      ...getData().travelPay.complexClaim,
+      claim: {
+        ...getData().travelPay.complexClaim.claim,
+        submission: {
+          isSubmitting: true,
+          error: null,
+          data: null,
+        },
+      },
+    },
+  },
+};
+
 describe('Complex Claims ConfirmationPage', () => {
+  it('renders loading indicator when submission is in progress', () => {
+    const screen = renderConfirmationPage(stateSubmitting);
+
+    const loadingIndicator = screen.getByTestId(
+      'travel-pay-confirmation-loading-indicator',
+    );
+    expect(loadingIndicator).to.exist;
+
+    // Main content should not render
+    expect($('va-alert')).to.not.exist;
+    expect($('va-accordion')).to.not.exist;
+    expect($('va-process-list')).to.not.exist;
+  });
+
+  it('does not render an alert when submission state has neither error nor data', () => {
+    renderConfirmationPage();
+
+    // No alert should be rendered
+    expect($('va-alert')).to.not.exist;
+
+    // Main content like process list should still render
+    expect($('va-process-list')).to.exist;
+  });
+
   it('renders success confirmation', () => {
-    const screen = renderConfirmationPage();
+    const screen = renderConfirmationPage(stateWithSuccess);
 
     expect(screen.getByRole('heading', { level: 1 })).to.have.property(
       'textContent',
@@ -60,7 +247,7 @@ describe('Complex Claims ConfirmationPage', () => {
   });
 
   it('renders appointment details in success alert', () => {
-    renderConfirmationPage();
+    renderConfirmationPage(stateWithSuccess);
 
     // Find the success alert first, then check its content
     const successAlert = $('va-alert[status="success"]');
@@ -74,7 +261,7 @@ describe('Complex Claims ConfirmationPage', () => {
   });
 
   it('renders claim ID from URL params', () => {
-    renderConfirmationPage();
+    renderConfirmationPage(stateWithSuccess);
 
     // Check that the claim ID is displayed
     const successAlert = $('va-alert[status="success"]');
@@ -83,8 +270,20 @@ describe('Complex Claims ConfirmationPage', () => {
   });
 
   it('does not render appointment details when no appointment data', () => {
-    const stateWithoutAppointment = {
+    renderConfirmationPage(stateWithoutAppointment);
+
+    const successAlert = $('va-alert[status="success"]');
+    expect(successAlert).to.exist;
+    expect(successAlert.textContent).to.not.include(
+      'This claim is for your appointment',
+    );
+  });
+
+  it('renders error alert even when appointment data is missing', () => {
+    const stateErrorNoAppointment = {
+      ...stateWithError,
       travelPay: {
+        ...stateWithError.travelPay,
         appointment: {
           isLoading: false,
           error: null,
@@ -92,13 +291,12 @@ describe('Complex Claims ConfirmationPage', () => {
         },
       },
     };
+    renderConfirmationPage(stateErrorNoAppointment);
 
-    renderConfirmationPage(stateWithoutAppointment);
-
-    const successAlert = $('va-alert[status="success"]');
-    expect(successAlert).to.exist;
-    expect(successAlert.textContent).to.not.include(
-      'This claim is for your appointment',
+    const errorAlert = $('va-alert[status="error"]');
+    expect(errorAlert).to.exist;
+    expect(errorAlert.textContent).to.include(
+      'We’re sorry. We couldn’t file your travel reimbursement claim',
     );
   });
 
@@ -138,18 +336,57 @@ describe('Complex Claims ConfirmationPage', () => {
     ).to.exist;
     expect(
       $(
-        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit"]',
+        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay"]',
       ),
     ).to.exist;
   });
 
+  it('renders expense accordion', () => {
+    const {
+      container,
+      getAllByTestId,
+      queryByTestId,
+    } = renderConfirmationPage();
+    expect(container.querySelector('va-accordion')).to.exist;
+    expect(
+      container.querySelector('va-accordion-item[header="Submitted expenses"]'),
+    ).to.exist;
+    // Expect multiple headers within the va-accordion-item
+    const headers = getAllByTestId('expense-type-header');
+    expect(headers).to.have.lengthOf(2);
+    // Dont render edit or delete buttons
+    expect(queryByTestId('parking-edit-expense-link')).to.not.exist;
+    expect(queryByTestId('parking-delete-expense-button')).to.not.exist;
+    expect(queryByTestId('mileage-edit-expense-link')).to.not.exist;
+    expect(queryByTestId('mileage-delete-expense-button')).to.not.exist;
+    expect(queryByTestId('delete-expense-modal')).to.not.exist;
+  });
+
   it('renders link action to submit another claim', () => {
-    renderConfirmationPage();
+    const { container } = renderConfirmationPage();
 
     expect(
-      $(
-        'va-link-action[text="Submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
+      container.querySelector(
+        'va-link-action[text="Go to your past appointments to file another claim"][href="/my-health/appointments/past"]',
       ),
     ).to.exist;
+  });
+
+  it('renders error alert when submission fails', () => {
+    const screen = renderConfirmationPage(stateWithError);
+
+    const header = screen.getByRole('heading', { level: 1 });
+    expect(header.textContent).to.equal('We couldn’t file your claim');
+
+    const errorAlert = $('va-alert[status="error"]');
+    expect(errorAlert).to.exist;
+    expect(errorAlert.textContent).to.include(
+      'We’re sorry. We couldn’t file your travel reimbursement claim',
+    );
+
+    // Appointment details should NOT be rendered in error state
+    expect(errorAlert.textContent).to.not.include(
+      'This claim is for your appointment',
+    );
   });
 });

@@ -1,0 +1,280 @@
+{
+  "data": {
+    "view:claimType": {
+      "view:claimingIncrease": true,
+      "view:claimingNew": true
+    },
+    "standardClaim": true,
+    "view:fdcWarning": {},
+    "isVaEmployee": true,
+    "isTerminallyIll": false,
+    "homelessOrAtRisk": "homeless",
+    "view:isHomeless": {
+      "homelessHousingSituation": "other",
+      "otherHomelessHousing": "Under a bridge",
+      "needToLeaveHousing": true
+    },
+    "homelessnessContact": {
+      "name": "John Doe",
+      "phoneNumber": "1231231234"
+    },
+    "view:bankAccount": {
+      "bankAccountType": "Checking",
+      "bankAccountNumber": "1233",
+      "bankRoutingNumber": "123123123",
+      "bankName": "Bigbank Co."
+    },
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "view:livesOnMilitaryBase": false,
+      "type": "MILITARY",
+      "militaryPostOfficeTypeCode": "APO",
+      "militaryStateCode": "AA",
+      "zipFirstFive": "27103",
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "view:hasForwardingAddress": true,
+    "forwardingAddress": {
+      "country": "USA",
+      "addressLine1": "321 Secondary",
+      "city": "Smallcity",
+      "state": "NY",
+      "zipCode": "54321",
+      "effectiveDate": {
+        "from": "2099-12-01",
+        "to": "2100-01-01"
+      }
+    },
+    "view:contactInfoDescription": {},
+    "additionalDocuments": [
+      {
+        "name": "test-document.pdf",
+        "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",
+        "attachmentId": "L015"
+      }
+    ],
+    "view:hasEvidence": true,
+    "view:selectableEvidenceTypes": {
+      "view:hasVaMedicalRecords": true,
+      "view:hasPrivateMedicalRecords": true,
+      "view:hasOtherEvidence": true
+    },
+    "view:uploadPrivateRecordsQualifier": {
+      "view:hasPrivateRecordsToUpload": false
+    },
+    "vaTreatmentFacilities": [
+      {
+        "treatmentCenterName": "VA Medical Center",
+        "treatmentDateRange": {
+          "from": "2018-06-XX"
+        },
+        "treatmentCenterAddress": {
+          "country": "USA",
+          "city": "Washington",
+          "state": "DC"
+        },
+        "treatedDisabilityNames": {
+          "diabetesmellitus0": true,
+          "hearingloss": true
+        }
+      }
+    ],
+    "providerFacility": [
+      {
+        "providerFacilityName": "Test Medical Center",
+        "providerFacilityAddress": {
+          "street": "123 Medical Dr",
+          "city": "Medical City",
+          "state": "VA",
+          "postalCode": "12345",
+          "country": "USA"
+        },
+        "treatedDisabilityNames": {
+          "hearingloss": true
+        },
+        "treatmentDateRange": {
+          "from": "2020-01-01",
+          "to": "2023-12-31"
+        }
+      }
+    ],
+    "view:evidenceTypeHelp": {},
+    "view:unemployable": false,
+    "view:aidAndAttendance": true,
+    "view:modifyingHome": true,
+    "view:modifyingCar": true,
+    "view:needsCarHelp": {
+      "view:alreadyClaimedVehicleAllowance": false
+    },
+    "toxicExposure": {
+      "conditions": {
+        "asthma": true,
+        "hearingloss": true
+      },
+      "gulfWar1990": {
+        "iraq": true,
+        "kuwait": true
+      },
+      "gulfWar1990Details": {
+        "iraq": {
+          "startDate": "1991-01-15",
+          "endDate": "1991-03-31"
+        },
+        "kuwait": {
+          "startDate": "1991-02-01",
+          "endDate": "1991-04-15"
+        }
+      },
+      "herbicide": {
+        "vietnam": true
+      },
+      "herbicideDetails": {
+        "vietnam": {
+          "startDate": "1968-05-01",
+          "endDate": "1969-12-31"
+        }
+      },
+      "otherExposures": {
+        "asbestos": true,
+        "radiation": true
+      },
+      "otherExposuresDetails": {
+        "asbestos": {
+          "startDate": "2000-01-01",
+          "endDate": "2000-12-31"
+        },
+        "radiation": {
+          "startDate": "2001-01-01",
+          "endDate": "2001-06-30"
+        }
+      }
+    },
+    "view:powStatus": false,
+    "newDisabilities": [
+      {
+        "condition": "Hearing Loss",
+        "cause": "NEW",
+        "primaryDescription": "Hearing loss due to loud noises during service",
+        "view:descriptionInfo": {}
+      },
+      {
+        "condition": "Asthma",
+        "cause": "NEW",
+        "primaryDescription": "Asthma caused by toxic exposure during service",
+        "view:descriptionInfo": {}
+      }
+    ],
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "view:selected": true
+      },
+      {
+        "name": "Hypertension",
+        "ratedDisabilityId": "1", 
+        "ratingDecisionId": "63656",
+        "diagnosticCode": 7101,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 50,
+        "view:selected": true
+      }
+    ],
+    "view:disabilitiesClarification": {},
+    "serviceInformation": {
+      "servicePeriods": [
+        {
+          "serviceBranch": "Army",
+          "dateRange": {
+            "from": "1967-01-01",
+            "to": "2004-01-01"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {}
+    },
+    "view:selectablePtsdTypes": {},
+    "view:ptsdTypeHelp": {},
+    "view:upload781ChoiceHelp": {},
+    "incident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "view:upload781aChoiceHelp": {},
+    "secondaryIncident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "view:otherSourcesHelp": {},
+    "secondaryIncident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "secondaryIncident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "physicalChanges": {},
+    "mentalChanges": {},
+    "workBehaviorChanges": {},
+    "socialBehaviorChanges": {},
+    "view:ancillaryFormsWizardIntro": {},
+    "view:unemployabilityHelp": {},
+    "unemployability": {
+      "view:recordsInfo": {},
+      "view:unemployabilityDatesDesc": {},
+      "view:grossIncomeAdditionalInfo": {},
+      "view:supplementalBenefitsHelp": {},
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "view:statementsAreTrue": {},
+      "view:informOfReturnToWork": {}
+    },
+    "view:privateMedicalFacility": {},
+    "view:upload4192Choice": {},
+    "view:downloadInfo": {},
+    "view:privateRecordsChoiceHelp": {},
+    "view:faqAccordion": {},
+    "view:originalBankAccount": {
+      "view:bankAccountType": "Checking",
+      "view:bankAccountNumber": "*********1234",
+      "view:bankRoutingNumber": "*****2115",
+      "view:bankName": "Comerica"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
@@ -154,9 +154,10 @@ export async function getFileError(
  */
 export function makePlaceholderFile(file = {}) {
   const buffer = new ArrayBuffer(file?.size || 1024);
-  const blob = new Blob([buffer], { type: 'image/png' });
+  const type = file?.type || 'image/png';
+  const blob = new Blob([buffer], { type });
   return new File([blob], file?.name || 'placeholder', {
-    type: 'image/png',
+    type,
   });
 }
 
@@ -225,4 +226,31 @@ export function simulateUploadMultiple(
     }
     per += Math.random() * PERCENT_MAX_STEP;
   }, INTERVAL);
+}
+
+const UPLOADING_MESSAGE = 'Uploading file';
+const UPLOADING_DONE_MESSAGE = 'File uploaded';
+export function VaProgressUploadAnnounce({ uploading }) {
+  const [sRMessage, setSRMessage] = useState('');
+  useEffect(
+    () => {
+      if (uploading) {
+        setSRMessage(UPLOADING_MESSAGE);
+      } else if (!uploading && sRMessage) {
+        setSRMessage(UPLOADING_DONE_MESSAGE);
+      }
+    },
+    [uploading],
+  );
+
+  return (
+    <span
+      aria-atomic="true"
+      role="alert"
+      aria-live="polite"
+      className="sr-only"
+    >
+      {sRMessage}
+    </span>
+  );
 }

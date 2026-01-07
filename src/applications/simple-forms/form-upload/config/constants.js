@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { formMappings } from '../helpers';
 
 export const PrimaryActionLink = ({ href, children, onClick }) => (
   <div className="action-bar-arrow">
@@ -28,31 +32,21 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       closeable
       onCloseEvent={onCloseEvent}
     >
-      {variant === 'nameAndZipCodePage' ? (
-        <h3 slot="headline">
-          Veteran’s name and postal code must match your PDF
-        </h3>
-      ) : (
-        <h3 slot="headline">This information must match your form</h3>
-      )}
+      <h3 slot="headline">This information must match your form</h3>
       {isLoa3 ? (
         <p>
           Since you’re signed in to your account, we prefilled part of your
           application based on your account details.
         </p>
       ) : null}
-      {variant === 'nameAndZipCodePage' ? (
-        <p>
-          Since you’re signed in to your account, we prefilled this page based
-          on your account details.
-        </p>
-      ) : (
-        <p>
-          Since you’re signed in, we prefilled this information based on your VA
-          profile. <br /> If this information doesn’t match what’s on your form,
-          it’ll cause processing delays.
-        </p>
-      )}
+      <p>
+        Since you’re signed in, we prefilled this information based on your VA
+        profile.
+      </p>
+      <p>
+        If this information doesn’t match what’s on your form, it’ll cause
+        processing delays.
+      </p>
     </VaAlert>
   );
 };
@@ -82,11 +76,11 @@ export const UPLOAD_SUPPORTING_DOCUMENTS_DESCRIPTION = Object.freeze(
       can’t save documents for later. If you need more time to gather your
       documents, follow the instructions on your form for how to submit them.
     </p>
-    <va-additional-info trigger="How to determine what supporting documents to upload">
+    <va-additional-info trigger="How to decide what supporting documents to upload">
       <p>
         {' '}
         To figure out which documents to upload, review the guidance we’ve given
-        you. This may be in:
+        you. You can find this guidance in these places:
       </p>
       <ul>
         <li>Instructions on the paper form you filled out</li>
@@ -116,6 +110,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
   pdfDownloadUrl,
   onCloseEvent,
   warnings = [],
+  file,
 ) => (
   <VaAlert
     close-btn-aria-label="Close notification"
@@ -123,9 +118,10 @@ export const FORM_UPLOAD_OCR_ALERT = (
     visible
     closeable
     onCloseEvent={onCloseEvent}
+    role="status"
   >
     <h2 slot="headline">
-      Are you sure the file you uploaded is VA Form {formNumber}?
+      Are you sure the file you uploaded, {file}, is VA Form {formNumber}?
     </h2>
     <React.Fragment key=".1">
       <ul>
@@ -156,23 +152,32 @@ export const FORM_UPLOAD_OCR_ALERT = (
   </VaAlert>
 );
 
-export const FORM_UPLOAD_INSTRUCTION_ALERT = onCloseEvent => (
-  <VaAlert
-    close-btn-aria-label="Close notification"
-    status="warning"
-    visible
-    closeable
-    onCloseEvent={onCloseEvent}
-  >
-    <h2 slot="headline">Complete and sign your form before you upload</h2>
-    <React.Fragment key=".1">
-      <p>
-        If you upload a form that’s missing a signature or any other required
-        information, we can’t process it.
-      </p>
-    </React.Fragment>
-  </VaAlert>
-);
+export const FORM_UPLOAD_INSTRUCTION_ALERT = (onCloseEvent, formNumber) => {
+  return (
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+      closeable
+      onCloseEvent={onCloseEvent}
+    >
+      <h2 slot="headline">Complete and sign your form before you upload</h2>
+      <React.Fragment key=".1">
+        <p>
+          If you upload a form that’s missing a signature or any other required
+          information, we can’t process it.
+        </p>
+        <p>Download the official VA Form {formNumber} from VA.gov.</p>
+        <VaLink
+          external
+          download
+          href={formMappings[formNumber].pdfDownloadUrl}
+          text={`Download VA Form ${formNumber}`}
+        />
+      </React.Fragment>
+    </VaAlert>
+  );
+};
 
 export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
   <VaAlert
@@ -187,4 +192,4 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
   </VaAlert>
 );
 
-export const MAX_FILE_SIZE = 25000000;
+export const MAX_FILE_SIZE = 25 * 1024 * 1024;

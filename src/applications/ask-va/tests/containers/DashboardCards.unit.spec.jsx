@@ -435,7 +435,7 @@ describe('<DashboardCards>', () => {
         const filterInfo = view.container.querySelector(
           '.vads-u-padding-x--2p5',
         );
-        expect(filterInfo.textContent).to.include('in Business');
+        expect(filterInfo.textContent).to.include('in "Business"');
       });
 
       // Switch to Personal tab
@@ -448,7 +448,7 @@ describe('<DashboardCards>', () => {
         const filterInfo = view.container.querySelector(
           '.vads-u-padding-x--2p5',
         );
-        expect(filterInfo.textContent).to.include('in Personal');
+        expect(filterInfo.textContent).to.include('in "Personal"');
       });
     });
 
@@ -461,9 +461,11 @@ describe('<DashboardCards>', () => {
 
       // Confirm correct tab's content is displayed
       const filterSummary = await view.findByText(/showing/i);
-      expect(filterSummary.textContent).to.include('categories in Personal');
+      expect(filterSummary.textContent).to.include('categories in "Personal"');
 
-      const resultsBefore = await view.findAllByRole('listitem');
+      const resultsBefore = await view.container.querySelectorAll(
+        '.dashboard-card-list',
+      );
       expect(resultsBefore.length).to.equal(2);
       expect(resultsBefore[0].textContent).to.include('Reference number: A-2');
 
@@ -480,7 +482,9 @@ describe('<DashboardCards>', () => {
       filterButtons.__events.primaryClick();
 
       // Confirrm the list is now just one desired result
-      const resultsAfter = await view.findAllByRole('listitem');
+      const resultsAfter = await view.container.querySelectorAll(
+        '.dashboard-card-list',
+      );
       expect(resultsAfter.length).to.equal(1);
       expect(resultsAfter[0].textContent).to.include('Reference number: A-3');
     });
@@ -976,7 +980,7 @@ describe('<DashboardCards>', () => {
           '.vads-u-padding-x--2p5',
         );
         expect(filterInfo).to.exist;
-        expect(filterInfo.textContent).to.include('in Business');
+        expect(filterInfo.textContent).to.include('in "Business"');
       });
     });
 
@@ -993,7 +997,7 @@ describe('<DashboardCards>', () => {
         const filterInfo = view.container.querySelector(
           '.vads-u-padding-x--2p5',
         );
-        expect(filterInfo.textContent).to.include('in Business');
+        expect(filterInfo.textContent).to.include('in "Business"');
       });
 
       // Click the Personal tab
@@ -1009,7 +1013,7 @@ describe('<DashboardCards>', () => {
         const filterInfo = view.container.querySelector(
           '.vads-u-padding-x--2p5',
         );
-        expect(filterInfo.textContent).to.include('in Personal');
+        expect(filterInfo.textContent).to.include('in "Personal"');
       });
     });
 

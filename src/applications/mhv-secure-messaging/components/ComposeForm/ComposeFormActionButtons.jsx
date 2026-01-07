@@ -7,7 +7,6 @@ const ComposeFormActionButtons = props => {
     onSend,
     onSaveDraft,
     formPopulated,
-    setDeleteButtonClicked,
     cannotReply,
     draftBody,
     draftId,
@@ -21,6 +20,7 @@ const ComposeFormActionButtons = props => {
     setHideDraft,
     setIsEditing,
     savedComposeDraft,
+    redirectPath,
   } = props;
 
   return (
@@ -78,13 +78,13 @@ const ComposeFormActionButtons = props => {
         refreshThreadCallback={refreshThreadCallback}
         setNavigationError={setNavigationError}
         setUnsavedNavigationError={setUnsavedNavigationError}
-        setDeleteButtonClicked={setDeleteButtonClicked}
         cannotReply={cannotReply}
         messageBody={messageBody}
         draftSequence={draftSequence}
         setHideDraft={setHideDraft}
         setIsEditing={setIsEditing}
         savedComposeDraft={savedComposeDraft}
+        redirectPath={redirectPath}
       />
     </div>
   );
@@ -100,10 +100,10 @@ ComposeFormActionButtons.propTypes = {
   isModalVisible: PropTypes.bool,
   messageBody: PropTypes.string,
   navigationError: PropTypes.object,
+  redirectPath: PropTypes.string,
   refreshThreadCallback: PropTypes.func,
   savedComposeDraft: PropTypes.bool,
   savedForm: PropTypes.bool,
-  setDeleteButtonClicked: PropTypes.func,
   setHideDraft: PropTypes.func,
   setIsEditing: PropTypes.func,
   setIsModalVisible: PropTypes.func,

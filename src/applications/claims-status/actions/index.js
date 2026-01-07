@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -10,14 +10,22 @@ import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import {
   makeAuthRequest,
   roundToNearest,
-  buildDateFormatter,
   getUploadErrorMessage,
+  buildDateFormatter,
+  formatUploadDateTime,
+  showTimezoneDiscrepancyMessage,
+  getTimezoneDiscrepancyMessage,
   getDocTypeDescription,
 } from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 import { canUseMocks, ANCHOR_LINKS } from '../constants';
+import {
+  recordUploadStartEvent,
+  recordUploadFailureEvent,
+  recordUploadSuccessEvent,
+} from '../utils/analytics';
 import {
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
@@ -125,7 +133,11 @@ function handleType1Errors(
 
   // If there are known errors, show the first one in additionalEvidenceMessage
   if (knownErrors.length > 0) {
-    const errorMessage = getUploadErrorMessage(knownErrors[0], claimId);
+    const errorMessage = getUploadErrorMessage(
+      knownErrors[0],
+      claimId,
+      showDocumentUploadStatus,
+    );
     dispatch(setAdditionalEvidenceNotification(errorMessage));
   }
 }
@@ -349,12 +361,77 @@ export function clearAdditionalEvidenceNotification() {
   };
 }
 
+// Helper to build upload success notification message
+function buildUploadNotification(
+  uploadDate,
+  showDocumentUploadStatus,
+  timezoneMitigationEnabled,
+  now,
+  timezoneOffset,
+  claimId,
+) {
+  const isOnFilesPage = window.location.pathname.endsWith('/files');
+  const statusLinkHref = isOnFilesPage
+    ? `#${ANCHOR_LINKS.fileSubmissionsInProgress}`
+    : `/track-claims/your-claims/${claimId}/files#${
+        ANCHOR_LINKS.fileSubmissionsInProgress
+      }`;
+
+  const timezoneNote =
+    timezoneMitigationEnabled && showTimezoneDiscrepancyMessage(now) ? (
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        <strong>Note:</strong>{' '}
+        {getTimezoneDiscrepancyMessage(timezoneOffset, now)}
+      </div>
+    ) : null;
+
+  if (showDocumentUploadStatus) {
+    return {
+      title: `Document submission started on ${uploadDate}`,
+      body: (
+        <>
+          <span>
+            Your submission is in progress. It can take up to 2 days for us to
+            receive your files.
+          </span>
+          {timezoneNote}
+          <va-link
+            class="vads-u-display--block vads-u-margin-top--2"
+            href={statusLinkHref}
+            text="Check the status of your submission"
+            onClick={e => {
+              if (isOnFilesPage) {
+                e.preventDefault();
+                setPageFocus(e.target.href);
+              }
+            }}
+          />
+        </>
+      ),
+    };
+  }
+
+  return {
+    title: `We received your file upload on ${uploadDate}`,
+    body: (
+      <>
+        <span>
+          Your file should be listed in the Documents filed section. If it's not
+          there, try refreshing the page.
+        </span>
+        {timezoneNote}
+      </>
+    ),
+  };
+}
+
 // Document upload function using Lighthouse endpoint
 export function submitFiles(
   claimId,
   trackedItem,
   files,
   showDocumentUploadStatus = false,
+  timezoneMitigationEnabled = false,
 ) {
   let filesComplete = 0;
   let bytesComplete = 0;
@@ -364,8 +441,10 @@ export function submitFiles(
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.id : null;
 
-  recordEvent({
-    event: 'claims-upload-start',
+  // Record enhanced upload start event and get retry info for each file
+  const { filesWithRetryInfo, retryFileCount } = recordUploadStartEvent({
+    files,
+    claimId,
   });
 
   return dispatch => {
@@ -403,53 +482,40 @@ export function submitFiles(
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              const now = new Date(Date.now());
-              const uploadDate = buildDateFormatter()(now.toISOString());
               if (!hasError) {
-                recordEvent({
-                  event: 'claims-upload-success',
+                recordUploadSuccessEvent({
+                  fileCount: totalFiles,
+                  retryFileCount,
                 });
                 dispatch({
                   type: DONE_UPLOADING,
                 });
 
-                // Show different notification based on feature toggle
-                const notificationMessage = showDocumentUploadStatus
-                  ? {
-                      title: `Document submission started on ${uploadDate}`,
-                      body: (
-                        <>
-                          <span>
-                            Your submission is in progress. It can take up to 2
-                            days for us to receive your files.
-                          </span>
-                          <va-link
-                            class="vads-u-display--block"
-                            href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
-                            text="Check the status of your submission"
-                            onClick={e => {
-                              e.preventDefault();
-                              setPageFocus(e.target.href);
-                            }}
-                          />
-                        </>
-                      ),
-                    }
-                  : {
-                      title: `We received your file upload on ${uploadDate}`,
-                      body: (
-                        <span>
-                          If your uploaded file doesn’t appear in the Documents
-                          Filed section on this page, please try refreshing the
-                          page.
-                        </span>
-                      ),
-                    };
+                // Conditionally format date based on timezone mitigation flag
+                const now = new Date(Date.now());
+                const uploadDate = timezoneMitigationEnabled
+                  ? formatUploadDateTime(now) // Enhanced: "August 15, 2025 at 10:18 p.m. EDT"
+                  : buildDateFormatter()(now.toISOString()); // Simple: "August 15, 2025"
+
+                const timezoneOffset = now.getTimezoneOffset();
+
+                const notificationMessage = buildUploadNotification(
+                  uploadDate,
+                  showDocumentUploadStatus,
+                  timezoneMitigationEnabled,
+                  now,
+                  timezoneOffset,
+                  claimId,
+                );
 
                 dispatch(setNotification(notificationMessage));
               } else {
-                recordEvent({
-                  event: 'claims-upload-failure',
+                recordUploadFailureEvent({
+                  errorFiles,
+                  files,
+                  filesWithRetryInfo,
+                  claimId,
+                  retryFileCount,
                 });
                 dispatch({
                   type: SET_UPLOAD_ERROR,

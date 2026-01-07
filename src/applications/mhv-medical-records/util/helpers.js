@@ -1,20 +1,20 @@
-import moment from 'moment-timezone';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { formatBirthDate } from '@department-of-veterans-affairs/mhv/exports';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   format as dateFnsFormat,
   formatISO,
+  subMonths,
   subYears,
   addMonths,
   startOfDay,
   endOfDay,
+  startOfYear,
+  endOfYear,
   parseISO,
-  isValid,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
@@ -24,76 +24,30 @@ import {
   VALID_REFRESH_DURATION,
   Paths,
   Breadcrumbs,
+  DEFAULT_DATE_RANGE,
+  MONTH_BASED_OPTIONS,
 } from './constants';
+
+// Re-export from dateHelpers for backwards compatibility
+export { dateFormatWithoutTimezone } from './dateHelpers';
 
 /**
  * @param {*} timestamp
- * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a zzz', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
  * @returns {String} formatted timestamp
  */
 export const dateFormat = (timestamp, format = null) => {
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY, h:mm a z');
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+  return formatInTimeZone(
+    new Date(timestamp),
+    timeZone,
+    format || 'MMMM d, yyyy, h:mm a zzz',
+  );
 };
 
 export const dateFormatWithoutTime = str => {
   return str.replace(/,? \d{1,2}:\d{2} (a\.m\.|p\.m\.)$/, '');
 };
-
-/**
- * Format a FHIR dateTime string as a "local datetime" string, by stripping off the time zone
- * information and formatting what's left. FHIR allows only:
- *   - YYYY
- *   - YYYY-MM
- *   - YYYY-MM-DD
- *   - YYYY-MM-DDThh:mm:ss(.sss)(Z|±HH:MM)
- *
- * See: https://hl7.org/fhir/R4/datatypes.html#dateTime
- *
- * @param {String} datetime FHIR dateTime string, e.g. 2017-08-02T09:50:57-04:00, 2000-08-09
- * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', ONLY applied to full dateTime strings
- * @returns {String} a formatted datetime, e.g. August 2, 2017, 9:50 a.m., or null for bad inputs
- */
-export function dateFormatWithoutTimezone(
-  isoString,
-  fmt = 'MMMM d, yyyy, h:mm a',
-) {
-  if (!isoString || typeof isoString !== 'string') return null;
-
-  // 1) Year-only: YYYY
-  if (/^\d{4}$/.test(isoString)) {
-    return isoString;
-  }
-
-  // 2) Year+month: YYYY-MM
-  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(isoString)) {
-    const d = parseISO(`${isoString}-01`);
-    if (!isValid(d)) return null;
-    return dateFnsFormat(d, 'MMMM yyyy');
-  }
-
-  // 3) Full date: YYYY-MM-DD
-  if (/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(isoString)) {
-    const d = parseISO(isoString);
-    if (!isValid(d)) return null;
-    return dateFnsFormat(d, 'MMMM d, yyyy');
-  }
-
-  // 4) Date-time (must include seconds + TZ): strip off exactly “Z” or “+HH:MM”
-  const stripped = isoString.replace(/(Z|[+-]\d{2}:\d{2})$/, '');
-
-  // 5) Handle leap-second (“:60” -> “:59”)
-  const fixedLeap = stripped.replace(/:60(\.\d+)?$/, ':59$1');
-
-  const dt = parseISO(fixedLeap);
-  if (!isValid(dt)) return null;
-
-  return dateFnsFormat(dt, fmt)
-    .replace(/\bAM\b/g, 'a.m.')
-    .replace(/\bPM\b/g, 'p.m.');
-}
 
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
@@ -134,21 +88,6 @@ export const formatDateTime = datetimeString => {
  */
 export const itemListWrapper = items =>
   Array.isArray(items) && items.length > 1 ? 'div' : undefined;
-
-/**
- * @param {Object} record
- * @returns {Array of Strings} array of reactions
- */
-export const getReactions = record => {
-  const reactions = [];
-  if (!record || !record.reaction) return reactions;
-  record.reaction.forEach(reaction => {
-    reaction.manifestation.forEach(manifestation => {
-      reactions.push(manifestation.text);
-    });
-  });
-  return reactions;
-};
 
 /**
  * @param {Any} obj
@@ -728,6 +667,71 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   return `${formatted}`;
 };
 
+export const getTimeFrame = dateRange => {
+  // For predefined date ranges like 3 or 6 months, return the fromDate
+  if (MONTH_BASED_OPTIONS.includes(dateRange.option)) {
+    return dateRange.fromDate;
+  }
+
+  // For year selections, return the option value (e.g., '2022')
+  return dateRange.option;
+};
+
+export const getDisplayTimeFrame = dateRange => {
+  return `${formatDate(dateRange.fromDate)} to ${formatDate(dateRange.toDate)}`;
+};
+
+export const calculateDateRange = value => {
+  const today = new Date();
+
+  if (MONTH_BASED_OPTIONS.includes(value)) {
+    return {
+      fromDate: dateFnsFormat(
+        subMonths(today, parseInt(value, 10)),
+        'yyyy-MM-dd',
+      ),
+      toDate: dateFnsFormat(today, 'yyyy-MM-dd'),
+    };
+  }
+
+  // Year-based
+  const yearDate = new Date(parseInt(value, 10), 0, 1);
+  return {
+    fromDate: dateFnsFormat(startOfYear(yearDate), 'yyyy-MM-dd'),
+    toDate: dateFnsFormat(endOfYear(yearDate), 'yyyy-MM-dd'),
+  };
+};
+
+export const buildInitialDateRange = (option = DEFAULT_DATE_RANGE) => {
+  const { fromDate, toDate } = calculateDateRange(option);
+  return {
+    option,
+    fromDate,
+    toDate,
+  };
+};
+
+/**
+ * Resolve the effective accelerated date range ensuring both start & end are present.
+ * If either supplied date is missing, fall back to the default range.
+ *
+ * @param {string|undefined} startDate ISO date (yyyy-MM-dd) or undefined
+ * @param {string|undefined} endDate   ISO date (yyyy-MM-dd) or undefined
+ * @param {string} defaultRange        Month-based option used when falling back (defaults to DEFAULT_DATE_RANGE)
+ * @returns {{ startDate: string, endDate: string, fallbackApplied: boolean }}
+ */
+export const resolveAcceleratedDateRange = (
+  startDate,
+  endDate,
+  defaultRange = DEFAULT_DATE_RANGE,
+) => {
+  if (startDate && endDate) {
+    return { startDate, endDate, fallbackApplied: false };
+  }
+  const { fromDate, toDate } = buildInitialDateRange(defaultRange);
+  return { startDate: fromDate, endDate: toDate, fallbackApplied: true };
+};
+
 export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
@@ -884,30 +888,9 @@ export const getFailedDomainList = (failed, displayMap) => {
 };
 
 /**
- * Compares the dob formatted by two different methods and, if they are unequal, throws an error
- * indicating which date is earlier.
- * @param {string} userDob - The user's date of birth from the redux store
+ * Check if this ID is a radiology ID. In the frontend, we preface these IDs with an "r" to
+ * distinguish them from IDs we get from FHIR sources (e.g. PHR, SCDF).
+ * @param {*} id the lab ID
+ * @returns {boolean} true if the ID is a radiology ID, false otherwise
  */
-export const errorForUnequalBirthDates = (
-  userDob,
-  deps = { formatDateLong, formatBirthDate },
-) => {
-  const d1 = new Date(deps.formatDateLong(userDob));
-  const d2 = new Date(deps.formatBirthDate(userDob));
-
-  if (Number.isNaN(d1.getTime()))
-    throw new Error('Invalid birth date via formatDateLong');
-  if (Number.isNaN(d2.getTime()))
-    throw new Error('Invalid birth date via formatBirthDate');
-
-  if (d1.getTime() < d2.getTime()) {
-    throw new Error(`formatDateLong is earlier than formatBirthDate`);
-  }
-  if (d1.getTime() > d2.getTime()) {
-    throw new Error(`formatBirthDate is earlier than formatDateLong`);
-  }
-};
-
-export const asyncErrorForUnequalBirthDates = async userDob => {
-  errorForUnequalBirthDates(userDob);
-};
+export const isRadiologyId = id => id && id.charAt(0).toLowerCase() === 'r';

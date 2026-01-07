@@ -14,11 +14,21 @@ import * as helpers from '../../utils/helpers';
 
 const FEATURE_FLAG_KEY = 'cst_show_document_upload_status';
 
-const getStore = (featureToggles = {}, notifications = {}) =>
+const getStore = (featureToggles = {}, notifications = {}, claim = null) =>
   createStore(() => ({
     featureToggles,
     disability: {
       status: {
+        claimDetail: {
+          detail: claim,
+          loading: false,
+        },
+        uploads: {
+          uploading: false,
+          progress: 0,
+          uploadError: false,
+          uploadComplete: false,
+        },
         notifications: {
           message: null,
           additionalEvidenceMessage: null,
@@ -103,14 +113,13 @@ describe('<FilesPage>', () => {
     getByText('We encountered a problem');
 
     const alertHeading = $('va-alert h2', container);
-    expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+    expect(alertHeading.textContent).to.equal(
+      "We can't access your claim right now",
+    );
 
     const alertBody = $('va-alert p', container);
     expect(alertBody.textContent).to.include(
-      'VA.gov is having trouble loading claims information',
-    );
-    expect(alertBody.textContent).to.include(
-      'Note: You are still able to review appeals information.',
+      "We're sorry. There's a problem with our system.",
     );
   });
 
@@ -129,14 +138,13 @@ describe('<FilesPage>', () => {
     getByText('We encountered a problem');
 
     const alertHeading = $('va-alert h2', container);
-    expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+    expect(alertHeading.textContent).to.equal(
+      "We can't access your claim right now",
+    );
 
     const alertBody = $('va-alert p', container);
     expect(alertBody.textContent).to.include(
-      'VA.gov is having trouble loading claims information',
-    );
-    expect(alertBody.textContent).to.include(
-      'Note: You are still able to review appeals information.',
+      "We're sorry. There's a problem with our system.",
     );
   });
 
@@ -184,10 +192,75 @@ describe('<FilesPage>', () => {
         </Provider>,
       );
 
-      const selector = container.querySelector('va-alert');
-      expect(selector).to.exist;
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.exist;
+      const headline = alert.querySelector('h2');
       await waitFor(() => {
-        expect(document.activeElement).to.equal(selector);
+        expect(document.activeElement).to.equal(headline);
+      });
+    });
+  });
+
+  describe('hash navigation', () => {
+    const claim = { ...baseClaim };
+
+    beforeEach(() => {
+      // Restore the AdditionalEvidencePage stub from the outer describe block
+      // We need the REAL component to render so the focusable elements exist in the DOM
+      // (The outer beforeEach stubs it out with an empty div for other tests)
+      if (stub && stub.restore) {
+        stub.restore();
+      }
+    });
+
+    afterEach(() => {
+      // Re-stub AdditionalEvidencePage for other tests in the outer describe block
+      // This ensures tests outside this describe block still get the stubbed version
+      stub = sinon.stub(AdditionalEvidencePage, 'default');
+      stub.returns(<div data-testid="additional-evidence-page" />);
+    });
+
+    // Test different hash anchors to verify scrollToSection focuses the correct element
+    const testCases = [
+      ['should focus on add-files section', '#add-files', 'add-files', true],
+      [
+        'should focus on file-submissions-in-progress section (feature flag enabled)',
+        '#file-submissions-in-progress',
+        'file-submissions-in-progress',
+        true,
+      ],
+      [
+        'should focus on documents-filed section (feature flag disabled)',
+        '#documents-filed',
+        'documents-filed',
+        false,
+      ],
+    ];
+
+    testCases.forEach(([description, hash, elementId, featureFlagEnabled]) => {
+      it(description, async () => {
+        const location = { hash };
+        // Render FilesPage with hash location and feature flag
+        renderWithRouter(
+          <Provider
+            store={getStore(
+              { [FEATURE_FLAG_KEY]: featureFlagEnabled },
+              {},
+              claim,
+            )}
+          >
+            <FilesPage
+              {...props}
+              claim={claim}
+              loading={false}
+              location={location}
+            />
+          </Provider>,
+        );
+        // Verify scrollToSection focused the correct element
+        await waitFor(() => {
+          expect(document.activeElement.id).to.equal(elementId);
+        });
       });
     });
   });

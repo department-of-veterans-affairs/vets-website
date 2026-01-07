@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { datadogRum } from '@datadog/browser-rum';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import reducer from '../../reducers';
 import { ErrorMessages, Paths } from '../../util/constants';
 import SelectCareTeam from '../../containers/SelectCareTeam';
@@ -313,6 +314,66 @@ describe('SelectCareTeam', () => {
         }`,
       );
     });
+  });
+
+  it('Updates continue button text when no messageId present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+          },
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    const continueButton = await screen.findByTestId('continue-button');
+    expect(continueButton).to.exist;
+    expect(continueButton).to.have.attribute(
+      'text',
+      'Continue to start message',
+    );
+  });
+
+  it('Updates continue button text when messageId present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+            messageId: 123456,
+          },
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    const continueButton = await screen.findByTestId('continue-button');
+    expect(continueButton).to.exist;
+    expect(continueButton).to.have.attribute('text', 'Continue to draft');
   });
 
   it('dispatches correct care system when it does not match the selected care team on continue', async () => {
@@ -884,6 +945,89 @@ describe('SelectCareTeam', () => {
           switchCount: 1,
         }),
       ).to.be.true;
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('should redirect to inbox when recipientsError is true', async () => {
+      const stateWithRecipientsError = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            error: true,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithRecipientsError,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+      });
+    });
+
+    it('should not redirect to inbox when recipientsError is false', async () => {
+      const stateWithoutRecipientsError = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            error: false,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithoutRecipientsError,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait a bit to ensure no redirect happens
+      await new Promise(resolve => setTimeout(resolve, 100));
+      expect(screen.history.location.pathname).to.equal(Paths.SELECT_CARE_TEAM);
+    });
+
+    it('should not redirect to inbox when recipientsError is undefined', async () => {
+      const stateWithoutRecipientsError = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            error: undefined,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithoutRecipientsError,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait a bit to ensure no redirect happens
+      await new Promise(resolve => setTimeout(resolve, 100));
+      expect(screen.history.location.pathname).to.equal(Paths.SELECT_CARE_TEAM);
     });
   });
 });

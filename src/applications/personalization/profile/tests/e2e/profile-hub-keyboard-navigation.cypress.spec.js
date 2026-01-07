@@ -22,7 +22,9 @@ describe('Profile - Hub page, Keyboard navigation', () => {
   it('should allow tabbing through all links on the page, in order', () => {
     cy.login(mockUser);
 
-    mockProfileLOA3(generateFeatureToggles());
+    mockProfileLOA3(
+      generateFeatureToggles({ profileHideHealthCareContacts: false }),
+    );
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
@@ -44,6 +46,7 @@ describe('Profile - Hub page, Keyboard navigation', () => {
     mockProfileLOA3(
       generateFeatureToggles({
         profileShowPaperlessDelivery: true,
+        profileHideHealthCareContacts: false,
       }),
     );
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);

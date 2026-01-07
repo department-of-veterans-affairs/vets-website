@@ -1,3 +1,22 @@
+// ============================================================
+// SERVICE AVAILABILITY CONFIGURATION
+// Toggle these to test different service unavailability scenarios
+// ============================================================
+const SERVICE_AVAILABILITY = {
+  claims: true, // Set to false to simulate claims API returning 500
+  appeals: true, // Set to false to simulate appeals API returning 500
+};
+
+// ============================================================
+// EMPTY DATA CONFIGURATION
+// Toggle these to test scenarios with no claims/appeals data
+// (services return 200 OK but with empty arrays)
+// ============================================================
+const RETURN_EMPTY_DATA = {
+  claims: false, // Set to true to return empty claims array
+  appeals: false, // Set to true to return empty appeals array
+};
+
 // Helpers
 const createClaimPhaseDates = (claimDate, phaseType, previousPhases = {}) => ({
   phaseChangeDate: claimDate,
@@ -55,6 +74,7 @@ const createEvidenceSubmission = (
     trackedItemDisplayName = null,
     uploadStatus = 'FAILED',
     vaNotifyStatus = 'SENT',
+    trackedItemFriendlyName = null,
   },
 ) => ({
   acknowledgementDate,
@@ -70,6 +90,7 @@ const createEvidenceSubmission = (
   trackedItemDisplayName,
   uploadStatus,
   vaNotifyStatus,
+  trackedItemFriendlyName,
 });
 
 const createClaim = (
@@ -137,14 +158,14 @@ const createClaim = (
                 id: 1,
                 displayName: '21-4142/21-4142a',
                 status: 'NEEDED_FROM_YOU',
-                suspenseDate: '2024-12-01',
+                suspenseDate: '2026-12-01',
                 type: 'other',
               },
               {
                 id: 2,
                 displayName: 'Private medical records',
                 status: 'NEEDED_FROM_OTHERS',
-                suspenseDate: '2024-12-10',
+                suspenseDate: '2026-12-10',
                 type: 'other',
               },
             ]
@@ -667,12 +688,37 @@ const baseClaims = [
       issues: [],
       evidence: [],
       evidenceSubmissions: [],
+      trackedItems: [
+        {
+          id: 101,
+          displayName: 'Unemployability - 21-8940 needed and 4192(s) requested',
+          status: 'INITIAL_REVIEW_COMPLETE',
+          receivedDate: '2025-09-24',
+          closedDate: null,
+          suspenseDate: '2024-12-01',
+          type: 'still_need_from_you_list',
+          canUploadFile: true,
+          friendlyName: 'Work status information',
+          shortDescription:
+            'We need more information about how your service-connected disabilities prevent you from working.',
+          supportAliases: [
+            'Unemployability - 21-8940 needed and 4192(s) requested',
+          ],
+        },
+      ],
       supportingDocuments: [
         createSupportingDocument(
           '{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}',
           'Photographs',
           'Not tracked item photos.pdf',
           null,
+          '2024-10-15',
+        ),
+        createSupportingDocument(
+          '{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}',
+          'Photographs',
+          'Tracked item photos.pdf',
+          101,
           '2024-10-15',
         ),
       ],
@@ -724,6 +770,7 @@ const baseClaims = [
           fileName: 'authorization-form-signed.pdf',
           trackedItemId: 3,
           trackedItemDisplayName: '21-4142',
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
         }),
         createEvidenceSubmission(111, 8, {
           acknowledgementDate: new Date(
@@ -815,6 +862,21 @@ const baseClaims = [
           suspenseDate: '2024-04-07',
           uploadsAllowed: true,
           documents: '[]',
+          date: '2024-03-07',
+        },
+        // Test item for generic "Next steps" content (not in evidenceDictionary)
+        {
+          closedDate: null,
+          description: 'Generic document request for testing',
+          displayName: 'Generic Document Request',
+          canUploadFile: true,
+          id: 99999,
+          overdue: false,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2025-12-31',
+          uploadsAllowed: true,
           date: '2024-03-07',
         },
       ],
@@ -940,6 +1002,17 @@ const baseClaims = [
     ],
     // Tracked items WITHOUT embedded documents (serializer will add them)
     trackedItems: [
+      // NEEDED_FROM_OTHERS item to test empty p tag bug
+      {
+        id: 110,
+        displayName: 'Private medical records from third party',
+        status: 'NEEDED_FROM_OTHERS',
+        requestedDate: '2025-10-01',
+        receivedDate: null,
+        closedDate: null,
+        suspenseDate: '2025-12-15',
+        type: 'other',
+      },
       // Tracked item with NO documents - will show "File name unknown"
       {
         id: 109,
@@ -1132,13 +1205,16 @@ const baseClaims = [
         }),
         createEvidenceSubmission(203, 10, {
           acknowledgementDate: null,
-          createdAt: '2025-09-28T16:45:00.000Z',
-          deleteDate: '2025-11-27T23:59:59.999Z',
-          documentType: 'Buddy/Lay Statement',
+          createdAt: '2025-09-27T09:20:00.000Z',
+          deleteDate: '2025-11-26T23:59:59.999Z',
+          documentType: 'VA Form 21-4142',
           failedDate: null,
-          fileName: 'buddy_statement_john_smith.pdf',
+          fileName: 'direct_deposit_2022.pdf',
+          trackedItemId: 202,
+          trackedItemDisplayName: 'EFT - Treasury Mandate Notification',
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
+          trackedItemFriendlyName: 'Direct deposit information',
         }),
         createEvidenceSubmission(204, 10, {
           acknowledgementDate: null,
@@ -1453,16 +1529,25 @@ const responses = {
     },
   },
 
-  'GET /v0/benefits_claims': {
-    data: claimsToUse.map(getClaimSummary),
-    meta: {
-      pagination: {
-        currentPage: 1,
-        perPage: 10,
-        totalPages: 3,
-        totalEntries: 30,
+  'GET /v0/benefits_claims': (_req, res) => {
+    if (!SERVICE_AVAILABILITY.claims) {
+      // Only status code matters - frontend doesn't parse error body
+      return res.status(500).json({ errors: [] });
+    }
+    const claimsData = RETURN_EMPTY_DATA.claims
+      ? []
+      : claimsToUse.map(getClaimSummary);
+    return res.status(200).json({
+      data: claimsData,
+      meta: {
+        pagination: {
+          currentPage: 1,
+          perPage: 10,
+          totalPages: RETURN_EMPTY_DATA.claims ? 0 : 3,
+          totalEntries: RETURN_EMPTY_DATA.claims ? 0 : claimsData.length,
+        },
       },
-    },
+    });
   },
 
   'GET /v0/benefits_claims/failed_upload_evidence_submissions': {
@@ -1638,6 +1723,21 @@ const responses = {
         uploadStatus: 'FAILED',
         vaNotifyStatus: 'SENT',
       },
+      {
+        id: 12,
+        acknowledgementDate: '2025-01-03T10:30:00.000Z',
+        claimId: '123456789',
+        createdAt: '2025-01-03T10:15:00.000Z',
+        deleteDate: null,
+        documentType: 'Other Correspondence',
+        failedDate: '2025-01-03T10:35:00.000Z',
+        fileName: 'other-correspondence.pdf',
+        lighthouseUpload: true,
+        trackedItemId: null,
+        trackedItemDisplayName: null,
+        uploadStatus: 'FAILED',
+        vaNotifyStatus: 'SENT',
+      },
     ],
   },
 
@@ -1654,7 +1754,13 @@ const responses = {
   'GET /v0/benefits_claims/11': getClaimDataById('11'),
 
   'GET /v0/appeals': (_req, res) => {
-    return res.status(200).json(appealData);
+    if (!SERVICE_AVAILABILITY.appeals) {
+      // Only status code matters - frontend doesn't parse error body
+      return res.status(500).json({ errors: [] });
+    }
+    return res
+      .status(200)
+      .json(RETURN_EMPTY_DATA.appeals ? { data: [] } : appealData);
   },
 
   'GET /v0/appeals/1': {
@@ -1754,8 +1860,12 @@ const responses = {
     };
 
     // Configuration for testing different scenarios
-    const errorPattern = ['duplicate', 'unknown', 'invalidClaimant']; // Change this to test different scenarios
-    // const errorPattern = [null]; // for success only
+    // Appropriate values:
+    // - 'duplicate',
+    // - 'invalidClaimant',
+    // - 'unknown'
+    // - null for success only
+    const errorPattern = ['unknown'];
 
     return (_req, res) => {
       uploadCount += 1;

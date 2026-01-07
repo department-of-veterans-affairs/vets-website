@@ -1,20 +1,13 @@
 name: Configure AWS Credentials
-description: Configure AWS Credentials
+description: Configure AWS Credentials via OIDC
 
 inputs:
-  aws_id:
-    description: AWS Access ID
-    required: true
-  aws_key:
-    description: AWS Secret Key
-    required: true
   aws_region:
     description: AWS region
     required: true
   role:
-    description: Role to assume
-    required: false
-    default: ''
+    description: Role to assume (required for OIDC)
+    required: true
   session_name:
     description: Role Session Name
     required: false
@@ -25,11 +18,11 @@ inputs:
     default: ''
 
 outputs:
-  ecr_user: 
+  ecr_user:
     description: Output of AWS stored ECR username credential
     value: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
   ecr_password:
-    description: Output of AWS stored ECR password credential 
+    description: Output of AWS stored ECR password credential
     value: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
 
 runs:
@@ -37,8 +30,6 @@ runs:
   steps:
     - uses: aws-actions/configure-aws-credentials@587276aa2b7ab3e81491bc89886f7805ee29494c
       with:
-        aws-access-key-id: ${{ inputs.aws_id }}
-        aws-secret-access-key: ${{ inputs.aws_key }}
         aws-region: ${{ inputs.aws_region }}
         mask-aws-account-id: true
         role-to-assume: ${{ inputs.role }}

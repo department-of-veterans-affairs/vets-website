@@ -225,7 +225,8 @@ describe('Introduction page', () => {
       reducers: reducer,
     });
 
-    expect(screen.getByText('Your appointment is older than 30 days')).to.exist;
+    expect(screen.getByText('Your appointment happened more than 30 days ago'))
+      .to.exist;
     expect($('va-link-action[text="Start a mileage only claim"]')).to.not.exist;
   });
 
@@ -252,6 +253,37 @@ describe('Introduction page', () => {
               travelPayClaim: {
                 claim: {},
               },
+            },
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect($('va-link-action[text="Start a mileage-only claim"]')).to.not.exist;
+  });
+
+  it('should hide entry point if appointment is community care (isCC)', () => {
+    MockDate.set('2025-01-05');
+    renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+        travelPay: {
+          appointment: {
+            isLoading: true,
+            error: null,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 6,
+              isOutOfBounds: false,
+              isCC: true,
             },
           },
         },

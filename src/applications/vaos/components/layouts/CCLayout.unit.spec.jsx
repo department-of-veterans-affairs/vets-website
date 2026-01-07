@@ -55,7 +55,7 @@ describe('VAOS Component: CCLayout', () => {
         screen.getByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            content === 'Other details: Not available'
+            content === 'Not available'
           );
         }),
       );
@@ -127,14 +127,10 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(
         screen.getByRole('heading', {
@@ -203,7 +199,7 @@ describe('VAOS Component: CCLayout', () => {
         }),
       );
       expect(
-        screen.getByRole('heading', { level: 2, name: /After visit summary/i }),
+        screen.getByRole('heading', { level: 2, name: /After-visit summary/i }),
       );
 
       expect(screen.getByRole('heading', { level: 2, name: /When/i }));
@@ -235,14 +231,10 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(
         screen.queryByRole('heading', {
@@ -296,7 +288,7 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).not.to.exist;
 
@@ -329,14 +321,10 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(
         screen.getByRole('heading', {
@@ -404,7 +392,7 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).not.to.exist;
 
@@ -437,14 +425,10 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

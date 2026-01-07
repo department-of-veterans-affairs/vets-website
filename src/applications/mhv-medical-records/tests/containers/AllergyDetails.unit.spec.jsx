@@ -9,7 +9,10 @@ import allergy from '../fixtures/allergy.json';
 import allergyWithMissingFields from '../fixtures/allergyWithMissingFields.json';
 import allergyWithMultipleCategories from '../fixtures/allergyWithMultipleCategories.json';
 import user from '../fixtures/user.json';
-import { convertAllergy } from '../../reducers/allergies';
+import {
+  convertAllergy,
+  convertUnifiedAllergy,
+} from '../../reducers/allergies';
 
 describe('Allergy details container', () => {
   const initialState = {
@@ -206,6 +209,78 @@ describe('Allergy details container with multiple categories/types', () => {
   it('should include the array of allergy types as a joined list', async () => {
     await waitFor(() => {
       expect(screen.getByText('Food, medication, drug allergy')).to.exist;
+    });
+  });
+});
+
+describe('AllergyDetails with unified data', () => {
+  const unifiedAllergyData = {
+    id: '132892323',
+    type: 'allergy',
+    attributes: {
+      id: '132892323',
+      name: 'penicillins',
+      categories: ['medication'],
+      date: '2025-02-25T17:50:49Z',
+      reactions: ['Urticaria (Hives)', 'Sneezing'], // Backend sends 'reactions'
+      location: 'VA Medical Center',
+      // observedHistoric: null, // Not available in Oracle Health FHIR
+      notes: [
+        'Patient reports adverse reaction to previously prescribed pencicillins',
+      ],
+      provider: 'Borland, Victoria A',
+    },
+  };
+
+  const initialState = {
+    user,
+    mr: {
+      allergies: {
+        allergyDetails: {
+          ...convertUnifiedAllergy(unifiedAllergyData),
+          isOracleHealthData: true,
+        },
+      },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_accelerated_delivery_enabled: true,
+      // eslint-disable-next-line camelcase
+      mhv_accelerated_delivery_allergies_enabled: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<AllergyDetails runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/allergies/132892323',
+    });
+  });
+
+  it('renders unified allergy details without errors', () => {
+    expect(screen.getByText('penicillins')).to.exist;
+  });
+
+  it('displays unified allergy data correctly', async () => {
+    await waitFor(() => {
+      expect(screen.getByText('penicillins')).to.exist;
+      expect(screen.getByText('Medication')).to.exist;
+      expect(screen.getByText('February 25, 2025')).to.exist;
+      expect(screen.getByText('Urticaria (Hives)')).to.exist;
+      expect(screen.getByText('Sneezing')).to.exist;
+      expect(screen.getByText('Borland, Victoria A')).to.exist;
+    });
+  });
+
+  it('displays Oracle Health data indicator', async () => {
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'Patient reports adverse reaction to previously prescribed pencicillins',
+        ),
+      ).to.exist;
     });
   });
 });

@@ -70,7 +70,8 @@ describe('<FilesReceived>', () => {
         expect($('.files-received-container', container)).to.exist;
         expect(getByText('Pending review')).to.exist;
         expect(getByText('File name unknown')).to.exist;
-        expect(getByText('Request type: Request 1')).to.exist;
+        expect(getByText('Submitted in response to request: Request 1')).to
+          .exist;
         expect(getByText('Received on January 1, 2024')).to.exist;
       });
     },
@@ -113,7 +114,8 @@ describe('<FilesReceived>', () => {
         expect(getByText('file.pdf')).to.exist;
         expectMaskedFilenames(container);
         expect(getByText('Document type: Correspondence')).to.exist;
-        expect(getByText('Request type: Request 1')).to.exist;
+        expect(getByText('Submitted in response to request: Request 1')).to
+          .exist;
         expect(getByText('Received on January 1, 2024')).to.exist;
       });
     },
@@ -156,7 +158,8 @@ describe('<FilesReceived>', () => {
         expect(getByText('file.pdf')).to.exist;
         expectMaskedFilenames(container);
         expect(getByText('Document type: Correspondence')).to.exist;
-        expect(getByText('Request type: Request 1')).to.exist;
+        expect(getByText('Submitted in response to request: Request 1')).to
+          .exist;
         expect(getByText('Received on January 2, 2024')).to.exist;
       });
     },
@@ -190,7 +193,7 @@ describe('<FilesReceived>', () => {
         },
       };
 
-      it('should render card with reviewed by VA status and show both dates', () => {
+      it('should render card with reviewed by VA status', () => {
         const { container, getByText } = render(
           <FilesReceived claim={claim} />,
         );
@@ -200,9 +203,9 @@ describe('<FilesReceived>', () => {
         expect(getByText('file.pdf')).to.exist;
         expectMaskedFilenames(container);
         expect(getByText('Document type: Correspondence')).to.exist;
-        expect(getByText('Request type: Request 1')).to.exist;
+        expect(getByText('Submitted in response to request: Request 1')).to
+          .exist;
         expect(getByText('Received on January 2, 2024')).to.exist;
-        expect(getByText('Reviewed by VA on January 3, 2024')).to.exist;
       });
     },
   );
@@ -235,7 +238,7 @@ describe('<FilesReceived>', () => {
         },
       };
 
-      it('should render card with reviewed by VA status and show both dates', () => {
+      it('should render card with reviewed by VA status', () => {
         const { container, getByText } = render(
           <FilesReceived claim={claim} />,
         );
@@ -245,9 +248,9 @@ describe('<FilesReceived>', () => {
         expect(getByText('file.pdf')).to.exist;
         expectMaskedFilenames(container);
         expect(getByText('Document type: Correspondence')).to.exist;
-        expect(getByText('Request type: Request 1')).to.exist;
+        expect(getByText('Submitted in response to request: Request 1')).to
+          .exist;
         expect(getByText('Received on January 2, 2024')).to.exist;
-        expect(getByText('Reviewed by VA on January 3, 2024')).to.exist;
       });
     },
   );
@@ -292,7 +295,7 @@ describe('<FilesReceived>', () => {
         expect(getByText('Document type: Correspondence')).to.exist;
         expect(
           getByText(
-            'We received this file for a closed evidence request (Request 1).',
+            'We received this file for a closed evidence request: Request 1',
           ),
         ).to.exist;
         expect(getByText('Received on January 2, 2024')).to.exist;
@@ -337,7 +340,8 @@ describe('<FilesReceived>', () => {
         expect(getByText('file.pdf')).to.exist;
         expectMaskedFilenames(container);
         expect(getByText('Document type: Correspondence')).to.exist;
-        expect(getByText('Request type: Request 1')).to.exist;
+        expect(getByText('Submitted in response to request: Request 1')).to
+          .exist;
         expect(queryByText(/Received on/)).to.not.exist;
       });
     },
@@ -389,7 +393,9 @@ describe('<FilesReceived>', () => {
         expect(getByText('file2.pdf')).to.exist;
         expectMaskedFilenames(container, 2);
         expect(getAllByText('Pending review')).to.have.lengthOf(2);
-        expect(getAllByText('Request type: Request 1')).to.have.lengthOf(2);
+        expect(
+          getAllByText('Submitted in response to request: Request 1'),
+        ).to.have.lengthOf(2);
       });
     },
   );

@@ -27,12 +27,19 @@ import {
   selectEditViewData,
   selectMostRecentlyUpdatedField,
   selectVAProfilePersonalInformation,
+  selectVAProfileSchedulingPreferences,
 } from '../selectors';
 
 import { isFieldEmpty } from '../util';
 import { recordCustomProfileEvent } from '../util/analytics';
 import { getInitialFormValues } from '../util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '../util/getProfileInfoFieldAttributes';
+import {
+  isSchedulingPreference,
+  isSubtaskSchedulingPreference,
+} from '../util/health-care-settings/schedulingPreferencesUtils';
+import { createSchedulingPreferencesUpdate } from '../actions/schedulingPreferences';
+
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
 //
@@ -186,6 +193,15 @@ class ProfileInformationFieldController extends React.Component {
         document,
         50,
       );
+
+      if (
+        forceEditView &&
+        typeof successCallback === 'function' &&
+        showUpdateSuccessAlert &&
+        !prevProps.showUpdateSuccessAlert
+      ) {
+        successCallback();
+      }
     } else if (
       forceEditView &&
       typeof successCallback === 'function' &&
@@ -224,29 +240,38 @@ class ProfileInformationFieldController extends React.Component {
 
   onDelete = () => {
     let payload = this.props.data;
+    const { fieldName, apiRoute, analyticsSectionName } = this.props;
     if (this.props.convertCleanDataToPayload) {
-      payload = this.props.convertCleanDataToPayload(
-        payload,
-        this.props.fieldName,
-      );
+      payload = this.props.convertCleanDataToPayload(payload, fieldName);
     }
-    if (this.props.fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
+    if (isSchedulingPreference(fieldName)) {
+      this.props.createSchedulingPreferencesUpdate({
+        route: apiRoute,
+        method: 'DELETE',
+        fieldName,
+        payload,
+        analyticsSectionName,
+        value: payload,
+      });
+      return;
+    }
+    if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
       this.props.updateMessagingSignature(
         {
           signatureName: '',
           signatureTitle: '',
           includeSignature: false,
         },
-        this.props.fieldName,
+        fieldName,
         'POST',
       );
     } else {
       this.props.createTransaction(
-        this.props.apiRoute,
+        apiRoute,
         'DELETE',
-        this.props.fieldName,
+        fieldName,
         payload,
-        this.props.analyticsSectionName,
+        analyticsSectionName,
       );
     }
   };
@@ -267,6 +292,11 @@ class ProfileInformationFieldController extends React.Component {
 
   onEdit = (event = 'edit-link') => {
     this.captureEvent(event);
+    // Check if this field should use subtask editing
+    if (isSubtaskSchedulingPreference(this.props.fieldName)) {
+      return;
+    }
+    // Use inline editing flow
     this.openEditModal();
   };
 
@@ -454,9 +484,10 @@ class ProfileInformationFieldController extends React.Component {
       showCopyAddressModal,
     } = this.props;
 
-    const activeSection = VAP_SERVICE.FIELD_TITLES[
-      activeEditView
-    ]?.toLowerCase();
+    // If the activeEditView is on the scheduling preferences page, use the section heading for modals
+    const activeSection = isSchedulingPreference(activeEditView)
+      ? VAP_SERVICE.FIELD_SECTION_HEADERS[activeEditView]?.toLowerCase()
+      : VAP_SERVICE.FIELD_TITLES[activeEditView]?.toLowerCase();
 
     const isLoading =
       transactionRequest?.isPending || isPendingTransaction(transaction);
@@ -599,7 +630,6 @@ class ProfileInformationFieldController extends React.Component {
         <ConfirmRemoveModal
           cancelAction={this.cancelDeleteAction}
           deleteAction={this.confirmDeleteAction}
-          isLoading={isLoading}
           title={title}
           fieldName={fieldName}
           isEnrolledInVAHealthCare={isEnrolledInVAHealthCare}
@@ -641,6 +671,7 @@ ProfileInformationFieldController.propTypes = {
   blockEditMode: PropTypes.bool.isRequired,
   clearTransactionRequest: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func.isRequired,
+  createSchedulingPreferencesUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
@@ -698,7 +729,8 @@ export const mapStateToProps = (state, ownProps) => {
   );
   const data =
     selectVAPContactInfoField(state, fieldName) ||
-    selectVAProfilePersonalInformation(state, fieldName);
+    selectVAProfilePersonalInformation(state, fieldName) ||
+    selectVAProfileSchedulingPreferences(state, fieldName);
 
   const isEmpty = isFieldEmpty(data, fieldName);
   const addressValidationType = selectAddressValidationType(state);
@@ -789,6 +821,7 @@ const mapDispatchToProps = {
   clearTransactionRequest,
   refreshTransaction,
   openModal,
+  createSchedulingPreferencesUpdate,
   createTransaction,
   updateMessagingSignature,
 };

@@ -40,6 +40,9 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
+  // TODO: Once vetted, drop the feature toggle _and_ drop this obsolete
+  // conditionality.
+  showNewlyBDDPages,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -132,11 +135,12 @@ import {
 
 import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
+import { getCustomValidationErrors } from '../utils/customValidationErrors';
 
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
-import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillaryFormsWizard';
+import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -196,12 +200,14 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: true,
   reviewErrors,
+  customValidationErrors: getCustomValidationErrors,
   onFormLoaded,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'VA Form 21-526EZ',
+  subTitle:
+    'Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {
@@ -225,7 +231,7 @@ const formConfig = {
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
-          depends: formData => !isBDD(formData),
+          depends: formData => showNewlyBDDPages(formData),
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
           onContinue: captureEvents.homelessOrAtRisk,
@@ -233,7 +239,7 @@ const formConfig = {
         terminallyIll: {
           title: 'Terminally ill',
           path: 'terminally-ill',
-          depends: formData => !isBDD(formData),
+          depends: formData => showNewlyBDDPages(formData),
           uiSchema: terminallyIll.uiSchema,
           schema: terminallyIll.schema,
         },
@@ -289,7 +295,7 @@ const formConfig = {
           title: SEPARATION_PAY_SECTION_TITLE,
           path: 'separation-pay',
           depends: formData =>
-            !hasRatedDisabilities(formData) && !isBDD(formData),
+            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
@@ -297,7 +303,7 @@ const formConfig = {
           title: 'Retirement pay',
           path: 'retirement-pay',
           depends: formData =>
-            !hasRatedDisabilities(formData) && !isBDD(formData),
+            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
@@ -305,7 +311,7 @@ const formConfig = {
           title: 'Training pay',
           path: 'training-pay',
           depends: formData =>
-            !hasRatedDisabilities(formData) && !isBDD(formData),
+            !hasRatedDisabilities(formData) && showNewlyBDDPages(formData),
           uiSchema: trainingPay.uiSchema,
           schema: trainingPay.schema,
         },
@@ -703,7 +709,7 @@ const formConfig = {
           depends: formData =>
             hasMilitaryRetiredPay(formData) &&
             !hasRatedDisabilities(formData) &&
-            !isBDD(formData),
+            showNewlyBDDPages(formData),
           uiSchema: retirementPayWaiver.uiSchema,
           schema: retirementPayWaiver.schema,
         },
@@ -713,7 +719,7 @@ const formConfig = {
           depends: formData =>
             formData.hasTrainingPay &&
             !hasRatedDisabilities(formData) &&
-            !isBDD(formData),
+            showNewlyBDDPages(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
         },

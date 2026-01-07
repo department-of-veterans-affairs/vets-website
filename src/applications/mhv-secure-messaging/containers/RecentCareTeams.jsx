@@ -14,6 +14,7 @@ import { getRecentRecipients } from '../actions/recipients';
 import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
+import manifest from '../manifest.json';
 
 const RECENT_RECIPIENTS_LABEL = `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`;
 
@@ -28,12 +29,26 @@ const RecentCareTeams = () => {
   const [error, setError] = useState(null);
   const { recipients, threadDetails } = useSelector(state => state.sm);
   const { acceptInterstitial } = threadDetails;
-  const { recentRecipients, allRecipients } = recipients;
+  const {
+    recentRecipients,
+    allRecipients,
+    noAssociations,
+    error: recipientsError,
+  } = recipients;
   const h1Ref = useRef(null);
   const {
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
   } = useFeatureToggles();
+
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
 
   useEffect(
     () => {
@@ -53,11 +68,11 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
-      if (allRecipients?.length > 0) {
+      if (allRecipients?.length > 0 && recentRecipients === undefined) {
         dispatch(getRecentRecipients(6));
       }
     },
-    [allRecipients, dispatch],
+    [allRecipients, dispatch, recentRecipients],
   );
 
   useEffect(
@@ -103,24 +118,33 @@ const RecentCareTeams = () => {
     [recentRecipients],
   );
 
+  const getDestinationPath = useCallback(
+    (includeRootUrl = false) => {
+      const selectCareTeamPath = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+      const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
+      let path;
+      if (selectedCareTeam === OTHER_VALUE) {
+        path = selectCareTeamPath;
+      } else {
+        path = startPath;
+      }
+      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
+    },
+    [selectedCareTeam],
+  );
+
   const handleContinue = useCallback(
-    () => {
+    event => {
+      event?.preventDefault();
       if (!selectedCareTeam) {
         setError('Select a care team');
         focusOnErrorField();
         return;
       }
       setError(null); // Clear error on valid submit
-      if (selectedCareTeam === OTHER_VALUE) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
-        return;
-      }
-      // TODO: CURATED LIST handle pushing selected recipient value to reducer
-      // For now, just redirect to compose message
-      // This is a placeholder for the actual logic to dispatch value to activeDraft redux state
-      history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
+      history.push(getDestinationPath());
     },
-    [history, selectedCareTeam],
+    [history, selectedCareTeam, getDestinationPath],
   );
 
   const handleRadioChange = useCallback(
@@ -195,12 +219,14 @@ const RecentCareTeams = () => {
           })}
         <VaRadioOption label="A different care team" tile value={OTHER_VALUE} />
       </VaRadio>
-      <va-button
-        class="vads-u-width--full small-screen:vads-u-width--auto"
-        continue
-        onClick={handleContinue}
-        text="Continue"
+
+      <va-link-action
+        href={getDestinationPath(true)}
+        text="Continue to start message"
         data-testid="recent-care-teams-continue-button"
+        onClick={handleContinue}
+        class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+        type="primary"
       />
     </>
   );

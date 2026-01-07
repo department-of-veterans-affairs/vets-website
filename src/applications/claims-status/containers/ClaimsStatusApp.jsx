@@ -11,6 +11,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
+import environment from 'platform/utilities/environment';
 import { setLastPage } from '../actions';
 import ServiceUnavailableAlert from '../components/ServiceUnavailableAlert';
 import { isLoadingFeatures } from '../selectors';
@@ -80,6 +81,8 @@ function ClaimsStatusApp({
     clientToken: 'pub21bfd23fdfb656231f24906ea91ccb01',
     service: 'benefits-claim-status-tool',
     version: '1.0.0',
+    sessionReplaySampleRate:
+      environment.vspEnvironment() === 'staging' ? 100 : 50,
   });
 
   return (
@@ -87,7 +90,6 @@ function ClaimsStatusApp({
       loadingIndicator={<AppLoadingIndicator id="required-login-view-loader" />}
       verify
       serviceRequired={[
-        backendServices.EVSS_CLAIMS,
         backendServices.APPEALS_STATUS,
         backendServices.LIGHTHOUSE,
       ]}
@@ -97,7 +99,6 @@ function ClaimsStatusApp({
         <DowntimeNotification
           appTitle="Claim Status"
           dependencies={[
-            externalServices.evss,
             externalServices.lighthouseBenefitsClaims,
             externalServices.global,
             externalServices.mvi,

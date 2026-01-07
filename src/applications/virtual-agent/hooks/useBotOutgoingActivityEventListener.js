@@ -16,12 +16,22 @@ function reloadWindow(lastMessageTime, setLastMessageTime, chatBotLoadTime) {
   }
 }
 
-export default function useBotOutgoingActivityEventListener(chatBotLoadTime) {
+export default function useBotOutgoingActivityEventListener(
+  chatBotLoadTime,
+  enabled = true,
+) {
   const [lastMessageTime, setLastMessageTime] = useState(0);
 
-  useEffect(() => {
-    window.addEventListener('bot-outgoing-activity', () =>
-      reloadWindow(lastMessageTime, setLastMessageTime, chatBotLoadTime),
-    );
-  });
+  useEffect(
+    () => {
+      // Skip listener registration when disabled (e.g., session persistence is on)
+      if (!enabled) return undefined;
+
+      const handler = () =>
+        reloadWindow(lastMessageTime, setLastMessageTime, chatBotLoadTime);
+      window.addEventListener('bot-outgoing-activity', handler);
+      return () => window.removeEventListener('bot-outgoing-activity', handler);
+    },
+    [enabled, lastMessageTime, chatBotLoadTime],
+  );
 }

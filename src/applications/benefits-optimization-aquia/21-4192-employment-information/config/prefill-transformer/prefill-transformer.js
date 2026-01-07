@@ -83,7 +83,7 @@
  * );
  * // Result includes prefilled personalInfo and contactInfo sections
  */
-export default function prefillTransformer(pages, formData, metadata, state) {
+export function prefillTransformer(pages, formData, metadata, state) {
   const profile = state?.user?.profile || {};
   const vaProfile = profile?.vaProfile || {};
 

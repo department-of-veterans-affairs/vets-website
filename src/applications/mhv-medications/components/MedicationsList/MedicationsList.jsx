@@ -8,9 +8,13 @@ import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
-  filterOptions,
   rxListSortingOptions,
 } from '../../util/constants';
+import { getFilterOptions } from '../../util/helpers/getRxStatus';
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
@@ -44,7 +48,7 @@ const MedicationsList = props => {
     navigate(`/?page=${page}`, {
       replace: true,
     });
-    updateLoadingStatus(null, 'Loading your medications...');
+    updateLoadingStatus('Loading your medications...');
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
@@ -56,8 +60,14 @@ const MedicationsList = props => {
   );
 
   const selectedFilterOption = useSelector(selectFilterOption);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const currentFilterOptions = getFilterOptions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
   const selectedFilterDisplay =
-    filterOptions[selectedFilterOption]?.showingContentDisplayName;
+    currentFilterOptions[selectedFilterOption]?.showingContentDisplayName;
 
   const filterAndSortContent = () => {
     const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
@@ -110,22 +120,24 @@ const MedicationsList = props => {
         {rxList?.length > 0 &&
           rxList.map((rx, idx) => <PrescriptionPrintOnly key={idx} rx={rx} />)}
       </div>
-      <div
-        className="vads-u-display--block vads-u-margin-top--3"
+      <ul
+        className="medications-list-style--none vads-u-margin--0 vads-u-padding--0 vads-u-margin-top--3"
         data-testid="medication-list"
       >
         {rxList?.length > 0 &&
           rxList.map(
             (rx, idx) =>
               rx.prescriptionId === prescriptionId ? (
-                <div ref={scrollLocation} key={idx}>
+                <li ref={scrollLocation} key={idx}>
                   <MedicationsListCard rx={rx} />
-                </div>
+                </li>
               ) : (
-                <MedicationsListCard key={idx} rx={rx} />
+                <li key={idx}>
+                  <MedicationsListCard rx={rx} />
+                </li>
               ),
           )}
-      </div>
+      </ul>
       <VaPagination
         max-page-list-length={MAX_PAGE_LIST_LENGTH}
         id="pagination"

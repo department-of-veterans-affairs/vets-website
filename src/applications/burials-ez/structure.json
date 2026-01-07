@@ -124,7 +124,7 @@
       },
       {
         "title": "Transportation allowance",
-        "path": "benefits/transportation-allowance",
+        "path": "benefits/transportation-reimbursement",
         "depends": "return (0, _get.default)('view:claimedBenefits.transportation', form);"
       }
     ]

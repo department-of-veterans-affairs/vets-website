@@ -1,7 +1,7 @@
-import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import DownloadAllPage from './pages/DownloadAllPage';
+import { currentDateAddSecondsForFileDownload } from '../../util/dateHelpers';
 
 describe('Test download all page', () => {
   const site = new MedicalRecordsSite();
@@ -91,7 +91,7 @@ describe('Test download all page', () => {
 
     site.verifyDownloadedPdfFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
-      moment(),
+      currentDateAddSecondsForFileDownload(1),
       '',
     );
     // Axe check

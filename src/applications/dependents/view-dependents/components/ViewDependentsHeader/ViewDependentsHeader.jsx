@@ -7,7 +7,7 @@ import { getAppUrl } from 'platform/utilities/registry-helpers';
 import { errorFragment } from '../../layouts/helpers';
 import { PAGE_TITLE } from '../../util';
 
-const form686Url = getAppUrl('686C-674');
+const form686Url = getAppUrl('686C-674-v2');
 
 const CALLSTATUS = {
   pending: 'pending',

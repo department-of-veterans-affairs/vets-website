@@ -60,6 +60,11 @@ const getChildRemovalOptions = (isStepchild, age, _firstName) => {
 
 const childReasonToRemove = {
   handlers: {
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: ({ itemData /* , index, fullData */ }) => {
       switch (itemData.removalReason) {
         case 'childMarried':
@@ -77,6 +82,10 @@ const childReasonToRemove = {
       }
     },
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.removalReason) {
@@ -87,7 +96,10 @@ const childReasonToRemove = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({
     itemData,
     fullName,

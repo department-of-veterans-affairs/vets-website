@@ -6,7 +6,7 @@
         "last": "Doe",
         "suffix": "Jr."
     },
-    "claimantAddress": {
+    "veteranAddress": {
         "country": "USA",
         "street": "123 Main St",
         "street2": "Apt 4B",
@@ -30,51 +30,52 @@
         "last": "Doe",
         "suffix": "Sr."
     },
-    "veteranSocialSecurityNumber": "123111234",
+    "veteranSocialSecurityNumber": {
+      "ssn": "123111234"
+    },
     "veteranDateOfBirth": "1970-01-01",
-    "vaFileNumber": "987654321",
     "isOver65": true,
     "firstTimeReporting": true,
     "reportingPeriod": {
         "from": "2023-01-01",
         "to": "2023-12-31"
     },
-    "hasCareExpenses": true,
+    "view:careExpensesList": true,
     "careExpenses": [
         {
-            "recipients": "SPOUSE",
+            "recipient": "SPOUSE",
             "provider": "Dr. Smith",
             "hoursPerWeek": "10",
-            "careDate": {
+            "careDateRange": {
                 "from": "2023-01-14",
                 "to": "2023-01-15"
             },
             "paymentPeriod": "monthly",
             "paymentAmount": 25,
             "hourlyRate": 50,
-            "typeOfCare": "inHome",
-            "monthlyPayment": 100
+            "typeOfCare": "RESIDENTIAL",
+            "monthlyAmount": 100
         },
         {
-            "recipients": "SPOUSE",
+            "recipient": "DEPENDENT",
+            "fullNameRecipient": "Baby Doe",
             "provider": "Dr. Smith",
             "hoursPerWeek": "50",
-            "careDate": {
+            "careDateRange": {
                 "from": "2023-02-01",
                 "to": "2023-03-15"
             },
             "paymentPeriod": "monthly",
             "paymentAmount": 25,
             "hourlyRate": 50,
-            "typeOfCare": "residential",
-            "monthlyPayment": 100
+            "typeOfCare": "RESIDENTIAL",
+            "monthlyAmount": 100
         }
     ],
     "hasMedicalExpenses": true,
     "medicalExpenses": [
         {
           "recipient": "VETERAN",
-          "recipientName": "John B. Doe Sr.",
           "provider": "5A (5)",
           "purpose": "5A (6)",
           "paymentDate": "2001-01-01",
@@ -82,8 +83,8 @@
           "paymentAmount": 123456.78
         },
         {
-          "recipient": "SPOUSE",
-          "recipientName": "5B (1)",
+          "recipient": "DEPENDENT",
+          "fullNameRecipient": "Jane Spouse",
           "provider": "5B (5)",
           "purpose": "5B (6)",
           "paymentDate": "2002-02-02",
@@ -92,23 +93,23 @@
         }
     ],
     "hasMileage": true,
-    "mileage": [
-        {
-          "traveler": "VETERAN",
-          "travelLocation": "HOSPITAL",
-          "travelMilesTraveled": "10",
-          "travelDate": "2001-01-10",
-          "travelReimbursed": false
-        },
+    "mileageExpenses": [
         {
           "traveler": "OTHER",
-          "travelerName": "Tom Otherson",
+          "fullNameTraveler": "Tom Otherson",
           "travelLocation": "OTHER",
           "travelLocationOther": "Some Other Place",
           "travelMilesTraveled": "10",
           "travelDate": "2002-02-20",
           "travelReimbursed": true,
           "travelReimbursementAmount": 125.67
+        },
+        {
+          "traveler": "VETERAN",
+          "travelLocation": "HOSPITAL",
+          "travelMilesTraveled": "10",
+          "travelDate": "2001-01-10",
+          "travelReimbursed": false
         }
     ],
     "files": [

@@ -190,6 +190,36 @@ describe('<ProfileInformationFieldController/>', () => {
 
     component.unmount();
   });
+
+  it('calls successCallback when success alert appears in forceEditView flow', () => {
+    const successCallbackSpy = sinon.spy();
+
+    const initialProps = {
+      ...props,
+      forceEditView: true,
+      successCallback: successCallbackSpy,
+      showUpdateSuccessAlert: false,
+      showEditView: false,
+      showRemoveModal: false,
+      showValidationView: false,
+      transactionRequest: null,
+    };
+
+    component = enzyme.shallow(
+      <ProfileInformationFieldController {...initialProps} />,
+    );
+
+    const updatedProps = {
+      ...initialProps,
+      showUpdateSuccessAlert: true,
+    };
+
+    component.setProps(updatedProps);
+
+    expect(successCallbackSpy.calledOnce, 'successCallback called').to.be.true;
+
+    component.unmount();
+  });
 });
 
 describe('mapStateToProps', () => {

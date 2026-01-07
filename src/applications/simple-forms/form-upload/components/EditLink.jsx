@@ -9,7 +9,11 @@ const EditLink = ({ href, router, label }) => {
     router.push(href);
   }
 
-  return <VaLink href={href} onClick={onClick} text="Edit" label={label} />;
+  return (
+    <p>
+      <VaLink href={href} onClick={onClick} text="Edit" label={label} />
+    </p>
+  );
 };
 
 export default withRouter(EditLink);

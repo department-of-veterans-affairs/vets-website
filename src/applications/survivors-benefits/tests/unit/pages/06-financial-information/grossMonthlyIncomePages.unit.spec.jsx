@@ -110,4 +110,39 @@ describe('Gross Monthly Income Pages', () => {
     expect(text.cardDescription(itemWithAmount)).to.equal('$1500');
     expect(text.cardDescription(itemWithoutAmount)).to.equal('Monthly amount');
   });
+
+  it('should show alertMaxItems alert with correct content and link when maxItems is reached', () => {
+    const { text, maxItems } = options;
+    expect(maxItems).to.equal(4);
+
+    const formDataWithMaxItems = {
+      incomeSources: [
+        { typeOfIncome: 'SOCIAL_SECURITY', amount: 1000 },
+        { typeOfIncome: 'PENSION', amount: 500 },
+        { typeOfIncome: 'EMPLOYMENT', amount: 2000 },
+        { typeOfIncome: 'INVESTMENTS', amount: 300 },
+      ],
+    };
+    expect(formDataWithMaxItems.incomeSources.length).to.equal(maxItems);
+
+    // Render the max limit reached alert directly
+    const maxLimitAlert = text.alertMaxItems;
+    expect(maxLimitAlert, 'alertMaxItems alert').to.exist;
+    const { container } = render(maxLimitAlert);
+    const alertText = container.textContent;
+    expect(alertText).to.include(
+      'You have added the maximum number of allowed monthly income sources for this application. Additional income sources can be added using VA 21P-0969 and uploaded at the end of this application.',
+    );
+    expect(alertText).to.include(
+      'Additional income sources can be added using VA 21P-0969',
+    );
+    const link = container.querySelector('va-link');
+    expect(link, 'alert link').to.exist;
+    expect(link.getAttribute('href')).to.equal(
+      'https://www.va.gov/find-forms/about-form-21p-0969',
+    );
+    expect(link.getAttribute('text')).to.equal(
+      'Get VA Form 21P-0969 to download',
+    );
+  });
 });

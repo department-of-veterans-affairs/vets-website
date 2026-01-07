@@ -20,6 +20,8 @@ export const SHORT_NAME_MAP = Object.freeze({
   Q_2_0_CLAIM_TYPE: 'Q_2_0_CLAIM_TYPE',
   Q_2_IS_1A_LAW_POLICY_CHANGE: 'Q_2_IS_1A_LAW_POLICY_CHANGE',
   Q_2_IS_1B_NEW_EVIDENCE: 'Q_2_IS_1B_NEW_EVIDENCE',
+  Q_2_IS_1B_2_JUDGE_HEARING: 'Q_2_IS_1B_2_JUDGE_HEARING',
+  Q_2_IS_1B_3_JUDGE_HEARING: 'Q_2_IS_1B_3_JUDGE_HEARING',
   Q_2_S_1_NEW_EVIDENCE: 'Q_2_S_1_NEW_EVIDENCE',
   Q_2_S_2_WITHIN_120_DAYS: 'Q_2_S_2_WITHIN_120_DAYS',
   Q_2_H_2_NEW_EVIDENCE: 'Q_2_H_2_NEW_EVIDENCE',
@@ -28,15 +30,16 @@ export const SHORT_NAME_MAP = Object.freeze({
 });
 
 export const RESPONSES = Object.freeze({
-  BOARD: 'Board Appeal decision',
+  BOARD: 'Board decision',
+  CFI: 'Claim for increase',
   HLR: 'Higher-Level Review',
-  INIT: 'Initial claim or claim for increase',
+  INIT: 'Initial claim',
   NO: 'No',
   SC: 'Supplemental claim',
   YES: 'Yes',
 });
 
-const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
+const { BOARD, CFI, HLR, INIT, NO, SC, YES } = RESPONSES;
 
 const NEW_AND_RELEVANT_EVIDENCE = {
   descriptionText: (
@@ -193,21 +196,19 @@ const SERVICE_CONNECTED = {
 const DISAGREE_DECISION = {
   descriptionText: (
     <>
-      <p>
-        You can request a review when your condition gets worse. You can also
-        disagree with other parts of our decision. You might disagree with:
-      </p>
+      <p>You might disagree with 1 or more of these things from your claim:</p>
       <ul>
-        <li>The effective date (when your benefits should have started)</li>
         <li>
           Your disability rating (how we rated the severity of your condition)
         </li>
         <li>Whether your condition is service-connected</li>
+        <li>The effective date (when your benefits eligibility started)</li>
       </ul>
-      <p>
-        If we review your disagreement and change our decision, you may get
-        retroactive compensation (back pay).
-      </p>
+      <va-link
+        external
+        href="/disability/effective-date"
+        text="Learn more about disability compensation effective dates"
+      />
     </>
   ),
   h1: `Disagreement with decision`,
@@ -356,17 +357,22 @@ export const QUESTION_CONTENT = Object.freeze({
   Q_2_0_CLAIM_TYPE: {
     h1: `Claim type`,
     hintText: null,
-    questionText: `What type of decision do you want us to review?`,
+    questionText: `What type of claim or appeal decision do you disagree with?`,
     responses: [
       {
-        [INIT]: `I filed a disability claim for a new condition or to increase my disability rating for a condition that got worse.`,
+        [INIT]: `I filed an initial claim for a new condition and I disagree with the decision.`,
       },
       {
-        [SC]: `I submitted new evidence after a previous decision or requested a review based on a change in law.`,
+        [CFI]: `I filed an initial claim for a condition that got worse and I disagree with the decision.`,
       },
-      { [HLR]: `A senior reviewer reviewed my previous claim decision.` },
       {
-        [BOARD]: `A Veterans Law Judge at the Board of Veterans’ Appeals reviewed my case.`,
+        [SC]: `I filed a Supplemental Claim (with new evidence or due to a change in law or policy) and I disagree with the decision.`,
+      },
+      {
+        [HLR]: `I requested a Higher-Level Review (a senior reviewer reviewed my previous claim) and I disagree with the decision.`,
+      },
+      {
+        [BOARD]: `I requested a Board Appeal (a Veterans Law Judge at the Board of Veterans’ Appeals reviewed my case) and I disagree with the decision.`,
       },
     ],
   },
@@ -375,6 +381,12 @@ export const QUESTION_CONTENT = Object.freeze({
   },
   Q_2_IS_1B_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,
+  },
+  Q_2_IS_1B_2_JUDGE_HEARING: {
+    ...JUDGE_HEARING,
+  },
+  Q_2_IS_1B_3_JUDGE_HEARING: {
+    ...JUDGE_HEARING,
   },
   Q_2_S_1_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,

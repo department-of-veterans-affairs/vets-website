@@ -11,6 +11,7 @@ import { evidenceDictionary } from './evidenceDictionary';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
+  ANCHOR_LINKS,
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
   pensionClaimTypeCodes,
@@ -1156,6 +1157,130 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
   };
 };
 
+// Helper: Format time in VA.gov standard (h:mm a.m./p.m.)
+const formatTimeVaStyle = date => {
+  const time = format(date, 'h:mm a').toLowerCase();
+  // Use case-insensitive replacement to handle any case variations
+  return time.replace(/am/i, 'a.m.').replace(/pm/i, 'p.m.');
+};
+
+// Helper: Get timezone abbreviation
+const getTimezoneAbbr = date => {
+  return date
+    .toLocaleString('en-US', { timeZoneName: 'short' })
+    .split(' ')
+    .pop();
+};
+
+// Helper: Validate date input
+const isValidDateInput = date => {
+  return date && date instanceof Date && isValid(date);
+};
+
+// Helper: Calculate the cutoff time when uploads cross day boundaries
+const calculateCutoffTime = timezoneOffsetMinutes => {
+  const totalMinutes = Math.abs(timezoneOffsetMinutes);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  // Cutoff hour is when local time crosses to different UTC day
+  const cutoffHour = timezoneOffsetMinutes > 0 ? 24 - hours : hours;
+
+  // Create date representing cutoff time (immutable pattern)
+  const now = new Date();
+  return new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    cutoffHour,
+    minutes,
+    0,
+    0,
+  );
+};
+
+// Helper: Format UTC date as ISO date string
+const formatUtcDateString = date => {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+// Returns a message warning that files uploaded near midnight may show different dates in UTC.
+// Static mode (no uploadDate): Returns "next/previous day's date" for page headers.
+// Dynamic mode (with uploadDate): Returns specific UTC date like "August 16, 2025" for upload alerts.
+// Returns empty string for UTC timezone (offset = 0) or invalid inputs.
+export const getTimezoneDiscrepancyMessage = (
+  timezoneOffsetMinutes,
+  uploadDate = null,
+) => {
+  // Handle invalid inputs
+  if (
+    timezoneOffsetMinutes == null ||
+    Number.isNaN(timezoneOffsetMinutes) ||
+    timezoneOffsetMinutes === 0
+  ) {
+    return '';
+  }
+
+  const cutoffDate = calculateCutoffTime(timezoneOffsetMinutes);
+  const timeStr = formatTimeVaStyle(cutoffDate);
+  const tzAbbr = getTimezoneAbbr(cutoffDate);
+
+  const beforeAfter = timezoneOffsetMinutes > 0 ? 'after' : 'before';
+
+  // If uploadDate is provided, calculate the specific UTC date
+  let dateText;
+  if (isValidDateInput(uploadDate)) {
+    // Convert local upload time to UTC and format the UTC date
+    const utcDateStr = formatUtcDateString(uploadDate);
+    const formattedDate = format(parseISO(utcDateStr), 'MMMM d, yyyy');
+    // "Files uploaded after 8:00 p.m. EDT will show as August 16, 2025."
+    dateText = `as ${formattedDate}`;
+  } else {
+    // No uploadDate provided - use generic "next/previous day's date" language
+    const nextPrevious = timezoneOffsetMinutes > 0 ? 'next' : 'previous';
+    // "Files uploaded after 8:00 p.m. EDT will show with the next day’s date."
+    dateText = `with the ${nextPrevious} day's date`;
+  }
+  return `Files uploaded ${beforeAfter} ${timeStr} ${tzAbbr} will show ${dateText}.`;
+};
+
+export const showTimezoneDiscrepancyMessage = uploadDate => {
+  // Handle invalid inputs
+  if (!isValidDateInput(uploadDate)) {
+    return false;
+  }
+
+  const localDay = uploadDate.getDate();
+  const utcDay = uploadDate.getUTCDate();
+
+  return localDay !== utcDay;
+};
+
+export const formatUploadDateTime = date => {
+  // Validate input exists
+  if (date == null) {
+    throw new Error('formatUploadDateTime: date parameter is required');
+  }
+
+  const parsedDate = typeof date === 'string' ? parseISO(date) : date;
+
+  // Throw error for invalid dates - this is a programming error, not a user error
+  if (!isValid(parsedDate)) {
+    throw new Error(
+      `formatUploadDateTime: invalid date provided - ${JSON.stringify(date)}`,
+    );
+  }
+
+  const dateStr = format(parsedDate, 'MMMM d, yyyy');
+  const timeStr = formatTimeVaStyle(parsedDate);
+  const tzAbbr = getTimezoneAbbr(parsedDate);
+
+  return `${dateStr} at ${timeStr} ${tzAbbr}`;
+};
+
 // Covers two cases:
 //   1. Standard 5103s we get back from the API (only occurs when they're closed).
 //   2. Standard 5103s that we're mocking within our application logic.
@@ -1343,10 +1468,12 @@ export function setPageFocus(lastPage, loading) {
     if (!loading) {
       setUpPage();
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   } else {
-    scrollAndFocus(document.querySelector('.tab-header'));
+    scrollAndFocus(document.querySelector('.tab-header'), {
+      behavior: 'instant',
+    });
   }
 }
 // Used to get the oldest document date
@@ -1404,18 +1531,28 @@ export const renderOverrideThirdPartyMessage = item => {
   return item.activityDescription;
 };
 
-export const getUploadErrorMessage = (error, claimId) => {
+export const getUploadErrorMessage = (
+  error,
+  claimId,
+  showDocumentUploadStatus = false,
+) => {
   if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE') {
+    const filesPath = `/track-claims/your-claims/${claimId}/files`;
+    const isOnFilesPage = window.location.pathname === filesPath;
+    const anchorLink = showDocumentUploadStatus
+      ? ANCHOR_LINKS.filesReceived
+      : ANCHOR_LINKS.documentsFiled;
+    const linkHref = isOnFilesPage
+      ? `#${anchorLink}`
+      : `${filesPath}#${anchorLink}`;
+
     return {
       title: `You've already uploaded ${error?.fileName || 'files'}`,
       body: (
         <>
           It can take up to 2 days for the file to show up in{' '}
-          <va-link
-            text="your list of documents filed"
-            href={`/track-claims/your-claims/${claimId}/files`}
-          />
-          . Try checking back later before uploading again.
+          <va-link text="your list of documents filed" href={linkHref} />. Try
+          checking back later before uploading again.
         </>
       ),
       type: 'error',
@@ -1448,4 +1585,37 @@ export const getUploadErrorMessage = (error, claimId) => {
       'There was an error uploading your files. Please try again',
     type: 'error',
   };
+};
+
+/**
+ * Gets the display name for an evidence submission
+ * Evidence submissions are documents that have not yet been successfully created in Lighthouse.
+ * @param {Object} evidenceSubmission - Evidence submission object with trackedItemId
+ * @returns {string|null} Tracked item friendly name, display name, 'unknown', or null if no trackedItemId
+ */
+export const getTrackedItemDisplayNameFromEvidenceSubmission = evidenceSubmission => {
+  if (evidenceSubmission.trackedItemId) {
+    return (
+      evidenceSubmission.trackedItemFriendlyName ||
+      evidenceSubmission.trackedItemDisplayName ||
+      'unknown'
+    );
+  }
+
+  return null;
+};
+
+/**
+ * Gets the display name for a supporting document
+ * Supporting documents are documents that have been successfully created in Lighthouse and have an id.
+ * These represent documents that exist in the VA's backend system.
+ * @param {Object} document - Supporting document object with id
+ * @returns {string|null} Friendly name, display name, 'unknown', or null if no id
+ */
+export const getTrackedItemDisplayFromSupportingDocument = document => {
+  if (document.id) {
+    return document.friendlyName || document.displayName || 'unknown';
+  }
+
+  return null;
 };

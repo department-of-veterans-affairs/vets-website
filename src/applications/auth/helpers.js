@@ -46,6 +46,13 @@ export const emailNeedsConfirmation = ({
     return false;
   }
 
+  // Has no email address
+  const hasNoEmailAddress =
+    !vet360ContactInformation?.email?.emailAddress ||
+    vet360ContactInformation?.email?.emailAddress === '' ||
+    vet360ContactInformation?.email?.emailAddress === undefined ||
+    vet360ContactInformation?.email?.emailAddress === null;
+
   // Confirmation Date is null
   const hasNoConfirmationDate =
     vet360ContactInformation?.email?.confirmationDate === null;
@@ -66,7 +73,7 @@ export const emailNeedsConfirmation = ({
     profile?.verified && // Verified User
     vaProfile?.vaPatient && // VA Patient
     vaProfile?.facilities?.length > 0 && // Assigned to a facility
-    (hasNoConfirmationDate || confirmationDateIsBefore) // Confirmation Date related
+    (hasNoConfirmationDate || confirmationDateIsBefore || hasNoEmailAddress) // Confirmation Date or email related
   );
 };
 
@@ -112,4 +119,37 @@ export const handleTokenRequest = async ({
       generateOAuthError({ oauthErrorCode, event });
     }
   }
+};
+
+export const checkPortalRequirements = ({
+  isPortalNoticeInterstitialEnabled,
+  userAttributes,
+  provisioned,
+}) => {
+  const { vaPatient = false, facilities = [] } =
+    userAttributes?.vaProfile || {};
+  const redirectElligible =
+    isPortalNoticeInterstitialEnabled && provisioned && vaPatient;
+
+  const activeFacilities = ['757'];
+  const approvedFacilities = [
+    ...activeFacilities,
+    '653',
+    '687',
+    '692',
+    '668',
+    '556',
+  ];
+
+  const hasApprovedFacility = facilities.some(facility =>
+    approvedFacilities.includes(facility.facilityId),
+  );
+  const hasActiveFacility = facilities.some(facility =>
+    activeFacilities.includes(facility.facilityId),
+  );
+
+  return {
+    needsPortalNotice: redirectElligible && hasActiveFacility,
+    needsMyHealth: redirectElligible && !hasApprovedFacility,
+  };
 };

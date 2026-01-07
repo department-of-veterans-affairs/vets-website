@@ -46,7 +46,7 @@ const AllergyDetails = props => {
   const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
 
-  const { isLoading, isCerner } = useAcceleratedData();
+  const { isLoading, isCerner, isAcceleratingAllergies } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -60,19 +60,47 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
-        isOracleHealthData: isCerner,
+        // Note: isOracleHealthData is true for both v2 unified data and v1 OH data
+        // The v2 endpoint combines Oracle Health and VistA records into a single format,
+        // and the backend doesn't provide a field to distinguish the source.
+        // Components use this flag to determine which template to render.
+        isOracleHealthData: isAcceleratingAllergies || isCerner,
       };
     },
-    [allergy, isCerner],
+    [allergy, isAcceleratingAllergies, isCerner],
   );
 
   useEffect(
     () => {
       if (allergyId && !isLoading) {
-        dispatch(getAllergyDetails(allergyId, allergyList, isCerner));
+        dispatch(
+          getAllergyDetails(
+            allergyId,
+            allergyList,
+            isAcceleratingAllergies,
+            isCerner,
+          ),
+        );
+      }
+      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
+    },
+    [
+      allergyId,
+      allergyList,
+      dispatch,
+      isLoading,
+      isAcceleratingAllergies,
+      isCerner,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (allergyData) {
+        focusElement(document.querySelector('h1'));
       }
     },
-    [allergyId, allergyList, dispatch, isLoading, isCerner],
+    [allergyData],
   );
 
   useEffect(
@@ -82,16 +110,6 @@ const AllergyDetails = props => {
       };
     },
     [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (allergyData) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
-      }
-    },
-    [dispatch, allergyData],
   );
 
   usePrintTitle(
@@ -157,18 +175,18 @@ Provider notes: ${allergyData.notes} \n`;
     generateTextFile(content, fileName);
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  if (accessAlert) {
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.ALLERGY}
+        className="vads-u-margin-bottom--9"
+      />
+    );
+  }
+
   const content = () => {
-    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
-      return (
-        <>
-          <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
-          <AccessTroubleAlertBox
-            alertType={accessAlertTypes.ALLERGY}
-            className="vads-u-margin-bottom--9"
-          />
-        </>
-      );
-    }
     if (allergyData) {
       return (
         <>

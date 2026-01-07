@@ -9,7 +9,6 @@ const MaritalStatusInfo = (
     <p>
       We want to make sure we understand your household’s financial situation.
     </p>
-    <br />
     <p>
       If you’re married, we also need to understand your spouse’s financial
       situation. This allows us to make a more informed decision on your
@@ -18,7 +17,7 @@ const MaritalStatusInfo = (
   </va-additional-info>
 );
 
-const title = 'Are you married?';
+const title = 'Are you married and living in the same household?';
 export const uiSchema = {
   'ui:title': () => (
     <>
@@ -33,6 +32,13 @@ export const uiSchema = {
       enableAnalytics: true,
       uswds: true,
       required: () => true,
+      tile: true,
+      descriptions: {
+        Y:
+          'If you’re in a civil union or common law marriage that’s recognized by the state the union took place in, select Yes.',
+        N:
+          'If you are unmarried, married but separated, divorced, annulled, or widowed, select No.',
+      },
       errorMessages: {
         required: 'Please select your marital status.',
       },

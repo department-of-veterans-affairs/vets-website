@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   titleUI,
   fileInputMultipleUI,
@@ -25,6 +26,10 @@ export const showSupportingDocuments = {
       ...yesNoUI({
         required: () => true,
         title: 'Do you want to upload supporting documents now?',
+        errorMessages: {
+          required: 'Select yes to upload your supporting documents',
+        },
+        confirmationField: () => ({ data: null, label: '' }),
       }),
     },
   },
@@ -56,6 +61,19 @@ export const uploadSupportingDocuments = {
         required: true,
         // Disallow uploads greater than 25 MB
         maxFileSize: MAX_FILE_SIZE,
+        disallowEncryptedPdfs: true,
+        confirmationField: ({ formData }) => {
+          return {
+            data: (
+              <ul style={{ listStyleType: 'disc' }}>
+                {formData?.map((file, index) => (
+                  <li key={index}>{file.name}</li>
+                ))}
+              </ul>
+            ),
+            label: 'Files you uploaded',
+          };
+        },
       }),
     },
   },

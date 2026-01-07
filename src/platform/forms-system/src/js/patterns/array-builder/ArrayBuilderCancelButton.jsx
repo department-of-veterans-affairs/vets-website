@@ -30,7 +30,7 @@ export function formatPath(path) {
  *   required: (formData) => boolean,
  *   reviewRoute: string,
  *   introRoute: string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
+ *   getText: ArrayBuilderGetText,
  * }} props
  */
 const ArrayBuilderCancelButton = ({
