@@ -1,0 +1,169 @@
+/**
+  Variables ported over from Formation so that we can keep those stylesheets
+  working while we work on deprecation.
+**/
+
+@use "../override-function" as uswdsOverride;
+
+$label-border-radius: 2px;
+$h5-font-size: uswdsOverride.scale-rem(1.5rem);
+
+$color-black: #000;
+
+$color-black-light: #212121;
+$color-base: $color-black-light;
+
+$color-aqua: #02bfe7;
+$color-primary-alt: $color-aqua;
+
+$color-black-light: #212121;
+$color-base: $color-black-light;
+
+$color-aqua-dark: #00a6d2;
+$color-primary-alt-dark: $color-aqua-dark;
+
+$color-aqua-darkest: #046b99;
+$color-primary-alt-darkest:  $color-aqua-darkest;
+
+$color-aqua-lightest: #e1f3f8;
+$color-primary-alt-lightest: $color-aqua-lightest;
+
+$color-gray: #5b616b;
+$color-gray-dark: #323a45;
+
+$color-red: #e31c3d;
+$color-secondary: $color-red;
+
+$color-red-dark: #cd2026;
+$color-secondary-dark: $color-red-dark;
+
+$color-red-darkest: #981b1e;
+$color-secondary-darkest: $color-red-darkest;
+
+$color-red-lightest: #f9dede;
+$color-secondary-lightest: $color-red-lightest;
+
+$color-blue-darkest: #112e51;
+$color-primary-darkest: $color-blue-darkest;
+
+$color-green: #008817;
+$color-green-lightest:#e7f4e4;
+
+$color-green-light: #4aa564;
+$color-gray: #5b616b;
+$color-gray-medium: #757575;
+$color-blue:#0071bc;
+$color-primary: $color-blue;
+$color-gray-lighter:#d6d7d9;
+$color-gray-lightest:#f1f1f1;
+
+$color-blue: #005ea2;
+$color-primary: $color-blue;
+$color-primary-darker: #1a4480;
+
+$color-cool-blue-lightest: #dce4ef;
+
+$color-gold: #fdb81e;
+$color-gold-lightest: #fff1d2;
+
+$color-gray-light: #aeb0b5;
+$color-focus: $color-gray-light;
+
+$color-link-default:  $color-primary;
+
+$olso-gray: #8d9297;
+$color-va-modal-bg: rgba($color-gray-dark, .8);
+
+
+$base-font-size: 1rem;
+$input-max-width: uswdsOverride.scale-rem(46rem);
+$checkbox-border-radius: 2px;
+$spacing-medium: uswdsOverride.scale-rem(2rem);
+$h1-font-size: 2.5rem;
+$h2-font-size: 2rem;
+$h3-font-size: 1.25rem;
+$h4-font-size: 1.0625rem;
+$h5-font-size: 0.938rem;
+$h6-font-size: 0.938rem;
+$base-line-height:    1.5;
+$heading-line-height: 1.3;
+$lead-line-height:    1.7;
+$font-bold: 700;
+$base-line-height: 1.5;
+
+$spacing-small: uswdsOverride.scale-rem(1rem);
+$spacing-x-small: uswdsOverride.scale-rem(0.5rem);
+$spacing-md-small: uswdsOverride.scale-rem(1.5rem);
+$spacing-medium: uswdsOverride.scale-rem(2rem);
+
+$em-base: 16px;
+$base-line-height: 1.5;
+$heading-line-height: 1.3;
+$text-max-width: uswdsOverride.scale-rem(70rem); // Note: USWDS value is 53rem;
+$lead-font-size: uswdsOverride.scale-rem(2rem);
+$lead-line-height: 1.7;
+$title-font-size: uswdsOverride.scale-rem(5.2rem);
+$lead-max-width: uswdsOverride.scale-rem(77rem);
+
+$site-margins-mobile: uswdsOverride.scale-rem(1.5rem);
+$nav-width: 951px;
+$site-margins: uswdsOverride.scale-rem(3rem);
+$site-max-width: 1000px;
+
+$sidenav-current-border-width:  uswdsOverride.scale-rem(0.4rem);
+
+$top-layer: 300;
+
+// Map for spacing tokens in Rems
+$units:(
+  0:      0,
+  1px:    .1,
+  .25:    .2,
+  .5:     .4,
+  1:      .8,
+  1.5:    1.2,
+  2:      1.6,
+  2.5:    2,
+  3:      2.4,
+  4:      3.2,
+  5:      4,
+  6:      4.8,
+  7:      5.6,
+  8:      6.4,
+  9:      7.2,
+  10:     8,
+  15:     12,
+  -1px:    -.1,
+  -.25:    -.2,
+  -.5:     -.4,
+  -1:      -.8,
+  -1.5:    -1.2,
+  -2:      -1.6,
+  -2.5:    -2,
+  -3:      -2.4,
+  -4:      -3.2,
+  -5:      -4,
+  -6:      -4.8,
+  -7:      -5.6,
+  -8:      -6.4,
+  -9:      -7.2,
+  -10:     -8,
+  -15:     -12,
+);
+
+// Variables still used in vets-website
+$grid-columns: 12 !default;
+$button-border-radius: 5px !default;
+$mm-gray: #f0f0f0; //Deprecated color, used in mega-menu
+$color-transparent: rgba(#000, 0) !default;
+$color-white: #ffffff !default;
+$color-orange: #dd7533;
+
+//===================================
+// Z-index values
+//===================================
+$base-layer: 0;
+$low-layer: 100;
+$middle-layer: 200;
+$top-layer: 300;
+$modal-layer: 400;

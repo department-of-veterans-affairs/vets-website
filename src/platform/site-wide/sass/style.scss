@@ -1,7 +1,7 @@
 @import "modules/m-overrides";
 
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/override-function";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
+// Use the local wrapper so $uswds-base only lives inside the namespaced override module
+@import "vendor/uswds/formation-overrides/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 @import "v1-grid";
