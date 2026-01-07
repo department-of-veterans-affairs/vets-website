@@ -58,3 +58,17 @@
     align-items: center;
     width: 270px;
 }
+
+.account-parts-container {
+  margin-top: 0.15rem;
+}
+
+.account-part-row {
+  display: grid;
+  max-width: 140px;
+  width: 20%;
+
+  span {
+    font-size: 1rem;
+  }
+}
