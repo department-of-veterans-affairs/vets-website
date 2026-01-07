@@ -17,7 +17,7 @@ span.vass-usa-label--required {
 }
 
 .vass-checkbox-group::part(legend) {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 @media print {
