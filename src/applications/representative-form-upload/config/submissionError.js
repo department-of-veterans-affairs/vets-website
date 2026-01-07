@@ -10,15 +10,12 @@ const SubmissionError = () => {
   const alertRef = useRef(null);
   const submissionData = useSelector(state => state.form.submission);
 
-  useEffect(
-    () => {
-      if (alertRef?.current) {
-        scrollTo(alertRef.current);
-        focusElement('h3', {}, alertRef.current);
-      }
-    },
-    [alertRef],
-  );
+  useEffect(() => {
+    if (alertRef?.current) {
+      scrollTo(alertRef.current);
+      focusElement('h3', {}, alertRef.current);
+    }
+  }, [alertRef]);
   recordEvent({
     event: 'visible-alert-box',
     'alert-box-type': 'error',

@@ -40,10 +40,10 @@ describe('Helpers', () => {
     //   expect(getFormNumber()).to.eq('21P-0518-1');
     // });
 
-    it('returns empty string when formNumber does not match', () => {
+    it('falls back to default form when formNumber does not match', () => {
       const pathname =
         '/representative/representative-form-upload/fake-form/upload';
-      expect(getFormNumber(pathname)).to.eq('');
+      expect(getFormNumber(pathname)).to.eq('21-686c');
     });
   });
 

@@ -18,7 +18,11 @@ import VSP_ENVIRONMENTS from 'site/constants/vsp-environments';
 const BUILDTYPE = __BUILDTYPE__;
 
 const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
-const isPort80 = location.port === '' || location.port === 80;
+/* eslint-disable no-restricted-globals */
+const isPort80 =
+  typeof location !== 'undefined' &&
+  (location.port === '' || location.port === '80');
+/* eslint-enable no-restricted-globals */
 
 if (!isPort80) {
   // It's possible that we're executing a certain build-type under a hostname

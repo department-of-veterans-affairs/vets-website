@@ -105,9 +105,7 @@ const executeSteps = (steps, folder) => {
       case 'include':
         if (step.target === 'page') {
           // TODO: run steps from the included page
-          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/include-pages/${
-            step.value
-          }.yml`;
+          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/include-pages/${step.value}.yml`;
           cy.wrap(null).then(() => {
             cy.readFile(`${p}`).then(f => {
               const flow = YAML.parse(f); // .flow;
@@ -130,6 +128,8 @@ const executeSteps = (steps, folder) => {
 describe('YAML tests', () => {
   describe(`Preload flows`, () => {
     describe('Run tests', () => {
+      const baseUrl = Cypress.config('baseUrl');
+      const inquiriesEndpoint = '**/ask_va_api/v0/inquiries';
       // eslint-disable-next-line func-names
       const testRunner = function(folder, path, file) {
         let flowYML = EMPTY_FLOW_YML;
@@ -144,11 +144,16 @@ describe('YAML tests', () => {
           if (flow.runOnCI === true) {
             if (['13m.yml'].includes(file)) {
               cy.visit(
-                'http://localhost:3001/contact-us/ask-va/user/dashboard/A-20250409-2205184',
+                `${baseUrl}/contact-us/ask-va/user/dashboard/A-20250409-2205184`,
               );
             } else {
-              cy.visit('http://localhost:3001/contact-us/ask-va/');
+              cy.visit(`${baseUrl}/contact-us/ask-va/`);
             }
+            cy.window().then(win =>
+              // Trigger categories fetch so the alias resolves before proceeding
+              win.fetch('/ask_va_api/v0/contents?type=category'),
+            );
+            cy.wait('@askVaCategories', { timeout: 10000 });
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
           } else {
@@ -185,23 +190,11 @@ describe('YAML tests', () => {
             }
           } else {
             if (['4k.yml'].includes(file)) {
-              cy.intercept(
-                'GET',
-                'http://localhost:3000/ask_va_api/v0/inquiries',
-                mockMultipleInquiries,
-              );
+              cy.intercept('GET', inquiriesEndpoint, mockMultipleInquiries);
             } else if (['14g.yml', '18g.yml'].includes(file)) {
-              cy.intercept(
-                'GET',
-                'http://localhost:3000/ask_va_api/v0/inquiries',
-                mockOneInquiry,
-              );
+              cy.intercept('GET', inquiriesEndpoint, mockOneInquiry);
             } else {
-              cy.intercept(
-                'GET',
-                `http://localhost:3000/ask_va_api/v0/inquiries`,
-                mockNoInquiries,
-              );
+              cy.intercept('GET', inquiriesEndpoint, mockNoInquiries);
             }
             cy.login(mockUserDefault);
           }

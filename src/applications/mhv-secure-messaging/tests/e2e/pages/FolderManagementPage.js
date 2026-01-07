@@ -97,7 +97,7 @@ class FolderManagementPage {
   selectFolderFromModal = (folderName = `Trash`) => {
     cy.findByTestId('move-button-text')
       .should('be.visible')
-      .click();
+      .click({ waitForAnimations: true, force: true });
     // Wait for the modal to fully render and radio options to be available
     cy.get(Locators.ALERTS.MOVE_MODAL)
       .should('be.visible')
@@ -135,9 +135,7 @@ class FolderManagementPage {
     );
     cy.intercept(
       `PATCH`,
-      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${
-        createdFolderResponse.data.attributes.folderId
-      }`,
+      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${createdFolderResponse.data.attributes.folderId}`,
       { statusCode: 204 },
     ).as(`threadNoContent`);
 
@@ -153,9 +151,7 @@ class FolderManagementPage {
   backToInbox = () => {
     cy.intercept(
       `GET`,
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }/threads*`,
+      `${Paths.SM_API_BASE}/folders/${createdFolderResponse.data.attributes.folderId}/threads*`,
       defaultMockThread,
     ).as(`updatedFolder`);
 

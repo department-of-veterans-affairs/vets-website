@@ -97,7 +97,7 @@ function buildTestCommand(testPaths) {
     : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
   const testRunner = options.coverage
-    ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
+    ? `NODE_ENV=test c8 --all ${coverageInclude} ${coverageReporter}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 
   return `STEP=unit-tests LOG_LEVEL=${options[

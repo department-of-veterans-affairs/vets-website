@@ -31,9 +31,7 @@ describe('fetchRepresentatives', () => {
 
     await fetchRepresentatives({ query });
 
-    const expectedUrl = `${
-      environment.API_URL
-    }/representation_management/v0/original_entities?query=${query}`;
+    const expectedUrl = `${environment.API_URL}/representation_management/v0/original_entities?query=${query}`;
 
     sinon.assert.calledWith(fetchStub, expectedUrl, sinon.match.object);
   });
@@ -89,9 +87,7 @@ describe('fetchRepresentatives', () => {
 
     await fetchRepresentatives({ query });
 
-    const expectedUrl = `${
-      environment.API_URL
-    }/representation_management/v0/original_entities?query=${query}`;
+    const expectedUrl = `${environment.API_URL}/representation_management/v0/original_entities?query=${query}`;
     sinon.assert.calledWith(fetchStub, expectedUrl, sinon.match.object);
   });
 
@@ -107,9 +103,7 @@ describe('fetchRepresentatives', () => {
 
     await fetchRepresentatives({ query });
 
-    const expectedUrl = `${
-      environment.API_URL
-    }/representation_management/v0/accredited_entities_for_appoint?query=${query}`;
+    const expectedUrl = `${environment.API_URL}/representation_management/v0/accredited_entities_for_appoint?query=${query}`;
     sinon.assert.calledWith(fetchStub, expectedUrl, sinon.match.object);
   });
 });
