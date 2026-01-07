@@ -234,8 +234,8 @@ export const ApplicationCard = ({
                 <div className="vads-u-display--flex vads-u-margin-top--0p5">
                   <span className="vads-u-margin-right--0p5">
                     <va-icon icon="error" size={3} aria-hidden="true" />
+                    <span className="sr-only">Alert: </span>
                   </span>
-                  <span className="sr-only">Alert: </span>
                   <div>
                     <p className="vads-u-margin-y--0">
                       {isForm ? 'Form' : 'Application'} expires on:{' '}
