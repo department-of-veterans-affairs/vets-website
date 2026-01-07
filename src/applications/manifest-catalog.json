@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 152,
+  "totalApplications": 153,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -184,12 +184,6 @@
       "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
-      "directoryPath": "src/applications/dependents/686c-674-old",
-      "appName": "686C-674",
-      "entryName": "686C-674",
-      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
-    },
-    {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
@@ -253,7 +247,7 @@
       "directoryPath": "src/applications/edu-benefits/0803",
       "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
       "entryName": "0803-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803"
+      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0839",
@@ -295,7 +289,7 @@
       "directoryPath": "src/applications/edu-benefits/10272",
       "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
       "entryName": "10272-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272"
+      "rootUrl": "/forms/22-10272/request-prep-course-reimbursement-online"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10275",
@@ -668,12 +662,6 @@
       "appName": "Search",
       "entryName": "search",
       "rootUrl": "/search"
-    },
-    {
-      "directoryPath": "src/applications/sign-in-changes",
-      "appName": "Sign-in changes reminder",
-      "entryName": "sign-in-changes",
-      "rootUrl": "/sign-in-changes-reminder"
     },
     {
       "directoryPath": "src/applications/sign-in-confirm-contact-email",

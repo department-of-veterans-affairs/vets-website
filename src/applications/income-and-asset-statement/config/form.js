@@ -23,10 +23,6 @@ import discontinuedIncomes from './chapters/10-discontinued-incomes';
 import incomeReceiptWaivers from './chapters/11-income-receipt-waivers';
 import supportingDocuments from './chapters/12-supporting-documents';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -41,6 +37,9 @@ const formConfig = {
   formOptions: {
     focusOnAlertRole: true,
     useWebComponentForNavigation: true,
+  },
+  customText: {
+    appType: 'form',
   },
   saveInProgress: {
     // messages: {

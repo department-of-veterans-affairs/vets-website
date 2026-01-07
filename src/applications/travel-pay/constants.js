@@ -176,9 +176,9 @@ export const STATUS_GROUPINGS = [
 ];
 
 export const EXPENSE_TYPE_KEYS = Object.freeze({
-  AIRTRAVEL: 'Airtravel',
+  AIRTRAVEL: 'AirTravel',
   MEAL: 'Meal',
-  COMMONCARRIER: 'Commoncarrier',
+  COMMONCARRIER: 'CommonCarrier',
   LODGING: 'Lodging',
   MILEAGE: 'Mileage',
   PARKING: 'Parking',
@@ -256,15 +256,16 @@ export const EXPENSE_TYPES = Object.freeze({
 export const TRANSPORTATION_OPTIONS = Object.freeze([
   'Bus',
   'Subway',
+  'Taxi',
   'Train',
   'Other',
 ]);
 
 export const TRANSPORTATION_REASONS = Object.freeze({
-  PrivatelyOwnedVehicleNotAvailable: {
+  'Privately Owned Vehicle Not Available': {
     label: "I don't own a private vehicle or it wasn't available",
   },
-  MedicallyIndicated: {
+  'Medically Indicated': {
     label: 'Medical reasons',
   },
   Other: {
@@ -274,14 +275,12 @@ export const TRANSPORTATION_REASONS = Object.freeze({
 
 export const TRIP_TYPES = Object.freeze({
   ROUND_TRIP: {
-    value: 'round-trip',
+    value: 'RoundTrip',
     label: 'Round trip',
-    key: 'RoundTrip',
   },
   ONE_WAY: {
-    value: 'one-way',
+    value: 'OneWay',
     label: 'One way',
-    key: 'OneWay',
   },
 });
 

@@ -1,0 +1,264 @@
+{
+  "data": {
+    "view:isBddData": true,
+    "view:claimType": {
+      "view:claimingIncrease": true,
+      "view:claimingNew": true
+    },
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "isVaEmployee": true,
+    "view:bankAccount": {
+      "bankAccountType": "Checking",
+      "bankAccountNumber": "1233",
+      "bankRoutingNumber": "123123123",
+      "bankName": "Bigbank Co."
+    },
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "view:hasForwardingAddress": true,
+    "forwardingAddress": {
+      "country": "USA",
+      "addressLine1": "321 Secondary",
+      "city": "Smallcity",
+      "state": "NY",
+      "zipCode": "54321",
+      "effectiveDate": {
+        "from": "2099-12-01",
+        "to": "2100-01-01"
+      }
+    },
+    "view:contactInfoDescription": {},
+    "additionalDocuments": [
+      {
+        "name": "lolwut.png",
+        "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",
+        "attachmentId": "L015"
+      },
+      {
+        "name": "image (1).png",
+        "confirmationCode": "0496e5c2-0675-4a43-83d6-e1eeabd4ea0e",
+        "attachmentId": "L070"
+      },
+      {
+        "name": "Success.jpg",
+        "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
+        "attachmentId": "L023"
+      }
+    ],
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:hasPrivateRecordsToUpload": true,
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "privateMedicalRecordAttachments": [
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "544f14cc-4e51-4661-b8f4-d79f71567491",
+        "attachmentId": "L107"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7",
+        "attachmentId": "L023"
+      }
+    ],
+    "view:vaMedicalRecordsIntro": {},
+    "view:hasEvidence": true,
+    "view:selectableEvidenceTypes": {
+      "view:hasPrivateMedicalRecords": true,
+      "view:hasOtherEvidence": true
+    },
+    "view:evidenceTypeHelp": {},
+    "view:uploadServiceTreatmentRecordsQualifier": {
+      "view:hasServiceTreatmentRecordsToUpload": true
+    },
+    "serviceTreatmentRecordsAttachments": [
+      {
+        "name": "STR.pdf",
+        "confirmationCode": "abcdef00-a42f-4bbc-88f3-873c5bea6c00",
+        "attachmentId": "L451"
+      }
+    ],
+    "view:unemployable": false,
+    "view:aidAndAttendance": true,
+    "view:modifyingHome": true,
+    "view:modifyingCar": true,
+    "view:needsCarHelp": {
+      "view:alreadyClaimedVehicleAllowance": false
+    },
+    "view:powStatus": true,
+    "view:isPow": {
+      "confinements": [
+        {
+          "from": "2016-01-01",
+          "to": "2017-01-01"
+        },
+        {
+          "from": "2017-01-06",
+          "to": "2017-04-01"
+        }
+      ],
+      "powDisabilities": {
+        "ankylosis in knee, bilateral": true,
+        "heart attack (myocardial infarction)": true
+      }
+    },
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "condition": "asthma",
+        "view:descriptionInfo": {}
+      },
+      {
+        "cause": "SECONDARY",
+        "view:secondaryFollowUp": {
+          "causedByDisability": "Asthma"
+        },
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
+        "view:descriptionInfo": {}
+      },
+      {
+        "cause": "WORSENED",
+        "condition": "ankylosis in knee, bilateral",
+        "view:descriptionInfo": {}
+      },
+      {
+        "cause": "VA",
+        "view:vaFollowUp": {
+          "vaMistreatmentLocation": "Somewhereville",
+          "vaMistreatmentDate": "A while ago"
+        },
+        "condition": "heart attack (myocardial infarction)",
+        "view:descriptionInfo": {}
+      }
+    ],
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": true
+      }
+    ],
+    "view:disabilitiesClarification": {},
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": true,
+        "title10Activation": {
+          "title10ActivationDate": "2015-01-01",
+          "anticipatedSeparationDate": "2120-01-01"
+        },
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Seal Team Six"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2014-07-21"
+          }
+        },
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2014-07-22"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {},
+      "separationLocation": {
+        "id": "98283",
+        "label": "AF Academy"
+      }
+    },
+    "view:selectablePtsdTypes": {},
+    "view:ptsdTypeHelp": {},
+    "view:upload781ChoiceHelp": {},
+    "incident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "view:upload781aChoiceHelp": {},
+    "secondaryIncident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "view:otherSourcesHelp": {},
+    "secondaryIncident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "secondaryIncident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "physicalChanges": {},
+    "mentalChanges": {},
+    "workBehaviorChanges": {},
+    "socialBehaviorChanges": {},
+    "view:ancillaryFormsWizardIntro": {},
+    "view:unemployabilityHelp": {},
+    "unemployability": {
+      "view:recordsInfo": {},
+      "view:unemployabilityDatesDesc": {},
+      "view:grossIncomeAdditionalInfo": {},
+      "view:supplementalBenefitsHelp": {},
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "view:statementsAreTrue": {},
+      "view:informOfReturnToWork": {}
+    },
+    "view:privateMedicalFacility": {},
+    "view:upload4192Choice": {},
+    "view:downloadInfo": {},
+    "view:privateRecordsChoiceHelp": {},
+    "view:faqAccordion": {},
+    "view:originalBankAccount": {
+      "view:bankAccountType": "Checking",
+      "view:bankAccountNumber": "*********1234",
+      "view:bankRoutingNumber": "*****2115",
+      "view:bankName": "Comerica"
+    }
+  }
+}
