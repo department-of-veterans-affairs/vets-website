@@ -1280,10 +1280,10 @@
     react-focus-on "3.5.4"
     react-transition-group "1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.25.0":
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.25.0.tgz#948a3d45fff243cb7ff611286b32b8b6d45198fb"
-  integrity sha512-oWBbvCWip6bPMQJeBTwg0JQok++wSfnaljGnn+Ej2P7g5Iw0q0nD2vKbyFhULAfNfSTNGN3rnd0fQ8/gx3y0FQ==
+"@department-of-veterans-affairs/css-library@^0.27.0":
+  version "0.27.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.27.0.tgz#47b99825f09304b3641d1b52038f9d2bbd03d705"
+  integrity sha512-1l51gvE8XPE8y4v19ki8aWOOTVbX7k+utAr9aIPm9YFYenUzt5zm9OrS8Wu3PREvQoqJqUKrihsrGE3S1JERGQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.9.0"
@@ -3804,10 +3804,32 @@
     react-is "^17.0.0"
     react-test-renderer "^17.0.0"
 
+"@wojtekmaj/enzyme-adapter-react-17@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@wojtekmaj/enzyme-adapter-react-17/-/enzyme-adapter-react-17-0.8.0.tgz#138f404f82f502d152242c049e87d9621dcda4bd"
+  integrity sha512-zeUGfQRziXW7R7skzNuJyi01ZwuKCH8WiBNnTgUJwdS/CURrJwAhWsfW7nG7E30ak8Pu3ZwD9PlK9skBfAoOBw==
+  dependencies:
+    "@wojtekmaj/enzyme-adapter-utils" "^0.2.0"
+    enzyme-shallow-equal "^1.0.0"
+    has "^1.0.0"
+    prop-types "^15.7.0"
+    react-is "^17.0.0"
+    react-test-renderer "^17.0.0"
+
 "@wojtekmaj/enzyme-adapter-utils@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@wojtekmaj/enzyme-adapter-utils/-/enzyme-adapter-utils-0.1.4.tgz#bcd411ad6e368f17dce5425582c2907104cdb1ad"
   integrity sha512-ARGIQSIIv3oBia1m5Ihn1VU0FGmft6KPe39SBKTb8p7LSXO23YI4kNtc4M/cKoIY7P+IYdrZcgMObvedyjoSQA==
+  dependencies:
+    function.prototype.name "^1.1.0"
+    has "^1.0.0"
+    object.fromentries "^2.0.0"
+    prop-types "^15.7.0"
+
+"@wojtekmaj/enzyme-adapter-utils@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@wojtekmaj/enzyme-adapter-utils/-/enzyme-adapter-utils-0.2.0.tgz#dc2a8c14f92e502da28ea6b3fad96a082076d028"
+  integrity sha512-ZvZm9kZxZEKAbw+M1/Q3iDuqQndVoN8uLnxZ8bzxm7KgGTBejrGRoJAp8f1EN8eoO3iAjBNEQnTDW/H4Ekb0FQ==
   dependencies:
     function.prototype.name "^1.1.0"
     has "^1.0.0"
