@@ -4,6 +4,7 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
+import CantScheduleOnlineAlert from './CantScheduleOnlineAlert';
 import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
 import { useGetPatientRelationships } from '../../hooks/useGetPatientRelationships';
 import {
@@ -95,6 +96,7 @@ export default function SelectProviderPage() {
         </>
       ) : null}
 
+      <CantScheduleOnlineAlert facility={selectedFacility} />
       <ScheduleWithDifferentProvider
         isEligibleForRequest={isEligibleForRequest}
         overRequestLimit={overRequestLimit}
