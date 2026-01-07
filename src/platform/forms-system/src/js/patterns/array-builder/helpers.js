@@ -271,7 +271,7 @@ export function slugifyText(text, { kebabCase = true } = {}) {
   let result = text;
 
   if (kebabCase) {
-    // camel to kebab case
+    // camel to kebab case (preferred for URLs)
     result = result.replace(/([a-z])([A-Z])/g, '$1-$2');
   }
 
@@ -598,14 +598,11 @@ export const processArrayData = array => {
   if (!Array.isArray(array)) {
     throw new Error('Processing array data requires an array', array);
   }
-  // Slugify each item individually, then join with semicolons
-  // We need to preserve semicolons as separators between items
-  // Use kebabCase: false to preserve original duplicate check behavior (just lowercase)
-  return array
-    .map(item =>
-      slugifyText((item || '').toString().trim(), { kebabCase: false }),
-    )
-    .join(';');
+  // Make sure we're not slugifying strings with only spaces
+  return slugifyText(
+    array.map(item => (item || '').toString().trim()).join(';'),
+    { kebabCase: false },
+  );
 };
 
 /**
