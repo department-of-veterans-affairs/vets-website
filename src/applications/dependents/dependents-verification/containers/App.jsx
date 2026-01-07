@@ -83,7 +83,7 @@ export default function App({ location, children }) {
 
   useEffect(() => {
     if (!isIntroPage && dependentsLoading) {
-      location.replace(`${manifest.rootUrl}/introduction`);
+      location.pathname.replace(`${manifest.rootUrl}/introduction`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
