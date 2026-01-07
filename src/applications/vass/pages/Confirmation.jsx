@@ -33,7 +33,11 @@ const Confirmation = () => {
     <Wrapper
       testID="confirmation-page"
       showBackLink={detailsCardOnly}
-      pageTitle={detailsCardOnly ? undefined : 'Your appointment is scheduled'}
+      pageTitle={
+        detailsCardOnly
+          ? undefined
+          : 'Your VA Solid Start appointment is scheduled'
+      }
     >
       {!detailsCardOnly && (
         <p
