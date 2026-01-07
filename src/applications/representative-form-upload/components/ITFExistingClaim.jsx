@@ -49,18 +49,19 @@ const ITFExistingClaim = ({ location, route, router }) => {
       </va-alert>
       <va-card class="form__itf-card vads-u-margin-top--2">
         <h3 className="vads-u-margin-y--0">
-          {formData.veteranFullName.last}, {formData.veteranFullName.first}
+          {formData?.veteranFullName?.last}, {formData?.veteranFullName?.first}
         </h3>
-        {formData.address.city}, {formData.address.state}{' '}
-        {formData.address.postalCode}
+        {formData?.address?.city}, {formData?.address?.state}{' '}
+        {formData?.address?.postalCode}
         <p className="vads-u-margin-bottom--0">
-          <strong>Benefit:</strong> {benefitCopy(type)}
+          <strong>Benefit:</strong> {type && benefitCopy(type)}
         </p>
         <p className="vads-u-margin-y--0 vads-u-display--flex vads-u-align-items--center">
-          <strong>ITF Date:</strong> {expiresSoonIcon(expirationDate)}
+          <strong>ITF Date:</strong>{' '}
+          {expirationDate && expiresSoonIcon(expirationDate)}
           <span className="form__itf-card--date">
-            {formatDateParsedZoneLong(expirationDate)}{' '}
-            {expiresIn(expirationDate)}
+            {expirationDate && formatDateParsedZoneLong(expirationDate)}{' '}
+            {expirationDate && expiresIn(expirationDate)}
           </span>
         </p>
       </va-card>
