@@ -9,6 +9,30 @@ import {
   selectMeb1995Reroute,
 } from './selectors/featureToggles';
 import formConfig from './config/form';
+import BreadcrumbFix from './components/BreadcrumbFix';
+
+/**
+ * Intercept beforeunload event listeners to allow suppression on specific pages.
+ * This is used to prevent "Leave site?" alerts on questionnaire result pages,
+ * which don't collect user input and have nothing to save.
+ */
+const originalAddEventListener = window.addEventListener.bind(window);
+window.addEventListener = function wrappedAddEventListener(
+  type,
+  listener,
+  options,
+) {
+  if (type === 'beforeunload' && typeof listener === 'function') {
+    const wrappedListener = function wrappedBeforeunloadListener(e) {
+      if (window.__suppressBeforeunload === true) {
+        return null;
+      }
+      return listener.call(this, e);
+    };
+    return originalAddEventListener(type, wrappedListener, options);
+  }
+  return originalAddEventListener(type, listener, options);
+};
 
 /**
  * Main form wrapper for VA Form 22-1995 with support for multiple flows:
@@ -160,6 +184,7 @@ function Form1995Entry({
       formConfig={modifiedConfig}
       currentLocation={location}
     >
+      {rerouteFlag && <BreadcrumbFix />}
       {children}
     </RoutedSavableApp>
   );
