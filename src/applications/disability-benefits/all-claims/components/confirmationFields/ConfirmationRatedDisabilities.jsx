@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { capitalizeEachWord } from '../../utils';
+import { formatDateString } from '../../content/conditions';
 
 const normalize = val => (typeof val === 'string' ? val.trim() : '');
 
@@ -50,6 +51,7 @@ const deriveRatedIncreaseSelections = (formData = {}) => {
       return {
         name: ratedName,
         ratingPercentage: ratedMatch?.ratingPercentage,
+        conditionDate: formatDateString(d.conditionDate),
         source: 'newDisabilities',
       };
     });
@@ -81,6 +83,13 @@ const ConfirmationRatedDisabilities = ({ formData }) => {
         <li key={dis.name}>
           <h4>{capitalizeEachWord(dis.name)}</h4>
           <div className="vads-u-color--gray">Description</div>
+
+          {dis.conditionDate && (
+            <>
+              <div className="vads-u-color--gray">Date</div>
+              <div className="vads-u-margin-bottom--2">{dis.conditionDate}</div>
+            </>
+          )}
 
           {dis.ratingPercentage != null ? (
             <span>

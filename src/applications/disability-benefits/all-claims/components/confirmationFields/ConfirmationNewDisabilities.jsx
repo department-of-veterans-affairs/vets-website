@@ -23,7 +23,6 @@ const ConfirmationNewDisabilities = ({ formData }) => {
           const causeLabel = getCauseLabel(cause);
           const conditionDate = formatDateString(dis?.conditionDate);
           const condition = dis?.condition?.trim();
-          // const hasCondition = condition && condition !== 'Rated Disability';
           const key = condition
             ? `${cause}-${condition}`
             : `${cause}-unknown-${index}`;
