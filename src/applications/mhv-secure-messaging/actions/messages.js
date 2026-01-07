@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { dataDogLogger } from 'platform/monitoring/Datadog';
 import { Actions } from '../util/actionTypes';
 import {
@@ -171,6 +172,7 @@ export const sendMessage = (
 ) => async dispatch => {
   const messageData =
     typeof message === 'string' ? JSON.parse(message) : message;
+  const startTimeMs = Date.now();
   try {
     const response = await createMessage(message, attachments, ohTriageGroup);
 
@@ -197,6 +199,13 @@ export const sendMessage = (
         },
         status: 'info',
       });
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Rx SM Renewal',
+        'api-status': 'successful',
+        'api-latency-ms': Date.now() - startTimeMs,
+        'error-key': undefined,
+      });
     }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
@@ -216,6 +225,13 @@ export const sendMessage = (
         },
         status: 'error',
         error: e,
+      });
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Rx SM Renewal',
+        'api-status': 'fail',
+        'api-latency-ms': Date.now() - startTimeMs,
+        'error-key': errorCode,
       });
     }
 
