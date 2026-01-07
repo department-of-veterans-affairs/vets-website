@@ -4,10 +4,7 @@
 // non-web-component version of the Search app
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  fetchTypeaheadSuggestions,
-  isSearchTermValid,
-} from '~/platform/utilities/search-utilities';
+import { isSearchTermValid } from '~/platform/utilities/search-utilities';
 
 const Keycodes = {
   Backspace: 8,
@@ -244,10 +241,9 @@ class SearchDropdownComponent extends React.Component {
   };
 
   // call the fetchSuggestions prop and save the returned value into state
-  fetchSuggestions = async inputValue => {
+  fetchSuggestions = async _inputValue => {
     // Typeahead disabled - return empty suggestions
     this.setState({ suggestions: [], fetchingSuggestions: false });
-    return;
   };
 
   // handle blur logic
