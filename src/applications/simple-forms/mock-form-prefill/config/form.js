@@ -5,6 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
+  prefillTransformer,
 } from 'platform/forms-system/src/js/patterns/prefill';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { TITLE, SUBTITLE } from '../constants';
@@ -75,17 +76,7 @@ const formConfig = {
   version: 0,
   // or prefill-transformer from PR
   // https://github.com/department-of-veterans-affairs/vets-website/commit/7f49c3bdc4d1aeda2a81f74cd2735e93ff9a55fa#diff-3af1e5e44b3300d11a660f138dcdc67d2a15d1317c96c392139ba2801929fd87R1-R46
-  prefillTransformer: (pages, formData, metadata) => {
-    const { ssn, vaFileNumber } = formData?.data?.attributes?.veteran || {};
-    return {
-      metadata,
-      formData: {
-        ssn,
-        vaFileNumber,
-      },
-      pages,
-    };
-  },
+  prefillTransformer,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for mock prefill testing.',
