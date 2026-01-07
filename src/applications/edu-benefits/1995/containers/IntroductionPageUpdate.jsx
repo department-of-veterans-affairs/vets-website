@@ -6,24 +6,10 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { connect } from 'react-redux';
 import { showEduBenefits1995Wizard } from 'applications/edu-benefits/selectors/educationWizard';
 
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_NOT_STARTED,
-} from 'platform/site-wide/wizard';
-
 export class IntroductionPageUpdate extends React.Component {
-  state = {
-    status: sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
-  };
-
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-
-  setWizardStatus = value => {
-    sessionStorage.setItem(WIZARD_STATUS, value);
-    this.setState({ status: value });
-  };
 
   renderSaveInProgressIntro = buttonOnly => {
     const { route } = this.props;
