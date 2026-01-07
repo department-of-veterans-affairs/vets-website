@@ -217,8 +217,7 @@ describe('My VA Dashboard — Forms and applications', () => {
         .should('have.length', 4)
         .and('not.be.visible');
 
-      // Ensure the accordion exists
-      cy.get('va-accordion').should('exist');
+      // Expand the accordion
       cy.get('va-accordion-item#completed-forms-accordion-item')
         .should('exist')
         .shadow()
