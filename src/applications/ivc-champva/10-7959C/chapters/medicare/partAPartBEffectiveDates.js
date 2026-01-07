@@ -27,7 +27,7 @@ export default {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
+      medicarePartAEffectiveDate: currentOrPastDateUI({
         title: INPUT_LABEL,
         hint: HINT_TEXT.partA,
         classNames: 'vads-u-margin-top--neg1p5',
@@ -39,7 +39,7 @@ export default {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
+      medicarePartBEffectiveDate: currentOrPastDateUI({
         title: INPUT_LABEL,
         hint: HINT_TEXT.partB,
         classNames: 'vads-u-margin-top--neg1p5',
@@ -51,16 +51,16 @@ export default {
     properties: {
       'view:medicarePartAEffectiveDate': {
         type: 'object',
-        required: ['applicantMedicarePartAEffectiveDate'],
+        required: ['medicarePartAEffectiveDate'],
         properties: {
-          applicantMedicarePartAEffectiveDate: currentOrPastDateSchema,
+          medicarePartAEffectiveDate: currentOrPastDateSchema,
         },
       },
       'view:medicarePartBEffectiveDate': {
         type: 'object',
-        required: ['applicantMedicarePartBEffectiveDate'],
+        required: ['medicarePartBEffectiveDate'],
         properties: {
-          applicantMedicarePartBEffectiveDate: currentOrPastDateSchema,
+          medicarePartBEffectiveDate: currentOrPastDateSchema,
         },
       },
     },
