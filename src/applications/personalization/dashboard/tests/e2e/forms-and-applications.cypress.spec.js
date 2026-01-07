@@ -9,8 +9,6 @@ import formStatusesNoError from '../fixtures/form-statuses-no-errors.json';
 import formStatusesWithError from '../fixtures/form-statuses-with-errors.json';
 
 // New E2E spec for the next version of the Forms and Applications section
-// This spec mirrors coverage from the previous version and includes
-// additional checks for the Completed forms accordion behavior.
 
 describe('My VA Dashboard — Forms and applications', () => {
   const oneDayInSeconds = 24 * 60 * 60;
