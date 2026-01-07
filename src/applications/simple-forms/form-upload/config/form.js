@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -28,7 +29,6 @@ import {
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
 import { phoneNumberAndEmailPage } from '../pages/phoneNumberAndEmail';
-import { CustomTopContent } from '../pages/helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
@@ -52,8 +52,8 @@ const formConfig = (pathname = null) => {
     dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
     trackingPrefix,
     confirmation: ConfirmationPage,
-    CustomTopContent,
     CustomReviewTopContent,
+    ...minimalHeaderFormConfigOptions(),
     customText: { appType: 'form' },
     hideReviewChapters: true,
     introduction: IntroductionPage,

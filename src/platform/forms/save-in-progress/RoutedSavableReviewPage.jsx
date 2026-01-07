@@ -8,6 +8,7 @@ import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
+import { getFormNumberFromFormConfig } from 'platform/forms-system/exportsFile';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
@@ -57,14 +58,15 @@ class RoutedSavableReviewPage extends React.Component {
     const { form, formConfig, formContext, pageList, path, user } = this.props;
     const { CustomReviewTopContent, hideReviewChapters } = formConfig;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
-
     return (
       <div>
         <Element name="topContentElement" />
-        {CustomReviewTopContent && <CustomReviewTopContent />}
         {isMinimalHeaderApp() && (
-          <h1 className="vads-u-font-size--h2">Review and submit</h1>
+          <h1 className="vads-u-font-size--h2">
+            Review and submit VA Form {getFormNumberFromFormConfig(formConfig)}
+          </h1>
         )}
+        {CustomReviewTopContent && <CustomReviewTopContent />}
         {!hideReviewChapters && (
           <ReviewChapters
             formConfig={formConfig}

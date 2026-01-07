@@ -154,3 +154,14 @@ export function setGlobalScroll() {
     };
   }
 }
+
+/**
+ * @param { Object } config a form config
+ * @return { string } the number of the form, e.g. 21-0779
+ */
+export function getFormNumberFromFormConfig(config) {
+  const { formId } = config;
+  // add more groups as needed
+  const formRegex = /(-UPLOAD)$/i;
+  return formId.replace(formRegex, '');
+}

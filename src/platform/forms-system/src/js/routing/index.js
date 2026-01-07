@@ -78,7 +78,7 @@ export function getRoute(routes, location) {
         const regex = new RegExp(r.path.replace(':index', '\\d+'));
         return regex.test(location.pathname);
       }
-      return `/${r.path}` === location.pathname;
+      return location.pathname.endsWith(`/${r.path}`);
     });
   } catch (e) {
     return null;
