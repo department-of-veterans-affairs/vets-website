@@ -399,7 +399,7 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
       } else if (returnDateComplete && departureDate > returnDate) {
         nextErrors.departureDate = 'Departure date must be before return date';
       } else {
-        delete nextErrors.checkOutDate;
+        delete nextErrors.departureDate;
       }
     } else {
       delete nextErrors.departureDate;
@@ -426,7 +426,7 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
         delete nextErrors.returnDate;
       }
     } else {
-      delete nextErrors.checkOutDate;
+      delete nextErrors.returnDate;
     }
   }
 
