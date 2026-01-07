@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 import environment from '~/platform/utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
@@ -27,11 +27,14 @@ const initializeRealUserMonitoring = () => {
     if (CONFIG.sessionReplaySampleRate > 0) {
       datadogRum.startSessionReplayRecording();
     }
+    return true;
   }
+  return false;
 };
 
 export const useBrowserMonitoring = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const initializedByMyVA = useRef(false);
 
   const isMonitoringEnabled = useToggleValue(
     TOGGLE_NAMES.myVaBrowserMonitoring,
@@ -40,12 +43,17 @@ export const useBrowserMonitoring = () => {
   useEffect(
     () => {
       if (isMonitoringEnabled) {
-        initializeRealUserMonitoring();
+        initializedByMyVA.current = initializeRealUserMonitoring();
       }
 
       return () => {
-        datadogRum.stopSessionReplayRecording();
-        delete window.DD_RUM;
+        if (
+          initializedByMyVA.current &&
+          window.DD_RUM?.getInitConfiguration()
+        ) {
+          datadogRum.stopSessionReplayRecording();
+          delete window.DD_RUM;
+        }
       };
     },
     [isMonitoringEnabled],
