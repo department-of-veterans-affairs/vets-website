@@ -10,7 +10,7 @@ const CONFIG = {
   site: 'ddog-gov.com',
   service: 'my-va',
   sessionSampleRate: 100,
-  sessionReplaySampleRate: 10,
+  sessionReplaySampleRate: 5,
   trackBfcacheViews: true,
   defaultPrivacyLevel: 'mask-user-input',
 };
@@ -41,9 +41,11 @@ export const useBrowserMonitoring = () => {
     () => {
       if (isMonitoringEnabled) {
         initializeRealUserMonitoring();
-      } else {
-        delete window.DD_RUM;
       }
+
+      return () => {
+        delete window.DD_RUM;
+      };
     },
     [isMonitoringEnabled],
   );

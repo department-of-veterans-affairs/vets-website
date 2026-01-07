@@ -619,9 +619,10 @@ class PatientInboxPage {
   };
 
   validateRecipientsErrorAlert = () => {
-    cy.findByTestId(Locators.ALERTS.RECIPIENTS_ERROR)
-      .find('h2')
-      .should('have.text', Alerts.ERROR_LOADING_RECIPIENTS_HEADER);
+    cy.findByRole('heading', {
+      level: 2,
+      name: new RegExp(Alerts.ERROR_LOADING_RECIPIENTS_HEADER),
+    });
   };
 }
 
