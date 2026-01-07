@@ -20,13 +20,11 @@ const os = require('os');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const chaiDOM = require('chai-dom');
-// const { Window } = require('happy-dom');
 require('../../site-wide/moment-setup');
 const ENVIRONMENTS = require('../../../site/constants/environments');
 const Sentry = require('@sentry/browser');
 const { configure } = require('@testing-library/dom');
 const chaiAxe = require('./axe-plugin');
-const { sentryTransport } = require('./sentry.cjs');
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
