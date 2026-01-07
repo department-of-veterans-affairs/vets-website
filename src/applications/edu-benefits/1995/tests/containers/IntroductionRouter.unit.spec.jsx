@@ -119,8 +119,9 @@ describe('IntroductionRouter', () => {
   });
 
   it('should allow navigation back to questionnaire from Rudisill flow', async () => {
+    // Step 1: User enters Rudisill flow
     setWindowLocation('?rudisill=true');
-    const { unmount } = render(
+    const { unmount: unmount1 } = render(
       <Provider store={createMockStore(true)}>
         <IntroductionRouter route={mockRoute} router={mockRouter} />
       </Provider>,
@@ -131,21 +132,21 @@ describe('IntroductionRouter', () => {
       expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
     });
 
-    unmount();
+    unmount1();
 
+    // Step 2: User navigates back to intro without parameter
     setWindowLocation('');
+    sessionStorage.clear(); // Explicitly clear for test isolation
+
     const { container } = render(
       <Provider store={createMockStore(true)}>
         <IntroductionRouter route={mockRoute} router={mockRouter} />
       </Provider>,
     );
 
-    // Wait for useEffect to clear sessionStorage
-    await waitFor(() => {
-      expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
-    });
-
+    // Should now show questionnaire intro (not legacy)
     expect(container.textContent).to.include('Change your education benefits');
     expect(container.textContent).to.include('Determine which form to use');
+    expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
   });
 });

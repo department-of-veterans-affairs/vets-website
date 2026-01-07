@@ -47,6 +47,11 @@ function Form1995Entry({
         return;
       }
 
+      // Restore Rudisill flow state from saved formData (for save-in-progress resume)
+      if (formData.isRudisillFlow === true) {
+        sessionStorage.setItem('isRudisillFlow', 'true');
+      }
+
       // Check if user is in Rudisill flow
       // Note: We use sessionStorage to persist flow state across form navigation
       const isRudisillFlow =
