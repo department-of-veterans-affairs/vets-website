@@ -155,3 +155,6 @@ export const DateReviewField = ({ children, title = '' }) => (
     </dd>
   </div>
 );
+
+export const showPdfFormAlignment = () =>
+  window.sessionStorage.getItem('showPdfFormAlignment') === 'true';
