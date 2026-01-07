@@ -165,9 +165,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       formatInTimeZone(start, 'America/Denver', 'h:mm aaaa'),
     );
 
-    expect(reasonHeading).to.contain.text(
-      'Details to share with your provider',
-    );
+    expect(reasonHeading).to.contain.text('Reason for appointment');
     expect(screen.baseElement).to.contain.text('I need an appt');
 
     expect(contactHeading).to.contain.text('Your contact information');
@@ -244,9 +242,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     expect(providerHeading).to.contain.text('Provider');
     expect(screen.baseElement).to.contain.text('Doe, Mary D, MD');
     expect(dateHeading).to.contain.text('Date and time');
-    expect(reasonHeading).to.contain.text(
-      'Details to share with your provider',
-    );
+    expect(reasonHeading).to.contain.text('Reason for appointment');
     expect(contactHeading).to.contain.text('Your contact information');
   });
 
@@ -285,7 +281,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       locationId: '983',
       clinic: '455',
       reasonCode: {
-        text: '|comments:I need an appt',
+        text: 'comments:I need an appt',
       },
       extension: {
         desiredDate: '2021-05-06T00:00:00+00:00',

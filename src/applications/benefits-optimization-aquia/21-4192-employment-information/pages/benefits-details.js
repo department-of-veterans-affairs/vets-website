@@ -78,9 +78,7 @@ export const benefitsDetailsUiSchema = {
     stopReceivingDate: currentOrPastDateUI({
       title: 'Stop receiving date', // Default title, will be updated by updateUiSchema
       hint: 'Enter an approximate date if the exact date is unknown',
-      errorMessages: {
-        required: 'Stop receiving date is required',
-      },
+      required: false,
     }),
   },
   'ui:options': {
@@ -128,7 +126,6 @@ export const benefitsDetailsSchema = {
         'grossMonthlyAmount',
         'startReceivingDate',
         'firstPaymentDate',
-        'stopReceivingDate',
       ],
       properties: {
         benefitType: {

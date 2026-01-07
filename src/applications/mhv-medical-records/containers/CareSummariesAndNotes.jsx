@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -15,6 +15,7 @@ import {
 } from '../actions/careSummariesAndNotes';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
+import useDateRangeSelector from '../hooks/useDateRangeSelector';
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
@@ -28,20 +29,13 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import DateRangeSelector, {
-  getDateRangeList,
-} from '../components/shared/DateRangeSelector';
+import DateRangeSelector from '../components/shared/DateRangeSelector';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
-import {
-  calculateDateRange,
-  getTimeFrame,
-  getDisplayTimeFrame,
-  sendDataDogAction,
-} from '../util/helpers';
+import { getTimeFrame, getDisplayTimeFrame } from '../util/helpers';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -113,28 +107,11 @@ const CareSummariesAndNotes = () => {
     isAcceleratingCareNotes && listState === loadStates.FETCHING;
 
   // Handle date range selection from DateRangeSelector component
-  const handleDateRangeSelect = useCallback(
-    event => {
-      const { value } = event.detail;
-      const { fromDate, toDate } = calculateDateRange(value);
-
-      // Update Redux with new range
-      dispatch(updateNotesDateRange(value, fromDate, toDate));
-
-      dispatch({
-        type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
-        payload: loadStates.PRE_FETCH,
-      });
-
-      // DataDog tracking
-      const selectedOption = getDateRangeList().find(
-        option => option.value === value,
-      );
-      const label = selectedOption ? selectedOption.label : 'Unknown';
-      sendDataDogAction(`Notes date option - ${label}`);
-    },
-    [dispatch],
-  );
+  const handleDateRangeSelect = useDateRangeSelector({
+    updateDateRangeAction: updateNotesDateRange,
+    updateListStateActionType: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+    dataDogLabel: 'Notes date option',
+  });
 
   return (
     <div id="care-summaries-and-notes">
@@ -190,26 +167,32 @@ const CareSummariesAndNotes = () => {
           </div>
         )}
         {!isLoadingAcceleratedData &&
-        !isLoading &&
-        careSummariesAndNotes?.length ? (
-          <RecordList
-            records={careSummariesAndNotes}
-            domainOptions={{
-              isAccelerating: isAcceleratingCareNotes,
-              timeFrame: getTimeFrame(dateRange),
-              displayTimeFrame: getDisplayTimeFrame(dateRange),
-            }}
-            type="care summaries and notes"
-            hideRecordsLabel
-          />
-        ) : (
-          <NoRecordsMessage
-            type={recordType.CARE_SUMMARIES_AND_NOTES}
-            timeFrame={
-              isAcceleratingCareNotes ? getDisplayTimeFrame(dateRange) : ''
-            }
-          />
-        )}
+          !isLoading &&
+          careSummariesAndNotes !== undefined && (
+            <>
+              {careSummariesAndNotes?.length ? (
+                <RecordList
+                  records={careSummariesAndNotes}
+                  domainOptions={{
+                    isAccelerating: isAcceleratingCareNotes,
+                    timeFrame: getTimeFrame(dateRange),
+                    displayTimeFrame: getDisplayTimeFrame(dateRange),
+                  }}
+                  type="care summaries and notes"
+                  hideRecordsLabel
+                />
+              ) : (
+                <NoRecordsMessage
+                  type={recordType.CARE_SUMMARIES_AND_NOTES}
+                  timeFrame={
+                    isAcceleratingCareNotes
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
+                />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );
