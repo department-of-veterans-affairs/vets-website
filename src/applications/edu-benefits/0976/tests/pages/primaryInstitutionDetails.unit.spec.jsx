@@ -62,7 +62,7 @@ describe('22-0976 primary institution details page', () => {
     const { container } = renderPage(buildState({ facilityCode: '' }));
 
     expect(container.textContent).to.contain(
-      'Please enter your VA facility code',
+      'If your institution has a VA facility code, please enter it below',
     );
     expect(container.querySelectorAll('va-text-input').length).to.equal(1);
   });

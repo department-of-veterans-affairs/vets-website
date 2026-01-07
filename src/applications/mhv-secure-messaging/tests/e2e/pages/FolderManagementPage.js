@@ -9,7 +9,7 @@ class FolderManagementPage {
 
   createANewFolderButton = () => {
     return cy
-      .get(Locators.ALERTS.CREAT_NEW_TEXT_FOLD)
+      .get(Locators.ALERTS.CREATE_NEW_FOLDER)
       .shadow()
       .find('[type="button"]');
   };
