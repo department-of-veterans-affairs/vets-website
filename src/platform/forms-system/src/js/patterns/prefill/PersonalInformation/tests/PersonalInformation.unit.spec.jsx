@@ -6,6 +6,13 @@ import { createStore } from 'redux';
 import sinon from 'sinon';
 import { PersonalInformation, defaultConfig } from '../PersonalInformation';
 
+// Mock the useFetchInProgressForm hook to prevent API calls in tests
+const useFetchInProgressFormModule = require('../../hooks/useFetchInProgressForm');
+
+sinon
+  .stub(useFetchInProgressFormModule, 'useFetchInProgressForm')
+  .returns(undefined);
+
 const mockProfile = {
   dob: '1980-01-15',
   gender: 'M',

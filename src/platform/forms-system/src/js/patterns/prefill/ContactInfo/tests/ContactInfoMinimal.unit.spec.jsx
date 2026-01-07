@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import vapProfile from 'platform/user/profile/vap-svc/tests/fixtures/mockVapProfile.json';
 import vapService from '@@vap-svc/reducers';
 import {
@@ -9,6 +10,13 @@ import {
 import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 import ContactInfo from '../ContactInfo';
+
+// Mock the useFetchInProgressForm hook to prevent API calls in tests
+const useFetchInProgressFormModule = require('../../hooks/useFetchInProgressForm');
+
+sinon
+  .stub(useFetchInProgressFormModule, 'useFetchInProgressForm')
+  .returns(undefined);
 
 const getData = ({
   home = true,
