@@ -82,6 +82,7 @@ const formConfigKeys = [
   'CustomReviewTopContent',
   'customText',
   'CustomTopContent',
+  'customValidationErrors',
   'defaultDefinitions',
   'dev',
   'disableSave',
