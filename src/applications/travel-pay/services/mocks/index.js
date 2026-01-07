@@ -2,7 +2,7 @@ const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
-const travelClaims = require('./travel-claims-31.json');
+const travelClaims = require('./travel-claims.json');
 
 const appointment = {
   original: require('./vaos-appointment-original.json'),
@@ -88,32 +88,33 @@ function overrideAppointment(appt, id, { localStartTime, start, end }) {
   };
 }
 
+const featureTogglesResponse = {
+  data: {
+    type: 'feature_toggles',
+    features: [
+      // Travel Pay feature flags
+      TOGGLE_NAMES.travelPayPowerSwitch,
+      TOGGLE_NAMES.travelPayViewClaimDetails,
+      TOGGLE_NAMES.travelPaySubmitMileageExpense,
+      TOGGLE_NAMES.travelPayClaimsManagement,
+      TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
+      TOGGLE_NAMES.travelPayEnableComplexClaims,
+    ]
+      .map(name => ({ name, value: true }))
+      .concat([
+        // VAOS camelCase flags
+        { name: 'vaOnlineScheduling', value: true },
+        { name: 'travelPayViewClaimDetails', value: true },
+        { name: 'travelPaySubmitMileageExpense', value: true },
+      ]),
+  },
+};
+
 const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': maintenanceWindows.none,
   'GET /v0/user': user.withAddress,
-  'GET /v0/feature_toggles': {
-    data: {
-      type: 'feature_toggles',
-      features: [
-        // Travel Pay feature flags
-        { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
-        { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
-        { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
-        { name: `${TOGGLE_NAMES.travelPayClaimsManagement}`, value: true },
-        {
-          name: `${TOGGLE_NAMES.travelPayClaimsManagementDecisionReason}`,
-          value: true,
-        },
-        { name: `${TOGGLE_NAMES.travelPayEnableComplexClaims}`, value: true },
-
-        // camelCase flags for VAOS appointments mocks
-        { name: 'vaOnlineScheduling', value: true },
-        { name: 'travelPayViewClaimDetails', value: true },
-        { name: 'travelPaySubmitMileageExpense', value: true },
-      ],
-    },
-  },
+  'GET /v0/feature_toggles': featureTogglesResponse,
   'GET /travel_pay/v0/claims': travelClaims,
 
   // 'GET /travel_pay/v0/claims': (req, res) => {
