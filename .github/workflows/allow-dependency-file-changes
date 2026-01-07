@@ -1,0 +1,3 @@
+# Presence of this file temporarily allows dependency file updates in CI.
+# TODO: Remove once the Node 22 upgrade is complete and dependency freeze is lifted.
+
