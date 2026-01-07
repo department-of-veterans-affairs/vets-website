@@ -44,6 +44,7 @@ export const useBrowserMonitoring = () => {
       }
 
       return () => {
+        datadogRum.stopSessionReplayRecording();
         delete window.DD_RUM;
       };
     },
