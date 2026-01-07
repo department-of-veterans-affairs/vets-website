@@ -5,12 +5,11 @@
 
 import ENVIRONMENTS from 'site/constants/environments';
 import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
-import VSP_ENVIRONMENTS from 'site/constants/vsp-environments';
-import isLocalhostBaseUrl from './isLocalhostBaseUrl';
 
 /* Separate constants as workaround for Sentry environments rollout until completion of
  * https://github.com/department-of-veterans-affairs/va.gov-team/issues/13425
  */
+import VSP_ENVIRONMENTS from 'site/constants/vsp-environments';
 
 // __BUILDTYPE__ is defined as a global variable in our Webpack config, ultimately used
 // to indicate the name of our current environment as passed from our build script. This should
@@ -19,7 +18,11 @@ import isLocalhostBaseUrl from './isLocalhostBaseUrl';
 const BUILDTYPE = __BUILDTYPE__;
 
 const environment = ENVIRONMENT_CONFIGURATIONS[BUILDTYPE];
-const isPort80 = location.port === '' || location.port === 80;
+/* eslint-disable no-restricted-globals */
+const isPort80 =
+  typeof location !== 'undefined' &&
+  (location.port === '' || location.port === '80');
+/* eslint-enable no-restricted-globals */
 
 if (!isPort80) {
   // It's possible that we're executing a certain build-type under a hostname
@@ -114,5 +117,3 @@ export default Object.freeze({
     return !!(window?.Mocha || process?.env?.NODE_ENV === 'test');
   },
 });
-
-export { isLocalhostBaseUrl };
