@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import {
@@ -17,6 +17,7 @@ import { useGetTopicsQuery } from '../redux/api/vassApi';
 import { UUID } from '../services/mocks/utils/formData';
 
 const TopicSelection = () => {
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const selectedTopics = useSelector(selectSelectedTopics);
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const TopicSelection = () => {
   );
 
   const handleTopicChange = event => {
+    setError('');
     const { checked } = event.detail;
     if (checked) {
       const newTopics = [
@@ -53,20 +55,24 @@ const TopicSelection = () => {
   };
 
   const handleContinue = () => {
-    // TODO: manage error handling
+    if (!selectedTopics?.length) {
+      setError('Please choose a topic for your appointment.');
+      return;
+    }
     navigate('/review');
   };
 
   return (
     <Wrapper
-      pageTitle="What topic would you like to talk about?"
+      pageTitle="What do you want to learn more about?"
       showBackLink
       required
     >
       <va-checkbox-group
-        required
         data-testid="topic-checkbox-group"
         label="Check all that apply"
+        class="vass-checkbox-group"
+        error={error}
       >
         {topics.map(({ topicId, topicName }) => (
           <VaCheckbox
