@@ -54,6 +54,7 @@ import {
   showDeathCertificateRequiredPage,
   showHomeHospiceCarePage,
   showHomeHospiceCareAfterDischargePage,
+  showPdfFormAlignment,
 } from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
@@ -531,6 +532,7 @@ const formConfig = {
             </span>
           ),
           path: 'additional-information/fdc-program',
+          depends: () => !showPdfFormAlignment(),
           uiSchema: fasterClaimProcessing.uiSchema,
           schema: fasterClaimProcessing.schema,
         },
