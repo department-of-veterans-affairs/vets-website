@@ -148,6 +148,7 @@ const SavePdfDownload = ({
             icon="file_download"
             size={2}
             class="vads-u-margin-right--1"
+            aria-hidden="true"
           />
           Download your completed form (PDF)
         </button>
