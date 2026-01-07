@@ -41,7 +41,6 @@ const HowDoIPay = ({ userData }) => {
               <span>Current balance</span>
               <CopyButton
                 value={userData.currentAr}
-                buttonText="Copy"
                 className="vads-u-flex-shrink--0"
               />
             </div>
@@ -56,7 +55,6 @@ const HowDoIPay = ({ userData }) => {
               </span>
               <CopyButton
                 value={userData.receivableId || userData.fileNumber}
-                buttonText="Copy"
                 className="vads-u-flex-shrink--0"
               />
             </div>
@@ -69,7 +67,6 @@ const HowDoIPay = ({ userData }) => {
               <span>Payee Number</span>
               <CopyButton
                 value={userData.payeeNumber}
-                buttonText="Copy"
                 className="vads-u-flex-shrink--0"
               />
             </div>
@@ -82,7 +79,6 @@ const HowDoIPay = ({ userData }) => {
               <span>Person Entitled</span>
               <CopyButton
                 value={userData.personEntitled}
-                buttonText="Copy"
                 className="vads-u-flex-shrink--0"
               />
             </div>
