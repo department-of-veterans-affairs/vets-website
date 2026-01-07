@@ -25,7 +25,8 @@ function introDescription() {
     <div>
       <p className="vads-u-margin-top--0">
         We’ll now ask about medical or certain other expenses that aren’t
-        reimbursed. You may add up to 6 medical or other expenses.
+        reimbursed. You may add up to 6 medical, last, burial, or other
+        expenses.
       </p>
       <p>These types of expenses can include:</p>
       <ul>
@@ -41,6 +42,12 @@ function introDescription() {
           </span>
           that insurance doesn’t cover that occurred after you started this form
           or after you submitted an Intent to File
+        </li>
+        <li>
+          <span className="vads-u-font-weight--bold">
+            Last or burial expenses{' '}
+          </span>
+          that you paid for the last illness and burial of a spouse or child
         </li>
       </ul>
 
@@ -95,8 +102,8 @@ export const options = {
     alertMaxItems: (
       <div>
         <p className="vads-u-margin-top--0">
-          You have added the maximum number of allowed medical and other
-          expenses for this application. Additional medical expenses can be
+          You have added the maximum number of allowed medical, last, burial,
+          and other expenses for this application. Additional medical expenses
           added using VA Form 21P-8416 and uploaded at the end of this
           application.
         </p>
@@ -118,14 +125,14 @@ export const options = {
         </span>
       </div>
     ),
-    summaryTitle: 'Review your medical and other expenses',
+    summaryTitle: 'Review your medical, last, burial, and other expenses',
   },
 };
 
 const introPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Medical and other expenses',
+      title: 'Medical, last, burial, and other expenses',
       nounSingular: options.nounSingular,
       nounPlural: options.nounPlural,
     }),
@@ -142,11 +149,12 @@ const summaryPage = {
     'view:medicalExpensesList': arrayBuilderYesNoUI(
       options,
       {
-        title: 'Do you have a medical or other expense to add?',
+        title: 'Do you have a medical, last, burial, or other expense to add?',
         hint: '',
       },
       {
-        title: 'Do you have another medical or other expense to add?',
+        title:
+          'Do you have another medical, last, burial, or other expense to add?',
         hint: '',
       },
     ),
@@ -163,7 +171,7 @@ const summaryPage = {
 const recipientPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Medical recipient and provider name',
+      'Expense recipient and provider name',
     ),
     recipient: radioUI({
       title: 'Who is the expense for?',
@@ -240,13 +248,13 @@ const frequencyCostPage = {
 
 export const medicalExpensesPages = arrayBuilderPages(options, pageBuilder => ({
   medicalExpensesIntro: pageBuilder.introPage({
-    title: 'Medical and other expenses',
+    title: 'Medical, last, burial, and other expenses',
     path: 'financial-information/medical-expenses',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
   medicalExpensesSummary: pageBuilder.summaryPage({
-    title: 'Medical and other expenses',
+    title: 'Medical, last, burial, and other expenses',
     path: 'financial-information/medical-expenses/add',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,

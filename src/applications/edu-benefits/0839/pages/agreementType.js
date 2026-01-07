@@ -44,7 +44,7 @@ const updateFormData = (oldData, formData) => {
       institutionDetails: {},
       additionalInstitutionDetails: [],
       yellowRibbonProgramRequest: [],
-      pointsOfContact: [],
+      pointsOfContact: {},
     };
   }
 

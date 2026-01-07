@@ -40,7 +40,8 @@ export const removeDependentsPicklistFollowupPages = {
       depends: formData =>
         showV3Picklist(formData) &&
         hasAwardedDependents(formData) &&
-        hasSelectedPicklistItems(formData),
+        hasSelectedPicklistItems(formData) &&
+        isRemovingDependents(formData),
       // Force save-in-progress to return to the main picklist page
       returnUrl: `/${MANAGE_DEPENDENTS_PATH}`,
     },
