@@ -1,16 +1,22 @@
 {
   "require": [
-    "@babel/register",
+    "./babel-register.cjs",
     "core-js/stable",
     "regenerator-runtime/runtime",
-    "src/platform/testing/unit/mocha-setup.js",
-    "src/platform/testing/unit/enzyme-setup.js",
     "blob-polyfill",
     "isomorphic-fetch",
     "mocha-snapshots",
+    "src/platform/testing/unit/mocha-setup.cjs",
+    "src/platform/testing/unit/enzyme-setup.cjs",
     "dd-trace/ci/init"
   ],
-  "reporter": "progress",
+  "reporter": "mocha-multi-reporters",
+  "reporterOptions": {
+    "configFile": "config/mocha-multi-reporter.js"
+  },
+  "extension": ["js", "jsx"],
   "timeout": 10000,
-  "slow": 0
+  "slow": 0,
+  "recursive": true,
+  "exit": true
 }
