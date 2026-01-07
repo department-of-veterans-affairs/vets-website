@@ -1,59 +1,51 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { IntroductionPageUpdate } from 'applications/edu-benefits/1995/containers/IntroductionPageUpdate';
 
 describe('the Edu-Benefit 1995 Introduction Page Update', () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
+  });
+
   it('should show the subway map if showWizard is set to false', () => {
-    const fakeStore = {
-      getState: () => ({
-        showWizard: false,
-        route: { formConfig: {} },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-
-    const wrapper = shallow(
-      <IntroductionPageUpdate {...fakeStore.getState()} />,
+    const { container } = render(
+      <IntroductionPageUpdate showWizard={false} route={{}} />,
     );
-    expect(wrapper.exists('WizardContainer')).to.equal(false);
-    expect(wrapper.exists('.subway-map')).to.equal(true);
-    wrapper.unmount();
+
+    expect(container.querySelector('.subway-map')).to.exist;
+    expect(container.textContent).to.include('Change your education benefits');
   });
 
-  it('should show the subway map if the wizard was completed', () => {
-    const fakeStore = {
-      getState: () => ({
-        showWizard: true,
-        route: { formConfig: {} },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-
-    const wrapper = shallow(
-      <IntroductionPageUpdate {...fakeStore.getState()} />,
+  it('should show the subway map if showWizard is true', () => {
+    const { container } = render(
+      <IntroductionPageUpdate showWizard route={{}} />,
     );
-    expect(wrapper.exists('WizardContainer')).to.equal(false);
-    expect(wrapper.exists('.subway-map')).to.equal(true);
-    wrapper.unmount();
+
+    expect(container.querySelector('.subway-map')).to.exist;
+    expect(container.textContent).to.include('Change your education benefits');
   });
 
-  it('should Receive Null if showWizard is undefined', () => {
-    const fakeStore = {
-      getState: () => ({
-        showWizard: undefined,
-        route: { formConfig: {} },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-
-    const wrapper = shallow(
-      <IntroductionPageUpdate {...fakeStore.getState()} />,
+  it('should return null if showWizard is undefined and not in Rudisill flow', () => {
+    const { container } = render(
+      <IntroductionPageUpdate showWizard={undefined} route={{}} />,
     );
-    expect(wrapper.exists('WizardContainer')).to.equal(false);
-    wrapper.unmount();
+
+    expect(container.querySelector('.schemaform-intro')).to.not.exist;
+  });
+
+  it('should render when in Rudisill flow even if showWizard is undefined', () => {
+    sessionStorage.setItem('isRudisillFlow', 'true');
+
+    const { container } = render(
+      <IntroductionPageUpdate showWizard={undefined} route={{}} />,
+    );
+
+    expect(container.querySelector('.subway-map')).to.exist;
+    expect(container.textContent).to.include('Change your education benefits');
   });
 });
