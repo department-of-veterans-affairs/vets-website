@@ -63,7 +63,7 @@ describe('Balances', () => {
                   currentBalance: 150.25,
                   previousBalance: 65.71,
                   previousUnpaidBalance: 0,
-                  lastUpdatedAt: '2025-08-29T00:00:00Z',
+                  lastUpdatedAt: '2025-08-29T12:00:00Z',
                 },
               },
             ],
@@ -74,7 +74,7 @@ describe('Balances', () => {
               copaySummary: {
                 totalCurrentBalance: 150.25,
                 copayBillCount: 1,
-                lastUpdatedOn: '2025-08-29T00:00:00Z',
+                lastUpdatedOn: '2025-08-29T12:00:00Z',
               },
             },
             links: {
@@ -109,7 +109,7 @@ describe('Balances', () => {
     // Verify date is displayed
     const cardDate = container.querySelector('.card-date');
     expect(cardDate).to.exist;
-    expect(cardDate.textContent).to.include('August 28, 2025');
+    expect(cardDate.textContent).to.include('August 29, 2025');
 
     // Verify link is present
     const cardLink = container.querySelector('[data-testid="card-link"]');
