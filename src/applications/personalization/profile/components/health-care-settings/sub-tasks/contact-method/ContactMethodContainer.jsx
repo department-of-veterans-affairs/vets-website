@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, connect } from 'react-redux';
 
@@ -223,6 +223,35 @@ export const ContactMethodContainer = () => {
     [hasUnsavedEdits, hasBeforeUnloadListener],
   );
 
+  const saveContactMethod = useCallback(
+    () => {
+      const {
+        apiRoute,
+        convertCleanDataToPayload,
+      } = getProfileInfoFieldAttributes(fieldName);
+      const payload = convertCleanDataToPayload(
+        {
+          [fieldName]: pageData.data[fieldName],
+        },
+        fieldName,
+      );
+
+      dispatch(openModal(null));
+      dispatch(
+        createSchedulingPreferencesUpdate({
+          route: apiRoute,
+          method: 'POST',
+          fieldName,
+          payload,
+          analyticsSectionName: 'scheduling-preferences-contact-method',
+          value: pageData.data,
+        }),
+      );
+      clearBeforeUnloadListener();
+    },
+    [dispatch, fieldName, pageData.data],
+  );
+
   useEffect(
     () => {
       // Check for existing data on the confirm step and push to profile edit if missing
@@ -255,6 +284,9 @@ export const ContactMethodContainer = () => {
             data = false;
         }
         if (!data) {
+          // Save the contact method preference in the background as the user is redirected to edit the related contact info field
+          saveContactMethod();
+
           const relatedField = getSchedulingPreferencesContactMethodDisplay(
             pageData.data[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
           );
@@ -276,6 +308,7 @@ export const ContactMethodContainer = () => {
       mailingAddress,
       history,
       returnPath,
+      saveContactMethod,
     ],
   );
 
@@ -287,32 +320,6 @@ export const ContactMethodContainer = () => {
   const optionValues = options.map(option => option.value);
 
   const validate = data => optionValues.includes(data?.[fieldName]);
-
-  const saveContactMethod = () => {
-    const {
-      apiRoute,
-      convertCleanDataToPayload,
-    } = getProfileInfoFieldAttributes(fieldName);
-    const payload = convertCleanDataToPayload(
-      {
-        [fieldName]: pageData.data[fieldName],
-      },
-      fieldName,
-    );
-
-    dispatch(openModal(null));
-    dispatch(
-      createSchedulingPreferencesUpdate({
-        route: apiRoute,
-        method: 'POST',
-        fieldName,
-        payload,
-        analyticsSectionName: 'scheduling-preferences-contact-method',
-        value: pageData.data,
-      }),
-    );
-    clearBeforeUnloadListener();
-  };
 
   const handlers = {
     cancel: () => {

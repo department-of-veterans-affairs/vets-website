@@ -22,9 +22,20 @@ import { formatAddress } from 'platform/forms/address/helpers';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPContactInfoField } from '../selectors';
 import PhoneView from './PhoneField/PhoneView';
+import AddressView from './AddressField/AddressView';
 
 const ProfileInformationView = props => {
-  const { data, fieldName, title, id } = props;
+  const {
+    data,
+    fieldName,
+    title,
+    id,
+    email,
+    mailingAddress,
+    homePhone,
+    workPhone,
+    mobilePhone,
+  } = props;
 
   let displayTitle;
   let titleFormatted;
@@ -131,7 +142,6 @@ const ProfileInformationView = props => {
     const displayDetails = getSchedulingPreferencesContactMethodDisplay(
       data[fieldName],
     );
-    const { email, mailingAddress, mobilePhone, homePhone, workPhone } = props;
     let contactDetail;
     let customDetails;
     switch (displayDetails.field) {
@@ -140,13 +150,7 @@ const ProfileInformationView = props => {
         break;
       case 'mailingAddress':
         customDetails = mailingAddress ? (
-          <p className="vads-u-margin-y--0">
-            {mailingAddress.street}
-            <br />
-            {mailingAddress.cityStateZip}
-            <br />
-            {mailingAddress.country}
-          </p>
+          <AddressView data={mailingAddress} />
         ) : null;
         break;
       case 'mobilePhone':
@@ -208,9 +212,7 @@ const ProfileInformationView = props => {
 const mapStateToProps = state => {
   return {
     email: selectVAPContactInfoField(state, 'email'),
-    mailingAddress: formatAddress(
-      selectVAPContactInfoField(state, 'mailingAddress'),
-    ),
+    mailingAddress: selectVAPContactInfoField(state, 'mailingAddress'),
     mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
     homePhone: selectVAPContactInfoField(state, 'homePhone'),
     workPhone: selectVAPContactInfoField(state, 'workPhone'),
