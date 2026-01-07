@@ -9,9 +9,9 @@ export default function InstitutionSelector({ dataPath }) {
   const { loading, hasError } = useValidateFacilityCode(formData, dataPath);
   const institutionDetails = getAtPath(formData, dataPath);
   const isPresent = [
-    institutionDetails.name,
-    institutionDetails.type,
-    institutionDetails.mailingAddress,
+    institutionDetails?.name,
+    institutionDetails?.type,
+    institutionDetails?.mailingAddress,
   ].every(Boolean);
 
   if (loading) {
