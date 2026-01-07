@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -24,13 +24,12 @@ describe('IntroductionRouter', () => {
   const mockRouter = { push: sinon.spy() };
 
   beforeEach(() => {
-    originalLocation = window.location;
+    originalLocation = global.window.location;
     sessionStorage.clear();
   });
 
   afterEach(() => {
-    delete window.location;
-    window.location = originalLocation;
+    global.window.location = originalLocation;
     sessionStorage.clear();
   });
 
@@ -55,8 +54,12 @@ describe('IntroductionRouter', () => {
     });
 
   const setWindowLocation = search => {
-    delete window.location;
-    window.location = { search };
+    delete global.window.location;
+    let url = 'http://localhost';
+    if (search) {
+      url += search.startsWith('?') ? search : `?${search}`;
+    }
+    global.window.location = new URL(url);
   };
 
   it('should show questionnaire intro when rerouteFlag is true and no URL parameter', () => {
@@ -71,7 +74,7 @@ describe('IntroductionRouter', () => {
     expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
   });
 
-  it('should show legacy intro when rerouteFlag is true and ?rudisill=true in URL', () => {
+  it('should show legacy intro when rerouteFlag is true and ?rudisill=true in URL', async () => {
     setWindowLocation('?rudisill=true');
     const { container } = render(
       <Provider store={createMockStore(true)}>
@@ -79,10 +82,14 @@ describe('IntroductionRouter', () => {
       </Provider>,
     );
 
-    // IntroductionPageUpdate shows "Change your education benefits" title
+    // Wait for useEffect to run and sessionStorage to be set
+    await waitFor(() => {
+      expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
+    });
+
+    // IntroductionPageUpdate shows "Change your education benefits" title and legacy form text
     expect(container.textContent).to.include('Change your education benefits');
     expect(container.textContent).to.include('Equal to VA Form 22-1995');
-    expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
   });
 
   it('should show legacy intro when rerouteFlag is false', () => {
@@ -111,14 +118,19 @@ describe('IntroductionRouter', () => {
     expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
   });
 
-  it('should allow navigation back to questionnaire from Rudisill flow', () => {
+  it('should allow navigation back to questionnaire from Rudisill flow', async () => {
     setWindowLocation('?rudisill=true');
     const { unmount } = render(
       <Provider store={createMockStore(true)}>
         <IntroductionRouter route={mockRoute} router={mockRouter} />
       </Provider>,
     );
-    expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
+
+    // Wait for useEffect to set sessionStorage
+    await waitFor(() => {
+      expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
+    });
+
     unmount();
 
     setWindowLocation('');
@@ -128,7 +140,12 @@ describe('IntroductionRouter', () => {
       </Provider>,
     );
 
+    // Wait for useEffect to clear sessionStorage
+    await waitFor(() => {
+      expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
+    });
+
     expect(container.textContent).to.include('Change your education benefits');
-    expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
+    expect(container.textContent).to.include('Determine which form to use');
   });
 });
