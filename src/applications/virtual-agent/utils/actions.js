@@ -163,7 +163,6 @@ export const processIncomingActivity = ({
   const isMessageFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
   const isFormPostButton = data.value?.type === 'FormPostButton';
-  // Ticket #2768: CSAT star rating survey removed due to accessibility issues
 
   if (!getIsTrackingUtterances()) {
     setIsTrackingUtterances(true);

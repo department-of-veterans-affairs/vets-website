@@ -10,7 +10,6 @@ import {
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as EventsModule from '../../utils/events';
 import * as SubmitFormModule from '../../utils/submitForm';
-// Ticket #2768: CSAT star rating survey removed due to accessibility issues
 
 describe('actions', () => {
   let sandbox;
@@ -454,8 +453,6 @@ describe('actions', () => {
 
       expect(submitFormStub.notCalled).to.be.true;
     });
-
-    // Ticket #2768: CSAT star rating survey tests removed - feature removed due to accessibility issues
 
     it('should emit RAG Agent Entry on RAG_ENTRY for non-RootBot skill', () => {
       const action = {
