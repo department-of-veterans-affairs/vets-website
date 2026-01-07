@@ -1,5 +1,5 @@
 import _ from 'platform/utilities/data';
-import countries from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import {
   SERVICE_CONNECTION_TYPES,
   disabilityActionTypes,
@@ -69,7 +69,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
       if (mailingAddress) {
         const onMilitaryBase = MILITARY_CITIES.includes(mailingAddress.city);
         // map existing country name to country code
-        const mappedCountryCode = countries.find(
+        const mappedCountryCode = constants.countries.find(
           c => c.label === mailingAddress.country,
         )?.value;
         mailingAddress.country = mappedCountryCode || mailingAddress.country;

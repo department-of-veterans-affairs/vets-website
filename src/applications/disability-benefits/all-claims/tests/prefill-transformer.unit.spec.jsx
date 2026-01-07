@@ -239,6 +239,123 @@ describe('526v2 prefill transformer', () => {
         },
       });
     });
+
+    it('should transform country name "United States" to "USA" code', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'United States',
+            addressLine1: '123 Any Street',
+            city: 'Anyville',
+            state: 'AK',
+            zipCode: '12345',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': false,
+          country: 'USA',
+          addressLine1: '123 Any Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'Anyville',
+          state: 'AK',
+          zipCode: '12345',
+        },
+      });
+    });
+
+    it('should transform international country name to country code', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'Canada',
+            addressLine1: '123 Maple Street',
+            city: 'Toronto',
+            state: 'ON',
+            zipCode: 'M1M 1M1',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': false,
+          country: 'CAN',
+          addressLine1: '123 Maple Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'Toronto',
+          state: 'ON',
+          zipCode: 'M1M 1M1',
+        },
+      });
+    });
+
+    it('should fallback to original country value when mapping not found', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'Unknown Country',
+            addressLine1: '123 Unknown Street',
+            city: 'Unknown City',
+            state: 'UK',
+            zipCode: '00000',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': false,
+          country: 'Unknown Country',
+          addressLine1: '123 Unknown Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'Unknown City',
+          state: 'UK',
+          zipCode: '00000',
+        },
+      });
+    });
   });
 
   describe('prefillServiceInformation', () => {
