@@ -11,9 +11,20 @@ import { DEBT_TYPES } from '../constants';
 import ZeroDebtsAlert from './ZeroDebtsAlert';
 
 const DebtSelection = ({ formContext }) => {
-  const { availableDebts, isDebtError } = useSelector(
-    state => state.availableDebts,
-  );
+  const { availableDebts, submittedDebts, isDebtError } = useSelector(state => {
+    const allDebts = state.availableDebts;
+
+    return allDebts.reduce(
+      (acc, debt) => {
+        // eslint-disable-next-line no-unused-expressions
+        !debt.submitted
+          ? acc.availableDebts.push(debt)
+          : acc.submittedDebts.push(debt);
+        return acc;
+      },
+      { availableDebts: [], submittedDebts: [] },
+    );
+  });
 
   const { data } = useSelector(state => state.form);
   const { selectedDebts = [] } = data;
@@ -81,6 +92,33 @@ const DebtSelection = ({ formContext }) => {
     return <ZeroDebtsAlert />;
   }
 
+  const availableDebtCheckbox = debt => (
+    <va-checkbox
+      checked={selectedDebts?.some(
+        currDebt => currDebt.selectedDebtId === debt.compositeDebtId,
+      )}
+      checkbox-description={debt.description}
+      data-debt-type={DEBT_TYPES.DEBT}
+      data-index={debt.compositeDebtId}
+      data-testid="debt-selection-checkbox"
+      key={debt.compositeDebtId}
+      label={debt.label}
+      tile
+    />
+  );
+
+  const submittedDebtsCard = debt => (
+    <va-card
+      data-testid={`debt-submitt4ed-${debt.compositeDebtId}`}
+      key={debt.compositeDebtId}
+    >
+      <div>
+        <h3 className="vads-u-margin-top--1">{debt.label}</h3>
+        <p>{debt.description}</p>
+      </div>
+    </va-card>
+  );
+
   return (
     <div data-testid="debt-selection-content">
       <VaCheckboxGroup
@@ -91,20 +129,8 @@ const DebtSelection = ({ formContext }) => {
         onVaChange={onGroupChange}
         required
       >
-        {availableDebts.map(debt => (
-          <va-checkbox
-            checked={selectedDebts?.some(
-              currDebt => currDebt.selectedDebtId === debt.compositeDebtId,
-            )}
-            checkbox-description={debt.description}
-            data-debt-type={DEBT_TYPES.DEBT}
-            data-index={debt.compositeDebtId}
-            data-testid="debt-selection-checkbox"
-            key={debt.compositeDebtId}
-            label={debt.label}
-            tile
-          />
-        ))}
+        {availableDebts.map(debt => availableDebtCheckbox(debt))}
+        {submittedDebts.map(debt => submittedDebtsCard(debt))}
       </VaCheckboxGroup>
       <va-additional-info trigger="If your debt isn't listed here">
         <p>
