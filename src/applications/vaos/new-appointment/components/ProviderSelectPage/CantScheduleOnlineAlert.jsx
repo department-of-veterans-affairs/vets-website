@@ -4,7 +4,7 @@ import InfoAlert from '../../../components/InfoAlert';
 import FacilityInfo from './FacilityInfo';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 
-function CantScheduleOnlineAlert({ facility }) {
+function CantScheduleOnlineAlert({ selectedFacility }) {
   const headline = `You can't schedule an appointment online right now`;
 
   return (
@@ -20,7 +20,8 @@ function CantScheduleOnlineAlert({ facility }) {
           </p>
           <p>If you need to schedule now, call your VA facility.</p>
 
-          <FacilityInfo facility={facility} />
+          <FacilityInfo selectedFacility={selectedFacility} />
+
           <p>
             <NewTabAnchor href="/find-locations">
               Find a VA health facility
@@ -33,7 +34,7 @@ function CantScheduleOnlineAlert({ facility }) {
 }
 
 CantScheduleOnlineAlert.propTypes = {
-  facility: PropTypes.object,
+  selectedFacility: PropTypes.object.isRequired,
 };
 
 export default CantScheduleOnlineAlert;

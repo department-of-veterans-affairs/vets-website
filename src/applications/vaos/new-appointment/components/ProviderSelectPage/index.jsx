@@ -97,10 +97,14 @@ export default function SelectProviderPage() {
         </>
       ) : null}
 
-      <CantScheduleOnlineAlert facility={selectedFacility} />
+      <CantScheduleOnlineAlert
+        selectedFacility={selectedFacility}
+        isEligibleForRequest={isEligibleForRequest}
+        overRequestLimit={overRequestLimit}
+      />
 
       <BackendProviderServiceAlert
-        facility={selectedFacility}
+        selectedFacility={selectedFacility}
         pageKey={pageKey}
       />
 

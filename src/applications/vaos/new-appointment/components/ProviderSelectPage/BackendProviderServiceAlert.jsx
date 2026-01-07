@@ -6,7 +6,10 @@ import InfoAlert from '../../../components/InfoAlert';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import RequestAppointmentLink from './RequestAppointmentLink';
 
-function BackendProviderServiceAlert({ facility, pageKey }) {
+function BackendProviderServiceAlert({
+  selectedFacility,
+  pageKey = 'selectProvider',
+}) {
   const headline = `We can't load your providers right now`;
 
   return (
@@ -23,7 +26,7 @@ function BackendProviderServiceAlert({ facility, pageKey }) {
           <p>If you need to schedule now, call your VA facility.</p>
           <RequestAppointmentLink pageKey={pageKey} />
 
-          <FacilityInfo facility={facility} />
+          <FacilityInfo selectedFacility={selectedFacility} />
           <p>
             <NewTabAnchor href="/find-locations">
               Find a different VA health facility
@@ -38,6 +41,6 @@ function BackendProviderServiceAlert({ facility, pageKey }) {
 export default BackendProviderServiceAlert;
 
 BackendProviderServiceAlert.propTypes = {
-  facility: PropTypes.object,
+  selectedFacility: PropTypes.object.isRequired,
   pageKey: PropTypes.string,
 };

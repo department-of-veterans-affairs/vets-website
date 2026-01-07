@@ -4,15 +4,15 @@ import FacilityPhone from '../../../components/FacilityPhone';
 
 import { getFacilityPhone } from '../../../services/location';
 
-function FacilityInfo({ facility }) {
-  const facilityPhone = getFacilityPhone(facility);
+function FacilityInfo({ selectedFacility }) {
+  const facilityPhone = getFacilityPhone(selectedFacility);
   return (
     <>
       <p>We're sorry. There's a problem with our system. Try again later.</p>
       <p>If you need to schedule now, call your VA facility.</p>
 
       <p className="vaos-u-word-break--break-word">
-        {facility.name}
+        {selectedFacility.name}
         <br />
         Main phone: <FacilityPhone contact={facilityPhone} icon={false} />
       </p>
@@ -23,5 +23,5 @@ function FacilityInfo({ facility }) {
 export default FacilityInfo;
 
 FacilityInfo.propTypes = {
-  facility: PropTypes.object,
+  selectedFacility: PropTypes.object.isRequired,
 };
