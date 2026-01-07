@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import IntroductionPageUpdate from './IntroductionPageUpdate';
 import IntroductionPageRedirect from './IntroductionPageRedirect';
 import { selectMeb1995Reroute } from '../selectors/featureToggles';
@@ -24,27 +25,38 @@ const IntroductionRouter = props => {
   const rerouteEnabled = useSelector(selectMeb1995Reroute);
   const { useToggleLoadingValue } = useFeatureToggle();
   const isLoading = useToggleLoadingValue();
+  const { formData, user } = useSelector(state => getIntroState(state));
+
+  // Check if user has a saved form (save-in-progress will handle navigation)
+  const hasSavedForm = user?.profile?.savedForms?.some(
+    form => form.form === '22-1995',
+  );
 
   // Check for ?rudisill=true URL parameter OR saved formData
   const urlParams = new URLSearchParams(window.location.search);
   const isRudisillFromUrl = urlParams.get('rudisill') === 'true';
-  const isRudisillFromSave =
-    sessionStorage.getItem('isRudisillFlow') === 'true';
-  const isRudisillFlow = isRudisillFromUrl || isRudisillFromSave;
+  const isRudisillFromFormData = formData?.isRudisillFlow === true;
+  const isRudisillFlow = isRudisillFromUrl || isRudisillFromFormData;
 
-  // Set sessionStorage flag when entering Rudisill flow via URL parameter
+  // Set sessionStorage flag when entering Rudisill flow via URL parameter or formData
   // This persists the flow state for the form pages after leaving intro
   useEffect(
     () => {
-      if (isRudisillFromUrl && rerouteEnabled) {
+      if ((isRudisillFromUrl || isRudisillFromFormData) && rerouteEnabled) {
         sessionStorage.setItem('isRudisillFlow', 'true');
-      } else if (!isRudisillFromUrl && rerouteEnabled) {
-        // Clear when visiting intro without parameter (allows navigation back to questionnaire)
-        // Note: Save-in-progress will restore this via formData.isRudisillFlow in Form1995App
+      } else if (
+        !isRudisillFromUrl &&
+        !isRudisillFromFormData &&
+        !hasSavedForm &&
+        rerouteEnabled
+      ) {
+        // Clear when visiting intro without parameter AND no saved Rudisill form
+        // This allows returning to questionnaire intro from Rudisill flow
+        // Don't clear if user has a saved form - let save-in-progress handle it
         sessionStorage.removeItem('isRudisillFlow');
       }
     },
-    [isRudisillFromUrl, rerouteEnabled],
+    [isRudisillFromUrl, isRudisillFromFormData, hasSavedForm, rerouteEnabled],
   );
 
   if (isLoading || rerouteEnabled === undefined) {

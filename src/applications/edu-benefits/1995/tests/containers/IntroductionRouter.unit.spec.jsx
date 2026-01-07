@@ -149,4 +149,85 @@ describe('IntroductionRouter', () => {
     expect(container.textContent).to.include('Determine which form to use');
     expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
   });
+
+  it('should show legacy intro when resuming saved Rudisill form', async () => {
+    // Simulate save-in-progress with isRudisillFlow in formData
+    const storeWithSavedRudisill = mockStore({
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        meb_1995_re_reroute: true,
+        // eslint-disable-next-line camelcase
+        show_edu_benefits_1995_wizard: false,
+      },
+      form: {
+        data: {
+          isRudisillFlow: true, // Saved Rudisill form
+        },
+        formId: '22-1995',
+        loadedData: { metadata: { returnUrl: '/applicant/information' } },
+      },
+      user: {
+        login: { currentlyLoggedIn: true },
+        profile: { savedForms: [], loading: false, prefillsAvailable: [] },
+      },
+    });
+
+    setWindowLocation(''); // No URL parameter
+    sessionStorage.clear(); // No sessionStorage initially
+
+    const { container } = render(
+      <Provider store={storeWithSavedRudisill}>
+        <IntroductionRouter route={mockRoute} router={mockRouter} />
+      </Provider>,
+    );
+
+    // Wait for useEffect to restore sessionStorage from formData
+    await waitFor(() => {
+      expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
+    });
+
+    // Should show legacy intro (not questionnaire) because formData has isRudisillFlow
+    expect(container.textContent).to.include('Change your education benefits');
+    expect(container.textContent).to.include('Equal to VA Form 22-1995');
+    expect(container.textContent).to.not.include('Determine which form to use');
+  });
+
+  it('should not clear sessionStorage when user has a saved form', () => {
+    sessionStorage.setItem('isRudisillFlow', 'true');
+    setWindowLocation(''); // No URL parameter
+
+    // Simulate user with a saved form in profile
+    const storeWithSavedForm = mockStore({
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        meb_1995_re_reroute: true,
+        // eslint-disable-next-line camelcase
+        show_edu_benefits_1995_wizard: false,
+      },
+      form: {
+        data: {},
+        formId: '22-1995',
+        loadedData: { metadata: { returnUrl: '/' } },
+      },
+      user: {
+        login: { currentlyLoggedIn: true },
+        profile: {
+          savedForms: [{ form: '22-1995', metadata: {} }],
+          loading: false,
+          prefillsAvailable: [],
+        },
+      },
+    });
+
+    render(
+      <Provider store={storeWithSavedForm}>
+        <IntroductionRouter route={mockRoute} router={mockRouter} />
+      </Provider>,
+    );
+
+    // sessionStorage should NOT be cleared because user has a saved form
+    expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
+  });
 });
