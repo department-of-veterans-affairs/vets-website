@@ -14,6 +14,16 @@ const assertPropertiesExist = (actual, expected, path = '') => {
   }
 
   if (typeof expected === 'object' && !Array.isArray(expected)) {
+    // Check if actual is null/undefined when expected has properties to check
+    if (actual === null || actual === undefined) {
+      const location = path || 'root';
+      throw new Error(
+        `Expected object at ${location} but got ${
+          actual === null ? 'null' : 'undefined'
+        }`,
+      );
+    }
+
     Object.keys(expected).forEach(key => {
       const currentPath = path ? `${path}.${key}` : key;
       expect(actual, `Missing property at ${currentPath}`).to.have.property(
