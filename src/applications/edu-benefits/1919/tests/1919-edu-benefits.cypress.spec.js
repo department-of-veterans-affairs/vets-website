@@ -31,11 +31,11 @@ const testConfig = createTestConfig(
         afterHook,
       }) => {
         afterHook(() => {
-          cy.fillVaTextInput('root_first', 'Mark');
-          cy.fillVaTextInput('root_last', 'Reeves');
-          cy.fillVaTextInput('root_title', 'Director');
+          cy.fillVaTextInput('root_affiliatedIndividuals_first', 'Mark');
+          cy.fillVaTextInput('root_affiliatedIndividuals_last', 'Reeves');
+          cy.fillVaTextInput('root_affiliatedIndividuals_title', 'Director');
           cy.selectVaRadioOption(
-            'root_individualAssociationType',
+            'root_affiliatedIndividuals_individualAssociationType',
             'vaEmployee',
           );
           cy.tabToSubmitForm();
@@ -86,12 +86,12 @@ const testConfig = createTestConfig(
       }) => {
         afterHook(() => {
           cy.fillVaMemorableDate(
-            'root_enrollmentPeriod_from',
+            'root_enrollmentPeriodStart',
             '2025-01-15',
             true,
           );
           cy.fillVaMemorableDate(
-            'root_enrollmentPeriod_to',
+            'root_enrollmentPeriodEnd',
             '2025-06-15',
             true,
           );
