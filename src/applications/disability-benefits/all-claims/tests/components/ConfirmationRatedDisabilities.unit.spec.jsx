@@ -38,4 +38,15 @@ describe('ConfirmationRatedDisabilities', () => {
     );
     expect(container.querySelectorAll('h4')).to.have.length(0);
   });
+
+  it('renders fallback text when ratingPercentage is missing', () => {
+    const formData = {
+      ratedDisabilities: [{ name: 'Condition 1', 'view:selected': true }],
+    };
+
+    const { getByText } = render(
+      <ConfirmationRatedDisabilities formData={formData} />,
+    );
+    expect(getByText(/claiming an increase$/i)).to.exist;
+  });
 });
