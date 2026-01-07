@@ -97,9 +97,8 @@ describe('IntroductionPageRedirect', () => {
         "va-link-action[text='Start your questionnaire']",
       ),
     ).to.exist;
-    expect(container.textContent).to.include(
-      'We’ve prefilled some of your information',
-    );
+    // Check for prefill alert by its headline slot
+    expect(container.querySelector('va-alert[status="info"]')).to.exist;
     // Container should still render with the form
     expect(container.querySelector('.schemaform-intro')).to.exist;
   });
@@ -309,6 +308,47 @@ describe('IntroductionPageRedirect', () => {
 
       expect(container.querySelector('.schemaform-intro')).to.exist;
       expect(testRouter.push).to.be.a('function');
+    });
+  });
+
+  describe('Rudisill review section', () => {
+    it('should display Rudisill review section when meb1995Reroute feature flag is enabled', () => {
+      const store = createMockStore(true, {
+        login: { currentlyLoggedIn: false },
+        profile: { savedForms: [], loading: false, prefillsAvailable: [] },
+      });
+
+      const { container } = render(
+        <Provider store={store}>
+          <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
+        </Provider>,
+      );
+
+      expect(container.textContent).to.include('Rudisill review');
+      expect(container.textContent).to.include('If you need a Rudisill review');
+      const link = container.querySelector(
+        'va-link[href="/education/apply-for-education-benefits/application/1995/introduction?rudisill=true"]',
+      );
+      expect(link).to.exist;
+      expect(link.getAttribute('text')).to.equal(
+        'you can submit a Rudisill review request through this online form',
+      );
+    });
+
+    it('should not display Rudisill review section when meb1995Reroute feature flag is disabled', () => {
+      const store = createMockStore(false, {
+        login: { currentlyLoggedIn: false },
+        profile: { savedForms: [], loading: false, prefillsAvailable: [] },
+      });
+
+      const { container } = render(
+        <Provider store={store}>
+          <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
+        </Provider>,
+      );
+
+      expect(container.querySelector('.schemaform-intro')).to.not.exist;
+      expect(container.textContent).to.not.include('Rudisill review');
     });
   });
 });

@@ -117,7 +117,22 @@ export const IntroductionPageRedirect = ({ route, router }) => {
       <h2 className="vads-u-font-size--h2 vads-u-margin-top--4">
         Determine which form to use
       </h2>
-      <p>Answer a few questions to determine which form you need.</p>
+      <p>
+        If you need to change or update your benefit for a new Certificate of
+        Eligibility, use the questionnaire to determine which form you need.
+      </p>
+
+      <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        Rudisill review
+      </h4>
+      <p className="vads-u-margin-top--0">
+        If you need a Rudisill review,{' '}
+        <va-link
+          href="/education/apply-for-education-benefits/application/1995/introduction?rudisill=true"
+          text="you can submit a Rudisill review request through this online form"
+        />
+        .
+      </p>
 
       {user?.login?.currentlyLoggedIn ? (
         <>

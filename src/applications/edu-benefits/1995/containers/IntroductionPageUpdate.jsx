@@ -25,21 +25,43 @@ export class IntroductionPageUpdate extends React.Component {
     this.setState({ status: value });
   };
 
-  renderSaveInProgressIntro = buttonOnly => (
-    <SaveInProgressIntro
-      buttonOnly={buttonOnly}
-      prefillEnabled={this.props.route.formConfig.prefillEnabled}
-      messages={this.props.route.formConfig.savedFormMessages}
-      pageList={this.props.route.pageList}
-      startText="Start the education application"
-      unauthStartText="Sign in or create an account"
-    />
-  );
+  renderSaveInProgressIntro = buttonOnly => {
+    const { route } = this.props;
+
+    if (!route) {
+      return null;
+    }
+
+    if (!route.formConfig) {
+      return null;
+    }
+
+    if (!route.pageList) {
+      return null;
+    }
+
+    return (
+      <SaveInProgressIntro
+        buttonOnly={buttonOnly}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        messages={route.formConfig.savedFormMessages}
+        pageList={route.pageList}
+        startText="Start the education application"
+        unauthStartText="Sign in or create an account"
+      />
+    );
+  };
 
   render() {
     const { showWizard } = this.props;
 
-    if (showWizard === undefined) return null;
+    // Check if user is in Rudisill flow
+    const isRudisillFlow = sessionStorage.getItem('isRudisillFlow') === 'true';
+
+    // Allow rendering if in Rudisill flow, otherwise require showWizard to be defined
+    if (!isRudisillFlow && showWizard === undefined) {
+      return null;
+    }
 
     return (
       <div
