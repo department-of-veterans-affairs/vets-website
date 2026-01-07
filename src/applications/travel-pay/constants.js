@@ -9,8 +9,26 @@ export const REIMBURSEMENT_URL =
   '/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
 export const PAST_APPOINTMENTS_LINK = '/my-health/appointments/past';
 
+export const STATUS_KEYS = Object.freeze({
+  INCOMPLETE: 'Incomplete',
+  SAVED: 'Saved',
+  IN_PROCESS: 'InProcess',
+  CLAIM_SUBMITTED: 'ClaimSubmitted',
+  IN_MANUAL_REVIEW: 'InManualReview',
+  ON_HOLD: 'OnHold',
+  APPEALED: 'Appealed',
+  PARTIAL_PAYMENT: 'PartialPayment',
+  DENIED: 'Denied',
+  CLOSED_WITH_NO_PAYMENT: 'ClosedWithNoPayment',
+  APPROVED_FOR_PAYMENT: 'ApprovedForPayment',
+  SUBMITTED_FOR_PAYMENT: 'SubmittedForPayment',
+  FISCAL_RESCINDED: 'FiscalRescinded',
+  CLAIM_PAID: 'ClaimPaid',
+  PAYMENT_CANCELED: 'PaymentCanceled',
+});
+
 export const STATUSES = {
-  Incomplete: {
+  [STATUS_KEYS.INCOMPLETE]: {
     name: 'Incomplete',
     description:
       'You submitted a claim without required expense information. You must provide the required information for BTSSS to process the claim.',
@@ -18,7 +36,7 @@ export const STATUSES = {
       'You haven’t filed this claim yet. Make sure to add all required information and file within 30 days of your appointment.',
     reasons: null,
   },
-  Saved: {
+  [STATUS_KEYS.SAVED]: {
     name: 'Saved',
     description:
       'You saved changes to your claim, but you did not submit it to BTSSS for review. Submit the claim so BTSSS can begin processing your claim.',
@@ -28,20 +46,20 @@ export const STATUSES = {
       'We saved the expenses you’ve added so far. But you haven’t filed your travel reimbursement claim yet. Make sure to complete and file your claim within 30 days of your appointment.',
     reasons: null,
   },
-  InProcess: {
+  [STATUS_KEYS.IN_PROCESS]: {
     name: 'In process',
     description:
       'You submitted a claim, and now BTSSS is reviewing your claim.',
     definition: 'We’re reviewing your claim.',
     reasons: null,
   },
-  ClaimSubmitted: {
+  [STATUS_KEYS.CLAIM_SUBMITTED]: {
     name: 'Claim submitted',
     description: 'You submitted a claim for a completed appointment.',
     definition: 'You submitted this claim for review.',
     reasons: null,
   },
-  InManualReview: {
+  [STATUS_KEYS.IN_MANUAL_REVIEW]: {
     name: 'In manual review',
     description:
       'Your claim requires a manual review by a Travel Clerk due to one or more of the following reasons:',
@@ -53,7 +71,7 @@ export const STATUSES = {
       'Your travel does not meet the eligibility requirements. For detailed information about your claim, contact your local VAMC and ask for the Beneficiary Travel department.',
     ],
   },
-  OnHold: {
+  [STATUS_KEYS.ON_HOLD]: {
     name: 'On hold',
     description:
       'You must provide the needed information for the claim to be processed. Your Travel Clerk will contact you when they put your claim on hold and tell you what additional information is required. For more information about your claim, please contact your local VAMC and ask for the Beneficiary Travel department.',
@@ -61,14 +79,14 @@ export const STATUSES = {
       'We need more information to decide your claim. Contact your facility’s Beneficiary Travel department.',
     reasons: null,
   },
-  Appealed: {
+  [STATUS_KEYS.APPEALED]: {
     name: 'Appealed',
     description:
       'You appealed the denial of your claim. The Travel Clerk will review your appeal.',
     definition: 'We’re reviewing your claim appeal.',
     reasons: null,
   },
-  PartialPayment: {
+  [STATUS_KEYS.PARTIAL_PAYMENT]: {
     name: 'Partial payment',
     description:
       'The Travel Clerk determined the claim does not qualify for a full reimbursement. Instead, they approved a partial payment and a Partial Payment letter was sent to you.',
@@ -76,7 +94,7 @@ export const STATUSES = {
       'Some of the expenses you submitted aren’t eligible for reimbursement. You can review the decision letter for more information.',
     reasons: null,
   },
-  Denied: {
+  [STATUS_KEYS.DENIED]: {
     name: 'Denied',
     description:
       'The Travel Clerk denied your claim for one or more of the following reasons:',
@@ -89,7 +107,7 @@ export const STATUSES = {
       'The Travel Clerk sent you a denial letter. The letter contains information on how to appeal the decision.',
     ],
   },
-  ClosedWithNoPayment: {
+  [STATUS_KEYS.CLOSED_WITH_NO_PAYMENT]: {
     name: 'Closed with no payment',
     description:
       'The Travel Clerk determined the claim did not incur a cost and that no payment is necessary. The Travel Clerk will archive your claim.',
@@ -97,7 +115,7 @@ export const STATUSES = {
       'We determined you didn’t incur any costs for travel. Since you aren’t eligible for reimbursement, we closed your claim. You can review the decision letter on the Claim Details page for more information and how to appeal.',
     reasons: null,
   },
-  ApprovedForPayment: {
+  [STATUS_KEYS.APPROVED_FOR_PAYMENT]: {
     name: 'Approved for payment',
     description:
       'The Travel Clerk approved your claim for payment. The payment is pending and has not been paid.',
@@ -105,7 +123,7 @@ export const STATUSES = {
       'We approved your claim. We’ll send payment to the bank account you provided. If you haven’t received it in 10 business days of submission, contact your facility’s Beneficiary Travel department.',
     reasons: null,
   },
-  SubmittedForPayment: {
+  [STATUS_KEYS.SUBMITTED_FOR_PAYMENT]: {
     name: 'Submitted for payment',
     description:
       'The approved claim payment is assigned to the Financial Service Center (FSC) so that you can receive reimbursement.',
@@ -113,7 +131,7 @@ export const STATUSES = {
       'We approved your claim. We’ll send payment to the bank account you provided. If you haven’t received it in 10 business days of submission, contact your facility’s Beneficiary Travel department.',
     reasons: null,
   },
-  FiscalRescinded: {
+  [STATUS_KEYS.FISCAL_RESCINDED]: {
     name: 'Fiscal rescinded',
     description:
       'The Financial Service Center (FSC) rejected payment. You will not be able to appeal this decision. For more detailed information about your claim, please contact your local VAMC and ask for the Beneficiary Travel department.',
@@ -121,7 +139,7 @@ export const STATUSES = {
       'We approved your claim. But we can’t process your payment using the bank account you provided. Contact your facility’s Beneficiary Travel department.',
     reasons: null,
   },
-  ClaimPaid: {
+  [STATUS_KEYS.CLAIM_PAID]: {
     name: 'Claim paid',
     description:
       'The reimbursement on the approved claim is paid to the submitter. Note that reimbursements for claims submitted by a Caregiver on behalf of a Veteran claimant are sent to the Caregiver’s address or deposited in the Caregiver’s account.',
@@ -129,7 +147,7 @@ export const STATUSES = {
       'We sent payment for this claim to the bank account you provided.',
     reasons: null,
   },
-  PaymentCanceled: {
+  [STATUS_KEYS.PAYMENT_CANCELED]: {
     name: 'Payment canceled',
     description:
       'The fund transfer did not complete because of the claimant’s bank. Payment has been canceled. You may create a new claim and reference the original claim number in the Notes section of the new claim.',
