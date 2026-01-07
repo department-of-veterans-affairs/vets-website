@@ -245,9 +245,9 @@ class SearchDropdownComponent extends React.Component {
 
   // call the fetchSuggestions prop and save the returned value into state
   fetchSuggestions = async inputValue => {
-    this.setState({ fetchingSuggestions: true });
-    const suggestions = await fetchTypeaheadSuggestions(inputValue);
-    this.setState({ suggestions, fetchingSuggestions: false });
+    // Typeahead disabled - return empty suggestions
+    this.setState({ suggestions: [], fetchingSuggestions: false });
+    return;
   };
 
   // handle blur logic
