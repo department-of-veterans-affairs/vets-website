@@ -10,7 +10,10 @@ import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import { applicantInformation } from './chapters/applicant';
+import {
+  applicantInformation,
+  personalInformation,
+} from './chapters/applicant';
 
 import {
   additionalInformation,
@@ -68,14 +71,24 @@ const formConfig = {
   defaultDefinitions: definitions,
   chapters: {
     applicantInformationChapter: {
-      title: 'Your personal information',
+      title: data => {
+        return data.formData.coeFormRebuildCveteam
+          ? 'Your information'
+          : 'Your personal information on file';
+      },
       pages: {
         applicantInformationSummary: {
           path: 'applicant-information',
+          // There seems to be a bug where the depends clause is ignored for the first item in the form
+          // depends: formData => {
+          //   console.log('the value 2:', formData);
+          //   return !formData['view:coeFormRebuildCveteam'];
+          // },
           title: 'Your personal information on file',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
+        yourInformation: personalInformation,
       },
     },
     contactInformationChapter: {
