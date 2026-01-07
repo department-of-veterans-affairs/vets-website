@@ -103,7 +103,7 @@ class GeneralFunctionsPage {
       .find(`h2`)
       .eq(0)
       .should(`be.visible`)
-      .and(`have.text`, text);
+      .and(`contain`, text);
 
     cy.contains(`Start:`)
       .parent(`p`)

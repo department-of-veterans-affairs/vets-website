@@ -282,6 +282,7 @@ const SearchForm = props => {
         }}
       >
         <h2
+          className="vads-u-font-size--h3 vads-u-margin-top--0"
           ref={filterFormTitleRef}
           aria-describedby={getAriaDescribedBy}
           onBlur={() => {

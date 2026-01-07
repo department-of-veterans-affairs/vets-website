@@ -2,7 +2,7 @@ export const CernerAlertContent = {
   APPOINTMENTS: {
     linkPath: '/pages/scheduling/upcoming',
     pageName: 'appointments',
-    headline: 'Manage your appointments at',
+    headline: 'To manage your appointments at',
     domain: 'appointments',
     infoAlertActionPhrase: 'manage most of your appointments',
     infoAlertText: 'You can manage most of your appointments here.',

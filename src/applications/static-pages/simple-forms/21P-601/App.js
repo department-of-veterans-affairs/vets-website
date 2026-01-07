@@ -15,7 +15,6 @@ const App = ({ formEnabled }) => {
 
   return (
     <>
-      <h2>If you’re requesting reimbursement for expenses</h2>
       <p>
         You should fill out an Application for Accrued Amounts Due a Deceased
         Beneficiary (VA Form 21P-601). You can submit this form{' '}

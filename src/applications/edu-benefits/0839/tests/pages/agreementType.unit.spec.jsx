@@ -107,7 +107,7 @@ describe('22-0839 agreementType page', () => {
         institutionDetails: {},
         additionalInstitutionDetails: [],
         yellowRibbonProgramRequest: [],
-        pointsOfContact: [],
+        pointsOfContact: {},
       });
     });
   });

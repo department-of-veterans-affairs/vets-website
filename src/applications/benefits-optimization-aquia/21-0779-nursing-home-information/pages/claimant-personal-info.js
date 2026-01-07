@@ -38,9 +38,17 @@ const fullNameSchemaWithMiddleInitial = {
   ...fullNameNoSuffixSchema,
   properties: {
     ...fullNameNoSuffixSchema.properties,
+    first: {
+      type: 'string',
+      maxLength: 12,
+    },
     middle: {
       type: 'string',
       maxLength: 1,
+    },
+    last: {
+      type: 'string',
+      maxLength: 18,
     },
   },
 };
