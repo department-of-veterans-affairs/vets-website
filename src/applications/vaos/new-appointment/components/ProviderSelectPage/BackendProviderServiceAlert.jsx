@@ -1,16 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import InfoAlert from '../../../components/InfoAlert';
-import FacilityInfo from './FacilityInfo';
-import NewTabAnchor from '../../../components/NewTabAnchor';
 
-function CantScheduleOnlineAlert({ facility }) {
-  const headline = `You can't schedule an appointment online right now`;
+import PropTypes from 'prop-types';
+import FacilityInfo from './FacilityInfo';
+import InfoAlert from '../../../components/InfoAlert';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import RequestAppointmentLink from './RequestAppointmentLink';
+
+function BackendProviderServiceAlert({ facility, pageKey }) {
+  const headline = `We can't load your providers right now`;
 
   return (
     <div aria-atomic="true" aria-live="assertive">
       <InfoAlert
-        status="error"
+        status="warning"
         headline={headline}
         className="vads-u-margin-top--3"
       >
@@ -19,11 +21,12 @@ function CantScheduleOnlineAlert({ facility }) {
             We're sorry. There's a problem with our system. Try again later.
           </p>
           <p>If you need to schedule now, call your VA facility.</p>
+          <RequestAppointmentLink pageKey={pageKey} />
 
           <FacilityInfo facility={facility} />
           <p>
             <NewTabAnchor href="/find-locations">
-              Find a VA health facility
+              Find a different VA health facility
             </NewTabAnchor>
           </p>
         </>
@@ -32,8 +35,9 @@ function CantScheduleOnlineAlert({ facility }) {
   );
 }
 
-CantScheduleOnlineAlert.propTypes = {
-  facility: PropTypes.object,
-};
+export default BackendProviderServiceAlert;
 
-export default CantScheduleOnlineAlert;
+BackendProviderServiceAlert.propTypes = {
+  facility: PropTypes.object,
+  pageKey: PropTypes.string,
+};
