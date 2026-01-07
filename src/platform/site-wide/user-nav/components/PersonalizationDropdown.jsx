@@ -20,6 +20,27 @@ const recordProfileEvent = recordNavUserEvent('profile');
 const recordDependentsEvent = recordNavUserEvent('dependents');
 const recordLettersEvent = recordNavUserEvent('letters');
 
+const handleHatClick = e => {
+  e.preventDefault();
+
+  // Check if we're on a GitHub Codespace (github.dev URL)
+  const isGitHubCodespace = window.location.hostname.includes('app.github.dev');
+
+  if (isGitHubCodespace) {
+    // In Codespaces, port is part of hostname (e.g., -3001.app.github.dev or -3002.app.github.dev)
+    // Replace the port number in hostname with 3002
+    const newHostname = window.location.hostname.replace(
+      /-\d+\.app\.github\.dev$/,
+      '-3002.app.github.dev',
+    );
+    // Construct full URL with / path
+    window.location.href = `${window.location.protocol}//${newHostname}/`;
+  } else {
+    // Regular localhost or other environments
+    window.location.href = '/';
+  }
+};
+
 export function PersonalizationDropdown(props) {
   const { isSSOe, csp } = props;
 
@@ -27,7 +48,10 @@ export function PersonalizationDropdown(props) {
     () => (
       <a
         href="/"
-        onClick={() => logoutEvent(csp, { shouldWait: !isSSOe, duration: 350 })}
+        onClick={
+          (() => logoutEvent(csp, { shouldWait: !isSSOe, duration: 350 }),
+          handleHatClick)
+        }
       >
         Sign Out
       </a>
