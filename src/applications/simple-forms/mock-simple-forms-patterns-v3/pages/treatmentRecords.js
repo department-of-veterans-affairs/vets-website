@@ -23,8 +23,8 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'treatmentRecords',
-  nounSingular: 'treatment record',
-  nounPlural: 'treatment records',
+  nounSingular: 'record',
+  nounPlural: 'records',
   required: true,
   isItemIncomplete: item =>
     !item?.name ||
