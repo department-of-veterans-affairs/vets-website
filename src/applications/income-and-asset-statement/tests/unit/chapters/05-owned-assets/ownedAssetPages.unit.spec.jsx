@@ -73,6 +73,16 @@ describe('owned asset list and loop pages', () => {
       sandbox.stub(helpers, 'showUpdatedContent').returns(true);
     });
 
+    it('should return undefined when item is null', () => {
+      const result = options.text.cardDescription(null);
+      expect(result).to.be.undefined;
+    });
+
+    it('should return undefined when item is undefined', () => {
+      const result = options.text.cardDescription(undefined);
+      expect(result).to.be.undefined;
+    });
+
     it('should show "Form uploaded: No" when user declines upload', () => {
       const assetWithNoUpload = {
         ...testData.data.ownedAssets[0],
