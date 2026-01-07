@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { deductionCodes } from '../const/deduction-codes';
+import CopyButton from '../../combined/components/CopyButton';
 
 export const getDeductionDescription = code => {
   const description = deductionCodes[code];
@@ -29,31 +30,79 @@ const HowDoIPay = ({ userData }) => {
         on the secure pay.va.gov website.
       </p>
       <p>
-        You’ll need to provide the following details to pay this debt online:
+        <strong>
+          You will need the following details to pay this debt online:
+        </strong>
       </p>
       {userData ? (
-        <ul>
-          <li>
-            <strong>
-              {userData.receivableId ? 'Receivable ID' : 'File Number'}:{' '}
-            </strong>
-            {userData.receivableId || userData.fileNumber}
+        <ul className="vads-u-padding-left--0">
+          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
+            <div className="debt-copy-row">
+              <span>Current balance</span>
+              <CopyButton
+                value={userData.currentAr}
+                buttonText="Copy"
+                className="vads-u-flex-shrink--0"
+              />
+            </div>
+            <div>
+              <strong>${userData.currentAr}</strong>
+            </div>
           </li>
-          <li>
-            <strong>Payee Number: </strong>
-            {userData.payeeNumber}
+          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
+            <div className="debt-copy-row">
+              <span>
+                {userData.receivableId ? 'Receivable ID' : 'File Number'}
+              </span>
+              <CopyButton
+                value={userData.receivableId || userData.fileNumber}
+                buttonText="Copy"
+                className="vads-u-flex-shrink--0"
+              />
+            </div>
+            <div>
+              <strong>{userData.receivableId || userData.fileNumber}</strong>
+            </div>
           </li>
-          <li>
-            <strong>Person Entitled: </strong>
-            {userData.personEntitled}
+          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
+            <div className="debt-copy-row">
+              <span>Payee Number</span>
+              <CopyButton
+                value={userData.payeeNumber}
+                buttonText="Copy"
+                className="vads-u-flex-shrink--0"
+              />
+            </div>
+            <div>
+              <strong>{userData.payeeNumber}</strong>
+            </div>
           </li>
-          <li>
-            <strong>Deduction Code: </strong>
-            {userData.deductionCode} {getDeductionDescription(deductionCode)}
+          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
+            <div className="debt-copy-row">
+              <span>Person Entitled</span>
+              <CopyButton
+                value={userData.personEntitled}
+                buttonText="Copy"
+                className="vads-u-flex-shrink--0"
+              />
+            </div>
+            <div>
+              <strong>{userData.personEntitled}</strong>
+            </div>
+          </li>
+          <li className="vads-u-display--flex vads-u-flex-direction--column">
+            <span>Deduction Code</span>
+            <div>
+              <strong>
+                {userData.deductionCode}{' '}
+                {getDeductionDescription(deductionCode)}
+              </strong>
+            </div>
           </li>
         </ul>
       ) : (
-        <ul>
+        <ul className="vads-u-padding-left--0">
+          <li>Current balance</li>
           <li>File Number</li>
           <li>Payee Number</li>
           <li>Person Entitled</li>
@@ -145,10 +194,11 @@ const HowDoIPay = ({ userData }) => {
 HowDoIPay.propTypes = {
   showDebtLetterDownload: PropTypes.bool,
   userData: PropTypes.shape({
+    currentAr: PropTypes.string,
+    deductionCode: PropTypes.string,
     fileNumber: PropTypes.string,
     payeeNumber: PropTypes.string,
     personEntitled: PropTypes.string,
-    deductionCode: PropTypes.string,
     receivableId: PropTypes.string,
   }),
 };
