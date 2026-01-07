@@ -1,7 +1,10 @@
+import React from 'react';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusElement } from 'platform/utilities/ui';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
+import { differenceInDays } from 'date-fns';
+import { timeFromNow } from 'platform/utilities/date/index';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import testData from '../tests/e2e/fixtures/data/veteran.json';
 import claimantTestData from '../tests/e2e/fixtures/data/itf-claimant.json';
@@ -179,3 +182,34 @@ export async function addStyleToShadowDomOnPages(
       }
     });
 }
+
+export const expiresIn = expDate => {
+  const now = new Date();
+  const expiresAt = new Date(expDate);
+  const daysLeft = timeFromNow(expiresAt, now);
+  if (differenceInDays(expiresAt, now) > 0) {
+    return `(Expires in ${daysLeft})`;
+  }
+  return null;
+};
+
+export const expiresSoonIcon = expDate => {
+  const EXPIRES_SOON_THRESHOLD_DURATION = 60;
+  const now = new Date();
+  const expiresAt = new Date(expDate);
+  if (
+    differenceInDays(expiresAt, now) > 0 &&
+    differenceInDays(expiresAt, now) < EXPIRES_SOON_THRESHOLD_DURATION
+  ) {
+    return (
+      <va-icon
+        class="form__icon--warning vads-u-color--warning-dark"
+        icon="warning"
+        size={3}
+        srtext="warning"
+        aria-hidden="true"
+      />
+    );
+  }
+  return null;
+};
