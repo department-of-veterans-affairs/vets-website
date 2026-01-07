@@ -300,7 +300,6 @@ describe('My VA Dashboard — Forms and applications', () => {
   });
 
   describe('a submitted form is received and has a PDF download link', () => {
-    // todo need to sort out error messages here
     beforeEach(() => {
       cy.intercept('/v0/my_va/submission_statuses', formStatusesNoError);
       cy.intercept('POST', '/v0/my_va/submission_pdf_urls', {
@@ -315,7 +314,6 @@ describe('My VA Dashboard — Forms and applications', () => {
     });
 
     it('shows a success alert when the download works', () => {
-      // cy.findAllByTestId('submitted-application').should('have.length', 4);
       cy.window().then(windowMock => {
         cy.stub(windowMock, 'open').as('windowOpen');
       });
