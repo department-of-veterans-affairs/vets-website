@@ -7,7 +7,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
-import DegreeLevelDescription from '../components/DegreeLevelDescription';
 
 const uiSchema = {
   'ui:title': () => (
@@ -50,31 +49,30 @@ const uiSchema = {
       classNames: 'vads-u-margin-bottom--2 container',
     },
   }),
-  maximumStudents: numberUI({
-    title: 'Enter the maximum number of students',
-    description:
-      'Enter the total number of students eligible for this contribution. Values equal to or greater than 99,999 are treated as unlimited by the system.',
-    max: 99998,
-    errorMessages: {
-      required: 'Enter the maximum number of students',
-      pattern: 'Enter a whole number',
-    },
-    expandUnder: 'maximumStudentsOption',
-    expandUnderCondition: 'specific',
+  maximumStudents: {
+    ...numberUI({
+      title: 'Enter the maximum number of students',
+      hint:
+        'Enter the total number of students eligible for this contribution. Maximum limit is 99,998.',
+      max: 99998,
+      errorMessages: {
+        required: 'Enter the maximum number of students',
+        pattern: 'Enter a whole number',
+      },
+      expandUnder: 'maximumStudentsOption',
+      expandUnderCondition: 'specific',
+    }),
     'ui:required': (formData, index) => {
       const currentItem =
         formData?.yellowRibbonProgramRequest?.[index] || formData;
       return currentItem?.maximumStudentsOption === 'specific';
     },
-    'ui:options': {
-      classNames:
-        'vads-u-margin-bottom--2 contribution-degree-school container',
-    },
-  }),
+  },
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
-      description: <DegreeLevelDescription />,
+      description:
+        'Provide a degree level such as undergraduate, graduate, doctoral, or all. If you’d like to specify a school, you can do so in the "College or professional school" field below.',
       errorMessages: {
         required: 'Please enter a degree level',
       },
@@ -174,25 +172,6 @@ const schema = {
     'maximumContributionAmount',
     'collegeOrProfessionalSchool',
     'maximumStudentsOption',
-    'specificContributionAmount',
-  ],
-  definitions: {},
-  anyOf: [
-    {
-      properties: {
-        maximumContributionAmount: {
-          const: 'unlimited',
-        },
-      },
-    },
-    {
-      properties: {
-        maximumContributionAmount: {
-          const: 'specific',
-        },
-      },
-      required: ['specificContributionAmount'],
-    },
   ],
 };
 
