@@ -17,6 +17,7 @@ import {
   isVisiblePicklistPage,
   hasSelectedPicklistItems,
   transformPicklistToV2,
+  enrichDivorceWithSSN,
 } from '../../config/utilities/data';
 
 import { PICKLIST_DATA } from '../../config/constants';
@@ -1543,5 +1544,273 @@ describe('transformPicklistToV2', () => {
     expect(result.deaths).to.deep.equal(v3Result.deaths);
     expect(result.reportDivorce).to.deep.equal(v3Result.reportDivorce);
     expect(result.stepChildren).to.deep.equal(v3Result.stepChildren);
+  });
+});
+
+describe('enrichDivorceWithSSN', () => {
+  it('should add SSN to reportDivorce when matching spouse is found', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+        date: '2020-06-01',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '123456789',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.equal('123456789');
+    expect(result.reportDivorce.fullName).to.deep.equal({
+      first: 'Jane',
+      last: 'Doe',
+    });
+  });
+
+  it('should match spouse with middle name', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', middle: 'Marie', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', middle: 'Marie', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '987654321',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.equal('987654321');
+  });
+
+  it('should match spouse with case-insensitive name comparison', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'jane', middle: 'MARIE', last: 'DoE' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'JANE', middle: 'marie', last: 'DOE' },
+            dateOfBirth: '1990-01-15',
+            ssn: '555666777',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.equal('555666777');
+  });
+
+  it('should match spouse without middle name when both are undefined', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '111222333',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.equal('111222333');
+  });
+
+  it('should not modify data if SSN already exists', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+        ssn: '555555555',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '999999999',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    // Should keep the existing SSN, not replace it
+    expect(result.reportDivorce.ssn).to.equal('555555555');
+  });
+
+  it('should return unchanged data if no reportDivorce exists', () => {
+    const data = {
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '123456789',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result).to.deep.equal(data);
+  });
+
+  it('should return unchanged data if no matching spouse is found', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'John', last: 'Smith' },
+            dateOfBirth: '1985-05-20',
+            ssn: '123456789',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.be.undefined;
+    expect(result.reportDivorce.fullName).to.deep.equal({
+      first: 'Jane',
+      last: 'Doe',
+    });
+  });
+
+  it('should not match if birthDate is different', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-16', // Different date
+            ssn: '123456789',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should not match if name is different', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Janet', last: 'Doe' }, // Different first name
+            dateOfBirth: '1990-01-15',
+            ssn: '123456789',
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should not match if relationship is not Spouse', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '123456789',
+            relationshipToVeteran: 'Child', // Not a spouse
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should handle empty awarded dependents array', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should handle missing dependents object', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    expect(result.reportDivorce.ssn).to.be.undefined;
   });
 });

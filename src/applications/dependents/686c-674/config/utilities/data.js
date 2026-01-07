@@ -586,7 +586,6 @@ function transformStepchildByFlag(item) {
  * by buildSubmissionData() based on actual data presence.
  *
  * @param {Object} data - Form data object containing view:removeDependentPickList
- * @param {Array} data['view:removeDependentPickList'] - Array of picklist items
  * @returns {Object} Mutated data object with V2 arrays added
  */
 export function transformPicklistToV2(data) {
@@ -715,6 +714,69 @@ export function transformPicklistToV2(data) {
 }
 
 /**
+ * Enrich reportDivorce with SSN from awarded dependents if available
+ * Matches by fullName and birthDate to find the spouse in the awarded dependents
+ * @param {Object} data - Form data object
+ * @returns {Object} Enriched data object with SSN added to reportDivorce if found
+ */
+export function enrichDivorceWithSSN(data) {
+  // Only process if reportDivorce exists and doesn't already have SSN
+  if (!data?.reportDivorce || data.reportDivorce.ssn) {
+    return data;
+  }
+
+  const { reportDivorce } = data;
+  const awardedDependents = data?.dependents?.awarded || [];
+
+  // Find matching spouse in awarded dependents
+  const matchingSpouse = awardedDependents.find(dependent => {
+    // Match by relationship type
+    if (dependent.relationshipToVeteran !== 'Spouse') {
+      return false;
+    }
+
+    // Match by name (case-insensitive)
+    const {
+      dateOfBirth: dependentBirthDate,
+      fullName: { first, last, middle } = {},
+    } = dependent;
+    const {
+      birthDate: reportDivorceBirthDate,
+      fullName: {
+        first: divorceFirst,
+        last: divorceLast,
+        middle: divorceMiddle,
+      } = {},
+    } = reportDivorce;
+    const firstNameMatch = first?.toLowerCase() === divorceFirst?.toLowerCase();
+    const lastNameMatch = last?.toLowerCase() === divorceLast?.toLowerCase();
+    const middleNameMatch =
+      middle?.toLowerCase() === divorceMiddle?.toLowerCase() ||
+      (!middle && !divorceMiddle);
+
+    const namesMatch = firstNameMatch && lastNameMatch && middleNameMatch;
+
+    // Match by birthDate (formats: 'yyyy-MM-dd' in dependents, same in reportDivorce)
+    const birthDatesMatch = dependentBirthDate === reportDivorceBirthDate;
+
+    return namesMatch && birthDatesMatch;
+  });
+
+  // If we found a match, add the SSN
+  if (matchingSpouse?.ssn) {
+    return {
+      ...data,
+      reportDivorce: {
+        ...reportDivorce,
+        ssn: matchingSpouse.ssn,
+      },
+    };
+  }
+
+  return data;
+}
+
+/**
  * Initializes payload with required defaults for backend submission.
  *
  * @param {Object} form - Raw form data from the application
@@ -776,6 +838,16 @@ function applyPicklistTransformations(data) {
 }
 
 /**
+ * Enriches data with SSN from awarded dependents if needed.
+ *
+ * @param {Object} data - Form data object
+ * @returns {Object} Data object with SSN enrichment applied
+ */
+function enrichDataWithSSN(data) {
+  return enrichDivorceWithSSN(data);
+}
+
+/**
  * Rebuilds submission data with validated flags and wraps in payload structure.
  *
  * This is where submission flags are set based on actual data presence.
@@ -800,26 +872,40 @@ function rebuildSubmissionPayload(payload, transformedData) {
  * 2. Filter out data from inactive pages
  * 3. Extract data for transformation (type safety)
  * 4. Transform V3 picklist data to V2 format
- * 5. Rebuild submission data with validated flags
- * 6. Serialize to JSON
+ * 5. Enrich reportDivorce with SSN from awarded dependents
+ * 6. Rebuild submission data with validated flags
+ * 7. Serialize to JSON
  *
  * @param {Object} formConfig - Form configuration object defining structure
  * @param {Object} form - Raw form data from Redux store
  * @returns {Object} Object with body (JSON string) and data (cleaned payload)
  */
 export function customTransformForSubmit(formConfig, form) {
+  // Step 1: Initialize payload with required defaults
   const payload = prepareSubmissionPayload(form);
+
+  // Step 2: Remove data from pages user didn't visit/complete
   const payloadWithoutInactivePages = removeInactivePageData(
     formConfig,
     payload,
   );
+
+  // Step 3: Extract data for transformation (type safety)
   const dataToTransform = extractDataFromPayload(payloadWithoutInactivePages);
+
+  // Step 4: Transform V3 picklist data to V2 format if needed
   const transformedData = applyPicklistTransformations(dataToTransform);
+
+  // Step 5: Enrich reportDivorce with SSN from awarded dependents
+  const enrichedData = enrichDataWithSSN(transformedData);
+
+  // Step 6: Rebuild payload with validated flags (single source of truth)
   const finalPayload = rebuildSubmissionPayload(
     payloadWithoutInactivePages,
-    transformedData,
+    enrichedData,
   );
 
+  // Step 7: Serialize to JSON for backend submission
   return {
     body: JSON.stringify(finalPayload, customFormReplacer) || '{}',
     data: finalPayload || {},
