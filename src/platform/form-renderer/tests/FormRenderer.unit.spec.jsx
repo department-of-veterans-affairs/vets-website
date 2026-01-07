@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { expect } from 'chai';
+import { render } from '@testing-library/react';
+
 import FormRenderer from '../FormRenderer';
 
 describe('FormRenderer', () => {
@@ -33,9 +35,10 @@ describe('FormRenderer', () => {
         last: 'Johnson',
       },
     };
-    render(<FormRenderer config={config} data={data} />);
+    const tree = render(<FormRenderer config={config} data={data} />);
 
-    expect(screen.getByText('Veteran information')).toBeInTheDocument();
-    expect(screen.getByText('Sarah Ann Johnson')).toBeInTheDocument();
+    expect(tree.getByText('Veteran information')).to.exist;
+    expect(tree.getByText('Sarah Ann Johnson')).to.exist;
+    tree.unmount();
   });
 });

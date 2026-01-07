@@ -1,12 +1,13 @@
+import { expect } from 'chai';
 import { getNestedProperty, renderStr } from '../util';
 
 describe('getNestedProperty', () => {
   it('should retrieve a nested property', () => {
-    expect(getNestedProperty({ a: { b: 1, c: 2 } }, 'a.b')).toBe(1);
+    expect(getNestedProperty({ a: { b: 1, c: 2 } }, 'a.b')).to.equal(1);
   });
 
   it('should return undefined for missing properties', () => {
-    expect(getNestedProperty({ a: { b: 1, c: 2 } }, 'a.b.c')).toBeUndefined();
+    expect(getNestedProperty({ a: { b: 1, c: 2 } }, 'a.b.c')).to.be.undefined;
   });
 });
 
@@ -24,19 +25,21 @@ describe('renderStr', () => {
   };
 
   it('should render a nested property', () => {
-    expect(renderStr('I <3 {{address.state}}', data)).toBe('I <3 NY');
+    expect(renderStr('I <3 {{address.state}}', data)).to.equal('I <3 NY');
   });
 
   it('should render a redacted SSN', () => {
-    expect(renderStr('{{lastFour ssn}}', data)).toBe('6789');
+    expect(renderStr('{{lastFour ssn}}', data)).to.equal('6789');
   });
 
   it('should render a localized date string', () => {
-    expect(renderStr('{{formatDate birthdate}}', data)).toBe('January 1, 1970');
+    expect(renderStr('{{formatDate birthdate}}', data)).to.equal(
+      'January 1, 1970',
+    );
   });
 
   it('should render a boolean', () => {
-    expect(renderStr("{{formatBool valid 'Valid' 'Invalid'}}", data)).toBe(
+    expect(renderStr("{{formatBool valid 'Valid' 'Invalid'}}", data)).to.equal(
       'Valid',
     );
   });
