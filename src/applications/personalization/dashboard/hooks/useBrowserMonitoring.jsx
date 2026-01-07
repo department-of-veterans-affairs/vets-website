@@ -16,20 +16,26 @@ const CONFIG = {
 };
 
 const initializeRealUserMonitoring = () => {
-  // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
   // We only want this in staging/production typically.
-  if (!environment.isLocalhost() && !window.DD_RUM?.getInitConfiguration()) {
-    datadogRum.init({
-      ...CONFIG,
-      env: environment.vspEnvironment(),
-    });
-
-    if (CONFIG.sessionReplaySampleRate > 0) {
-      datadogRum.startSessionReplayRecording();
-    }
-    return true;
+  if (environment.isLocalhost()) {
+    return false;
   }
-  return false;
+
+  // If RUM is already running from another app, stop and delete it
+  if (window.DD_RUM?.getInitConfiguration()) {
+    datadogRum.stopSession();
+    delete window.DD_RUM;
+  }
+
+  datadogRum.init({
+    ...CONFIG,
+    env: environment.vspEnvironment(),
+  });
+
+  if (CONFIG.sessionReplaySampleRate > 0) {
+    datadogRum.startSessionReplayRecording();
+  }
+  return true;
 };
 
 export const useBrowserMonitoring = () => {
@@ -51,7 +57,7 @@ export const useBrowserMonitoring = () => {
           initializedByMyVA.current &&
           window.DD_RUM?.getInitConfiguration()
         ) {
-          datadogRum.stopSessionReplayRecording();
+          datadogRum.stopSession();
           delete window.DD_RUM;
         }
       };
