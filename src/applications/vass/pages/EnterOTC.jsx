@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui';
 import Wrapper from '../layout/Wrapper';
 import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
@@ -24,7 +24,19 @@ const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   }
 };
 
+const getPageTitle = (cancellationFlow, error) => {
+  if (error) {
+    return 'We couldn’t verify your information';
+  }
+  if (cancellationFlow) {
+    return 'Cancel VA Solid Start appointment';
+  }
+  return 'Schedule an appointment with VA Solid Start';
+};
+
 const EnterOTC = () => {
+  const [searchParams] = useSearchParams();
+  const cancellationFlow = searchParams.get('cancel') === 'true';
   const navigate = useNavigate();
   // TODO: get veteran email from lorota?
   const veteranEmail = 't***@test.com';
@@ -71,14 +83,18 @@ const EnterOTC = () => {
       return;
     }
     // TODO: handle otc verification success
-    navigate('/date-time');
+    if (cancellationFlow) {
+      navigate('/cancel-appointment/abcdef123456');
+    } else {
+      navigate('/date-time');
+    }
   };
 
   const errorMessage = getErrorMessage(error?.code, error?.attemptsRemaining);
-  const pageTitle =
-    error?.code === 'account_locked'
-      ? 'We couldn’t verify your information'
-      : 'Schedule an appointment with VA Solid Start';
+  const pageTitle = getPageTitle(
+    cancellationFlow,
+    error?.code === 'account_locked',
+  );
 
   const verificationError =
     error?.code === 'account_locked' ? errorMessage : undefined;

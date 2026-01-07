@@ -24,8 +24,8 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('va-text-input').length).to.equal(3);
+    expect(form.find('va-select').length).to.equal(1);
 
     const alert = form.find('va-alert');
     expect(alert.length).to.equal(1);
@@ -54,8 +54,8 @@ describe('526 -- paymentInformation', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('va-text-input').length).to.equal(3);
+    expect(form.find('va-select').length).to.equal(1);
 
     const alert = form.find('va-alert');
     expect(alert.length).to.equal(1);
@@ -97,7 +97,7 @@ describe('526 -- paymentInformation', () => {
     await waitFor(() => {
       form.find('form').simulate('submit');
       expect(onSubmit.calledOnce).to.be.true;
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(form.find('va-text-input[error]').length).to.equal(0);
     });
 
     const alert = form.find('va-alert');
@@ -129,7 +129,7 @@ describe('526 -- paymentInformation', () => {
     await waitFor(() => {
       form.find('form').simulate('submit');
       expect(onSubmit.called).to.be.false;
-      expect(form.find('.usa-input-error-message').length).to.equal(3);
+      expect(form.find('va-text-input[error]').length).to.equal(3);
       form.unmount();
     });
   });
@@ -150,7 +150,7 @@ describe('526 -- paymentInformation', () => {
     await waitFor(() => {
       form.find('form').simulate('submit');
       expect(onSubmit.calledOnce).to.be.true;
-      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(form.find('va-text-input[error]').length).to.equal(0);
       form.unmount();
     });
   });

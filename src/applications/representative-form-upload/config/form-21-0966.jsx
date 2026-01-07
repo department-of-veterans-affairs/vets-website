@@ -2,7 +2,7 @@ import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPageITF from '../containers/ConfirmationPageITF';
 import IntroductionPageITF from '../containers/IntroductionPageITF';
 import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
 import { itfVeteranInformationPage } from '../pages/itfVeteranInformation';
@@ -13,7 +13,8 @@ import { CustomTopContent } from '../pages/helpers';
 import { getIntentsToFile } from '../helpers/intent-to-file-helper';
 import ITFSubmissionError from './ITFSubmissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
-import PermissionError from '../components/PermissionError';
+import ITF403Error from '../components/ITF403Error';
+import ITF500Error from '../components/ITF500Error';
 import ExistingItf from '../components/ExistingItf';
 
 const form210966 = (pathname = null) => {
@@ -21,17 +22,21 @@ const form210966 = (pathname = null) => {
   const trackingPrefix = `form-${formNumber.toLowerCase()}-`;
 
   return {
-    formId: formNumber,
+    formId: '21-0966',
     rootUrl: manifest.rootUrl,
     urlPrefix: `/submit-va-form-${formNumber}/`,
     submitUrl: `${
       environment.API_URL
     }/accredited_representative_portal/v0/intent_to_file`,
-    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    dev: {
+      collapsibleNavLinks: true,
+      showNavLinks: !window.Cypress,
+      disableWindowUnloadInCI: true,
+    },
     disableSave: true,
     trackingPrefix,
     introduction: IntroductionPageITF,
-    confirmation: ConfirmationPage,
+    confirmation: ConfirmationPageITF,
     CustomTopContent,
     customText: {
       appType: 'form',
@@ -54,7 +59,13 @@ const form210966 = (pathname = null) => {
       {
         path: 'intent-to-file-no-representation',
         pageKey: 'intent-to-file-no-representation',
-        component: PermissionError,
+        component: ITF403Error,
+        depends: formData => formData,
+      },
+      {
+        path: 'intent-to-file-unknown',
+        pageKey: 'intent-to-file-unknown',
+        component: ITF500Error,
         depends: formData => formData,
       },
       {

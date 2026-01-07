@@ -4,7 +4,12 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
+import {
+  MemoryRouter,
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom-v5-compat';
 import DocumentRedirectPage from '../../containers/DocumentRedirectPage';
 
 describe('DocumentRedirectPage routing', () => {
@@ -86,5 +91,55 @@ describe('DocumentRedirectPage routing', () => {
     );
     expect(getByText('Needed from others page')).to.exist;
     expect(queryByText('Needed from you page')).not.to.exist;
+  });
+});
+
+describe('Empty directory redirects', () => {
+  const renderWithRoutes = initialEntry =>
+    render(
+      <MemoryRouter initialEntries={[initialEntry]}>
+        <Routes>
+          <Route
+            path="/your-claims/:id/needed-from-you"
+            element={<Navigate to="/your-claims/:id/status" replace />}
+          />
+          <Route
+            path="/your-claims/:id/needed-from-you/:trackedItemId"
+            element={<div>Document request page</div>}
+          />
+          <Route
+            path="/your-claims/:id/needed-from-others"
+            element={<Navigate to="/your-claims/:id/status" replace />}
+          />
+          <Route
+            path="/your-claims/:id/needed-from-others/:trackedItemId"
+            element={<div>Document request page</div>}
+          />
+          <Route
+            path="/your-claims/:id/status"
+            element={<div>Claim status</div>}
+          />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+  it('redirects /needed-from-you (no trackedItemId) to /your-claims/123/status', () => {
+    const { getByText } = renderWithRoutes('/your-claims/123/needed-from-you');
+    expect(getByText('Claim status')).to.exist;
+  });
+
+  it('redirects /needed-from-others (no trackedItemId) to /your-claims/123/status', () => {
+    const { getByText } = renderWithRoutes(
+      '/your-claims/123/needed-from-others',
+    );
+    expect(getByText('Claim status')).to.exist;
+  });
+
+  it('renders DocumentRequestPage when trackedItemId is provided', () => {
+    const { getByText, queryByText } = renderWithRoutes(
+      '/your-claims/123/needed-from-you/456',
+    );
+    expect(getByText('Document request page')).to.exist;
+    expect(queryByText('Claim status')).not.to.exist;
   });
 });
