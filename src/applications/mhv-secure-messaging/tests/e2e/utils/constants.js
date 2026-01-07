@@ -302,7 +302,7 @@ export const Locators = {
 
 export const Alerts = {
   NO_ASSOCIATION: {
-    AT_ALL_HEADER: `Information Alert You're not connected to any care teams in this messaging tool`,
+    AT_ALL_HEADER: `You're not connected to any care teams in this messaging tool`,
     HEADER: 'Your account is no longer connected to',
     PARAGRAPH:
       'If you need to contact your care team, call your VA health facility.',
@@ -321,7 +321,7 @@ export const Alerts = {
     SAVED: 'Contact list changes saved',
     EMPTY: `Select at least one team`,
     SAVE_API_ERROR: `We're sorry. We couldn't save your changes. Try saving again.`,
-    LOAD_API_ERROR: `Error Alert We can’t load your contact list right now`,
+    LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   ATTACHMENT: {
     TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, JPEG, PDF, PNG, RTF, TXT, XLS, XLSX, JFIF, PJPEG, or PJP.`,
@@ -338,8 +338,8 @@ export const Alerts = {
     ALREADY_ATTACHED: 'You have already attached this file.',
   },
   MAINTENANCE: {
-    ACTIVE: `Error Alert Maintenance on My HealtheVet`,
-    UPCOMING: `Warning Alert Upcoming maintenance on My HealtheVet`,
+    ACTIVE: `Maintenance on My HealtheVet`,
+    UPCOMING: `Upcoming maintenance on My HealtheVet`,
   },
   DATE_FILTER: {
     EMPTY_START_DATE: `Error Please enter a start date.`,
@@ -348,14 +348,13 @@ export const Alerts = {
     INVALID_END_DATE: `End date must be on or after start date.`,
   },
   OH_OLD_MSG: {
-    HEADER: 'Information Alert This conversation is too old for new replies',
+    HEADER: 'This conversation is too old for new replies',
     P_1: `The last message in this conversation is more than 45 days old.`,
     P_2: `If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.`,
     P_3: `Or you can send a message to other care teams in your contact list.`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
-  OLD_MSG_HEAD:
-    'Information Alert This conversation is too old for new replies',
+  OLD_MSG_HEAD: 'This conversation is too old for new replies',
   OLD_MSG_SUBHEAD:
     "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
   PAGE_NOT_FOUND: pageNotFoundHeading,
@@ -366,12 +365,13 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
-  VIRUS_ATTCH: `Error Alert Our file scanner found a problem with your attachment. To send your message, remove this attachment.`,
-  VIRUS_MULTI_ATTCH: `Error Alert Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
+  VIRUS_ATTCH: `Our file scanner found a problem with your attachment. To send your message, remove this attachment.`,
+  VIRUS_MULTI_ATTCH: `Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
   SAVE_CHANGES: `Do you want to save your changes to this draft?`,
   SEARCH_TERM_REQUIRED: 'Please enter a search term.',
-  ERROR_LOADING_RECIPIENTS_HEADER: `Error Alert We can't load your care team list right now`,
+  ERROR_LOADING_RECIPIENTS_HEADER:
+    'We can’t load your care team list right now',
 };
 
 export const Data = {
@@ -415,7 +415,7 @@ export const Data = {
   IS_ACTIVE: 'is-active',
   END_CONVERSATION_IN_FOLDER: 'End of conversations in this folder',
   SAVE_MEG_AS_DRAFT: 'If you save this message as a draft',
-  NO_MSG_IN_FOLDER: 'Information Alert There are no messages in this folder.',
+  NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
