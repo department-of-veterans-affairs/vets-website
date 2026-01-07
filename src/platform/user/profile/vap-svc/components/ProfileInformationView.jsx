@@ -138,6 +138,25 @@ const ProfileInformationView = props => {
     return formatMultiSelectAndText(data, fieldName) || unsetFieldTitleSpan;
   }
 
+  const MissingContactMethodData = ({ displayDetails }) => {
+    return (
+      <va-alert status="error" visible class="vads-u-margin-y--2">
+        <p className="vads-u-margin--0">
+          You removed your {displayDetails.linkTitle} from your profile. Select{' '}
+          <strong>Edit</strong> to change your preferred method of contact. Or
+          select <strong>Add a {displayDetails.linkTitle}</strong> to update
+          your contact information.
+        </p>
+        <p className="vads-u-margin--0 vads-u-margin-top--1">
+          <VaLink
+            href={displayDetails.link}
+            text={`Add a ${displayDetails.linkTitle}`}
+          />
+        </p>
+      </va-alert>
+    );
+  };
+
   const preferredContactMethodDisplay = () => {
     const displayDetails = getSchedulingPreferencesContactMethodDisplay(
       data[fieldName],
@@ -146,21 +165,39 @@ const ProfileInformationView = props => {
     let customDetails;
     switch (displayDetails.field) {
       case 'email':
-        contactDetail = email?.emailAddress;
+        customDetails = email ? (
+          email?.emailAddress
+        ) : (
+          <MissingContactMethodData displayDetails={displayDetails} />
+        );
         break;
       case 'mailingAddress':
         customDetails = mailingAddress ? (
           <AddressView data={mailingAddress} />
-        ) : null;
+        ) : (
+          <MissingContactMethodData displayDetails={displayDetails} />
+        );
         break;
       case 'mobilePhone':
-        contactDetail = mobilePhone ? <PhoneView data={mobilePhone} /> : null;
+        contactDetail = mobilePhone ? (
+          <PhoneView data={mobilePhone} />
+        ) : (
+          <MissingContactMethodData displayDetails={displayDetails} />
+        );
         break;
       case 'homePhone':
-        contactDetail = homePhone ? <PhoneView data={homePhone} /> : null;
+        contactDetail = homePhone ? (
+          <PhoneView data={homePhone} />
+        ) : (
+          <MissingContactMethodData displayDetails={displayDetails} />
+        );
         break;
       case 'workPhone':
-        contactDetail = workPhone ? <PhoneView data={workPhone} /> : null;
+        contactDetail = workPhone ? (
+          <PhoneView data={workPhone} />
+        ) : (
+          <MissingContactMethodData displayDetails={displayDetails} />
+        );
         break;
       default:
         contactDetail = null;
