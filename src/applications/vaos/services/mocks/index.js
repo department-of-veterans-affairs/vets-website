@@ -89,6 +89,11 @@ const MockReferralSubmitAppointmentResponse = require('../../tests/fixtures/Mock
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const features = require('./featureFlags');
+const {
+  // defaultUser,
+  // acceleratedCernerUser,
+  cernerUser,
+} = require('../../../../platform/mhv/api/mocks/user');
 
 const mockAppts = [];
 let currentMockId = 1;
@@ -681,13 +686,8 @@ const responses = {
           'rx',
           'messaging',
         ],
-        va_profile: {
-          status: 'OK',
-          birth_date: '19511118',
-          family_name: 'Hunter',
-          gender: 'M',
-          given_names: ['Julio', 'E'],
-          active_status: 'active',
+        vaProfile: {
+          ...cernerUser.data.attributes.vaProfile,
           facilities: [
             {
               facility_id: '556',
