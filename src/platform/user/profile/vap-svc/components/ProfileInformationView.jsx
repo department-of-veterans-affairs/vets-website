@@ -20,8 +20,8 @@ import {
 } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatPhoneNumber } from 'platform/static-data/utilities/sign-in-phone-utils';
 import { selectVAPContactInfoField } from '../selectors';
+import PhoneView from './PhoneField/PhoneView';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title, id } = props;
@@ -150,21 +150,13 @@ const ProfileInformationView = props => {
         ) : null;
         break;
       case 'mobilePhone':
-        contactDetail = mobilePhone
-          ? formatPhoneNumber(
-              `${mobilePhone.areaCode}${mobilePhone.phoneNumber}`,
-            )
-          : null;
+        contactDetail = mobilePhone ? <PhoneView data={mobilePhone} /> : null;
         break;
       case 'homePhone':
-        contactDetail = homePhone
-          ? formatPhoneNumber(`${homePhone.areaCode}${homePhone.phoneNumber}`)
-          : null;
+        contactDetail = homePhone ? <PhoneView data={homePhone} /> : null;
         break;
       case 'workPhone':
-        contactDetail = workPhone
-          ? formatPhoneNumber(`${workPhone.areaCode}${workPhone.phoneNumber}`)
-          : null;
+        contactDetail = workPhone ? <PhoneView data={workPhone} /> : null;
         break;
       default:
         contactDetail = null;

@@ -10,7 +10,7 @@ import {
   FIELD_TITLE_DESCRIPTIONS,
   selectVAPContactInfoField,
 } from 'platform/user/exportsFile';
-import { formatPhoneNumber } from 'platform/static-data/utilities/sign-in-phone-utils';
+import PhoneView from '@@vap-svc/components/PhoneField/PhoneView';
 
 const ContactMethodConfirm = ({
   pageData = {},
@@ -47,9 +47,7 @@ const ContactMethodConfirm = ({
       cardContent.title = 'Home phone number';
       cardContent.description =
         FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.HOME_PHONE];
-      cardContent.body = formatPhoneNumber(
-        `${homePhone.areaCode}${homePhone?.phoneNumber}`,
-      );
+      cardContent.body = <PhoneView data={homePhone} />;
       break;
     case 'option-1':
     case 'option-2':
@@ -57,18 +55,14 @@ const ContactMethodConfirm = ({
       cardContent.title = 'Mobile phone number';
       cardContent.description =
         FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MOBILE_PHONE];
-      cardContent.body = formatPhoneNumber(
-        `${mobilePhone.areaCode}${mobilePhone?.phoneNumber}`,
-      );
+      cardContent.body = <PhoneView data={mobilePhone} />;
       break;
     case 'option-39':
       // 'work phone',
       cardContent.title = 'Work phone number';
       cardContent.description =
         FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.WORK_PHONE];
-      cardContent.body = formatPhoneNumber(
-        `${workPhone.areaCode}${workPhone?.phoneNumber}`,
-      );
+      cardContent.body = <PhoneView data={workPhone} />;
       break;
     case 'option-3':
       // 'secure message
