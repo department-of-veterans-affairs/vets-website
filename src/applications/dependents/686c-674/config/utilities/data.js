@@ -14,6 +14,11 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 
 import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
+import {
+  ADD_WORKFLOW_MAPPINGS,
+  REMOVE_WORKFLOW_MAPPINGS,
+  getV2Destination,
+} from '../dataMappings';
 
 const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
 
@@ -139,27 +144,9 @@ export function buildSubmissionData(payload) {
     }
   });
 
-  const addDataMappings = {
-    addSpouse: [
-      'currentMarriageInformation',
-      'doesLiveWithSpouse',
-      'spouseInformation',
-      'spouseSupportingDocuments',
-      'spouseMarriageHistory',
-      'veteranMarriageHistory',
-    ],
-    addChild: ['childrenToAdd', 'childSupportingDocuments'],
-    addDisabledChild: ['childrenToAdd', 'childSupportingDocuments'],
-    report674: ['studentInformation'],
-  };
-
-  const removeDataMappings = {
-    reportDivorce: ['reportDivorce'],
-    reportDeath: ['deaths'],
-    reportStepchildNotInHousehold: ['stepChildren'],
-    reportMarriageOfChildUnder18: ['childMarriage'],
-    reportChild18OrOlderIsNotAttendingSchool: ['childStoppedAttendingSchool'],
-  };
+  // Use centralized workflow mappings from dataMappings.js
+  const addDataMappings = ADD_WORKFLOW_MAPPINGS;
+  const removeDataMappings = REMOVE_WORKFLOW_MAPPINGS;
 
   // Add options
   const enabledAddOptions = {};
@@ -390,9 +377,22 @@ export const hasSelectedPicklistItems = formData =>
   (formData?.[PICKLIST_DATA] || []).some(item => item.selected);
 
 /**
- * Transform V3 picklist location to V2 location format for submission transformation
- * @param {object} item - Picklist item with location fields
- * @returns {object} V2 location format
+ * Transforms V3 picklist location data to V2 location format.
+ *
+ * Handles both US and international locations:
+ * - US: { outsideUsa: false, location: { city, state } }
+ * - International: { outsideUsa: true, location: { city, state (province), country } }
+ *
+ * NOTE: For international addresses, 'state' field contains the province value.
+ * This follows the addressUI pattern from the platform forms system.
+ *
+ * @param {Object} item - Picklist item containing location fields
+ * @param {boolean} item.endOutsideUs - Whether location is outside the US
+ * @param {string} item.endCity - City name
+ * @param {string} [item.endState] - State code (US addresses)
+ * @param {string} [item.endProvince] - Province (international addresses)
+ * @param {string} [item.endCountry] - Country code (international addresses)
+ * @returns {Object} V2 location format with outsideUsa flag and location object
  */
 function buildLocation(item) {
   if (item.endOutsideUs === true) {
@@ -566,10 +566,28 @@ function transformStepchildByFlag(item) {
 }
 
 /**
- * Transforms V3 picklist removal data to V2 format
- * Mutates the data object in place
- * @param {Object} data - Form data object
- * @returns {Object} data - Transformed data object
+ * Transforms V3 picklist removal data to V2 format.
+ *
+ * TRANSFORMATION PROCESS:
+ * 1. Filters selected dependents from picklist
+ * 2. Excludes items that should remain in V3 format (e.g., stepchild with support > 50%)
+ * 3. Routes each item to appropriate V2 array based on removal reason and stepchild status
+ * 4. Applies transformation function specific to removal type
+ * 5. Mutates data object by adding V2 arrays (deaths, childMarriage, etc.)
+ *
+ * V2 DATA ARRAYS:
+ * - deaths[] - All death-related removals (child, spouse, parent)
+ * - childMarriage[] - Child married (non-stepchildren only)
+ * - childStoppedAttendingSchool[] - Child stopped school (non-stepchildren only)
+ * - stepChildren[] - Stepchild-specific removals (left household, married, etc.)
+ * - reportDivorce{} - Spouse divorce/annulment (single object, not array)
+ *
+ * IMPORTANT: This function does NOT set submission flags. Flags are rebuilt
+ * by buildSubmissionData() based on actual data presence.
+ *
+ * @param {Object} data - Form data object containing view:removeDependentPickList
+ * @param {Array} data['view:removeDependentPickList'] - Array of picklist items
+ * @returns {Object} Mutated data object with V2 arrays added
  */
 export function transformPicklistToV2(data) {
   const picklist = data[PICKLIST_DATA] || [];
@@ -602,43 +620,27 @@ export function transformPicklistToV2(data) {
     reportDivorce: null,
   };
 
-  // Routing table: removalReason -> [arrayName, transformFn] or [[default], [stepchild]]
-  const routes = {
-    // Deaths - all dependent types go to deaths array
-    childDied: ['deaths', transformChildDeath],
-    spouseDied: ['deaths', transformSpouseDeath],
-    parentDied: ['deaths', transformParentDeath],
-
-    // Child married - stepchildren go to stepChildren, others to childMarriage
-    childMarried: [
-      ['childMarriage', transformChildMarriage], // default
-      ['stepChildren', transformStepchildByFlag], // stepchild
-    ],
-
-    // Child not in school - stepchildren go to stepChildren, others to childStoppedAttendingSchool
-    childNotInSchool: [
-      ['childStoppedAttendingSchool', transformChildNotInSchool], // default
-      ['stepChildren', transformStepchildByFlag], // stepchild
-    ],
-
-    // Spouse divorce/annulment
-    marriageEnded: ['reportDivorce', transformSpouseDivorce],
-
-    // Stepchild left household
-    stepchildNotMember: ['stepChildren', transformStepchildByFlag],
-
-    // Child adopted (TODO: implement backend support for non-stepchild adoption)
-    childAdopted: ['stepChildren', transformStepchildByFlag],
-
-    // Parent other - not supported
-    parentOther: null,
+  // Map removal reasons to transformation functions
+  // Destination arrays are determined by centralized routing in dataMappings.js
+  const transformFunctions = {
+    childDied: transformChildDeath,
+    spouseDied: transformSpouseDeath,
+    parentDied: transformParentDeath,
+    childMarried: transformChildMarriage,
+    childNotInSchool: transformChildNotInSchool,
+    marriageEnded: transformSpouseDivorce,
+    stepchildNotMember: transformStepchildByFlag,
+    childAdopted: transformStepchildByFlag,
   };
 
   itemsToTransform.forEach(item => {
-    const route = routes[item.removalReason];
+    const isStepchild = item.isStepchild === 'Y';
+
+    // Get destination array from centralized routing
+    const arrayName = getV2Destination(item.removalReason, isStepchild);
 
     // Handle unknown removal reasons
-    if (route === undefined) {
+    if (arrayName === undefined) {
       dataDogLogger({
         message: 'Unknown removal reason in v3 to V2 transform',
         attributes: { removalReason: item.removalReason },
@@ -648,21 +650,18 @@ export function transformPicklistToV2(data) {
     }
 
     // Skip unsupported removal reasons
-    if (route === null) {
+    if (arrayName === null) {
       return;
     }
 
-    // Determine which route to use based on stepchild status
-    let arrayName;
-    let transformFn;
-    if (Array.isArray(route[0])) {
-      // Has stepchild override: [[default], [stepchild]]
-      const routeIndex = item.isStepchild === 'Y' ? 1 : 0;
-      [arrayName, transformFn] = route[routeIndex];
-    } else {
-      // Simple route: [arrayName, transformFn]
-      [arrayName, transformFn] = route;
-    }
+    // Get transformation function
+    // For stepchild-routed items, use stepchild transform; otherwise use reason-specific transform
+    const transformFn =
+      isStepchild &&
+      (item.removalReason === 'childMarried' ||
+        item.removalReason === 'childNotInSchool')
+        ? transformStepchildByFlag
+        : transformFunctions[item.removalReason];
 
     // Apply transformation and add to destination
     if (arrayName === 'reportDivorce') {
@@ -703,83 +702,126 @@ export function transformPicklistToV2(data) {
     data.reportDivorce = v2Data.reportDivorce;
   }
 
-  // Set removal options flags based on what was transformed
-  // eslint-disable-next-line no-param-reassign
-  data['view:removeDependentOptions'] = {
-    reportDivorce: !!v2Data.reportDivorce,
-    reportDeath: v2Data.deaths.length > 0,
-    reportStepchildNotInHousehold: v2Data.stepChildren.length > 0,
-    reportMarriageOfChildUnder18: v2Data.childMarriage.length > 0,
-    reportChild18OrOlderIsNotAttendingSchool:
-      v2Data.childStoppedAttendingSchool.length > 0,
-  };
-
-  // eslint-disable-next-line no-param-reassign
-  data['view:selectable686Options'] = {
-    ...data['view:addDependentOptions'],
-    ...data['view:removeDependentOptions'],
-  };
+  /**
+   * NOTE: We intentionally do NOT set view:removeDependentOptions or
+   * view:selectable686Options here. Those flags are set by buildSubmissionData()
+   * which is the single source of truth for submission flags.
+   *
+   * This function's responsibility is ONLY to transform V3 picklist data
+   * into V2 data arrays. Flag validation happens later in the pipeline.
+   */
 
   return data;
 }
 
 /**
- * Get form data for submission
- * @param {object} formConfig - form configuration object
- * @param {object} form - form object from Redux store
- * @returns {object} - transformed form data
+ * Initializes payload with required defaults for backend submission.
+ *
+ * @param {Object} form - Raw form data from the application
+ * @returns {Object} Payload object with data property and defaults set
  */
-export function customTransformForSubmit(formConfig, form) {
+function prepareSubmissionPayload(form) {
   const payload = cloneDeep(form);
   if (!payload.data) {
     payload.data = {};
   }
   payload.data.useV2 = true;
   payload.data.daysTillExpires = 365;
+  return payload;
+}
 
+/**
+ * Filters out data from inactive pages based on form configuration.
+ *
+ * @param {Object} formConfig - Form configuration object defining pages and structure
+ * @param {Object} payload - Payload object with data property
+ * @returns {Object} Payload object with inactive page data removed
+ */
+function removeInactivePageData(formConfig, payload) {
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     payload.data,
   );
   const activePages = getActivePages(expandedPages, payload.data);
   const inactivePages = getInactivePages(expandedPages, payload.data);
-  const withoutInactivePages = filterInactivePageData(
-    inactivePages,
-    activePages,
+
+  return filterInactivePageData(inactivePages, activePages, payload);
+}
+
+/**
+ * Extracts data object from payload for transformation functions.
+ *
+ * TYPE SAFETY NOTE:
+ * filterInactivePageData returns a payload object { data: {...}, ... }
+ * but transformPicklistToV2 and showV3Picklist expect a data object.
+ *
+ * This extraction ensures all functions receive the correct type and prevents
+ * the bug where flags are set without corresponding data.
+ *
+ * @param {Object} payload - Payload object with data property
+ * @returns {Object} Data object extracted from payload
+ */
+function extractDataFromPayload(payload) {
+  return payload.data || payload;
+}
+
+/**
+ * Transforms V3 picklist removal data to V2 format if V3 is enabled.
+ *
+ * @param {Object} data - Form data object
+ * @returns {Object} Data object with V3 transformations applied (if applicable)
+ */
+function applyPicklistTransformations(data) {
+  return showV3Picklist(data) ? transformPicklistToV2(data) : data;
+}
+
+/**
+ * Rebuilds submission data with validated flags and wraps in payload structure.
+ *
+ * This is where submission flags are set based on actual data presence.
+ * buildSubmissionData is the single source of truth for flags that go to backend.
+ *
+ * @param {Object} payload - Payload structure (without data property)
+ * @param {Object} transformedData - Transformed form data
+ * @returns {Object} Complete payload with validated submission flags
+ */
+function rebuildSubmissionPayload(payload, transformedData) {
+  return buildSubmissionData({
+    ...payload,
+    data: transformedData,
+  });
+}
+
+/**
+ * Get form data for submission - main entry point for form submission.
+ *
+ * TRANSFORMATION PIPELINE:
+ * 1. Prepare payload with defaults (useV2, daysTillExpires)
+ * 2. Filter out data from inactive pages
+ * 3. Extract data for transformation (type safety)
+ * 4. Transform V3 picklist data to V2 format
+ * 5. Rebuild submission data with validated flags
+ * 6. Serialize to JSON
+ *
+ * @param {Object} formConfig - Form configuration object defining structure
+ * @param {Object} form - Raw form data from Redux store
+ * @returns {Object} Object with body (JSON string) and data (cleaned payload)
+ */
+export function customTransformForSubmit(formConfig, form) {
+  const payload = prepareSubmissionPayload(form);
+  const payloadWithoutInactivePages = removeInactivePageData(
+    formConfig,
     payload,
   );
-
-  /**
-   * TYPE EXTRACTION FIX:
-   * filterInactivePageData returns a payload object { data: {...}, ... }
-   * but transformPicklistToV2 and showV3Picklist expect a data object.
-   *
-   * We extract the data, transform it, then wrap it back into a payload
-   * for buildSubmissionData. This ensures all functions receive the correct
-   * type and buildSubmissionData can properly rebuild the submission flags.
-   *
-   * Without this extraction:
-   * - transformPicklistToV2 would look for payload['view:removeDependentPickList']
-   *   instead of payload.data['view:removeDependentPickList']
-   * - buildSubmissionData would receive data instead of payload and skip flag validation
-   * - Result: backend receives flags without corresponding data (the original bug)
-   */
-  const dataWithoutInactivePages =
-    withoutInactivePages.data || withoutInactivePages;
-
-  // Transform V3 picklist data to V2 format if V3 is enabled
-  const updatedData = showV3Picklist(dataWithoutInactivePages)
-    ? transformPicklistToV2(dataWithoutInactivePages)
-    : dataWithoutInactivePages;
-
-  // Wrap data back into payload for buildSubmissionData
-  const cleanedPayload = buildSubmissionData({
-    ...withoutInactivePages,
-    data: updatedData,
-  });
+  const dataToTransform = extractDataFromPayload(payloadWithoutInactivePages);
+  const transformedData = applyPicklistTransformations(dataToTransform);
+  const finalPayload = rebuildSubmissionPayload(
+    payloadWithoutInactivePages,
+    transformedData,
+  );
 
   return {
-    body: JSON.stringify(cleanedPayload, customFormReplacer) || '{}',
-    data: cleanedPayload || {},
+    body: JSON.stringify(finalPayload, customFormReplacer) || '{}',
+    data: finalPayload || {},
   };
 }
