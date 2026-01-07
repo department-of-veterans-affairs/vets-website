@@ -7,7 +7,14 @@ import { VaButtonPair } from '@department-of-veterans-affairs/component-library/
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { Element } from 'platform/utilities/scroll';
-import { hasVAPServiceConnectionError } from 'platform/user/selectors';
+import {
+  hasVAPServiceConnectionError,
+  selectVAPHomePhone,
+  selectVAPMobilePhone,
+  selectVAPWorkPhone,
+  selectVAPEmailAddress,
+  selectVAPMailingAddress,
+} from 'platform/user/selectors';
 
 import { FIELD_NAMES, FIELD_SECTION_HEADERS } from '@@vap-svc/constants';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
@@ -20,6 +27,7 @@ import {
   schedulingPreferenceOptions,
 } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { createSchedulingPreferencesUpdate } from '@@vap-svc/actions/schedulingPreferences';
+import { FIELD_OPTION_IDS } from '@@vap-svc/constants/schedulingPreferencesConstants';
 import { EditContext } from '../../../edit/EditContext';
 import { EditConfirmCancelModal } from '../../../edit/EditConfirmCancelModal';
 import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
@@ -114,6 +122,12 @@ export const ContactMethodContainer = () => {
     state => state.vaProfile.schedulingPreferences[fieldName] || '',
   );
 
+  const homePhone = useSelector(selectVAPHomePhone);
+  const mobilePhone = useSelector(selectVAPMobilePhone);
+  const workPhone = useSelector(selectVAPWorkPhone);
+  const email = useSelector(selectVAPEmailAddress);
+  const mailingAddress = useSelector(selectVAPMailingAddress);
+
   const editPageHeadingString = useMemo(
     () => {
       if (isSubtaskSchedulingPreference(fieldInfo?.fieldName)) {
@@ -207,6 +221,62 @@ export const ContactMethodContainer = () => {
       }
     },
     [hasUnsavedEdits, hasBeforeUnloadListener],
+  );
+
+  useEffect(
+    () => {
+      // Check for existing data on the confirm step and push to profile edit if missing
+      if (step === 'confirm') {
+        let data;
+        switch (pageData.data[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]) {
+          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+            .TELEPHONE_MOBILE:
+          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+            .TEXT_MESSAGE:
+            data = mobilePhone;
+            break;
+          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+            .TELEPHONE_HOME:
+            data = homePhone;
+            break;
+          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+            .TELEPHONE_WORK:
+            data = workPhone;
+            break;
+          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+            .CONTACT_EMAIL:
+            data = email;
+            break;
+          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+            .US_POST:
+            data = mailingAddress;
+            break;
+          default:
+            data = false;
+        }
+        if (!data) {
+          const relatedField = getSchedulingPreferencesContactMethodDisplay(
+            pageData.data[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
+          );
+          history.push(
+            `${PROFILE_PATHS.EDIT}?returnPath=${encodeURIComponent(
+              returnPath,
+            )}&fieldName=${encodeURIComponent(relatedField.field)}`,
+          );
+        }
+      }
+    },
+    [
+      step,
+      pageData,
+      mobilePhone,
+      homePhone,
+      workPhone,
+      email,
+      mailingAddress,
+      history,
+      returnPath,
+    ],
   );
 
   const optionsMap = schedulingPreferenceOptions(fieldName);
