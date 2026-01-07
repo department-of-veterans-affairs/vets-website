@@ -140,8 +140,9 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   } else if (uiSchema['ui:options']?.labels?.[refinedData]) {
     refinedData = uiSchema['ui:options'].labels[refinedData];
   } else if (key === 'country' && COUNTRY_CODE_TO_NAME[refinedData]) {
-    // Handle country codes - show full names
-    refinedData = COUNTRY_CODE_TO_NAME[refinedData];
+    // Handle country codes - show full names, but keep 'USA' as 'USA'
+    refinedData =
+      refinedData === 'USA' ? 'USA' : COUNTRY_CODE_TO_NAME[refinedData];
   } else if (
     uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField'
   ) {
