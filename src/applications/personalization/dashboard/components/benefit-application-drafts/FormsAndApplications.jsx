@@ -27,15 +27,6 @@ const FormsAndApplications = ({
 }) => {
   const sectionRef = useRef(null);
 
-  // console.log('form data', savedForms, submittedForms);
-  /*
-  in progress forms are determined by
-  - form.savedAt < savedForms < inProgressForms  < metadata.savedAt
-  come back to outlining these
-  - error
-  - expired
-   */
-
   useLayoutEffect(() => {
     const handleAnchorLink = () => {
       if (document.location.hash === '#benefit-applications') {
@@ -72,8 +63,6 @@ const FormsAndApplications = ({
     [savedForms],
   );
 
-  // console.log('transformedSavedForms', transformedSavedForms);
-
   const transformedSubmittedForms = useMemo(
     () =>
       submittedForms.map(form => {
@@ -96,8 +85,6 @@ const FormsAndApplications = ({
     [submittedForms],
   );
 
-  // console.log('transformedSubmittedForms', transformedSubmittedForms);
-
   const allForms = useMemo(
     () =>
       transformedSavedForms
@@ -105,11 +92,6 @@ const FormsAndApplications = ({
         .sort((a, b) => b.lastUpdated - a.lastUpdated),
     [transformedSavedForms, transformedSubmittedForms],
   );
-
-  /*
-  common card props:
-  status: progress.status, submitted.
-  */
 
   const { inProgressCardList, completedCardList } = useMemo(
     () => {
@@ -151,14 +133,12 @@ const FormsAndApplications = ({
         const lastSavedDate = format(fromUnixTime(lastUpdated), 'MMMM d, yyyy');
 
         if (Object.hasOwn(form, 'savedAt')) {
-          // if form is draft, then render Draft Card
           const { expiresAt } = form || {};
           const expirationDate = format(
             fromUnixTime(expiresAt),
             'MMMM d, yyyy',
           );
           const continueUrl = `${getFormLink(formId)}resume`;
-          // TODO: consider combining all "Application Cards" into single component
 
           cards.inProgressCardList.push({
             continueUrl,
@@ -170,7 +150,6 @@ const FormsAndApplications = ({
             presentableFormId: hasBenefit ? presentableFormId : false,
           });
         } else if (formStatus) {
-          // if form is not a Draft and has status, render Status Card
           const { createdAt } = form || {};
           const submittedDate = format(fromUnixTime(createdAt), 'MMMM d, yyyy');
           const cardStatus = normalizeSubmissionStatus(formStatus);
@@ -278,7 +257,7 @@ const FormsAndApplications = ({
 };
 
 const mapStateToProps = state => {
-  // normalize full vs. partial errors into a single true/false value and provide as prop
+  // Normalize full vs. partial errors into a single true/false value and provide as prop
   const submittedError =
     !!state.submittedForms.error || state.submittedForms.errors?.length > 0;
 
