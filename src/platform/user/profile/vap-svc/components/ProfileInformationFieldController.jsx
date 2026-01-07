@@ -691,6 +691,7 @@ ProfileInformationFieldController.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
   isEmpty: PropTypes.bool.isRequired,
   isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
   openModal: PropTypes.func.isRequired,
