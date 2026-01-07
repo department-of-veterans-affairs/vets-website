@@ -275,9 +275,7 @@ export function slugifyText(text, { kebabCase = true } = {}) {
     result = result.replace(/([a-z])([A-Z])/g, '$1-$2');
   }
 
-  result = result.toLowerCase().replace(/ /g, '-');
-  result = result.replace(/^-+|-+$/g, ''); // remove leading/trailing hyphens
-  return result;
+  return result.toLowerCase().replace(/ /g, '-');
 }
 
 /**

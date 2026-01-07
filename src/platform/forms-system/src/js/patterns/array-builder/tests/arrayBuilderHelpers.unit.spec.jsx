@@ -613,7 +613,7 @@ describe('slugifyText', () => {
       expect(helpers.slugifyText('')).to.equal('');
       expect(helpers.slugifyText(null)).to.equal('');
       expect(helpers.slugifyText(undefined)).to.equal('');
-      expect(helpers.slugifyText('   ', { trim: true })).to.equal('');
+      expect(helpers.slugifyText('---')).to.equal('---');
       expect(helpers.slugifyText('test 123 name')).to.equal('test-123-name');
     });
   });
