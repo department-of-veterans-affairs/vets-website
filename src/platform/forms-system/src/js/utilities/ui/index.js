@@ -161,6 +161,7 @@ export function setGlobalScroll() {
  */
 export function getFormNumberFromFormConfig(config) {
   const { formId } = config;
+  if (!formId) return '';
   // add more groups as needed
   const formRegex = /(-UPLOAD)$/i;
   return formId.replace(formRegex, '');
