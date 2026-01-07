@@ -12,14 +12,13 @@ describe('SM Read Status - Breadcrumb Navigation', () => {
     // Simulate API response after message is read
     const threadsAfterRead = {
       ...threadsWithUnread,
-      data: threadsWithUnread.data.map(
-        (thread, index) =>
-          index === 0
-            ? {
-                ...thread,
-                attributes: { ...thread.attributes, unreadMessages: false },
-              }
-            : thread,
+      data: threadsWithUnread.data.map((thread, index) =>
+        index === 0
+          ? {
+              ...thread,
+              attributes: { ...thread.attributes, unreadMessages: false },
+            }
+          : thread,
       ),
     };
 
