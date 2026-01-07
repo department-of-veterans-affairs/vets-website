@@ -20,7 +20,7 @@ const os = require('os');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const chaiDOM = require('chai-dom');
-const { Window } = require('happy-dom');
+// const { Window } = require('happy-dom');
 require('../../site-wide/moment-setup');
 const ENVIRONMENTS = require('../../../site/constants/environments');
 const Sentry = require('@sentry/browser');
