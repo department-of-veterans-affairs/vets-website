@@ -105,7 +105,9 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [isAutoSave, setIsAutoSave] = useState(true);
-  const initialTextareaValueRef = useRef(undefined);
+  const initialTextareaValueRef = useRef(
+    draftInProgress?.body?.length ? draftInProgress.body : undefined,
+  );
   const prefillClearedReportedRef = useRef(false);
   const prefillEditedReportedRef = useRef(false);
 
@@ -157,14 +159,6 @@ const ComposeForm = props => {
     },
     [dispatch],
   );
-
-  // Capture the initial value shown in the textarea (prefill), once on mount
-  useEffect(() => {
-    if (initialTextareaValueRef.current === undefined) {
-      initialTextareaValueRef.current = (messageBody || formattedSignature || '');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(
     () => {
@@ -320,6 +314,39 @@ const ComposeForm = props => {
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
 
+  useEffect(
+    () => {
+      if (
+        initialTextareaValueRef.current === undefined &&
+        messageBody &&
+        messageBody.length > 0
+      ) {
+        initialTextareaValueRef.current = messageBody;
+      }
+    },
+    [messageBody],
+  );
+
+  const formattedSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
+
+  useEffect(
+    () => {
+      if (
+        initialTextareaValueRef.current === undefined &&
+        !messageBody &&
+        formattedSignature
+      ) {
+        initialTextareaValueRef.current = formattedSignature;
+      }
+    },
+    [formattedSignature, messageBody],
+  );
+
   const validMessageType = {
     SAVE: 'save',
     SEND: 'send',
@@ -349,13 +376,6 @@ const ComposeForm = props => {
       }
     },
     [categories, dispatch],
-  );
-
-  const formattedSignature = useMemo(
-    () => {
-      return messageSignatureFormatter(signature);
-    },
-    [signature],
   );
 
   const setUnsavedNavigationError = useCallback(

@@ -209,7 +209,7 @@ describe('Compose form component', () => {
 
     await waitFor(() => {
       const hasClearedEvent = window.dataLayer?.some(
-        e => e?.event === 'sm_editor_prefill_cleared',
+        e => e?.event === 'sm_editor_prefill_deleted',
       );
       expect(hasClearedEvent).to.be.true;
     });
