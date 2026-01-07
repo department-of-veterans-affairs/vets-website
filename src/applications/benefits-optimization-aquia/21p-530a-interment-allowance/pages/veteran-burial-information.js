@@ -15,7 +15,7 @@ export const veteranBurialInformationPage = {
       dateOfDeath: currentOrPastDateUI('Date of death'),
     },
     burialInformation: {
-      dateOfBurial: currentOrPastDateUI('Date of interment'),
+      dateOfBurial: currentOrPastDateUI('Date of burial'),
       placeOfBurial: {
         ...titleUI({
           title: 'Cemetery information',

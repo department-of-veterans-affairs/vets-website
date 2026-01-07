@@ -1,6 +1,10 @@
-import { isBefore, isValid } from 'date-fns';
-import { convertToDateField } from 'platform/forms-system/src/js/validation';
+import { add, isAfter, isBefore, isValid } from 'date-fns';
+import {
+  convertToDateField,
+  validateDate,
+} from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
+import { minYear } from 'platform/forms-system/src/js/helpers';
 import content from '../locales/en/content.json';
 
 /**
@@ -17,8 +21,8 @@ export const validateDateRange = (errors, data, options = {}) => {
   const {
     startDateKey,
     endDateKey,
-    invalidDateMessage = 'Please provide a valid current or past date',
-    rangeErrorMessage = 'Termination date must be after the effective date',
+    invalidDateMessage = content['validation--date-value--current'],
+    rangeErrorMessage = content['validation--date-range'],
   } = options;
 
   const startDate = data[startDateKey];
@@ -36,6 +40,47 @@ export const validateDateRange = (errors, data, options = {}) => {
   // Validate date range (end date must be after effective date)
   if (!isValidDateRange(fromDate, toDate)) {
     errors[endDateKey].addError(rangeErrorMessage);
+  }
+};
+
+/**
+ * Validates that a date is not more than one year in the future.
+ *
+ * Ensures the date is valid, within the allowed year range (minYear to current year + 1),
+ * and not more than one calendar year from today. Used for dates that should be current or near-future.
+ *
+ * @param {Object} errors - The errors object to add validation errors to
+ * @param {string} dateString - The date string to validate (format: 'YYYY-MM-DD')
+ * @param {Object} formData - The complete form data object
+ * @param {Object} schema - The JSON schema for the date field
+ * @param {Object} [errorMessages={}] - Optional custom error messages to override defaults
+ */
+export const validateFutureDate = (
+  errors,
+  dateString,
+  formData,
+  schema,
+  errorMessages = {},
+) => {
+  const ERR_MSG = content['validation--date-value--future'];
+  const yearFromToday = add(new Date(), { years: 1 });
+  const maxYear = new Date().getFullYear() + 1;
+
+  validateDate(
+    errors,
+    dateString,
+    formData,
+    schema,
+    errorMessages,
+    undefined,
+    undefined,
+    minYear,
+    maxYear,
+  );
+
+  const date = dateString ? new Date(dateString) : null;
+  if (date && isValid(date) && isAfter(date, yearFromToday)) {
+    errors.addError(ERR_MSG);
   }
 };
 
