@@ -50,12 +50,18 @@ const CustomPersonalInfo = props => {
       formOptions={formConfig.formOptions}
     >
       <PersonalInformationHeader>
-        <h1 className="vads-u-margin-bottom--3 vads-u-font-size--h2">
-          Confirm the personal information we have on file for you
-        </h1>
+        {/* Wrap h1 in a form so focus works - see
+         https://github.com/department-of-veterans-affairs/vets-website/blob/9479f030cbff4d6cb28d8cdea022eeb306f03011/src/platform/forms-system/src/js/patterns/minimal-header/index.js#L69 */}
+        <form>
+          <h1 className="vads-u-margin-bottom--3 vads-u-font-size--h2">
+            Confirm the personal information we have on file for you
+          </h1>
+        </form>
       </PersonalInformationHeader>
       <PersonalInformationCardHeader>
-        <h2 className="vads-u-font-size--h3">Personal information</h2>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--1">
+          Personal information
+        </h2>
       </PersonalInformationCardHeader>
     </PersonalInformation>
   );

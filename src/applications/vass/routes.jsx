@@ -6,6 +6,9 @@ import DateTimeSelection from './pages/DateTimeSelection';
 import TopicSelection from './pages/TopicSelection';
 import Review from './pages/Review';
 import Confirmation from './pages/Confirmation';
+import CancelAppointment from './pages/CancelAppointment';
+import CancelAppointmentConfirmation from './pages/CancelConfirmation';
+import AlreadyScheduled from './pages/AlreadyScheduled';
 
 const routes = () => {
   return (
@@ -15,7 +18,16 @@ const routes = () => {
       <Route path="/date-time" element={<DateTimeSelection />} />
       <Route path="/topic-selection" element={<TopicSelection />} />
       <Route path="/review" element={<Review />} />
-      <Route path="/confirmation" element={<Confirmation />} />
+      <Route path="/confirmation/:appointmentId" element={<Confirmation />} />
+      <Route
+        path="/cancel-appointment/:appointmentId"
+        element={<CancelAppointment />}
+      />
+      <Route
+        path="/cancel-appointment/confirmation"
+        element={<CancelAppointmentConfirmation />}
+      />
+      <Route path="/already-scheduled" element={<AlreadyScheduled />} />
     </Routes>
   );
 };

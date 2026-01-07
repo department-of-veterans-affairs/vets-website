@@ -9,8 +9,7 @@ const InstitutionAddress = () => {
   const institutionAddress = details?.institutionAddress || {};
   const facilityCode = (details?.facilityCode || '').trim();
   const notYR = details.yrEligible === false;
-  const notIHL = details.ihlEligible === false;
-  const showWarningBanner = notYR || notIHL;
+  const showWarningBanner = notYR;
 
   const {
     street,
@@ -35,7 +34,7 @@ const InstitutionAddress = () => {
   const badFormat =
     facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
   const notFound = institutionName === 'not found';
-  const hasError = badFormat || notFound || notYR || notIHL;
+  const hasError = badFormat || notFound || notYR;
 
   const shouldShowAddress = hasAddress && !hasError;
 

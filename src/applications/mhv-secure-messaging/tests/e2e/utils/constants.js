@@ -108,6 +108,7 @@ export const Locators = {
     'recent-care-teams-continue-button',
   COMPOSE_RECIPIENT_TITLE: 'compose-recipient-title',
   COMPOSE_CATEGORY_DROPDOWN: 'compose-message-categories',
+  LOCKED_CATEGORY_DISPLAY: 'locked-category-display',
   INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
@@ -144,7 +145,7 @@ export const Locators = {
     MOVE: `#move-button`,
     TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
-    MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
+    MOVE_BUTTON_TEST_ID: 'move-button-text',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
     SEND_TEST_ID: 'send-button',
@@ -187,7 +188,7 @@ export const Locators = {
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
-    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
+    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] va-link-action',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
@@ -441,7 +442,7 @@ export const Data = {
   READ_RECEIPT: `Opened by your care team`,
   UNREAD_RECEIPT: `Not yet opened by your care team`,
   CURATED_LIST: {
-    CANT_FIND_TEAM: `What to do if you can’t find your care team`,
+    CANT_FIND_TEAM_LINK: `Learn what to do if you can’t find your care team`,
     CONTACT_LIST_UPDATE: `Update your contact list`,
     SELECT_CARE_TEAM: `Select a different care team`,
   },

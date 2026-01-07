@@ -12,7 +12,7 @@ import {
   getLatestBill,
 } from '../utils/balance-helpers';
 import { APP_TYPES, sortStatementsByDate } from '../utils/helpers';
-import MCPAlert from './MCPAlerts';
+import CopayAlertContainer from '../../medical-copays/components/CopayAlertContainer';
 
 // Some terminology that could be helpful:
 // debt(s) = debtLetters
@@ -96,7 +96,7 @@ const Balances = () => {
         billError && <AlertCard appType={APP_TYPES.COPAY} />}
       {!isEnrolledInHealthCare && (
         <>
-          <MCPAlert type="no-health-care" />
+          <CopayAlertContainer type="no-health-care" />
         </>
       )}
     </>

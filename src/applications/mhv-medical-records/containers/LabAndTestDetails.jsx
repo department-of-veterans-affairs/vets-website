@@ -21,6 +21,7 @@ import {
   pageTitles,
   statsdFrontEndActions,
 } from '../util/constants';
+import { isRadiologyId } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import UnifiedLabsAndTests from '../components/LabsAndTests/UnifiedLabAndTest';
@@ -92,6 +93,11 @@ const LabAndTestDetails = () => {
     );
   }
   if (isAcceleratingLabsAndTests && labAndTestDetails && !isLoading) {
+    if (isRadiologyId(labId)) {
+      return (
+        <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
+      );
+    }
     return <UnifiedLabsAndTests record={labAndTestDetails} user={user} />;
   }
   // TODO: Delete this with the feature toggle

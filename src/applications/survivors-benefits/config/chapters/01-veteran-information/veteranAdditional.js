@@ -12,7 +12,7 @@ export default {
     ...titleUI('Additional Veteran information'),
     vaClaimsHistory: yesNoUI({
       title:
-        'Has the Veteran, surviving spouse, child or parent ever filed a claim with the VA?',
+        'Has the Veteran, surviving spouse, child, or parent ever filed a claim with the VA?',
     }),
     diedOnDuty: yesNoUI({
       title: 'Did the Veteran die while on active duty?',

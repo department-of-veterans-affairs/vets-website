@@ -83,7 +83,7 @@ export const options = {
             )}
         </ul>
       ),
-    reviewAddButtonText: 'Add another annuity',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your annuity information has been updated',
     alertItemDeleted: 'Your annuity information has been deleted',
     cancelAddTitle: 'Cancel adding this annuity',
@@ -397,7 +397,7 @@ export const annuityPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: veteranSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  annuityPagesUpdatedSpouseSummary: pageBuilder.summaryPage({
+  annuityPagesSpouseSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-spouse',
     depends: formData =>
@@ -405,7 +405,7 @@ export const annuityPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: spouseSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  annuityPagesUpdatedChildSummary: pageBuilder.summaryPage({
+  annuityPagesChildSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-child',
     depends: formData =>
@@ -413,7 +413,7 @@ export const annuityPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: childSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  annuityPagesUpdatedCustodianSummary: pageBuilder.summaryPage({
+  annuityPagesCustodianSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-custodian',
     depends: formData =>
@@ -421,7 +421,7 @@ export const annuityPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: custodianSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  annuityPagesUpdatedParentSummary: pageBuilder.summaryPage({
+  annuityPagesParentSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'annuities-summary-parent',
     depends: formData =>

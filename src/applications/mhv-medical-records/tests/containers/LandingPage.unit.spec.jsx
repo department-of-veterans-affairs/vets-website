@@ -296,4 +296,196 @@ describe('Landing Page', () => {
       });
     });
   });
+
+  describe('Cerner facility alert on Landing Page', () => {
+    const cernerUserState = {
+      user: {
+        profile: {
+          userFullName: {
+            first: 'Andrew- Cerner',
+            middle: 'J',
+            last: 'Morkel',
+          },
+          facilities: [
+            {
+              facilityId: '668',
+              isCerner: true,
+            },
+          ],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: {
+              '668': {
+                vhaId: '668',
+                vamcFacilityName:
+                  'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+                vamcSystemName: 'VA Spokane health care',
+                ehr: 'cerner',
+              },
+            },
+            cernerFacilities: [
+              {
+                vhaId: '668',
+                vamcFacilityName:
+                  'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+                vamcSystemName: 'VA Spokane health care',
+                ehr: 'cerner',
+              },
+            ],
+          },
+          loading: false,
+        },
+      },
+    };
+
+    const multipleCernerFacilitiesState = {
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '668', isCerner: true },
+            { facilityId: '692', isCerner: true },
+          ],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: {
+              '668': {
+                vhaId: '668',
+                vamcFacilityName:
+                  'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+                vamcSystemName: 'VA Spokane health care',
+                ehr: 'cerner',
+              },
+              '692': {
+                vhaId: '692',
+                vamcFacilityName: 'White City VA Medical Center',
+                vamcSystemName: 'VA Southern Oregon health care',
+                ehr: 'cerner',
+              },
+            },
+            cernerFacilities: [
+              {
+                vhaId: '668',
+                vamcFacilityName:
+                  'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+                vamcSystemName: 'VA Spokane health care',
+                ehr: 'cerner',
+              },
+              {
+                vhaId: '692',
+                vamcFacilityName: 'White City VA Medical Center',
+                vamcSystemName: 'VA Southern Oregon health care',
+                ehr: 'cerner',
+              },
+            ],
+          },
+          loading: false,
+        },
+      },
+    };
+
+    it('displays Cerner facility alert for Cerner users on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: cernerUserState,
+        reducers: reducer,
+      });
+
+      expect(screen).to.exist;
+      expect(screen.getByTestId('mr-landing-page-title')).to.exist;
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+    });
+
+    it('renders Cerner alert text for single Cerner facility on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: cernerUserState,
+        reducers: reducer,
+      });
+
+      expect(screen.getByTestId('single-cerner-facility-text')).to.exist;
+      const facilityElement = screen.getByText('VA Spokane health care');
+      expect(facilityElement.tagName).to.equal('STRONG');
+      const link = screen.getByTestId('cerner-facility-action-link');
+      expect(link).to.exist;
+    });
+
+    it('renders Cerner alert for multiple Cerner facilities on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: multipleCernerFacilitiesState,
+        reducers: reducer,
+      });
+
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+      expect(screen.getAllByTestId('cerner-facility').length).to.be.greaterThan(
+        1,
+      );
+    });
+
+    it('displays Info facility alert for transitioned users on landing page', () => {
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: {
+          ...cernerUserState,
+          user: {
+            profile: {
+              ...cernerUserState.user.profile,
+              userFacilityReadyForInfoAlert: true,
+            },
+          },
+        },
+        reducers: reducer,
+      });
+
+      expect(screen.getByTestId('cerner-facilities-info-alert')).to.exist;
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+    });
+
+    it('does not display Cerner alert for non-Cerner users on landing page', () => {
+      const nonCernerUserState = {
+        user: {
+          profile: {
+            facilities: [
+              {
+                facilityId: '516',
+                isCerner: false,
+              },
+            ],
+            userAtPretransitionedOhFacility: false,
+            userFacilityReadyForInfoAlert: false,
+          },
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: {
+                '516': {
+                  vhaId: '516',
+                  vamcFacilityName:
+                    'C.W. Bill Young Department of Veterans Affairs Medical Center',
+                  vamcSystemName: 'VA Bay Pines health care',
+                  ehr: 'vista',
+                },
+              },
+            },
+            loading: false,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<LandingPage />, {
+        initialState: nonCernerUserState,
+        reducers: reducer,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+    });
+  });
 });

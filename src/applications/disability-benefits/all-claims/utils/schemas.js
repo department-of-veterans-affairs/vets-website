@@ -64,8 +64,24 @@ export const makeSchemaForNewDisabilities = createSelector(
 
   (newDisabilities = []) => {
     const raw = newDisabilities
-      .map(d => (typeof d?.condition === 'string' ? d.condition.trim() : ''))
-      .filter(s => s.length > 0 && !isPlaceholderRated(s));
+      .map(d => {
+        const condition =
+          typeof d?.condition === 'string' ? d.condition.trim() : '';
+
+        if (!condition || isPlaceholderRated(condition)) {
+          return '';
+        }
+
+        const side =
+          typeof d?.sideOfBody === 'string' ? d.sideOfBody.trim() : '';
+
+        if (side) {
+          return `${condition}, ${side.toLowerCase()}`;
+        }
+
+        return condition;
+      })
+      .filter(s => s.length > 0);
 
     const normalized = raw.map(pretty);
     const unique = [...new Set(normalized)];

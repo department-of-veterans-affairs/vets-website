@@ -10,7 +10,7 @@ import { states } from '@department-of-veterans-affairs/platform-forms/address';
 
 export const veteranBurialInformationPage = {
   uiSchema: {
-    ...titleUI('Veteran’s burial information'),
+    ...titleUI('Veteran’s interment information'),
     veteranInformation: {
       dateOfDeath: currentOrPastDateUI('Date of death'),
     },

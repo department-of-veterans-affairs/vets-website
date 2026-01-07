@@ -5,7 +5,7 @@ import React from 'react';
  * Displays contact information for assistance with the employment information form
  * @returns {JSX.Element} Help contact information component
  */
-const GetHelp = () => (
+export const GetHelp = () => (
   <div>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
       <strong>If you have trouble using this online form</strong>, call our
@@ -15,5 +15,3 @@ const GetHelp = () => (
     </p>
   </div>
 );
-
-export default GetHelp;

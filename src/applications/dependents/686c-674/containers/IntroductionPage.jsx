@@ -13,8 +13,22 @@ import {
   VaFileNumberMissingAlert,
   ServerErrorAlert,
 } from '../config/helpers';
-import { V2_LAUNCH_DATE } from '../config/constants';
 
+/**
+ * @typedef {object} FormConfigProps
+ * @property {boolean} prefillEnabled Prefill enabled flag
+ * @property {object} savedFormMessages Saved form messages
+ * @property {object} downtime Downtime configuration
+ *
+ * @typedef {object} RouteProps
+ * @property {FormConfigProps} formConfig Form configuration
+ *
+ * @typedef {object} IntroductionPageProps
+ * @property {RouteProps} route Route object
+ *
+ * @param {IntroductionPageProps} props Route props
+ * @returns {React.ReactElement} Introduction page content
+ */
 const IntroductionPage = props => {
   const dispatch = useDispatch();
   const { hasVaFileNumber, isLoading } = useSelector(
@@ -62,9 +76,10 @@ const IntroductionPage = props => {
   return getStatus() !== '' && hasSession() ? (
     renderLoadingOrError(getStatus())
   ) : (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--5">
       <IntroductionPageHeader />
       <IntroductionPageFormProcess />
+
       <SaveInProgressIntro
         {...props}
         hideUnauthedStartLink
@@ -75,16 +90,7 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         startText="Add or remove a dependent"
         headingLevel={2}
-      >
-        <p className="vads-u-margin-bottom--4">
-          You should also know that we updated our online form.{' '}
-          <strong>
-            If you started applying online before {V2_LAUNCH_DATE},
-          </strong>{' '}
-          you’ll need to review the information in your application. Select
-          Continue your application to use our updated form.
-        </p>
-      </SaveInProgressIntro>
+      />
       <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}

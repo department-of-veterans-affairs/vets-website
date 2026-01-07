@@ -1,6 +1,10 @@
 /* eslint-disable camelcase */
 const cloneDeep = require('lodash/cloneDeep');
 const set = require('lodash/set');
+// const dateFns = require('date-fns');
+
+// const inOneMonth = dateFns.getUnixTime(dateFns.add(new Date(), { months: 1 }));
+// const yesterday = dateFns.getUnixTime(dateFns.add(new Date(), { days: -1 }));
 
 const simpleUser = {
   data: {
@@ -110,6 +114,26 @@ const simpleUser = {
             inProgressFormId: 23844,
           },
         },
+        // {
+        //   form: '686C-674-V2',
+        //   lastUpdated: yesterday,
+        //   metadata: {
+        //     version: 1,
+        //     returnUrl: '/review-dependents/',
+        //     savedAt: 1691764281066,
+        //     submission: {
+        //       status: false,
+        //       errorMessage: false,
+        //       id: false,
+        //       timestamp: false,
+        //       hasAttemptedSubmit: false,
+        //     },
+        //     createdAt: 1691764170,
+        //     expiresAt: inOneMonth,
+        //     lastUpdated: yesterday,
+        //     inProgressFormId: 23844,
+        //   },
+        // },
         {
           form: '3333',
           lastUpdated: 1691764281,
@@ -609,7 +633,6 @@ const cernerUser = {
         },
       ],
       prefillsAvailable: [
-        '21-686C',
         '40-10007',
         '0873',
         '22-1990',
@@ -628,7 +651,7 @@ const cernerUser = {
         '1010ez',
         '21P-530',
         '21P-527EZ',
-        '686C-674',
+        '686C-674-V2',
         '20-0996',
         '10182',
         'MDOT',
