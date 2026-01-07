@@ -5,7 +5,7 @@ import DateReviewField from '../../../../components/FormReview/DateReviewField';
 
 const INPUT_LABEL = 'Effective date';
 
-describe('10-10d <DateReviewField>', () => {
+describe('10-7959c <DateReviewField>', () => {
   const subject = ({ title = INPUT_LABEL, formData = '1990-01-15' } = {}) => {
     const props = { formData, uiSchema: { 'ui:title': title } };
     const { container } = render(
