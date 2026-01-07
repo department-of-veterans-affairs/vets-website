@@ -1,10 +1,8 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getFacilityPhone } from '../../../services/location';
 import FacilityPhone from '../../../components/FacilityPhone';
-import { routeToRequestAppointmentPage } from '../../redux/actions';
+import RequestAppointmentLink from './RequestAppointmentLink';
 
 export default function ScheduleWithDifferentProvider({
   isEligibleForRequest,
@@ -14,8 +12,6 @@ export default function ScheduleWithDifferentProvider({
   pageKey = 'selectProvider',
 }) {
   const facilityPhone = getFacilityPhone(selectedFacility);
-  const dispatch = useDispatch();
-  const history = useHistory();
 
   // now under title text is handled in the no available providers info section
   if (overRequestLimit || !isEligibleForRequest) {
@@ -38,17 +34,7 @@ export default function ScheduleWithDifferentProvider({
         We’ll contact you within 2 business days after we receive your request
         to help you finish scheduling your appointment.
       </p>
-      <va-link
-        active
-        href="my-health/appointments/schedule/va-request/"
-        text="Request an appointment"
-        data-testid="request-appointment-link"
-        onClick={e => {
-          e.preventDefault();
-          dispatch(routeToRequestAppointmentPage(history, pageKey));
-        }}
-      />
-
+      <RequestAppointmentLink pageKey={pageKey} />
       <h3
         className="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-margin-top--3"
         data-testid="cc-eligible-header"
