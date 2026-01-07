@@ -6,7 +6,8 @@ const CopyButton = ({
   value,
   label,
   className = '',
-  buttonText = 'Copy amount',
+  buttonText = 'Copy',
+  timeout = 2000,
 }) => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState(null);
@@ -31,13 +32,13 @@ const CopyButton = ({
         clearTimeout(timeoutRef.current);
       }
 
-      // Reset after 2 seconds
+      // Reset after default of 2 seconds
       timeoutRef.current = setTimeout(() => {
         setCopied(false);
         if (announcementRef.current) {
           announcementRef.current.textContent = '';
         }
-      }, 2000);
+      }, timeout);
 
       // Record analytics event
       recordEvent({
@@ -59,7 +60,7 @@ const CopyButton = ({
         if (announcementRef.current) {
           announcementRef.current.textContent = '';
         }
-      }, 2000);
+      }, timeout);
     }
   };
 
@@ -109,6 +110,7 @@ CopyButton.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
   buttonText: PropTypes.string,
+  timeout: PropTypes.number,
 };
 
 export default CopyButton;
