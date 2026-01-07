@@ -16,8 +16,8 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'employers',
-  nounSingular: 'record',
-  nounPlural: 'records',
+  nounSingular: 'employer',
+  nounPlural: 'employers',
   required: false,
   isItemIncomplete: item => !item?.name || !item.address || !item.dateRange,
   maxItems: 5,
