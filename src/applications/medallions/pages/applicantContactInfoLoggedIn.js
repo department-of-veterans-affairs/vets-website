@@ -40,16 +40,24 @@ const ApplicantContactInfoLoggedIn = ({
   const showSuccessAlert = (id, text) => {
     if (!editState) return null;
     const [lastEdited, returnState] = editState.split(',');
+    const isUpdated = returnState === 'updated';
+    const isFormOnly = returnState === 'form-only';
+    const isVisible = lastEdited === id && (isUpdated || isFormOnly);
+
+    if (!isVisible) return null;
+
     return (
       <va-alert
         id={`updated-${id}`}
-        visible={lastEdited === id && returnState === 'updated'}
+        visible
         class="vads-u-margin-y--1"
         status="success"
       >
-        <h2 slot="headline">We’ve updated your {text}</h2>
+        <h2 slot="headline">We've updated your {text}</h2>
         <p className="vads-u-margin-y--0">
-          We’ve made these changes to this form and your VA.gov profile.
+          {isUpdated
+            ? "We’ve made these changes to this form and your VA.gov profile."
+            : "We’ve made these changes to only this form."}
         </p>
       </va-alert>
     );
