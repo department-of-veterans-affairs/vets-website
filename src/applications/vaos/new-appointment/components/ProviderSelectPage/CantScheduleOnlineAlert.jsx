@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FacilityPhone from '../../../components/FacilityPhone';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
 import { getFacilityPhone } from '../../../services/location';
 
-export default function CantScheduleOnlineAlert({ facility }) {
+function CantScheduleOnlineAlert({ facility }) {
   const headline = `You can't schedule an appointment online right now`;
   const facilityPhone = getFacilityPhone(facility);
   return (
@@ -36,3 +37,9 @@ export default function CantScheduleOnlineAlert({ facility }) {
     </div>
   );
 }
+
+CantScheduleOnlineAlert.propTypes = {
+  facility: PropTypes.object,
+};
+
+export default CantScheduleOnlineAlert;
