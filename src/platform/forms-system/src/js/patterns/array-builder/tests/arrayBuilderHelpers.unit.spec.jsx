@@ -609,6 +609,14 @@ describe('slugifyText', () => {
       );
     });
 
+    it('should preserve existing dashes in names or identifiers', () => {
+      expect(helpers.slugifyText('mary-anne-3333')).to.equal('mary-anne-3333');
+      expect(helpers.slugifyText('jean-luc')).to.equal('jean-luc');
+      expect(helpers.slugifyText('SSN-123-45-6789')).to.equal(
+        'ssn-123-45-6789',
+      );
+    });
+
     it('should handle edge cases', () => {
       expect(helpers.slugifyText('')).to.equal('');
       expect(helpers.slugifyText(null)).to.equal('');
