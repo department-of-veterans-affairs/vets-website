@@ -11,13 +11,6 @@ import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 import ContactInfo from '../ContactInfo';
 
-// Mock the useFetchInProgressForm hook to prevent API calls in tests
-const useFetchInProgressFormModule = require('../../hooks/useFetchInProgressForm');
-
-sinon
-  .stub(useFetchInProgressFormModule, 'useFetchInProgressForm')
-  .returns(undefined);
-
 const getData = ({
   home = true,
   mobile = true,
@@ -86,6 +79,23 @@ const defaultInitialState = {
 };
 
 describe('<ContactInfo>', () => {
+  let useFetchInProgressFormStub;
+
+  before(() => {
+    // Mock the useFetchInProgressForm hook to prevent API calls in tests
+    const useFetchInProgressFormModule = require('../../hooks/useFetchInProgressForm');
+    useFetchInProgressFormStub = sinon
+      .stub(useFetchInProgressFormModule, 'useFetchInProgressForm')
+      .returns(undefined);
+  });
+
+  after(() => {
+    // Restore the stub after all tests
+    if (useFetchInProgressFormStub) {
+      useFetchInProgressFormStub.restore();
+    }
+  });
+
   afterEach(() => {
     clearReturnState();
   });
