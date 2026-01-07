@@ -271,12 +271,12 @@ export function slugifyText(text, { kebabCase = true } = {}) {
   let result = text;
 
   if (kebabCase) {
-    // camel to kebab
+    // camel to kebab case
     result = result.replace(/([a-z])([A-Z])/g, '$1-$2');
   }
 
   result = result.toLowerCase().replace(/ /g, '-');
-  result = result.replace(/^-+|-+$/g, '');
+  result = result.replace(/^-+|-+$/g, ''); // remove leading/trailing hyphens
   return result;
 }
 

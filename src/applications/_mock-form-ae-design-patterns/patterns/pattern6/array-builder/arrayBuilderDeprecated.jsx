@@ -422,7 +422,7 @@ export function arrayBuilderPagesDeprecated(options, pageBuilderCallback) {
       path = createArrayBuilderUpdatedPath({
         basePath: `${FORM_URL_PREFIX}${basePath}`,
         index: foundIndex == null ? index : foundIndex,
-        nounSingular,
+        arrayPath,
       });
     } else {
       path = `${FORM_URL_PREFIX}${path}`;
