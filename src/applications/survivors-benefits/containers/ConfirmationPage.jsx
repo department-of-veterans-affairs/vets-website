@@ -43,8 +43,9 @@ export const ConfirmationPage = props => {
         <br />
       </p>
       <p>
-        <span>Note:</span> Mail us copies of your documents only. Don’t send us
-        your original documents. We can’t return them.
+        <span className="vads-u-font-weight--bold">Note:</span> Mail us copies
+        of your documents only. Don’t send us your original documents. We can’t
+        return them.
       </p>
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
