@@ -6,8 +6,7 @@ import {
   isAuthenticatedWithSSOe,
   signInServiceName,
 } from 'platform/user/authentication/selectors';
-import { logoutUrl } from 'platform/user/authentication/utilities';
-import { logoutUrlSiS, logoutEvent } from 'platform/utilities/oauth/utilities';
+import { logoutEvent } from 'platform/utilities/oauth/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
 import MyHealthLink from './MyHealthLink';
@@ -27,7 +26,7 @@ export function PersonalizationDropdown(props) {
   const createSignout = useCallback(
     () => (
       <a
-        href={isSSOe ? logoutUrl() : logoutUrlSiS()}
+        href="/"
         onClick={() => logoutEvent(csp, { shouldWait: !isSSOe, duration: 350 })}
       >
         Sign Out
