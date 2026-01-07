@@ -54,10 +54,6 @@ const WhatWeConsiderAsset = () => (
             law marriages)
           </li>
           <li>
-            A parent, if you’re directly caring for them and their income and
-            net worth are below a certain amount
-          </li>
-          <li>
             An unmarried child (including an adopted child or stepchild) who
             meets 1 of the eligibility requirements listed here
           </li>

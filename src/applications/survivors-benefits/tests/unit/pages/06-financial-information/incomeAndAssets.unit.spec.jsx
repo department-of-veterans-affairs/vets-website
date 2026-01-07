@@ -78,9 +78,6 @@ describe('Income and assets page', () => {
       `<li>A spouse (<strong>Note:</strong> We recognize same-sex and common law marriages)</li>`,
     );
     expect(contentAccordion).to.contain(
-      `<li>A parent, if you’re directly caring for them and their income and net worth are below a certain amount</li>`,
-    );
-    expect(contentAccordion).to.contain(
       `<li>An unmarried child (including an adopted child or stepchild) who meets 1 of the eligibility requirements listed here</li>`,
     );
     expect(contentAccordion).to.contain(
