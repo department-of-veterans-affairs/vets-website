@@ -1,3 +1,4 @@
+import React from 'react';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -106,10 +107,24 @@ const formConfig = {
   },
   preSubmitInfo: {
     statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      body: (
+        <div>
+          <p>
+            I confirm that the identifying information in this form is accurate
+            and has been represented correctly.
+          </p>
+          <p>
+            <span className="vads-u-font-weight--bold">
+              I have not and will not
+            </span>{' '}
+            receive reimbursement for these expenses. I certify the information
+            contained on this form and the attached addendums is a true
+            representation of expenses I have paid.
+          </p>
+        </div>
+      ),
       messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly. I have not and will not receive reimbursement for these expenses. I certify the information contained on this form and the attached addendums is a true representation of expenses I have paid.',
       fullNamePath: 'claimantFullName',
     },
   },
