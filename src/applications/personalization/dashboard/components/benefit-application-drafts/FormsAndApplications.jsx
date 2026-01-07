@@ -15,23 +15,10 @@ import {
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import { MY_VA_SIP_FORMS } from 'platform/forms/constants';
 import { getFormLink } from 'platform/forms/helpers';
-import DraftCard from './DraftCard';
-import SubmissionCard from './SubmissionCard';
+import ApplicationCard from './ApplicationCard';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Error from './Error';
 import MissingApplicationHelp from './MissingApplicationHelp';
-
-const ApplicationsStatusHeader = ({ headingText }) => (
-  <h3
-    className="vads-u-font-size--h4 vads-u-margin-bottom--2p5"
-    data-testid="applications-by-status-header"
-  >
-    {headingText}
-  </h3>
-);
-ApplicationsStatusHeader.propTypes = {
-  headingText: PropTypes.string.isRequired,
-};
 
 const FormsAndApplications = ({
   savedForms,
@@ -228,8 +215,7 @@ const FormsAndApplications = ({
       )}
       {!submittedError && (
         <>
-          {/* In progress forms */}
-          <ApplicationsStatusHeader headingText="In-progress forms" />
+          <h3 className="vads-u-margin-y--2">In-progress forms</h3>
           {inProgressCardList.length === 0 ? (
             <p data-testid="applications-in-progress-empty-state">
               You don’t have any benefit forms or applications in progress.
@@ -241,26 +227,18 @@ const FormsAndApplications = ({
               data-testid="applications-in-progress-list"
             >
               <div className="vads-l-row vads-u-margin-right--neg3">
-                {inProgressCardList.map(card => {
-                  // A SubmissionCard with 'action needed' status is also an In Progress card
-                  // Cards in the 'in progress' list without the `continueUrl` render with SubmissionCard instead of Draft
-                  const isDraft = !!card.continueUrl;
-                  return (
-                    <DashboardWidgetWrapper key={card.formId}>
-                      {isDraft ? (
-                        <DraftCard {...card} />
-                      ) : (
-                        <SubmissionCard {...card} />
-                      )}
-                    </DashboardWidgetWrapper>
-                  );
-                })}
+                {inProgressCardList.map(card => (
+                  <DashboardWidgetWrapper key={card.formId}>
+                    <ApplicationCard {...card} />
+                  </DashboardWidgetWrapper>
+                ))}
               </div>
             </div>
           )}
 
-          {/* Completed forms */}
-          <ApplicationsStatusHeader headingText="Completed forms" />
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Completed forms
+          </h3>
           {completedCardList.length === 0 ? (
             <p data-testid="applications-completed-empty-state">
               You don’t have any completed benefit forms or applications to
@@ -270,6 +248,7 @@ const FormsAndApplications = ({
             <va-accordion open-single>
               <va-accordion-item
                 header="Completed forms"
+                level="3"
                 id="completed-forms-accordion-item"
               >
                 <div
@@ -280,7 +259,7 @@ const FormsAndApplications = ({
                   <div className="vads-l-row vads-u-margin-right--neg3">
                     {completedCardList.map(card => (
                       <DashboardWidgetWrapper key={card.formId}>
-                        <SubmissionCard {...card} />
+                        <ApplicationCard {...card} />
                       </DashboardWidgetWrapper>
                     ))}
                   </div>
