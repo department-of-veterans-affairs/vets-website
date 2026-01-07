@@ -619,12 +619,9 @@ class PatientInboxPage {
   };
 
   validateRecipientsErrorAlert = () => {
-    // Use within() to scope the search and avoid element detachment issues during page updates
-    cy.findByTestId(Locators.ALERTS.RECIPIENTS_ERROR).within(() => {
-      cy.findByRole('heading', { level: 2 }).should(
-        'contain',
-        Alerts.ERROR_LOADING_RECIPIENTS_HEADER,
-      );
+    cy.findByRole('heading', {
+      level: 2,
+      name: new RegExp(Alerts.ERROR_LOADING_RECIPIENTS_HEADER),
     });
   };
 }
