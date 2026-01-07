@@ -77,13 +77,13 @@ const yourQuestionPage = {
     properties: {
       subject: {
         type: 'string',
-        pattern: '^.*\\S[\\s\\S]*$', // At least one non-whitespace character
+        pattern: /.*\S.*/s, // Must produce a single match, with at least one non-whitespace character
         minLength: 1,
         maxLength: 140,
       },
       question: {
         type: 'string',
-        pattern: '^.*\\S[\\s\\S]*$', // At least one non-whitespace character
+        pattern: /.*\S.*/s, // Must produce a single match, with at least one non-whitespace character
         minLength: 1,
         maxLength: 10000,
       },
