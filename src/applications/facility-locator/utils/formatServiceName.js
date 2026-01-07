@@ -15,7 +15,6 @@ export const formatServiceName = service => {
     .toLowerCase()
     .replace(/veteran/g, 'Veteran')
     .replace(/assistance/g, 'help')
-    .replace(/covid19 vaccine/g, 'COVID-19 vaccines')
     .replace(/e benefits/g, 'eBenefits')
     .replace(
       /Integrated disability evaluation system assistance/g,
