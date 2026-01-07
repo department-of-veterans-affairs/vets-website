@@ -9,7 +9,7 @@ export const getDeductionDescription = code => {
   if (!description) {
     return '';
   }
-  return `– ${description}`;
+  return `${description}`;
 };
 
 const HowDoIPay = ({ userData }) => {
@@ -94,7 +94,8 @@ const HowDoIPay = ({ userData }) => {
             <span>Deduction Code</span>
             <div>
               <strong>
-                {userData.deductionCode}{' '}
+                {userData.deductionCode}
+                {' – '}
                 {getDeductionDescription(deductionCode)}
               </strong>
             </div>
