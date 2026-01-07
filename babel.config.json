@@ -22,7 +22,7 @@
     ],
     "@babel/react"
   ],
-  "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js"],
+  "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js", "**/mocha-setup.cjs"],
   "plugins": [
     "lodash",
 
@@ -41,8 +41,12 @@
       "module-resolver",
       {
         "root": "./src",
+        "extensions": [".js", ".jsx", ".json", ".ts", ".tsx"],
         "alias": {
           "~": "./src",
+          ".src": "./src",
+          "platform": "./src/platform",
+          "applications": "./src/applications",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile",
           "@bio-aquia": "./src/applications/benefits-optimization-aquia",
@@ -234,7 +238,7 @@
           "@department-of-veterans-affairs/platform-forms/fields": "./src/platform/forms/fields.js",
           "@department-of-veterans-affairs/platform-forms/helpers": "./src/platform/forms/helpers.js",
           "@department-of-veterans-affairs/platform-forms/sub-task": "./src/platform/forms/sub-task/index.js",
-          "@department-of-veterans-affairs/platform-forms/save-in-progress": ".src/platform/forms/save-in-progress/SaveInProgressIntro",
+          "@department-of-veterans-affairs/platform-forms/save-in-progress": "./src/platform/forms/save-in-progress/SaveInProgressIntro",
 
           "@department-of-veterans-affairs/platform-forms-system/exports": "./src/platform/forms-system/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms-system/AddressViewField": "./src/platform/forms-system/src/js/components/AddressViewField.jsx",
