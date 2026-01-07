@@ -44,7 +44,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
       <CardSection
         data-testid="what-section"
         heading="What"
-        textContent={appointmentData?.typeOfCare || 'No type of care selected'}
+        textContent="VA Solid Start"
       />
       <CardSection
         data-testid="who-section"
