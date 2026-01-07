@@ -112,62 +112,55 @@ export const schedulingPreferencesUiSchema = fieldname => {
 };
 
 export const schedulingPreferencesFormSchema = fieldname => {
-  if (!isInlineSchedulingPreference(fieldname)) {
-    switch (fieldname) {
-      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
-        return getContactMethodFormSchema();
-      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
-        return {
-          type: 'object',
-          properties: {
-            [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
-              type: 'array',
-              items: {
-                type: 'string',
-                enum: Object.keys(
-                  FIELD_OPTION_IDS_INVERTED[
-                    FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
-                  ],
-                ),
-              },
-              uniqueItems: true,
+  switch (fieldname) {
+    case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+      return getContactMethodFormSchema();
+    case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+      return {
+        type: 'object',
+        properties: {
+          [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: Object.keys(
+                FIELD_OPTION_IDS_INVERTED[
+                  FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
+                ],
+              ),
             },
+            uniqueItems: true,
           },
-        };
-      case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
-        return {
-          type: 'object',
-          properties: {
-            [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: {
-              type: 'array',
-              items: {
-                type: 'string',
-                enum: Object.keys(
-                  FIELD_OPTION_IDS_INVERTED[
-                    FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
-                  ],
-                ),
-              },
-              uniqueItems: true,
+        },
+      };
+    case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+      return {
+        type: 'object',
+        properties: {
+          [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: Object.keys(
+                FIELD_OPTION_IDS_INVERTED[
+                  FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
+                ],
+              ),
             },
+            uniqueItems: true,
           },
-        };
-      default:
-        return {
-          type: 'object',
-          properties: {},
-        };
-    }
-    // return { type: 'object', properties: {} }; // To be replaced with subtask form schema
+        },
+      };
+    default:
+      return {
+        type: 'object',
+        properties: {
+          [fieldname]: {
+            ...radioSchema(Object.keys(schedulingPreferenceOptions(fieldname))),
+          },
+        },
+      };
   }
-  return {
-    type: 'object',
-    properties: {
-      [fieldname]: {
-        ...radioSchema(Object.keys(schedulingPreferenceOptions(fieldname))),
-      },
-    },
-  };
 };
 
 export const schedulingPreferencesConvertCleanDataToPayload = (
