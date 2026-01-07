@@ -650,7 +650,7 @@ const ExpensePage = () => {
               pattern="^[0-9]*(\.[0-9]{0,2})?$"
               onInput={handleFormChange}
               onBlur={handleAmountBlur}
-              hint="Enter the amount as dollars and cents. For example, 8.42"
+              hint="Enter the amount as dollars and cents (for example, 8.42)"
               {...extraFieldErrors.costRequested && {
                 error: extraFieldErrors.costRequested,
               }}
