@@ -298,24 +298,19 @@ export const ApplicationCard = ({
 };
 
 ApplicationCard.propTypes = {
-  // Common
   formId: PropTypes.string.isRequired,
   formTitle: PropTypes.string.isRequired,
   lastSavedDate: PropTypes.string.isRequired,
-  presentableFormId: PropTypes.string,
-
-  // Draft-only
   continueUrl: PropTypes.string,
   expirationDate: PropTypes.string,
+  getPdfDownloadUrl: PropTypes.func,
+  guid: PropTypes.string,
   isForm: PropTypes.bool,
-
-  // Submission-only
+  pdfSupport: PropTypes.bool,
+  presentableFormId: PropTypes.string,
+  showLoadingIndicator: PropTypes.bool,
   status: PropTypes.oneOf(['inProgress', 'actionNeeded', 'received']),
   submittedDate: PropTypes.string,
-  guid: PropTypes.string,
-  pdfSupport: PropTypes.bool,
-  getPdfDownloadUrl: PropTypes.func,
-  showLoadingIndicator: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
