@@ -582,12 +582,14 @@ describe('slugifyText', () => {
       );
     });
 
-    it('should preserve camelCase (just lowercase) when kebabCase is false', () => {
+    it('should preserve camelCase (just lowercase) when convertCamelCase is false', () => {
       expect(
-        helpers.slugifyText('employerName', { kebabCase: false }),
+        helpers.slugifyText('employerName', { convertCamelCase: false }),
       ).to.equal('employername');
       expect(
-        helpers.slugifyText('myVeryLongCamelCaseString', { kebabCase: false }),
+        helpers.slugifyText('myVeryLongCamelCaseString', {
+          convertCamelCase: false,
+        }),
       ).to.equal('myverylongcamelcasestring');
     });
 

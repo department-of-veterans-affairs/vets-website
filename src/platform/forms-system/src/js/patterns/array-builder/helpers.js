@@ -266,12 +266,11 @@ export function createArrayBuilderItemEditPath({ path, index, isReview }) {
   }`;
 }
 
-export function slugifyText(text, { kebabCase = true } = {}) {
+export function slugifyText(text, { convertCamelCase = true } = {}) {
   if (!text) return '';
   let result = text;
 
-  if (kebabCase) {
-    // camel to kebab case (preferred for URLs)
+  if (convertCamelCase) {
     result = result.replace(/([a-z])([A-Z])/g, '$1-$2');
   }
 
@@ -599,7 +598,7 @@ export const processArrayData = array => {
   // Make sure we're not slugifying strings with only spaces
   return slugifyText(
     array.map(item => (item || '').toString().trim()).join(';'),
-    { kebabCase: false },
+    { convertCamelCase: false },
   );
 };
 
