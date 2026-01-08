@@ -15,8 +15,6 @@ permissions:
   contents: read
   pull-requests: read
   checks: write
-  actions: write
-
 jobs:
   # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
   # Fails and cancels the workflow if package.json or yarn.lock are modified
