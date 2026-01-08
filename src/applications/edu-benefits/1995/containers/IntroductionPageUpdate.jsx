@@ -36,12 +36,10 @@ export class IntroductionPageUpdate extends React.Component {
       // For legacy flow, return null to maintain backwards compatibility
       if (rerouteEnabled) {
         return (
-          <a
+          <va-link-action
             href="/education/apply-for-education-benefits/application/1995/introduction?rudisill=true"
-            className="usa-button-primary va-button-primary"
-          >
-            Start the education application
-          </a>
+            text="Start the education application"
+          />
         );
       }
       return null;

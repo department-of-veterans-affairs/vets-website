@@ -138,9 +138,11 @@ describe('the Edu-Benefit 1995 Introduction Page Update', () => {
     );
 
     // Should show fallback link when route is missing
-    const link = container.querySelector('a.usa-button-primary');
+    const link = container.querySelector('va-link-action');
     expect(link).to.exist;
-    expect(link.textContent).to.include('Start the education application');
+    expect(link.getAttribute('text')).to.equal(
+      'Start the education application',
+    );
   });
 
   it('should NOT show fallback button when route is missing and reroute is disabled (backwards compatibility)', () => {
@@ -153,7 +155,7 @@ describe('the Edu-Benefit 1995 Introduction Page Update', () => {
     );
 
     // Should not show fallback for legacy flow
-    const link = container.querySelector('a.usa-button-primary');
+    const link = container.querySelector('va-link-action');
     expect(link).to.not.exist;
   });
 });
