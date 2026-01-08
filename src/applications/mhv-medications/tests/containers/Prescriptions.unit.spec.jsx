@@ -96,7 +96,9 @@ describe('Medications Prescriptions container', () => {
     await waitFor(() => {
       const indicator = screen.getByTestId('loading-indicator');
       expect(indicator).to.exist;
-      expect(indicator.getAttribute('message')).to.equal('Loading your medications...');
+      expect(indicator.getAttribute('message')).to.equal(
+        'Loading your medications...',
+      );
     });
   });
 
