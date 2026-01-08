@@ -22,6 +22,28 @@ const renderWithStore = (component, initialState) => {
 describe('DebtSelection Component', () => {
   let setFocusStub;
 
+  const mockDebt = {
+    compositeDebtId: '123',
+    label: 'Test Debt',
+    description: 'Test debt description',
+  };
+
+  const mockDebtsAllTypes = [
+    mockDebt,
+    {
+      compositeDebtId: '125',
+      label: 'Unsubmitted Debt',
+      description: 'Unsubmitted debt description',
+      submitted: false,
+    },
+    {
+      compositeDebtId: '124',
+      label: 'Submitted Debt',
+      description: 'Submitted debt description',
+      submitted: true,
+    },
+  ];
+
   beforeEach(() => {
     setFocusStub = sinon.stub(utils, 'setFocus');
   });
@@ -70,29 +92,9 @@ describe('DebtSelection Component', () => {
   });
 
   it('renders debt selection content when debts are available and/or submitted', () => {
-    const mockDebts = [
-      {
-        compositeDebtId: '123',
-        label: 'Test Debt',
-        description: 'Test debt description',
-      },
-      {
-        compositeDebtId: '125',
-        label: 'Unsubmitted Debt',
-        description: 'Unsubmitted debt description',
-        submitted: false,
-      },
-      {
-        compositeDebtId: '124',
-        label: 'Submitted Debt',
-        description: 'Submitted debt description',
-        submitted: true,
-      },
-    ];
-
     const initialState = {
       availableDebts: {
-        availableDebts: mockDebts,
+        availableDebts: mockDebtsAllTypes,
         isDebtError: false,
       },
       form: { data: { selectedDebts: [] } },
@@ -176,12 +178,6 @@ describe('DebtSelection Component', () => {
   });
 
   it('shows validation error when submitted with no debts selected', () => {
-    const mockDebt = {
-      compositeDebtId: '123',
-      label: 'Test Debt',
-      description: 'Test debt description',
-    };
-
     const initialState = {
       availableDebts: { availableDebts: [mockDebt], isDebtError: false },
       form: { data: { selectedDebts: [] } },
