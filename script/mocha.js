@@ -9,17 +9,27 @@ process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 require("@babel/register");
 
 // -----------------------------------------------------------------------------
-// Node 22 polyfill: some legacy deps call require('node:stream') or similar.
-// Older transpile hooks intercept the specifier and break.  Normalize by
-// stripping the `node:` prefix for built-in modules during test runs only.
+// Unified loader patch for Node 22 test runs
+// 1. Re-alias built-in modules imported as `node:stream` etc.
+// 2. Redirect Enzyme deep requires that fail under modern package.exports.
 // -----------------------------------------------------------------------------
 const Module = require('module');
 const origLoad = Module._load;
-Module._load = function patchedLoad(request, parent, isMain) {
+const cheerioRoot = path.dirname(require.resolve('cheerio/package.json'));
+const entitiesRoot = path.dirname(require.resolve('entities/package.json'));
+Module._load = function unifiedLoad(request, parent, isMain) {
+  // built-in aliases
   if (typeof request === 'string' && request.startsWith('node:')) {
-    return origLoad.call(this, request.slice(5), parent, isMain);
+    return origLoad(request.slice(5), parent, isMain);
   }
-  return origLoad.apply(this, arguments);
+  // Enzyme deep imports
+  if (request === 'cheerio/lib/utils') {
+    return origLoad(path.join(cheerioRoot, 'lib/utils.js'), parent, isMain);
+  }
+  if (request === 'entities/lib/decode.js') {
+    return origLoad(path.join(entitiesRoot, 'lib/decode.js'), parent, isMain);
+  }
+  return origLoad(request, parent, isMain);
 };
 
 // -----------------------------------------------------------------------------
