@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { generateSlots } from './mock-helpers';
 
 describe('generateSlots', () => {
-  it('should generate default 14 days of slots with 18 slots per day', () => {
+  it('should generate default 14 days of slots with 12 slots per day', () => {
     const slots = generateSlots();
 
     // 14 days, filtering out weekends (approximately 10 weekdays)
