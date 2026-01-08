@@ -249,7 +249,7 @@ Each form has its own dedicated vets-api endpoint:
 
 ## Content Widgets
 
-Each form has a content widget that controls the "Submit online" link on its Drupal CMS "about" page (e.g., `/forms/about-form-21-0779/`). These widgets check feature flags to show or hide the digital form link, preventing broken links when forms are toggled off.
+Each form has a content widget that controls the "Submit online" link on its Drupal CMS "about" page (e.g., `/forms/21-0779/`). These widgets check feature flags to show or hide the digital form link, preventing broken links when forms are toggled off.
 
 ### Widget Location
 
