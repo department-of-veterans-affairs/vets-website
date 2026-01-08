@@ -1,28 +1,12 @@
 import React from 'react';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import environment from 'platform/utilities/environment';
 import * as BUCKETS from 'site/constants/buckets';
 import * as ENVIRONMENTS from 'site/constants/environments';
 
+import DirectDepositField from '../../../../components/DirectDepositField';
 import DirectDepositViewField from '../../../../components/DirectDepositViewField';
 import ObfuscateReviewField from '../../../../components/ObfuscateReviewField';
-
-import {
-  validateBankAccountNumber,
-  validateRoutingNumber,
-} from '../../../../utils/validation';
-
-const shouldStartInEditMode = formData => {
-  const bankAccount = formData?.bankAccount;
-  const hasData = [
-    bankAccount?.accountType,
-    bankAccount?.routingNumber,
-    bankAccount?.accountNumber,
-  ].some(field => field?.length > 0);
-  // Return false to not start in edit mode if any data is present
-  return !hasData;
-};
 
 const checkImageSrc = (() => {
   const bucket = environment.isProduction()
@@ -35,21 +19,11 @@ const checkImageSrc = (() => {
 const directDeposit33 = {
   uiSchema: {
     'view:directDeposit': {
-      'ui:title': (
-        <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
-          Direct deposit information
-        </h4>
-      ),
-      'ui:field': ReviewCardField,
+      'ui:title': 'Direct deposit information',
+      'ui:field': DirectDepositField,
       'ui:options': {
-        editTitle: 'Direct deposit information',
         hideLabelText: true,
-        itemName: 'account information',
-        itemNameAction: 'Update',
-        reviewTitle: 'Direct deposit information',
         showFieldLabel: false,
-        startInEdit: formData => shouldStartInEditMode(formData),
-        // startInEdit: false,
         viewComponent: DirectDepositViewField,
         volatileData: true,
       },
@@ -75,13 +49,12 @@ const directDeposit33 = {
           },
           'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [
-            validateRoutingNumber,
             (errors, fieldData, formData) => {
               const accountNumber =
                 formData['view:directDeposit']?.bankAccount?.accountNumber;
               if (fieldData && accountNumber && fieldData === accountNumber) {
                 errors.addError(
-                  'Your bank account and routing number cannot match',
+                  'Your bank routing number and bank account number cannot match',
                 );
               }
             },
@@ -104,7 +77,7 @@ const directDeposit33 = {
                 const routingNumber =
                   formData['view:directDeposit']?.bankAccount?.routingNumber;
                 if (fieldData && routingNumber && fieldData !== routingNumber) {
-                  errors.addError('Your routing number must match');
+                  errors.addError('Your bank routing number must match');
                 }
               }
             },
@@ -117,13 +90,12 @@ const directDeposit33 = {
           },
           'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [
-            validateBankAccountNumber,
             (errors, fieldData, formData) => {
               const routingNumber =
                 formData['view:directDeposit']?.bankAccount?.routingNumber;
               if (fieldData && routingNumber && fieldData === routingNumber) {
                 errors.addError(
-                  'Your bank account and routing number cannot match',
+                  'Your bank routing number and bank account number cannot match',
                 );
               }
             },
@@ -194,10 +166,6 @@ const directDeposit33 = {
             type: 'object',
             required: ['accountType', 'accountNumber', 'routingNumber'],
             properties: {
-              accountNumber: {
-                type: 'string',
-                pattern: '^\\d{5,17}$',
-              },
               accountType: {
                 type: 'string',
                 enum: ['Checking', 'Savings'],
@@ -208,11 +176,15 @@ const directDeposit33 = {
               },
               routingNumberConfirmation: {
                 type: 'string',
-                pattern: '^\\d{9}$',
+                pattern: '^[\\d*]{5}\\d{4}$',
+              },
+              accountNumber: {
+                type: 'string',
+                pattern: '^[\\d*]{5,17}$',
               },
               accountNumberConfirmation: {
                 type: 'string',
-                pattern: '^\\d{5,17}$',
+                pattern: '^[\\d*]{5,17}$',
               },
             },
           },
