@@ -359,7 +359,7 @@ class PatientMessageDraftsPage {
   closeModal = () => {
     cy.get('va-modal[visible]')
       .find('.va-modal-close')
-      .click();
+      .click({ force: true });
   };
 
   verifyThreadRecipientName = (mockResponse, index) => {

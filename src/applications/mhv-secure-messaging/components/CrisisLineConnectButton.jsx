@@ -24,12 +24,14 @@ const CrisisLineConnectButton = props => {
         'va-modal-close',
       )[0];
 
-      if (crisisModalOpened) {
+      if (crisisModalOpened && modalCloseButton) {
         modalCloseButton.addEventListener('click', onCrisisModalClose);
         window.addEventListener('keydown', onEscapeKeyPress);
       }
       return () => {
-        modalCloseButton.removeEventListener('click', onCrisisModalClose);
+        if (modalCloseButton) {
+          modalCloseButton.removeEventListener('click', onCrisisModalClose);
+        }
         window.removeEventListener('keydown', onEscapeKeyPress);
       };
     },
