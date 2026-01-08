@@ -9,6 +9,7 @@ module.exports = function(results) {
           message: msg.message,
           line: msg.line,
           column: msg.column,
+          ruleId: msg.ruleId,
         };
 
         if (msg.severity === 1) {
@@ -41,9 +42,7 @@ module.exports = function(results) {
           .split('/')
           .splice(6)
           .join('/'); // removes GHA environment in the filepath to only have path from root
-        return `::${
-          msg.type
-        } file=${filePath},line=${msg.line},col=${msg.column}::${filePath}:${msg.line}:${msg.column}:${msg.message}`;
+        return `::${msg.type} file=${filePath},line=${msg.line},col=${msg.column},ruleId=${msg.ruleId}::${filePath}:${msg.line}:${msg.column}:${msg.message}:${msg.ruleId}`;
       })
       .join('\n');
   } else {
