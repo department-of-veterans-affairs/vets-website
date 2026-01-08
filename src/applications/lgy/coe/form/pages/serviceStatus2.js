@@ -3,7 +3,7 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { serviceStatuses } from '../utils';
+import { serviceStatuses } from '../constants';
 
 export default {
   uiSchema: {
