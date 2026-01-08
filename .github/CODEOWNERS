@@ -93,11 +93,7 @@ src/applications/appeals @department-of-veterans-affairs/benefits-decision-revie
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/govcio-vfep-codereviewers
 src/applications/lgy @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/new-chapter-36-form @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Pensions and Burials
 src/applications/burials-ez @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
@@ -165,7 +161,19 @@ src/applications/ivc-champva @department-of-veterans-affairs/health-apps-fronten
 src/applications/check-in @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/vass @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
 
-# IIR
+# CVE Team
+src/applications/vre/28-1900 @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/new-chapter-36-form @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/coe-access @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/lgy/coe @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/personalization/profile/components/paperless-delivery/ @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/letters/components/DownloadTsaLetter.jsx @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/letters/tests/01-tsa-letter.cypress.spec.js @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/personalization/profile/components/veteran-status-card @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/personalization/profile/tests/components/veteran-status-card @department-of-veterans-affairs/va-core-veteran-experiences @department-of-veterans-affairs/va-platform-cop-frontend
 
 # /--- VSA
 
@@ -291,7 +299,6 @@ src/applications/messages @department-of-veterans-affairs/va-platform-cop-fronte
 src/applications/mock-sip-form @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/third-party-app-directory @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/analytics @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/benefit-eligibility-questionnaire @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/office-directory @department-of-veterans-affairs/va-platform-cop-frontend
 
