@@ -1,9 +1,12 @@
-import { APPOINTMENT_MAP, DEFAULT_APPOINTMENT_TYPE } from './appointmentData';
+const {
+  APPOINTMENT_MAP,
+  DEFAULT_APPOINTMENT_TYPE,
+} = require('./appointmentData');
 
 /**
  * Returns a fully formed appointment response for a given ID
  */
-export function getAppointmentById({
+function getAppointmentById({
   id,
   appointment,
   generateAppointmentDates,
@@ -23,3 +26,7 @@ export function getAppointmentById({
     generateAppointmentDates(days),
   );
 }
+
+module.exports = {
+  getAppointmentById,
+};
