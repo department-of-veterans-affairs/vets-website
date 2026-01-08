@@ -36,17 +36,15 @@ if (!Module._load.__vaNodeCompatPatched) {
   const entitiesEscapePath = safeResolve('entities/lib/escape.js');
   const parse5MainPath = safeResolve('parse5');
   let parse5OpenElementStackExport = null;
-  const enzymeMainPath = safeResolve('enzyme');
   let enzymeCheerioUtilsPath = null;
-  if (enzymeMainPath) {
-    const enzymeRootDir = path.resolve(path.dirname(enzymeMainPath), '..');
-    const nestedCandidate = path.join(
-      enzymeRootDir,
-      'node_modules/cheerio/lib/utils.js',
+  try {
+    // Resolve Enzyme's nested cheerio utils by absolute path, bypassing
+    // cheerio's package.exports map entirely.
+    enzymeCheerioUtilsPath = require.resolve(
+      'enzyme/node_modules/cheerio/lib/utils.js',
     );
-    if (fs.existsSync(nestedCandidate)) {
-      enzymeCheerioUtilsPath = nestedCandidate;
-    }
+  } catch (error) {
+    enzymeCheerioUtilsPath = null;
   }
 
   // Intercept resolution of cheerio/lib/utils before exports are applied, so we
