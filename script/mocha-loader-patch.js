@@ -1,6 +1,7 @@
 /* eslint-disable import/no-dynamic-require */
 const Module = require('module');
 const path = require('path');
+const fs = require('fs');
 
 /**
  * Safely resolve a module specifier, returning null instead of throwing on failure.
@@ -21,11 +22,32 @@ if (!Module._load.__vaNodeCompatPatched) {
   const origLoad = Module._load;
 
   const rootCheerioEntryPath = safeResolve('cheerio');
-  const cheerioUtilsPath = safeResolve('cheerio/lib/utils.js');
+  let cheerioUtilsPath = null;
+  if (rootCheerioEntryPath) {
+    const cheerioRootDir = path.dirname(rootCheerioEntryPath);
+    const candidate = path.join(cheerioRootDir, 'lib/utils.js');
+    if (fs.existsSync(candidate)) {
+      cheerioUtilsPath = candidate;
+    }
+  }
+
   const entitiesDecodePath = safeResolve('entities/lib/decode.js');
   const entitiesEscapePath = safeResolve('entities/lib/escape.js');
   const parse5MainPath = safeResolve('parse5');
   let parse5OpenElementStackExport = null;
+  const enzymeMainPath = safeResolve('enzyme');
+  let enzymeCheerioUtilsPath = null;
+  if (enzymeMainPath) {
+    const enzymeRootDir = path.resolve(path.dirname(enzymeMainPath), '..');
+    const nestedCandidate = path.join(
+      enzymeRootDir,
+      'node_modules/cheerio/lib/utils.js',
+    );
+    if (fs.existsSync(nestedCandidate)) {
+      enzymeCheerioUtilsPath = nestedCandidate;
+    }
+  }
+
   if (parse5MainPath) {
     try {
       const openElementStackModule = require(path.join(
@@ -58,6 +80,18 @@ if (!Module._load.__vaNodeCompatPatched) {
         )
       ) {
         return origLoad(rootCheerioEntryPath, parent, isMain);
+      }
+
+      if (
+        request === 'cheerio/lib/utils' &&
+        enzymeCheerioUtilsPath &&
+        parent &&
+        typeof parent.filename === 'string' &&
+        parent.filename.includes(
+          `${path.sep}node_modules${path.sep}enzyme${path.sep}`,
+        )
+      ) {
+        return origLoad(enzymeCheerioUtilsPath, parent, isMain);
       }
 
       if (request === 'cheerio/lib/utils' && cheerioUtilsPath) {
