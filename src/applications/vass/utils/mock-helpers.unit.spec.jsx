@@ -30,12 +30,12 @@ describe('generateSlots', () => {
     expect(durationMinutes).to.equal(30);
   });
 
-  it('should start at 8 AM', () => {
+  it('should start at 16:00 UTC or 8:00 PST', () => {
     const slots = generateSlots(7, 1);
 
     const firstSlotStart = new Date(slots[0].dtStartUtc);
-    expect(firstSlotStart.getHours()).to.equal(8);
-    expect(firstSlotStart.getMinutes()).to.equal(0);
+    expect(firstSlotStart.getUTCHours()).to.equal(16); // 16:00 UTC
+    expect(firstSlotStart.getUTCMinutes()).to.equal(0);
   });
 
   it('should generate slots with 30-minute intervals', () => {
