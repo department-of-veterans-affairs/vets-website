@@ -8,7 +8,7 @@ import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
-import { GlobalWindow } from 'happy-dom';
+import { Window } from 'happy-dom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
@@ -78,7 +78,7 @@ function setupHappyDom() {
   /* eslint-enable no-console */
 
   // Create happy-dom window
-  const window = new GlobalWindow({
+  const window = new Window({
     url: 'http://localhost',
   });
 
