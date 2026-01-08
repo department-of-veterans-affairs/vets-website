@@ -3,9 +3,10 @@ import AppointmentVideo from './AppointmentVideo';
 export default class AppointmentVideoHome extends AppointmentVideo {
   constructor(response) {
     super(response);
-    this.modality = 'vaVideoCareAtHome';
+
+    // this.modality = 'vaVideoCareAtHome';
     this._modalityIcon = 'videocam';
-    this._modalityText = 'Video';
+    this.modalityText = 'Video';
   }
 
   get getCalendarData() {

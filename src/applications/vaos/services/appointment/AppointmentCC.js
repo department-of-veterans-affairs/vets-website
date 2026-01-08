@@ -10,8 +10,8 @@ export default class AppointmentCC extends Appointment {
     super(response);
 
     this.isCommunityCare = response.kind === 'cc';
-    this.modality = 'communityCare';
-    this._modalityText = this.isPendingAppointment ? 'Community care' : null;
+    // this.modality = 'communityCare';
+    this.modalityText = this.isPendingAppointment ? 'Community care' : null;
 
     this.practiceName = response.extension?.ccLocation?.practiceName;
     this.treatmentSpecialty = response.extension?.ccTreatingSpecialty;
@@ -73,5 +73,25 @@ export default class AppointmentCC extends Appointment {
       phone: getFacilityPhone(this.communityCareProvider),
       additionalText: [this.signinText],
     };
+  }
+
+  get appointmentLocality() {
+    if (this.isPendingAppointment) return this.practitionerName;
+
+    if (this.typeOfCareName && this.practitionerName) {
+      return `${this.typeOfCareName} with ${this.practitionerName}`;
+    }
+
+    if (this.typeOfCareName) {
+      return this.typeOfCareName;
+    }
+
+    if (this.practitionerName)
+      return `
+          Community care
+         appointment with ${this.practitionerName}`;
+
+    // Default
+    return 'Community care';
   }
 }

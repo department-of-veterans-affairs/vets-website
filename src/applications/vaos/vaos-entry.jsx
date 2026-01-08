@@ -3,7 +3,7 @@ import './sass/vaos.scss';
 import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
 
 import startApp from 'platform/startup/router';
-import createRoutesWithStore from './routes';
+import createRoutesWithStore from './routesV2';
 import manifest from './manifest.json';
 import reducer from './redux/reducer';
 import { vaosApi } from './redux/api/vaosApi';

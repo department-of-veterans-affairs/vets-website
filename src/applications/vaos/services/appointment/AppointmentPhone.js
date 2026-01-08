@@ -9,9 +9,9 @@ export default class AppointmentPhone extends Appointment {
     super(response);
 
     this.isVAPhoneAppointment = true;
-    this.modality = 'vaPhone';
+    // this.modality = 'vaPhone';
     this._modalityIcon = 'phone';
-    this._modalityText = 'Phone';
+    this.modalityText = 'Phone';
   }
 
   get appointmentDetailAriaText() {
@@ -49,5 +49,24 @@ export default class AppointmentPhone extends Appointment {
       phone: getFacilityPhone(this.location),
       additionalText: [this.signinText],
     };
+  }
+
+  get appointmentLocality() {
+    if (this.isPendingAppointment) return 'TODO: return facility name';
+
+    if (this.typeOfCareName && this.practitionerName) {
+      return `${this.typeOfCareName} with ${this.practitionerName}`;
+    }
+
+    if (this.practitionerName)
+      return `
+          VA appointment with ${this.practitionerName}`;
+
+    if (this.typeOfCareName) {
+      return this.typeOfCareName;
+    }
+
+    // Default
+    return 'VA Appointment';
   }
 }

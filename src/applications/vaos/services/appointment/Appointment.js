@@ -1,20 +1,21 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import { selectTimeZoneAbbr } from '../../appointment-list/redux/selectors';
-import { APPOINTMENT_STATUS, PURPOSE_TEXT_V2 } from '../../utils/constants';
+import { APPOINTMENT_STATUS, COMP_AND_PEN } from '../../utils/constants';
 import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
+import { getTypeOfCareById } from '../../utils/appointment';
 
-function getReasonForAppointment(appt) {
-  // get reason code from appt.reasonCode?.coding for v0 appointments
-  const reasonCodeV0 = appt.reasonCode?.coding;
-  return appt.reasonForAppointment
-    ? appt.reasonForAppointment
-    : PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
-        purpose =>
-          purpose.serviceName === reasonCodeV0?.[0]?.code ||
-          purpose.commentShort === reasonCodeV0?.[0]?.code,
-      )?.short;
-}
+// function getReasonForAppointment(appt) {
+//   // get reason code from appt.reasonCode?.coding for v0 appointments
+//   const reasonCodeV0 = appt.reasonCode?.coding;
+//   return appt.reasonForAppointment
+//     ? appt.reasonForAppointment
+//     : PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+//         purpose =>
+//           purpose.serviceName === reasonCodeV0?.[0]?.code ||
+//           purpose.commentShort === reasonCodeV0?.[0]?.code,
+//       )?.short;
+// }
 
 function getLocationObject(response) {
   return {
@@ -32,11 +33,11 @@ function getLocationObject(response) {
 }
 
 export default class Appointment {
-  _modality;
+  // _modality;
 
   _modalityIcon = 'location_city';
 
-  _modalityText = '';
+  // _modalityText = '';
 
   _pageTitle = 'VA appointment on';
 
@@ -53,6 +54,7 @@ export default class Appointment {
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
     this.description = response.kind !== 'cc' ? 'VAOS_UNKNOWN' : null;
+    this.extension = response.extension;
 
     this.id = response.id;
     this.isAtlasVideoAppointment =
@@ -76,12 +78,14 @@ export default class Appointment {
     this.minutesDuration = Number.isNaN(parseInt(response.minutesDuration, 10))
       ? 60
       : response.minutesDuration;
-    this._modality = response.modality;
+    this.modality = response.modality;
     this.patientComments = response.reasonCode
       ? response.patientComments
       : null;
-    this.reasonForAppointment = getReasonForAppointment(response);
+    // this.reasonForAppointment = getReasonForAppointment(response);
     this.resourceType = 'Appointment';
+    this.serviceType = response.serviceType;
+    this.serviceCategory = response.serviceCategory || [];
     this.showScheduleLink = response.showScheduleLink;
     this._start = response.start;
     this.status = response.status;
@@ -94,7 +98,7 @@ export default class Appointment {
     //   response.type === 'COMMUNITY_CARE_APPOINTMENT' && response.preferredProviderName
     //     ? { providerName= response.preferredProviderName }
     //     : null;
-    this._practitioners = response.practitioners || [];
+    this.practitioners = response.practitioners || [];
     // response.practitioners && typeof response.practitioners !== 'undefined'
     //   ? response.practitioners
     //       .filter(practitioner => !!practitioner.name)
@@ -172,46 +176,28 @@ export default class Appointment {
     };
   }
 
-  get appointmentLocality() {
-    const practitioner = this.practitionerName;
-    const { typeOfCareName, isCommunityCare, isInPersonVisit } = this;
+  // get appointmentLocality() {
+  //   if (this.isPendingAppointment) {
+  //     const { name: facilityName } = this.vaos.facilityData || {
+  //       name: '',
+  //     };
 
-    if (this.isPendingAppointment) {
-      const { name: facilityName } = this.vaos.facilityData || {
-        name: '',
-      };
-      if (isCommunityCare) {
-        return practitioner;
-      }
+  //     return facilityName;
+  //   }
 
-      return facilityName;
-    }
+  //   if (this.typeOfCareName && this.practitionerName) {
+  //     return `${this.typeOfCareName} with ${this.practitionerName}`;
+  //   }
 
-    if (
-      isInPersonVisit ||
-      this.isVideo ||
-      this.isPhoneAppointment ||
-      isCommunityCare
-    ) {
-      if (typeOfCareName && practitioner) {
-        return `${typeOfCareName} with ${practitioner}`;
-      }
+  //   if (this.typeOfCareName) {
+  //     return this.typeOfCareName;
+  //   }
 
-      if (typeOfCareName) {
-        return typeOfCareName;
-      }
-
-      if (practitioner)
-        return `${
-          isCommunityCare ? 'Community care' : 'VA'
-        } appointment with ${practitioner}`;
-    }
-
-    return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
-  }
+  //   return null;
+  // }
 
   get link() {
-    const ccEps = this._modality === 'communityCareEps';
+    const ccEps = this.modality === 'communityCareEps';
 
     return `${this.isPastAppointment && !ccEps ? 'past' : ''}/${this.id}${
       ccEps ? '?eps=true' : ''
@@ -222,12 +208,22 @@ export default class Appointment {
     return this._modalityIcon;
   }
 
-  get modalityText() {
-    return this._modalityText;
-  }
+  // get modalityText() {
+  //   return this._modalityText;
+  // }
 
-  get practitioners() {
-    return this._practitioners;
+  // get practitioners() {
+  //   return this._practitioners;
+  // }
+
+  get practitionerName() {
+    if (this.practitioners.length) {
+      const [practitioner] = this.practitioners;
+      // const firstName = practitioner.name.given?.join(' ');
+      // const lastName = practitioner.name.family;
+      return `${practitioner.name.given.join(' ')} ${practitioner.name.family}`;
+    }
+    return null;
   }
 
   get signinText() {
@@ -251,5 +247,20 @@ export default class Appointment {
 
   get startUtc() {
     return !this.isPendingAppointment ? this._start : null;
+  }
+
+  get typeOfCareName() {
+    const { name } = getTypeOfCareById(this.serviceType) || '';
+    const serviceCategoryName = this.serviceCategory?.[0]?.text || {};
+    if (serviceCategoryName === COMP_AND_PEN) {
+      const { displayName } = getTypeOfCareById(serviceCategoryName);
+      return displayName;
+    }
+
+    if (!name && this.isCerner && this.description) {
+      return this.description;
+    }
+
+    return name;
   }
 }

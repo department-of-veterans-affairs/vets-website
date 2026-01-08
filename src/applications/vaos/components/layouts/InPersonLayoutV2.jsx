@@ -48,7 +48,7 @@ export default function InPersonLayout({ data: appointment }) {
   //     shallowEqual,
   //   );
 
-  if (!appointment) return null;
+  // if (!appointment) return null;
 
   const { reasonForAppointment, patientComments, isPastAppointment } =
     appointment || {};

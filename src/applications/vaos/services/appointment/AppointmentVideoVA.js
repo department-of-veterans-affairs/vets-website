@@ -4,8 +4,9 @@ import AppointmentVideo from './AppointmentVideo';
 export default class AppointmentVideoVA extends AppointmentVideo {
   constructor(response) {
     super(response);
-    this.modality = 'vaVideoCareAtAVaLocation';
-    this._modalityText = this.facilityName
+
+    // this.modality = 'vaVideoCareAtAVaLocation';
+    this.modalityText = this.facilityName
       ? `At ${this.facilityName}`
       : 'At VA facility';
   }

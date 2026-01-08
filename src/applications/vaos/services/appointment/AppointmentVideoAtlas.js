@@ -23,10 +23,10 @@ export default class AppointmentVideoAtlas extends AppointmentVideo {
       },
     };
 
-    this.modality = 'vaVideoCareAtAnAtlasLocation';
+    // this.modality = 'vaVideoCareAtAnAtlasLocation';
 
-    const { street, city, state } = response.telehealth.atlas.address;
-    this._modalityText = `At ${street} ${city}, ${state}`;
+    const { streetAddress, city, state } = response.telehealth.atlas.address;
+    this.modalityText = `At ${streetAddress} ${city}, ${state}`;
   }
 
   get getCalendarData() {

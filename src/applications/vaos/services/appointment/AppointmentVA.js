@@ -5,13 +5,32 @@ export default class AppointmentVA extends Appointment {
     super(response);
 
     this.isInPersonVisit = true;
-    this._modality = 'vaInPerson';
+    // this.modality = 'vaInPerson';
 
-    if (this.isPendingAppointment) this._modalityText = 'In person';
+    if (this.isPendingAppointment) this.modalityText = 'In person';
     else {
-      this._modalityText = response.location?.name
+      this.modalityText = response.location?.name
         ? `At ${response.location.name}`
         : 'At VA facility';
     }
+  }
+
+  get appointmentLocality() {
+    if (this.isPendingAppointment) return 'TODO: return facility name';
+
+    if (this.typeOfCareName && this.practitionerName) {
+      return `${this.typeOfCareName} with ${this.practitionerName}`;
+    }
+
+    if (this.practitionerName)
+      return `
+          VA appointment with ${this.practitionerName}`;
+
+    if (this.typeOfCareName) {
+      return this.typeOfCareName;
+    }
+
+    // Default
+    return 'VA Appointment';
   }
 }

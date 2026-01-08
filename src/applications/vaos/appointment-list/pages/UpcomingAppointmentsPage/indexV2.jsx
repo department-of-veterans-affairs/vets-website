@@ -5,11 +5,12 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
-import { groupAppointmentByDay } from '../../../services/appointment';
 import {
-  selectAppointmentsGroupByMonth,
-  useGetAppointmentsQuery,
-} from '../../../services/appointment/apiSlice';
+  groupAppointmentByDay,
+  groupAppointmentsByMonth,
+  sortByDateAscending,
+} from '../../../services/appointment';
+import { useGetAppointmentsQuery } from '../../../services/appointment/apiSlice';
 import { GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
@@ -22,16 +23,35 @@ export default function UpcomingAppointmentsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const {
+    appointments,
     isLoading,
     isSuccess,
     isError,
     isFetching,
-  } = useGetAppointmentsQuery();
+  } = useGetAppointmentsQuery(undefined, {
+    selectFromResult: ({
+      data,
+      error: _error,
+      isError: _isError,
+      isFetching: _isFetching,
+      isLoading: _isLoading,
+      isSuccess: _isSuccess,
+    }) => {
+      return {
+        appointments: data?.filter(appt => appt.isUpcomingAppointment),
+        error: _error,
+        isError: _isError,
+        isFetching: _isFetching,
+        isLoading: _isLoading,
+        isSuccess: _isSuccess,
+      };
+    },
+  });
   const {
     showScheduleButton,
     // appointmentsByMonth,
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
-  const appointmentsByMonth = useSelector(selectAppointmentsGroupByMonth);
+  // const appointmentsByMonth = useSelector(selectAppointmentsGroupByMonth);
 
   useEffect(() => {
     recordEvent({
@@ -73,6 +93,9 @@ export default function UpcomingAppointmentsPage() {
     );
   }
 
+  if (!appointments) return null;
+  const sortedAppointments = appointments?.sort(sortByDateAscending);
+  const appointmentsByMonth = groupAppointmentsByMonth(sortedAppointments);
   const keys = Object.keys(appointmentsByMonth);
 
   return (
