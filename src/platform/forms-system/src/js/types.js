@@ -27,6 +27,13 @@
  * @property {(props: any) => JSX.Element} [confirmation]
  * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
  * @property {JSX.Element | React.ReactNode} [CustomTopContent]
+ * @property {(formData: any) => Array<{
+ *   property: string,
+ *   message: string,
+ *   name: string,
+ *   argument: any,
+ *   stack: string
+ * }>} [customValidationErrors]
  * @property {CustomText} [customText]
  * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options
