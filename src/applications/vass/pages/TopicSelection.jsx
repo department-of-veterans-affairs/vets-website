@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import {
@@ -12,12 +12,13 @@ import {
   selectSelectedTopics,
 } from '../redux/slices/formSlice';
 import { useGetTopicsQuery } from '../redux/api/vassApi';
+import { useErrorFocus } from '../hooks/useErrorFocus';
 
 // TODO: remove this once we have a real UUID
 import { UUID } from '../services/mocks/utils/formData';
 
 const TopicSelection = () => {
-  const [error, setError] = useState('');
+  const { error, handleSetError } = useErrorFocus('va-checkbox-group');
   const dispatch = useDispatch();
   const selectedTopics = useSelector(selectSelectedTopics);
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const TopicSelection = () => {
   );
 
   const handleTopicChange = event => {
-    setError('');
+    handleSetError('');
     const { checked } = event.detail;
     if (checked) {
       const newTopics = [
@@ -56,7 +57,7 @@ const TopicSelection = () => {
 
   const handleContinue = () => {
     if (!selectedTopics?.length) {
-      setError('Please choose a topic for your appointment.');
+      handleSetError('Please choose a topic for your appointment.');
       return;
     }
     navigate('/review');
