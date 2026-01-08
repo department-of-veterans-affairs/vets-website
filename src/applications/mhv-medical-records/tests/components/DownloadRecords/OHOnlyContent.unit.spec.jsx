@@ -219,12 +219,14 @@ describe('OHOnlyContent', () => {
     expect(getByTestId('expired-alert-message')).to.exist;
   });
 
-  it('renders AccessTroubleAlertBox when activeAlert type is ALERT_TYPE_SEI_ERROR', () => {
-    const { getByTestId } = renderComponent({
+  it('does not render SEI error alert when activeAlert type is ALERT_TYPE_SEI_ERROR (OH-only users do not have SEI)', () => {
+    const { queryByTestId, queryByText } = renderComponent({
       activeAlert: { type: ALERT_TYPE_SEI_ERROR },
     });
 
-    expect(getByTestId('expired-alert-message')).to.exist;
+    // SEI alerts should NOT be shown for OH-only users
+    expect(queryByTestId('expired-alert-message')).to.not.exist;
+    expect(queryByText(/self-entered information/)).to.not.exist;
   });
 
   it('does not render error alerts when activeAlert is null', () => {

@@ -1,32 +1,16 @@
 import React from 'react';
-import {
-  SEI_DOMAINS,
-  ALERT_TYPE_SEI_ERROR,
-  MissingRecordsError,
-} from '@department-of-veterans-affairs/mhv/exports';
-import { AccessErrors } from './AccessErrors';
+import AlertSection from './AlertSection';
 import CCDDownloadSection from './CCDDownloadSection';
-import AccessTroubleAlertBox from '../shared/AccessTroubleAlertBox';
-import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import TrackedSpinner from '../shared/TrackedSpinner';
 import useSelfEnteredPdf from '../../hooks/useSelfEnteredPdf';
-import {
-  accessAlertTypes,
-  ALERT_TYPE_CCD_ERROR,
-  documentTypes,
-} from '../../util/constants';
 import { formatFacilityList } from '../../util/facilityHelpers';
 import { useDownloadReport } from '../../context/DownloadReportContext';
 import CCDDescription from './CCDDescription';
 
 const VistaAndOHContent = () => {
   const {
-    activeAlert,
-    ccdError,
     ccdExtendedFileTypeFlag,
-    CCDRetryTimestamp,
     ohFacilityNames,
-    ccdDownloadSuccess,
     generatingCCD,
     handleDownloadCCD,
     handleDownloadCCDV2,
@@ -44,29 +28,14 @@ const VistaAndOHContent = () => {
   return (
     <div className="vads-u-margin-y--2">
       <h2>Download your Continuity of Care Document</h2>
-      {ccdDownloadSuccess &&
-        (!ccdError && !CCDRetryTimestamp) && (
-          <DownloadSuccessAlert
-            type="Continuity of Care Document download"
-            className="vads-u-margin-bottom--1"
-            focusId="ccd-download-success"
-          />
-        )}
-      <AccessErrors
-        CCDRetryTimestamp={CCDRetryTimestamp}
+      <AlertSection
+        showSeiAlerts={false}
         failedSeiDomains={failedSeiDomains}
         seiPdfGenerationError={seiPdfGenerationError}
+        successfulSeiDownload={successfulSeiDownload}
       />
-      {/* redux action/server errors */}
-      {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.CCD}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
       <CCDDescription showXmlFormatText={!ccdExtendedFileTypeFlag} />
-      <div className="vads-u-margin-top--3, vads-u-margin-bottom--4">
+      <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
         {ccdExtendedFileTypeFlag ? (
           <>
             <p className="vads-u-font-weight--bold">
@@ -103,56 +72,15 @@ const VistaAndOHContent = () => {
             testIdSuffix=""
             ddSuffix=""
           />
-          // <>
-          //   {generatingCCD ? (
-          //     <div
-          //       id="generating-ccd-indicator"
-          //       data-testid="generating-ccd-indicator"
-          //     >
-          //       <TrackedSpinner
-          //         id="download-ccd-spinner"
-          //         label="Loading"
-          //         message="Preparing your download..."
-          //       />
-          //     </div>
-          //   ) : (
-          //     <div className="vads-u-display--flex vads-u-flex-direction--column">
-          //       <va-link
-          //         download
-          //         href="#"
-          //         onClick={e => handleDownloadCCD(e, 'xml')}
-          //         text="Download Continuity of Care Document (XML)"
-          //         data-testid="generateCcdButtonXml"
-          //         data-dd-action-name="Download CCD XML"
-          //       />
-          //     </div>
-          //   )}
-          // </>
         )}
       </div>
       <h2>Download your self-entered health information</h2>
-      {/* redux action/server errors */}
-      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.SEI}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-
-      {successfulSeiDownload === true &&
-        failedSeiDomains.length !== SEI_DOMAINS.length && (
-          <>
-            <MissingRecordsError
-              documentType="Self-entered health information report"
-              recordTypes={failedSeiDomains}
-            />
-            <DownloadSuccessAlert
-              type="Self-entered health information report download"
-              className="vads-u-margin-bottom--1"
-            />
-          </>
-        )}
+      <AlertSection
+        showCcdAlerts={false}
+        failedSeiDomains={failedSeiDomains}
+        seiPdfGenerationError={seiPdfGenerationError}
+        successfulSeiDownload={successfulSeiDownload}
+      />
       <p className="vads-u-margin--0">
         This report includes all the health information you entered yourself in
         the previous version of My HealtheVet.
