@@ -102,6 +102,7 @@ const SelectCareTeam = () => {
   useEffect(
     () => {
       if (
+        !draftInProgress?.messageId &&
         !!draftInProgress?.recipientId &&
         draftInProgress?.navigationError?.title ===
           ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title &&
