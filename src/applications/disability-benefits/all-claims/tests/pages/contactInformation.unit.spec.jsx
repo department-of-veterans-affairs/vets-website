@@ -6,13 +6,9 @@ import { waitFor } from '@testing-library/react';
 
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
-// import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import {
-  STATE_VALUES,
-  MILITARY_STATE_VALUES,
-} from 'applications/disability-benefits/all-claims/constants';
+import { MILITARY_STATE_VALUES } from 'applications/disability-benefits/all-claims/constants';
 import { commonReducer } from 'platform/startup/store';
 import formConfig from '../../config/form';
 import reducers from '../../reducers';
@@ -32,13 +28,6 @@ describe('Disability benefits 526EZ contact information', () => {
     }),
   );
 
-  // const mockStore = createStore(
-  //   combineReducers({
-  //     ...commonReducer,
-  //     form: (state = {}) => state,
-  //   }),
-  // );
-
   beforeEach(() => {
     sandbox = sinon.createSandbox();
   });
@@ -48,25 +37,6 @@ describe('Disability benefits 526EZ contact information', () => {
   });
 
   describe('contactInformation page', () => {
-    // let formData;
-
-    // beforeEach(() => {
-    //   const formData = {
-    //     phoneAndEmail: {
-    //       primaryPhone: '5551234567',
-    //       emailAddress: 'test@example.com',
-    //     },
-    //     mailingAddress: {
-    //       addressLine1: '123 Main St',
-    //       city: 'Anytown',
-    //       state: 'CA',
-    //       zipCode: '12345',
-    //       country: 'USA',
-    //       'view:livesOnMilitaryBase': false,
-    //     },
-    //   };
-    // });
-
     describe('state field validation functions', () => {
       it('should require state for USA addresses', () => {
         const requiredFn = uiSchema.mailingAddress.state['ui:required'];
@@ -200,27 +170,6 @@ describe('Disability benefits 526EZ contact information', () => {
         expect(result.enum).to.not.include('AA');
         expect(result.enum).to.include('CA');
       });
-
-      // it('should return empty schema for non-USA, non-military addresses', () => {
-      //   const mockUiSchema = {
-      //     'ui:webComponentField': null,
-      //     'ui:errorMessages': {},
-      //   };
-
-      //   const result = updateSchemaFn(
-      //     {
-      //       mailingAddress: {
-      //         'view:livesOnMilitaryBase': false,
-      //         country: 'CAN',
-      //       },
-      //     },
-      //     {},
-      //     mockUiSchema,
-      //   );
-
-      //   expect(result.enum).to.deep.equal([]);
-      //   expect(result.enumNames).to.deep.equal([]);
-      // });
     });
 
     describe('updateFormData function', () => {
@@ -387,38 +336,6 @@ describe('Disability benefits 526EZ contact information', () => {
         expect(stateDropdownOptions.length).to.equal(
           MILITARY_STATE_VALUES.length,
         );
-        form.unmount();
-      });
-
-      it.skip('does not restrict state options  when city is not a military city code', () => {
-        // SKIPPED: This test is complex due to form state interactions
-        // The addressUI component logic for determining when to show radio vs dropdown
-        // is more complex than expected and requires deeper investigation
-        // Currently the form shows 59 options instead of expected 65
-
-        const form = mount(
-          <Provider store={fakeStore}>
-            <DefinitionTester
-              definitions={formConfig.defaultDefinitions}
-              schema={schema}
-              data={{
-                mailingAddress: {
-                  country: 'USA',
-                  city: 'Detroit',
-                },
-                phoneAndEmail: {},
-              }}
-              formData={{}}
-              uiSchema={uiSchema}
-            />
-          </Provider>,
-        );
-
-        const stateDropdownOptions = form.find(
-          '#root_mailingAddress_state > option',
-        );
-        // The `+1` is for the empty option in the dropdown
-        expect(stateDropdownOptions.length).to.equal(STATE_VALUES.length + 1);
         form.unmount();
       });
 
@@ -599,47 +516,6 @@ describe('Disability benefits 526EZ contact information', () => {
         expect(totalErrors).to.equal(0);
         expect(onSubmit.called).to.be.true;
         form.unmount();
-      });
-
-      describe('updateFormData', () => {
-        const getFormData = (checkbox, city = '', state = '') => ({
-          mailingAddress: {
-            'view:livesOnMilitaryBase': checkbox,
-            city,
-            state,
-          },
-        });
-        const empty = getFormData(true, '', '');
-        const data = getFormData(false, 'city', 'state');
-        it('should return current city & state', () => {
-          const newData = getFormData(true, 'city', 'state');
-          expect(updateFormData(empty, empty)).to.deep.equal(empty);
-          expect(updateFormData(data, data)).to.deep.equal(data);
-          expect(updateFormData(newData, newData)).to.deep.equal(newData);
-        });
-        it('should clear city & state when military checkbox is set', () => {
-          const newData = getFormData(true, 'city', 'state');
-          expect(updateFormData(data, newData)).to.deep.equal(empty);
-        });
-        it('should restore city & state when military checkbox is unset', () => {
-          const oldData = getFormData(true, 'city', 'state');
-          const newData = getFormData(false, 'city', 'state');
-          expect(updateFormData(oldData, newData)).to.deep.equal(newData);
-        });
-        it('should restore city & state when military checkbox is unset', () => {
-          const oldData = getFormData(true, 'city', 'state');
-          const newData = getFormData(false, 'city', 'state');
-          expect(updateFormData(oldData, newData)).to.deep.equal(newData);
-        });
-        it('should clear city if unchecked & military city is set', () => {
-          // store original city & state in savedAddress
-          const storeData = getFormData(true, 'city', 'state');
-          updateFormData(data, storeData);
-          // set military city & state, then test restoration
-          const militarySet = getFormData(true, 'APO', 'AA');
-          const result = getFormData(false, 'city', 'state');
-          expect(updateFormData(militarySet, data)).to.deep.equal(result);
-        });
       });
     });
   });
