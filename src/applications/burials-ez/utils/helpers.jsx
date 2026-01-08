@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { endOfDay } from 'date-fns';
+import format from 'date-fns-tz/format';
+import parseISO from 'date-fns/parseISO';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
+
+export const formatDate = dateString => {
+  const date = parseISO(dateString);
+  return format(date, 'LLLL d, yyyy');
+};
 
 import {
   checkboxGroupSchema,
