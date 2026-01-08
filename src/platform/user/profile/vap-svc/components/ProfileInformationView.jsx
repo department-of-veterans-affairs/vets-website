@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
@@ -19,7 +18,6 @@ import {
   preferredContactMethodDisplay,
 } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
-import { selectVAPContactInfoField } from '../selectors';
 
 const ProfileInformationView = props => {
   const {
@@ -162,16 +160,6 @@ const ProfileInformationView = props => {
   return null;
 };
 
-const mapStateToProps = state => {
-  return {
-    email: selectVAPContactInfoField(state, 'email'),
-    mailingAddress: selectVAPContactInfoField(state, 'mailingAddress'),
-    mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
-    homePhone: selectVAPContactInfoField(state, 'homePhone'),
-    workPhone: selectVAPContactInfoField(state, 'workPhone'),
-  };
-};
-
 ProfileInformationView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   data: PropTypes.object,
@@ -184,4 +172,4 @@ ProfileInformationView.propTypes = {
   workPhone: PropTypes.object,
 };
 
-export default connect(mapStateToProps)(ProfileInformationView);
+export default ProfileInformationView;

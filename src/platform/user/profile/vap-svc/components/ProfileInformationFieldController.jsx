@@ -547,6 +547,11 @@ class ProfileInformationFieldController extends React.Component {
           fieldName={fieldName}
           title={title}
           id={ariaDescribedBy}
+          email={this.props.email}
+          mailingAddress={this.props.mailingAddress}
+          mobilePhone={this.props.mobilePhone}
+          homePhone={this.props.homePhone}
+          workPhone={this.props.workPhone}
         />
         <div className="vads-u-width--full">
           <div>
@@ -711,8 +716,12 @@ ProfileInformationFieldController.propTypes = {
   contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
+  email: PropTypes.object,
   forceEditView: PropTypes.bool,
+  homePhone: PropTypes.object,
   isDeleteDisabled: PropTypes.bool,
+  mailingAddress: PropTypes.object,
+  mobilePhone: PropTypes.object,
   prefillPatternEnabled: PropTypes.bool,
   recordCustomProfileEvent: PropTypes.func,
   refreshTransaction: PropTypes.func,
@@ -728,6 +737,7 @@ ProfileInformationFieldController.propTypes = {
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  workPhone: PropTypes.object,
   onCancelButtonFocused: PropTypes.func,
 };
 
@@ -830,6 +840,11 @@ export const mapStateToProps = (state, ownProps) => {
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
     showErrorAlert: shouldShowErrorAlert(state, fieldName),
     showCopyAddressModal,
+    email: selectVAPContactInfoField(state, 'email'),
+    mailingAddress: selectVAPContactInfoField(state, 'mailingAddress'),
+    mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
+    homePhone: selectVAPContactInfoField(state, 'homePhone'),
+    workPhone: selectVAPContactInfoField(state, 'workPhone'),
   };
 };
 
