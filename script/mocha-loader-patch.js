@@ -19,37 +19,16 @@ function safeResolve(specifier) {
 // - Redirect Enzyme/parse5 deep imports blocked by package.exports
 if (!Module._load.__vaNodeCompatPatched) {
   const origLoad = Module._load;
+  // eslint-disable-next-line no-unused-vars
   const origResolveFilename = Module._resolveFilename;
 
   const rootCheerioEntryPath = safeResolve('cheerio');
-  // `cheerio/lib/utils.js` is not exported via package.exports, but the
-  // subpath `cheerio/lib/utils` still resolves to the underlying file for
-  // the top-level cheerio we control. Enzyme's nested cheerio, however,
-  // blocks this subpath via its own exports map. We bypass that by forcing
-  // all `cheerio/lib/utils` resolutions through this top-level instance.
   const cheerioUtilsPath = safeResolve('cheerio/lib/utils');
 
   const entitiesDecodePath = safeResolve('entities/lib/decode.js');
   const entitiesEscapePath = safeResolve('entities/lib/escape.js');
   const parse5MainPath = safeResolve('parse5');
   let parse5OpenElementStackExport = null;
-
-  // Intercept resolution of `cheerio/lib/utils` at the filename layer so
-  // Enzyme's nested cheerio package.exports map is never consulted.
-  if (cheerioUtilsPath && !origResolveFilename.__vaCheerioPatched) {
-    Module._resolveFilename = function patchedResolveFilename(
-      request,
-      parent,
-      isMain,
-      options,
-    ) {
-      if (request === 'cheerio/lib/utils') {
-        return cheerioUtilsPath;
-      }
-      return origResolveFilename.call(this, request, parent, isMain, options);
-    };
-    Module._resolveFilename.__vaCheerioPatched = true;
-  }
 
   if (parse5MainPath) {
     try {
@@ -85,7 +64,15 @@ if (!Module._load.__vaNodeCompatPatched) {
         return origLoad(rootCheerioEntryPath, parent, isMain);
       }
 
-      if (request === 'cheerio/lib/utils' && cheerioUtilsPath) {
+      if (
+        request === 'cheerio/lib/utils' &&
+        cheerioUtilsPath &&
+        parent &&
+        typeof parent.filename === 'string' &&
+        parent.filename.includes(
+          `${path.sep}node_modules${path.sep}enzyme${path.sep}`,
+        )
+      ) {
         return origLoad(cheerioUtilsPath, parent, isMain);
       }
 
