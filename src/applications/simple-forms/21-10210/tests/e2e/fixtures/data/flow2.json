@@ -7,7 +7,9 @@
       "middle": "",
       "last": "Witness"
     },
-    "witnessRelationshipToClaimant": "I served with the Veteran",
+    "witnessRelationshipToClaimant": {
+      "I served with the Veteran": true
+    },
     "witnessPhone": "555-555-5555",
     "witnessEmail": "jack.witness@example.com",
     "statement": "It was a dark and stormy night...",

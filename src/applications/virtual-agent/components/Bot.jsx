@@ -46,7 +46,12 @@ function Bot() {
     TOGGLE_NAMES.virtualAgentUseStsAuthentication,
   );
 
-  webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
+  React.useEffect(
+    () => {
+      return webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
+    },
+    [isLoggedIn, setIsAuthTopic],
+  );
 
   useLoginModal(isLoggedIn, isAuthTopic, virtualAgentUseStsAuthentication);
 
