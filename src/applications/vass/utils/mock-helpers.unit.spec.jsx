@@ -43,14 +43,14 @@ describe('generateSlots', () => {
 
     const firstDay = slots.slice(0, 3);
 
-    expect(new Date(firstDay[0].dtStartUtc).getHours()).to.equal(8);
-    expect(new Date(firstDay[0].dtStartUtc).getMinutes()).to.equal(0);
+    expect(new Date(firstDay[0].dtStartUtc).getUTCHours()).to.equal(16);
+    expect(new Date(firstDay[0].dtStartUtc).getUTCMinutes()).to.equal(0);
 
-    expect(new Date(firstDay[1].dtStartUtc).getHours()).to.equal(8);
-    expect(new Date(firstDay[1].dtStartUtc).getMinutes()).to.equal(30);
+    expect(new Date(firstDay[1].dtStartUtc).getUTCHours()).to.equal(16);
+    expect(new Date(firstDay[1].dtStartUtc).getUTCMinutes()).to.equal(30);
 
-    expect(new Date(firstDay[2].dtStartUtc).getHours()).to.equal(9);
-    expect(new Date(firstDay[2].dtStartUtc).getMinutes()).to.equal(0);
+    expect(new Date(firstDay[2].dtStartUtc).getUTCHours()).to.equal(17);
+    expect(new Date(firstDay[2].dtStartUtc).getUTCMinutes()).to.equal(0);
   });
 
   it('should exclude weekends', () => {
