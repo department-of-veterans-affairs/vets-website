@@ -469,7 +469,7 @@ const responses = {
     });
   },
   'GET /vaos/v2/relationships': (req, res) => {
-    return res.json({ data: patientProviderRelationships, meta });
+    return res.json(patientProviderRelationships);
   },
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json(
