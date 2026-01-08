@@ -398,30 +398,7 @@ const responses = {
 
   // GET individual expense endpoints
   // GET /claims/:claimId/expenses/:expenseType/:expenseId
-  'GET /travel_pay/v0/claims/:claimId/expenses/mileage/:expenseId': getExpenseHandler(
-    'mileage',
-  ),
-  'GET /travel_pay/v0/claims/:claimId/expenses/parking/:expenseId': getExpenseHandler(
-    'parking',
-  ),
-  'GET /travel_pay/v0/claims/:claimId/expenses/toll/:expenseId': getExpenseHandler(
-    'toll',
-  ),
-  'GET /travel_pay/v0/claims/:claimId/expenses/commoncarrier/:expenseId': getExpenseHandler(
-    'commoncarrier',
-  ),
-  'GET /travel_pay/v0/claims/:claimId/expenses/airtravel/:expenseId': getExpenseHandler(
-    'airtravel',
-  ),
-  'GET /travel_pay/v0/claims/:claimId/expenses/lodging/:expenseId': getExpenseHandler(
-    'lodging',
-  ),
-  'GET /travel_pay/v0/claims/:claimId/expenses/meal/:expenseId': getExpenseHandler(
-    'meal',
-  ),
-  'GET /travel_pay/v0/claims/:claimId/expenses/other/:expenseId': getExpenseHandler(
-    'other',
-  ),
+  'GET /travel_pay/v0/claims/:claimId/expenses/:expenseType/:expenseId': getExpenseHandler(),
 
   // Document download
   'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
