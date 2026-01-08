@@ -1,6 +1,3 @@
-// import React from 'react';
-// import merge from 'lodash/merge';
-// import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
@@ -23,28 +20,15 @@ import {
   phoneEmailViewField,
 } from '../content/contactInformation';
 
-// import { addressUISchema } from '../utils/schemas';
-
 import {
-  // ADDRESS_PATHS,
-  // USA,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
   MILITARY_CITIES,
-  // FORM_PROFILE_STATES,
 } from '../constants';
 
-import {
-  //   // validateMilitaryCity,
-  //   // validateMilitaryState,
-  validateZIP,
-} from '../validations';
-// import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { validateZIP } from '../validations';
 
-const {
-  // forwardingAddress,
-  phoneAndEmail,
-} = fullSchema.properties;
+const { phoneAndEmail } = fullSchema.properties;
 
 // Create custom country names that display 'USA' instead of 'United States'
 const COUNTRY_VALUES = constants.countries.map(country => country.value);
@@ -52,39 +36,6 @@ const COUNTRY_NAMES = constants.countries.map(
   country => (country.value === 'USA' ? 'USA' : country.label),
 );
 
-// const mailingAddress = merge(
-//   {
-//     properties: {
-//       'view:livesOnMilitaryBase': {
-//         type: 'boolean',
-//       },
-//       'view:livesOnMilitaryBaseInfo': {
-//         type: 'object',
-//         properties: {},
-//       },
-//     },
-//   },
-//   fullSchema.definitions.address,
-// );
-// const MILITARY_STATES = [
-//   {
-//     label:
-//       'AA (Armed Forces America) - North and South America, excluding Canada',
-//     value: 'AA',
-//   },
-//   {
-//     label:
-//       'AE (Armed Forces Europe) - Africa, Canada, Europe, and the Middle East',
-//     value: 'AE',
-//   },
-//   {
-//     label: 'AP (Armed Forces Pacific) - Pacific',
-//     value: 'AP',
-//   },
-// ];
-
-// const MILITARY_STATE_VALUES = MILITARY_STATES.map(state => state.value);
-// const MILITARY_STATE_NAMES = MILITARY_STATES.map(state => state.label);
 const filteredStates = constants.states.USA.filter(
   state => !MILITARY_STATE_VALUES.includes(state.value),
 );
@@ -98,26 +49,6 @@ const shouldShowZipCode = formData => {
   const isUSA = formData.mailingAddress?.country === 'USA';
   return isMilitary || isUSA;
 };
-
-// const countryEnum = fullSchema.definitions.country.enum;
-// const citySchema = fullSchema.definitions.address.properties.city;
-// const COUNTRY_VALUES = constants.countries.map(country => country.value);
-// const COUNTRY_LABELS = constants.countries.map(country => country.label);
-
-// /**
-//  * Return state of mailing address military base checkbox
-//  * @param {object} data - Complete form data
-//  * @returns {boolean} - military base checkbox state
-//  */
-// const getMilitaryValue = data =>
-//   data.mailingAddress?.['view:livesOnMilitaryBase'];
-
-// // Temporary storage for city & state if military base checkbox is toggled more
-// // than once
-// const savedAddress = {
-//   city: '',
-//   state: '',
-// };
 
 /**
  * Update form data to remove selected military city & state and restore any
@@ -236,7 +167,6 @@ export const uiSchema = {
         hideEmptyValueInReview: true,
         updateSchema: (formData, schema, _uiSchema) => {
           const ui = _uiSchema;
-          // console.log('formData in state updateSchema:', formData);
           if (
             formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
             MILITARY_CITIES.includes(formData.mailingAddress.city)
