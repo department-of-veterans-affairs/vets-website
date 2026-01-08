@@ -64,7 +64,7 @@ describe('loginHandler', () => {
     const loginHandlerSpy = sandbox.spy(loginHandler);
 
     loginHandlerSpy('logingov', true, {
-      clientId: 'okta_test',
+      clientId: '861fbfbf1b4cd2594e0f7a4a367a9a87',
       codeChallenge: 'codetest',
       state: 'some_state',
     });
@@ -73,7 +73,7 @@ describe('loginHandler', () => {
     expect(mockAuthLogin.called).to.be.true;
     expect(
       mockAuthLogin.calledWith({
-        clientId: 'okta_test',
+        clientId: '861fbfbf1b4cd2594e0f7a4a367a9a87',
         codeChallenge: 'codetest',
         loginType: 'logingov',
         state: 'some_state',
