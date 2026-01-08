@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import IntroductionPage from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
+import { complaintTypesList } from '../../constants';
 
 const getData = ({
   loggedIn = true,
@@ -66,5 +67,24 @@ describe('<IntroductionPage>', () => {
     );
     expect(wrapper).to.not.be.null;
     wrapper.unmount();
+  });
+
+  it('Should render complaint types as a list instead of a table', () => {
+    const { props, mockStore } = getData({ loggedIn: false });
+    const { container, getByText } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+
+    // Verify that table element is not present
+    const table = container.querySelector('table');
+    expect(table).to.be.null;
+
+    // Verify that all complaint types are rendered in a list
+    complaintTypesList.forEach(item => {
+      const text = item.content[0].value;
+      expect(getByText(text)).to.exist;
+    });
   });
 });
