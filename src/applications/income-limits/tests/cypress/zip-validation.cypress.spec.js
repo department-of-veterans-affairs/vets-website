@@ -24,6 +24,9 @@ describe('zip code validation - service errors', () => {
 
     h.verifyLoadingIndicatorShown();
 
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(5200);
+
     h.checkServiceAlertText(
       `Your answer didn’t go through.We’re sorry. There’s a problem with our system. Refresh this page or try again later.`,
     );

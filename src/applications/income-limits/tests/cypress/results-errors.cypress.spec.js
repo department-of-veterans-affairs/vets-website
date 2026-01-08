@@ -40,6 +40,9 @@ describe('retrieving results - errors', () => {
 
       h.verifyLoadingIndicatorShown();
 
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(5200);
+
       h.checkServiceAlertText(
         `We've run into a problemYour information couldn’t go through. Enter a valid 5 digit zip code.`,
       );
@@ -85,6 +88,9 @@ describe('retrieving results - errors', () => {
       h.clickContinue();
 
       h.verifyLoadingIndicatorShown();
+
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(5200);
 
       h.checkServiceAlertText(
         `We've run into a problemYour information couldn’t go through. Enter a valid four digit year again.`,
@@ -133,7 +139,7 @@ describe('retrieving results - errors', () => {
       h.verifyLoadingIndicatorShown();
 
       // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(6200);
+      cy.wait(5200);
 
       h.checkServiceAlertText(
         `We've run into a problemYour information couldn’t go through. Enter a number of dependents between 0 and 100.`,
