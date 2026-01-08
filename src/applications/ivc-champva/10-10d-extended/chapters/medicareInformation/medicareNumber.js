@@ -12,6 +12,7 @@ const ERR_MSG_REQUIRED = content['validation--required'];
 const MBI_SCHEMA = {
   type: 'string',
   maxLength: 11,
+  minLength: 11,
   pattern: '^[0-9a-zA-Z]+$',
 };
 

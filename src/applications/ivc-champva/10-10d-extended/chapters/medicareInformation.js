@@ -720,7 +720,7 @@ export const medicarePages = arrayBuilderPages(
       title: 'Medicare plan type',
       ...medicarePlanTypes,
     }),
-    medicareMbiCode: pageBuilder.itemPage({
+    medicareBeneficiaryIdentifier: pageBuilder.itemPage({
       path: 'medicare-beneficiary-identifier/:index',
       title: 'Medicare beneficiary identifier',
       ...medicareNumber,
