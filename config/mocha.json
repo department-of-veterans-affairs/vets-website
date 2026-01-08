@@ -1,5 +1,6 @@
 {
   "require": [
+    "script/mocha-loader-patch.js",
     "@babel/register",
     "core-js/stable",
     "regenerator-runtime/runtime",
