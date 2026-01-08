@@ -21,6 +21,28 @@ Module._load = function patchedLoad(request, parent, isMain) {
   }
   return origLoad.apply(this, arguments);
 };
+
+// -----------------------------------------------------------------------------
+// Shim Enzyme deep requires blocked by package.exports in modern cheerio/entities
+// -----------------------------------------------------------------------------
+try {
+  const cheerioRoot = path.dirname(require.resolve('cheerio/package.json'));
+  const entitiesRoot = path.dirname(require.resolve('parse5/node_modules/entities/package.json'));
+  Module._load = function patchedLoad2(request, parent, isMain) {
+    if (request === 'cheerio/lib/utils') {
+      return origLoad(path.join(cheerioRoot, 'lib/utils.js'), parent, isMain);
+    }
+    if (request === 'entities/lib/decode.js') {
+      return origLoad(path.join(entitiesRoot, 'lib/decode.js'), parent, isMain);
+    }
+    if (typeof request === 'string' && request.startsWith('node:')) {
+      return origLoad(request.slice(5), parent, isMain);
+    }
+    return origLoad.apply(this, arguments);
+  };
+} catch (e) {
+  // If cheerio/entities paths not found, skip shim.
+}
 require('babel-polyfill');
 // require mocha setup files
 require('../src/platform/testing/unit/mocha-setup.js');
