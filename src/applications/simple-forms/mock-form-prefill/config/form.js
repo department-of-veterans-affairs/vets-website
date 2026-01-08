@@ -5,6 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
+  transformEmailForSubmit,
   prefillTransformer,
 } from 'platform/forms-system/src/js/patterns/prefill';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
@@ -25,20 +26,11 @@ const formConfig = {
   confirmation: ConfirmationPage,
   // eslint-disable-next-line no-shadow
   transformForSubmit: (formConfig, form, options) => {
-    let newForm = form;
-    if (form.data?.veteran?.email) {
-      newForm = {
-        ...form,
-        data: {
-          ...form.data,
-          veteran: {
-            ...form.data.veteran,
-            email: form.data.veteran.email?.emailAddress,
-          },
-        },
-      };
-    }
-    return transformForSubmit(formConfig, newForm, options);
+    return transformForSubmit(
+      formConfig,
+      transformEmailForSubmit(form),
+      options,
+    );
   },
   preSubmitInfo: {
     statementOfTruth: {
