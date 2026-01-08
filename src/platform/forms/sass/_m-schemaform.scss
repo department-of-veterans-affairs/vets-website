@@ -230,7 +230,7 @@ label {
 }
 
 .schemaform-array-row-title:focus {
-  @include focus-gold-light-outline;
+  @include focus-gold-light-outline();
   display: inline-block;
 }
 

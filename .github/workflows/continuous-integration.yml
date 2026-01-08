@@ -11,6 +11,10 @@ concurrency:
   group: ${{ github.ref != 'refs/heads/main' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
 jobs:
   # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
   # Fails and cancels the workflow if package.json or yarn.lock are modified
@@ -110,6 +114,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      checks: write
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
@@ -421,7 +426,7 @@ jobs:
     # if: ${{ needs.tests-prep.outputs.tests_ran == 'true' }}
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
-    runs-on: ubuntu-16-cores-22.04
+    runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: read
@@ -480,6 +485,11 @@ jobs:
 
       - name: Create test results folder
         run: mkdir -p test-results
+
+      - name: check nvmrc
+        run: |
+          cat .nvmrc
+          node --version
 
       - name: Run unit tests
         id: run-tests
@@ -908,7 +918,21 @@ jobs:
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
+
+      - name: Wait for server
+        run: |
+          echo "Waiting for server to be ready..."
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+          echo "Server failed to start"
+          exit 1
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1002,7 +1026,21 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
+
+      - name: Wait for server
+        run: |
+          echo "Waiting for server to be ready..."
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+          echo "Server failed to start"
+          exit 1
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
@@ -1132,6 +1170,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      checks: write
     if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
@@ -1213,7 +1252,7 @@ jobs:
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       - name: Publish E2E Test Stability Review Results
-        if: ${{ always() }}
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -1645,7 +1684,7 @@ jobs:
         # | Cypress Tests Summary |
         # -------------------------
       - name: Publish Cypress test results
-        if: ${{ always() && needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'}}
+        if: ${{ always() && needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -1752,7 +1791,7 @@ jobs:
         # | Cypress Tests Summary |
         # -------------------------
       - name: Publish E2E Test Stability Review Results
-        if: ${{ always() }}
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

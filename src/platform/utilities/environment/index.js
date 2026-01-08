@@ -5,11 +5,12 @@
 
 import ENVIRONMENTS from 'site/constants/environments';
 import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
+import VSP_ENVIRONMENTS from 'site/constants/vsp-environments';
+import isLocalhostBaseUrl from './isLocalhostBaseUrl';
 
 /* Separate constants as workaround for Sentry environments rollout until completion of
  * https://github.com/department-of-veterans-affairs/va.gov-team/issues/13425
  */
-import VSP_ENVIRONMENTS from 'site/constants/vsp-environments';
 
 // __BUILDTYPE__ is defined as a global variable in our Webpack config, ultimately used
 // to indicate the name of our current environment as passed from our build script. This should
@@ -113,3 +114,5 @@ export default Object.freeze({
     return !!(window?.Mocha || process?.env?.NODE_ENV === 'test');
   },
 });
+
+export { isLocalhostBaseUrl };

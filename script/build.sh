@@ -64,7 +64,7 @@ fi
 # Only run Webpack if the assetSource = local
 if [ "${assetSource}" = "local" ]; then
     echo "Building application assets"
-    yarn build:webpack $webpackArgs
+    NODE_OPTIONS="--openssl-legacy-provider $NODE_OPTIONS" yarn build:webpack $webpackArgs
     cp -v "${buildDir}generated/vendor.entry.js" "${buildDir}generated/shared-modules.entry.js"
 else
     echo "Will fetch application assets from the content build script"

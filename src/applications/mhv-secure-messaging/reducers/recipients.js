@@ -99,7 +99,7 @@ export const recipientsReducer = (state = initialState, action) => {
 
       const allowedMap = new Map(
         state.allowedRecipients.map(r => [
-          r.triageTeamId,
+          String(r.triageTeamId),
           {
             ...r,
             name: r.suggestedNameDisplay || r.name,
@@ -108,9 +108,10 @@ export const recipientsReducer = (state = initialState, action) => {
       );
 
       const filteredRecent = (action.response || [])
+        .map(id => String(id))
         .filter(id => allowedMap.has(id))
         .map(id => ({
-          triageTeamId: id,
+          triageTeamId: Number(id),
           ...allowedMap.get(id),
         }))
         .slice(0, 4);

@@ -5,6 +5,15 @@ import { generatePDF } from '../../api/generatePDF';
 import formData from '../fixtures/data/form-data.json';
 import formData2122a from '../fixtures/data/21-22a/form-data.json';
 
+const ensureCreateObjectURL = () => {
+  if (!global.URL) {
+    global.URL = {};
+  }
+  if (typeof global.URL.createObjectURL !== 'function') {
+    global.URL.createObjectURL = () => 'blob:mock';
+  }
+};
+
 describe('generatePDF', () => {
   context('when submitting Form 21-22', () => {
     it('sets the pdfUrl in local storage', async () => {
@@ -14,8 +23,9 @@ describe('generatePDF', () => {
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
 
+      ensureCreateObjectURL();
       const createObjectURL = sinon
-        .stub(URL, 'createObjectURL')
+        .stub(global.URL, 'createObjectURL')
         .returns('my_stubbed_url.com');
 
       await generatePDF(formData);
@@ -34,8 +44,9 @@ describe('generatePDF', () => {
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
 
+      ensureCreateObjectURL();
       const createObjectURL = sinon
-        .stub(URL, 'createObjectURL')
+        .stub(global.URL, 'createObjectURL')
         .returns('my_stubbed_url.com');
 
       await generatePDF(formData2122a);

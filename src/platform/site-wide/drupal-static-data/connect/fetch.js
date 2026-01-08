@@ -17,7 +17,9 @@ export const fetchDrupalStaticDataFile = async ({
 }) => {
   // Use API_URL for localhost, BASE_URL otherwise
   const isLocal = useLocalOverride
-    ? environment.isLocalhost?.() || window.location.hostname === 'localhost'
+    ? environment.isLocalhost?.() ||
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1'
     : false;
 
   // Set the base URL based on the environment or custom server
