@@ -90,7 +90,12 @@ function App({
         });
       }
     },
-    [meb1995InstructionPageUpdateV3, mebBankInfoConfirmationField, formData, setFormData],
+    [
+      meb1995InstructionPageUpdateV3,
+      mebBankInfoConfirmationField,
+      formData,
+      setFormData,
+    ],
   );
 
   useEffect(

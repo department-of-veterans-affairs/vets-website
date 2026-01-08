@@ -58,7 +58,7 @@ export default function DirectDepositViewField({
         style={{ minWidth: '5rem', lineHeight: '1.5' }}
         onClick={() => {
           startEditing();
-          formContext?.onError();
+          formContext.onError();
         }}
         aria-label={`Edit ${title}`}
       >
@@ -77,4 +77,9 @@ DirectDepositViewField.propTypes = {
       routingNumber: PropTypes.string,
     }),
   }).isRequired,
+  formContext: PropTypes.shape({
+      onError: PropTypes.func.isRequired,
+    }).isRequired,
+  startEditing: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };
