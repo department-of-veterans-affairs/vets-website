@@ -7,7 +7,6 @@ import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
-import testData from '../../fixtures/data/v5formData.json';
 import getData from '../../fixtures/mocks/mockStore';
 
 const expectedFieldTypes = 'input, select, textarea';
@@ -167,7 +166,7 @@ export const testSubmitsWithoutErrors = (
   schema,
   uiSchema,
   pageTitle,
-  data = testData,
+  data = {},
   stateData = {},
 ) => {
   describe(`${pageTitle} page`, () => {

@@ -6,7 +6,6 @@ import {
   options,
 } from '../../../../config/chapters/03-military-history/powPages';
 import * as helpers from '../../../../utils/helpers';
-import testData from '../../../fixtures/data/v5formData.json';
 
 import { testOptionsIsItemIncomplete } from '../multiPageTests.spec';
 import {
@@ -27,6 +26,18 @@ describe('prisoner of war confinement period list and loop pages', () => {
       showPdfFormAlignmentStub.restore();
     }
   });
+
+  const testData = {
+    'view:isAddingPeriods': true,
+    powPeriods: [
+      {
+        powDateRange: {
+          from: '1971-02-26',
+          to: '1973-03-02',
+        },
+      },
+    ],
+  };
   const { powSummary, powDateRangePage } = powPages;
 
   describe('isItemIncomplete function', () => {
