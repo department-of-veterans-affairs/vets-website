@@ -7,6 +7,20 @@ process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
 // use babel-register to compile files on the fly
 // require('babel-register');
 require("@babel/register");
+
+// -----------------------------------------------------------------------------
+// Node 22 polyfill: some legacy deps call require('node:stream') or similar.
+// Older transpile hooks intercept the specifier and break.  Normalize by
+// stripping the `node:` prefix for built-in modules during test runs only.
+// -----------------------------------------------------------------------------
+const Module = require('module');
+const origLoad = Module._load;
+Module._load = function patchedLoad(request, parent, isMain) {
+  if (typeof request === 'string' && request.startsWith('node:')) {
+    return origLoad.call(this, request.slice(5), parent, isMain);
+  }
+  return origLoad.apply(this, arguments);
+};
 require('babel-polyfill');
 // require mocha setup files
 require('../src/platform/testing/unit/mocha-setup.js');
