@@ -14,6 +14,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
         name="vendor"
         value={formState.vendor || ''}
         required
+        onInput={onChange}
         onBlur={onChange}
         {...errors.vendor && { error: errors.vendor }}
       />

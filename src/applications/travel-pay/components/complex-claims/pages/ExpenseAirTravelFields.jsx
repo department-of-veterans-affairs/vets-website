@@ -16,6 +16,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         name="vendorName"
         value={formState.vendorName || ''}
         required
+        onInput={onChange}
         onBlur={onChange}
         hint="Enter the company you purchased the ticket from, even if it isn't an airline."
         {...errors.vendorName && { error: errors.vendorName }}
@@ -56,6 +57,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         name="departedFrom"
         value={formState.departedFrom || ''}
         required
+        onInput={onChange}
         onBlur={onChange}
         {...errors.departedFrom && { error: errors.departedFrom }}
       />
@@ -66,6 +68,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         name="arrivedTo"
         value={formState.arrivedTo || ''}
         required
+        onInput={onChange}
         onBlur={onChange}
         {...errors.arrivedTo && { error: errors.arrivedTo }}
       />
