@@ -12,11 +12,13 @@ import {
   selectSelectedTopics,
 } from '../redux/slices/formSlice';
 import { useGetTopicsQuery } from '../redux/api/vassApi';
+import { useErrorFocus } from '../hooks/useErrorFocus';
 
 // TODO: remove this once we have a real UUID
 import { UUID } from '../services/mocks/utils/formData';
 
 const TopicSelection = () => {
+  const { error, handleSetError } = useErrorFocus('va-checkbox-group');
   const dispatch = useDispatch();
   const selectedTopics = useSelector(selectSelectedTopics);
   const navigate = useNavigate();
@@ -33,6 +35,7 @@ const TopicSelection = () => {
   );
 
   const handleTopicChange = event => {
+    handleSetError('');
     const { checked } = event.detail;
     if (checked) {
       const newTopics = [
@@ -53,20 +56,24 @@ const TopicSelection = () => {
   };
 
   const handleContinue = () => {
-    // TODO: manage error handling
+    if (!selectedTopics?.length) {
+      handleSetError('Please choose a topic for your appointment.');
+      return;
+    }
     navigate('/review');
   };
 
   return (
     <Wrapper
-      pageTitle="What topic would you like to talk about?"
+      pageTitle="What do you want to learn more about?"
       showBackLink
       required
     >
       <va-checkbox-group
-        required
         data-testid="topic-checkbox-group"
         label="Check all that apply"
+        class="vass-checkbox-group"
+        error={error}
       >
         {topics.map(({ topicId, topicName }) => (
           <VaCheckbox
