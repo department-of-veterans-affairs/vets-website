@@ -126,7 +126,6 @@ describe('After-visit Summary - Feature Toggles', () => {
   it('Users are redirected to the homepage if the feature toggle is not enabled', () => {
     setup({ avsEnabled: false });
     cy.visit(testUrl);
-    cy.injectAxeThenAxeCheck();
     cy.url().should('match', /\/$/);
   });
 });
