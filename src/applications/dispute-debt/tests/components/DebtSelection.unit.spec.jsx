@@ -46,7 +46,6 @@ describe('DebtSelection Component', () => {
       initialState,
     );
 
-    // Should render AlertCard instead of debt selection content
     expect(container.querySelector('[data-testid="balance-card-alert-debt"]'))
       .to.exist;
     expect(container.querySelector('[data-testid="debt-selection-content"]')).to
@@ -64,30 +63,36 @@ describe('DebtSelection Component', () => {
       initialState,
     );
 
-    // Should render AlertCard when no debts available
     expect(container.querySelector('[data-testid="zero-debts-alert-card"]')).to
       .exist;
     expect(container.querySelector('[data-testid="debt-selection-content"]')).to
       .not.exist;
   });
 
-  it('renders debt selection content when debts are available', () => {
-    const mockDebt = {
-      compositeDebtId: '123',
-      label: 'Test Debt',
-      description: 'Test debt description',
-    };
-
-    const mockSubmittedDebt = {
-      compositeDebtId: '124',
-      label: 'Submitted Debt',
-      description: 'Submitted debt description',
-      submitted: true,
-    };
+  it('renders debt selection content when debts are available and/or submitted', () => {
+    const mockDebts = [
+      {
+        compositeDebtId: '123',
+        label: 'Test Debt',
+        description: 'Test debt description',
+      },
+      {
+        compositeDebtId: '125',
+        label: 'Unsubmitted Debt',
+        description: 'Unsubmitted debt description',
+        submitted: false,
+      },
+      {
+        compositeDebtId: '124',
+        label: 'Submitted Debt',
+        description: 'Submitted debt description',
+        submitted: true,
+      },
+    ];
 
     const initialState = {
       availableDebts: {
-        availableDebts: [mockDebt, mockSubmittedDebt],
+        availableDebts: mockDebts,
         isDebtError: false,
       },
       form: { data: { selectedDebts: [] } },
@@ -98,12 +103,55 @@ describe('DebtSelection Component', () => {
       initialState,
     );
 
-    // Should render debt selection content
-    expect(container.querySelector('[data-testid="debt-selection-content"]')).to
-      .exist;
-    expect(container.querySelector('va-checkbox-group')).to.exist;
-    expect(container.querySelector('va-checkbox')).to.exist;
-    expect(container.querySelector('va-additional-info')).to.exist;
+    const contentDiv = container.querySelector(
+      '[data-testid="debt-selection-content"]',
+    );
+    expect(contentDiv).to.exist;
+    const checkboxGroup = contentDiv.querySelector('va-checkbox-group');
+    const availableCheckboxes = checkboxGroup.querySelectorAll('va-checkbox');
+    expect(availableCheckboxes).to.have.length(2);
+
+    // Verify debt without submitted attribute (compositeDebtId: '123')
+    const testDebtCheckbox = Array.from(availableCheckboxes).find(
+      cb => cb.getAttribute('data-index') === '123',
+    );
+    expect(testDebtCheckbox).to.exist;
+    expect(testDebtCheckbox.getAttribute('label')).to.equal('Test Debt');
+    expect(testDebtCheckbox.getAttribute('checkbox-description')).to.equal(
+      'Test debt description',
+    );
+    expect(testDebtCheckbox.getAttribute('data-testid')).to.equal(
+      'debt-selection-checkbox',
+    );
+
+    // Verify debt with submitted attribute set to false (compositeDebtId: '125')
+    const unsubmittedDebtCheckbox = Array.from(availableCheckboxes).find(
+      cb => cb.getAttribute('data-index') === '125',
+    );
+    expect(unsubmittedDebtCheckbox.getAttribute('label')).to.equal(
+      'Unsubmitted Debt',
+    );
+    expect(
+      unsubmittedDebtCheckbox.getAttribute('checkbox-description'),
+    ).to.equal('Unsubmitted debt description');
+    expect(unsubmittedDebtCheckbox.getAttribute('data-testid')).to.equal(
+      'debt-selection-checkbox',
+    );
+
+    // Verify submitted debt (compositeDebtID: '124')
+    const submittedDebtCard = checkboxGroup.querySelector(
+      '[data-testid="debt-submitt4ed-124"]',
+    );
+    expect(submittedDebtCard).to.exist;
+    expect(submittedDebtCard.querySelector('h3').textContent).to.equal(
+      'Submitted Debt',
+    );
+    expect(submittedDebtCard.querySelector('p').textContent).to.equal(
+      'Submitted debt description',
+    );
+
+    // Verify additional info exists
+    expect(contentDiv.querySelector('va-additional-info')).to.exist;
   });
 
   it('renders multiple debt checkboxes when multiple debts available', () => {
@@ -123,7 +171,6 @@ describe('DebtSelection Component', () => {
       initialState,
     );
 
-    // Should render all debt checkboxes
     const checkboxes = container.querySelectorAll('va-checkbox');
     expect(checkboxes).to.have.length(3);
   });
@@ -145,12 +192,10 @@ describe('DebtSelection Component', () => {
       initialState,
     );
 
-    // Should call setFocus when validation error occurs
     expect(setFocusStub.calledWith('va-checkbox-group')).to.be.true;
   });
 
   it('calls setFocus utility when available', () => {
-    // Test that the utility function is available
     expect(utils.setFocus).to.be.a('function');
   });
 
