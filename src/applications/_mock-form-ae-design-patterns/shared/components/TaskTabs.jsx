@@ -136,7 +136,7 @@ export const TaskTabs = ({ location, formConfig }) => {
             <a
               href={`${formConfig.rootUrl}${tab.path}`}
               onClick={e => handleTabClick(e, tab.path)}
-              className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
+              className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
               style={getStylesForTab(tab)}
             >
               {tab.name}
@@ -153,7 +153,7 @@ export const TaskTabs = ({ location, formConfig }) => {
           <a
             href="/my-va?loggedIn=true"
             onClick={handleMittensClick}
-            className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
+            className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
             style={getStylesForTab(mittensConfig)}
           >
             Mittens
@@ -169,7 +169,7 @@ export const TaskTabs = ({ location, formConfig }) => {
           <a
             href="/"
             onClick={handleHatClick}
-            className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
+            className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
             style={getStylesForTab(recordsConfig)}
           >
             Hat
