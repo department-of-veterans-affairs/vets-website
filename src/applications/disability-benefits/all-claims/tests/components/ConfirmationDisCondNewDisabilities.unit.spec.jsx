@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ConfirmationNewDisabilities from '../../components/confirmationFields/ConfirmationNewDisabilities';
+import ConfirmationDisCondNewDisabilities from '../../components/confirmationFields/ConfirmationDisCondNewDisabilities';
 
 describe('ConfirmationNewDisabilities', () => {
   describe('NEW conditions', () => {
@@ -17,7 +17,7 @@ describe('ConfirmationNewDisabilities', () => {
       };
 
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Hearing Loss')).to.exist;
@@ -46,7 +46,7 @@ describe('ConfirmationNewDisabilities', () => {
       };
 
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Test Condition')).to.exist;
@@ -62,17 +62,15 @@ describe('ConfirmationNewDisabilities', () => {
           {
             condition: 'lower back pain',
             cause: 'SECONDARY',
-            'view:secondaryFollowUp': {
-              causedByDisability: 'Knee injury',
-              causedByDisabilityDescription:
-                'The knee injury caused me to walk with a limp, which led to back pain',
-            },
+            causedByDisability: 'Knee injury',
+            causedByDisabilityDescription:
+              'The knee injury caused me to walk with a limp, which led to back pain',
           },
         ],
       };
 
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Lower Back Pain')).to.exist;
@@ -98,16 +96,14 @@ describe('ConfirmationNewDisabilities', () => {
             condition: 'secondary with date',
             cause: 'SECONDARY',
             conditionDate: '2021-03-20',
-            'view:secondaryFollowUp': {
-              causedByDisability: 'Primary condition',
-              causedByDisabilityDescription: 'How it was caused',
-            },
+            causedByDisability: 'Primary condition',
+            causedByDisabilityDescription: 'How it was caused',
           },
         ],
       };
 
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Secondary With Date')).to.exist;
@@ -123,17 +119,15 @@ describe('ConfirmationNewDisabilities', () => {
           {
             condition: 'knee injury',
             cause: 'WORSENED',
-            'view:worsenedFollowUp': {
-              worsenedDescription: 'Had minor knee pain before service',
-              worsenedEffects:
-                'Before service, could walk normally. Now cannot walk without assistance.',
-            },
+            worsenedDescription: 'Had minor knee pain before service',
+            worsenedEffects:
+              'Before service, could walk normally. Now cannot walk without assistance.',
           },
         ],
       };
 
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Knee Injury')).to.exist;
@@ -160,16 +154,14 @@ describe('ConfirmationNewDisabilities', () => {
             condition: 'worsened with date',
             cause: 'WORSENED',
             conditionDate: '2019-06-10',
-            'view:worsenedFollowUp': {
-              worsenedDescription: 'Description in worsened field',
-              worsenedEffects: 'Effects description',
-            },
+            worsenedDescription: 'Description in worsened field',
+            worsenedEffects: 'Effects description',
           },
         ],
       };
 
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Worsened With Date')).to.exist;
@@ -184,19 +176,17 @@ describe('ConfirmationNewDisabilities', () => {
         newDisabilities: [
           {
             condition: 'infection',
+            conditionDate: '2019-03-XX',
             cause: 'VA',
-            'view:vaFollowUp': {
-              vaMistreatmentDescription:
-                'Got infection during VA surgery on my shoulder',
-              vaMistreatmentLocation: 'VA Hospital Boston',
-              vaMistreatmentDate: 'March 2019',
-            },
+            vaMistreatmentDescription:
+              'Got infection during VA surgery on my shoulder',
+            vaMistreatmentLocation: 'VA Hospital Boston',
           },
         ],
       };
 
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Infection')).to.exist;
@@ -211,7 +201,6 @@ describe('ConfirmationNewDisabilities', () => {
         .exist;
       expect(getByText('VA mistreatment location')).to.exist;
       expect(getByText('VA Hospital Boston')).to.exist;
-      expect(getByText('VA mistreatment date')).to.exist;
       expect(getByText('March 2019')).to.exist;
     });
 
@@ -222,17 +211,14 @@ describe('ConfirmationNewDisabilities', () => {
             condition: 'va with date',
             cause: 'VA',
             conditionDate: '2019-03-15',
-            'view:vaFollowUp': {
-              vaMistreatmentDescription: 'Description of incident',
-              vaMistreatmentLocation: 'VA Medical Center',
-              vaMistreatmentDate: 'A while ago',
-            },
+            vaMistreatmentDescription: 'Description of incident',
+            vaMistreatmentLocation: 'VA Medical Center',
           },
         ],
       };
 
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Va With Date')).to.exist;
@@ -246,15 +232,13 @@ describe('ConfirmationNewDisabilities', () => {
           {
             condition: 'partial va',
             cause: 'VA',
-            'view:vaFollowUp': {
-              vaMistreatmentDescription: 'Only description present',
-            },
+            vaMistreatmentDescription: 'Only description present',
           },
         ],
       };
 
       const { container, getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Partial Va')).to.exist;
@@ -265,11 +249,6 @@ describe('ConfirmationNewDisabilities', () => {
         div => div.textContent === 'VA mistreatment location',
       );
       expect(locationDivs).to.have.length(0);
-
-      const dateDivs = Array.from(container.querySelectorAll('div')).filter(
-        div => div.textContent === 'VA mistreatment date',
-      );
-      expect(dateDivs).to.have.length(0);
     });
 
     it('should render VA condition with only vaMistreatmentLocation', () => {
@@ -278,15 +257,13 @@ describe('ConfirmationNewDisabilities', () => {
           {
             condition: 'va location only',
             cause: 'VA',
-            'view:vaFollowUp': {
-              vaMistreatmentLocation: 'VA Medical Center',
-            },
+            vaMistreatmentLocation: 'VA Medical Center',
           },
         ],
       };
 
       const { container, getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Va Location Only')).to.exist;
@@ -297,11 +274,6 @@ describe('ConfirmationNewDisabilities', () => {
         div => div.textContent === 'VA mistreatment description',
       );
       expect(descDivs).to.have.length(0);
-
-      const dateDivs = Array.from(container.querySelectorAll('div')).filter(
-        div => div.textContent === 'VA mistreatment date',
-      );
-      expect(dateDivs).to.have.length(0);
     });
   });
 
@@ -311,14 +283,14 @@ describe('ConfirmationNewDisabilities', () => {
         newDisabilities: [],
       };
       const { container } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
       expect(container.querySelectorAll('h4')).to.have.length(0);
     });
 
     it('should render nothing when formData is empty', () => {
       const { container } = render(
-        <ConfirmationNewDisabilities formData={{}} />,
+        <ConfirmationDisCondNewDisabilities formData={{}} />,
       );
       expect(container.querySelectorAll('h4')).to.have.length(0);
     });
@@ -333,7 +305,7 @@ describe('ConfirmationNewDisabilities', () => {
         ],
       };
       const { getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
       expect(getByText('Legacy Condition')).to.exist;
       expect(getByText('Claimed condition')).to.exist;
@@ -352,15 +324,13 @@ describe('ConfirmationNewDisabilities', () => {
             condition: 'Condition 2',
             cause: 'SECONDARY',
             primaryDescription: 'Primary description 2',
-            'view:secondaryFollowUp': {
-              causedByDisability: 'Condition A',
-              causedByDisabilityDescription: 'Caused by description A',
-            },
+            causedByDisability: 'Condition A',
+            causedByDisabilityDescription: 'Caused by description A',
           },
         ],
       };
       const { container, getByText } = render(
-        <ConfirmationNewDisabilities formData={formData} />,
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
       );
       expect(container.querySelectorAll('h4')).to.have.length(2);
       expect(getByText('Condition 1')).to.exist;
@@ -369,6 +339,30 @@ describe('ConfirmationNewDisabilities', () => {
       expect(getByText('Primary description 2')).to.exist;
       expect(getByText('Condition A')).to.exist;
       expect(getByText('Caused by description A')).to.exist;
+    });
+
+    it('should not render when condition is Rated Disability', () => {
+      const formData = {
+        newDisabilities: [{ condition: 'Rated Disability', cause: 'NEW' }],
+      };
+
+      const { container } = render(
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
+      );
+
+      expect(container.querySelectorAll('li')).to.have.length(0);
+    });
+
+    it('does not render when condition is Rated Disability', () => {
+      const formData = {
+        newDisabilities: [{ condition: 'Rated Disability' }],
+      };
+
+      const { container } = render(
+        <ConfirmationDisCondNewDisabilities formData={formData} />,
+      );
+
+      expect(container.querySelectorAll('li')).to.have.length(0);
     });
   });
 });
