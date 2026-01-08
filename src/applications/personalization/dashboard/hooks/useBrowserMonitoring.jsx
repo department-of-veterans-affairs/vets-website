@@ -16,6 +16,7 @@ const CONFIG = {
 };
 
 const initializeRealUserMonitoring = () => {
+  // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
   // We only want this in staging/production typically.
   if (environment.isLocalhost()) {
     return false;
