@@ -238,6 +238,8 @@ export const setup = (cy, testOptions = {}) => {
     if (data.toxicExposure) {
       formData.toxicExposure = data.toxicExposure;
     }
+    // use mailing address from test data instead of prefill
+    formData.veteran.mailingAddress = data.mailingAddress;
 
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
@@ -687,10 +689,51 @@ export const pageHooks = (cy, testOptions) => ({
         cy.findByText(/continue/i, { selector: 'button' }).click();
       });
 
-    // veteran info page continue button
-    cy.findByText(/continue/i, { selector: 'button' })
-      .should('be.visible')
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'contact-information': () => {
+    // contact info page
+    // click phone/email edit button to load pre-fill data into form fields
+    cy.get('button')
+      .contains(/^edit$/i)
       .click();
+
+    // click edit for address section
+    cy.get('button')
+      .contains(/edit/i)
+      .click();
+    // look for the data address street line to confirm pre-fill loaded
+    cy.get('@testData').then(data => {
+      const { city, state, addressLine1 } = data.mailingAddress;
+      // if military address is present in test data, city and state are radio buttons for military post office and state
+      if (data.mailingAddress['view:livesOnMilitaryBase'] === true) {
+        cy.get(
+          'va-radio-option[name="root_mailingAddress_city"][checked="true"]',
+        ).should('have.value', city);
+        cy.get('va-radio[class="Military post office"]').should(
+          'contain',
+          /military post office/i,
+        );
+        cy.get(
+          'va-radio-option[name="root_mailingAddress_state"][checked="true"]',
+        ).should('have.value', state);
+      } else {
+        cy.get('input[name="root_mailingAddress_city"]').should(
+          'have.value',
+          city,
+        );
+        cy.get('select[name="root_mailingAddress_state"]').should(
+          'have.value',
+          state,
+        );
+      }
+      cy.get('input[name="root_mailingAddress_addressLine1"]').should(
+        'have.value',
+        addressLine1,
+      );
+    });
+    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'review-veteran-details/military-service-history/federal-orders': () => {
