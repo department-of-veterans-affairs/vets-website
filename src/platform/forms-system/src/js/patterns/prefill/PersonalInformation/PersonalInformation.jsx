@@ -20,6 +20,7 @@ import {
 import { adaptFormData } from './adapter';
 import { DefaultHeader } from './DefaultHeader';
 import { DefaultCardHeader } from './DefaultCardHeader';
+import { useFetchInProgressForm } from '../hooks/useFetchInProgressForm';
 
 /**
  * @typedef {Object} FieldConfig
@@ -104,6 +105,9 @@ export const PersonalInformation = ({
   );
 
   const { note, header, footer, cardHeader } = getChildrenByType(children);
+
+  // Fetch in-progress form data with prefill
+  useFetchInProgressForm();
 
   // Helper function to render SSN based on configuration
   const renderSSN = () => {
