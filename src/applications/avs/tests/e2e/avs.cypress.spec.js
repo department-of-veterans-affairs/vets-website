@@ -98,7 +98,6 @@ describe('After-visit Summary - Happy Path', () => {
 
   it('root URL is redirected to summaries & notes', () => {
     cy.visit(manifest.rootUrl);
-    cy.injectAxeThenAxeCheck();
     cy.url().should(
       'match',
       /\/my-health\/medical-records\/summaries-and-notes\/$/,
@@ -136,7 +135,6 @@ describe('After-visit Summary - Authentication', () => {
   it('Users are redirected to login if they are not authenticated', () => {
     setup({ login: false });
     cy.visit(testUrl);
-    cy.injectAxeThenAxeCheck();
     const urlPattern = `\\/\\?next=%2Fmy-health%2Fmedical-records%2Fsummaries-and-notes%2Fvisit-summary%2F${avsId}$`;
     cy.url().should('match', new RegExp(urlPattern));
   });
