@@ -60,4 +60,18 @@ describe('VASS Component: AppointmentCard', () => {
     expect(queryByTestId('print-button')).to.not.exist;
     expect(queryByTestId('cancel-button')).to.not.exist;
   });
+
+  it('omits topics section when no topics are provided', () => {
+    const appointmentData = {
+      appointmentId: '789',
+      dtStartUtc: '2025-07-01T16:00:00.000Z',
+      providerName: 'Bill Brasky',
+      topics: [],
+    };
+    const { queryByTestId } = render(
+      <AppointmentCard appointmentData={appointmentData} />,
+    );
+
+    expect(queryByTestId('topics-section')).to.not.exist;
+  });
 });
