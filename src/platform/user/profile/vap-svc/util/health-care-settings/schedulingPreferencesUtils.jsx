@@ -106,7 +106,7 @@ export const schedulingPreferencesUiSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
     return {
       [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: getContactMethodUiSchema(),
-    }; // To be replaced with subtask UI schema
+    };
   }
   return {
     [fieldname]: radioUI({
