@@ -23,7 +23,19 @@ const EXPENSE_TYPE_OPTIONS = Object.freeze({
   MILEAGE_ONLY: 'MILEAGE_ONLY',
 });
 
+const EXPENSE_TYPES = [
+  'mileage',
+  'parking',
+  'toll',
+  'commoncarrier',
+  'airtravel',
+  'lodging',
+  'meal',
+  'other',
+];
+
 module.exports = {
   STATUS_KEYS,
   EXPENSE_TYPE_OPTIONS,
+  EXPENSE_TYPES,
 };

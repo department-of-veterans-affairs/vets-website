@@ -9,7 +9,11 @@ const {
 } = require('./expenses/expenseHandlers');
 const { getAppointmentById } = require('./vaos/appointmentUtils');
 const { buildClaim } = require('./claims/baseClaim');
-const { STATUS_KEYS, EXPENSE_TYPE_OPTIONS } = require('./constants');
+const {
+  STATUS_KEYS,
+  EXPENSE_TYPE_OPTIONS,
+  EXPENSE_TYPES,
+} = require('./constants');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims.json');
@@ -110,142 +114,6 @@ const responses = {
   'GET /v0/maintenance_windows': maintenanceWindows.none,
   'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': featureTogglesResponse,
-  'GET /travel_pay/v0/claims': travelClaims,
-
-  // 'GET /travel_pay/v0/claims': (req, res) => {
-  //   return res.status(200).json({
-  //     metadata: {
-  //       status: 200,
-  //       pageNumber: 1,
-  //       totalRecordCount: 0,
-  //     },
-  //     data: [],
-  //   });
-  // },
-
-  // 'GET /travel_pay/v0/claims': (req, res) => {
-  //   return res.status(503).json({
-  //     errors: [
-  //       {
-  //         title: 'Server error',
-  //         status: 503,
-  //         detail: 'An unknown server error has occurred.',
-  //         code: 'VA900',
-  //       },
-  //     ],
-  //   });
-  // },
-  // 'GET /travel_pay/v0/claims': (req, res) => {
-  //   return res.status(400).json({
-  //     errors: [
-  //       {
-  //         title: 'Bad request',
-  //         status: 400,
-  //         detail: 'There is not an ICN in the auth token.',
-  //         code: 'VA900',
-  //       },
-  //     ],
-  //   });
-  // },
-  // 'GET /travel_pay/v0/claims': (req, res) => {
-  //   return res.status(403).json({
-  //     errors: [
-  //       {
-  //         title: 'Forbidden',
-  //         status: 403,
-  //         detail: 'The user is not a Veteran.',
-  //         code: 'VA900',
-  //       },
-  //     ],
-  //   });
-  // },
-  //
-  'GET /travel_pay/v0/claims/:id': claim,
-  //
-  // 'GET /travel_pay/v0/claims/:id': (req, res) => {
-  //   return res.status(403).json({
-  //     errors: [
-  //       {
-  //         title: 'Forbidden',
-  //         status: 403,
-  //         detail: 'Forbidden.',
-  //         code: 'VA900',
-  //       },
-  //     ],
-  //   });
-  // },
-
-  // Submitting a new claim
-  'POST /travel_pay/v0/claims': { claimId: '12345' },
-  // 'POST /travel_pay/v0/claims': (req, res) => {
-  //   return res.status(502).json({
-  //     errors: [
-  //       {
-  //         title: 'Service unavailable',
-  //         status: 503,
-  //         detail: 'An unknown error has occured.',
-  //         code: 'VA900',
-  //       },
-  //     ],
-  //   });
-  // },
-
-  // Creating a new complex claim
-  'POST /travel_pay/v0/complex_claims': (req, res) => {
-    return res.json({
-      claimId: 'bd427107-91ac-4a4a-94ae-177df5aa32dc',
-    });
-  },
-
-  // Submitting a complex claim
-  'PATCH /travel_pay/v0/complex_claims/:claimId/submit': (req, res) => {
-    return res.json({
-      id: req.params.claimId,
-    });
-  },
-
-  // Creating expenses
-  // POST /claims/:claimId/expenses/:type
-  'POST /travel_pay/v0/claims/:claimId/expenses/mileage': createExpenseHandler(
-    'mileage',
-  ),
-  'POST /travel_pay/v0/claims/:claimId/expenses/parking': createExpenseHandler(
-    'parking',
-  ),
-  'POST /travel_pay/v0/claims/:claimId/expenses/toll': createExpenseHandler(
-    'toll',
-  ),
-  'POST /travel_pay/v0/claims/:claimId/expenses/commoncarrier': createExpenseHandler(
-    'commoncarrier',
-  ),
-  'POST /travel_pay/v0/claims/:claimId/expenses/airtravel': createExpenseHandler(
-    'airtravel',
-  ),
-  'POST /travel_pay/v0/claims/:claimId/expenses/lodging': createExpenseHandler(
-    'lodging',
-  ),
-  'POST /travel_pay/v0/claims/:claimId/expenses/meal': createExpenseHandler(
-    'meal',
-  ),
-  'POST /travel_pay/v0/claims/:claimId/expenses/other': createExpenseHandler(
-    'other',
-  ),
-
-  // Updating expenses
-  // PATCH expenses/:expenseType/:expenseId
-  'PATCH /travel_pay/v0/expenses/:expenseType/:expenseId': updateExpenseHandler(),
-
-  // Deleting expenses
-  // DELETE /expenses/:type/:id
-  'DELETE /travel_pay/v0/expenses/:expenseType/:expenseId': deleteExpenseHandler(),
-
-  // Deleting documents
-  'DELETE /travel_pay/v0/claims/:claimId/documents/:documentId': (req, res) => {
-    return res.status(200).json({
-      id: req.params.documentId,
-    });
-  },
-
   // Get travel-pay appointment - handle specific IDs first
   'GET /vaos/v2/appointments/:id': (req, res) => {
     return res.json(
@@ -395,10 +263,113 @@ const responses = {
     });
     return res.json({ data: appointments });
   },
+  // Get all claims
+  // 'GET /travel_pay/v0/claims'
+  'GET /travel_pay/v0/claims': travelClaims,
+  // 'GET /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(200).json({
+  //     metadata: {
+  //       status: 200,
+  //       pageNumber: 1,
+  //       totalRecordCount: 0,
+  //     },
+  //     data: [],
+  //   });
+  // },
+  // 'GET /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(503).json({
+  //     errors: [
+  //       {
+  //         title: 'Server error',
+  //         status: 503,
+  //         detail: 'An unknown server error has occurred.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
+  // 'GET /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(400).json({
+  //     errors: [
+  //       {
+  //         title: 'Bad request',
+  //         status: 400,
+  //         detail: 'There is not an ICN in the auth token.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
+  // 'GET /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(403).json({
+  //     errors: [
+  //       {
+  //         title: 'Forbidden',
+  //         status: 403,
+  //         detail: 'The user is not a Veteran.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
+  //
 
-  // GET individual expense endpoints
-  // GET /claims/:claimId/expenses/:expenseType/:expenseId
-  'GET /travel_pay/v0/claims/:claimId/expenses/:expenseType/:expenseId': getExpenseHandler(),
+  // Get claim
+  // GET /travel_pay/v0/claims/:id
+  'GET /travel_pay/v0/claims/:id': claim,
+  //
+  // 'GET /travel_pay/v0/claims/:id': (req, res) => {
+  //   return res.status(403).json({
+  //     errors: [
+  //       {
+  //         title: 'Forbidden',
+  //         status: 403,
+  //         detail: 'Forbidden.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
+
+  // Create a new claim
+  // POST /travel_pay/v0/claims
+  'POST /travel_pay/v0/claims': { claimId: '12345' },
+  // 'POST /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(502).json({
+  //     errors: [
+  //       {
+  //         title: 'Service unavailable',
+  //         status: 503,
+  //         detail: 'An unknown error has occured.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
+
+  // Create a new complex claim
+  // POST /travel_pay/v0/complex_claims
+  'POST /travel_pay/v0/complex_claims': (req, res) => {
+    return res.json({
+      claimId: 'bd427107-91ac-4a4a-94ae-177df5aa32dc',
+    });
+  },
+
+  // Submitting a complex claim
+  // PATCH /travel_pay/v0/complex_claims/:claimId/submit
+  'PATCH /travel_pay/v0/complex_claims/:claimId/submit': (req, res) => {
+    return res.json({
+      id: req.params.claimId,
+    });
+  },
+
+  // Deleting documents
+  // DELETE /travel_pay/v0/claims/:claimId/documents/:documentId
+  'DELETE /travel_pay/v0/claims/:claimId/documents/:documentId': (req, res) => {
+    return res.status(200).json({
+      id: req.params.documentId,
+    });
+  },
 
   // Document download
   'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
@@ -430,4 +401,26 @@ const responses = {
     return res.end(Buffer.from(docx, 'binary'));
   },
 };
+
+EXPENSE_TYPES.forEach(type => {
+  // Create new expenses
+  responses[
+    `POST /travel_pay/v0/claims/:claimId/expenses/${type}`
+  ] = createExpenseHandler(type);
+
+  // Get individual expense
+  responses[
+    `GET /travel_pay/v0/claims/:claimId/expenses/${type}/:expenseId`
+  ] = getExpenseHandler(type);
+
+  // Update expense
+  responses[
+    `PATCH /travel_pay/v0/expenses/${type}/:expenseId`
+  ] = updateExpenseHandler();
+
+  // Delete expense
+  responses[
+    `DELETE /travel_pay/v0/expenses/${type}/:expenseId`
+  ] = deleteExpenseHandler();
+});
 module.exports = delay(responses, 1000);
