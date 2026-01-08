@@ -1,7 +1,6 @@
 /* eslint-disable import/no-dynamic-require */
 const Module = require('module');
 const path = require('path');
-const fs = require('fs');
 
 /**
  * Safely resolve a module specifier, returning null instead of throwing on failure.
@@ -20,49 +19,17 @@ function safeResolve(specifier) {
 // - Redirect Enzyme/parse5 deep imports blocked by package.exports
 if (!Module._load.__vaNodeCompatPatched) {
   const origLoad = Module._load;
-  const origResolveFilename = Module._resolveFilename;
 
   const rootCheerioEntryPath = safeResolve('cheerio');
-  let cheerioUtilsPath = null;
-  if (rootCheerioEntryPath) {
-    const cheerioRootDir = path.dirname(rootCheerioEntryPath);
-    const candidate = path.join(cheerioRootDir, 'lib/utils.js');
-    if (fs.existsSync(candidate)) {
-      cheerioUtilsPath = candidate;
-    }
-  }
+  // `cheerio/lib/utils.js` is not exported; `cheerio/lib/utils` is.
+  const cheerioUtilsPath = safeResolve('cheerio/lib/utils');
 
   const entitiesDecodePath = safeResolve('entities/lib/decode.js');
   const entitiesEscapePath = safeResolve('entities/lib/escape.js');
   const parse5MainPath = safeResolve('parse5');
   let parse5OpenElementStackExport = null;
-  let enzymeCheerioUtilsPath = null;
-  try {
-    // Resolve Enzyme's nested cheerio utils by absolute path, bypassing
-    // cheerio's package.exports map entirely.
-    enzymeCheerioUtilsPath = require.resolve(
-      'enzyme/node_modules/cheerio/lib/utils.js',
-    );
-  } catch (error) {
-    enzymeCheerioUtilsPath = null;
-  }
-
-  // Intercept resolution of cheerio/lib/utils before exports are applied, so we
-  // can point Enzyme at the absolute file path instead of a package subpath.
-  if (enzymeCheerioUtilsPath && !origResolveFilename.__vaCheerioPatched) {
-    Module._resolveFilename = function patchedResolveFilename(
-      request,
-      parent,
-      isMain,
-      options,
-    ) {
-      if (request === 'cheerio/lib/utils') {
-        return enzymeCheerioUtilsPath;
-      }
-      return origResolveFilename.call(this, request, parent, isMain, options);
-    };
-    Module._resolveFilename.__vaCheerioPatched = true;
-  }
+  // Note: we intentionally avoid patching Module._resolveFilename and instead
+  // reroute via absolute paths in Module._load (below) to bypass package.exports.
 
   if (parse5MainPath) {
     try {
