@@ -46,3 +46,23 @@ export const maxIssues = (error, data) => {
     error.addError(errorMessages.maxSelected);
   }
 };
+
+// We have to pass unused args to this function because the checkValidation function
+// accommodates other functions with args of varying length
+export const maxNameLength = (
+  errors,
+  data,
+  fullData,
+  _schema,
+  _uiSchema,
+  index,
+  appStateData,
+  appAbbr,
+) => {
+  const maxLength =
+    appAbbr === 'NOD' ? MAX_LENGTH.NOD_ISSUE_NAME : MAX_LENGTH.ISSUE_NAME;
+
+  if (data.length > maxLength) {
+    errors.addError(errorMessages.maxLength(maxLength));
+  }
+};
