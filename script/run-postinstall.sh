@@ -8,8 +8,13 @@ set -e  # Exit on error
 echo "Running postinstall scripts for trusted packages..."
 
 # Rebuild node-sass native bindings
-echo "→ Rebuilding node-sass..."
-node node_modules/node-sass/scripts/install.js
+# Node-sass removed in Node 22 migration – skip native rebuild
+if [ -f node_modules/node-sass/scripts/install.js ]; then
+  echo "→ Rebuilding node-sass native binaries (legacy)..."
+  node node_modules/node-sass/scripts/install.js
+else
+  echo "→ node-sass not present; skipping rebuild"
+fi
 
 # Run postinstall scripts for ES5 transpiled packages (required by Bot Framework)
 echo "→ Running postinstall for p-defer-es5..."
