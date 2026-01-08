@@ -254,16 +254,6 @@ const ExpensePage = () => {
     [formState, dispatch],
   );
 
-  // Effect 4: Scroll to errors after React re-renders with error states
-  useEffect(
-    () => {
-      if (Object.keys(extraFieldErrors).length > 0) {
-        scrollToFirstError({ focusOnAlertRole: true });
-      }
-    },
-    [extraFieldErrors],
-  );
-
   const handleFormChange = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
     const value =
@@ -440,6 +430,7 @@ const ExpensePage = () => {
     const isValid = validatePage();
 
     if (!isValid) {
+      scrollToFirstError({ focusOnAlertRole: true });
       return;
     }
     const expenseConfig = EXPENSE_TYPES[expenseType];
