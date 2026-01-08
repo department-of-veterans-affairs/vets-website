@@ -32,11 +32,14 @@ const IntroductionRouter = props => {
     form => form.form === '22-1995',
   );
 
-  // Check for ?rudisill=true URL parameter OR saved formData
+  // Check for ?rudisill=true URL parameter OR saved formData OR sessionStorage
   const urlParams = new URLSearchParams(window.location.search);
   const isRudisillFromUrl = urlParams.get('rudisill') === 'true';
   const isRudisillFromFormData = formData?.isRudisillFlow === true;
-  const isRudisillFlow = isRudisillFromUrl || isRudisillFromFormData;
+  const isRudisillFromSession =
+    sessionStorage.getItem('isRudisillFlow') === 'true';
+  const isRudisillFlow =
+    isRudisillFromUrl || isRudisillFromFormData || isRudisillFromSession;
 
   // Set sessionStorage flag when entering Rudisill flow via URL parameter or formData
   // This persists the flow state for the form pages after leaving intro
@@ -47,16 +50,22 @@ const IntroductionRouter = props => {
       } else if (
         !isRudisillFromUrl &&
         !isRudisillFromFormData &&
-        !hasSavedForm &&
-        rerouteEnabled
+        rerouteEnabled &&
+        (!hasSavedForm || formData?.isRudisillFlow !== true)
       ) {
-        // Clear when visiting intro without parameter AND no saved Rudisill form
-        // This allows returning to questionnaire intro from Rudisill flow
-        // Don't clear if user has a saved form - let save-in-progress handle it
+        // Clear sessionStorage when visiting intro without URL param or formData flag
+        // This allows users to return to questionnaire flow after hard refresh
+        // Exception: Keep the flag if user has a saved form with isRudisillFlow
         sessionStorage.removeItem('isRudisillFlow');
       }
     },
-    [isRudisillFromUrl, isRudisillFromFormData, hasSavedForm, rerouteEnabled],
+    [
+      isRudisillFromUrl,
+      isRudisillFromFormData,
+      hasSavedForm,
+      formData,
+      rerouteEnabled,
+    ],
   );
 
   if (isLoading || rerouteEnabled === undefined) {

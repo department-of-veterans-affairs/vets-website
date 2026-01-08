@@ -4,11 +4,25 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { showEduBenefits1995Wizard } from 'applications/edu-benefits/selectors/educationWizard';
 
 export class IntroductionPageUpdate extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+
+    // Initialize Rudisill flow flag in formData if in Rudisill flow
+    const isRudisillFlow = sessionStorage.getItem('isRudisillFlow') === 'true';
+    if (isRudisillFlow && this.props.setFormData) {
+      const currentFormData = this.props.formData || {};
+      // Only set if not already set to avoid unnecessary re-renders
+      if (currentFormData.isRudisillFlow !== true) {
+        this.props.setFormData({
+          ...currentFormData,
+          isRudisillFlow: true,
+        });
+      }
+    }
   }
 
   renderSaveInProgressIntro = buttonOnly => {
@@ -144,9 +158,11 @@ export class IntroductionPageUpdate extends React.Component {
 
 const mapStateToProps = state => ({
   showWizard: showEduBenefits1995Wizard(state),
+  formData: state.form?.data,
 });
 
 IntroductionPageUpdate.propTypes = {
+  formData: PropTypes.object,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
@@ -154,7 +170,15 @@ IntroductionPageUpdate.propTypes = {
     }),
     pageList: PropTypes.array,
   }),
+  setFormData: PropTypes.func,
   showWizard: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(IntroductionPageUpdate);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPageUpdate);

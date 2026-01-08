@@ -67,12 +67,15 @@ function Form1995Entry({
 
   useEffect(
     () => {
-      if (rerouteFlag === undefined || !formData) {
+      if (rerouteFlag === undefined) {
         return;
       }
 
+      // Initialize formData as empty object if undefined
+      const currentFormData = formData || {};
+
       // Restore Rudisill flow state from saved formData (for save-in-progress resume)
-      if (formData.isRudisillFlow === true) {
+      if (currentFormData.isRudisillFlow === true) {
         sessionStorage.setItem('isRudisillFlow', 'true');
       }
 
@@ -82,8 +85,11 @@ function Form1995Entry({
         sessionStorage.getItem('isRudisillFlow') === 'true';
 
       if (!rerouteFlag) {
-        if (formData.isMeb1995Reroute || formData.isRudisillFlow) {
-          const nextFormData = { ...formData };
+        if (
+          currentFormData.isMeb1995Reroute ||
+          currentFormData.isRudisillFlow
+        ) {
+          const nextFormData = { ...currentFormData };
           delete nextFormData.isMeb1995Reroute;
           delete nextFormData.currentBenefitType;
           delete nextFormData.isRudisillFlow;
@@ -92,14 +98,15 @@ function Form1995Entry({
         return;
       }
 
-      // If in Rudisill flow, don't set isMeb1995Reroute
+      // If in Rudisill flow, ensure formData has the flag set
       if (isRudisillFlow) {
-        // Only update if not already in correct state
+        // Always set isRudisillFlow if sessionStorage indicates Rudisill flow
+        // and formData doesn't have it yet or has incorrect state
         if (
-          formData.isRudisillFlow !== true ||
-          formData.isMeb1995Reroute !== undefined
+          currentFormData.isRudisillFlow !== true ||
+          currentFormData.isMeb1995Reroute !== undefined
         ) {
-          const nextFormData = { ...formData };
+          const nextFormData = { ...currentFormData };
           delete nextFormData.isMeb1995Reroute;
           delete nextFormData.currentBenefitType;
           setFormData({
@@ -112,12 +119,12 @@ function Form1995Entry({
 
       // Normal reroute flow
       const shouldUpdateFormData =
-        formData.isMeb1995Reroute !== rerouteFlag ||
-        formData.currentBenefitType !== claimantCurrentBenefit;
+        currentFormData.isMeb1995Reroute !== rerouteFlag ||
+        currentFormData.currentBenefitType !== claimantCurrentBenefit;
 
       if (shouldUpdateFormData) {
         setFormData({
-          ...formData,
+          ...currentFormData,
           isMeb1995Reroute: rerouteFlag,
           currentBenefitType: claimantCurrentBenefit,
         });
@@ -149,12 +156,10 @@ function Form1995Entry({
   const getChaptersForFlow = (isRudisill, chapters) => {
     if (!isRudisill) return chapters;
 
-    return Object.keys(chapters).reduce((acc, key) => {
-      if (key !== 'questionnaire') {
-        acc[key] = chapters[key];
-      }
-      return acc;
-    }, {});
+    // Create a shallow copy without the questionnaire chapter
+    const filteredChapters = { ...chapters };
+    delete filteredChapters.questionnaire;
+    return filteredChapters;
   };
 
   // Helper: Get modified chapters based on flow
