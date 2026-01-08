@@ -254,36 +254,75 @@ const ExpensePage = () => {
     [formState, dispatch],
   );
 
+  // Effect 4: Scroll to errors after React re-renders with error states
+  useEffect(
+    () => {
+      if (Object.keys(extraFieldErrors).length > 0) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      }
+    },
+    [extraFieldErrors],
+  );
+
   const handleFormChange = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
-    setFormState(prev => {
-      const newFormState = { ...prev, [name]: value };
+    const newFormState = { ...formState, [name]: value };
+    setFormState(newFormState);
 
-      // Only validate the field being updated
-      setExtraFieldErrors(prevErrors => {
-        let nextErrors = { ...prevErrors };
+    // Validate the field being updated
+    setExtraFieldErrors(prevErrors => {
+      let nextErrors = { ...prevErrors };
 
-        if (isAirTravel) {
-          nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
-        } else if (isCommonCarrier) {
-          nextErrors = validateCommonCarrierFields(
-            newFormState,
-            nextErrors,
-            name,
-          );
-        } else if (isLodging) {
-          nextErrors = validateLodgingFields(newFormState, nextErrors, name);
-        } else if (isMeal) {
-          nextErrors = validateMealFields(newFormState, nextErrors, name);
+      // Clear base field errors if they become valid on change
+      if (name === 'purchaseDate' && prevErrors.purchaseDate) {
+        const validationResult = validateReceiptDate(
+          value,
+          DATE_VALIDATION_TYPE.CHANGE,
+        );
+        if (validationResult.isValid) {
+          delete nextErrors.purchaseDate;
         }
+      }
 
-        return nextErrors;
-      });
+      if (name === 'description' && prevErrors.description) {
+        const validationResult = validateDescription(
+          value,
+          DATE_VALIDATION_TYPE.CHANGE,
+        );
+        if (validationResult.isValid) {
+          delete nextErrors.description;
+        }
+      }
 
-      return newFormState;
+      if (name === 'costRequested' && prevErrors.costRequested) {
+        const validationResult = validateRequestedAmount(
+          value,
+          DATE_VALIDATION_TYPE.CHANGE,
+        );
+        if (validationResult.isValid) {
+          delete nextErrors.costRequested;
+        }
+      }
+
+      // Run type-specific validations
+      if (isAirTravel) {
+        nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
+      } else if (isCommonCarrier) {
+        nextErrors = validateCommonCarrierFields(
+          newFormState,
+          nextErrors,
+          name,
+        );
+      } else if (isLodging) {
+        nextErrors = validateLodgingFields(newFormState, nextErrors, name);
+      } else if (isMeal) {
+        nextErrors = validateMealFields(newFormState, nextErrors, name);
+      }
+
+      return nextErrors;
     });
   };
 
@@ -357,30 +396,40 @@ const ExpensePage = () => {
       errors = validateMealFields(formState, errors);
     }
 
-    setExtraFieldErrors(errors);
-
-    const isDateValid = validateReceiptDate(
+    const dateValidation = validateReceiptDate(
       formState.purchaseDate,
       DATE_VALIDATION_TYPE.SUBMIT,
-      setExtraFieldErrors,
     );
-    const isDescriptionValid = validateDescription(
+
+    const descriptionValidation = validateDescription(
       formState.description,
-      setExtraFieldErrors,
-      DATE_VALIDATION_TYPE.SUBMIT,
-    );
-    const isAmountValid = validateRequestedAmount(
-      formState.costRequested,
-      setExtraFieldErrors,
       DATE_VALIDATION_TYPE.SUBMIT,
     );
 
-    // Extra validation for specific fields
+    const amountValidation = validateRequestedAmount(
+      formState.costRequested,
+      DATE_VALIDATION_TYPE.SUBMIT,
+    );
+
+    // Merge all validation results into errors
+    const finalErrors = {
+      ...errors,
+      ...(dateValidation.purchaseDate && {
+        purchaseDate: dateValidation.purchaseDate,
+      }),
+      ...(descriptionValidation.description && {
+        description: descriptionValidation.description,
+      }),
+      ...amountValidation.errors,
+    };
+
+    setExtraFieldErrors(finalErrors);
+
     return (
       emptyFields.length === 0 &&
-      isDateValid &&
-      isDescriptionValid &&
-      isAmountValid
+      dateValidation.isValid &&
+      descriptionValidation.isValid &&
+      amountValidation.isValid
     );
   };
 
@@ -388,11 +437,11 @@ const ExpensePage = () => {
     JSON.stringify(previousFormState) !== JSON.stringify(formState);
 
   const handleContinue = async () => {
-    if (!validatePage()) {
-      scrollToFirstError({ focusOnAlertRole: true });
+    const isValid = validatePage();
+
+    if (!isValid) {
       return;
     }
-
     const expenseConfig = EXPENSE_TYPES[expenseType];
 
     try {
@@ -542,12 +591,24 @@ const ExpensePage = () => {
   const handleAmountBlur = e => {
     const { value } = e.target;
 
-    validateRequestedAmount(
+    const validationResult = validateRequestedAmount(
       value,
-      setExtraFieldErrors,
       DATE_VALIDATION_TYPE.BLUR,
-      setFormState,
     );
+
+    // Update errors
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...validationResult.errors,
+    }));
+
+    // Update formatted value if provided
+    if (validationResult.formattedValue) {
+      setFormState(prev => ({
+        ...prev,
+        costRequested: validationResult.formattedValue,
+      }));
+    }
   };
 
   const pageTitle = expenseTypeFields?.expensePageText
@@ -619,19 +680,25 @@ const ExpensePage = () => {
             // Needed since we need to remove errors on change
             onDateChange={e => {
               handleFormChange(e);
-              validateReceiptDate(
+              const validationResult = validateReceiptDate(
                 e.detail.target?.value,
                 DATE_VALIDATION_TYPE.CHANGE,
-                setExtraFieldErrors,
               );
+              setExtraFieldErrors(prev => ({
+                ...prev,
+                purchaseDate: validationResult.purchaseDate,
+              }));
             }}
-            onDateBlur={e =>
-              validateReceiptDate(
+            onDateBlur={e => {
+              const validationResult = validateReceiptDate(
                 e.detail.target?.value,
                 DATE_VALIDATION_TYPE.BLUR,
-                setExtraFieldErrors,
-              )
-            }
+              );
+              setExtraFieldErrors(prev => ({
+                ...prev,
+                purchaseDate: validationResult.purchaseDate,
+              }));
+            }}
             {...extraFieldErrors.purchaseDate && {
               error: extraFieldErrors.purchaseDate,
             }}
@@ -663,13 +730,16 @@ const ExpensePage = () => {
               value={formState.description || ''}
               required
               hint="5-2,000 characters allowed"
-              onBlur={e =>
-                validateDescription(
+              onBlur={e => {
+                const validationResult = validateDescription(
                   e.target.value,
-                  setExtraFieldErrors,
                   DATE_VALIDATION_TYPE.BLUR,
-                )
-              }
+                );
+                setExtraFieldErrors(prev => ({
+                  ...prev,
+                  description: validationResult.description,
+                }));
+              }}
               onInput={handleFormChange}
               {...extraFieldErrors.description && {
                 error: extraFieldErrors.description,
