@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui/focus';
-import { formatAddress } from 'platform/forms/exportsFile';
 import { getSchedulingPreferencesOptionInCopy } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import {
+  AddressView,
   FIELD_NAMES,
   FIELD_TITLE_DESCRIPTIONS,
   selectVAPContactInfoField,
@@ -73,17 +73,7 @@ const ContactMethodConfirm = ({
       cardContent.title = 'Mailing address';
       cardContent.description =
         FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MAILING_ADDRESS];
-      cardContent.customBody = mailingAddress ? (
-        <p className="vads-u-margin-bottom--0">
-          {mailingAddress.street}
-          <br />
-          {mailingAddress.cityStateZip}
-          <br />
-          {mailingAddress.country}
-        </p>
-      ) : (
-        ''
-      );
+      cardContent.customBody = <AddressView data={mailingAddress} />;
       break;
     default:
       return null;
@@ -116,9 +106,7 @@ const ContactMethodConfirm = ({
 const mapStateToProps = state => {
   return {
     email: selectVAPContactInfoField(state, 'email'),
-    mailingAddress: formatAddress(
-      selectVAPContactInfoField(state, 'mailingAddress'),
-    ),
+    mailingAddress: selectVAPContactInfoField(state, 'mailingAddress'),
     mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
     homePhone: selectVAPContactInfoField(state, 'homePhone'),
     workPhone: selectVAPContactInfoField(state, 'workPhone'),
