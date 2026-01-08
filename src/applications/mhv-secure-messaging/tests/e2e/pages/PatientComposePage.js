@@ -3,6 +3,7 @@ import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data, Alerts } from '../utils/constants';
+import { RxRenewalText } from '../../../util/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
@@ -130,6 +131,16 @@ class PatientComposePage {
     this.categoryDropdown().should('have.value', category);
   };
 
+  validateLockedCategoryDisplay = () => {
+    cy.findByTestId(Locators.LOCKED_CATEGORY_DISPLAY).should('be.visible');
+    cy.findByTestId(Locators.LOCKED_CATEGORY_DISPLAY).should(
+      'contain',
+      RxRenewalText.LOCKED_CATEGORY_DISPLAY,
+    );
+    // Verify dropdown does not exist
+    cy.findByTestId(Locators.COMPOSE_CATEGORY_DROPDOWN).should('not.exist');
+  };
+
   getMessageSubjectField = () => {
     return cy
       .findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
@@ -146,6 +157,14 @@ class PatientComposePage {
       .findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
       .find(`#input-type-textarea`);
+  };
+
+  typeMessageBody = (text = '') => {
+    return this.getMessageBodyField()
+      .should('be.visible')
+      .should('be.enabled')
+      .clear()
+      .type(text);
   };
 
   validateMessageBodyField = expectedText => {

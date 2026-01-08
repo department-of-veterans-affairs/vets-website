@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import { isLoggedIn } from 'platform/user/selectors';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setData } from 'platform/forms-system/src/js/actions';
 import SaveInProgressIntro from './SaveInProgressIntro';
 import SaveInProgressIntroLink from './SaveInProgressIntroLink';
 import { TITLE, SUBTITLE } from '../constants';
@@ -93,25 +92,8 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  const dispatch = useDispatch();
-
   const storeData = useSelector(reduxState => reduxState);
   const userLoggedIn = isLoggedIn(storeData);
-  const formData = storeData.form.data;
-
-  useEffect(
-    () => {
-      if (userLoggedIn !== formData?.isLoggedIn) {
-        dispatch(
-          setData({
-            ...formData,
-            isLoggedIn: userLoggedIn,
-          }),
-        );
-      }
-    },
-    [dispatch, userLoggedIn],
-  );
 
   const { route } = props;
   const { formConfig, pageList } = route;
@@ -163,8 +145,8 @@ export const IntroductionPage = props => {
             </ul>
 
             <p>
-              <strong>Don’t yet have a verified account?</strong> Create a{' '}
-              <strong>Login.gov</strong> or <strong>ID.me</strong> account.
+              <strong>Don’t yet have a verified account?</strong> Create an{' '}
+              <strong>ID.me</strong> or <strong>Login.gov</strong> account.
               We’ll help you verify your identity for your account now.
             </p>
 

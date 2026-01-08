@@ -27,7 +27,7 @@ import {
   fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
-  isRecipientInfoIncomplete,
+  updatedIsRecipientInfoIncomplete,
   otherRecipientRelationshipTypeUI,
   updatedRecipientNameRequired,
   requireExpandedArrayField,
@@ -53,7 +53,7 @@ export const options = {
   nounPlural: 'waived income',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
     !isDefined(item.waivedGrossMonthlyIncome), // include all required fields here
   text: {
@@ -86,7 +86,6 @@ export const options = {
                 <span className="vads-u-font-weight--bold">
                   {formatDateLong(item.paymentResumeDate)}
                 </span>
-                e
               </li>
               <li>
                 Amount expected to receive:{' '}
@@ -98,7 +97,7 @@ export const options = {
           )}
         </ul>
       ),
-    reviewAddButtonText: 'Add another waived income',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your waived income information has been updated',
     alertItemDeleted: 'Your waived income information has been deleted',
     cancelAddTitle: 'Cancel adding this waived income',

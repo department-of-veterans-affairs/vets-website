@@ -157,86 +157,67 @@ export const additionalInstitutionDetailsArrayOptions = {
     cardDescription: item => getCardDescription(item),
     summaryTitle: props => {
       const count = props?.formData?.additionalInstitutionDetails?.length || 0;
+      const isWithdraw =
+        props?.formData?.agreementType === 'withdrawFromYellowRibbonProgram';
       return count > 1
-        ? 'Review your additional locations'
-        : 'Review your additional location';
+        ? `Review your additional locations ${isWithdraw ? 'to withdraw' : ''}`
+        : `Review your additional location ${isWithdraw ? 'to withdraw' : ''}`;
     },
-    summaryDescriptionWithoutItems: (
-      <>
-        <h3 className="vads-u-margin-top--0">
-          You can add more locations to this agreement
-        </h3>
-        <p>
-          If you have any more campuses or additional locations to add to this
-          agreement, you can do so now. You will need a facility code for each
-          location you would like to add.
-        </p>
-      </>
-    ),
+    summaryDescriptionWithoutItems: props => {
+      const isWithdraw =
+        props?.formData?.agreementType === 'withdrawFromYellowRibbonProgram';
+
+      const header = isWithdraw
+        ? 'You can withdraw more locations from this agreement'
+        : 'You can add more locations to this agreement';
+
+      const body = isWithdraw
+        ? 'If you have any more campuses or additional locations to withdraw from this agreement, you can do so now. You will need a facility code for each location you would like to withdraw.'
+        : 'If you have any more campuses or additional locations to add to this agreement, you can do so now. You will need a facility code for each location you would like to add.';
+
+      return (
+        <>
+          <h3 className="vads-u-margin-top--0">{header}</h3>
+          <p>{body}</p>
+        </>
+      );
+    },
   },
 };
 
-export const createBannerMessage = (
-  institutionDetails,
-  isArrayItem,
-  // mainInstitution,
-) => {
-  const notYR = institutionDetails.yrEligible === false;
-  const notIHL = institutionDetails.ihlEligible === false;
-
+export const createBannerMessage = institutionDetails => {
   let message = '';
   const code = institutionDetails?.facilityCode;
-  const notFound = institutionDetails?.institutionName === 'not found';
   const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const thirdChar = code?.charAt(2).toUpperCase();
 
-  if (isArrayItem) {
-    // const branches =
-    //   mainInstitution?.facilityMap?.branches?.map(
-    //     branch => branch?.institution?.facilityCode,
-    //   ) || [];
+  const hasXInThirdPosition =
+    code?.length === 8 && !badFormat && thirdChar === 'X';
 
-    // const extensions =
-    //   mainInstitution?.facilityMap?.extensions?.map(
-    //     extension => extension?.institution?.facilityCode,
-    //   ) || [];
-
-    // const branchList = [...branches, ...extensions];
-
-    const hasXInThirdPosition =
-      code?.length === 8 && !badFormat && thirdChar === 'X';
-
-    if (hasXInThirdPosition) {
-      message =
-        "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
-      return message;
-    }
-    // if (!branchList.includes(code)) {
-    //   message =
-    //     "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
-    // }
-  }
-
-  if (notFound) {
-    return null;
-  }
-
-  if (notYR && !isArrayItem) {
+  if (hasXInThirdPosition) {
     message =
-      'This institution is unable to participate in the Yellow Ribbon Program. You can enter a main or branch campus facility code to continue.';
-  }
-
-  if (!notYR && notIHL) {
-    message =
-      'This institution is unable to participate in the Yellow Ribbon Program.';
+      "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
+    return message;
   }
 
   return message || null;
 };
+
 export const getAcademicYearDisplay = () => {
   const currentYear = new Date().getFullYear();
   return `${currentYear}-${currentYear + 1}`;
 };
+
+export const matchYearPattern = fieldData => {
+  const startYear = fieldData.split('-')[0];
+  const endYear = fieldData.split('-')[1];
+  if (Number(endYear) !== Number(startYear) + 1) {
+    return false;
+  }
+  const yearPattern = /^(\d{4}|XXXX)-(\d{4}|XXXX)$/;
+  return yearPattern.test(fieldData);
+};
+
 const yellowRibbonCardTitleCase = str => {
   if (!str || typeof str !== 'string' || str.length === 0) {
     return '';
@@ -278,10 +259,17 @@ const yellowRibbonCardTitleCase = str => {
   return result.join(' ');
 };
 
-const yellowRibbonProgramCardDescription = item => {
+export const yellowRibbonProgramCardDescription = item => {
   if (!item) return null;
   return (
     <div>
+      <p>
+        {`Max. number of students: ${
+          item?.maximumStudentsOption === 'specific'
+            ? item?.maximumStudents
+            : 'Unlimited'
+        }`}
+      </p>
       <p>{yellowRibbonCardTitleCase(item.degreeLevel)}</p>
       <p>{yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool)}</p>
       <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>
@@ -308,12 +296,9 @@ export const arrayBuilderOptions = {
     } Yellow Ribbon Program contributions`;
   },
   text: {
-    getItemName: item =>
-      `Max. number of students: ${
-        item?.maximumStudentsOption === 'specific'
-          ? item?.maximumStudents
-          : 'Unlimited'
-      }`,
+    getItemName: item => {
+      return item?.academicYear || item?.academicYearDisplay;
+    },
     cardDescription: item => yellowRibbonProgramCardDescription(item),
     summaryTitle: props => {
       const institutionDetails = props?.formData?.institutionDetails;
@@ -333,20 +318,6 @@ export const addMaxContributions = arr => {
 export const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const code = (fieldData || '').trim();
 
-  // const mainInstitution = formData?.institutionDetails;
-
-  // const branches =
-  //   mainInstitution?.facilityMap?.branches?.map(
-  //     branch => branch?.institution?.facilityCode,
-  //   ) || [];
-
-  // const extensions =
-  //   mainInstitution?.facilityMap?.extensions?.map(
-  //     extension => extension?.institution?.facilityCode,
-  //   ) || [];
-
-  // const branchList = [...branches, ...extensions];
-
   const currentItem = formData?.additionalInstitutionDetails?.find(
     item => item?.facilityCode?.trim() === code,
   );
@@ -355,9 +326,15 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     item => item?.facilityCode?.trim(),
   );
 
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
+
+  const isDuplicate = facilityCodes?.filter(item => item === code).length > 1;
+
   const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
   const notFound = currentItem?.institutionName === 'not found';
-  const ihlEligible = currentItem?.ihlEligible;
   const notYR = currentItem?.yrEligible === false;
   const thirdChar = code?.charAt(2).toUpperCase();
 
@@ -365,13 +342,14 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     code.length === 8 && !badFormat && thirdChar === 'X';
 
   if (!currentItem?.isLoading) {
-    if (additionalFacilityCodes.filter(item => item === code).length > 1) {
+    if (isDuplicate) {
       errors.addError(
-        "You've already added this location. Please enter a different code.",
+        'You have already added this facility code to this form. Enter a new facility code, or cancel adding this additional location.',
       );
       return;
     }
 
+    // TODO: move below 'not found' check after new response code is configured
     if (hasXInThirdPosition) {
       errors.addError(
         'Codes with an "X" in the third position are not eligible',
@@ -386,23 +364,9 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
       return;
     }
 
-    // if (!branchList.includes(code)) {
-    //   errors.addError(
-    //     "This facility code isn't linked to your school's main campus",
-    //   );
-    //   return;
-    // }
-
     if (notYR) {
       errors.addError(
         "The institution isn't eligible for the Yellow Ribbon Program.",
-      );
-      return;
-    }
-
-    if (ihlEligible === false) {
-      errors.addError(
-        'This institution is not an IHL. Please see information below.',
       );
     }
   }
@@ -417,14 +381,11 @@ export const showAdditionalPointsOfContact = formData => {
   const isSchoolCertifyingOfficial =
     formData?.pointsOfContact?.roles?.isSchoolCertifyingOfficial === true;
 
-  if (
+  const hasBothRoles =
     (isYellowRibbonProgramPointOfContact || isSchoolFinancialRepresentative) &&
-    isSchoolCertifyingOfficial
-  ) {
-    return false;
-  }
+    isSchoolCertifyingOfficial;
 
-  return true;
+  return !hasBothRoles;
 };
 
 export const getAdditionalContactTitle = formData => {
@@ -447,4 +408,12 @@ export const getAdditionalContactTitle = formData => {
 export const capitalizeFirstLetter = str => {
   if (!str || typeof str !== 'string') return '';
   return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+};
+
+export const CustomReviewTopContent = () => {
+  return (
+    <h3 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--3">
+      Review your form
+    </h3>
+  );
 };

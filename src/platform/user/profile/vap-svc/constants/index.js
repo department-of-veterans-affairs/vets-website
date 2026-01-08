@@ -29,7 +29,7 @@ export const ADDRESS_TYPES_ALTERNATE = Object.freeze({
 
 export const ADDRESS_POU = {
   CORRESPONDENCE: 'CORRESPONDENCE',
-  RESIDENCE: 'RESIDENCE/CHOICE',
+  RESIDENCE: 'RESIDENCE',
 };
 
 export const MILITARY_BASE_DATA = 'view:livesOnMilitaryBase';

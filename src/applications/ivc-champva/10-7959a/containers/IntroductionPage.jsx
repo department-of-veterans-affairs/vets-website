@@ -78,8 +78,8 @@ const processDescriptionResubmit = (
     <h3>If you received a letter asking for additional documentation</h3>
     <ul>
       <li>
-        You’ll need to submit a claim online again.{' '}
-        <strong>Select A resubmission for an existing claim.</strong>
+        You’ll need to submit a claim online again. Select{' '}
+        <strong>A resubmission for an existing claim.</strong>
       </li>
       <li>
         If you received a letter, enter the PDI# listed on the letter when
@@ -123,6 +123,15 @@ const IntroductionPage = ({ route }) => {
         Use this form if you’re currently enrolled in the Civilian Health and
         Medical Program of the Department of Veterans Affairs (CHAMPVA) and want
         to file a claim for reimbursement.
+        <Toggler
+          toggleName={Toggler.TOGGLE_NAMES.champvaEnableClaimResubmitQuestion}
+        >
+          <Toggler.Enabled>
+            {' '}
+            Or if you need to submit additional documentation for a claim you
+            already filed.
+          </Toggler.Enabled>
+        </Toggler>
       </p>
       <h2>What to know before you fill out this form</h2>
       <Toggler

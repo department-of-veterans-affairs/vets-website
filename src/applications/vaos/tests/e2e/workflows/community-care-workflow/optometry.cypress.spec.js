@@ -44,6 +44,8 @@ const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
   TYPE_OF_CARE_IDS.OPTOMETRY_ID,
 );
 
+const labelRegexReasonForAppointment = /Enter a brief reason for this appointment\. Your provider will contact you if they need more details\./;
+
 describe('VAOS direct schedule flow - Optometry', () => {
   beforeEach(() => {
     vaosSetup();
@@ -133,9 +135,8 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({
               content: 'This is a test',
@@ -190,9 +191,8 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({
               content: 'This is a test',
@@ -289,9 +289,8 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
@@ -344,9 +343,8 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .assertLabel({
-              label: /Add any details you.d like to share with your provider/,
+              label: labelRegexReasonForAppointment,
             })
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();

@@ -98,6 +98,13 @@ export const saveDraft = (messageData, type, id) => async (
       type: Actions.Draft.SAVE_FAILED,
       response: error,
     });
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        error?.title || Constants.Alerts.Message.GET_MESSAGE_ERROR,
+      ),
+    );
     if (redirectPath) {
       dataDogLogger({
         message: 'Prescription Renewal Draft Error',

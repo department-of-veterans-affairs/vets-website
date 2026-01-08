@@ -14,8 +14,6 @@ import {
   reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
 
-import { fillDateDigitsWebComponentPattern } from './e2e/helpers';
-
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
@@ -140,7 +138,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillDateDigitsWebComponentPattern(
+            fillDateWebComponentPattern(
               'beneficiaryDateOfDeath',
               data.beneficiaryDateOfDeath,
             );
@@ -314,7 +312,7 @@ const testConfig = createTestConfig(
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

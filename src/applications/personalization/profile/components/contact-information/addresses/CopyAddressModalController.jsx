@@ -57,8 +57,8 @@ const CopyAddressModal = props => {
     [mailingAddress, homeAddress, updateCopyAddressModalAction],
   );
 
-  const validationKey = useSelector(
-    state => state?.vapService?.addressValidation?.validationKey,
+  const overrideValidationKey = useSelector(
+    state => state?.vapService?.addressValidation?.overrideValidationKey,
   );
 
   useEffect(
@@ -80,8 +80,8 @@ const CopyAddressModal = props => {
       // make sure we are sending correct id in payload, or empty string if no mailing address for user
       const payloadWithUpdatedId = set(payload, 'id', mailingAddress?.id || '');
 
-      if (validationKey) {
-        payloadWithUpdatedId.validationKey = validationKey;
+      if (overrideValidationKey) {
+        payloadWithUpdatedId.overrideValidationKey = overrideValidationKey;
       }
 
       const method = payloadWithUpdatedId.id ? 'PUT' : 'POST';

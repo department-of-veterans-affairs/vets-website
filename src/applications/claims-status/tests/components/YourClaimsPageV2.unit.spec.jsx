@@ -119,7 +119,7 @@ describe('<YourClaimsPageV2>', () => {
 
     expect($('va-alert', container)).to.exist;
     expect(container.textContent).to.include(
-      'VA.gov is having trouble loading claims and appeals information',
+      "We can't access some of your claims or appeals right now",
     );
   });
 
@@ -139,6 +139,24 @@ describe('<YourClaimsPageV2>', () => {
     props.list = [];
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.find('ClaimCardLoadingSkeleton').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render a loading skeleton even when list has data if any request is still loading', () => {
+    const props = cloneDeep(defaultProps);
+    // List has data but one request is still loading
+    props.claimsLoading = false;
+    props.appealsLoading = false;
+    props.stemClaimsLoading = true;
+    // props.list already has data from defaultProps
+    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+    const expectComponentCount = (component, count) => {
+      expect(wrapper.find(component).length).to.equal(count);
+    };
+    // Should show loading skeleton, not the list
+    expectComponentCount('ClaimCardLoadingSkeleton', 1);
+    expectComponentCount('ClaimsListItem', 0);
+    expectComponentCount('AppealListItem', 0);
     wrapper.unmount();
   });
 
@@ -181,11 +199,17 @@ describe('<YourClaimsPageV2>', () => {
       ...defaultProps,
       list: new Array(12).fill(defaultProps.list[0]),
     };
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.text()).to.include('Showing 1 \u2012 10 of 12 events');
+    // Because Type2FailureAnalyticsProvider is wrapping the component, we need to render the component with the provider to test the pagination.
+    const { container } = renderWithRouter(
+      <Provider store={mockStore}>
+        <YourClaimsPageV2 {...props} />
+      </Provider>,
+    );
+    expect(container.textContent).to.include(
+      'Showing 1 \u2012 10 of 12 events',
+    );
     // web component isn't rendering? But page info does...
     // expect(wrapper.find('va-pagination').length).to.equal(1);
-    wrapper.unmount();
   });
 
   it('should render a no claims message when no claims or appeals present', () => {

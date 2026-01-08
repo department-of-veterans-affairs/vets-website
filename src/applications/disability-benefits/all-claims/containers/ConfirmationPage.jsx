@@ -17,22 +17,15 @@ import {
 import { alertBody } from '../content/confirmation-poll';
 import { ClaimConfirmationInfo } from '../components/ClaimConfirmationInfo';
 import { BddConfirmationAlert } from '../content/bddConfirmationAlert';
+import ConfirmationPageErrorBoundary from '../components/ConfirmationPageErrorBoundary';
 import { capitalizeEachWord } from '../utils';
 
-export const getNewConditionsNames = (disabilities = []) => {
-  const allowed = new Set(['NEW', 'SECONDARY']);
+export const getNewConditionsNames = (names = []) => {
+  const cleaned = names
+    .filter(name => typeof name === 'string' && name.trim() !== '')
+    .map(name => capitalizeEachWord(name.trim().toLowerCase()));
 
-  const names = disabilities
-    .map(item => {
-      if (typeof item === 'string') return item;
-      const cause = String(item?.cause || '').toUpperCase();
-      if (!allowed.has(cause)) return null;
-      return item?.condition ?? null;
-    })
-    .filter(s => typeof s === 'string' && s.trim() !== '')
-    .map(s => capitalizeEachWord(s.trim().toLowerCase()));
-
-  return [...new Set(names)];
+  return [...new Set(cleaned)];
 };
 
 export default class ConfirmationPage extends React.Component {
@@ -61,7 +54,9 @@ export default class ConfirmationPage extends React.Component {
           toggleName={Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview}
         >
           <Toggler.Enabled>
-            <ConfirmationView.ChapterSectionCollection showPageTitles />
+            <ConfirmationPageErrorBoundary>
+              <ConfirmationView.ChapterSectionCollection showPageTitles />
+            </ConfirmationPageErrorBoundary>
           </Toggler.Enabled>
         </Toggler>
         <ConfirmationView.PrintThisPage />

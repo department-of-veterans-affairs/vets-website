@@ -4,6 +4,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 // END lighthouse_migration
+import { SUBMIT_TEXT } from '../../../constants';
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPageV2 {
@@ -98,7 +99,9 @@ class TrackClaimsPageV2 {
     cy.get('.card-status')
       .first()
       .should('contain', `Moved to this step October 31, 2016`);
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.url().should('contain', '/your-claims/189685/status');
@@ -106,7 +109,9 @@ class TrackClaimsPageV2 {
   }
 
   verifyReadyClaim() {
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -126,7 +131,9 @@ class TrackClaimsPageV2 {
   }
 
   verifyInProgressClaim(inProgress = true) {
-    cy.get('.claim-list-item:first-child a.active-va-link')
+    cy.get('.claim-list-item:first-child va-link')
+      .shadow()
+      .find('a')
       .click()
       .then(() => {
         cy.get('body').should('be.visible');
@@ -237,7 +244,7 @@ class TrackClaimsPageV2 {
               cy.get('.filename-title').should('exist');
 
               // 3. Each card should have a received date
-              cy.get('.file-received-date').should('exist');
+              cy.get('.document-card-date').should('exist');
             });
           });
         }
@@ -295,7 +302,7 @@ class TrackClaimsPageV2 {
               cy.get('.filename-title').should('exist');
 
               // 3. Each card should have a submitted date
-              cy.get('.file-submitted-date').should('exist');
+              cy.get('.document-card-date').should('exist');
             });
           });
         }
@@ -440,11 +447,8 @@ class TrackClaimsPageV2 {
         /\/(document-request|needed-from-you|needed-from-others)\/(\d+)/,
       );
 
-      // Click submit button - use different text based on feature toggle
-      const buttonText = showDocumentUploadStatus
-        ? 'Submit files for review'
-        : 'Submit documents for review';
-      cy.get(`.add-files-form va-button[text="${buttonText}"]`)
+      // Click submit button
+      cy.get(`.add-files-form va-button[text="${SUBMIT_TEXT}"]`)
         .shadow()
         .find('button')
         .click();
@@ -477,12 +481,9 @@ class TrackClaimsPageV2 {
     cy.get('va-alert h2').should('contain', alertHeading);
   }
 
-  submitFilesShowsError(showDocumentUploadStatus = false) {
+  submitFilesShowsError() {
     // Click submit without selecting any files to trigger validation error
-    const buttonText = showDocumentUploadStatus
-      ? 'Submit files for review'
-      : 'Submit documents for review';
-    cy.get(`va-button[text="${buttonText}"]`)
+    cy.get(`va-button[text="${SUBMIT_TEXT}"]`)
       .shadow()
       .find('button')
       .click();
@@ -670,13 +671,11 @@ class TrackClaimsPageV2 {
       .should('be.visible');
     cy.get('va-alert.primary-alert')
       .first()
-      .shadow()
-      .get('va-alert.primary-alert:first-of-type a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get('va-alert.primary-alert')
       .first()
-      .shadow()
-      .get('va-alert.primary-alert:first-of-type a')
+      .find('va-link-action[text="About this request"]')
       .click();
     cy.url().should(
       'contain',
@@ -687,15 +686,13 @@ class TrackClaimsPageV2 {
   verifyPrimaryAlertforSubmitBuddyStatement() {
     cy.get('[data-testid="item-2"]').should('be.visible');
     cy.get('[data-testid="item-2"]')
-      .shadow()
-      .get('[data-testid="item-2"]:first-of-type a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
       .should('contain', 'Submit Buddy Statement(s)');
     cy.get('[data-testid="item-2"]')
-      .shadow()
-      .get('[data-testid="item-2"]:first-of-type a')
+      .find('va-link-action[text="About this request"]')
       .click();
     cy.url().should(
       'contain',
@@ -723,8 +720,8 @@ class TrackClaimsPageV2 {
         .should('contain', 'Request for evidence');
     }
     cy.get(testId)
-      .find('a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get(testId)
       .find('.alert-description')
       .first()
@@ -877,7 +874,7 @@ class TrackClaimsPageV2 {
     );
     cy.get('.what-were-doing-container va-card')
       .find('.active-va-link')
-      .should('contain', 'Overview of the process');
+      .should('contain', 'Learn more about the review process');
     cy.get('.what-were-doing-container va-card')
       .find('.active-va-link')
       .click();
@@ -944,7 +941,9 @@ class TrackClaimsPageV2 {
 
   verifyFirstPartyFriendlyEvidenceRequest() {
     cy.get('[data-testid="item-2"]')
-      .find('a.vads-c-action-link--blue')
+      .find('va-link-action')
+      .shadow()
+      .find('a')
       .click();
     cy.url().should('contain', '/needed-from-you/');
     cy.get('#default-page')
@@ -983,10 +982,12 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyUploadType2ErrorAlert() {
+  verifyUploadType2ErrorAlert(isStatusPage = false) {
+    const headingElement = isStatusPage ? 'h4' : 'h3';
+
     cy.get('va-alert[status="error"]').should('be.visible');
     cy.get('va-alert[status="error"]')
-      .find('h3')
+      .find(headingElement)
       .should('contain', 'We need you to submit files by mail or in person');
   }
 
