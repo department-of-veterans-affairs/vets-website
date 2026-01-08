@@ -4,7 +4,6 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
-import CantScheduleOnlineAlert from './CantScheduleOnlineAlert';
 import BackendProviderServiceAlert from './BackendProviderServiceAlert';
 import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
 import { useGetPatientRelationships } from '../../hooks/useGetPatientRelationships';
@@ -97,15 +96,10 @@ export default function SelectProviderPage() {
         </>
       ) : null}
 
-      <CantScheduleOnlineAlert
+      <BackendProviderServiceAlert
         selectedFacility={selectedFacility}
         isEligibleForRequest={isEligibleForRequest}
         overRequestLimit={overRequestLimit}
-      />
-
-      <BackendProviderServiceAlert
-        selectedFacility={selectedFacility}
-        pageKey={pageKey}
       />
 
       <ScheduleWithDifferentProvider
