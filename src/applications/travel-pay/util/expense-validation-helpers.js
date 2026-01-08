@@ -98,13 +98,9 @@ export const getAirTravelFieldsToValidate = (
     fieldsToValidate.push('departureDate');
   }
 
-  // If tripType changes and a returnDate exists,
+  // If tripType changes
   // ensure returnDate is revalidated
-  if (
-    fieldName === 'tripType' &&
-    formState.returnDate !== '' &&
-    !fieldsToValidate.includes('returnDate')
-  ) {
+  if (fieldName === 'tripType' && !fieldsToValidate.includes('returnDate')) {
     fieldsToValidate.push('returnDate');
   }
 
@@ -398,6 +394,8 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
         nextErrors.departureDate = futureDateError;
       } else if (returnDateComplete && departureDate > returnDate) {
         nextErrors.departureDate = 'Departure date must be before return date';
+      } else {
+        delete nextErrors.departureDate;
       }
     } else {
       delete nextErrors.departureDate;
@@ -408,18 +406,28 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
   if (fieldsToValidate.includes('returnDate')) {
     const { tripType, departureDate, returnDate } = formState;
 
-    if (tripType === TRIP_TYPES.ROUND_TRIP.value && !returnDate) {
-      nextErrors.returnDate = 'Enter a return date';
-    } else if (returnDate && returnDateComplete) {
-      const [year, month, day] = returnDate.split('-');
-      const futureDateError = getFutureDateError({ year, month, day });
+    const shouldValidateReturnDate = tripType === TRIP_TYPES.ROUND_TRIP.value;
 
-      if (futureDateError) {
-        nextErrors.returnDate = futureDateError;
-      } else if (departureDateComplete && returnDate < departureDate) {
-        nextErrors.returnDate = 'Return date must be later than departure date';
-      } else if (tripType === TRIP_TYPES.ONE_WAY.value && returnDate) {
-        nextErrors.returnDate = 'You entered a return date for a one-way trip';
+    // One-way trip with a return date
+    if (tripType === TRIP_TYPES.ONE_WAY.value && returnDateComplete) {
+      nextErrors.returnDate = 'You entered a return date for a one-way trip';
+    }
+    // Round-trip validations
+    else if (shouldValidateReturnDate) {
+      if (!returnDate) {
+        nextErrors.returnDate = 'Enter a return date';
+      } else if (returnDateComplete) {
+        const [year, month, day] = returnDate.split('-');
+        const futureDateError = getFutureDateError({ year, month, day });
+
+        if (futureDateError) {
+          nextErrors.returnDate = futureDateError;
+        } else if (departureDateComplete && returnDate < departureDate) {
+          nextErrors.returnDate =
+            'Return date must be later than departure date';
+        } else {
+          delete nextErrors.returnDate;
+        }
       } else {
         delete nextErrors.returnDate;
       }
@@ -553,6 +561,8 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
       } else {
         delete nextErrors.checkInDate;
       }
+    } else {
+      delete nextErrors.checkInDate;
     }
   }
 
@@ -572,6 +582,8 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
       } else if (checkInDateComplete && checkOutDate <= checkInDate) {
         nextErrors.checkOutDate =
           'Check-out date must be later than check-in date';
+      } else {
+        delete nextErrors.checkOutDate;
       }
     } else {
       delete nextErrors.checkOutDate;
