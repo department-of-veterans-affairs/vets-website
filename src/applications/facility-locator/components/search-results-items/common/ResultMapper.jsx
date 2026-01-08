@@ -1,6 +1,5 @@
 import React from 'react';
 import CCProviderResult from '../CCProviderResult';
-import Covid19Result from '../Covid19Result';
 import EmergencyCareResult from '../EmergencyCareResult';
 import PharmacyResult from '../PharmacyResult';
 import UrgentCareResult from '../UrgentCareResult';
@@ -9,7 +8,6 @@ import {
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
   LocationType,
-  Covid19Vaccine,
   EMERGENCY_CARE_SERVICES,
 } from '../../../constants';
 
@@ -30,14 +28,7 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
     case 'cemetery':
     case 'benefits':
     case 'vet_center':
-      return searchQuery.serviceType === Covid19Vaccine ? (
-        <Covid19Result
-          index={index}
-          isMobile={isMobile}
-          key={result.id}
-          location={result}
-        />
-      ) : (
+      return (
         <VaFacilityResult
           index={index}
           isMobile={isMobile}
