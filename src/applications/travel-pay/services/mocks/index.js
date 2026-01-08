@@ -1,5 +1,15 @@
 const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
+const {
+  getExpenseHandler,
+  createExpenseHandler,
+  updateExpenseHandler,
+  deleteExpenseHandler,
+  setClaimRef,
+} = require('./expenses/expenseHandlers');
+const { getAppointmentById } = require('./vaos/appointmentUtils');
+const { buildClaim } = require('./claims/baseClaim');
+const { STATUS_KEYS, EXPENSE_TYPE_OPTIONS } = require('./constants');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims.json');
@@ -16,28 +26,13 @@ const user = {
   noAddress: require('./user-no-address.json'),
 };
 
-const claimDetails = {
-  v1: require('./travel-claim-details-v1.json'),
-  v2: require('./travel-claim-details-v2.json'),
-  incomplete: require('./travel-claim-details-incomplete.json'),
-  saved: require('./travel-claim-details-saved-all-expense-types.json'),
-  inProcess: require('./travel-claim-details-inprocess.json'),
-  claimSubmitted: require('./travel-claim-details-claimsubmitted.json'),
-  inManualReview: require('./travel-claim-details-inmanualreview.json'),
-  onHold: require('./travel-claim-details-onhold.json'),
-  appealed: require('./travel-claim-details-appealed.json'),
-  partialPayment: require('./travel-claim-details-partialpayment.json'),
-  denied: require('./travel-claim-details-denied-has-decision-letter.json'),
-  closedWithNoPayment: require('./travel-claim-details-closedwithnopayment.json'),
-  approvedForPayment: require('./travel-claim-details-approvedforpayment.json'),
-  submittedForPayment: require('./travel-claim-details-submittedforpayment.json'),
-  fiscalRescinded: require('./travel-claim-details-fiscalrescinded.json'),
-  claimPaid: require('./travel-claim-details-claimpaid.json'),
-  paymentCanceled: require('./travel-claim-details-paymentcanceled.json'),
-};
+// 👉 Change the claim details here to see the different claim status for mocks
+const claim = buildClaim({
+  claimStatus: STATUS_KEYS.SAVED, // e.g., INCOMPLETE, SAVED, CLAIMPAID
+  expenseTypeOptions: EXPENSE_TYPE_OPTIONS.ALL, // ALL | NONE | MILEAGE_ONLY
+});
 
-// Change the claim details here to see the different claim status for mocks
-const claim = claimDetails.v2;
+setClaimRef(claim);
 
 const maintenanceWindows = {
   none: require('./maintenance-windows/none.json'),
@@ -210,60 +205,39 @@ const responses = {
   },
 
   // Creating expenses
-  'POST /travel_pay/v0/claims/:claimId/expenses/mileage': (req, res) => {
-    return res.json({
-      id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
-    });
-  },
-  'POST /travel_pay/v0/claims/:claimId/expenses/parking': (req, res) => {
-    return res.json({
-      id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
-    });
-  },
-  'POST /travel_pay/v0/claims/:claimId/expenses/toll': (req, res) => {
-    return res.json({
-      id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
-    });
-  },
-  'POST /travel_pay/v0/claims/:claimId/expenses/commoncarrier': (req, res) => {
-    return res.json({
-      id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
-    });
-  },
-  'POST /travel_pay/v0/claims/:claimId/expenses/airtravel': (req, res) => {
-    return res.json({
-      id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
-    });
-  },
-  'POST /travel_pay/v0/claims/:claimId/expenses/lodging': (req, res) => {
-    return res.json({
-      id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
-    });
-  },
-  'POST /travel_pay/v0/claims/:claimId/expenses/meal': (req, res) => {
-    return res.json({
-      id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
-    });
-  },
-  'POST /travel_pay/v0/claims/:claimId/expenses/other': (req, res) => {
-    return res.json({
-      id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
-    });
-  },
+  // POST /claims/:claimId/expenses/:type
+  'POST /travel_pay/v0/claims/:claimId/expenses/mileage': createExpenseHandler(
+    'mileage',
+  ),
+  'POST /travel_pay/v0/claims/:claimId/expenses/parking': createExpenseHandler(
+    'parking',
+  ),
+  'POST /travel_pay/v0/claims/:claimId/expenses/toll': createExpenseHandler(
+    'toll',
+  ),
+  'POST /travel_pay/v0/claims/:claimId/expenses/commoncarrier': createExpenseHandler(
+    'commoncarrier',
+  ),
+  'POST /travel_pay/v0/claims/:claimId/expenses/airtravel': createExpenseHandler(
+    'airtravel',
+  ),
+  'POST /travel_pay/v0/claims/:claimId/expenses/lodging': createExpenseHandler(
+    'lodging',
+  ),
+  'POST /travel_pay/v0/claims/:claimId/expenses/meal': createExpenseHandler(
+    'meal',
+  ),
+  'POST /travel_pay/v0/claims/:claimId/expenses/other': createExpenseHandler(
+    'other',
+  ),
 
   // Updating expenses
-  'PATCH /travel_pay/v0/expenses/:expenseType/:expenseId': (req, res) => {
-    return res.json({
-      id: req.params.expenseId,
-    });
-  },
+  // PATCH expenses/:expenseType/:expenseId
+  'PATCH /travel_pay/v0/expenses/:expenseType/:expenseId': updateExpenseHandler(),
 
   // Deleting expenses
-  'DELETE /travel_pay/v0/expenses/:expenseType/:expenseId': (req, res) => {
-    return res.status(200).json({
-      id: req.params.expenseId,
-    });
-  },
+  // DELETE /expenses/:type/:id
+  'DELETE /travel_pay/v0/expenses/:expenseType/:expenseId': deleteExpenseHandler(),
 
   // Deleting documents
   'DELETE /travel_pay/v0/claims/:claimId/documents/:documentId': (req, res) => {
@@ -274,44 +248,14 @@ const responses = {
 
   // Get travel-pay appointment - handle specific IDs first
   'GET /vaos/v2/appointments/:id': (req, res) => {
-    const { id } = req.params;
-
-    // Handle specific appointment IDs
-    switch (id) {
-      case '167325': {
-        const dates = generateAppointmentDates(-1); // 1 day ago
-        return res.json(
-          overrideAppointment(appointment.noClaim, '167325', dates),
-        );
-      }
-      case '167326': {
-        const dates = generateAppointmentDates(-3); // 3 days ago
-        return res.json(
-          overrideAppointment(appointment.claim, '167326', dates),
-        );
-      }
-      case '167327': {
-        const dates = generateAppointmentDates(-32); // 32 days ago
-        return res.json(
-          overrideAppointment(appointment.noClaim, '167327', dates),
-        );
-      }
-      case '167328': {
-        const dates = generateAppointmentDates(-5); // 5 days ago
-        return res.json(
-          overrideAppointment(appointment.savedClaim, '167328', dates),
-        );
-      }
-      case '167329': {
-        const dates = generateAppointmentDates(-33); // 32 days ago
-        return res.json(
-          overrideAppointment(appointment.savedClaim, '167329', dates),
-        );
-      }
-      default:
-        // For any other ID, return the original mock
-        return res.json(appointment.savedClaim);
-    }
+    return res.json(
+      getAppointmentById({
+        id: req.params.id,
+        appointment,
+        generateAppointmentDates,
+        overrideAppointment,
+      }),
+    );
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({
@@ -453,177 +397,31 @@ const responses = {
   },
 
   // GET individual expense endpoints
-  'GET /travel_pay/v0/claims/:claimId/expenses/mileage/:expenseId': (
-    req,
-    res,
-  ) => {
-    const { expenseId } = req.params;
-    if (expenseId === 'a48d48d4-cdc5-4922-8355-c1a9b2742feb') {
-      return res.json({
-        id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
-        expenseType: 'Mileage',
-        name: 'Mileage Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'mileage',
-        costRequested: 1.16,
-        costSubmitted: 0,
-        tripType: 'RoundTrip',
-        requestedMileage: 2.0,
-        challengeMileage: false,
-        challengeRequestedMileage: 0,
-        challengeReason: '',
-        address: {
-          addressLine1: '345 Home Address St.',
-          addressLine2: 'Apt. 123',
-          addressLine3: '',
-          city: 'San Francisco',
-          countryName: 'United States',
-          stateCode: 'CA',
-          zipCode: '94118',
-        },
-      });
-    }
-    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
-  },
-
-  'GET /travel_pay/v0/claims/:claimId/expenses/parking/:expenseId': (
-    req,
-    res,
-  ) => {
-    const { expenseId } = req.params;
-    if (expenseId === 'e82h82h8-ghg9-8e66-c799-g5ed16186jif') {
-      return res.json({
-        id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
-        expenseType: 'Parking',
-        name: 'Parking Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Hospital parking',
-        costRequested: 15.0,
-        costSubmitted: 15.0,
-      });
-    }
-    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
-  },
-
-  'GET /travel_pay/v0/claims/:claimId/expenses/toll/:expenseId': (req, res) => {
-    const { expenseId } = req.params;
-    if (expenseId === 'f93i93i9-hih0-9f77-d800-h6fe27297kjg') {
-      return res.json({
-        id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
-        expenseType: 'Toll',
-        name: 'Toll Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Highway toll',
-        costRequested: 5.5,
-        costSubmitted: 5.5,
-      });
-    }
-    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
-  },
-
-  'GET /travel_pay/v0/claims/:claimId/expenses/commoncarrier/:expenseId': (
-    req,
-    res,
-  ) => {
-    const { expenseId } = req.params;
-    if (expenseId === 'g04j04j0-iji1-0g88-e911-i7gf38308lkh') {
-      return res.json({
-        id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
-        expenseType: 'CommonCarrier',
-        name: 'Common Carrier Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Taxi to appointment',
-        costRequested: 45.0,
-        costSubmitted: 45.0,
-        carrierType: 'Taxi',
-        reasonNotUsingPOV: 'PrivatelyOwnedVehicleNotAvailable',
-      });
-    }
-    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
-  },
-
-  'GET /travel_pay/v0/claims/:claimId/expenses/airtravel/:expenseId': (
-    req,
-    res,
-  ) => {
-    const { expenseId } = req.params;
-    if (expenseId === 'h15k15k1-jkj2-1h99-f022-j8hg49419mli') {
-      return res.json({
-        id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
-        expenseType: 'AirTravel',
-        name: 'Air Travel Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Flight to medical appointment',
-        costRequested: 350.0,
-        costSubmitted: 350.0,
-        tripType: 'RoundTrip',
-        vendorName: 'United Airlines',
-        departedFrom: 'San Francisco, CA',
-        departureDate: '2025-09-15T06:00:00Z',
-        arrivedTo: 'Los Angeles, CA',
-        returnDate: '2025-09-15T08:00:00Z',
-      });
-    }
-    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
-  },
-
-  'GET /travel_pay/v0/claims/:claimId/expenses/lodging/:expenseId': (
-    req,
-    res,
-  ) => {
-    const { expenseId } = req.params;
-    if (expenseId === 'b59e59e5-ded6-5b33-9466-d2ba83853gfc') {
-      return res.json({
-        id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
-        expenseType: 'Lodging',
-        name: 'Lodging Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Hotel stay',
-        costRequested: 125.0,
-        costSubmitted: 125.0,
-        vendor: 'Holiday Inn',
-        checkInDate: '2025-09-15',
-        checkOutDate: '2025-09-16',
-      });
-    }
-    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
-  },
-
-  'GET /travel_pay/v0/claims/:claimId/expenses/meal/:expenseId': (req, res) => {
-    const { expenseId } = req.params;
-    if (expenseId === 'c60f60f6-efe7-6c44-a577-e3cb94964hgd') {
-      return res.json({
-        id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
-        expenseType: 'Meal',
-        name: 'Meal Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Breakfast and lunch',
-        costRequested: 35.0,
-        costSubmitted: 35.0,
-        vendorName: 'Restaurant Name',
-      });
-    }
-    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
-  },
-
-  'GET /travel_pay/v0/claims/:claimId/expenses/other/:expenseId': (
-    req,
-    res,
-  ) => {
-    const { expenseId } = req.params;
-    if (expenseId === 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe') {
-      return res.json({
-        id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
-        expenseType: 'Other',
-        name: 'Other Expense',
-        dateIncurred: '2025-09-16T08:30:00Z',
-        description: 'Medical supplies',
-        costRequested: 50.0,
-        costSubmitted: 50.0,
-      });
-    }
-    return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
-  },
+  // GET /claims/:claimId/expenses/:expenseType/:expenseId
+  'GET /travel_pay/v0/claims/:claimId/expenses/mileage/:expenseId': getExpenseHandler(
+    'mileage',
+  ),
+  'GET /travel_pay/v0/claims/:claimId/expenses/parking/:expenseId': getExpenseHandler(
+    'parking',
+  ),
+  'GET /travel_pay/v0/claims/:claimId/expenses/toll/:expenseId': getExpenseHandler(
+    'toll',
+  ),
+  'GET /travel_pay/v0/claims/:claimId/expenses/commoncarrier/:expenseId': getExpenseHandler(
+    'commoncarrier',
+  ),
+  'GET /travel_pay/v0/claims/:claimId/expenses/airtravel/:expenseId': getExpenseHandler(
+    'airtravel',
+  ),
+  'GET /travel_pay/v0/claims/:claimId/expenses/lodging/:expenseId': getExpenseHandler(
+    'lodging',
+  ),
+  'GET /travel_pay/v0/claims/:claimId/expenses/meal/:expenseId': getExpenseHandler(
+    'meal',
+  ),
+  'GET /travel_pay/v0/claims/:claimId/expenses/other/:expenseId': getExpenseHandler(
+    'other',
+  ),
 
   // Document download
   'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
