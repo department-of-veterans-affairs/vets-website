@@ -197,8 +197,6 @@ export const uiSchema = {
         formData.mailingAddress.country === 'USA',
     },
     zipCode: {
-      // is there a way to get this from addressUI?
-      // ...addressUI().postalCode,
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
