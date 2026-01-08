@@ -1,4 +1,4 @@
-export const mileage = {
+const mileage = {
   id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
   expenseType: 'Mileage',
   name: 'Mileage Expense',
@@ -21,7 +21,7 @@ export const mileage = {
   },
 };
 
-export const parking = {
+const parking = {
   id: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
   expenseType: 'Parking',
   name: 'Parking Expense',
@@ -31,7 +31,7 @@ export const parking = {
   costSubmitted: 15.0,
 };
 
-export const toll = {
+const toll = {
   id: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
   expenseType: 'Toll',
   name: 'Toll Expense',
@@ -41,7 +41,7 @@ export const toll = {
   costSubmitted: 5.5,
 };
 
-export const commoncarrier = {
+const commoncarrier = {
   id: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
   expenseType: 'CommonCarrier',
   name: 'Common Carrier Expense',
@@ -53,7 +53,7 @@ export const commoncarrier = {
   reasonNotUsingPOV: 'PrivatelyOwnedVehicleNotAvailable',
 };
 
-export const airtravel = {
+const airtravel = {
   id: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
   expenseType: 'AirTravel',
   name: 'Air Travel Expense',
@@ -69,7 +69,7 @@ export const airtravel = {
   returnDate: '2025-09-15T08:00:00Z',
 };
 
-export const lodging = {
+const lodging = {
   id: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
   expenseType: 'Lodging',
   name: 'Lodging Expense',
@@ -82,7 +82,7 @@ export const lodging = {
   checkOutDate: '2025-09-16',
 };
 
-export const meal = {
+const meal = {
   id: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
   expenseType: 'Meal',
   name: 'Meal Expense',
@@ -93,7 +93,7 @@ export const meal = {
   vendorName: 'Restaurant Name',
 };
 
-export const other = {
+const other = {
   id: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
   expenseType: 'Other',
   name: 'Other Expense',
@@ -103,7 +103,7 @@ export const other = {
   costSubmitted: 50.0,
 };
 
-export const expenseByType = Object.freeze({
+const expenseByType = {
   mileage,
   parking,
   toll,
@@ -112,4 +112,16 @@ export const expenseByType = Object.freeze({
   lodging,
   meal,
   other,
-});
+};
+
+module.exports = {
+  mileage,
+  parking,
+  toll,
+  commoncarrier,
+  airtravel,
+  lodging,
+  meal,
+  other,
+  expenseByType,
+};
