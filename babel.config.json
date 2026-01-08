@@ -47,13 +47,6 @@
           "@@profile": "./src/applications/personalization/profile",
           "@bio-aquia": "./src/applications/benefits-optimization-aquia",
 
-          "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
-          "@department-of-veterans-affairs/component-library/RadioButtons": "@department-of-veterans-affairs/react-components/RadioButtons",
-          "@department-of-veterans-affairs/component-library/Breadcrumbs": "@department-of-veterans-affairs/react-components/Breadcrumbs",
-          "@department-of-veterans-affairs/component-library/Modal": "@department-of-veterans-affairs/react-components/Modal",
-          "@department-of-veterans-affairs/component-library/FileInput": "@department-of-veterans-affairs/react-components/FileInput",
-          "@department-of-veterans-affairs/component-library/SystemDownView": "@department-of-veterans-affairs/react-components/SystemDownView",
-          "@department-of-veterans-affairs/component-library/DropDownPanel": "@department-of-veterans-affairs/react-components/DropDownPanel",
           "@department-of-veterans-affairs/mhv/exports": "./src/platform/mhv/exportsFile.js",
           "@department-of-veterans-affairs/platform-pdf/exports": "./src/platform/pdf/exportsFile.js",
           "@department-of-veterans-affairs/platform-startup/exports": "./src/platform/startup/exportsFile.js",
