@@ -78,8 +78,18 @@ describe('DebtSelection Component', () => {
       description: 'Test debt description',
     };
 
+    const mockSubmittedDebt = {
+      compositeDebtId: '124',
+      label: 'Submitted Debt',
+      description: 'Submitted debt description',
+      submitted: true,
+    };
+
     const initialState = {
-      availableDebts: { availableDebts: [mockDebt], isDebtError: false },
+      availableDebts: {
+        availableDebts: [mockDebt, mockSubmittedDebt],
+        isDebtError: false,
+      },
       form: { data: { selectedDebts: [] } },
     };
 

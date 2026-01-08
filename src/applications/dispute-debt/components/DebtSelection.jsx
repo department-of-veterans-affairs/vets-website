@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createSelector } from 'reselect';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -10,21 +11,24 @@ import AlertCard from './AlertCard';
 import { DEBT_TYPES } from '../constants';
 import ZeroDebtsAlert from './ZeroDebtsAlert';
 
-const DebtSelection = ({ formContext }) => {
-  const { availableDebts, submittedDebts, isDebtError } = useSelector(state => {
-    const allDebts = state.availableDebts;
+const selectCategorizedDebts = createSelector(
+  [state => state.availableDebts],
+  availableDebtsState => {
+    const { availableDebts = [], isDebtError = false } =
+      availableDebtsState || {};
 
-    return allDebts.reduce(
-      (acc, debt) => {
-        // eslint-disable-next-line no-unused-expressions
-        !debt.submitted
-          ? acc.availableDebts.push(debt)
-          : acc.submittedDebts.push(debt);
-        return acc;
-      },
-      { availableDebts: [], submittedDebts: [] },
-    );
-  });
+    return {
+      isDebtError,
+      availableDebts: availableDebts.filter(debt => !debt.submitted),
+      submittedDebts: availableDebts.filter(debt => debt.submitted),
+    };
+  },
+);
+
+const DebtSelection = ({ formContext }) => {
+  const { availableDebts, isDebtError, submittedDebts } = useSelector(
+    selectCategorizedDebts,
+  );
 
   const { data } = useSelector(state => state.form);
   const { selectedDebts = [] } = data;
