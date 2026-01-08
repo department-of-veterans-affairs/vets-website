@@ -32,7 +32,7 @@ import {
   validateMedicarePartDDates,
   validateMedicarePlan,
 } from '../helpers';
-
+import { futureDateUI, futureDateSchema } from '../definitions';
 import medicareParticipant from './medicareInformation/participants';
 import medicareNumber from './medicareInformation/medicareNumber';
 import {
@@ -213,7 +213,7 @@ const medicarePartAPartBEffectiveDatesPage = {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      medicarePartAEffectiveDate: currentOrPastDateUI({
+      medicarePartAEffectiveDate: futureDateUI({
         title: 'Effective date',
         hint:
           'This will be on the front of the Medicare card near “Coverage starts.”',
@@ -226,7 +226,7 @@ const medicarePartAPartBEffectiveDatesPage = {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      medicarePartBEffectiveDate: currentOrPastDateUI({
+      medicarePartBEffectiveDate: futureDateUI({
         title: 'Effective date',
         hint:
           'This will be on the front of the Medicare card near “Coverage starts.”',
@@ -244,14 +244,14 @@ const medicarePartAPartBEffectiveDatesPage = {
         type: 'object',
         required: ['medicarePartAEffectiveDate'],
         properties: {
-          medicarePartAEffectiveDate: currentOrPastDateSchema,
+          medicarePartAEffectiveDate: futureDateSchema,
         },
       },
       'view:medicarePartBEffectiveDate': {
         type: 'object',
         required: ['medicarePartBEffectiveDate'],
         properties: {
-          medicarePartBEffectiveDate: currentOrPastDateSchema,
+          medicarePartBEffectiveDate: futureDateSchema,
         },
       },
       'view:medicarePartCDescription': blankSchema,
@@ -298,7 +298,7 @@ const medicarePartAEffectiveDatePage = {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      medicarePartAEffectiveDate: currentOrPastDateUI({
+      medicarePartAEffectiveDate: futureDateUI({
         title: 'Effective date',
         hint:
           'You may find the effective date on the front of the Medicare card near “Coverage starts” or “Effective date.”',
@@ -313,7 +313,7 @@ const medicarePartAEffectiveDatePage = {
         type: 'object',
         required: ['medicarePartAEffectiveDate'],
         properties: {
-          medicarePartAEffectiveDate: currentOrPastDateSchema,
+          medicarePartAEffectiveDate: futureDateSchema,
         },
       },
     },
@@ -357,7 +357,7 @@ const medicarePartBEffectiveDatePage = {
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      medicarePartBEffectiveDate: currentOrPastDateUI({
+      medicarePartBEffectiveDate: futureDateUI({
         title: 'Effective date',
         hint:
           'This will be on the front of the Medicare card near “Coverage starts.”',
@@ -372,7 +372,7 @@ const medicarePartBEffectiveDatePage = {
         type: 'object',
         required: ['medicarePartBEffectiveDate'],
         properties: {
-          medicarePartBEffectiveDate: currentOrPastDateSchema,
+          medicarePartBEffectiveDate: futureDateSchema,
         },
       },
     },
@@ -504,7 +504,7 @@ const medicarePartCCarrierEffectiveDatePage = {
       title: 'Name of insurance carrier',
       hint: 'This is the name of the insurance company.',
     }),
-    medicarePartCEffectiveDate: currentOrPastDateUI({
+    medicarePartCEffectiveDate: futureDateUI({
       title: 'Medicare Part C effective date',
       hint:
         'This information is on the front of the Medicare card near “Effective date” or “Issue date.” If it’s not there, it may be on the plan’s online portal or enrollment documents.',
@@ -515,7 +515,7 @@ const medicarePartCCarrierEffectiveDatePage = {
     required: ['medicarePartCCarrier', 'medicarePartCEffectiveDate'],
     properties: {
       medicarePartCCarrier: textSchema,
-      medicarePartCEffectiveDate: currentOrPastDateSchema,
+      medicarePartCEffectiveDate: futureDateSchema,
     },
   },
 };
@@ -612,7 +612,7 @@ const medicarePartDStatusPage = {
 const medicarePartDCarrierEffectiveDatePage = {
   uiSchema: {
     ...medicarePageTitleUI('Medicare Part D effective date'),
-    medicarePartDEffectiveDate: currentOrPastDateUI({
+    medicarePartDEffectiveDate: futureDateUI({
       title: 'Medicare Part D effective date',
       hint: 'This information is at the top of the card.',
     }),
@@ -626,7 +626,7 @@ const medicarePartDCarrierEffectiveDatePage = {
     type: 'object',
     required: ['medicarePartDEffectiveDate'],
     properties: {
-      medicarePartDEffectiveDate: currentOrPastDateSchema,
+      medicarePartDEffectiveDate: futureDateSchema,
       medicarePartDTerminationDate: currentOrPastDateSchema,
     },
   },

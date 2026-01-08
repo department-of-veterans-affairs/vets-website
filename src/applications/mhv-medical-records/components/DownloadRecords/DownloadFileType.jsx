@@ -20,6 +20,7 @@ import {
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { selectHoldTimeMessagingUpdate } from '../../util/selectors';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -90,7 +91,7 @@ const DownloadFileType = props => {
   const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
   const refreshStatus = useSelector(state => state.mr.refresh.status);
-
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
@@ -361,7 +362,11 @@ const DownloadFileType = props => {
           const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
           const pdfData = {
             ...formatDateRange(),
-            recordSets: generateBlueButtonData(recordData, recordFilter),
+            recordSets: generateBlueButtonData(
+              recordData,
+              recordFilter,
+              holdTimeMessagingUpdate,
+            ),
             failedDomains: getFailedDomainList(
               failedDomains,
               BB_DOMAIN_DISPLAY_MAP,
@@ -398,6 +403,7 @@ const DownloadFileType = props => {
       formatDateRange,
       recordData,
       recordFilter,
+      holdTimeMessagingUpdate,
       failedDomains,
       name,
       dob,
@@ -429,6 +435,7 @@ const DownloadFileType = props => {
             user,
             dateRange,
             failedDomainsList,
+            holdTimeMessagingUpdate,
           );
 
           generateTextFile(content, pdfName, user);
@@ -441,7 +448,15 @@ const DownloadFileType = props => {
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
-    [dispatch, failedDomains, formatDateRange, isDataFetched, recordData, user],
+    [
+      dispatch,
+      failedDomains,
+      formatDateRange,
+      holdTimeMessagingUpdate,
+      isDataFetched,
+      recordData,
+      user,
+    ],
   );
 
   const checkFileTypeValidity = useCallback(
