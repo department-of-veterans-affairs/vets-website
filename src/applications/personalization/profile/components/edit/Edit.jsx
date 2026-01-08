@@ -261,7 +261,9 @@ export const Edit = () => {
               onClickHandler={handlers.breadCrumbClick}
               href={returnPath}
             >
-              {`Back to ${returnPathName}`}
+              {!isReturningToSchedulingPreferences(returnPath)
+                ? `Back to ${returnPathName}`
+                : returnPathName}
             </EditBreadcrumb>
 
             {!isReturningToSchedulingPreferences(returnPath) && (
