@@ -9,7 +9,7 @@ const renderPage = (formData = {}) =>
     <DefinitionTester
       schema={page.schema}
       uiSchema={page.uiSchema}
-      formData={formData}
+      data={formData}
       definitions={{}}
     />,
   );

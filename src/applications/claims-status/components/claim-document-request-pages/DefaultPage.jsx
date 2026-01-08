@@ -112,6 +112,7 @@ export default function DefaultPage({
             <Notification
               title="We need you to submit files by mail or in person"
               body={<Type1UnknownUploadError errorFiles={type1UnknownErrors} />}
+              role="alert"
               type="error"
               onSetFocus={!message ? focusNotificationAlert : undefined}
             />
@@ -181,8 +182,8 @@ export default function DefaultPage({
               all your claim letters online.
               <br />
               <va-link
-                text="Your claim letters"
-                label="Your claim letters"
+                text="Access your claim letters"
+                label="Access your claim letters"
                 href="/track-claims/your-claim-letters"
               />
             </p>
@@ -203,17 +204,17 @@ export default function DefaultPage({
             <ul className="bullet-disc">
               <li>
                 Gather and submit any documents or forms listed in the{' '}
-                <strong>What we need from you</strong> section.
+                <strong>What we need from you</strong> section
               </li>
-              <li>You can upload documents online or mail them to us.</li>
+              <li>You can upload documents online or mail them to us</li>
             </ul>
             <p>
               If you need help understanding this request, check your claim
               letter online.
               <br />
               <va-link
-                text="Your claim letters"
-                label="Your claim letters"
+                text="Access your claim letters"
+                label="Access your claim letters"
                 href="/track-claims/your-claim-letters"
               />
             </p>
@@ -221,7 +222,6 @@ export default function DefaultPage({
               You can find blank copies of many VA forms online.
               <br />
               <va-link
-                active
                 text="Find a VA form"
                 label="Find a VA form"
                 href="/find-forms"

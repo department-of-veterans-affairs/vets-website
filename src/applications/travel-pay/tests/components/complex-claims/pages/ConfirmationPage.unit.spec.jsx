@@ -40,7 +40,6 @@ const defaultClaim = {
       expenseType: 'Parking',
       tripType: 'OneWay',
       costRequested: 50.0,
-      documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
     },
   ],
   documents: [
@@ -49,6 +48,7 @@ const defaultClaim = {
       filename: 'test.pdf',
       mimetype: 'application/pdf',
       createdon: '2025-10-01T18:14:37Z',
+      expenseId: 'expense2', // Doc is associated with expense
     },
   ],
 };

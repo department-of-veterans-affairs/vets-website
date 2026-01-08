@@ -89,6 +89,11 @@ const MockReferralSubmitAppointmentResponse = require('../../tests/fixtures/Mock
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const features = require('./featureFlags');
+const {
+  // defaultUser,
+  // acceleratedCernerUser,
+  cernerUser,
+} = require('../../../../platform/mhv/api/mocks/user');
 
 const mockAppts = [];
 let currentMockId = 1;
@@ -111,13 +116,6 @@ const providerMock = {
   1770999294: 'TUCKER JONES, MICHELLE A',
   1255962510: 'OYEKAN, ADETOLA O',
   1770904021: 'Jones, Tillie',
-};
-
-const purposeText = {
-  ROUTINEVISIT: 'Routine/Follow-up',
-  MEDICALISSUE: 'New medical issue',
-  QUESTIONMEDS: 'Medication concern',
-  OTHER_REASON: 'My reason isn’t listed',
 };
 
 const responses = {
@@ -145,7 +143,6 @@ const responses = {
     }
     const pending = req.body.status === 'proposed';
     const future = req.body.status === 'booked';
-    let reasonForAppointment;
     let patientComments;
     let type;
     let modality;
@@ -156,10 +153,7 @@ const responses = {
     } else {
       const tokens = req.body.reasonCode?.text?.split('|') || [];
       for (const token of tokens) {
-        if (token.startsWith('reason code:')) {
-          reasonForAppointment =
-            purposeText[token.substring('reason code:'.length)];
-        } else if (token.startsWith('comments:')) {
+        if (token.startsWith('comments:')) {
           patientComments = token.substring('comments:'.length);
         }
       }
@@ -192,7 +186,6 @@ const responses = {
         },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
-        reasonForAppointment,
         patientComments,
         future,
         pending,
@@ -693,13 +686,8 @@ const responses = {
           'rx',
           'messaging',
         ],
-        va_profile: {
-          status: 'OK',
-          birth_date: '19511118',
-          family_name: 'Hunter',
-          gender: 'M',
-          given_names: ['Julio', 'E'],
-          active_status: 'active',
+        vaProfile: {
+          ...cernerUser.data.attributes.vaProfile,
           facilities: [
             {
               facility_id: '556',

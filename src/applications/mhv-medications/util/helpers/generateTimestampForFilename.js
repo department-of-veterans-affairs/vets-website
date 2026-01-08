@@ -15,6 +15,4 @@ export const generateTimestampForFilename = () =>
     null,
     null,
     'America/New_York',
-  )
-    .toLowerCase()
-    .replace(/\./g, '');
+  ).replace(/\./g, '');

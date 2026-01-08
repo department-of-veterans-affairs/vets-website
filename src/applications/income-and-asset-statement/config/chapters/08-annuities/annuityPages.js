@@ -83,7 +83,7 @@ export const options = {
             )}
         </ul>
       ),
-    reviewAddButtonText: 'Add another annuity',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your annuity information has been updated',
     alertItemDeleted: 'Your annuity information has been deleted',
     cancelAddTitle: 'Cancel adding this annuity',

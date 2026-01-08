@@ -16,8 +16,6 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import {
   recordType,
@@ -227,8 +225,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         </div>
       )}
 
-      <CernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
-
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -253,7 +249,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               }}
             />
           )}
-        {isLoadingAcceleratedData || isLoading ? (
+        {(isLoadingAcceleratedData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="allergies-page-spinner"
@@ -262,31 +258,34 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               data-testid="loading-indicator"
             />
           </div>
-        ) : (
-          <>
-            {allergies?.length ? (
-              <>
-                <RecordList
-                  records={allergies?.map(allergy => ({
-                    ...allergy,
-                    isOracleHealthData: isCerner,
-                  }))}
-                  type={recordType.ALLERGIES}
-                />
-                <DownloadingRecordsInfo description="Allergies" />
-                <PrintDownload
-                  description="Allergies - List"
-                  list
-                  downloadPdf={generateAllergiesPdf}
-                  downloadTxt={generateAllergiesTxt}
-                />
-                <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
-              </>
-            ) : (
-              <NoRecordsMessage type={recordType.ALLERGIES} />
-            )}
-          </>
         )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          allergies !== undefined && (
+            <>
+              {allergies?.length ? (
+                <>
+                  <RecordList
+                    records={allergies?.map(allergy => ({
+                      ...allergy,
+                      isOracleHealthData: isCerner,
+                    }))}
+                    type={recordType.ALLERGIES}
+                  />
+                  <DownloadingRecordsInfo description="Allergies" />
+                  <PrintDownload
+                    description="Allergies - List"
+                    list
+                    downloadPdf={generateAllergiesPdf}
+                    downloadTxt={generateAllergiesTxt}
+                  />
+                  <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
+                </>
+              ) : (
+                <NoRecordsMessage type={recordType.ALLERGIES} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );
