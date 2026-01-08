@@ -12,7 +12,7 @@ export default {
       title: 'Select the benefits you want to file a claim for.',
       required: true,
       labels: {
-        dependencyIndemnityComp: 'Dependency and indemnity compensation (DIC)',
+        dependencyIndemnityComp: 'Dependency and Indemnity Compensation (DIC)',
         survivorPension: 'Survivors Pension',
         accruedBenefits: 'Accrued benefits',
       },

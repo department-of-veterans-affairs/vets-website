@@ -22,9 +22,16 @@ import { parseAccountSummary } from './accountSummary';
  * @param {Object} user - The user object, containing userFullName and date of birth.
  * @param {Object} dateRange - The selected date range for the report.
  * @param {string[]} failedDomains - Labels of sections that failed to load.
+ * @param {boolean} holdTimeMessagingUpdate - Feature flag for updated hold time messaging.
  * @returns {string} The generated report content as a string.
  */
-export const getTxtContent = (data, user, dateRange, failedDomains) => {
+export const getTxtContent = (
+  data,
+  user,
+  dateRange,
+  failedDomains,
+  holdTimeMessagingUpdate,
+) => {
   const { userFullName } = user;
   const sections = [
     {
@@ -214,9 +221,17 @@ export const getTxtContent = (data, user, dateRange, failedDomains) => {
 
   // Detailed content for each non-empty section
   const contentSection = nonEmptySections
-    .map(
-      (section, idx) => `${txtLine}\n${section.parse(section.data, idx + 1)}`,
-    )
+    .map((section, idx) => {
+      // Pass holdTimeMessagingUpdate to parseLabsAndTests
+      if (section.label === 'Lab and test results') {
+        return `${txtLine}\n${section.parse(
+          section.data,
+          idx + 1,
+          holdTimeMessagingUpdate,
+        )}`;
+      }
+      return `${txtLine}\n${section.parse(section.data, idx + 1)}`;
+    })
     .join('\n\n');
 
   return `
