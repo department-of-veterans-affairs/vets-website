@@ -8,7 +8,7 @@ const ArrayBuilderSummaryReviewPage = ({
   arrayData,
   addAnotherItemButtonClick,
   updatedItemData,
-  Alerts,
+  renderAlerts,
   Cards,
   Title,
   hideAdd,
@@ -70,7 +70,7 @@ const ArrayBuilderSummaryReviewPage = ({
           )}
         </span>
       )}
-      <Alerts />
+      {renderAlerts()}
       <Cards />
       {!hideAdd && (
         <div className="vads-u-margin-top--2">
@@ -95,12 +95,12 @@ const ArrayBuilderSummaryReviewPage = ({
 export default ArrayBuilderSummaryReviewPage;
 
 ArrayBuilderSummaryReviewPage.propTypes = {
-  Alerts: PropTypes.func,
   Cards: PropTypes.func,
   Title: PropTypes.func,
   addAnotherItemButtonClick: PropTypes.func,
   arrayBuilderOptions: PropTypes.object,
   arrayData: PropTypes.array,
+  renderAlerts: PropTypes.func,
   customPageProps: PropTypes.shape({
     onSubmit: PropTypes.func,
     data: PropTypes.object,

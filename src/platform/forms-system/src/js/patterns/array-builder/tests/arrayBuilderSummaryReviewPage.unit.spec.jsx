@@ -16,7 +16,7 @@ describe('ArrayBuilderSummaryReviewPage', () => {
     hideAdd: false,
     updatedItemData: null,
     addAnotherItemButtonClick: sinon.stub(),
-    Alerts: sinon.stub().returns(<div data-testid="alerts" />),
+    renderAlerts: sinon.stub().returns(<div data-testid="alerts" />),
     Cards: sinon.stub().returns(<div data-testid="cards" />),
     Title: sinon.stub().returns(<div data-testid="title" />),
   };
