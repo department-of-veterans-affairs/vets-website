@@ -9,6 +9,7 @@ const {
 } = require('./expenses/expenseHandlers');
 const { getAppointmentById } = require('./vaos/appointmentUtils');
 const { buildClaim } = require('./claims/baseClaim');
+const { mockClaimsResponse } = require('./claims/baseClaimList');
 const {
   STATUS_KEYS,
   EXPENSE_TYPE_OPTIONS,
@@ -16,7 +17,6 @@ const {
 } = require('./constants');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
-const travelClaims = require('./travel-claims.json');
 
 const appointment = {
   original: require('./vaos-appointment-original.json'),
@@ -265,7 +265,7 @@ const responses = {
   },
   // Get all claims
   // 'GET /travel_pay/v0/claims'
-  'GET /travel_pay/v0/claims': travelClaims,
+  'GET /travel_pay/v0/claims': mockClaimsResponse,
   // 'GET /travel_pay/v0/claims': (req, res) => {
   //   return res.status(200).json({
   //     metadata: {
