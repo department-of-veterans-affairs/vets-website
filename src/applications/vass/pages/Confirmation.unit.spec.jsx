@@ -12,7 +12,6 @@ const appointmentData = {
   appointmentId,
   phoneNumber: '8005551212',
   dtStartUtc: '2025-05-01T16:00:00.000Z',
-  typeOfCare: 'Solid Start',
   providerName: 'Bill Brasky',
   topics: [{ topicName: 'Benefits' }],
 };

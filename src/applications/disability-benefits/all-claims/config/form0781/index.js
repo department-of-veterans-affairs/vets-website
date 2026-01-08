@@ -47,6 +47,7 @@ import { additionalInformationPageTitle } from '../../content/form0781/additiona
 import BehaviorIntroCombatPage from '../../components/BehaviorIntroCombatPage';
 import TraumaticEventTypesPage from '../../components/TraumaticEventTypesPage';
 import { treatmentReceivedTitle } from '../../content/form0781/treatmentReceivedPage';
+
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
  *
