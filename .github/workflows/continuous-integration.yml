@@ -487,6 +487,10 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
+      - name: check nvmrc
+        run: |
+          cat .nvmrc
+
       - name: Run unit tests
         id: run-tests
         run: |
