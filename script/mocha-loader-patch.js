@@ -21,6 +21,7 @@ if (!Module._load.__vaNodeCompatPatched) {
   const cheerioUtilsPath = safeResolve('cheerio/lib/utils.js');
   const entitiesDecodePath = safeResolve('entities/lib/decode.js');
   const entitiesEscapePath = safeResolve('entities/lib/escape.js');
+  const undiciClientPath = safeResolve('undici/lib/client.js');
 
   Module._load = function patchedLoad(request, parent, isMain) {
     if (typeof request === 'string') {
@@ -46,6 +47,14 @@ if (!Module._load.__vaNodeCompatPatched) {
         entitiesEscapePath
       ) {
         return origLoad(entitiesEscapePath, parent, isMain);
+      }
+
+      if (
+        (request === 'undici/lib/dispatcher/client' ||
+          request === 'undici/lib/dispatcher/client.js') &&
+        undiciClientPath
+      ) {
+        return origLoad(undiciClientPath, parent, isMain);
       }
     }
 
