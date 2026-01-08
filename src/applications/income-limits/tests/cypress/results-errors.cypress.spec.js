@@ -132,6 +132,9 @@ describe('retrieving results - errors', () => {
 
       h.verifyLoadingIndicatorShown();
 
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(6200);
+
       h.checkServiceAlertText(
         `We've run into a problemYour information couldn’t go through. Enter a number of dependents between 0 and 100.`,
       );
