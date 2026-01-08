@@ -53,32 +53,33 @@ const AlertSection = ({
     (failedSeiDomains?.length ?? 0) === SEI_DOMAINS.length;
   const hasSeiAccessError = allSeiDomainsFailed || seiPdfGenerationError;
 
-  // CCD retry error from localStorage (blocking error - takes priority)
-  if (showCcdAlerts && CCDRetryTimestamp) {
-    return (
-      <AccessTroubleAlertBox
-        alertType={accessAlertTypes.DOCUMENT}
-        documentType={documentTypes.CCD}
-        className="vads-u-margin-bottom--1"
-      />
-    );
-  }
-
-  // SEI Access Error: blocking error for SEI
-  if (showSeiAlerts && hasSeiAccessError) {
-    return (
-      <AccessTroubleAlertBox
-        alertType={accessAlertTypes.DOCUMENT}
-        documentType={documentTypes.SEI}
-        className="vads-u-margin-bottom--1"
-      />
-    );
-  }
+  // Determine which blocking errors to show (these prevent other alerts of same type)
+  const showCcdRetryError = showCcdAlerts && CCDRetryTimestamp;
+  const showSeiAccessErrorAlert = showSeiAlerts && hasSeiAccessError;
 
   return (
     <>
-      {/* CCD download success alert */}
+      {/* CCD retry error from localStorage (blocking error for CCD) */}
+      {showCcdRetryError && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.CCD}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
+      {/* SEI Access Error: blocking error for SEI */}
+      {showSeiAccessErrorAlert && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
+      {/* CCD download success alert (only if no CCD retry error) */}
       {showCcdAlerts &&
+        !showCcdRetryError &&
         ccdDownloadSuccess &&
         !ccdError && (
           <DownloadSuccessAlert
@@ -88,8 +89,9 @@ const AlertSection = ({
           />
         )}
 
-      {/* Redux action/server error: CCD */}
+      {/* Redux action/server error: CCD (only if no CCD retry error) */}
       {showCcdAlerts &&
+        !showCcdRetryError &&
         activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
           <AccessTroubleAlertBox
             alertType={accessAlertTypes.DOCUMENT}
@@ -108,16 +110,19 @@ const AlertSection = ({
           />
         )}
 
-      {/* SEI partial success: some domains failed but download succeeded */}
+      {/* SEI success: download succeeded (only if no SEI access error) */}
       {showSeiAlerts &&
+        !showSeiAccessErrorAlert &&
         successfulSeiDownload === true &&
-        failedSeiDomains.length > 0 &&
         failedSeiDomains.length !== SEI_DOMAINS.length && (
           <>
-            <MissingRecordsError
-              documentType="Self-entered health information report"
-              recordTypes={failedSeiDomains}
-            />
+            {/* Only show MissingRecordsError when some (but not all) domains failed */}
+            {failedSeiDomains.length > 0 && (
+              <MissingRecordsError
+                documentType="Self-entered health information report"
+                recordTypes={failedSeiDomains}
+              />
+            )}
             <DownloadSuccessAlert
               type="Self-entered health information report download"
               className="vads-u-margin-bottom--1"
@@ -130,7 +135,10 @@ const AlertSection = ({
 
 AlertSection.propTypes = {
   failedSeiDomains: PropTypes.arrayOf(PropTypes.string),
-  seiPdfGenerationError: PropTypes.bool,
+  seiPdfGenerationError: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+  ]),
   showCcdAlerts: PropTypes.bool,
   showSeiAlerts: PropTypes.bool,
   successfulSeiDownload: PropTypes.bool,

@@ -159,6 +159,20 @@ describe('AlertSection', () => {
       expect(getByTestId('alert-download-started')).to.exist;
     });
 
+    it('renders SEI success alert without missing records error when complete success', () => {
+      const { getByTestId, queryByTestId } = renderWithContext(
+        {},
+        {
+          successfulSeiDownload: true,
+          failedSeiDomains: [],
+        },
+      );
+
+      // Should show success alert but not missing records error
+      expect(getByTestId('alert-download-started')).to.exist;
+      expect(queryByTestId('missing-records-error-alert')).to.not.exist;
+    });
+
     it('does not render SEI success alert when all domains failed', () => {
       const { queryByText } = renderWithContext(
         {},
@@ -192,17 +206,42 @@ describe('AlertSection', () => {
   });
 
   describe('combined scenarios', () => {
-    it('prioritizes CCD retry error over SEI access error', () => {
-      const { getByTestId, getByText } = renderWithContext(
+    it('shows both CCD retry error and SEI access error when both conditions are met', () => {
+      const { getAllByTestId, getByText } = renderWithContext(
         { CCDRetryTimestamp: '2025-01-01T00:00:00Z' },
         { failedSeiDomains: SEI_DOMAINS },
       );
 
-      expect(getByTestId('expired-alert-message')).to.exist;
+      // Should show both alerts
+      expect(getAllByTestId('expired-alert-message').length).to.equal(2);
       expect(
         getByText(
           /We can't download your continuity of care document right now/,
         ),
+      ).to.exist;
+      expect(
+        getByText(/We can't download your self-entered information right now/),
+      ).to.exist;
+    });
+
+    it('shows CCD retry error and SEI redux error together', () => {
+      const { getAllByTestId, getByText } = renderWithContext(
+        {
+          CCDRetryTimestamp: '2025-01-01T00:00:00Z',
+          activeAlert: { type: ALERT_TYPE_SEI_ERROR },
+        },
+        {},
+      );
+
+      // Should show both CCD retry error and SEI redux error
+      expect(getAllByTestId('expired-alert-message').length).to.equal(2);
+      expect(
+        getByText(
+          /We can't download your continuity of care document right now/,
+        ),
+      ).to.exist;
+      expect(
+        getByText(/We can't download your self-entered information right now/),
       ).to.exist;
     });
 
