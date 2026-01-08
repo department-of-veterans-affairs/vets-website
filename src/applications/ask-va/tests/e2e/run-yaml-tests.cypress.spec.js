@@ -105,9 +105,7 @@ const executeSteps = (steps, folder) => {
       case 'include':
         if (step.target === 'page') {
           // TODO: run steps from the included page
-          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/include-pages/${
-            step.value
-          }.yml`;
+          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/include-pages/${step.value}.yml`;
           cy.wrap(null).then(() => {
             cy.readFile(`${p}`).then(f => {
               const flow = YAML.parse(f); // .flow;
