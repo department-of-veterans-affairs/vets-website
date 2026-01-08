@@ -24,7 +24,7 @@ export async function submit(form, formConfig) {
       event: `${formConfig.trackingPrefix}-submission-successful`,
       ...buildEventData(data),
     });
-    return resp.data.attributes;
+    return resp.attributes;
   };
 
   const onFailure = respOrError => {
