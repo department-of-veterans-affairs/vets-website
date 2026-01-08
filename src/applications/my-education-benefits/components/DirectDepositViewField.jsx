@@ -78,8 +78,8 @@ DirectDepositViewField.propTypes = {
     }),
   }).isRequired,
   formContext: PropTypes.shape({
-      onError: PropTypes.func.isRequired,
-    }).isRequired,
+    onError: PropTypes.func.isRequired,
+  }).isRequired,
   startEditing: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
 };

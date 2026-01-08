@@ -1,7 +1,7 @@
 import React from 'react';
 import { spy } from 'sinon';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import DirectDepositField from '../../../components/DirectDepositField';
 import DirectDepositViewField from '../../../components/DirectDepositViewField';
@@ -11,26 +11,21 @@ describe('DirectDepositField', () => {
     schema: {
       type: 'object',
       properties: {
-        'view:directDeposit': {
+        bankAccount: {
           type: 'object',
+          required: ['accountType', 'accountNumber', 'routingNumber'],
           properties: {
-            bankAccount: {
-              type: 'object',
-              required: ['accountType', 'accountNumber', 'routingNumber'],
-              properties: {
-                accountType: {
-                  type: 'string',
-                  enum: ['Checking', 'Savings'],
-                },
-                routingNumber: {
-                  type: 'string',
-                  pattern: '^[\\d*]{5}\\d{4}$',
-                },
-                accountNumber: {
-                  type: 'string',
-                  pattern: '^[\\d*]{5,17}$',
-                },
-              },
+            accountType: {
+              type: 'string',
+              enum: ['Checking', 'Savings'],
+            },
+            routingNumber: {
+              type: 'string',
+              pattern: '^[\\d*]{5}\\d{4}$',
+            },
+            accountNumber: {
+              type: 'string',
+              pattern: '^[\\d*]{5,17}$',
             },
           },
         },
@@ -58,9 +53,8 @@ describe('DirectDepositField', () => {
   };
 
   it('should start in edit mode if bankAccount data is empty', () => {
-    const wrapper = shallow(<DirectDepositField {...defaultProps} />);
-    expect(wrapper.text()).to.contain('Save');
-    wrapper.unmount();
+    const screen = render(<DirectDepositField {...defaultProps} />);
+    expect(screen.getByText('Save')).to.exist;
   });
 
   it('should display in view mode if bankAccount data is complete', () => {
@@ -74,10 +68,8 @@ describe('DirectDepositField', () => {
         },
       },
     };
-    const wrapper = shallow(<DirectDepositField {...props} />);
-    expect(wrapper.find('DirectDepositViewField').length).to.equal(1);
-    expect(wrapper.find('.input-section').length).to.equal(0);
-    wrapper.unmount();
+    const screen = render(<DirectDepositField {...props} />);
+    expect(screen.getByText('Edit')).to.exist;
   });
 
   it('should display in view mode with error if bankAccount data is partially complete', () => {
@@ -98,10 +90,11 @@ describe('DirectDepositField', () => {
         },
       },
     };
-    const wrapper = mount(<DirectDepositField {...props} />);
-    expect(wrapper.text()).to.contain(
-      "Banking information is missing or invalid. Please make sure it's correct.",
-    );
-    wrapper.unmount();
+    const screen = render(<DirectDepositField {...props} />);
+    expect(
+      screen.getByText(
+        "Banking information is missing or invalid. Please make sure it's correct.",
+      ),
+    ).to.exist;
   });
 });
