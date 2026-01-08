@@ -20,7 +20,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const numberOfWebComponentErrors = 1; // only phoneNumber is required
+const numberOfWebComponentErrors = 1; // phoneNumber and emailAddress are required
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

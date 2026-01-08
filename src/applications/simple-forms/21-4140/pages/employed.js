@@ -1,3 +1,4 @@
+
 // @ts-check
 import {
   checkboxGroupUI,
@@ -17,6 +18,7 @@ export default {
             'I certify that I have been employed by the VA, other employers or self-employed during the past twelve months.',
           employmentAccuracyCertification:
             'I understand that my continued entitlement to VA unemployability compensation benefits will be based on information that I have furnished on this form or that I hereafter may be required to furnish VA.',
+          
         },
         errorMessages: {
           atLeastOne: 'You must check both certifications to continue',
@@ -54,3 +56,5 @@ export default {
     required: ['employmentCertifications'],
   },
 };
+
+

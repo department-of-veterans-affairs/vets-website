@@ -1,4 +1,5 @@
 // @ts-check
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -14,13 +15,13 @@ import identificationInformation from '../pages/identificationInformation';
 import address from '../pages/address';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import { employersPages } from '../pages/employers';
-import EmploymentCheckPage from '../containers/EmploymentCheckPage';
-import EmploymentCheckReview from '../containers/EmploymentCheckReview';
+import prefillTransformer from './prefill-transformer';
 import {
   shouldShowEmploymentSection,
   shouldShowUnemploymentSection,
 } from '../utils/employment';
 
+import employmentCheck from '../pages/employmentCheck';
 import employed from '../pages/employed';
 import unemployed from '../pages/unemployed';
 import evidence from '../pages/evidence';
@@ -34,12 +35,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit,
+  prefillTransformer,
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: 'fullName',
     },
   },
@@ -118,13 +120,9 @@ const formConfig = {
         employmentCheck: {
           path: 'employment-check',
           title: 'Employment in the past 12 months',
-          CustomPage: EmploymentCheckPage,
-          CustomPageReview: EmploymentCheckReview,
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: employmentCheck.uiSchema,
+          schema: employmentCheck.schema,
+          updateFormData: employmentCheck.updateFormData,
         },
       },
     },
