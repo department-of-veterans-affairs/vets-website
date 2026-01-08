@@ -1,8 +1,12 @@
+import React from 'react';
 import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { AddressView } from 'platform/user/exportsFile';
+import { VaLink } from '@department-of-veterans-affairs/web-components/react-bindings';
 
+import PropTypes from 'prop-types';
 import { FIELD_NAMES, FIELD_TITLES } from '../../constants';
 import {
   FIELD_ITEM_IDS,
@@ -15,6 +19,7 @@ import {
   getFormSchema as getContactMethodFormSchema,
   getUiSchema as getContactMethodUiSchema,
 } from '../../components/SchedulingPreferences/preferred-contact-method';
+import PhoneView from '../../components/PhoneField/PhoneView';
 
 // Simple fields that can edit inline (single-select radio buttons)
 const INLINE_SCHEDULING_PREFERENCES = [
@@ -254,4 +259,106 @@ export const getSchedulingPreferencesContactMethodDisplay = optionId => {
   }
 
   return display;
+};
+
+const MissingContactMethodData = ({ displayDetails }) => {
+  return (
+    <va-alert status="error" visible class="vads-u-margin-y--2">
+      <p className="vads-u-margin--0">
+        You removed your {displayDetails.linkTitle} from your profile. Select{' '}
+        <strong>Edit</strong> to change your preferred method of contact. Or
+        select <strong>Add a {displayDetails.linkTitle}</strong> to update your
+        contact information.
+      </p>
+      <p className="vads-u-margin--0 vads-u-margin-top--1">
+        <VaLink
+          href={displayDetails.link}
+          text={`Add a ${displayDetails.linkTitle}`}
+        />
+      </p>
+    </va-alert>
+  );
+};
+
+MissingContactMethodData.propTypes = {
+  displayDetails: PropTypes.object.isRequired,
+};
+
+export const preferredContactMethodDisplay = (
+  email,
+  mailingAddress,
+  mobilePhone,
+  homePhone,
+  workPhone,
+  data,
+  fieldName,
+) => {
+  const displayDetails = getSchedulingPreferencesContactMethodDisplay(
+    data[fieldName],
+  );
+  let hasError = false;
+  let contactDetail;
+  let customDetails;
+  switch (displayDetails.field) {
+    case 'email':
+      hasError = !email;
+      contactDetail = email?.emailAddress;
+      break;
+    case 'mailingAddress':
+      hasError = !mailingAddress;
+      customDetails = (
+        <div className="vads-u-margin-y--0">
+          <AddressView data={mailingAddress} />
+        </div>
+      );
+      break;
+    case 'mobilePhone':
+      hasError = !mobilePhone;
+      contactDetail = <PhoneView data={mobilePhone} />;
+      break;
+    case 'homePhone':
+      hasError = !homePhone;
+      contactDetail = <PhoneView data={homePhone} />;
+      break;
+    case 'workPhone':
+      hasError = !workPhone;
+      contactDetail = <PhoneView data={workPhone} />;
+      break;
+    default:
+      contactDetail = displayDetails.title;
+  }
+
+  return (
+    <>
+      {hasError && <MissingContactMethodData displayDetails={displayDetails} />}
+      {!displayDetails.field && (
+        <p className="vads-u-margin-y--0">{displayDetails.title}</p>
+      )}
+      {displayDetails.field && (
+        <>
+          <p className="vads-u-margin-y--0">
+            <strong>{displayDetails.title}</strong>
+          </p>
+          {!hasError && (
+            <>
+              {customDetails || (
+                <p className="vads-u-margin-y--0">{contactDetail}</p>
+              )}
+              <p className="vads-u-margin-y--0">
+                <VaLink
+                  href={displayDetails.link}
+                  text={`Update your ${displayDetails.linkTitle}`}
+                />
+              </p>
+            </>
+          )}
+          {hasError && (
+            <p className="vads-u-margin-y--0">
+              No {displayDetails.linkTitle} found.
+            </p>
+          )}
+        </>
+      )}
+    </>
+  );
 };

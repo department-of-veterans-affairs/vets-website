@@ -6,6 +6,7 @@ const all = {
         {
           itemId: 1, // preferredContactMethod
           optionIds: ['4'], // mailingAddress
+          // optionIds: ['39'], // workPhone
         },
         {
           itemId: 4, // needsHelpSchedulingAppointments

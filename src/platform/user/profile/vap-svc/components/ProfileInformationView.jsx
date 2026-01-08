@@ -14,15 +14,12 @@ import {
   formatGenderIdentity,
 } from 'platform/user/profile/vap-svc/util/personal-information/personalInformationUtils';
 import {
-  getSchedulingPreferencesContactMethodDisplay,
   getSchedulingPreferencesOptionDisplayName,
   isSchedulingPreference,
+  preferredContactMethodDisplay,
 } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPContactInfoField } from '../selectors';
-import PhoneView from './PhoneField/PhoneView';
-import AddressView from './AddressField/AddressView';
 
 const ProfileInformationView = props => {
   const {
@@ -139,101 +136,20 @@ const ProfileInformationView = props => {
   }
 
   if (fieldName in data && isSchedulingPreference(fieldName)) {
-    const MissingContactMethodData = ({ displayDetails }) => {
-      return (
-        <va-alert status="error" visible class="vads-u-margin-y--2">
-          <p className="vads-u-margin--0">
-            You removed your {displayDetails.linkTitle} from your profile.
-            Select <strong>Edit</strong> to change your preferred method of
-            contact. Or select <strong>Add a {displayDetails.linkTitle}</strong>{' '}
-            to update your contact information.
-          </p>
-          <p className="vads-u-margin--0 vads-u-margin-top--1">
-            <VaLink
-              href={displayDetails.link}
-              text={`Add a ${displayDetails.linkTitle}`}
-            />
-          </p>
-        </va-alert>
-      );
-    };
-
-    const preferredContactMethodDisplay = () => {
-      const displayDetails = getSchedulingPreferencesContactMethodDisplay(
-        data[fieldName],
-      );
-      let contactDetail;
-      let customDetails;
-      switch (displayDetails.field) {
-        case 'email':
-          customDetails = email ? (
-            email?.emailAddress
-          ) : (
-            <MissingContactMethodData displayDetails={displayDetails} />
-          );
-          break;
-        case 'mailingAddress':
-          customDetails = mailingAddress ? (
-            <AddressView data={mailingAddress} />
-          ) : (
-            <MissingContactMethodData displayDetails={displayDetails} />
-          );
-          break;
-        case 'mobilePhone':
-          contactDetail = mobilePhone ? (
-            <PhoneView data={mobilePhone} />
-          ) : (
-            <MissingContactMethodData displayDetails={displayDetails} />
-          );
-          break;
-        case 'homePhone':
-          contactDetail = homePhone ? (
-            <PhoneView data={homePhone} />
-          ) : (
-            <MissingContactMethodData displayDetails={displayDetails} />
-          );
-          break;
-        case 'workPhone':
-          contactDetail = workPhone ? (
-            <PhoneView data={workPhone} />
-          ) : (
-            <MissingContactMethodData displayDetails={displayDetails} />
-          );
-          break;
-        default:
-          contactDetail = null;
-      }
-      return (
-        <>
-          {!displayDetails.field && (
-            <p className="vads-u-margin-y--0">{displayDetails.title}</p>
-          )}
-          {displayDetails.field && (
-            <>
-              <p className="vads-u-margin-y--0">
-                <strong>{displayDetails.title}</strong>
-              </p>
-              {customDetails || (
-                <p className="vads-u-margin-y--0">{contactDetail}</p>
-              )}
-              <p className="vads-u-margin-y--0">
-                <VaLink
-                  href={displayDetails.link}
-                  text={`Update your ${displayDetails.linkTitle}`}
-                />
-              </p>
-            </>
-          )}
-        </>
-      );
-    };
-
     displayTitle =
       getSchedulingPreferencesOptionDisplayName(fieldName, data[fieldName]) ||
       unsetFieldTitleSpan;
     switch (fieldName) {
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
-        return preferredContactMethodDisplay();
+        return preferredContactMethodDisplay(
+          email,
+          mailingAddress,
+          mobilePhone,
+          homePhone,
+          workPhone,
+          data,
+          fieldName,
+        );
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
         return displayTitle;
       case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
