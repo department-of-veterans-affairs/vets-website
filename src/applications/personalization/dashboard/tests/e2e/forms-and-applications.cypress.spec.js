@@ -209,7 +209,13 @@ describe('My VA Dashboard — Forms and applications', () => {
       cy.findAllByTestId('application-in-progress').should('have.length', 6);
 
       // Completed forms subsection
-      cy.findByRole('heading', { name: /Completed forms/i }).should('exist');
+      // The regular heading is not a good match in this case because the accordion heading is used by AT
+      // cy.findByRole('heading', { name: /Completed forms/i }).should('exist');
+      cy.get('va-accordion-item#completed-forms-accordion-item').should(
+        'have.attr',
+        'header',
+        'Completed forms',
+      );
 
       // Completed forms list within accordion are initially invisible
       cy.findAllByTestId('submitted-application')
@@ -278,6 +284,9 @@ describe('My VA Dashboard — Forms and applications', () => {
 
     it('shows empty-state copy for both sections', () => {
       verifySectionHeader();
+
+      // Check that the normal heading role for completed forms is used for the empty state
+      cy.findByRole('heading', { name: /Completed forms/i }).should('exist');
 
       // Empty text
       cy.findByTestId('applications-in-progress-empty-state').should('exist');
