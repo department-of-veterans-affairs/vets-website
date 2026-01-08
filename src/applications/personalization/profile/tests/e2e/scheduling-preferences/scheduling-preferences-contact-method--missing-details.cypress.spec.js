@@ -65,25 +65,25 @@ const setup = (preferences = []) => {
   cy.intercept(
     'POST',
     '/v0/profile/scheduling_preferences',
-    createMockTransactionResponse(),
+    createMockTransactionResponse('COMPLETED'),
   ).as('updateSchedulingPreferencesSuccess');
 
   cy.intercept(
     'POST',
     '/v0/profile/telephones',
-    createMockTransactionResponse(),
+    createMockTransactionResponse('COMPLETED'),
   ).as('updateTelephonesSuccess');
 
   cy.intercept(
     'POST',
     '/v0/profile/addresses',
-    createMockTransactionResponse(),
+    createMockTransactionResponse('COMPLETED'),
   ).as('updateAddressesSuccess');
 
   cy.intercept(
     'POST',
     '/v0/profile/emails',
-    createMockTransactionResponse(),
+    createMockTransactionResponse('COMPLETED'),
   ).as('updateEmailsSuccess');
 
   cy.intercept('/v0/profile/address_validation', {
@@ -233,8 +233,6 @@ describe('Scheduling preferences contact method - select preferred contact metho
         }
 
         clickSaveToProfile();
-
-        cy.wait('@getTransactionStatus');
 
         // This should not be needed but the page doesn't redirect on save within
         // Cypress so this forces the browser back to scheduling preferences

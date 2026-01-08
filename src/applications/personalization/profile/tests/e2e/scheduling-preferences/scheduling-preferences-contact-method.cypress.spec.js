@@ -1,6 +1,7 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
 import {
+  createMockTransactionResponse,
   mockFeatureToggles,
   mockGETEndpoints,
 } from '@@profile/tests/e2e/helpers';
@@ -53,32 +54,20 @@ const setup = (preferences = []) => {
     },
   }).as('mockSchedulingPreferences');
 
-  cy.visit(PROFILE_PATHS.SCHEDULING_PREFERENCES);
-  cy.wait('@mockSchedulingPreferences');
-};
-
-const successResponseObject = {
-  statusCode: 200,
-  body: {
-    data: {
-      id: '',
-      type: 'async_transaction_va_profile_scheduling_transactions',
-      attributes: {
-        transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
-        transactionStatus: 'RECEIVED',
-        type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
-        metadata: [],
-      },
-    },
-  },
-};
-
-const interceptSchedulingPreferencesSuccess = () => {
   cy.intercept(
     'POST',
     '/v0/profile/scheduling_preferences',
-    successResponseObject,
+    createMockTransactionResponse('COMPLETED'),
   ).as('updateSchedulingPreferencesSuccess');
+
+  cy.intercept(
+    'DELETE',
+    '/v0/profile/scheduling_preferences',
+    createMockTransactionResponse('COMPLETED'),
+  ).as('deleteSchedulingPreferencesSuccess');
+
+  cy.visit(PROFILE_PATHS.SCHEDULING_PREFERENCES);
+  cy.wait('@mockSchedulingPreferences');
 };
 
 const clickEdit = () => {
@@ -154,9 +143,6 @@ describe('Scheduling preferences contact method - select preferred contact metho
 
   quickExitTests.forEach(({ label, option, expectedText }) => {
     it(label, () => {
-      // Mock POST request to return API error response
-      interceptSchedulingPreferencesSuccess();
-
       // Update the email address & click to save
       clickEdit();
       selectPreferredMethod(option);
@@ -214,9 +200,6 @@ describe('Scheduling preferences contact method - select preferred contact metho
   confirmSaveTests.forEach(
     ({ label, option, expectedText, confirmationText }) => {
       it(label, () => {
-        // Mock POST request to return API error response
-        interceptSchedulingPreferencesSuccess();
-
         // Update the email address & click to save
         clickEdit();
         selectPreferredMethod(option);
