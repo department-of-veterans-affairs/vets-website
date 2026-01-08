@@ -105,108 +105,20 @@ describe('IntroductionRouter', () => {
     expect(container.textContent).to.include('Equal to VA Form 22-1995');
   });
 
-  it('should clear sessionStorage when returning to intro without ?rudisill=true', () => {
+  it('should show questionnaire when returning to intro without ?rudisill=true param', async () => {
     sessionStorage.setItem('isRudisillFlow', 'true');
     setWindowLocation('');
-
-    render(
-      <Provider store={createMockStore(true)}>
-        <IntroductionRouter route={mockRoute} router={mockRouter} />
-      </Provider>,
-    );
-
-    expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
-  });
-
-  it('should allow navigation back to questionnaire from Rudisill flow', async () => {
-    // Step 1: User enters Rudisill flow
-    setWindowLocation('?rudisill=true');
-    const { unmount: unmount1 } = render(
-      <Provider store={createMockStore(true)}>
-        <IntroductionRouter route={mockRoute} router={mockRouter} />
-      </Provider>,
-    );
-
-    // Wait for useEffect to set sessionStorage
-    await waitFor(() => {
-      expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
-    });
-
-    unmount1();
-
-    // Step 2: User navigates back to intro without parameter
-    setWindowLocation('');
-    sessionStorage.clear(); // Explicitly clear for test isolation
-
+    // Store without formData flag - simulates fresh navigation back to intro
     const { container } = render(
       <Provider store={createMockStore(true)}>
         <IntroductionRouter route={mockRoute} router={mockRouter} />
       </Provider>,
     );
-
-    // Should now show questionnaire intro (not legacy)
-    expect(container.textContent).to.include('Change your education benefits');
+    // Routing is based on URL only, so should show questionnaire
     expect(container.textContent).to.include('Determine which form to use');
-    expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
-  });
-
-  it('should show legacy intro when resuming saved Rudisill form', async () => {
-    // Simulate save-in-progress with isRudisillFlow in formData
-    const storeWithSavedRudisill = mockStore({
-      featureToggles: {
-        loading: false,
-        // eslint-disable-next-line camelcase
-        meb_1995_re_reroute: true,
-        // eslint-disable-next-line camelcase
-        show_edu_benefits_1995_wizard: false,
-      },
-      form: {
-        data: {
-          isRudisillFlow: true, // Saved Rudisill form
-        },
-        formId: '22-1995',
-        loadedData: { metadata: { returnUrl: '/applicant/information' } },
-      },
-      user: {
-        login: { currentlyLoggedIn: true },
-        profile: { savedForms: [], loading: false, prefillsAvailable: [] },
-      },
-    });
-
-    setWindowLocation(''); // No URL parameter
-    sessionStorage.clear(); // No sessionStorage initially
-
-    const { container } = render(
-      <Provider store={storeWithSavedRudisill}>
-        <IntroductionRouter route={mockRoute} router={mockRouter} />
-      </Provider>,
-    );
-
-    // Wait for useEffect to restore sessionStorage from formData
+    // sessionStorage will be cleared by useEffect since no URL param and no saved form
     await waitFor(() => {
-      expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
+      expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
     });
-
-    // Should show legacy intro (not questionnaire) because formData has isRudisillFlow
-    expect(container.textContent).to.include('Change your education benefits');
-    expect(container.textContent).to.include('Equal to VA Form 22-1995');
-    expect(container.textContent).to.not.include('Determine which form to use');
-  });
-
-  it('should preserve isRudisillFlow from saved form data', () => {
-    // This tests the logic without full rendering to avoid Redux action mocking issues
-    sessionStorage.clear();
-    const formData = { isRudisillFlow: true };
-    const isRudisillFromUrl = false;
-    const isRudisillFromFormData = formData?.isRudisillFlow === true;
-    const rerouteEnabled = true;
-
-    // Simulate the logic from IntroductionRouter useEffect
-    if ((isRudisillFromUrl || isRudisillFromFormData) && rerouteEnabled) {
-      sessionStorage.setItem('isRudisillFlow', 'true');
-    }
-
-    // Should set sessionStorage because formData has isRudisillFlow
-    expect(sessionStorage.getItem('isRudisillFlow')).to.equal('true');
   });
 });

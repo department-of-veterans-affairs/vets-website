@@ -32,14 +32,10 @@ const IntroductionRouter = props => {
     form => form.form === '22-1995',
   );
 
-  // Check for ?rudisill=true URL parameter OR saved formData OR sessionStorage
+  // Check for ?rudisill=true URL parameter OR saved formData
   const urlParams = new URLSearchParams(window.location.search);
   const isRudisillFromUrl = urlParams.get('rudisill') === 'true';
   const isRudisillFromFormData = formData?.isRudisillFlow === true;
-  const isRudisillFromSession =
-    sessionStorage.getItem('isRudisillFlow') === 'true';
-  const isRudisillFlow =
-    isRudisillFromUrl || isRudisillFromFormData || isRudisillFromSession;
 
   // Set sessionStorage flag when entering Rudisill flow via URL parameter or formData
   // This persists the flow state for the form pages after leaving intro
@@ -47,15 +43,10 @@ const IntroductionRouter = props => {
     () => {
       if ((isRudisillFromUrl || isRudisillFromFormData) && rerouteEnabled) {
         sessionStorage.setItem('isRudisillFlow', 'true');
-      } else if (
-        !isRudisillFromUrl &&
-        !isRudisillFromFormData &&
-        rerouteEnabled &&
-        (!hasSavedForm || formData?.isRudisillFlow !== true)
-      ) {
-        // Clear sessionStorage when visiting intro without URL param or formData flag
-        // This allows users to return to questionnaire flow after hard refresh
-        // Exception: Keep the flag if user has a saved form with isRudisillFlow
+      } else if (!isRudisillFromUrl && rerouteEnabled && !hasSavedForm) {
+        // Clear sessionStorage when visiting intro without URL param
+        // This allows users to return to questionnaire flow
+        // Exception: Keep the flag if user has a saved form (save-in-progress)
         sessionStorage.removeItem('isRudisillFlow');
       }
     },
@@ -77,9 +68,9 @@ const IntroductionRouter = props => {
     );
   }
 
-  // If URL has ?rudisill=true and reroute flag is enabled, show legacy intro
-  // This ensures intro page routing is based on current URL, not persisted state
-  if (isRudisillFlow && rerouteEnabled) {
+  // Route based ONLY on URL parameter, not sessionStorage or formData
+  // This allows users to return to questionnaire by visiting intro without ?rudisill=true
+  if (isRudisillFromUrl && rerouteEnabled) {
     return <IntroductionPageUpdate {...props} />;
   }
 
