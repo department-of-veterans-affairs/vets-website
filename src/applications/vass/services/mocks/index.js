@@ -19,12 +19,13 @@ const maxOtcUseCount = 3;
 const mockAppointments = [
   {
     appointmentId: 'abcdef123456',
-    topics: [
-      {
-        topicId: '123',
-        topicName: 'General Health',
-      },
-    ],
+    // Currently the appointment GET api does not return topics, so we are not mocking them
+    // topics: [
+    //   {
+    //     topicId: '123',
+    //     topicName: 'General Health',
+    //   },
+    // ],
     dtStartUtc: '2024-07-01T14:00:00Z',
     dtEndUtc: '2024-07-01T14:30:00Z',
     // TODO: verify the accuracy of appointment payload data from API

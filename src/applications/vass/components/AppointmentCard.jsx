@@ -53,15 +53,16 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
           appointmentData?.providerName || 'No provider name selected'
         }
       />
-      <CardSection
-        data-testid="topics-section"
-        heading="Topics you'd like to learn more about"
-        textContent={
-          (appointmentData?.topics || [])
-            .map(topic => topic?.topicName || '')
-            .join(', ') || 'No topics selected'
-        }
-      />
+      {appointmentData?.topics &&
+        appointmentData?.topics.length > 0 && (
+          <CardSection
+            data-testid="topics-section"
+            heading="Topics you'd like to learn more about"
+            textContent={appointmentData?.topics
+              .map(topic => topic?.topicName || '')
+              .join(', ')}
+          />
+        )}
       {handleCancelAppointment && (
         <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column vass-hide-for-print">
           <div>
