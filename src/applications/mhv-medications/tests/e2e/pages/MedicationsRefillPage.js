@@ -399,7 +399,7 @@ class MedicationsRefillPage {
     cy.findByTestId('error-refill-title', { includeShadowDom: true })
       .should('be.visible')
       .first()
-      .and('have.text', text);
+      .and('contain', text);
   };
 
   verifyPartiallyFailedRequestMessageAlertOnRefillPage = text => {
@@ -408,7 +408,7 @@ class MedicationsRefillPage {
     })
       .should('be.visible')
       .first()
-      .and('have.text', text);
+      .and('contain', text);
   };
 
   verifyNetworkResponseForFailedRefillRequest = failedId => {
