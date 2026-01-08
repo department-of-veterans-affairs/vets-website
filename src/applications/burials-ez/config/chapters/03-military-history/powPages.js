@@ -5,9 +5,9 @@ import {
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-
+import { formatDateLong } from 'platform/utilities/date';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatDate, showPdfFormAlignment } from '../../../utils/helpers';
+import { showPdfFormAlignment } from '../../../utils/helpers';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -19,7 +19,7 @@ const options = {
   text: {
     getItemName: item =>
       item?.powDateRange
-        ? `${formatDate(item.powDateRange?.from)} - ${formatDate(
+        ? `${formatDateLong(item.powDateRange?.from)} - ${formatDateLong(
             item.powDateRange?.to,
           )}`
         : undefined,
