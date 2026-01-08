@@ -1,11 +1,15 @@
-import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import { MAX_LENGTH, SELECTED } from '../constants';
 
 /**
  * A CustomPage only needs/uses minimal uiSchema/schema
  */
-export default {
+
+export default (maxLength = null) => ({
   // this uiSchema is completely ignored
   uiSchema: {
+    'ui:options': {
+      focusOnAlertRole: true,
+    },
     addIssue: {
       'ui:title': '',
       items: {
@@ -32,7 +36,7 @@ export default {
           properties: {
             issue: {
               type: 'string',
-              maxLength: MAX_LENGTH.NOD_ISSUE_NAME,
+              maxLength: maxLength || MAX_LENGTH.ISSUE_NAME,
             },
             decisionDate: {
               type: 'string',
@@ -43,4 +47,4 @@ export default {
       },
     },
   },
-};
+});

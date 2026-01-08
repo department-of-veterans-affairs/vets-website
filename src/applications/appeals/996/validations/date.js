@@ -11,7 +11,6 @@ const minDate = startOfDay(subYears(new Date(), 1));
 
 export const validateDate = (errors, rawDateString = '') => {
   const date = createDateObject(rawDateString);
-
   const hasMessages = addDateErrorMessages(errors, errorMessages, date);
 
   if (!hasMessages && isBefore(date.dateObj, minDate)) {

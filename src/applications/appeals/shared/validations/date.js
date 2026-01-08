@@ -100,6 +100,10 @@ export const createDecisionDateErrorMsg = errorMessages => {
 
   const cutoffDate = formatDateToReadableString(utcTodayAsLocalDate);
 
+  console.log('now: ', now);
+  console.log('utcTodayAsLocalDate: ', utcTodayAsLocalDate);
+  console.log('cutoffDate: ', cutoffDate);
+
   return errorMessages.decisions.pastDate(cutoffDate);
 };
 

@@ -13,6 +13,7 @@ import {
 export const minDate = subYears(startOfToday(), MAX_YEARS_PAST);
 
 export const validateDate = (errors, rawDateString = '', fullData) => {
+  console.log('fullData: ', fullData);
   const date = createDateObject(rawDateString);
   const isDecisionDateType =
     (fullData?.dateType || 'decisions') === 'decisions';
