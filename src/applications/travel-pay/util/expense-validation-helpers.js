@@ -188,11 +188,9 @@ export const getFutureDateError = ({ year, month, day }) => {
  * @param {string|object} dateInput - The date value from the form. Can be a string
  *                                     like "01-01-2025" or an object { month, day, year }.
  * @param {string} type - The type of validation to perform: CHANGE, BLUR, or SUBMIT.
- * @param {function} setExtraFieldErrors - Function to update the error state for the field.
- * @returns {boolean} - Returns true if the date is valid, false otherwise.
+ * @returns {{purchaseDate: string|null, isValid: boolean}} - Returns error object and validity status.
  */
-export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
-  // Always start by clearing any previous error
+export const validateReceiptDate = (dateInput, type) => {
   let error = null;
 
   let { month, day, year } = parseDateInput(dateInput);
@@ -212,12 +210,7 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
     error = getFutureDateError({ year, month, day });
   }
 
-  setExtraFieldErrors(prev => ({
-    ...prev,
-    purchaseDate: error,
-  }));
-
-  return !error;
+  return { purchaseDate: error, isValid: !error };
 };
 
 /**
@@ -229,12 +222,10 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
  *  - Must be no more than 2,000 characters long.
  *
  * @param {string} description - The value of the description field from the form.
- * @param {function} setExtraFieldErrors - Function to update the error state for the field.
  * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
- * @returns {boolean} - Returns true if the description is valid, false otherwise.
+ * @returns {{description: string|null, isValid: boolean}} - Returns error object and validity status.
  */
-export const validateDescription = (description, setExtraFieldErrors, type) => {
-  // Always start by clearing any previous error
+export const validateDescription = (description, type) => {
   let error = null;
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && !description) {
@@ -245,8 +236,7 @@ export const validateDescription = (description, setExtraFieldErrors, type) => {
     error = 'Enter no more than 2,000 characters';
   }
 
-  setExtraFieldErrors(prev => ({ ...prev, description: error }));
-  return !error;
+  return { description: error, isValid: !error };
 };
 
 /**
@@ -260,21 +250,17 @@ export const validateDescription = (description, setExtraFieldErrors, type) => {
  *  - On BLUR, auto-formats to 2 decimal places (e.g., 2.5 → 2.50)
  *
  * @param {string|number} amount - The value of the costRequested field from the form.
- * @param {function} setExtraFieldErrors - Function to update the error state for the field.
  * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
- * @param {function} setFormState - (Optional) State setter for the form, used to update the formatted value on BLUR.
  * @param {string} fieldName - (Optional) Name of the field in formState, defaults to 'costRequested'.
- * @returns {boolean} - Returns true if the requested amount is valid, false otherwise.
+ * @returns {{errors: Object, formattedValue: string|null, isValid: boolean}} - Returns errors, formatted value for BLUR, and validity.
  */
 export const validateRequestedAmount = (
   amount,
-  setExtraFieldErrors,
   type = DATE_VALIDATION_TYPE.SUBMIT,
-  setFormState,
   fieldName = 'costRequested',
 ) => {
-  // Always start by clearing any previous error
   let error = null;
+  let formattedValue = null;
 
   const strAmount = (amount ?? '').toString().trim();
 
@@ -304,25 +290,17 @@ export const validateRequestedAmount = (
       error = 'Enter an amount greater than 0';
     }
 
-    // Auto-format to 2 decimal places on BLUR if valid
-    if (
-      !error &&
-      !Number.isNaN(parsed) &&
-      type === DATE_VALIDATION_TYPE.BLUR &&
-      setFormState
-    ) {
-      const formatted = parsed.toFixed(2);
-      setFormState(prev => ({
-        ...prev,
-        [fieldName]: formatted,
-      }));
+    // Return formatted value on BLUR if valid
+    if (!error && !Number.isNaN(parsed) && type === DATE_VALIDATION_TYPE.BLUR) {
+      formattedValue = parsed.toFixed(2);
     }
   }
 
-  // Update error state
-  setExtraFieldErrors(prev => ({ ...prev, [fieldName]: error }));
-
-  return !error;
+  return {
+    errors: { [fieldName]: error },
+    formattedValue,
+    isValid: !error,
+  };
 };
 
 /**
