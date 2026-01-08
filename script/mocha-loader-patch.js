@@ -29,6 +29,18 @@ if (!Module._load.__vaNodeCompatPatched) {
   const entitiesEscapePath = safeResolve('entities/lib/escape.js');
   const parse5MainPath = safeResolve('parse5');
   let parse5OpenElementStackExport = null;
+  let streamWebModule = null;
+
+  try {
+    // eslint-disable-next-line import/no-unresolved
+    streamWebModule = require('node:stream/web');
+  } catch (nodeStreamError) {
+    try {
+      streamWebModule = require('web-streams-polyfill/ponyfill/es2018');
+    } catch (polyfillError) {
+      streamWebModule = null;
+    }
+  }
 
   if (parse5MainPath) {
     try {
@@ -50,6 +62,10 @@ if (!Module._load.__vaNodeCompatPatched) {
     if (typeof request === 'string') {
       if (request.startsWith('node:')) {
         return origLoad(request.slice(5), parent, isMain);
+      }
+
+      if (request === 'stream/web' && streamWebModule) {
+        return streamWebModule;
       }
 
       if (
@@ -105,17 +121,6 @@ if (!Module._load.__vaNodeCompatPatched) {
 
   Module._load.__vaNodeCompatPatched = true;
 
-  // ---------------------------------------------------------------------------
-  // JSDOM + modern parse5: jsdom's JSDOMParse5Adapter assumes that its
-  // OpenElementStack monkey-patch always maintains _currentElement, and uses
-  // _currentElement._ownerDocument in createDocumentFragment. With newer
-  // parse5 this can be undefined for some fragment parses (e.g. axe-core
-  // injecting <style>), causing "_ownerDocument of undefined" errors.
-  //
-  // To keep jsdom working under Node 22 without forking it, patch the adapter
-  // to fall back to its underlying document implementation when
-  // _currentElement is not set.
-  // ---------------------------------------------------------------------------
   try {
     const jsdomHtmlPath = path.resolve(
       __dirname,

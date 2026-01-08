@@ -11,16 +11,11 @@ runs:
         token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
         path: qa-standards-dashboard-data
 
-    - name: Get Node version
-      id: get-node-version
-      shell: bash
-      run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
-      working-directory: qa-standards-dashboard-data
 
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+        node-version: 22.17.0
 
     # TODO: Potentially use install composite
     - name: Install dependencies
