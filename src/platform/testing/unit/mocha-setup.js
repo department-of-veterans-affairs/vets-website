@@ -8,7 +8,7 @@ import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
-import { JSDOM } from 'jsdom';
+import { Window } from 'happy-dom/lib/index.js';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
@@ -56,11 +56,7 @@ function resetFetch() {
   }
 }
 
-/**
- * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
- */
-function setupJSDom() {
-  // Prevent warnings from displaying
+function setupHappyDom() {
   /* eslint-disable no-console */
   if (process.env.LOG_LEVEL === 'debug') {
     console.error = (error, reactError) => {
@@ -81,17 +77,17 @@ function setupJSDom() {
   }
   /* eslint-enable no-console */
 
-  // setup the simplest document possible
-  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+  // Create happy-dom window
+  const window = new Window({
     url: 'http://localhost',
   });
 
-  const { window } = dom;
+  const { document } = window;
 
   /* sets up `global` for testing */
-  global.dom = dom;
   global.window = window;
-  global.document = window.document;
+  global.document = document;
+  
   // Node 22 defines a readonly navigator getter; force a writable value for tests
   Object.defineProperty(global, 'navigator', {
     value: { userAgent: 'node.js' },
@@ -99,6 +95,7 @@ function setupJSDom() {
     enumerable: true,
     writable: true,
   });
+  
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
@@ -107,7 +104,7 @@ function setupJSDom() {
   };
   global.Blob = window.Blob;
 
-  /* Overwrites JSDOM global defaults from read-only to configurable */
+  /* Overwrites defaults from read-only to configurable */
   Object.defineProperty(global, 'window', {
     value: global.window,
     configurable: true,
@@ -154,7 +151,7 @@ function setupJSDom() {
 }
 /* eslint-disable no-console */
 
-setupJSDom();
+setupHappyDom();
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
@@ -190,7 +187,7 @@ export const mochaHooks = {
   },
 
   beforeEach() {
-    setupJSDom();
+    setupHappyDom();
     resetFetch();
     cleanupStorage();
     if (isStressTest == 'false') {
