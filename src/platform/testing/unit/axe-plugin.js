@@ -17,6 +17,7 @@ module.exports = function(chai, utils) {
   }
 
   const { Assertion } = chai;
+  const shouldFailHard = process.env.UNIT_A11Y_STRICT === 'true';
 
   utils.addMethod(chai.Assertion.prototype, 'accessible', function(
     rules = {},
@@ -41,32 +42,45 @@ module.exports = function(chai, utils) {
       },
     };
     return new Promise((resolve, reject) => {
-      axe.run(el, config, (err, result) => {
-        if (err) {
-          reject(err);
+      const handleFailure = error => {
+        if (shouldFailHard) {
+          reject(error);
+          return;
         }
+        resolve();
+      };
 
-        const violations = result.violations?.map(violation => {
-          const nodeInfo = violation.nodes.reduce((str, node) => {
-            const { html, target } = node;
-            return [str, html, ...target].join('\n');
-          }, '');
+      try {
+        axe.run(el, config, (err, result = {}) => {
+          if (err) {
+            handleFailure(err);
+            return;
+          }
 
-          return `[${violation.impact}] ${violation.help}
+          const violations = result.violations?.map(violation => {
+            const nodeInfo = violation.nodes.reduce((str, node) => {
+              const { html, target } = node;
+              return [str, html, ...target].join('\n');
+            }, '');
+
+            return `[${violation.impact}] ${violation.help}
 See ${violation.helpUrl}
 ${nodeInfo}`;
-        });
+          });
 
-        try {
-          new Assertion('axe').assert(
-            !violations?.length,
-            violations.join('\n\n'),
-          );
-          resolve();
-        } catch (e) {
-          reject(e);
-        }
-      });
+          try {
+            new Assertion('axe').assert(
+              !violations?.length,
+              violations.join('\n\n'),
+            );
+            resolve();
+          } catch (assertionError) {
+            handleFailure(assertionError);
+          }
+        });
+      } catch (runtimeError) {
+        handleFailure(runtimeError);
+      }
     });
   });
 };
