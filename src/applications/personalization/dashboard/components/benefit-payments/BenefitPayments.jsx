@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { subDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import {
   Toggler,
@@ -78,8 +77,8 @@ const PaymentsError = () => {
     <div className="vads-u-margin-bottom--2p5">
       <va-alert status={status} show-icon data-testid="payments-error">
         <div>
-          We can’t show your payment history right now. Refresh this page or try
-          again later.
+          We can’t show your benefit payments history right now. Refresh this
+          page or try again later.
         </div>
       </va-alert>
     </div>
@@ -89,10 +88,9 @@ const PaymentsError = () => {
 const BenefitPayments = () => {
   const lastPayment = useSelector(
     state =>
-      state.allPayments.payments
-        ?.filter(p => new Date(p.payCheckDt) > subDays(new Date(), 61))
-        .sort((a, b) => new Date(b.payCheckDt) - new Date(a.payCheckDt))[0] ??
-      null,
+      state.allPayments.payments?.sort(
+        (a, b) => new Date(b.payCheckDt) - new Date(a.payCheckDt),
+      )[0] ?? null,
   );
   const paymentsError = useSelector(
     state => !!state.allPayments.error || false,
@@ -102,7 +100,9 @@ const BenefitPayments = () => {
     <>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <h3 className="vads-u-margin-top--0">Benefit payments</h3>
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Benefit payments
+          </h3>
         </Toggler.Enabled>
       </Toggler>
       <div className="vads-l-row">

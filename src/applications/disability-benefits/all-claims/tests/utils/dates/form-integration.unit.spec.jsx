@@ -1,16 +1,6 @@
-/**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
- */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-/* eslint-disable you-dont-need-momentjs/add */
-/* eslint-disable you-dont-need-momentjs/subtract */
-/* eslint-disable you-dont-need-momentjs/format */
-
 import { expect } from 'chai';
-import moment from 'moment';
 
+import { addDays, subDays, format } from 'date-fns';
 import {
   dateFieldToISO,
   isoToDateField,
@@ -41,28 +31,58 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
       expect(dateFieldToISO(dateField)).to.equal('2023-06-05');
     });
 
-    it('should return partial date format for incomplete dates', () => {
-      expect(dateFieldToISO({ month: 'XX', day: '15', year: '2023' })).to.equal(
-        '2023-XX-15',
-      );
-      expect(dateFieldToISO({ month: '1', day: 'XX', year: '2023' })).to.equal(
-        '2023-01-XX',
-      );
-      expect(dateFieldToISO({ month: '1', day: '15', year: 'XXXX' })).to.equal(
-        'XXXX-01-15',
-      );
+    it('should return partial date format for incomplete dates when allowPartial is true', () => {
+      expect(
+        dateFieldToISO(
+          { month: '1', day: 'XX', year: '2023' },
+          { allowPartial: true },
+        ),
+      ).to.equal('2023-01-XX');
+      expect(
+        dateFieldToISO(
+          { month: '1', day: '15', year: 'XXXX' },
+          { allowPartial: true },
+        ),
+      ).to.equal('XXXX-01-15');
     });
 
-    it('should handle missing fields', () => {
-      expect(dateFieldToISO({ month: '', day: '15', year: '2023' })).to.equal(
-        '2023-XX-15',
-      );
-      expect(dateFieldToISO({ month: '1', day: '', year: '2023' })).to.equal(
-        '2023-01-XX',
-      );
-      expect(dateFieldToISO({ month: '1', day: '15', year: '' })).to.equal(
-        'XXXX-01-15',
-      );
+    it('should return null for missing fields by default', () => {
+      expect(dateFieldToISO({ month: '', day: '15', year: '2023' })).to.be.null;
+      expect(dateFieldToISO({ month: '1', day: '', year: '2023' })).to.be.null;
+      expect(dateFieldToISO({ month: '1', day: '15', year: '' })).to.be.null;
+    });
+
+    it('should handle missing fields with XX when allowPartial is true', () => {
+      expect(
+        dateFieldToISO(
+          { month: '1', day: '', year: '2023' },
+          { allowPartial: true },
+        ),
+      ).to.equal('2023-01-XX');
+      expect(
+        dateFieldToISO(
+          { month: '1', day: '15', year: '' },
+          { allowPartial: true },
+        ),
+      ).to.equal('XXXX-01-15');
+    });
+
+    it('should handle year-only with allowPartial', () => {
+      expect(
+        dateFieldToISO(
+          { month: '', day: '', year: '2023' },
+          { allowPartial: true },
+        ),
+      ).to.equal('2023-XX-XX');
+    });
+
+    it('should reject year+day only pattern (month missing) even with allowPartial', () => {
+      expect(
+        dateFieldToISO(
+          { month: '', day: '15', year: '2023' },
+          { allowPartial: true },
+        ),
+      ).to.be.null;
     });
 
     it('should return null for invalid complete dates', () => {
@@ -182,11 +202,12 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
       expect(result.error).to.include('complete date');
     });
 
-    it('should validate month-year only fields', () => {
+    it('should validate month-year only fields with allowPartial', () => {
       const dateField = { month: '1', day: '', year: '2023' };
       const result = validateFormDateField(dateField, {
         required: true,
         monthYearOnly: true,
+        allowPartial: true,
       });
       expect(result.isValid).to.be.true;
     });
@@ -207,22 +228,22 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
     });
 
     it('should validate future dates', () => {
-      const tomorrow = moment().add(1, 'day');
+      const tomorrow = addDays(new Date(), 1);
       const futureField = {
-        month: tomorrow.format('M'),
-        day: tomorrow.format('D'),
-        year: tomorrow.format('YYYY'),
+        month: format(tomorrow, 'M'),
+        day: format(tomorrow, 'd'),
+        year: format(tomorrow, 'yyyy'),
       };
       const futureResult = validateFormDateField(futureField, {
         futureOnly: true,
       });
       expect(futureResult.isValid).to.be.true;
 
-      const yesterday = moment().subtract(1, 'day');
+      const yesterday = subDays(new Date(), 1);
       const pastField = {
-        month: yesterday.format('M'),
-        day: yesterday.format('D'),
-        year: yesterday.format('YYYY'),
+        month: format(yesterday, 'M'),
+        day: format(yesterday, 'd'),
+        year: format(yesterday, 'yyyy'),
       };
       const pastResult = validateFormDateField(pastField, { futureOnly: true });
       expect(pastResult.isValid).to.be.false;
@@ -230,20 +251,20 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
     });
 
     it('should validate past dates', () => {
-      const yesterday = moment().subtract(1, 'day');
+      const yesterday = subDays(new Date(), 1);
       const pastField = {
-        month: yesterday.format('M'),
-        day: yesterday.format('D'),
-        year: yesterday.format('YYYY'),
+        month: format(yesterday, 'M'),
+        day: format(yesterday, 'd'),
+        year: format(yesterday, 'yyyy'),
       };
       const pastResult = validateFormDateField(pastField, { pastOnly: true });
       expect(pastResult.isValid).to.be.true;
 
-      const tomorrow = moment().add(1, 'day');
+      const tomorrow = addDays(new Date(), 1);
       const futureField = {
-        month: tomorrow.format('M'),
-        day: tomorrow.format('D'),
-        year: tomorrow.format('YYYY'),
+        month: format(tomorrow, 'M'),
+        day: format(tomorrow, 'd'),
+        year: format(tomorrow, 'yyyy'),
       };
       const futureResult = validateFormDateField(futureField, {
         pastOnly: true,
@@ -271,13 +292,25 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
       });
     });
 
-    it('should handle partial dates', () => {
+    it('should handle partial dates when allowPartial is true', () => {
       const fromField = { month: '1', day: 'XX', year: '2023' };
       const toField = { month: '12', day: 'XX', year: '2023' };
-      const result = createDateRange(fromField, toField);
+      const result = createDateRange(fromField, toField, {
+        allowPartial: true,
+      });
       expect(result).to.deep.equal({
         from: '2023-01-XX',
         to: '2023-12-XX',
+      });
+    });
+
+    it('should return null for partial dates by default', () => {
+      const fromField = { month: '1', day: '', year: '2023' };
+      const toField = { month: '12', day: '', year: '2023' };
+      const result = createDateRange(fromField, toField);
+      expect(result).to.deep.equal({
+        from: null,
+        to: null,
       });
     });
 
@@ -324,22 +357,55 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
       expect(result.error).to.include('Start date:');
     });
 
-    it('should allow partial dates without range validation', () => {
-      const fromField = { month: '1', day: 'XX', year: '2023' };
-      const toField = { month: '12', day: 'XX', year: '2023' };
-      const result = validateFormDateRange(fromField, toField);
-      expect(result.isValid).to.be.true;
+    it('should validate partial dates at available granularity when allowPartial is true', () => {
+      // Valid: Jan 2023 to Dec 2023 (same year, month increases)
+      const validResult = validateFormDateRange(
+        { month: '1', day: 'XX', year: '2023' },
+        { month: '12', day: 'XX', year: '2023' },
+        { allowPartial: true },
+      );
+      expect(validResult.isValid).to.be.true;
+
+      // Invalid: Dec 2023 to Jan 2023 (same year, month decreases)
+      const invalidMonthResult = validateFormDateRange(
+        { month: '12', day: 'XX', year: '2023' },
+        { month: '1', day: 'XX', year: '2023' },
+        { allowPartial: true },
+      );
+      expect(invalidMonthResult.isValid).to.be.false;
+      expect(invalidMonthResult.error).to.equal(
+        'End date must be after start date',
+      );
+
+      // Invalid: 2024 to 2023 (year decreases)
+      const invalidYearResult = validateFormDateRange(
+        { month: 'XX', day: 'XX', year: '2024' },
+        { month: 'XX', day: 'XX', year: '2023' },
+        { allowPartial: true },
+      );
+      expect(invalidYearResult.isValid).to.be.false;
+      expect(invalidYearResult.error).to.equal(
+        'End date must be after start date',
+      );
+
+      // Valid: Can't determine order when only year is known (days unknown)
+      const ambiguousResult = validateFormDateRange(
+        { month: '1', day: '', year: '2023' },
+        { month: '1', day: '', year: '2023' },
+        { allowPartial: true },
+      );
+      expect(ambiguousResult.isValid).to.be.true; // Same year and month, day unknown, can't validate day order
     });
   });
 
   describe('getCurrentFormDate', () => {
     it('should return current date as form field', () => {
-      const now = moment();
+      const now = new Date();
       const result = getCurrentFormDate();
       expect(result).to.deep.equal({
-        month: now.format('M'),
-        day: now.format('D'),
-        year: now.format('YYYY'),
+        month: format(now, 'M'),
+        day: format(now, 'd'),
+        year: format(now, 'yyyy'),
       });
     });
 

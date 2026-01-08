@@ -139,6 +139,7 @@ describe('526 rated disability date shared page', () => {
   });
 
   it('rejects year before 1900', async () => {
+    const maxYear = new Date(Date.now()).getUTCFullYear();
     const onSubmit = sinon.spy();
     const nowStub = sinon
       .stub(Date, 'now')
@@ -158,7 +159,7 @@ describe('526 rated disability date shared page', () => {
 
       const dateErrorMsg = getDateErrorMsg(container);
       expect(dateErrorMsg.getAttribute('error')).to.match(
-        /between 1900 and 2025/i,
+        new RegExp(`between\\s+1900\\s+and\\s+${maxYear}`, 'i'),
       );
     } finally {
       nowStub.restore();
@@ -166,13 +167,14 @@ describe('526 rated disability date shared page', () => {
   });
 
   it('rejects year after current year (approximate date)', async () => {
+    const maxYear = new Date(Date.now()).getUTCFullYear();
     const onSubmit = sinon.spy();
     const nowStub = sinon
       .stub(Date, 'now')
       .returns(new Date('2025-08-27T12:00:00Z').getTime());
     try {
       const { container } = mountPage(
-        { ...seed, conditionDate: '2026-XX-XX' },
+        { ...seed, conditionDate: `${maxYear + 1}-XX-XX` },
         onSubmit,
       );
       const view = within(container);
@@ -184,7 +186,6 @@ describe('526 rated disability date shared page', () => {
       });
 
       const dateErrorMsg = getDateErrorMsg(container);
-      const maxYear = new Date(Date.now()).getUTCFullYear();
       expect(dateErrorMsg.getAttribute('error')).to.match(
         new RegExp(`between\\s+1900\\s+and\\s+${maxYear}`, 'i'),
       );

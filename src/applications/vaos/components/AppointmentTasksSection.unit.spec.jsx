@@ -289,10 +289,12 @@ describe('VAOS Component: AppointmentTasks', () => {
       { travelPayEnableComplexClaims: true },
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointmentId}`,
+      `/my-health/travel-pay/claims/${claimId}`,
     );
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'text',
@@ -338,10 +340,12 @@ describe('VAOS Component: AppointmentTasks', () => {
       { travelPayEnableComplexClaims: true },
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointmentId}`,
+      `/my-health/travel-pay/claims/${claimId}`,
     );
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'text',

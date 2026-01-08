@@ -95,6 +95,9 @@ const noAsyncFocusWhenCypressRunningInCiOrLocally =
   (Cypress.env('CI') || environment.isLocalhost());
 const defaultTime = noAsyncFocusWhenCypressRunningInCiOrLocally ? 0 : 250;
 
+export const waitTime = (time = 250) =>
+  noAsyncFocusWhenCypressRunningInCiOrLocally ? 0 : time;
+
 /**
  * Web components may not have their shadow DOM rendered right away, so we need
  * to wait & check before setting focus on the selector; if not found after max

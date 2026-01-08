@@ -229,7 +229,6 @@ describe('Submit Transformer', () => {
           employmentDates: {
             beginningDate: '2020-01-15',
             endingDate: '2023-06-30',
-            currentlyEmployed: false,
           },
         },
       };
@@ -244,12 +243,11 @@ describe('Submit Transformer', () => {
       );
     });
 
-    it('should set ending date to null if currently employed', () => {
+    it('should omit ending date when not provided (currently employed)', () => {
       const form = {
         data: {
           employmentDates: {
             beginningDate: '2020-01-15',
-            currentlyEmployed: true,
           },
         },
       };
@@ -689,7 +687,6 @@ describe('Submit Transformer', () => {
           employmentDates: {
             beginningDate: '2015-01-01',
             endingDate: '2023-12-31',
-            currentlyEmployed: false,
           },
           employmentEarningsHours: {
             typeOfWork: 'Software Engineer',

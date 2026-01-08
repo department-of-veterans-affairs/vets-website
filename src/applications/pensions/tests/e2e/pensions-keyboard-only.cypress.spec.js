@@ -11,7 +11,7 @@ import {
   fillSchema,
   fillField,
 } from './helpers/keyboardOnlyHelpers';
-import { shouldHaveValidationError } from './helpers';
+import { shouldHaveVaTextInputError } from './helpers';
 import pagePaths from './pagePaths';
 
 const skipInCI = (testKey, callback) =>
@@ -109,7 +109,10 @@ describe('Pensions keyboard only navigation', () => {
               elementPath: ['veteranDateOfBirth'],
             });
             cy.tabToContinueForm();
-            shouldHaveValidationError('Please enter a Social Security number');
+            shouldHaveVaTextInputError(
+              'root_veteranSocialSecurityNumber',
+              'Enter a valid 9-digit Social Security number (dashes allowed)',
+            );
 
             // returning the keyboard test page allows the test to continue with a valid SSN
             return keyboardTestPage(page, d);

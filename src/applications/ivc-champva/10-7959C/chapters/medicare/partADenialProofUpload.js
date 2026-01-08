@@ -1,30 +1,29 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  fileUploadUi as fileUploadUI,
-  singleFileSchema,
-} from '../../../shared/components/fileUploads/upload';
-import { fileUploadBlurb } from '../../../shared/components/fileUploads/attachments';
+  descriptionUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import MedicareIneligibilityDescription from '../../components/FormDescriptions/MedicareIneligibilityDescription';
-import { blankSchema } from '../../definitions';
+import FileUploadDescription from '../../components/FormDescriptions/FileUploadDescription';
+import { attachmentUI, singleAttachmentSchema } from '../../definitions';
+import { ATTACHMENT_IDS } from '../../utils/constants';
+import content from '../../locales/en/content.json';
+
+const TITLE_TEXT = content['medicare--part-a-denial-proof-title'];
 
 export default {
   uiSchema: {
-    ...titleUI(
-      'Upload proof of Medicare ineligibility',
-      MedicareIneligibilityDescription,
-    ),
-    ...fileUploadBlurb,
-    applicantMedicarePartADenialProof: fileUploadUI({
-      label: 'Upload proof of Medicare ineligibility',
-      attachmentId: 'Letter from the SSA',
+    ...titleUI(TITLE_TEXT, MedicareIneligibilityDescription),
+    ...descriptionUI(FileUploadDescription),
+    proofOfIneligibilityUpload: attachmentUI({
+      label: TITLE_TEXT,
+      attachmentId: ATTACHMENT_IDS.ssaLetter,
     }),
   },
   schema: {
     type: 'object',
-    required: ['applicantMedicarePartADenialProof'],
+    required: ['proofOfIneligibilityUpload'],
     properties: {
-      'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartADenialProof: singleFileSchema,
+      proofOfIneligibilityUpload: singleAttachmentSchema,
     },
   },
 };

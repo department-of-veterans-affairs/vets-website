@@ -7,6 +7,8 @@ import content from '../locales/en/content.json';
 
 const MIDDLE_NAME_SCHEMA = { type: 'string', maxLength: 1 };
 
+export * from './dates';
+
 export const blankSchema = { type: 'object', properties: {} };
 
 export const fileUploadSchema = {
