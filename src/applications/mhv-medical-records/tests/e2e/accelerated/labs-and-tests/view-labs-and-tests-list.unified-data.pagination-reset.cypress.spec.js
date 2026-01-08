@@ -118,6 +118,9 @@ describe('Medical Records Labs And Tests - Pagination Reset on Date Range Change
 
     // Verify year changed
     LabsAndTests.checkTimeFrameDisplayForYear({ year: '2023' });
+
+    // Accessibility check
+    cy.injectAxeThenAxeCheck();
   });
 
   it('maintains page 1 when date range changes on page 1', () => {
@@ -143,5 +146,8 @@ describe('Medical Records Labs And Tests - Pagination Reset on Date Range Change
 
     // Verify records are shown
     cy.get('[data-testid="record-list-item"]').should('exist');
+
+    // Accessibility check
+    cy.injectAxeThenAxeCheck();
   });
 });
