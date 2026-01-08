@@ -20,6 +20,7 @@ function safeResolve(specifier) {
 // - Redirect Enzyme/parse5 deep imports blocked by package.exports
 if (!Module._load.__vaNodeCompatPatched) {
   const origLoad = Module._load;
+  const origResolveFilename = Module._resolveFilename;
 
   const rootCheerioEntryPath = safeResolve('cheerio');
   let cheerioUtilsPath = null;
@@ -46,6 +47,23 @@ if (!Module._load.__vaNodeCompatPatched) {
     if (fs.existsSync(nestedCandidate)) {
       enzymeCheerioUtilsPath = nestedCandidate;
     }
+  }
+
+  // Intercept resolution of cheerio/lib/utils before exports are applied, so we
+  // can point Enzyme at the absolute file path instead of a package subpath.
+  if (enzymeCheerioUtilsPath && !origResolveFilename.__vaCheerioPatched) {
+    Module._resolveFilename = function patchedResolveFilename(
+      request,
+      parent,
+      isMain,
+      options,
+    ) {
+      if (request === 'cheerio/lib/utils') {
+        return enzymeCheerioUtilsPath;
+      }
+      return origResolveFilename.call(this, request, parent, isMain, options);
+    };
+    Module._resolveFilename.__vaCheerioPatched = true;
   }
 
   if (parse5MainPath) {
@@ -80,18 +98,6 @@ if (!Module._load.__vaNodeCompatPatched) {
         )
       ) {
         return origLoad(rootCheerioEntryPath, parent, isMain);
-      }
-
-      if (
-        request === 'cheerio/lib/utils' &&
-        enzymeCheerioUtilsPath &&
-        parent &&
-        typeof parent.filename === 'string' &&
-        parent.filename.includes(
-          `${path.sep}node_modules${path.sep}enzyme${path.sep}`,
-        )
-      ) {
-        return origLoad(enzymeCheerioUtilsPath, parent, isMain);
       }
 
       if (request === 'cheerio/lib/utils' && cheerioUtilsPath) {
