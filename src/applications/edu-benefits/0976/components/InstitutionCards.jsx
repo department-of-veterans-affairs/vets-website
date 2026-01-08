@@ -1,5 +1,4 @@
 import React from 'react';
-import { INSTITUTION_TYPES } from '../constants';
 import FacilityCodeAdditionalInfo from './FacilityCodeAdditionalInfo';
 
 export const EmptyCard = () => {
@@ -31,10 +30,6 @@ export const DetailsCard = ({ details }) => {
         {city}, {state} {postalCode}
       </p>
       <FacilityCodeAdditionalInfo />
-      <p>
-        <strong>The institution is classified as:</strong>
-      </p>
-      <p>{INSTITUTION_TYPES[details.type] || 'Other'}</p>
     </div>
   );
 };
