@@ -24,6 +24,7 @@ import {
   EMPTY_FIELD,
   loadStates,
   DEFAULT_DATE_RANGE,
+  DATA_UNAVAILABLE,
 } from '../util/constants';
 
 const initialState = {
@@ -510,6 +511,10 @@ export const convertLabsAndTestsRecord = record => {
 };
 
 export function formatDateTime(datetimeString) {
+  if (!datetimeString) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+
   const dateTime = new Date(datetimeString);
   if (Number.isNaN(dateTime.getTime())) {
     return { formattedDate: '', formattedTime: '' };
@@ -524,7 +529,9 @@ export const convertUnifiedLabsAndTestRecord = record => {
   const { formattedDate, formattedTime } = formatDateTime(
     record.attributes.dateCompleted,
   );
-  const date = formattedDate ? `${formattedDate}, ${formattedTime}` : '';
+  const date = formattedDate
+    ? `${formattedDate}, ${formattedTime}`
+    : DATA_UNAVAILABLE;
   return {
     id: record.id,
     date,
