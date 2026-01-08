@@ -10,6 +10,7 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import prefillTransformer from './prefill-transformer';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -34,6 +35,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
@@ -61,7 +63,6 @@ const formConfig = {
       pages: {
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },

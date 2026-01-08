@@ -5,13 +5,24 @@ import {
   fullNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import PersonalInformation from '../components/PersonalInformation';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Name and date of birth'),
-    fullName: fullNameNoSuffixUI(),
-    dateOfBirth: dateOfBirthUI(),
+    'ui:description': PersonalInformation,
+    fullName: {
+      ...fullNameNoSuffixUI(),
+      'ui:options': {
+        hideIf: () => true,
+      },
+    },
+    dateOfBirth: {
+      ...dateOfBirthUI(),
+      'ui:options': {
+        hideIf: () => true,
+      },
+    },
   },
   schema: {
     type: 'object',
