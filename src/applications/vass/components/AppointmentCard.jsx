@@ -50,7 +50,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
         data-testid="who-section"
         heading="Who"
         textContent={
-          appointmentData?.providerName || 'No provider name selected'
+          appointmentData?.providerName || 'VA Solid Start representative'
         }
       />
       {appointmentData?.topics &&
