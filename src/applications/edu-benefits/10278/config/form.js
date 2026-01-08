@@ -8,8 +8,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+
+import { thirdPartyPersonName, thirdPartyPersonAddress } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -73,25 +73,20 @@ const formConfig = {
         },
       },
     },
-    mailingAddressChapter: {
-      title: 'Mailing address',
+    thirdPartyContactInformation: {
+      title: 'Third party contact information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+        thirdPartyPersonName: {
+          path: 'third-party-person-details',
+          title: 'Name of person',
+          uiSchema: thirdPartyPersonName.uiSchema,
+          schema: thirdPartyPersonName.schema,
         },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Contact information',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        thirdPartyPersonAddress: {
+          path: 'third-party-person-details-1',
+          title: 'Address of person',
+          uiSchema: thirdPartyPersonAddress.uiSchema,
+          schema: thirdPartyPersonAddress.schema,
         },
       },
     },
