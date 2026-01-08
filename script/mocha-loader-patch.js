@@ -1,4 +1,6 @@
+/* eslint-disable import/no-dynamic-require */
 const Module = require('module');
+const path = require('path');
 
 /**
  * Safely resolve a module specifier, returning null instead of throwing on failure.
@@ -18,10 +20,27 @@ function safeResolve(specifier) {
 if (!Module._load.__vaNodeCompatPatched) {
   const origLoad = Module._load;
 
+  const rootCheerioEntryPath = safeResolve('cheerio');
   const cheerioUtilsPath = safeResolve('cheerio/lib/utils.js');
   const entitiesDecodePath = safeResolve('entities/lib/decode.js');
   const entitiesEscapePath = safeResolve('entities/lib/escape.js');
-  const undiciClientPath = safeResolve('undici/lib/client.js');
+  const parse5MainPath = safeResolve('parse5');
+  let parse5OpenElementStackExport = null;
+  if (parse5MainPath) {
+    try {
+      const openElementStackModule = require(path.join(
+        path.dirname(parse5MainPath),
+        'parser/open-element-stack.js',
+      ));
+      parse5OpenElementStackExport =
+        openElementStackModule.OpenElementStack ||
+        openElementStackModule.default ||
+        openElementStackModule;
+    } catch (error) {
+      // Defer to the normal loader if the internal parser stack cannot be resolved
+      parse5OpenElementStackExport = null;
+    }
+  }
 
   Module._load = function patchedLoad(request, parent, isMain) {
     if (typeof request === 'string') {
@@ -29,8 +48,27 @@ if (!Module._load.__vaNodeCompatPatched) {
         return origLoad(request.slice(5), parent, isMain);
       }
 
+      if (
+        request === 'cheerio' &&
+        rootCheerioEntryPath &&
+        parent &&
+        typeof parent.filename === 'string' &&
+        parent.filename.includes(
+          `${path.sep}node_modules${path.sep}enzyme${path.sep}`,
+        )
+      ) {
+        return origLoad(rootCheerioEntryPath, parent, isMain);
+      }
+
       if (request === 'cheerio/lib/utils' && cheerioUtilsPath) {
         return origLoad(cheerioUtilsPath, parent, isMain);
+      }
+
+      if (
+        request === 'parse5/lib/parser/open-element-stack' &&
+        parse5OpenElementStackExport
+      ) {
+        return parse5OpenElementStackExport;
       }
 
       if (
@@ -47,14 +85,6 @@ if (!Module._load.__vaNodeCompatPatched) {
         entitiesEscapePath
       ) {
         return origLoad(entitiesEscapePath, parent, isMain);
-      }
-
-      if (
-        (request === 'undici/lib/dispatcher/client' ||
-          request === 'undici/lib/dispatcher/client.js') &&
-        undiciClientPath
-      ) {
-        return origLoad(undiciClientPath, parent, isMain);
       }
     }
 
