@@ -618,10 +618,10 @@ describe('customTransformForSubmit - integration tests', () => {
     pages: [],
   };
 
-  it('should not include data property wrapper in final payload (regression test for payload structure bug)', () => {
-    // This test verifies that the final payload sent to backend does NOT have
-    // a nested 'data' property, and that view:selectable686Options and
-    // view:removeDependentOptions are present at the top level
+  it('should not include data property wrapper in final payload - V2 flow (regression test for payload structure bug)', () => {
+    // This test verifies V2 flow with checkbox selection works correctly
+    // and that the final payload sent to backend does NOT have a nested 'data' property.
+    // view:selectable686Options and view:removeDependentOptions should be at the top level
     const form = {
       data: {
         'view:addOrRemoveDependents': { add: false, remove: true },
@@ -668,6 +668,65 @@ describe('customTransformForSubmit - integration tests', () => {
     expect(submittedData.daysTillExpires).to.equal(365);
     expect(submittedData.reportDivorce).to.not.be.undefined;
     expect(submittedData.veteranInformation).to.not.be.undefined;
+  });
+
+  it('should not include data property wrapper in final payload - V3 flow (regression test for payload structure bug)', () => {
+    // This test verifies V3 picklist flow works correctly with the payload structure fix.
+    // V3 has empty view:removeDependentOptions (no checkboxes), but after picklist
+    // transformation, flags should be set AND payload should not have nested 'data' property.
+    const form = {
+      data: {
+        vaDependentsV3: true, // Enable V3 flow
+        'view:addOrRemoveDependents': { add: false, remove: true },
+        'view:removeDependentOptions': {}, // EMPTY - typical V3 state
+        [PICKLIST_DATA]: [
+          {
+            fullName: { first: 'Ex', last: 'Spouse' },
+            dateOfBirth: '1980-01-01',
+            relationshipToVeteran: 'Spouse',
+            selected: true,
+            removalReason: 'marriageEnded',
+            endType: 'Divorce',
+            endDate: '2024-01-01',
+            endOutsideUs: false,
+            endCity: 'City',
+            endState: 'CA',
+            spouseIncome: 'N',
+          },
+        ],
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    const result = customTransformForSubmit(mockFormConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    // Critical assertions for V3 + payload structure:
+    // 1. Should NOT have a 'data' property at the top level
+    expect(submittedData.data).to.be.undefined;
+
+    // 2. Should have view:selectable686Options at the top level with reportDivorce flag
+    expect(submittedData['view:selectable686Options']).to.not.be.undefined;
+    expect(submittedData['view:selectable686Options'].reportDivorce).to.be.true;
+
+    // 3. Should have view:removeDependentOptions at the top level with reportDivorce flag
+    expect(submittedData['view:removeDependentOptions']).to.not.be.undefined;
+    expect(submittedData['view:removeDependentOptions'].reportDivorce).to.be
+      .true;
+
+    // 4. Data fields should be at the top level (not nested under 'data')
+    expect(submittedData.useV2).to.be.true;
+    expect(submittedData.daysTillExpires).to.equal(365);
+    expect(submittedData.reportDivorce).to.not.be.undefined;
+    expect(submittedData.veteranInformation).to.not.be.undefined;
+
+    // 5. Transformed divorce data should be present
+    expect(submittedData.reportDivorce.fullName.first).to.equal('Ex');
+    expect(submittedData.reportDivorce.fullName.last).to.equal('Spouse');
   });
 
   it('should correctly handle V2 flow with empty stepChildren through full transformation pipeline', () => {
