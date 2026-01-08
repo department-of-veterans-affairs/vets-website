@@ -92,4 +92,55 @@ if (!Module._load.__vaNodeCompatPatched) {
   };
 
   Module._load.__vaNodeCompatPatched = true;
+
+  // ---------------------------------------------------------------------------
+  // JSDOM + modern parse5: jsdom's JSDOMParse5Adapter assumes that its
+  // OpenElementStack monkey-patch always maintains _currentElement, and uses
+  // _currentElement._ownerDocument in createDocumentFragment. With newer
+  // parse5 this can be undefined for some fragment parses (e.g. axe-core
+  // injecting <style>), causing "_ownerDocument of undefined" errors.
+  //
+  // To keep jsdom working under Node 22 without forking it, patch the adapter
+  // to fall back to its underlying document implementation when
+  // _currentElement is not set.
+  // ---------------------------------------------------------------------------
+  try {
+    const jsdomHtmlPath = path.resolve(
+      __dirname,
+      '../src/platform/testing/node_modules/jsdom/lib/jsdom/browser/parser/html.js',
+    );
+    // eslint-disable-next-line global-require
+    const jsdomHtml = require(jsdomHtmlPath);
+    const { JSDOMParse5Adapter } = jsdomHtml || {};
+
+    if (
+      JSDOMParse5Adapter &&
+      JSDOMParse5Adapter.prototype &&
+      !JSDOMParse5Adapter.prototype.__vaOwnerDocumentPatched
+    ) {
+      const originalCreateDocumentFragment =
+        JSDOMParse5Adapter.prototype.createDocumentFragment;
+
+      JSDOMParse5Adapter.prototype.createDocumentFragment = function patchedCreateDocumentFragment() {
+        // If jsdom has a current element with an ownerDocument, keep the
+        // original behavior.
+        if (this._currentElement && this._currentElement._ownerDocument) {
+          return originalCreateDocumentFragment.call(this);
+        }
+
+        // Fallback: rely on jsdom's document implementation when there is
+        // no current element context (e.g. style fragments created by axe).
+        if (this._documentImpl && this._documentImpl.createDocumentFragment) {
+          return this._documentImpl.createDocumentFragment();
+        }
+
+        // As a last resort, defer to the original implementation.
+        return originalCreateDocumentFragment.call(this);
+      };
+
+      JSDOMParse5Adapter.prototype.__vaOwnerDocumentPatched = true;
+    }
+  } catch (error) {
+    // If jsdom internals move, fail soft and keep default behavior.
+  }
 }
