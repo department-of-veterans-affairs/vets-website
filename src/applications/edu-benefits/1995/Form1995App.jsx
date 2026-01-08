@@ -65,19 +65,35 @@ function Form1995Entry({
     [rudisillFlag],
   );
 
-  // Initialize Rudisill flow flag synchronously if needed
-  const currentFormData = formData || {};
+  // Check sessionStorage for Rudisill flow state
   const isRudisillFlowSession =
     sessionStorage.getItem('isRudisillFlow') === 'true';
 
   useEffect(
     () => {
+      const currentFormData = formData || {};
+
       if (rerouteFlag === undefined) {
         return;
       }
 
+      // Sync formData with sessionStorage state
+      // If sessionStorage says NOT Rudisill but formData says Rudisill, clear formData
+      // This handles returning to questionnaire from Rudisill flow
+      if (!isRudisillFlowSession && currentFormData.isRudisillFlow === true) {
+        const nextFormData = { ...currentFormData };
+        delete nextFormData.isRudisillFlow;
+        setFormData({
+          ...nextFormData,
+          isMeb1995Reroute: rerouteFlag,
+          currentBenefitType: claimantCurrentBenefit,
+        });
+        return;
+      }
+
       // Restore Rudisill flow state from saved formData (for save-in-progress resume)
-      if (currentFormData.isRudisillFlow === true) {
+      // Only do this if sessionStorage isn't already cleared (user didn't return to questionnaire)
+      if (isRudisillFlowSession && currentFormData.isRudisillFlow === true) {
         sessionStorage.setItem('isRudisillFlow', 'true');
       }
 

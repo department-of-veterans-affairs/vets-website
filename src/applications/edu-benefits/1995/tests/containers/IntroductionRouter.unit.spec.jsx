@@ -108,7 +108,6 @@ describe('IntroductionRouter', () => {
   it('should show questionnaire when returning to intro without ?rudisill=true param', async () => {
     sessionStorage.setItem('isRudisillFlow', 'true');
     setWindowLocation('');
-    // Store without formData flag - simulates fresh navigation back to intro
     const { container } = render(
       <Provider store={createMockStore(true)}>
         <IntroductionRouter route={mockRoute} router={mockRouter} />
@@ -116,9 +115,53 @@ describe('IntroductionRouter', () => {
     );
     // Routing is based on URL only, so should show questionnaire
     expect(container.textContent).to.include('Determine which form to use');
-    // sessionStorage will be cleared by useEffect since no URL param and no saved form
+    // sessionStorage will be cleared by useEffect
     await waitFor(() => {
       expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
     });
+  });
+
+  it('should clear sessionStorage when navigating from Rudisill to questionnaire intro', async () => {
+    // Simulate being in Rudisill flow with sessionStorage set
+    sessionStorage.setItem('isRudisillFlow', 'true');
+    setWindowLocation('');
+    render(
+      <Provider store={createMockStore(true)}>
+        <IntroductionRouter route={mockRoute} router={mockRouter} />
+      </Provider>,
+    );
+    // sessionStorage should be cleared when visiting intro without URL param
+    await waitFor(() => {
+      expect(sessionStorage.getItem('isRudisillFlow')).to.be.null;
+    });
+  });
+
+  it('should show questionnaire intro even when formData has isRudisillFlow', () => {
+    setWindowLocation('');
+    const storeWithRudisillFormData = mockStore({
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        meb_1995_re_reroute: true,
+        // eslint-disable-next-line camelcase
+        show_edu_benefits_1995_wizard: false,
+      },
+      form: {
+        data: { isRudisillFlow: true },
+        formId: '22-1995',
+        loadedData: { metadata: { returnUrl: '/' } },
+      },
+      user: {
+        login: { currentlyLoggedIn: false },
+        profile: { savedForms: [], loading: false, prefillsAvailable: [] },
+      },
+    });
+    const { container } = render(
+      <Provider store={storeWithRudisillFormData}>
+        <IntroductionRouter route={mockRoute} router={mockRouter} />
+      </Provider>,
+    );
+    // Should show questionnaire intro based on URL (no param), not formData
+    expect(container.textContent).to.include('Determine which form to use');
   });
 });
