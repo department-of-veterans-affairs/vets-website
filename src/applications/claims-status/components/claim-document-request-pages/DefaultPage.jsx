@@ -129,7 +129,10 @@ export default function DefaultPage({
       {isFirstParty &&
         (pastDueDate ? (
           <va-alert status="warning" class="vads-u-margin-y--4">
-            <h2 slot="headline" className="vads-u-margin-bottom--2">
+            <h2
+              slot="headline"
+              className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            >
               Deadline passed for requested information
             </h2>
             <p className="vads-u-margin-y--0">
