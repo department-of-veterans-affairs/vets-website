@@ -236,7 +236,7 @@ describe('My VA Dashboard — Forms and applications', () => {
     });
   });
 
-  describe('there is an section error when the api is down', () => {
+  describe('there is a section error when the api is down', () => {
     beforeEach(() => {
       cy.intercept('/v0/my_va/submission_statuses', formStatusesWithError);
       mockUser.data.attributes.inProgressForms = [];
