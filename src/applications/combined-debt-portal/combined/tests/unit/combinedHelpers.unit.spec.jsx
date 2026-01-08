@@ -3,6 +3,11 @@ import { addMonths, subMonths, addDays } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { uniqBy } from 'lodash';
+import { render } from '@testing-library/react';
+import { createStore, combineReducers } from 'redux';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   APP_TYPES,
   ALERT_TYPES,
@@ -23,6 +28,7 @@ import {
   cdpAccessToggle,
   showVHAPaymentHistory,
 } from '../../utils/helpers';
+import OverviewPage from '../../containers/OverviewPage';
 
 describe('Helper Functions', () => {
   describe('APP_TYPES', () => {
@@ -584,6 +590,146 @@ describe('Helper Functions', () => {
 
       const result = cdpAccessToggle(mockState);
       expect(result).to.be.false;
+    });
+  });
+
+  describe('OverviewPage sortedStatements and statementsByUniqueFacility', () => {
+    const renderWithStore = (component, initialState) => {
+      const store = createStore(
+        combineReducers({
+          combinedPortal: (state = initialState.combinedPortal || {}) => state,
+          user: (state = initialState.user || {}) => state,
+          featureToggles: (
+            state = initialState.featureToggles || { loading: false },
+          ) => state,
+        }),
+      );
+      return render(
+        <Provider store={store}>
+          <Router>{component}</Router>
+        </Provider>,
+      );
+    };
+
+    it('should pass mcp.statements.data to Balances when showVHAPaymentHistory is true', () => {
+      const mockState = {
+        user: {},
+        combinedPortal: {
+          debtLetters: {
+            isProfileUpdating: false,
+            isPending: false,
+            isPendingVBMS: false,
+            isError: false,
+            isVBMSError: false,
+            debts: [],
+            selectedDebt: {},
+            debtLinks: [],
+            errors: [],
+            hasDependentDebts: false,
+          },
+          mcp: {
+            pending: false,
+            error: null,
+            statements: {
+              data: [
+                {
+                  id: '4-1abZUKu7xIvIw6',
+                  type: 'medicalCopays',
+                  attributes: {
+                    url: null,
+                    facility: 'TEST VAMC',
+                    facilityId: '4-O3d8XK44ejMS',
+                    city: 'LYONS',
+                    externalId: '4-1abZUKu7xIvIw6',
+                    latestBillingRef: '4-6c9ZE23XQm5VawK',
+                    currentBalance: 150.25,
+                    previousBalance: 65.71,
+                    previousUnpaidBalance: 0,
+                    lastUpdatedAt: '2025-08-29T12:00:00Z',
+                  },
+                },
+              ],
+              meta: {
+                total: 10,
+                page: 1,
+                perPage: 3,
+                copaySummary: {
+                  totalCurrentBalance: 150.25,
+                  copayBillCount: 1,
+                  lastUpdatedOn: '2025-08-29T12:00:00Z',
+                },
+              },
+              links: {
+                self:
+                  'http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=1',
+                first:
+                  'http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=1',
+                next:
+                  'http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=2',
+                last:
+                  'http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=4',
+              },
+            },
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+          loading: false,
+        },
+      };
+
+      const { container } = renderWithStore(<OverviewPage />, mockState);
+
+      expect(container).to.exist;
+
+      // Verify component rendered - OverviewPage should pass the data to Balances
+      const balanceCards = container.querySelectorAll('va-card');
+      expect(balanceCards.length).to.be.greaterThan(0);
+      expect(balanceCards[0].textContent).to.include('$150.25');
+    });
+
+    it('should pass sorted statements to Balances when showVHAPaymentHistory is false', () => {
+      const mockState = {
+        user: {},
+        combinedPortal: {
+          debtLetters: {
+            debts: [],
+            errors: [],
+            isPending: false,
+            isProfileUpdating: false,
+          },
+          mcp: {
+            pending: false,
+            error: null,
+            statements: [
+              {
+                id: '1',
+                pSStatementDateOutput: '2023-01-01',
+                pSFacilityNum: '789',
+                pHAmtDue: 100,
+              },
+              {
+                id: '2',
+                pSStatementDateOutput: '2023-03-01',
+                pSFacilityNum: '456',
+                pHAmtDue: 200,
+              },
+            ],
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+          loading: false,
+        },
+      };
+
+      const { container } = renderWithStore(<OverviewPage />, mockState);
+
+      expect(container).to.exist;
+      // Verify component rendered - OverviewPage should pass sorted statements to Balances
+      const balanceCards = container.querySelectorAll('va-card');
+      expect(balanceCards.length).to.be.greaterThan(0);
+      expect(balanceCards[0].textContent).to.include('$300');
     });
   });
 
