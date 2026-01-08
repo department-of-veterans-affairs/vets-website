@@ -65,24 +65,21 @@ function Form1995Entry({
     [rudisillFlag],
   );
 
+  // Initialize Rudisill flow flag synchronously if needed
+  const currentFormData = formData || {};
+  const isRudisillFlowSession =
+    sessionStorage.getItem('isRudisillFlow') === 'true';
+
   useEffect(
     () => {
       if (rerouteFlag === undefined) {
         return;
       }
 
-      // Initialize formData as empty object if undefined
-      const currentFormData = formData || {};
-
       // Restore Rudisill flow state from saved formData (for save-in-progress resume)
       if (currentFormData.isRudisillFlow === true) {
         sessionStorage.setItem('isRudisillFlow', 'true');
       }
-
-      // Check if user is in Rudisill flow
-      // Note: We use sessionStorage to persist flow state across form navigation
-      const isRudisillFlow =
-        sessionStorage.getItem('isRudisillFlow') === 'true';
 
       if (!rerouteFlag) {
         if (
@@ -99,7 +96,7 @@ function Form1995Entry({
       }
 
       // If in Rudisill flow, ensure formData has the flag set
-      if (isRudisillFlow) {
+      if (isRudisillFlowSession) {
         // Always set isRudisillFlow if sessionStorage indicates Rudisill flow
         // and formData doesn't have it yet or has incorrect state
         if (
@@ -130,7 +127,13 @@ function Form1995Entry({
         });
       }
     },
-    [claimantCurrentBenefit, formData, rerouteFlag, setFormData],
+    [
+      claimantCurrentBenefit,
+      formData,
+      isRudisillFlowSession,
+      rerouteFlag,
+      setFormData,
+    ],
   );
 
   if (isLoadingToggles || rerouteFlag === undefined) {
@@ -144,7 +147,7 @@ function Form1995Entry({
 
   // Check if Rudisill flow to determine form key
   // Note: sessionStorage flag is set by IntroductionRouter when ?rudisill=true parameter is detected
-  const isRudisillFlow = sessionStorage.getItem('isRudisillFlow') === 'true';
+  const isRudisillFlow = isRudisillFlowSession;
   let formKey = 'legacy';
   if (isRudisillFlow) {
     formKey = 'rudisill';

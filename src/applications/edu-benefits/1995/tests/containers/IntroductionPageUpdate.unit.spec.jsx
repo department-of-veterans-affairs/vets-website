@@ -39,15 +39,34 @@ describe('the Edu-Benefit 1995 Introduction Page Update', () => {
     expect(container.querySelector('.schemaform-intro')).to.not.exist;
   });
 
-  it('should render when in Rudisill flow even if showWizard is undefined', () => {
+  it('should render when in Rudisill flow with reroute enabled even if showWizard is undefined', () => {
     sessionStorage.setItem('isRudisillFlow', 'true');
 
     const { container } = render(
-      <IntroductionPageUpdate showWizard={undefined} route={{}} />,
+      <IntroductionPageUpdate
+        showWizard={undefined}
+        route={{}}
+        rerouteEnabled
+      />,
     );
 
     expect(container.querySelector('.subway-map')).to.exist;
     expect(container.textContent).to.include('Change your education benefits');
+  });
+
+  it('should NOT render in Rudisill flow when reroute is disabled (backwards compatibility)', () => {
+    sessionStorage.setItem('isRudisillFlow', 'true');
+
+    const { container } = render(
+      <IntroductionPageUpdate
+        showWizard={undefined}
+        route={{}}
+        rerouteEnabled={false}
+      />,
+    );
+
+    // Should return null because reroute is disabled (legacy behavior)
+    expect(container.querySelector('.schemaform-intro')).to.not.exist;
   });
 
   it('should initialize formData with isRudisillFlow when in Rudisill flow', () => {
@@ -105,5 +124,36 @@ describe('the Edu-Benefit 1995 Introduction Page Update', () => {
 
     // Should NOT call setFormData because not in Rudisill flow
     expect(setFormDataSpy.called).to.be.false;
+  });
+
+  it('should show fallback button when route is missing and reroute is enabled', () => {
+    sessionStorage.setItem('isRudisillFlow', 'true');
+
+    const { container } = render(
+      <IntroductionPageUpdate
+        showWizard={false}
+        route={undefined}
+        rerouteEnabled
+      />,
+    );
+
+    // Should show fallback link when route is missing
+    const link = container.querySelector('a.usa-button-primary');
+    expect(link).to.exist;
+    expect(link.textContent).to.include('Start the education application');
+  });
+
+  it('should NOT show fallback button when route is missing and reroute is disabled (backwards compatibility)', () => {
+    const { container } = render(
+      <IntroductionPageUpdate
+        showWizard={false}
+        route={undefined}
+        rerouteEnabled={false}
+      />,
+    );
+
+    // Should not show fallback for legacy flow
+    const link = container.querySelector('a.usa-button-primary');
+    expect(link).to.not.exist;
   });
 });

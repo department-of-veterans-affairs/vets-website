@@ -6,6 +6,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { showEduBenefits1995Wizard } from 'applications/edu-benefits/selectors/educationWizard';
+import { selectMeb1995Reroute } from '../selectors/featureToggles';
 
 export class IntroductionPageUpdate extends React.Component {
   componentDidMount() {
@@ -26,17 +27,23 @@ export class IntroductionPageUpdate extends React.Component {
   }
 
   renderSaveInProgressIntro = buttonOnly => {
-    const { route } = this.props;
+    const { route, rerouteEnabled } = this.props;
 
-    if (!route) {
-      return null;
-    }
-
-    if (!route.formConfig) {
-      return null;
-    }
-
-    if (!route.pageList) {
+    // If route prop is missing or incomplete, show fallback button
+    // This can happen when navigating back from form pages in Rudisill flow
+    if (!route?.formConfig || !route?.pageList) {
+      // Only show fallback for Rudisill flow (when reroute is enabled)
+      // For legacy flow, return null to maintain backwards compatibility
+      if (rerouteEnabled) {
+        return (
+          <a
+            href="/education/apply-for-education-benefits/application/1995/introduction?rudisill=true"
+            className="usa-button-primary va-button-primary"
+          >
+            Start the education application
+          </a>
+        );
+      }
       return null;
     }
 
@@ -53,12 +60,14 @@ export class IntroductionPageUpdate extends React.Component {
   };
 
   render() {
-    const { showWizard } = this.props;
+    const { showWizard, rerouteEnabled } = this.props;
 
-    // Check if user is in Rudisill flow
-    const isRudisillFlow = sessionStorage.getItem('isRudisillFlow') === 'true';
+    // Check if user is in Rudisill flow (only when reroute is enabled)
+    const isRudisillFlow =
+      rerouteEnabled && sessionStorage.getItem('isRudisillFlow') === 'true';
 
     // Allow rendering if in Rudisill flow, otherwise require showWizard to be defined
+    // This maintains backwards compatibility when reroute is disabled
     if (!isRudisillFlow && showWizard === undefined) {
       return null;
     }
@@ -159,10 +168,12 @@ export class IntroductionPageUpdate extends React.Component {
 const mapStateToProps = state => ({
   showWizard: showEduBenefits1995Wizard(state),
   formData: state.form?.data,
+  rerouteEnabled: selectMeb1995Reroute(state),
 });
 
 IntroductionPageUpdate.propTypes = {
   formData: PropTypes.object,
+  rerouteEnabled: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
