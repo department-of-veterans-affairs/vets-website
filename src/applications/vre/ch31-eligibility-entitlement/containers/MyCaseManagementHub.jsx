@@ -140,7 +140,11 @@ const MyCaseManagementHub = () => {
           />
         </div>
 
-        <CaseProgressDescription step={current} />
+        <CaseProgressDescription
+          step={current}
+          isDiscontinued={isDiscontinued}
+          discontinuedReason={discontinuedReason}
+        />
 
         <div className="usa-width-one-whole vads-u-margin-top--3 vads-u-margin-bottom--3">
           <va-button

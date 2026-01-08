@@ -78,6 +78,19 @@ describe('CaseProgressDescription', () => {
     getByText(/your Chapter 31 benefits will begin/i);
   });
 
+  it('renders discontinued description if application status is discontinued', () => {
+    const { getByText } = renderWithRouter(
+      <CaseProgressDescription
+        step={3}
+        isDiscontinued
+        discontinuedReason="Test reason"
+      />,
+    );
+
+    getByText(/Your Application has been discontinued/i);
+    getByText(/Test reason/i);
+  });
+
   it('returns null for unknown step', () => {
     const { container } = renderWithRouter(
       <CaseProgressDescription step={999} />,
