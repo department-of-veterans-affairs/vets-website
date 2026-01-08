@@ -10,7 +10,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { showPdfFormAlignment } from '../../../utils/helpers';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'powPeriods',
   nounSingular: 'confinement period',
   nounPlural: 'confinement periods',
@@ -55,7 +55,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:isAddingPOW': arrayBuilderYesNoUI(
+    'view:isAddingPeriods': arrayBuilderYesNoUI(
       options,
       {
         title: 'Have you ever been a prisoner of war?',
@@ -70,9 +70,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:isAddingPOW': arrayBuilderYesNoSchema,
+      'view:isAddingPeriods': arrayBuilderYesNoSchema,
     },
-    required: ['view:isAddingPOW'],
+    required: ['view:isAddingPeriods'],
   },
 };
 
@@ -95,10 +95,7 @@ const powDateRangePage = {
   schema: {
     type: 'object',
     properties: {
-      powDateRange: {
-        ...currentOrPastDateRangeSchema,
-        required: [],
-      },
+      powDateRange: currentOrPastDateRangeSchema,
     },
     required: ['powDateRange'],
   },
