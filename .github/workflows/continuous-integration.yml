@@ -490,6 +490,7 @@ jobs:
       - name: check nvmrc
         run: |
           cat .nvmrc
+          node --version
 
       - name: Run unit tests
         id: run-tests
