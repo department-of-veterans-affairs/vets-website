@@ -215,7 +215,11 @@ const FormsAndApplications = ({
             </div>
           )}
 
-          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          <h3
+            className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+            // Hide this from AT if there are completed forms to avoid duplicate heading from accordion item
+            aria-hidden={completedCardList.length ? 'true' : 'false'}
+          >
             Completed forms
           </h3>
           {completedCardList.length === 0 ? (
