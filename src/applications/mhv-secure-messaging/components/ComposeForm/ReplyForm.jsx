@@ -35,6 +35,7 @@ import ReplyButton from '../ReplyButton';
 const ReplyForm = props => {
   const {
     cannotReply,
+    draft,
     drafts,
     replyMessage,
     recipients,
@@ -86,7 +87,7 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
-      const draftToEdit = drafts?.[0];
+      const draftToEdit = draft;
       if (draftToEdit) {
         const tempRecipient = {
           recipientId: draftToEdit.recipientId,
@@ -102,7 +103,7 @@ const ReplyForm = props => {
       }
       // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
     },
-    [drafts, messages, recipients],
+    [draft, messages, recipients],
   );
 
   useEffect(
@@ -209,7 +210,7 @@ const ReplyForm = props => {
                 className="message-action-button-text"
                 data-testid="edit-draft-button-body-text"
               >
-                {`Edit draft repl${drafts?.length > 1 ? 'ies' : 'y'}`}
+                Edit draft reply
               </span>
             </button>
           </div>
@@ -230,7 +231,6 @@ const ReplyForm = props => {
             replyMsgId={replyMessage.messageId}
             showEditDraftButton={showEditDraftButton}
             handleEditDraftButton={handleEditDraftButton}
-            hasMultipleDrafts={drafts?.length > 1}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
           />
@@ -246,9 +246,10 @@ const ReplyForm = props => {
             {!hideDraft && (
               <>
                 <h2 id="draft-reply-header" data-testid="draft-reply-header">
-                  {drafts && drafts.length > 1 ? 'Drafts' : 'Draft'}
+                  Draft
                 </h2>
                 <ReplyDrafts
+                  draft={draft}
                   drafts={drafts}
                   cannotReply={cannotReply}
                   isSaving={isSaving}
@@ -273,6 +274,7 @@ const ReplyForm = props => {
 
 ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
+  draft: PropTypes.object,
   drafts: PropTypes.array,
   header: PropTypes.object,
   isCreateNewModalVisible: PropTypes.bool,

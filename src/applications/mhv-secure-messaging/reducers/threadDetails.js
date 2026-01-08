@@ -1,9 +1,14 @@
 import { Actions } from '../util/actionTypes';
-import { updateMessageInThread, updateDrafts } from '../util/helpers';
+import {
+  updateMessageInThread,
+  updateDrafts,
+  updateDraft,
+} from '../util/helpers';
 
 const initialState = {
   acceptInterstitial: false,
   drafts: [],
+  draft: null,
   messages: undefined,
   isLoading: false,
   replyToName: undefined,
@@ -26,6 +31,31 @@ const initialState = {
   },
 };
 
+const draftHandler = (draft, payload) => {
+  const updatedDraft = updateDraft(draft);
+  if (draft.messageId === payload.messageId) {
+    return {
+      ...updatedDraft,
+      ...payload,
+      isSaving: false,
+      lastSaveTime: Date.now(),
+    };
+  }
+  return updatedDraft;
+};
+
+const draftErrorHandler = (draft, payload, response) => {
+  if (draft.messageId === payload.messageId) {
+    return {
+      ...draft,
+      isSaving: false,
+      lastSaveTime: null,
+      saveError: { ...response },
+    };
+  }
+  return draft;
+};
+
 export const threadDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Thread.GET_THREAD:
@@ -44,6 +74,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.UPDATE_DRAFT_IN_THREAD: {
       return {
         ...state,
+        draft: draftHandler(state.draft, action.payload),
         drafts: updateDrafts(state.drafts).map(d => {
           if (d.messageId === action.payload.messageId) {
             return {
@@ -78,6 +109,13 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Draft.CREATE_SUCCEEDED:
       return {
         ...state,
+        draft: {
+          ...state.draft,
+          ...action.response.data.attributes,
+          isSaving: false,
+          saveError: null,
+          lastSaveTime: Date.now(),
+        },
         drafts: [
           ...state.drafts,
           {
@@ -98,6 +136,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Draft.SAVE_FAILED:
       return {
         ...state,
+        draft: draftErrorHandler(state.draft, action.payload, action.response),
         drafts: state.drafts.map(d => {
           if (d.messageId === action.payload.messageId) {
             return {

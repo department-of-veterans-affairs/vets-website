@@ -366,18 +366,11 @@ const ReplyDraftItem = props => {
         )
           .then(() => {
             setTimeout(() => {
-              if (draftsCount > 1) {
-                // send a call to get updated thread
-                dispatch(retrieveMessageThread(replyMessage.messageId)).then(
-                  setIsSending(false),
-                );
-              } else {
-                setIsSending(false);
-                navigateToFolderByFolderId(
-                  draft?.threadFolderId ? draft?.threadFolderId : folderId,
-                  history,
-                );
-              }
+              setIsSending(false);
+              navigateToFolderByFolderId(
+                draft?.threadFolderId ? draft?.threadFolderId : folderId,
+                history,
+              );
             }, 1000);
           })
           .catch(() => {
@@ -399,7 +392,6 @@ const ReplyDraftItem = props => {
       attachments,
       setIsSending,
       dispatch,
-      draftsCount,
       replyMessage.messageId,
       folderId,
       history,

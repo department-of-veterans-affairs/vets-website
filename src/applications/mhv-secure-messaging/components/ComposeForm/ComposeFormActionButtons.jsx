@@ -10,7 +10,6 @@ const ComposeFormActionButtons = props => {
     cannotReply,
     draftBody,
     draftId,
-    draftsCount,
     navigationError,
     refreshThreadCallback,
     setNavigationError,
@@ -71,7 +70,6 @@ const ComposeFormActionButtons = props => {
       {/* UCD requested to keep button even when not saved as draft */}
       <DeleteDraft
         draftId={draftId}
-        draftsCount={draftsCount}
         draftBody={draftBody}
         formPopulated={formPopulated}
         navigationError={navigationError}
@@ -95,7 +93,6 @@ ComposeFormActionButtons.propTypes = {
   draftBody: PropTypes.string,
   draftId: PropTypes.number,
   draftSequence: PropTypes.number,
-  draftsCount: PropTypes.number,
   formPopulated: PropTypes.bool,
   isModalVisible: PropTypes.bool,
   messageBody: PropTypes.string,

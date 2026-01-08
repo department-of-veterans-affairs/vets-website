@@ -51,11 +51,9 @@ const DeleteDraft = props => {
   const {
     cannotReply,
     draftId,
-    draftsCount = 1,
     draftBody,
     formPopulated,
     navigationError,
-    refreshThreadCallback,
     setNavigationError,
     messageBody,
     draftSequence,
@@ -112,37 +110,33 @@ const DeleteDraft = props => {
     setIsModalVisible(false);
 
     const postDeleteAction = () => {
-      if (draftsCount === 1) {
-        dispatch(
-          addAlert(
-            Constants.ALERT_TYPE_SUCCESS,
-            '',
-            Constants.Alerts.Message.DELETE_DRAFT_SUCCESS,
-          ),
-        );
-        const { pathname } = location;
-        const defaultFolderId = activeFolder
-          ? activeFolder.folderId
-          : DefaultFolders.DRAFTS.id;
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Message.DELETE_DRAFT_SUCCESS,
+        ),
+      );
+      const { pathname } = location;
+      const defaultFolderId = activeFolder
+        ? activeFolder.folderId
+        : DefaultFolders.DRAFTS.id;
 
-        if (redirectPath) {
-          const finalPath = _computeDraftDeleteRedirect(redirectPath);
-          window.location.replace(finalPath);
-        } else if (pathname.includes('/new-message')) {
-          navigateToFolderByFolderId(
-            activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
-            history,
-          );
-        } else if (pathname.includes(Paths.REPLY)) {
-          history.goBack();
-        } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
-          navigateToFolderByFolderId(defaultFolderId, history);
-        } else if (pathname.includes(Paths.MESSAGE_THREAD)) {
-          setIsEditing(false);
-          setHideDraft(true);
-        }
-      } else {
-        refreshThreadCallback();
+      if (redirectPath) {
+        const finalPath = _computeDraftDeleteRedirect(redirectPath);
+        window.location.replace(finalPath);
+      } else if (pathname.includes('/new-message')) {
+        navigateToFolderByFolderId(
+          activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
+          history,
+        );
+      } else if (pathname.includes(Paths.REPLY)) {
+        history.goBack();
+      } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
+        navigateToFolderByFolderId(defaultFolderId, history);
+      } else if (pathname.includes(Paths.MESSAGE_THREAD)) {
+        setIsEditing(false);
+        setHideDraft(true);
       }
     };
 
@@ -218,13 +212,11 @@ DeleteDraft.propTypes = {
   draftBody: PropType.string,
   draftId: PropType.number,
   draftSequence: PropType.number,
-  draftsCount: PropType.number,
   formPopulated: PropType.bool,
   isModalVisible: PropType.bool,
   messageBody: PropType.string,
   navigationError: PropType.object,
   redirectPath: PropType.string,
-  refreshThreadCallback: PropType.func,
   savedComposeDraft: PropType.bool,
   setHideDraft: PropType.func,
   setIsEditing: PropType.func,

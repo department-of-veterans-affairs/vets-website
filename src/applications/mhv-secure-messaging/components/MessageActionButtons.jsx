@@ -17,7 +17,6 @@ const MessageActionButtons = props => {
     setIsCreateNewModalVisible,
     showEditDraftButton = false,
     handleEditDraftButton,
-    hasMultipleDrafts = false,
   } = props;
   const dispatch = useDispatch();
   const { customFoldersRedesignEnabled } = useFeatureToggles();
@@ -63,7 +62,7 @@ const MessageActionButtons = props => {
               className="message-action-button-text"
               data-testid="edit-draft-button-body-text"
             >
-              {`Edit draft repl${hasMultipleDrafts ? 'ies' : 'y'}`}
+              Edit draft reply
             </span>
           </button>
         </div>
@@ -118,7 +117,6 @@ const MessageActionButtons = props => {
 MessageActionButtons.propTypes = {
   threadId: PropTypes.number.isRequired,
   handleEditDraftButton: PropTypes.func,
-  hasMultipleDrafts: PropTypes.bool,
   hideReplyButton: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   messageId: PropTypes.number,

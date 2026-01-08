@@ -7,6 +7,7 @@ import { Actions } from '../../util/actionTypes';
 const ReplyDrafts = props => {
   const {
     cannotReply,
+    draft,
     drafts,
     isSaving,
     replyMessage,
@@ -23,41 +24,33 @@ const ReplyDrafts = props => {
 
   return (
     <div>
-      <va-accordion bordered open-single={drafts.length <= 1}>
-        {drafts?.length ? (
-          drafts.map((draft, i) => {
-            const singleDraft = draft?.[0] ? draft[0] : draft;
-            const subheader = `${singleDraft.body.slice(0, 45)}...`;
-            const draftsCount = drafts.length;
-            const draftSequence = draftsCount > 1 ? draftsCount - i : null;
-            return (
-              <va-accordion-item
-                bordered="true"
-                key={singleDraft.messageId}
-                open={isEditing}
-                subheader={subheader}
-                data-dd-privacy="mask"
-              >
-                <ReplyDraftItem
-                  cannotReply={cannotReply || showBlockedTriageGroupAlert}
-                  draft={singleDraft}
-                  drafts={drafts}
-                  draftsCount={draftsCount}
-                  draftSequence={draftSequence}
-                  editMode
-                  setIsEditing={setIsEditing}
-                  isSaving={isSaving}
-                  replyMessage={replyMessage}
-                  replyToName={replyToName}
-                  setLastFocusableElement={setLastFocusableElement}
-                  signature={signature}
-                  showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
-                  setHideDraft={setHideDraft}
-                  setIsSending={setIsSending}
-                />
-              </va-accordion-item>
-            );
-          })
+      <va-accordion bordered open-single>
+        {draft ? (
+          <va-accordion-item
+            bordered="true"
+            key={draft.messageId}
+            open={isEditing}
+            subheader={`${draft.body.slice(0, 45)}...`}
+            data-dd-privacy="mask"
+          >
+            <ReplyDraftItem
+              cannotReply={cannotReply || showBlockedTriageGroupAlert}
+              draft={draft}
+              drafts={drafts}
+              draftsCount={1}
+              draftSequence={null}
+              editMode
+              setIsEditing={setIsEditing}
+              isSaving={isSaving}
+              replyMessage={replyMessage}
+              replyToName={replyToName}
+              setLastFocusableElement={setLastFocusableElement}
+              signature={signature}
+              showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
+              setHideDraft={setHideDraft}
+              setIsSending={setIsSending}
+            />
+          </va-accordion-item>
         ) : (
           <va-accordion-item bordered="true" open>
             <ReplyDraftItem
@@ -85,6 +78,7 @@ const ReplyDrafts = props => {
 
 ReplyDrafts.propTypes = {
   cannotReply: PropTypes.bool,
+  draft: PropTypes.object,
   drafts: PropTypes.array || PropTypes.object,
   isEditing: PropTypes.bool,
   isSaving: PropTypes.bool,
