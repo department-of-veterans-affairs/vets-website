@@ -132,7 +132,7 @@ export const formMappings = {
 
   '21P-535': {
     subTitle:
-      'Application for Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation When Applicable)',
+      'Application for Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation when Applicable)',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21P-535-ARE.pdf',
     showSupportingDocuments: true,
   },
