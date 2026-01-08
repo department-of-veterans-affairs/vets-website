@@ -138,7 +138,7 @@ const ConfirmationPage = props => {
   const { submission } = form;
   const { formConfig } = props?.route;
   const submitDate = submission?.timestamp || submission?.submittedAt;
-  const confirmationNumber = submission?.response?.confirmationNumber || 'N/A'; // Default to 'N/A' if empty
+  const confirmationNumber = submission?.response?.confirmationNumber || 'N/A';
 
   useEffect(() => {
     scrollToTop('topScrollElement');
@@ -218,7 +218,7 @@ const ConfirmationPage = props => {
           text="Learn more about the supporting documents you can submit"
         />
       </p>
-      <h2>Rescoures and Support</h2>
+      <h2>Resources and support</h2>
       <p>
         Check our resources and support section for answers to common questions.
       </p>
