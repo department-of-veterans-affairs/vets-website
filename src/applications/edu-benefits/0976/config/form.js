@@ -159,7 +159,7 @@ const formConfig = {
               title: 'Additional institution details',
               uiSchema: additionalInstitutionsSummaryWithCode.uiSchema,
               schema: additionalInstitutionsSummaryWithCode.schema,
-              // depends: formData => !!formData?.hasVaFacilityCode,
+              depends: formData => !!formData?.hasVaFacilityCode,
             }),
             additionalInstitutionsItemWithCode: pageBuilder.itemPage({
               path: 'additional-institution-facility-code/:index',
@@ -169,7 +169,7 @@ const formConfig = {
               uiSchema: additionalInstitutionsItemWithCode.uiSchema,
               schema: additionalInstitutionsItemWithCode.schema,
               initialData: { additionalInstitutions: [] },
-              // depends: formData => !!formData?.hasVaFacilityCode,
+              depends: formData => !!formData?.hasVaFacilityCode,
             }),
           }),
         ),

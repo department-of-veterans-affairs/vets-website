@@ -55,5 +55,6 @@ export default {
       facilityCode: { ...textSchema, minLength: 8, maxLength: 8 },
       'view:institutionSelector': { type: 'object', properties: {} },
     },
+    required: ['facilityCode'],
   },
 };
