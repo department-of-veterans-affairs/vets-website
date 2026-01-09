@@ -1,10 +1,8 @@
 import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 import '../../shared/definitions';
 import { returnUniqueIssues } from '../../shared/utils/issues';
-import {
-  fixDateFormat,
-  replaceSubmittedData,
-} from '../../shared/utils/replace';
+import { replaceSubmittedData } from '../../shared/utils/replace';
+import { fixDateFormat } from '../../shared/utils/dates';
 import { removeEmptyEntries, getIso2Country } from '../../shared/utils/submit';
 
 /**

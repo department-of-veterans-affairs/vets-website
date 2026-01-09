@@ -1,32 +1,49 @@
-import { isValid } from 'date-fns';
-
-import { parseISODate } from '~/platform/forms-system/src/js/helpers';
-
-import { FORMAT_YMD_DATE_FNS } from '../constants';
 import {
-  parseDateToDateObj,
-  isLocalToday,
-  isUTCTodayOrFuture,
+  isFuture,
+  isToday,
+  isValid,
+  isBefore,
+  startOfDay,
+  subYears,
+} from 'date-fns';
+import { parseISODate } from '~/platform/forms-system/src/js/helpers';
+import sharedErrorMessages from '../content/errorMessages';
+import { FORMAT_YMD_DATE_FNS, MAX_YEARS_PAST } from '../constants';
+import {
+  fixDateFormat,
   formatDateToReadableString,
+  isUTCFuture,
+  isUTCToday,
+  parseDateToDateObj,
 } from '../utils/dates';
-import { fixDateFormat } from '../utils/replace';
 
 /**
  * Main validation method: Check if a date should be blocked from appeal submission
  * Uses dual validation approach combining local timezone and UTC validation
  * This prevents same-day submissions globally while maintaining backend consistency
  *
- * Decision tree:
- * 1. If decision date is same as current local calendar day → Block (return true)
- * 2. If different local calendar day but same UTC day → Block (return true)
- * 3. If both different → Allow (return false)
+ * We don't allow submission for any of the following scenarios until a certain date:
+ * 1. If decision date is same as current local calendar day
+ * 2. If decision date is the same UTC calendar day
+ * 3. If decision date is in the future (either local or UTC)
  *
  * @param {Date} date - The date to check
- * @returns {boolean} - True if the date should be blocked from appeal submission
+ * @returns {Obj} - Booleans to compare where local time/date is vs. UTC time/date
  */
 export const isTodayOrInFuture = date => {
   if (!date || !isValid(date)) return false;
-  return isLocalToday(date) || isUTCTodayOrFuture(date);
+
+  // Determine whether local timezone is ahead or behind UTC
+  // Negative values are ahead of UTC
+  const timezoneOffset = new Date().getTimezoneOffset();
+
+  return {
+    isTodayLocal: isToday(date),
+    isFutureLocal: isFuture(date),
+    isTodayUtc: isUTCToday(date),
+    isFutureUtc: isUTCFuture(date),
+    aheadOfUtc: timezoneOffset < 0,
+  };
 };
 
 const buildDatePartErrors = (month, day, year) => {
@@ -74,13 +91,21 @@ export const createDateObject = rawDateString => {
       datePartErrors.year ||
       invalidDate,
     dateObj,
-    isTodayOrInFuture: isTodayOrInFuture(dateObj),
   };
 };
 
 /**
  * Create dynamic error message for decision dates that are blocked
- * Always show "The date must be before [UTC today expressed as calendar date]"
+ * Always show "The date must be before [cutoff day expressed in the user's local timezone]"
+ *
+ * The cutoff date may not be the user's local current day
+ * If they are behind UTC time, the cutoff date will be based on local time
+ * If they are ahead of UTC time, the cutoff date will be based on UTC time
+ *
+ * Whichever is the case, contestable issues cannot be selected on the same day as the
+ * given decision date in local time or UTC (server) time, whichever is sooner.
+ * The decision date must be in the past for local time, if sooner, or UTC time if later
+ *
  * This tells users the earliest acceptable date that will pass validation globally
  * @param {Object} errorMessages - Error messages object containing decisions.pastDate function
  * @returns {string} Formatted error message showing UTC today as calendar date
@@ -100,29 +125,42 @@ export const createDecisionDateErrorMsg = errorMessages => {
 
   const cutoffDate = formatDateToReadableString(utcTodayAsLocalDate);
 
-  console.log('now: ', now);
-  console.log('utcTodayAsLocalDate: ', utcTodayAsLocalDate);
-  console.log('cutoffDate: ', cutoffDate);
-
   return errorMessages.decisions.pastDate(cutoffDate);
 };
 
-export const addDateErrorMessages = (errors, errorMessages, date) => {
-  if (date.isInvalid) {
-    errors.addError(errorMessages.decisions.blankDate);
-    // eslint-disable-next-line no-param-reassign
-    date.errors.other = true; // other part error
-    return true;
-  }
-  if (date.hasErrors) {
-    errors.addError(errorMessages.invalidDate);
-    // eslint-disable-next-line no-param-reassign
-    date.errors.other = true; // other part error
-    return true;
-  }
-  if (date.isTodayOrInFuture) {
-    // Lighthouse won't accept same day (as submission) decision date
-    // Using UTC-based validation to match backend behavior
+// Check out README-decision-date-validation.md for detailed explanation of this logic
+export const determineIfDateBlocksSubmission = (
+  errors,
+  errorMessages,
+  date,
+  hasMessages,
+) => {
+  const blockingCriteria = isTodayOrInFuture(date.dateObj);
+
+  console.log('blockingCriteria: ', blockingCriteria);
+
+  if (blockingCriteria) {
+    const {
+      aheadOfUtc,
+      isFutureLocal,
+      isFutureUtc,
+      isTodayLocal,
+      isTodayUtc,
+    } = blockingCriteria;
+
+    const todayLocal = new Date();
+    const tomorrowLocal = new Date(todayLocal).setDate(
+      todayLocal.getDate() + 1,
+    );
+
+    let cutoffDate = todayLocal;
+
+    if (isTodayLocal && !aheadOfUtc) {
+      cutoffDate = tomorrowLocal;
+    } else if (isTodayLocal && aheadOfUtc && isTodayUtc) {
+      cutoffDate = tomorrowLocal;
+    }
+
     const decisionDateErrorMessage = createDecisionDateErrorMsg(errorMessages);
 
     errors.addError(decisionDateErrorMessage);
@@ -130,6 +168,7 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
     date.errors.year = true; // only the year is invalid at this point
     return true;
   }
+
   return false;
 };
 
@@ -143,4 +182,64 @@ export const createScreenReaderErrorMsg = (errors, datePartErrors) => {
   if (partialDateError) {
     errors.addError(partialDateError);
   }
+};
+
+// We have to pass unused args to this function because the checkValidation function
+// accommodates other functions with args of varying length
+export const validateDecisionDate = (
+  errors,
+  rawDateString = '',
+  fullData,
+  _schema,
+  _uiSchema,
+  index,
+  appStateData,
+  appAbbr,
+) => {
+  const date = createDateObject(rawDateString);
+  let hasMessages = false;
+
+  determineIfDateBlocksSubmission(
+    errors,
+    sharedErrorMessages,
+    date,
+    hasMessages,
+  );
+
+  const minDate100 = startOfDay(subYears(new Date(), MAX_YEARS_PAST));
+  const minDateOneYear = startOfDay(subYears(new Date(), 1)); // For HLR only
+
+  if (date.isInvalid) {
+    errors.addError(sharedErrorMessages.decisions.blankDate);
+    // eslint-disable-next-line no-param-reassign
+    date.errors.other = true; // other part error
+    hasMessages = true;
+  }
+
+  if (date.hasErrors) {
+    errors.addError(sharedErrorMessages.invalidDate);
+    // eslint-disable-next-line no-param-reassign
+    date.errors.other = true; // other part error
+    hasMessages = true;
+  }
+
+  // HLR manually entered issues' decision dates can be at most a year old
+  if (
+    appAbbr === 'HLR' &&
+    !hasMessages &&
+    isBefore(date.dateObj, minDateOneYear)
+  ) {
+    errors.addError(sharedErrorMessages.decisions.recentDate);
+    date.errors.year = true; // only the year is invalid at this point
+  }
+
+  // Any flow's decision date can be at most 100 years old
+  if (!hasMessages && isBefore(date.dateObj, minDate100)) {
+    errors.addError(sharedErrorMessages.decisions.newerDate);
+    date.errors.year = true; // only the year is invalid at this point
+  }
+
+  // add second error message containing the part of the date with an error;
+  // used to add `aria-invalid` to the specific input
+  createScreenReaderErrorMsg(errors, date.errors);
 };

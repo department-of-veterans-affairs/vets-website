@@ -8,7 +8,6 @@ import {
   getReadableDate,
   getCurrentUTCStartOfDay,
   toUTCStartOfDay,
-  isLocalToday,
   isUTCTodayOrFuture,
   formatDateToReadableString,
 } from '../../utils/dates';
@@ -176,25 +175,6 @@ describe('toUTCStartOfDay', () => {
     expect(result1.getTime()).to.equal(result2.getTime());
     expect(result2.getTime()).to.equal(result3.getTime());
     expect(result1.getUTCDate()).to.equal(15);
-  });
-});
-
-describe('isLocalToday', () => {
-  it("should return true for today's date", () => {
-    const today = new Date();
-    expect(isLocalToday(today)).to.be.true;
-  });
-
-  it('should return false for yesterday', () => {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    expect(isLocalToday(yesterday)).to.be.false;
-  });
-
-  it('should return false for tomorrow', () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    expect(isLocalToday(tomorrow)).to.be.false;
   });
 });
 

@@ -1,10 +1,12 @@
-import { parse, parseISO, add, format, isValid, isToday } from 'date-fns';
-
+import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { parse, parseISO, add, format, isValid } from 'date-fns';
 import {
   FORMAT_YMD_DATE_FNS,
   FORMAT_READABLE_DATE_FNS,
   VA_LONG_FORM_MONTHS,
+  REGEXP,
 } from '../constants';
+import { addLeadingZero, coerceStringValue } from '.';
 
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
@@ -84,6 +86,7 @@ export const getReadableDate = dateString =>
  */
 export const getCurrentUTCStartOfDay = () => {
   const now = new Date();
+
   return new Date(
     Date.UTC(
       now.getUTCFullYear(),
@@ -109,23 +112,27 @@ export const toUTCStartOfDay = date => {
 };
 
 /**
- * Check if a date is today in local timezone
- * @param {Date} date - Date to check
- * @returns {boolean} - True if date is today locally
- */
-export const isLocalToday = date => {
-  return isToday(date);
-};
-
-/**
- * Check if a date is today or in the future in UTC timezone
+ * Check if a date is in the future in UTC timezone
  * @param {Date} date - Date to check
  * @returns {boolean} - True if date is today or future in UTC
  */
-export const isUTCTodayOrFuture = date => {
-  const utcToday = getCurrentUTCStartOfDay();
-  const issueDateUtc = toUTCStartOfDay(date);
-  return issueDateUtc.getTime() >= utcToday.getTime();
+export const isUTCFuture = date => {
+  const utcToday = getCurrentUTCStartOfDay().toDateString();
+  const issueDate = date.toDateString();
+
+  return issueDate > utcToday;
+};
+
+/**
+ * Check if a date is today in UTC timezone
+ * @param {Date} date - Date to check
+ * @returns {boolean} - True if date is today in UTC
+ */
+export const isUTCToday = date => {
+  const utcToday = getCurrentUTCStartOfDay().toDateString();
+  const issueDate = date.toDateString();
+
+  return issueDate === utcToday;
 };
 
 /**
@@ -153,4 +160,28 @@ export const formatDateToReadableString = date => {
   const year = format(date, 'yyyy');
 
   return `${abbreviatedMonth} ${day}, ${year}`;
+};
+
+/**
+ * Change a date string with no leading zeros (e.g. 2020-1-2) into a date with
+ * leading zeros (e.g. 2020-01-02) as expected in the schema
+ * @param {String} dateString YYYY-M-D or YYYY-MM-DD date string
+ * @returns {String} YYYY-MM-DD date string
+ */
+export const fixDateFormat = (date, yearOnly = false) => {
+  const dateString = coerceStringValue(date).replace(REGEXP.WHITESPACE, '');
+
+  if (dateString.length === 10 || dateString === '') {
+    return dateString;
+  }
+
+  // Stopgap solution to properly format a year only when provided for a VA treatment date "before 2005"
+  // Coming into this function it will have a format of {year}-01. Here we'll add a day of 01
+  // Remove this when the new date components are implemented and the fields are required
+  if (yearOnly) {
+    return `${dateString}-01`;
+  }
+
+  const { day, month, year } = parseISODate(dateString);
+  return `${year}-${addLeadingZero(month)}-${addLeadingZero(day)}`;
 };
