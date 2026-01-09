@@ -108,7 +108,7 @@ describe('0839 Helpers', () => {
     });
   });
 
-  describe('additional institution optoins', () => {
+  describe('additional institution options', () => {
     const exampleItem = {
       name: 'Test Institution',
       facilityCode: '12345678',
