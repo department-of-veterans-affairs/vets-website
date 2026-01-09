@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -48,6 +49,7 @@ import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const dateRange = useSelector(state => state.mr.labsAndTests.dateRange);
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
@@ -140,6 +142,7 @@ const LabsAndTests = () => {
     updateDateRangeAction: updateLabsAndTestDateRange,
     updateListStateActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
     dataDogLabel: 'Date range option',
+    history,
   });
 
   return (
