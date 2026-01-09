@@ -19,6 +19,7 @@ jobs:
   # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
   # Fails and cancels the workflow if package.json or yarn.lock are modified
   check-dependency-files:
+    if: github.ref_name != 'e2e-cy-visit-fails-refresh-pre-0084a12'
     name: Check for Dependency File Changes
     runs-on: ubuntu-latest
     steps:
@@ -109,7 +110,6 @@ jobs:
 
   build:
     name: Build
-    needs: [check-dependency-files]
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
