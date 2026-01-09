@@ -12,7 +12,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI('National Guard service period'),
-    dateOfActivation: currentOrPastDateUI({
+    nationalGuardActivationDate: currentOrPastDateUI({
       title: 'Date of activation',
       monthSelect: false,
     }),
@@ -25,9 +25,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['dateOfActivation', 'unitPhoneNumber', 'unitName'],
+    required: ['nationalGuardActivationDate', 'unitPhoneNumber', 'unitName'],
     properties: {
-      dateOfActivation: currentOrPastDateSchema,
+      nationalGuardActivationDate: currentOrPastDateSchema,
       unitName: textSchema,
       unitPhoneNumber: internationalPhoneSchema({ required: true }),
     },

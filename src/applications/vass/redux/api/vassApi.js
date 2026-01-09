@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { setToken } from '../slices/formSlice';
 
 const api = async (url, options, ...rest) => {
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
@@ -57,16 +58,26 @@ export const vassApi = createApi({
           };
         }
       },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data?.token) {
+            dispatch(setToken(data.token));
+          }
+        } catch {
+          // Error is handled by the queryFn
+        }
+      },
     }),
     postAppointment: builder.mutation({
-      async queryFn({ topics, dtStartUtc, dtEndUtc }) {
+      async queryFn({ topics, dtStartUtc, dtEndUtc }, { getState }) {
         try {
+          const { token } = getState().vassForm;
           return await api('/vass/v0/appointment', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              // TODO: confirm token storage location, maybe redux?
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               topics,
@@ -84,14 +95,14 @@ export const vassApi = createApi({
       },
     }),
     getAppointment: builder.query({
-      async queryFn({ appointmentId }) {
+      async queryFn({ appointmentId }, { getState }) {
         try {
+          const { token } = getState().vassForm;
           return await api(`/vass/v0/appointment/${appointmentId}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              // TODO: confirm token storage location, maybe redux?
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              Authorization: `Bearer ${token}`,
             },
           });
         } catch (error) {
@@ -104,18 +115,38 @@ export const vassApi = createApi({
       },
     }),
     getTopics: builder.query({
-      async queryFn() {
+      async queryFn(arg, { getState }) {
         try {
+          const { token } = getState().vassForm;
           return await api('/vass/v0/topics', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              // TODO: confirm token storage location, maybe redux?
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              Authorization: `Bearer ${token}`,
             },
           });
         } catch (error) {
           // captureError(error, false, 'get topics');
+          // TODO: do something with error
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
+      },
+    }),
+    getAppointmentAvailability: builder.query({
+      async queryFn(arg, { getState }) {
+        try {
+          const { token } = getState().vassForm;
+          return await api('/vass/v0/appointment-availablity', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } catch (error) {
+          // captureError(error, false, 'get appointment availability');
           // TODO: do something with error
           return {
             error: { status: error.status || 500, message: error?.message },
@@ -132,4 +163,5 @@ export const {
   usePostAppointmentMutation,
   useGetAppointmentQuery,
   useGetTopicsQuery,
+  useGetAppointmentAvailabilityQuery,
 } = vassApi;
