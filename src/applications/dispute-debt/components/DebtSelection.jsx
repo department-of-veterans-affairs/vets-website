@@ -115,6 +115,7 @@ const DebtSelection = ({ formContext }) => {
     <va-card
       data-testid={`debt-submitt4ed-${debt.compositeDebtId}`}
       key={debt.compositeDebtId}
+      background
     >
       <div>
         <h3 className="vads-u-margin-top--1">{debt.label}</h3>
