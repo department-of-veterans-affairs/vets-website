@@ -145,9 +145,10 @@ describe('prefillTransformer', () => {
 
       const result = prefillTransformer(null, null, null, state);
 
-      expect(result.formData?.bankAccount?.routingNumberConfirmation).to.equal(
-        '123456789',
-      );
+      expect(
+        result.formData['view:directDeposit'].bankAccount
+          .routingNumberConfirmation,
+      ).to.equal('123456789');
     });
 
     it('correctly pre-fills accountNumberConfirmation field from bankInformation', () => {
@@ -165,9 +166,10 @@ describe('prefillTransformer', () => {
 
       const result = prefillTransformer(null, null, null, state);
 
-      expect(result.formData?.bankAccount?.accountNumberConfirmation).to.equal(
-        '98765432101',
-      );
+      expect(
+        result.formData['view:directDeposit'].bankAccount
+          .accountNumberConfirmation,
+      ).to.equal('98765432101');
     });
 
     it('handles missing bankInformation gracefully', () => {
