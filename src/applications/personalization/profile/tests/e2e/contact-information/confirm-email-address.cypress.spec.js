@@ -1,3 +1,9 @@
+import {
+  DEFAULT_TRANSACTION_ID,
+  buildUpdateEmailResponse,
+  buildTransactionStatusResponse,
+} from '~/platform/mhv/tests/fixtures/confirm-email-transactions';
+
 import { PROFILE_PATHS } from '@@profile/constants';
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
 import {
@@ -8,8 +14,6 @@ import ContactInformationPage from './pages/ContactInformationPage';
 
 const MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE =
   'MHV_EMAIL_CONFIRMATION_DISMISSED';
-
-const TRANSACTION_ID = 'email_address_tx_id';
 
 const setup = () => {
   cy.login(mockUser);
@@ -43,40 +47,6 @@ const setup = () => {
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   cy.wait('@mockUser');
 };
-
-const buildUpdateEmailResponse = (transactionStatus = 'RECEIVED') => ({
-  statusCode: 200,
-  body: {
-    data: {
-      id: '',
-      type: 'async_transaction_va_profile_email_address_transactions',
-      attributes: {
-        transactionId: TRANSACTION_ID,
-        transactionStatus,
-        type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
-        metadata: [],
-      },
-    },
-  },
-});
-
-const buildTransactionStatusResponse = (
-  transactionStatus = 'COMPLETED_SUCCESS',
-) => ({
-  statusCode: 200,
-  body: {
-    data: {
-      id: '',
-      type: 'async_transaction_va_profile_email_address_transactions',
-      attributes: {
-        transactionId: TRANSACTION_ID,
-        transactionStatus,
-        type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
-        metadata: [],
-      },
-    },
-  },
-});
 
 describe('MHV Email Confirmation Alert - Confirm Email', () => {
   beforeEach(() => {
@@ -116,7 +86,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     // Mock the polling endpoint for successful retry
     cy.intercept(
       'GET',
-      `/v0/profile/status/${TRANSACTION_ID}`,
+      `/v0/profile/status/${DEFAULT_TRANSACTION_ID}`,
       buildTransactionStatusResponse('COMPLETED_SUCCESS'),
     ).as('pollStatus');
 
@@ -197,7 +167,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     // Mock the polling endpoint
     cy.intercept(
       'GET',
-      `/v0/profile/status/${TRANSACTION_ID}`,
+      `/v0/profile/status/${DEFAULT_TRANSACTION_ID}`,
       buildTransactionStatusResponse('COMPLETED_SUCCESS'),
     ).as('pollStatus');
 

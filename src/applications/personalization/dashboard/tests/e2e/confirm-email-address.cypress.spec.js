@@ -1,3 +1,9 @@
+import {
+  DEFAULT_TRANSACTION_ID,
+  buildUpdateEmailResponse,
+  buildTransactionStatusResponse,
+} from '~/platform/mhv/tests/fixtures/confirm-email-transactions';
+
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -6,42 +12,6 @@ import DashboardPage from './pages/Dashboard';
 
 const MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE =
   'MHV_EMAIL_CONFIRMATION_DISMISSED';
-
-const TRANSACTION_ID = 'email_address_tx_id';
-
-const buildUpdateEmailResponse = (transactionStatus = 'COMPLETED_SUCCESS') => ({
-  statusCode: transactionStatus === 'COMPLETED_FAILURE' ? 400 : 200,
-  body: {
-    data: {
-      id: '',
-      type: 'async_transaction_va_profile_email_address_transactions',
-      attributes: {
-        transactionId: TRANSACTION_ID,
-        transactionStatus,
-        type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
-        metadata: [],
-      },
-    },
-  },
-});
-
-const buildTransactionStatusResponse = (
-  transactionStatus = 'COMPLETED_SUCCESS',
-) => ({
-  statusCode: 200,
-  body: {
-    data: {
-      id: '',
-      type: 'async_transaction_va_profile_email_address_transactions',
-      attributes: {
-        transactionId: TRANSACTION_ID,
-        transactionStatus,
-        type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
-        metadata: [],
-      },
-    },
-  },
-});
 
 describe('MHV Email Confirmation Alert - Confirm Email', () => {
   beforeEach(() => {
@@ -86,7 +56,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     // Mock successful polling for the retry
     cy.intercept(
       'GET',
-      `/v0/profile/status/${TRANSACTION_ID}`,
+      `/v0/profile/status/${DEFAULT_TRANSACTION_ID}`,
       buildTransactionStatusResponse('COMPLETED_SUCCESS'),
     ).as('pollStatus');
 
@@ -144,7 +114,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
 
     cy.intercept(
       'GET',
-      `/v0/profile/status/${TRANSACTION_ID}`,
+      `/v0/profile/status/${DEFAULT_TRANSACTION_ID}`,
       buildTransactionStatusResponse('COMPLETED_SUCCESS'),
     ).as('pollStatus');
 
