@@ -1,7 +1,5 @@
 # Decision Date Validation Criteria
 
-For additional technical background about downstream dependencies and how we arrived at these business rules, see [this explanation](https://github.com/department-of-veterans-affairs/va.gov-team/issues/117479#issuecomment-3481353840).
-
 Contestable issues pulled from the API or entered manually are not eligible for selection/submission
 unless they have decision dates **in the past** according to server (UTC) time **and** local time.
 

@@ -1,10 +1,10 @@
-import { validateDate } from './date';
 import {
   getIssueDate,
   getIssueName,
   getSelected,
 } from '../../shared/utils/issues';
 import { missingIssueName } from '../../shared/validations/issues';
+import { validateDecisionDate } from '../../shared/validations/date';
 
 export const checkIssues = (
   errors,
@@ -19,6 +19,6 @@ export const checkIssues = (
   // Only use selected in case an API loaded issues includes an invalid date
   getSelected(data).forEach(issue => {
     missingIssueName(errors, getIssueName(issue));
-    validateDate(errors, getIssueDate(issue));
+    validateDecisionDate(errors, getIssueDate(issue));
   });
 };

@@ -27,19 +27,12 @@ import {
   missingIssueName,
   uniqueIssue,
 } from '../validations/issues';
+import { validateDecisionDate } from '../validations/date';
 
 import { replaceWhitespace } from '../utils/replace';
 
 const AddIssue = (props, appAbbr) => {
-  const {
-    validations,
-    data,
-    goToPath,
-    setFormData,
-    uiSchema,
-    testingIndex,
-  } = props;
-
+  const { data, goToPath, setFormData, uiSchema, testingIndex } = props;
   const { contestedIssues = [], additionalIssues = [] } = data || {};
   const allIssues = contestedIssues.concat(additionalIssues);
 
@@ -60,7 +53,7 @@ const AddIssue = (props, appAbbr) => {
       : `/${CONTESTABLE_ISSUES_PATH}`;
 
   const nameValidations = [missingIssueName, maxNameLength, uniqueIssue];
-  const dateValidations = [validations.validateDate];
+  const dateValidations = [validateDecisionDate];
   const uniqueValidations = [uniqueIssue];
 
   const [issueName, setIssueName] = useState(
@@ -81,12 +74,13 @@ const AddIssue = (props, appAbbr) => {
     null,
     appAbbr,
   );
+
   // check dates
-  // const dateErrorMessage = checkValidations(
-  //   dateValidations,
-  //   issueDate || '',
-  //   data,
-  // );
+  const dateErrorMessage = checkValidations(
+    dateValidations,
+    issueDate || '',
+    data,
+  );
 
   // check name & date combo uniqueness
   const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
@@ -100,8 +94,7 @@ const AddIssue = (props, appAbbr) => {
   });
 
   const showIssueNameError = nameErrorMessage[0] || uniqueErrorMessage[0];
-  // const [invalidDate = '', invalidDateParts = ''] = dateErrorMessage;
-  const [invalidDate = '', invalidDateParts = ''] = [];
+  const [invalidDate = '', invalidDateParts = ''] = dateErrorMessage;
 
   const isInvalid = part =>
     invalidDateParts.includes(part) || invalidDateParts.includes('other');
@@ -267,10 +260,6 @@ AddIssue.propTypes = {
     'ui:options': PropTypes.shape({
       focusOnAlertRole: PropTypes.bool,
     }),
-  }),
-  validations: PropTypes.shape({
-    maxNameLength: PropTypes.func,
-    validateDate: PropTypes.func,
   }),
 };
 

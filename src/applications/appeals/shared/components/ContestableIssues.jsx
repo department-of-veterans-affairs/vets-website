@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isToday } from 'date-fns';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -30,7 +31,7 @@ import {
 } from '../utils/issues';
 import { isEmptyObject } from '../utils/helpers';
 import { isTodayOrInFuture } from '../validations/date';
-import { parseDateToDateObj, isLocalToday } from '../utils/dates';
+import { parseDateToDateObj } from '../utils/dates';
 
 /**
  * ContestableIssues - Form system parameters passed into this widget
@@ -95,15 +96,20 @@ const ContestableIssues = props => {
         );
         let blockingType = null;
 
-        const isBlockedSameDay = isTodayOrInFuture(decisionDate);
-        if (isBlockedSameDay) {
-          blockingType = isLocalToday(decisionDate) ? 'local' : 'utc';
+        const blockingCriteria = isTodayOrInFuture(decisionDate);
+        const isBlocked = Object?.values(blockingCriteria).some(value => value);
+
+        if (isBlocked) {
+          blockingType =
+            blockingCriteria.isTodayLocal || blockingCriteria.isFutureLocal
+              ? 'local'
+              : 'utc';
         }
 
         return {
           ...issue?.attributes,
           [SELECTED]: issue?.[SELECTED],
-          isBlockedSameDay,
+          isBlocked,
           blockingType,
         };
       }),
