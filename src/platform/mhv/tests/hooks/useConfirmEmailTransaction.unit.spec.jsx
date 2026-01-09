@@ -329,5 +329,33 @@ describe('useConfirmEmailTransaction', () => {
       // This is a configuration test - the hook should use the configured value
       expect(window.VetsGov.pollTimeout).to.equal(50);
     });
+
+    it('sets isError after max poll attempts are exceeded', async () => {
+      // Mock API to always return RECEIVED (pending) status
+      mockApiRequest(buildTransactionResponse('RECEIVED'));
+      const onError = sandbox.spy();
+
+      const { getByTestId } = render(
+        <TestComponent
+          emailAddressId={123}
+          emailAddress="test@example.com"
+          onError={onError}
+        />,
+      );
+
+      fireEvent.click(getByTestId('confirm-btn'));
+
+      // With pollTimeout of 50ms and MAX_POLL_ATTEMPTS of 15,
+      // timeout should occur within ~800ms (15 * 50ms + buffer)
+      await waitFor(
+        () => {
+          expect(getByTestId('isError').textContent).to.equal('true');
+          expect(getByTestId('isLoading').textContent).to.equal('false');
+        },
+        { timeout: 2000 },
+      );
+
+      expect(onError.calledOnce).to.be.true;
+    });
   });
 });

@@ -13,6 +13,12 @@ import {
 const DEFAULT_POLL_INTERVAL = 2000;
 
 /**
+ * Maximum number of poll attempts before timing out.
+ * At 2 second intervals, 15 attempts = 30 seconds max.
+ */
+const MAX_POLL_ATTEMPTS = 15;
+
+/**
  * Custom hook for confirming email address with proper transaction polling.
  *
  * This hook handles:
@@ -43,6 +49,7 @@ const useConfirmEmailTransaction = ({
 
   const intervalRef = useRef(null);
   const isMountedRef = useRef(true);
+  const pollCountRef = useRef(0);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -67,11 +74,22 @@ const useConfirmEmailTransaction = ({
   }, []);
 
   /**
-   * Polls the transaction status endpoint until completion or failure
+   * Polls the transaction status endpoint until completion, failure, or timeout
    * @param {string} transactionId - The transaction ID to poll
    */
   const pollTransactionStatus = useCallback(
     async transactionId => {
+      // Check if we've exceeded max poll attempts
+      pollCountRef.current += 1;
+      if (pollCountRef.current > MAX_POLL_ATTEMPTS) {
+        clearPolling();
+        setIsLoading(false);
+        setIsSuccess(false);
+        setIsError(true);
+        onError?.();
+        return;
+      }
+
       try {
         const transaction = await apiRequest(
           `/profile/status/${transactionId}`,
@@ -146,6 +164,7 @@ const useConfirmEmailTransaction = ({
       // Clear any existing polling interval to prevent memory leaks
       // if confirmEmail is called multiple times
       clearPolling();
+      pollCountRef.current = 0;
 
       setIsLoading(true);
       setIsSuccess(false);
