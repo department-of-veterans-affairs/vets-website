@@ -2,7 +2,7 @@ import { disableConfirmationOnLocal } from 'applications/ezr/tests/e2e/helpers/d
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockBasicPrefill from './fixtures/mocks/mock-prefill.json';
-import mockPrefillWithNonPrefillData from './fixtures/mocks/mock-prefill-with-non-prefill-data.json';
+import mockPrefillWithNonPrefillData from './fixtures/mocks/mock-prefill-with-v2-prefill-data.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage, selectYesNoWebComponent } from './helpers';

@@ -22,8 +22,6 @@ describe('VASS Component: Review', () => {
     expect(screen.getByTestId('review-page')).to.exist;
     expect(screen.getByTestId('back-link')).to.exist;
     expect(screen.getByTestId('header')).to.exist;
-    expect(screen.getByTestId('solid-start-call-title')).to.exist;
-    expect(screen.getByTestId('solid-start-call-description')).to.exist;
     expect(screen.getByTestId('date-time-title')).to.exist;
     expect(screen.getByTestId('date-time-edit-link')).to.exist;
     expect(screen.getByTestId('date-time-description')).to.exist;

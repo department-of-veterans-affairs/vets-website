@@ -5,16 +5,6 @@
   padding: 10px 16px;
   margin-top: 24px;
 
-  h2 {
-    margin-top: 0;
-    font-size: 20px;
-    font-weight: 700;
-    font-style: normal;
-    letter-spacing: 0px;
-    text-align: left;
-    line-height: 26px;
-  }
-
   va-accordion {
     margin-left: -16px;
     width: 90%;
@@ -60,7 +50,7 @@
 
   @media (min-width: $small-screen) {
     #additional-filter-accordion::part(accordion-header) {
-      width: 166px;
+      width: 10.375rem;
     }
   }
 

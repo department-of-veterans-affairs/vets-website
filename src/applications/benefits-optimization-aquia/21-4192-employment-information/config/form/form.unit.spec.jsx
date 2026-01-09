@@ -454,6 +454,10 @@ describe('Form Configuration', () => {
     it('should not have statementOfTruth configuration (uses CustomComponent instead)', () => {
       expect(formConfig.preSubmitInfo.statementOfTruth).to.not.exist;
     });
+
+    it('should have required flag set to true to enforce certification', () => {
+      expect(formConfig.preSubmitInfo.required).to.be.true;
+    });
   });
 
   describe('URL Prefix Configuration', () => {

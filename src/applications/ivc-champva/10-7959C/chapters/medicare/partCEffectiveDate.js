@@ -1,38 +1,39 @@
 import {
-  titleUI,
-  textUI,
   textSchema,
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
+import { futureDateSchema, futureDateUI } from '../../definitions';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
+
+const TITLE_TEXT = content['medicare--part-c-carrier-title'];
+const INPUT_LABELS = {
+  carrier: content['medicare--carrier-label'],
+  effectiveDate: content['medicare--part-c-effective-date-label'],
+};
+const HINT_TEXT = {
+  carrier: content['medicare--carrier-hint--alt'],
+  effectiveDate: content['medicare--part-c-effective-date-hint'],
+};
 
 export default {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(
-        `${nameWording(formData)} Medicare Part C carrier and effective date`,
-      ),
-    ),
-    applicantMedicarePartCCarrier: textUI({
-      title: 'Name of insurance carrier',
-      hint: 'This is the name of the insurance company.',
+    ...titleWithNameUI(TITLE_TEXT),
+    medicarePartCCarrier: textUI({
+      title: INPUT_LABELS.carrier,
+      hint: HINT_TEXT.carrier,
     }),
-    applicantMedicarePartCEffectiveDate: currentOrPastDateUI({
-      title: 'Medicare Part C effective date',
-      hint:
-        'This information is on the front of the Medicare card near “Effective date” or “Issue date.” If it’s not there, it may be on the plan’s online portal or enrollment documents.',
+    medicarePartCEffectiveDate: futureDateUI({
+      title: INPUT_LABELS.effectiveDate,
+      hint: HINT_TEXT.effectiveDate,
     }),
   },
   schema: {
     type: 'object',
-    required: [
-      'applicantMedicarePartCCarrier',
-      'applicantMedicarePartCEffectiveDate',
-    ],
+    required: ['medicarePartCCarrier', 'medicarePartCEffectiveDate'],
     properties: {
-      applicantMedicarePartCCarrier: textSchema,
-      applicantMedicarePartCEffectiveDate: currentOrPastDateSchema,
+      medicarePartCCarrier: textSchema,
+      medicarePartCEffectiveDate: futureDateSchema,
     },
   },
 };
