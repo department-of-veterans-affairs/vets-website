@@ -1,5 +1,6 @@
 export * from './calculateSeparationDuration';
 export * from './combineTreatmentFacility';
+export * from './combineUnitNameAddress';
 export * from './splitSsn';
 export * from './switchToInternationalPhone';
 export * from './transformCareExpenses';
