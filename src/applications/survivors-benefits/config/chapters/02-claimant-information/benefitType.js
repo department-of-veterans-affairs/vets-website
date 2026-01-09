@@ -23,7 +23,7 @@ export default {
     required: [],
     properties: {
       claims: checkboxGroupSchema([
-        'DIC',
+        'dependencyIndemnityComp',
         'survivorsPension',
         'accruedBenefits',
       ]),
