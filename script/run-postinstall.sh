@@ -7,8 +7,11 @@ set -e  # Exit on error
 
 echo "Running postinstall scripts for trusted packages..."
 
-# Rebuild node-sass native bindings
-# Node-sass removed in Node 22 migration – skip native rebuild
+# Rebuild Dart Sass binary (required when installing with --ignore-scripts)
+echo "→ Rebuilding sass binary..."
+npm rebuild sass
+
+# Rebuild node-sass native bindings (legacy)
 if [ -f node_modules/node-sass/scripts/install.js ]; then
   echo "→ Rebuilding node-sass native binaries (legacy)..."
   node node_modules/node-sass/scripts/install.js
