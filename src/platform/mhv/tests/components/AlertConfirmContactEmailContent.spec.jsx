@@ -8,7 +8,7 @@ import AlertConfirmContactEmailContent from 'platform/mhv/components/MhvAlertCon
 
 describe('<AlertConfirmContactEmailContent />', async () => {
   it('renders email text, email address, Confirm button, and Edit link', async () => {
-    const { container, findByText } = render(
+    const { container, findByText, getByRole } = render(
       <AlertConfirmContactEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -21,7 +21,7 @@ describe('<AlertConfirmContactEmailContent />', async () => {
 
     await findByText('vet@va.gov');
 
-    const confirmButton = container.querySelector('va-button[text="Confirm"]');
+    const confirmButton = getByRole('button', { name: /Confirm/i });
     expect(confirmButton).to.exist;
 
     const link = container.querySelector(
@@ -36,19 +36,33 @@ describe('<AlertConfirmContactEmailContent />', async () => {
   it('calls onConfirmClick when the Confirm button is clicked', async () => {
     const onConfirmClick = sinon.spy();
 
-    const { container } = render(
+    const { getByRole } = render(
       <AlertConfirmContactEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={onConfirmClick}
       />,
     );
 
-    const button = container.querySelector('va-button[text="Confirm"]');
+    const button = getByRole('button', { name: /Confirm/i });
     expect(button).to.exist;
     fireEvent.click(button);
 
     await waitFor(() => {
       expect(onConfirmClick.calledOnce).to.be.true;
     });
+  });
+
+  it('shows loading state when isLoading is true', async () => {
+    const { getByRole } = render(
+      <AlertConfirmContactEmailContent
+        emailAddress="vet@va.gov"
+        onConfirmClick={() => {}}
+        isLoading
+      />,
+    );
+
+    const button = getByRole('button');
+    expect(button).to.exist;
+    expect(button.disabled).to.be.true;
   });
 });

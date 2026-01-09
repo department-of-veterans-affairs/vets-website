@@ -9,7 +9,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   it('renders email text, email address, Confirm button, and Edit link', async () => {
     const recordEvent = sinon.spy();
 
-    const { container, findByText } = render(
+    const { container, findByText, getByRole } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -25,7 +25,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
 
     await findByText('Please try again.');
 
-    const confirmButton = container.querySelector('va-button[text="Confirm"]');
+    const confirmButton = getByRole('button', { name: /Confirm/i });
     expect(confirmButton).to.exist;
 
     const link = container.querySelector(
@@ -44,7 +44,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   it('calls onConfirmClick when the Confirm button is clicked', async () => {
     const onConfirmClick = sinon.spy();
 
-    const { container } = render(
+    const { getByRole } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={onConfirmClick}
@@ -52,7 +52,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
       />,
     );
 
-    const button = container.querySelector('va-button[text="Confirm"]');
+    const button = getByRole('button', { name: /Confirm/i });
     expect(button).to.exist;
 
     fireEvent.click(button);
@@ -60,5 +60,20 @@ describe('AlertConfirmAddContactEmailError />', () => {
     await waitFor(async () => {
       expect(onConfirmClick.calledOnce).to.be.true;
     });
+  });
+
+  it('shows loading state when isLoading is true', async () => {
+    const { getByRole } = render(
+      <AlertConfirmAddContactEmailError
+        emailAddress="vet@va.gov"
+        onConfirmClick={() => {}}
+        recordEvent={() => {}}
+        isLoading
+      />,
+    );
+
+    const button = getByRole('button');
+    expect(button).to.exist;
+    expect(button.disabled).to.be.true;
   });
 });

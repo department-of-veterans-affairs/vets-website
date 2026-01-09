@@ -14,6 +14,20 @@ import {
 
 const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 
+// Helper to build successful transaction response
+const buildSuccessResponse = () => ({
+  data: {
+    id: '',
+    type: 'async_transaction_va_profile_email_address_transactions',
+    attributes: {
+      transactionId: 'test_tx_id',
+      transactionStatus: 'COMPLETED_SUCCESS',
+      type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
+      metadata: [],
+    },
+  },
+});
+
 // default state for specs is feature enabled, email confirmed -- not alerting
 const stateFn = ({
   confirmationDate = '2025-09-30T12:00:00.000+00:00',
@@ -111,8 +125,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         getByTestId('mhv-alert--confirm-contact-email');
         getByRole('heading', { name: /Confirm your contact email$/ });
 
-        // getByRole('button', { name: /^Confirm$/ });
-        const button = container.querySelector('va-button[text="Confirm"]');
+        const button = getByRole('button', { name: /Confirm/i });
         expect(button).to.exist;
 
         // getByRole('link', { name: /^Go to profile/ });
@@ -195,15 +208,15 @@ describe('<MhvAlertConfirmEmail />', () => {
     });
 
     it(`renders success when 'Confirm' button clicked, calls recordEvent`, async () => {
-      mockApiRequest();
+      mockApiRequest(buildSuccessResponse());
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId, queryByTestId } = render(
+      const { getByRole, getByTestId, queryByTestId } = render(
         <MhvAlertConfirmEmail {...props} />,
         { initialState },
       );
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      fireEvent.click(getByRole('button', { name: /Confirm/i }));
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-success');
         expect(queryByTestId('mhv-alert--confirm-contact-email')).to.be.null;
@@ -216,7 +229,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       mockApiRequest({}, false);
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, findByTestId, findByText } = render(
+      const { getByRole, findByTestId, findByText } = render(
         <MhvAlertConfirmEmail {...props} />,
         {
           initialState,
@@ -224,7 +237,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       );
 
       await findByTestId('mhv-alert--confirm-contact-email');
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      fireEvent.click(getByRole('button', { name: /Confirm/i }));
 
       const alert = await findByTestId('mhv-alert--confirm-error');
       expect(alert.getAttribute('status')).to.equal('error');
@@ -236,8 +249,8 @@ describe('<MhvAlertConfirmEmail />', () => {
       });
     });
 
-    it('calls putConfirmationDate with id and email_address in request body', async () => {
-      mockApiRequest();
+    it('calls confirmEmail with id and email_address in request body', async () => {
+      mockApiRequest(buildSuccessResponse());
       const emailAddressId = 123;
       const emailAddress = 'test@example.com';
       const initialState = stateFn({
@@ -246,11 +259,11 @@ describe('<MhvAlertConfirmEmail />', () => {
         confirmationDate: null,
       });
 
-      const { container, getByTestId } = render(<MhvAlertConfirmEmail />, {
+      const { getByRole, getByTestId } = render(<MhvAlertConfirmEmail />, {
         initialState,
       });
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      fireEvent.click(getByRole('button', { name: /Confirm/i }));
 
       await waitFor(() => {
         expect(global.fetch.calledOnce).to.be.true;
@@ -273,14 +286,14 @@ describe('<MhvAlertConfirmEmail />', () => {
     });
 
     it('focuses the success alert after confirming', async () => {
-      mockApiRequest();
+      mockApiRequest(buildSuccessResponse());
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId, queryByTestId } = render(
+      const { getByRole, getByTestId, queryByTestId } = render(
         <MhvAlertConfirmEmail />,
         { initialState },
       );
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      fireEvent.click(getByRole('button', { name: /Confirm/i }));
       await waitFor(() => {
         const successAlert = getByTestId('mhv-alert--confirm-success');
         // only the success alert is rendered
@@ -298,12 +311,12 @@ describe('<MhvAlertConfirmEmail />', () => {
     it('focuses the error alert after failed confirmation', async () => {
       mockApiRequest({}, false); // Simulate failed API request
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId, queryByTestId } = render(
+      const { getByRole, getByTestId, queryByTestId } = render(
         <MhvAlertConfirmEmail />,
         { initialState },
       );
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      fireEvent.click(getByRole('button', { name: /Confirm/i }));
       await waitFor(() => {
         const errorAlert = getByTestId('mhv-alert--confirm-error');
         // only the error alert is rendered
