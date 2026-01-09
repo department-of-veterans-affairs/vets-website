@@ -324,21 +324,20 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       cy.contains(mockPrefill.formData.veteran.emailAddress).should('exist');
     }
 
-    if (mockPrefill.formData.veteran.mailingAddress) {
-      const address = mockPrefill.formData.veteran.mailingAddress;
+    // the address assertions now reference the provided test JSON data instead of prefill data
+    const address = data.mailingAddress;
 
-      if (address.country) {
-        cy.contains(address.country).should('exist');
-      }
-      if (address.addressLine1) {
-        cy.contains(address.addressLine1.toUpperCase()).should('exist');
-      }
-      if (address.state) {
-        cy.contains(address.state.toUpperCase()).should('exist');
-      }
-      if (address.zipCode) {
-        cy.contains(address.zipCode).should('exist');
-      }
+    if (address.country) {
+      cy.contains(address.country).should('exist');
+    }
+    if (address.addressLine1) {
+      cy.contains(address.addressLine1).should('exist');
+    }
+    if (address.state) {
+      cy.contains(address.state).should('exist');
+    }
+    if (address.zipCode) {
+      cy.contains(address.zipCode).should('exist');
     }
 
     if (
@@ -711,7 +710,7 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get(
           'va-radio-option[name="root_mailingAddress_city"][checked="true"]',
         ).should('have.value', city);
-        cy.get('va-radio[class="Military post office"]').should(
+        cy.get('va-radio[label="Military post office"]').should(
           'contain',
           /military post office/i,
         );
