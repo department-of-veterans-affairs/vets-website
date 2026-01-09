@@ -1,25 +1,22 @@
 import React from 'react';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
-
-// TODO: replace with actual data from API
-const appointmentData = {
-  appointmentId: 'abcdef123456',
-  topics: [
-    {
-      topicId: '123',
-      topicName: 'General Health',
-    },
-  ],
-  dtStartUtc: '2024-07-01T14:00:00Z',
-  dtEndUtc: '2024-07-01T14:30:00Z',
-  providerName: 'Bill Brasky',
-};
+import { useGetAppointmentQuery } from '../redux/api/vassApi';
 
 const CancelAppointment = () => {
+  const { appointmentId } = useParams();
   const navigate = useNavigate();
+  const { data: appointmentData, isLoading } = useGetAppointmentQuery({
+    appointmentId,
+  });
+
+  if (isLoading || !appointmentData) {
+    // TODO: is there a loading screen?
+    return null;
+  }
+
   return (
     <Wrapper
       showBackLink
