@@ -1,8 +1,6 @@
-import moment from 'moment-timezone';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { formatBirthDate } from '@department-of-veterans-affairs/mhv/exports';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
@@ -35,14 +33,16 @@ export { dateFormatWithoutTimezone } from './dateHelpers';
 
 /**
  * @param {*} timestamp
- * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a zzz', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
  * @returns {String} formatted timestamp
  */
 export const dateFormat = (timestamp, format = null) => {
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY, h:mm a z');
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+  return formatInTimeZone(
+    new Date(timestamp),
+    timeZone,
+    format || 'MMMM d, yyyy, h:mm a zzz',
+  );
 };
 
 export const dateFormatWithoutTime = str => {
@@ -885,35 +885,6 @@ export const getFailedDomainList = (failed, displayMap) => {
     modFailed.push('medications');
   }
   return modFailed.map(domain => displayMap[domain]);
-};
-
-/**
- * Compares the dob formatted by two different methods and, if they are unequal, throws an error
- * indicating which date is earlier.
- * @param {string} userDob - The user's date of birth from the redux store
- */
-export const errorForUnequalBirthDates = (
-  userDob,
-  deps = { formatDateLong, formatBirthDate },
-) => {
-  const d1 = new Date(deps.formatDateLong(userDob));
-  const d2 = new Date(deps.formatBirthDate(userDob));
-
-  if (Number.isNaN(d1.getTime()))
-    throw new Error('Invalid birth date via formatDateLong');
-  if (Number.isNaN(d2.getTime()))
-    throw new Error('Invalid birth date via formatBirthDate');
-
-  if (d1.getTime() < d2.getTime()) {
-    throw new Error(`formatDateLong is earlier than formatBirthDate`);
-  }
-  if (d1.getTime() > d2.getTime()) {
-    throw new Error(`formatBirthDate is earlier than formatDateLong`);
-  }
-};
-
-export const asyncErrorForUnequalBirthDates = async userDob => {
-  errorForUnequalBirthDates(userDob);
 };
 
 /**

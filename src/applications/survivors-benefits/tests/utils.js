@@ -590,7 +590,7 @@ export const checkContentMedicalExpensesQuestion = () => {
   );
   checkVisibleElementContent(
     'va-radio',
-    'Do you have a medical or other expense to add?',
+    'Do you have a medical, last, burial, or other expense to add?',
   );
 };
 

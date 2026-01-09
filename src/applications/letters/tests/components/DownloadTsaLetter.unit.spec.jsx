@@ -228,4 +228,30 @@ describe('DownloadTsaLetter', () => {
       }),
     ).to.be.true;
   });
+
+  it('uses webkitURL when window.URL is not available', async () => {
+    delete window.URL;
+    const webkitURLStub = sandbox.stub().returns('blob:webkit-mock-url');
+    window.webkitURL = {
+      createObjectURL: webkitURLStub,
+    };
+    apiRequestStub.resolves(mockResponse);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
+    const accordion = container.querySelector('va-accordion-item');
+    accordion.setAttribute('open', '');
+    if (observerCallback) {
+      observerCallback();
+    }
+    await waitFor(() => {
+      expect(webkitURLStub.calledOnce).to.be.true;
+      expect(webkitURLStub.firstCall.args[0]).to.equal(mockBlob);
+    });
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.equal('blob:webkit-mock-url');
+    expect(link.getAttribute('filetype')).to.equal('PDF');
+    expect(link.getAttribute('filename')).to.equal(
+      'TSA PreCheck Application Fee Waiver Letter.pdf',
+    );
+  });
 });

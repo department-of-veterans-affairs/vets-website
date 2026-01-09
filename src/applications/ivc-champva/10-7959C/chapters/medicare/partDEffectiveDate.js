@@ -2,6 +2,7 @@ import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { futureDateSchema, futureDateUI } from '../../definitions';
 import { validateDateRange } from '../../utils/validation';
 import { titleWithNameUI } from '../../utils/titles';
 import content from '../../locales/en/content.json';
@@ -27,7 +28,7 @@ const VALIDATIONS = [
 export default {
   uiSchema: {
     ...titleWithNameUI(TITLE_TEXT),
-    medicarePartDEffectiveDate: currentOrPastDateUI({
+    medicarePartDEffectiveDate: futureDateUI({
       title: INPUT_LABELS.effectiveDate,
       hint: HINT_TEXT.effectiveDate,
     }),
@@ -41,7 +42,7 @@ export default {
     type: 'object',
     required: ['medicarePartDEffectiveDate'],
     properties: {
-      medicarePartDEffectiveDate: currentOrPastDateSchema,
+      medicarePartDEffectiveDate: futureDateSchema,
       medicarePartDTerminationDate: currentOrPastDateSchema,
     },
   },
