@@ -27,5 +27,10 @@ runs:
 
     - name: Run postinstall scripts
       shell: bash
-      run: yarn postinstall
+      run: |
+        if yarn run | grep -q "postinstall"; then
+          yarn postinstall
+        else
+          echo "No postinstall script defined; skipping"
+        fi
       working-directory: qa-standards-dashboard-data
