@@ -24,3 +24,8 @@ runs:
       env:
         YARN_CACHE_FOLDER: .cache/yarn
       working-directory: qa-standards-dashboard-data
+
+    - name: Run postinstall scripts
+      shell: bash
+      run: yarn postinstall
+      working-directory: qa-standards-dashboard-data
