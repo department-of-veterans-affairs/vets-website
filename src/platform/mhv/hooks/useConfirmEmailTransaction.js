@@ -138,6 +138,8 @@ const useConfirmEmailTransaction = ({
         console.error(
           'useConfirmEmailTransaction: emailAddressId and emailAddress are required',
         );
+        setIsError(true);
+        onError?.();
         return;
       }
 

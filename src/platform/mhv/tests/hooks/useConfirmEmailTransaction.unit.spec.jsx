@@ -207,30 +207,42 @@ describe('useConfirmEmailTransaction', () => {
     expect(requestBody).to.have.property('confirmation_date');
   });
 
-  it('does not call API if emailAddressId is missing', async () => {
+  it('sets isError and calls onError if emailAddressId is missing', async () => {
     mockApiRequest(buildTransactionResponse('COMPLETED_SUCCESS'));
     const consoleSpy = sandbox.spy(console, 'error');
+    const onError = sandbox.spy();
 
     const { getByTestId } = render(
-      <TestComponent emailAddress="test@example.com" />,
+      <TestComponent emailAddress="test@example.com" onError={onError} />,
     );
 
     fireEvent.click(getByTestId('confirm-btn'));
 
     expect(global.fetch.called).to.be.false;
     expect(consoleSpy.calledOnce).to.be.true;
+    expect(getByTestId('isError').textContent).to.equal('true');
+    expect(getByTestId('isSuccess').textContent).to.equal('false');
+    expect(getByTestId('isLoading').textContent).to.equal('false');
+    expect(onError.calledOnce).to.be.true;
   });
 
-  it('does not call API if emailAddress is missing', async () => {
+  it('sets isError and calls onError if emailAddress is missing', async () => {
     mockApiRequest(buildTransactionResponse('COMPLETED_SUCCESS'));
     const consoleSpy = sandbox.spy(console, 'error');
+    const onError = sandbox.spy();
 
-    const { getByTestId } = render(<TestComponent emailAddressId={123} />);
+    const { getByTestId } = render(
+      <TestComponent emailAddressId={123} onError={onError} />,
+    );
 
     fireEvent.click(getByTestId('confirm-btn'));
 
     expect(global.fetch.called).to.be.false;
     expect(consoleSpy.calledOnce).to.be.true;
+    expect(getByTestId('isError').textContent).to.equal('true');
+    expect(getByTestId('isSuccess').textContent).to.equal('false');
+    expect(getByTestId('isLoading').textContent).to.equal('false');
+    expect(onError.calledOnce).to.be.true;
   });
 
   it('handles response with no transactionId as success', async () => {
