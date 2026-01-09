@@ -7,9 +7,9 @@ export default class DirectDepositField extends ReviewCardField {
   constructor(props) {
     super(props);
 
-    const emptyData = Object.values(props.formData?.bankAccount).every(
-      val => !val,
-    );
+    const emptyData = Object.values(
+      props.formData?.bankAccount ?? {},
+    ).every(val => !val);
     const startInEditConfigOption = get(
       'ui:options.startInEdit',
       this.props.uiSchema,
