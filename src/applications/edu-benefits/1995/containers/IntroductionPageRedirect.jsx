@@ -155,6 +155,15 @@ export const IntroductionPageRedirect = ({ route, router }) => {
       {user?.login?.currentlyLoggedIn ? (
         <>
           <div className="vads-u-margin-y--4">
+            <va-alert status="info" visible uswds>
+              <h3 slot="headline">We’ve prefilled some of your information</h3>
+              <p className="vads-u-margin-y--0">
+                Since you’re signed in, we can prefill part of your
+                questionnaire based on your profile details.
+              </p>
+            </va-alert>
+          </div>
+          <div className="vads-u-margin-y--4">
             <va-link-action
               href="#start"
               onClick={event => {
@@ -163,15 +172,6 @@ export const IntroductionPageRedirect = ({ route, router }) => {
               }}
               text="Start your questionnaire"
             />
-          </div>
-          <div className="vads-u-margin-y--4">
-            <va-alert status="info" visible uswds>
-              <h3 slot="headline">We’ve prefilled some of your information</h3>
-              <p className="vads-u-margin-y--0">
-                Since you’re signed in, we can prefill part of your
-                questionnaire based on your profile details.
-              </p>
-            </va-alert>
           </div>
         </>
       ) : (
