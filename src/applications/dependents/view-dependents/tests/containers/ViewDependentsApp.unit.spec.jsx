@@ -92,7 +92,7 @@ describe('<ViewDependentsApp />', () => {
     expect($$('va-link-action', container).length).to.equal(1);
   });
 
-  it('should render v2 app', async () => {
+  it('should render v2 app', () => {
     const fetchAllDependentsMock = sinon.spy();
     const fetchRatingInfoMock = sinon.spy();
     const { container } = buildApp({
