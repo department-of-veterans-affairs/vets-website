@@ -13,6 +13,21 @@ const App = ({ formEnabled }) => {
   if (formEnabled) {
     return (
       <>
+        <p>
+          You can apply for VA Aid and Attendance or Housebound benefits online,
+          by mail, or in person.
+        </p>
+        <p>
+          <span>
+            <strong>If you’re in a nursing home,</strong>
+          </span>{' '}
+          you’ll also need to fill out a Request for Nursing Home Information in
+          Connection with Claim for Aid and Attendance (VA Form 21-0779).
+        </p>
+        <a href="Get VA Form 21-0779 to download">
+          Get VA Form 21-0779 to download
+        </a>
+
         <h3>Online</h3>
         <p>
           You can apply for Aid and Attendance benefits or Housebound allowance
@@ -29,7 +44,24 @@ const App = ({ formEnabled }) => {
     );
   }
 
-  return <p>You can submit this form by mail.</p>;
+  return (
+    <>
+      <p>
+        You can apply for VA Aid and Attendance or Housebound benefits by mail,
+        or in person.
+      </p>
+      <p>
+        <span>
+          <strong>If you’re in a nursing home,</strong>
+        </span>{' '}
+        you’ll also need to fill out a Request for Nursing Home Information in
+        Connection with Claim for Aid and Attendance (VA Form 21-0779).
+      </p>
+      <a href="Get VA Form 21-0779 to download">
+        Get VA Form 21-0779 to download
+      </a>
+    </>
+  );
 };
 
 App.propTypes = {
