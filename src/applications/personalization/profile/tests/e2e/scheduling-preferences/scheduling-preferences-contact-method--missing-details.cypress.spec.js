@@ -116,7 +116,7 @@ const selectPreferredMethod = method => {
 };
 
 const clickContinueCancelButton = () => {
-  // Click to save
+  // Click to continue to confirm page (which will redirect to edit page because details are missing)
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('continue-cancel-buttons')
     .shadow()
@@ -184,7 +184,7 @@ describe('Scheduling preferences contact method - select preferred contact metho
   subTaskFlowForMissingDetails.forEach(
     ({ label, option, expectedText, editPageText, relatedFieldName }) => {
       it(label, () => {
-        // Update the email address & click to save
+        // Select a contact method preference and continue
         clickEdit();
         selectPreferredMethod(option);
 

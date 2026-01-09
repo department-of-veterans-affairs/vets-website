@@ -71,7 +71,7 @@ const setup = (preferences = []) => {
 };
 
 const clickEdit = () => {
-  // Click edit button in the contact email section to enter edit view
+  // Click edit button in the preferred contact method section to enter edit view
   cy.get(
     '#edit-whats-the-best-way-to-contact-you-to-schedule-your-appointments',
   ).click();
@@ -85,7 +85,7 @@ const selectPreferredMethod = method => {
 };
 
 const clickQuickExitSave = () => {
-  // Click to save
+  // Click to save bypassing the confirm page
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('quick-exit-cancel-buttons')
     .shadow()
@@ -98,7 +98,7 @@ const clickQuickExitSave = () => {
 };
 
 const clickContinueCancelButton = () => {
-  // Click to save
+  // Click to continue to confirm page
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('continue-cancel-buttons')
     .shadow()
@@ -111,7 +111,7 @@ const clickContinueCancelButton = () => {
 };
 
 const clickConfirmSave = () => {
-  // Click to save
+  // Click to save on the confirm page
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('confirm-update-buttons')
     .shadow()
@@ -143,7 +143,7 @@ describe('Scheduling preferences contact method - select preferred contact metho
 
   quickExitTests.forEach(({ label, option, expectedText }) => {
     it(label, () => {
-      // Update the email address & click to save
+      // Select a contact method preference and click Save to profile to bypass confirm page
       clickEdit();
       selectPreferredMethod(option);
 
@@ -200,7 +200,7 @@ describe('Scheduling preferences contact method - select preferred contact metho
   confirmSaveTests.forEach(
     ({ label, option, expectedText, confirmationText }) => {
       it(label, () => {
-        // Update the email address & click to save
+        // Select a contact method preference and click Continue to go to the confirm page
         clickEdit();
         selectPreferredMethod(option);
 
@@ -228,7 +228,7 @@ describe('Scheduling preferences contact method - cancel button', () => {
   });
 
   it('should allow canceling out of edit flow', () => {
-    // Click edit button in the contact email section to enter edit view
+    // Click edit button in the preferred contact method section to enter edit view
     clickEdit();
 
     // Click to cancel
