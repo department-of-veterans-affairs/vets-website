@@ -1120,6 +1120,96 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
           restoreFileReader();
         });
+
+        it('does not require return date when AirTravel tripType is One Way', async () => {
+          if (key !== 'AirTravel') return;
+
+          const restoreFileReader = mockFileReader();
+          const { container, getByTestId } = renderPage(
+            EXPENSE_TYPES.AirTravel,
+          );
+
+          const tripTypeRadio = container.querySelector(
+            'va-radio[name="tripType"]',
+          );
+
+          // Select One Way
+          tripTypeRadio.dispatchEvent(
+            new CustomEvent('vaValueChange', {
+              detail: { value: TRIP_TYPES.ONE_WAY.value },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+
+          // Intentionally leave returnDate empty
+
+          // Fill required fields except returnDate
+          const purchaseDate = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          const costRequested = container.querySelector(
+            'va-text-input[name="costRequested"]',
+          );
+          const description = container.querySelector(
+            'va-textarea[name="description"]',
+          );
+          const vendorName = container.querySelector(
+            'va-text-input[name="vendorName"]',
+          );
+          const departureDate = container.querySelector(
+            'va-date[name="departureDate"]',
+          );
+          const departedFrom = container.querySelector(
+            'va-text-input[name="departedFrom"]',
+          );
+          const arrivedTo = container.querySelector(
+            'va-text-input[name="arrivedTo"]',
+          );
+
+          purchaseDate.value = '2025-10-31';
+          purchaseDate.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-31' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+          costRequested.value = '100';
+          costRequested.dispatchEvent(new Event('blur', { bubbles: true }));
+          description.value = 'Test one way';
+          description.dispatchEvent(new Event('blur', { bubbles: true }));
+          vendorName.value = 'Test Airline';
+          vendorName.dispatchEvent(new Event('input', { bubbles: true }));
+          departureDate.value = '2025-10-31';
+          departureDate.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-31' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+          departedFrom.value = 'SFO';
+          departedFrom.dispatchEvent(new Event('input', { bubbles: true }));
+          arrivedTo.value = 'LAX';
+          arrivedTo.dispatchEvent(new Event('input', { bubbles: true }));
+
+          // Click Continue
+          const continueButton = Array.from(
+            container.querySelectorAll('.travel-pay-button-group va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+
+          fireEvent.click(continueButton);
+
+          // Wait and assert that navigation occurs, meaning validation passed
+          await waitFor(() => {
+            expect(getByTestId('location-display').textContent).to.equal(
+              `/file-new-claim/12345/43555/${EXPENSE_TYPES.AirTravel.route}`,
+            );
+          });
+
+          restoreFileReader();
+        });
       });
 
       describe('DocumentUpload behavior', () => {
