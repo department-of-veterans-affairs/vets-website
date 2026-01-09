@@ -16,7 +16,6 @@ const appointmentData = {
   dtStartUtc: '2024-07-01T14:00:00Z',
   dtEndUtc: '2024-07-01T14:30:00Z',
   providerName: 'Bill Brasky',
-  typeOfCare: 'Solid Start',
 };
 
 const CancelAppointment = () => {

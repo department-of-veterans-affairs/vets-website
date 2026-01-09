@@ -21,12 +21,14 @@ function TestComponent({
   updateDateRangeAction,
   updateListStateActionType,
   dataDogLabel,
+  history,
   onHandleSelect,
 }) {
   const handleDateRangeSelect = useDateRangeSelector({
     updateDateRangeAction,
     updateListStateActionType,
     dataDogLabel,
+    history,
   });
 
   // Expose the handler to the test
@@ -46,6 +48,7 @@ TestComponent.propTypes = {
   dataDogLabel: PropTypes.string.isRequired,
   updateDateRangeAction: PropTypes.func.isRequired,
   updateListStateActionType: PropTypes.string.isRequired,
+  history: PropTypes.object,
   onHandleSelect: PropTypes.func,
 };
 
@@ -272,6 +275,204 @@ describe('useDateRangeSelector', () => {
         sendDataDogActionStub.calledWith('Date range option - All of 2023'),
       ).to.be.true;
       expect(store.dispatch.called).to.be.true;
+    });
+  });
+
+  describe('pagination reset functionality', () => {
+    it('should reset URL to page 1 when history is provided', async () => {
+      const updateDateRangeAction = sinon
+        .stub()
+        .returns({ type: 'SET_DATE_RANGE' });
+      const mockHistory = {
+        push: sinon.spy(),
+        location: { pathname: '/my-health/medical-records/labs-and-tests' },
+      };
+
+      calculateDateRangeStub.returns({
+        fromDate: '2024-01-01',
+        toDate: '2024-03-31',
+      });
+      getDateRangeListStub.returns([{ value: '3', label: 'Last 3 months' }]);
+
+      const { capturedHandler } = renderHook({
+        updateDateRangeAction,
+        updateListStateActionType: 'UPDATE_LIST_STATE',
+        dataDogLabel: 'Test label',
+        history: mockHistory,
+      });
+
+      await waitFor(() => {
+        expect(capturedHandler()).to.not.be.null;
+      });
+
+      const mockEvent = { detail: { value: '3' } };
+      capturedHandler()(mockEvent);
+
+      await waitFor(() => {
+        expect(mockHistory.push.calledOnce).to.be.true;
+        expect(
+          mockHistory.push.calledWith(
+            '/my-health/medical-records/labs-and-tests?page=1',
+          ),
+        ).to.be.true;
+      });
+    });
+
+    it('should reset URL with correct path for care summaries and notes', async () => {
+      const updateDateRangeAction = sinon
+        .stub()
+        .returns({ type: 'SET_DATE_RANGE' });
+      const mockHistory = {
+        push: sinon.spy(),
+        location: {
+          pathname: '/my-health/medical-records/summaries-and-notes',
+        },
+      };
+
+      calculateDateRangeStub.returns({
+        fromDate: '2023-01-01',
+        toDate: '2023-12-31',
+      });
+      getDateRangeListStub.returns([{ value: '2023', label: 'All of 2023' }]);
+
+      const { capturedHandler } = renderHook({
+        updateDateRangeAction,
+        updateListStateActionType: 'UPDATE_LIST_STATE',
+        dataDogLabel: 'Notes date option',
+        history: mockHistory,
+      });
+
+      await waitFor(() => {
+        expect(capturedHandler()).to.not.be.null;
+      });
+
+      const mockEvent = { detail: { value: '2023' } };
+      capturedHandler()(mockEvent);
+
+      await waitFor(() => {
+        expect(mockHistory.push.calledOnce).to.be.true;
+        expect(
+          mockHistory.push.calledWith(
+            '/my-health/medical-records/summaries-and-notes?page=1',
+          ),
+        ).to.be.true;
+      });
+    });
+
+    it('should reset URL before dispatching Redux actions', async () => {
+      const updateDateRangeAction = sinon
+        .stub()
+        .returns({ type: 'SET_DATE_RANGE' });
+      const mockHistory = {
+        push: sinon.spy(),
+        location: { pathname: '/my-health/medical-records/labs-and-tests' },
+      };
+
+      calculateDateRangeStub.returns({
+        fromDate: '2024-01-01',
+        toDate: '2024-03-31',
+      });
+      getDateRangeListStub.returns([{ value: '3', label: 'Last 3 months' }]);
+
+      const { capturedHandler, store } = renderHook({
+        updateDateRangeAction,
+        updateListStateActionType: 'UPDATE_LIST_STATE',
+        dataDogLabel: 'Test label',
+        history: mockHistory,
+      });
+
+      await waitFor(() => {
+        expect(capturedHandler()).to.not.be.null;
+      });
+
+      const mockEvent = { detail: { value: '3' } };
+      capturedHandler()(mockEvent);
+
+      await waitFor(() => {
+        // History push should be called before any dispatch
+        expect(mockHistory.push.calledBefore(store.dispatch)).to.be.true;
+      });
+    });
+
+    it('should work without history parameter (backward compatibility)', async () => {
+      const updateDateRangeAction = sinon
+        .stub()
+        .returns({ type: 'SET_DATE_RANGE' });
+
+      calculateDateRangeStub.returns({
+        fromDate: '2024-01-01',
+        toDate: '2024-03-31',
+      });
+      getDateRangeListStub.returns([{ value: '3', label: 'Last 3 months' }]);
+
+      const { capturedHandler, store } = renderHook({
+        updateDateRangeAction,
+        updateListStateActionType: 'UPDATE_LIST_STATE',
+        dataDogLabel: 'Test label',
+        // No history parameter
+      });
+
+      await waitFor(() => {
+        expect(capturedHandler()).to.not.be.null;
+      });
+
+      const mockEvent = { detail: { value: '3' } };
+
+      // Should not throw error when history is not provided
+      let error = null;
+      try {
+        capturedHandler()(mockEvent);
+      } catch (e) {
+        error = e;
+      }
+
+      await waitFor(() => {
+        expect(error).to.be.null;
+        expect(store.dispatch.called).to.be.true;
+        expect(updateDateRangeAction.called).to.be.true;
+      });
+    });
+
+    it('should handle history.push when user is on page 2 or later', async () => {
+      const updateDateRangeAction = sinon
+        .stub()
+        .returns({ type: 'SET_DATE_RANGE' });
+      const mockHistory = {
+        push: sinon.spy(),
+        location: {
+          pathname: '/my-health/medical-records/labs-and-tests',
+          search: '?page=2', // User is currently on page 2
+        },
+      };
+
+      calculateDateRangeStub.returns({
+        fromDate: '2024-01-01',
+        toDate: '2024-03-31',
+      });
+      getDateRangeListStub.returns([{ value: '3', label: 'Last 3 months' }]);
+
+      const { capturedHandler } = renderHook({
+        updateDateRangeAction,
+        updateListStateActionType: 'UPDATE_LIST_STATE',
+        dataDogLabel: 'Test label',
+        history: mockHistory,
+      });
+
+      await waitFor(() => {
+        expect(capturedHandler()).to.not.be.null;
+      });
+
+      const mockEvent = { detail: { value: '3' } };
+      capturedHandler()(mockEvent);
+
+      await waitFor(() => {
+        // Should still navigate to page=1, replacing the current ?page=2
+        expect(
+          mockHistory.push.calledWith(
+            '/my-health/medical-records/labs-and-tests?page=1',
+          ),
+        ).to.be.true;
+      });
     });
   });
 });
