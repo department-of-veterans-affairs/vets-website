@@ -24,8 +24,15 @@ const buildPrimaryContact = data => ({
 const cleanSupportingDocs = applicant => {
   const cleanArray = arr =>
     arr?.map(item =>
+      // remove any property that is a document object (has confirmationCode)
       Object.fromEntries(
-        Object.entries(item).filter(([_, value]) => !value?.confirmationCode),
+        Object.entries(item).filter(([_, value]) => {
+          // filter out objects with confirmationCode
+          if (value && typeof value === 'object' && !Array.isArray(value)) {
+            return !value.confirmationCode;
+          }
+          return true;
+        }),
       ),
     );
 
@@ -204,8 +211,9 @@ export default function transformForSubmit(formConfig, form) {
     copyOfData.primaryContactInfo = buildPrimaryContact(copyOfData);
   }
 
-  copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
+  const today = new Date().toISOString().split('T')[0];
   Object.assign(copyOfData, transformDates(copyOfData));
+  copyOfData.certificationDate = formatDateString(today);
 
   copyOfData.statementOfTruthSignature = copyOfData.signature;
 
