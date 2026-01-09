@@ -141,6 +141,10 @@ const useConfirmEmailTransaction = ({
         return;
       }
 
+      // Clear any existing polling interval to prevent memory leaks
+      // if confirmEmail is called multiple times
+      clearPolling();
+
       setIsLoading(true);
       setIsSuccess(false);
       setIsError(false);
@@ -179,7 +183,6 @@ const useConfirmEmailTransaction = ({
           onError?.();
         };
 
-        // Check if the transaction returned has an ID to poll
         if (transactionId) {
           // Check initial status - it might already be complete
           if (isSuccessfulTransaction(transaction)) {
@@ -205,7 +208,14 @@ const useConfirmEmailTransaction = ({
         onError?.();
       }
     },
-    [emailAddressId, emailAddress, onSuccess, onError, startPolling],
+    [
+      emailAddressId,
+      emailAddress,
+      onSuccess,
+      onError,
+      startPolling,
+      clearPolling,
+    ],
   );
 
   return {
