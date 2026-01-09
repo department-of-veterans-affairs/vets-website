@@ -11,7 +11,6 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import get from 'platform/utilities/data/get';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
@@ -61,6 +60,7 @@ import {
 } from '../utils/validation';
 import { formFields } from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
+import DirectDepositField from '../components/DirectDepositField';
 
 const { date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -1254,19 +1254,10 @@ const formConfig = {
           path: 'direct-deposit',
           title: 'Direct deposit',
           uiSchema: {
-            title: 'direct deposit',
-            'ui:title': (
-              <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
-                Direct deposit information
-              </h4>
-            ),
-            'ui:field': ReviewCardField,
+            'ui:title': 'Direct deposit information',
+            'ui:field': DirectDepositField,
             'ui:options': {
-              editTitle: 'Direct deposit information',
               hideLabelText: true,
-              itemName: 'account information',
-              itemNameAction: 'Update',
-              reviewTitle: 'Direct deposit information',
               showFieldLabel: false,
               viewComponent: DirectDepositViewField,
               volatileData: true,

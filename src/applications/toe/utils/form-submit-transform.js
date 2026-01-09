@@ -398,7 +398,7 @@ export function transformTOEForm(_formConfig, form) {
       highSchoolDiplomaOrCertificateDate: highSchoolDiplomaDate,
     },
     directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
+      directDepositAccountType: form?.data?.bankAccount?.accountType?.toLowerCase(),
       directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
       directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
     },
