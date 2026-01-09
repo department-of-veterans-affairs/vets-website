@@ -10,7 +10,10 @@ import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import { applicantInformation } from './chapters/applicant';
+import {
+  applicantInformation,
+  personalInformation,
+} from './chapters/applicant';
 
 import {
   additionalInformation,
@@ -22,6 +25,7 @@ import { serviceStatus, serviceHistory } from './chapters/service';
 import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
+// import disabilitySeparation from '../pages/disabilitySeparation';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
@@ -67,14 +71,24 @@ const formConfig = {
   defaultDefinitions: definitions,
   chapters: {
     applicantInformationChapter: {
-      title: 'Your personal information',
+      title: data => {
+        return data.formData.coeFormRebuildCveteam
+          ? 'Your information'
+          : 'Your personal information on file';
+      },
       pages: {
         applicantInformationSummary: {
           path: 'applicant-information',
+          // There seems to be a bug where the depends clause is ignored for the first item in the form
+          // depends: formData => {
+          //   console.log('the value 2:', formData);
+          //   return !formData['view:coeFormRebuildCveteam'];
+          // },
           title: 'Your personal information on file',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
+        yourInformation: personalInformation,
       },
     },
     contactInformationChapter: {
@@ -104,6 +118,12 @@ const formConfig = {
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
         },
+        // disabilitySeparationPage: {
+        //   path: 'separation',
+        //   title: 'Separation',
+        //   uiSchema: disabilitySeparation.uiSchema,
+        //   schema: disabilitySeparation.schema,
+        // },
         serviceHistory: {
           path: 'service-history',
           title: 'Service history',

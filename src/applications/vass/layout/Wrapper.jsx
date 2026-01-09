@@ -21,6 +21,8 @@ const Wrapper = props => {
     showBackLink = false,
     required = false,
     verificationError,
+    loading = false,
+    loadingMessage = 'Loading...',
   } = props;
   const hydrated = useSelector(selectHydrated);
   const dispatch = useDispatch();
@@ -57,6 +59,17 @@ const Wrapper = props => {
     },
     [loadSavedData],
   );
+
+  if (loading) {
+    return (
+      <div className="vads-l-grid-container vads-u-margin-y--8">
+        <va-loading-indicator
+          data-testid="loading-indicator"
+          message={loadingMessage}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -117,8 +130,10 @@ export default Wrapper;
 
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  pageTitle: PropTypes.string.isRequired,
   className: PropTypes.string,
+  loading: PropTypes.bool,
+  loadingMessage: PropTypes.string,
+  pageTitle: PropTypes.string,
   required: PropTypes.bool,
   showBackLink: PropTypes.bool,
   testID: PropTypes.string,

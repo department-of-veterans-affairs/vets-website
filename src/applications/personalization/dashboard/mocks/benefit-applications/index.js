@@ -50,17 +50,32 @@ const createApplications = (updatedDaysAgo = 1) => {
         },
       },
     ],
+  };
+};
+
+const createApplicationsEmpty = () => {
+  return {
+    data: [],
+  };
+};
+
+const createApplicationsFailure = () => {
+  return {
     errors: [
-      // {
-      //   status: 429,
-      //   source: 'Lighthouse - Benefits Intake API',
-      //   title: 'Form Submission Status: Too Many Requests',
-      //   detail: 'API rate limit exceeded',
-      // },
+      {
+        title: 'Bad Request',
+        detail: 'Received a bad request response from the upstream server',
+        code: 'EVSS400',
+        source: 'EVSS::DisabilityCompensationForm::Service',
+        status: '400',
+        meta: {},
+      },
     ],
   };
 };
 
 module.exports = {
   createApplications,
+  createApplicationsEmpty,
+  createApplicationsFailure,
 };

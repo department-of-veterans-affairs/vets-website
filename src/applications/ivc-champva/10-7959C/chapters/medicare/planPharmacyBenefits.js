@@ -1,21 +1,20 @@
 import {
-  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const PAGE_TITLE = ({ formData }) => {
-  const name = nameWording(formData, undefined, undefined, true);
-  return privWrapper(`${name} Medicare pharmacy benefits`);
-};
+const TITLE_TEXT = content['medicare--general-pharmacy-title'];
+const INPUT_LABEL = content['medicare--general-pharmacy-label'];
+const HINT_TEXT = content['medicare--general-pharmacy-hint'];
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
+    ...titleWithNameUI(TITLE_TEXT),
     applicantMedicarePharmacyBenefits: yesNoUI({
-      title: 'Does the beneficiary’s Medicare plan provide pharmacy benefits?',
-      hint: 'You can find this information on the front of the Medicare card.',
+      title: INPUT_LABEL,
+      hint: HINT_TEXT,
     }),
   },
   schema: {
