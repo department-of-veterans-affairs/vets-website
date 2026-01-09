@@ -46,9 +46,19 @@ describe('prisoner of war confinement period list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    expect(options.text.getItemName(testData.powPeriods[0])).to.equal(
-      'February 26, 1971 - March 2, 1973',
-    );
+    it('returns undefined when dates are missing', () => {
+      expect(options.text.getItemName({ powDateRange: {} })).to.be.undefined;
+      expect(options.text.getItemName({ powDateRange: { from: '1971-02-26' } }))
+        .to.be.undefined;
+      expect(options.text.getItemName({ powDateRange: { to: '1973-03-02' } }))
+        .to.be.undefined;
+    });
+
+    it('returns formatted range when dates are present', () => {
+      expect(options.text.getItemName(testData.powPeriods[0])).to.equal(
+        'February 26, 1971 - March 2, 1973',
+      );
+    });
   });
 
   describe('summaryTitle function', () => {
