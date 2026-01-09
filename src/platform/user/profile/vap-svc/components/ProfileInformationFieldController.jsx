@@ -295,7 +295,10 @@ class ProfileInformationFieldController extends React.Component {
   onEdit = (event = 'edit-link') => {
     this.captureEvent(event);
     // Check if this field should use subtask editing
-    if (isSubtaskSchedulingPreference(this.props.fieldName)) {
+    if (
+      isSubtaskSchedulingPreference(this.props.fieldName) &&
+      this.props.history
+    ) {
       switch (this.props.fieldName) {
         case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
           this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_METHOD);
@@ -696,7 +699,6 @@ ProfileInformationFieldController.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
-  history: PropTypes.object.isRequired,
   isEmpty: PropTypes.bool.isRequired,
   isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
   openModal: PropTypes.func.isRequired,
@@ -718,6 +720,7 @@ ProfileInformationFieldController.propTypes = {
   editViewData: PropTypes.object,
   email: PropTypes.object,
   forceEditView: PropTypes.bool,
+  history: PropTypes.object,
   homePhone: PropTypes.object,
   isDeleteDisabled: PropTypes.bool,
   mailingAddress: PropTypes.object,
@@ -860,6 +863,14 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
+)(ProfileInformationFieldController);
+
+const RoutedProfileInformationFieldController = connect(
+  mapStateToProps,
+  mapDispatchToProps,
 )(withRouter(ProfileInformationFieldController));
 
-export { ProfileInformationFieldController };
+export {
+  ProfileInformationFieldController,
+  RoutedProfileInformationFieldController,
+};
