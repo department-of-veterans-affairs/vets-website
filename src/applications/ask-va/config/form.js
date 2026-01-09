@@ -16,7 +16,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 
 // Your Question
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
-import yourQuestionPageB from './chapters/yourQuestion/yourQuestionB';
 
 // Your Personal Information - Authenticated
 import YourPersonalInformationAuthenticated from '../components/YourPersonalInformationAuthenticated';
@@ -38,12 +37,12 @@ import relationshipToVeteranPage from './chapters/personalInformation/relationsh
 
 // Review Page
 import Footer from '../components/Footer';
+
 import CategorySelectPage from '../containers/CategorySelectPage';
 import ReviewPage from '../containers/ReviewPage';
 import SubTopicSelectPage from '../containers/SubTopicSelectPage';
 import TopicSelectPage from '../containers/TopicSelectPage';
 import WhoIsYourQuestionAboutCustomPage from '../containers/WhoIsYourQuestionAboutCustomPage';
-
 import CustomPageReviewField from '../components/CustomPageReviewField';
 import SignInInterruptPage from '../containers/SignInInterruptPage';
 import {
@@ -59,6 +58,7 @@ import {
   generalQuestionCondition,
   whoIsYourQuestionAboutCondition,
 } from './helpers';
+import YourQuestionBPage from '../containers/YourQuestionB';
 import prefillTransformer from './prefill-transformer';
 
 const formConfig = {
@@ -117,9 +117,14 @@ const formConfig = {
         yourQuestionB: {
           path: 'initial-question',
           title: CHAPTER_2.PAGE_3.TITLE,
-          // CustomPageReview: CustomYourQuestionReviewField,
-          uiSchema: yourQuestionPageB.uiSchema,
-          schema: yourQuestionPageB.schema,
+          CustomPage: YourQuestionBPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
         },
         selectCategory: {
           path: CHAPTER_1.PAGE_1.PATH,

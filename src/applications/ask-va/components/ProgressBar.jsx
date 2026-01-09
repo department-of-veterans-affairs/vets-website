@@ -43,6 +43,7 @@ const skipPaths = [
 
 const getFormDataKeys = (flowList, pagePath) => {
   // Keys for custom pages with no schema properties and/or not in flowPaths list
+  if (pagePath === 'initial-question') return 'initialQuestion';
   if (pagePath === CHAPTER_1.PAGE_1.PATH) return 'selectCategory';
   if (pagePath === CHAPTER_1.PAGE_2.PATH) return 'selectTopic';
   if (pagePath === CHAPTER_1.PAGE_3.PATH) return 'selectSubtopic';
@@ -86,6 +87,7 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
   const [formCopy, setFormCopy] = useState({});
   const currentPath = pathname.replace('/', '');
   const constantPaths = [
+    'initial-question',
     getPathsFromChapter(CHAPTER_1),
     getPathsFromChapter(CHAPTER_2),
     CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
@@ -116,12 +118,17 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
         setViewedPages([...viewedPages, currentPath]);
 
       if (!viewedPages.includes(currentPath) && percent < 100) {
-        if (onCategoryPage) {
+        if (currentPath === 'initial-question') {
           setPercent(0);
+          setPagePercent({ ...pagePercent, [currentPath]: percent });
+        }
+        if (onCategoryPage) {
+          setPercent(10);
           setPagePercent({ ...pagePercent, [currentPath]: percent });
         }
         if (
           isConstantPath &&
+          currentPath !== 'initial-question' &&
           currentPath !== CHAPTER_2.PAGE_3.PATH &&
           currentPath !== CHAPTER_1.PAGE_1.PATH
         ) {
