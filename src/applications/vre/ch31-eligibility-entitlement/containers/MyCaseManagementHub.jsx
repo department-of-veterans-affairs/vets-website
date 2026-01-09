@@ -8,6 +8,7 @@ import HubCardList from '../components/HubCardList';
 import NeedHelp from '../components/NeedHelp';
 import AppointmentScheduledAlert from '../components/AppointmentScheduledAlert';
 import CaseProgressDescription from '../components/CaseProgressDescription';
+import LoadCaseDetailsFailedAlert from '../components/LoadCaseDetailsFailedAlert';
 
 const stepLabels = [
   'Application Received',
@@ -30,9 +31,10 @@ const MyCaseManagementHub = () => {
   const total = stepLabels.length; // 7
   const [current, setCurrent] = useState(2);
 
-  const caseStatusDetails = useSelector(
-    state => state?.ch31CaseStatusDetails?.data,
-  );
+  const caseStatusState = useSelector(state => state?.ch31CaseStatusDetails);
+
+  const caseStatusDetails = caseStatusState?.data;
+  const caseStatusError = caseStatusState?.error;
 
   useEffect(() => {
     scrollToTop();
@@ -116,39 +118,45 @@ const MyCaseManagementHub = () => {
 
         <h2>Chapter 31 Case Progress</h2>
 
-        {showAppointmentAlert && <AppointmentScheduledAlert />}
+        {caseStatusError ? (
+          <LoadCaseDetailsFailedAlert />
+        ) : (
+          <>
+            {showAppointmentAlert && <AppointmentScheduledAlert />}
 
-        {/* <ApplicationDiscontinuedAlert /> */}
-        <div className="usa-width-one-whole vads-u-margin-top--2">
-          <va-segmented-progress-bar
-            counters="small"
-            current={String(current)}
-            heading-text="VA Benefits"
-            label="Label is here"
-            labels={labelsWithStatus.join(';')}
-            total={String(total)}
-          />
-        </div>
+            {/* <ApplicationDiscontinuedAlert /> */}
+            <div className="usa-width-one-whole vads-u-margin-top--2">
+              <va-segmented-progress-bar
+                counters="small"
+                current={String(current)}
+                heading-text="VA Benefits"
+                label="Label is here"
+                labels={labelsWithStatus.join(';')}
+                total={String(total)}
+              />
+            </div>
 
-        <CaseProgressDescription step={current} />
+            <CaseProgressDescription step={current} />
 
-        <div className="usa-width-one-whole vads-u-margin-top--3 vads-u-margin-bottom--3">
-          <va-button
-            class="vads-u-margin-right--1"
-            secondary
-            onClick={goPrev}
-            disabled={current === 1}
-            text="Previous step"
-          />
-          <va-button
-            class="vads-u-margin-right--1"
-            onClick={goNext}
-            disabled={current === total}
-            text="Next step"
-          />
-        </div>
+            <div className="usa-width-one-whole vads-u-margin-top--3 vads-u-margin-bottom--3">
+              <va-button
+                class="vads-u-margin-right--1"
+                secondary
+                onClick={goPrev}
+                disabled={current === 1}
+                text="Previous step"
+              />
+              <va-button
+                class="vads-u-margin-right--1"
+                onClick={goNext}
+                disabled={current === total}
+                text="Next step"
+              />
+            </div>
 
-        <HubCardList step={current} />
+            <HubCardList step={current} />
+          </>
+        )}
 
         <div className="usa-width-two-thirds">
           <NeedHelp />

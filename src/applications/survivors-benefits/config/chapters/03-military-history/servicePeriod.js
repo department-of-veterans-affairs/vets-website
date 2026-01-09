@@ -17,7 +17,7 @@ export default {
   path: 'veteran/service-period',
   uiSchema: {
     ...titleUI('Service period'),
-    branchOfService: checkboxGroupUI({
+    serviceBranch: checkboxGroupUI({
       title: 'Branch of service',
       required: true,
       labels: servicesOptions,
@@ -29,7 +29,7 @@ export default {
       title: 'Final release date from active duty',
       monthSelect: false,
     }),
-    cityStateOrForeignCountry: textUI({
+    placeOfSeparation: textUI({
       title: 'Place of Veteran’s last separation',
       hint: 'City, state, or foreign country',
     }),
@@ -37,16 +37,16 @@ export default {
   schema: {
     type: 'object',
     required: [
-      'branchOfService',
+      'serviceBranch',
       'dateInitiallyEnteredActiveDuty',
       'finalReleaseDateFromActiveDuty',
-      'cityStateOrForeignCountry',
+      'placeOfSeparation',
     ],
     properties: {
-      branchOfService: checkboxGroupSchema(Object.keys(servicesOptions)),
+      serviceBranch: checkboxGroupSchema(Object.keys(servicesOptions)),
       dateInitiallyEnteredActiveDuty: currentOrPastDateSchema,
       finalReleaseDateFromActiveDuty: currentOrPastDateSchema,
-      cityStateOrForeignCountry: textSchema,
+      placeOfSeparation: textSchema,
     },
   },
 };
