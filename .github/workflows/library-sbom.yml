@@ -1,0 +1,17 @@
+name: Library SBOM Generation
+
+on:
+  push:
+    branches: [main, eb-library-sbom-workflow]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  generate-sbom:
+    uses: department-of-veterans-affairs/vsp-github-actions/.github/workflows/library-sbom-generation.yml@main
+    with:
+      artifact_name: sbom
+      output_bucket: s3://vagov-infra-sbom-bucket/library/vets-website
