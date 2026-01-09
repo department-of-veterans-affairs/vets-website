@@ -916,7 +916,7 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'Employment Navigator & Partnership Program',
+    name: 'Employment Navigator & Partnership Program (ENPP)',
     category: categories.EMPLOYMENT,
     id: 'ENPP',
     description:
