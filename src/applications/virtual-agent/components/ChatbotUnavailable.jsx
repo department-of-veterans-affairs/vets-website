@@ -22,100 +22,125 @@ export default function ChatbotUnavailable() {
           <h3>Get help with signing in to VA.gov</h3>
           <ul>
             <li>
-              <a href="/resources/creating-an-account-for-vagov/">
-                Creating an account for VA.gov
-              </a>
+              <va-link
+                href="/resources/creating-an-account-for-vagov/"
+                text="Creating an account for VA.gov"
+              />
             </li>
             <li>
-              <a href="/resources/support-for-common-idme-and-logingov-issues/">
-                Support for common ID.me and Login.gov issues
-              </a>
+              <va-link
+                href="/resources/support-for-common-idme-and-logingov-issues/"
+                text="Support for common ID.me and Login.gov issues"
+              />
             </li>
             <li>
-              <a href="/resources/verifying-your-identity-on-vagov/">
-                Verifying your identity on VA.gov
-              </a>
+              <va-link
+                href="/resources/verifying-your-identity-on-vagov/"
+                text="Verifying your identity on VA.gov"
+              />
             </li>
             <li>
-              <a href="/resources/signing-in-to-vagov/">Signing in to VA.gov</a>
+              <va-link
+                href="/resources/signing-in-to-vagov/"
+                text="Signing in to VA.gov"
+              />
             </li>
           </ul>
 
           <h3>Manage common benefit needs</h3>
           <ul>
             <li>
-              <a href="/claim-or-appeal-status/">
-                Check your claim, decision review, or appeal status
-              </a>
+              <va-link
+                href="/claim-or-appeal-status/"
+                text="Check your claim, decision review, or appeal status"
+              />
             </li>
             <li>
-              <a href="/va-payment-history/">Review your payment history</a>
+              <va-link
+                href="/va-payment-history/"
+                text="Review your payment history"
+              />
             </li>
             <li>
-              <a href="/records/download-va-letters/">
-                Download your benefit letters
-              </a>
+              <va-link
+                href="/records/download-va-letters/"
+                text="Download your benefit letters"
+              />
             </li>
             <li>
-              <a href="/disability/view-disability-rating/">
-                Review your disability rating
-              </a>
+              <va-link
+                href="/disability/view-disability-rating/"
+                text="Review your disability rating"
+              />
             </li>
             <li>
-              <a href="/view-change-dependents/">
-                Manage dependents for disability, pension, or DIC benefits
-              </a>
+              <va-link
+                href="/view-change-dependents/"
+                text="Manage dependents for disability, pension, or DIC benefits"
+              />
             </li>
             <li>
-              <a href="/education/verify-school-enrollment/">
-                Verify your school enrollment
-              </a>
+              <va-link
+                href="/education/verify-school-enrollment/"
+                text="Verify your school enrollment"
+              />
             </li>
             <li>
-              <a href="/education/check-remaining-gi-bill-benefits/">
-                Check your remaining GI Bill benefits
-              </a>
+              <va-link
+                href="/education/check-remaining-gi-bill-benefits/"
+                text="Check your remaining GI Bill benefits"
+              />
             </li>
           </ul>
 
           <h3>Manage common health care needs</h3>
           <ul>
             <li>
-              <a href="https://www.myhealth.va.gov/">
-                Manage your health care with My HealtheVet
-              </a>
+              <va-link
+                href="https://www.myhealth.va.gov/"
+                text="Manage your health care with My HealtheVet"
+                external
+              />
             </li>
             <li>
-              <a href="/my-health/appointments/">Manage health appointments</a>
+              <va-link
+                href="/my-health/appointments/"
+                text="Manage health appointments"
+              />
             </li>
             <li>
-              <a href="/my-health/medications/">
-                Refill prescriptions and manage medications
-              </a>
+              <va-link
+                href="/my-health/medications/"
+                text="Refill prescriptions and manage medications"
+              />
             </li>
             <li>
-              <a href="/my-health/travel-claim-status/">
-                File for travel pay reimbursement
-              </a>
+              <va-link
+                href="/my-health/travel-claim-status/"
+                text="File for travel pay reimbursement"
+              />
             </li>
           </ul>
 
           <h3>Get more help and information</h3>
           <ul>
             <li>
-              <a href="/resources/">
-                Explore our resources and support content
-              </a>
+              <va-link
+                href="/resources/"
+                text="Explore our resources and support content"
+              />
             </li>
             <li>
-              <a href="/contact-us/ask-va-faqs/">
-                Contact us online through Ask VA
-              </a>
+              <va-link
+                href="/contact-us/ask-va-faqs/"
+                text="Contact us online through Ask VA"
+              />
             </li>
             <li>
-              <a href="/contact-us/">
-                Call us at one of our helpful VA phone numbers
-              </a>
+              <va-link
+                href="/contact-us/"
+                text="Call us at one of our helpful VA phone numbers"
+              />
             </li>
           </ul>
         </div>
