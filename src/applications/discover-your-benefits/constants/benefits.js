@@ -935,11 +935,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
-      [mappingTypes.SEPARATION]: [
-        separationTypes.UP_TO_3_MONTHS,
-        separationTypes.UP_TO_6_MONTHS,
-        separationTypes.UP_TO_1_YEAR,
-      ],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
@@ -947,8 +942,7 @@ export const BENEFITS_LIST = [
       return (
         !environment.isProduction() &&
         responses[mappingTypes.GOALS] &&
-        (responses[mappingTypes.CURRENTLY_SERVING] ||
-          responses[mappingTypes.SEPARATION])
+        responses[mappingTypes.CURRENTLY_SERVING]
       );
     },
     learnMoreURL: URLS.ENPP_LEARN,

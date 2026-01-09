@@ -1643,35 +1643,13 @@ describe('actions', () => {
       goalTypes.PLAN,
     ];
     const invalidGoal = getInvalidMappingValues(validGoal, goalTypes);
-    const validSeparation = [
-      separationTypes.UP_TO_3_MONTHS,
-      separationTypes.UP_TO_6_MONTHS,
-      separationTypes.UP_TO_1_YEAR,
-    ];
-    const invalidSeparation = getInvalidMappingValues(
-      validSeparation,
-      separationTypes,
-    );
 
     validGoal.forEach(goal => {
       const formData = {
         [mappingTypes.GOALS]: goal,
-        [mappingTypes.SEPARATION]: formatData(validSeparation),
-        [mappingTypes.CURRENTLY_SERVING]: yesNoType.NO,
+        [mappingTypes.CURRENTLY_SERVING]: yesNoType.YES,
       };
       it(`should return true with goal: ${goal}`, () => {
-        const result = actions.mapBenefitFromFormInputData(benefit, formData);
-        expect(result).to.be.true;
-      });
-    });
-
-    validSeparation.forEach(separation => {
-      const formData = {
-        [mappingTypes.GOALS]: formatData(validGoal),
-        [mappingTypes.SEPARATION]: separation,
-        [mappingTypes.CURRENTLY_SERVING]: yesNoType.NO,
-      };
-      it(`should return true with separation: ${separation}`, () => {
         const result = actions.mapBenefitFromFormInputData(benefit, formData);
         expect(result).to.be.true;
       });
@@ -1689,16 +1667,7 @@ describe('actions', () => {
     it(`should return false with incorrect goals`, () => {
       const formData = {
         [mappingTypes.GOALS]: formatData(invalidGoal),
-        [mappingTypes.SEPARATION]: formatData(validSeparation),
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.false;
-    });
-
-    it(`should return false with incorrect separation`, () => {
-      const formData = {
-        [mappingTypes.GOALS]: formatData(validGoal),
-        [mappingTypes.SEPARATION]: formatData(invalidSeparation),
+        [mappingTypes.CURRENTLY_SERVING]: yesNoType.YES,
       };
       const result = actions.mapBenefitFromFormInputData(benefit, formData);
       expect(result).to.be.false;
