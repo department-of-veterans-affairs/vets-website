@@ -361,7 +361,6 @@ const AttachmentsList = props => {
       </ul>
       {(compose || reply) && (
         <RemoveAttachmentModal
-          draftSequence={null}
           visible={isModalVisible}
           onClose={() => {
             setIsModalVisible(false);
