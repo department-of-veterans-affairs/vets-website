@@ -21,9 +21,9 @@ export default function InstitutionSelector({ dataPath }) {
       const facilityCodeInput = document
         .querySelector('va-text-input')
         ?.shadowRoot?.querySelector('input');
-      if (!loading && institutionDetails?.name) focusElement(facilityCodeInput);
+      if (!loading) focusElement(facilityCodeInput);
     },
-    [institutionDetails?.name, loading],
+    [loading],
   );
 
   let content;
