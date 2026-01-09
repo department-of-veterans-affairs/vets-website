@@ -2,15 +2,60 @@ import { Locators } from '../utils/constants';
 
 class PatientInterstitialPage {
   getCrisisLineLink = () => {
-    return cy.get(`[text="Connect with the Veterans Crisis Line"]`);
+    // Try new component first, fall back to old selector
+    return cy.get('body').then($body => {
+      if ($body.find('va-crisis-line-modal').length > 0) {
+        return cy
+          .get('va-crisis-line-modal')
+          .shadow()
+          .find('button')
+          .first();
+      }
+      return cy.get(`[text="Connect with the Veterans Crisis Line"]`);
+    });
   };
 
   getCrisisLineModal = () => {
-    return cy.get(`#modal-crisisline`);
+    // Try new component first, fall back to old selector
+    return cy.get('body').then($body => {
+      if ($body.find('va-crisis-line-modal').length > 0) {
+        return cy
+          .get('va-crisis-line-modal')
+          .shadow()
+          .find('va-modal[visible]');
+      }
+      return cy.get(`#modal-crisisline`);
+    });
   };
 
   getCrisisLineModalLink = () => {
-    return cy.get(`.va-crisis-panel-list`).find(`li`);
+    // Try new component first, fall back to old selector
+    return cy.get('body').then($body => {
+      if ($body.find('va-crisis-line-modal').length > 0) {
+        return cy
+          .get('va-crisis-line-modal')
+          .shadow()
+          .find('va-modal[visible]')
+          .shadow()
+          .find(`.va-crisis-panel-list li`);
+      }
+      return cy.get(`.va-crisis-panel-list`).find(`li`);
+    });
+  };
+
+  getCrisisLineCloseButton = () => {
+    // Try new component first, fall back to old selector
+    return cy.get('body').then($body => {
+      if ($body.find('va-crisis-line-modal').length > 0) {
+        return cy
+          .get('va-crisis-line-modal')
+          .shadow()
+          .find('va-modal[visible]')
+          .shadow()
+          .find('.va-modal-close');
+      }
+      return cy.get('.va-modal-close');
+    });
   };
 
   getContinueButton = () => {
@@ -30,9 +75,10 @@ class PatientInterstitialPage {
   //   PatientInterstitialPage.getStartMessageLink().click();
 
   CheckFocusOnVcl = () => {
-    cy.get(Locators.ALERTS.VA_CRISIS_LINE).click();
-    cy.get('.va-modal-close').click();
-    cy.get(Locators.ALERTS.VA_CRISIS_LINE).should('have.focus');
+    this.getCrisisLineLink().click();
+    this.getCrisisLineModal().should('exist');
+    this.getCrisisLineCloseButton().click({ force: true });
+    this.getCrisisLineLink().should('have.focus');
   };
 }
 export default new PatientInterstitialPage();
