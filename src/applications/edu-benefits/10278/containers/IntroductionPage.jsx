@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLoggedIn } from 'platform/user/selectors';
+import { connect, useSelector } from 'react-redux';
+import {
+  isLoggedIn,
+  selectProfile,
+  isProfileLoading,
+} from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 
 // Components
@@ -51,18 +55,36 @@ export const IntroductionPage = props => {
           have already released based on your authorization.
         </li>
       </ul>
-
-      <SaveInProgressIntro
-        hideUnauthedStartLink={!userLoggedIn}
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        formConfig={route.formConfig}
-        pageList={pageList}
-        startText="Start your Authorization to disclose personal information"
-        unauthStartText="Sign in or create an account"
-      />
-      <p />
+      <div className="vads-u-margin-y--4">
+        {!userLoggedIn ? (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            formConfig={route.formConfig}
+            pageList={pageList}
+            startText="Start your Authorization to disclose personal information"
+            unauthStartText="Sign in or create an account"
+          />
+        ) : (
+          <>
+            <va-alert status="info" visible class="vads-u-margin-y--4">
+              <h3 slot="headline">We've prefilled some of your information</h3>
+              Since you're signed in, we can prefill part of your application
+              based on your profile details. You can also save your application
+              in progress and come back later to finish filling it out.
+            </va-alert>
+            <SaveInProgressIntro
+              headingLevel={2}
+              prefillEnabled={formConfig.prefillEnabled}
+              formConfig={route.formConfig}
+              pageList={pageList}
+              startText="Start your Authorization to disclose personal information"
+              buttonOnly
+            />
+          </>
+        )}
+      </div>
 
       <div
         className={userLoggedIn ? 'vads-u-margin-top--4' : ''}
@@ -75,6 +97,15 @@ export const IntroductionPage = props => {
   );
 };
 
+function mapStateToProps(state) {
+  return {
+    formData: state.form?.data || {},
+    loggedIn: isLoggedIn(state),
+    profile: selectProfile(state),
+    showLoadingIndicator: isProfileLoading(state),
+  };
+}
+
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
@@ -86,6 +117,10 @@ IntroductionPage.propTypes = {
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  toggleLoginModal: PropTypes.func,
 };
 
-export default IntroductionPage;
+export default connect(
+  mapStateToProps,
+  // mapDispatchToProps,
+)(IntroductionPage);
