@@ -27,4 +27,5 @@ runs:
 
     - name: Run postinstall scripts
       shell: bash
-      run: ./script/run-postinstall.sh && node ./script/check-node-version.js
+      run: yarn postinstall
+      working-directory: qa-standards-dashboard-data
