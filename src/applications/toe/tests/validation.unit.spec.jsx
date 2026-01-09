@@ -220,7 +220,7 @@ describe('Routing Number Confirmation Validation', () => {
 
     expect(errors.addError.calledOnce).to.be.true;
     expect(errors.addError.firstCall.args[0]).to.equal(
-      'Your routing number must match',
+      'Your bank routing number must match',
     );
   });
 
@@ -423,7 +423,7 @@ describe('Routing Number and Account Number Cannot Match Validation', () => {
 
     expect(errors.addError.calledOnce).to.be.true;
     expect(errors.addError.firstCall.args[0]).to.equal(
-      'Your bank account and routing number cannot match',
+      'Your bank routing number and bank account number cannot match',
     );
   });
 
@@ -443,7 +443,7 @@ describe('Routing Number and Account Number Cannot Match Validation', () => {
 
     expect(errors.addError.calledOnce).to.be.true;
     expect(errors.addError.firstCall.args[0]).to.equal(
-      'Your bank account and routing number cannot match',
+      'Your bank routing number and bank account number cannot match',
     );
   });
 
