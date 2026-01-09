@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useLocation,
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -24,12 +19,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import RecordList from '../components/RecordList/RecordList';
-import RecordListNew from '../components/RecordList/RecordListNew';
-import {
-  getVaccinesList,
-  reloadRecords,
-  checkForVaccineUpdates,
-} from '../actions/vaccines';
+import { getVaccinesList, reloadRecords } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import {
   recordType,
@@ -46,7 +36,6 @@ import {
   generateTextFile,
   getLastUpdatedText,
   sendDataDogAction,
-  getParamValue,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -57,7 +46,6 @@ import {
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -69,37 +57,21 @@ const Vaccines = props => {
   const dispatch = useDispatch();
 
   const {
-    updatedList: updatedRecordList,
     listState,
     vaccinesList: vaccines,
-    listMetadata: metadata,
-    updateNeeded,
     listCurrentAsOf: vaccinesCurrentAsOf,
   } = useSelector(state => state.mr.vaccines);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
-  const { useBackendPagination } = useSelector(state => {
-    const toggles = state.featureToggles;
-    return {
-      useBackendPagination:
-        toggles[
-          FEATURE_FLAG_NAMES.mhvMedicalRecordsSupportBackendPaginationVaccine
-        ],
-    };
-  });
 
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const location = useLocation();
-  const history = useHistory();
-  const paramPage = getParamValue(location.search, 'page');
 
   const { isLoading } = useAcceleratedData();
   const isFetchingData = listState === loadStates.FETCHING;
 
   const dispatchAction = isCurrent => {
-    return getVaccinesList(isCurrent, paramPage, useBackendPagination);
+    return getVaccinesList(isCurrent);
   };
 
   useTrackAction(statsdFrontEndActions.VITALS_LIST);
@@ -111,9 +83,6 @@ const Vaccines = props => {
     extractType: refreshExtractTypes.VPR,
     dispatchAction,
     dispatch,
-    page: paramPage,
-    useBackendPagination,
-    checkUpdatesAction: checkForVaccineUpdates,
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
@@ -203,17 +172,6 @@ const Vaccines = props => {
 
     generateTextFile(content.join(''), fileName);
   };
-  /**
-   * Change to page 1 and fetch the list of vaccines from the server.
-   */
-  const loadUpdatedRecords = () => {
-    if (paramPage === '1') {
-      dispatch(getVaccinesList(true, paramPage, useBackendPagination));
-    } else {
-      // The page change will trigger a fetch.
-      history.push(`${history.location.pathname}?page=1`);
-    }
-  };
 
   return (
     <div id="vaccines">
@@ -239,33 +197,11 @@ const Vaccines = props => {
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VACCINE}
-        recordCount={
-          useBackendPagination
-            ? metadata?.pagination?.totalEntries
-            : vaccines?.length
-        }
+        recordCount={vaccines?.length}
         recordType={recordType.VACCINES}
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            useBackendPagination
-              ? updateNeeded
-              : Array.isArray(vaccines) &&
-                Array.isArray(updatedRecordList) &&
-                vaccines.length !== updatedRecordList.length
-          }
-          reloadFunction={
-            useBackendPagination
-              ? loadUpdatedRecords
-              : () => {
-                  dispatch(reloadRecords());
-                }
-          }
-        />
         {(isFetchingData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
@@ -282,25 +218,13 @@ const Vaccines = props => {
             <>
               {vaccines?.length ? (
                 <>
-                  {useBackendPagination && vaccines ? (
-                    <RecordListNew
-                      records={vaccines?.map(vaccine => ({
-                        ...vaccine,
-                        isOracleHealthData: true,
-                      }))}
-                      type={recordType.VACCINES}
-                      metadata={metadata}
-                    />
-                  ) : (
-                    <RecordList
-                      records={vaccines?.map(vaccine => ({
-                        ...vaccine,
-                        isOracleHealthData: true,
-                      }))}
-                      type={recordType.VACCINES}
-                    />
-                  )}
-
+                  <RecordList
+                    records={vaccines?.map(vaccine => ({
+                      ...vaccine,
+                      isOracleHealthData: true,
+                    }))}
+                    type={recordType.VACCINES}
+                  />
                   <DownloadingRecordsInfo description="Vaccines" />
                   <PrintDownload
                     description="Vaccines - List"

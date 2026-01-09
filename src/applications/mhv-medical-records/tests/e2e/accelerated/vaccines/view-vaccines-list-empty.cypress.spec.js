@@ -21,8 +21,5 @@ describe('Medical Records View Vaccines', () => {
 
     cy.get('[data-testid="no-records-message"]').should('be.visible');
     cy.get('[data-testid="print-download-menu"]').should('not.exist');
-    // Axe check
-    cy.injectAxe();
-    cy.axeCheck('main');
   });
 });

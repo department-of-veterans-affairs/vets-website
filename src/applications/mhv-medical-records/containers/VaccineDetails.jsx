@@ -113,7 +113,7 @@ const VaccineDetails = props => {
       `Date received: ${record.date}\n`,
     ];
 
-    // Add fields basedfor accelerating vaccines
+    // Add fields for accelerating vaccines
     content.push(`Provider: ${record.location || 'None recorded'}\n`);
     content.push(`Type and dosage: ${record.shortDescription}\n`);
     content.push(`Manufacturer: ${record.manufacturer}\n`);
