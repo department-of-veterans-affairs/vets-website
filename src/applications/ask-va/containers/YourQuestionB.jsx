@@ -8,7 +8,13 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { ServerErrorAlert } from '../config/helpers';
 import { clearFormData, removeAskVaForm } from '../actions';
 
-const YourQuestionBPage = ({ goForward, formData, router, formId }) => {
+const YourQuestionBPage = ({
+  goForward,
+  formData,
+  onChange,
+  router,
+  formId,
+}) => {
   const [error] = useState(false);
   const dispatch = useDispatch();
 
@@ -18,43 +24,26 @@ const YourQuestionBPage = ({ goForward, formData, router, formId }) => {
     router.push('/');
   };
 
+  const handleChange = event => {
+    const { value } = event.currentTarget;
+    const initialData =
+      formData.initialFormData === undefined
+        ? { ...formData }
+        : { ...formData.initialFormData };
+
+    onChange({
+      ...formData,
+      initialFormData: initialData,
+      question: value,
+    });
+  }
+
   useEffect(
     () => {
       focusElement('h2');
     },
     [formData.aboutYourself],
   );
-
-  // 'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_3.TITLE }),
-  //   'ui:objectViewField': PageFieldSummary,
-  //   question: {
-  //     'ui:title': CHAPTER_2.PAGE_3.QUESTION_1,
-  //     'ui:webComponentField': VaTextareaField,
-  //     'ui:required': () => true,
-  //     'ui:errorMessages': {
-  //       required: 'Please let us know what your question is about.',
-  //     },
-  //     'ui:options': {
-  //       required: true,
-  //       charcount: true,
-  //       useFormsPattern: 'single',
-  //     },
-  //   },
-
-  // <VaSelect
-  //           id="root_selectCategory"
-  //           label="Select the category that best describes your question"
-  //           name="Select category"
-  //           value={formData.selectCategory}
-  //           onVaSelect={handleChange}
-  //           required
-  //           error={validationError}
-  //           uswds
-  //         ></VaSelect>
-
-  //   label="Select the category that best describes your question"
-  // name="Select category"
-  // value={formData.selectCategory}
 
   return !error ? (
     <>
@@ -64,11 +53,12 @@ const YourQuestionBPage = ({ goForward, formData, router, formId }) => {
           id="root_yourQuestion"
           name="question"
           required
-          value={formData.description}
+          value={formData.question}
           error-message="Please let us know what your question is about."
           label="What is your question?"
           maxlength={10000}
-          charcount={10000}
+          charcount
+          onInput={handleChange}
         />
         <FormNavButtons goBack={handleGoBack} goForward={goForward} />
       </form>
