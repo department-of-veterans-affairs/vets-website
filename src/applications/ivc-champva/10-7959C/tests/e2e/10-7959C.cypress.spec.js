@@ -81,18 +81,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.missingFileConsent.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.selectVaCheckbox(
-              `consent-checkbox`,
-              data.consentToMailMissingRequiredFiles,
-            );
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       [ALL_PAGES.primaryComments.path]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -137,6 +125,23 @@ const testConfig = createTestConfig(
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+
+      cy.intercept(
+        'POST',
+        '/ivc_champva/v1/forms/submit_supporting_documents*',
+        {
+          statusCode: 200,
+          body: {
+            data: {
+              attributes: {
+                confirmationCode: '1b39d28c-5d38-4467-808b-9da252b6e95a',
+                name: 'example_upload.png',
+                size: 123,
+              },
+            },
+          },
+        },
+      );
 
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
