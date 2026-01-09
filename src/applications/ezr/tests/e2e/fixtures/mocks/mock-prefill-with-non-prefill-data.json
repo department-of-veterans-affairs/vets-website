@@ -64,7 +64,21 @@
           "incomeYear": "2023"
         }
       }
-    }
+    },
+    "view:veteranGrossIncome": {
+      "veteranGrossIncome": 3242434
+    },
+    "view:veteranNetIncome": {
+      "veteranNetIncome": 23424
+    },
+    "view:veteranOtherIncome": {
+      "veteranOtherIncome": 23424
+    },
+    "view:spouseGrossIncome":{"spouseGrossIncome": 23424},
+    "view:spouseNetIncome": { "spouseNetIncome" : 23424 },
+    "view:spouseOtherIncome": {"spouseOtherIncome" :23424},
+    
+    "ezrProvidersAndDependentsPrefillEnabled": true
   },
   "metadata": {
     "version": 0,
