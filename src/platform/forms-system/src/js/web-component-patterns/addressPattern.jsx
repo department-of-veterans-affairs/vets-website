@@ -446,7 +446,19 @@ export const updateFormDataAddress = (
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
-  const { keys = {} } = options;
+  // Centralized default keys
+  const DEFAULT_KEYS = {
+    country: 'country',
+    street: 'street',
+    street2: 'street2',
+    street3: 'street3',
+    city: 'city',
+    state: 'state',
+    postalCode: 'postalCode',
+    isMilitary: 'isMilitary',
+  };
+  const keys = { ...DEFAULT_KEYS, ...options.keys };
+
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
@@ -466,13 +478,13 @@ export function addressUI(options = {}) {
   };
 
   function validateMilitaryBaseZipCode(errors, addr, mappedKeys = {}) {
-    const militaryKey = mappedKeys.isMilitary || 'isMilitary';
+    const militaryKey = mappedKeys.isMilitary;
 
     if (!(addr[militaryKey] && addr.state)) return;
 
     if (addr[militaryKey] && MILITARY_STATE_VALUES.includes(addr.state)) {
       const postalCode = getFieldValue('postalCode', addr, mappedKeys);
-      const postalCodeKey = mappedKeys.postalCode || 'postalCode';
+      const postalCodeKey = mappedKeys.postalCode;
 
       const state = getFieldValue('state', addr, mappedKeys);
 
@@ -534,7 +546,7 @@ export function addressUI(options = {}) {
         const addressPath = getAddressPath(path);
         if (addressPath) {
           const addressData = get(addressPath, formData) ?? {};
-          const militaryKey = keys.isMilitary || 'isMilitary';
+          const militaryKey = keys.isMilitary;
           return !addressData[militaryKey];
         }
         return true;
@@ -558,7 +570,7 @@ export function addressUI(options = {}) {
           const addressFormData = get(addressPath, formData) ?? {};
           /* Set isMilitary to either `true` or `undefined` (not `false`) so that
           `hideEmptyValueInReview` works as expected. See docs: https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-about-schema-and-uischema#VAFormsLibrary-AboutschemaanduiSchema-ui:options */
-          const militaryKey = keys.isMilitary || 'isMilitary';
+          const militaryKey = keys.isMilitary;
           addressFormData[militaryKey] =
             addressFormData[militaryKey] || undefined;
           const isMilitary = addressFormData[militaryKey];
@@ -619,7 +631,7 @@ export function addressUI(options = {}) {
         updateSchema: (formData, schema, _uiSchema, index, path) => {
           const addressPath = getAddressPath(path);
           const addressFormData = get(addressPath, formData) ?? {};
-          const militaryKey = keys.isMilitary || 'isMilitary';
+          const militaryKey = keys.isMilitary;
           const isMilitary = addressFormData[militaryKey];
 
           const titleIfMilitary =
@@ -647,7 +659,7 @@ export function addressUI(options = {}) {
         updateSchema: (formData, schema, _uiSchema, _index, path) => {
           const addressPath = getAddressPath(path);
           const addressFormData = get(addressPath, formData) ?? {};
-          const militaryKey = keys.isMilitary || 'isMilitary';
+          const militaryKey = keys.isMilitary;
           const isMilitary = addressFormData[militaryKey];
 
           const titleIfMilitary =
@@ -688,7 +700,7 @@ export function addressUI(options = {}) {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const ui = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
-          const militaryKey = keys.isMilitary || 'isMilitary';
+          const militaryKey = keys.isMilitary;
           const isMilitary = addressFormData[militaryKey];
           if (isMilitary) {
             ui['ui:webComponentField'] = VaRadioField;
@@ -725,7 +737,7 @@ export function addressUI(options = {}) {
         const addressPath = getAddressPath(path);
         if (addressPath) {
           const { country } = get(addressPath, formData) ?? {};
-          const militaryKey = keys.isMilitary || 'isMilitary';
+          const militaryKey = keys.isMilitary;
           const isMilitary = get(addressPath, formData)?.[militaryKey];
           return (
             isMilitary || (country && ['USA', 'CAN', 'MEX'].includes(country))
@@ -765,7 +777,7 @@ export function addressUI(options = {}) {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
-          const militaryKey = keys.isMilitary || 'isMilitary';
+          const militaryKey = keys.isMilitary;
           const isMilitary = data[militaryKey];
           const ui = _uiSchema;
 
@@ -836,7 +848,7 @@ export function addressUI(options = {}) {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
-          const militaryKey = keys.isMilitary || 'isMilitary';
+          const militaryKey = keys.isMilitary;
           const isMilitary = data[militaryKey];
 
           const addressSchema = _schema;
