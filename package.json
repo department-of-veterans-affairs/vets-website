@@ -236,7 +236,7 @@
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
     "prettier": "^1.14.3",
-    "sass": "^1.71.0",
+    "sass": "1.71.0",
     "sass-lint": "^1.13.1",
     "sass-loader": "^8.0.2",
     "semver": "^7.3.5",

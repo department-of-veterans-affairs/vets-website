@@ -7,6 +7,12 @@ set -e  # Exit on error
 
 echo "Running postinstall scripts for trusted packages..."
 
+# Patch css-library Sass to avoid @use/@import variable collisions under Dart Sass.
+CSS_LIBRARY_OVERRIDES_FILE="node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss"
+if [ -f "$CSS_LIBRARY_OVERRIDES_FILE" ]; then
+  perl -0pi -e "s|@use '../override-function' as \\*;|@import '../override-function';|g" "$CSS_LIBRARY_OVERRIDES_FILE"
+fi
+
 # Rebuild Dart Sass binary (required when installing with --ignore-scripts)
 echo "→ Rebuilding sass binary..."
 npm rebuild sass
