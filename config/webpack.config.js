@@ -274,7 +274,6 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
 module.exports = async (env = {}) => {
   const { buildtype = LOCALHOST } = env;
   const buildOptions = {
-    api: '',
     buildtype,
     host: LOCALHOST,
     port: 3001,
@@ -354,7 +353,6 @@ module.exports = async (env = {}) => {
               loader: 'sass-loader',
               options: {
                 sourceMap: true,
-                api: 'legacy',
               },
             },
           ],
