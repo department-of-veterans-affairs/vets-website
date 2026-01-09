@@ -2,17 +2,7 @@ import { Locators } from '../utils/constants';
 
 class PatientInterstitialPage {
   getCrisisLineLink = () => {
-    // Try new component first, fall back to old selector
-    return cy.get('body').then($body => {
-      if ($body.find('va-crisis-line-modal').length > 0) {
-        return cy
-          .get('va-crisis-line-modal')
-          .shadow()
-          .find('button')
-          .first();
-      }
-      return cy.get(`[text="Connect with the Veterans Crisis Line"]`);
-    });
+    return cy.get(`[text="Connect with the Veterans Crisis Line"]`);
   };
 
   getCrisisLineModal = () => {
