@@ -144,13 +144,13 @@ const CategorySelectPage = props => {
   );
 
   const handleGoBack = () => {
-    if (!hasPrefillInformation(formData)) {
-      dispatch(clearFormData());
-      dispatch(removeAskVaForm(formId));
-      router.push('/');
-    } else {
+    // if (!hasPrefillInformation(formData)) {
+    //   dispatch(clearFormData());
+    //   dispatch(removeAskVaForm(formId));
+    //   router.push('/');
+    // } else {
       goBack();
-    }
+    // }
   };
 
   if (loading) {

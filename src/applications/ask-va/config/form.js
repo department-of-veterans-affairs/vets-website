@@ -5,6 +5,8 @@ import {
   requiredForSubtopicPage,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+
 import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -105,6 +107,7 @@ const formConfig = {
           title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
           CustomPage: YourPersonalInformationAuthenticated,
           CustomPageReview: null,
+          depends: isLoggedIn === true,
           uiSchema: {},
           schema: {
             type: 'object',
@@ -112,17 +115,11 @@ const formConfig = {
           },
         },
         yourQuestionB: {
-          title: CHAPTER_2.CHAPTER_TITLE,
-          hideFormNavProgress: true,
-          pages: {
-            question: {
-              path: CHAPTER_2.PAGE_3.PATH,
-              title: CHAPTER_2.PAGE_3.TITLE,
-              // CustomPageReview: CustomYourQuestionReviewField,
-              uiSchema: yourQuestionPageB.uiSchema,
-              schema: yourQuestionPageB.schema,
-            },
-          },
+          path: 'initial-question',
+          title: CHAPTER_2.PAGE_3.TITLE,
+          // CustomPageReview: CustomYourQuestionReviewField,
+          uiSchema: yourQuestionPageB.uiSchema,
+          schema: yourQuestionPageB.schema,
         },
         selectCategory: {
           path: CHAPTER_1.PAGE_1.PATH,

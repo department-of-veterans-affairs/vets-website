@@ -3,31 +3,7 @@ import FormElementTitle from '../../../components/FormElementTitle';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_2 } from '../../../constants';
 
-export const fileSchema = {
-  type: 'array',
-  items: {
-    type: 'object',
-    properties: {
-      fileName: {
-        type: 'string',
-      },
-      fileSize: {
-        type: 'integer',
-      },
-      fileType: {
-        type: 'string',
-      },
-      base64: {
-        type: 'string',
-      },
-      fileID: {
-        type: 'string',
-      },
-    },
-  },
-};
-
-const yourQuestionPage = {
+const yourQuestionPageB = {
   uiSchema: {
     'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_3.TITLE }),
     'ui:objectViewField': PageFieldSummary,
@@ -57,4 +33,4 @@ const yourQuestionPage = {
   },
 };
 
-export default yourQuestionPage;
+export default yourQuestionPageB;
