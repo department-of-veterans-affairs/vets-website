@@ -120,6 +120,13 @@
         "last": "Service",
         "middle": "Name"
       }
+    },
+    {
+      "otherServiceName": {
+        "first": "John",
+        "last": "Other",
+        "middle": "Test"
+      }
     }
   ],
   "serviceBranch": {
