@@ -287,13 +287,16 @@ export const validateApproximateDate = (errors, dateString, options = {}) => {
  * Validate month/year-only date - supports year-only or year+month
  * Neither year nor month is required, but if month is provided, year is also required
  * Format: YYYY-XX (year-only) or YYYY-MM (year+month)
+ * Full dates (YYYY-MM-DD) are accepted for backward compatibility,
+ * but the day portion is intentionally ignored - only year and month are validated.
  * @param {Object} errors - Errors object
- * @param {string} dateString - Date string in format YYYY-MM or YYYY-XX
+ * @param {string} dateString - Date string in format YYYY-MM, YYYY-XX, or YYYY-MM-DD
  */
 export const validateApproximateMonthYearDate = (errors, dateString) => {
   // Empty is OK - field is not required
   if (!dateString) return;
 
+  // Split on '-' and extract only year and month (ignore day portion if present)
   const [year, month] = dateString.split('-');
   const isMonthValid = month && month !== 'XX' && month !== '';
   const isYearMissing = !year || year === 'XXXX' || year === '';

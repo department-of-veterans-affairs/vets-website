@@ -7,10 +7,11 @@ const getCurrentYear = () => new Date().getFullYear();
 /**
  * Schema pattern that accepts YYYY-MM, YYYY-XX, or YYYY-MM-DD for backward compatibility
  * This extends the platform's currentOrPastMonthYearDateSchema to also accept full dates
+ * Day portion (if present) must be valid (01-31)
  */
 export const monthYearDateSchemaWithFullDateSupport = {
   type: 'string',
-  pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)(-\\d{2})?$',
+  pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)(-(0[1-9]|[12]\\d|3[01]))?$',
 };
 
 /**
@@ -104,7 +105,7 @@ function checkVaDateComponents(components, minYear, maxYear) {
         }
       }
     } catch (error) {
-      // Fail silently - continue checking other components
+      // Continue checking other components
     }
   }
   return false;
@@ -121,11 +122,15 @@ export const ForceFieldBlur = () => {
       // Only handle submit buttons
       if (button.type !== 'submit') return;
 
+      // Find the form containing this button
+      const form = button.closest('form');
+      if (!form) return;
+
       // Blur active element first
       document.activeElement?.blur?.();
 
-      // Check all va-date components for invalid inputs synchronously
-      const vaDateComponents = Array.from(document.querySelectorAll('va-date'));
+      // Check va-date components within this form for invalid inputs synchronously
+      const vaDateComponents = Array.from(form.querySelectorAll('va-date'));
       const minYear = 1900;
       const maxYear = getCurrentYear();
 
@@ -141,13 +146,12 @@ export const ForceFieldBlur = () => {
       }
     };
 
-    const buttons = document.querySelectorAll('button[type="submit"]');
-    buttons.forEach(btn => btn.addEventListener('click', handleClick, true)); // Use capture phase
+    // Use event delegation on document to handle all submit buttons
+    // This avoids issues with multiple instances and dynamic button creation
+    document.addEventListener('click', handleClick, true); // Use capture phase
 
     return () => {
-      buttons.forEach(btn =>
-        btn.removeEventListener('click', handleClick, true),
-      );
+      document.removeEventListener('click', handleClick, true);
     };
   }, []);
 

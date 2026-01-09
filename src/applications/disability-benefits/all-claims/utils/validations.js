@@ -102,10 +102,10 @@ export function validateToxicExposureGulfWar1990Dates(
       errors.endDate.addError(messages.endServiceDate);
     }
 
-    // Validate end date is after August 2, 1990
+    // Validate end date is after August 2, 1990 (accepts 1990-XX and 1990-08)
     if (
       end.year &&
-      (end.year < 1990 || (end.year === 1990 && end.month && end.month <= 8))
+      (end.year < 1990 || (end.year === 1990 && end.month && end.month < 8))
     ) {
       errors.endDate.addError(messages.endDate1990);
     }
@@ -150,10 +150,10 @@ export function validateToxicExposureGulfWar2001Dates(
       errors.endDate.addError(messages.endServiceDate);
     }
 
-    // Validate end date is after September 11, 2001
+    // Validate end date is after September 11, 2001 (accepts 2001-XX and 2001-09)
     if (
       (end.year && end.year < 2001) ||
-      (end.year === 2001 && end.month && end.month <= 9)
+      (end.year === 2001 && end.month && end.month < 9)
     ) {
       errors.endDate.addError(messages.endDate2001);
     }

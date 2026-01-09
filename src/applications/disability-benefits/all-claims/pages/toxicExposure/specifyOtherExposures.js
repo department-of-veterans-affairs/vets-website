@@ -44,8 +44,8 @@ export const uiSchema = {
           title: exposureStartDateApproximate,
         }),
         'ui:required': false,
+        // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
         'ui:validations': [validateApproximateMonthYearDate],
-        // Explicitly remove platform validation to avoid conflicts
         'ui:errorMessages': {
           pattern: 'Please enter a valid date',
           required: 'Please enter a date',
@@ -56,8 +56,8 @@ export const uiSchema = {
           title: exposureEndDateApproximate,
         }),
         'ui:required': false,
+        // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
         'ui:validations': [validateApproximateMonthYearDate],
-        // Explicitly remove platform validation to avoid conflicts
         'ui:errorMessages': {
           pattern: 'Please enter a valid date',
           required: 'Please enter a date',

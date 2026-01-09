@@ -372,7 +372,7 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should not submit when end date is August 1990 (must be after August 2, 1990)', () => {
+    it('should submit when end date is August 1990 (accepted due to month/year granularity)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
@@ -384,7 +384,7 @@ describe('gulfWar1990Details', () => {
       pageSubmitTest(
         schemas[`gulf-war-1990-location-${locationId}`],
         data,
-        false,
+        true,
       );
     });
 

@@ -1786,7 +1786,7 @@ describe('526 All Claims validations', () => {
         expect(errors.endDate.addError.called).to.be.true;
       });
 
-      it('should add error when end date is August 1990 (must be after August 2, 1990)', () => {
+      it('should not add error when end date is August 1990 (accepted due to month/year granularity)', () => {
         const errors = {
           startDate: { addError: sinon.spy() },
           endDate: { addError: sinon.spy() },
@@ -1795,7 +1795,19 @@ describe('526 All Claims validations', () => {
           startDate: '1988-09',
           endDate: '1990-08',
         });
-        expect(errors.endDate.addError.called).to.be.true;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is year-only 1990', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1990-XX',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
       });
 
       it('should not add error when end date is September 1990', () => {
@@ -1941,7 +1953,7 @@ describe('526 All Claims validations', () => {
         expect(errors.endDate.addError.called).to.be.true;
       });
 
-      it('should add error when end date is September 2001 (must be after September 11, 2001)', () => {
+      it('should not add error when end date is September 2001 (accepted due to month/year granularity)', () => {
         const errors = {
           startDate: { addError: sinon.spy() },
           endDate: { addError: sinon.spy() },
@@ -1950,7 +1962,19 @@ describe('526 All Claims validations', () => {
           startDate: '2000-10',
           endDate: '2001-09',
         });
-        expect(errors.endDate.addError.called).to.be.true;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is year-only 2001', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-XX',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
       });
 
       it('should not add error when end date is October 2001', () => {
