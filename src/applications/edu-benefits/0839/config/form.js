@@ -42,7 +42,7 @@ const formConfig = {
   submitUrl: SUBMIT_URL,
   submit: submitForm,
   trackingPrefix: 'edu-0839-',
-  introduction: ConfirmationPage,
+  introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_0839,
   saveInProgress: {
