@@ -12,9 +12,9 @@ import { FIELD_NONE_NOTED, FIELD_NOT_AVAILABLE } from '../util/constants';
 /**
  * TODO: implement retry logic
  */
-const apiBasePath = `${environment.API_URL}/my_health/v1`;
+export const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
-const API_BASE_PATH_V2 = `${environment.API_URL}/my_health/v2`;
+export const API_BASE_PATH_V2 = `${environment.API_URL}/my_health/v2`;
 
 // Options for Medications app (different from Medical Records defaults)
 const allergyOptions = {
@@ -36,91 +36,119 @@ export const convertAcceleratedAllergy = allergy => {
   return sharedConvertAcceleratedAllergy(allergy, allergyOptions);
 };
 
+/**
+ * Build the API path for getAllergies endpoint
+ * @param {Object} params - Query parameters
+ * @param {boolean} params.isAcceleratingAllergies - Use v2 accelerated API
+ * @param {boolean} params.isCerner - Use Cerner/Oracle Health path
+ * @returns {Object} Object containing the path
+ */
+export const buildGetAllergiesQuery = (params = {}) => {
+  const { isAcceleratingAllergies = false, isCerner = false } = params;
+  let path = '';
+  if (isAcceleratingAllergies) {
+    path = `${API_BASE_PATH_V2}/medical_records/allergies`;
+  } else {
+    path = isCerner
+      ? `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`
+      : `${apiBasePath}/medical_records/allergies`;
+  }
+  return { path };
+};
+
+/**
+ * Build the API path for getAllergyById endpoint
+ * @param {Object} params - Query parameters
+ * @param {string} params.id - Allergy ID
+ * @param {boolean} params.isAcceleratingAllergies - Use v2 accelerated API
+ * @param {boolean} params.isCerner - Use Cerner/Oracle Health path
+ * @returns {Object} Object containing the path
+ */
+export const buildGetAllergyByIdQuery = (params = {}) => {
+  const { id, isAcceleratingAllergies = false, isCerner = false } = params;
+  let path = '';
+  if (isAcceleratingAllergies) {
+    path = `${API_BASE_PATH_V2}/medical_records/allergies/${id}`;
+  } else {
+    path = isCerner
+      ? `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`
+      : `${apiBasePath}/medical_records/allergies`;
+  }
+  return { path };
+};
+
+/**
+ * Transform response for getAllergies endpoint
+ * @param {Object} response - API response
+ * @returns {Array} Transformed allergies array
+ */
+export const transformAllergiesResponse = response => {
+  let data = [];
+  // Make sure entry exists and is an array before mapping
+  if (response?.entry && Array.isArray(response.entry)) {
+    data = response.entry.map(allergy => convertAllergy(allergy.resource));
+  }
+  if (response?.data && Array.isArray(response.data)) {
+    data = response.data.map(allergy => convertAcceleratedAllergy(allergy));
+  }
+  return data;
+};
+
+/**
+ * Transform response for getAllergyById endpoint
+ * @param {Object} response - API response
+ * @returns {Object} Transformed allergy object
+ */
+export const transformAllergyByIdResponse = response => {
+  if (response.resource) {
+    return convertAllergy(response.resource);
+  }
+  if (
+    response?.entry &&
+    Array.isArray(response.entry) &&
+    response.entry[0]?.resource
+  ) {
+    return convertAllergy(response.entry[0].resource);
+  }
+  if (response?.data) {
+    return convertAcceleratedAllergy(response.data);
+  }
+  return response;
+};
+
+/**
+ * Base query function for allergies API
+ * @param {Object} args - Query arguments
+ * @param {string} args.path - API path
+ * @param {Object} args.options - Request options
+ * @returns {Object} Result or error object
+ */
+export const allergiesBaseQuery = async ({ path, options = {} }) => {
+  try {
+    const result = await apiRequest(path, { ...options });
+    return { data: result };
+  } catch (error) {
+    return {
+      error: {
+        status: error.status || 500,
+        message: error.message || 'Failed to fetch data',
+      },
+    };
+  }
+};
+
 // Create the allergies API slice
 export const allergiesApi = createApi({
   reducerPath: 'allergiesApi',
-  baseQuery: async ({ path, options = {} }) => {
-    try {
-      const result = await apiRequest(path, { ...options });
-      return { data: result };
-    } catch (error) {
-      return {
-        error: {
-          status: error.status || 500,
-          message: error.message || 'Failed to fetch data',
-        },
-      };
-    }
-  },
+  baseQuery: allergiesBaseQuery,
   endpoints: builder => ({
     getAllergies: builder.query({
-      query: (params = {}) => {
-        const { isAcceleratingAllergies = false, isCerner = false } = params;
-        let path = '';
-        if (isAcceleratingAllergies) {
-          path = `${API_BASE_PATH_V2}/medical_records/allergies`;
-        } else {
-          path = isCerner
-            ? `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`
-            : `${apiBasePath}/medical_records/allergies`;
-        }
-        return {
-          path,
-        };
-      },
-      // Transform the response to use our existing conversion function
-      transformResponse: response => {
-        let data = [];
-        // Make sure entry exists and is an array before mapping
-        if (response?.entry && Array.isArray(response.entry)) {
-          data = response.entry.map(allergy =>
-            convertAllergy(allergy.resource),
-          );
-        }
-        if (response?.data && Array.isArray(response.data)) {
-          data = response.data.map(allergy =>
-            convertAcceleratedAllergy(allergy),
-          );
-        }
-        return data;
-      },
+      query: buildGetAllergiesQuery,
+      transformResponse: transformAllergiesResponse,
     }),
     getAllergyById: builder.query({
-      query: (params = {}) => {
-        const {
-          id,
-          isAcceleratingAllergies = false,
-          isCerner = false,
-        } = params;
-        let path = '';
-        if (isAcceleratingAllergies) {
-          path = `${API_BASE_PATH_V2}/medical_records/allergies/${id}`;
-        } else {
-          path = isCerner
-            ? `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`
-            : `${apiBasePath}/medical_records/allergies`;
-        }
-        return {
-          path,
-        };
-      },
-      // Transform the single allergy response
-      transformResponse: response => {
-        if (response.resource) {
-          return convertAllergy(response.resource);
-        }
-        if (
-          response?.entry &&
-          Array.isArray(response.entry) &&
-          response.entry[0]?.resource
-        ) {
-          return convertAllergy(response.entry[0].resource);
-        }
-        if (response?.data) {
-          return convertAcceleratedAllergy(response.data);
-        }
-        return response;
-      },
+      query: buildGetAllergyByIdQuery,
+      transformResponse: transformAllergyByIdResponse,
     }),
   }),
 });

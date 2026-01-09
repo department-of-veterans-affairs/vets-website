@@ -13,7 +13,7 @@ import {
 } from '../../../../config/chapters/06-financial-information/incomeAndAssets/grossMonthlyIncomePages';
 import { typeOfIncomeLabels } from '../../../../utils/labels';
 
-const arrayPath = 'incomeSources';
+const arrayPath = 'incomeEntries';
 
 describe('Gross Monthly Income Pages', () => {
   it('renders the gross monthly income page intro', async () => {
@@ -78,9 +78,9 @@ describe('Gross Monthly Income Pages', () => {
       addIncomeSource,
       grossMonthlyIncome,
     } = grossMonthlyIncomePages;
-    const formDataWithPension = { claims: { survivorPension: true } };
+    const formDataWithPension = { claims: { survivorsPension: true } };
     const formDataWithoutPension = {
-      claims: { survivorPension: false },
+      claims: { survivorsPension: false },
     };
 
     expect(monthlyIncomeDetails.depends(formDataWithPension)).to.be.true;
@@ -93,8 +93,8 @@ describe('Gross Monthly Income Pages', () => {
 
   it('should show the correct getItemName output', () => {
     const { text } = options;
-    const item = { typeOfIncome: 'SOCIAL_SECURITY' };
-    const itemWithIncorrectIncome = { typeOfIncome: 'MAGIC' };
+    const item = { incomeType: 'SOCIAL_SECURITY' };
+    const itemWithIncorrectIncome = { incomeType: 'MAGIC' };
     const itemWithoutIncome = {};
 
     expect(text.getItemName(item)).to.equal('Social Security');
@@ -104,7 +104,7 @@ describe('Gross Monthly Income Pages', () => {
 
   it('should show the correct cardDescription output', () => {
     const { text } = options;
-    const itemWithAmount = { amount: 1500 };
+    const itemWithAmount = { monthlyIncome: 1500 };
     const itemWithoutAmount = {};
 
     expect(text.cardDescription(itemWithAmount)).to.equal('$1500');
@@ -117,10 +117,10 @@ describe('Gross Monthly Income Pages', () => {
 
     const formDataWithMaxItems = {
       incomeSources: [
-        { typeOfIncome: 'SOCIAL_SECURITY', amount: 1000 },
-        { typeOfIncome: 'PENSION', amount: 500 },
-        { typeOfIncome: 'EMPLOYMENT', amount: 2000 },
-        { typeOfIncome: 'INVESTMENTS', amount: 300 },
+        { incomeType: 'SOCIAL_SECURITY', monthlyIncome: 1000 },
+        { incomeType: 'PENSION', monthlyIncome: 500 },
+        { incomeType: 'EMPLOYMENT', monthlyIncome: 2000 },
+        { incomeType: 'INVESTMENTS', monthlyIncome: 300 },
       ],
     };
     expect(formDataWithMaxItems.incomeSources.length).to.equal(maxItems);

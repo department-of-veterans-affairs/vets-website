@@ -63,7 +63,7 @@ const AgreementPage = () => {
         fraudulent claim.
       </p>
       <p>
-        By submitting this claim, you agree to the beneficiary travel agreement.
+        By submitting this claim, you agree to the beneficiary travel agreement:
       </p>
       <TravelAgreementContent />
       <VaCheckbox

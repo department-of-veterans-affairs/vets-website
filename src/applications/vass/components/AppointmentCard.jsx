@@ -4,6 +4,7 @@ import CardSection from './CardSection';
 
 const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
   const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const phoneNumber = '8008270611';
   return (
     <va-card
       data-testid="appointment-card"
@@ -16,47 +17,53 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
       >
         Phone appointment
       </h2>
-      {appointmentData?.phoneNumber && (
-        <CardSection
-          data-testid="how-to-join-section"
-          heading="How to join"
-          textContent={`Your representative will call you from ${
-            appointmentData.phoneNumber
-          }. If you have questions or need to 
-            reschedule, contact VA Solid Start. `}
-        />
-      )}
+      <CardSection
+        data-testid="how-to-join-section"
+        heading="How to join"
+        customBodyElement={
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+            Your representative will call you from{' '}
+            <va-telephone
+              contact={phoneNumber}
+              data-testid="solid-start-telephone"
+            />
+            . If you have questions or need to reschedule, contact VA Solid
+            Start.
+          </p>
+        }
+      />
       <CardSection
         data-testid="when-section"
         heading="When"
         dateContent={{
-          dateTime: appointmentData?.dtStartUtc,
+          dateTime: appointmentData?.startUTC,
           timezone: browserTimezone,
-          phoneNumber: appointmentData?.phoneNumber,
+          phoneNumber,
           showAddToCalendarButton: appointmentData?.showAddToCalendarButton,
         }}
       />
       <CardSection
         data-testid="what-section"
         heading="What"
-        textContent={appointmentData?.typeOfCare || 'No type of care selected'}
+        textContent="VA Solid Start"
       />
       <CardSection
         data-testid="who-section"
         heading="Who"
         textContent={
-          appointmentData?.providerName || 'No provider name selected'
+          appointmentData?.agentNickname || 'VA Solid Start representative'
         }
       />
-      <CardSection
-        data-testid="topics-section"
-        heading="Topics you'd like to learn more about"
-        textContent={
-          (appointmentData?.topics || [])
-            .map(topic => topic?.topicName || '')
-            .join(', ') || 'No topics selected'
-        }
-      />
+      {appointmentData?.topics &&
+        appointmentData?.topics.length > 0 && (
+          <CardSection
+            data-testid="topics-section"
+            heading="Topics you'd like to learn more about"
+            textContent={appointmentData?.topics
+              .map(topic => topic?.topicName || '')
+              .join(', ')}
+          />
+        )}
       {handleCancelAppointment && (
         <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column vass-hide-for-print">
           <div>
