@@ -1,4 +1,4 @@
-import { isValidEmail } from 'platform/forms/validations';
+import { isValidEmail, isValidRoutingNumber } from 'platform/forms/validations';
 import moment from 'moment';
 import { formatReadableDate } from '../helpers';
 
@@ -55,5 +55,51 @@ export const validateEffectiveDate = (errors, dateString) => {
         minDate.format('YYYY-MM-DD'),
       )} and ${formatReadableDate(maxDate.format('YYYY-MM-DD'))}`,
     );
+  }
+};
+
+const isValidAccountNumber = accountNumber => {
+  return /^[a-z0-9]+$/.test(accountNumber);
+};
+
+export const validateAccountNumber = (
+  errors,
+  accountNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  const accountNumberRegex = new RegExp(schema.pattern);
+  const isValidObfuscated = accountNumberRegex.test(accountNumber.trim());
+
+  const bankAccount = formData['view:directDeposit']?.bankAccount;
+  const matchesOriginal =
+    accountNumber.trim() === bankAccount.originalAccountNumber;
+  if (
+    !isValidAccountNumber(accountNumber) &&
+    !(isValidObfuscated && matchesOriginal)
+  ) {
+    errors.addError(errorMessages.pattern);
+  }
+};
+
+export const validateRoutingNumber = (
+  errors,
+  routingNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  const routingNumberRegex = new RegExp(schema.pattern);
+  const isValidObfuscated = routingNumberRegex.test(routingNumber.trim());
+
+  const bankAccount = formData['view:directDeposit']?.bankAccount;
+  const matchesOriginal =
+    routingNumber.trim() === bankAccount.originalRoutingNumber;
+  if (
+    !isValidRoutingNumber(routingNumber) &&
+    !(isValidObfuscated && matchesOriginal)
+  ) {
+    errors.addError(errorMessages.pattern);
   }
 };

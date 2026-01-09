@@ -14,6 +14,8 @@ export const getAppData = state => {
     isLOA1: isLOA1Selector(state),
     isLOA3: isLOA3Selector(state),
     mebDpoAddressOptionEnabled: state.featureToggles.mebDpoAddressOptionEnabled,
+    mebBankInfoConfirmationField:
+      state?.featureToggles?.mebBankInfoConfirmationField,
     savedForms: state?.user?.profile?.savedForms,
     showMeb5490MaintenanceAlert:
       state?.featureToggles?.showMeb5490MaintenanceAlert,
