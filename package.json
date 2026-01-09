@@ -238,7 +238,7 @@
     "prettier": "^1.14.3",
     "sass": "1.71.0",
     "sass-lint": "^1.13.1",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^13.3.3",
     "semver": "^7.3.5",
     "sinon": "^3.2.1",
     "sinon-v20": "npm:sinon@^20.0.0",
