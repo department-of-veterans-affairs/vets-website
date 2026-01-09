@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
@@ -92,7 +92,7 @@ describe('<ViewDependentsApp />', () => {
     expect($$('va-link-action', container).length).to.equal(1);
   });
 
-  it('should render v2 app', () => {
+  it('should render v2 app', async () => {
     const fetchAllDependentsMock = sinon.spy();
     const fetchRatingInfoMock = sinon.spy();
     const { container } = buildApp({
@@ -108,7 +108,9 @@ describe('<ViewDependentsApp />', () => {
     // alert with link to 0538
     expect($('#update-warning-alert', container)).to.exist;
     // 2 links to 0538 & 1 link to 686c-674
-    expect($$('va-link-action[text*="verif"]', container).length).to.equal(2);
+    await waitFor(() => {
+      expect($$('va-link-action[text*="verif"]', container).length).to.equal(2);
+    });
     expect(
       $$('va-link-action[text*="remove dependents"]', container).length,
     ).to.equal(1);
