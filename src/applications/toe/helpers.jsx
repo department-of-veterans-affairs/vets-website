@@ -187,7 +187,8 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
     },
     [formFields.bankAccount]: {
       ...bankInformation,
-      accountType: bankInformation?.accountType?.toLowerCase(),
+      [formFields.routingNumberConfirmation]: bankInformation?.routingNumber,
+      [formFields.accountNumberConfirmation]: bankInformation?.accountNumber,
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
@@ -313,7 +314,8 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     },
     [formFields.bankAccount]: {
       ...bankInformation,
-      // accountType: bankInformation?.accountType?.toLowerCase(),
+      [formFields.routingNumberConfirmation]: bankInformation?.routingNumber,
+      [formFields.accountNumberConfirmation]: bankInformation?.accountNumber,
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {

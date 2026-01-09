@@ -110,13 +110,9 @@ export const validateAccountNumber = (
   const bankAccount = formData[formFields.bankAccount];
   const matchesOriginal =
     accountNumber.trim() === bankAccount[formFields.originalAccountNumber];
-  const routingNumberMatchesOriginal =
-    bankAccount[formFields.routingNumber] ===
-    bankAccount[formFields.originalRoutingNumber];
-
   if (
     !isValidAccountNumber(accountNumber) &&
-    !(isValidObfuscated && matchesOriginal && routingNumberMatchesOriginal)
+    !(isValidObfuscated && matchesOriginal)
   ) {
     errors.addError(errorMessages.pattern);
   }
@@ -129,19 +125,15 @@ export const validateRoutingNumber = (
   schema,
   errorMessages,
 ) => {
-  const rountingNumberRegex = new RegExp(schema.pattern);
-  const isValidObfuscated = rountingNumberRegex.test(routingNumber.trim());
+  const routingNumberRegex = new RegExp(schema.pattern);
+  const isValidObfuscated = routingNumberRegex.test(routingNumber.trim());
 
   const bankAccount = formData[formFields.bankAccount];
   const matchesOriginal =
     routingNumber.trim() === bankAccount[formFields.originalRoutingNumber];
-  const accountNumberMatchesOriginal =
-    bankAccount[formFields.accountNumber] ===
-    bankAccount[formFields.originalAccountNumber];
-
   if (
     !isValidRoutingNumber(routingNumber) &&
-    !(isValidObfuscated && matchesOriginal && accountNumberMatchesOriginal)
+    !(isValidObfuscated && matchesOriginal)
   ) {
     errors.addError(errorMessages.pattern);
   }

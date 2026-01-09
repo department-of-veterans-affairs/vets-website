@@ -25,4 +25,6 @@ export const getAppData = state => ({
   toeDupContactInfoCall: state.featureToggles.toeDupContactInfoCall,
   toeHighSchoolInfoChange: state?.featureToggles?.toeHighSchoolInfoChange,
   user: state.user || {},
+  mebBankInfoConfirmationField:
+    state?.featureToggles?.mebBankInfoConfirmationField,
 });
