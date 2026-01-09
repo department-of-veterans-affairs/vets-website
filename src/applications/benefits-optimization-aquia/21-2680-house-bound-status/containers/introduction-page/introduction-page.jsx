@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
@@ -94,10 +94,9 @@ const ProcessList = () => {
  * @param {Object} props - Component properties
  * @returns {React.ReactElement} Introduction page
  */
-export const IntroductionPage = ({ route }) => {
+export const IntroductionPage = ({ router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
-  const { formConfig, pageList } = route;
   const showVerifyIdentity = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
@@ -133,34 +132,31 @@ export const IntroductionPage = ({ route }) => {
       {showVerifyIdentity ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start your application"
-          hideUnauthedStartLink
-          devOnly={{
-            forceShowFormControls: true,
+        <VaLinkAction
+          href="/veteran-information"
+          data-testid="start-veteran-information-link"
+          onClick={e => {
+            e.preventDefault();
+            router.push('/veteran-information');
           }}
+          text="Start your application"
         />
       )}
 
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
-      />
+      <div className="vads-u-margin-top--4">
+        <va-omb-info
+          res-burden={OMB_RES_BURDEN}
+          omb-number={OMB_NUMBER}
+          exp-date={OMB_EXP_DATE}
+        />
+      </div>
     </article>
   );
 };
 
 IntroductionPage.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
-    }).isRequired,
-    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    // Add other router methods/properties you use (e.g., pathname, query)
   }).isRequired,
 };
