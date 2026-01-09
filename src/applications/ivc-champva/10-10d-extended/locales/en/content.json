@@ -23,6 +23,7 @@
   "arraybuilder--button-delete-yes": "Yes, delete",
   "button--edit": "Edit",
   "button--update-page": "Update page",
+  "dates--default-label": "Date",
   "form-label--middle-initial": "Middle initial",
   "form-title": "Apply for CHAMPVA benefits",
   "form-subtitle": "Application for CHAMPVA benefits (VA Form 10-10d)",
@@ -75,6 +76,8 @@
   "noun--veteran-possessive": "Veteran\u2019s",
   "ohi--section-title": "Submit your Other Health Insurance Certification (VA Form 10-7959c)",
   "review--no-option": "No",
+  "validation--date-pattern": "Enter a valid date",
+  "validation--date-range--future": "Date may not be more than 1 year from today",
   "validation--required": "You must provide a response",
   "validation--ssn-invalid": "Enter a valid 9-digit SSN (dashes allowed)",
   "validation--ssn-unique": "This SSN has already been used. Enter a different number."

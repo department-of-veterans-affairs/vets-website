@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { validateInitialsMatch } from '../helpers';
+import { getAtPath, setAtPath, validateInitialsMatch } from '../helpers';
 
 describe('0839 Helpers', () => {
   describe('validateInitialsMatch', () => {
@@ -53,6 +53,51 @@ describe('0839 Helpers', () => {
       formData.authorizingOfficial.fullName.last = 'Doe-Poe';
       validateInitialsMatch(errors, 'JDP', formData);
       expect(errors.messages.length).to.eq(0);
+    });
+  });
+
+  describe('getAtPath', () => {
+    it('gets the right value', () => {
+      const original = {
+        a: 1,
+        b: { c: [1, { d: 'hello' }, 3] },
+      };
+
+      expect(getAtPath(original, 'a')).to.eq(1);
+      expect(getAtPath(original, 'b.c.2')).to.eq(3);
+      expect(getAtPath(original, 'b.c.1.d')).to.eq('hello');
+    });
+  });
+
+  describe('setAtPath', () => {
+    it('sets the right value', () => {
+      const original = {
+        a: 1,
+        b: { c: 'A' },
+      };
+
+      setAtPath(original, 'a', 15);
+      expect(original.a).to.eq(15);
+    });
+
+    it('sets the right value', () => {
+      const original = {
+        a: 1,
+        b: { c: 'A' },
+      };
+
+      setAtPath(original, 'b.c', 'Q');
+      expect(original.b.c).to.eq('Q');
+    });
+
+    it('sets the right value', () => {
+      const original = {
+        a: 1,
+        b: { c: [1, { d: 'hello' }, 3] },
+      };
+
+      setAtPath(original, 'b.c.1.d', 'goodbye');
+      expect(original.b.c[1].d).to.eq('goodbye');
     });
   });
 });

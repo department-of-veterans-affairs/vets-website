@@ -200,20 +200,10 @@ class PilotEnvPage {
       });
   };
 
-  navigateToSelectCareTeamPage = (
-    searchMockResponse = require('../fixtures/searchResponses/search-sent-folder-response.json'),
-  ) => {
-    // Set up intercept BEFORE navigating to interstitial page
-    // because the interstitial page will trigger the search on mount
-    cy.intercept('POST', Paths.INTERCEPT.SENT_SEARCH, searchMockResponse).as(
-      'recentRecipients',
-    );
-
+  navigateToSelectCareTeamPage = () => {
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
       force: true,
     });
-
-    cy.wait('@recentRecipients');
 
     PatientInterstitialPage.getStartMessageLink()
       .should('be.visible')
