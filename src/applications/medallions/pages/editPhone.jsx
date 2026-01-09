@@ -40,12 +40,18 @@ const EditPhone = ({
 
   const validatePhone = value => {
     if (!value || value.trim() === '') {
-      return 'Please enter a phone number';
+      return 'Please provide a response.';
+    }
+    if (/[^0-9\-()]/.test(value)) {
+      return "You entered a character we can’t accept. You can only use numbers, dashes, and parentheses.";
     }
     // Remove non-digit characters for validation
     const digitsOnly = value.replace(/\D/g, '');
     if (digitsOnly.length < 10) {
-      return 'Please enter a valid 10-digit phone number';
+      return 'This field should be at least 10 character(s)';
+    }
+    if (digitsOnly.length > 15) {
+      return 'Phone number should be between 10-15 digits long';
     }
     return null;
   };
@@ -68,7 +74,7 @@ const EditPhone = ({
     // Extract digits only for storage
     const digitsOnly = phone.replace(/\D/g, '');
     const areaCode = digitsOnly.substring(0, 3);
-    const phoneNumber = digitsOnly.substring(3, 10);
+    const phoneNumber = digitsOnly.substring(3);
 
     // Update form data locally first
     const updatedFormData = {

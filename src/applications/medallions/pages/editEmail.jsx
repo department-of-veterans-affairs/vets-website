@@ -40,11 +40,22 @@ const EditEmail = ({
 
   const validateEmail = value => {
     if (!value || value.trim() === '') {
-      return 'Please enter an email address';
+      return 'Please provide a response.';
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(value)) {
-      return 'Please enter a valid email address';
+    if (/[^a-zA-Z0-9@.\/~!$%&*_=}{'`?\-]/.test(value)) {
+      return "You entered a character we can’t accept. Try removing spaces and any special characters like commas or brackets.";
+    }
+    if (
+      value.length > 50 ||
+      value.startsWith('.') ||
+      value.endsWith('.') ||
+      value.includes('..') ||
+      value.includes('.@') ||
+      value.includes('@.') ||
+      (value.match(/@/g) || []).length !== 1 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+    ) {
+      return 'Enter a valid email address using the format email@domain.com.';
     }
     return null;
   };
@@ -128,6 +139,7 @@ const EditEmail = ({
           onInput={e => setEmail(e.target.value)}
           error={error}
           required
+          maxLength={50}
         />
         <div className="vads-u-margin-top--2">
           <va-button
