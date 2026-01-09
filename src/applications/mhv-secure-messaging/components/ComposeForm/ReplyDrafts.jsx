@@ -8,7 +8,6 @@ const ReplyDrafts = props => {
   const {
     cannotReply,
     draft,
-    drafts,
     isSaving,
     replyMessage,
     replyToName,
@@ -36,7 +35,7 @@ const ReplyDrafts = props => {
             <ReplyDraftItem
               cannotReply={cannotReply || showBlockedTriageGroupAlert}
               draft={draft}
-              drafts={drafts}
+              drafts={[draft]}
               draftsCount={1}
               draftSequence={null}
               editMode
@@ -55,7 +54,7 @@ const ReplyDrafts = props => {
           <va-accordion-item bordered="true" open>
             <ReplyDraftItem
               cannotReply={cannotReply}
-              drafts={drafts}
+              drafts={[draft]}
               draftsCount={1}
               editMode={isEditing}
               replyMessage={replyMessage}
@@ -79,7 +78,6 @@ const ReplyDrafts = props => {
 ReplyDrafts.propTypes = {
   cannotReply: PropTypes.bool,
   draft: PropTypes.object,
-  drafts: PropTypes.array || PropTypes.object,
   isEditing: PropTypes.bool,
   isSaving: PropTypes.bool,
   replyMessage: PropTypes.object,

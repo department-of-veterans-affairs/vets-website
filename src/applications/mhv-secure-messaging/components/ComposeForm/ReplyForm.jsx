@@ -249,7 +249,6 @@ const ReplyForm = props => {
                 </h2>
                 <ReplyDrafts
                   draft={draft}
-                  drafts={[draft]}
                   cannotReply={cannotReply}
                   isSaving={isSaving}
                   replyToName={replyToName}
