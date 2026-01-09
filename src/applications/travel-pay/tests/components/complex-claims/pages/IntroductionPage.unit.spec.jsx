@@ -255,7 +255,9 @@ describe('Travel Pay – IntroductionPage', () => {
     );
 
     expect(getByText('Need help?')).to.exist;
-    expect(getByText(/BTSSS call center/i)).to.exist;
+    expect(
+      getByText(/You can call the Beneficiary Travel Self Service System/i),
+    ).to.exist;
     expect($('va-telephone[contact="8555747292"]', container)).to.exist;
     expect($('va-telephone[tty][contact="711"]', container)).to.exist;
   });

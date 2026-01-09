@@ -4,16 +4,22 @@ import AppointmentCard from '../components/AppointmentCard';
 // TODO: replace with actual data from API
 const appointmentData = {
   appointmentId: 'abcdef123456',
-  topics: [
-    {
-      topicId: '123',
-      topicName: 'General Health',
-    },
-  ],
-  dtStartUtc: '2024-07-01T14:00:00Z',
-  dtEndUtc: '2024-07-01T14:30:00Z',
-  providerName: 'Bill Brasky',
-  typeOfCare: 'Solid Start',
+  // Currently the appointment GET api does not return topics, so we are not mocking them
+  // ideally VASS adds these values to the appointment GET api response
+  // topics: [
+  //   {
+  //     topicId: '123',
+  //     topicName: 'General Health',
+  //   },
+  // ],
+  startUTC: '2025-12-24T10:00:00Z',
+  endUTC: '2025-12-24T10:30:00Z',
+  agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+  agentNickname: 'Bill Brasky',
+  appointmentStatusCode: 1,
+  appointmentStatus: 'Confirmed',
+  cohortStartUtc: '2025-12-01T00:00:00Z',
+  cohortEndUtc: '2026-02-28T23:59:59Z',
 };
 
 const CancelConfirmation = () => {

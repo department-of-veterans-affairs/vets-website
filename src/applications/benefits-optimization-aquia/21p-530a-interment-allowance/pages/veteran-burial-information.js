@@ -7,15 +7,42 @@ import {
   selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { states } from '@department-of-veterans-affairs/platform-forms/address';
+import { validateEndDateAfterStartDate } from '../utils/validationHelpers';
 
 export const veteranBurialInformationPage = {
   uiSchema: {
     ...titleUI('Veteran’s interment information'),
     veteranInformation: {
-      dateOfDeath: currentOrPastDateUI('Date of death'),
+      dateOfDeath: {
+        ...currentOrPastDateUI('Date of death'),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            validateEndDateAfterStartDate(
+              errors,
+              fieldData,
+              formData.veteranInformation,
+              'dateOfBirth',
+              'Please enter a date of death later than the date of birth.',
+            );
+          },
+        ],
+      },
     },
     burialInformation: {
-      dateOfBurial: currentOrPastDateUI('Date of burial'),
+      dateOfBurial: {
+        ...currentOrPastDateUI('Date of burial'),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            validateEndDateAfterStartDate(
+              errors,
+              fieldData,
+              formData.veteranInformation,
+              'dateOfDeath',
+              'Please enter a date of burial later than the date of death.',
+            );
+          },
+        ],
+      },
       placeOfBurial: {
         ...titleUI({
           title: 'Cemetery information',
