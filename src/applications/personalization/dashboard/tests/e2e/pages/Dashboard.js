@@ -1,17 +1,13 @@
 class DashboardPage {
   clickConfirmEmail = () => {
     cy.findByTestId('mhv-alert--confirm-contact-email')
-      .find('va-button[text="Confirm"]')
-      .shadow()
-      .find('button')
+      .findByRole('button', { name: /Confirm/i })
       .click();
   };
 
   clickErrorConfirmEmail = () => {
     cy.findByTestId('mhv-alert--confirm-error')
-      .find('va-button[text="Confirm"]')
-      .shadow()
-      .find('button')
+      .findByRole('button', { name: /Confirm/i })
       .click();
   };
 
