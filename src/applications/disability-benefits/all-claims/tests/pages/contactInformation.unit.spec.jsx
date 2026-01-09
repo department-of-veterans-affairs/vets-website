@@ -305,7 +305,7 @@ describe('Disability benefits 526EZ contact information', () => {
 
         // country
         expect(form.find('VaSelectField').length).to.equal(1);
-        // street 1, 2, 3, city, but TODO why not phone, email, and overseas address checkbox
+        // street 1, 2, 3, city
         expect(form.find('VaTextInputField').length).to.equal(4);
         form.unmount();
       });

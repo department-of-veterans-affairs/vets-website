@@ -3,7 +3,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
-import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
+import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import constants from 'vets-json-schema/dist/constants.json';
 
@@ -176,8 +176,6 @@ export const uiSchema = {
               enum: 'Select a military state',
             };
             return {
-              //  type: 'string',
-              // title: 'State',
               enum: MILITARY_STATE_VALUES,
               enumNames: MILITARY_STATE_LABELS,
             };
