@@ -543,7 +543,7 @@ const ReplyDraftItem = props => {
               />
             </section>
           )}
-        <DraftSavedInfo messageId={draftId} drafts={[draft]} />
+        <DraftSavedInfo />
 
         <div ref={composeFormActionButtonsRef}>
           <ComposeFormActionButtons
