@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
@@ -108,9 +108,18 @@ describe('<ViewDependentsApp />', () => {
     // alert with link to 0538
     expect($('#update-warning-alert', container)).to.exist;
     // 2 links to 0538 & 1 link to 686c-674
-    await waitFor(() => {
-      expect($$('va-link-action[text*="verif"]', container).length).to.equal(2);
-    });
+    expect(
+      $$(
+        'va-link-action[text="Add or remove dependents on VA benefits"]',
+        container,
+      ).length,
+    ).to.equal(1);
+    expect(
+      $$(
+        'va-link-action[text="Start your disability benefits dependents verification"]',
+        container,
+      ).length,
+    ).to.equal(1);
     expect(
       $$('va-link-action[text*="remove dependents"]', container).length,
     ).to.equal(1);
