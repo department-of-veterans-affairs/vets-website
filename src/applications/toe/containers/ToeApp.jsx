@@ -214,7 +214,7 @@ function ToeApp({
         });
       }
     },
-    [mebBankInfoConfirmationField, formData, setFormData],
+    [mebBankInfoConfirmationField],
   );
 
   useEffect(
