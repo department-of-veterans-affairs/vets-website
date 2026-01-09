@@ -9,7 +9,7 @@ class FolderManagementPage {
 
   createANewFolderButton = () => {
     return cy
-      .get(Locators.ALERTS.CREAT_NEW_TEXT_FOLD)
+      .get(Locators.ALERTS.CREATE_NEW_FOLDER)
       .shadow()
       .find('[type="button"]');
   };
@@ -98,9 +98,15 @@ class FolderManagementPage {
     cy.findByTestId('move-button-text')
       .should('be.visible')
       .click();
-    cy.findByLabelText(folderName)
+    // Wait for the modal to fully render and radio options to be available
+    cy.get(Locators.ALERTS.MOVE_MODAL)
       .should('be.visible')
-      .click();
+      .within(() => {
+        cy.findByLabelText(folderName, { timeout: 10000 })
+          .should('exist')
+          .should('be.visible')
+          .click();
+      });
   };
 
   confirmMovingMessageToFolder = (

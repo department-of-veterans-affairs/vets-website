@@ -146,7 +146,7 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you.d like to share with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/Additional information:colon/i));
@@ -276,7 +276,7 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you.d like to share with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/Additional information:colon/i));
@@ -406,7 +406,7 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you.d like to share with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/Additional information:colon/i));

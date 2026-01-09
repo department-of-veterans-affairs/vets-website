@@ -15,8 +15,14 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import DocumentUpload from './DocumentUpload';
-import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
+import {
+  EXPENSE_TYPES,
+  EXPENSE_TYPE_KEYS,
+  TRIP_TYPES,
+} from '../../../constants';
 import {
   createExpense,
   updateExpenseDeleteDocument,
@@ -122,6 +128,9 @@ const ExpensePage = () => {
   const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
   const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
   const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
+
+  useSetFocus();
+  useRecordPageview('complex-claims', expenseTypeFields?.label || 'Expense');
 
   // Effects
   // Effect 1: Reset loaded flag when expenseId changes
@@ -310,16 +319,31 @@ const ExpensePage = () => {
       'tripType',
       'departureDate',
       'departedFrom',
-      'returnDate',
       'arrivedTo',
     ],
   };
 
-  const validatePage = () => {
-    // Field names must match those expected by the expenses_controller in vets-api.
+  const getRequiredFieldsForPage = () => {
     const base = ['purchaseDate', 'costRequested', 'receipt', 'description'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
-    const requiredFields = [...base, ...extra];
+
+    let requiredFields = [...base, ...extra];
+
+    // 🔹 Conditional Air Travel rule
+    if (
+      isAirTravel &&
+      formState.tripType === TRIP_TYPES.ROUND_TRIP.value &&
+      !requiredFields.includes('returnDate')
+    ) {
+      requiredFields = [...requiredFields, 'returnDate'];
+    }
+
+    return requiredFields;
+  };
+
+  const validatePage = () => {
+    // Field names must match those expected by the expenses_controller in vets-api.
+    const requiredFields = getRequiredFieldsForPage();
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
 
@@ -645,7 +669,7 @@ const ExpensePage = () => {
               pattern="^[0-9]*(\.[0-9]{0,2})?$"
               onInput={handleFormChange}
               onBlur={handleAmountBlur}
-              hint="Enter the amount as dollars and cents. For example, 8.42"
+              hint="Enter the amount as dollars and cents (for example, 8.42)"
               {...extraFieldErrors.costRequested && {
                 error: extraFieldErrors.costRequested,
               }}

@@ -18,6 +18,7 @@ export default {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: content['insurance-info--policy-title'],
+      showEditExplanationText: false,
     }),
     insuranceName: textUI({
       title: content['insurance-info--provider-label'],
