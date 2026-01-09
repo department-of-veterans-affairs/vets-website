@@ -198,10 +198,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     notificationMethod: claimant?.notificationMethod || formData?.contactMethod,
     declineDirectDeposit: formData?.declineDirectDeposit,
-    bankAccount: {
-      ...bankInformation,
-      routingNumberConfirmation: bankInformation?.routingNumber,
-      accountNumberConfirmation: bankInformation?.accountNumber,
+    'view:directDeposit': {
+      bankAccount: {
+        ...bankInformation,
+        routingNumberConfirmation: bankInformation?.routingNumber,
+        accountNumberConfirmation: bankInformation?.accountNumber,
+      },
     },
   };
 

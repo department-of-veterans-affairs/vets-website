@@ -8,6 +8,10 @@ import DirectDepositDescription from '../components/DirectDepositDescription';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import ObfuscateReviewField from '../components/ObfuscateReviewField';
 import DirectDepositField from '../components/DirectDepositField';
+import {
+  validateAccountNumber,
+  validateRoutingNumber,
+} from '../utils/validations';
 
 const checkImageSrc = (() => {
   const bucket = environment.isProduction()
@@ -49,6 +53,7 @@ const directDeposit = {
           },
           'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [
+            validateRoutingNumber,
             (errors, fieldData, formData) => {
               const accountNumber =
                 formData['view:directDeposit']?.bankAccount?.accountNumber;
@@ -90,6 +95,7 @@ const directDeposit = {
           },
           'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [
+            validateAccountNumber,
             (errors, fieldData, formData) => {
               const routingNumber =
                 formData['view:directDeposit']?.bankAccount?.routingNumber;
