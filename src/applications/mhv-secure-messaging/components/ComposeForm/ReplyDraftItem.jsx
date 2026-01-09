@@ -37,13 +37,10 @@ import { updateDraftInProgress } from '../../actions/threadDetails';
 const ReplyDraftItem = props => {
   const {
     draft,
-    drafts,
     cannotReply,
     editMode,
     isSaving,
     signature,
-    draftsCount,
-    draftSequence,
     replyMessage,
     replyToName,
     setLastFocusableElement,
@@ -468,8 +465,7 @@ const ReplyDraftItem = props => {
       <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="reply" />
 
       <h3 className="vads-u-margin-bottom--0p5" slot="headline">
-        [Draft
-        {draftSequence ? ` ${draftSequence}]` : ']'}
+        [Draft]
       </h3>
       <>
         <span
@@ -483,7 +479,7 @@ const ReplyDraftItem = props => {
             <va-icon icon="undo" aria-hidden="true" />
           </div>
           <span className="thread-list-draft reply-draft-label vads-u-padding-right--2">
-            {`Draft ${draftSequence ? `${draftSequence} ` : ''}`}
+            Draft
           </span>
           {`To: ${replyToName}\n(Team: ${draft?.suggestedNameDisplay ||
             replyMessage?.suggestedNameDisplay ||
@@ -506,14 +502,10 @@ const ReplyDraftItem = props => {
             data-dd-privacy="mask"
             label="Message"
             required
-            id={`reply-message-body${draftSequence ? `-${draftSequence}` : ''}`}
-            name={`reply-message-body${
-              draftSequence ? `-${draftSequence}` : ''
-            }`}
+            id="reply-message-body"
+            name="reply-message-body"
             className="message-body"
-            data-testid={`message-body-field${
-              draftSequence ? `-${draftSequence}` : ''
-            }`}
+            data-testid="message-body-field"
             onInput={messageBodyHandler}
             value={draft?.body || formattededSignature} // populate with the signature, unless there is a saved draft
             error={bodyError}
@@ -534,7 +526,7 @@ const ReplyDraftItem = props => {
                 editingEnabled
                 attachFileSuccess={attachFileSuccess}
                 setAttachFileSuccess={setAttachFileSuccess}
-                draftSequence={draftSequence}
+                draftSequence={null}
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
@@ -545,7 +537,7 @@ const ReplyDraftItem = props => {
                 attachments={attachments}
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
-                draftSequence={draftSequence}
+                draftSequence={null}
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
@@ -553,13 +545,13 @@ const ReplyDraftItem = props => {
               />
             </section>
           )}
-        <DraftSavedInfo messageId={draftId} drafts={drafts} />
+        <DraftSavedInfo messageId={draftId} drafts={[draft]} />
 
         <div ref={composeFormActionButtonsRef}>
           <ComposeFormActionButtons
             cannotReply={showBlockedTriageGroupAlert || cannotReply}
             draftId={draft?.messageId}
-            draftsCount={draftsCount}
+            draftsCount={1}
             draftBody={draft?.body}
             messageBody={messageBody}
             navigationError={navigationError}
@@ -567,7 +559,7 @@ const ReplyDraftItem = props => {
             onSend={sendMessageHandler}
             refreshThreadCallback={refreshThreadHandler}
             setNavigationError={setNavigationError}
-            draftSequence={draftSequence}
+            draftSequence={null}
             setHideDraft={setHideDraft}
             setIsEditing={setIsEditing}
             setIsModalVisible={setIsModalVisible}
@@ -582,9 +574,6 @@ const ReplyDraftItem = props => {
 ReplyDraftItem.propTypes = {
   cannotReply: PropTypes.bool,
   draft: PropTypes.object,
-  draftSequence: PropTypes.number,
-  drafts: PropTypes.array,
-  draftsCount: PropTypes.number,
   editMode: PropTypes.bool,
   isSaving: PropTypes.bool,
   replyMessage: PropTypes.object,

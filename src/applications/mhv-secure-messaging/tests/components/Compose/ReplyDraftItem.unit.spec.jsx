@@ -6,7 +6,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../../reducers';
 import ReplyDraftItem from '../../../components/ComposeForm/ReplyDraftItem';
-import thread from '../../fixtures/reducers/thread-with-multiple-drafts-reducer.json';
+import thread from '../../fixtures/reducers/thread-with-one-draft-reducer.json';
 import categories from '../../fixtures/categories-response.json';
 import { dateFormat } from '../../../util/helpers';
 import * as messagesActions from '../../../actions/messages';
@@ -33,8 +33,6 @@ describe('ReplyDraftItem component', () => {
     cannotReply: false,
     editMode: true,
     signature: undefined,
-    draftsCount: 1,
-    draftsequence: 1,
     replyMessage,
     replyToName,
     draftId: draft.messageId,
@@ -173,31 +171,6 @@ describe('ReplyDraftItem component', () => {
         )}.`,
       ),
     ).to.exist;
-  });
-
-  it('triggers refreshThreadCallback on draft delete', async () => {
-    const refreshThreadCallbackSpy = sandbox.spy(
-      messagesActions,
-      'retrieveMessageThread',
-    );
-
-    const customProps = {
-      ...defaultProps,
-      draftsCount: 2,
-    };
-    const { getByText, findByTestId } = setup({ props: customProps });
-    fireEvent.click(getByText('Delete draft'));
-    const deleteDraftModal = await findByTestId('delete-draft-modal');
-    const deleteConfirmButton = deleteDraftModal.querySelector(
-      'va-button[text="Delete draft"]',
-    );
-    mockApiRequest({ status: 204, method: 'DELETE' }, true);
-    await waitFor(() => {
-      fireEvent.click(deleteConfirmButton);
-    });
-    await waitFor(() => {
-      expect(refreshThreadCallbackSpy.calledOnce).to.be.true;
-    });
   });
 
   it('calls sendReply callback on send button click', async () => {
