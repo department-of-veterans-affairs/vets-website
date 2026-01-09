@@ -70,15 +70,15 @@ export default function DirectDepositViewField({
 
 DirectDepositViewField.propTypes = {
   errorSchema: PropTypes.object.isRequired,
+  formContext: PropTypes.shape({
+    onError: PropTypes.func.isRequired,
+  }).isRequired,
   formData: PropTypes.shape({
     bankAccount: PropTypes.shape({
       accountType: PropTypes.string,
       accountNumber: PropTypes.string,
       routingNumber: PropTypes.string,
     }),
-  }).isRequired,
-  formContext: PropTypes.shape({
-    onError: PropTypes.func.isRequired,
   }).isRequired,
   startEditing: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
