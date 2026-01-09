@@ -171,7 +171,10 @@ export default function transform(formConfig, form) {
 
       clonedData.pointOfContact.emailAddress = clonedData.pointsOfContact.email;
 
-      if (pointOfContactRole.length === 3) {
+      if (
+        pointOfContactRole.includes('YellowRibbonProgramPOC') &&
+        pointOfContactRole.includes('schoolCertifyingOfficial')
+      ) {
         clonedData.pointOfContactTwo = clonedData.pointsOfContact;
 
         clonedData.pointOfContact.role = 'YellowRibbonProgramPOC';

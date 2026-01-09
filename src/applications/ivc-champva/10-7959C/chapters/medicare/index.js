@@ -7,8 +7,9 @@ import {
   hasPartC,
   hasPartD,
   hasPartsABorC,
+  needsPartADenialNotice,
 } from '../../utils/helpers';
-import medicareIntro from './introduction';
+import overview from './overview';
 import partACardUpload from './partACardUpload';
 import partADenialNotice from './partADenialNotice';
 import partADenialProofUpload from './partADenialProofUpload';
@@ -33,7 +34,7 @@ export const medicarePagesRev2025 = {
     path: 'medicare-overview',
     title: 'Report Medicare',
     depends: formData => formData[REV2025_TOGGLE_KEY],
-    ...medicareIntro,
+    ...overview,
   },
   reportMedicare: {
     path: 'report-medicare-plan',
@@ -74,7 +75,8 @@ export const medicarePagesRev2025 = {
   medicarePartADenial: {
     path: 'medicare-part-a-denial-notice',
     title: 'Medicare Part A denial',
-    depends: formData => formData[REV2025_TOGGLE_KEY] && hasPartB(formData),
+    depends: formData =>
+      formData[REV2025_TOGGLE_KEY] && needsPartADenialNotice(formData),
     ...partADenialNotice,
   },
   medicarePartADenialProofUpload: {
