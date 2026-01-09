@@ -187,7 +187,8 @@ export default function DefaultPage({
             <p className="vads-u-margin-y--2">{apiDescription}</p>
           </div>
         )}
-      {!frontendDescription &&
+      {isFirstParty &&
+        !frontendDescription &&
         !apiDescription && (
           <div
             className="vads-u-margin-bottom--4"

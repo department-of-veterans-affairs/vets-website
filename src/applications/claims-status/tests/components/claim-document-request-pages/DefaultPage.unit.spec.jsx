@@ -779,8 +779,8 @@ describe('<DefaultPage>', () => {
         expectedHeader: 'Your third party friendly name',
         expectedSubheaderPattern: /We made a request outside VA on/,
         expectedSubheaderExcludes: 'Unknown Third Party Request',
-        expectedDescriptionText:
-          'we’re unable to provide more information about the request',
+        // No description shown for third party without frontend/API description
+        expectedDescriptionText: null,
         showsAddFilesForm: true,
       },
       {
@@ -797,8 +797,8 @@ describe('<DefaultPage>', () => {
         dictionaryEntry: null,
         expectedHeader: 'Request for evidence outside VA',
         expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
-        expectedDescriptionText:
-          'we’re unable to provide more information about the request',
+        // No description shown for third party without frontend/API description
+        expectedDescriptionText: null,
         showsAddFilesForm: true,
       },
       {
@@ -883,8 +883,11 @@ describe('<DefaultPage>', () => {
           expect(getByTestId('api-description')).to.exist;
           getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
         } else {
-          expect(getByTestId('empty-state-description')).to.exist;
-          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
+          // Third party requests without frontend/API description show no description
+          // (empty-state-description is only shown for first party requests)
+          expect(queryByTestId('frontend-description')).to.not.exist;
+          expect(queryByTestId('api-description')).to.not.exist;
+          expect(queryByTestId('empty-state-description')).to.not.exist;
         }
         expect(queryByTestId('learn-about-request-section')).to.not.exist;
 
