@@ -1,10 +1,10 @@
 // @ts-check
-import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
-import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca VeteranAddress config', () => {
   const {
@@ -15,7 +15,7 @@ describe('hca VeteranAddress config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 9;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,

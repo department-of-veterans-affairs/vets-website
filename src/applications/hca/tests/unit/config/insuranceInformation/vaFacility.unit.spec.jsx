@@ -1,7 +1,7 @@
 // @ts-check
+import { testNumberOfFields } from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
-import { testNumberOfFormFields } from '../../../helpers.spec';
-import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca VaFacility config', () => {
   const {
@@ -12,7 +12,7 @@ describe('hca VaFacility config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 4;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
