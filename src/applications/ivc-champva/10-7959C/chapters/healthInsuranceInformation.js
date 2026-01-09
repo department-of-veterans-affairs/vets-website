@@ -201,6 +201,7 @@ export function applicantInsuranceSOBSchema(isPrimary) {
     },
     schema: {
       type: 'object',
+      required: [keyname],
       properties: {
         'view:fileUploadBlurb': blankSchema,
         [keyname]: singleFileSchema,
@@ -320,6 +321,7 @@ export function applicantInsuranceCardSchema(isPrimary) {
     },
     schema: {
       type: 'object',
+      required: [`${keyname}Front`, `${keyname}Back`],
       properties: {
         'view:fileUploadBlurb': blankSchema,
         [`${keyname}Front`]: singleFileSchema,
