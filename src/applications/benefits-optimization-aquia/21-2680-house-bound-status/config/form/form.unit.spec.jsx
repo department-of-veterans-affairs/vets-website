@@ -153,8 +153,8 @@ describe('Form Configuration', () => {
       expect(formConfig.version).to.be.a('number');
     });
 
-    it('should have prefill enabled', () => {
-      expect(formConfig.prefillEnabled).to.be.true;
+    it('should have prefill disabled', () => {
+      expect(formConfig.prefillEnabled).to.be.false;
     });
 
     it('should have submit transformer', () => {
@@ -200,8 +200,8 @@ describe('Form Configuration', () => {
     });
 
     it('should have correct fullNamePath for statement of truth', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
-        'veteranInformation.veteranFullName',
+      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.be.a(
+        'function',
       );
     });
 
