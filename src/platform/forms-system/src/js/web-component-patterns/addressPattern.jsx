@@ -25,7 +25,7 @@ const POSTAL_CODE_PATTERNS = {
   CAN:
     '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
   MEX: '^\\d{5}$',
-  USA: '^\\d{5}(-?\\d{4})?$',
+  USA: '^\\d{5}$',
 };
 
 const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
@@ -39,7 +39,7 @@ const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
   },
   USA: {
     required: 'Enter a zip code',
-    pattern: 'Enter a valid 5- or 9-digit zip code',
+    pattern: 'Enter a valid 5- digit zip code',
   },
   NONE: {
     required: 'Enter a postal code',
