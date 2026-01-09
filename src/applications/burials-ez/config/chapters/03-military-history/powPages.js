@@ -18,9 +18,9 @@ export const options = {
   isItemIncomplete: item => !item?.powDateRange?.from || !item.powDateRange?.to, // include all required fields here
   text: {
     getItemName: item =>
-      item?.powDateRange
-        ? `${formatDateLong(item.powDateRange?.from)} - ${formatDateLong(
-            item.powDateRange?.to,
+      item?.powDateRange?.from && item?.powDateRange?.to
+        ? `${formatDateLong(item.powDateRange.from)} - ${formatDateLong(
+            item.powDateRange.to,
           )}`
         : undefined,
     summaryTitleWithoutItems: 'Prisoner of war status',
