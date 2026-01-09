@@ -160,7 +160,7 @@
       max-width: unset;
     }
   }
-  .schemaform-title>.schemaform-subtitle {
+  .schemaform-title > .schemaform-subtitle {
     font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
     font-size: 1.25rem !important;
   }
@@ -190,7 +190,7 @@
   .rjsf {
     div.vads-u-margin-y--2:first-child {
       margin-top: 0 !important;
-      [id="root_view:claimantTitle__title"]  {
+      [id="root_view:claimantTitle__title"] {
         padding: 0;
       }
     }
@@ -199,11 +199,10 @@
   [id="root_view:veteranTitle__title"] {
     padding-top: 32px;
   }
-
 }
 .form-review-panel-page-representative-form-upload {
   margin-bottom: 0;
-  margin-top: 20px
+  margin-top: 20px;
 }
 
 .arp-alert-right-file-p {
@@ -268,4 +267,17 @@
   font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 1.25rem;
   font-weight: 700;
+}
+
+.form {
+  &__icon {
+    &--warning {
+      margin: 0 4px 0 10px;
+    }
+  }
+  &__itf-card {
+    &--date {
+      margin-left: 3px;
+    }
+  }
 }
