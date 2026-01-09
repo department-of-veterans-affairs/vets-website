@@ -19,23 +19,27 @@ const mockUsers = [
 
 // Keep a count of how manny attempts to use the OTC have been made for each uuid
 const otcUseCounts = new Map(); // uuid -> count
-const maxOtcUseCount = 3;
+const maxOtcUseCount = 5;
 
 const mockAppointments = [
   {
     appointmentId: 'abcdef123456',
     // Currently the appointment GET api does not return topics, so we are not mocking them
+    // ideally VASS adds these values to the appointment GET api response
     // topics: [
     //   {
     //     topicId: '123',
     //     topicName: 'General Health',
     //   },
     // ],
-    dtStartUtc: '2024-07-01T14:00:00Z',
-    dtEndUtc: '2024-07-01T14:30:00Z',
-    // TODO: verify the accuracy of appointment payload data from API
-    phoneNumber: '800-827-0611',
-    providerName: 'Bill Brasky',
+    startUTC: '2025-12-24T10:00:00Z',
+    endUTC: '2025-12-24T10:30:00Z',
+    agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+    agentNickname: 'Bill Brasky',
+    appointmentStatusCode: 1,
+    appointmentStatus: 'Confirmed',
+    cohortStartUtc: '2025-12-01T00:00:00Z',
+    cohortEndUtc: '2026-02-28T23:59:59Z',
   },
 ];
 const responses = {
