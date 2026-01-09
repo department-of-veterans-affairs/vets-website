@@ -545,3 +545,13 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     `Quantity: ${rxError ? '' : rx?.quantity || 'Quantity not available'}`,
   ].join('\n');
 };
+
+export const draftIsClean = draftInProgress => {
+  return (
+    !draftInProgress?.messageId &&
+    !draftInProgress?.category &&
+    !draftInProgress?.subject &&
+    !draftInProgress?.body &&
+    (!draftInProgress?.attachments || draftInProgress.attachments.length === 0)
+  );
+};

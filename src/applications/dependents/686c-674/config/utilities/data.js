@@ -65,6 +65,15 @@ export const customFormReplacer = (key, value) => {
 };
 
 /**
+ * Check if the form should go through v3 picklist unless Veteran has a v2 form
+ * in progress
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if v3 picklist should be shown
+ */
+export const showV3Picklist = formData =>
+  !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
+
+/**
  * Extract data fields with values from source data
  *
  * Returns only fields that have meaningful data (non-empty values/arrays).
@@ -166,7 +175,13 @@ export function buildSubmissionData(payload) {
   const enabledRemoveOptions = {};
   if (removeEnabled) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
-      if (removeOptions[option] === true) {
+      // Support both V2 (checkbox) and V3 (picklist) flows:
+      // - V2: removeOptions[option] is set when user checks the box - only check selected options
+      // - V3: removeOptions is empty - check all options after picklist transformation
+      const isV3Flow = showV3Picklist(sourceData);
+      const shouldCheckOption = isV3Flow || removeOptions[option] === true;
+
+      if (shouldCheckOption) {
         const optionData = extractDataFields(sourceData, fields);
         if (Object.keys(optionData).length > 0) {
           Object.assign(cleanData, optionData);
@@ -311,15 +326,6 @@ export const isAddingDependents = formData =>
  */
 export const isRemovingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.remove;
-
-/**
- * Check if the form should go through v3 picklist unless Veteran has a v2 form
- * in progress
- * @param {object} formData - form data object
- * @returns {boolean} - true if v3 picklist should be shown
- */
-export const showV3Picklist = formData =>
-  !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
 
 /**
  * Show v2 flow if Veteran has a v2 form in progress
@@ -874,7 +880,8 @@ function rebuildSubmissionPayload(payload, transformedData) {
  * 4. Transform V3 picklist data to V2 format
  * 5. Enrich reportDivorce with SSN from awarded dependents
  * 6. Rebuild submission data with validated flags
- * 7. Serialize to JSON
+ * 7. Extract data from payload structure for backend
+ * 8. Serialize to JSON
  *
  * @param {Object} formConfig - Form configuration object defining structure
  * @param {Object} form - Raw form data from Redux store
@@ -905,9 +912,14 @@ export function customTransformForSubmit(formConfig, form) {
     enrichedData,
   );
 
-  // Step 7: Serialize to JSON for backend submission
+  // Step 7: Extract the data from payload structure for backend submission
+  // buildSubmissionData returns { data: cleanData, ...payload }
+  // but backend expects just the cleanData without the wrapper
+  const submissionData = finalPayload.data || finalPayload;
+
+  // Step 8: Serialize to JSON for backend submission
   return {
-    body: JSON.stringify(finalPayload, customFormReplacer) || '{}',
+    body: JSON.stringify(submissionData, customFormReplacer) || '{}',
     data: finalPayload || {},
   };
 }
