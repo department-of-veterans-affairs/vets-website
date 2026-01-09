@@ -1,38 +1,44 @@
-import {
-  titleUI,
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { futureDateSchema, futureDateUI } from '../../definitions';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
+
+const TITLE_TEXT = content['medicare--parts-ab-effective-date-title'];
+const SUBTITLES = {
+  partA: content['medicare--part-a-subtitle'],
+  partB: content['medicare--part-b-subtitle'],
+};
+
+const INPUT_LABEL = content['medicare--effective-date-label'];
+const HINT_TEXT = {
+  partA: content['medicare--part-a-effective-date-hint'],
+  partB: content['medicare--part-b-effective-date-hint'],
+};
 
 export default {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(`${nameWording(formData)} Medicare effective dates`),
-    ),
+    ...titleWithNameUI(TITLE_TEXT),
     'view:medicarePartAEffectiveDate': {
       ...titleUI({
-        title: 'Medicare Part A',
+        title: SUBTITLES.partA,
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
-        title: 'Effective date',
-        hint:
-          'This will be on the front of the Medicare card near “Coverage starts.”',
+      medicarePartAEffectiveDate: futureDateUI({
+        title: INPUT_LABEL,
+        hint: HINT_TEXT.partA,
         classNames: 'vads-u-margin-top--neg1p5',
       }),
     },
     'view:medicarePartBEffectiveDate': {
       ...titleUI({
-        title: 'Medicare Part B',
+        title: SUBTITLES.partB,
         headerLevel: 2,
         headerStyleLevel: 3,
       }),
-      applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
-        title: 'Effective date',
-        hint:
-          'This will be on the front of the Medicare card near “Coverage starts.”',
+      medicarePartBEffectiveDate: futureDateUI({
+        title: INPUT_LABEL,
+        hint: HINT_TEXT.partB,
         classNames: 'vads-u-margin-top--neg1p5',
       }),
     },
@@ -42,16 +48,16 @@ export default {
     properties: {
       'view:medicarePartAEffectiveDate': {
         type: 'object',
-        required: ['applicantMedicarePartAEffectiveDate'],
+        required: ['medicarePartAEffectiveDate'],
         properties: {
-          applicantMedicarePartAEffectiveDate: currentOrPastDateSchema,
+          medicarePartAEffectiveDate: futureDateSchema,
         },
       },
       'view:medicarePartBEffectiveDate': {
         type: 'object',
-        required: ['applicantMedicarePartBEffectiveDate'],
+        required: ['medicarePartBEffectiveDate'],
         properties: {
-          applicantMedicarePartBEffectiveDate: currentOrPastDateSchema,
+          medicarePartBEffectiveDate: futureDateSchema,
         },
       },
     },

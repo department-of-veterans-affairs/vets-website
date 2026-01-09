@@ -3,15 +3,11 @@ import { connect } from 'react-redux';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
-import { benefitsLabels } from '../../utils/labels';
+import PropTypes from 'prop-types';
+import { benefitsLabelsUpdate } from '../../utils/labels';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
@@ -28,7 +24,7 @@ class ConfirmationPage extends React.Component {
           <li key="benefit">
             <strong>Benefit to be transferred</strong>
             <br />
-            {benefitsLabels[benefit]}
+            {benefitsLabelsUpdate[benefit]}
           </li>,
         ]}
         docExplanationHeader="No documents required at this time"
@@ -64,4 +60,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(ConfirmationPage);
+ConfirmationPage.propTypes = {
+  form: PropTypes.object,
+};
+
 export { ConfirmationPage };

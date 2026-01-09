@@ -2,23 +2,30 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui/focus';
-import { generateSlots } from '../utils/mock-helpers';
 import Wrapper from '../layout/Wrapper';
 import { usePersistentSelections } from '../hooks/usePersistentSelections';
 import { setSelectedDate, selectSelectedDate } from '../redux/slices/formSlice';
-
+import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
 // TODO: remove this once we have a real UUID
-const UUID = 'af40d0e7-df29-4df3-8b5e-03eac2e760fa';
+import { UUID } from '../services/mocks/utils/formData';
 
 // TODO: make this component a shared component
 import CalendarWidget from '../components/calendar/CalendarWidget';
+import { mapAppointmentAvailabilityToSlots } from '../utils/slots';
+import { getTimezoneDescByTimeZoneString } from '../utils/timezone';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
   const selectedDate = useSelector(selectSelectedDate);
   const navigate = useNavigate();
-  const { saveDateSelection, getSaved } = usePersistentSelections(UUID);
+  const { saveDateSelection } = usePersistentSelections(UUID);
+  const {
+    data: appointmentAvailability,
+    isLoading: loading,
+  } = useGetAppointmentAvailabilityQuery();
 
+  // TODO: determine what timezone to use
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const saveDate = useCallback(
     date => {
       saveDateSelection(date);
@@ -27,15 +34,7 @@ const DateTimeSelection = () => {
     [saveDateSelection, dispatch],
   );
 
-  const loadSavedDate = useCallback(
-    () => {
-      const savedDate = getSaved()?.selectedSlotTime;
-      if (savedDate) {
-        dispatch(setSelectedDate(savedDate));
-      }
-    },
-    [getSaved, dispatch],
-  );
+  const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
 
   // Add a counter state to trigger focusing
   const [focusTrigger, setFocusTrigger] = useState(0);
@@ -46,37 +45,26 @@ const DateTimeSelection = () => {
   // Check if a date/time has been selected
   const showValidationError = hasAttemptedSubmit && !selectedDate;
 
-  // Placeholder values for the calendar widget two weeks from now
-  const draftAppointmentInfo = {
-    attributes: {
-      slots: generateSlots(),
-    },
-  };
-
   // This is for loading not sure if we will need it
   const disabledMessage = null;
 
   const errorMessage = showValidationError
     ? 'Please select a preferred date and time for your appointment.'
     : '';
-  const latestAvailableSlot = new Date(
-    draftAppointmentInfo.attributes.slots[
-      draftAppointmentInfo.attributes.slots.length - 1
-    ].end,
-  );
+  const latestAvailableSlot = new Date(slots[slots.length - 1]?.end);
 
   const onChange = selectedDateTimes => {
+    // Selecting a day on the calendar fires an onChange event with an empty array even
+    // when the day is is the same as the currently selected slot time. To avoid
+    // deselecting the slot, we don't save anything if the selected date times is an empty array
+    const selectedSlotTime = selectedDateTimes[0];
+    if (!selectedSlotTime) {
+      return;
+    }
     // Update selected dates and clear any previous error state
-    saveDate(selectedDateTimes[0]);
+    saveDate(selectedSlotTime);
     setHasAttemptedSubmit(false);
   };
-
-  useEffect(
-    () => {
-      loadSavedDate();
-    },
-    [loadSavedDate],
-  );
 
   const handleContinue = () => {
     if (!selectedDate) {
@@ -107,12 +95,15 @@ const DateTimeSelection = () => {
     <Wrapper
       pageTitle="What date and time do you want for this appointment?"
       classNames="vads-u-margin-top--4"
+      testID="date-time-selection"
       required
+      loading={loading}
+      loadingMessage="Loading appointment availability. This may take up to 30 seconds. Please don’t refresh the page."
     >
       <div data-testid="content">
         <p>
           Select an available date and time from the calendar below. Appointment
-          times are displayed in [Time Zone] [(TZ)].
+          times are displayed in {getTimezoneDescByTimeZoneString(timezone)}.
         </p>
         <p>
           <strong>Note:</strong> Available dates are shown for the next 2 weeks,
@@ -122,10 +113,10 @@ const DateTimeSelection = () => {
 
       <CalendarWidget
         maxSelections={1}
-        availableSlots={draftAppointmentInfo.attributes.slots}
+        availableSlots={slots}
         value={selectedDate ? [selectedDate] : []}
         id="dateTime"
-        timezone="America/New_York"
+        timezone={timezone}
         additionalOptions={{
           required: true,
         }}

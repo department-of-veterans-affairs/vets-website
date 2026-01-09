@@ -5,13 +5,22 @@ import { Hub } from './components/hub/Hub';
 import ProfileHub from './components/hub/ProfileHub';
 
 const getRoutes = (
-  { profile2Enabled = false, profileHealthCareSettingsPage = false } = {
+  {
+    profile2Enabled = false,
+    profileHealthCareSettingsPage = false,
+    profileHideHealthCareContacts = false,
+  } = {
     profile2Enabled: false,
     profileHealthCareSettingsPage: false,
+    profileHideHealthCareContacts: false,
   },
 ) => {
   return [
-    ...getRoutesForNav({ profile2Enabled, profileHealthCareSettingsPage }),
+    ...getRoutesForNav({
+      profile2Enabled,
+      profileHealthCareSettingsPage,
+      profileHideHealthCareContacts,
+    }),
     {
       component: Edit,
       name: PROFILE_PATH_NAMES.EDIT,

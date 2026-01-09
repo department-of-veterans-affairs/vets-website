@@ -1,52 +1,173 @@
 export const FIELD_NAMES = {
-  CONTACT_PREFERENCE_1: 'preferredContactMethod',
-  CONTACT_PREFERENCE_2: 'preferredContactTimes',
-  APPOINTMENT_PREFERENCE_1: 'needsHelpSchedulingAppointments',
-  APPOINTMENT_PREFERENCE_2: 'preferredAppointmentTimes',
-  PROVIDER_PREFERENCE_1: 'preferredProviderGender',
-  PROVIDER_PREFERENCE_2: 'needsHelpChoosingProvider',
+  SCHEDULING_PREF_CONTACT_METHOD: 'preferredContactMethod',
+  SCHEDULING_PREF_CONTACT_TIMES: 'preferredContactTimes',
+  SCHEDULING_PREF_HELP_SCHEDULING: 'needsHelpSchedulingAppointments',
+  SCHEDULING_PREF_APPOINTMENT_TIMES: 'preferredAppointmentTimes',
+  SCHEDULING_PREF_PROVIDER_GENDER: 'preferredProviderGender',
+  SCHEDULING_PREF_HELP_CHOOSING: 'needsHelpChoosingProvider',
+};
+
+export const FIELD_ITEM_IDS = {
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: 1,
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: 2,
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]: 4,
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: 3,
+  [FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER]: 6,
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING]: 5,
+};
+
+export const FIELD_OPTION_IDS = {
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
+    TELEPHONE_MOBILE: 1,
+    TELEPHONE_HOME: 38,
+    TELEPHONE_WORK: 39,
+    TEXT_MESSAGE: 2,
+    SECURE_MESSAGE: 3,
+    US_POST: 4,
+    EMAIL: 5,
+    NO_PREFERENCE: 6,
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
+    MONDAY_MORNING: 7,
+    MONDAY_AFTERNOON: 8,
+    TUESDAY_MORNING: 9,
+    TUESDAY_AFTERNOON: 10,
+    WEDNESDAY_MORNING: 11,
+    WEDNESDAY_AFTERNOON: 12,
+    THURSDAY_MORNING: 13,
+    THURSDAY_AFTERNOON: 14,
+    FRIDAY_MORNING: 15,
+    FRIDAY_AFTERNOON: 16,
+    NO_PREFERENCE: 17,
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: {
+    MONDAY_MORNING: 18,
+    MONDAY_AFTERNOON: 19,
+    TUESDAY_MORNING: 20,
+    TUESDAY_AFTERNOON: 21,
+    WEDNESDAY_MORNING: 22,
+    WEDNESDAY_AFTERNOON: 23,
+    THURSDAY_MORNING: 24,
+    THURSDAY_AFTERNOON: 25,
+    FRIDAY_MORNING: 26,
+    FRIDAY_AFTERNOON: 27,
+    NO_PREFERENCE: 28,
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]: {
+    yes: 29,
+    no: 30,
+    noPreference: 31,
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING]: {
+    yes: 32,
+    no: 33,
+    noPreference: 34,
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER]: {
+    male: 35,
+    female: 36,
+    noPreference: 37,
+  },
+};
+
+export const FIELD_OPTION_IDS_INVERTED = {
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
+    1: 'TELEPHONE_MOBILE',
+    38: 'TELEPHONE_HOME',
+    39: 'TELEPHONE_WORK',
+    2: 'TEXT_MESSAGE',
+    3: 'SECURE_MESSAGE',
+    4: 'US_POST',
+    5: 'EMAIL',
+    6: 'NO_PREFERENCE',
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
+    7: 'MONDAY_MORNING',
+    8: 'MONDAY_AFTERNOON',
+    9: 'TUESDAY_MORNING',
+    10: 'TUESDAY_AFTERNOON',
+    11: 'WEDNESDAY_MORNING',
+    12: 'WEDNESDAY_AFTERNOON',
+    13: 'THURSDAY_MORNING',
+    14: 'THURSDAY_AFTERNOON',
+    15: 'FRIDAY_MORNING',
+    16: 'FRIDAY_AFTERNOON',
+    17: 'NO_PREFERENCE',
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: {
+    18: 'MONDAY_MORNING',
+    19: 'MONDAY_AFTERNOON',
+    20: 'TUESDAY_MORNING',
+    21: 'TUESDAY_AFTERNOON',
+    22: 'WEDNESDAY_MORNING',
+    23: 'WEDNESDAY_AFTERNOON',
+    24: 'THURSDAY_MORNING',
+    25: 'THURSDAY_AFTERNOON',
+    26: 'FRIDAY_MORNING',
+    27: 'FRIDAY_AFTERNOON',
+    28: 'NO_PREFERENCE',
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]: {
+    29: 'Yes',
+    30: 'No',
+    31: 'No preference',
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING]: {
+    32: 'Yes',
+    33: 'No',
+    34: 'No preference',
+  },
+  [FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER]: {
+    35: 'Male',
+    36: 'Female',
+    37: 'No preference',
+  },
 };
 
 export const FIELD_TITLES = {
-  [FIELD_NAMES.CONTACT_PREFERENCE_1]:
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]:
     "What's the best way to contact you to schedule your appointments?",
-  [FIELD_NAMES.CONTACT_PREFERENCE_2]:
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]:
     'When do you want us to contact you to schedule your appointments?',
-  [FIELD_NAMES.APPOINTMENT_PREFERENCE_1]:
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]:
     'Do you want help scheduling your appointments?',
-  [FIELD_NAMES.APPOINTMENT_PREFERENCE_2]:
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]:
     'When do you want to go to your appointments?',
-  [FIELD_NAMES.PROVIDER_PREFERENCE_1]:
+  [FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER]:
     'Do you prefer a male or female provider?',
-  [FIELD_NAMES.PROVIDER_PREFERENCE_2]:
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING]:
     'Do you want help choosing your provider?',
 };
 
 export const FIELD_IDS = {
-  [FIELD_NAMES.CONTACT_PREFERENCE_1]: 'preferred-contact-method',
-  [FIELD_NAMES.CONTACT_PREFERENCE_2]: 'preferred-contact-times',
-  [FIELD_NAMES.APPOINTMENT_PREFERENCE_1]: 'needs-help-scheduling-appointments',
-  [FIELD_NAMES.APPOINTMENT_PREFERENCE_2]: 'preferred-appointment-times',
-  [FIELD_NAMES.PROVIDER_PREFERENCE_1]: 'preferred-provider-gender',
-  [FIELD_NAMES.PROVIDER_PREFERENCE_2]: 'needs-help-choosing-provider',
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: 'preferred-contact-method',
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: 'preferred-contact-times',
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]:
+    'needs-help-scheduling-appointments',
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]:
+    'preferred-appointment-times',
+  [FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER]: 'preferred-provider-gender',
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING]: 'needs-help-choosing-provider',
 };
 
 export const FIELD_SECTION_HEADERS = {
-  [FIELD_NAMES.CONTACT_PREFERENCE_1]: 'Contact preferences',
-  [FIELD_NAMES.CONTACT_PREFERENCE_2]: 'Contact preferences',
-  [FIELD_NAMES.APPOINTMENT_PREFERENCE_1]: 'Appointment preferences',
-  [FIELD_NAMES.APPOINTMENT_PREFERENCE_2]: 'Appointment preferences',
-  [FIELD_NAMES.PROVIDER_PREFERENCE_1]: 'Provider preferences',
-  [FIELD_NAMES.PROVIDER_PREFERENCE_2]: 'Provider preferences',
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: 'Contact preferences',
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: 'Contact preferences',
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]: 'Appointment preferences',
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: 'Appointment preferences',
+  [FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER]: 'Provider preferences',
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING]: 'Provider preferences',
 };
 
 export const ANALYTICS_FIELD_MAP = {
-  [FIELD_NAMES.CONTACT_PREFERENCE_1]: 'preferred-contact-method',
-  [FIELD_NAMES.CONTACT_PREFERENCE_2]: 'preferred-contact-times',
-  [FIELD_NAMES.APPOINTMENT_PREFERENCE_1]: 'needs-help-scheduling-appointments',
-  [FIELD_NAMES.APPOINTMENT_PREFERENCE_2]: 'preferred-appointment-times',
-  [FIELD_NAMES.PROVIDER_PREFERENCE_1]: 'preferred-provider-gender',
-  [FIELD_NAMES.PROVIDER_PREFERENCE_2]: 'needs-help-choosing-provider',
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: 'preferred-contact-method',
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: 'preferred-contact-times',
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING]:
+    'needs-help-scheduling-appointments',
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]:
+    'preferred-appointment-times',
+  [FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER]: 'preferred-provider-gender',
+  [FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING]: 'needs-help-choosing-provider',
 };
 
 export const API_ROUTES = {

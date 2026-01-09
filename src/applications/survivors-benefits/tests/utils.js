@@ -102,9 +102,9 @@ export const checkContentClaimantsRelationship = () => {
     'va-radio',
     'What is the claimant’s relationship to the Veteran?',
   );
-  checkVisibleElementContent('va-text-input', 'First name');
+  checkVisibleElementContent('va-text-input', 'First or given name');
   checkVisibleElementContent('va-text-input', 'Middle name');
-  checkVisibleElementContent('va-text-input', 'Last name');
+  checkVisibleElementContent('va-text-input', 'Last or family name');
   checkVisibleElementContent('va-select', 'Suffix');
   checkVisibleElementContent('va-text-input', 'Social Security number');
   checkVisibleElementContent('va-memorable-date', 'Date of birth');
@@ -334,7 +334,7 @@ export const checkContentDependentsIntro = () => {
   );
   checkVisibleElementContent(
     'form',
-    'Next we’ll ask you about your dependent children. You may add up to 3 dependents.',
+    'Next we’ll ask you about the Veteran’s dependent children. You may add up to 3 dependents.',
   );
   checkVisibleElementContent(
     'va-additional-info',
@@ -425,7 +425,7 @@ export const checkContentIncomeAssettsInto = () => {
   );
   checkVisibleElementContent(
     'va-radio',
-    'Do you and your dependents have over $75,000 in assets?',
+    'Do you and your dependents have over $25,000 in assets?',
   );
 };
 
@@ -590,7 +590,7 @@ export const checkContentMedicalExpensesQuestion = () => {
   );
   checkVisibleElementContent(
     'va-radio',
-    'Do you have a medical or other expense to add?',
+    'Do you have a medical, last, burial, or other expense to add?',
   );
 };
 

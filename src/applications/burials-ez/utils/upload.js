@@ -1,59 +1,24 @@
-import environment from 'platform/utilities/environment';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { fileInputMultipleUI } from '~/platform/forms-system/src/js/web-component-patterns';
+import { FILE_UPLOAD_URL, FORM_NUMBER, MAX_FILE_SIZE_BYTES } from './constants';
 
-// Modified version of the file upload from applications/appeals/995
-
-const uploadUrl = `${environment.API_URL}/v0/claim_attachments`;
-
-function createPayload(file, _formId, password) {
-  const payload = new FormData();
-  payload.append('file', file);
-  payload.append('form_id', _formId);
-  // password for encrypted PDFs
-  if (password) {
-    payload.append('password', password);
+export const burialUploadUI = ({ title, required = true, ...options }) => {
+  if (!title) {
+    throw new Error('burialUploadUI requires a title');
   }
 
-  return payload;
-}
-
-export const burialUploadUI = (content, options = {}) => {
-  const findAndFocusLastSelect = () => {
-    const lastSelect = [...document.querySelectorAll('select')].slice(-1);
-    if (lastSelect.length) {
-      focusElement(lastSelect[0]);
-    }
-  };
-
-  const addAnotherLabel = 'Upload another file';
-
-  return fileUploadUI(content, {
-    fileUploadUrl: uploadUrl,
-    addAnotherLabel,
-    buttonText: content.buttonText || 'Upload file',
-    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-    maxSize: 20971520,
-    minSize: 1024,
-    confirmRemove: true,
-    classNames: 'vads-u-font-size--md',
-    createPayload,
-    parseResponse: (response, file) => {
-      setTimeout(() => {
-        findAndFocusLastSelect();
-      });
-      return {
-        name: file.name,
-        confirmationCode: response.data.attributes.confirmationCode,
-        attachmentId: '',
-      };
-    },
-    attachmentSchema: (/* { fileId, index } */) => ({
-      'ui:title': 'Document type',
-      'ui:disabled': false,
-      'ui:webComponentField': VaSelectField,
+  return {
+    ...fileInputMultipleUI({
+      title,
+      fileUploadUrl: FILE_UPLOAD_URL,
+      accept: '.pdf,.jpeg,.jpg,.png',
+      required,
+      maxFileSize: MAX_FILE_SIZE_BYTES,
+      formNumber: FORM_NUMBER,
+      skipUpload: environment.isLocalhost(),
+      // server response triggers required validation.
+      // skipUpload needed to bypass in local environment
     }),
     ...options,
-  });
+  };
 };

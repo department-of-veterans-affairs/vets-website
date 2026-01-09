@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { Toggler } from '~/platform/utilities/feature-toggles';
+import { ConfirmationView } from '~/platform/forms-system/src/js/components/ConfirmationView';
 import ConfirmationPage, {
   getNewConditionsNames,
 } from '../../containers/ConfirmationPage';
@@ -195,6 +196,68 @@ describe('ConfirmationPage', () => {
       submissionStatuses.succeeded,
       true, // disability526ShowConfirmationReview toggle
     );
+  });
+
+  describe('Error Boundary Tests', () => {
+    let consoleErrorStub;
+    let sinon;
+
+    beforeEach(() => {
+      sinon = require('sinon');
+      consoleErrorStub = sinon.stub(console, 'error');
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+
+    it('should catch errors in ChapterSectionCollection and display the rest of the page', () => {
+      // Stub ChapterSectionCollection to throw an error during render
+      const chapterStub = sinon.stub(
+        ConfirmationView,
+        'ChapterSectionCollection',
+      );
+      chapterStub.throws(new Error('ChapterSectionCollection error'));
+
+      try {
+        const store = mockStore(
+          getData({
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: true,
+            },
+          }),
+        );
+
+        const { container, getByText, queryByText } = render(
+          <Provider store={store}>
+            <ConfirmationPage
+              {...defaultProps}
+              submissionStatus={submissionStatuses.succeeded}
+            />
+          </Provider>,
+        );
+
+        // ChapterSectionCollection accordion does not render (error boundary caught it)
+        expect(queryByText('Information you submitted on this form')).to.not
+          .exist;
+
+        // No error UI shown to user (silent degradation via error boundary)
+        const errorAlerts = container.querySelectorAll(
+          'va-alert[status="error"]',
+        );
+        expect(errorAlerts.length).to.equal(0);
+
+        // The rest of the confirmation page content is still visible
+        expect(getByText('Disability Compensation Claim')).to.exist;
+        expect(getByText('For Hector Lee Brooks Sr.')).to.exist;
+        expect(getByText('Date submitted')).to.exist;
+        expect(getByText('November 7, 2024')).to.exist;
+        expect(getByText('Print this confirmation page')).to.exist;
+        expect(getByText('What to expect')).to.exist;
+      } finally {
+        chapterStub.restore();
+      }
+    });
   });
 });
 

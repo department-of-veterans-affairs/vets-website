@@ -1,6 +1,12 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
+const mockTopics = require('./utils/topic');
+const {
+  generateSlots,
+  createMockJwt,
+  decodeJwtUuid,
+} = require('../../utils/mock-helpers');
 
 const mockUsers = [
   {
@@ -11,21 +17,29 @@ const mockUsers = [
   },
 ];
 
+// Keep a count of how manny attempts to use the OTC have been made for each uuid
+const otcUseCounts = new Map(); // uuid -> count
+const maxOtcUseCount = 5;
+
 const mockAppointments = [
   {
     appointmentId: 'abcdef123456',
-    topics: [
-      {
-        topicId: '123',
-        topicName: 'General Health',
-      },
-    ],
-    dtStartUtc: '2024-07-01T14:00:00Z',
-    dtEndUtc: '2024-07-01T14:30:00Z',
-    // TODO: verify the accuracy of appointment payload data from API
-    phoneNumber: '800-827-0611',
-    providerName: 'Bill Brasky',
-    typeOfCare: 'Solid Start',
+    // Currently the appointment GET api does not return topics, so we are not mocking them
+    // ideally VASS adds these values to the appointment GET api response
+    // topics: [
+    //   {
+    //     topicId: '123',
+    //     topicName: 'General Health',
+    //   },
+    // ],
+    startUTC: '2025-12-24T10:00:00Z',
+    endUTC: '2025-12-24T10:30:00Z',
+    agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+    agentNickname: 'Bill Brasky',
+    appointmentStatusCode: 1,
+    appointmentStatus: 'Confirmed',
+    cohortStartUtc: '2025-12-01T00:00:00Z',
+    cohortEndUtc: '2026-02-28T23:59:59Z',
   },
 ];
 const responses = {
@@ -51,26 +65,42 @@ const responses = {
   },
   'POST /vass/v0/authenticate-otc': (req, res) => {
     const { otc, uuid, lastname, dob } = req.body;
+    const useCount = otcUseCounts.get(uuid) || 0;
+    otcUseCounts.set(uuid, useCount + 1);
     const mockUser = mockUsers.find(user => user.uuid === uuid);
     if (
       otc === mockUser.otc &&
       lastname === mockUser.lastname &&
       dob === mockUser.dob
     ) {
+      const expiresIn = 3600; // 1 hour
       return res.json({
         data: {
-          token: '<JWT token string>',
-          expiresIn: 3600,
+          token: createMockJwt(uuid, expiresIn),
+          expiresIn,
           tokenType: 'Bearer',
         },
       });
     }
-    return res.json({
+    if (useCount >= maxOtcUseCount) {
+      return res.status(401).json({
+        errors: [
+          {
+            code: 'account_locked',
+            detail: 'Too many failed attempts.  Please request a new OTC.',
+            status: 401, // TODO: confirm status code
+            retryAfter: 900, // 15 minutes TODO
+          },
+        ],
+      });
+    }
+    return res.status(401).json({
       errors: [
         {
           code: 'invalid_otc',
           detail: 'Invalid or expired OTC.  Please try again.',
-          attemptsRemaining: 3,
+          attemptsRemaining: maxOtcUseCount - useCount,
+          status: 401,
         },
       ],
     });
@@ -89,6 +119,30 @@ const responses = {
     );
     return res.json({
       data: mockAppointment,
+    });
+  },
+  'GET /vass/v0/topics': (req, res) => {
+    return res.json({
+      data: {
+        topics: mockTopics,
+      },
+    });
+  },
+  'GET /vass/v0/appointment-availablity': (req, res) => {
+    const { headers } = req;
+    const token = headers.authorization;
+    if (!token) {
+      return res.status(401).json({
+        errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
+      });
+    }
+    const uuid = decodeJwtUuid(token);
+    return res.json({
+      data: {
+        // TODO: extract this from the token
+        appointmentId: uuid,
+        availableTimeSlots: generateSlots(),
+      },
     });
   },
 };

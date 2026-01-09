@@ -8,6 +8,7 @@ export default function CardSection({
   textContent,
   heading,
   level = 2,
+  customBodyElement,
   ...props
 }) {
   const Heading = `h${level}`;
@@ -25,14 +26,18 @@ export default function CardSection({
       {dateContent && (
         <>
           <DateTime dateTime={dateContent.dateTime} />
-          <AddToCalendarButton appointment={dateContent} />
+          {dateContent.showAddToCalendarButton && (
+            <AddToCalendarButton appointment={dateContent} />
+          )}
         </>
       )}
+      {customBodyElement}
     </div>
   );
 }
 
 CardSection.propTypes = {
+  customBodyElement: PropTypes.node,
   dateContent: PropTypes.object,
   heading: PropTypes.string,
   level: PropTypes.number,

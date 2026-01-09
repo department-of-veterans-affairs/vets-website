@@ -120,6 +120,34 @@ describe('Health conditions list container with no health conditions', () => {
   });
 });
 
+describe('HealthConditions does not flash NoRecordsMessage before data loads', () => {
+  it('does not show NoRecordsMessage when conditionsList is undefined', () => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {
+          conditionsList: undefined, // Data not yet fetched
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions',
+    });
+
+    // Should NOT show the no records message when data is undefined
+    expect(
+      screen.queryByText(
+        'There are no health conditions in your VA medical records.',
+        { exact: false },
+      ),
+    ).to.not.exist;
+  });
+});
+
 describe('Health conditions container with errors', () => {
   it('displays an error', async () => {
     const initialState = {

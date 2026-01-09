@@ -15,7 +15,7 @@ describe('Marriage to Veteran End Page', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        data={{ marriedAtDeath: false }}
+        data={{ marriedToVeteranAtTimeOfDeath: false }}
       />,
     );
     const formDOM = getFormDOM(form);

@@ -188,6 +188,7 @@ const build21aPayload = data => {
     imprisonedUploadedAllDocuments:
       data?.convictionDetailsCertification === undefined ||
       !!data?.convictionDetailsCertification?.certified,
+    imprisonedDetailsDocuments: data?.imprisonedDetailsDocuments,
     // imprisonedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Court Martialed (14A and 14B)
@@ -198,6 +199,7 @@ const build21aPayload = data => {
     militaryConvictionUploadedAllDocuments:
       data?.courtMartialedDetailsCertification === undefined ||
       !!data?.courtMartialedDetailsCertification?.certified,
+    militaryConvictionDetailsDocuments: data?.courtMartialedDetailsDocuments,
     // militaryConvictionDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Under Charges (15A and 15B)
@@ -207,6 +209,7 @@ const build21aPayload = data => {
     currentlyChargedUploadedAllDocuments:
       data?.underChargesDetailsCertification === undefined ||
       !!data?.underChargesDetailsCertification?.certified,
+    currentlyChargedDetailsDocuments: data?.underChargesDetailsDocuments,
     // currentlyChargedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Resigned from Education (16)
@@ -216,6 +219,7 @@ const build21aPayload = data => {
     suspendedUploadedAllDocuments:
       data?.resignedFromEducationDetailsCertification === undefined ||
       !!data?.resignedFromEducationDetailsCertification?.certified,
+    suspendedDetailsDocuments: data?.resignedFromEducationDetailsDocuments,
     // suspendedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Withdrawn from Education (16)
@@ -225,6 +229,7 @@ const build21aPayload = data => {
     withdrawnUploadedAllDocuments:
       data?.withdrawnFromEducationDetailsCertification === undefined ||
       !!data?.withdrawnFromEducationDetailsCertification?.certified,
+    withdrawnDetailsDocuments: data?.withdrawnFromEducationDetailsDocuments,
     // withdrawnDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Disciplined for Dishonesty (17)
@@ -235,6 +240,7 @@ const build21aPayload = data => {
     disciplinedUploadedAllDocuments:
       data?.disciplinedForDishonestyDetailsCertification === undefined ||
       !!data?.disciplinedForDishonestyDetailsCertification?.certified,
+    disciplinedDetailsDocuments: data?.disciplinedForDishonestyDetailsDocuments,
     // disciplinedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Resigned for Dishonesty (18)
@@ -245,6 +251,8 @@ const build21aPayload = data => {
     resignedRetiredUploadedAllDocuments:
       data?.resignedForDishonestyDetailsCertification === undefined ||
       !!data?.resignedForDishonestyDetailsCertification?.certified,
+    resignedRetiredDetailsDocuments:
+      data?.resignedForDishonestyDetailsDocuments,
     // resignedRetiredDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Representative for Agency (19)
@@ -255,6 +263,8 @@ const build21aPayload = data => {
     agentAttorneyUploadedAllDocuments:
       data?.representativeForAgencyDetailsCertification === undefined ||
       !!data?.representativeForAgencyDetailsCertification?.certified,
+    agentAttorneyDetailsDocuments:
+      data?.representativeForAgencyDetailsDocuments,
     // agentAttorneyDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Reprimanded in Agency (20)
@@ -264,6 +274,7 @@ const build21aPayload = data => {
     reprimandedUploadedAllDocuments:
       data?.reprimandedInAgencyDetailsCertification === undefined ||
       !!data?.reprimandedInAgencyDetailsCertification?.certified,
+    reprimandedDetailsDocuments: data?.reprimandedInAgencyDetailsDocuments,
     // reprimandedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Resigned from Agency (new - not on pdf)
@@ -274,6 +285,8 @@ const build21aPayload = data => {
     resignedToAvoidReprimandUploadedAllDocuments:
       data?.resignedFromAgencyDetailsCertification === undefined ||
       !!data?.resignedFromAgencyDetailsCertification?.certified,
+    resignedToAvoidReprimandDetailsDocuments:
+      data?.resignedFromAgencyDetailsDocuments,
     // resignedToAvoidReprimandDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Applied for Va Accreditation (21)
@@ -284,6 +297,8 @@ const build21aPayload = data => {
     appliedForAccreditationUploadedAllDocuments:
       data?.appliedForVaAccreditationDetailsCertification === undefined ||
       !!data?.appliedForVaAccreditationDetailsCertification?.certified,
+    appliedForAccreditationDetailsDocuments:
+      data?.appliedForVaAccreditationDetailsDocuments,
     // appliedForAccreditationDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Terminated by VSOrg (22)
@@ -294,6 +309,8 @@ const build21aPayload = data => {
     accreditationTerminatedUploadedAllDocuments:
       data?.terminatedByVsorgDetailsCertification === undefined ||
       !!data?.terminatedByVsorgDetailsCertification?.certified,
+    accreditationTerminatedDetailsDocuments:
+      data?.terminatedByVsorgDetailsDocuments,
     // accreditationTerminatedDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Terminated by VSOrg (23A and 23B)
@@ -305,6 +322,8 @@ const build21aPayload = data => {
       data?.conditionThatAffectsRepresentationDetailsCertification ===
         undefined ||
       !!data?.conditionThatAffectsRepresentationDetailsCertification?.certified,
+    impairmentsDetailsDocuments:
+      data?.conditionThatAffectsRepresentationDetailsDocuments,
     // impairmentsDeclinedToUploadDocuments: false, // v5 field - not currently setting this field
 
     // Chapter 6 - Condition that affect representation (24A and 24B)

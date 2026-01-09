@@ -1,22 +1,25 @@
-import { mockFeatureToggles } from '../../support/helpers/mocks';
-import { createBenefitsClaimListItem } from '../../support/fixtures/benefitsClaims';
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
+import {
+  createBenefitsClaimListItem,
+  createEvidenceSubmission,
+} from '../../support/fixtures/benefitsClaims';
 
 describe('Claim cards', () => {
   const setupClaimCardsTest = (claims = []) => {
-    cy.intercept('GET', '/v0/benefits_claims', { data: claims });
+    mockClaimsEndpoint(claims);
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
   beforeEach(() => {
     mockFeatureToggles();
-
-    cy.intercept('GET', '/v0/appeals', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: {},
-    });
+    mockAppealsEndpoint();
+    mockStemEndpoint();
 
     cy.login();
   });
@@ -30,13 +33,9 @@ describe('Claim cards', () => {
 
     cy.findByText('Step 5 of 5: Closed');
     cy.findByText('Moved to this step on January 2, 2025');
-    cy.findByRole('link', {
-      name: 'Details for claim submitted on January 1, 2025',
-    }).should(
-      'have.attr',
-      'href',
-      '/track-claims/your-claims/123456789/status',
-    );
+    cy.get(
+      'va-link[aria-label="Details for claim submitted on January 1, 2025"]',
+    ).should('have.attr', 'href', '/track-claims/your-claims/123456789/status');
 
     cy.axeCheck();
   });
@@ -50,9 +49,9 @@ describe('Claim cards', () => {
 
     cy.findByText('Step 1 of 5: Claim received');
     cy.findByText('Moved to this step on January 2, 2025');
-    cy.findByRole('link', {
-      name: 'Details for claim submitted on January 1, 2025',
-    });
+    cy.get(
+      'va-link[aria-label="Details for claim submitted on January 1, 2025"]',
+    );
 
     cy.axeCheck();
   });
@@ -244,6 +243,76 @@ describe('Claim cards', () => {
       cy.findByText('We requested more information from you:');
 
       cy.axeCheck();
+    });
+  });
+
+  describe('Upload error alerts', () => {
+    context('when cst_show_document_upload_status toggle is enabled', () => {
+      beforeEach(() => {
+        mockFeatureToggles({ showDocumentUploadStatus: true });
+        mockAppealsEndpoint();
+        mockStemEndpoint();
+
+        cy.login();
+      });
+
+      it('should display upload error alert for failed submissions within last 30 days', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [
+              createEvidenceSubmission({
+                uploadStatus: 'FAILED',
+                acknowledgementDate: '2050-01-01T00:00:00.000Z',
+              }),
+            ],
+          }),
+        ]);
+
+        cy.get('va-alert').findByText(
+          'We need you to resubmit files for this claim.',
+        );
+
+        cy.axeCheck();
+      });
+
+      it('should not display upload error alert for failed submissions older than 30 days', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [
+              createEvidenceSubmission({
+                acknowledgementDate: '2020-01-01T12:00:00.000Z',
+                failedDate: '2019-12-01T12:00:00.000Z',
+              }),
+            ],
+          }),
+        ]);
+
+        cy.get('va-alert[status="error"]').should('not.exist');
+
+        cy.axeCheck();
+      });
+    });
+
+    context('when cst_show_document_upload_status toggle is disabled', () => {
+      beforeEach(() => {
+        mockFeatureToggles({ showDocumentUploadStatus: false });
+        mockAppealsEndpoint();
+        mockStemEndpoint();
+
+        cy.login();
+      });
+
+      it('should not display upload error alert even with failed submissions', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [createEvidenceSubmission()],
+          }),
+        ]);
+
+        cy.get('va-alert[status="error"]').should('not.exist');
+
+        cy.axeCheck();
+      });
     });
   });
 });

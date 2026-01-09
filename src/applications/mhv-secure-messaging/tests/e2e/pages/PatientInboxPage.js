@@ -179,7 +179,7 @@ class PatientInboxPage {
         this.singleThread.data[0].attributes.messageId
       }`,
       { data: this.singleThread.data[0] },
-    ).as('fist-message-in-thread');
+    ).as('first-message-in-thread');
 
     if (this.singleThread.data.length > 1) {
       cy.intercept(
@@ -195,7 +195,7 @@ class PatientInboxPage {
       waitForAnimations: true,
     });
     cy.wait('@full-thread', { requestTimeout: 20000 });
-    // cy.wait('@fist-message-in-thread');
+    // cy.wait('@first-message-in-thread');
   };
 
   getNewMessage = () => {
@@ -619,9 +619,10 @@ class PatientInboxPage {
   };
 
   validateRecipientsErrorAlert = () => {
-    cy.findByTestId(Locators.ALERTS.RECIPIENTS_ERROR)
-      .find('h2')
-      .should('have.text', Alerts.ERROR_LOADING_RECIPIENTS_HEADER);
+    cy.findByRole('heading', {
+      level: 2,
+      name: new RegExp(Alerts.ERROR_LOADING_RECIPIENTS_HEADER),
+    });
   };
 }
 

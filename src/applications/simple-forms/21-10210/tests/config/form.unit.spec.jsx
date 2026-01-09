@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
@@ -20,7 +20,7 @@ const getProps = () => {
 };
 
 describe('form config options', () => {
-  it('should scroll and show text correctly', () => {
+  it('should scroll and show text correctly', async () => {
     const { mockStore } = getProps();
     const {
       schema,
@@ -28,7 +28,7 @@ describe('form config options', () => {
       scrollAndFocusTarget,
     } = formConfig.chapters.statementInfoChapter.pages.claimOwnershipPage;
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -42,11 +42,13 @@ describe('form config options', () => {
 
     scrollAndFocusTarget();
 
-    expect(
-      getByText(
-        'Are you submitting this statement to support your claim or someone else’s claim?',
-      ),
-    ).to.exist;
+    await waitFor(() => {
+      expect(
+        container.querySelector(
+          'va-radio[label="Are you submitting this statement to support your claim or someone else’s claim?"]',
+        ),
+      ).to.exist;
+    });
   });
 
   it('should show titles correctly conditionally claimantPersonalInfoChapter', () => {
