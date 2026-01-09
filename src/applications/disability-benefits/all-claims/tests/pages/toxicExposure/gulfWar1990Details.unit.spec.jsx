@@ -437,7 +437,6 @@ describe('gulfWar1990Details', () => {
     });
 
     it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
-      // Verify that full dates from database are accepted
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
