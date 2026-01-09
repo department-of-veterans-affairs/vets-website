@@ -60,6 +60,7 @@
   "claimantSocialSecurityNumber": "332213313",
   "claimantFullName": {
     "first": "Jane",
+    "middle": "Middle",
     "last": "Doe"
   },
   "claimantDateOfBirth": "1955-05-05",
@@ -75,6 +76,7 @@
   "view:warningAlert": {},
   "veteranFullName": {
     "first": "Jonathan",
+    "middle": "Kevin",
     "last": "Testerson"
   },
   "veteranDateOfBirth": "1954-01-11",
@@ -83,7 +85,7 @@
   "view:medicalExpensesList": false,
   "files": [],
   "view:uploadMessage": {},
-  "statementOfTruthSignature": "Jane Doe",
+  "statementOfTruthSignature": "Jane Middle Doe",
   "statementOfTruthCertified": true,
   "expectingChild": false,
   "hadChildWithVeteran": false,
