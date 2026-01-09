@@ -49,7 +49,7 @@ export const medicarePagesRev2025 = {
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
     ...planTypes,
   },
-  medicareBeneficiaryIdenfifier: {
+  medicareBeneficiaryIdentifier: {
     path: 'medicare-beneficiary-identifier',
     title: 'Medicare beneficiary identifier',
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
