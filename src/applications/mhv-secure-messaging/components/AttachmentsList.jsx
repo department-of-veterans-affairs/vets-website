@@ -24,7 +24,6 @@ const AttachmentsList = props => {
     attachments,
     attachmentScanError,
     compose,
-    draftSequence,
     editingEnabled,
     forPrint,
     isOhTriageGroup,
@@ -362,7 +361,7 @@ const AttachmentsList = props => {
       </ul>
       {(compose || reply) && (
         <RemoveAttachmentModal
-          draftSequence={draftSequence}
+          draftSequence={null}
           visible={isModalVisible}
           onClose={() => {
             setIsModalVisible(false);
@@ -376,9 +375,7 @@ const AttachmentsList = props => {
             setIsModalVisible(false);
             removeAttachment(fileToRemove);
           }}
-          data-testid={`remove-attachment-modal${
-            draftSequence ? `-${draftSequence}` : ''
-          }`}
+          data-testid="remove-attachment-modal"
         />
       )}
       {isAttachmentRemoved ? (
@@ -388,9 +385,7 @@ const AttachmentsList = props => {
             role="status"
             aria-live="polite"
             className="sr-only"
-            id={`attachment-removed-successfully${
-              draftSequence ? `-${draftSequence}` : ''
-            }`}
+            id="attachment-removed-successfully"
             data-dd-privacy="mask"
           >
             {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
@@ -406,7 +401,6 @@ AttachmentsList.propTypes = {
   attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   compose: PropTypes.bool,
-  draftSequence: PropTypes.number,
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
   isOhTriageGroup: PropTypes.bool,

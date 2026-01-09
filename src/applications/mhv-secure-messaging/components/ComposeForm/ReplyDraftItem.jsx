@@ -526,7 +526,6 @@ const ReplyDraftItem = props => {
                 editingEnabled
                 attachFileSuccess={attachFileSuccess}
                 setAttachFileSuccess={setAttachFileSuccess}
-                draftSequence={null}
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
@@ -537,7 +536,6 @@ const ReplyDraftItem = props => {
                 attachments={attachments}
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
-                draftSequence={null}
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
