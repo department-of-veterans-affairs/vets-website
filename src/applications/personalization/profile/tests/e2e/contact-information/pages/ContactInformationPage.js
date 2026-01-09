@@ -24,48 +24,30 @@ class ContactInformationPage {
 
   clickConfirmEmail = () => {
     cy.findByTestId('profile-alert--confirm-contact-email')
-      .find('va-button-pair')
-      .shadow()
-      .find('va-button')
-      .first()
-      .shadow()
-      .find('button')
+      .findByRole('button', { name: /Confirm/i })
       .click();
   };
 
   clickEditEmail = () => {
     cy.findByTestId('profile-alert--confirm-contact-email')
-      .find('va-button-pair')
-      .shadow()
-      .within(() => {
-        cy.get('va-button[secondary]')
-          .shadow()
-          .find('button')
-          .click();
-      });
-  };
-
-  clickErrorConfirmEmail = () => {
-    cy.findByTestId('mhv-alert--confirm-error')
-      .find('va-button-pair')
-      .shadow()
-      .find('va-button')
-      .first()
+      .find('va-button[text="Edit contact email"]')
       .shadow()
       .find('button')
       .click();
   };
 
+  clickErrorConfirmEmail = () => {
+    cy.findByTestId('mhv-alert--confirm-error')
+      .findByRole('button', { name: /Confirm/i })
+      .click();
+  };
+
   clickErrorEditEmail = () => {
     cy.findByTestId('mhv-alert--confirm-error')
-      .find('va-button-pair')
+      .find('va-button[text="Edit contact email"]')
       .shadow()
-      .within(() => {
-        cy.get('va-button[secondary]')
-          .shadow()
-          .find('button')
-          .click();
-      });
+      .find('button')
+      .click();
   };
 }
 

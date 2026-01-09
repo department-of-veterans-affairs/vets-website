@@ -9,6 +9,7 @@ const AlertConfirmContactEmail = ({
   emailAddress,
   onConfirmClick,
   recordEvent,
+  isLoading = false,
 }) => {
   const headline = 'Confirm your contact email';
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
@@ -27,6 +28,7 @@ const AlertConfirmContactEmail = ({
       <AlertConfirmContactEmailContent
         emailAddress={emailAddress}
         onConfirmClick={() => onConfirmClick()}
+        isLoading={isLoading}
       />
     </VaAlert>
   );
@@ -36,6 +38,7 @@ AlertConfirmContactEmail.propTypes = {
   emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default AlertConfirmContactEmail;

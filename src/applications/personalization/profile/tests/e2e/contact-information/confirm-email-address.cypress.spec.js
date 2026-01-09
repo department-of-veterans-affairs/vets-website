@@ -9,6 +9,8 @@ import ContactInformationPage from './pages/ContactInformationPage';
 const MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE =
   'MHV_EMAIL_CONFIRMATION_DISMISSED';
 
+const TRANSACTION_ID = 'email_address_tx_id';
+
 const setup = () => {
   cy.login(mockUser);
 
@@ -42,15 +44,33 @@ const setup = () => {
   cy.wait('@mockUser');
 };
 
-const buildUpdateEmailResponse = (isSuccess = true) => ({
-  statusCode: isSuccess ? 200 : 400,
+const buildUpdateEmailResponse = (transactionStatus = 'RECEIVED') => ({
+  statusCode: 200,
   body: {
     data: {
       id: '',
       type: 'async_transaction_va_profile_email_address_transactions',
       attributes: {
-        transactionId: 'email_address_tx_id',
-        transactionStatus: isSuccess ? 'RECEIVED' : 'COMPLETED_FAILURE',
+        transactionId: TRANSACTION_ID,
+        transactionStatus,
+        type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
+        metadata: [],
+      },
+    },
+  },
+});
+
+const buildTransactionStatusResponse = (
+  transactionStatus = 'COMPLETED_SUCCESS',
+) => ({
+  statusCode: 200,
+  body: {
+    data: {
+      id: '',
+      type: 'async_transaction_va_profile_email_address_transactions',
+      attributes: {
+        transactionId: TRANSACTION_ID,
+        transactionStatus,
         type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
         metadata: [],
       },
@@ -87,11 +107,18 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     cy.intercept('PUT', '/v0/profile/email_addresses', req => {
       if (!hasFailed) {
         hasFailed = true;
-        req.reply(buildUpdateEmailResponse(false));
+        req.reply(buildUpdateEmailResponse('COMPLETED_FAILURE'));
       } else {
-        req.reply(buildUpdateEmailResponse());
+        req.reply(buildUpdateEmailResponse('RECEIVED'));
       }
     }).as('updateEmail');
+
+    // Mock the polling endpoint for successful retry
+    cy.intercept(
+      'GET',
+      `/v0/profile/status/${TRANSACTION_ID}`,
+      buildTransactionStatusResponse('COMPLETED_SUCCESS'),
+    ).as('pollStatus');
 
     cy.findByTestId('profile-alert--confirm-contact-email').should(
       'be.visible',
@@ -116,6 +143,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
 
     ContactInformationPage.clickErrorConfirmEmail();
     cy.wait('@updateEmail');
+    cy.wait('@pollStatus');
 
     // Confirm success alert shows after successful retry
     cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
@@ -128,15 +156,11 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
   });
 
   it('should show the error alert when confirm fails and handle clicking the edit button', () => {
-    let hasFailed = false;
-    cy.intercept('PUT', '/v0/profile/email_addresses', req => {
-      if (!hasFailed) {
-        hasFailed = true;
-        req.reply(buildUpdateEmailResponse(false));
-      } else {
-        req.reply(buildUpdateEmailResponse());
-      }
-    }).as('updateEmail');
+    cy.intercept(
+      'PUT',
+      '/v0/profile/email_addresses',
+      buildUpdateEmailResponse('COMPLETED_FAILURE'),
+    ).as('updateEmail');
 
     ContactInformationPage.clickConfirmEmail();
     cy.wait('@updateEmail');
@@ -167,11 +191,19 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     cy.intercept(
       'PUT',
       '/v0/profile/email_addresses',
-      buildUpdateEmailResponse(),
+      buildUpdateEmailResponse('RECEIVED'),
     ).as('updateEmail');
+
+    // Mock the polling endpoint
+    cy.intercept(
+      'GET',
+      `/v0/profile/status/${TRANSACTION_ID}`,
+      buildTransactionStatusResponse('COMPLETED_SUCCESS'),
+    ).as('pollStatus');
 
     ContactInformationPage.clickConfirmEmail();
     cy.wait('@updateEmail');
+    cy.wait('@pollStatus');
 
     cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-success').should('be.visible');
