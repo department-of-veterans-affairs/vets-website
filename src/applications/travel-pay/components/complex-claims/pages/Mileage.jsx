@@ -252,11 +252,13 @@ const Mileage = () => {
           } ${address.zipCode}`}
           value="home-address"
           checked={formState.departureAddress === 'home-address'}
+          name="mileage-departure-address-radio"
         />
         <va-radio-option
           label="Another address"
           value="another-address"
           checked={formState.departureAddress === 'another-address'}
+          name="mileage-departure-address-radio"
         />
       </VaRadio>
 
@@ -272,11 +274,13 @@ const Mileage = () => {
           label={TRIP_TYPES.ROUND_TRIP.label}
           value={TRIP_TYPES.ROUND_TRIP.value}
           checked={formState.tripType === TRIP_TYPES.ROUND_TRIP.value}
+          name="mileage-trip-type-radio"
         />
         <va-radio-option
           label={TRIP_TYPES.ONE_WAY.label}
           value={TRIP_TYPES.ONE_WAY.value}
           checked={formState.tripType === TRIP_TYPES.ONE_WAY.value}
+          name="mileage-trip-type-radio"
         />
       </VaRadio>
 
