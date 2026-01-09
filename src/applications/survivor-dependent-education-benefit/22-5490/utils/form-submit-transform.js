@@ -374,7 +374,7 @@ export function transform5490Form(_formConfig, form) {
     directDeposit: {
       directDepositAccountType: form?.data[
         'view:directDeposit'
-      ]?.bankAccount?.accountType.toLowerCase(),
+      ]?.bankAccount?.accountType?.toLowerCase(),
       directDepositAccountNumber:
         form?.data['view:directDeposit']?.bankAccount?.accountNumber,
       directDepositRoutingNumber:
