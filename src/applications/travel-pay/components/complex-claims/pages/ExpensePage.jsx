@@ -459,11 +459,15 @@ const ExpensePage = () => {
         ? `${expenseConfig.expensePageText} expense`
         : 'expense';
 
+      // Determine correct article (a vs an) based on first letter
+      const startsWithVowel = /^[aeiou]/i.test(expenseTypeName);
+      const article = startsWithVowel ? 'an' : 'a';
+
       dispatch(
         setReviewPageAlert({
           title: '',
           description: `You successfully ${
-            isEditMode ? 'updated your' : 'added a'
+            isEditMode ? 'updated your' : `added ${article}`
           } ${expenseTypeName}.`,
           type: 'success',
         }),
