@@ -1,12 +1,11 @@
 import { isValidUSZipCode } from 'platform/forms/address';
 import { errorMessages } from '../constants';
-import { validateDate, validateYMDate } from './date';
+import { validateDate, validateToDate, validateYMDate } from './date';
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
 import { fixDateFormat } from '../../shared/utils/dates';
 import {
   validateAddressParts,
   validateIssues,
-  validateToDate,
   validateUniqueLocationOrFacility,
 } from '../../shared/validations/evidence';
 import sharedErrorMessages from '../../shared/content/errorMessages';
@@ -148,7 +147,7 @@ export const validatePrivateIssues = (
 // Overloading fullDate parameter with evidence date type to control error
 // messaging
 export const validatePrivateFromDate = (errors, data) =>
-  validateDate(errors, data.treatmentDateRange?.from, { dateType: 'evidence' });
+  validateDate(errors, data.treatmentDateRange?.from);
 
 export const validatePrivateToDate = (errors, data) => {
   validateToDate(errors, data, 'treatmentDateRange');
