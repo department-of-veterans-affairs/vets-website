@@ -109,9 +109,9 @@ const FilesWeCouldntReceive = () => {
         <h1>Files we couldn’t receive</h1>
         <p>
           If we couldn’t receive files you submitted online, you’ll need to
-          submit them by mail or in person. If you already submitted these
+          submit them by mail or in person. If you already resubmitted these
           files, you don’t need to do anything else. Files submitted by mail or
-          in person, by you or others, don’t appear in this tool.
+          in person, by you or by others, don’t appear in this tool.
         </p>
         <VaLink
           className="vads-u-display--block"

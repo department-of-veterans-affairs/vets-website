@@ -67,7 +67,7 @@ describe('<FilesWeCouldntReceive>', () => {
         .to.exist;
       expect(
         getByText(
-          'If we couldn\u2019t receive files you submitted online, you\u2019ll need to submit them by mail or in person. If you already submitted these files, you don\u2019t need to do anything else. Files submitted by mail or in person, by you or others, don\u2019t appear in this tool.',
+          'If we couldn\u2019t receive files you submitted online, you\u2019ll need to submit them by mail or in person. If you already resubmitted these files, you don\u2019t need to do anything else. Files submitted by mail or in person, by you or by others, don\u2019t appear in this tool.',
         ),
       ).to.exist;
       expect(
