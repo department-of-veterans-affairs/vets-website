@@ -236,7 +236,7 @@ export default function DefaultPage({
               include more details about this request. You can access this and
               all your claim letters online.
             </p>
-            <va-link
+            <VaLink
               text="Access your claim letters"
               label="Access your claim letters"
               href="/track-claims/your-claim-letters"
