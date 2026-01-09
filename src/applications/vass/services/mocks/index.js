@@ -2,6 +2,11 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const mockTopics = require('./utils/topic');
+const {
+  generateSlots,
+  createMockJwt,
+  decodeJwtUuid,
+} = require('../../utils/mock-helpers');
 
 const mockUsers = [
   {
@@ -64,10 +69,11 @@ const responses = {
       lastname === mockUser.lastname &&
       dob === mockUser.dob
     ) {
+      const expiresIn = 3600; // 1 hour
       return res.json({
         data: {
-          token: '<JWT token string>',
-          expiresIn: 3600, // 1 hour
+          token: createMockJwt(uuid, expiresIn),
+          expiresIn,
           tokenType: 'Bearer',
         },
       });
@@ -115,6 +121,23 @@ const responses = {
     return res.json({
       data: {
         topics: mockTopics,
+      },
+    });
+  },
+  'GET /vass/v0/appointment-availablity': (req, res) => {
+    const { headers } = req;
+    const token = headers.authorization;
+    if (!token) {
+      return res.status(401).json({
+        errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
+      });
+    }
+    const uuid = decodeJwtUuid(token);
+    return res.json({
+      data: {
+        // TODO: extract this from the token
+        appointmentId: uuid,
+        availableTimeSlots: generateSlots(),
       },
     });
   },
