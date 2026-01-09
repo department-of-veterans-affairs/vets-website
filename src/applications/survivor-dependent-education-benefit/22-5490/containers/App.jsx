@@ -77,7 +77,6 @@ function App({
       isLOA3,
       fetchedDirectDeposit,
       getDirectDeposit,
-      setFetchedDirectDeposit,
     ],
   );
 
