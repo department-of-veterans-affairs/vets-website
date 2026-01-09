@@ -2,15 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function PhoneView({ data }) {
-  const number = data?.isInternational
+  if (!data) {
+    return null;
+  }
+
+  const number = data.isInternational
     ? data.phoneNumber
-    : `${data?.areaCode} ${data?.phoneNumber}`;
+    : `${data.areaCode} ${data.phoneNumber}`;
 
   return (
     <va-telephone
-      country-code={data?.isInternational ? data.countryCode : null}
+      country-code={data.isInternational ? data.countryCode : null}
       contact={number}
-      extension={data?.extension}
+      extension={data.extension}
       not-clickable
     />
   );

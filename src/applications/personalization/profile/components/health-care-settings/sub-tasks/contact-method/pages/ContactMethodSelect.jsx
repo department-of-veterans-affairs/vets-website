@@ -12,8 +12,8 @@ import { useSelector } from 'react-redux';
 
 /**
  * Contact method selection page
- * @param {Object} data - subtask data
  * @param {Boolean} error - page submitted & error state
+ * @param {Array} options - available contact method options
  * @param {Function} setPageData - updates subtask data
  * @returns {JSX}
  */

@@ -176,8 +176,6 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   const optionIds = Object.values(data).map(value => {
     return value.replace('option-', '');
   });
-  // const optionIds = getSchedulingPreferencesOptionIds(fieldName, data);
-  // if we need more granular handling of option IDs, we can adjust this logic
 
   return { itemId, optionIds };
 };

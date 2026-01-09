@@ -273,7 +273,7 @@ export const ContactMethodContainer = () => {
             data = workPhone;
             break;
           case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
-            .CONTACT_EMAIL:
+            .EMAIL:
             data = email;
             break;
           case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
