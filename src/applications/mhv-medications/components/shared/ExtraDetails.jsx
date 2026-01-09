@@ -329,7 +329,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           </div>
         );
 
-      case dispStatusObj.nonVA || rxSourceIsNonVA(rx):
+      case dispStatusObj.nonVA:
         return (
           <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
             You can’t manage this medication in this online tool.

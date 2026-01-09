@@ -4,6 +4,7 @@ import CardSection from './CardSection';
 
 const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
   const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const phoneNumber = '8008270611';
   return (
     <va-card
       data-testid="appointment-card"
@@ -23,7 +24,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
             Your representative will call you from{' '}
             <va-telephone
-              contact="8008270611"
+              contact={phoneNumber}
               data-testid="solid-start-telephone"
             />
             . If you have questions or need to reschedule, contact VA Solid
@@ -35,9 +36,9 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
         data-testid="when-section"
         heading="When"
         dateContent={{
-          dateTime: appointmentData?.dtStartUtc,
+          dateTime: appointmentData?.startUTC,
           timezone: browserTimezone,
-          phoneNumber: appointmentData?.phoneNumber,
+          phoneNumber,
           showAddToCalendarButton: appointmentData?.showAddToCalendarButton,
         }}
       />
@@ -50,7 +51,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
         data-testid="who-section"
         heading="Who"
         textContent={
-          appointmentData?.providerName || 'VA Solid Start representative'
+          appointmentData?.agentNickname || 'VA Solid Start representative'
         }
       />
       {appointmentData?.topics &&
