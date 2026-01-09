@@ -36,7 +36,6 @@ const ReplyForm = props => {
   const {
     cannotReply,
     draft,
-    drafts,
     replyMessage,
     recipients,
     isCreateNewModalVisible,
@@ -250,7 +249,7 @@ const ReplyForm = props => {
                 </h2>
                 <ReplyDrafts
                   draft={draft}
-                  drafts={drafts}
+                  drafts={[draft]}
                   cannotReply={cannotReply}
                   isSaving={isSaving}
                   replyToName={replyToName}
@@ -275,7 +274,6 @@ const ReplyForm = props => {
 ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   draft: PropTypes.object,
-  drafts: PropTypes.array,
   header: PropTypes.object,
   isCreateNewModalVisible: PropTypes.bool,
   isEditing: PropTypes.bool,

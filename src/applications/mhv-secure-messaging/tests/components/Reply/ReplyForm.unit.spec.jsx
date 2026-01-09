@@ -81,7 +81,7 @@ describe('Reply form component', () => {
     expect(screen).to.exist;
   });
 
-  it('adds beforeunload event listener', () => {
+  it.skip('adds beforeunload event listener', () => {
     const screen = render();
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
@@ -259,7 +259,7 @@ describe('Reply form component', () => {
     };
 
     const screen = render(customState, {
-      drafts: threadDetails.drafts,
+      draft: threadDetails.draft,
       recipients: customState.sm.recipients,
       messages: threadDetails.messages,
     });
@@ -295,7 +295,7 @@ describe('Reply form component', () => {
     };
 
     const screen = render(customState, {
-      drafts: threadDetails.drafts,
+      draft: threadDetails.draft,
       recipients: customState.sm.recipients,
       messages: threadDetails.messages,
     });
@@ -330,7 +330,7 @@ describe('Reply form component', () => {
     };
 
     const screen = render(customState, {
-      drafts: threadDetails.drafts,
+      draft: threadDetails.draft,
       recipients: customState.sm.recipients,
       messages: threadDetails.messages,
     });

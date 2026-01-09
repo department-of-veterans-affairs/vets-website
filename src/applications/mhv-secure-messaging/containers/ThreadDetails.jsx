@@ -31,7 +31,7 @@ const ThreadDetails = props => {
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);
-  const { cannotReply, draft, drafts, messages, threadFolderId } = useSelector(
+  const { cannotReply, draft, messages, threadFolderId } = useSelector(
     state => state.sm.threadDetails,
   );
   const { folder } = useSelector(state => state.sm.folders);
@@ -146,7 +146,6 @@ const ThreadDetails = props => {
             <ReplyForm
               cannotReply={cannotReply}
               draft={draft || null}
-              drafts={drafts || []}
               header={header}
               messages={messages}
               recipients={recipients}
