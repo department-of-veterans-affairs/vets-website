@@ -276,7 +276,7 @@ export default function DefaultPage({
               )}
               <li>You can upload documents online or mail them to us</li>
             </ul>
-            {frontendDescription && (
+            {(frontendDescription || apiDescription) && (
               <p>
                 If you need help understanding this request, check your claim
                 letter online.

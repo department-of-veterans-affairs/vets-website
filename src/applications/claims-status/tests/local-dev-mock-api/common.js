@@ -578,7 +578,7 @@ const baseClaims = [
 
         // Path 4: Frontend override with longDescription but NO nextSteps
         // Shows generic "Next steps" section
-        createTrackedItem(4, 'RV1 - Reserve Records Request', true, {
+        createTrackedItem(4, 'Employer (21-4192)', true, {
           requestedDate: '2025-12-01',
           suspenseDate: '2026-12-01',
           canUploadFile: true,

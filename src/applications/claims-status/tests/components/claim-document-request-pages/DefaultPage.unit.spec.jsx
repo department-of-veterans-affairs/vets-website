@@ -541,17 +541,17 @@ describe('<DefaultPage>', () => {
         name: 'Frontend override with longDescription but NO nextSteps',
         item: {
           id: 4,
-          displayName: 'RV1 - Reserve Records Request',
+          displayName: 'Employer (21-4192)',
           status: 'NEEDED_FROM_YOU',
           requestedDate: '2025-12-01',
           suspenseDate: futureSuspenseDate,
           canUploadFile: true,
         },
-        dictionaryEntry: getDictEntry('RV1 - Reserve Records Request'),
+        dictionaryEntry: getDictEntry('Employer (21-4192)'),
         expectedHeader: 'Request for evidence',
-        expectedSubheaderPattern: /Respond by .* for: RV1 - Reserve Records Request/,
+        expectedSubheaderPattern: /Respond by .* for: Employer \(21-4192\)/,
         expectedDescriptionText:
-          'we’ve requested your service records or treatment records',
+          'we sent a letter to your last employer to ask about your job and why you left',
         // Generic next steps shown because no nextSteps in dictionary
         expectedNextStepsTestId: 'next-steps-in-what-we-need-from-you',
         showsAddFilesForm: true,
