@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { obfuscate, titleCase } from '../helpers';
 
 const DirectDepositCustomReview = ({ formData, editPage }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const mebBankInfoConfirmationField = useToggleValue(
+    TOGGLE_NAMES.mebBankInfoConfirmationField,
+  );
   const bankAccount = formData?.['view:directDeposit']?.bankAccount || {};
   const {
     accountType,
@@ -48,17 +53,20 @@ const DirectDepositCustomReview = ({ formData, editPage }) => {
             </span>
           </dd>
         </div>
-        <div className="review-row">
-          <dt>Confirm bank routing number</dt>
-          <dd>
-            <span aria-hidden="true">
-              {obfuscate(routingNumberConfirmation)}
-            </span>
-            <span className="sr-only">
-              Ending in {routingNumberConfirmation?.slice(-4) || 'Not provided'}
-            </span>
-          </dd>
-        </div>
+        {mebBankInfoConfirmationField && (
+          <div className="review-row">
+            <dt>Confirm bank routing number</dt>
+            <dd>
+              <span aria-hidden="true">
+                {obfuscate(routingNumberConfirmation)}
+              </span>
+              <span className="sr-only">
+                Ending in{' '}
+                {routingNumberConfirmation?.slice(-4) || 'Not provided'}
+              </span>
+            </dd>
+          </div>
+        )}
         <div className="review-row">
           <dt>Bank account number</dt>
           <dd>
@@ -68,17 +76,20 @@ const DirectDepositCustomReview = ({ formData, editPage }) => {
             </span>
           </dd>
         </div>
-        <div className="review-row">
-          <dt>Confirm bank account number</dt>
-          <dd>
-            <span aria-hidden="true">
-              {obfuscate(accountNumberConfirmation)}
-            </span>
-            <span className="sr-only">
-              Ending in {accountNumberConfirmation?.slice(-4) || 'Not provided'}
-            </span>
-          </dd>
-        </div>
+        {mebBankInfoConfirmationField && (
+          <div className="review-row">
+            <dt>Confirm bank account number</dt>
+            <dd>
+              <span aria-hidden="true">
+                {obfuscate(accountNumberConfirmation)}
+              </span>
+              <span className="sr-only">
+                Ending in{' '}
+                {accountNumberConfirmation?.slice(-4) || 'Not provided'}
+              </span>
+            </dd>
+          </div>
+        )}
       </dl>
     </div>
   );
