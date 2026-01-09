@@ -9,15 +9,15 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
 
 export default function App({ location, children }) {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  useEffect(
-    () => {
-      if (!userLoggedIn && location.pathname !== '/introduction') {
-        window.location.href = manifest.rootUrl;
-      }
-    },
-    [userLoggedIn, location],
-  );
+  // const userLoggedIn = useSelector(state => isLoggedIn(state));
+  // useEffect(
+  //   () => {
+  //     if (!userLoggedIn && location.pathname !== '/introduction') {
+  //       window.location.href = manifest.rootUrl;
+  //     }
+  //   },
+  //   [userLoggedIn, location],
+  // );
   return (
     <div className="form-22-10278-container row">
       <div className="vads-u-padding-left--0">

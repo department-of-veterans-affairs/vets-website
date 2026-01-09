@@ -61,7 +61,7 @@ export const IntroductionPage = props => {
             headingLevel={2}
             prefillEnabled={formConfig.prefillEnabled}
             messages={formConfig.savedFormMessages}
-            formConfig={route.formConfig}
+            formConfig={formConfig}
             pageList={pageList}
             startText="Start your Authorization to disclose personal information"
             unauthStartText="Sign in or create an account"
@@ -77,7 +77,7 @@ export const IntroductionPage = props => {
             <SaveInProgressIntro
               headingLevel={2}
               prefillEnabled={formConfig.prefillEnabled}
-              formConfig={route.formConfig}
+              formConfig={formConfig}
               pageList={pageList}
               startText="Start your Authorization to disclose personal information"
               buttonOnly
@@ -97,15 +97,6 @@ export const IntroductionPage = props => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    formData: state.form?.data || {},
-    loggedIn: isLoggedIn(state),
-    profile: selectProfile(state),
-    showLoadingIndicator: isProfileLoading(state),
-  };
-}
-
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
@@ -120,7 +111,4 @@ IntroductionPage.propTypes = {
   toggleLoginModal: PropTypes.func,
 };
 
-export default connect(
-  mapStateToProps,
-  // mapDispatchToProps,
-)(IntroductionPage);
+export default IntroductionPage;
