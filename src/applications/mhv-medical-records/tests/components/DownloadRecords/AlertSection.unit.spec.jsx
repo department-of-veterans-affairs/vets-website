@@ -12,6 +12,7 @@ import { DownloadReportProvider } from '../../../context/DownloadReportContext';
 describe('AlertSection', () => {
   const defaultContextValue = {
     activeAlert: null,
+    generatingCCD: false,
     ccdDownloadSuccess: false,
     ccdError: false,
     CCDRetryTimestamp: null,
@@ -89,14 +90,15 @@ describe('AlertSection', () => {
     });
 
     it('prioritizes CCD retry error over other CCD alerts', () => {
-      const { getByTestId, queryByText } = renderWithContext({
+      const { getAllByTestId, queryByText } = renderWithContext({
         CCDRetryTimestamp: '2025-01-01T00:00:00Z',
         ccdDownloadSuccess: true,
         activeAlert: { type: ALERT_TYPE_CCD_ERROR },
       });
 
-      // Should show retry error, not success
-      expect(getByTestId('expired-alert-message')).to.exist;
+      // Should show retry error (and Redux error can also show), but not success
+      const expiredAlerts = getAllByTestId('expired-alert-message');
+      expect(expiredAlerts.length).to.be.at.least(1);
       expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
     });
   });
@@ -206,22 +208,24 @@ describe('AlertSection', () => {
   });
 
   describe('combined scenarios', () => {
-    it('shows both CCD retry error and SEI access error when both conditions are met', () => {
-      const { getAllByTestId, getByText } = renderWithContext(
+    it('CCD retry error takes priority over SEI access error (only one shows)', () => {
+      const { getAllByTestId, getByText, queryByText } = renderWithContext(
         { CCDRetryTimestamp: '2025-01-01T00:00:00Z' },
         { failedSeiDomains: SEI_DOMAINS },
       );
 
-      // Should show both alerts
-      expect(getAllByTestId('expired-alert-message').length).to.equal(2);
+      // Original behavior: CCD retry error takes priority, SEI access error does not show
+      expect(getAllByTestId('expired-alert-message').length).to.equal(1);
       expect(
         getByText(
           /We can't download your continuity of care document right now/,
         ),
       ).to.exist;
       expect(
-        getByText(/We can't download your self-entered information right now/),
-      ).to.exist;
+        queryByText(
+          /We can't download your self-entered information right now/,
+        ),
+      ).to.not.exist;
     });
 
     it('shows CCD retry error and SEI redux error together', () => {
