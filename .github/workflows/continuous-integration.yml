@@ -15,6 +15,9 @@ permissions:
   contents: read
   pull-requests: read
   checks: write
+defaults:
+  run:
+    shell: bash
 jobs:
   # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
   # Fails and cancels the workflow if package.json or yarn.lock are modified
@@ -918,6 +921,7 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
+        shell: bash
         run: |
           set -euo pipefail
 
@@ -1044,6 +1048,7 @@ jobs:
           path: .
 
       - name: Run Cypress tests
+        shell: bash
         run: |
           set -euo pipefail
 
