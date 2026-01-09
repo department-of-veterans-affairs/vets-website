@@ -318,6 +318,7 @@
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
   "vaDependentsVerification": "va_dependents_verification",
   "vaDependentsV3": "va_dependents_v3",
+  "vaDependentsViewBrowserMonitoringEnabled": "va_dependents_view_browser_monitoring_enabled",
   "vaDependentsBrowserMonitoringEnabled": "va_dependents_browser_monitoring_enabled",
   "vaDependentsNetWorthAndPension": "va_dependents_net_worth_and_pension",
   "vaDependentsDuplicateModals": "va_dependents_duplicate_modals",
