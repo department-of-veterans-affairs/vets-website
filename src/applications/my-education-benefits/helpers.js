@@ -304,7 +304,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
       [formFields.viewDirectDeposit]: {
         [formFields.bankAccount]: {
           ...bankInformation,
-          accountType: bankInformation?.accountType?.toLowerCase(),
+          [formFields.routingNumberConfirmation]:
+            bankInformation?.routingNumber,
+          [formFields.accountNumberConfirmation]:
+            bankInformation?.accountNumber,
         },
       },
 
