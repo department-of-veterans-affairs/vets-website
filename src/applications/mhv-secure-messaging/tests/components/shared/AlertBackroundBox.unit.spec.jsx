@@ -227,7 +227,7 @@ describe('Alert Backround Box component', () => {
   });
 
   describe('Message sent success alert with link', () => {
-    it('should render RouterLink when alert content is "Message sent"', async () => {
+    it('should render RouterLink when message sent and user did not enter from sent folder', async () => {
       const activeAlertObj = {
         datestamp: '2022-10-07T19:25:32.832Z',
         isActive: true,
@@ -378,6 +378,49 @@ describe('Alert Backround Box component', () => {
         // Verify navigation occurred by checking history
         expect(history.location.pathname).to.equal(Paths.SENT);
       });
+    });
+
+    it('should NOT render RouterLink when user entered compose flow from sent folder', async () => {
+      // Simulate user entering compose flow from sent folder
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.SENT);
+
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: '',
+        content: Alerts.Message.SEND_MESSAGE_SUCCESS,
+      };
+      const customState = {
+        sm: {
+          alerts: {
+            alertVisible: true,
+            alertList: [activeAlertObj],
+          },
+        },
+      };
+      const setup = initialState =>
+        renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+          initialState,
+          reducers: reducer,
+          path: Paths.SENT,
+        });
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        // Verify the alert content is displayed
+        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+
+        // Verify NO link to sent folder is rendered since user came from sent
+        const sentLink = screen.container.querySelector(
+          `va-link[href="${Paths.ROOT_URL + Paths.SENT}"]`,
+        );
+        expect(sentLink).to.not.exist;
+      });
+
+      // Clean up session storage
+      sessionStorage.removeItem('sm_composeEntryUrl');
     });
   });
 });
