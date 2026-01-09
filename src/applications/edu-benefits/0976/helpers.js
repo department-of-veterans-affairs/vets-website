@@ -1,3 +1,5 @@
+import React from 'react';
+
 function convertNameToInitials(fullName) {
   const { first, last } = fullName;
   if (!first || !last) {
@@ -83,3 +85,57 @@ export function institutionResponseToObject(responseData) {
     },
   };
 }
+
+export const additionalInstitutionsArrayOptions = {
+  arrayPath: 'additionalInstitutions',
+  nounSingular: 'location',
+  nounPlural: 'locations',
+  required: false,
+  isItemIncomplete: item => {
+    return ![item?.name, item?.type, item?.mailingAddress].every(Boolean);
+  },
+  text: {
+    cancelAddButtonText: props =>
+      `Cancel adding this additional ${props.nounSingular}`,
+    summaryTitle: props => `Review your additional ${props.nounPlural}`,
+    cardDescription: item => {
+      if (!item) return <></>;
+      return (
+        <>
+          <p>
+            <strong>VA facility code: </strong>
+            {item.facilityCode}
+          </p>
+          <p>
+            <strong>Mailing address: </strong>
+            {[
+              item.mailingAddress?.street,
+              item.mailingAddress?.street2,
+              item.mailingAddress?.street3,
+              item.mailingAddress?.city,
+              item.mailingAddress?.state,
+            ]
+              .filter(Boolean)
+              .join(', ')}{' '}
+            {item.mailingAddress?.postalCode}
+          </p>
+        </>
+      );
+    },
+    summaryDescriptionWithoutItems: _props => {
+      return (
+        <div>
+          <h3>
+            You will need to list all additional locations associated with your
+            institution
+          </h3>
+          <p>
+            If you have any more campuses or additional locations to add to this
+            agreement, you can do so now. You will need a facility code for each
+            location you would like to add.
+          </p>
+        </div>
+      );
+    },
+  },
+};
