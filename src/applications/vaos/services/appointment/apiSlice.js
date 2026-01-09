@@ -20,6 +20,9 @@ import {
 import transformResponses from './transformResponse';
 
 export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
+const acheronHeader = {
+  headers: { ACHERON_REQUESTS: 'true' },
+};
 
 // NOTE: Don't forget to add middleware to 'router', 'vaos-entry.jsx' and 'setup.js'
 const slice = createApi({
@@ -27,9 +30,22 @@ const slice = createApi({
   // Cache is normally 60 seconds by default, but it causes each test
   // to take an additional 60 seconds to run, so we set it to 0.
   keepUnusedDataFor: environment.isUnitTest() ? 0 : 60,
-  // tagTypes: ['Appointments'],
+  tagTypes: ['Appointment'],
   // The base query used by each endpoint if no queryFn option is specified.
-  baseQuery: async (url, _api, _extraOptions) => {
+  baseQuery: async (
+    url,
+    _api,
+    extraOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...acheronHeader.headers,
+      },
+    },
+  ) => {
+    console.log('url', url);
+    console.log(_api, extraOptions);
+
     try {
       // NOTE: Return object must have this shape! {data, meta}. You will get an
       // error and it ignore unknown attributes. It is expected to return an
@@ -40,7 +56,14 @@ const slice = createApi({
       //   console.log(
       //     `API Call: ${environment.API_URL}/vaos/v2/appointments${url}`,
       //   );
-      const response = await apiRequestWithUrl(`/vaos/v2/appointments${url}`);
+      const response = await apiRequestWithUrl(`/vaos/v2/appointments${url}`, {
+        method: extraOptions.method,
+        headers: {
+          'Content-Type': 'application/json',
+          ...acheronHeader.headers,
+        },
+        body: JSON.stringify(extraOptions?.body),
+      });
       console.log('response', response);
 
       return {
@@ -57,16 +80,22 @@ const slice = createApi({
   },
   endpoints: builder => ({
     cancelAppointment: builder.mutation({
-      query: ({ id }) => {
-        return `/${id}`;
+      query: id => `/${id}`,
+      extraOptions: {
+        method: 'PUT',
+        body: { status: 'cancelled' },
       },
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: 'Appointment', id },
+      ],
     }),
     getAppointment: builder.query({
       // NOTE: You must specify either a query field (which will use the API's
       // baseQuery to make a request), or a queryFn function with your own async logic.
       query: ({ id, includes = ['facilities', 'clinics'] } = {}) =>
         `/${id}?_include=${includes}`,
-      // providesTags: ['Appointments'],
+      // providesTags: ['Appointment'],
+      providesTags: (_result, _error, id) => [{ type: 'Appointment', id }],
       transformResponse: (response, _meta, _arg) => {
         console.log('transform response', response);
         return transformVAOSAppointment(response.attributes);
@@ -98,6 +127,16 @@ const slice = createApi({
           .map(status => `statuses[]=${status}`)
           .join('&')}`;
       },
+      providesTags: result =>
+        // is result available?
+        result
+          ? // successful query
+            [
+              ...result.map(({ id }) => ({ type: 'Appointment', id })),
+              { type: 'Appointment', id: 'LIST' },
+            ]
+          : // an error occurred, but we still want to refetch this query when `{ type: 'Appointment', id: 'LIST' }` is invalidated
+            [{ type: 'Appointment', id: 'LIST' }],
       transformResponse: transformResponses,
       // transformResponse: (response, _meta, _arg) => {
       //   if (response) {
@@ -206,9 +245,7 @@ const slice = createApi({
           .map(status => `statuses[]=${status}`)
           .join('&')}`;
       },
-      transformResponse: (response, _meta, _arg) => {
-        return response;
-      },
+      transformResponse: transformResponses,
     }),
   }),
 });

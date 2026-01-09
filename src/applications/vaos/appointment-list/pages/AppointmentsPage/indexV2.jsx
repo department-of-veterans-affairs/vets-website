@@ -2,15 +2,14 @@ import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import WarningNotification from '../../../components/WarningNotification';
-import { selectPendingAppointments } from '../../../redux/selectors';
-import { APPOINTMENT_STATUS, GA_PREFIX } from '../../../utils/constants';
+import { GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
@@ -19,6 +18,7 @@ import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedApp
 import { routeToCCPage } from '../../../referral-appointments/flow';
 import { useIsInPilotUserStations } from '../../../referral-appointments/hooks/useIsInPilotUserStations';
 import { setFormCurrentPage } from '../../../referral-appointments/redux/actions';
+import { useGetAppointmentRequestsQuery } from '../../../services/appointment/apiSlice';
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
 import PageLayout from '../../components/PageLayout';
 import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
@@ -44,12 +44,38 @@ export default function AppointmentsPage() {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+  const [count, setCount] = useState(0);
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA appointments');
   const { isInPilotUserStations } = useIsInPilotUserStations();
 
-  const pendingAppointments = useSelector(state =>
-    selectPendingAppointments(state),
+  const { appointments } = useGetAppointmentRequestsQuery(undefined, {
+    selectFromResult: ({
+      data,
+      error: _error,
+      isError: _isError,
+      isFetching: _isFetching,
+      isLoading: _isLoading,
+      isSuccess: _isSuccess,
+    }) => {
+      return {
+        appointments: data?.filter(appt => {
+          return appt.isPendingAppointment;
+        }),
+        error: _error,
+        isError: _isError,
+        isFetching: _isFetching,
+        isLoading: _isLoading,
+        isSuccess: _isSuccess,
+      };
+    },
+  });
+
+  useEffect(
+    () => {
+      setCount(appointments?.length);
+    },
+    [location, dispatch, appointments?.length],
   );
 
   // const featureBookingExclusion = useSelector(state =>
@@ -100,21 +126,21 @@ export default function AppointmentsPage() {
     [location.pathname, prefix, pageTitle],
   );
 
-  const [count, setCount] = useState(0);
-  useEffect(
-    () => {
-      // Get non cancelled appointment requests from store
-      setCount(
-        pendingAppointments
-          ? pendingAppointments.filter(
-              appointment =>
-                appointment.status !== APPOINTMENT_STATUS.cancelled,
-            ).length
-          : 0,
-      );
-    },
-    [pendingAppointments],
-  );
+  // const [count, setCount] = useState(0);
+  // useEffect(
+  //   () => {
+  //     // Get non cancelled appointment requests from store
+  //     setCount(
+  //       pendingAppointments
+  //         ? pendingAppointments.filter(
+  //             appointment =>
+  //               appointment.status !== APPOINTMENT_STATUS.cancelled,
+  //           ).length
+  //         : 0,
+  //     );
+  //   },
+  //   [pendingAppointments],
+  // );
 
   const handleCCLinkClick = e => {
     e.preventDefault();

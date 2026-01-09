@@ -17,15 +17,14 @@ import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import NewTabAnchor from '../NewTabAnchor';
 import ClinicName from './ClinicName';
 import ClinicPhysicalLocation from './ClinicPhysicalLocation';
-import DetailPageLayout, {
-  ClinicOrFacilityPhone,
-  Details,
-  Prepare,
-  What,
-  When,
-  Where,
-  Who,
-} from './DetailPageLayoutV2';
+import DetailPageLayout from './DetailPageLayoutV2';
+import { ClinicOrFacilityPhone } from './DetailPageLayoutV2/ClinicOrFacilityPhone';
+import { Details } from './DetailPageLayoutV2/Details';
+import { Prepare } from './DetailPageLayoutV2/Prepare';
+import { Where } from './DetailPageLayoutV2/Where';
+import { Who } from './DetailPageLayoutV2/Who';
+import { What } from './DetailPageLayoutV2/What';
+import { When } from './DetailPageLayoutV2/When';
 
 export default function InPersonLayout({ data: appointment }) {
   //   const {
@@ -50,7 +49,7 @@ export default function InPersonLayout({ data: appointment }) {
 
   // if (!appointment) return null;
 
-  const { reasonForAppointment, patientComments, isPastAppointment } =
+  const { patientComments, isPastAppointment, isCanceled, isBooked } =
     appointment || {};
   const { location: facility } = appointment;
   const facilityId = appointment.locationId;
@@ -92,7 +91,7 @@ export default function InPersonLayout({ data: appointment }) {
           timezone={appointment.timezone}
         />
         <br />
-        {APPOINTMENT_STATUS.cancelled !== appointment.status &&
+        {isCanceled &&
           !isPastAppointment && (
             <div className="vads-u-margin-top--2 vaos-hide-for-print">
               <AddToCalendarButton
@@ -112,13 +111,7 @@ export default function InPersonLayout({ data: appointment }) {
           <span data-dd-privacy="mask">{appointment.practitionerName}</span>
         )}
       </Who>
-      <Where
-        heading={
-          APPOINTMENT_STATUS.booked === appointment.status
-            ? 'Where to attend'
-            : undefined
-        }
-      >
+      <Where heading={isBooked ? 'Where to attend' : undefined}>
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
         {!facility &&
           !facilityId && (
@@ -170,14 +163,9 @@ export default function InPersonLayout({ data: appointment }) {
           facilityPhone={facility.facilityPhone}
         />
       </Where>
-      <Details
-        reason={reasonForAppointment}
-        otherDetails={patientComments}
-        isCerner={appointment.isCerner}
-      />
+      <Details otherDetails={patientComments} isCerner={appointment.isCerner} />
       {!isPastAppointment &&
-        (APPOINTMENT_STATUS.booked === appointment.status ||
-          APPOINTMENT_STATUS.cancelled === appointment.status) && (
+        (isBooked || isCanceled) && (
           <Prepare>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               Bring your insurance cards, a list of your medications, and other

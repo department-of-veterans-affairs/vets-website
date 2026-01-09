@@ -2,9 +2,10 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import classNames from 'classnames';
 import { format, parseISO } from 'date-fns';
 import React, { useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
+import { selectFeatureRequests } from '../../../redux/selectors';
 import {
   groupAppointmentByDay,
   groupAppointmentsByMonth,
@@ -16,7 +17,6 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import BackendAppointmentServiceAlert from '../../components/BackendAppointmentServiceAlert';
 import NoAppointments from '../../components/NoAppointments';
 import { startNewAppointmentFlow } from '../../redux/actions';
-import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
 import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayoutV2';
 
 export default function UpcomingAppointmentsPage() {
@@ -38,7 +38,9 @@ export default function UpcomingAppointmentsPage() {
       isSuccess: _isSuccess,
     }) => {
       return {
-        appointments: data?.filter(appt => appt.isUpcomingAppointment),
+        appointments: data?.filter(
+          appt => appt.isUpcomingAppointment && !appt.isPastAppointment,
+        ),
         error: _error,
         isError: _isError,
         isFetching: _isFetching,
@@ -47,11 +49,8 @@ export default function UpcomingAppointmentsPage() {
       };
     },
   });
-  const {
-    showScheduleButton,
-    // appointmentsByMonth,
-  } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
-  // const appointmentsByMonth = useSelector(selectAppointmentsGroupByMonth);
+
+  const { showScheduleButton } = useSelector(selectFeatureRequests);
 
   useEffect(() => {
     recordEvent({

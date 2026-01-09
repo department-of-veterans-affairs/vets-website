@@ -2,31 +2,33 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import AppointmentCard from '../../../components/AppointmentCard';
-import BackLink from '../../../components/BackLink';
+import AppointmentCard from '../../../components/AppointmentCard/indexV2';
+import BackLink from '../../../components/BackLinkV2';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import {
-  closeCancelAppointment,
-  confirmCancelAppointment,
-} from '../../redux/actions';
 
-import CancelPageContent from './CancelPageContent';
+import CancelPageContent from './CancelPageContentV2';
 
-function handleConfirm(dispatch, setIsDisplay) {
+function handleConfirm(dispatch, setIsCancelConfirm, setIsCancelWarning) {
   return () => {
-    setIsDisplay(false);
-    dispatch(confirmCancelAppointment());
+    setIsCancelWarning(false);
+    setIsCancelConfirm(true);
+    // dispatch(confirmCancelAppointment());
   };
 }
 
-function handleClose(dispatch, setIsDisplay) {
+function handleClose(dispatch, setIsCancelConfirm, setIsCancelWarning) {
   return () => {
-    setIsDisplay(false);
-    dispatch(closeCancelAppointment());
+    setIsCancelWarning(false);
+    setIsCancelConfirm(false);
+    // dispatch(closeCancelAppointment());
   };
 }
 
-export default function CancelWarningPage({ appointment, setIsDisplay }) {
+export default function CancelWarningPage({
+  data: appointment,
+  setIsCancelConfirm,
+  setIsCancelWarning,
+}) {
   const dispatch = useDispatch();
   //   const { showCancelModal } = cancelInfo;
   const { isPendingAppointment } = appointment;
@@ -42,10 +44,6 @@ export default function CancelWarningPage({ appointment, setIsDisplay }) {
     scrollAndFocus();
   }, []);
 
-  //   if (!showCancelModal) {
-  //     return null;
-  //   }
-
   return (
     <>
       <BackLink appointment={appointment} />
@@ -55,9 +53,16 @@ export default function CancelWarningPage({ appointment, setIsDisplay }) {
         appointment online.
       </p>
       <AppointmentCard appointment={appointment}>
-        <CancelPageContent isRequest={isPendingAppointment} />
+        <CancelPageContent data={appointment} />
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-margin-top--3 vaos-hide-for-print">
-          <button type="button" onClick={handleConfirm(dispatch, setIsDisplay)}>
+          <button
+            type="button"
+            onClick={handleConfirm(
+              dispatch,
+              setIsCancelConfirm,
+              setIsCancelWarning,
+            )}
+          >
             {buttonText}
           </button>
         </div>
@@ -65,7 +70,11 @@ export default function CancelWarningPage({ appointment, setIsDisplay }) {
           <button
             type="button"
             className="usa-button-secondary"
-            onClick={handleClose(dispatch, setIsDisplay)}
+            onClick={handleClose(
+              dispatch,
+              setIsCancelConfirm,
+              setIsCancelWarning,
+            )}
           >
             No, do not cancel
           </button>
@@ -75,6 +84,7 @@ export default function CancelWarningPage({ appointment, setIsDisplay }) {
   );
 }
 CancelWarningPage.propTypes = {
-  setIsDisplay: PropTypes.func.isRequired,
-  appointment: PropTypes.object,
+  setIsCancelConfirm: PropTypes.func.isRequired,
+  setIsCancelWarning: PropTypes.func.isRequired,
+  data: PropTypes.object,
 };

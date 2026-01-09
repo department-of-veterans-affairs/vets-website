@@ -15,13 +15,12 @@ import Section from '../Section';
 import State from '../State';
 import VideoLink from '../VideoLinkV2';
 import ClinicName from './ClinicName';
-import DetailPageLayout, {
-  ClinicOrFacilityPhone,
-  Prepare,
-  What,
-  When,
-  Who,
-} from './DetailPageLayoutV2';
+import DetailPageLayout from './DetailPageLayoutV2';
+import { ClinicOrFacilityPhone } from './DetailPageLayoutV2/ClinicOrFacilityPhone';
+import { Prepare } from './DetailPageLayoutV2/Prepare';
+import { Who } from './DetailPageLayoutV2/Who';
+import { What } from './DetailPageLayoutV2/What';
+import { When } from './DetailPageLayoutV2/When';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
 import VideoLayoutVA from './VideoLayoutVA';
 

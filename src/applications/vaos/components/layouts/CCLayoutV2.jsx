@@ -15,12 +15,11 @@ import AddToCalendarButton from '../AddToCalendarButtonV2';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import FacilityPhone from '../FacilityPhone';
 import Section from '../Section';
-import DetailPageLayout, {
-  CCDetails,
-  Prepare,
-  What,
-  When,
-} from './DetailPageLayoutV2';
+import DetailPageLayout from './DetailPageLayoutV2';
+import { CCDetails } from './DetailPageLayoutV2/CCDetails';
+import { Prepare } from './DetailPageLayoutV2/Prepare';
+import { What } from './DetailPageLayoutV2/What';
+import { When } from './DetailPageLayoutV2/When';
 
 export default function CCLayout({ data: appointment }) {
   const {

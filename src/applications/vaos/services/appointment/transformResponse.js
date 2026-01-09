@@ -62,16 +62,13 @@ export default function transformResponses(response, _meta, _arg) {
   // Pluck the 'attributes' data
   return map([...response], 'attributes')
     .filter(appointment => {
-      // NOTE: Shouldn't need this check since it's implied that upcoming
-      // appointment are of type VA or CC.
       if (
-        appointment.future &&
-        (appointment.type === 'COMMUNITY_CARE_APPOINTMENT' ||
-          appointment.type === 'VA')
+        appointment.type === 'COMMUNITY_CARE_APPOINTMENT' ||
+        appointment.type === 'VA'
       ) {
         return !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appointment.description);
       }
-      return false;
+      return true;
     })
     .map(createAppointmentFactory);
   // return transformVAOSAppointments(a);

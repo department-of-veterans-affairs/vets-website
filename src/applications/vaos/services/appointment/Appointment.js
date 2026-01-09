@@ -60,6 +60,7 @@ export default class Appointment {
     this.isAtlasVideoAppointment =
       response.modality === 'vaVideoCareAtAnAtlasLocation';
     this.isBadAppointmentId = false;
+    this.isBooked = response.status === APPOINTMENT_STATUS.booked;
     this.isCOVIDVaccine = response.modality === 'vaInPersonVaccine';
     this.isCanceled = response.status === APPOINTMENT_STATUS.cancelled;
     this.isCancellable = response.cancellable;
@@ -69,6 +70,7 @@ export default class Appointment {
     // this.isCommunityCare = response.kind === 'cc';
     this.isCompAndPenAppointment = response.modality === 'claimExamAppointment';
     this.isExpressCare = false;
+    this.isInPersion = response.modality === 'vaInPerson';
     this.isPastAppointment = response.past;
     this.isPendingAppointment = response.pending;
     this.isUpcomingAppointment = response.future;
@@ -79,10 +81,10 @@ export default class Appointment {
       ? 60
       : response.minutesDuration;
     this.modality = response.modality;
+    // TODO: Needs work!
     this.patientComments = response.reasonCode
       ? response.patientComments
       : null;
-    // this.reasonForAppointment = getReasonForAppointment(response);
     this.resourceType = 'Appointment';
     this.serviceType = response.serviceType;
     this.serviceCategory = response.serviceCategory || [];

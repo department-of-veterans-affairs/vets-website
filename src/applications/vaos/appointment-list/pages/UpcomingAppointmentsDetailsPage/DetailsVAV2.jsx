@@ -6,7 +6,7 @@ import ClaimExamLayout from '../../../components/layouts/ClaimExamLayoutV2';
 import InPersonLayout from '../../../components/layouts/InPersonLayoutV2';
 import PhoneLayout from '../../../components/layouts/PhoneLayoutV2';
 import { useCancelAppointmentMutation } from '../../../services/appointment/apiSlice';
-import CancelConfirmationPage from '../CancelAppointmentPage/CancelConfirmationPage';
+import CancelConfirmationPage from '../CancelAppointmentPage/CancelConfirmationPageV2';
 import CancelWarningPage from '../CancelAppointmentPage/CancelWarningPageV2';
 
 export default function DetailsVA({ appointment }) {
