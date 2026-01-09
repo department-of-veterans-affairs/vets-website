@@ -74,7 +74,7 @@ const Vaccines = props => {
     return getVaccinesList(isCurrent);
   };
 
-  useTrackAction(statsdFrontEndActions.VITALS_LIST);
+  useTrackAction(statsdFrontEndActions.VACCINES_LIST);
 
   useListRefresh({
     listState,
