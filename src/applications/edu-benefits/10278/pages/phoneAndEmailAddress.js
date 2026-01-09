@@ -1,9 +1,8 @@
-// @ts-check
 import {
   emailSchema,
   emailUI,
-  phoneSchema,
-  phoneUI,
+  internationalPhoneSchema,
+  internationalPhoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -11,17 +10,21 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Phone and email address'),
-    homePhone: phoneUI('Home phone number'),
-    mobilePhone: phoneUI('Mobile phone number'),
+    phoneNumber: internationalPhoneUI({
+      title: 'Phone number',
+      hint: null,
+      errorMessages: {
+        required: 'Please enter your phone number',
+      },
+    }),
     emailAddress: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      homePhone: phoneSchema,
-      mobilePhone: phoneSchema,
+      phoneNumber: internationalPhoneSchema(),
       emailAddress: emailSchema,
     },
-    required: ['homePhone'],
+    required: ['phoneNumber'],
   },
 };
