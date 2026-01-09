@@ -8,6 +8,11 @@ import DirectDepositField from '../../../../components/DirectDepositField';
 import DirectDepositViewField from '../../../../components/DirectDepositViewField';
 import ObfuscateReviewField from '../../../../components/ObfuscateReviewField';
 
+import {
+  validateBankAccountNumber,
+  validateRoutingNumber,
+} from '../../../../utils/validation';
+
 const checkImageSrc = (() => {
   const bucket = environment.isProduction()
     ? BUCKETS[ENVIRONMENTS.VAGOVPROD]
@@ -49,6 +54,7 @@ const directDeposit33 = {
           },
           'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [
+            validateRoutingNumber,
             (errors, fieldData, formData) => {
               const accountNumber =
                 formData['view:directDeposit']?.bankAccount?.accountNumber;
@@ -86,10 +92,11 @@ const directDeposit33 = {
         accountNumber: {
           ...bankAccountUI.accountNumber,
           'ui:errorMessages': {
-            pattern: 'Please enter a valid 5-17 digit account number',
+            pattern: 'Please enter a valid 5-17 digit bank account number',
           },
           'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [
+            validateBankAccountNumber,
             (errors, fieldData, formData) => {
               const routingNumber =
                 formData['view:directDeposit']?.bankAccount?.routingNumber;
@@ -109,7 +116,7 @@ const directDeposit33 = {
             hideIf: formData => formData?.mebBankInfoConfirmationField !== true,
           },
           'ui:errorMessages': {
-            pattern: 'Please enter a valid 5-17 digit account number',
+            pattern: 'Please enter a valid 5-17 digit bank account number',
           },
           'ui:reviewField': ObfuscateReviewField,
           'ui:validations': [

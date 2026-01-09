@@ -214,7 +214,7 @@ function ToeApp({
         });
       }
     },
-    [mebBankInfoConfirmationField],
+    [mebBankInfoConfirmationField, formData, setFormData],
   );
 
   useEffect(
@@ -277,8 +277,8 @@ ToeApp.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb1995Reroute: PropTypes.bool,
-  mebDpoAddressOptionEnabled: PropTypes.bool,
   mebBankInfoConfirmationField: PropTypes.bool,
+  mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
