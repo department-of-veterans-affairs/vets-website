@@ -50,15 +50,15 @@ const testConfig = createTestConfig(
       },
       // When we land on this screener page, progressing through the form is
       // blocked (by design). To successfully complete the test,
-      // once we land here, change `champvaBenefitStatus` to `true`
+      // once we land here, change `view:champvaBenefitStatus` to `true`
       // and click '<< Back' so that we can proceed past the screener
       [ALL_PAGES.benefitApp.path]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.injectAxeThenAxeCheck();
-            if (data.champvaBenefitStatus === false) {
+            if (data['view:champvaBenefitStatus'] === false) {
               // eslint-disable-next-line no-param-reassign
-              data.champvaBenefitStatus = true;
+              data['view:champvaBenefitStatus'] = true;
               // This targets the 'Back to previous page' button
               cy.get('va-link[back="true"]').click({ force: true });
             }
