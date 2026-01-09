@@ -44,6 +44,10 @@ const AlertBackgroundBox = props => {
   const alertRef = useRef();
   const [activeAlert, setActiveAlert] = useState(null);
   const [alertAriaLabel, setAlertAriaLabel] = useState('');
+
+  // Check if user entered compose flow from sent folder
+  const enteredFromSent =
+    sessionStorage.getItem('sm_composeEntryUrl') === Paths.SENT;
   const threadMessages = useSelector(
     state => state.sm?.threadDetails?.messages,
   );
@@ -238,14 +242,15 @@ const AlertBackgroundBox = props => {
         <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
           {alertAriaLabel}
         </SrOnlyTag>
-        {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS && (
-          <RouterLink
-            href={Paths.SENT}
-            text="Review your sent messages"
-            data-testid="review-sent-messages-link"
-            data-dd-action-name="Sent messages link in success alert"
-          />
-        )}
+        {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS &&
+          !enteredFromSent && (
+            <RouterLink
+              href={Paths.SENT}
+              text="Review your sent messages"
+              data-testid="review-sent-messages-link"
+              data-dd-action-name="Sent messages link in success alert"
+            />
+          )}
       </VaAlert>
     )
   );
