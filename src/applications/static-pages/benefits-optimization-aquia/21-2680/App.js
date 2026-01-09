@@ -24,9 +24,7 @@ const App = ({ formEnabled }) => {
           you’ll also need to fill out a Request for Nursing Home Information in
           Connection with Claim for Aid and Attendance (VA Form 21-0779).
         </p>
-        <a href="Get VA Form 21-0779 to download">
-          Get VA Form 21-0779 to download
-        </a>
+        <a href="/forms/21-0779/">Get VA Form 21-0779 to download</a>
 
         <h3>Online</h3>
         <p>
@@ -57,9 +55,7 @@ const App = ({ formEnabled }) => {
         you’ll also need to fill out a Request for Nursing Home Information in
         Connection with Claim for Aid and Attendance (VA Form 21-0779).
       </p>
-      <a href="Get VA Form 21-0779 to download">
-        Get VA Form 21-0779 to download
-      </a>
+      <a href="/forms/21-0779/">Get VA Form 21-0779 to download</a>
     </>
   );
 };
