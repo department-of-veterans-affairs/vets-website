@@ -4,8 +4,20 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
+
+const customLink = ({ children, ...props }) => {
+  return (
+    <va-link-action
+      type="primary-entry"
+      text="Start your request for reimbursement"
+      {...props}
+    >
+      {children}
+    </va-link-action>
+  );
+};
 
 const OMB_RES_BURDEN = 15;
 const OMB_NUMBER = '2900-0892 ';
@@ -54,10 +66,8 @@ const ProcessList = () => {
 
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
@@ -73,21 +83,19 @@ export const IntroductionPage = props => {
         Fees.
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
+
+      <SaveInProgressIntro
+        hideUnauthedStartLink={!userLoggedIn}
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        formConfig={formConfig}
+        pageList={pageList}
+        unauthStartText="Sign in or create an account"
+        customLink={userLoggedIn ? customLink : null}
+      />
       <p />
+
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
         omb-number={OMB_NUMBER}
