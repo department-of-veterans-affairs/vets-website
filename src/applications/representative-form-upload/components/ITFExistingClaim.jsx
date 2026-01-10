@@ -51,8 +51,6 @@ const ITFExistingClaim = ({ location, route, router }) => {
         <h3 className="vads-u-margin-y--0">
           {formData?.veteranFullName?.last}, {formData?.veteranFullName?.first}
         </h3>
-        {formData?.address?.city}, {formData?.address?.state}{' '}
-        {formData?.address?.postalCode}
         <p className="vads-u-margin-bottom--0">
           <strong>Benefit:</strong> {type && benefitCopy(type)}
         </p>
