@@ -38,7 +38,6 @@ import {
   sendDataDogAction,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
-import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
 import {
@@ -70,20 +69,25 @@ const Vaccines = props => {
   const { isLoading } = useAcceleratedData();
   const isFetchingData = listState === loadStates.FETCHING;
 
-  const dispatchAction = isCurrent => {
-    return getVaccinesList(isCurrent);
-  };
-
   useTrackAction(statsdFrontEndActions.VACCINES_LIST);
 
-  useListRefresh({
-    listState,
-    listCurrentAsOf: vaccinesCurrentAsOf,
-    refreshStatus: refresh.status,
-    extractType: refreshExtractTypes.VPR,
-    dispatchAction,
-    dispatch,
-  });
+  // Fetch accelerated vaccines on mount if:
+  // 1. Not yet fetched (PRE_FETCH state), OR
+  // 2. Data was loaded by Blue Button (vaccinesCurrentAsOf is null) which uses
+  //    VistA data via GET_LIST - we need fresh accelerated data instead.
+  // The condition is self-limiting: once fetched, vaccinesCurrentAsOf is set to
+  // a Date, preventing re-fetches.
+  useEffect(
+    () => {
+      if (
+        listState === loadStates.PRE_FETCH ||
+        (listState === loadStates.FETCHED && vaccinesCurrentAsOf === null)
+      ) {
+        dispatch(getVaccinesList(true));
+      }
+    },
+    [dispatch, listState, vaccinesCurrentAsOf],
+  );
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.
   useReloadResetListOnUnmount({
