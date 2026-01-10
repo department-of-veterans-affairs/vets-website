@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { TOGGLE_LOGIN_MODAL } from '~/platform/site-wide/user-nav/actions';
 import * as constants from '../../constants';
 import IntroductionPage from '../../containers/IntroductionPage';
@@ -121,21 +122,13 @@ describe('IntroductionPage', () => {
   });
 
   it('should show sign in modal when URL has showSignInModal=true', async () => {
-    const originalSearch = window.location.search;
     const originalURLSearchParams = window.URLSearchParams;
     window.URLSearchParams = createURLSearchParamsMock('true');
+    const restoreLocation = mockLocation(
+      'http://localhost/?showSignInModal=true',
+    );
 
     try {
-      Object.defineProperty(window, 'location', {
-        value: {
-          search: '?showSignInModal=true',
-          toString: () => 'http://localhost/?showSignInModal=true',
-          origin: 'http://localhost',
-          pathname: '/',
-        },
-        writable: true,
-      });
-
       const dispatchSpy = sinon.spy(action => {
         if (typeof action === 'function') {
           return action(dispatchSpy, () => ({
@@ -225,14 +218,16 @@ describe('IntroductionPage', () => {
       expect(pushStateSpy.calledOnce).to.be.true;
     } finally {
       window.URLSearchParams = originalURLSearchParams;
-      window.location.search = originalSearch;
+      restoreLocation();
     }
   });
 
   it('should not show sign in modal when URL has showSignInModal=false', async () => {
-    const originalSearch = window.location.search;
     const originalURLSearchParams = window.URLSearchParams;
     window.URLSearchParams = createURLSearchParamsMock('false');
+    const restoreLocation = mockLocation(
+      'http://localhost/?showSignInModal=false',
+    );
 
     try {
       const dispatchSpy = sinon.spy(action => {
@@ -244,17 +239,6 @@ describe('IntroductionPage', () => {
           }));
         }
         return action;
-      });
-
-      // Mock window.location
-      Object.defineProperty(window, 'location', {
-        value: {
-          search: '?showSignInModal=false',
-          toString: () => 'http://localhost/?showSignInModal=false',
-          origin: 'http://localhost',
-          pathname: '/',
-        },
-        writable: true,
       });
 
       // Mock window.history.pushState
@@ -330,14 +314,16 @@ describe('IntroductionPage', () => {
       expect(pushStateSpy.called).to.be.false;
     } finally {
       window.URLSearchParams = originalURLSearchParams;
-      window.location.search = originalSearch;
+      restoreLocation();
     }
   });
 
   it('should not show sign in modal when URL has invalid showSignInModal value', async () => {
-    const originalSearch = window.location.search;
     const originalURLSearchParams = window.URLSearchParams;
     window.URLSearchParams = createURLSearchParamsMock('invalid');
+    const restoreLocation = mockLocation(
+      'http://localhost/?showSignInModal=invalid',
+    );
 
     try {
       const dispatchSpy = sinon.spy(action => {
@@ -349,17 +335,6 @@ describe('IntroductionPage', () => {
           }));
         }
         return action;
-      });
-
-      // Mock window.location
-      Object.defineProperty(window, 'location', {
-        value: {
-          search: '?showSignInModal=invalid',
-          toString: () => 'http://localhost/?showSignInModal=invalid',
-          origin: 'http://localhost',
-          pathname: '/',
-        },
-        writable: true,
       });
 
       // Mock window.history.pushState
@@ -435,7 +410,7 @@ describe('IntroductionPage', () => {
       expect(pushStateSpy.called).to.be.false;
     } finally {
       window.URLSearchParams = originalURLSearchParams;
-      window.location.search = originalSearch;
+      restoreLocation();
     }
   });
 
