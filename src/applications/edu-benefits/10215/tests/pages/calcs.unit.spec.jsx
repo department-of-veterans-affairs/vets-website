@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import * as webComponents from 'platform/utilities/ui/webComponents';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import Calcs from '../../pages/calcs';
 import * as helpers from '../../helpers';
 
@@ -13,6 +14,7 @@ const mockStore = configureStore();
 describe('<Calcs />', () => {
   let querySelectorStub;
   let getFTECalcsStub;
+  let restoreLocation;
 
   const mockData = {
     programs: [
@@ -45,6 +47,7 @@ describe('<Calcs />', () => {
   afterEach(() => {
     querySelectorStub.restore();
     getFTECalcsStub.restore();
+    restoreLocation?.();
   });
 
   it('should render correctly with given props', () => {
@@ -141,11 +144,7 @@ describe('<Calcs />', () => {
       .withArgs('va-text-input[name="root_fte_nonSupported"]', document)
       .resolves(mockNonSupportedInput);
 
-    const originalLocation = window.location;
-    Object.defineProperty(window, 'location', {
-      value: { ...originalLocation, href: 'https://fake.url/somePage1' },
-      writable: true,
-    });
+    restoreLocation = mockLocation('https://fake.url/somePage1');
     render(
       <Provider store={store2}>
         <Calcs data={mockData} />
@@ -155,10 +154,6 @@ describe('<Calcs />', () => {
     await waitFor(() => {
       const lastCallArg = getFTECalcsStub.lastCall.args[0];
       expect(lastCallArg).to.deep.equal({ supported: '3', nonSupported: '5' });
-    });
-    Object.defineProperty(window, 'location', {
-      value: originalLocation,
-      writable: false,
     });
   });
 });

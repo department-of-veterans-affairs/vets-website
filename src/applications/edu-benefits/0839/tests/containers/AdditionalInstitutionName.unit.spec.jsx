@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import AdditionalInstitutionName from '../../containers/AdditionalInstitutionName';
 import * as useValidateAdditionalFacilityCodeModule from '../../hooks/useValidateAdditionalFacilityCode';
 
@@ -12,6 +13,7 @@ const mockStore = configureStore([]);
 describe('AdditionalInstitutionName Component', () => {
   let store;
   let useValidateAdditionalFacilityCodeStub;
+  let restoreLocation;
 
   beforeEach(() => {
     useValidateAdditionalFacilityCodeStub = sinon.stub(
@@ -28,6 +30,7 @@ describe('AdditionalInstitutionName Component', () => {
 
   afterEach(() => {
     useValidateAdditionalFacilityCodeStub.restore();
+    restoreLocation?.();
   });
 
   describe('when rendering additional institutions', () => {
@@ -70,15 +73,12 @@ describe('AdditionalInstitutionName Component', () => {
 
     beforeEach(() => {
       store = mockStore(stateWithArray);
-
-      Object.defineProperty(window, 'location', {
-        writable: true,
-        value: { pathname: '/0' },
-      });
+      restoreLocation = mockLocation('http://localhost/0');
     });
 
     it('renders institution name from array at index 0', () => {
-      window.location.pathname = '/0';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
 
       const uiSchema = {
         'ui:options': {
@@ -99,7 +99,8 @@ describe('AdditionalInstitutionName Component', () => {
     });
 
     it('renders institution name from array at index 1', () => {
-      window.location.pathname = '/1';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/1');
 
       const uiSchema = {
         'ui:options': {
@@ -133,7 +134,8 @@ describe('AdditionalInstitutionName Component', () => {
         },
       };
       store = mockStore(stateWithNotFoundInArray);
-      window.location.pathname = '/0';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
 
       const uiSchema = {
         'ui:options': {
@@ -167,7 +169,8 @@ describe('AdditionalInstitutionName Component', () => {
         },
       };
       store = mockStore(loadingState);
-      window.location.pathname = '/0';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
 
       useValidateAdditionalFacilityCodeStub.returns({
         loader: true,
