@@ -11,7 +11,7 @@ describe('hca VaFacility config', () => {
   } = formConfig.chapters.insuranceInformation.pages.vaFacility;
 
   // run test for correct number of fields on the page
-  const expectedNumberOfFields = 4;
+  const expectedNumberOfFields = 2;
   testNumberOfFields(
     formConfig,
     schema,
