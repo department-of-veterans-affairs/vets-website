@@ -983,6 +983,206 @@ cityOfBirth: {
 
 ---
 
+## 🔥 IMPORTANT: Web Component Migration Pattern Changes
+
+### When Regression Test Expectations MUST Be Updated
+
+**Key Finding:** Web component patterns sometimes produce **different but equivalent** schema structures compared to old patterns. This is **expected and correct** during web component migrations.
+
+### Common Pattern Changes During Web Component Migration
+
+#### 1. Date Fields: $ref → Explicit Pattern
+
+**OLD Pattern (using definitions):**
+```javascript
+// Config
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+dateOfBirth: currentOrPastDateUI('Date of birth')
+
+// Schema uses $ref
+schema: {
+  dateOfBirth: {
+    $ref: '#/definitions/date'
+  }
+}
+
+// Regression Test Expectation
+expectedSchema: {
+  dateOfBirth: {
+    $ref: {}  // ← Expects $ref
+  }
+}
+```
+
+**NEW Pattern (web components):**
+```javascript
+// Config
+import { currentOrPastDateUI, currentOrPastDateSchema } from 'platform/forms-system/src/js/web-component-patterns';
+dateOfBirth: currentOrPastDateUI('Date of birth')
+
+// Schema uses explicit pattern
+schema: {
+  dateOfBirth: currentOrPastDateSchema  // = { type: 'string', pattern: '...' }
+}
+
+// Regression Test Expectation MUST UPDATE
+expectedSchema: {
+  dateOfBirth: {
+    type: 'string',
+    pattern: {}  // ← Changed from $ref to explicit pattern
+  }
+}
+```
+
+**Action:** Update `expectedSchema` to use `type: 'string', pattern: {}` instead of `$ref: {}` for date fields.
+
+#### 2. UiSchema Properties: Web Components Are Simpler
+
+**OLD Pattern:**
+```javascript
+// SSN field with old pattern
+expectedUiSchema: {
+  socialSecurityNumber: {
+    'ui:title': {},
+    'ui:errorMessages': {},  // ← Old pattern includes these
+    'ui:options': {},         // ← Old pattern includes these
+  }
+}
+```
+
+**NEW Pattern (web components):**
+```javascript
+// SSN field with web component
+expectedUiSchema: {
+  socialSecurityNumber: {
+    'ui:title': {},  // ← Web components only need title
+    // No ui:errorMessages - handled internally
+    // No ui:options - handled internally
+  }
+}
+```
+
+**Action:** Remove `ui:errorMessages` and `ui:options` from expectations for web component fields (they're handled internally by web components).
+
+#### 3. FullName Pattern: Structure Remains Same
+
+**Good News:** fullNameUI web components maintain the same structure:
+```javascript
+// Both old and new use the same structure
+expectedUiSchema: {
+  spouseFullName: {
+    first: { 'ui:title': {} },
+    middle: { 'ui:title': {} },
+    last: { 'ui:title': {} },
+    suffix: { 'ui:title': {} }  // ← Remove ui:options if present in old
+  }
+}
+```
+
+**Action:** Structure stays the same, but remove `ui:options` from suffix if it was in old expectations.
+
+### Decision Tree: When to Update Regression Test Expectations
+
+```
+┌─ Regression test fails after migration
+│
+├─ ERROR: "Missing property at schema.{field}.$ref"
+│  └─ ✅ UPDATE: Change expectedSchema from $ref: {} to type/pattern
+│     (Date fields use explicit schema in web components)
+│
+├─ ERROR: "Missing property at uiSchema.{field}.ui:options"
+│  └─ ✅ UPDATE: Remove ui:options from expectedUiSchema
+│     (Web components handle options internally)
+│
+├─ ERROR: "Missing property at uiSchema.{field}.ui:errorMessages"
+│  └─ ✅ UPDATE: Remove ui:errorMessages from expectedUiSchema
+│     (Web components handle error messages internally)
+│
+├─ ERROR: "Missing property at uiSchema.{field}.ui:validations"
+│  └─ ✅ UPDATE: Remove ui:validations from expectedUiSchema
+│     (Web components handle validations internally)
+│
+└─ ERROR: "Missing property at schema.{field}.{unexpectedProperty}"
+   └─ ❌ FIX CONFIG: This is a real breaking change
+      (Web component config is incorrect, fix the page config)
+```
+
+### Examples from Real Migrations
+
+#### Example 1: spouseBasicInformation (HCA Form)
+
+**Test Failed With:**
+```
+Missing property at schema.properties.spouseDateOfBirth.$ref
+```
+
+**Solution:**
+```javascript
+// BEFORE (expected $ref)
+expectedSchema: {
+  spouseDateOfBirth: {
+    $ref: {}
+  }
+}
+
+// AFTER (web component uses explicit pattern)
+expectedSchema: {
+  spouseDateOfBirth: {
+    type: 'string',
+    pattern: {}
+  }
+}
+```
+
+#### Example 2: SSN Field UiSchema
+
+**Test Failed With:**
+```
+Missing property at uiSchema.spouseSocialSecurityNumber.ui:options
+```
+
+**Solution:**
+```javascript
+// BEFORE (old pattern had ui:options)
+expectedUiSchema: {
+  spouseSocialSecurityNumber: {
+    'ui:title': {},
+    'ui:errorMessages': {},
+    'ui:options': {}
+  }
+}
+
+// AFTER (web component only needs title)
+expectedUiSchema: {
+  spouseSocialSecurityNumber: {
+    'ui:title': {}
+  }
+}
+```
+
+### Important Rules
+
+✅ **DO UPDATE expectations when:**
+- Schema changes from `$ref` to explicit `type` + `pattern` for date fields
+- UiSchema loses `ui:options`, `ui:errorMessages`, `ui:validations` (web components handle these internally)
+- The change is a known web component pattern difference
+
+❌ **DON'T UPDATE expectations when:**
+- Field names change (this is a breaking change)
+- Required fields are removed (this is a breaking change)
+- Field types change unexpectedly (this is a breaking change)
+- New unexpected properties appear (investigate why)
+
+### Why This Matters
+
+**Regression tests protect against breaking changes, but web component patterns ARE NOT breaking changes** - they're equivalent implementations with different internal structures.
+
+The test expectations document **what the actual implementation produces**, not what we wish it would produce. When migrating to web components, we must update expectations to match the new (but equivalent) structure.
+
+**Key Principle:** If the form functions the same way for users, the schema difference is acceptable. Update test expectations to match the new web component patterns.
+
+---
+
 ## Summary
 
 **Purpose:** Ensure schema compatibility during migrations  
@@ -1008,9 +1208,14 @@ cityOfBirth: {
 
 **Required Imports:**
 ```javascript
-import formConfig from '../../../../config/form';
+// Import test helpers (same path for all forms)
 import { testNumberOfErrorsOnSubmit, testNumberOfFields } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+
+// Import formConfig (path varies by form structure)
+// Complex forms: import formConfig from '../../../../config/form';
+// Simple forms: import formConfig from '../../../config/form';
+// Check existing test files in your form to determine the correct path
 ```
 
 **Test Structure:**
