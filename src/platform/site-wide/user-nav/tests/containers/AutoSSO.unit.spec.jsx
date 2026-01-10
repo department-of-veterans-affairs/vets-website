@@ -1,11 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { setupServer } from 'msw/node';
 
 import * as ssoUtils from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
-import { headKeepAliveSuccess } from '../mocks/msw-mocks';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
 import { AutoSSO } from '../../containers/AutoSSO';
 
@@ -25,16 +24,9 @@ const generateProps = ({
 });
 
 describe('<AutoSSO>', () => {
-  let server;
-
-  beforeEach(() => {
-    server = setupServer(headKeepAliveSuccess);
-    server.listen();
-  });
-
-  afterEach(() => {
-    server.close();
-  });
+  // Note: MSW server is already started globally in mocha-setup.js
+  // We don't need to create a new server here - the global handler configuration
+  // will handle keepalive requests by default (bypassing unhandled requests)
 
   it('should not call removeLoginAttempted if user is logged out', () => {
     const stub = sinon.stub(loginAttempted, 'removeLoginAttempted');
@@ -55,16 +47,17 @@ describe('<AutoSSO>', () => {
   });
 
   it(`should not call checkAutoSession on an invalid path ['/auth/login/callback']`, () => {
-    const oldLocation = global.window.location;
-    global.window.location = new URL('https://dev.va.gov');
-    global.window.location.pathname = `/auth/login/callback`;
+    // Use mockLocation for JSDOM 22+ compatibility
+    const restoreLocation = mockLocation(
+      'https://dev.va.gov/auth/login/callback',
+    );
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     const props = generateProps({ hasCalledKeepAlive: false });
     const wrapper = shallow(<AutoSSO {...props} />);
     stub.restore();
     sinon.assert.notCalled(stub);
     wrapper.unmount();
-    global.window.location = oldLocation;
+    restoreLocation();
   });
 
   it('should not call checkAutoSession if `hasCalledKeepAlive` is true', () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import SessionTimeoutAlert from 'platform/user/authentication/components/SessionTimeoutAlert';
 
 const generateState = ({ statuses = [], maintenanceWindows = [] }) => ({
@@ -22,14 +23,8 @@ describe('SessionTimeoutAlert', () => {
   });
 
   it('renders when session has expired and there is no downtime', () => {
-    const originalLocation = global.window.location;
-    window.location.search = '?status=session_expired';
-    if (!window.location.search) {
-      global.window.location = {
-        ...originalLocation,
-        search: '?status=session_expired',
-      };
-    }
+    // Use mockLocation for JSDOM 22+ compatibility
+    const restoreLocation = mockLocation('http://localhost/?status=session_expired');
 
     const screen = renderInReduxProvider(<SessionTimeoutAlert />, {
       initialState: generateState({}),
@@ -38,15 +33,12 @@ describe('SessionTimeoutAlert', () => {
     expect(
       screen.queryByText(/Your session timed out. Sign in again to continue./i),
     ).to.not.be.null;
-    global.window.location = originalLocation;
+    restoreLocation();
   });
 
   it('does not render when session has expired but there is downtime', () => {
-    const originalLocation = global.window.location;
-    global.window.location = {
-      ...originalLocation,
-      search: '?status=session_expired',
-    };
+    // Use mockLocation for JSDOM 22+ compatibility
+    const restoreLocation = mockLocation('http://localhost/?status=session_expired');
 
     const screen = renderInReduxProvider(<SessionTimeoutAlert />, {
       initialState: generateState({
@@ -56,6 +48,6 @@ describe('SessionTimeoutAlert', () => {
     expect(
       screen.queryByText(/Your session timed out. Sign in again to continue./i),
     ).to.be.null;
-    global.window.location = originalLocation;
+    restoreLocation();
   });
 });

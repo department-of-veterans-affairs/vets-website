@@ -6,6 +6,7 @@ import { uniqueId } from 'lodash';
 // Relative
 import NavItemRow from '../../components/NavItemRow';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
 describe('<NavItemRow>', () => {
   const trackEventsSpy = sinon.spy();
@@ -67,7 +68,7 @@ describe('<NavItemRow>', () => {
   });
 
   it('renders pointerEvents none for current page', () => {
-    window.location = { pathname: '/pittsburgh-health-care/' };
+    const restoreLocation = mockLocation('http://localhost/pittsburgh-health-care/');
 
     const itemWithoutChildren = {
       description: 'Some description',
@@ -87,10 +88,11 @@ describe('<NavItemRow>', () => {
 
     expect(wrapper.find('a').prop('style').pointerEvents).to.equal('none');
     wrapper.unmount();
+    restoreLocation();
   });
 
   it('renders pointerEvents all for non-current page', () => {
-    window.location = { pathname: '/pittsburgh-health-care/' };
+    const restoreLocation = mockLocation('http://localhost/pittsburgh-health-care/');
 
     const itemWithoutChildren = {
       description: 'Some description',
@@ -110,5 +112,6 @@ describe('<NavItemRow>', () => {
 
     expect(wrapper.find('a').prop('style').pointerEvents).to.equal('all');
     wrapper.unmount();
+    restoreLocation();
   });
 });

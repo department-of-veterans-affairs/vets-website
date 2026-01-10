@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { expect } from 'chai';
-import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import {
   useIdentityVerificationURL,
   useInternalTestingAuth,
@@ -39,15 +39,7 @@ describe('authentication - hooks', () => {
     });
 
     context('OAuth', () => {
-      const globalCrypto = global.crypto;
-
-      beforeEach(() => {
-        window.crypto = mockCrypto;
-      });
-
-      afterEach(() => {
-        window.crypto = globalCrypto;
-      });
+      // Node 20 has native window.crypto - no need to mock
       it('should return an ID.me (OAuth-based) verify URL', async () => {
         const { result, waitForNextUpdate } = renderHook(() =>
           useIdentityVerificationURL({ policy: 'idme', useOAuth: true }),
@@ -99,14 +91,17 @@ describe('authentication - hooks', () => {
     });
   });
   describe('useInternalTestingAuth', () => {
-    const oldLocation = global.window.location;
+    let restoreLocation;
 
     afterEach(() => {
-      global.window.location = oldLocation;
+      if (restoreLocation) {
+        restoreLocation();
+        restoreLocation = null;
+      }
     });
 
     it('should return an href with vaoccmobile application', async () => {
-      window.location = new URL(
+      restoreLocation = mockLocation(
         `https://dev.va.gov/sign-in/?application=vaoccmobile`,
       );
 

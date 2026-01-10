@@ -15,17 +15,21 @@ import reducers from '../../reducers';
 describe('User Nav Actions', () => {
   describe('toggleLoginModal', () => {
     let store;
-    const oldLocation = global.window.location;
+    let originalHref;
     const featureToggleNotEnabled = {
       featureToggles: { cernerNonEligibleSisEnabled: false },
     };
 
     beforeEach(() => {
       store = createStore(reducers, applyMiddleware(thunk));
+      // Save original location and reset to base URL
+      originalHref = window.location.href;
+      window.history.replaceState({}, '', 'http://localhost/');
     });
 
     afterEach(() => {
-      global.window.location = oldLocation;
+      // Restore original location
+      window.history.replaceState({}, '', originalHref);
     });
 
     [true, false].forEach(isOpen => {
@@ -69,7 +73,8 @@ describe('User Nav Actions', () => {
 
     it('should append the correct `next` query if it exists', async () => {
       const expectedNextParam = '?next=disabilityBenefits';
-      global.window.location = new URL(`http://localhost/${expectedNextParam}`);
+      // Update location using history API for JSDOM 22+ compatibility
+      window.history.replaceState({}, '', `http://localhost/${expectedNextParam}`);
 
       await toggleLoginModal(true)(store.dispatch, () => ({
         ...featureToggleNotEnabled,
@@ -80,7 +85,8 @@ describe('User Nav Actions', () => {
     });
 
     it('should remove all query parameters when closing the modal', async () => {
-      global.window.location.search = '?next=loginModal&oauth=false';
+      // Set initial URL with query params using history API
+      window.history.replaceState({}, '', 'http://localhost/?next=loginModal&oauth=false');
 
       await toggleLoginModal(false)(store.dispatch, () => ({
         ...featureToggleNotEnabled,

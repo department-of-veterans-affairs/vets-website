@@ -125,23 +125,38 @@ function mockFetch(returnVal, shouldResolve = true) {
 }
 
 export function setFetchJSONResponse(stub, data = null) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
-  if (data) {
-    response.headers.set('Content-Type', 'application/json');
-    response.json = () => Promise.resolve(data);
-  }
+  // In modern Node/JSDOM, Response.ok is read-only. Create Response with correct status.
+  const responseInit = {
+    status: 200,
+    statusText: 'OK',
+    headers: data ? { 'Content-Type': 'application/json' } : {},
+  };
+  const body = data ? JSON.stringify(data) : null;
+  const response = new Response(body, responseInit);
+  // Add url property
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
   stub.resolves(response);
 }
 
 export function setFetchJSONFailure(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
+  // In modern Node/JSDOM, Response.ok is read-only. Create Response with error status.
+  const body = data ? JSON.stringify(data) : null;
+  const responseInit = {
+    status: 500,
+    statusText: 'Internal Server Error',
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const response = new Response(body, responseInit);
+  // Add url property
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
   });
-  response.ok = false;
-  response.url = environment.API_URL;
-  response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
@@ -299,6 +314,112 @@ const checkVaCheckbox = (checkboxGroup, keyName) => {
 const isNode20OrHigher =
   parseInt(process.versions.node.split('.')[0], 10) >= 20;
 
+/**
+ * Mock window.location for JSDOM 22+ where location is non-configurable.
+ *
+ * For same-origin URLs (matching current window origin), uses history.replaceState.
+ * For cross-origin URLs, creates a mock location object on global.window.
+ *
+ * @param {string} url - The URL to set (can be relative path or full URL)
+ * @returns {function} A cleanup function to restore the original state
+ *
+ * @example
+ * let restoreLocation;
+ * beforeEach(() => {
+ *   restoreLocation = mockLocation('https://dev.va.gov/path?query=1');
+ * });
+ * afterEach(() => {
+ *   restoreLocation();
+ * });
+ */
+const mockLocation = url => {
+  const parsedUrl = new URL(url, window.location.origin);
+  const currentOrigin = window.location.origin;
+  const isSameOrigin = parsedUrl.origin === currentOrigin;
+
+  if (isSameOrigin) {
+    // For same-origin, use history API
+    const originalHref = window.location.href;
+    window.history.replaceState({}, '', url);
+    return () => {
+      window.history.replaceState({}, '', originalHref);
+    };
+  }
+
+  // For cross-origin, save original window and create mock
+  const originalWindow = global.window;
+
+  // Create a location-like object based on the URL
+  const mockLocationObj = {
+    href: parsedUrl.href,
+    protocol: parsedUrl.protocol,
+    host: parsedUrl.host,
+    hostname: parsedUrl.hostname,
+    port: parsedUrl.port,
+    pathname: parsedUrl.pathname,
+    search: parsedUrl.search,
+    hash: parsedUrl.hash,
+    origin: parsedUrl.origin,
+    reload: sinon.spy(),
+    toString() {
+      return this.href;
+    },
+  };
+
+  // Helper to update mock location from a URL string or object
+  const updateLocationFromUrl = urlValue => {
+    const newUrl =
+      typeof urlValue === 'string'
+        ? new URL(urlValue, mockLocationObj.origin)
+        : urlValue;
+    mockLocationObj.href = newUrl.href;
+    mockLocationObj.protocol = newUrl.protocol;
+    mockLocationObj.host = newUrl.host;
+    mockLocationObj.hostname = newUrl.hostname;
+    mockLocationObj.port = newUrl.port;
+    mockLocationObj.pathname = newUrl.pathname;
+    mockLocationObj.search = newUrl.search;
+    mockLocationObj.hash = newUrl.hash;
+    mockLocationObj.origin = newUrl.origin;
+  };
+
+  // Add assign and replace after updateLocationFromUrl is defined
+  mockLocationObj.assign = sinon.spy(newUrl => updateLocationFromUrl(newUrl));
+  mockLocationObj.replace = sinon.spy(newUrl => updateLocationFromUrl(newUrl));
+
+  // Create a proxy for window that returns our mock location
+  // eslint-disable-next-line fp/no-proxy
+  const windowProxy = new Proxy(originalWindow, {
+    get(target, prop) {
+      if (prop === 'location') {
+        return mockLocationObj;
+      }
+      const value = target[prop];
+      // Bind functions to original window to maintain correct context
+      if (typeof value === 'function') {
+        return value.bind(target);
+      }
+      return value;
+    },
+    set(target, prop, value) {
+      if (prop === 'location') {
+        // When window.location = 'url', update the mock location
+        updateLocationFromUrl(value);
+        return true;
+      }
+      // eslint-disable-next-line no-param-reassign
+      target[prop] = value;
+      return true;
+    },
+  });
+
+  global.window = windowProxy;
+
+  return () => {
+    global.window = originalWindow;
+  };
+};
+
 export {
   chai,
   checkVaCheckbox,
@@ -310,6 +431,7 @@ export {
   mockApiRequest,
   mockMultipleApiRequests,
   mockEventListeners,
+  mockLocation,
   resetFetch,
   wrapWithContext,
   wrapWithRouterContext,

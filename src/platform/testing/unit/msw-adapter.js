@@ -6,6 +6,11 @@
  *
  * MSW v1 uses the rest.* API with (req, res, ctx) handler pattern
  * MSW v2 uses the http.* API with HttpResponse factory pattern
+ *
+ * IMPORTANT: In MSW v2, there should be only ONE server instance running at a time.
+ * The global server is started in mocha-setup.js. Tests should use the shared server
+ * via getSharedServer() and add handlers with server.use() instead of creating
+ * new server instances.
  */
 
 let mswVersion = 2;
@@ -23,6 +28,9 @@ try {
   mswVersion = 1;
   mswModule = require('msw');
 }
+
+// Singleton server instance for MSW v2
+let sharedServer = null;
 
 /**
  * Creates a GET request handler with a consistent API
@@ -331,13 +339,49 @@ export function delayedJsonResponse(data, delayMs = 200) {
 }
 
 // Export setupServer with consistent API
+// In MSW v2, this returns a shared singleton server to avoid conflicts with mocha-setup.js
 export const setupServer = (...handlers) => {
   if (mswVersion === 2) {
     const { setupServer: setup } = require('msw/node');
-    return setup(...handlers);
+    // Return a shared server instance - only create once
+    if (!sharedServer) {
+      sharedServer = setup(...handlers);
+    } else if (handlers.length > 0) {
+      // If handlers provided, add them to existing server
+      sharedServer.use(...handlers);
+    }
+    // Return a wrapper that prevents multiple listen/close calls
+    return {
+      listen: options => {
+        // Check if already listening by trying to add a dummy handler
+        try {
+          // In MSW v2, calling listen() twice throws "already patched" error
+          // So we track state ourselves
+          if (!sharedServer._isListening) {
+            sharedServer.listen(options);
+            sharedServer._isListening = true;
+          }
+        } catch {
+          // Already listening, ignore
+        }
+      },
+      close: () => {
+        // Don't actually close - mocha-setup.js handles this
+        // This prevents tests from closing the server prematurely
+      },
+      use: (...h) => sharedServer.use(...h),
+      resetHandlers: (...h) => sharedServer.resetHandlers(...h),
+      events: sharedServer.events,
+    };
   }
   return require('msw/node').setupServer(...handlers);
 };
+
+/**
+ * Get the shared MSW server instance
+ * Use this instead of setupServer() when you need to add handlers to existing server
+ */
+export const getSharedServer = () => sharedServer;
 
 // Re-export original MSW methods for advanced use cases
 export const msw = mswModule;

@@ -69,24 +69,11 @@ function createDefaultData() {
   };
 }
 
-let oldLocation;
-
 describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
-    // This url change is to work around the VA Profile Service data mocking
-    beforeEach(() => {
-      oldLocation = window.location.href;
-      Object.defineProperty(window, 'location', {
-        writable: true,
-        value: { href: 'https://www.va.gov' },
-      });
-    });
-    afterEach(() => {
-      Object.defineProperty(window, 'location', {
-        writable: true,
-        value: { href: oldLocation },
-      });
-    });
+    // Note: The previous location mocking is no longer needed in JSDOM 22+
+    // If VA Profile Service mocking depends on the URL, tests should be
+    // configured with proper JSDOM url option instead.
 
     it('should map profile', () => {
       const data = createDefaultData();

@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { afterEach } from 'mocha';
 import { cleanup } from '@testing-library/react';
 import { isMinimalHeaderApp, isMinimalHeaderPath } from '.';
@@ -29,7 +28,8 @@ describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
   });
 
   it('should not be applicable on excluded paths', () => {
-    const locationStub = sinon.stub(window, 'location');
+    // Save original pathname
+    const originalPathname = window.location.pathname;
 
     minimalHeader = document.createElement('div');
     minimalHeader.id = 'header-minimal';
@@ -39,18 +39,16 @@ describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
     );
     document.body.appendChild(minimalHeader);
 
-    locationStub.value({
-      pathname: '/introduction',
-    });
+    // Use history API to change pathname (JSDOM 22+ compatible)
+    window.history.replaceState({}, '', '/introduction');
     expect(isMinimalHeaderApp()).to.eql(true);
     expect(isMinimalHeaderPath()).to.eql(false);
 
-    locationStub.value({
-      pathname: '/middle-of-form',
-    });
+    window.history.replaceState({}, '', '/middle-of-form');
     expect(isMinimalHeaderApp()).to.eql(true);
     expect(isMinimalHeaderPath()).to.eql(true);
 
-    locationStub.restore();
+    // Restore original pathname
+    window.history.replaceState({}, '', originalPathname || '/');
   });
 });

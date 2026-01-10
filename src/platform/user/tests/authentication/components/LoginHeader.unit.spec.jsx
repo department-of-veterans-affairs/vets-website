@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import LoginHeader from 'platform/user/authentication/components/LoginHeader';
 
 const generateState = ({ toggledOn = false }) => ({
@@ -20,21 +21,14 @@ describe('LoginHeader', () => {
   });
 
   it('should display the SessionTimeoutAlert component when the session is expired', () => {
-    const originalLocation = window.location;
-    window.location.search = '?status=session_expired';
-    if (!window.location.search) {
-      delete window.location;
-      window.location = {
-        ...originalLocation,
-        search: '?status=session_expired',
-      };
-    }
+    // Use mockLocation for JSDOM 22+ compatibility
+    const restoreLocation = mockLocation('http://localhost/?status=session_expired');
     const screen = renderInReduxProvider(<LoginHeader />, {
       initialState: generateState({}),
     });
     expect(
       screen.queryByText(/Your session timed out. Sign in again to continue./i),
     ).to.not.be.null;
-    window.location = originalLocation;
+    restoreLocation();
   });
 });

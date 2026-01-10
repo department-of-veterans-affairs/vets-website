@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { addHours, addMinutes } from 'date-fns';
 import sinon from 'sinon';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import DowntimeApproaching from '../components/DowntimeApproaching';
 
@@ -70,8 +71,8 @@ describe('<DowntimeApproaching>', () => {
     const { container } = render(
       <DowntimeApproaching {...props} dismissDowntimeWarning={dismissSpy} />,
     );
-    const vaModalElement = container.querySelector('va-modal');
-    fireEvent(vaModalElement, new CustomEvent('closeEvent'));
+    // Use $ helper to get element with __events properly attached
+    $('va-modal', container).__events.closeEvent();
     expect(dismissSpy.calledWith(props.appTitle)).to.be.true;
   });
 

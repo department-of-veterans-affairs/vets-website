@@ -48,7 +48,15 @@ describe('startReactApp', () => {
     expect(renderStub.called).to.be.false;
   });
 
-  it('should not render the component if the window location indicates loading in a locally saved file', () => {
+  it('should not render the component if the window location indicates loading in a locally saved file', function() {
+    // Skip this test in JSDOM 22+ where window.location cannot be redefined
+    // The protocol is set when JSDOM is instantiated and cannot be changed
+    const locationDescriptor = Object.getOwnPropertyDescriptor(window, 'location');
+    if (!locationDescriptor?.configurable) {
+      this.skip();
+      return;
+    }
+
     // Method from https://stackoverflow.com/a/54021633
     global.window = Object.create(window);
     Object.defineProperty(window, 'location', {

@@ -53,18 +53,118 @@ let oldWindow;
 
 const fakeWindow = () => {
   oldWindow = global.window;
+  // In JSDOM 22+, window.location is non-configurable
+  // Create a mock window that preserves the real location behavior
+  // and use Object.defineProperty for the location mock
   global.window = Object.create(global.window);
   Object.assign(global.window, {
     dataLayer: [],
-    location: {
-      get: () => global.window.location,
-      set: value => {
-        global.window.location = value;
-      },
-      host: 'dev.va.gov',
-      pathname: '',
-      search: '',
+  });
+
+  // Internal state for location properties
+  const locationState = {
+    _href: 'http://localhost/',
+    _host: 'dev.va.gov',
+    _hostname: 'dev.va.gov',
+    _origin: 'http://localhost',
+    _pathname: '',
+    _search: '',
+    _hash: '',
+  };
+
+  const updateFromUrl = url => {
+    try {
+      const parsed = url instanceof URL ? url : new URL(url);
+      locationState._href = parsed.href;
+      locationState._origin = parsed.origin;
+      locationState._pathname = parsed.pathname;
+      locationState._search = parsed.search;
+      locationState._host = parsed.host;
+      locationState._hostname = parsed.hostname;
+      locationState._hash = parsed.hash;
+    } catch {
+      // If not a valid URL, just set href
+      if (typeof url === 'string') {
+        locationState._href = url;
+      }
+    }
+  };
+
+  // Create a location mock with proper getters/setters for href
+  const mockLocation = {
+    get href() {
+      return locationState._href;
     },
+    set href(value) {
+      if (value instanceof URL) {
+        updateFromUrl(value);
+      } else if (typeof value === 'string') {
+        updateFromUrl(value);
+      } else {
+        locationState._href = String(value);
+      }
+    },
+    get host() {
+      return locationState._host;
+    },
+    set host(value) {
+      locationState._host = value;
+    },
+    get hostname() {
+      return locationState._hostname;
+    },
+    set hostname(value) {
+      locationState._hostname = value;
+    },
+    get origin() {
+      return locationState._origin;
+    },
+    set origin(value) {
+      locationState._origin = value;
+    },
+    get pathname() {
+      return locationState._pathname;
+    },
+    set pathname(value) {
+      locationState._pathname = value;
+    },
+    get search() {
+      return locationState._search;
+    },
+    get hash() {
+      return locationState._hash;
+    },
+    assign: url => {
+      updateFromUrl(url);
+    },
+    replace: url => {
+      updateFromUrl(url);
+    },
+    reload: () => {},
+    toString: () => locationState._href,
+  };
+
+  Object.defineProperty(global.window, 'location', {
+    get: () => mockLocation,
+    set: value => {
+      if (value instanceof URL) {
+        updateFromUrl(value);
+      } else if (typeof value === 'string') {
+        updateFromUrl(value);
+      } else if (value && typeof value === 'object') {
+        // Handle location-like object
+        Object.assign(locationState, {
+          _href: value.href || locationState._href,
+          _origin: value.origin || locationState._origin,
+          _pathname: value.pathname || locationState._pathname,
+          _search: value.search || locationState._search,
+          _host: value.host || locationState._host,
+          _hostname: value.hostname || locationState._hostname,
+          _hash: value.hash || locationState._hash,
+        });
+      }
+    },
+    configurable: true,
   });
 };
 

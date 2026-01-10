@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import { mount } from 'enzyme';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import backendServices from '../../../profile/constants/backendServices';
 import localStorage from '../../../../utilities/storage/localStorage';
 
@@ -82,24 +83,21 @@ function TestChildComponent({ name }) {
 }
 
 describe('<RequiredLoginView>', () => {
-  const redirectFunc = sinon.spy();
-  let oldWindow;
+  let restoreLocation;
   let props;
 
   beforeEach(() => {
     localStorage.setItem('hasSession', true);
-    oldWindow = global.window;
-    global.window = Object.create(global.window);
-    Object.assign(global.window, {
-      pathname: '',
-      location: {
-        replace: redirectFunc,
-      },
-    });
+    // Use mockLocation with cross-origin URL to get mock location with spy methods
+    // We use https:// to ensure it's cross-origin from JSDOM's http://localhost
+    restoreLocation = mockLocation('https://dev.va.gov/');
   });
 
   afterEach(() => {
-    global.window = oldWindow;
+    if (restoreLocation) {
+      restoreLocation();
+      restoreLocation = null;
+    }
     localStorage.clear();
     props = {};
   });
@@ -230,7 +228,7 @@ describe('<RequiredLoginView>', () => {
           </RequiredLoginView>,
         );
 
-        expect(redirectFunc.calledWith(sinon.match('/verify'))).to.be.true;
+        expect(global.window.location.replace.calledWith(sinon.match('/verify'))).to.be.true;
         wrapper.unmount();
       });
     });
@@ -323,7 +321,7 @@ describe('<RequiredLoginView>', () => {
         </RequiredLoginView>,
       );
 
-      expect(redirectFunc.calledWith(sinon.match('/'))).to.be.true;
+      expect(global.window.location.replace.calledWith(sinon.match('/'))).to.be.true;
       wrapper.unmount();
     });
 

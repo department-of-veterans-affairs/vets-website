@@ -4,21 +4,26 @@ import { render, cleanup, waitFor } from '@testing-library/react';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import VerifyAccountLink from 'platform/user/authentication/components/VerifyAccountLink';
-import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 
 const csps = ['logingov', 'idme'];
-const oldCrypto = global.window.crypto;
 
 describe('VerifyAccountLink', () => {
+  let restoreLocation;
+
   csps.forEach(policy => {
     beforeEach(() => {
-      global.window.crypto = mockCrypto;
-      window.location = new URL('https://dev.va.gov/');
+      // Node 20 has native window.crypto - no need to mock
+      // Use mockLocation for JSDOM 22+ compatibility
+      restoreLocation = mockLocation('http://localhost/');
     });
 
     afterEach(() => {
-      global.window.crypto = oldCrypto;
+      if (restoreLocation) {
+        restoreLocation();
+        restoreLocation = null;
+      }
       cleanup();
     });
 

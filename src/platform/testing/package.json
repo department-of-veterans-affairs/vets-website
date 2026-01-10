@@ -1,6 +1,7 @@
 {
   "name": "@department-of-veterans-affairs/platform-testing",
   "version": "1.0.0",
+  "type": "commonjs",
   "scripts": {
     "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
@@ -31,7 +32,7 @@
     "cypress-real-events": "^1.12.0",
     "cypress-wait-until": "^1.7.2",
     "express-history-api-fallback": "^2.2.1",
-    "jsdom": "^15.2.1",
+    "jsdom": "^22.1.0",
     "morgan": "^1.10.0",
     "node-resemble-js": "^0.2.0",
     "process": "^0.11.10",

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const testSecNavItems = [
@@ -40,12 +41,19 @@ const noneActiveItems = [
   '/my-health/update-benefits-information-form-10-10ezr',
 ];
 
+// Track restore function for location mock
+let restoreLocation = null;
+
 /**
- * Set the current window's URL.
+ * Set the current window's URL using mockLocation for JSDOM 22+ compatibility.
  * @param {String} pathname the pathname of the URL
  */
 const setWindowUrl = pathname => {
-  window.location = new URL(`https://www.va.gov${pathname}`);
+  // Restore previous mock if any
+  if (restoreLocation) {
+    restoreLocation();
+  }
+  restoreLocation = mockLocation(`https://www.va.gov${pathname}`);
 };
 
 describe('MHV Secondary Navigation Menu Component', () => {
@@ -56,6 +64,14 @@ describe('MHV Secondary Navigation Menu Component', () => {
     href: '/my-health/records',
     appRootUrl: '/my-health/medications',
   };
+
+  afterEach(() => {
+    // Restore location after each test
+    if (restoreLocation) {
+      restoreLocation();
+      restoreLocation = null;
+    }
+  });
 
   /**
    * Gets the one sec nav item by rendering it with a given item.

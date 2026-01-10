@@ -224,7 +224,7 @@
     "mock-fs": "^5.1.1",
     "mockdate": "^3.0.5",
     "mocker-api": "^2.9.0",
-    "msw": "^0.35.0",
+    "msw": "^2.6.0",
     "node-fetch": "^2.6.12",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
@@ -258,7 +258,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=14.15.0 <16",
+    "node": ">=18.17.0 <20",
     "yarn": "1.19.1"
   },
   "private": true,
@@ -390,7 +390,9 @@
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
     "**/fbjs": "^3.0.4",
-    "ws": "7.5.10"
+    "ws": "7.5.10",
+    "**/entities": "^4.5.0",
+    "**/parse5": "7.1.2"
   },
   "workspaces": {
     "packages": [

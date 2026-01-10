@@ -6,8 +6,8 @@ import {
   getLoginAttempted,
   removeLoginAttempted,
 } from 'platform/utilities/sso/loginAttempted';
-import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 import { API_SIGN_IN_SERVICE_URL } from 'platform/utilities/oauth/constants';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import * as authUtilities from '../../authentication/utilities';
 import {
   AUTHN_SETTINGS,
@@ -22,9 +22,9 @@ import {
   AUTH_EVENTS,
 } from '../../authentication/constants';
 
-const originalLocation = global.window.location;
 const originalGA = global.ga;
-const originalCrypto = global.window.crypto;
+// Note: In Node 20 + JSDOM 22, window.crypto is read-only and has native crypto
+// No need to mock it as the native implementation works correctly
 
 const base = 'https://dev.va.gov';
 const usipPath = '/sign-in';
@@ -49,10 +49,20 @@ const mockGADefaultArgs = {
   throwGAError: false,
 };
 
-const setup = ({ path, mockGA = mockGADefaultArgs }) => {
-  global.window.location = path ? new URL(`${base}${path}`) : originalLocation;
+// Track the location restore function
+let restoreLocation = null;
+
+const setup = ({ path = '/', mockGA = mockGADefaultArgs } = {}) => {
+  // Clean up any existing location mock before setting up a new one
+  if (restoreLocation) {
+    restoreLocation();
+    restoreLocation = null;
+  }
+  // Always use mockLocation helper for cross-origin URL mocking (JSDOM 22+ compatible)
+  // Default to root path if not specified
+  restoreLocation = mockLocation(`${base}${path}`);
   global.ga = originalGA;
-  global.window.crypto = mockCrypto;
+  // Note: window.crypto is available natively in Node 20 - no need to mock
   removeLoginAttempted();
   sessionStorage.clear();
 
@@ -79,9 +89,13 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
 };
 
 const cleanup = () => {
-  global.window.location = originalLocation;
+  // Restore location if it was mocked
+  if (restoreLocation) {
+    restoreLocation();
+    restoreLocation = null;
+  }
   global.ga = originalGA;
-  global.window.crypto = originalCrypto;
+  // Note: window.crypto is available natively - no need to restore
   sessionStorage.clear();
   localStorage.clear();
 };
@@ -447,6 +461,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('redirect', () => {
+    beforeEach(() => setup());
     afterEach(() => cleanup());
     it('should redirect to the provided redirectUrl in its simplest use case', () => {
       authUtilities.redirect(base);
@@ -630,6 +645,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('signupOrVerify (SAML)', () => {
+    beforeEach(() => setup());
     afterEach(() => cleanup());
     ['idme', 'logingov'].forEach(policy => {
       it(`should generate the default URL link for signup '${policy}_signup'`, async () => {

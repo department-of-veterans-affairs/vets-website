@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { useMyHealthAccessGuard } from '../../hooks/useMyHealthAccessGuard';
 
 const stateFn = ({ mhvAccountState = 'OK' } = {}) => ({
@@ -25,17 +25,18 @@ const setup = (initialState = stateFn()) =>
   });
 
 describe('useMyHealthAccessGuard', () => {
-  let originalLocation;
+  let restoreLocation;
 
   beforeEach(() => {
-    originalLocation = window.location;
-    window.location = {
-      replace: sinon.spy(),
-    };
+    // Use mockLocation with cross-origin URL to get mock location with spy methods
+    restoreLocation = mockLocation('https://www.va.gov/');
   });
 
   afterEach(() => {
-    window.location = originalLocation;
+    if (restoreLocation) {
+      restoreLocation();
+      restoreLocation = null;
+    }
   });
 
   describe('with valid MHV account', () => {
