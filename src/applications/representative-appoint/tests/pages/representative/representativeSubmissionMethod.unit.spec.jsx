@@ -3,11 +3,18 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { RepresentativeSubmissionMethod } from '../../../components/RepresentativeSubmissionMethod';
 import { representativeSubmissionMethod } from '../../../pages';
 import * as reviewPageHook from '../../../hooks/useReviewPage';
 
 describe('<RepresentativeSubmissionMethod>', () => {
+  let restoreLocation;
+
+  afterEach(() => {
+    restoreLocation?.();
+  });
+
   const getProps = () => {
     return {
       props: {
@@ -106,10 +113,8 @@ describe('<RepresentativeSubmissionMethod>', () => {
 
   context('review mode', () => {
     beforeEach(function() {
-      Object.defineProperty(window, 'location', {
-        value: { search: '?review=true' },
-        writable: true,
-      });
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost?review=true');
     });
 
     it('should call goToPath with the correct path when handleGoBack is triggered and isReviewPage is true', () => {
