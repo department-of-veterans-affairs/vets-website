@@ -4,12 +4,14 @@ import * as recordEventModule from 'platform/monitoring/record-event';
 import * as redactPiiModule from 'platform/utilities/data/redactPii';
 import * as apiModule from 'platform/utilities/api';
 import * as Sentry from '@sentry/browser';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
 describe('Result component - redactPii usage', () => {
   let sandbox;
   let recordEventStub;
   let redactPiiStub;
   let apiRequestStub;
+  let restoreLocation;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -20,11 +22,7 @@ describe('Result component - redactPii usage', () => {
     sandbox.stub(Sentry, 'captureMessage');
     redactPiiStub.returns('[REDACTED]');
 
-    delete window.location;
-    window.location = {
-      href: 'https://www.va.gov/search',
-      pathname: '/search',
-    };
+    restoreLocation = mockLocation('http://localhost/search');
     window.history.replaceState = sandbox.spy();
 
     Object.defineProperty(navigator, 'userAgent', {
@@ -36,6 +34,7 @@ describe('Result component - redactPii usage', () => {
   });
 
   afterEach(() => {
+    restoreLocation?.();
     sandbox.restore();
   });
 

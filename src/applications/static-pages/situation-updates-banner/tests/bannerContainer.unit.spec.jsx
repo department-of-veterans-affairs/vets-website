@@ -1,12 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import sinon from 'sinon';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest, mockLocation } from 'platform/testing/unit/helpers';
 
 import { BannerContainer } from '../bannerContainer';
 import {
@@ -31,11 +30,16 @@ const getData = ({ isLoading = false, useBanners = true } = {}) => ({
 describe('featureToggles allow banners', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
+  let restoreLocation;
+
+  afterEach(() => {
+    restoreLocation?.();
+  });
 
   it('should display the Birmingham banner', done => {
-    sinon
-      .stub(window, 'location')
-      .value({ pathname: '/birmingham-health-care/operating-status' });
+    restoreLocation = mockLocation(
+      'http://localhost/birmingham-health-care/operating-status',
+    );
     mockApiRequest(birmingham);
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
@@ -51,10 +55,9 @@ describe('featureToggles allow banners', () => {
   });
 
   it('should display the Birmingham banner and display link even without context', done => {
-    sinon.stub(window, 'location').value({
-      pathname:
-        '/birmingham-health-care/locations/birmingham-va-medical-center',
-    });
+    restoreLocation = mockLocation(
+      'http://localhost/birmingham-health-care/locations/birmingham-va-medical-center',
+    );
     mockApiRequest(birminghamWoContext);
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
@@ -76,9 +79,7 @@ describe('featureToggles allow banners', () => {
   });
 
   it('should display the Boston banner and display 1 link for find locations', done => {
-    sinon.stub(window, 'location').value({
-      pathname: '/boston-health-care',
-    });
+    restoreLocation = mockLocation('http://localhost/boston-health-care');
     mockApiRequest(bostonTestWithJustFind);
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
@@ -98,9 +99,7 @@ describe('featureToggles allow banners', () => {
   });
 
   it('should display the Boston banner and display 2 links for find locations and updates', done => {
-    sinon.stub(window, 'location').value({
-      pathname: '/boston-health-care',
-    });
+    restoreLocation = mockLocation('http://localhost/boston-health-care');
     mockApiRequest(bostonTestWithBothCtAs);
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
@@ -118,7 +117,7 @@ describe('featureToggles allow banners', () => {
   });
 
   it('should NOT display the Maine banner because toggles', done => {
-    sinon.stub(window, 'location').value({ pathname: '/maine-health-care' });
+    restoreLocation = mockLocation('http://localhost/maine-health-care');
     mockApiRequest(maine);
     const wrapper = mount(
       <Provider store={mockStore(getData({ useBanners: false }))}>
@@ -132,8 +131,9 @@ describe('featureToggles allow banners', () => {
       done();
     }, 1000);
   });
+
   it('should NOT display the Faine banner because data does not exist', done => {
-    sinon.stub(window, 'location').value({ pathname: '/faine-health-care' });
+    restoreLocation = mockLocation('http://localhost/faine-health-care');
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
         <BannerContainer />
@@ -148,9 +148,7 @@ describe('featureToggles allow banners', () => {
   });
 
   it('should display the Birmingham banner but accept with trailing slash', done => {
-    sinon
-      .stub(window, 'location')
-      .value({ pathname: '/birmingham-health-care/' });
+    restoreLocation = mockLocation('http://localhost/birmingham-health-care/');
     mockApiRequest(birmingham);
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
@@ -166,7 +164,7 @@ describe('featureToggles allow banners', () => {
   });
 
   it('should accept accept manila-va-clinic but not display banner since none exists', done => {
-    sinon.stub(window, 'location').value({ pathname: '/manila-va-clinic/' });
+    restoreLocation = mockLocation('http://localhost/manila-va-clinic/');
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
         <BannerContainer />
@@ -181,7 +179,7 @@ describe('featureToggles allow banners', () => {
   });
 
   it('should not display and deal with vets-api error when vets-api fails on manila-va-clinic', done => {
-    sinon.stub(window, 'location').value({ pathname: '/manila-va-clinic/' });
+    restoreLocation = mockLocation('http://localhost/manila-va-clinic/');
     mockApiRequest({ errors: 'some error' }, false);
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
@@ -195,8 +193,9 @@ describe('featureToggles allow banners', () => {
       done();
     }, 1000);
   });
+
   it('should not display and deal with vets-api error when vets-api fails on health-care', done => {
-    sinon.stub(window, 'location').value({ pathname: '/boston-health-care/' });
+    restoreLocation = mockLocation('http://localhost/boston-health-care/');
     mockApiRequest({ errors: 'some error' }, false);
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
@@ -210,8 +209,9 @@ describe('featureToggles allow banners', () => {
       done();
     }, 1000);
   });
+
   it('should not display on some other page', done => {
-    sinon.stub(window, 'location').value({ pathname: '/some-other-page/' });
+    restoreLocation = mockLocation('http://localhost/some-other-page/');
     const wrapper = mount(
       <Provider store={mockStore(getData())}>
         <BannerContainer />
