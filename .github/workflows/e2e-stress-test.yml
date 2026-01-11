@@ -231,7 +231,7 @@ jobs:
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      image: public.ecr.aws/cypress-io/cypress/browsers:node18.17.0-chrome114-ff114
 
     strategy:
       fail-fast: false
