@@ -9,6 +9,7 @@ import { commonReducer } from 'platform/startup/store';
 import {
   mockApiRequest,
   inputVaTextInput,
+  mockLocation,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import triageTeams from '../../fixtures/recipients.json';
@@ -2132,10 +2133,8 @@ describe('Compose form component', () => {
       const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
       sendMessageStub.returns(() => Promise.resolve());
 
-      // Store original replace method and create spy
-      const originalLocation = global.window.location;
-      global.window.location = {};
-      global.window.location.replace = sandbox.spy();
+      // Use mockLocation for cross-origin URL to get spy on replace()
+      const restoreLocation = mockLocation('https://va.gov/secure-messaging');
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2183,12 +2182,12 @@ describe('Compose form component', () => {
       expect(customState.sm.prescription.redirectPath).to.equal(
         '/medications/refill',
       );
-      expect(global.window.location.replace.calledOnce).to.be.true;
-      expect(global.window.location.replace.calledWith('/medications/refill'))
-        .to.be.true;
+      expect(window.location.replace.calledOnce).to.be.true;
+      expect(window.location.replace.calledWith('/medications/refill')).to.be
+        .true;
 
       // Restore original location
-      global.window.location = originalLocation;
+      restoreLocation();
     });
 
     it('calls sendMessage and verifies normal navigation flow when no redirectPath is present', async () => {
@@ -2261,10 +2260,8 @@ describe('Compose form component', () => {
       const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
       sendMessageStub.returns(() => Promise.resolve());
 
-      // Store original replace method and create spy
-      const originalLocation = global.window.location;
-      global.window.location = {};
-      global.window.location.replace = sandbox.spy();
+      // Use mockLocation for cross-origin URL to get spy on replace()
+      const restoreLocation = mockLocation('https://va.gov/secure-messaging');
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2312,7 +2309,7 @@ describe('Compose form component', () => {
       expect(sendMessageCall.args[3]).to.equal(true); // suppressAlert should be true
 
       // Restore original location
-      global.window.location = originalLocation;
+      restoreLocation();
     });
 
     it('calls sendMessage with suppressAlert=false when redirectPath does not exist', async () => {
