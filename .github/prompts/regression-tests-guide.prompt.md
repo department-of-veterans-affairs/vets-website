@@ -43,7 +43,7 @@ Regression tests ensure schema compatibility during form migrations (e.g., web c
 
 3. **Individual Page Test Files** (create for each page):
    - Location varies by form type:
-     - **Complex forms**: `src/applications/{form-name}/tests/unit/config/{chapter}/{page}.unit.spec.jsx`
+     - **Standard forms**: `src/applications/{form-name}/tests/unit/config/{chapter}/{page}.unit.spec.jsx`
        - Example: `src/applications/hca/tests/unit/config/veteranInformation/birthInformation.unit.spec.jsx`
      - **Simple forms**: `src/applications/simple-forms/{form-number}/tests/pages/{page}.unit.spec.jsx`
        - Example: `src/applications/simple-forms/21-10210/tests/pages/claimantAddrInfo.unit.spec.jsx`
@@ -116,7 +116,13 @@ describe('hca {PageName} config', () => {
 ## How to Extract Expected Schema/UiSchema
 
 ### Step 1: Find the Page Config File
+
+**For Standard Forms:**
 - Location: `src/applications/{form-name}/config/chapters/{chapter}/{page}.js`
+- Look for the default export with `uiSchema` and `schema` objects
+
+**For Simple Forms:**
+- Location: `src/applications/simple-forms/{form-number}/pages/{page}.js`
 - Look for the default export with `uiSchema` and `schema` objects
 
 ### Step 2: Extract Schema Structure
@@ -1201,7 +1207,7 @@ The test expectations document **what the actual implementation produces**, not 
 
 **Test Helper Location:** `src/platform/forms-system/test/schemaRegressionHelpers.spec.jsx` (already exists)  
 **Page Helper Location:** `src/platform/forms-system/test/pageTestHelpers.spec.jsx` (already exists)  
-**Test File Location (Complex forms):** `src/applications/{form-name}/tests/unit/config/{chapter}/{page}.unit.spec.jsx`  
+**Test File Location (Standard forms):** `src/applications/{form-name}/tests/unit/config/{chapter}/{page}.unit.spec.jsx`  
 **Test File Location (Simple forms):** `src/applications/simple-forms/{form-number}/tests/pages/{page}.unit.spec.jsx`  
 **Run Tests:** `yarn test:unit --app-folder {form-name}`  
 **Run Single Test:** `yarn test:unit {path-to-test-file}`
@@ -1213,7 +1219,7 @@ import { testNumberOfErrorsOnSubmit, testNumberOfFields } from 'platform/forms-s
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 
 // Import formConfig (path varies by form structure)
-// Complex forms: import formConfig from '../../../../config/form';
+// Standard forms: import formConfig from '../../../../config/form';
 // Simple forms: import formConfig from '../../../config/form';
 // Check existing test files in your form to determine the correct path
 ```
