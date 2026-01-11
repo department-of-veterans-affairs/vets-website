@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import userEvent from '@testing-library/user-event';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { mockFetchFacilitiesResponse } from '../../../mocks/fetchFacility';
 import FacilityConfirmation, {
   reviewModeRoutes,
@@ -95,11 +96,16 @@ describe('CG <FacilityConfirmation>', () => {
   });
 
   context('when the page renders in review mode', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { search: '?review=true' },
-        configurable: true,
-      });
+      restoreLocation = mockLocation(
+        'http://localhost:3001/caregiver?review=true',
+      );
+    });
+
+    afterEach(() => {
+      restoreLocation?.();
     });
 
     it('should call `goToPath` with the correct route when the Back button is clicked', () => {

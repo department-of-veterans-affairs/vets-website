@@ -2,8 +2,10 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import sinon from 'sinon';
+import {
+  mockFetch,
+  mockLocation,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
@@ -33,25 +35,19 @@ const initialState = {
 };
 
 describe('VAOS Component: EnrolledRoute', () => {
-  let replaceStub;
+  let restoreLocation;
 
   before(() => {
     mockFetch();
   });
 
   beforeEach(() => {
-    replaceStub = sinon.stub();
-    const desc =
-      Object.getOwnPropertyDescriptor(window.location, 'replace') || {};
-    if (desc.writable) {
-      window.location.replace = replaceStub;
-      window.location.href = 'http://localhost';
-    } else {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        value: { replace: replaceStub, origin: 'http://localhost' },
-      });
-    }
+    // Use a cross-origin URL to trigger the proxy-based mock with stubbed replace/assign
+    restoreLocation = mockLocation('https://va.gov/vaos');
+  });
+
+  afterEach(() => {
+    restoreLocation?.();
   });
 
   it('renders route content when logged in and registered', async () => {
@@ -116,7 +112,8 @@ describe('VAOS Component: EnrolledRoute', () => {
     );
     expect(screen.queryByText('Child content')).not.to.exist;
     await waitFor(() => {
-      expect(replaceStub.calledWith('http://localhost/my-health')).to.be.true;
+      expect(window.location.replace.calledWith('https://va.gov/my-health')).to
+        .be.true;
     });
   });
 
@@ -143,7 +140,8 @@ describe('VAOS Component: EnrolledRoute', () => {
     );
     expect(screen.queryByText('Child content')).not.to.exist;
     await waitFor(() => {
-      expect(replaceStub.calledWith('http://localhost/my-health')).to.be.true;
+      expect(window.location.replace.calledWith('https://va.gov/my-health')).to
+        .be.true;
     });
   });
 });

@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import FinancialInformationReviewWarning from '../../../../components/FormAlerts/FinancialInformationReviewWarning';
 import { renderProviderWrappedComponent } from '../../../helpers';
 
@@ -13,11 +14,14 @@ describe('ezr <FinancialInformationReviewWarning>', () => {
   };
 
   context('when on the review and submit page', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { pathname: '/review-and-submit' },
-        configurable: true,
-      });
+      restoreLocation = mockLocation('http://localhost:3001/review-and-submit');
+    });
+
+    afterEach(() => {
+      restoreLocation?.();
     });
 
     it('should not render alert component', () => {
@@ -27,13 +31,16 @@ describe('ezr <FinancialInformationReviewWarning>', () => {
   });
 
   context('when on the summary page', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: {
-          pathname: '/household-information/financial-information',
-        },
-        configurable: true,
-      });
+      restoreLocation = mockLocation(
+        'http://localhost:3001/household-information/financial-information',
+      );
+    });
+
+    afterEach(() => {
+      restoreLocation?.();
     });
 
     it('should render the alert component', () => {

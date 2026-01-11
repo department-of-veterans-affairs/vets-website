@@ -1,5 +1,6 @@
 import sinon from 'sinon-v20';
 import { expect } from 'chai';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import {
   validateApplicant,
   validateHealthInsurancePlan,
@@ -81,17 +82,21 @@ describe('1010d `validateSponsorSsn` form validation', () => {
 
 describe('1010d `validateApplicantSsn` form validation', () => {
   let errors;
+  let restoreLocation;
 
   beforeEach(() => {
     errors = { addError: sinon.spy() };
   });
 
+  afterEach(() => {
+    restoreLocation?.();
+  });
+
   context('when adding the first applicant', () => {
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { pathname: '/applicants/0', search: '?add=true' },
-        writable: true,
-      });
+      restoreLocation = mockLocation(
+        'http://localhost:3001/applicants/0?add=true',
+      );
     });
 
     it('should not add an error when SSN is empty', () => {
@@ -130,10 +135,9 @@ describe('1010d `validateApplicantSsn` form validation', () => {
 
   context('when working with multiple applicants', () => {
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { pathname: '/applicants/1', search: '?add=true' },
-        writable: true,
-      });
+      restoreLocation = mockLocation(
+        'http://localhost:3001/applicants/1?add=true',
+      );
     });
 
     it('should not add an error when SSN is valid and unique', () => {
@@ -173,10 +177,10 @@ describe('1010d `validateApplicantSsn` form validation', () => {
 
     it('should not flag current applicant as duplicate of itself during edit', () => {
       // Simulate editing the first applicant (index 0)
-      Object.defineProperty(window, 'location', {
-        value: { pathname: '/applicants/0', search: '?edit=true' },
-        writable: true,
-      });
+      restoreLocation?.();
+      restoreLocation = mockLocation(
+        'http://localhost:3001/applicants/0?edit=true',
+      );
 
       const fullData = {
         sponsorSsn: '345345345',
@@ -192,10 +196,10 @@ describe('1010d `validateApplicantSsn` form validation', () => {
 
     it('should detect duplicates when changing to existing SSN during edit', () => {
       // simulate editing the first applicant (index 0)
-      Object.defineProperty(window, 'location', {
-        value: { pathname: '/applicants/0', search: '?edit=true' },
-        writable: true,
-      });
+      restoreLocation?.();
+      restoreLocation = mockLocation(
+        'http://localhost:3001/applicants/0?edit=true',
+      );
 
       const fullData = {
         sponsorSsn: '345345345',
@@ -211,10 +215,7 @@ describe('1010d `validateApplicantSsn` form validation', () => {
 
   context('when on the review and submit page', () => {
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { pathname: '/review-and-submit' },
-        writable: true,
-      });
+      restoreLocation = mockLocation('http://localhost:3001/review-and-submit');
     });
 
     it('should not add an error when applicant SSN is unique (only appears once)', () => {

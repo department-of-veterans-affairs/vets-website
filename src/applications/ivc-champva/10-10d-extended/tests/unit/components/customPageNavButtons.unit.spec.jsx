@@ -7,26 +7,11 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
 import { CustomPageNavButtons } from '../../../../shared/components/CustomPageNavButtons';
 
 const mockStore = state => createStore(() => state);
-
-function stubWindowLocation(url, pathname, search) {
-  const originalLocation = window.location;
-
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: { href: url, pathname, search },
-  });
-
-  return () => {
-    Object.defineProperty(window, 'location', {
-      writable: true,
-      value: originalLocation,
-    });
-  };
-}
 
 /**
  * Renders CustomPageNavButtons with the provided setup config.
@@ -40,9 +25,7 @@ function setupComponent(
   storeData,
   url = 'http://localhost:3001/form/somepath',
 ) {
-  const { pathname } = new URL(url);
-  const { search } = new URL(url);
-  const restoreLocation = stubWindowLocation(url, pathname, search);
+  const restoreLocation = mockLocation(url);
 
   const store = mockStore({
     form: {

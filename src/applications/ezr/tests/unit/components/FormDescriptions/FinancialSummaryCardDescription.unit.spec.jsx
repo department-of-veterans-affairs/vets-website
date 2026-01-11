@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import FinancialSummaryCardDescription from '../../../../components/FormDescriptions/FinancialSummaryCardDescription';
 
 const DEFAULT_PATH = '/household-information/financial-information';
@@ -45,11 +46,14 @@ describe('ezr <FinancialSummaryCardDescription>', () => {
   });
 
   context('when on the review and submit page', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { pathname: REVIEW_PATH },
-        configurable: true,
-      });
+      restoreLocation = mockLocation(`http://localhost:3001${REVIEW_PATH}`);
+    });
+
+    afterEach(() => {
+      restoreLocation?.();
     });
 
     it('should render the correct heading levels', () => {
@@ -59,11 +63,14 @@ describe('ezr <FinancialSummaryCardDescription>', () => {
   });
 
   context('when on the summary page', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { pathname: DEFAULT_PATH },
-        configurable: true,
-      });
+      restoreLocation = mockLocation(`http://localhost:3001${DEFAULT_PATH}`);
+    });
+
+    afterEach(() => {
+      restoreLocation?.();
     });
 
     it('should render the correct heading levels', () => {
@@ -73,11 +80,14 @@ describe('ezr <FinancialSummaryCardDescription>', () => {
   });
 
   context('when spousal income data is provided', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { pathname: DEFAULT_PATH },
-        configurable: true,
-      });
+      restoreLocation = mockLocation(`http://localhost:3001${DEFAULT_PATH}`);
+    });
+
+    afterEach(() => {
+      restoreLocation?.();
     });
 
     it('should render correct number of income lists', () => {
@@ -95,11 +105,14 @@ describe('ezr <FinancialSummaryCardDescription>', () => {
   });
 
   context('when spousal income data is omitted', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { pathname: DEFAULT_PATH },
-        configurable: true,
-      });
+      restoreLocation = mockLocation(`http://localhost:3001${DEFAULT_PATH}`);
+    });
+
+    afterEach(() => {
+      restoreLocation?.();
     });
 
     it('should not render spouse income section when no spouse', () => {
