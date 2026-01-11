@@ -113,11 +113,18 @@ function mockFetch(returnVal, shouldResolve = true) {
   fetchStub.callsFake(url => {
     let response = returnVal;
     if (!response) {
-      response = new Response();
-      response.ok = false;
-      response.url = url;
-      response.status = 404;
-      response.statusText = 'Not Found';
+      // In modern Node/JSDOM, Response.ok is read-only.
+      // Create Response with proper status code instead of assigning ok directly.
+      response = new Response(null, {
+        status: 404,
+        statusText: 'Not Found',
+      });
+      // Add url property
+      Object.defineProperty(response, 'url', {
+        value: url,
+        writable: true,
+        configurable: true,
+      });
     }
 
     return shouldResolve ? Promise.resolve(response) : Promise.reject(response);

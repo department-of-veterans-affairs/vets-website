@@ -11,6 +11,7 @@ import * as authUtils from '~/platform/user/authentication/utilities';
 import * as oauthUtils from '~/platform/utilities/oauth/utilities';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { ACCOUNT_STATES } from '../constants';
@@ -911,6 +912,30 @@ describe('<CallToActionWidget>', () => {
     });
 
     describe('functionality', () => {
+      let restoreLocation;
+      let sandbox;
+      let originalWindowOpen;
+      let windowOpenStub;
+
+      beforeEach(() => {
+        sandbox = sinon.createSandbox();
+        // Ensure window.open exists and create stub BEFORE mockLocation creates its proxy
+        // (JSDOM doesn't provide window.open, and sinon can't stub through proxies)
+        originalWindowOpen = global.window.open;
+        if (!global.window.open) {
+          global.window.open = () => null;
+        }
+        windowOpenStub = sandbox.stub(global.window, 'open');
+        // Use cross-origin URL to enable location assignment spying
+        restoreLocation = mockLocation('https://va.gov/');
+      });
+
+      afterEach(() => {
+        restoreLocation?.();
+        sandbox.restore();
+        global.window.open = originalWindowOpen;
+      });
+
       it('should show child nodes if provided', () => {
         const tree = mount(
           <CallToActionWidget
@@ -963,7 +988,6 @@ describe('<CallToActionWidget>', () => {
       });
 
       it('should redirect correctly when sendToMHV is called', () => {
-        const oldLocation = window.location;
         const sendtoMHVFunction = sendToMHV(true);
         expect(sendtoMHVFunction).to.be.a('function');
         sendtoMHVFunction();
@@ -971,20 +995,19 @@ describe('<CallToActionWidget>', () => {
         expect(location).to.include(
           'https://int.eauth.va.gov/mhv-portal-web/eauth',
         );
-        window.location = oldLocation;
       });
 
       it('should open tools correctly using goToTool', () => {
-        const oldLocation = window.location;
-        const windowSpy = sinon.spy(window, 'open');
-        const recordEventSpy = sinon.spy(recordEvent, 'default');
+        // Use the shared windowOpenStub created before mockLocation proxy
+        windowOpenStub.reset();
+        const recordEventSpy = sandbox.spy(recordEvent, 'default');
 
         const url = '/some-tool';
         const gaEvent = { event: 'test-event' };
         const result = goToTool(url, gaEvent);
         expect(result).to.be.false;
         expect(recordEventSpy.calledOnce).to.be.true;
-        expect(windowSpy.calledOnce).to.be.false;
+        expect(windowOpenStub.calledOnce).to.be.false;
         const location = window.location.href || window.location;
         expect(location).to.include(url);
 
@@ -994,24 +1017,18 @@ describe('<CallToActionWidget>', () => {
         const blankResult = goToTool(blankUrl);
         expect(blankResult).to.be.false;
         expect(recordEventSpy.calledOnce).to.be.false;
-        expect(windowSpy.calledOnce).to.be.false;
+        expect(windowOpenStub.calledOnce).to.be.false;
 
         const externalUrl = 'https://www.va.gov';
         goToTool(externalUrl);
         expect(recordEventSpy.calledOnce).to.be.false;
-        expect(windowSpy.calledOnce).to.be.true;
-
-        recordEventSpy.restore();
-        windowSpy.restore();
-        window.location = oldLocation;
+        expect(windowOpenStub.calledOnce).to.be.true;
       });
 
       it('should sign out correctly when signOut is called', () => {
-        const oldLocation = window.location;
-
-        const recordEventSpy = sinon.spy(recordEvent, 'default');
-        const IAMLogoutSpy = sinon.spy(authUtils, 'logout');
-        const logoutUrlSiSSpy = sinon.spy(oauthUtils, 'logoutUrlSiS');
+        const recordEventSpy = sandbox.spy(recordEvent, 'default');
+        const IAMLogoutSpy = sandbox.spy(authUtils, 'logout');
+        const logoutUrlSiSSpy = sandbox.spy(oauthUtils, 'logoutUrlSiS');
         const innerFunc = signOut(true);
         innerFunc();
         expect(recordEventSpy.calledTwice).to.be.true;
@@ -1028,15 +1045,10 @@ describe('<CallToActionWidget>', () => {
         expect(logoutUrlSiSSpy.calledOnce).to.be.true;
         const location = window.location.href || window.location;
         expect(location).to.include(logoutUrlSiSSpy.returnValues[0]);
-
-        recordEventSpy.restore();
-        IAMLogoutSpy.restore();
-        logoutUrlSiSSpy.restore();
-        window.location = oldLocation;
       });
 
       it('should toggle the login modal correctly when openLoginModal and openForcedLoginModal are called', () => {
-        const toggleStub = sinon.stub();
+        const toggleStub = sandbox.stub();
         const { openLoginModal, openForcedLoginModal } = toggleModalWrapper(
           toggleStub,
         );
@@ -1052,9 +1064,9 @@ describe('<CallToActionWidget>', () => {
       });
 
       it('should wrap the goToTool function correctly when goToToolWrapper is called', () => {
-        const oldLocation = window.location;
-        const windowSpy = sinon.spy(window, 'open');
-        const recordEventSpy = sinon.spy(recordEvent, 'default');
+        // Use the shared windowOpenStub created before mockLocation proxy
+        windowOpenStub.reset();
+        const recordEventSpy = sandbox.spy(recordEvent, 'default');
 
         const url = '/some-tool';
         const gaEvent = { event: 'test-event' };
@@ -1063,7 +1075,7 @@ describe('<CallToActionWidget>', () => {
         const result = toolFunc();
         expect(result).to.be.undefined;
         expect(recordEventSpy.calledOnce).to.be.true;
-        expect(windowSpy.calledOnce).to.be.false;
+        expect(windowOpenStub.calledOnce).to.be.false;
         const location = window.location.href || window.location;
         expect(location).to.include(url);
 
@@ -1075,7 +1087,7 @@ describe('<CallToActionWidget>', () => {
         const blankResult = blankToolFunc();
         expect(blankResult).to.be.undefined;
         expect(recordEventSpy.calledOnce).to.be.false;
-        expect(windowSpy.calledOnce).to.be.false;
+        expect(windowOpenStub.calledOnce).to.be.false;
 
         const externalUrl = 'https://www.va.gov';
         const externalToolFunc = goToToolWrapper(externalUrl);
@@ -1083,11 +1095,7 @@ describe('<CallToActionWidget>', () => {
         const externalResult = externalToolFunc();
         expect(externalResult).to.be.undefined;
         expect(recordEventSpy.calledOnce).to.be.false;
-        expect(windowSpy.calledOnce).to.be.true;
-
-        recordEventSpy.restore();
-        windowSpy.restore();
-        window.location = oldLocation;
+        expect(windowOpenStub.calledOnce).to.be.true;
       });
     });
   });
