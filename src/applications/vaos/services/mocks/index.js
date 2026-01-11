@@ -60,6 +60,8 @@ const appointmentSlotsV2 = getMockSlots({
 const clinics983V2 = require('./v2/clinics_983.json');
 const clinics984V2 = require('./v2/clinics_984.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
+// Comment out line above and uncomment line below to test relationship endpoint error states
+// const patientProviderRelationships = require('./v2/patient_provider_relationships_errors.json');
 const recentLocations = require('./v2/recent_locations.json');
 const vamcEhr = require('./v2/vamc_ehr.json');
 
