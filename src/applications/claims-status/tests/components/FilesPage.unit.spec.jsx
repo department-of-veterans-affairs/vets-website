@@ -272,12 +272,13 @@ describe('<FilesPage>', () => {
     claim.attributes.claimType = 'Compensation';
     claim.attributes.claimPhaseDates = { previousPhases: {} };
     it('should not update document title at mount-time if claim is not available', () => {
+      const originalTitle = document.title;
       renderWithRouter(
         <Provider store={getStore()}>
           <FilesPage {...props} />
         </Provider>,
       );
-      expect(document.title).to.equal('');
+      expect(document.title).to.equal(originalTitle);
     });
     it('should update document title with claim details at mount-time if claim is already loaded', () => {
       renderWithRouter(
@@ -327,6 +328,7 @@ describe('<FilesPage>', () => {
           <FilesPage {...props} loading />
         </Provider>,
       );
+      const titleAfterFirstRender = document.title;
       rerenderWithRouter(
         rerender,
         <Provider store={getStore()}>
@@ -337,7 +339,7 @@ describe('<FilesPage>', () => {
           />
         </Provider>,
       );
-      expect(document.title).to.equal('');
+      expect(document.title).to.equal(titleAfterFirstRender);
     });
   });
 

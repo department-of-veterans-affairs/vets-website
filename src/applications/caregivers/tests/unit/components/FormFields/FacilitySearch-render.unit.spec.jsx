@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
-import { inputVaSearchInput } from '../../../test-helpers';
+import { inputVaSearchInput, vaButtonGetByText } from '../../../test-helpers';
 import content from '../../../../locales/en/content.json';
 
 // declare error message content
@@ -31,7 +31,8 @@ describe('CG <FacilitySearch>', () => {
     const selectors = () => ({
       backBtn: getByText('Back'),
       continueBtn: queryByRole('button', { name: /Continue/i }),
-      loadMoreBtn: container.vaButtonGetByText(
+      loadMoreBtn: vaButtonGetByText(
+        container,
         content['form-facilities-load-more-button'],
       ),
       ariaLiveStatus: queryByRole('status'),

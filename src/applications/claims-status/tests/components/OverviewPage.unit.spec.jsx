@@ -223,12 +223,13 @@ describe('<OverviewPage>', () => {
   context('cstClaimPhases feature flag enabled', () => {
     describe('document.title', () => {
       it('should not update document title at mount-time if claim is not available', () => {
+        const originalTitle = document.title;
         renderWithRouter(
           <Provider store={getStore()}>
             <OverviewPage {...props} />
           </Provider>,
         );
-        expect(document.title).to.equal('');
+        expect(document.title).to.equal(originalTitle);
       });
       it('should update document title with claim details at mount-time if claim is already loaded', () => {
         renderWithRouter(
@@ -278,6 +279,7 @@ describe('<OverviewPage>', () => {
             <OverviewPage {...props} loading />
           </Provider>,
         );
+        const titleAfterFirstRender = document.title;
         rerenderWithRouter(
           rerender,
           <Provider store={getStore()}>
@@ -288,7 +290,7 @@ describe('<OverviewPage>', () => {
             />
           </Provider>,
         );
-        expect(document.title).to.equal('');
+        expect(document.title).to.equal(titleAfterFirstRender);
       });
     });
     context('when claim is closed and disability compensation claim', () => {

@@ -6,7 +6,11 @@ import { Provider } from 'react-redux';
 import * as bboxFetch from '../../../../actions/fetchMapBoxGeocoding';
 import * as facilitiesFetch from '../../../../actions/fetchFacilities';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
-import { inputVaSearchInput, runSearch } from '../../../test-helpers';
+import {
+  inputVaSearchInput,
+  runSearch,
+  vaButtonGetByText,
+} from '../../../test-helpers';
 import content from '../../../../locales/en/content.json';
 import {
   mockFetchChildFacilityResponse,
@@ -44,7 +48,8 @@ describe('CG <FacilitySearch>', () => {
     );
     const selectors = () => ({
       continueBtn: queryByRole('button', { name: /Continue/i }),
-      loadMoreBtn: container.vaButtonGetByText(
+      loadMoreBtn: vaButtonGetByText(
+        container,
         content['form-facilities-load-more-button'],
       ),
       ariaLiveStatus: queryByRole('status'),
