@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import formConfig from '../../../config/form';
 
 describe('formConfig', () => {
@@ -62,21 +63,14 @@ describe('formConfig', () => {
     });
 
     it('onNavBack redirects to the My VA page', () => {
-      const originalLocation = window.location;
+      // Use mockLocation with a cross-origin URL to enable the proxy that captures location assignments
+      const restoreLocation = mockLocation('https://va.gov/my-va/');
 
       contactInfoPage.onNavBack();
 
-      // Node 14 with jsdom sets window.location directly as a string
-      // Node 22 with happy-dom sets window.location.href
-      // TODO: Remove the string check after Node 14 upgrade is complete
-      const actualLocation =
-        typeof window.location === 'string'
-          ? window.location
-          : window.location.href;
+      expect(window.location.href).to.include('/my-va/');
 
-      expect(actualLocation).to.include('/my-va/');
-
-      global.window.location = originalLocation;
+      restoreLocation();
     });
   });
 

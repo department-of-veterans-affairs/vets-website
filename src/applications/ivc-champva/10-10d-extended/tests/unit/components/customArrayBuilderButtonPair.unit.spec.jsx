@@ -4,29 +4,13 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { getProps } from '../../../../shared/tests/pages/pageTests.spec';
 import CustomArrayBuilderButtonPair from '../../../../shared/components/CustomArrayBuilderButtonPair';
 
-function stubWindowLocation(url, search) {
-  const originalLocation = window.location;
-
-  // Use defineProperty instead of direct assignment
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: { href: url ?? originalLocation, search: search ?? '?add=true' },
-  });
-
-  return () => {
-    Object.defineProperty(window, 'location', {
-      writable: true,
-      value: originalLocation,
-    });
-  };
-}
-
 describe('CustomArrayBuilderButtonPair', () => {
   it('should call goForward when "continue" clicked', async () => {
-    const restoreLocation = stubWindowLocation();
+    const restoreLocation = mockLocation('http://localhost:3001/test?add=true');
     const goFwdSpy = sinon.spy();
     const component = (
       <CustomArrayBuilderButtonPair
@@ -58,9 +42,8 @@ describe('CustomArrayBuilderButtonPair', () => {
     restoreLocation();
   });
   it('should use custom text when on edit flow', async () => {
-    const restoreLocation = stubWindowLocation(
-      'localhost:3001/ivc-champva/10-10d-extended/applicant-name-dob/0',
-      '?edit=true',
+    const restoreLocation = mockLocation(
+      'http://localhost:3001/ivc-champva/10-10d-extended/applicant-name-dob/0?edit=true',
     );
     const component = (
       <CustomArrayBuilderButtonPair

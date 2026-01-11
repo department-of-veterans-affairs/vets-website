@@ -1,11 +1,9 @@
 import React from 'react';
 import { cleanup, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import VerifyIdentity from '../../../components/direct-deposit/alerts/VerifyIdentity';
-
-const oldCrypto = global.window.crypto;
 
 const initialState = {
   featureToggles: {
@@ -22,13 +20,14 @@ const initialState = {
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('VerifyIdentity', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      global.window.crypto = mockCrypto;
-      window.location = new URL('https://dev.va.gov/');
+      restoreLocation = mockLocation('https://dev.va.gov/');
     });
 
     afterEach(() => {
-      global.window.crypto = oldCrypto;
+      restoreLocation?.();
       cleanup();
     });
 
