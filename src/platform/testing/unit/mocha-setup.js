@@ -174,6 +174,12 @@ function setupJSDom() {
     window.URL.revokeObjectURL = () => {};
   }
 
+  // JSDOM doesn't implement window.open
+  // Add no-op implementation that can be stubbed by tests
+  if (!window.open) {
+    window.open = () => null;
+  }
+
   /* Overwrites JSDOM global defaults from read-only to configurable */
   Object.defineProperty(global, 'window', {
     value: global.window,
