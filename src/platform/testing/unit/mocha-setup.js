@@ -164,6 +164,15 @@ function setupJSDom() {
 
   global.Blob = window.Blob;
 
+  // JSDOM doesn't implement URL.createObjectURL/revokeObjectURL
+  // Add no-op implementations that can be stubbed by tests
+  if (!window.URL.createObjectURL) {
+    window.URL.createObjectURL = () => '';
+  }
+  if (!window.URL.revokeObjectURL) {
+    window.URL.revokeObjectURL = () => {};
+  }
+
   /* Overwrites JSDOM global defaults from read-only to configurable */
   Object.defineProperty(global, 'window', {
     value: global.window,

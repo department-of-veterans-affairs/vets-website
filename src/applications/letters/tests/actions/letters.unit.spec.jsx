@@ -48,14 +48,21 @@ import {
  * Teardown() resets it back to normal.
  */
 
+let createObjectURLStub;
+let revokeObjectURLStub;
+
 const setup = () => {
   testkit.reset();
   mockFetch();
   setFetchJSONResponse(global.fetch.onCall(0), {});
-  global.window.URL = {
-    createObjectURL: () => {},
-    revokeObjectURL: () => {},
-  };
+  // Stub URL methods instead of replacing the URL object (JSDOM 22 compatibility)
+  createObjectURLStub = sinon.stub(window.URL, 'createObjectURL').returns('');
+  revokeObjectURLStub = sinon.stub(window.URL, 'revokeObjectURL');
+};
+
+const teardown = () => {
+  createObjectURLStub?.restore();
+  revokeObjectURLStub?.restore();
 };
 
 const migrationOptions = {
@@ -78,6 +85,7 @@ const getState = () => ({});
 
 describe('getLettersList', () => {
   beforeEach(setup);
+  afterEach(teardown);
 
   const lettersResponse = {
     data: {
@@ -172,6 +180,7 @@ describe('getLettersList', () => {
 
 describe('getLetterListAndBSLOptions', () => {
   beforeEach(setup);
+  afterEach(teardown);
 
   it('should make the call to get the BSL options after the letter list call is complete', done => {
     const thunk = getLetterListAndBSLOptions(migrationOptions);
@@ -206,6 +215,7 @@ describe('getLetterListAndBSLOptions', () => {
 
 describe('getBenefitSummaryOptions', () => {
   beforeEach(setup);
+  afterEach(teardown);
 
   const mockResponse = {
     benefitInformation: {
@@ -276,6 +286,7 @@ describe('getBenefitSummaryOptions', () => {
 
 describe('getLetterPdf', () => {
   beforeEach(setup);
+  afterEach(teardown);
 
   const benefitSLetter = {
     letterName: 'Benefit Summary Letter',
@@ -376,24 +387,20 @@ describe('getLetterPdf', () => {
 });
 
 describe('getSingleLetterPDFLink', () => {
-  let stubCreateObjectUrl;
-
   beforeEach(() => {
     setup();
-    // Stub URL.createObjectURL
-    stubCreateObjectUrl = sinon.stub(window.URL, 'createObjectURL');
+    // createObjectURL is already stubbed by setup(), just configure return value
+    createObjectURLStub.resetBehavior();
   });
 
-  afterEach(() => {
-    stubCreateObjectUrl.restore();
-  });
+  afterEach(teardown);
 
   const letterType = LETTER_TYPES.proofOfService;
 
   it('dispatches downloading and success actions with the correct blob URL', async () => {
     const dispatch = sinon.spy();
     const mockUrl = 'http://fake-site.com/letter.pdf';
-    stubCreateObjectUrl.onCall(0).returns(mockUrl);
+    createObjectURLStub.onCall(0).returns(mockUrl);
 
     const blob = new Blob(['PDF content'], { type: 'application/pdf' });
     const response = new Response(blob, {
@@ -445,29 +452,26 @@ describe('getSingleLetterPDFLink', () => {
   });
 });
 describe('getLetterBlobUrl', () => {
-  let stubCreateObjectUrl;
-
   beforeEach(() => {
     setup();
-    stubCreateObjectUrl = sinon.stub(window.URL, 'createObjectURL');
+    // createObjectURL is already stubbed by setup(), just reset behavior
+    createObjectURLStub.resetBehavior();
   });
 
-  afterEach(() => {
-    stubCreateObjectUrl.restore();
-  });
+  afterEach(teardown);
 
   it('should return the blob URL string', done => {
     const dispatch = sinon.spy();
     const mockBlob = () => Promise.resolve(Buffer.from('PDF file content'));
     setFetchJSONResponse(global.fetch.onCall(0), { blob: mockBlob });
 
-    stubCreateObjectUrl.onCall(0).returns('blob:http://example.com/letter.pdf');
+    createObjectURLStub.onCall(0).returns('blob:http://example.com/letter.pdf');
 
     getLetterBlobUrl(dispatch, LETTER_TYPES.civilService, migrationOptions)
       .then(() => {
-        expect(stubCreateObjectUrl.called).to.be.true;
-        expect(stubCreateObjectUrl.returnValues.length).to.equal(1);
-        expect(stubCreateObjectUrl.returnValues[0]).to.equal(
+        expect(createObjectURLStub.called).to.be.true;
+        expect(createObjectURLStub.returnValues.length).to.equal(1);
+        expect(createObjectURLStub.returnValues[0]).to.equal(
           'blob:http://example.com/letter.pdf',
         );
       })

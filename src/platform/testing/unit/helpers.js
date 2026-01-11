@@ -161,18 +161,30 @@ export function setFetchJSONFailure(stub, data) {
 }
 
 export function setFetchBlobResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
-  response.blob = () => Promise.resolve(data);
+  // Create a mock response object instead of using new Response()
+  // since Response.ok is read-only in Node 18+
+  const response = {
+    ok: true,
+    url: environment.API_URL,
+    headers: {
+      get: () => null,
+    },
+    blob: () => Promise.resolve(data),
+  };
   stub.resolves(response);
 }
 
 export function setFetchBlobFailure(stub, error) {
-  const response = new Response();
-  response.ok = false;
-  response.url = environment.API_URL;
-  response.blob = () => Promise.reject(new Error(error));
+  // Create a mock response object instead of using new Response()
+  // since Response.ok is read-only in Node 18+
+  const response = {
+    ok: false,
+    url: environment.API_URL,
+    headers: {
+      get: () => null,
+    },
+    blob: () => Promise.reject(new Error(error)),
+  };
   stub.resolves(response);
 }
 
