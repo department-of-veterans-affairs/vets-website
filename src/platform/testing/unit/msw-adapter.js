@@ -29,8 +29,31 @@ try {
   mswModule = require('msw');
 }
 
-// Singleton server instance for MSW v2
+// Reference to the shared MSW server
+// In MSW v2, mocha-setup.js registers its server here via setGlobalServer()
 let sharedServer = null;
+
+/**
+ * Register the global MSW server instance
+ * Called by mocha-setup.js to share its server with tests using the adapter
+ */
+export function setGlobalServer(server) {
+  sharedServer = server;
+}
+
+/**
+ * Get the shared MSW server instance
+ * Returns the server registered by mocha-setup.js
+ */
+function getGlobalServer() {
+  if (mswVersion === 2 && !sharedServer) {
+    // Server not registered yet - create a fallback
+    // This shouldn't happen in normal test runs since mocha-setup.js runs first
+    const { setupServer } = require('msw/node');
+    sharedServer = setupServer();
+  }
+  return sharedServer;
+}
 
 /**
  * Creates a GET request handler with a consistent API
@@ -339,39 +362,39 @@ export function delayedJsonResponse(data, delayMs = 200) {
 }
 
 // Export setupServer with consistent API
-// In MSW v2, this returns a shared singleton server to avoid conflicts with mocha-setup.js
+// In MSW v2, this returns the shared server from mocha-setup.js to avoid conflicts
 export const setupServer = (...handlers) => {
   if (mswVersion === 2) {
-    const { setupServer: setup } = require('msw/node');
-    // Return a shared server instance - only create once
-    if (!sharedServer) {
-      sharedServer = setup(...handlers);
-    } else if (handlers.length > 0) {
-      // If handlers provided, add them to existing server
-      sharedServer.use(...handlers);
+    const server = getGlobalServer();
+
+    // Add any initial handlers provided
+    if (handlers.length > 0) {
+      server.use(...handlers);
     }
-    // Return a wrapper that prevents multiple listen/close calls
+
+    // Track handlers added by this setupServer call so resetHandlers works correctly
+    const initialHandlers = [...handlers];
+
+    // Return a wrapper that integrates with mocha-setup.js
     return {
-      listen: options => {
-        // Check if already listening by trying to add a dummy handler
-        try {
-          // In MSW v2, calling listen() twice throws "already patched" error
-          // So we track state ourselves
-          if (!sharedServer._isListening) {
-            sharedServer.listen(options);
-            sharedServer._isListening = true;
-          }
-        } catch {
-          // Already listening, ignore
-        }
+      listen: () => {
+        // No-op: mocha-setup.js already calls server.listen() in beforeAll
       },
       close: () => {
-        // Don't actually close - mocha-setup.js handles this
+        // No-op: mocha-setup.js handles this in afterAll
         // This prevents tests from closing the server prematurely
       },
-      use: (...h) => sharedServer.use(...h),
-      resetHandlers: (...h) => sharedServer.resetHandlers(...h),
-      events: sharedServer.events,
+      use: (...h) => server.use(...h),
+      resetHandlers: (...h) => {
+        // If no handlers provided, reset to this setupServer's initial handlers
+        // This restores handlers to what this describe block set up
+        if (h.length === 0 && initialHandlers.length > 0) {
+          server.resetHandlers(...initialHandlers);
+        } else {
+          server.resetHandlers(...h);
+        }
+      },
+      events: server.events,
     };
   }
   return require('msw/node').setupServer(...handlers);
@@ -381,7 +404,7 @@ export const setupServer = (...handlers) => {
  * Get the shared MSW server instance
  * Use this instead of setupServer() when you need to add handlers to existing server
  */
-export const getSharedServer = () => sharedServer;
+export const getSharedServer = () => getGlobalServer();
 
 // Re-export original MSW methods for advanced use cases
 export const msw = mswModule;

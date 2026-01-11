@@ -17,6 +17,7 @@ import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
+import { setGlobalServer } from './msw-adapter';
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
@@ -249,15 +250,20 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
-const server = setupServer(
+// Global MSW server instance
+// Tests should use the msw-adapter helpers to add handlers to this server
+const mswServer = setupServer(
   http.get('/feature_toggles', () => {
     return new HttpResponse('', { status: 200 });
   }),
 );
 
+// Register the server with msw-adapter so tests can use it
+setGlobalServer(mswServer);
+
 export const mochaHooks = {
   beforeAll() {
-    server.listen({ onUnhandledRequest: 'bypass' });
+    mswServer.listen({ onUnhandledRequest: 'bypass' });
   },
 
   beforeEach() {
@@ -273,7 +279,9 @@ export const mochaHooks = {
         this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
       );
     }
-    server.resetHandlers();
+    // Note: We do NOT call resetHandlers() here because test suites may have
+    // set up handlers in their before() hooks. Individual tests should manage
+    // their own handler resets via server.resetHandlers() in afterEach().
   },
 
   afterEach() {
@@ -282,7 +290,7 @@ export const mochaHooks = {
   },
 
   afterAll() {
-    server.close();
+    mswServer.close();
   }
 
 };
