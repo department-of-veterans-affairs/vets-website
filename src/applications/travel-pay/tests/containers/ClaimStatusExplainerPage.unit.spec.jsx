@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import ClaimStatusExplainerPage from '../../containers/pages/ClaimStatusExplainerPage';
 
 describe('ClaimStatusExplainerPage', () => {
@@ -20,16 +20,15 @@ describe('ClaimStatusExplainerPage', () => {
     },
   });
 
-  let oldLocation;
+  let restoreLocation;
 
   beforeEach(() => {
-    oldLocation = global.window.location;
-    global.window.location = {};
-    global.window.location.replace = sinon.spy();
+    // Use cross-origin URL to get spy on location.replace()
+    restoreLocation = mockLocation('https://va.gov/travel-pay');
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    restoreLocation?.();
   });
 
   it('Successfully renders', () => {
