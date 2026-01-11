@@ -5,6 +5,7 @@ import { expect } from 'chai';
 
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 import { getFormContent } from '../../../helpers';
@@ -86,11 +87,14 @@ const mockStore = (loggedIn, dispatchSpy) => ({
 });
 
 describe('IntroductionPage', () => {
+  let restoreLocation;
+
   beforeEach(() => {
-    window.location = new URL(TEST_URL);
+    restoreLocation = mockLocation(TEST_URL);
   });
 
   afterEach(() => {
+    restoreLocation?.();
     cleanup();
   });
 

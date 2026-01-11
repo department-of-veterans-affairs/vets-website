@@ -2,6 +2,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import * as scrollModule from 'platform/utilities/scroll/scroll';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import {
   getFileSize,
   getFormNumber,
@@ -18,7 +19,6 @@ import {
 } from '../../../helpers';
 import * as constants from '../../../config/constants';
 
-// All global.window.location assignments are skipped for node 22 upgrade
 describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
@@ -39,11 +39,12 @@ describe('Helpers', () => {
   });
 
   describe('getFormContent', () => {
-    it.skip('returns appropriate content when the form number is mapped', () => {
-      global.window.location = {
-        pathname: 'forms/upload/21-0779/introduction',
-      };
-      expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
+    it('returns appropriate content when the form number is mapped', () => {
+      const restoreLocation = mockLocation(
+        'https://dev.va.gov/forms/upload/21-0779/introduction',
+      );
+      expect(getFormContent()).to.include({ title: 'Upload VA Form 21-0779' });
+      restoreLocation?.();
     });
   });
 
