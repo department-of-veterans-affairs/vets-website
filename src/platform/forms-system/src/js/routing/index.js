@@ -74,7 +74,7 @@ export function goBack({
 // if a form uses dynamic routes then we check if the last part of the
 // pathname ends with the page path (e.g. /21-0779/introduction and /introduction),
 // not whether the pathname equals the page path (/introduction and /introduction)
-export function getRoute(routes, location, dynamicPaths = true) {
+export function getRoute(routes, location, dynamicPaths = false) {
   try {
     return routes.find(r => {
       if (r.path.includes(':index')) {
