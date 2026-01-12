@@ -342,7 +342,12 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranInformation.veteranFullName',
+      fullNamePath: formData => {
+        if (formData?.claimantRelationship.relationship === 'veteran') {
+          return 'veteranInformation.veteranFullName';
+        }
+        return 'claimantInformation.claimantFullName';
+      },
     },
   },
 };

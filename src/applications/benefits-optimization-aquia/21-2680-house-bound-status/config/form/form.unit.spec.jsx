@@ -200,8 +200,8 @@ describe('Form Configuration', () => {
     });
 
     it('should have correct fullNamePath for statement of truth', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
-        'veteranInformation.veteranFullName',
+      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.be.a(
+        'function',
       );
     });
 
