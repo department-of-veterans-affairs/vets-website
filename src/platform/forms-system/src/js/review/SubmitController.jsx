@@ -10,7 +10,7 @@ import {
   statementOfTruthFullName,
 } from '~/platform/forms/components/review/PreSubmitSection';
 import { autoSaveForm } from '~/platform/forms/save-in-progress/actions';
-import { $, focusElement } from '~/platform/forms-system/src/js/utilities/ui';
+import { scrollToFirstError } from '~/platform/forms-system/src/js/utilities/ui';
 
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
@@ -25,18 +25,28 @@ import {
 } from '../actions';
 
 class SubmitController extends Component {
-  /* eslint-disable-next-line camelcase */
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const nextStatus = nextProps.form.submission.status;
-    const previousStatus = this.props.form.submission.status;
+  componentDidUpdate(prevProps) {
+    const nextStatus = this.props.form.submission.status;
+    const previousStatus = prevProps.form.submission.status;
+
+    // Handle successful submission
     if (
       nextStatus !== previousStatus &&
       nextStatus === 'applicationSubmitted'
     ) {
-      const newRoute = `${nextProps.formConfig.urlPrefix}confirmation`;
+      const newRoute = `${this.props.formConfig.urlPrefix}confirmation`;
       this.props.router.push(newRoute);
     }
   }
+
+  getCustomValidationErrors = formData => {
+    const { formConfig } = this.props;
+    // Call form-specific custom validation if configured
+    if (formConfig?.customValidationErrors) {
+      return formConfig.customValidationErrors(formData);
+    }
+    return [];
+  };
 
   getPreSubmit = formConfig => ({
     required: false,
@@ -83,31 +93,16 @@ class SubmitController extends Component {
       this.props.setSubmission('hasAttemptedSubmit', true);
       this.props.setSubmission('timestamp', now);
       // <PreSubmitSection/> is displaying an error for this case
-      // focus on va-privacy-agreement[show-error],
-      // va-statement-of-truth with [input-error] or [checkbox-error], or
-      // any web component with an [error] (e.g., custom statement of truth in
-      // form 20-10207)
+      // Use scrollToFirstError for consistent focus handling across all error types
+      // Add setTimeout to prevent focus conflicts on button clicks
       setTimeout(() => {
-        const error = $(
-          [
-            'va-privacy-agreement[show-error]:not([show-error=""])',
-            'va-statement-of-truth[input-error]:not([input-error=""])',
-            'va-statement-of-truth[checkbox-error]:not([checkbox-error=""])',
-            '[error]:not([error=""])',
-          ].join(','),
-        );
-        if (
-          error?.tagName.startsWith('VA-') &&
-          formConfig?.formOptions?.focusOnAlertRole
-        ) {
-          const webComponent = $('[error]:not([error=""])', error?.shadowRoot);
-          focusElement('[role="alert"]', {}, webComponent?.shadowRoot);
-        } else {
-          focusElement(error);
-        }
-      });
+        scrollToFirstError();
+      }, 0);
       return;
     }
+
+    // Custom validation: Call form-specific custom validation if configured
+    const customErrors = this.getCustomValidationErrors(form.data);
 
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
@@ -119,14 +114,18 @@ class SubmitController extends Component {
       timestamp: now,
     };
 
-    if (!isValid) {
+    // Combine custom errors with form validation errors
+    const allErrors = [...customErrors, ...errors];
+    const hasErrors = !isValid || customErrors.length > 0;
+
+    if (hasErrors) {
       const processedErrors = reduceErrors(
-        errors,
+        allErrors,
         pageList,
         formConfig.reviewErrors,
       );
       this.props.setFormErrors({
-        rawErrors: errors,
+        rawErrors: allErrors,
         errors: processedErrors,
       });
       recordEvent({
@@ -135,7 +134,7 @@ class SubmitController extends Component {
       // Sentry
       Sentry.setUser({ id: user.profile.accountUuid });
       Sentry.withScope(scope => {
-        scope.setExtra('rawErrors', errors);
+        scope.setExtra('rawErrors', allErrors);
         scope.setExtra('errors', processedErrors);
         scope.setExtra('prefix', trackingPrefix);
         scope.setExtra('inProgressFormId', inProgressFormId);
@@ -150,7 +149,7 @@ class SubmitController extends Component {
           'Validation issue not displayed',
           {
             errors: processedErrors,
-            rawErrors: errors,
+            rawErrors: allErrors,
             inProgressFormId,
             userId: user.profile.accountUuid,
           },
@@ -160,7 +159,7 @@ class SubmitController extends Component {
 
       if (isLoggedIn && formConfig.prefillEnabled) {
         // Update save-in-progress with failed submit
-        submissionData.errors = errors;
+        submissionData.errors = allErrors;
         this.props.autoSaveForm(
           formId,
           data,

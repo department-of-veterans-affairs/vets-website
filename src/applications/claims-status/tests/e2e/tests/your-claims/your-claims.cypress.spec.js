@@ -1,55 +1,39 @@
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
+import {
+  verifyNeedHelp,
+  verifyTitleBreadcrumbsHeading,
+} from '../../support/helpers/assertions';
+
 describe('Your claims', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [],
-      },
-    });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
-    cy.intercept('GET', '/v0/benefits_claims', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/appeals', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: {},
-    });
+    mockFeatureToggles();
+    mockClaimsEndpoint();
+    mockAppealsEndpoint();
+    mockStemEndpoint();
+
     cy.login();
     cy.visit('/track-claims');
     cy.injectAxe();
   });
 
-  it("should have document title (shown in browser's title bar and a page's tab)", () => {
-    cy.title().should(
-      'eq',
-      'Check your claim, decision review, or appeal status | Veterans Affairs',
-    );
-
-    cy.axeCheck();
-  });
-
-  it('should display breadcrumb', () => {
-    cy.get('va-breadcrumbs')
-      .shadow()
-      .within(() => {
-        cy.findByRole('link', {
-          name: 'VA.gov home',
-        }).should('have.attr', 'href', '/');
-
-        // TODO: Create issue for: Each breadcrumb segment should use the full page title
-        cy.findByRole('link', {
-          name: 'Check your claims and appeals',
-        }).should('have.attr', 'href', '#content');
-      });
-
-    cy.axeCheck();
-  });
-
-  it('should display the page heading', () => {
-    cy.findByRole('heading', {
-      name: 'Check your claim, decision review, or appeal status',
-    }).should('have.focus');
+  it('should have correct title, breadcrumbs, and heading', () => {
+    verifyTitleBreadcrumbsHeading({
+      title:
+        'Check your claim, decision review, or appeal status | Veterans Affairs',
+      secondBreadcrumb: {
+        name: 'Check your claims and appeals',
+        href: '#content',
+      },
+      heading: {
+        name: 'Check your claim, decision review, or appeal status',
+        level: 1,
+      },
+    });
 
     cy.axeCheck();
   });
@@ -91,7 +75,7 @@ describe('Your claims', () => {
     cy.get('va-additional-info')
       .shadow()
       .findByRole('button', {
-        name: 'Find out why we sometimes combine claims.',
+        name: 'Find out why we sometimes combine claims',
       });
 
     cy.findByText(
@@ -105,7 +89,7 @@ describe('Your claims', () => {
     cy.get('va-additional-info')
       .shadow()
       .findByRole('button', {
-        name: 'Find out why we sometimes combine claims.',
+        name: 'Find out why we sometimes combine claims',
       })
       .click();
 
@@ -117,7 +101,6 @@ describe('Your claims', () => {
   });
 
   it('should display the card list no claims message', () => {
-    // TODO: Create issue for: no claims message has alert styling
     cy.findByRole('heading', {
       name: 'You do not have any submitted claims',
     });
@@ -137,7 +120,7 @@ describe('Your claims', () => {
     }).should('have.attr', 'href', '/track-claims/your-claim-letters');
 
     cy.findByText(
-      'You can download your decision letters online. You can also get other letters related to your claims.',
+      'You can download your decision letters online. You can also get other letters related to your claims and appeals.',
     );
 
     cy.axeCheck();
@@ -196,13 +179,7 @@ describe('Your claims', () => {
   });
 
   it('should display the need help section', () => {
-    cy.get('va-need-help')
-      .shadow()
-      .findByRole('heading', {
-        name: 'Need help?',
-      });
-
-    cy.findByText('Call the VA benefits hotline at', { exact: false });
+    verifyNeedHelp();
 
     cy.axeCheck();
   });

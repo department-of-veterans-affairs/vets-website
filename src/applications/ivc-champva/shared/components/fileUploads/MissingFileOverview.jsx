@@ -381,7 +381,7 @@ export default function MissingFileOverview({
           ) : null}
           {requiredFilesStillMissing && showConsent ? (
             <>
-              <h3>Supporting documents acknowledgement</h3>
+              {titleUI('Supporting documents acknowledgement')['ui:title']}
               {requiredFilesStillMissing ? (
                 <VaCheckbox
                   onVaChange={onGroupChange}

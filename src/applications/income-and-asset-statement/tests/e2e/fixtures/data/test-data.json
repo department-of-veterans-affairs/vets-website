@@ -22,6 +22,7 @@
     "claimantSocialSecurityNumber": "321654987",
     "claimantType": "SPOUSE",
     "email": "test.user@example.com",
+    "claimantPhone": "555-867-5309",
     "view:isAddingUnassociatedIncomes": true,
     "unassociatedIncomes": [
       {

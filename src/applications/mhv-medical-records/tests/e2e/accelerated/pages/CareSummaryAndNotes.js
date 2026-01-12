@@ -44,6 +44,13 @@ class CareSummaryAndNotes {
     });
   };
 
+  checkInfoAlert = () => {
+    // Alert removed from Care Summaries page — assert it does not render
+    cy.get('body')
+      .find('[data-testid="cerner-facilities-info-alert"]')
+      .should('not.exist');
+  };
+
   checkTimeFrameDisplay = ({ fromDate, toDate }) => {
     const expectedText = `${fromDate} to ${toDate}`;
 

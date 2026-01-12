@@ -352,6 +352,14 @@ describe('getRecordType', () => {
     expect(getRecordType(pnNote)).to.equal(noteTypes.PHYSICIAN_PROCEDURE_NOTE);
     expect(getRecordType(crNote)).to.equal(noteTypes.CONSULT_RESULT);
   });
+
+  it('should handle records with missing type or coding without crashing', () => {
+    expect(() => getRecordType({})).to.not.throw();
+    expect(() => getRecordType({ type: {} })).to.not.throw();
+    expect(() => getRecordType({ type: { coding: undefined } })).to.not.throw();
+    expect(getRecordType({})).to.equal(noteTypes.OTHER);
+    expect(getRecordType({ type: {} })).to.equal(noteTypes.OTHER);
+  });
 });
 
 describe('getAttending', () => {
@@ -371,12 +379,29 @@ describe('getAttending', () => {
       'DICTATED BY: SMITH, ALICE    ATTENDING:          \nURGENCY: routine';
     expect(getAttending(summary)).to.be.null;
   });
+
+  it('should return null when noteSummary is not a string', () => {
+    expect(getAttending(null)).to.be.null;
+    expect(getAttending(undefined)).to.be.null;
+    expect(getAttending(12345)).to.be.null;
+  });
 });
 
 describe('getDateFromBody', () => {
   it('should return null if there is an invalid date', () => {
     const summary = '  DATE OF ADMISSION:  INVALID-DATE  ';
     expect(getDateFromBody(summary, 'DATE OF ADMISSION')).to.eq(null);
+  });
+
+  it('should return null when label is not found', () => {
+    const summary = '  SOME OTHER LABEL:  2024-01-01  ';
+    expect(getDateFromBody(summary, 'DATE OF ADMISSION')).to.eq(null);
+  });
+
+  it('should return null when inputs are not strings', () => {
+    expect(getDateFromBody(null, 'DATE OF ADMISSION')).to.eq(null);
+    expect(getDateFromBody('DATE OF ADMISSION: 2024-01-01', null)).to.eq(null);
+    expect(getDateFromBody(undefined, undefined)).to.eq(null);
   });
 });
 

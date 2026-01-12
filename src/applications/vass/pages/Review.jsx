@@ -1,47 +1,34 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom-v5-compat';
-
+import { useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import DateTime from '../components/DateTime';
-
-// TODO: replace with actual data
-const details = {
-  phoneNumber: '8008270611',
-  appointmentDateTime: new Date().toISOString(),
-  topic: 'Education',
-};
+import { usePostAppointmentMutation } from '../redux/api/vassApi';
+import {
+  selectSelectedTopics,
+  selectSelectedDate,
+} from '../redux/slices/formSlice';
 
 const Review = () => {
   const navigate = useNavigate();
-
-  const handleConfirmCall = () => {
-    navigate('/confirmation');
+  const [postAppointment, { isLoading }] = usePostAppointmentMutation();
+  const selectedTopics = useSelector(selectSelectedTopics);
+  const selectedDate = useSelector(selectSelectedDate);
+  const handleConfirmCall = async () => {
+    const res = await postAppointment({
+      topics: selectedTopics,
+      dtStartUtc: selectedDate,
+      dtEndUtc: selectedDate,
+    });
+    navigate(`/confirmation/${res.data.appointmentId}`);
   };
 
   return (
     <Wrapper
-      pageTitle="Review your VA Solid Start call details"
+      pageTitle="Review your VA Solid Start appointment details"
       testID="review-page"
       showBackLink
     >
-      <hr
-        aria-hidden="true"
-        className="vads-u-margin-top--2 vads-u-margin-bottom--1"
-      />
-      <p
-        className="vads-u-font-weight--bold vads-u-margin-y--0"
-        data-testid="solid-start-call-title"
-      >
-        VA Solid Start call
-      </p>
-      <p
-        className="vads-u-margin-top--0p5 vads-u-margin-bottom--1"
-        data-testid="solid-start-call-description"
-      >
-        Your representative will call you on the day and time you select.
-        They’ll call you from <va-telephone contact={details.phoneNumber} />.
-      </p>
-      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
         <p
           className="vads-u-font-weight--bold vads-u-margin--0"
@@ -57,7 +44,7 @@ const Review = () => {
           Edit
         </Link>
       </div>
-      <DateTime dateTime={details.appointmentDateTime} />
+      {selectedDate && <DateTime dateTime={selectedDate} />}
       <hr
         aria-hidden="true"
         className=" vads-u-margin-top--1 vads-u-margin-bottom--0p5"
@@ -81,16 +68,14 @@ const Review = () => {
         className="vads-u-margin-top--0p5 vads-u-margin-bottom--1"
         data-testid="topic-description"
       >
-        {details.topic}
+        {(selectedTopics || []).map(topic => topic?.topicName || '').join(', ')}
       </p>
-      <hr
-        aria-hidden="true"
-        className="vads-u-margin-top--0 vads-u-margin-bottom--1"
-      />
-      <div className="vads-u-margin-top--2">
+      <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
         <va-button
+          big
           onClick={handleConfirmCall}
-          text="Confirm call"
+          loading={isLoading}
+          text="Confirm appointment"
           data-testid="confirm-call-button"
           uswds
         />

@@ -4,12 +4,16 @@ import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import relationshipToVeteran from '../pages/relationshipToVeteran';
+import serviceBranch from '../pages/serviceBranch';
+import uploadFile from '../pages/upload';
+import supportingDocuments from '../pages/supportingDocuments';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { treatmentRecordsPages } from '../pages/treatmentRecords';
 import { employersPages } from '../pages/employers';
+import internationalContact from '../pages/internationalContact';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -79,6 +83,50 @@ const formConfig = {
           title: 'Phone and email address',
           uiSchema: phoneAndEmailAddress.uiSchema,
           schema: phoneAndEmailAddress.schema,
+        },
+      },
+    },
+    internationalContact: {
+      title: 'International Contact Information',
+      pages: {
+        internationalContact: {
+          path: 'international-contact',
+          title: 'International contact',
+          uiSchema: internationalContact.uiSchema,
+          schema: internationalContact.schema,
+        },
+      },
+    },
+    serviceBranchChapter: {
+      title: 'Service Branch',
+      pages: {
+        serviceBranch: {
+          path: 'service-branch',
+          title: 'Service Branch',
+          uiSchema: serviceBranch.uiSchema,
+          schema: serviceBranch.schema,
+        },
+      },
+    },
+    uploadFile: {
+      title: 'Upload File',
+      pages: {
+        uploadFile: {
+          path: 'upload-file',
+          title: 'Upload file',
+          uiSchema: uploadFile.uiSchema,
+          schema: uploadFile.schema,
+        },
+      },
+    },
+    supportingDocuments: {
+      title: 'Additional information',
+      pages: {
+        supportingDocuments: {
+          path: 'supporting-documents',
+          title: 'Supporting documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
         },
       },
     },

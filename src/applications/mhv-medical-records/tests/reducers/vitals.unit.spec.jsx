@@ -114,6 +114,14 @@ describe('extractLocation function', () => {
 });
 
 describe('vitalReducer', () => {
+  it('handles GET when vitalsList is undefined without throwing', () => {
+    const action = { type: Actions.Vitals.GET, vitalType: 'WEIGHT' };
+    // Previously this would throw TypeError: cannot read properties of undefined (filter)
+    const newState = vitalReducer({}, action);
+    expect(newState.vitalDetails).to.be.an('array');
+    expect(newState.vitalDetails.length).to.equal(0);
+  });
+
   it('creates a list', () => {
     const response = {
       entry: [
@@ -167,6 +175,25 @@ describe('vitalReducer', () => {
     );
     expect(newState.vitalsList.length).to.equal(2);
     expect(newState.updatedList.length).to.equal(0);
+  });
+
+  it('handles entries with missing code.coding without crashing', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1, code: {} } }, // missing coding array
+        { resource: { id: 2 } }, // missing code entirely
+        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } }, // valid
+      ],
+      resourceType: 'Observation',
+    };
+    expect(() => {
+      vitalReducer({}, { type: Actions.Vitals.GET_LIST, response });
+    }).to.not.throw();
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList.length).to.equal(1);
   });
 
   it('moves updatedList into vitalsList on request', () => {

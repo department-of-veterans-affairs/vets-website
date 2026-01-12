@@ -20,16 +20,16 @@ function setStorageItem(key, value, json = false) {
 }
 
 function getStorageItem(key, json = false) {
+  const raw = sessionStorage.getItem(key);
+  if (raw === null) return null;
   if (json) {
-    const raw = sessionStorage.getItem(key);
-    if (raw === null) return null;
     try {
       return JSON.parse(raw);
     } catch (e) {
       return null;
     }
   }
-  return sessionStorage.getItem(key);
+  return raw;
 }
 
 export function getEventSkillValue() {

@@ -8,7 +8,7 @@ import Autocomplete from '../../../components/AutocompleteNew';
 import { NULL_CONDITION_STRING } from '../../../constants';
 import { conditionOptions } from '../../../content/conditionOptions';
 import { NewConditionDescription } from '../../../content/conditions';
-import { arrayOptions, createAddAndEditTitles } from './utils';
+import { arrayOptions, createAddAndEditTitles, isNewCondition } from './utils';
 
 const ERR_TOO_LONG = 'This needs to be less than 256 characters';
 const ERR_DUP_NEW_CONDITION =
@@ -57,10 +57,14 @@ const validateCondition = (
   _uiSchema,
   index,
 ) => {
-  validatePresenceAndLength(errors, fieldData);
-
   const newDisabilities = formData?.newDisabilities ?? [];
   const ratedDisabilities = formData?.ratedDisabilities ?? [];
+
+  if (!isNewCondition(formData, index)) {
+    return;
+  }
+
+  validatePresenceAndLength(errors, fieldData);
 
   if (
     hasDuplicateEntry(
@@ -104,6 +108,7 @@ const newConditionPage = {
       ),
       'ui:errorMessages': {
         required: ERR_MISSING_CONDITION,
+        minLength: ERR_MISSING_CONDITION,
       },
       'ui:validations': [validateCondition],
       'ui:options': {
@@ -118,6 +123,8 @@ const newConditionPage = {
     properties: {
       condition: {
         type: 'string',
+        minLength: 1,
+        maxLength: 255,
       },
     },
   },

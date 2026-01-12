@@ -9,6 +9,7 @@ import {
 } from '../../actions/draftDetails';
 import saveDraftResponse from '../e2e/fixtures/draftsResponse/drafts-single-message-response.json';
 import { Actions } from '../../util/actionTypes';
+import { Alerts } from '../../util/constants';
 
 describe('draftDetails actions', () => {
   const middlewares = [thunk];
@@ -103,9 +104,50 @@ describe('draftDetails actions', () => {
           type: Actions.Draft.SAVE_FAILED,
           response: mockResponse.errors[0],
         });
+        // Verify alert is dispatched with error title
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'error',
+            header: '',
+            content: 'Error',
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
+        });
         // For error case, resetRecentRecipient should NOT be called
         expect(actions).to.not.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,
+        });
+      });
+  });
+
+  it('should show fallback alert message when error has no title', async () => {
+    const mockResponse = { errors: [{}] };
+    mockApiRequest(mockResponse);
+    const store = mockStore({ sm: {} });
+    await store
+      .dispatch(saveDraft(requestMessageData, 'manual', messageId))
+      .then(() => {
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
+          type: Actions.Draft.SAVE_FAILED,
+          response: mockResponse.errors[0],
+        });
+        // Verify alert is dispatched with fallback message
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'error',
+            header: '',
+            content: Alerts.Message.GET_MESSAGE_ERROR,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
         });
       });
   });
@@ -284,6 +326,18 @@ describe('draftDetails actions', () => {
           title: undefined,
           response: undefined,
         },
+      });
+    });
+  });
+
+  it('should dispatch clearPrescription action on successful deleteDraft', async () => {
+    mockApiRequest({ method: 'DELETE', ok: true, status: 204 });
+    const store = mockStore({ sm: {} });
+    await store.dispatch(deleteDraft('1234')).then(() => {
+      const actions = store.getActions();
+
+      expect(actions).to.deep.include({
+        type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
       });
     });
   });

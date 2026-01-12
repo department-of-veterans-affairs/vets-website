@@ -47,8 +47,8 @@ const routes = [
     path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
   },
   {
-    name: PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE,
-    path: PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE,
+    name: PROFILE_PATH_NAMES.MESSAGES_SIGNATURE,
+    path: PROFILE_PATHS.MESSAGES_SIGNATURE,
   },
   {
     name: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
@@ -117,6 +117,7 @@ describe('Profile Breadcrumbs', () => {
           representativeStatusEnableV2Features: true,
           profile2Enabled: true,
           profileHealthCareSettingsPage: true,
+          profileHideHealthCareContacts: false,
         }),
       ).as('featureToggles');
       cy.visit(path);

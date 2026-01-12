@@ -9,7 +9,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   const MAX_ROWS = 10;
 
   function paginate(array, pageSize, pageNumber) {
-    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+    return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
   }
 
   function getPaginationText(
@@ -40,13 +40,13 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     setPageFocus(`va-table`);
   }
 
-  const numPages = Math.ceil(charges.length / MAX_ROWS);
+  const numPages = Math.ceil(charges?.length / MAX_ROWS);
 
   const getStatementDateRange = () => {
     const pageText = getPaginationText(
       currentPage,
       MAX_ROWS,
-      charges.length,
+      charges?.length,
       'charges',
     );
 
@@ -54,7 +54,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
       !selectedCopay?.statementStartDate ||
       !selectedCopay?.statementEndDate
     ) {
-      if (charges.length > MAX_ROWS) {
+      if (charges?.length > MAX_ROWS) {
         return `This statement shows your current charges. ${pageText}.`;
       }
       return 'This statement shows your current charges.';
@@ -63,7 +63,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     const startDate = formatDate(selectedCopay.statementStartDate);
     const endDate = formatDate(selectedCopay.statementEndDate);
 
-    if (charges.length > MAX_ROWS) {
+    if (charges?.length > MAX_ROWS) {
       return `This statement shows charges you received between ${startDate} and ${endDate}. ${pageText}.`;
     }
     return `This statement shows charges you received between ${startDate} and ${endDate}.`;
@@ -74,7 +74,10 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
         <strong>{charge.pDTransDescOutput.replace(/&nbsp;/g, ' ')}</strong>
       </div>
       {charge.provider && (
-        <div className="vads-u-color--gray-medium vads-u-font-size--sm">
+        <div
+          className="vads-u-color--gray-medium vads-u-font-size--sm"
+          data-testid="provider-info"
+        >
           Provider: {charge.provider}
         </div>
       )}
@@ -148,16 +151,22 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             ?.filter(charge => !charge.pDTransDescOutput.startsWith('&nbsp;'))
             .map((charge, index) => (
               <va-table-row key={`${charge.pDRefNo || index}`}>
-                <span>{getDate(charge)}</span>
-                <span>{renderDescription(charge)}</span>
-                <span>{getReference(charge)}</span>
-                <span>{formatCurrency(charge.pDTransAmt)}</span>
+                <span data-testId="statement-date">{getDate(charge)}</span>
+                <span data-testId="statement-description">
+                  {renderDescription(charge)}
+                </span>
+                <span data-testId="statement-reference">
+                  {getReference(charge)}
+                </span>
+                <span data-testId="statement-transaction-amount">
+                  {formatCurrency(charge.pDTransAmt)}
+                </span>
               </va-table-row>
             ))}
         </va-table>
       </div>
 
-      {charges.length > MAX_ROWS ? (
+      {charges?.length > MAX_ROWS ? (
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}

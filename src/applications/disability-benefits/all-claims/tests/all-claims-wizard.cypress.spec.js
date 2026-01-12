@@ -1,4 +1,4 @@
-import { daysFromToday } from './utils/dates/dateHelper';
+import { daysFromToday } from '../utils/dates/formatting';
 
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import {

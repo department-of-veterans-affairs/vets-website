@@ -1,13 +1,15 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
+    ...titleUI('Previous applications'),
     hasAlreadyFiled: yesNoUI({
-      title: 'Survivors benefits application',
+      title: 'Have you filled out either of these applications?',
       description: (
         <>
           <p>
@@ -24,10 +26,10 @@ export default {
               (VA Form 21P-535)
             </li>
           </ul>
-          <p>Have you filled out either of these applications?</p>
         </>
       ),
-      labelHeaderLevel: '3',
+      messageAriaDescribedby:
+        "If you've filled out either of these applications, you don't need to fill out this form: Application for DIC, Survivors Pension, and/or Accrued Benefits (VA Form 534EZ), Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21P-535)",
     }),
   },
   schema: {

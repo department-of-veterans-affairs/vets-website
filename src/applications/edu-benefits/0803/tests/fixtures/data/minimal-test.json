@@ -1,0 +1,24 @@
+{
+  "data": {
+    "hasPreviouslyApplied": true,
+    "vaBenefitProgram": "chapter33",
+    "mailingAddress": {
+      "country": "USA",
+      "street": "The Street",
+      "city": "Tulsa",
+      "state": "OK",
+      "postalCode": "12345"
+    },
+    "testName": "Philosophy",
+    "testDate": "2020-01-01",
+    "organizationName": "Acme Inc",
+    "organizationAddress": {
+      "street": "The Avenue",
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "54321"
+    },
+    "testCost": 123.0,
+    "remarks": "Lorem Ipsum"
+  }
+}
