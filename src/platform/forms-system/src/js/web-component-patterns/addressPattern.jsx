@@ -149,7 +149,7 @@ const CAN_STATE_NAMES = constants.states.CAN.map(state => state.label);
 const MEX_STATE_VALUES = constants.states.MEX.map(state => state.value);
 const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
 
-const schemaCrossXRef = {
+const DEFAULT_KEYS = {
   isMilitary: 'isMilitary',
   'view:militaryBaseDescription': 'view:militaryBaseDescription',
   country: 'country',
@@ -160,6 +160,24 @@ const schemaCrossXRef = {
   state: 'state',
   postalCode: 'postalCode',
 };
+
+const MAPPABLE_KEYS = [
+  'country',
+  'city',
+  'state',
+  'street',
+  'street2',
+  'street3',
+  'postalCode',
+  'isMilitary',
+];
+
+const MAPPABLE_LABELS = [
+  ...MAPPABLE_KEYS,
+  'militaryCheckbox',
+  'street2Military',
+  'street3Military',
+];
 
 /**
  * CONSTANTS:
@@ -220,38 +238,18 @@ export function getFieldValue(fieldName, addressData, keys = {}) {
   return addressData?.[mappedKey];
 }
 
-const MAPPABLE_FIELDS = [
-  'street',
-  'street2',
-  'street3',
-  'postalCode',
-  'isMilitary',
-];
-const UNSAFE_FIELDS = ['country', 'city', 'state'];
+function validateKeys(keys = [], methodName = '', fields = MAPPABLE_KEYS) {
+  const invalidKeys = keys.filter(field => !fields.includes(field));
 
-/**
- * Validates mappable fields and provides warnings for unsafe mappings
- */
-function warnAboutUnsafeMappings(keys = {}) {
-  const attemptedMappings = Object.keys(keys);
-  const unsafeMappings = attemptedMappings.filter(field =>
-    UNSAFE_FIELDS.includes(field),
-  );
-
-  if (unsafeMappings.length > 0) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      `WARNING: Mapping fields [${unsafeMappings.join(
+  if (invalidKeys.length > 0) {
+    throw new Error(
+      `${
+        methodName ? `${methodName}: ` : ''
+      }Invalid key mappings: ${invalidKeys.join(
         ', ',
-      )}] may cause runtime errors. ` +
-        `These fields have dynamic schema functions that expect original field names. ` +
-        `Safe fields to map: [${MAPPABLE_FIELDS.join(', ')}]. ` +
-        `See JSDoc for addressUI for details on required code changes.`,
+      )}. Valid mappable fields are: ${fields.join(', ')}.`,
     );
   }
-
-  // Allow but warn - for development flexibility
-  return true;
 }
 
 /**
@@ -285,7 +283,6 @@ function detectKeyCollisions(schema, keys = {}) {
  * Applies field key mapping to a schema object
  * @param {Object} schema - The original schema object
  * @param {Object} keys - Mapping of standard keys to custom keys
- * @param {Array} omit - Fields to omit from the final schema
  * @returns {Object} - Mapped schema object with transformed keys and omitted fields
  *
  * @throws {Error} If key mapping would cause field collisions (e.g., mapping 'street' to 'addressLine1'
@@ -300,26 +297,13 @@ function detectKeyCollisions(schema, keys = {}) {
  * );
  * // Returns: { addressLine1: {}, zipCode: {} }
  */
-export function applyKeyMapping(schema, keys = {}, omit = []) {
-  if (Object.keys(keys).length === 0) {
-    // When no key mappings are provided, still honor the omit list
-    if (!omit || omit.length === 0) {
-      return schema;
-    }
-    return utilsOmit(schema, omit);
-  }
-  // Validate that only safe fields are being mapped by logging warnings
-  warnAboutUnsafeMappings(keys);
+export function applyKeyMapping(schema, keys = {}) {
+  validateKeys(Object.keys(keys), 'keys', MAPPABLE_KEYS);
   detectKeyCollisions(schema, keys);
 
   const mappedSchema = {};
   Object.entries(schema).forEach(([standardKey, fieldConfig]) => {
     const mappedKey = keys[standardKey] || standardKey;
-
-    if (omit.includes(standardKey) || omit.includes(mappedKey)) {
-      return; // Skip omitted fields
-    }
-
     mappedSchema[mappedKey] = fieldConfig;
   });
 
@@ -348,7 +332,7 @@ export const updateFormDataAddress = (
   keys = {},
 ) => {
   let updatedData = formData;
-  const schemaKeys = { ...schemaCrossXRef, ...keys };
+  const schemaKeys = { ...DEFAULT_KEYS, ...keys };
 
   /*
    * formData and oldFormData are not guaranteed to have the same shape; formData
@@ -415,48 +399,41 @@ export const updateFormDataAddress = (
  *       street2: (formData) => true
  *     }
  *   })
+ *   remappedAddress: addressUI({
+ *     keys: {
+ *      street: 'addressLine1',
+ *      street2: 'addressLine2',
+ *     }
+ *   })
  * }
  * ```
  * @param {Object} [options]
- * @param {Object} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
- *
- * **IMPORTANT**: Only street, street2, street3, postalCode, and isMilitary should be mapped without code modifications.
- *
- * Other fields (country, city, state) have dynamic schema functions (updateSchema/replaceSchema)
- * that access form data using hardcoded field names. Mapping these fields will cause runtime errors because:
- * - State field's replaceSchema accesses `data.country`
- *
- * To map other fields, you must:
- * 1. Update all dynamic schema functions to use getFieldValue() helper
- * 2. Pass keys to validation functions
- * 3. Update error message references to use mapped field names
- *
- * See validateMilitaryBaseZipCode for an example of mapping-aware code.
- *
- * @param {Object} [options.labels]
+ * @param {Object} [options.keys] To remap the default keys to your own schema's keys
+ * @param {string} [options.keys.isMilitary]
+ * @param {string} [options.keys.country]
+ * @param {string} [options.keys.street]
+ * @param {string} [options.keys.street2]
+ * @param {string} [options.keys.street3]
+ * @param {string} [options.keys.city]
+ * @param {string} [options.keys.state]
+ * @param {string} [options.keys.postalCode]
+ * @param {Object} [options.labels] To customize field labels
  * @param {string} [options.labels.militaryCheckbox]
+ * @param {string} [options.labels.country]
  * @param {string} [options.labels.street]
  * @param {string} [options.labels.street2]
  * @param {string} [options.labels.street2Military]
  * @param {string} [options.labels.street3]
  * @param {string} [options.labels.street3Military]
+ * @param {string} [options.labels.city]
+ * @param {string} [options.labels.state]
+ * @param {string} [options.labels.postalCode]
  * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
  * you will need to include in your `submitTransformer` the `allowPartialAddress` option
  * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
-  // Centralized default keys
-  const DEFAULT_KEYS = {
-    country: 'country',
-    street: 'street',
-    street2: 'street2',
-    street3: 'street3',
-    city: 'city',
-    state: 'state',
-    postalCode: 'postalCode',
-    isMilitary: 'isMilitary',
-  };
   const keys = { ...DEFAULT_KEYS, ...options.keys };
 
   let cityMaxLength = 100;
@@ -466,6 +443,19 @@ export function addressUI(options = {}) {
   let customRequired = key => options.required?.[key];
   if (options?.required === false) {
     customRequired = () => () => false;
+  }
+
+  if (options?.omit) {
+    validateKeys(options.omit, 'omit', MAPPABLE_KEYS);
+  }
+
+  if (options?.labels) {
+    validateKeys(Object.keys(options.labels), 'labels', MAPPABLE_LABELS);
+  }
+
+  if (options?.keys) {
+    validateKeys(Object.keys(options.keys), 'keys', MAPPABLE_KEYS);
+    detectKeyCollisions(DEFAULT_KEYS, options.keys);
   }
 
   /** @type {UISchemaOptions} */
@@ -479,10 +469,11 @@ export function addressUI(options = {}) {
 
   function validateMilitaryBaseZipCode(errors, addr, mappedKeys = {}) {
     const militaryKey = mappedKeys.isMilitary;
+    const stateKey = mappedKeys.state;
 
-    if (!(addr[militaryKey] && addr.state)) return;
+    if (!(addr[militaryKey] && addr[stateKey])) return;
 
-    if (addr[militaryKey] && MILITARY_STATE_VALUES.includes(addr.state)) {
+    if (addr[militaryKey] && MILITARY_STATE_VALUES.includes(addr[stateKey])) {
       const postalCode = getFieldValue('postalCode', addr, mappedKeys);
       const postalCodeKey = mappedKeys.postalCode;
 
@@ -513,7 +504,7 @@ export function addressUI(options = {}) {
   }
 
   if (!omit('isMilitary')) {
-    uiSchema.isMilitary = {
+    uiSchema[keys.isMilitary] = {
       'ui:required': requiredFunc('isMilitary', false),
       'ui:title':
         options.labels?.militaryCheckbox ??
@@ -532,13 +523,13 @@ export function addressUI(options = {}) {
   }
 
   if (!omit('isMilitary') && !omit('view:militaryBaseDescription')) {
-    uiSchema['view:militaryBaseDescription'] = {
+    uiSchema[keys['view:militaryBaseDescription']] = {
       'ui:description': MilitaryBaseInfo,
     };
   }
 
   if (!omit('country')) {
-    uiSchema.country = {
+    uiSchema[keys.country] = {
       'ui:required': (formData, index, fullData, path) => {
         if (customRequired('country')) {
           return customRequired('country')(formData, index, fullData, path);
@@ -571,6 +562,7 @@ export function addressUI(options = {}) {
           /* Set isMilitary to either `true` or `undefined` (not `false`) so that
           `hideEmptyValueInReview` works as expected. See docs: https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-about-schema-and-uischema#VAFormsLibrary-AboutschemaanduiSchema-ui:options */
           const militaryKey = keys.isMilitary;
+          const countryKey = keys.country;
           addressFormData[militaryKey] =
             addressFormData[militaryKey] || undefined;
           const isMilitary = addressFormData[militaryKey];
@@ -578,7 +570,7 @@ export function addressUI(options = {}) {
           // instead of disabled via DST guidance
           if (isMilitary) {
             countryUI['ui:options'].inert = true;
-            addressFormData.country = USA.value;
+            addressFormData[countryKey] = USA.value;
             return {
               enum: [USA.value],
               enumNames: [USA.label],
@@ -597,7 +589,7 @@ export function addressUI(options = {}) {
   }
 
   if (!omit('street')) {
-    uiSchema.street = {
+    uiSchema[keys.street] = {
       'ui:required': requiredFunc('street', true),
       'ui:title': options.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
@@ -620,7 +612,7 @@ export function addressUI(options = {}) {
   }
 
   if (!omit('street2')) {
-    uiSchema.street2 = {
+    uiSchema[keys.street2] = {
       'ui:autocomplete': 'address-line2',
       'ui:required': requiredFunc('street2', false),
       'ui:webComponentField': VaTextInputField,
@@ -649,7 +641,7 @@ export function addressUI(options = {}) {
   }
 
   if (!omit('street3')) {
-    uiSchema.street3 = {
+    uiSchema[keys.street3] = {
       'ui:autocomplete': 'address-line3',
       'ui:required': requiredFunc('street3', false),
       'ui:options': {
@@ -678,7 +670,7 @@ export function addressUI(options = {}) {
   }
 
   if (!omit('city')) {
-    uiSchema.city = {
+    uiSchema[keys.city] = {
       'ui:required': requiredFunc('city', true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': CITY_ERROR_MESSAGES_DEFAULT,
@@ -727,7 +719,7 @@ export function addressUI(options = {}) {
   }
 
   if (!omit('state')) {
-    uiSchema.state = {
+    uiSchema[keys.state] = {
       'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index, fullData, path) => {
         if (customRequired('state')) {
@@ -835,7 +827,7 @@ export function addressUI(options = {}) {
   }
 
   if (!omit('postalCode')) {
-    uiSchema.postalCode = {
+    uiSchema[keys.postalCode] = {
       'ui:required': requiredFunc('postalCode', true),
       'ui:title': options.labels?.postalCode ?? 'Postal code',
       'ui:autocomplete': 'postal-code',
@@ -886,7 +878,7 @@ export function addressUI(options = {}) {
       },
     };
   }
-  return applyKeyMapping(uiSchema, keys, options.omit || []);
+  return uiSchema;
 }
 
 /**
@@ -908,23 +900,17 @@ export function addressUI(options = {}) {
  */
 export const addressSchema = (options = {}) => {
   const { keys = {}, omit = [] } = options;
-  let schema = commonDefinitions.profileAddress;
+  const schema = commonDefinitions.profileAddress;
   let { properties } = schema;
-  // If no key mapping is needed, use the existing omit logic and return early
-  if (Object.keys(keys).length === 0) {
-    if (omit.length > 0) {
-      schema = {
-        ...schema,
-        properties: {
-          ...utilsOmit(omit, schema.properties),
-        },
-      };
-    }
-    return schema;
+
+  if (omit.length > 0) {
+    validateKeys(omit, 'omit', MAPPABLE_KEYS);
+    properties = utilsOmit(omit, properties);
   }
 
-  // Apply mapping to properties
-  properties = applyKeyMapping(properties, keys, omit);
+  if (Object.keys(keys).length > 0) {
+    properties = applyKeyMapping(properties, keys);
+  }
 
   return {
     ...schema,
