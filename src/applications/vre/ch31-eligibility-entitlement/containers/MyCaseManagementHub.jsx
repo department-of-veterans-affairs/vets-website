@@ -4,7 +4,6 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { fetchCh31CaseStatusDetails } from '../actions/ch31-my-eligibility-and-benefits';
 import HubCardList from '../components/HubCardList';
-// import ApplicationDiscontinuedAlert from '../components/ApplicationDiscontinuedAlert';
 import NeedHelp from '../components/NeedHelp';
 import AppointmentScheduledAlert from '../components/AppointmentScheduledAlert';
 import CaseProgressDescription from '../components/CaseProgressDescription';
