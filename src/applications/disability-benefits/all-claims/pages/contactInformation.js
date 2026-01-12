@@ -24,6 +24,8 @@ import {
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
   MILITARY_CITIES,
+  STATE_LABELS,
+  STATE_VALUES,
 } from '../constants';
 
 import { validateZIP } from '../validations';
@@ -35,13 +37,6 @@ const COUNTRY_VALUES = constants.countries.map(country => country.value);
 const COUNTRY_NAMES = constants.countries.map(
   country => (country.value === 'USA' ? 'USA' : country.label),
 );
-
-const filteredStates = constants.states.USA.filter(
-  state => !MILITARY_STATE_VALUES.includes(state.value),
-);
-
-const FILTERED_STATE_VALUES = filteredStates.map(state => state.value);
-const FILTERED_STATE_LABELS = filteredStates.map(state => state.label);
 
 // Helper function to determine if zipCode should be shown/required
 const shouldShowZipCode = formData => {
@@ -119,7 +114,7 @@ export const uiSchema = {
       'ui:autocomplete': 'country',
       'ui:webComponentField': VaSelectField,
       'ui:errorMessages': {
-        required: 'Select a country',
+        required: 'Please select a country',
       },
       'ui:required': formData => {
         const addressData = formData.mailingAddress || {};
@@ -156,7 +151,7 @@ export const uiSchema = {
       'ui:autocomplete': 'address-level1',
       'ui:webComponentField': VaSelectField,
       'ui:errorMessages': {
-        required: 'Select a state',
+        required: 'Please select a state',
       },
       'ui:options': {
         hideIf: formData =>
@@ -173,7 +168,7 @@ export const uiSchema = {
           ) {
             ui['ui:webComponentField'] = VaRadioField;
             ui['ui:errorMessages'] = {
-              enum: 'Select a military state',
+              enum: 'Please select a military state',
             };
             return {
               enum: MILITARY_STATE_VALUES,
@@ -182,11 +177,11 @@ export const uiSchema = {
           }
           ui['ui:webComponentField'] = VaSelectField;
           ui['ui:errorMessages'] = {
-            required: 'Select a state',
+            required: 'Please select a state',
           };
           return {
-            enum: FILTERED_STATE_VALUES,
-            enumNames: FILTERED_STATE_LABELS,
+            enum: STATE_VALUES,
+            enumNames: STATE_LABELS,
           };
         },
       },
