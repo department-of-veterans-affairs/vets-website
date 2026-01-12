@@ -162,8 +162,6 @@ describe('Facility VA search', () => {
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-
-    // Wait for search to complete and focus to be set
     cy.wait('@searchFacilities');
 
     cy.focused().contains(
@@ -228,7 +226,6 @@ describe('Facility VA search', () => {
     cy.get('#street-city-state-zip').type('27606{enter}');
 
     cy.get('#street-city-state-zip').should('have.value', '27606');
-    // If Use My Location is triggered and fails, it will trigger a modal alert:
     cy.get('#va-modal-title').should('not.exist');
   });
 

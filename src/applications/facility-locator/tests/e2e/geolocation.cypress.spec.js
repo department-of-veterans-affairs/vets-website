@@ -52,10 +52,10 @@ for (const featureSet of featureSetsToTest) {
           .get(locationInputField)
           .contains('Use my location')
           .then(() => {
-            cy.get('#street-city-state-zip').should(
-              'contain.value',
-              'Los Angeles',
-            );
+            cy.get('#street-city-state-zip').then(elem => {
+              const searchFieldValue = Cypress.$(elem).val();
+              expect(searchFieldValue).to.include('Los Angeles');
+            });
           }),
       );
     });
