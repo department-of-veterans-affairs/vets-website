@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { cleanup } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import reducer from '../../reducers';
@@ -33,6 +34,7 @@ describe('Medications Prescriptions container', () => {
   });
 
   afterEach(() => {
+    cleanup();
     if (sandbox) {
       sandbox.restore();
     }
@@ -54,13 +56,13 @@ describe('Medications Prescriptions container', () => {
     state = initialState,
     url = '/',
     isCernerPilot = false,
-    // isV2StatusMapping = false,
+    isV2StatusMapping = false,
   ) => {
     const fullState = {
       ...state,
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
-        // [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
         ...state.featureToggles,
       },
     };
@@ -82,10 +84,21 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should display loading message when loading prescriptions', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, isLoading: true, isFetching: true });
+    stubPrescriptionsListApi({
+      sandbox,
+      isLoading: true,
+      isFetching: true,
+      data: undefined,
+    });
     const screen = setup();
-    waitFor(() => {
-      expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading your medications...')).to.exist;
+    await waitFor(() => {
+      const indicator = screen.getByTestId('loading-indicator');
+      expect(indicator).to.exist;
+      expect(indicator.getAttribute('message')).to.equal(
+        'Loading your medications...',
+      );
     });
   });
 
@@ -187,7 +200,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
@@ -204,7 +217,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
         .exist;
     });
@@ -220,7 +233,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
@@ -324,88 +337,88 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  // describe('SHIPPED filter functionality', () => {
-  //   const FLAG_COMBINATIONS = [
-  //     {
-  //       isCernerPilot: false,
-  //       isV2StatusMapping: false,
-  //       desc: 'both flags disabled',
-  //     },
-  //     {
-  //       isCernerPilot: true,
-  //       isV2StatusMapping: false,
-  //       desc: 'only cernerPilot enabled',
-  //     },
-  //     {
-  //       isCernerPilot: false,
-  //       isV2StatusMapping: true,
-  //       desc: 'only v2StatusMapping enabled',
-  //     },
-  //     {
-  //       isCernerPilot: true,
-  //       isV2StatusMapping: true,
-  //       desc: 'both flags enabled',
-  //     },
-  //   ];
+  describe('SHIPPED filter functionality', () => {
+    const FLAG_COMBINATIONS = [
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: false,
+        desc: 'both flags disabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: false,
+        desc: 'only cernerPilot enabled',
+      },
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: true,
+        desc: 'only v2StatusMapping enabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: true,
+        desc: 'both flags enabled',
+      },
+    ];
 
-  //   FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, desc }) => {
-  //     it(`should render without error when ${desc}`, async () => {
-  //       const screen = setup(
-  //         initialState,
-  //         '/',
-  //         isCernerPilot,
-  //         isV2StatusMapping,
-  //       );
+    FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, desc }) => {
+      it(`should render without error when ${desc}`, async () => {
+        const screen = setup(
+          initialState,
+          '/',
+          isCernerPilot,
+          isV2StatusMapping,
+        );
 
-  //       await waitFor(() => {
-  //         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
-  //       });
+        await waitFor(() => {
+          expect(screen.queryByTestId('loading-indicator')).not.to.exist;
+        });
 
-  //       expect(screen.getByText('Medications')).to.exist;
-  //     });
-  //   });
+        expect(screen.getByText('Medications')).to.exist;
+      });
+    });
 
-  //   it('should render without error when SHIPPED filter is applied with BOTH CernerPilot and  V2StatusMapping flags disabled', async () => {
-  //     const stateWithShippedFilter = {
-  //       ...initialState,
-  //       rx: {
-  //         ...initialState.rx,
-  //         preferences: {
-  //           ...initialState.rx.preferences,
-  //           filterOption: 'SHIPPED',
-  //         },
-  //       },
-  //     };
+    it('should render without error when SHIPPED filter is applied with BOTH CernerPilot and V2StatusMapping flags disabled', async () => {
+      const stateWithShippedFilter = {
+        ...initialState,
+        rx: {
+          ...initialState.rx,
+          preferences: {
+            ...initialState.rx.preferences,
+            filterOption: 'SHIPPED',
+          },
+        },
+      };
 
-  //     const screen = setup(stateWithShippedFilter, '/', false, false);
+      const screen = setup(stateWithShippedFilter, '/', false, false);
 
-  //     await waitFor(() => {
-  //       expect(screen.queryByTestId('loading-indicator')).not.to.exist;
-  //     });
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).not.to.exist;
+      });
 
-  //     expect(screen.getByText('Medications')).to.exist;
-  //   });
+      expect(screen.getByText('Medications')).to.exist;
+    });
 
-  //   it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and  V2StatusMapping flags enabled', async () => {
-  //     const stateWithShippedFilter = {
-  //       ...initialState,
-  //       rx: {
-  //         ...initialState.rx,
-  //         preferences: {
-  //           ...initialState.rx.preferences,
-  //           filterOption: 'SHIPPED',
-  //         },
-  //       },
-  //     };
+    it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and V2StatusMapping flags enabled', async () => {
+      const stateWithShippedFilter = {
+        ...initialState,
+        rx: {
+          ...initialState.rx,
+          preferences: {
+            ...initialState.rx.preferences,
+            filterOption: 'SHIPPED',
+          },
+        },
+      };
 
-  //     const screen = setup(stateWithShippedFilter, '/', true, true);
+      const screen = setup(stateWithShippedFilter, '/', true, true);
 
-  //     await waitFor(() => {
-  //       expect(screen.queryByTestId('loading-indicator')).not.to.exist;
-  //     });
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).not.to.exist;
+      });
 
-  //     expect(screen.getByText('Medications')).to.exist;
-  //     expect(screen.getByTestId('med-list')).to.exist;
-  //   });
-  // });
+      expect(screen.getByText('Medications')).to.exist;
+      expect(screen.getByTestId('med-list')).to.exist;
+    });
+  });
 });

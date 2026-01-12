@@ -450,7 +450,7 @@ export const REFILL_STATUS = {
 
 export const DATETIME_FORMATS = {
   longMonthDate: 'MMMM d, yyyy',
-  filename: 'M-d-yyyy_hmmssa',
+  filename: 'M-d-yyyy_hmmssaaa',
 };
 
 export const MEDS_BY_MAIL_FACILITY_ID = '741MM';

@@ -1,10 +1,12 @@
 # 22-0803 Request for reimbursement of licensing or certification test fees
 
 ## URL
-http://localhost:3001/education/0993/&#39; /education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803
-https://staging.va.gov/education/0993/&#39; /education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803
+
+http://localhost:3001/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online
+https://staging.va.gov/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online
 
 ## Common commands
+
 ```bash
 # Development
 yarn watch --env entry=0803-edu-benefits

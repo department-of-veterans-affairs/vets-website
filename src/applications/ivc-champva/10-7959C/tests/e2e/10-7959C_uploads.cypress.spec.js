@@ -59,7 +59,7 @@ const testConfig = createTestConfig(
         });
       },
       // Address page has an extra radio for "is this a new address", so handle that
-      [ALL_PAGES.applicantAddressInfo.path]: ({ afterHook }) => {
+      [ALL_PAGES.beneficiaryAddress.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {

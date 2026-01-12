@@ -16,7 +16,7 @@ export default {
     ...descriptionUI(ProofOfMedicareAlert),
     'view:partADenialNotice': {
       ...titleWithNameUI(TITLE_TEXT),
-      applicantMedicarePartADenialNotice: yesNoUI({
+      'view:hasPartADenial': yesNoUI({
         title: INPUT_LABEL,
         hint: HINT_TEXT,
       }),
@@ -27,9 +27,9 @@ export default {
     properties: {
       'view:partADenialNotice': {
         type: 'object',
-        required: ['applicantMedicarePartADenialNotice'],
+        required: ['view:hasPartADenial'],
         properties: {
-          applicantMedicarePartADenialNotice: yesNoSchema,
+          'view:hasPartADenial': yesNoSchema,
         },
       },
     },

@@ -1,0 +1,1 @@
+export const VASS_PHONE_NUMBER = '8008270611';
