@@ -62,13 +62,13 @@ describe('AlertConfirmAddContactEmailError />', () => {
     });
   });
 
-  it('shows loading state when isLoading is true', async () => {
+  it('shows loading state when isConfirming is true', async () => {
     const { getByRole } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
         recordEvent={() => {}}
-        isLoading
+        isConfirming
       />,
     );
 

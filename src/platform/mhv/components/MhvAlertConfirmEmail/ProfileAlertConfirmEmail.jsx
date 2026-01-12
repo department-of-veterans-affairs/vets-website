@@ -24,10 +24,10 @@ import useConfirmEmailTransaction from '../../hooks/useConfirmEmailTransaction';
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
 const AlertConfirmContactEmail = ({
   emailAddress,
-  recordEvent,
+  isConfirming,
   onConfirmClick,
   onEditClick,
-  isLoading,
+  recordEvent,
 }) => {
   const headline = 'Confirm your contact email';
 
@@ -45,11 +45,11 @@ const AlertConfirmContactEmail = ({
       </h3>
       <ProfileAlertConfirmEmailContent
         emailAddress={emailAddress}
+        isConfirming={isConfirming}
         onConfirmClick={() => {
           onConfirmClick();
         }}
         onEditClick={onEditClick}
-        isLoading={isLoading}
       />
     </VaAlert>
   );
@@ -58,9 +58,9 @@ const AlertConfirmContactEmail = ({
 AlertConfirmContactEmail.propTypes = {
   emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
-  onConfirmClick: PropTypes.func.isRequired,
-  onEditClick: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
+  isConfirming: PropTypes.bool,
+  onConfirmClick: PropTypes.func,
+  onEditClick: PropTypes.func,
 };
 
 /**
@@ -69,10 +69,10 @@ AlertConfirmContactEmail.propTypes = {
  */
 const AlertConfirmContactEmailError = ({
   emailAddress,
-  recordEvent,
+  isConfirming,
   onConfirmClick,
   onEditClick,
-  isLoading,
+  recordEvent,
 }) => {
   const headline = 'We couldn’t confirm your contact email';
 
@@ -87,11 +87,11 @@ const AlertConfirmContactEmailError = ({
       <p>Please try again.</p>
       <ProfileAlertConfirmEmailContent
         emailAddress={emailAddress}
+        isConfirming={isConfirming}
         onConfirmClick={() => {
           onConfirmClick();
         }}
         onEditClick={onEditClick}
-        isLoading={isLoading}
       />
     </VaAlert>
   );
@@ -100,9 +100,9 @@ const AlertConfirmContactEmailError = ({
 AlertConfirmContactEmailError.propTypes = {
   emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
-  onConfirmClick: PropTypes.func.isRequired,
-  onEditClick: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
+  isConfirming: PropTypes.bool,
+  onConfirmClick: PropTypes.func,
+  onEditClick: PropTypes.func,
 };
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45893&t=t55H62nbe7HYOvFq-4
@@ -219,21 +219,21 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
           )}
           {confirmError && (
             <AlertConfirmContactEmailError
+              emailAddress={emailAddress}
+              isConfirming={isLoading}
               onConfirmClick={confirmEmail}
               onEditClick={handleEditEmail}
               recordEvent={recordEvent}
-              emailAddress={emailAddress}
-              isLoading={isLoading}
             />
           )}
           {!confirmSuccess &&
             !confirmError && (
               <AlertConfirmContactEmail
+                emailAddress={emailAddress}
+                isConfirming={isLoading}
                 onConfirmClick={confirmEmail}
                 onEditClick={handleEditEmail}
                 recordEvent={recordEvent}
-                emailAddress={emailAddress}
-                isLoading={isLoading}
               />
             )}
         </>

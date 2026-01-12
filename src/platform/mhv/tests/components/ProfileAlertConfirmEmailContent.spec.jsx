@@ -71,13 +71,13 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
     });
   });
 
-  it('shows loading state and hides Edit button when isLoading is true', async () => {
+  it('shows loading state and hides Edit button when isConfirming is true', async () => {
     const { container, getByRole } = render(
       <ProfileAlertConfirmEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
         onEditClick={() => {}}
-        isLoading
+        isConfirming
       />,
     );
 

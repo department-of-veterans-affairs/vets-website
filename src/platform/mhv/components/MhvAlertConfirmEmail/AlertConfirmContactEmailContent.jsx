@@ -5,8 +5,8 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export const AlertConfirmContactEmailContent = ({
   emailAddress,
+  isConfirming = false,
   onConfirmClick,
-  isLoading = false,
 }) => (
   <React.Fragment key=".1">
     <p>
@@ -21,7 +21,7 @@ export const AlertConfirmContactEmailContent = ({
     <p>
       <LoadingButton
         onClick={onConfirmClick}
-        isLoading={isLoading}
+        isLoading={isConfirming}
         loadingText="Confirming email"
       >
         Confirm
@@ -40,7 +40,7 @@ export const AlertConfirmContactEmailContent = ({
 AlertConfirmContactEmailContent.propTypes = {
   emailAddress: PropTypes.string.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
+  isConfirming: PropTypes.bool,
 };
 
 export default AlertConfirmContactEmailContent;

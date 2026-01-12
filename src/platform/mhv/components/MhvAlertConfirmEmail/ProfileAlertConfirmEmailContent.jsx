@@ -4,32 +4,36 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export const ProfileAlertConfirmEmailContent = ({
   emailAddress,
+  isConfirming = false,
   onConfirmClick,
   onEditClick,
-  isLoading = false,
 }) => (
   <React.Fragment key=".1">
     <p>
       We’ll send notifications about your VA health care and benefits to this
       email.
     </p>
-    <p className="vads-u-font-weight--bold" style={{ wordBreak: 'break-word' }}>
+    <p
+      className="vads-u-font-weight--bold vads-u-margin-bottom--0p25"
+      style={{ wordBreak: 'break-word' }}
+    >
       {emailAddress}
     </p>
-    <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
+    <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
       <LoadingButton
+        id="alert-confirm-email-button"
         onClick={onConfirmClick}
-        isLoading={isLoading}
+        isLoading={isConfirming}
         loadingText="Confirming email"
       >
         Confirm
       </LoadingButton>
-      {!isLoading && (
+      {!isConfirming && (
         <va-button
           secondary
           text="Edit contact email"
           onClick={onEditClick}
-          class="vads-u-margin-top--1p5 mobile-lg:vads-u-margin-top--0 mobile-lg:vads-u-margin-left--1"
+          class="vads-u-width--full mobile-lg:vads-u-width--auto vads-u-margin-top--1 vads-u-margin-bottom--1 hydrated"
         />
       )}
     </div>
@@ -40,5 +44,5 @@ ProfileAlertConfirmEmailContent.propTypes = {
   emailAddress: PropTypes.string.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
   onEditClick: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
+  isConfirming: PropTypes.bool,
 };

@@ -77,18 +77,18 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
       {confirmError && (
         <AlertConfirmAddContactEmailError
           emailAddress={emailAddress}
+          isConfirming={isLoading}
           onConfirmClick={confirmEmail}
           recordEvent={recordEvent}
-          isLoading={isLoading}
         />
       )}
       {!confirmSuccess &&
         !confirmError && (
           <AlertConfirmContactEmail
             emailAddress={emailAddress}
+            isConfirming={isLoading}
             onConfirmClick={confirmEmail}
             recordEvent={recordEvent}
-            isLoading={isLoading}
           />
         )}
     </>

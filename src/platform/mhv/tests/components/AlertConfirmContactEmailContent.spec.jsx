@@ -52,12 +52,12 @@ describe('<AlertConfirmContactEmailContent />', async () => {
     });
   });
 
-  it('shows loading state when isLoading is true', async () => {
+  it('shows loading state when isConfirming is true', async () => {
     const { getByRole } = render(
       <AlertConfirmContactEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
-        isLoading
+        isConfirming
       />,
     );
 

@@ -10,9 +10,9 @@ import AlertConfirmContactEmailContent from './AlertConfirmContactEmailContent';
  */
 const AlertConfirmAddContactEmailError = ({
   emailAddress,
+  isConfirming = false,
   onConfirmClick,
   recordEvent,
-  isLoading = false,
 }) => {
   const headline = 'We couldn’t confirm your contact email';
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
@@ -31,8 +31,8 @@ const AlertConfirmAddContactEmailError = ({
       <p>Please try again.</p>
       <AlertConfirmContactEmailContent
         emailAddress={emailAddress}
+        isConfirming={isConfirming}
         onConfirmClick={() => onConfirmClick()}
-        isLoading={isLoading}
       />
     </VaAlert>
   );
@@ -40,9 +40,9 @@ const AlertConfirmAddContactEmailError = ({
 
 AlertConfirmAddContactEmailError.propTypes = {
   emailAddress: PropTypes.string.isRequired,
-  recordEvent: PropTypes.func.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
+  recordEvent: PropTypes.func.isRequired,
+  isConfirming: PropTypes.bool,
 };
 
 export default AlertConfirmAddContactEmailError;
