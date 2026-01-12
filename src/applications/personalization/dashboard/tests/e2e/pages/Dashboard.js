@@ -1,14 +1,10 @@
 class DashboardPage {
   clickConfirmEmail = () => {
-    cy.findByTestId('mhv-alert--confirm-contact-email')
-      .findByRole('button', { name: /Confirm/i })
-      .click();
+    cy.findByTestId('confirm-email-button').click();
   };
 
   clickErrorConfirmEmail = () => {
-    cy.findByTestId('mhv-alert--confirm-error')
-      .findByRole('button', { name: /Confirm/i })
-      .click();
+    cy.findByTestId('confirm-email-button').click();
   };
 
   clickErrorEditEmailLink = () => {
