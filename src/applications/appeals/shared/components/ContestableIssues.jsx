@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isToday } from 'date-fns';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -109,7 +108,7 @@ const ContestableIssues = props => {
         return {
           ...issue?.attributes,
           [SELECTED]: issue?.[SELECTED],
-          isBlocked,
+          isBlockedSameDay: isBlocked,
           blockingType,
         };
       }),
