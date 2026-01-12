@@ -24,19 +24,36 @@ import {
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
   MILITARY_CITIES,
-  STATE_LABELS,
-  STATE_VALUES,
 } from '../constants';
 
 import { validateZIP } from '../validations';
 
 const { phoneAndEmail } = fullSchema.properties;
 
+const defaultAddressUI = {
+  ...addressUI({
+    keys: {
+      street: 'addressLine1',
+      street2: 'addressLine2',
+      street3: 'addressLine3',
+      postalCode: 'zipCode',
+      isMilitary: 'view:livesOnMilitaryBase',
+    },
+  }),
+};
+
 // Create custom country names that display 'USA' instead of 'United States'
 const COUNTRY_VALUES = constants.countries.map(country => country.value);
 const COUNTRY_NAMES = constants.countries.map(
   country => (country.value === 'USA' ? 'USA' : country.label),
 );
+
+// Filter out military states from regular state options
+const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_LABELS = filteredStates.map(state => state.label);
 
 // Helper function to determine if zipCode should be shown/required
 const shouldShowZipCode = formData => {
@@ -83,27 +100,11 @@ export const uiSchema = {
     emailAddress: emailUI(),
   },
   mailingAddress: {
-    ...addressUI({
-      keys: {
-        street: 'addressLine1',
-        street2: 'addressLine2',
-        street3: 'addressLine3',
-        postalCode: 'zipCode',
-        isMilitary: 'view:livesOnMilitaryBase',
-      },
-    }),
+    ...defaultAddressUI,
     'ui:title': 'Mailing address',
     'ui:field': ReviewCardField,
     'ui:options': {
-      ...addressUI({
-        keys: {
-          street: 'addressLine1',
-          street2: 'addressLine2',
-          street3: 'addressLine3',
-          postalCode: 'zipCode',
-          isMilitary: 'view:livesOnMilitaryBase',
-        },
-      })['ui:options'],
+      ...defaultAddressUI['ui:options'],
       viewComponent: AddressViewField,
       classNames:
         'vads-web-component-pattern vads-web-component-pattern-address',
@@ -208,7 +209,7 @@ export const uiSchema = {
       },
     },
     addressLine1: {
-      ...addressUI().street,
+      ...defaultAddressUI.street,
       'ui:validations': [
         (errors, value) => {
           if (value) {
@@ -223,7 +224,7 @@ export const uiSchema = {
       ],
     },
     addressLine2: {
-      ...addressUI().street2,
+      ...defaultAddressUI.street2,
       'ui:validations': [
         (errors, value) => {
           if (value) {
@@ -238,7 +239,7 @@ export const uiSchema = {
       ],
     },
     addressLine3: {
-      ...addressUI().street3,
+      ...defaultAddressUI.street3,
       'ui:validations': [
         (errors, value) => {
           if (value) {
