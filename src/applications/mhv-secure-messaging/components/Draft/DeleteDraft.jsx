@@ -193,7 +193,6 @@ const DeleteDraft = props => {
         Delete draft
       </button>
       <DeleteDraftModal
-        draftSequence={null}
         visible={isModalVisible}
         onClose={handleDeleteModalClose}
         onDelete={handleDeleteDraftConfirm}
