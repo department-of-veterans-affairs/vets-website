@@ -45,6 +45,20 @@ function ToeApp({
 
   useEffect(
     () => {
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
+        setFormData({
+          ...formData,
+          mebBankInfoConfirmationField,
+        });
+      }
+    },
+    [mebBankInfoConfirmationField, formData, setFormData],
+  );
+
+  useEffect(
+    () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
@@ -201,20 +215,6 @@ function ToeApp({
       }
     },
     [mebDpoAddressOptionEnabled],
-  );
-
-  useEffect(
-    () => {
-      if (
-        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
-      ) {
-        setFormData({
-          ...formData,
-          mebBankInfoConfirmationField,
-        });
-      }
-    },
-    [mebBankInfoConfirmationField, formData, setFormData],
   );
 
   useEffect(
