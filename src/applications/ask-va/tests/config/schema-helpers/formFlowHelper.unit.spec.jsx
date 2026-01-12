@@ -162,9 +162,6 @@ describe('flowPages', () => {
           first: 'John',
           last: 'Doe',
           dateOfBirth: '1990-01-01',
-          socialOrServiceNum: {
-            ssn: '444555212',
-          },
         },
         hasPrefillInformation: true,
         isGeneralQuestion: true,

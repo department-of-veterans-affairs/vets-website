@@ -58,7 +58,6 @@ import {
   handleChapterToggle,
   handleDataUpdate,
   handleFormSubmission,
-  maskSocial,
 } from '../utils/reviewPageUtils';
 
 const ReviewPage = props => {
@@ -430,21 +429,6 @@ const ReviewPage = props => {
                             key: 'aboutTheVeteran',
                           },
                           {
-                            name: 'Social Security number',
-                            data: maskSocial(
-                              props.formData.aboutTheVeteran.socialOrServiceNum
-                                ?.ssn,
-                            ),
-                            key: 'aboutTheVeteran',
-                          },
-                          {
-                            name: 'Service Number',
-                            data:
-                              props.formData.aboutTheVeteran.socialOrServiceNum
-                                ?.serviceNumber,
-                            key: 'aboutTheVeteran',
-                          },
-                          {
                             name: 'Date of birth',
                             data: convertDate(
                               props.formData.aboutTheVeteran.dateOfBirth,
@@ -578,14 +562,6 @@ const ReviewPage = props => {
                             key: 'aboutYourFamilyMember',
                           },
                           {
-                            name: 'Social Security number',
-                            data: maskSocial(
-                              props.formData.aboutTheFamilyMember
-                                .socialOrServiceNum?.ssn,
-                            ),
-                            key: 'aboutYourFamilyMember',
-                          },
-                          {
                             name: 'Date of birth',
                             data: convertDate(
                               props.formData.aboutTheFamilyMember.dateOfBirth,
@@ -705,21 +681,6 @@ const ReviewPage = props => {
                         {
                           name: 'Suffix',
                           data: props.formData.aboutYourself.suffix,
-                          key: 'aboutYourselfGeneral',
-                        },
-                        {
-                          name: 'Social Security number',
-                          data: maskSocial(
-                            props.formData.aboutYourself.socialOrServiceNum
-                              ?.ssn,
-                          ),
-                          key: 'aboutYourselfRelationshipFamilyMember',
-                        },
-                        {
-                          name: 'Service Number',
-                          data:
-                            props.formData.aboutYourself.socialOrServiceNum
-                              ?.serviceNumber,
                           key: 'aboutYourselfGeneral',
                         },
                         {

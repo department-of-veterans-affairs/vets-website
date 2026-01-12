@@ -15,7 +15,6 @@ import {
   handleEditMode,
   handleFormSubmission,
   handleSectionEdit,
-  maskSocial,
   scrollToElement,
   submitFormData,
 } from '../../utils/reviewPageUtils';
@@ -45,18 +44,6 @@ describe('Review Page Utils', () => {
       expect(convertDate('')).to.be.null;
       expect(convertDate(null)).to.be.null;
       expect(convertDate(undefined)).to.be.null;
-    });
-  });
-
-  describe('maskSocial', () => {
-    it('should mask SSN showing only last 4 digits', () => {
-      expect(maskSocial('123456789')).to.equal('•••-••-6789');
-    });
-
-    it('should return null for invalid input', () => {
-      expect(maskSocial('')).to.be.null;
-      expect(maskSocial(null)).to.be.null;
-      expect(maskSocial(undefined)).to.be.null;
     });
   });
 

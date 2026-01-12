@@ -1,12 +1,13 @@
+import React from 'react';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import { Provider } from 'react-redux';
+
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { fireEvent, render, waitFor } from '@testing-library/react';
-import { expect } from 'chai';
-import React from 'react';
-import { Provider } from 'react-redux';
 
 import formConfig from '../../../../config/form';
 import { getData } from '../../../fixtures/data/mock-form-data';
@@ -69,51 +70,5 @@ describe('aboutTheVeteranPage', () => {
         expect(labelList.includes(removeReqFromLabel(label.textContent).trim()))
           .to.be.true,
     );
-  });
-
-  describe('field validation', () => {
-    it('should validate when neither SSN nor service number is provided', async () => {
-      const { container } = renderPage({
-        aboutTheVeteran: {
-          socialOrServiceNum: {
-            ssn: '',
-            serviceNumber: '',
-          },
-        },
-      });
-
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.click(submitButton);
-
-      await waitFor(() => {
-        const errorMessage = container.querySelector(
-          '.usa-input-error-message',
-        );
-        expect(errorMessage.textContent).to.contain(
-          "Please enter either the Veteran's Social Security number or Service number",
-        );
-      });
-    });
-
-    it('should not show validation error when SSN is provided', async () => {
-      const { container } = renderPage({
-        aboutTheVeteran: {
-          socialOrServiceNum: {
-            ssn: '123-45-6789',
-            serviceNumber: '',
-          },
-        },
-      });
-
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.click(submitButton);
-
-      await waitFor(() => {
-        const errorMessage = container.querySelector(
-          '.usa-input-error-message',
-        );
-        expect(errorMessage).to.be.null;
-      });
-    });
   });
 });

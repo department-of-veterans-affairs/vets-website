@@ -3,11 +3,10 @@ import {
   dateOfBirthSchema,
   dateOfBirthUI,
   selectSchema,
-  ssnSchema,
-  ssnUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+
 import { CHAPTER_3, suffixes } from '../../../constants';
 
 const aboutTheFamilyMemberPage = {
@@ -42,7 +41,6 @@ const aboutTheFamilyMemberPage = {
           hideEmptyValueInReview: true,
         },
       },
-      socialOrServiceNum: { ssn: ssnUI() },
       dateOfBirth: dateOfBirthUI(),
     },
   },
@@ -72,13 +70,6 @@ const aboutTheFamilyMemberPage = {
             maxLength: 30,
           },
           suffix: selectSchema(suffixes),
-          socialOrServiceNum: {
-            type: 'object',
-            required: ['ssn'],
-            properties: {
-              ssn: ssnSchema,
-            },
-          },
           dateOfBirth: dateOfBirthSchema,
         },
       },

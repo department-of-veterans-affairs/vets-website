@@ -94,31 +94,12 @@ describe('Constants', () => {
       constants = require('../constants');
     });
 
-    it('should return true when all required fields are present with SSN', () => {
+    it('should return true when all required fields are present', () => {
       const form = {
         aboutYourself: {
           first: 'John',
           last: 'Doe',
           dateOfBirth: '1990-01-01',
-          socialOrServiceNum: {
-            ssn: '123-45-6789',
-            serviceNumber: '',
-          },
-        },
-      };
-      expect(constants.hasPrefillInformation(form)).to.be.true;
-    });
-
-    it('should return true when all required fields are present with service number', () => {
-      const form = {
-        aboutYourself: {
-          first: 'John',
-          last: 'Doe',
-          dateOfBirth: '1990-01-01',
-          socialOrServiceNum: {
-            ssn: '',
-            serviceNumber: '12345678',
-          },
         },
       };
       expect(constants.hasPrefillInformation(form)).to.be.true;
@@ -130,10 +111,6 @@ describe('Constants', () => {
           first: '',
           last: 'Doe',
           dateOfBirth: '1990-01-01',
-          socialOrServiceNum: {
-            ssn: '123-45-6789',
-            serviceNumber: '',
-          },
         },
       };
       expect(constants.hasPrefillInformation(form)).to.be.false;
@@ -145,10 +122,6 @@ describe('Constants', () => {
           first: 'John',
           last: '',
           dateOfBirth: '1990-01-01',
-          socialOrServiceNum: {
-            ssn: '123-45-6789',
-            serviceNumber: '',
-          },
         },
       };
       expect(constants.hasPrefillInformation(form)).to.be.false;
@@ -160,25 +133,6 @@ describe('Constants', () => {
           first: 'John',
           last: 'Doe',
           dateOfBirth: '',
-          socialOrServiceNum: {
-            ssn: '123-45-6789',
-            serviceNumber: '',
-          },
-        },
-      };
-      expect(constants.hasPrefillInformation(form)).to.be.false;
-    });
-
-    it('should return false when both SSN and service number are missing', () => {
-      const form = {
-        aboutYourself: {
-          first: 'John',
-          last: 'Doe',
-          dateOfBirth: '1990-01-01',
-          socialOrServiceNum: {
-            ssn: '',
-            serviceNumber: '',
-          },
         },
       };
       expect(constants.hasPrefillInformation(form)).to.be.false;
