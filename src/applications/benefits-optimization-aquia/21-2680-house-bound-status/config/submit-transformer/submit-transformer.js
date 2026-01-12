@@ -100,14 +100,12 @@ function buildClaimantInformation(cleanedData, veteranInformation) {
   const claimantAddr = cleanedData.claimantAddress || {};
   const claimantContactData = cleanedData.claimantContact || {};
   const veteranAddr = cleanedData.veteranAddress || {};
+  const veteranContactData = cleanedData.veteranContact || {};
 
   // Clean and validate SSN and phone
   const claimantSsn = isVeteranClaimant
     ? veteranInformation.ssn
     : cleanNumericString(claimantSsnData.claimantSsn);
-  const claimantPhone = cleanNumericString(
-    claimantContactData.claimantPhoneNumber,
-  );
 
   // Build base claimant information
   const claimantInformation = {
@@ -138,11 +136,18 @@ function buildClaimantInformation(cleanedData, veteranInformation) {
     claimantInformation.dateOfBirth = claimantDob;
   }
 
-  if (claimantPhone && claimantPhone.length === 10) {
-    claimantInformation.phoneNumber = claimantPhone;
+  // if veteran is claimant, use veteran contact info
+  const claimantPhoneSource = isVeteranClaimant
+    ? veteranContactData.veteranPhoneNumber
+    : claimantContactData.claimantPhoneNumber;
+  const claimantPhoneCleaned = cleanNumericString(claimantPhoneSource);
+  if (claimantPhoneCleaned && claimantPhoneCleaned.length === 10) {
+    claimantInformation.phoneNumber = claimantPhoneCleaned;
   }
-
-  const email = claimantContactData.claimantEmail || '';
+  const emailSource = isVeteranClaimant
+    ? veteranContactData.veteranEmail
+    : claimantContactData.claimantEmail;
+  const email = emailSource || '';
   if (email) {
     claimantInformation.email = email;
   }
