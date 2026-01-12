@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import ErrorMessage from '../../../components/ErrorMessage';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
@@ -55,10 +54,6 @@ export default function SelectProviderPage() {
     [pageTitle],
   );
 
-  if (patientRelationshipsError) {
-    return <ErrorMessage level={1} />;
-  }
-
   if (loading) {
     return (
       <div className="vads-u-margin-y--8" data-testid="loading-indicator">
@@ -75,14 +70,26 @@ export default function SelectProviderPage() {
       >
         {pageHeader}
       </h1>
-      {!hasProviders && (
-        <NoAvailableProvidersInfo
-          isEligibleForRequest={isEligibleForRequest}
-          overRequestLimit={overRequestLimit}
-          selectedFacility={selectedFacility}
-          typeOfCareName={typeOfCare?.name}
-        />
-      )}
+
+      {patientRelationshipsError &&
+        !hasProviders && (
+          <BackendProviderServiceAlert
+            selectedFacility={selectedFacility}
+            isEligibleForRequest={isEligibleForRequest}
+            overRequestLimit={overRequestLimit}
+          />
+        )}
+
+      {!hasProviders &&
+        !patientRelationshipsError && (
+          <NoAvailableProvidersInfo
+            isEligibleForRequest={isEligibleForRequest}
+            overRequestLimit={overRequestLimit}
+            selectedFacility={selectedFacility}
+            typeOfCareName={typeOfCare?.name}
+          />
+        )}
+
       {hasProviders ? (
         <>
           <div>
@@ -96,18 +103,14 @@ export default function SelectProviderPage() {
         </>
       ) : null}
 
-      <BackendProviderServiceAlert
-        selectedFacility={selectedFacility}
-        isEligibleForRequest={isEligibleForRequest}
-        overRequestLimit={overRequestLimit}
-      />
-
-      <ScheduleWithDifferentProvider
-        isEligibleForRequest={isEligibleForRequest}
-        overRequestLimit={overRequestLimit}
-        selectedFacility={selectedFacility}
-        hasProviders={hasProviders}
-      />
+      {!patientRelationshipsError && (
+        <ScheduleWithDifferentProvider
+          isEligibleForRequest={isEligibleForRequest}
+          overRequestLimit={overRequestLimit}
+          selectedFacility={selectedFacility}
+          hasProviders={hasProviders}
+        />
+      )}
     </div>
   );
 }
