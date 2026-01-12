@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 const { expenseByType } = require('../expenses/expenseData');
 const { STATUS_KEYS, EXPENSE_TYPE_OPTIONS } = require('../constants');
 
@@ -121,7 +122,7 @@ function buildClaim({
       facilityName: 'Cheyenne VA Medical Center',
       serviceConnectedDisability: 30,
       appointmentStatus: 'Complete',
-      externalAppointmentId: `${Math.floor(10000 + Math.random() * 90000)}`,
+      externalAppointmentId: `${crypto.randomInt(10000, 100000)}`,
       associatedClaimId: claimId,
       associatedClaimNumber: claimNumber,
       isCompleted: true,
