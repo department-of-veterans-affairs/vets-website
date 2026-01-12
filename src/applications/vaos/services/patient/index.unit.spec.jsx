@@ -63,7 +63,9 @@ describe('VAOS Services: Patient ', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         `/vaos/v2/relationships`,
       );
-      expect(data[0].providerName).to.equal('Doe, John D, MD');
+      expect(data.patientProviderRelationships[0].providerName).to.equal(
+        'Doe, John D, MD',
+      );
     });
   });
   describe('hasEligibilityError', () => {
