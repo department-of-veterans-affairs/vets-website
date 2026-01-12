@@ -34,6 +34,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
           key={option.value}
           label={option.label}
           value={option.value}
+          name="air-travel-trip-type-radio"
           checked={formState.tripType === option.value}
         />
       ))}

@@ -2,7 +2,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from 'applications/_mock-form-ae-design-patterns/manifest.json';
 import IntroductionPage from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/components/IntroductionPage';
 import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
-import { arrayBuilderPagesDeprecated } from 'applications/_mock-form-ae-design-patterns/patterns/pattern6/array-builder/arrayBuilderDeprecated';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 import currentMaritalStatus from '../pages/currentMaritalStatus';
 import currentMaritalStatusSimple from '../pages/currentMaritalStatusSimple';
@@ -177,217 +177,210 @@ const formConfig = {
             formData?.maritalStatus === 'SEPARATED',
           ...marriageCertificate,
         },
-        ...arrayBuilderPagesDeprecated(
-          spouseMarriageHistoryOptions,
-          pageBuilder => ({
-            spousePreviousMarriages: pageBuilder.summaryPage({
-              title: 'Spouse’s marital history',
-              path: 'current-spouse-marriage-history',
-              uiSchema: spousePreviousMarriages.uiSchema,
-              schema: spousePreviousMarriages.schema,
-              depends: formData =>
-                formData?.maritalStatus !== 'NEVER_MARRIED' &&
-                formData?.maritalStatus !== 'WIDOWED' &&
-                formData?.maritalStatus !== 'DIVORCED',
-              onNavForward: ({ formData, goPath }) => {
-                const hasSpousePreviousMarriages =
-                  formData?.['view:completedSpouseFormerMarriage'];
+        ...arrayBuilderPages(spouseMarriageHistoryOptions, pageBuilder => ({
+          spousePreviousMarriages: pageBuilder.summaryPage({
+            title: 'Spouse’s marital history',
+            path: 'current-spouse-marriage-history',
+            uiSchema: spousePreviousMarriages.uiSchema,
+            schema: spousePreviousMarriages.schema,
+            depends: formData =>
+              formData?.maritalStatus !== 'NEVER_MARRIED' &&
+              formData?.maritalStatus !== 'WIDOWED' &&
+              formData?.maritalStatus !== 'DIVORCED',
+            onNavForward: ({ formData, goPath }) => {
+              const hasSpousePreviousMarriages =
+                formData?.['view:completedSpouseFormerMarriage'];
 
-                if (hasSpousePreviousMarriages === false) {
-                  goPath('/6/marital-information/veteran-marriage-history');
-                  return;
-                }
+              if (hasSpousePreviousMarriages === false) {
+                goPath('/6/marital-information/veteran-marriage-history');
+                return;
+              }
 
-                // If user said "yes" to previous marriages
-                const spouseHistory = formData?.spouseMarriageHistory || [];
-                const nextIndex = spouseHistory.length; // e.g. 0 if none yet, 1 if one exists
+              // If user said "yes" to previous marriages
+              const spouseHistory = formData?.spouseMarriageHistory || [];
+              const nextIndex = spouseHistory.length; // e.g. 0 if none yet, 1 if one exists
 
-                goPath(
-                  `/6/marital-information/current-spouse-marriage-history/${nextIndex}/former-spouse-information?add=true`,
-                );
-              },
-            }),
-            spouseMarriageHistoryPartOne: pageBuilder.itemPage({
-              title: 'Previous spouse’s name and date of birth',
-              path:
-                'current-spouse-marriage-history/:index/former-spouse-information',
-              uiSchema: buildSpouseFormerMarriageUiSchema(),
-              schema: spouseFormerMarriageSchema,
-              depends: (formData, index, context) => {
-                return (
-                  formData['view:completedSpouseFormerMarriage'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            spouseMarriageHistoryPartTwo: pageBuilder.itemPage({
-              title: 'Place and date of former marriage',
-              path:
-                'current-spouse-marriage-history/:index/former-marriage-date-location',
-              uiSchema: spouseFormerMarriageDateLocation.uiSchema,
-              schema: spouseFormerMarriageDateLocation.schema,
-              depends: (formData, index, context) => {
-                return (
-                  formData['view:completedSpouseFormerMarriage'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            spouseMarriageHistoryPartThree: pageBuilder.itemPage({
-              title: 'Reason former marriage ended',
-              path:
-                'current-spouse-marriage-history/:index/reason-former-marriage-ended',
-              uiSchema: spouseFormerMarriageEndReason.uiSchema,
-              schema: spouseFormerMarriageEndReason.schema,
-              depends: (formData, index, context) => {
-                return (
-                  formData['view:completedSpouseFormerMarriage'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            spouseMarriageHistoryPartFour: pageBuilder.itemPage({
-              title: 'Place and date of former marriage termination',
-              path:
-                'current-spouse-marriage-history/:index/former-marriage-end-date-location',
-              uiSchema: spouseFormerMarriageEndDateLocation.uiSchema,
-              schema: spouseFormerMarriageEndDateLocation.schema,
-              depends: (formData, index, context) =>
-                context?.edit ||
-                context?.review ||
-                formData['view:completedSpouseFormerMarriage'],
-            }),
+              goPath(
+                `/6/marital-information/current-spouse-marriage-history/${nextIndex}/former-spouse-information?add=true`,
+              );
+            },
           }),
-        ),
-        ...arrayBuilderPagesDeprecated(
-          veteranMarriageHistoryOptions,
-          pageBuilder => ({
-            veteranPreviousMarriages: pageBuilder.summaryPage({
-              title: 'Marital history',
-              path: 'veteran-marriage-history',
-              uiSchema: veteranPreviousMarriages.uiSchema,
-              schema: veteranPreviousMarriages.schema,
-              depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
-            }),
-            veteranMarriageHistoryPartOne: pageBuilder.itemPage({
-              title: "Previous spouse's name and date of birth",
-              path: 'veteran-marriage-history/:index/former-spouse-information',
-              uiSchema: previousSpousePersonalInfo.uiSchema,
-              schema: previousSpousePersonalInfo.schema,
-              depends: (formData, index, context) => {
-                return (
-                  formData['view:completedVeteranFormerMarriage'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            veteranMarriageHistoryPartTwo: pageBuilder.itemPage({
-              title: "Previous spouse's identification information",
-              path: 'veteran-marriage-history/:index/previous-spouse-identity',
-              uiSchema: veteranPreviousSpouseIdentity.uiSchema,
-              schema: veteranPreviousSpouseIdentity.schema,
-              depends: (formData, index, context) => {
-                return (
-                  formData['view:completedVeteranFormerMarriage'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            veteranMarriageHistoryPartThree: pageBuilder.itemPage({
-              title: "Previous spouse's address and phone number",
-              path:
-                'veteran-marriage-history/:index/previous-spouse-contact-information',
-              uiSchema: veteranPreviousSpouseContactInfo.uiSchema,
-              schema: veteranPreviousSpouseContactInfo.schema,
-              depends: (formData, index) => {
-                const marriageItem = formData?.veteranMarriageHistory?.[index];
-                return (
-                  !marriageItem?.['view:previousSpouseIsDeceased'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            veteranMarriageHistoryPartFour: pageBuilder.itemPage({
-              title: 'Place and date of previous marriage',
-              path:
-                'veteran-marriage-history/:index/previous-marriage-date-location',
-              uiSchema: veteranPreviousMarriageDateAndLocation.uiSchema,
-              schema: veteranPreviousMarriageDateAndLocation.schema,
-              depends: (formData, index, context) => {
-                return (
-                  formData['view:completedVeteranFormerMarriage'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            veteranMarriageHistoryPartFive: pageBuilder.itemPage({
-              title: 'Type of marriage',
-              path: 'veteran-marriage-history/:index/previous-marriage-type',
-              uiSchema: veteranPreviousMarriageType.uiSchema,
-              schema: veteranPreviousMarriageType.schema,
-              depends: (formData, index, context) => {
-                return (
-                  formData['view:completedVeteranFormerMarriage'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            veteranMarriageHistoryPartSix: pageBuilder.itemPage({
-              title: 'Reason previous marriage ended',
-              path:
-                'veteran-marriage-history/:index/reason-previous-marriage-ended',
-              uiSchema: veteranPreviousMarriageEndReason.uiSchema,
-              schema: veteranPreviousMarriageEndReason.schema,
-              depends: (formData, index) => {
-                const marriageItem = formData?.veteranMarriageHistory?.[index];
-                return (
-                  !marriageItem?.['view:previousSpouseIsDeceased'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            veteranMarriageHistoryPartSeven: pageBuilder.itemPage({
-              title: 'Place and date of previous marriage termination',
-              path:
-                'veteran-marriage-history/:index/former-marriage-end-date-location',
-              uiSchema: veteranPreviousMarriageEndDateLocation.uiSchema,
-              schema: veteranPreviousMarriageEndDateLocation.schema,
-              depends: (formData, index, context) => {
-                return (
-                  formData['view:completedVeteranFormerMarriage'] ||
-                  context?.edit === true ||
-                  context?.add === true
-                );
-              },
-            }),
-            veteranMarriageHistoryPartEight: pageBuilder.itemPage({
-              title: 'Divorce documents',
-              path: 'veteran-marriage-history/:index/divorce-documents',
-              uiSchema: divorceDocuments.uiSchema,
-              schema: divorceDocuments.schema,
-              depends: (formData, index, context) => {
-                const marriageItem = formData?.veteranMarriageHistory?.[index];
-                return (
-                  marriageItem?.reasonMarriageEnded === 'Divorce' ||
-                  (formData?.maritalStatus === 'DIVORCED' &&
-                    formData?.veteranMarriageHistory?.length > 1) ||
-                  context?.edit === true ||
-                  (context?.add === true &&
-                    formData?.maritalStatus !== 'MARRIED')
-                );
-              },
-            }),
+          spouseMarriageHistoryPartOne: pageBuilder.itemPage({
+            title: 'Previous spouse’s name and date of birth',
+            path:
+              'current-spouse-marriage-history/:index/former-spouse-information',
+            uiSchema: buildSpouseFormerMarriageUiSchema(),
+            schema: spouseFormerMarriageSchema,
+            depends: (formData, index, context) => {
+              return (
+                formData['view:completedSpouseFormerMarriage'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
           }),
-        ),
+          spouseMarriageHistoryPartTwo: pageBuilder.itemPage({
+            title: 'Place and date of former marriage',
+            path:
+              'current-spouse-marriage-history/:index/former-marriage-date-location',
+            uiSchema: spouseFormerMarriageDateLocation.uiSchema,
+            schema: spouseFormerMarriageDateLocation.schema,
+            depends: (formData, index, context) => {
+              return (
+                formData['view:completedSpouseFormerMarriage'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          spouseMarriageHistoryPartThree: pageBuilder.itemPage({
+            title: 'Reason former marriage ended',
+            path:
+              'current-spouse-marriage-history/:index/reason-former-marriage-ended',
+            uiSchema: spouseFormerMarriageEndReason.uiSchema,
+            schema: spouseFormerMarriageEndReason.schema,
+            depends: (formData, index, context) => {
+              return (
+                formData['view:completedSpouseFormerMarriage'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          spouseMarriageHistoryPartFour: pageBuilder.itemPage({
+            title: 'Place and date of former marriage termination',
+            path:
+              'current-spouse-marriage-history/:index/former-marriage-end-date-location',
+            uiSchema: spouseFormerMarriageEndDateLocation.uiSchema,
+            schema: spouseFormerMarriageEndDateLocation.schema,
+            depends: (formData, index, context) =>
+              context?.edit ||
+              context?.review ||
+              formData['view:completedSpouseFormerMarriage'],
+          }),
+        })),
+        ...arrayBuilderPages(veteranMarriageHistoryOptions, pageBuilder => ({
+          veteranPreviousMarriages: pageBuilder.summaryPage({
+            title: 'Marital history',
+            path: 'veteran-marriage-history',
+            uiSchema: veteranPreviousMarriages.uiSchema,
+            schema: veteranPreviousMarriages.schema,
+            depends: formData => formData?.maritalStatus !== 'NEVER_MARRIED',
+          }),
+          veteranMarriageHistoryPartOne: pageBuilder.itemPage({
+            title: "Previous spouse's name and date of birth",
+            path: 'veteran-marriage-history/:index/former-spouse-information',
+            uiSchema: previousSpousePersonalInfo.uiSchema,
+            schema: previousSpousePersonalInfo.schema,
+            depends: (formData, index, context) => {
+              return (
+                formData['view:completedVeteranFormerMarriage'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          veteranMarriageHistoryPartTwo: pageBuilder.itemPage({
+            title: "Previous spouse's identification information",
+            path: 'veteran-marriage-history/:index/previous-spouse-identity',
+            uiSchema: veteranPreviousSpouseIdentity.uiSchema,
+            schema: veteranPreviousSpouseIdentity.schema,
+            depends: (formData, index, context) => {
+              return (
+                formData['view:completedVeteranFormerMarriage'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          veteranMarriageHistoryPartThree: pageBuilder.itemPage({
+            title: "Previous spouse's address and phone number",
+            path:
+              'veteran-marriage-history/:index/previous-spouse-contact-information',
+            uiSchema: veteranPreviousSpouseContactInfo.uiSchema,
+            schema: veteranPreviousSpouseContactInfo.schema,
+            depends: (formData, index) => {
+              const marriageItem = formData?.veteranMarriageHistory?.[index];
+              return (
+                !marriageItem?.['view:previousSpouseIsDeceased'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          veteranMarriageHistoryPartFour: pageBuilder.itemPage({
+            title: 'Place and date of previous marriage',
+            path:
+              'veteran-marriage-history/:index/previous-marriage-date-location',
+            uiSchema: veteranPreviousMarriageDateAndLocation.uiSchema,
+            schema: veteranPreviousMarriageDateAndLocation.schema,
+            depends: (formData, index, context) => {
+              return (
+                formData['view:completedVeteranFormerMarriage'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          veteranMarriageHistoryPartFive: pageBuilder.itemPage({
+            title: 'Type of marriage',
+            path: 'veteran-marriage-history/:index/previous-marriage-type',
+            uiSchema: veteranPreviousMarriageType.uiSchema,
+            schema: veteranPreviousMarriageType.schema,
+            depends: (formData, index, context) => {
+              return (
+                formData['view:completedVeteranFormerMarriage'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          veteranMarriageHistoryPartSix: pageBuilder.itemPage({
+            title: 'Reason previous marriage ended',
+            path:
+              'veteran-marriage-history/:index/reason-previous-marriage-ended',
+            uiSchema: veteranPreviousMarriageEndReason.uiSchema,
+            schema: veteranPreviousMarriageEndReason.schema,
+            depends: (formData, index) => {
+              const marriageItem = formData?.veteranMarriageHistory?.[index];
+              return (
+                !marriageItem?.['view:previousSpouseIsDeceased'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          veteranMarriageHistoryPartSeven: pageBuilder.itemPage({
+            title: 'Place and date of previous marriage termination',
+            path:
+              'veteran-marriage-history/:index/former-marriage-end-date-location',
+            uiSchema: veteranPreviousMarriageEndDateLocation.uiSchema,
+            schema: veteranPreviousMarriageEndDateLocation.schema,
+            depends: (formData, index, context) => {
+              return (
+                formData['view:completedVeteranFormerMarriage'] ||
+                context?.edit === true ||
+                context?.add === true
+              );
+            },
+          }),
+          veteranMarriageHistoryPartEight: pageBuilder.itemPage({
+            title: 'Divorce documents',
+            path: 'veteran-marriage-history/:index/divorce-documents',
+            uiSchema: divorceDocuments.uiSchema,
+            schema: divorceDocuments.schema,
+            depends: (formData, index, context) => {
+              const marriageItem = formData?.veteranMarriageHistory?.[index];
+              return (
+                marriageItem?.reasonMarriageEnded === 'Divorce' ||
+                (formData?.maritalStatus === 'DIVORCED' &&
+                  formData?.veteranMarriageHistory?.length > 1) ||
+                context?.edit === true ||
+                (context?.add === true && formData?.maritalStatus !== 'MARRIED')
+              );
+            },
+          }),
+        })),
       },
     },
   },

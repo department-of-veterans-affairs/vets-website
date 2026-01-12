@@ -87,6 +87,7 @@ const formConfig = {
   // Validates basic name format (letters including accented/international characters,
   // spaces, hyphens, apostrophes, periods) but does NOT require exact match to veteran's name
   preSubmitInfo: {
+    required: true,
     CustomComponent: PreSubmitInfo,
   },
   chapters: {
