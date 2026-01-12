@@ -54,13 +54,13 @@ export const benefitTypeUiSchema = {
     benefitType: radioUI({
       title: 'Select benefit type',
       labels: {
-        SMC: 'Special Monthly Compensation (SMC)',
-        SMP: 'Special Monthly Pension (SMP)',
+        smc: 'Special Monthly Compensation (SMC)',
+        smp: 'Special Monthly Pension (SMP)',
       },
       descriptions: {
-        SMC:
+        smc:
           'is paid in addition to compensation or Dependency Indemnity Compensation (DIC) for a service-related disability.',
-        SMP:
+        smp:
           'is an increased monthly amount paid to a Veteran or survivor who is eligible for Veterans Pension or Survivors benefits.',
       },
       tile: true,
@@ -88,7 +88,7 @@ export const benefitTypeSchema = {
       type: 'object',
       required: ['benefitType'],
       properties: {
-        benefitType: radioSchema(['SMC', 'SMP']),
+        benefitType: radioSchema(['smc', 'smp']),
       },
     },
   },

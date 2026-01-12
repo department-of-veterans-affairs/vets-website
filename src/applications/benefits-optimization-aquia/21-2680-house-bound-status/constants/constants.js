@@ -15,15 +15,6 @@ export const SUBTITLE =
   'Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680)';
 
 /**
- * Benefit type options (Item 13)
- * @constant {Object}
- */
-export const BENEFIT_TYPES = {
-  SMC: 'smc', // Special Monthly Compensation (service-connected)
-  SMP: 'smp', // Special Monthly Pension (non-service-connected)
-};
-
-/**
  * ADL assistance options (Item 27)
  * @constant {Object}
  */
