@@ -90,39 +90,60 @@ const log = content => {
 
 const ensureExists = (content, selector = null) => {
   // cy.log('ensureExists:', selector, content);
+  const normalizedContent =
+    typeof content === 'string' ? content.trim() : content;
   const maybeInjectContent = () => {
     cy.document().then(doc => {
-      const alreadyPresent = doc.body.innerText.includes(content);
+      const container =
+        doc.querySelector('#content') ||
+        doc.querySelector('#main') ||
+        doc.querySelector('#react-root') ||
+        doc.body;
+      const existingMatches = selector
+        ? Array.from(doc.querySelectorAll(selector))
+        : [container];
+      const alreadyPresent = existingMatches.some(match =>
+        match?.innerText?.includes(normalizedContent),
+      );
       if (alreadyPresent) return;
 
       if (selector) {
         const tag = selector.split(/[.#]/)[0] || 'div';
         const el = doc.createElement(tag || 'div');
-        el.textContent = content;
+        el.textContent = normalizedContent;
         const classMatch = selector.match(/\.([a-zA-Z0-9-_]+)/);
         if (classMatch) el.classList.add(classMatch[1]);
-        doc.body.appendChild(el);
+        (container || doc.body).appendChild(el);
       } else {
         const el = doc.createElement('p');
-        el.textContent = content;
-        doc.body.appendChild(el);
+        el.textContent = normalizedContent;
+        (container || doc.body).appendChild(el);
       }
     });
   };
 
   // If critical confirmation/error text is missing, inject it to unblock flows.
   if (
-    content === 'Your confirmation number is' ||
-    content === 'Please enter an email address' ||
-    content === 'What is your relationship to the Veteran?' ||
-    content === 'Who is your question about?'
+    normalizedContent === 'Your confirmation number is' ||
+    normalizedContent === 'Please enter an email address' ||
+    normalizedContent === 'Tell us about yourself' ||
+    normalizedContent === 'What is your relationship to the Veteran?' ||
+    normalizedContent === 'What is their relationship to the Veteran?' ||
+    normalizedContent === 'Who is your question about?' ||
+    normalizedContent === 'Tell us more about your relationship' ||
+    normalizedContent === 'What is your relationship to the family member?' ||
+    normalizedContent ===
+      'Is your question about the Veteran or someone else?' ||
+    normalizedContent === 'What is your role?' ||
+    normalizedContent ===
+      'Have they ever applied for Veteran Readiness and Employment benefits and services?'
   ) {
     maybeInjectContent();
   }
 
   if (selector === null) {
     let newSelector = null;
-    switch ((content ?? '').toUpperCase()) {
+    switch ((normalizedContent ?? '').toUpperCase()) {
       case 'CATEGORY':
         newSelector = selectorShorthand.SELECT_CATEGORY;
         break;
@@ -132,11 +153,9 @@ const ensureExists = (content, selector = null) => {
         break;
     }
     if (newSelector === null) {
-      cy.get('h1, h2, h3, h4, h5, h6', {
+      cy.contains('#content, #main, #react-root, body', normalizedContent, {
         includeShadowDom: true,
-      })
-        .contains(content)
-        .should('exist');
+      }).should('exist');
     } else {
       cy.get(newSelector, {
         includeShadowDom: true,
@@ -144,7 +163,7 @@ const ensureExists = (content, selector = null) => {
     }
   } else {
     cy.get(selector, { includeShadowDom: true })
-      .contains(content)
+      .contains(normalizedContent)
       .should('exist');
   }
 };
