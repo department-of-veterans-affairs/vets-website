@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const crypto = require('crypto');
+const { randomInt } = require('crypto');
 const { expenseByType } = require('../expenses/expenseData');
 const { STATUS_KEYS, EXPENSE_TYPE_OPTIONS } = require('../constants');
 
@@ -16,9 +16,7 @@ function buildClaim({
   expenseTypeOptions = EXPENSE_TYPE_OPTIONS.ALL,
 } = {}) {
   const claimId = uuidv4();
-  const claimNumber = `TC${Math.floor(
-    1000000000000 + Math.random() * 9000000000000,
-  )}`; // Mock claim number
+  const claimNumber = `TC${randomInt(1_000_000_000_000, 10_000_000_000_000)}`; // Mock claim number
 
   // Decide which expenses to include
   let selectedExpenses = [];
@@ -122,7 +120,7 @@ function buildClaim({
       facilityName: 'Cheyenne VA Medical Center',
       serviceConnectedDisability: 30,
       appointmentStatus: 'Complete',
-      externalAppointmentId: `${crypto.randomInt(10000, 100000)}`,
+      externalAppointmentId: `${randomInt(10000, 100000)}`,
       associatedClaimId: claimId,
       associatedClaimNumber: claimNumber,
       isCompleted: true,
