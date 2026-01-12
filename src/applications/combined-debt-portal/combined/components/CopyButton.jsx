@@ -7,7 +7,7 @@ const CopyButton = ({
   label,
   className = '',
   buttonText = 'Copy',
-  timeout = 2000,
+  timeout = 3000,
 }) => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState(null);
@@ -15,32 +15,34 @@ const CopyButton = ({
   const announcementRef = useRef(null);
 
   const handleCopy = async () => {
+    if (announcementRef.current) {
+      announcementRef.current.textContent = '';
+    }
+
     try {
-      // throw new Error("Simulated error");
       const textToCopy = value;
       await navigator.clipboard.writeText(textToCopy);
       setCopied(true);
       setError(null);
 
-      // Announce to screen readers
-      if (announcementRef.current) {
-        announcementRef.current.textContent = `Copied ${textToCopy} to clipboard`;
-      }
+      setTimeout(() => {
+        if (announcementRef.current) {
+          announcementRef.current.textContent = 'Copied to clipboard';
+        }
+      }, 10);
 
-      // Clear any existing timeout
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
 
-      // Reset after default of 2 seconds
+      // Reset after default of 3 seconds
       timeoutRef.current = setTimeout(() => {
-        setCopied(false);
         if (announcementRef.current) {
           announcementRef.current.textContent = '';
         }
+        setCopied(false);
       }, timeout);
 
-      // Record analytics event
       recordEvent({
         event: 'cta-button-click',
         'button-type': 'secondary',
@@ -52,14 +54,14 @@ const CopyButton = ({
       setCopied(false);
 
       if (announcementRef.current) {
-        announcementRef.current.textContent = 'Failed to copy to clipboard';
+        announcementRef.current.textContent = 'Failed to copy';
       }
 
       timeoutRef.current = setTimeout(() => {
-        setError(null);
         if (announcementRef.current) {
           announcementRef.current.textContent = '';
         }
+        setError(null);
       }, timeout);
     }
   };
@@ -83,11 +85,12 @@ const CopyButton = ({
             text={copied ? 'Copied!' : buttonText}
             secondary
             aria-describedby="copy-status"
+            aria-label={`Copy ${label || value} to clipboard`}
             class="vads-u-border--0 vads-u-padding--0"
           />
         </>
       ) : (
-        <div className="copy-error" role="alert">
+        <div className="copy-error" role="alert" aria-live="assertive">
           <va-icon icon="error" size="1" srtext="Copy error" />
           <span className="vads-u-margin-left--0p5">{error}</span>
         </div>
@@ -98,6 +101,7 @@ const CopyButton = ({
         ref={announcementRef}
         role="status"
         aria-live="polite"
+        aria-atomic="true"
         className="sr-only"
         id="copy-status"
       />
