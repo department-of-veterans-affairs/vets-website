@@ -4,7 +4,7 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { AddressView } from 'platform/user/exportsFile';
-import { VaLink } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { FIELD_NAMES, FIELD_TITLES } from '../../constants';
@@ -19,6 +19,14 @@ import {
   getFormSchema as getContactMethodFormSchema,
   getUiSchema as getContactMethodUiSchema,
 } from '../../components/SchedulingPreferences/preferred-contact-method';
+import {
+  getFormSchema as getContactTimesFormSchema,
+  getUiSchema as getContactTimesUiSchema,
+} from '../../components/SchedulingPreferences/preferred-contact-times';
+import {
+  getFormSchema as getAppointmentTimesFormSchema,
+  getUiSchema as getAppointmentTimesUiSchema,
+} from '../../components/SchedulingPreferences/preferred-appointment-times';
 import PhoneView from '../../components/PhoneField/PhoneView';
 
 // Simple fields that can edit inline (single-select radio buttons)
@@ -60,26 +68,34 @@ export const isSubtaskSchedulingPreference = fieldName => {
 };
 
 export const schedulingPreferenceOptions = fieldName => {
-  if (fieldName === FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD) {
-    return FIELD_OPTION_IDS_INVERTED[
-      FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
-    ];
+  switch (fieldName) {
+    case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+      return FIELD_OPTION_IDS_INVERTED[
+        FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+      ];
+    case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+      return FIELD_OPTION_IDS_INVERTED[
+        FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
+      ];
+    case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+      return FIELD_OPTION_IDS_INVERTED[
+        FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
+      ];
+    case FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER:
+      return FIELD_OPTION_IDS_INVERTED[
+        FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER
+      ];
+    case FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING:
+      return FIELD_OPTION_IDS_INVERTED[
+        FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING
+      ];
+    case FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING:
+      return FIELD_OPTION_IDS_INVERTED[
+        FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING
+      ];
+    default:
+      return {};
   }
-  if (fieldName === FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER) {
-    return FIELD_OPTION_IDS_INVERTED[
-      FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER
-    ];
-  }
-  if (fieldName === FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING) {
-    return FIELD_OPTION_IDS_INVERTED[FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING];
-  }
-  if (fieldName === FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING) {
-    return FIELD_OPTION_IDS_INVERTED[
-      FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING
-    ];
-  }
-
-  return {};
 };
 
 export const getSchedulingPreferenceInitialFormValues = (fieldname, data) => {
@@ -103,17 +119,21 @@ export const getSchedulingPreferencesOptionInCopy = (fieldName, itemId) => {
 };
 
 export const schedulingPreferencesUiSchema = fieldname => {
-  if (!isInlineSchedulingPreference(fieldname)) {
-    return {
-      [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: getContactMethodUiSchema(),
-    };
+  switch (fieldname) {
+    case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+      return getContactMethodUiSchema();
+    case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+      return getContactTimesUiSchema();
+    case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+      return getAppointmentTimesUiSchema();
+    default:
+      return {
+        [fieldname]: radioUI({
+          title: FIELD_TITLES[fieldname],
+          labels: { ...schedulingPreferenceOptions(fieldname) },
+        }),
+      };
   }
-  return {
-    [fieldname]: radioUI({
-      title: FIELD_TITLES[fieldname],
-      labels: { ...schedulingPreferenceOptions(fieldname) },
-    }),
-  };
 };
 
 export const schedulingPreferencesFormSchema = fieldname => {
@@ -121,41 +141,9 @@ export const schedulingPreferencesFormSchema = fieldname => {
     case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
       return getContactMethodFormSchema();
     case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
-      return {
-        type: 'object',
-        properties: {
-          [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]: {
-            type: 'array',
-            items: {
-              type: 'string',
-              enum: Object.keys(
-                FIELD_OPTION_IDS_INVERTED[
-                  FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
-                ],
-              ),
-            },
-            uniqueItems: true,
-          },
-        },
-      };
+      return getContactTimesFormSchema();
     case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
-      return {
-        type: 'object',
-        properties: {
-          [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]: {
-            type: 'array',
-            items: {
-              type: 'string',
-              enum: Object.keys(
-                FIELD_OPTION_IDS_INVERTED[
-                  FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
-                ],
-              ),
-            },
-            uniqueItems: true,
-          },
-        },
-      };
+      return getAppointmentTimesFormSchema();
     default:
       return {
         type: 'object',
@@ -172,11 +160,28 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   data,
   fieldName,
 ) => {
+  // console.log('data', data);
+  // console.log('fieldName', fieldName);
   const itemId = getSchedulingPreferenceItemId(fieldName);
-  const optionIds = Object.values(data).map(value => {
-    return value.replace('option-', '');
-  });
-
+  const isSingle = isSingleSchedulingPreference(fieldName);
+  let optionIds;
+  if (isSingle) {
+    optionIds = Object.values(data).map(value => {
+      return value.replace('option-', '');
+    });
+  } else {
+    // eslint-disable-next-line no-lonely-if
+    if (typeof data[fieldName] === 'string') {
+      // console.log('data is a string');
+      optionIds = [data[fieldName].replace('option-', '')];
+    } else {
+      // console.log('data is NOT a string');
+      optionIds = data[fieldName].map(value => {
+        return value.replace('option-', '');
+      });
+    }
+    // console.log('optionIds', optionIds);
+  }
   return { itemId, optionIds };
 };
 

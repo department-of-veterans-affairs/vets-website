@@ -4,6 +4,7 @@ import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 import ProfileHub from './components/hub/ProfileHub';
 import { ContactMethodContainer } from './components/health-care-settings/sub-tasks/contact-method/ContactMethodContainer';
+import AppointmentTimesWrapper from './components/health-care-settings/sub-tasks/select-times/AppointmentTimesWrapper';
 
 const getRoutes = (
   {
@@ -51,7 +52,7 @@ const getRoutes = (
       requiresMVI: true,
     },
     {
-      component: Edit,
+      component: AppointmentTimesWrapper,
       name: PROFILE_PATH_NAMES.SCHEDULING_PREF_APPOINTMENT_TIME,
       path: PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
       requiresLOA3: true,
