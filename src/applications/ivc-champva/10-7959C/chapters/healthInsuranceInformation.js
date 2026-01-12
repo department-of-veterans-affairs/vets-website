@@ -18,6 +18,11 @@ import {
 import { validateChars } from '../utils/validation';
 import { blankSchema } from '../definitions';
 
+const REQUIRED_FILE_SCHEMA = {
+  ...singleFileSchema,
+  minItems: 1,
+};
+
 const MEDIGAP = {
   A: 'Medigap Plan A',
   B: 'Medigap Plan B',
@@ -201,9 +206,10 @@ export function applicantInsuranceSOBSchema(isPrimary) {
     },
     schema: {
       type: 'object',
+      required: [keyname],
       properties: {
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: singleFileSchema,
+        [keyname]: REQUIRED_FILE_SCHEMA,
       },
     },
   };
@@ -320,10 +326,11 @@ export function applicantInsuranceCardSchema(isPrimary) {
     },
     schema: {
       type: 'object',
+      required: [`${keyname}Front`, `${keyname}Back`],
       properties: {
         'view:fileUploadBlurb': blankSchema,
-        [`${keyname}Front`]: singleFileSchema,
-        [`${keyname}Back`]: singleFileSchema,
+        [`${keyname}Front`]: REQUIRED_FILE_SCHEMA,
+        [`${keyname}Back`]: REQUIRED_FILE_SCHEMA,
       },
     },
   };
