@@ -109,6 +109,7 @@ describe('addressPattern mapping functions', () => {
       expect(result).to.have.property('country');
       expect(result).to.have.property('isMilitary');
     });
+
     it('should omit using mapped field names in omit array', () => {
       const keys = {
         street: 'addressLine1',
@@ -116,12 +117,31 @@ describe('addressPattern mapping functions', () => {
 
       const result = addressUI({
         keys,
-        omit: ['addressLine1'], // Omit using the mapped name
+        omit: ['street'], // Omit using the mapped name
       });
 
       // Should NOT have the mapped field (omitted by mapped name)
       expect(result).to.not.have.property('addressLine1');
       expect(result).to.not.have.property('street');
+    });
+
+    it('should validate if omit the wrong keys', () => {
+      const keys = {
+        street: 'addressLine1',
+      };
+
+      try {
+        addressUI({
+          keys,
+          omit: ['addressLine1'], // Omit using the mapped name
+        });
+        expect.fail('Expected error was not thrown');
+      } catch (e) {
+        // expect error: omit: Invalid key mappings: addressLine1. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary
+        expect(e.message).to.match(
+          /omit: Invalid key mappings: addressLine1. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
+        );
+      }
     });
 
     it('should pass through other options to base addressUI', () => {
@@ -264,28 +284,22 @@ describe('addressPattern mapping functions', () => {
         expect(result.properties).to.have.property('state');
         expect(result.properties).to.have.property('country');
       });
-      it('should omit using mapped key names in omit array', () => {
+      it('should validate if using wrong keys in omit', () => {
         const keys = {
           street: 'addressLine1',
           postalCode: 'zipCode',
         };
 
-        const result = addressSchema({
-          keys,
-          omit: ['addressLine1', 'zipCode'], // Using mapped names in omit
-        });
-
-        // Should not have the omitted mapped keys
-        expect(result.properties).to.not.have.property('addressLine1');
-        expect(result.properties).to.not.have.property('street');
-        expect(result.properties).to.not.have.property('zipCode');
-        expect(result.properties).to.not.have.property('postalCode');
-
-        // Should still have unmapped, non-omitted keys
-        expect(result.properties).to.have.property('street2');
-        expect(result.properties).to.have.property('street3');
-        expect(result.properties).to.have.property('city');
-        expect(result.properties).to.have.property('state');
+        try {
+          addressSchema({
+            keys,
+            omit: ['addressLine1', 'zipCode'], // Using mapped names in omit
+          });
+        } catch (e) {
+          expect(e.message).to.match(
+            /omit: Invalid key mappings: addressLine1, zipCode. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
+          );
+        }
       });
 
       it('should handle partial key mapping correctly', () => {
@@ -331,21 +345,19 @@ describe('addressPattern mapping functions', () => {
         expect(result.properties).to.have.property('postalCode');
       });
 
-      it('should handle mapping keys that do not exist in original schema', () => {
+      it('should validate keys not in original schema', () => {
         const keys = {
           street: 'addressLine1',
           nonExistentField: 'mappedNonExistent',
         };
 
-        const result = addressSchema({ keys });
-
-        // Should map existing fields
-        expect(result.properties).to.have.property('addressLine1');
-        expect(result.properties).to.not.have.property('street');
-
-        // Should ignore mapping for non-existent fields
-        expect(result.properties).to.not.have.property('mappedNonExistent');
-        expect(result.properties).to.not.have.property('nonExistentField');
+        try {
+          addressSchema({ keys });
+        } catch (e) {
+          expect(e.message).to.match(
+            /keys: Invalid key mappings: nonExistentField. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
+          );
+        }
       });
     });
   });
@@ -599,7 +611,7 @@ describe('addressPattern mapping functions', () => {
       });
     });
 
-    it('should handle omit with standard field names', () => {
+    it('should apply key mapping to all fields', () => {
       const originalSchema = {
         street: { type: 'string' },
         street2: { type: 'string' },
@@ -612,21 +624,18 @@ describe('addressPattern mapping functions', () => {
         postalCode: 'zipCode',
       };
 
-      const result = applyKeyMapping(originalSchema, keys, [
-        'street2',
-        'street3',
-      ]);
+      const result = applyKeyMapping(originalSchema, keys);
 
       // Should have mapped keys
       expect(result).to.have.property('addressLine1');
       expect(result).to.have.property('zipCode');
 
-      // Should not have omitted fields
-      expect(result).to.not.have.property('street2');
-      expect(result).to.not.have.property('street3');
+      // Should have unmapped fields with original names
+      expect(result).to.have.property('street2');
+      expect(result).to.have.property('street3');
     });
 
-    it('should handle omit with mapped field names', () => {
+    it('should map all specified keys correctly', () => {
       const originalSchema = {
         street: { type: 'string' },
         street2: { type: 'string' },
@@ -637,18 +646,15 @@ describe('addressPattern mapping functions', () => {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
-      const result = applyKeyMapping(originalSchema, keys, [
-        'addressLine1',
-        'zipCode',
-      ]);
+      const result = applyKeyMapping(originalSchema, keys);
 
-      // Should omit by mapped names
-      expect(result).to.not.have.property('addressLine1');
+      // Should have mapped keys
+      expect(result).to.have.property('addressLine1');
       expect(result).to.not.have.property('street');
-      expect(result).to.not.have.property('zipCode');
+      expect(result).to.have.property('zipCode');
       expect(result).to.not.have.property('postalCode');
 
-      // Should keep non-omitted, non-mapped field
+      // Should keep unmapped field
       expect(result).to.have.property('street2');
     });
 
@@ -668,7 +674,7 @@ describe('addressPattern mapping functions', () => {
         postalCode: { type: 'string' },
       };
 
-      const result = applyKeyMapping(originalSchema, {}, []);
+      const result = applyKeyMapping(originalSchema, {});
 
       expect(result).to.deep.equal(originalSchema);
     });
@@ -681,35 +687,6 @@ describe('addressPattern mapping functions', () => {
       const result = applyKeyMapping(originalSchema);
 
       expect(result).to.deep.equal(originalSchema);
-    });
-
-    it('should handle omit list with both source and target names', () => {
-      const originalSchema = {
-        street: { type: 'string' },
-        street2: { type: 'string' },
-        postalCode: { type: 'string' },
-      };
-
-      const keys = {
-        street: 'addressLine1',
-        postalCode: 'zipCode',
-      };
-
-      const result = applyKeyMapping(originalSchema, keys, [
-        'street', // Omit by source name
-        'zipCode', // Omit by target name
-        'street2', // Omit unmapped field
-      ]);
-
-      // All should be omitted
-      expect(result).to.not.have.property('street');
-      expect(result).to.not.have.property('addressLine1');
-      expect(result).to.not.have.property('street2');
-      expect(result).to.not.have.property('postalCode');
-      expect(result).to.not.have.property('zipCode');
-
-      // Result should be empty object
-      expect(Object.keys(result)).to.have.length(0);
     });
   });
   describe('key collision detection', () => {
@@ -824,7 +801,7 @@ describe('addressPattern mapping functions', () => {
       };
 
       expect(() => applyKeyMapping(originalSchema, keys)).to.throw(
-        /Field mapping would cause key collisions.*'fieldA' -> 'targetX'.*'fieldB' -> 'targetY'/,
+        /keys: Invalid key mappings: fieldA, fieldB, fieldC. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary./,
       );
     });
   });
@@ -1078,69 +1055,73 @@ describe('addressPattern mapping functions', () => {
       expect(consoleWarnStub.called).to.be.false;
     });
 
-    it('should log warnings when unsafe fields are mapped', () => {
+    it('should not log warnings when all fields are safe to map', () => {
       const schema = {
         country: { type: 'string' },
         city: { type: 'string' },
         state: { type: 'string' },
         street: { type: 'string' },
+        street2: { type: 'string' },
+        street3: { type: 'string' },
+        postalCode: { type: 'string' },
+        isMilitary: { type: 'boolean' },
       };
 
       const keys = {
         country: 'countryCode',
         city: 'cityName',
         state: 'stateCode',
-        street: 'addressLine1', // This one is safe
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        street3: 'addressLine3',
+        postalCode: 'zipCode',
+        isMilitary: 'militaryBase',
       };
 
       applyKeyMapping(schema, keys);
 
-      expect(consoleWarnStub.calledOnce).to.be.true;
-      const warning = consoleWarnStub.getCall(0).args[0];
-      expect(warning).to.include(
-        'WARNING: Mapping fields [country, city, state]',
-      );
-      expect(warning).to.include('may cause runtime errors');
-      expect(warning).to.include(
-        'Safe fields to map: [street, street2, street3, postalCode, isMilitary]',
-      );
-      expect(warning).to.include('See JSDoc for addressUI for details');
+      // All these fields are now safe to map
+      expect(consoleWarnStub.called).to.be.false;
     });
 
     it('should log warnings for individual unsafe fields', () => {
       const schema = {
-        country: { type: 'string' },
+        unsafeField: { type: 'string' },
         street: { type: 'string' },
       };
 
       const keys = {
-        country: 'countryCode',
+        unsafeField: 'customField',
       };
 
-      applyKeyMapping(schema, keys);
-
-      expect(consoleWarnStub.calledOnce).to.be.true;
-      const warning = consoleWarnStub.getCall(0).args[0];
-      expect(warning).to.include('WARNING: Mapping fields [country]');
+      try {
+        applyKeyMapping(schema, keys);
+      } catch (e) {
+        expect(e.message).to.match(
+          /keys: Invalid key mappings: unsafeField. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary./,
+        );
+      }
     });
 
     it('should handle multiple separate unsafe field mappings', () => {
       const schema = {
-        city: { type: 'string' },
-        state: { type: 'string' },
+        unsafeField1: { type: 'string' },
+        unsafeField2: { type: 'string' },
         street: { type: 'string' },
       };
 
       const keys = {
-        city: 'cityName',
-        state: 'stateCode',
+        unsafeField1: 'customField1',
+        unsafeField2: 'customField2',
       };
 
-      applyKeyMapping(schema, keys);
-
-      expect(consoleWarnStub.calledOnce).to.be.true;
-      const warning = consoleWarnStub.getCall(0).args[0];
-      expect(warning).to.include('WARNING: Mapping fields [city, state]');
+      try {
+        applyKeyMapping(schema, keys);
+      } catch (e) {
+        expect(e.message).to.match(
+          /keys: Invalid key mappings: unsafeField1, unsafeField2. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary./,
+        );
+      }
     });
 
     it('should not log warnings when no mapping keys are provided', () => {
