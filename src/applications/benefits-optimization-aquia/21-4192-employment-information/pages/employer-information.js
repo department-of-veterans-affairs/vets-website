@@ -29,10 +29,12 @@ export const employerInformationUiSchema = {
   },
 };
 
+const baseAddressSchema = addressNoMilitarySchema();
+
 const customAddressSchema = {
-  ...addressNoMilitarySchema(),
+  ...baseAddressSchema,
   properties: {
-    ...addressNoMilitarySchema().properties,
+    ...baseAddressSchema.properties,
     street: {
       type: 'string',
       maxLength: 30,
