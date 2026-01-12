@@ -42,7 +42,6 @@ src/applications/proxy-rewrite @department-of-veterans-affairs/platform-design-s
 
 src/applications/auth @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/login @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/sign-in-changes @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sign-in-confirm-contact-email @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/cta-widget @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/terms-of-use @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
@@ -212,6 +211,7 @@ src/applications/avs @department-of-veterans-affairs/after-visit-summary @depart
 src/applications/static-pages/mhv-signin-cta @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/mhv @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 .github/instructions/mhv-secure-messaging.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
+.github/instructions/mhv-medical-records.instructions.md @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Profile
 
@@ -277,6 +277,13 @@ src/applications/time-of-need @department-of-veterans-affairs/bah-mbs-selfserv @
 # Benefits Intake Optimization - HEART
 src/applications/simple-forms/21P-601 @department-of-veterans-affairs/bio-heart-team @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/simple-forms/21p-0537 @department-of-veterans-affairs/bio-heart-team @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Disability Benefits - Pathways
+src/applications/simple-forms/21-10210 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/21-4138 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/21-0966 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/21-0972 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/26-4555 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Transition Experience
 src/applications/discover-your-benefits @department-of-veterans-affairs/transition-experience @department-of-veterans-affairs/va-platform-cop-frontend

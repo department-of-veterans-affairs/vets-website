@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseCommonCarrierFields from '../../../../components/complex-claims/pages/ExpenseCommonCarrierFields';
@@ -15,6 +15,7 @@ describe('ExpenseCommonCarrierFields', () => {
       carrierType: '',
       reasonNotUsingPOV: '',
     },
+    errors: {},
     onChange: sinon.spy(),
   };
 
@@ -42,7 +43,6 @@ describe('ExpenseCommonCarrierFields', () => {
       <ExpenseCommonCarrierFields {...defaultProps} />,
     );
 
-    // Radio group container
     const radio = container.querySelector('va-radio[name="reasonNotUsingPOV"]');
     expect(radio).to.exist;
     expect(radio.getAttribute('label')).to.equal(
@@ -50,10 +50,7 @@ describe('ExpenseCommonCarrierFields', () => {
     );
     expect(radio.getAttribute('value')).to.equal('');
 
-    // Query all radio-option children
     const radioOptions = radio.querySelectorAll('va-radio-option');
-
-    // Ensure the correct number of options rendered
     expect(radioOptions.length).to.equal(
       Object.keys(TRANSPORTATION_REASONS).length,
     );
@@ -62,65 +59,77 @@ describe('ExpenseCommonCarrierFields', () => {
   it('marks the correct carrierType as checked', () => {
     const selectedType = TRANSPORTATION_OPTIONS[1];
 
-    const formState = {
-      carrierType: selectedType,
-      reasonNotUsingPOV: '',
-    };
     const { container } = render(
-      <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
+      <ExpenseCommonCarrierFields
+        {...defaultProps}
+        formState={{
+          carrierType: selectedType,
+          reasonNotUsingPOV: '',
+        }}
+      />,
     );
 
-    // Get Radio Group for Transportation Types and Check an option
-    const radioGroup = container.querySelector(
-      'va-radio[label="Type of transportation"]',
-    );
-    expect(radioGroup).to.exist;
-    fireEvent(
-      radioGroup,
-      new CustomEvent('vaValueChange', {
-        detail: { value: selectedType },
-      }),
-    );
-
-    // Verify the selected option is checked
     const selectedOption = container.querySelector(
       `va-radio-option[label="${selectedType}"]`,
     );
+
     expect(selectedOption).to.exist;
     expect(selectedOption.hasAttribute('checked')).to.be.true;
   });
 
-  it('marks the correct reasonNotUsingPOV as checked', () => {
+  it('marks correct reasonNotUsingPOV as selected via prop match', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
-    const firstLabel = TRANSPORTATION_REASONS[firstKey].label;
 
-    const formState = {
-      carrierType: '',
-      reasonNotUsingPOV: firstKey,
-    };
     const { container } = render(
-      <ExpenseCommonCarrierFields {...defaultProps} formState={formState} />,
+      <ExpenseCommonCarrierFields
+        {...defaultProps}
+        formState={{
+          carrierType: '',
+          reasonNotUsingPOV: firstKey,
+        }}
+      />,
     );
 
-    // Get Radio Group for Transportation Reasons and Check an option
-    const radioGroup = container.querySelector(
-      'va-radio[label="Why did you choose to use public transportation?"]',
-    );
-    expect(radioGroup).to.exist;
-    fireEvent(
-      radioGroup,
-      new CustomEvent('vaValueChange', {
-        detail: { value: firstKey },
-      }),
+    const reasonRadios = container.querySelectorAll(
+      'va-radio[name="reasonNotUsingPOV"] va-radio-option',
     );
 
-    // Verify the selected option is checked
-    const radioOptions = radioGroup.querySelectorAll('va-radio-option');
-    const selectedOption = Array.from(radioOptions).find(
-      opt => opt.getAttribute('label') === firstLabel,
+    const selected = Array.from(reasonRadios).find(
+      opt => opt.getAttribute('value') === firstKey,
     );
-    expect(selectedOption).to.exist;
-    expect(selectedOption.hasAttribute('checked')).to.be.true;
+
+    expect(selected).to.exist;
+    expect(selected.getAttribute('checked')).to.equal('true');
+  });
+
+  it('shows error message for carrierType when error exists', () => {
+    const errorMessage = 'Select a transportation type';
+
+    const { container } = render(
+      <ExpenseCommonCarrierFields
+        {...defaultProps}
+        errors={{ carrierType: errorMessage }}
+      />,
+    );
+
+    const radio = container.querySelector('va-radio[name="carrierType"]');
+    expect(radio).to.exist;
+    expect(radio.getAttribute('error')).to.equal(errorMessage);
+  });
+
+  it('shows error message for reasonNotUsingPOV when error exists', () => {
+    const errorMessage = 'Select a reason';
+
+    const { container } = render(
+      <ExpenseCommonCarrierFields
+        {...defaultProps}
+        errors={{ reasonNotUsingPOV: errorMessage }}
+      />,
+    );
+
+    const radio = container.querySelector('va-radio[name="reasonNotUsingPOV"]');
+    expect(radio).to.exist;
+    expect(radio.getAttribute('error')).to.equal(errorMessage);
   });
 
   it('checks the transportation type after selection', () => {
@@ -134,6 +143,7 @@ describe('ExpenseCommonCarrierFields', () => {
 
   it('checks the transportation reason after selection', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
+
     testVaRadioSelection({
       Component: ExpenseCommonCarrierFields,
       radioName: 'reasonNotUsingPOV',

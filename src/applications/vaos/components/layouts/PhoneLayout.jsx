@@ -45,7 +45,7 @@ export default function PhoneLayout({ data: appointment }) {
     shallowEqual,
   );
 
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
 
   let heading = 'Phone appointment';
   if (APPOINTMENT_STATUS.cancelled === status)
@@ -132,11 +132,7 @@ export default function PhoneLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Section>
-      <Details
-        reason={reasonForAppointment}
-        otherDetails={patientComments}
-        isCerner={isCerner}
-      />
+      <Details otherDetails={patientComments} isCerner={isCerner} />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (

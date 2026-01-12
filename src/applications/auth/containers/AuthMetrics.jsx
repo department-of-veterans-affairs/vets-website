@@ -39,7 +39,6 @@ export default class AuthMetrics {
       case POLICY_TYPES.CUSTOM: /* type=custom is used for SSOe auto login */
       case POLICY_TYPES.MHV_VERIFIED: /* type=mhv_verified */
       case CSP_IDS.MHV:
-      case CSP_IDS.DS_LOGON:
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
       case CSP_IDS.VAMOCK:

@@ -1,7 +1,7 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import { addDays, addMinutes, startOfDay, subDays, subMonths } from 'date-fns';
+import { addDays, startOfDay, subDays, subMonths } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
 import { AppointmentList } from '..';
@@ -34,6 +34,7 @@ describe('VAOS Backend Service Alert', () => {
     const appointment = new MockAppointmentResponse({
       localStartTime: addDays(now, 1),
       status: APPOINTMENT_STATUS.booked,
+      future: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({
@@ -105,10 +106,11 @@ describe('VAOS Backend Service Alert', () => {
   it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list', async () => {
     // Arrange
     const start = subMonths(now, 3);
-    const end = addMinutes(now.setMinutes(0), 30);
+    const end = addDays(now.setMinutes(0), 1);
     const appointment = new MockAppointmentResponse({
       localStartTime: yesterday,
       status: APPOINTMENT_STATUS.booked,
+      past: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({
@@ -138,10 +140,11 @@ describe('VAOS Backend Service Alert', () => {
   it('should not display BackendAppointmentServiceAlert if there is no failure returned on the past appointments list', async () => {
     // Arrange
     const start = subMonths(now, 3);
-    const end = addMinutes(now.setMinutes(0), 30);
+    const end = addDays(now.setMinutes(0), 1);
     const appointment = new MockAppointmentResponse({
       localStartTime: yesterday,
       status: APPOINTMENT_STATUS.booked,
+      past: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({

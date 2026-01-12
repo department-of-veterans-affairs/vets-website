@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   focusElement,
   handleLcResultsSearch,
@@ -9,7 +10,6 @@ import {
   updateCategoryDropdown,
   updateQueryParam,
 } from '../utils/helpers';
-
 import { fetchLicenseCertificationResults, filterLcResults } from '../actions';
 
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
@@ -108,6 +108,11 @@ export default function LicenseCertificationSearchForm() {
 
   const handleChange = e => {
     setDropdown(updateCategoryDropdown(e.target.value));
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': e.target.name,
+      'gibct-form-value': e.target.value,
+    });
   };
 
   const onSelection = selection => {

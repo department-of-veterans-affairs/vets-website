@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import AssessYourInterestsSection from '../components/AssessYourInterestsSection';
 import FindAPathSection from '../components/FindAPathSection';
 import FindAJobSection from '../components/FindAJobSection';
@@ -11,6 +12,11 @@ export default function CareerExplorationAndPlanning() {
   const showCareerExplorationAndPlanningPage = useToggleValue(
     TOGGLE_NAMES.vre_eligibility_status_phase_2_updates,
   );
+
+  useEffect(() => {
+    scrollToTop();
+    focusElement('h1');
+  }, []);
 
   if (!showCareerExplorationAndPlanningPage) {
     return (

@@ -229,7 +229,6 @@ describe('Submit Transformer', () => {
           employmentDates: {
             beginningDate: '2020-01-15',
             endingDate: '2023-06-30',
-            currentlyEmployed: false,
           },
         },
       };
@@ -244,12 +243,11 @@ describe('Submit Transformer', () => {
       );
     });
 
-    it('should set ending date to null if currently employed', () => {
+    it('should omit ending date when not provided (currently employed)', () => {
       const form = {
         data: {
           employmentDates: {
             beginningDate: '2020-01-15',
-            currentlyEmployed: true,
           },
         },
       };
@@ -475,7 +473,7 @@ describe('Submit Transformer', () => {
         .to.be.false;
     });
 
-    it('should omit military duty status when reserveOrGuardStatus is no', () => {
+    it('should include military duty status with false value when reserveOrGuardStatus is no', () => {
       const form = {
         data: {
           dutyStatus: {
@@ -486,10 +484,13 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      expect(result.militaryDutyStatus).to.not.exist;
+      expect(result.militaryDutyStatus).to.exist;
+      expect(result.militaryDutyStatus.veteranDisabilitiesPreventMilitaryDuties)
+        .to.be.false;
+      expect(result.militaryDutyStatus.currentDutyStatus).to.not.exist;
     });
 
-    it('should omit military duty status when reserveOrGuardStatus is false', () => {
+    it('should include military duty status with false value when reserveOrGuardStatus is false', () => {
       const form = {
         data: {
           dutyStatus: {
@@ -500,7 +501,10 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      expect(result.militaryDutyStatus).to.not.exist;
+      expect(result.militaryDutyStatus).to.exist;
+      expect(result.militaryDutyStatus.veteranDisabilitiesPreventMilitaryDuties)
+        .to.be.false;
+      expect(result.militaryDutyStatus.currentDutyStatus).to.not.exist;
     });
 
     it('should omit military duty status when not provided', () => {
@@ -558,7 +562,7 @@ describe('Submit Transformer', () => {
       );
     });
 
-    it('should omit benefitEntitlementPayments section when benefitEntitlement is no', () => {
+    it('should include benefitEntitlementPayments section with false value when benefitEntitlement is no', () => {
       const form = {
         data: {
           benefitsInformation: {
@@ -569,11 +573,13 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Section should be completely omitted when veteran doesn't receive benefits
-      expect(result.benefitEntitlementPayments).to.not.exist;
+      // Section should include false value so backend can fill "NO" in the PDF
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.false;
     });
 
-    it('should omit benefitEntitlementPayments section when benefitEntitlement is false', () => {
+    it('should include benefitEntitlementPayments section with false value when benefitEntitlement is false', () => {
       const form = {
         data: {
           benefitsInformation: {
@@ -584,8 +590,10 @@ describe('Submit Transformer', () => {
 
       const result = JSON.parse(transformForSubmit(mockFormConfig, form));
 
-      // Section should be omitted when using boolean false
-      expect(result.benefitEntitlementPayments).to.not.exist;
+      // Section should include false value when using boolean false
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.false;
     });
 
     it('should include benefitEntitlementPayments when benefitEntitlement is true', () => {
@@ -689,7 +697,6 @@ describe('Submit Transformer', () => {
           employmentDates: {
             beginningDate: '2015-01-01',
             endingDate: '2023-12-31',
-            currentlyEmployed: false,
           },
           employmentEarningsHours: {
             typeOfWork: 'Software Engineer',
@@ -716,11 +723,15 @@ describe('Submit Transformer', () => {
       expect(result.employmentInformation).to.exist;
       expect(result.certification).to.exist;
 
-      // Verify no militaryDutyStatus when not reserve/guard
-      expect(result.militaryDutyStatus).to.not.exist;
+      // Verify militaryDutyStatus includes false value when not reserve/guard
+      expect(result.militaryDutyStatus).to.exist;
+      expect(result.militaryDutyStatus.veteranDisabilitiesPreventMilitaryDuties)
+        .to.be.false;
 
-      // Verify no benefitEntitlementPayments when benefitEntitlement is 'no'
-      expect(result.benefitEntitlementPayments).to.not.exist;
+      // Verify benefitEntitlementPayments includes false value when benefitEntitlement is 'no'
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.false;
 
       // Verify key transformations
       expect(result.veteranInformation.fullName.first).to.equal('John');

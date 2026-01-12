@@ -42,7 +42,7 @@ describe('Medical Expenses Pages', () => {
 
     expect(vaRadio.getAttribute('label-header-level')).to.equal('3');
     expect(vaRadio.getAttribute('label')).to.equal(
-      'Do you have a medical or other expense to add?',
+      'Do you have a medical, last, burial, or other expense to add?',
     );
     expect(vaRadioOptions.length).to.equal(2);
     expect(vaRadioOptions[0].getAttribute('label')).to.equal('Yes');
@@ -70,7 +70,7 @@ describe('Medical Expenses Pages', () => {
       'va-text-input[label*="Full name of the person who the expense is for"]';
     const vaRecipientOptions = $$('va-radio-option', formDOM);
     expect(form.getByRole('heading')).to.have.text(
-      'Medical recipient and provider name',
+      'Expense recipient and provider name',
     );
     expect(vaRecipientOptions.length).to.equal(3);
     Object.keys(medicalExpenseRecipientLabels).forEach((key, index) => {
@@ -92,19 +92,19 @@ describe('Medical Expenses Pages', () => {
     const { isItemIncomplete } = options;
     const completeItem = {
       recipient: 'VETERANS_CHILD',
-      recipientName: 'John Doe',
+      recipientOther: 'John Doe',
       purpose: 'Dr. Smith',
       paymentDate: '2020-01-01',
-      amount: 100,
-      frequency: 'monthly',
+      paymentAmount: 100,
+      paymentFrequency: 'monthly',
     };
     const incompleteItem = {
       recipient: 'VETERANS_CHILD',
       // missing recipientName
       purpose: 'Dr. Smith',
       paymentDate: '2020-01-01',
-      amount: 100,
-      frequency: 'monthly',
+      paymentAmount: 100,
+      paymentFrequency: 'monthly',
     };
 
     expect(isItemIncomplete(completeItem)).to.be.false;
@@ -123,7 +123,7 @@ describe('Medical Expenses Pages', () => {
     const { text } = options;
     const itemWithData = {
       paymentDate: '2020-01-15',
-      frequency: 'MONTHLY',
+      paymentFrequency: 'MONTHLY',
     };
     const itemWithoutData = {};
 

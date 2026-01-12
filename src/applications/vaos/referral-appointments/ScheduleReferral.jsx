@@ -69,7 +69,7 @@ export default function ScheduleReferral() {
   };
 
   const canScheduleAppointment =
-    currentReferral?.provider?.name && stationIdValid;
+    currentReferral?.provider?.npi && stationIdValid;
 
   return (
     <ReferralLayout

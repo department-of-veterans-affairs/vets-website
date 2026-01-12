@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
@@ -11,7 +12,10 @@ import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
 import Section from './Section';
 
 const setClaimEntry = () => {
-  sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+  sessionStorage.setItem(
+    TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+    TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+  );
 };
 
 export default function TravelReimbursementSection({ appointment }) {
@@ -121,13 +125,13 @@ export default function TravelReimbursementSection({ appointment }) {
               onPrimaryButtonClick={() => {
                 setShowModal(false);
                 setClaimEntry();
-                window.location.href = `/my-health/travel-pay/file-new-claim/${
-                  appointment.id
+                window.location.href = `/my-health/travel-pay/claims/${
+                  claimData.claim.id
                 }`;
               }}
               onSecondaryButtonClick={() => setShowModal(false)}
               modalTitle="Your appointment happened more than 30 days ago"
-              primaryButtonText="Yes, I want to file"
+              primaryButtonText="File claim"
               secondaryButtonText="Don’t file"
               status="warning"
               uswds
@@ -155,7 +159,7 @@ export default function TravelReimbursementSection({ appointment }) {
           <p className="vads-u-margin-y--0p5">
             <va-link
               data-testid="view-claim-link"
-              href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+              href={`/my-health/travel-pay/claims/${claimData.claim.id}`}
               onClick={setClaimEntry}
               text="Complete and file your claim"
             />

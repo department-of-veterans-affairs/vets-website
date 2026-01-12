@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom-v5-compat';
 import {
   VaLink,
-  VaCard,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import OtherWaysToSendYourDocuments from './claim-files-tab-v2/OtherWaysToSendYourDocuments';
+import DocumentCard from './DocumentCard';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
 import {
-  buildDateFormatter,
   getTrackedItemDisplayNameFromEvidenceSubmission,
+  setDocumentTitle,
 } from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
 import { ITEMS_PER_PAGE } from '../constants';
@@ -30,8 +30,6 @@ const FilesWeCouldntReceive = () => {
   const { data: failedFiles, loading, error } = useSelector(
     state => state.disability.status.failedUploads,
   );
-
-  const formatDate = buildDateFormatter();
 
   // Sort failed files by date (most recent first)
   const sortedFailedFiles = useMemo(
@@ -56,6 +54,10 @@ const FilesWeCouldntReceive = () => {
     onPageSelect(page);
     setPageFocus('#pagination-info');
   };
+
+  useEffect(() => {
+    setDocumentTitle("Files we couldn't receive");
+  }, []);
 
   useEffect(
     () => {
@@ -155,47 +157,34 @@ const FilesWeCouldntReceive = () => {
                 role="list"
               >
                 {currentPageItems.map(file => {
-                  const requestTypeText = getTrackedItemDisplayNameFromEvidenceSubmission(
+                  const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
                     file,
                   );
 
-                  const requestText = requestTypeText
-                    ? `Submitted in response to request: ${requestTypeText}`
+                  const requestTypeText = requestType
+                    ? `Submitted in response to request: ${requestType}`
                     : 'You submitted this file as additional evidence.';
 
+                  const link = {
+                    href: `/track-claims/your-claims/${file.claimId}/status`,
+                    text: 'Go to the claim associated with this file',
+                    label: `Go to the claim associated with this file: ${
+                      file.fileName
+                    }`,
+                  };
+
                   return (
-                    <li key={file.id}>
-                      <VaCard
-                        className="vads-u-margin-y--3"
-                        data-testid={`failed-file-${file.id}`}
-                      >
-                        <h3
-                          className="filename-title vads-u-margin-y--0 vads-u-margin-bottom--2"
-                          data-dd-privacy="mask"
-                          data-dd-action-name="document filename"
-                        >
-                          {file.fileName}
-                        </h3>
-                        <div className="vads-u-margin-bottom--2">
-                          <p className="vads-u-margin-y--0">
-                            Document type: {file.documentType}
-                          </p>
-                          <p className="vads-u-margin-y--0">{requestText}</p>
-                        </div>
-                        <p className="vads-u-margin-y--0">
-                          Date failed: {formatDate(file.failedDate)}
-                        </p>
-                        <VaLink
-                          active
-                          href={`/track-claims/your-claims/${
-                            file.claimId
-                          }/status`}
-                          text="Go to claim this file was uploaded for"
-                          label={`Go to the claim this file was uploaded for: ${
-                            file.fileName
-                          }`}
-                        />
-                      </VaCard>
+                    // ignore heading order violation (see [Design](https://www.figma.com/design/m1Xt8XjVDjZIbliCYcCKpE/Document-status?node-id=10278-153365&t=z9yq8vxF1Hj4HYmm-4))
+                    <li key={file.id} data-a11y-ignore="heading-order">
+                      <DocumentCard
+                        index={file.id}
+                        variant="failed"
+                        fileName={file.fileName}
+                        documentType={file.documentType}
+                        requestTypeText={requestTypeText}
+                        date={file.failedDate}
+                        link={link}
+                      />
                     </li>
                   );
                 })}

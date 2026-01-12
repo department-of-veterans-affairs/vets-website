@@ -10,7 +10,10 @@ import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import { applicantInformation } from './chapters/applicant';
+import {
+  applicantInformation,
+  personalInformation,
+} from './chapters/applicant';
 
 import {
   additionalInformation,
@@ -22,6 +25,9 @@ import { serviceStatus, serviceHistory } from './chapters/service';
 import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
+
+import serviceStatus2 from '../pages/serviceStatus2';
+// import disabilitySeparation from '../pages/disabilitySeparation';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
@@ -64,17 +70,28 @@ const formConfig = {
   },
   title: 'Request a VA home loan Certificate of Eligibility (COE)',
   subTitle: 'VA Form 26-1880',
+  useCustomScrollAndFocus: true,
   defaultDefinitions: definitions,
   chapters: {
     applicantInformationChapter: {
-      title: 'Your personal information',
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Your information'
+          : 'Your personal information on file';
+      },
       pages: {
         applicantInformationSummary: {
           path: 'applicant-information',
+          // There seems to be a bug where the depends clause is ignored for the first item in the form
+          // depends: formData => {
+          //   console.log('the value 2:', formData);
+          //   return !formData['view:coeFormRebuildCveteam'];
+          // },
           title: 'Your personal information on file',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
+        yourInformation: personalInformation,
       },
     },
     contactInformationChapter: {
@@ -96,14 +113,36 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Your service history',
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Military history'
+          : 'Your service history';
+      },
       pages: {
         serviceStatus: {
           path: 'service-status',
           title: 'Service status',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
         },
+        serviceStatus2: {
+          path: 'service-status-2',
+          title: 'Service status',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: serviceStatus2.uiSchema,
+          schema: serviceStatus2.schema,
+        },
+        // disabilitySeparationPage: {
+        //   path: 'separation',
+        //   title: 'Separation',
+        //   uiSchema: disabilitySeparation.uiSchema,
+        //   schema: disabilitySeparation.schema,
+        // },
         serviceHistory: {
           path: 'service-history',
           title: 'Service history',
