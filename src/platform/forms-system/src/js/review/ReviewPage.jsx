@@ -7,7 +7,7 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from 'platform/monitoring/DowntimeNotification/components/Down';
 
-import { getFormNumberFromFormConfig } from 'platform/forms-system/exportsFile';
+import { REVIEW_AND_SUBMIT } from 'platform/forms-system/src/js/constants';
 import ReviewChapters from './ReviewChapters';
 import SubmitController from './SubmitController';
 import { isMinimalHeaderApp } from '../patterns/minimal-header';
@@ -30,7 +30,7 @@ class ReviewPage extends React.Component {
       <div>
         {isMinimalHeaderApp() && (
           <h1 className="vads-u-font-size--h2">
-            Review and submit VA Form {getFormNumberFromFormConfig(formConfig)}
+            {formConfig?.customText?.reviewPageFormTitle ?? REVIEW_AND_SUBMIT}
           </h1>
         )}
         <ReviewChapters formConfig={formConfig} pageList={pageList} />

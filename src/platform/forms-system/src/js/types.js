@@ -70,6 +70,7 @@
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
+ * @property {boolean} [dynamicPaths] do the form pages have dynamic paths, e.g. form-upload
  */
 
 /**
@@ -80,6 +81,7 @@
  * @property {string} [reviewPageTitle]
  * @property {string} [startNewAppButtonText]
  * @property {string} [submitButtonText]
+ * @property {string} [reviewPageFormTitle]
  */
 
 /**
@@ -182,7 +184,8 @@
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
  */
-
+// a way to signal we have "two" folders
+// something about routing a function or...
 /**
  * @typedef {Object} CustomPageProps
  * @property {string} name route.pageConfig.pageKey

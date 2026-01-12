@@ -157,7 +157,6 @@ export {
   scrollToElement,
   setGlobalScroll,
   scrollToFirstError,
-  getFormNumberFromFormConfig,
 } from './src/js/utilities/ui/index';
 
 export {

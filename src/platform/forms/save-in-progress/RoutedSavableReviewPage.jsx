@@ -8,7 +8,7 @@ import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
-import { getFormNumberFromFormConfig } from 'platform/forms-system/exportsFile';
+import { REVIEW_AND_SUBMIT } from 'platform/forms-system/src/js/constants';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
@@ -63,7 +63,7 @@ class RoutedSavableReviewPage extends React.Component {
         <Element name="topContentElement" />
         {isMinimalHeaderApp() && (
           <h1 className="vads-u-font-size--h2">
-            Review and submit VA Form {getFormNumberFromFormConfig(formConfig)}
+            {formConfig?.customText?.reviewPageFormTitle ?? REVIEW_AND_SUBMIT}
           </h1>
         )}
         {CustomReviewTopContent && <CustomReviewTopContent />}

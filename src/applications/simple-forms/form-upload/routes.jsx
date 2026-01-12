@@ -30,25 +30,6 @@ const formUploadForms = [
 ];
 const config = formConfig();
 
-/**
- * the exclude-paths dataset must be updated for a particular form or the minimal header will not render
- * due to dynamic routes updating the path on a per form basis
- */
-function updateExcludePaths(formconf) {
-  const { formId } = formconf;
-  const formNumber = formId.replace('-UPLOAD', '');
-  const minimalHeader = document.getElementById('header-minimal');
-  if (minimalHeader) {
-    const excludePaths = JSON.parse(minimalHeader.dataset.excludePaths);
-    if (Array.isArray(excludePaths)) {
-      const _excludePaths = excludePaths.map(path => `/${formNumber}${path}`);
-      minimalHeader.dataset.excludePaths = JSON.stringify(_excludePaths);
-    }
-  }
-}
-
-updateExcludePaths(config);
-
 const routes = formUploadForms.map(formId => {
   const lowerCaseFormId = formId.toLowerCase();
 
