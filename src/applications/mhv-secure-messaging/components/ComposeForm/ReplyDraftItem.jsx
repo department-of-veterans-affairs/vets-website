@@ -556,7 +556,6 @@ const ReplyDraftItem = props => {
             onSend={sendMessageHandler}
             refreshThreadCallback={refreshThreadHandler}
             setNavigationError={setNavigationError}
-            draftSequence={null}
             setHideDraft={setHideDraft}
             setIsEditing={setIsEditing}
             setIsModalVisible={setIsModalVisible}
