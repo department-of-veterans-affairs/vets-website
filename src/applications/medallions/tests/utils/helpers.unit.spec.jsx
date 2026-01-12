@@ -199,4 +199,54 @@ describe('medallions/utils/helpers', () => {
       expect(errors.addError.called).to.be.false;
     });
   });
+
+  describe('formatPhone', () => {
+    it('should return "Not provided" for null input', () => {
+      expect(helpers.formatPhone(null)).to.equal('Not provided');
+    });
+
+    it('should return "Not provided" for undefined input', () => {
+      expect(helpers.formatPhone(undefined)).to.equal('Not provided');
+    });
+
+    it('should return "Not provided" for empty string', () => {
+      expect(helpers.formatPhone('')).to.equal('Not provided');
+    });
+
+    it('should format a valid 10-digit phone number without special characters', () => {
+      expect(helpers.formatPhone('1234567890')).to.equal('123-456-7890');
+    });
+
+    it('should format a phone number with parentheses and spaces', () => {
+      expect(helpers.formatPhone('(123) 456-7890')).to.equal('123-456-7890');
+    });
+
+    it('should format a phone number with dashes', () => {
+      expect(helpers.formatPhone('123-456-7890')).to.equal('123-456-7890');
+    });
+
+    it('should format a phone number with dots', () => {
+      expect(helpers.formatPhone('123.456.7890')).to.equal('123-456-7890');
+    });
+
+    it('should format a phone number with mixed special characters', () => {
+      expect(helpers.formatPhone('(123)-456.7890')).to.equal('123-456-7890');
+    });
+
+    it('should return phone as-is if it has less than 10 digits', () => {
+      expect(helpers.formatPhone('123456789')).to.equal('123456789');
+    });
+
+    it('should return phone as-is if it has more than 10 digits', () => {
+      expect(helpers.formatPhone('12345678901')).to.equal('12345678901');
+    });
+
+    it('should return phone as-is if it contains letters', () => {
+      expect(helpers.formatPhone('123-ABC-7890')).to.equal('123-ABC-7890');
+    });
+
+    it('should handle phone numbers with only special characters', () => {
+      expect(helpers.formatPhone('---')).to.equal('---');
+    });
+  });
 });
