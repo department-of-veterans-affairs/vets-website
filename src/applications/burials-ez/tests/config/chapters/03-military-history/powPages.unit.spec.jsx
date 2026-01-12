@@ -88,7 +88,7 @@ describe('prisoner of war confinement period list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Have you ever been a prisoner of war?"]'],
+      ['va-radio[label="Was the Veteran ever a prisoner of war?"]'],
       pageTitle,
     );
     testSubmitsWithoutErrors(
