@@ -9,10 +9,10 @@ import {
  */
 const uiSchema = {
   ...titleUI('Children of Veteran'),
-  expectingChild: yesNoUI({
+  pregnantWithVeteran: yesNoUI({
     title: "Are you expecting the birth of the Veteran's child?",
   }),
-  hadChildWithVeteran: yesNoUI({
+  childWithVeteran: yesNoUI({
     title:
       'Did you have a child with the Veteran before or during your marriage?',
   }),
@@ -21,10 +21,10 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    expectingChild: yesNoSchema,
-    hadChildWithVeteran: yesNoSchema,
+    pregnantWithVeteran: yesNoSchema,
+    childWithVeteran: yesNoSchema,
   },
-  required: ['expectingChild', 'hadChildWithVeteran'],
+  required: ['pregnantWithVeteran', 'childWithVeteran'],
 };
 
 const veteranChildren = {
