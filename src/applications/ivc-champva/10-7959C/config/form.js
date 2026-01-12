@@ -11,7 +11,7 @@ import { nameWording, privWrapper } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
-import { migrateCardUploadKeys } from './migrations';
+import migrations from './migrations';
 import { blankSchema } from '../definitions';
 
 import { beneficiaryPages } from '../chapters/applicantInformation';
@@ -98,8 +98,8 @@ const formConfig = {
         'Your CHAMPVA other health insurance certification application has been saved.',
     },
   },
-  version: 1,
-  migrations: [migrateCardUploadKeys],
+  version: migrations.length,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
   transformForSubmit,
@@ -152,14 +152,10 @@ const formConfig = {
         benefitApp: {
           path: 'benefit-application',
           title: 'Apply for Benefits',
-          depends: formData => !get('champvaBenefitStatus', formData),
+          depends: formData => !get('view:champvaBenefitStatus', formData),
           CustomPage: NotEnrolledPage,
           CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
+          uiSchema: {},
           schema: blankSchema,
         },
         signerEmail: {
