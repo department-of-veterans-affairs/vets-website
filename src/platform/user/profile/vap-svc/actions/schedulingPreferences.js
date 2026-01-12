@@ -171,7 +171,6 @@ export function createSchedulingPreferencesUpdate({
         transaction: response,
       });
 
-      // optimistic UI update to show saved field value
       dispatch({
         type: UPDATE_SCHEDULING_PREFERENCES_FIELD,
         fieldName,

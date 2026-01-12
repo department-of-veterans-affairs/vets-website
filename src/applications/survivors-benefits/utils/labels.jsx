@@ -5,34 +5,34 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 export const dicOptions = {
   DIC: 'DIC',
-  DIC_1151: 'DIC under U.S.C. 1151',
-  DIC_REEVALUATION: 'DIC re-evaluation based on the PACT Act',
+  '1151DIC': 'DIC under U.S.C. 1151',
+  pactActDIC: 'DIC re-evaluation based on the PACT Act',
 };
 
 export const servicesOptions = {
-  ARMY: 'Army',
-  NAVY: 'Navy',
-  AIR_FORCE: 'Air Force',
-  COAST_GUARD: 'Coast Guard',
-  MARINE_CORPS: 'Marine Corps',
-  SPACE_FORCE: 'Space Force',
-  USPHS: 'USPHS',
-  NOAA: 'NOAA',
+  army: 'Army',
+  navy: 'Navy',
+  airForce: 'Air Force',
+  coastGuard: 'Coast Guard',
+  marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
+  usphs: 'USPHS',
+  noaa: 'NOAA',
 };
 
 export const claimantRelationshipOptions = {
-  SPOUSE: 'Surviving spouse',
-  CUSTODIAN: 'Custodian filing for child under 18',
-  ADULT_CHILD_STILL_IN_SCHOOL:
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  CUSTODIAN_FILING_FOR_CHILD_UNDER_18: 'Custodian filing for child under 18',
+  'CHILD_18-23_IN_SCHOOL':
     'Adult child who is 18-23 years old and still in school',
-  ADULT_CHILD_SERIOUSLY_DISABLED: 'Adult child who is seriously disabled',
+  HELPLESS_ADULT_CHILD: 'Adult child who is seriously disabled',
   OTHER: 'Other',
 };
 
 export const marriageEndOptions = {
-  SPOUSE_DEATH: "Spouse's death",
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
+  death: "Spouse's death",
+  divorce: 'Divorce',
+  other: 'Other',
 };
 
 export const marriageTypeOptions = {
@@ -81,7 +81,7 @@ export const medicalExpenseRecipientLabels = {
 };
 
 export const careTypeLabels = {
-  RESIDENTIAL_CARE_FACILITY: 'Residential care facility',
+  CARE_FACILITY: 'Residential care facility',
   IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
   NURSING_HOME: 'Nursing home',
   ADULT_DAYCARE: 'Adult daycare',
@@ -95,7 +95,7 @@ export const frequencyLabels = {
 
 export const careFrequencyLabels = {
   MONTHLY: 'Once a month',
-  YEARLY: 'Once a year',
+  ANNUALLY: 'Once a year',
 };
 
 export const typeOfIncomeLabels = {

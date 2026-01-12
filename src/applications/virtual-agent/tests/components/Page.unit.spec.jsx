@@ -10,6 +10,7 @@ import * as UseChosenBotModule from '../../hooks/useChosenBot';
 import Page, { renderPageContent } from '../../components/Page';
 import FloatingBot from '../../components/FloatingBot';
 import StickyBot from '../../components/StickyBot';
+import ChatbotUnavailable from '../../components/ChatbotUnavailable';
 
 import * as StickyBotModule from '../../components/FloatingBot';
 import * as FloatingBotModule from '../../components/StickyBot';
@@ -66,20 +67,24 @@ describe('Page', () => {
     });
   });
   describe('renderPageContent', () => {
+    it('renders ChatbotUnavailable when showChatbot is false', () => {
+      const result = renderPageContent(true, 'sticky', false);
+      expect(result).to.deep.equal(<ChatbotUnavailable />);
+    });
     it('renders loading indicator when isLoading is true', () => {
-      const result = renderPageContent(true, 'sticky');
+      const result = renderPageContent(true, 'sticky', true);
       expect(result).to.deep.equal(<va-loading-indicator />);
     });
     it('returns StickyBot when chosenBot is "sticky" and isLoading is false', () => {
-      const result = renderPageContent(false, 'sticky');
+      const result = renderPageContent(false, 'sticky', true);
       expect(result).to.deep.equal(<StickyBot />);
     });
     it('returns FloatingBot when chosenBot is "default" and isLoading is false', () => {
-      const result = renderPageContent(false, 'default');
+      const result = renderPageContent(false, 'default', true);
       expect(result).to.deep.equal(<FloatingBot />);
     });
     it('renders empty string when chosenBot is neither "sticky" nor "default" and isLoading is false', () => {
-      const result = renderPageContent(false, 'other');
+      const result = renderPageContent(false, 'other', true);
       expect(result).to.equal('');
     });
   });
