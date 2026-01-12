@@ -21,21 +21,25 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           // Click the start link to begin the form
-          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-            .last()
-            .click();
+          cy.get('[data-testid="start-veteran-information-link"]').click();
         });
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const { veteranFullName } = data.veteranInformation;
+            // if claimant is not veteran, use claimantFullName, otherwise use veteranFullName
+            const signeeFullName =
+              data.claimantRelationship.relationship !== 'veteran'
+                ? data.claimantInformation.claimantFullName
+                : data.veteranInformation.veteranFullName;
             // Build full name for signature (middle is optional, no suffix)
             // The platform displays the full name but validates flexibly
-            const veteranName = [
-              veteranFullName.first,
-              veteranFullName.middle,
-              veteranFullName.last,
+            const signeeName = [
+              signeeFullName.first,
+              data.claimantRelationship.relationship !== 'veteran'
+                ? ''
+                : signeeFullName.middle, // e2e tests exclude middle name for claimant
+              signeeFullName.last,
             ]
               .filter(Boolean)
               .join(' ');
@@ -44,7 +48,7 @@ const testConfig = createTestConfig(
             cy.get('va-statement-of-truth')
               .shadow()
               .find('input[type="text"]')
-              .type(veteranName);
+              .type(signeeName);
 
             // Check statement of truth checkbox within VaStatementOfTruth component
             cy.get('va-statement-of-truth')
