@@ -8,6 +8,7 @@ import React, {
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropType from 'prop-types';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   VaRadio,
   VaRadioOption,
@@ -255,6 +256,31 @@ const SelectCareTeam = () => {
       setShowContactListLink(hasVistaFacility);
     },
     [vistaFacilities],
+  );
+
+  // Track when VA Health Systems are displayed
+  useEffect(
+    () => {
+      if (allFacilities?.length > 1) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'successful',
+          'health-systems-count': allFacilities.length,
+          'display-type':
+            allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
+        });
+      } else if (allFacilities?.length === 0) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'fail',
+          'health-systems-count': 0,
+          'error-key': 'no-health-systems',
+        });
+      }
+    },
+    [allFacilities],
   );
 
   // updates the available teams in the Care Team combo box
