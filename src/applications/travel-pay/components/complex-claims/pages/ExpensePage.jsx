@@ -692,18 +692,7 @@ const ExpensePage = () => {
             value={formState.purchaseDate || ''}
             required
             hint={dateHintText}
-            // Needed since we need to remove errors on change
-            onDateChange={e => {
-              handleFormChange(e);
-              const validationResult = validateReceiptDate(
-                e.detail.target?.value,
-                DATE_VALIDATION_TYPE.CHANGE,
-              );
-              setExtraFieldErrors(prev => ({
-                ...prev,
-                purchaseDate: validationResult.purchaseDate,
-              }));
-            }}
+            onDateChange={handleFormChange}
             onDateBlur={e => {
               const validationResult = validateReceiptDate(
                 e.detail.target?.value,
