@@ -163,11 +163,12 @@ describe('Check for vaccine updates action', () => {
     getAcceleratedImmunizationsStub.restore();
   });
 
-  it('should call v1 getVaccineList when isAccelerating is false', async () => {
+  it('should call v1 getVaccineList with correct params when isAccelerating is false', async () => {
     const dispatch = sinon.spy();
     await checkForVaccineUpdates(false)(dispatch);
 
     expect(getVaccineListStub.calledOnce).to.be.true;
+    expect(getVaccineListStub.calledWith(1, false)).to.be.true;
     expect(getAcceleratedImmunizationsStub.called).to.be.false;
     expect(dispatch.firstCall.args[0].type).to.equal(
       Actions.Vaccines.CHECK_FOR_UPDATE,
@@ -185,11 +186,12 @@ describe('Check for vaccine updates action', () => {
     );
   });
 
-  it('should call v1 getVaccineList when isAccelerating is undefined (default)', async () => {
+  it('should call v1 getVaccineList with correct params when isAccelerating is undefined (default)', async () => {
     const dispatch = sinon.spy();
     await checkForVaccineUpdates()(dispatch);
 
     expect(getVaccineListStub.calledOnce).to.be.true;
+    expect(getVaccineListStub.calledWith(1, false)).to.be.true;
     expect(getAcceleratedImmunizationsStub.called).to.be.false;
     expect(dispatch.firstCall.args[0].type).to.equal(
       Actions.Vaccines.CHECK_FOR_UPDATE,
