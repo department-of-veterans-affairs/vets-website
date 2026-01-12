@@ -8,7 +8,7 @@ import { ProfileAlertConfirmEmailContent } from 'platform/mhv/components/MhvAler
 
 describe('<ProfileAlertConfirmEmailContent />', () => {
   it('renders text, email address, Confirm button, and Edit button', async () => {
-    const { container, findByText, getByRole } = render(
+    const { container, findByText } = render(
       <ProfileAlertConfirmEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -22,7 +22,7 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
 
     await findByText('vet@va.gov');
 
-    const confirmButton = getByRole('button', { name: /Confirm/i });
+    const confirmButton = container.querySelector('va-button[text="Confirm"]');
     expect(confirmButton).to.exist;
 
     const editButton = container.querySelector(
@@ -34,7 +34,7 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
   it('calls onConfirmClick when Confirm button is clicked', async () => {
     const onConfirmClick = sinon.spy();
 
-    const { getByRole } = render(
+    const { container } = render(
       <ProfileAlertConfirmEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={onConfirmClick}
@@ -42,7 +42,7 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
-    const button = getByRole('button', { name: /Confirm/i });
+    const button = container.querySelector('va-button[text="Confirm"]');
     fireEvent.click(button);
 
     await waitFor(() => {
@@ -72,7 +72,7 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
   });
 
   it('shows loading state and hides Edit button when isConfirming is true', async () => {
-    const { container, getByRole } = render(
+    const { container } = render(
       <ProfileAlertConfirmEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -81,9 +81,11 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
-    const confirmButton = getByRole('button');
+    const confirmButton = container.querySelector(
+      'va-button[text="Confirming"]',
+    );
     expect(confirmButton).to.exist;
-    expect(confirmButton.disabled).to.be.true;
+    expect(confirmButton.getAttribute('loading')).to.equal('true');
 
     const editButton = container.querySelector(
       'va-button[text="Edit contact email"]',

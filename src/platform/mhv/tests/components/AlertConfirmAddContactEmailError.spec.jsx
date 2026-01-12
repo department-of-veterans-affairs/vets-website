@@ -9,7 +9,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   it('renders email text, email address, Confirm button, and Edit link', async () => {
     const recordEvent = sinon.spy();
 
-    const { container, findByText, getByRole } = render(
+    const { container, findByText } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -25,7 +25,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
 
     await findByText('Please try again.');
 
-    const confirmButton = getByRole('button', { name: /Confirm/i });
+    const confirmButton = container.querySelector('va-button[text="Confirm"]');
     expect(confirmButton).to.exist;
 
     const link = container.querySelector(
@@ -44,7 +44,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   it('calls onConfirmClick when the Confirm button is clicked', async () => {
     const onConfirmClick = sinon.spy();
 
-    const { getByRole } = render(
+    const { container } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={onConfirmClick}
@@ -52,7 +52,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
       />,
     );
 
-    const button = getByRole('button', { name: /Confirm/i });
+    const button = container.querySelector('va-button[text="Confirm"]');
     expect(button).to.exist;
 
     fireEvent.click(button);
@@ -63,7 +63,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   });
 
   it('shows loading state when isConfirming is true', async () => {
-    const { getByRole } = render(
+    const { container } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -72,8 +72,8 @@ describe('AlertConfirmAddContactEmailError />', () => {
       />,
     );
 
-    const button = getByRole('button');
+    const button = container.querySelector('va-button[text="Confirming"]');
     expect(button).to.exist;
-    expect(button.disabled).to.be.true;
+    expect(button.getAttribute('loading')).to.equal('true');
   });
 });
