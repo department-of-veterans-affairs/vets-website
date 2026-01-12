@@ -42,7 +42,7 @@ const EditEmail = ({
     if (!value || value.trim() === '') {
       return 'Please provide a response.';
     }
-    if (/[^a-zA-Z0-9@.\/~!$%&*_=}{'`?-]/.test(value)) {
+    if (/[^a-zA-Z0-9@./~!$%&*_=}{'`?\\-]/.test(value)) {
       return 'You entered a character we can’t accept. Try removing spaces and any special characters like commas or brackets.';
     }
     if (
