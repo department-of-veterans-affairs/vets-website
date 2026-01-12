@@ -15,7 +15,6 @@ const ComposeFormActionButtons = props => {
     setNavigationError,
     setUnsavedNavigationError,
     messageBody,
-    draftSequence,
     setHideDraft,
     setIsEditing,
     savedComposeDraft,
@@ -26,8 +25,8 @@ const ComposeFormActionButtons = props => {
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
       {!cannotReply && (
         <va-button
-          text={`Send${draftSequence ? ` draft ${draftSequence}` : ''}`}
-          id={`send-button${draftSequence ? `-${draftSequence}` : ''}`}
+          text="Send"
+          id="send-button"
           class={`
             mobile-lg:vads-u-flex--1
             mobile-lg:vads-u-margin-bottom--0
@@ -37,7 +36,7 @@ const ComposeFormActionButtons = props => {
             vads-u-margin-top--0
             vads-u-width--full
           `}
-          data-testid={`send-button${draftSequence ? `-${draftSequence}` : ''}`}
+          data-testid="send-button"
           data-dd-action-name="Send Button"
           onClick={onSend}
         />
@@ -45,7 +44,7 @@ const ComposeFormActionButtons = props => {
       {!cannotReply && (
         <button
           type="button"
-          id={`save-draft-button${draftSequence ? `-${draftSequence}` : ''}`}
+          id="save-draft-button"
           className={`
             save-draft-button
             usa-button
@@ -59,12 +58,10 @@ const ComposeFormActionButtons = props => {
             mobile:vads-u-margin-bottom--0
             mobile:vads-u-margin-right--1
           `}
-          data-testid={`save-draft-button${
-            draftSequence ? `-${draftSequence}` : ''
-          }`}
+          data-testid="save-draft-button"
           onClick={e => onSaveDraft('manual', e)}
         >
-          Save draft {draftSequence}
+          Save draft
         </button>
       )}
       {/* UCD requested to keep button even when not saved as draft */}
@@ -78,7 +75,7 @@ const ComposeFormActionButtons = props => {
         setUnsavedNavigationError={setUnsavedNavigationError}
         cannotReply={cannotReply}
         messageBody={messageBody}
-        draftSequence={draftSequence}
+        draftSequence={null}
         setHideDraft={setHideDraft}
         setIsEditing={setIsEditing}
         savedComposeDraft={savedComposeDraft}
@@ -92,7 +89,6 @@ ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
   draftBody: PropTypes.string,
   draftId: PropTypes.number,
-  draftSequence: PropTypes.number,
   formPopulated: PropTypes.bool,
   isModalVisible: PropTypes.bool,
   messageBody: PropTypes.string,

@@ -549,7 +549,6 @@ const ReplyDraftItem = props => {
           <ComposeFormActionButtons
             cannotReply={showBlockedTriageGroupAlert || cannotReply}
             draftId={draft?.messageId}
-            draftsCount={1}
             draftBody={draft?.body}
             messageBody={messageBody}
             navigationError={navigationError}
