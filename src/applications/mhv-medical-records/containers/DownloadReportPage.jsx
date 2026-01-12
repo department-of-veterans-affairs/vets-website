@@ -267,13 +267,21 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       return (
         <div>
           <VistaAndOHIntroText
-            ohFacilityNames={ohFacilityNames}
-            vistaFacilityNames={vistaFacilityNames}
+            ohFacilityNames={
+              ohFacilityNames.length ? ohFacilityNames : ['unknown']
+            }
+            vistaFacilityNames={
+              vistaFacilityNames.length ? vistaFacilityNames : ['unknown']
+            }
             holdTimeMessagingUpdate={holdTimeMessagingUpdate}
           />
           <VistaAndOHContent
-            vistaFacilityNames={vistaFacilityNames}
-            ohFacilityNames={ohFacilityNames}
+            vistaFacilityNames={
+              vistaFacilityNames.length ? vistaFacilityNames : ['unknown']
+            }
+            ohFacilityNames={
+              ohFacilityNames.length ? ohFacilityNames : ['unknown']
+            }
             handleDownloadCCDV2={handleDownloadCCDV2}
             ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
             failedSeiDomains={failedSeiDomains}

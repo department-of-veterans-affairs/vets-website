@@ -420,6 +420,37 @@ describe('DownloadRecordsPage with last successful update timestamp', () => {
   });
 });
 
+describe('DownloadRecordsPage - Missing EHR data for facility names', () => {
+  const testUnknownFallback = ehrData => {
+    const state = {
+      ...getBaseState(bothFacilities, ['456']),
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: ehrData,
+            cernerFacilities: [{ vhaId: '456' }],
+          },
+          loading: false,
+        },
+      },
+    };
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: state,
+      reducers: reducer,
+      path: '/download-all',
+    });
+    expect(screen.getAllByText('unknown').length).to.be.greaterThan(0);
+  };
+
+  it('renders "unknown" when ehrDataByVhaId is missing', () => {
+    testUnknownFallback(undefined);
+  });
+
+  it('renders "unknown" when facility IDs not found', () => {
+    testUnknownFallback({ 999: { vamcSystemName: 'Other' } });
+  });
+});
+
 describe('DownloadRecordsPage - Oracle Health CCD not enabled', () => {
   it('shows VistaOnlyContent for VistA-only users when flag is false', () => {
     const state = getBaseState(vistaOnlyFacilities, []);
