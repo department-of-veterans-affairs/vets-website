@@ -213,9 +213,7 @@ describe('test wrapper', () => {
 
     it('should return JSON when appropriate headers are specified on (status: 200)', async () => {
       const jsonResponse = { status: 'ok' };
-      server.use(
-        http.get(/v0\/status/, () => HttpResponse.json(jsonResponse)),
-      );
+      server.use(http.get(/v0\/status/, () => HttpResponse.json(jsonResponse)));
 
       const response = await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
@@ -312,22 +310,19 @@ describe('test wrapper', () => {
       };
 
       server.use(
-        http.post(
-          `https://dev-api.va.gov/v0/letters/benefit_summary`,
-          () => {
-            const pdfFile = fs.readFileSync(
-              path.resolve(__dirname, './pdfFixture.pdf'),
-            );
+        http.post(`https://dev-api.va.gov/v0/letters/benefit_summary`, () => {
+          const pdfFile = fs.readFileSync(
+            path.resolve(__dirname, './pdfFixture.pdf'),
+          );
 
-            return new HttpResponse(pdfFile, {
-              status: 200,
-              headers: {
-                'Content-Length': pdfFile.byteLength.toString(),
-                'Content-Type': 'application/pdf',
-              },
-            });
-          },
-        ),
+          return new HttpResponse(pdfFile, {
+            status: 200,
+            headers: {
+              'Content-Length': pdfFile.byteLength.toString(),
+              'Content-Type': 'application/pdf',
+            },
+          });
+        }),
       );
 
       const response = await apiRequest('/letters/benefit_summary', {
@@ -383,9 +378,7 @@ describe('test wrapper', () => {
 
     it('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
       server.use(
-        http.get(/v0\/status/, () =>
-          HttpResponse.json({}, { status: 404 }),
-        ),
+        http.get(/v0\/status/, () => HttpResponse.json({}, { status: 404 })),
       );
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);

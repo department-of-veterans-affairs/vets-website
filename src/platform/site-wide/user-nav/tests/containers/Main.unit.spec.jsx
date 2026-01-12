@@ -51,10 +51,7 @@ describe('<Main>', () => {
   beforeEach(() => {
     const mockLocation = createMockLocation();
     global.window = Object.create(global.window);
-    Object.assign(
-      global.window,
-      mockEventListeners({}),
-    );
+    Object.assign(global.window, mockEventListeners({}));
     // Define location as a configurable property that can be modified
     Object.defineProperty(global.window, 'location', {
       value: mockLocation,

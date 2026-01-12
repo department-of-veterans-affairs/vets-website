@@ -179,7 +179,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('calls the api to save the form', done => {
       server.use(
-        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json(mockedSuccessData, { status: 200 })),
+        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json(mockedSuccessData, { status: 200 }),
+        ),
       );
 
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -209,7 +211,9 @@ describe('Schemaform save / load actions:', () => {
       };
 
       server.use(
-        http.put(inProgressApi(VA_FORM_IDS.FORM_21_526EZ), () => HttpResponse.json(mocked526Data, { status: 200 })),
+        http.put(inProgressApi(VA_FORM_IDS.FORM_21_526EZ), () =>
+          HttpResponse.json(mocked526Data, { status: 200 }),
+        ),
       );
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_21_526EZ, {});
       const dispatch = sinon.spy();
@@ -241,7 +245,9 @@ describe('Schemaform save / load actions:', () => {
         },
       };
       server.use(
-        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json(mockedData, { status: 200 })),
+        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json(mockedData, { status: 200 }),
+        ),
       );
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -262,7 +268,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('dispatches a no-auth if the api returns a 401', done => {
       server.use(
-        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({ status: 401 }, { status: 401 })),
+        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json({ status: 401 }, { status: 401 }),
+        ),
       );
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -283,7 +291,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('dispatches a failure on any other failure', done => {
       server.use(
-        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({ status: 500 }, { status: 500 })),
+        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json({ status: 500 }, { status: 500 }),
+        ),
       );
 
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -304,7 +314,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('dispatches a client failure when a network error occurs', done => {
       server.use(
-        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.error()),
+        http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.error(),
+        ),
       );
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -335,7 +347,9 @@ describe('Schemaform save / load actions:', () => {
     };
     it('dispatches a pending', () => {
       server.use(
-        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({ test: 'test' }, { status: 200 })),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json({ test: 'test' }, { status: 200 }),
+        ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -346,18 +360,24 @@ describe('Schemaform save / load actions:', () => {
     });
     it('attempts to fetch an in-progress form', () => {
       server.use(
-        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({ test: 'test' }, { status: 200 })),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json({ test: 'test' }, { status: 200 }),
+        ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {
-        expect(lastRequest.url).to.contain(inProgressApi(VA_FORM_IDS.FORM_10_10EZ));
+        expect(lastRequest.url).to.contain(
+          inProgressApi(VA_FORM_IDS.FORM_10_10EZ),
+        );
       });
     });
     it('dispatches a success if the form is loaded', () => {
       server.use(
-        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json(mockedSuccessGetData, { status: 200 })),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json(mockedSuccessGetData, { status: 200 }),
+        ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -376,7 +396,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('dispatches a success from the form 526-specific api on form load', () => {
       server.use(
-        http.get(inProgressApi(VA_FORM_IDS.FORM_21_526EZ), () => HttpResponse.json(mockedSuccessGetData, { status: 200 })),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_21_526EZ), () =>
+          HttpResponse.json(mockedSuccessGetData, { status: 200 }),
+        ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_21_526EZ, {});
       const dispatch = sinon.spy();
@@ -398,9 +420,8 @@ describe('Schemaform save / load actions:', () => {
     });
     it('dispatches: `no-auth` if the API returns a 401', () => {
       server.use(
-        http.get(
-          inProgressApi(VA_FORM_IDS.FORM_10_10EZ),
-          () => HttpResponse.json({ status: 401 }, { status: 401 }),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json({ status: 401 }, { status: 401 }),
         ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -415,7 +436,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('dispatches: `not-found` if the API returns a 404', () => {
       server.use(
-        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({ status: 404 }, { status: 404 })),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json({ status: 404 }, { status: 404 }),
+        ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -428,7 +451,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('dispatches: `not-found` if the API returns an empty object', () => {
       server.use(
-        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({}, { status: 200 })),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json({}, { status: 200 }),
+        ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -441,7 +466,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it("dispatches: `invalid-data` if the API return value isn't an object", () => {
       server.use(
-        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json([], { status: 200 })),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json([], { status: 200 }),
+        ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -455,7 +482,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('dispatches: `failure` if there is an error (including NetworkError)', () => {
       server.use(
-        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.error()),
+        http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.error(),
+        ),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -470,7 +499,9 @@ describe('Schemaform save / load actions:', () => {
     describe('prefill', () => {
       it('dispatches a no-auth if the api returns a 401', () => {
         server.use(
-          http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({ status: 401 }, { status: 401 })),
+          http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+            HttpResponse.json({ status: 401 }, { status: 401 }),
+          ),
         );
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
@@ -482,7 +513,10 @@ describe('Schemaform save / load actions:', () => {
       });
       it('dispatches a success if the api returns a 404', () => {
         server.use(
-          http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => new HttpResponse(null, { status: 404 })),
+          http.get(
+            inProgressApi(VA_FORM_IDS.FORM_10_10EZ),
+            () => new HttpResponse(null, { status: 404 }),
+          ),
         );
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
@@ -493,7 +527,9 @@ describe('Schemaform save / load actions:', () => {
       });
       it('dispatches a success if the api returns an empty object', () => {
         server.use(
-          http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({}, { status: 401 })),
+          http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+            HttpResponse.json({}, { status: 401 }),
+          ),
         );
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
@@ -504,12 +540,17 @@ describe('Schemaform save / load actions:', () => {
       });
       it('calls prefill transform when response is prefilled', () => {
         server.use(
-          http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.json({
+          http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+            HttpResponse.json(
+              {
                 formData: {},
                 metadata: {
                   prefill: true,
                 },
-              }, { status: 200 })),
+              },
+              { status: 200 },
+            ),
+          ),
         );
         const prefillTransformer = sinon.spy();
         const thunk = fetchInProgressForm(
@@ -555,7 +596,9 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
 
       thunk(dispatch, getState).then(() => {
-        expect(lastRequest.url).to.contain(inProgressApi(VA_FORM_IDS.FORM_10_10EZ));
+        expect(lastRequest.url).to.contain(
+          inProgressApi(VA_FORM_IDS.FORM_10_10EZ),
+        );
         expect(lastRequest.method).to.equal('DELETE');
       });
     });
@@ -573,9 +616,8 @@ describe('Schemaform save / load actions:', () => {
         },
       };
       server.use(
-        http.delete(
-          inProgressApi(VA_FORM_IDS.FORM_10_10EZ),
-          () => HttpResponse.json(mockedData, { status: 200 }),
+        http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json(mockedData, { status: 200 }),
         ),
       );
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -588,7 +630,9 @@ describe('Schemaform save / load actions:', () => {
     });
     it('handles remove error and fetches prefill data', () => {
       server.use(
-        http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => HttpResponse.error()),
+        http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.error(),
+        ),
       );
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
@@ -600,9 +644,8 @@ describe('Schemaform save / load actions:', () => {
     });
     it('sets no-auth status if session expires', () => {
       server.use(
-        http.delete(
-          inProgressApi(VA_FORM_IDS.FORM_10_10EZ),
-          () => HttpResponse.json({ status: 401 }, { status: 401 }),
+        http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () =>
+          HttpResponse.json({ status: 401 }, { status: 401 }),
         ),
       );
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});

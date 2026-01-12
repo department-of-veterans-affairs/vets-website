@@ -228,7 +228,9 @@ describe('<RequiredLoginView>', () => {
           </RequiredLoginView>,
         );
 
-        expect(global.window.location.replace.calledWith(sinon.match('/verify'))).to.be.true;
+        expect(
+          global.window.location.replace.calledWith(sinon.match('/verify')),
+        ).to.be.true;
         wrapper.unmount();
       });
     });
@@ -321,7 +323,8 @@ describe('<RequiredLoginView>', () => {
         </RequiredLoginView>,
       );
 
-      expect(global.window.location.replace.calledWith(sinon.match('/'))).to.be.true;
+      expect(global.window.location.replace.calledWith(sinon.match('/'))).to.be
+        .true;
       wrapper.unmount();
     });
 

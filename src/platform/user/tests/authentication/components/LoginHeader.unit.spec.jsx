@@ -22,7 +22,9 @@ describe('LoginHeader', () => {
 
   it('should display the SessionTimeoutAlert component when the session is expired', () => {
     // Use mockLocation for JSDOM 22+ compatibility
-    const restoreLocation = mockLocation('http://localhost/?status=session_expired');
+    const restoreLocation = mockLocation(
+      'http://localhost/?status=session_expired',
+    );
     const screen = renderInReduxProvider(<LoginHeader />, {
       initialState: generateState({}),
     });

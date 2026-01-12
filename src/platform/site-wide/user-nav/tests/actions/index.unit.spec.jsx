@@ -74,7 +74,11 @@ describe('User Nav Actions', () => {
     it('should append the correct `next` query if it exists', async () => {
       const expectedNextParam = '?next=disabilityBenefits';
       // Update location using history API for JSDOM 22+ compatibility
-      window.history.replaceState({}, '', `http://localhost/${expectedNextParam}`);
+      window.history.replaceState(
+        {},
+        '',
+        `http://localhost/${expectedNextParam}`,
+      );
 
       await toggleLoginModal(true)(store.dispatch, () => ({
         ...featureToggleNotEnabled,
@@ -86,7 +90,11 @@ describe('User Nav Actions', () => {
 
     it('should remove all query parameters when closing the modal', async () => {
       // Set initial URL with query params using history API
-      window.history.replaceState({}, '', 'http://localhost/?next=loginModal&oauth=false');
+      window.history.replaceState(
+        {},
+        '',
+        'http://localhost/?next=loginModal&oauth=false',
+      );
 
       await toggleLoginModal(false)(store.dispatch, () => ({
         ...featureToggleNotEnabled,

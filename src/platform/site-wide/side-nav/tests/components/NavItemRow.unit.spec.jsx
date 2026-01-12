@@ -4,9 +4,9 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
-import NavItemRow from '../../components/NavItemRow';
 import sinon from 'sinon';
 import { mockLocation } from 'platform/testing/unit/helpers';
+import NavItemRow from '../../components/NavItemRow';
 
 describe('<NavItemRow>', () => {
   const trackEventsSpy = sinon.spy();
@@ -68,7 +68,9 @@ describe('<NavItemRow>', () => {
   });
 
   it('renders pointerEvents none for current page', () => {
-    const restoreLocation = mockLocation('http://localhost/pittsburgh-health-care/');
+    const restoreLocation = mockLocation(
+      'http://localhost/pittsburgh-health-care/',
+    );
 
     const itemWithoutChildren = {
       description: 'Some description',
@@ -92,7 +94,9 @@ describe('<NavItemRow>', () => {
   });
 
   it('renders pointerEvents all for non-current page', () => {
-    const restoreLocation = mockLocation('http://localhost/pittsburgh-health-care/');
+    const restoreLocation = mockLocation(
+      'http://localhost/pittsburgh-health-care/',
+    );
 
     const itemWithoutChildren = {
       description: 'Some description',

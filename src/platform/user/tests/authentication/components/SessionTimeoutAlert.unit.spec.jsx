@@ -24,7 +24,9 @@ describe('SessionTimeoutAlert', () => {
 
   it('renders when session has expired and there is no downtime', () => {
     // Use mockLocation for JSDOM 22+ compatibility
-    const restoreLocation = mockLocation('http://localhost/?status=session_expired');
+    const restoreLocation = mockLocation(
+      'http://localhost/?status=session_expired',
+    );
 
     const screen = renderInReduxProvider(<SessionTimeoutAlert />, {
       initialState: generateState({}),
@@ -38,7 +40,9 @@ describe('SessionTimeoutAlert', () => {
 
   it('does not render when session has expired but there is downtime', () => {
     // Use mockLocation for JSDOM 22+ compatibility
-    const restoreLocation = mockLocation('http://localhost/?status=session_expired');
+    const restoreLocation = mockLocation(
+      'http://localhost/?status=session_expired',
+    );
 
     const screen = renderInReduxProvider(<SessionTimeoutAlert />, {
       initialState: generateState({
