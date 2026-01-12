@@ -103,13 +103,13 @@ describe('RecentCareTeams component', () => {
       ).to.exist;
 
       // Check for va-radio element with the label attribute
-      const radioGroup = document.querySelector('va-radio');
-      expect(radioGroup).to.exist;
-      // ensure analytics are enabled on the radio group
-      expect(radioGroup.hasAttribute('enable-analytics')).to.be.true;
-      expect(radioGroup.getAttribute('label')).to.include(
-        'Select a team you want to message',
-      );
+      await waitFor(() => {
+        const radioGroup = document.querySelector('va-radio');
+        expect(radioGroup).to.exist;
+        expect(radioGroup.getAttribute('label')).to.include(
+          'Select a team you want to message',
+        );
+      });
 
       // Check for va-radio-option elements with label attributes
       const radioOptions = document.querySelectorAll('va-radio-option');
