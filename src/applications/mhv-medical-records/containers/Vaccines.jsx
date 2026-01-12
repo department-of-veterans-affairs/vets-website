@@ -120,7 +120,7 @@ const Vaccines = props => {
     dispatch,
     page: paramPage,
     useBackendPagination,
-    checkUpdatesAction: checkForVaccineUpdates,
+    checkUpdatesAction: () => checkForVaccineUpdates(isAcceleratingVaccines),
   });
 
   // On Unmount: reload any newly updated records and normalize the FETCHING state.

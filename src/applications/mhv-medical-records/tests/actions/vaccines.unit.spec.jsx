@@ -6,7 +6,9 @@ import {
   clearVaccineDetails,
   getVaccineDetails,
   getVaccinesList,
+  checkForVaccineUpdates,
 } from '../../actions/vaccines';
+import * as MrApi from '../../api/MrApi';
 import vaccines from '../fixtures/vaccines.json';
 import vaccine from '../fixtures/vaccine.json';
 
@@ -142,5 +144,63 @@ describe('Get vaccine details with acceleration', () => {
     return getVaccineDetails('3106', undefined)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
     });
+  });
+});
+
+describe('Check for vaccine updates action', () => {
+  let getVaccineListStub;
+  let getAcceleratedImmunizationsStub;
+
+  beforeEach(() => {
+    getVaccineListStub = sinon.stub(MrApi, 'getVaccineList').resolves(vaccines);
+    getAcceleratedImmunizationsStub = sinon
+      .stub(MrApi, 'getAcceleratedImmunizations')
+      .resolves(vaccines);
+  });
+
+  afterEach(() => {
+    getVaccineListStub.restore();
+    getAcceleratedImmunizationsStub.restore();
+  });
+
+  it('should call v1 getVaccineList when isAccelerating is false', async () => {
+    const dispatch = sinon.spy();
+    await checkForVaccineUpdates(false)(dispatch);
+
+    expect(getVaccineListStub.calledOnce).to.be.true;
+    expect(getAcceleratedImmunizationsStub.called).to.be.false;
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.Vaccines.CHECK_FOR_UPDATE,
+    );
+  });
+
+  it('should call v2 getAcceleratedImmunizations when isAccelerating is true', async () => {
+    const dispatch = sinon.spy();
+    await checkForVaccineUpdates(true)(dispatch);
+
+    expect(getAcceleratedImmunizationsStub.calledOnce).to.be.true;
+    expect(getVaccineListStub.called).to.be.false;
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.Vaccines.CHECK_FOR_UPDATE,
+    );
+  });
+
+  it('should call v1 getVaccineList when isAccelerating is undefined (default)', async () => {
+    const dispatch = sinon.spy();
+    await checkForVaccineUpdates()(dispatch);
+
+    expect(getVaccineListStub.calledOnce).to.be.true;
+    expect(getAcceleratedImmunizationsStub.called).to.be.false;
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.Vaccines.CHECK_FOR_UPDATE,
+    );
+  });
+
+  it('should dispatch an add alert action on error and not throw', async () => {
+    getVaccineListStub.rejects(new Error('API Error'));
+    const dispatch = sinon.spy();
+    await checkForVaccineUpdates(false)(dispatch);
+
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
   });
 });

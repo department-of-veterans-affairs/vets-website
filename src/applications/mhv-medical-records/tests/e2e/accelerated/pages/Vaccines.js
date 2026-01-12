@@ -89,6 +89,35 @@ class Vaccines {
       'nav > ul > li.usa-pagination__item.usa-pagination__arrow > a',
     ).click();
   };
+
+  /**
+   * Set up intercepts for testing check-for-updates functionality.
+   * This is used to verify that the correct endpoint (v1 or v2) is called
+   * based on the accelerating vaccines feature toggle.
+   */
+  setCheckForUpdatesIntercepts = ({ vaccinesData, useV2 = true }) => {
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
+      'session',
+    );
+    cy.intercept('GET', '/my_health/v1/medical_records/session/status', req => {
+      req.reply(sessionStatus);
+    });
+
+    if (useV2) {
+      cy.intercept(
+        'GET',
+        '/my_health/v2/medical_records/immunization*',
+        req => {
+          req.reply(vaccinesData);
+        },
+      ).as('vaccines-v2-list');
+    } else {
+      cy.intercept('GET', '/my_health/v1/medical_records/vaccines*', req => {
+        req.reply(vaccinesData);
+      }).as('vaccines-v1-list');
+    }
+  };
 }
 
 export default new Vaccines();
