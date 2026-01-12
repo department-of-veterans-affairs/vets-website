@@ -123,6 +123,7 @@ const defaultState = {
         hasAvailability: true,
       },
     ],
+    backendServiceFailures: [],
   },
 };
 
