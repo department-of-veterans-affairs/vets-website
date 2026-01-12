@@ -23,7 +23,7 @@ export function useGetPatientRelationships() {
     shallowEqual,
   );
 
-  const hasBackendServiceFailures = backendServiceFailures.length > 0;
+  const hasBackendServiceFailures = backendServiceFailures?.length > 0;
 
   useEffect(
     () => {

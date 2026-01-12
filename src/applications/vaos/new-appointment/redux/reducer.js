@@ -119,7 +119,7 @@ const initialState = {
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   isAppointmentSelectionError: false,
   ehr: null,
-  backendServiceFailures: [],
+  backendServiceFailures: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
