@@ -905,6 +905,15 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
 
+      - name: Ensure Cypress binary
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -x "$HOME/.cache/Cypress/13.17.0/Cypress/Cypress" ]; then
+            yarn cypress install --force
+          fi
+
       - name: Download Tests to run
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/download-artifact
