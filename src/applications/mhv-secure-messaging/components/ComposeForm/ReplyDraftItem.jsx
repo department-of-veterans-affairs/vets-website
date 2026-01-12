@@ -481,7 +481,7 @@ const ReplyDraftItem = props => {
           <span className="thread-list-draft reply-draft-label vads-u-padding-right--2">
             Draft
           </span>
-          {`To: ${replyToName}\n(Team: ${draft?.suggestedNameDisplay ||
+          {` To: ${replyToName}\n(Team: ${draft?.suggestedNameDisplay ||
             replyMessage?.suggestedNameDisplay ||
             draft?.triageGroupName ||
             replyMessage.triageGroupName})`}
