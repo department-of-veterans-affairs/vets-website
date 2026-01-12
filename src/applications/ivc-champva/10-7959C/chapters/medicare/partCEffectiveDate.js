@@ -1,9 +1,8 @@
 import {
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
   textSchema,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { futureDateSchema, futureDateUI } from '../../definitions';
 import { titleWithNameUI } from '../../utils/titles';
 import content from '../../locales/en/content.json';
 
@@ -24,7 +23,7 @@ export default {
       title: INPUT_LABELS.carrier,
       hint: HINT_TEXT.carrier,
     }),
-    medicarePartCEffectiveDate: currentOrPastDateUI({
+    medicarePartCEffectiveDate: futureDateUI({
       title: INPUT_LABELS.effectiveDate,
       hint: HINT_TEXT.effectiveDate,
     }),
@@ -34,7 +33,7 @@ export default {
     required: ['medicarePartCCarrier', 'medicarePartCEffectiveDate'],
     properties: {
       medicarePartCCarrier: textSchema,
-      medicarePartCEffectiveDate: currentOrPastDateSchema,
+      medicarePartCEffectiveDate: futureDateSchema,
     },
   },
 };

@@ -888,7 +888,7 @@
         "kind": "clinic",
         "type": "VA",
         "modality": "vaInPerson",
-        "status": "booked",
+        "status": "fulfilled",
         "serviceCategory": [
           {
             "coding": [

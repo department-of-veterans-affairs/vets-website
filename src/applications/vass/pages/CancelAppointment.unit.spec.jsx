@@ -19,6 +19,40 @@ const LocationDisplay = () => {
   );
 };
 
+const appointmentId = 'abcdef123456';
+const appointmentData = {
+  appointmentId,
+  startUTC: '2025-12-24T10:00:00Z',
+  endUTC: '2025-12-24T10:30:00Z',
+  agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+  agentNickname: 'Bill Brasky',
+  appointmentStatusCode: 1,
+  appointmentStatus: 'Confirmed',
+  cohortStartUtc: '2025-12-01T00:00:00Z',
+  cohortEndUtc: '2026-02-28T23:59:59Z',
+};
+
+// Pre-populate the RTK Query cache with the appointment data
+const vassApiState = {
+  queries: {
+    [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
+      status: 'fulfilled',
+      endpointName: 'getAppointment',
+      requestId: 'test',
+      startedTimeStamp: 0,
+      data: appointmentData,
+    },
+  },
+  mutations: {},
+  provided: {},
+  subscriptions: {},
+  config: {
+    online: true,
+    focused: true,
+    middlewareRegistered: true,
+  },
+};
+
 const defaultRenderOptions = {
   initialState: {
     vassForm: {
@@ -26,6 +60,7 @@ const defaultRenderOptions = {
       selectedDate: null,
       selectedTopics: [],
     },
+    vassApi: vassApiState,
   },
   reducers,
   additionalMiddlewares: [vassApi.middleware],
@@ -34,8 +69,16 @@ const defaultRenderOptions = {
 describe('VASS Page: CancelAppointment', () => {
   it('renders page, appointment card, and buttons', () => {
     const screen = renderWithStoreAndRouter(
-      <CancelAppointment />,
-      defaultRenderOptions,
+      <Routes>
+        <Route
+          path="/cancel-appointment/:appointmentId"
+          element={<CancelAppointment />}
+        />
+      </Routes>,
+      {
+        ...defaultRenderOptions,
+        initialEntries: [`/cancel-appointment/${appointmentId}`],
+      },
     );
 
     expect(screen.getByTestId('cancel-appointment-page')).to.exist;
@@ -52,7 +95,7 @@ describe('VASS Page: CancelAppointment', () => {
         <>
           <Routes>
             <Route
-              path="/cancel-appointment/:id"
+              path="/cancel-appointment/:appointmentId"
               element={<CancelAppointment />}
             />
             <Route
@@ -64,7 +107,7 @@ describe('VASS Page: CancelAppointment', () => {
         </>,
         {
           ...defaultRenderOptions,
-          initialEntries: ['/cancel-appointment/abcdef123456'],
+          initialEntries: [`/cancel-appointment/${appointmentId}`],
         },
       );
 
@@ -83,7 +126,7 @@ describe('VASS Page: CancelAppointment', () => {
         <>
           <Routes>
             <Route
-              path="/cancel-appointment/:id"
+              path="/cancel-appointment/:appointmentId"
               element={<CancelAppointment />}
             />
             <Route
@@ -95,7 +138,7 @@ describe('VASS Page: CancelAppointment', () => {
         </>,
         {
           ...defaultRenderOptions,
-          initialEntries: ['/cancel-appointment/abcdef123456'],
+          initialEntries: [`/cancel-appointment/${appointmentId}`],
         },
       );
 
@@ -104,7 +147,7 @@ describe('VASS Page: CancelAppointment', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/confirmation/abcdef123456?details=true',
+          `/confirmation/${appointmentId}?details=true`,
         );
       });
     });

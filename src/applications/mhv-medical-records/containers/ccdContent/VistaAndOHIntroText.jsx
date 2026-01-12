@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatFacilityUnorderedList } from '../../util/facilityHelpers';
+import HoldTimeInfo from '../../components/shared/HoldTimeInfo';
 
-const VistaAndOHIntroText = ({ ohFacilityNames, vistaFacilityNames }) => (
+const VistaAndOHIntroText = ({
+  ohFacilityNames,
+  vistaFacilityNames,
+  holdTimeMessagingUpdate,
+}) => (
   <>
     <h1>Download your medical records reports</h1>
     <p>
@@ -17,12 +22,16 @@ const VistaAndOHIntroText = ({ ohFacilityNames, vistaFacilityNames }) => (
       to access medical records for these facilities:
     </p>
     {formatFacilityUnorderedList(ohFacilityNames)}
+    {holdTimeMessagingUpdate && (
+      <HoldTimeInfo locationPhrase="in your reports" />
+    )}
   </>
 );
 
 VistaAndOHIntroText.propTypes = {
   ohFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   vistaFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  holdTimeMessagingUpdate: PropTypes.bool,
 };
 
 export default VistaAndOHIntroText;
