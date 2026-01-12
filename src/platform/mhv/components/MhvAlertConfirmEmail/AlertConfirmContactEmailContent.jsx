@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export const AlertConfirmContactEmailContent = ({
   emailAddress,
@@ -19,13 +18,12 @@ export const AlertConfirmContactEmailContent = ({
     </p>
 
     <p>
-      <LoadingButton
+      <va-button
+        text={isConfirming ? 'Confirming' : 'Confirm'}
         onClick={onConfirmClick}
-        isLoading={isConfirming}
-        loadingText="Confirming email"
-      >
-        Confirm
-      </LoadingButton>
+        loading={isConfirming}
+        class="vads-u-width--full mobile-lg:vads-u-width--auto vads-u-margin-top--1 vads-u-margin-bottom--1 hydrated"
+      />
     </p>
 
     <p>
