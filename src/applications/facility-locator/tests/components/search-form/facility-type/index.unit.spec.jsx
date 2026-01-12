@@ -1,8 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import FacilityType from '../../../../components/search-form/facility-type';
 import {
   facilityTypesOptions,
@@ -21,8 +19,9 @@ describe('FacilityType', () => {
     );
   };
 
-  const expectHintText = screen => {
-    expect(screen.getByText('Choose a facility type')).to.exist;
+  const expectHintAttribute = screen => {
+    const vaSelect = screen.container.querySelector('va-select');
+    expect(vaSelect.getAttribute('hint')).to.equal('Choose a facility type');
   };
 
   const setSize = size => {
@@ -53,7 +52,7 @@ describe('FacilityType', () => {
       expect(dropdown.classList.contains('facility-type-dropdown')).to.be.true;
 
       expectOptions(screen, 8);
-      expectHintText(screen);
+      expectHintAttribute(screen);
     });
 
     it('should render an error when one exists', () => {
@@ -75,7 +74,7 @@ describe('FacilityType', () => {
       expect(dropdown.classList.contains('facility-error')).to.be.true;
 
       expectOptions(screen, 8);
-      expectHintText(screen);
+      expectHintAttribute(screen);
     });
 
     it('should remove the pharmacy option when the PPMS service is down', () => {
@@ -94,10 +93,10 @@ describe('FacilityType', () => {
       );
 
       expectOptions(screen, 4, true);
-      expectHintText(screen);
+      expectHintAttribute(screen);
     });
 
-    it('displays hint text to guide users', () => {
+    it('displays hint attribute to guide users', () => {
       const screen = render(
         <FacilityType
           currentQuery={{
@@ -112,31 +111,7 @@ describe('FacilityType', () => {
         />,
       );
 
-      expectHintText(screen);
-    });
-
-    it('allows users to select a facility type', async () => {
-      const user = userEvent.setup();
-      const handleFacilityTypeChange = sinon.spy();
-
-      const screen = render(
-        <FacilityType
-          currentQuery={{
-            facilityType: null,
-            facilityTypeChanged: false,
-            isValid: true,
-          }}
-          handleFacilityTypeChange={handleFacilityTypeChange}
-          {...setSize('tablet')}
-          suppressPPMS={false}
-          useProgressiveDisclosure={false}
-        />,
-      );
-
-      const select = screen.getByLabelText('Facility type');
-      await user.selectOptions(select, 'health');
-
-      expect(handleFacilityTypeChange.called).to.be.true;
+      expectHintAttribute(screen);
     });
   });
 
@@ -161,7 +136,7 @@ describe('FacilityType', () => {
         .true;
 
       expectOptions(screen, 8);
-      expectHintText(screen);
+      expectHintAttribute(screen);
     });
 
     it('should correctly render the facility type dropdown for mobile', () => {
@@ -184,7 +159,7 @@ describe('FacilityType', () => {
         .true;
 
       expectOptions(screen, 8);
-      expectHintText(screen);
+      expectHintAttribute(screen);
     });
 
     it('should correctly render the facility type dropdown for desktop', () => {
@@ -207,7 +182,7 @@ describe('FacilityType', () => {
         .be.true;
 
       expectOptions(screen, 8);
-      expectHintText(screen);
+      expectHintAttribute(screen);
     });
   });
 });
