@@ -58,7 +58,6 @@ import {
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
-import { otherToolsLink } from '../utils/mapLinks';
 
 let lastZoom = 3;
 
@@ -930,7 +929,6 @@ const FacilitiesMap = props => {
       )}
       <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
-      {mapboxTokenValid && otherToolsLink()}
     </>
   );
 };
