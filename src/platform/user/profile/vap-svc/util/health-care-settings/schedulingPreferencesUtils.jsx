@@ -197,11 +197,7 @@ export const convertSchedulingPreferencesToReduxFormat = items => {
       formattedData[fieldName] = `option-${firstOptionId}`;
     } else {
       formattedData[fieldName] = item.optionIds.length
-        ? item.optionIds.map(optionId =>
-            Object.keys(FIELD_OPTION_IDS[fieldName]).find(
-              key => FIELD_OPTION_IDS[fieldName][key] === optionId,
-            ),
-          )
+        ? item.optionIds.map(optionId => `option-${optionId}`)
         : [];
     }
   });

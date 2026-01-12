@@ -8,6 +8,14 @@ const all = {
           optionIds: ['4'], // mailingAddress
           // optionIds: ['39'], // workPhone
         },
+        // {
+        //   itemId: 2, // preferredContactTimes
+        //   optionIds: ['10', '14'], // tuesdayAfternoon, thursdayAfternoon
+        // },
+        {
+          itemId: 3, // preferredAppointmentTimes
+          optionIds: ['28'], // noPreference
+        },
         {
           itemId: 4, // needsHelpSchedulingAppointments
           optionIds: ['29'], // yes
