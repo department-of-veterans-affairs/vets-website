@@ -19,17 +19,17 @@ export default {
     unitName: textUI({
       title: 'Reserve or National Guard Unit name',
     }),
-    unitPhoneNumber: internationalPhoneUI({
+    unitPhone: internationalPhoneUI({
       title: 'Reserve or National Guard Unit primary phone number',
     }),
   },
   schema: {
     type: 'object',
-    required: ['nationalGuardActivationDate', 'unitPhoneNumber', 'unitName'],
+    required: ['nationalGuardActivationDate', 'unitPhone', 'unitName'],
     properties: {
       nationalGuardActivationDate: currentOrPastDateSchema,
       unitName: textSchema,
-      unitPhoneNumber: internationalPhoneSchema({ required: true }),
+      unitPhone: internationalPhoneSchema({ required: true }),
     },
   },
 };
