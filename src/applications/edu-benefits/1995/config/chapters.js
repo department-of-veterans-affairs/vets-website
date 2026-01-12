@@ -41,10 +41,13 @@ const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
 
 /**
  * Checks if user is in Rudisill review flow
+ * Checks both formData and sessionStorage for the flag
  * @param {Object} formData - The form data object
  * @returns {boolean} True if Rudisill flow is active
  */
-const isRudisillFlow = formData => formData?.isRudisillFlow === true;
+const isRudisillFlow = formData =>
+  formData?.isRudisillFlow === true ||
+  sessionStorage.getItem('isRudisillFlow') === 'true';
 
 /**
  * Determines if legacy form pages should be shown

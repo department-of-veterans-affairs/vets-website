@@ -28,10 +28,18 @@ const IntroductionRouter = props => {
   const urlParams = new URLSearchParams(window.location.search);
   const isRudisillFromUrl = urlParams.get('rudisill') === 'true';
 
+  // Check if we're on the introduction page (not a form page)
+  const isOnIntroPage = window.location.pathname.endsWith('/introduction');
+
   // Manage sessionStorage flags for flow state
   // URL parameter is the source of truth for intro page routing
+  // Only manage sessionStorage when on the introduction page to avoid clearing it on form pages
   useEffect(
     () => {
+      if (!isOnIntroPage) {
+        return;
+      }
+
       if (isRudisillFromUrl && rerouteEnabled) {
         // Entering Rudisill flow via URL - set sessionStorage for form pages
         sessionStorage.setItem('isRudisillFlow', 'true');
@@ -41,7 +49,7 @@ const IntroductionRouter = props => {
         sessionStorage.removeItem('isRudisillFlow');
       }
     },
-    [isRudisillFromUrl, rerouteEnabled],
+    [isOnIntroPage, isRudisillFromUrl, rerouteEnabled],
   );
 
   if (isLoading || rerouteEnabled === undefined) {

@@ -160,12 +160,7 @@ function Form1995Entry({
   );
 
   if (isLoadingToggles || rerouteFlag === undefined) {
-    return (
-      <va-loading-indicator
-        label="Loading"
-        message="Loading feature settings..."
-      />
-    );
+    return <va-loading-indicator label="Loading" message="Loading..." />;
   }
 
   // Check if Rudisill flow to determine form key

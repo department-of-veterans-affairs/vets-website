@@ -55,7 +55,9 @@ describe('IntroductionRouter', () => {
 
   const setWindowLocation = search => {
     delete global.window.location;
-    let url = 'http://localhost';
+    // Use /introduction path so sessionStorage management works correctly
+    let url =
+      'http://localhost/education/apply-for-education-benefits/application/1995/introduction';
     if (search) {
       url += search.startsWith('?') ? search : `?${search}`;
     }
