@@ -280,7 +280,7 @@ describe('Intent to file submission', () => {
         );
 
         cy.fillClaimantDetail();
-        cy.fillVeteranDetail(false);
+        cy.fillVeteranDetail();
         cy.get('input[name="root_selectBenefits_SURVIVOR"]').click();
         cy.axeCheck();
         cy.findByRole('button', { name: /^Continue$/ }).click();
