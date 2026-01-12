@@ -71,6 +71,8 @@ export const validateAccountNumber = (
   schema,
   errorMessages,
 ) => {
+  if (!accountNumber) return;
+
   const accountNumberRegex = new RegExp(schema.pattern);
   const isValidObfuscated = accountNumberRegex.test(accountNumber.trim());
 
@@ -94,6 +96,8 @@ export const validateRoutingNumber = (
   schema,
   errorMessages,
 ) => {
+  if (!routingNumber) return;
+
   const routingNumberRegex = new RegExp(schema.pattern);
   const isValidObfuscated = routingNumberRegex.test(routingNumber.trim());
 
