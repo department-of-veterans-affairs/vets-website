@@ -34,6 +34,10 @@ const yourQuestionPage = {
     'ui:objectViewField': PageFieldSummary,
     subject: {
       'ui:title': 'Subject',
+      'ui:errorMessages': {
+        required: 'Enter a subject for your question.',
+        pattern: 'Enter a valid subject.',
+      },
       'ui:required': formData =>
         formData.selectCategory === CategoryEducation ||
         formData.selectTopic === CategoryEducation,
@@ -50,7 +54,8 @@ const yourQuestionPage = {
       'ui:webComponentField': VaTextareaField,
       'ui:required': () => true,
       'ui:errorMessages': {
-        required: 'Please let us know what your question is about.',
+        required: 'Let us know what your question is about.',
+        pattern: 'Enter a valid question.',
       },
       'ui:options': {
         required: true,
@@ -72,10 +77,14 @@ const yourQuestionPage = {
     properties: {
       subject: {
         type: 'string',
+        pattern: /\S/, // At least one non-whitespace character
+        minLength: 1,
         maxLength: 140,
       },
       question: {
         type: 'string',
+        pattern: /\S/, // At least one non-whitespace character
+        minLength: 1,
         maxLength: 10000,
       },
       fileUpload: fileSchema,
