@@ -49,7 +49,7 @@ const options = {
   nounPlural: 'previous marriages',
   required: false,
   maxItems: 2,
-  isItemIncomplete: item => !item?.spouseFullName || !item?.marriageDate,
+  isItemIncomplete: item => !item?.spouseFullName || !item?.dateOfMarriage,
   text: {
     cancelTitle: 'Cancel adding this previous marriage?',
     cancelAddTitle: 'Cancel adding this previous marriage?',
@@ -152,7 +152,7 @@ const marriageDatePlacePage = {
     marriedOutsideUS: checkboxUI({
       title: 'They got married outside the U.S.',
     }),
-    marriageLocation: {
+    locationOfMarriage: {
       city: textUI('City'),
       state: {
         ...selectUI('State', STATE_VALUES, STATE_NAMES),
