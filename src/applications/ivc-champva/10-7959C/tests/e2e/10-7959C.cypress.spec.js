@@ -1,6 +1,7 @@
 import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../../config/form';
@@ -50,15 +51,15 @@ const testConfig = createTestConfig(
       },
       // When we land on this screener page, progressing through the form is
       // blocked (by design). To successfully complete the test,
-      // once we land here, change `champvaBenefitStatus` to `true`
+      // once we land here, change `view:champvaBenefitStatus` to `true`
       // and click '<< Back' so that we can proceed past the screener
       [ALL_PAGES.benefitApp.path]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.injectAxeThenAxeCheck();
-            if (data.champvaBenefitStatus === false) {
+            if (data['view:champvaBenefitStatus'] === false) {
               // eslint-disable-next-line no-param-reassign
-              data.champvaBenefitStatus = true;
+              data['view:champvaBenefitStatus'] = true;
               // This targets the 'Back to previous page' button
               cy.get('va-link[back="true"]').click({ force: true });
             }
@@ -140,7 +141,8 @@ const testConfig = createTestConfig(
 
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          verifyAllDataWasSubmitted(data, req.body);
+          const withoutViewFields = filterViewFields(data);
+          verifyAllDataWasSubmitted(withoutViewFields, req.body);
         });
         // Mock response
         req.reply({ status: 200 });

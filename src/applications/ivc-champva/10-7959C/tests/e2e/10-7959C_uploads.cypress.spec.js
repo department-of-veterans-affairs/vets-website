@@ -16,6 +16,7 @@ import path from 'path';
 import environment from 'platform/utilities/environment';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../../config/form';
@@ -147,7 +148,8 @@ const testConfig = createTestConfig(
       });
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          verifyAllDataWasSubmitted(data, req.body);
+          const withoutViewFields = filterViewFields(data);
+          verifyAllDataWasSubmitted(withoutViewFields, req.body);
         });
         // Mock response
         req.reply({ status: 200 });
