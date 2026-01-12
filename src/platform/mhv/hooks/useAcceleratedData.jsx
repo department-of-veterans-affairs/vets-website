@@ -36,6 +36,12 @@ const useAcceleratedData = () => {
         FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVitalSignsEnabled
       ],
   );
+  const isAcceleratingVaccinesEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVaccinesEnabled
+      ],
+  );
 
   const isAcceleratingLabsAndTestsEnabled = useSelector(
     state =>
@@ -102,6 +108,13 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled],
   );
 
+  const isAcceleratingVaccines = useMemo(
+    () => {
+      return isAcceleratedDeliveryEnabled && isAcceleratingVaccinesEnabled;
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingVaccinesEnabled],
+  );
+
   const isAcceleratingLabsAndTests = useMemo(
     () => {
       return isAcceleratedDeliveryEnabled && isAcceleratingLabsAndTestsEnabled;
@@ -155,6 +168,7 @@ const useAcceleratedData = () => {
     isAcceleratingCareNotes,
     isAcceleratingConditions,
     isAcceleratingVitals,
+    isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
     isAcceleratingMedications,
     isAcceleratingSecureMessaging,

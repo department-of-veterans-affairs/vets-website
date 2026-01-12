@@ -86,6 +86,7 @@ const responses = {
     mhvAcceleratedDeliveryCareNotesEnabled: true,
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
     mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
+    mhvAcceleratedDeliveryVaccinesEnabled: false,
     mhvMedicalRecordsCcdExtendedFileTypes: true,
   }),
 
