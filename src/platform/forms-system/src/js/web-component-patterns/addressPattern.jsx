@@ -1,6 +1,7 @@
 /**
  * Web component version of address
  */
+import environment from 'platform/utilities/environment';
 import React from 'react';
 import constants from 'vets-json-schema/dist/constants.json';
 
@@ -241,7 +242,7 @@ export function getFieldValue(fieldName, addressData, keys = {}) {
 function validateKeys(keys = [], methodName = '', fields = MAPPABLE_KEYS) {
   const invalidKeys = keys.filter(field => !fields.includes(field));
 
-  if (invalidKeys.length > 0) {
+  if (!environment.isProduction() && invalidKeys.length > 0) {
     throw new Error(
       `${
         methodName ? `${methodName}: ` : ''
