@@ -348,9 +348,7 @@ const formConfig = {
           title: 'Separation details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            (formData.separationDueToAssignedReasons ===
-              'RELATIONSHIP_DIFFERENCES' ||
-              formData.separationDueToAssignedReasons === 'OTHER'),
+            formData.separationDueToAssignedReasons !== 'other',
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },
@@ -367,7 +365,7 @@ const formConfig = {
           title: 'Remarriage details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            formData.remarried === true,
+            formData.remarriedAfterVeteralDeath === true,
           uiSchema: remarriageDetails.uiSchema,
           schema: remarriageDetails.schema,
         },
@@ -376,7 +374,7 @@ const formConfig = {
           title: 'Additional marriages',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            formData.remarried === true,
+            formData.remarriedAfterVeteralDeath === true,
           uiSchema: additionalMarriages.uiSchema,
           schema: additionalMarriages.schema,
         },

@@ -11,25 +11,26 @@ export default {
   title: 'Additional marriages',
   path: 'household/additional-marriages',
   depends: formData =>
-    formData.claimantRelationship === 'SPOUSE' && formData.remarried === true,
+    formData.claimantRelationship === 'SPOUSE' &&
+    formData.remarriedAfterVeteralDeath === true,
   uiSchema: {
     ...titleUI('Additional marriages'),
-    additionalMarriages: yesNoUI({
+    claimantHasAdditionalMarriages: yesNoUI({
       title: 'Did you have more than 1 marriage after the Veteran’s death?',
     }),
     additionalMarriagesAlert: {
       'ui:description': AdditionalMarriagesAlert,
       'ui:options': {
-        hideIf: formData => !isYes(formData?.additionalMarriages),
+        hideIf: formData => !isYes(formData?.claimantHasAdditionalMarriages),
         displayEmptyObjectOnReview: true,
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['additionalMarriages'],
+    required: ['claimantHasAdditionalMarriages'],
     properties: {
-      additionalMarriages: yesNoSchema,
+      claimantHasAdditionalMarriages: yesNoSchema,
       additionalMarriagesAlert: {
         type: 'object',
         properties: {},

@@ -54,10 +54,10 @@ export const previousMarriageEndOptions = {
 };
 
 export const remarriageEndOptions = {
-  DID_NOT_END: 'Did not end',
-  SPOUSE_DEATH: "Spouse's death",
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
+  didNotEnd: 'Did not end',
+  death: "Spouse's death",
+  divorce: 'Divorce',
+  other: 'Other',
 };
 
 export const bankAccountTypeOptions = {
