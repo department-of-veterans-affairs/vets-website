@@ -14,7 +14,7 @@ export default {
       labels: marriageTypeOptions,
       labelHeaderLevel: 3,
     }),
-    marriageTypeOther: {
+    marriageTypeExplanation: {
       ...textUI({
         title: 'Tell us how you got married',
         required: formData => formData?.marriageType === 'OTHER_WAY',
@@ -32,7 +32,7 @@ export default {
     required: ['marriageType'],
     properties: {
       marriageType: radioSchema(Object.keys(marriageTypeOptions)),
-      marriageTypeOther: textSchema,
+      marriageTypeExplanation: textSchema,
     },
   },
 };

@@ -23,7 +23,8 @@
     "city": "rgegerg",
     "state": "AL"
   },
-  "marriageType": "CIVIL_RELIGIOUS",
+  "marriageType": "other",
+  "marriageTypeExplanation": "Some other way",
   "marriageToVeteranStartDate": "2022-03-03",
   "marriageToVeteranStartLocation": {
     "city": "fgfgr",

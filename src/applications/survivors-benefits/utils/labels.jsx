@@ -36,9 +36,9 @@ export const marriageEndOptions = {
 };
 
 export const marriageTypeOptions = {
-  CIVIL_RELIGIOUS:
+  ceremonial:
     'In a civil or religious ceremony with an officiant who signed me marriage license',
-  OTHER_WAY: 'Some other way',
+  other: 'Some other way',
 };
 
 export const separationReasonOptions = {
