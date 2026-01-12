@@ -265,10 +265,10 @@ const ExpensePage = () => {
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
-    if (!value) return;
-
     const newFormState = { ...formState, [name]: value };
     setFormState(newFormState);
+
+    if (!value) return;
 
     // Validate the field being updated
     setExtraFieldErrors(prevErrors => {
