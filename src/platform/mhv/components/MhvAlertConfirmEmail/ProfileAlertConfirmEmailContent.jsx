@@ -13,10 +13,7 @@ export const ProfileAlertConfirmEmailContent = ({
       We’ll send notifications about your VA health care and benefits to this
       email.
     </p>
-    <p
-      className="vads-u-font-weight--bold vads-u-margin-bottom--0p25"
-      style={{ wordBreak: 'break-word' }}
-    >
+    <p className="vads-u-font-weight--bold" style={{ wordBreak: 'break-word' }}>
       {emailAddress}
     </p>
     <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
