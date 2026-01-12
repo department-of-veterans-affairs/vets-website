@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import vapService from '~/platform/user/profile/vap-svc/reducers';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import { VAPServiceProfileField } from '../../containers/VAPServiceProfileField';
 
 function Content() {
@@ -104,7 +104,7 @@ describe('<VAPServiceProfileField/>', () => {
   });
 
   it('renders the Content prop', () => {
-    const { getByRole } = renderInReduxProvider(
+    const { getByRole } = renderWithStoreAndRouter(
       <VAPServiceProfileField {...props} />,
       {
         initialState,
@@ -121,7 +121,7 @@ describe('<VAPServiceProfileField/>', () => {
       ...{ user: { profile: { vapContactInfo: {} } } },
     };
     props = { ...props, isEmpty: true };
-    const { queryByRole, getByTestId } = renderInReduxProvider(
+    const { queryByRole, getByTestId } = renderWithStoreAndRouter(
       <VAPServiceProfileField {...props} />,
       {
         initialState: state,
@@ -134,7 +134,7 @@ describe('<VAPServiceProfileField/>', () => {
   });
 
   it('renders the edit link and handles click', () => {
-    const { getByRole } = renderInReduxProvider(
+    const { getByRole } = renderWithStoreAndRouter(
       <VAPServiceProfileField {...props} />,
       {
         initialState,

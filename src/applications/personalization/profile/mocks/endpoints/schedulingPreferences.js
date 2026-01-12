@@ -4,16 +4,21 @@ const all = {
     attributes: {
       preferences: [
         {
-          itemId: 4,
-          optionIds: ['29'],
+          itemId: 1, // preferredContactMethod
+          optionIds: ['4'], // mailingAddress
+          // optionIds: ['39'], // workPhone
         },
         {
-          itemId: 5,
-          optionIds: ['33'],
+          itemId: 4, // needsHelpSchedulingAppointments
+          optionIds: ['29'], // yes
         },
         {
-          itemId: 6,
-          optionIds: ['35'],
+          itemId: 5, // needsHelpChoosingProvider
+          optionIds: ['33'], // no
+        },
+        {
+          itemId: 6, // preferredProviderGender
+          optionIds: ['35'], // male
         },
       ],
     },
