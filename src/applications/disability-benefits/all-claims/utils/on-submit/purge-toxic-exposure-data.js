@@ -88,26 +88,19 @@ const hasToxicExposureData = toxicExposure => {
 };
 
 /**
- * Purges data for a single exposure type based on user opt-out actions.
+ * Purges data for a single exposure type based on user selections.
  *
- * All sections filter their details based on checkbox state. When a checkbox
- * is unchecked (false), the corresponding details entry is removed.
+ * Users can select predefined locations/hazards via checkboxes OR enter custom
+ * ones via "Other" text area - both indicate exposure and lead to date entry.
  *
- * Sections without otherKey (gulfWar1990, gulfWar2001):
- * - When none === true: remove the entire section (exposureType + details)
- * - Otherwise: filter details to only keep entries for checked locations
- *
- * Sections with otherKey (herbicide, otherExposures):
- * - When none === true: remove section but continue processing for orphan cleanup
- * - Otherwise: filter details to only keep entries for checked locations
- * - Handles orphaned otherKey data (dates without description are removed)
- *
- * Note: The UI prevents selecting "None of these" while also entering "Other" text.
- * The otherKey handling is defensive - it ensures orphaned data from save-in-progress
- * edge cases or form state inconsistencies is properly cleaned up.
+ * Filtering rules:
+ * - Unchecked checkbox: removes corresponding details entry
+ * - "None of these" (none: true): removes entire section
+ * - otherKey with description: preserved (description + dates retained)
+ * - otherKey without description: removed (dates alone are orphaned)
  *
  * @param {Object} toxicExposure - Toxic exposure data object
- * @param {string} exposureType - Exposure type key (e.g., 'gulfWar1990', 'herbicide')
+ * @param {string} exposureType - Exposure type key (e.g., 'gulfWar1990')
  * @param {Object} mapping - Mapping configuration for exposure type
  * @param {string} mapping.detailsKey - Key for details object (e.g., 'herbicideDetails')
  * @param {string} [mapping.otherKey] - Key for other/specify fields (e.g., 'otherHerbicideLocations')
@@ -118,58 +111,44 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
   const result = { ...toxicExposure };
   const exposureSelections = result[exposureType];
 
-  // For sections with otherKey: always check for orphaned otherKey data
-  // This runs even if the parent exposureType doesn't exist
+  // Clean up orphaned otherKey data (dates without description)
   if (otherKey && otherKey in result) {
-    // Remove orphaned date fields without description
-    // Dates without a description lack context and are meaningless
     const otherData = result[otherKey];
 
-    // Skip if otherKey is null/undefined (preserve these values)
     if (otherData !== null && otherData !== undefined) {
-      // Handle string values directly (legacy format)
       if (typeof otherData === 'string') {
+        // Empty string has no description
         if (!otherData.trim()) {
-          // Empty/whitespace string is orphaned, remove it
           delete result[otherKey];
         }
-        // Non-empty string is a valid description, keep it
       } else if (typeof otherData === 'object') {
-        // Handle object format with description property
         const { description } = otherData;
         const hasNoDescription =
           !description ||
           (typeof description === 'string' && !description.trim());
 
+        // Object with dates but no description is orphaned
         if (hasNoDescription) {
-          // Object with no/empty description but may have dates is orphaned, remove it
           delete result[otherKey];
         }
       }
     }
   }
 
-  // Skip further processing if exposure type not present in data
   if (!(exposureType in result)) {
     return result;
   }
 
-  // Check if user explicitly opted out by selecting 'none' checkbox
   const userSelectedNone = exposureSelections?.none === true;
 
-  // For sections without otherKey: none === true triggers complete section removal
-  // For sections with otherKey: continue processing to handle orphan cleanup
+  // "None of these" removes entire section
   if (userSelectedNone && !otherKey) {
-    // User explicitly opted out, remove all related data for this exposure type
     delete result[exposureType];
     delete result[detailsKey];
     return result;
   }
 
-  // Filter details based on checkbox state
-  // Unchecking a checkbox is opting out of that specific location/exposure
-  // Example: herbicide.vietnam === true keeps herbicideDetails.vietnam
-  //          herbicide.cambodia === false removes herbicideDetails.cambodia
+  // Filter details: keep only entries where checkbox is checked (true)
   if (result[detailsKey]) {
     if (exposureSelections && typeof exposureSelections === 'object') {
       result[detailsKey] = pickBy(
@@ -177,15 +156,12 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
         (_value, key) => exposureSelections[key] === true,
       );
     } else if (exposureSelections) {
-      // Parent exists but is invalid type (e.g., string instead of object)
-      // Filter details to empty since we can't match against invalid parent
+      // Invalid parent type - clear details
       result[detailsKey] = {};
     }
   }
 
-  // Clean undefined values from exposure selections to match save-in-progress shape
-  // Form system scaffolds all checkbox keys with undefined, but save-in-progress
-  // only stores explicitly set values (true/false)
+  // Remove undefined values to match save-in-progress shape
   if (result[exposureType] && typeof result[exposureType] === 'object') {
     result[exposureType] = pickBy(
       result[exposureType],
@@ -197,26 +173,17 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
 };
 
 /**
- * Removes toxic exposure data when users explicitly opt out of sections.
+ * Removes toxic exposure data when users opt out or uncheck selections.
  *
- * Form flow (from toxicExposurePages.js):
- * 1. User selects conditions on toxicExposureConditions page
- *    - Selecting "I'm not claiming any conditions" (none: true) opts out
- *    - Selecting actual conditions proceeds to exposure pages
+ * Users can select predefined locations/hazards via checkboxes OR enter custom
+ * ones via "Other" text area - both indicate exposure and lead to date entry.
  *
- * 2. On each exposure page (gulfWar, herbicide, additionalExposures):
- *    - User can check predefined locations/hazards
- *    - User can fill "other" text area (valid without checking any boxes)
- *    - User can check "None of these locations/hazards" to explicitly opt out
- *    - Note: "None of these" and "Other" are mutually exclusive in the UI
- *
- * Purge logic:
- * - No conditions selected: remove all exposure data, keep only conditions object
- * - gulfWar1990.none === true: remove gulfWar1990 and gulfWar1990Details
- * - gulfWar2001.none === true: remove gulfWar2001 and gulfWar2001Details
- * - Unchecked checkbox (false): filter out corresponding details entry
- * - otherHerbicideLocations without description: remove (orphaned dates)
- * - specifyOtherExposures without description: remove (orphaned dates)
+ * Purge rules:
+ * - No conditions selected: remove all exposure data, keep only conditions
+ * - "None of these" (none: true): remove entire section and details
+ * - Unchecked checkbox: filter out corresponding details entry
+ * - otherKey with description: preserved (description + dates retained)
+ * - otherKey without description: removed (dates alone are orphaned)
  *
  * @param {Object} formData - Form data to transform
  * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurge] - Feature flag
