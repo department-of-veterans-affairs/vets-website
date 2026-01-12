@@ -48,11 +48,13 @@ describe('Get vaccine action', () => {
     });
   });
 
-  it('should dispatch an add alert action on error and not throw', async () => {
-    mockApiRequest(vaccine, false);
+  it('should dispatch a get unified vaccine action with notFound when vaccine not in list', async () => {
     const dispatch = sinon.spy();
     await getVaccineDetails('3106', undefined)(dispatch);
-    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.Vaccines.GET_UNIFIED_VACCINE,
+    );
+    expect(dispatch.firstCall.args[0].response.data.notFound).to.be.true;
   });
 });
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
@@ -14,7 +14,6 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
-  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import { generateTextFile } from '../util/helpers';
@@ -44,19 +43,22 @@ const VaccineDetails = props => {
   const user = useSelector(state => state.user.profile);
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
-  const { isLoading } = useAcceleratedData();
 
   useTrackAction(statsdFrontEndActions.VACCINES_DETAILS);
 
   useEffect(
     () => {
-      if (vaccineId && !isLoading) {
+      if (vaccineId && !record?.notFound) {
         dispatch(getVaccineDetails(vaccineId, vaccines));
       }
+      if (record?.notFound || !vaccines) {
+        history.push('/vaccines');
+      }
     },
-    [vaccineId, vaccines, dispatch, isLoading],
+    [vaccineId, vaccines, dispatch, record, history],
   );
 
   useEffect(

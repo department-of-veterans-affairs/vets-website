@@ -1,8 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import {
-  getAcceleratedImmunizations,
-  getAcceleratedImmunization,
-} from '../api/MrApi';
+import { getAcceleratedImmunizations } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails, sendDatadogError } from '../util/helpers';
@@ -30,12 +27,18 @@ export const getVaccinesList = (isCurrent = false) => async dispatch => {
 };
 
 export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
+  const getDetailsFunc = async () => {
+    // Return a notfound response because the downstream API (SCDF)
+    // does not support fetching a single vaccine at this time
+    return { data: { notFound: true } };
+  };
+
   try {
     await dispatchDetails(
       vaccineId,
       vaccineList,
       dispatch,
-      getAcceleratedImmunization,
+      getDetailsFunc,
       Actions.Vaccines.GET_FROM_LIST,
       Actions.Vaccines.GET_UNIFIED_VACCINE,
     );
