@@ -715,14 +715,14 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       urlParams: { edit: true },
       pathname: '/employers/pageB/0',
     });
-    expect(goPath.args[1][0]).to.eql('employers-summary?updated=employer-0');
+    expect(goPath.args[1][0]).to.eql('employers-summary?updated=employers-0');
 
     pageB.onNavForward({
       goPath,
       urlParams: { edit: true, review: true },
       pathname: '/employers/pageB/0',
     });
-    expect(goPath.args[2][0]).to.eql('review-and-submit?updated=employer-0');
+    expect(goPath.args[2][0]).to.eql('review-and-submit?updated=employers-0');
   });
 });
 
@@ -1107,7 +1107,7 @@ describe('depends navigations', () => {
       },
       pageBDepends: (formData, index) => formData?.employers?.[index].showB,
       expectFn: 'goPath',
-      expectValue: 'employers-summary?updated=employer-0',
+      expectValue: 'employers-summary?updated=employers-0',
       arrayData: [
         {
           showB: false,
@@ -1129,7 +1129,7 @@ describe('depends navigations', () => {
       },
       pageBDepends: (formData, index) => formData?.employers?.[index].showB,
       expectFn: 'goPath',
-      expectValue: 'review-and-submit?updated=employer-0',
+      expectValue: 'review-and-submit?updated=employers-0',
       arrayData: [
         {
           showB: false,
@@ -1151,7 +1151,7 @@ describe('depends navigations', () => {
       },
       pageBDepends: (formData, index) => formData?.employers?.[index].showB,
       expectFn: 'goPath',
-      expectValue: 'review-and-submit?updated=employer-0',
+      expectValue: 'review-and-submit?updated=employers-0',
       arrayData: [
         {
           showB: false,
