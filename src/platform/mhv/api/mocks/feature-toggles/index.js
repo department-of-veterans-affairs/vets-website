@@ -149,6 +149,10 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_secure_messaging_recent_recipients',
           value: mhvSecureMessagingRecentRecipients,
         },
+        {
+          name: 'mhvSecureMessagingRecentRecipients',
+          value: mhvSecureMessagingRecentRecipients,
+        },
       ],
     },
   };
