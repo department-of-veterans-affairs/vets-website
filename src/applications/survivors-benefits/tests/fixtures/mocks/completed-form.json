@@ -121,22 +121,20 @@
         "last": "Service",
         "middle": "Name"
       }
+    },
+    {
+      "otherServiceName": {
+        "first": "John",
+        "last": "Other",
+        "middle": "Test"
+      }
     }
   ],
-  "serviceBranch": {
-    "ARMY": true,
-    "NAVY": true,
-    "AIR_FORCE": true,
-    "COAST_GUARD": true,
-    "MARINE_CORPS": true,
-    "SPACE_FORCE": true,
-    "USPHS": true,
-    "NOAA": true
-  },
+  "serviceBranch": "spaceForce",
   "nationalGuardActivated": true,
   "nationalGuardActivationDate": "2001-09-11",
   "unitName": "Unit Name",
-  "unitPhoneNumber": {
+  "unitPhone": {
     "callingCode": 1,
     "countryCode": "US",
     "contact": "5555112222",
@@ -148,13 +146,15 @@
   "unitAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
-    "street": "2131",
-    "city": "123213",
+    "street": "999 Unit St",
+    "city": "North Unitton",
     "state": "AL",
     "postalCode": "12313"
   },
-  "dateInitiallyEnteredActiveDuty": "2000-01-01",
-  "finalReleaseDateFromActiveDuty": "2005-01-01",
+  "activeServiceDateRange": {
+    "from": "1995-01-01",
+    "to": "2000-01-01"
+  },
   "placeOfSeparation": "Some City, ST",
   "careExpenses": [
     {
