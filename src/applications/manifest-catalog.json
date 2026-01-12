@@ -184,12 +184,6 @@
       "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
-      "directoryPath": "src/applications/dependents/686c-674-old",
-      "appName": "686C-674",
-      "entryName": "686C-674",
-      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
-    },
-    {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
@@ -253,7 +247,7 @@
       "directoryPath": "src/applications/edu-benefits/0803",
       "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
       "entryName": "0803-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803"
+      "rootUrl": "/forms/22-0803/request-reimbursement-licensing-or-certification-test-fees-online"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0839",

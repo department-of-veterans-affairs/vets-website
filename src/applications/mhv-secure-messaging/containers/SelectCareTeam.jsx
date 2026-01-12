@@ -20,7 +20,12 @@ import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/sour
 import { datadogRum } from '@datadog/browser-rum';
 
 import { populatedDraft } from '../selectors';
-import { ErrorMessages, Paths, PageTitles } from '../util/constants';
+import {
+  ErrorMessages,
+  Paths,
+  PageTitles,
+  SelectCareTeamPage,
+} from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
@@ -28,6 +33,7 @@ import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 import { saveDraft } from '../actions/draftDetails';
 import manifest from '../manifest.json';
 import featureToggles from '../hooks/useFeatureToggles';
+import { draftIsClean } from '../util/helpers';
 
 const SelectCareTeam = () => {
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
@@ -91,6 +97,25 @@ const SelectCareTeam = () => {
       }
     },
     [draftInProgress.recipientId],
+  );
+
+  useEffect(
+    () => {
+      if (
+        !draftInProgress?.messageId &&
+        !!draftInProgress?.recipientId &&
+        draftInProgress?.navigationError?.title ===
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title &&
+        draftIsClean(draftInProgress)
+      ) {
+        dispatch(
+          updateDraftInProgress({
+            navigationError: null,
+          }),
+        );
+      }
+    },
+    [draftInProgress, dispatch],
   );
 
   const careTeamHandler = useCallback(
@@ -476,15 +501,15 @@ const SelectCareTeam = () => {
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
             <Link to={Paths.CARE_TEAM_HELP}>
-              What to do if you can’t find your care team
+              {SelectCareTeamPage.CANT_FIND_CARE_TEAM_LINK}
             </Link>
           </p>
         </div>
         {showContactListLink && (
           <div className="vads-u-margin-top--2">
             <p className="vads-u-margin-bottom--1">
-              <strong>Note:</strong> You can add more care teams to select from
-              by updating your contact list.
+              <strong>Note:</strong>{' '}
+              {SelectCareTeamPage.CANT_FIND_CARE_TEAM_NOTE}
             </p>
             <Link to={Paths.CONTACT_LIST}>Update your contact list</Link>
           </div>

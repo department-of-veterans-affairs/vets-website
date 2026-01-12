@@ -874,7 +874,7 @@ class TrackClaimsPageV2 {
     );
     cy.get('.what-were-doing-container va-card')
       .find('.active-va-link')
-      .should('contain', 'Overview of the process');
+      .should('contain', 'Learn more about the review process');
     cy.get('.what-were-doing-container va-card')
       .find('.active-va-link')
       .click();

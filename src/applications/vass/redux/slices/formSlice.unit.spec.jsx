@@ -17,6 +17,7 @@ describe('formSlice', () => {
         hydrated: false,
         selectedDate: null,
         selectedTopics: [],
+        token: null,
       });
     });
 
@@ -26,6 +27,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: null,
           selectedTopics: [],
+          token: null,
         };
         const dateString = '2025-01-15T10:00:00.000Z';
         const actual = formReducer(initialState, setSelectedDate(dateString));
@@ -39,6 +41,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1'],
+          token: null,
         };
         const newDateString = '2025-02-20T14:30:00.000Z';
         const actual = formReducer(
@@ -57,6 +60,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: null,
           selectedTopics: [],
+          token: null,
         };
         const topics = ['topic-1', 'topic-2', 'topic-3'];
         const actual = formReducer(initialState, setSelectedTopics(topics));
@@ -70,6 +74,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1'],
+          token: null,
         };
         const newTopics = ['topic-2', 'topic-3'];
         const actual = formReducer(initialState, setSelectedTopics(newTopics));
@@ -83,6 +88,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: null,
           selectedTopics: ['topic-1', 'topic-2'],
+          token: null,
         };
         const actual = formReducer(initialState, setSelectedTopics([]));
 
@@ -96,6 +102,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1', 'topic-2'],
+          token: null,
         };
         const actual = formReducer(initialState, clearFormData());
 
@@ -108,6 +115,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: null,
           selectedTopics: [],
+          token: null,
         };
         const actual = formReducer(initialState, clearFormData());
 
@@ -121,6 +129,7 @@ describe('formSlice', () => {
         const payload = {
           selectedSlotTime: '2025-03-01T10:00:00.000Z',
           selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
+          token: null,
         };
         const actual = formReducer(undefined, hydrateFormData(payload));
 
@@ -147,6 +156,7 @@ describe('formSlice', () => {
             hydrated: false,
             selectedDate: '2025-01-15T10:00:00.000Z',
             selectedTopics: [],
+            token: null,
           },
         };
         const result = selectSelectedDate(state);
@@ -159,6 +169,7 @@ describe('formSlice', () => {
             hydrated: false,
             selectedDate: null,
             selectedTopics: [],
+            token: null,
           },
         };
         const result = selectSelectedDate(state);
@@ -173,6 +184,7 @@ describe('formSlice', () => {
             hydrated: false,
             selectedDate: null,
             selectedTopics: ['topic-1', 'topic-2'],
+            token: null,
           },
         };
         const result = selectSelectedTopics(state);
@@ -185,6 +197,7 @@ describe('formSlice', () => {
             hydrated: false,
             selectedDate: null,
             selectedTopics: [],
+            token: null,
           },
         };
         const result = selectSelectedTopics(state);
@@ -199,6 +212,7 @@ describe('formSlice', () => {
             hydrated: true,
             selectedDate: null,
             selectedTopics: [],
+            token: null,
           },
         };
         const result = selectHydrated(state);
