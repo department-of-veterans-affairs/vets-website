@@ -17,7 +17,8 @@ import { App } from './app';
 const mockStore = configureStore([]);
 
 describe('21-4192 App', () => {
-  let oldLocation;
+  let replaceStub;
+  let originalLocation;
 
   const appLocation = {
     pathname: '/introduction',
@@ -70,19 +71,35 @@ describe('21-4192 App', () => {
   });
 
   beforeEach(() => {
-    // Save and mock window.location for redirect tests
-    oldLocation = global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-      pathname: '/',
-      search: '',
-      hash: '',
-      href: 'http://localhost/',
-    };
+    // Save original location and set up mock that works in both Node 14 and 22
+    originalLocation = window.location;
+    replaceStub = sinon.stub();
+    const desc =
+      Object.getOwnPropertyDescriptor(window.location, 'replace') || {};
+    if (desc.writable) {
+      window.location.replace = replaceStub;
+      window.location.href = 'http://localhost/';
+    } else {
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: {
+          replace: replaceStub,
+          origin: 'http://localhost',
+          pathname: '/',
+          search: '',
+          hash: '',
+          href: 'http://localhost/',
+        },
+      });
+    }
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    // Restore original location
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: originalLocation,
+    });
   });
 
   describe('Feature Toggle Loading States', () => {
@@ -99,7 +116,7 @@ describe('21-4192 App', () => {
         );
 
         expect($('va-loading-indicator', container)).to.exist;
-        expect(global.window.location.replace.called).to.be.false;
+        expect(replaceStub.called).to.be.false;
       });
     });
 
@@ -114,7 +131,7 @@ describe('21-4192 App', () => {
         );
 
         expect($('va-loading-indicator', container)).to.exist;
-        expect(global.window.location.replace.called).to.be.false;
+        expect(replaceStub.called).to.be.false;
       });
     });
 
@@ -132,7 +149,7 @@ describe('21-4192 App', () => {
         );
 
         expect($('va-loading-indicator', container)).to.not.exist;
-        expect(global.window.location.replace.called).to.be.false;
+        expect(replaceStub.called).to.be.false;
         expect(getByTestId('form-content')).to.exist;
       });
 
@@ -148,12 +165,9 @@ describe('21-4192 App', () => {
           </Provider>,
         );
 
-        expect(global.window.location.replace.calledOnce).to.be.true;
-        expect(
-          global.window.location.replace.calledWith(
-            '/find-forms/about-form-21-4192/',
-          ),
-        ).to.be.true;
+        expect(replaceStub.calledOnce).to.be.true;
+        expect(replaceStub.calledWith('/find-forms/about-form-21-4192/')).to.be
+          .true;
       });
 
       it('should redirect when formEnabled is undefined (flag missing)', () => {
@@ -167,7 +181,7 @@ describe('21-4192 App', () => {
           </Provider>,
         );
 
-        expect(global.window.location.replace.calledOnce).to.be.true;
+        expect(replaceStub.calledOnce).to.be.true;
       });
     });
   });
