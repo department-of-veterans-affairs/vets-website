@@ -2,15 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import AddIssue from '../../components/AddIssue';
 import { parseDateWithOffset } from '../../utils/dates';
-
 import {
   CONTESTABLE_ISSUES_PATH,
   REVIEW_AND_SUBMIT,
@@ -20,11 +17,10 @@ import {
   MAX_YEARS_PAST,
 } from '../../constants';
 import errorMessages from '../../content/errorMessages';
-
 import { maxNameLength } from '../../../995/validations/issues';
 import { validateDate } from '../../../995/validations/date';
 
-describe('<AddIssue>', () => {
+describe('AddIssue', () => {
   const validDate = parseDateWithOffset({ months: -2 });
   const contestedIssues = [
     {
@@ -35,13 +31,13 @@ describe('<AddIssue>', () => {
       },
     },
   ];
+
   const setup = ({
+    appAbbr = 'SC',
     index = null,
     setFormData = () => {},
     goToPath = () => {},
     data = {},
-    onReviewPage = false,
-    description = null,
     validations = { maxNameLength, validateDate },
   } = {}) => {
     if (index !== null) {
@@ -49,19 +45,16 @@ describe('<AddIssue>', () => {
     } else {
       window.sessionStorage.removeItem(LAST_ISSUE);
     }
+
     return (
-      <div>
-        <AddIssue
-          setFormData={setFormData}
-          data={data}
-          goToPath={goToPath}
-          onReviewPage={onReviewPage}
-          testingIndex={index}
-          appStateData={data}
-          validations={validations}
-          description={description}
-        />
-      </div>
+      <AddIssue
+        appAbbr={appAbbr}
+        data={data}
+        goToPath={goToPath}
+        setFormData={setFormData}
+        testingIndex={index}
+        validations={validations}
+      />
     );
   };
 
@@ -70,22 +63,24 @@ describe('<AddIssue>', () => {
   });
 
   it('should render', () => {
-    const { container } = render(setup());
+    const { container } = render(setup({}));
     expect($('h3', container)).to.exist;
     expect($('va-text-input', container)).to.exist;
     expect($('va-memorable-date', container)).to.exist;
   });
+
   it('should render with no data', () => {
     const { container } = render(setup({ data: undefined }));
     expect($('h3', container)).to.exist;
     expect($('va-text-input', container)).to.exist;
     expect($('va-memorable-date', container)).to.exist;
   });
+
   it('should render description', () => {
-    const page = setup({ description: <span id="test-span" /> });
+    const page = setup({});
     const { container } = render(page);
     expect($('h3', container)).to.exist;
-    expect($('#test-span', container)).to.exist;
+    expect($('[data-testid="add-issue-desc"]', container)).to.exist;
   });
 
   it('should submit when valid', () => {
@@ -117,6 +112,7 @@ describe('<AddIssue>', () => {
     expect(elems[1].invalidYear).to.be.true;
     expect(goToPathSpy.called).to.be.false;
   });
+
   it('should navigate on cancel', () => {
     const goToPathSpy = sinon.spy();
     const { container } = render(setup({ goToPath: goToPathSpy }));
@@ -140,6 +136,7 @@ describe('<AddIssue>', () => {
       errorMessages.maxLength(MAX_LENGTH.ISSUE_NAME),
     );
   });
+
   it('should show error when issue name is all whitespace', () => {
     const issue = '       ';
     const { container } = render(
@@ -175,6 +172,7 @@ describe('<AddIssue>', () => {
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
   });
+
   it('should show an error when the issue date is > 1 year in the future', () => {
     const decisionDate = parseDateWithOffset({ months: 13 });
     const { container } = render(
@@ -196,6 +194,7 @@ describe('<AddIssue>', () => {
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
   });
+
   it('should show an error when the issue date is > 100 years in the past', () => {
     const decisionDate = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
     const { container } = render(
@@ -250,6 +249,7 @@ describe('<AddIssue>', () => {
     expect($('va-memorable-date', container).error).to.be.null;
     expect(goToPathSpy.calledWith(`/${CONTESTABLE_ISSUES_PATH}`)).to.be.true;
   });
+
   it('should submit when everything is valid', () => {
     window.sessionStorage.setItem(REVIEW_ISSUES, 'true');
     const goToPathSpy = sinon.spy();
@@ -259,6 +259,7 @@ describe('<AddIssue>', () => {
         decisionDate: parseDateWithOffset({ months: -3 }),
       },
     ];
+
     const { container } = render(
       setup({
         goToPath: goToPathSpy,

@@ -27,13 +27,13 @@ import { uniqueIssue, missingIssueName } from '../validations/issues';
 import { replaceWhitespace } from '../utils/replace';
 
 const AddIssue = ({
-  validations,
-  description,
+  appAbbr,
   data,
   goToPath,
   setFormData,
-  uiSchema,
   testingIndex,
+  uiSchema,
+  validations,
 }) => {
   const { contestedIssues = [], additionalIssues = [] } = data || {};
   const allIssues = contestedIssues.concat(additionalIssues);
@@ -183,7 +183,21 @@ const AddIssue = ({
         >
           <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
-        {description}
+        {appAbbr === 'SC' && (
+          <div data-testid="add-issue-desc">
+            If you’re filing a Supplemental Claim within 1 year of receiving a
+            decision from 1 of these courts, provide the date listed on your
+            decision notice and upload a copy of your decision notice as
+            evidence:
+            <ul>
+              <li>The United States Court of Appeals for Veterans Claims</li>
+              <li>
+                The United States Court of Appeals for the Federal Circuit
+              </li>
+              <li>The Supreme Court of the United States</li>
+            </ul>
+          </div>
+        )}
         <VaTextInput
           id="issue-name"
           name="issue-name"
@@ -236,8 +250,8 @@ const AddIssue = ({
 };
 
 AddIssue.propTypes = {
+  appAbbr: PropTypes.string,
   data: PropTypes.shape({}),
-  description: PropTypes.any,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,

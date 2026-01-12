@@ -1,9 +1,11 @@
+import React from 'react';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+
 // Components
-import AddContestableIssue from '../components/AddContestableIssue';
+import AddIssue from '../../shared/components/AddIssue';
 import ConfirmationPage from '../components/ConfirmationPage';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -17,14 +19,16 @@ import SubTaskContainer from '../subtask/SubTaskContainer';
 import Summary from '../components/evidence/Summary';
 import VaDetailsEntry from '../components/evidence/VaDetailsEntry';
 import VaPrompt from '../components/evidence/VaPrompt';
+
 // Content
 import reviewErrors from '../content/reviewErrors';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 import { title995, getSubTitle } from '../content/title';
 import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
+
 // Pages
-import addIssue from '../pages/addIssue';
+import addIssue from '../../shared/pages/addIssue';
 import contactInfo from '../pages/contactInformation';
 import contestableIssues from '../pages/contestableIssues';
 import facilityTypes from '../pages/facilityTypes';
@@ -49,6 +53,7 @@ import uploadPrompt from '../pages/evidence/uploadPrompt';
 import vaDetails from '../pages/evidence/vaDetails';
 import vaPrompt from '../pages/evidence/vaPrompt';
 import veteranInfo from '../pages/veteranInfo';
+
 // Utils
 import migrations from '../migrations';
 import {
@@ -79,6 +84,8 @@ import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 import { focusEvidence } from '../utils/focus';
+import { maxNameLength } from '../validations/issues';
+import { validateDate } from '../validations/date';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import {
   focusAlertH3,
@@ -214,10 +221,16 @@ const formConfig = {
           title: 'Add issues for review',
           path: ADD_ISSUE_URL,
           depends: () => false, // accessed from contestable issues
-          CustomPage: AddContestableIssue,
+          CustomPage: props => (
+            <AddIssue
+              {...props}
+              appAbbr="SC"
+              validations={{ maxNameLength, validateDate }}
+            />
+          ),
           CustomPageReview: null,
-          uiSchema: addIssue.uiSchema,
-          schema: addIssue.schema,
+          uiSchema: addIssue().uiSchema,
+          schema: addIssue().schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         issueSummary: {
