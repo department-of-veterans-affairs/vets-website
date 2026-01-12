@@ -20,7 +20,6 @@ const createStore = (formData = {}) => ({
 describe('21-8940 container/ConfirmationQuestion', () => {
   let sandbox;
   let user;
-  let hadScrollTo;
   let originalScrollTo;
   let bodyScrollStub;
 
@@ -61,25 +60,15 @@ describe('21-8940 container/ConfirmationQuestion', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     user = userEvent;
-    hadScrollTo = Object.prototype.hasOwnProperty.call(
-      document.body,
-      'scrollTo',
-    );
-    originalScrollTo = document.body.scrollTo;
-    if (!originalScrollTo) {
-      document.body.scrollTo = () => {};
-      originalScrollTo = document.body.scrollTo;
-    }
-    bodyScrollStub = sandbox.stub(document.body, 'scrollTo');
+    // The component uses scrollTo from platform/utilities/scroll which calls window.scrollTo
+    originalScrollTo = window.scrollTo;
+    window.scrollTo = sandbox.stub();
+    bodyScrollStub = window.scrollTo;
   });
 
   afterEach(() => {
     sandbox.restore();
-    if (hadScrollTo) {
-      document.body.scrollTo = originalScrollTo;
-    } else {
-      delete document.body.scrollTo;
-    }
+    window.scrollTo = originalScrollTo;
   });
 
   it('renders page content and scrolls to top', async () => {
