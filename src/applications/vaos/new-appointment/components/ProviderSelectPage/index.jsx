@@ -54,6 +54,18 @@ export default function SelectProviderPage() {
     [pageTitle],
   );
 
+  const ProviderInfo = () => (
+    <>
+      <div>
+        <strong>Type of care:</strong> {typeOfCare?.name}
+        <br />
+        <strong>Facility:</strong> {selectedFacility?.name}
+      </div>
+      {patientProviderRelationships.map((provider, index) => (
+        <ProviderCard key={index} provider={provider} />
+      ))}
+    </>
+  );
   if (loading) {
     return (
       <div className="vads-u-margin-y--8" data-testid="loading-indicator">
@@ -73,11 +85,14 @@ export default function SelectProviderPage() {
 
       {patientRelationshipsError &&
         !hasProviders && (
-          <BackendProviderServiceAlert
-            selectedFacility={selectedFacility}
-            isEligibleForRequest={isEligibleForRequest}
-            overRequestLimit={overRequestLimit}
-          />
+          <>
+            <ProviderInfo />
+            <BackendProviderServiceAlert
+              selectedFacility={selectedFacility}
+              isEligibleForRequest={isEligibleForRequest}
+              overRequestLimit={overRequestLimit}
+            />
+          </>
         )}
 
       {!hasProviders &&
@@ -90,18 +105,7 @@ export default function SelectProviderPage() {
           />
         )}
 
-      {hasProviders ? (
-        <>
-          <div>
-            <strong>Type of care:</strong> {typeOfCare?.name}
-            <br />
-            <strong>Facility:</strong> {selectedFacility?.name}
-          </div>
-          {patientProviderRelationships.map((provider, index) => (
-            <ProviderCard key={index} provider={provider} />
-          ))}
-        </>
-      ) : null}
+      {hasProviders ? <ProviderInfo /> : null}
 
       {!patientRelationshipsError && (
         <ScheduleWithDifferentProvider
