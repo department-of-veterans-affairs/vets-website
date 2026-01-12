@@ -10,9 +10,9 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     email: profileEmail,
     mobilePhone: profileMobilePhone,
   } = vapContactInfo || {};
-  const phoneNumber = `${profileMobilePhone?.areaCode}${
-    profileMobilePhone?.phoneNumber
-  }`;
+  const phoneNumber = profileMobilePhone?.phoneNumber
+    ? `${profileMobilePhone.areaCode || ''}${profileMobilePhone.phoneNumber}`
+    : undefined;
   // Build the transformed form data at root level
   const transformedFormData = {
     // Preserve any existing form data
@@ -34,7 +34,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     }),
     ...{
       email: profileEmail?.emailAddress || '',
-      phoneNumber: formatPhone(phoneNumber) || '',
+      phoneNumber: phoneNumber ? formatPhone(phoneNumber) : '',
     },
   };
 
