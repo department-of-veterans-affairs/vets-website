@@ -1,10 +1,10 @@
 class DashboardPage {
   clickConfirmEmail = () => {
-    cy.findByTestId('confirm-email-button').click();
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
   };
 
   clickErrorConfirmEmail = () => {
-    cy.findByTestId('confirm-email-button').click();
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
   };
 
   clickErrorEditEmailLink = () => {

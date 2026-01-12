@@ -21,7 +21,7 @@ describe('<AlertConfirmContactEmailContent />', async () => {
 
     await findByText('vet@va.gov');
 
-    const confirmButton = getByTestId('confirm-email-button');
+    const confirmButton = getByTestId('mhv-alert--confirm-email-button');
     expect(confirmButton).to.exist;
 
     const link = container.querySelector(
@@ -43,7 +43,7 @@ describe('<AlertConfirmContactEmailContent />', async () => {
       />,
     );
 
-    const button = getByTestId('confirm-email-button');
+    const button = getByTestId('mhv-alert--confirm-email-button');
     expect(button).to.exist;
     fireEvent.click(button);
 
@@ -61,7 +61,7 @@ describe('<AlertConfirmContactEmailContent />', async () => {
       />,
     );
 
-    const button = getByTestId('confirm-email-button');
+    const button = getByTestId('mhv-alert--confirm-email-button');
     expect(button).to.exist;
     expect(button.getAttribute('loading')).to.equal('true');
   });

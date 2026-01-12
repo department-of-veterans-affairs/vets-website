@@ -159,7 +159,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         getByTestId('profile-alert--confirm-contact-email');
         getByRole('heading', { name: /Confirm your contact email$/ });
 
-        const confirmButton = getByTestId('confirm-email-button');
+        const confirmButton = getByTestId('mhv-alert--confirm-email-button');
         expect(confirmButton).to.exist;
 
         const editButton = container.querySelector(
@@ -259,7 +259,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      fireEvent.click(getByTestId('confirm-email-button'));
+      fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
 
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-success');
@@ -284,7 +284,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      fireEvent.click(getByTestId('confirm-email-button'));
+      fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
 
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-error');
@@ -306,7 +306,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         initialState,
       });
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      fireEvent.click(getByTestId('confirm-email-button'));
+      fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
 
       await waitFor(() => {
         expect(global.fetch.calledOnce).to.be.true;

@@ -22,7 +22,7 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
 
     await findByText('vet@va.gov');
 
-    const confirmButton = getByTestId('confirm-email-button');
+    const confirmButton = getByTestId('mhv-alert--confirm-email-button');
     expect(confirmButton).to.exist;
 
     const editButton = container.querySelector(
@@ -42,7 +42,7 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
-    const button = getByTestId('confirm-email-button');
+    const button = getByTestId('mhv-alert--confirm-email-button');
     fireEvent.click(button);
 
     await waitFor(() => {
@@ -81,7 +81,7 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
-    const confirmButton = getByTestId('confirm-email-button');
+    const confirmButton = getByTestId('mhv-alert--confirm-email-button');
     expect(confirmButton).to.exist;
     expect(confirmButton.getAttribute('loading')).to.equal('true');
 

@@ -17,7 +17,7 @@ export const ProfileAlertConfirmEmailContent = ({
     </p>
     <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
       <va-button
-        data-testid="confirm-email-button"
+        data-testid="mhv-alert--confirm-email-button"
         text={isConfirming ? 'Confirming' : 'Confirm'}
         onClick={onConfirmClick}
         loading={isConfirming}

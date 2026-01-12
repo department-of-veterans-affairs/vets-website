@@ -19,7 +19,7 @@ export const AlertConfirmContactEmailContent = ({
 
     <p>
       <va-button
-        data-testid="confirm-email-button"
+        data-testid="mhv-alert--confirm-email-button"
         text={isConfirming ? 'Confirming' : 'Confirm'}
         onClick={onConfirmClick}
         loading={isConfirming}

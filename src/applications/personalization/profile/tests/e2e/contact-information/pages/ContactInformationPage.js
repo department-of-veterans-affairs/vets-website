@@ -23,7 +23,7 @@ class ContactInformationPage {
   };
 
   clickConfirmEmail = () => {
-    cy.findByTestId('confirm-email-button').click();
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
   };
 
   clickEditEmail = () => {
@@ -35,7 +35,7 @@ class ContactInformationPage {
   };
 
   clickErrorConfirmEmail = () => {
-    cy.findByTestId('confirm-email-button').click();
+    cy.findByTestId('mhv-alert--confirm-email-button').click();
   };
 
   clickErrorEditEmail = () => {

@@ -125,7 +125,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         getByTestId('mhv-alert--confirm-contact-email');
         getByRole('heading', { name: /Confirm your contact email$/ });
 
-        const button = getByTestId('confirm-email-button');
+        const button = getByTestId('mhv-alert--confirm-email-button');
         expect(button).to.exist;
 
         // getByRole('link', { name: /^Go to profile/ });
@@ -216,7 +216,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         { initialState },
       );
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
-      fireEvent.click(getByTestId('confirm-email-button'));
+      fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-success');
         expect(queryByTestId('mhv-alert--confirm-contact-email')).to.be.null;
@@ -263,7 +263,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         initialState,
       });
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
-      fireEvent.click(getByTestId('confirm-email-button'));
+      fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
 
       await waitFor(() => {
         expect(global.fetch.calledOnce).to.be.true;
@@ -292,7 +292,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         initialState,
       });
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
-      fireEvent.click(getByTestId('confirm-email-button'));
+      fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
       await waitFor(() => {
         const successAlert = getByTestId('mhv-alert--confirm-success');
         // only the success alert is rendered
@@ -314,7 +314,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         initialState,
       });
       await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
-      fireEvent.click(getByTestId('confirm-email-button'));
+      fireEvent.click(getByTestId('mhv-alert--confirm-email-button'));
       await waitFor(() => {
         const errorAlert = getByTestId('mhv-alert--confirm-error');
         // only the error alert is rendered
