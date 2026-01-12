@@ -99,6 +99,15 @@ describe('Form Configuration', () => {
       expect(page.schema).to.exist;
     });
 
+    it('should have veteran contact page', () => {
+      const page =
+        formConfig.chapters.veteranInformationChapter.pages.veteranContact;
+      expect(page).to.exist;
+      expect(page.path).to.equal('veteran-contact');
+      expect(page.uiSchema).to.exist;
+      expect(page.schema).to.exist;
+    });
+
     it('should have claimant relationship page', () => {
       const page =
         formConfig.chapters.claimantInformationChapter.pages

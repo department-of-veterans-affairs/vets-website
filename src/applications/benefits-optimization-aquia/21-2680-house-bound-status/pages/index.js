@@ -17,6 +17,11 @@ export {
   veteranAddressSchema,
 } from './veteran-address';
 
+export {
+  veteranContactUiSchema,
+  veteranContactSchema,
+} from './veteran-contact';
+
 // Claimant Information Chapter
 export {
   claimantRelationshipUiSchema,
