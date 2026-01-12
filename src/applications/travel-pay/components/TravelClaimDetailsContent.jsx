@@ -89,22 +89,19 @@ export default function TravelClaimDetailsContent() {
         </>
       )}
       {data[id] && <ClaimDetailsContent {...data[id]} />}
-      <hr />
+      <hr className="vads-u-margin-bottom--0" />
 
       <div className="vads-u-margin-bottom--4">
         <p>
-          If you’re eligible for reimbursement, we’ll deposit your reimbursement
-          in your bank account.
+          <strong>Note:</strong> Even if you already set up direct deposit for
+          your VA benefits, you’ll need to set up another direct deposit for VA
+          travel pay. If you’re eligible for reimbursement, we’ll deposit your
+          funds in your bank account.
         </p>
         <va-link
           href={REIMBURSEMENT_URL}
-          text="Learn how to set up direct deposit for travel pay reimbursement"
+          text="Learn how to set up direct deposit for travel pay"
         />
-        <p>
-          <strong>Note:</strong> Even if you already set up direct deposit for
-          your VA benefits, you’ll need to set up another direct deposit for VA
-          travel pay reimbursements.
-        </p>
       </div>
       <va-need-help>
         <div slot="content">
