@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 export const ProfileAlertConfirmEmailContent = ({
   emailAddress,
@@ -17,14 +16,12 @@ export const ProfileAlertConfirmEmailContent = ({
       {emailAddress}
     </p>
     <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
-      <LoadingButton
-        id="alert-confirm-email-button"
+      <va-button
+        text={isConfirming ? 'Confirming' : 'Confirm'}
         onClick={onConfirmClick}
-        isLoading={isConfirming}
-        loadingText="Confirming email"
-      >
-        Confirm
-      </LoadingButton>
+        loading={isConfirming}
+        class="vads-u-width--full mobile-lg:vads-u-width--auto vads-u-margin-top--1 vads-u-margin-bottom--1 hydrated"
+      />
       {!isConfirming && (
         <va-button
           secondary
