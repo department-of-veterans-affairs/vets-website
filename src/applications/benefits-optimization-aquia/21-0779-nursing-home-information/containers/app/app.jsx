@@ -30,7 +30,8 @@ export const App = ({ location, children }) => {
   const formEnabled = useToggleValue(TOGGLE_NAMES.form0779Enabled);
 
   // Show loading indicator while feature flags are being fetched
-  if (isLoadingFeatures) {
+  // Note: Check !== false to handle initial undefined state before fetch starts
+  if (isLoadingFeatures !== false) {
     return (
       <div className="vads-u-margin-y--5">
         <va-loading-indicator
