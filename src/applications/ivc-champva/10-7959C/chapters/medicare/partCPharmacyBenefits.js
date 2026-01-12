@@ -12,16 +12,16 @@ const HINT_TEXT = content['medicare--part-c-pharmacy-hint'];
 export default {
   uiSchema: {
     ...titleWithNameUI(TITLE_TEXT),
-    hasPharmacyBenefits: yesNoUI({
+    medicarePharmacyBenefits: yesNoUI({
       title: INPUT_LABEL,
       hint: HINT_TEXT,
     }),
   },
   schema: {
     type: 'object',
-    required: ['hasPharmacyBenefits'],
+    required: ['medicarePharmacyBenefits'],
     properties: {
-      hasPharmacyBenefits: yesNoSchema,
+      medicarePharmacyBenefits: yesNoSchema,
     },
   },
 };
