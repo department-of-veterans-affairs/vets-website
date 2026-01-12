@@ -160,11 +160,6 @@ const SameBenefitResultDescription = ({ formData }) => {
   const benefitType =
     formData?.mebSameBenefitSelection || formData?.currentBenefitType;
   const formInfo = getFormInfo(benefitType);
-  const recentlyUsedBenefit =
-    formInfo.recentlyUsedBenefit &&
-    formInfo.recentlyUsedBenefit !== "We couldn't load your current benefit."
-      ? formInfo.recentlyUsedBenefit
-      : formInfo.formName;
 
   return (
     <ResultDescription
@@ -176,7 +171,7 @@ const SameBenefitResultDescription = ({ formData }) => {
       linkText={formInfo.linkText}
       answers={[
         'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
-        `Your most recently used benefit is ${recentlyUsedBenefit}`,
+        `Your most recently used benefit is ${formInfo.recentlyUsedBenefit}`,
       ]}
     />
   );
@@ -270,7 +265,7 @@ export const yourInformationPage = () => ({
         type: 'string',
         enum: ['same-benefit', 'foreign-school', 'switch-benefit'],
         enumNames: [
-          'Apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
+          'Apply to my last awarded benefit again to get an updated Certificate of Eligibility (COE)',
           'Update my Certificate of Eligibility (COE) for a foreign school',
           'Apply to switch my existing education benefit and get a new Certificate of Eligibility (COE)',
         ],
