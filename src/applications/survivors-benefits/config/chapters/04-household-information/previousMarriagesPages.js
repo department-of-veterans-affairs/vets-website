@@ -47,7 +47,7 @@ const COUNTRY_NAMES = constants.countries
 
 /** @type {ArrayBuilderOptions} */
 // arrayPath is spouseMarriages because it's the spouse's previous marriages
-const options = {
+export const options = {
   arrayPath: 'spouseMarriages',
   nounSingular: 'previous marriage',
   nounPlural: 'previous marriages',

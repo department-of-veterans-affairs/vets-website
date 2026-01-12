@@ -10,9 +10,6 @@ import { AdditionalMarriagesAlert } from '../../../components/FormAlerts';
 export default {
   title: 'Additional marriages',
   path: 'household/additional-marriages',
-  depends: formData =>
-    formData.claimantRelationship === 'SPOUSE' &&
-    formData.remarriedAfterVeteralDeath === true,
   uiSchema: {
     ...titleUI('Additional marriages'),
     claimantHasAdditionalMarriages: yesNoUI({

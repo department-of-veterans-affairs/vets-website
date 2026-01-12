@@ -6,15 +6,14 @@ describe('Children of Veteran page', () => {
 
   it('uiSchema contains expectingChild and hadChildWithVeteran', () => {
     expect(uiSchema).to.be.an('object');
-    expect(uiSchema.expectingChild, 'expectingChild missing').to.exist;
-    expect(uiSchema.hadChildWithVeteran, 'hadChildWithVeteran missing').to
-      .exist;
+    expect(uiSchema.pregnantWithVeteran, 'expectingChild missing').to.exist;
+    expect(uiSchema.childWithVeteran, 'hadChildWithVeteran missing').to.exist;
   });
 
   it('schema requires expectingChild and hadChildWithVeteran', () => {
     expect(schema).to.be.an('object');
-    expect(schema.required).to.include('expectingChild');
-    expect(schema.required).to.include('hadChildWithVeteran');
+    expect(schema.required).to.include('pregnantWithVeteran');
+    expect(schema.required).to.include('childWithVeteran');
   });
 
   it('depends logic shows page for non-spouse or spouse with previous marriages', () => {
@@ -23,12 +22,18 @@ describe('Children of Veteran page', () => {
 
     // Spouse with NO previous marriages -> should skip (false)
     expect(
-      depends({ claimantRelationship: 'SPOUSE', hadPreviousMarriages: false }),
+      depends({
+        claimantRelationship: 'SURVIVING_SPOUSE',
+        hadPreviousMarriages: false,
+      }),
     ).to.be.false;
 
     // Spouse with previous marriages -> should show (true)
     expect(
-      depends({ claimantRelationship: 'SPOUSE', hadPreviousMarriages: true }),
+      depends({
+        claimantRelationship: 'SURVIVING_SPOUSE',
+        hadPreviousMarriages: true,
+      }),
     ).to.be.true;
 
     // Non-spouse (e.g., CHILD) with NO previous marriages -> should show (true)
@@ -42,7 +47,7 @@ describe('Children of Veteran page', () => {
     ).to.be.true;
 
     // Edge: Spouse with hadPreviousMarriages undefined -> should skip (false)
-    expect(depends({ claimantRelationship: 'SPOUSE' })).to.be.false;
+    expect(depends({ claimantRelationship: 'SURVIVING_SPOUSE' })).to.be.false;
 
     // Edge: Non-spouse with hadPreviousMarriages undefined -> should show (true)
     expect(depends({ claimantRelationship: 'CHILD' })).to.be.true;

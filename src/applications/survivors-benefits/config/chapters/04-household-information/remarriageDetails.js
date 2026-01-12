@@ -23,7 +23,7 @@ export default {
     remarriageEndOtherReason: {
       ...textUI({
         title: 'Tell us how the marriage ended.',
-        required: formData => formData?.remarriageEndCause === 'OTHER',
+        required: formData => formData?.remarriageEndCause === 'other',
       }),
       'ui:options': {
         expandUnder: 'remarriageEndCause',
