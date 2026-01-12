@@ -1,14 +1,176 @@
 /**
  * @module tests/containers/app.unit.spec
  * @description Unit tests for App container component
- * Note: App component requires complex setup (feature toggles, routing) for rendering tests.
- * These are basic structural tests. Integration tests cover full rendering.
+ * Tests feature toggle loading state handling including edge cases
  */
 
+import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import sinon from 'sinon';
+
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { App } from './app';
 
-describe('App', () => {
+const mockStore = configureStore([]);
+
+describe('21-2680 App', () => {
+  let oldLocation;
+
+  const appLocation = {
+    pathname: '/introduction',
+    search: '',
+    hash: '',
+    action: 'POP',
+    key: null,
+    basename: '/house-bound-status-form-21-2680',
+    query: '{}',
+  };
+
+  const getData = ({
+    loggedIn = true,
+    savedForms = [],
+    verified = true,
+    data = {},
+    pathname = '/introduction',
+    isLoading = false,
+    formEnabled = true,
+  } = {}) => ({
+    props: {
+      location: { pathname, search: '' },
+      children: <h1 data-testid="form-content">Form Content</h1>,
+      router: { push: () => {} },
+      routes: [{ path: pathname }],
+    },
+    storeData: {
+      routes: [{ path: pathname }],
+      user: {
+        login: { currentlyLoggedIn: loggedIn },
+        profile: {
+          savedForms,
+          verified,
+          prefillsAvailable: [],
+        },
+      },
+      form: {
+        loadedStatus: 'success',
+        savedStatus: '',
+        loadedData: { metadata: {} },
+        data,
+      },
+      featureToggles: {
+        loading: isLoading,
+        // eslint-disable-next-line camelcase
+        form_2680_enabled: formEnabled,
+      },
+    },
+  });
+
+  beforeEach(() => {
+    // Save and mock window.location for redirect tests
+    oldLocation = global.window.location;
+    global.window.location = {
+      replace: sinon.spy(),
+      pathname: '/',
+      search: '',
+      hash: '',
+      href: 'http://localhost/',
+    };
+  });
+
+  afterEach(() => {
+    global.window.location = oldLocation;
+  });
+
+  describe('Feature Toggle Loading States', () => {
+    describe('when loading is undefined (initial state before fetch starts)', () => {
+      it('should show loading indicator and NOT redirect', () => {
+        const { props, storeData } = getData({ isLoading: undefined });
+        // Set loading to undefined to simulate initial state
+        storeData.featureToggles.loading = undefined;
+
+        const { container } = render(
+          <Provider store={mockStore(storeData)}>
+            <App {...props} location={appLocation} />
+          </Provider>,
+        );
+
+        expect($('va-loading-indicator', container)).to.exist;
+        expect(global.window.location.replace.called).to.be.false;
+      });
+    });
+
+    describe('when loading is true (fetch in progress)', () => {
+      it('should show loading indicator', () => {
+        const { props, storeData } = getData({ isLoading: true });
+
+        const { container } = render(
+          <Provider store={mockStore(storeData)}>
+            <App {...props} location={appLocation} />
+          </Provider>,
+        );
+
+        expect($('va-loading-indicator', container)).to.exist;
+        expect(global.window.location.replace.called).to.be.false;
+      });
+    });
+
+    describe('when loading is false (fetch completed)', () => {
+      it('should render form content when formEnabled is true', () => {
+        const { props, storeData } = getData({
+          isLoading: false,
+          formEnabled: true,
+        });
+
+        const { container, getByTestId } = render(
+          <Provider store={mockStore(storeData)}>
+            <App {...props} location={appLocation} />
+          </Provider>,
+        );
+
+        expect($('va-loading-indicator', container)).to.not.exist;
+        expect(global.window.location.replace.called).to.be.false;
+        expect(getByTestId('form-content')).to.exist;
+      });
+
+      it('should redirect when formEnabled is false', () => {
+        const { props, storeData } = getData({
+          isLoading: false,
+          formEnabled: false,
+        });
+
+        render(
+          <Provider store={mockStore(storeData)}>
+            <App {...props} location={appLocation} />
+          </Provider>,
+        );
+
+        expect(global.window.location.replace.calledOnce).to.be.true;
+        expect(
+          global.window.location.replace.calledWith(
+            '/find-forms/about-form-21-2680/',
+          ),
+        ).to.be.true;
+      });
+
+      it('should redirect when formEnabled is undefined (flag missing)', () => {
+        const { props, storeData } = getData({ isLoading: false });
+        // eslint-disable-next-line camelcase
+        storeData.featureToggles.form_2680_enabled = undefined;
+
+        render(
+          <Provider store={mockStore(storeData)}>
+            <App {...props} location={appLocation} />
+          </Provider>,
+        );
+
+        expect(global.window.location.replace.calledOnce).to.be.true;
+      });
+    });
+  });
+
   describe('Component Export', () => {
     it('should export App component', () => {
       expect(App).to.exist;
@@ -17,11 +179,6 @@ describe('App', () => {
 
     it('should be a valid React component', () => {
       expect(App.name).to.equal('App');
-    });
-
-    it('should have a length property indicating number of required props', () => {
-      expect(App).to.have.property('length');
-      expect(App.length).to.be.a('number');
     });
   });
 });
