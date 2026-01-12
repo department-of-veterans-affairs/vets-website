@@ -25,8 +25,8 @@ function AddressInputError({ showError, errorId }) {
 }
 
 AddressInputError.propTypes = {
-  showError: PropTypes.bool,
   errorId: PropTypes.string,
+  showError: PropTypes.bool,
 };
 
 export default AddressInputError;

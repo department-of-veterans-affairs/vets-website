@@ -67,11 +67,10 @@ export const typeAndSelectInCCPServiceTypeInput = value => {
 export const typeInCCPServiceTypeInput = value =>
   cy.get(CCP_SERVICE_TYPE_INPUT).type(value);
 
-export const clearInput = selector =>
-  cy
-    .get(selector)
-    .clear()
-    .should('be.empty');
+export const clearInput = selector => {
+  cy.get(selector).clear();
+  cy.get(selector).should('be.empty');
+};
 
 export const FACILITY_TYPES = {
   HEALTH: 'VA health',
@@ -157,7 +156,9 @@ export const verifyTTYNumber = () =>
 export const verifyListingContents = details => {
   cy.get('.i-pin-card-map')
     .eq(details.index)
-    .scrollIntoView()
+    .scrollIntoView();
+  cy.get('.i-pin-card-map')
+    .eq(details.index)
     .should('have.text', details.pin);
 
   let facilityName = () =>
@@ -194,9 +195,15 @@ export const verifyListingContents = details => {
 export const verifyMobileListItem = (details, index) => {
   cy.get(FACILITY_LISTING_CONTAINER)
     .eq(index)
-    .should('exist')
-    .and('be.visible')
-    .scrollIntoView()
+    .should('exist');
+  cy.get(FACILITY_LISTING_CONTAINER)
+    .eq(index)
+    .should('be.visible');
+  cy.get(FACILITY_LISTING_CONTAINER)
+    .eq(index)
+    .scrollIntoView();
+  cy.get(FACILITY_LISTING_CONTAINER)
+    .eq(index)
     .within(() => verifyListingContents(details));
 };
 
@@ -206,11 +213,10 @@ export const selectMobileMapTab = () =>
     .eq(1)
     .click();
 
-export const selectMobileMapPin = index =>
-  cy
-    .get(`.pin-${index}`)
-    .scrollIntoView()
-    .click();
+export const selectMobileMapPin = index => {
+  cy.get(`.pin-${index}`).scrollIntoView();
+  cy.get(`.pin-${index}`).click();
+};
 
 export const verifyMobileMapItem = details => {
   cy.get(MOBILE_MAP_RESULT_CONTAINER)
@@ -230,13 +236,17 @@ export const verifyElementExists = selector =>
     .should('exist')
     .and('be.visible');
 
-export const scrollToThenVerifyElementByText = text =>
-  cy
-    .findByText(text)
+export const scrollToThenVerifyElementByText = text => {
+  cy.findByText(text)
     .eq(0)
-    .scrollIntoView()
-    .should('exist')
-    .and('be.visible');
+    .scrollIntoView();
+  cy.findByText(text)
+    .eq(0)
+    .should('exist');
+  cy.findByText(text)
+    .eq(0)
+    .should('be.visible');
+};
 
 export const verifyElementByText = text =>
   cy

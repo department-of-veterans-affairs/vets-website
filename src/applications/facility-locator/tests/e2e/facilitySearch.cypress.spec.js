@@ -162,11 +162,12 @@ describe('Facility VA search', () => {
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
+
+    // Wait for search to complete and focus to be set
+    cy.wait('@searchFacilities');
 
     cy.focused().contains(
-      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
+      'No results found for "Community providers (in VA\'s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
     cy.get('#other-tools').should('exist');
   });
@@ -225,13 +226,8 @@ describe('Facility VA search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('27606{enter}');
-    // Wait for Use My Location to be triggered (it should not be)
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(8000);
-    // If Use My Location is triggered and succeeds, it will change the contents of the search field:
-    cy.get('#street-city-state-zip')
-      .invoke('val')
-      .then(searchString => expect(searchString).to.equal('27606'));
+
+    cy.get('#street-city-state-zip').should('have.value', '27606');
     // If Use My Location is triggered and fails, it will trigger a modal alert:
     cy.get('#va-modal-title').should('not.exist');
   });

@@ -37,7 +37,7 @@ export const ResultsList = ({
         })),
       );
     },
-    [results],
+    [results, searchString, currentPage],
   );
 
   useEffect(
@@ -46,7 +46,7 @@ export const ResultsList = ({
         recordSearchResultsEvents(props, resultsData);
       }
     },
-    [resultsData],
+    [resultsData, props],
   );
 
   /**
