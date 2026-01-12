@@ -149,4 +149,44 @@ describe('VASS Component: Wrapper', () => {
       expect(queryByTestId('child-content')).to.not.exist;
     });
   });
+
+  describe('when loading prop is true', () => {
+    it('should render loading indicator', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(getByTestId('loading-indicator')).to.exist;
+      expect(getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading...',
+      );
+    });
+    it('should render loading message when provided', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading loadingMessage="Loading Message">
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading Message',
+      );
+    });
+  });
+
+  describe('when loading prop is false', () => {
+    it('should not render loading indicator', () => {
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading={false}>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(queryByTestId('loading-indicator')).to.not.exist;
+    });
+  });
 });

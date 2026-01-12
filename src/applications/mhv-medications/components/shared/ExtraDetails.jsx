@@ -37,7 +37,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             <va-icon icon="warning" size={4} aria-hidden="true" />
             <div className="vads-u-padding-left--2" data-testid="unknown-rx">
               <p className="vads-u-margin-y--0">
-                We’re sorry. There’s a problem with our system. You can't manage
+                We’re sorry. There’s a problem with our system. You can’t manage
                 this prescription online right now.
               </p>
               <p className="vads-u-margin-y--0">
@@ -299,7 +299,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="discontinued">
-              You can't refill this prescription. If you need more, send a
+              You can’t refill this prescription. If you need more, send a
               message to your care team.
             </p>
             <va-link
@@ -329,7 +329,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           </div>
         );
 
-      case dispStatusObj.nonVA || rxSourceIsNonVA(rx):
+      case dispStatusObj.nonVA:
         return (
           <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
             You can’t manage this medication in this online tool.

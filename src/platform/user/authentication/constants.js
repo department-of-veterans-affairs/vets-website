@@ -100,9 +100,11 @@ export const ARP_APPS = {
   FORM21A: 'form21a',
 };
 
-export const TEST_APPS = {
-  OKTA: ['okta_test', 'okta_stg'],
-};
+export const OKTA_APPS = [
+  'okta_test',
+  'okta_stg',
+  '861fbfbf1b4cd2594e0f7a4a367a9a87',
+];
 
 export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]
