@@ -11,6 +11,8 @@ import {
 } from '../../../redux/actions';
 import ComplexClaimRedirect from './ComplexClaimRedirect';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   selectAppointment,
   selectComplexClaim,
@@ -29,6 +31,8 @@ const IntroductionPage = () => {
   const title = 'File a travel reimbursement claim';
 
   useSetPageTitle(title);
+  useSetFocus();
+  useRecordPageview('complex-claims', title);
 
   const apptId = appointment?.id;
 
@@ -130,14 +134,17 @@ const IntroductionPage = () => {
                 You’ll be asked to submit receipts when you file your claim.
               </p>
               <p>
-                <strong>Note:</strong> If you’re applying for a one-way trip, or
-                if you started from an address other than the one we have on
-                file, you’ll need to use the{' '}
-                <va-link
-                  href={BTSSS_PORTAL_URL}
-                  text="Beneficiary Travel Self Service System (BTSSS)"
-                />{' '}
-                to file your claim.
+                If your trip was one way, or if you started from somewhere other
+                than your home address, you’ll need to file your claim through
+                the Beneficiary Travel Self Service System (BTSSS).{' '}
+              </p>
+              <p>
+                <va-link href={BTSSS_PORTAL_URL} external text="Go to BTSSS" />
+              </p>
+              <p>
+                <strong>Note:</strong> We’ll save your added expenses if you
+                need to leave and come back. You can review your in-progress
+                claims in your travel reimbursement page.
               </p>
               {appointment &&
                 !appointment.isCC && (
@@ -154,7 +161,7 @@ const IntroductionPage = () => {
 
         <div className="vads-u-margin--2">
           <va-omb-info
-            res-burden={15}
+            res-burden={10}
             omb-number="2900-0798"
             exp-date="11/30/2027"
           />

@@ -15,8 +15,14 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import DocumentUpload from './DocumentUpload';
-import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
+import {
+  EXPENSE_TYPES,
+  EXPENSE_TYPE_KEYS,
+  TRIP_TYPES,
+} from '../../../constants';
 import {
   createExpense,
   updateExpenseDeleteDocument,
@@ -33,6 +39,7 @@ import {
   selectExpenseWithDocument,
   selectDocumentDeleteLoadingState,
   selectExpenseFetchLoadingState,
+  selectExpenseBackDestination,
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
@@ -83,6 +90,7 @@ const ExpensePage = () => {
   const isFetchingExpense = useSelector(
     state => (isEditMode ? selectExpenseFetchLoadingState(state) : false),
   );
+  const backDestination = useSelector(selectExpenseBackDestination);
 
   // Refs
   const initialFormStateRef = useRef({});
@@ -122,6 +130,9 @@ const ExpensePage = () => {
   const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
   const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
   const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
+
+  useSetFocus();
+  useRecordPageview('complex-claims', expenseTypeFields?.label || 'Expense');
 
   // Effects
   // Effect 1: Reset loaded flag when expenseId changes
@@ -249,56 +260,8 @@ const ExpensePage = () => {
     [formState, dispatch],
   );
 
-  const handleFormChange = (event, explicitName) => {
-    const name = explicitName ?? event.target?.name ?? event.detail?.name;
-    const value =
-      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
-
-    setFormState(prev => {
-      const newFormState = { ...prev, [name]: value };
-
-      // Only validate the field being updated
-      setExtraFieldErrors(prevErrors => {
-        let nextErrors = { ...prevErrors };
-
-        if (isAirTravel) {
-          nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
-        } else if (isCommonCarrier) {
-          nextErrors = validateCommonCarrierFields(
-            newFormState,
-            nextErrors,
-            name,
-          );
-        } else if (isLodging) {
-          nextErrors = validateLodgingFields(newFormState, nextErrors, name);
-        } else if (isMeal) {
-          nextErrors = validateMealFields(newFormState, nextErrors, name);
-        }
-
-        return nextErrors;
-      });
-
-      return newFormState;
-    });
-  };
-
-  const handleOpenCancelModal = () => setIsCancelModalVisible(true);
-  const handleCloseCancelModal = () => setIsCancelModalVisible(false);
-  const handleConfirmCancel = () => {
-    handleCloseCancelModal();
-    // Clear unsaved changes when canceling
-    dispatch(setUnsavedExpenseChanges(false));
-    if (isEditMode) {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
-    } else {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
-    }
-  };
-
+  // Validation
+  //
   // Field names must match those expected by the expenses_controller in vets-api.
   // The controller converts them to forwards them unchanged to the API.
   const REQUIRED_FIELDS = {
@@ -310,16 +273,31 @@ const ExpensePage = () => {
       'tripType',
       'departureDate',
       'departedFrom',
-      'returnDate',
       'arrivedTo',
     ],
   };
 
-  const validatePage = () => {
-    // Field names must match those expected by the expenses_controller in vets-api.
+  const getRequiredFieldsForPage = () => {
     const base = ['purchaseDate', 'costRequested', 'receipt', 'description'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
-    const requiredFields = [...base, ...extra];
+
+    let requiredFields = [...base, ...extra];
+
+    // 🔹 Conditional Air Travel rule
+    if (
+      isAirTravel &&
+      formState.tripType === TRIP_TYPES.ROUND_TRIP.value &&
+      !requiredFields.includes('returnDate')
+    ) {
+      requiredFields = [...requiredFields, 'returnDate'];
+    }
+
+    return requiredFields;
+  };
+
+  const validatePage = () => {
+    // Field names must match those expected by the expenses_controller in vets-api.
+    const requiredFields = getRequiredFieldsForPage();
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
 
@@ -382,6 +360,7 @@ const ExpensePage = () => {
   const isFormChanged =
     JSON.stringify(previousFormState) !== JSON.stringify(formState);
 
+  // Handlers
   const handleContinue = async () => {
     if (!validatePage()) {
       scrollToFirstError({ focusOnAlertRole: true });
@@ -435,11 +414,15 @@ const ExpensePage = () => {
         ? `${expenseConfig.expensePageText} expense`
         : 'expense';
 
+      // Determine correct article (a vs an) based on first letter
+      const startsWithVowel = /^[aeiou]/i.test(expenseTypeName);
+      const article = startsWithVowel ? 'an' : 'a';
+
       dispatch(
         setReviewPageAlert({
           title: '',
           description: `You successfully ${
-            isEditMode ? 'updated your' : 'added a'
+            isEditMode ? 'updated your' : `added ${article}`
           } ${expenseTypeName}.`,
           type: 'success',
         }),
@@ -467,8 +450,6 @@ const ExpensePage = () => {
     if (isEditMode) {
       setIsCancelModalVisible(true);
     } else {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };
@@ -521,6 +502,52 @@ const ExpensePage = () => {
           'There was a problem processing your document. Please try again later.',
         );
       }
+    }
+  };
+
+  const handleFormChange = (event, explicitName) => {
+    const name = explicitName ?? event.target?.name ?? event.detail?.name;
+    const value =
+      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
+    setFormState(prev => {
+      const newFormState = { ...prev, [name]: value };
+
+      // Only validate the field being updated
+      setExtraFieldErrors(prevErrors => {
+        let nextErrors = { ...prevErrors };
+
+        if (isAirTravel) {
+          nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
+        } else if (isCommonCarrier) {
+          nextErrors = validateCommonCarrierFields(
+            newFormState,
+            nextErrors,
+            name,
+          );
+        } else if (isLodging) {
+          nextErrors = validateLodgingFields(newFormState, nextErrors, name);
+        } else if (isMeal) {
+          nextErrors = validateMealFields(newFormState, nextErrors, name);
+        }
+
+        return nextErrors;
+      });
+
+      return newFormState;
+    });
+  };
+
+  const handleOpenCancelModal = () => setIsCancelModalVisible(true);
+  const handleCloseCancelModal = () => setIsCancelModalVisible(false);
+  const handleConfirmCancel = () => {
+    handleCloseCancelModal();
+    // Clear unsaved changes when canceling
+    dispatch(setUnsavedExpenseChanges(false));
+    if (isEditMode || backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };
 
@@ -645,7 +672,7 @@ const ExpensePage = () => {
               pattern="^[0-9]*(\.[0-9]{0,2})?$"
               onInput={handleFormChange}
               onBlur={handleAmountBlur}
-              hint="Enter the amount as dollars and cents. For example, 8.42"
+              hint="Enter the amount as dollars and cents (for example, 8.42)"
               {...extraFieldErrors.costRequested && {
                 error: extraFieldErrors.costRequested,
               }}

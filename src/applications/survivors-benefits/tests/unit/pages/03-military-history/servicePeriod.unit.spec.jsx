@@ -49,10 +49,7 @@ describe('Service period page', () => {
       'City, state, or foreign country',
     );
 
-    const vaCheckboxes = $$(
-      'va-checkbox[name^="root_branchOfService"]',
-      formDOM,
-    );
+    const vaCheckboxes = $$('va-checkbox[name^="root_serviceBranch"]', formDOM);
     expect(vaCheckboxes.length).to.equal(Object.keys(servicesOptions).length);
     vaCheckboxes.forEach(checkbox => {
       const key = checkbox.getAttribute('data-key');

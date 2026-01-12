@@ -12,8 +12,8 @@ export default {
       title: 'Select the benefits you want to file a claim for.',
       required: true,
       labels: {
-        dependencyIndemnityComp: 'Dependency and indemnity compensation (DIC)',
-        survivorPension: 'Survivors Pension',
+        dependencyIndemnityComp: 'Dependency and Indemnity Compensation (DIC)',
+        survivorsPension: 'Survivors Pension',
         accruedBenefits: 'Accrued benefits',
       },
     }),
@@ -24,7 +24,7 @@ export default {
     properties: {
       claims: checkboxGroupSchema([
         'dependencyIndemnityComp',
-        'survivorPension',
+        'survivorsPension',
         'accruedBenefits',
       ]),
     },

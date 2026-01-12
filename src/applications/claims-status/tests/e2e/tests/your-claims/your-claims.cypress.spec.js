@@ -75,7 +75,7 @@ describe('Your claims', () => {
     cy.get('va-additional-info')
       .shadow()
       .findByRole('button', {
-        name: 'Find out why we sometimes combine claims.',
+        name: 'Find out why we sometimes combine claims',
       });
 
     cy.findByText(
@@ -89,7 +89,7 @@ describe('Your claims', () => {
     cy.get('va-additional-info')
       .shadow()
       .findByRole('button', {
-        name: 'Find out why we sometimes combine claims.',
+        name: 'Find out why we sometimes combine claims',
       })
       .click();
 
