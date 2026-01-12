@@ -3,38 +3,13 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const CaseProgressDescription = ({
-  step,
-  isDiscontinued,
-  discontinuedReason,
-}) => {
+const CaseProgressDescription = ({ step }) => {
   const navigate = useNavigate();
 
   const handleRouteChange = href => event => {
     event.preventDefault();
     navigate(href);
   };
-
-  if (isDiscontinued) {
-    return (
-      <>
-        <p className="usa-width-two-thirds">
-          Your Application has been discontinued and it’s ineligible for Chapter
-          31 benefits for the following reason:
-        </p>
-        <p className="usa-width-two-thirds">
-          {discontinuedReason || 'No reason provided.'}
-        </p>
-        <p className="usa-width-two-thirds">
-          More information can be found in your letter and you can download a
-          copy of your letter by clicking on “Download Letter”:
-        </p>
-        <p className="usa-width-two-thirds">
-          <VaLink download filetype="PDF" href="#" text="Download Letter" />
-        </p>
-      </>
-    );
-  }
 
   switch (step) {
     case 1:
@@ -125,8 +100,6 @@ const CaseProgressDescription = ({
 
 CaseProgressDescription.propTypes = {
   step: PropTypes.number.isRequired,
-  isDiscontinued: PropTypes.bool,
-  discontinuedReason: PropTypes.string,
 };
 
 export default CaseProgressDescription;
