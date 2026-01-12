@@ -10,13 +10,10 @@ import {
   show674IncomeQuestions,
   shouldShowStudentIncomeQuestions,
 } from './api';
+import { customFormReplacer } from './formDataCleaning';
+import { parseDateToDateObj } from './dateUtils';
+import { spouseEvidence, childEvidence } from './evidenceRequirements';
 import {
-  customFormReplacer,
-  buildSubmissionData,
-  customTransformForSubmit,
-  parseDateToDateObj,
-  spouseEvidence,
-  childEvidence,
   showDupeModalIfEnabled,
   isAddingDependents,
   isRemovingDependents,
@@ -26,7 +23,9 @@ import {
   hasAwardedDependents,
   isVisiblePicklistPage,
   hasSelectedPicklistItems,
-} from './data';
+} from './featureFlags';
+import { buildSubmissionData } from './submissionDataBuilder';
+import { customTransformForSubmit } from './submissionPipeline';
 
 export {
   // api
