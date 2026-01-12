@@ -752,11 +752,11 @@ describe('Authentication Utilities', () => {
 
     it('should return false by default', () => {
       expect(authUtilities.determineAuthBroker()).to.be.false;
-      expect(authUtilities.determineAuthBroker(false)).to.be.false;
+      expect(authUtilities.determineAuthBroker(false, false)).to.be.false;
     });
 
-    it('should return `false` when no cookie is found', () => {
-      expect(authUtilities.determineAuthBroker(true)).to.be.false;
+    it('should return `true` when no cookie is found', () => {
+      expect(authUtilities.determineAuthBroker(true)).to.be.true;
     });
 
     it('should return `false` when parsed cookie is `T`', () => {
@@ -766,6 +766,26 @@ describe('Authentication Utilities', () => {
 
     it('should return `true` when parsed cookie is `F`', () => {
       Cookies.set('CERNER_ELIGIBLE', parsedCookieF);
+      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+    });
+
+    it('should return `true` when cookie is plain text "false"', () => {
+      Cookies.set('CERNER_ELIGIBLE', 'false');
+      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+    });
+
+    it('should return `false` when cookie is plain text "true"', () => {
+      Cookies.set('CERNER_ELIGIBLE', 'true');
+      expect(authUtilities.determineAuthBroker(true)).to.be.false;
+    });
+
+    it('should handle casing and whitespace for plain text "false"', () => {
+      Cookies.set('CERNER_ELIGIBLE', '  FALSE  ');
+      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+    });
+
+    it('should fall back to plain text and return `true` for malformed signed cookie', () => {
+      Cookies.set('CERNER_ELIGIBLE', 'not-base64--sig');
       expect(authUtilities.determineAuthBroker(true)).to.be.true;
     });
   });

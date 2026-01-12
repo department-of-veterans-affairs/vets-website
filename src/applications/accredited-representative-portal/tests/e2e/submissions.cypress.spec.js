@@ -99,6 +99,68 @@ describe('Accredited Representative Portal', () => {
         'contain',
         'Processing error',
       );
+      cy.get('ul.submissions__list li:nth-of-type(5)').should(
+        'contain',
+        'Karlsson, Rachel',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(5)').should(
+        'contain',
+        'Processing error',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(6)').should(
+        'contain',
+        'Ryan, Logan',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(6)').should(
+        'contain',
+        'VA Form 21-0966 packet',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(6)').should(
+        'contain',
+        'Benefit: Disability Compensation (VA Form 21-526EZ)',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(6)').should(
+        'contain',
+        'Expires in 365 days',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)').should(
+        'contain',
+        'Andrews, David',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)').should(
+        'contain',
+        'VA Form 21-0966 packet',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)').should(
+        'contain',
+        'Benefit: Pension (VA Form 21P-527EZ)',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)').should(
+        'contain',
+        'Expires in 60 days',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(7)')
+        .find('va-icon')
+        .should('exist');
+      cy.get('ul.submissions__list li:nth-of-type(8)').should(
+        'contain',
+        'Dobson, Aaron',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(8)').should(
+        'contain',
+        'VA Form 21-0966 packet',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(8)').should(
+        'contain',
+        'Benefit: Survivors pension and/or dependency and indemnity compensation (DIC) (VA Form 21P-534 or VA Form 21P-534EZ)',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(8)').should(
+        'contain',
+        'Expires in 70 days',
+      );
+      cy.get('ul.submissions__list li:nth-of-type(8)')
+        .find('va-icon')
+        .should('not.exist');
     });
 
     it('Allows the user to visit 686c form from Submissions', () => {

@@ -11,7 +11,7 @@ import {
   options,
 } from '../../../../config/chapters/03-military-history/serviceNames';
 
-const arrayPath = 'otherServiceNames';
+const arrayPath = 'veteranPreviousNames';
 
 describe('Survivors Benefits Service Names Pages', () => {
   it('renders the service names intro', async () => {
@@ -68,9 +68,15 @@ describe('Survivors Benefits Service Names Pages', () => {
     const vaSelects = $$('va-select', formDOM);
     expect(vaTextInput.length).to.equal(3);
     expect(vaSelects.length).to.equal(1);
-    const vaFirstNameInput = $('va-text-input[label="First name"]', formDOM);
+    const vaFirstNameInput = $(
+      'va-text-input[label="First or given name"]',
+      formDOM,
+    );
     const vaMiddleNameInput = $('va-text-input[label="Middle name"]', formDOM);
-    const vaLastNameInput = $('va-text-input[label="Last name"]', formDOM);
+    const vaLastNameInput = $(
+      'va-text-input[label="Last or family name"]',
+      formDOM,
+    );
     const vaSuffixSelect = $('va-select[label="Suffix"]', formDOM);
     expect(vaFirstNameInput.getAttribute('required')).to.equal('true');
     expect(vaMiddleNameInput.getAttribute('required')).to.equal('false');

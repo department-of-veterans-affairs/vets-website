@@ -9,6 +9,9 @@ import { buildMajorSteps } from '../utils/buildMajorStepsFromConfig';
 
 const DISABLED_STYLE =
   'vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-left--2 vads-u-padding-right--0p5 vads-u-color--gray vads-u-border-color--gray-lightest vads-u-border-bottom--1px';
+
+const PREVIOUS_STEP_STYLE =
+  'vads-u-color--link vads-u-text-decoration--underline';
 /**
  * Side navigation component for the 526EZ disability claims form
  *
@@ -110,12 +113,15 @@ export default function ClaimFormSideNav({
           );
         }
 
-        return index <= maxChapterIndex ? (
+        // page.idx instead of index for optional chapters that may
+        //  be included after being skipped (see CFI flow)
+        return page.idx <= maxChapterIndex ? (
           <VaSidenavItem
             key={page.key}
             label={label}
             href="#"
             data-page={page.key}
+            className={PREVIOUS_STEP_STYLE}
             onClick={e => handleClick(e, page)}
           />
         ) : (

@@ -4,6 +4,19 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import { readOnlyCertifyingOfficialIntro } from './pages/readOnlyCertifyingOfficialIntro';
 import { additionalOfficialIntro } from './pages/additionalOfficialIntro';
 
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone || {};
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
+};
+
 export const getCardDescription = item => {
   return item ? (
     <>
@@ -19,9 +32,9 @@ export const getCardDescription = item => {
           }}
         />
         <span data-testid="card-phone-number">
-          {item.additionalOfficialDetails?.phoneType === 'us'
-            ? item.additionalOfficialDetails?.phoneNumber
-            : item.additionalOfficialDetails?.internationalPhoneNumber}
+          {getTransformIntlPhoneNumber(
+            item.additionalOfficialDetails?.phoneNumber,
+          )}
         </span>
       </p>
       <p>
@@ -104,7 +117,6 @@ export const additionalOfficialArrayOptions = {
     },
   },
 };
-
 export const certifyingOfficialInfoAlert = (
   <va-alert status="info" visible>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
@@ -151,7 +163,6 @@ export const getReadOnlyPrimaryOfficialTitle = item => {
 
   return [first, middle, last].filter(Boolean).join(' ');
 };
-
 export const readOnlyCertifyingOfficialArrayOptions = {
   arrayPath: 'readOnlyCertifyingOfficials',
   nounSingular: 'certifying official',
@@ -214,8 +225,9 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
       </va-process-list-item>
       <va-process-list-item header="Upload your PDF to the Education File Upload Portal or email it to your State Approving Agency (SAA)">
         <div itemProp="itemListElement">
-          <p className="vads-u-margin-top--4">
-            <strong>If your institution has a facility code:</strong> Visit the{' '}
+          <p className="vads-u-margin-top--1p5">
+            <strong>If your institution has a VA facility code:</strong> Visit
+            the{' '}
             <va-link
               external
               text="Education File Upload Portal"
@@ -225,9 +237,7 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
           </p>
           <p>
             <strong>
-              If your institution doesn’t have a VA facility code or if you are
-              submitting the form because your institution has changed
-              ownership:
+              If your institution doesn’t have a VA facility code:
             </strong>{' '}
             Email your downloaded PDF to your State Approving Agency (SAA). If
             you need help finding their email address,{' '}
@@ -242,7 +252,7 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
       </va-process-list-item>
       <va-process-list-item header="Next steps">
         <div itemProp="itemListElement">
-          <p>
+          <p className="vads-u-margin-top--1">
             We will generally review your submission within 7-10 business days.
           </p>
           <p>

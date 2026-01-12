@@ -52,14 +52,14 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
     }),
     addChildIdentification: pages.itemPage({
       depends: shouldIncludePage,
-      title: "Child's Identification",
+      title: 'Child’s Identification',
       path: '686-report-add-child/:index/identification',
       uiSchema: identification.uiSchema,
       schema: identification.schema,
     }),
     addChildPlaceOfBirth: pages.itemPage({
       depends: shouldIncludePage,
-      title: "Child's Place of Birth",
+      title: 'Child’s Place of Birth',
       path: '686-report-add-child/:index/place-of-birth',
       uiSchema: placeOfBirth.uiSchema,
       schema: placeOfBirth.schema,
@@ -93,7 +93,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
           formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild
         );
       },
-      title: "Child's biological parents",
+      title: 'Child’s biological parents',
       path: '686-report-add-child/:index/stepchild',
       uiSchema: stepchild.uiSchema,
       schema: stepchild.schema,
@@ -145,7 +145,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       depends: (formData, index) =>
         shouldIncludePage(formData) &&
         !formData?.childrenToAdd?.[index]?.doesChildLiveWithYou,
-      title: "Child's Address",
+      title: 'Child’s Address',
       path: '686-report-add-child/:index/child-address-part-one',
       uiSchema: childAddressPartOne.uiSchema,
       schema: childAddressPartOne.schema,
@@ -154,7 +154,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       depends: (formData, index) =>
         shouldIncludePage(formData) &&
         !formData?.childrenToAdd?.[index]?.doesChildLiveWithYou,
-      title: "Child's Address",
+      title: 'Child’s Address',
       path: '686-report-add-child/:index/child-address-part-two',
       uiSchema: childAddressPartTwo.uiSchema,
       schema: childAddressPartTwo.schema,

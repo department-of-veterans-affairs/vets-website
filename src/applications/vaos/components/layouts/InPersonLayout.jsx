@@ -53,7 +53,7 @@ export default function InPersonLayout({ data: appointment }) {
 
   if (!appointment) return null;
 
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
   const facilityId = locationId;
 
   let heading = 'In-person appointment';
@@ -158,11 +158,7 @@ export default function InPersonLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Where>
-      <Details
-        reason={reasonForAppointment}
-        otherDetails={patientComments}
-        isCerner={isCerner}
-      />
+      <Details otherDetails={patientComments} isCerner={isCerner} />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (

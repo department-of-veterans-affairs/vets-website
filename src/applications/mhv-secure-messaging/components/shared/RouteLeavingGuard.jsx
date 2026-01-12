@@ -38,6 +38,9 @@ export const RouteLeavingGuard = ({
     navigationError,
     saveError,
   ]);
+  const navigationErrorModalVisible =
+    draftInProgress?.navigationErrorModalVisible;
+
   const savedDraft = draftInProgress?.savedDraft;
   const { title, p1, p2, confirmButtonText, cancelButtonText } = useMemo(
     () => (saveError && savedDraft ? saveError : navigationError) || {},
@@ -141,7 +144,7 @@ export const RouteLeavingGuard = ({
     const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
 
     if (isConfirmButtonTextMatching) {
-      saveDraftHandler('auto');
+      saveDraftHandler('manual-confirmed');
     }
     closeModal();
     if (lastLocation) {
@@ -192,6 +195,15 @@ export const RouteLeavingGuard = ({
       }
     },
     [saveError, savedDraft],
+  );
+
+  useEffect(
+    () => {
+      if (!when && !!navigationErrorModalVisible) {
+        closeModal();
+      }
+    },
+    [when, navigationErrorModalVisible, closeModal],
   );
 
   useBeforeUnloadGuard(when);

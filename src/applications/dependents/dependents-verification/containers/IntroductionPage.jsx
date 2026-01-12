@@ -68,6 +68,14 @@ const ProcessList = () => {
   );
 };
 
+/**
+ * Introduction page component
+ * @typedef {object} IntroductionPageProps
+ * @property {object} route - route object
+ *
+ * @param {IntroductionPageProps} props - Introduction page props
+ * @returns {React.Component} - Introduction page
+ */
 export const IntroductionPage = props => {
   const { route } = props;
 

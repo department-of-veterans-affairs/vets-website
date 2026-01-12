@@ -41,6 +41,7 @@ import {
 import { setPageFocus } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
+import { Type2FailureAnalyticsProvider } from '../contexts/Type2FailureAnalyticsContext';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -178,12 +179,10 @@ class YourClaimsPageV2 extends React.Component {
     let pageInfo;
     const allRequestsLoaded =
       !claimsLoading && !appealsLoading && !stemClaimsLoading;
-    const allRequestsLoading =
-      claimsLoading && appealsLoading && stemClaimsLoading;
-    const atLeastOneRequestLoading =
-      claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
-    if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
+    // Wait for all requests to complete before rendering results
+    // This prevents multiple re-renders as each request completes
+    if (!allRequestsLoaded) {
       content = <ClaimCardLoadingSkeleton />;
     } else if (!emptyList) {
       const listLen = list.length;
@@ -202,11 +201,11 @@ class YourClaimsPageV2 extends React.Component {
       }
 
       content = (
-        <>
+        <Type2FailureAnalyticsProvider key={this.state.page}>
           {pageInfo}
           <div className="claim-list">
             {pageItems.map(claim => this.renderListItem(claim))}
-            <ClaimCardLoadingSkeleton isLoading={atLeastOneRequestLoading} />
+            <ClaimCardLoadingSkeleton isLoading={false} />
             {shouldPaginate && (
               <VaPagination
                 page={this.state.page}
@@ -215,9 +214,9 @@ class YourClaimsPageV2 extends React.Component {
               />
             )}
           </div>
-        </>
+        </Type2FailureAnalyticsProvider>
       );
-    } else if (allRequestsLoaded) {
+    } else {
       content = <NoClaims />;
     }
 
@@ -242,7 +241,7 @@ class YourClaimsPageV2 extends React.Component {
               <va-additional-info
                 id="claims-combined"
                 class="claims-combined"
-                trigger="Find out why we sometimes combine claims."
+                trigger="Find out why we sometimes combine claims"
               >
                 <div>
                   If you turn in a new claim while we’re reviewing another one

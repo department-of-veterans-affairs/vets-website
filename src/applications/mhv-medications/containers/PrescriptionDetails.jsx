@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   updatePageTitle,
   reportGeneratedBy,
@@ -34,10 +41,10 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
+import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   rxListSortingOptions,
   defaultSelectedSortOption,
-  filterOptions,
   PDF_TXT_GENERATE_STATUS,
   DOWNLOAD_FORMAT,
   recordNotFoundMessage,
@@ -53,6 +60,10 @@ import { usePrescriptionData } from '../hooks/usePrescriptionData';
 import { usePrefetch } from '../api/prescriptionsApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
 import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../util/selectors';
+import {
   selectSortOption,
   selectFilterOption,
   selectPageNumber,
@@ -65,6 +76,12 @@ const PrescriptionDetails = () => {
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const currentFilterOptions = getFilterOptions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams] = useState({
     page: currentPage || 1,
@@ -72,7 +89,7 @@ const PrescriptionDetails = () => {
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
+    filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
   });
 
   // Use the custom hook to fetch prescription data
@@ -86,7 +103,21 @@ const PrescriptionDetails = () => {
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
 
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
@@ -96,24 +127,34 @@ const PrescriptionDetails = () => {
 
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
-  const refillHistory = getRefillHistory(prescription);
+  const refillHistory = useMemo(() => getRefillHistory(prescription), [
+    prescription,
+  ]);
 
   // Prefetch prescription documentation for faster loading when
   // going to the documentation page
   const prefetchPrescriptionDocumentation = usePrefetch(
     'getPrescriptionDocumentation',
   );
+
+  const hasPrefetched = useRef(false);
+
   useEffect(
     () => {
-      if (!isLoading && hasCmopNdcNumber(refillHistory)) {
+      if (
+        !isLoading &&
+        !hasPrefetched.current &&
+        hasCmopNdcNumber(refillHistory)
+      ) {
         prefetchPrescriptionDocumentation(prescriptionId);
+        hasPrefetched.current = true;
       }
     },
     [
       isLoading,
-      prefetchPrescriptionDocumentation,
       prescriptionId,
       refillHistory,
+      prefetchPrescriptionDocumentation,
     ],
   );
 
@@ -226,12 +267,28 @@ const PrescriptionDetails = () => {
           DATETIME_FORMATS.longMonthDate,
         )}\n\n${
           nonVaPrescription
-            ? buildNonVAPrescriptionTXT(prescription)
-            : buildVAPrescriptionTXT(prescription)
+            ? buildNonVAPrescriptionTXT(
+                prescription,
+                {},
+                isCernerPilot,
+                isV2StatusMapping,
+              )
+            : buildVAPrescriptionTXT(
+                prescription,
+                isCernerPilot,
+                isV2StatusMapping,
+              )
         }${allergiesList ?? ''}`
       );
     },
-    [userName, dob, prescription, nonVaPrescription],
+    [
+      userName,
+      dob,
+      prescription,
+      nonVaPrescription,
+      isCernerPilot,
+      isV2StatusMapping,
+    ],
   );
 
   const handleFileDownload = async format => {
@@ -303,11 +360,19 @@ const PrescriptionDetails = () => {
       if (!prescription) return;
       setPrescriptionPdfList(
         nonVaPrescription
-          ? buildNonVAPrescriptionPDFList(prescription)
-          : buildVAPrescriptionPDFList(prescription),
+          ? buildNonVAPrescriptionPDFList(
+              prescription,
+              isCernerPilot,
+              isV2StatusMapping,
+            )
+          : buildVAPrescriptionPDFList(
+              prescription,
+              isCernerPilot,
+              isV2StatusMapping,
+            ),
       );
     },
-    [nonVaPrescription, prescription],
+    [nonVaPrescription, prescription, isCernerPilot, isV2StatusMapping],
   );
 
   const filledEnteredDate = () => {
@@ -322,22 +387,26 @@ const PrescriptionDetails = () => {
         </>
       );
     }
-    return (
-      <>
-        {prescription?.sortedDispensedDate ? (
-          <span>
-            Last filled on{' '}
-            {dateFormat(
-              prescription.sortedDispensedDate,
-              DATETIME_FORMATS.longMonthDate,
-            )}
-          </span>
-        ) : (
-          <span>Not filled yet</span>
-        )}
-      </>
-    );
+    if (prescription?.sortedDispensedDate) {
+      return (
+        <span>
+          Last filled on{' '}
+          {dateFormat(
+            prescription.sortedDispensedDate,
+            DATETIME_FORMATS.longMonthDate,
+          )}
+        </span>
+      );
+    }
+    if (!isCernerPilot) {
+      return <span>Not filled yet</span>;
+    }
+    return null;
   };
+
+  // Determine if we should show the last filled paragraph
+  const showLastFilledParagraph =
+    nonVaPrescription || prescription?.sortedDispensedDate || !isCernerPilot;
 
   const [isErrorNotificationVisible, setIsErrorNotificationVisible] = useState(
     false,
@@ -444,15 +513,17 @@ const PrescriptionDetails = () => {
               <ApiErrorNotification errorType="access" content="medications" />
             ) : (
               <>
-                <p
-                  id="last-filled"
-                  className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen: vads-u-margin-bottom--2 ${
-                    nonVaPrescription ? 'vads-u-margin-bottom--2' : ''
-                  }`}
-                  data-testid="rx-last-filled-date"
-                >
-                  {filledEnteredDate()}
-                </p>
+                {showLastFilledParagraph && (
+                  <p
+                    id="last-filled"
+                    className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen: vads-u-margin-bottom--2 ${
+                      nonVaPrescription ? 'vads-u-margin-bottom--2' : ''
+                    }`}
+                    data-testid="rx-last-filled-date"
+                  >
+                    {filledEnteredDate()}
+                  </p>
+                )}
                 {prescription.prescriptionSource ===
                   RX_SOURCE.PENDING_DISPENSE && pendingMedAlert()}
                 {isErrorNotificationVisible && (

@@ -33,5 +33,9 @@ describe('VAOS CC pilot utils', () => {
         ]),
       ).to.be.true;
     });
+    it('Returns true when the user has a facility within the pilot extension', () => {
+      expect(getIsInPilotUserStations(true, [{ facilityId: '648' }])).to.be
+        .true;
+    });
   });
 });

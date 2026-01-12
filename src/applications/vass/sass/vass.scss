@@ -1,9 +1,23 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "calendar";
+
 .vass-form__button-container {
   row-gap: var(--vads-spacing-2);
 }
 
 .vass-flex-direction--column {
   flex-direction: column;
+}
+
+span.vass-usa-label--required {
+  color: var(--vads-color-secondary-dark);
+  font-size: var(--vads-font-size-source-sans-normalized);
+  font-weight: normal;
+}
+
+.vass-checkbox-group::part(legend) {
+  font-weight: var(--font-weight-bold);
 }
 
 @media print {

@@ -20,14 +20,23 @@ import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/sour
 import { datadogRum } from '@datadog/browser-rum';
 
 import { populatedDraft } from '../selectors';
-import { ErrorMessages, Paths, PageTitles } from '../util/constants';
+import {
+  ErrorMessages,
+  Paths,
+  PageTitles,
+  SelectCareTeamPage,
+} from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 import { saveDraft } from '../actions/draftDetails';
+import manifest from '../manifest.json';
+import featureToggles from '../hooks/useFeatureToggles';
+import { draftIsClean } from '../util/helpers';
 
 const SelectCareTeam = () => {
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -90,6 +99,25 @@ const SelectCareTeam = () => {
     [draftInProgress.recipientId],
   );
 
+  useEffect(
+    () => {
+      if (
+        !draftInProgress?.messageId &&
+        !!draftInProgress?.recipientId &&
+        draftInProgress?.navigationError?.title ===
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title &&
+        draftIsClean(draftInProgress)
+      ) {
+        dispatch(
+          updateDraftInProgress({
+            navigationError: null,
+          }),
+        );
+      }
+    },
+    [draftInProgress, dispatch],
+  );
+
   const careTeamHandler = useCallback(
     recipient => {
       const newId = recipient?.id ? recipient.id.toString() : null;
@@ -102,6 +130,9 @@ const SelectCareTeam = () => {
           setCareTeamError('');
           dispatch(
             updateDraftInProgress({
+              careSystemVhaId: recipient.stationNumber,
+              careSystemName:
+                ehrDataByVhaId[recipient.stationNumber]?.vamcSystemName,
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
               ohTriageGroup: recipient.ohTriageGroup,
@@ -144,6 +175,7 @@ const SelectCareTeam = () => {
       draftInProgress?.body,
       draftInProgress?.subject,
       draftInProgress?.category,
+      draftInProgress?.careSystemVhaId,
     ],
   );
 
@@ -302,8 +334,30 @@ const SelectCareTeam = () => {
     [draftInProgress.recipientId, selectedCareTeamId],
   );
 
+  const getDestinationPath = useCallback(
+    (includeRootUrl = false) => {
+      const inProgressPath = `${Paths.MESSAGE_THREAD}${
+        draftInProgress.messageId
+      }`;
+      const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
+      const path = draftInProgress.messageId ? inProgressPath : startPath;
+      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
+    },
+    [draftInProgress],
+  );
+
+  const getDestinationLabel = useCallback(
+    () => {
+      return draftInProgress.messageId
+        ? 'Continue to draft'
+        : 'Continue to start message';
+    },
+    [draftInProgress],
+  );
+
   const handlers = {
-    onContinue: () => {
+    onContinue: event => {
+      event?.preventDefault();
       if (!checkValidity()) return;
 
       const selectedRecipientStationNumber = allowedRecipients.find(
@@ -322,11 +376,7 @@ const SelectCareTeam = () => {
           }),
         );
       }
-      if (draftInProgress.messageId) {
-        history.push(`${Paths.MESSAGE_THREAD}${draftInProgress.messageId}`);
-      } else {
-        history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
-      }
+      history.push(getDestinationPath());
     },
   };
 
@@ -386,6 +436,7 @@ const SelectCareTeam = () => {
                 name="va-health-care-system"
                 tile
                 value={facility}
+                checked={draftInProgress?.careSystemVhaId === facility}
                 radioOptionSelected={draftInProgress?.careSystemVhaId || ''}
               />
             </>
@@ -450,28 +501,40 @@ const SelectCareTeam = () => {
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
             <Link to={Paths.CARE_TEAM_HELP}>
-              What to do if you can’t find your care team
+              {SelectCareTeamPage.CANT_FIND_CARE_TEAM_LINK}
             </Link>
           </p>
         </div>
         {showContactListLink && (
           <div className="vads-u-margin-top--2">
             <p className="vads-u-margin-bottom--1">
-              <strong>Note:</strong> You can add more care teams to select from
-              by updating your contact list.
+              <strong>Note:</strong>{' '}
+              {SelectCareTeamPage.CANT_FIND_CARE_TEAM_NOTE}
             </p>
             <Link to={Paths.CONTACT_LIST}>Update your contact list</Link>
           </div>
         )}
         <div>
-          <VaButton
-            continue
-            class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-            data-testid="continue-button"
-            data-dd-action-name="Continue button on Select care team page"
-            onClick={e => handlers.onContinue(e)}
-            text={null}
-          />
+          {mhvSecureMessagingCuratedListFlow ? (
+            <va-link-action
+              href={getDestinationPath(true)}
+              text={getDestinationLabel()}
+              data-testid="continue-button"
+              data-dd-action-name="Continue button on Select care team page"
+              onClick={e => handlers.onContinue(e)}
+              class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+              type="primary"
+            />
+          ) : (
+            <VaButton
+              continue
+              class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+              data-testid="continue-button"
+              data-dd-action-name="Continue button on Select care team page"
+              onClick={e => handlers.onContinue(e)}
+              text={null}
+            />
+          )}
         </div>
       </div>
     </div>

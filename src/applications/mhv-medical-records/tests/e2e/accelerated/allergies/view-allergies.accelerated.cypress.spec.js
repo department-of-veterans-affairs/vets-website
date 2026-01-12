@@ -23,6 +23,11 @@ describe('Medical Records Accelerated Allergies', () => {
 
     cy.injectAxeThenAxeCheck();
 
+    // Alert removed from Allergies page — assert it does not render
+    cy.get('body')
+      .find('[data-testid="cerner-facilities-info-alert"]')
+      .should('not.exist');
+
     // Verify unified allergy format is displayed
     cy.get('[data-testid="record-list-item"]').should(
       'have.length.at.least',
