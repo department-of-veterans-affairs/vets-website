@@ -12,6 +12,8 @@ import {
   UPDATE_GLOBAL_EMAIL,
   UPDATE_GLOBAL_PHONE_NUMBER,
   TOGGLE_MODAL,
+  FETCH_DIRECT_DEPOSIT_SUCCESS,
+  FETCH_DIRECT_DEPOSIT_FAILED,
   fetchPersonalInformation,
   fetchDuplicateContactInfo,
   updateGlobalEmail,
@@ -19,6 +21,7 @@ import {
   acknowledgeDuplicate,
   toggleModal,
   fetchClaimStatus,
+  fetchDirectDeposit,
 } from '../../actions';
 
 describe('Personal Information action', () => {
@@ -152,5 +155,27 @@ describe('Toggle Modal action', () => {
     const action = toggleModal(toggle);
     expect(action.type).to.equal(TOGGLE_MODAL);
     expect(action.toggle).to.equal(toggle);
+  });
+});
+
+describe('Fetch Direct Deposit action', () => {
+  it('should dispatch a fetch direct deposit information action', () => {
+    const mockData = { data: { attributes: { name: 'John Doe' } } };
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return fetchDirectDeposit()(dispatch).then(() => {
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FETCH_DIRECT_DEPOSIT_SUCCESS,
+      );
+    });
+  });
+  it('should dispatch a fetch error', () => {
+    mockApiRequest({}, false);
+    const dispatch = sinon.spy();
+    return fetchDirectDeposit()(dispatch).then(() => {
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        FETCH_DIRECT_DEPOSIT_FAILED,
+      );
+    });
   });
 });
