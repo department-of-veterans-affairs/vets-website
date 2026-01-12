@@ -174,7 +174,7 @@ export async function fetchPatientRelationships(
 
     return {
       patientProviderRelationships: transformPatientRelationships(data || []),
-      backendSystemFailures: data.meta?.failures,
+      backendServiceFailures: data.meta?.failures,
     };
   } catch (e) {
     return null;

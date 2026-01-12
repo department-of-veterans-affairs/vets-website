@@ -119,7 +119,7 @@ const initialState = {
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   isAppointmentSelectionError: false,
   ehr: null,
-  backendServiceFailures: null,
+  backendServiceFailures: [],
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -705,7 +705,7 @@ export default function formReducer(state = initialState, action) {
         patientProviderRelationshipsStatus: FETCH_STATUS.succeeded,
         patientProviderRelationships:
           action.relationships.patientProviderRelationships,
-        backendSystemFailures: action.relationships.backendSystemFailures,
+        backendServiceFailures: action.relationships.backendServiceFailures,
       };
     case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED:
       return {
