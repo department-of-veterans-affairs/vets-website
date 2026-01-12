@@ -1,12 +1,12 @@
-import '@department-of-veterans-affairs/virtual-agent/sass/virtual-agent';
+import '@department-of-veterans-affairs/virtual-agent/bf-webchat/sass/virtual-agent.scss';
 import 'platform/polyfills';
 
 import startApp from 'platform/startup';
 
+import reducer from './bf-webchat/reducers';
+import routes from './bf-webchat/routes';
+import { initLogging } from './bf-webchat/utils/logging';
 import manifest from './manifest.json';
-import reducer from './reducers';
-import routes from './routes';
-import { initLogging } from './utils/logging';
 
 const script = document.createElement('script');
 script.nonce = '**CSP_NONCE**';
