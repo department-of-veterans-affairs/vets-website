@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import formConfig from '../../../config/form';
 import { CustomTopContent, CustomAlertPage } from '../../../pages/helpers';
 
@@ -52,11 +53,14 @@ const mockStore = {
 };
 
 describe('CustomTopContent', () => {
+  let restoreLocation;
+
   beforeEach(() => {
-    window.location = new URL(TEST_URL);
+    restoreLocation = mockLocation(TEST_URL);
   });
 
   afterEach(() => {
+    restoreLocation?.();
     cleanup();
   });
 

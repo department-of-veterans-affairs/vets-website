@@ -1,6 +1,8 @@
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import './dom-extensions';
+import { vaButtonGetByText } from './dom-extensions';
+
+export { vaButtonGetByText };
 
 export const inputVaSearchInput = ({
   container,

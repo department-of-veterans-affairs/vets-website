@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import ContactAccreditedRepresentative from '../../../components/ContactAccreditedRepresentative';
 import selectedRep from '../../fixtures/data/representative.json';
 import { pageDepends } from '../../../pages/representative/representativeSubmissionMethod';
@@ -40,6 +41,12 @@ const getProps = () => {
 };
 
 describe('<ContactAccreditedRepresentative>', () => {
+  let restoreLocation;
+
+  afterEach(() => {
+    restoreLocation?.();
+  });
+
   it('should render component', () => {
     const { props, mockStore } = getProps();
 
@@ -53,10 +60,8 @@ describe('<ContactAccreditedRepresentative>', () => {
 
   context('non-review mode', () => {
     beforeEach(function() {
-      Object.defineProperty(window, 'location', {
-        value: { search: '' },
-        writable: true,
-      });
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/');
     });
 
     it('should call goBack with formData', async () => {
@@ -82,11 +87,6 @@ describe('<ContactAccreditedRepresentative>', () => {
 
       const goForwardSpy = sinon.spy();
 
-      Object.defineProperty(window, 'location', {
-        value: { search: '' },
-        writable: true,
-      });
-
       const { getByText } = render(
         <Provider store={mockStore}>
           <ContactAccreditedRepresentative
@@ -106,10 +106,8 @@ describe('<ContactAccreditedRepresentative>', () => {
 
   context('review mode', () => {
     beforeEach(function() {
-      Object.defineProperty(window, 'location', {
-        value: { search: '?review=true' },
-        writable: true,
-      });
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost?review=true');
     });
 
     it('should navigate to the representative selection page when in review mode', async () => {
@@ -187,10 +185,7 @@ describe('<ContactAccreditedRepresentative>', () => {
 });
 
 it('should navigate to the representative submission method page when submissionMethodRequired is true', async () => {
-  Object.defineProperty(window, 'location', {
-    value: { search: '?review=true' },
-    writable: true,
-  });
+  const restoreLocation = mockLocation('http://localhost?review=true');
   const { props, mockStore } = getProps();
 
   const goToPathSpy = sinon.spy();
@@ -236,4 +231,6 @@ it('should navigate to the representative submission method page when submission
       goToPathSpy.calledWith('/representative-submission-method?review=true'),
     ).to.be.true;
   });
+
+  restoreLocation();
 });

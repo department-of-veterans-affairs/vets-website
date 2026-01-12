@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { subDays, addDays, format } from 'date-fns';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import TravelClaimDetails from '../../components/TravelClaimDetails';
 import reducer from '../../redux/reducer';
 
@@ -58,15 +58,14 @@ describe('TravelClaimDetails', () => {
     },
   });
 
-  let oldLocation;
+  let restoreLocation;
   beforeEach(() => {
-    oldLocation = global.window.location;
-    global.window.location = {};
-    global.window.location.replace = sinon.spy();
+    // Use cross-origin URL to get spy on location.replace()
+    restoreLocation = mockLocation('https://va.gov/travel-pay');
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    restoreLocation?.();
   });
 
   it('Successfully renders', () => {

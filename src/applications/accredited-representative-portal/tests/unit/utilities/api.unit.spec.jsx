@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
 import localStorage from 'platform/utilities/storage/localStorage';
 import * as sessionApi from 'platform/utilities/api';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { SORT_DEFAULTS } from '../../../utilities/submissions';
 import api from '../../../utilities/api';
@@ -13,6 +14,7 @@ describe('API utilities', () => {
   let sentryCaptureMessageStub;
   let getItemStub;
   let sessionStub;
+  let restoreLocation;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -20,17 +22,14 @@ describe('API utilities', () => {
     getItemStub = sandbox.stub(localStorage, 'getItem');
     sessionStub = sandbox.stub(sessionApi, 'fetchAndUpdateSessionExpiration');
 
-    sandbox.stub(window, 'location').value({
-      pathname: '/something-else',
-      href: 'http://example.com/path',
-      assign: sinon.stub(),
-    });
+    restoreLocation = mockLocation('http://example.com/something-else');
 
     getItemStub.withArgs('csrfToken').returns('existingToken');
   });
 
   afterEach(() => {
     sandbox.restore();
+    restoreLocation?.();
   });
 
   describe('Error handling', () => {
@@ -239,19 +238,17 @@ describe('API utilities', () => {
       const constants = require('../../../utilities/constants');
       sandbox.stub(constants, 'getSignInUrl').value(getSignInUrlStub);
 
-      Object.defineProperty(window, 'location', {
-        value: {
-          pathname: '/some-other-path',
-          href: 'http://original.com',
-        },
-        writable: true,
-      });
+      // restoreLocation already set in beforeEach to /something-else
 
       await api.getUser();
-      expect(window.location).to.equal('https://example.com/login');
+      expect(window.location.href).to.equal('https://example.com/login');
     });
 
     it('does NOT redirect to login if pathname is in allowed list', async () => {
+      // Need to restore the previous location mock and set a new one
+      restoreLocation?.();
+      restoreLocation = mockLocation(`http://allowed.com${manifest.rootUrl}`);
+
       const res = new Response('{}', { status: 401 });
       Object.defineProperty(res, 'ok', { value: false });
       sessionStub.resolves(res);
@@ -261,14 +258,6 @@ describe('API utilities', () => {
         .returns('https://example.com/login');
       const constants = require('../../../utilities/constants');
       sandbox.stub(constants, 'getSignInUrl').value(getSignInUrlStub);
-
-      Object.defineProperty(window, 'location', {
-        value: {
-          pathname: manifest.rootUrl,
-          href: 'http://allowed.com',
-        },
-        writable: true,
-      });
 
       try {
         await api.getUser();

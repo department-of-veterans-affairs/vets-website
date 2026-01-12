@@ -1,63 +1,56 @@
 import { expect } from 'chai';
-import mockFs from 'mock-fs';
+import sinon from 'sinon';
 
-import {
-  getChangedAppsString,
-  isContinuousDeploymentEnabled,
-} from './get-changed-apps';
+// eslint-disable-next-line import/no-commonjs
+const getChangedApps = require('./get-changed-apps');
 
-const createManifest = name => {
-  return JSON.stringify({
-    appName: name.toUpperCase(),
-    entryFile: `./${name}-entry.jsx`,
-    entryName: name,
-    rootUrl: `/${name}`,
-  });
-};
+const createManifest = name => ({
+  appName: name.toUpperCase(),
+  entryFile: `./${name}-entry.jsx`,
+  entryName: name,
+  rootUrl: `/${name}`,
+});
 
 const createChangedAppsConfig = (apps = []) => {
   return { apps };
 };
 
 describe('getChangedAppsString', () => {
+  let getManifestsStub;
+
   before(() => {
-    mockFs({
-      'src/applications/app1': {
-        'manifest.json': createManifest('app1'),
-        'some-file.js': '',
-        'other-file.js': '',
-      },
-      'src/applications/app2': {
-        'manifest.json': createManifest('app2'),
-        'some-file.js': '',
-      },
-      'src/applications/app3': {
-        'manifest.json': createManifest('app3'),
-        'some-file.js': '',
-      },
-      'src/applications/app4': {
-        'some-file.js': '',
-      },
-      'src/applications/app5': {
-        'manifest.json': JSON.stringify({
-          appName: 'APP5',
-          entryFile: './app5-entry.jsx',
-          entryName: 'app5',
-        }),
-        'some-file.js': '',
-      },
-      'src/applications/groupedApps': {
-        'grouped-app-1': {
-          'manifest.json': createManifest('groupedApp1'),
-          'some-file.js': '',
-        },
-        'grouped-app-2': {
-          'manifest.json': createManifest('groupedApp2'),
-          'some-file.js': '',
-        },
-        'grouped-apps-utils.js': '',
-      },
+    // Stub getManifests to return mock data based on file path
+    getManifestsStub = sinon.stub(getChangedApps, 'getManifests');
+
+    // Set up default behavior - return manifest based on app folder name
+    getManifestsStub.callsFake(filePath => {
+      const rootAppFolderName = filePath.split('/')[2];
+
+      const manifests = {
+        app1: [createManifest('app1')],
+        app2: [createManifest('app2')],
+        app3: [createManifest('app3')],
+        app4: [], // No manifest
+        app5: [
+          {
+            appName: 'APP5',
+            entryFile: './app5-entry.jsx',
+            entryName: 'app5',
+            // No rootUrl
+          },
+        ],
+        groupedApps: [
+          createManifest('groupedApp1'),
+          createManifest('groupedApp2'),
+        ],
+      };
+
+      return manifests[rootAppFolderName] || [];
     });
+  });
+
+  after(() => {
+    getManifestsStub.restore();
   });
 
   context('when the entry output type is specified', () => {
@@ -68,7 +61,11 @@ describe('getChangedAppsString', () => {
         'src/applications/app2/some-file.js',
       ];
 
-      const appString = getChangedAppsString(changedFiles, config, 'folder');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'folder',
+      );
       expect(appString).to.be.empty;
     });
 
@@ -82,7 +79,10 @@ describe('getChangedAppsString', () => {
         'src/applications/app2',
       ];
 
-      const appString = getChangedAppsString(changedFiles, config);
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+      );
       expect(appString).to.equal('app1 app2');
     });
 
@@ -93,7 +93,10 @@ describe('getChangedAppsString', () => {
         'src/applications/app1/other-file.js',
       ];
 
-      const appString = getChangedAppsString(changedFiles, config);
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+      );
       expect(appString).to.equal('app1');
     });
 
@@ -103,7 +106,10 @@ describe('getChangedAppsString', () => {
         'src/applications/groupedApps/grouped-app-1/some-file.js',
       ];
 
-      const appString = getChangedAppsString(changedFiles, config);
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+      );
       expect(appString).to.equal('groupedApp1 groupedApp2');
     });
   });
@@ -116,7 +122,11 @@ describe('getChangedAppsString', () => {
       ]);
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
-      const appString = getChangedAppsString(changedFiles, config, 'folder');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'folder',
+      );
       expect(appString).to.equal('src/applications/app1 src/applications/app2');
     });
 
@@ -126,7 +136,11 @@ describe('getChangedAppsString', () => {
         'src/applications/groupedApps/grouped-app-1/some-file.js',
       ];
 
-      const appString = getChangedAppsString(changedFiles, config, 'folder');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'folder',
+      );
       expect(appString).to.equal('src/applications/groupedApps');
     });
   });
@@ -139,7 +153,7 @@ describe('getChangedAppsString', () => {
       ]);
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
-      const appString = getChangedAppsString(
+      const appString = getChangedApps.getChangedAppsString(
         changedFiles,
         config,
         'slack-group',
@@ -151,7 +165,7 @@ describe('getChangedAppsString', () => {
       const config = createChangedAppsConfig([{ rootFolder: 'app3' }]);
       const changedFiles = ['src/applications/app3'];
 
-      const appString = getChangedAppsString(
+      const appString = getChangedApps.getChangedAppsString(
         changedFiles,
         config,
         'slack-group',
@@ -166,7 +180,7 @@ describe('getChangedAppsString', () => {
       ]);
       const changedFiles = ['src/applications/app1', 'src/applications/app3'];
 
-      const appString = getChangedAppsString(
+      const appString = getChangedApps.getChangedAppsString(
         changedFiles,
         config,
         'slack-group',
@@ -182,7 +196,7 @@ describe('getChangedAppsString', () => {
         'src/applications/groupedApps/grouped-app-1/some-file.js',
       ];
 
-      const appString = getChangedAppsString(
+      const appString = getChangedApps.getChangedAppsString(
         changedFiles,
         config,
         'slack-group',
@@ -199,7 +213,11 @@ describe('getChangedAppsString', () => {
       ]);
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
-      const appString = getChangedAppsString(changedFiles, config, 'url');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'url',
+      );
       expect(appString).to.equal('/app1 /app2');
     });
 
@@ -207,7 +225,11 @@ describe('getChangedAppsString', () => {
       const config = createChangedAppsConfig([{ rootFolder: 'app5' }]);
       const changedFiles = ['src/applications/app5'];
 
-      const appString = getChangedAppsString(changedFiles, config, 'url');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'url',
+      );
       expect(appString).to.be.empty;
     });
 
@@ -218,7 +240,11 @@ describe('getChangedAppsString', () => {
       ]);
       const changedFiles = ['src/applications/app1', 'src/applications/app5'];
 
-      const appString = getChangedAppsString(changedFiles, config, 'url');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'url',
+      );
       expect(appString).to.equal('/app1');
     });
 
@@ -228,7 +254,11 @@ describe('getChangedAppsString', () => {
         'src/applications/groupedApps/grouped-app-1/some-file.js',
       ];
 
-      const appString = getChangedAppsString(changedFiles, config, 'url');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'url',
+      );
       expect(appString).to.equal('/groupedApp1 /groupedApp2');
     });
   });
@@ -245,7 +275,7 @@ describe('getChangedAppsString', () => {
       ];
       const delimiter = ',';
 
-      const appString = getChangedAppsString(
+      const appString = getChangedApps.getChangedAppsString(
         changedFiles,
         config,
         'entry',
@@ -264,7 +294,7 @@ describe('getChangedAppsString', () => {
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
       expect(() => {
-        getChangedAppsString(changedFiles, config, 'unknown');
+        getChangedApps.getChangedAppsString(changedFiles, config, 'unknown');
       }).to.throw('Invalid output type specified.');
     });
   });
@@ -277,7 +307,11 @@ describe('getChangedAppsString', () => {
       ]);
       const changedFiles = ['src/applications/app3/some-file.js'];
 
-      const appString = getChangedAppsString(changedFiles, config, 'folder');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'folder',
+      );
       expect(appString).to.be.empty;
     });
   });
@@ -286,11 +320,15 @@ describe('getChangedAppsString', () => {
     it('should return an empty string', () => {
       const config = createChangedAppsConfig([
         { rootFolder: 'app1' },
-        { rootFolder: 'app2' },
+        { rootFolder: 'app4' },
       ]);
       const changedFiles = ['src/applications/app4/some-file.js'];
 
-      const appString = getChangedAppsString(changedFiles, config, 'folder');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'folder',
+      );
       expect(appString).to.be.empty;
     });
   });
@@ -307,35 +345,43 @@ describe('getChangedAppsString', () => {
         'src/platform',
       ];
 
-      const appString = getChangedAppsString(changedFiles, config, 'folder');
+      const appString = getChangedApps.getChangedAppsString(
+        changedFiles,
+        config,
+        'folder',
+      );
       expect(appString).to.be.empty;
     });
   });
-
-  after(() => mockFs.restore());
 });
 
 describe('isContinuousDeploymentEnabled', () => {
+  let getManifestsStub;
+
   before(() => {
-    mockFs({
-      'src/applications/app1': {
-        'manifest.json': createManifest('app1'),
-        'some-file.js': '',
-        'other-file.js': '',
-      },
-      'src/applications/app2': {
-        'manifest.json': createManifest('app2'),
-        'some-file.js': '',
-        'other-file.js': '',
-      },
+    getManifestsStub = sinon.stub(getChangedApps, 'getManifests');
+
+    getManifestsStub.callsFake(filePath => {
+      const rootAppFolderName = filePath.split('/')[2];
+
+      const manifests = {
+        app1: [createManifest('app1')],
+        app2: [createManifest('app2')],
+      };
+
+      return manifests[rootAppFolderName] || [];
     });
+  });
+
+  after(() => {
+    getManifestsStub.restore();
   });
 
   it('should return true when an app does not specify continuous deployment option', () => {
     const config = createChangedAppsConfig([{ rootFolder: 'app1' }]);
     const changedFiles = ['src/applications/app1/some-file.js'];
 
-    const continuousDeployment = isContinuousDeploymentEnabled(
+    const continuousDeployment = getChangedApps.isContinuousDeploymentEnabled(
       changedFiles,
       config,
     );
@@ -348,7 +394,7 @@ describe('isContinuousDeploymentEnabled', () => {
     ]);
     const changedFiles = ['src/applications/app1/some-file.js'];
 
-    const continuousDeployment = isContinuousDeploymentEnabled(
+    const continuousDeployment = getChangedApps.isContinuousDeploymentEnabled(
       changedFiles,
       config,
     );
@@ -365,7 +411,7 @@ describe('isContinuousDeploymentEnabled', () => {
       'src/applications/app2/some-file.js',
     ];
 
-    const continuousDeployment = isContinuousDeploymentEnabled(
+    const continuousDeployment = getChangedApps.isContinuousDeploymentEnabled(
       changedFiles,
       config,
     );
@@ -382,7 +428,7 @@ describe('isContinuousDeploymentEnabled', () => {
       'src/applications/app2/some-file.js',
     ];
 
-    const continuousDeployment = isContinuousDeploymentEnabled(
+    const continuousDeployment = getChangedApps.isContinuousDeploymentEnabled(
       changedFiles,
       config,
     );
@@ -396,7 +442,7 @@ describe('isContinuousDeploymentEnabled', () => {
     const changedFiles = ['src/applications/app1/some-file.js'];
 
     expect(() => {
-      isContinuousDeploymentEnabled(changedFiles, config);
+      getChangedApps.isContinuousDeploymentEnabled(changedFiles, config);
     }).to.throw(Error);
   });
 
@@ -406,12 +452,10 @@ describe('isContinuousDeploymentEnabled', () => {
     ]);
     const changedFiles = [];
 
-    const continuousDeployment = isContinuousDeploymentEnabled(
+    const continuousDeployment = getChangedApps.isContinuousDeploymentEnabled(
       changedFiles,
       config,
     );
     expect(continuousDeployment).to.be.false;
   });
-
-  after(() => mockFs.restore());
 });

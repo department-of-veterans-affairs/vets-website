@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { render, waitFor } from '@testing-library/react';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { SearchForm } from '../../containers/SearchForm';
 import * as api from '../../api';
 
@@ -12,17 +13,15 @@ const mockStore = configureStore([]);
 const store = mockStore({ findVAFormsReducer: { fetching: false } });
 
 describe('Find VA Forms <SearchForm>', () => {
-  const oldLocation = global.window.location;
+  let restoreLocation;
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    restoreLocation?.();
     apiStub.resetHistory();
   });
 
   it('should fetch data on mount when a search query is added', async () => {
-    global.window.location = new URL(
-      'http://localhost:3001/find-forms?q=health',
-    );
+    restoreLocation = mockLocation('http://localhost:3001/find-forms?q=health');
 
     const { queryByTestId } = render(
       <Provider store={store}>
@@ -38,7 +37,7 @@ describe('Find VA Forms <SearchForm>', () => {
   });
 
   it('should not fetch data when there is no search query', async () => {
-    global.window.location = new URL('http://localhost:3001/find-forms?q=');
+    restoreLocation = mockLocation('http://localhost:3001/find-forms?q=');
 
     const { queryByTestId } = render(
       <Provider store={store}>
@@ -53,7 +52,7 @@ describe('Find VA Forms <SearchForm>', () => {
   });
 
   it('should not fetch data and show an error when there is only 1 character search query', async () => {
-    global.window.location = new URL('http://localhost:3001/find-forms?q=a');
+    restoreLocation = mockLocation('http://localhost:3001/find-forms?q=a');
 
     const { queryByTestId } = render(
       <Provider store={store}>

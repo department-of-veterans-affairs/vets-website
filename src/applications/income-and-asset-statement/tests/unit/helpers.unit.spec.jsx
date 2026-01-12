@@ -4,6 +4,7 @@ import { waitFor } from '@testing-library/react';
 
 import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import {
   formatCurrency,
   formatFullNameNoSuffix,
@@ -212,26 +213,21 @@ describe('Income and Asset helpers', () => {
   });
 
   describe('isReviewAndSubmitPage', () => {
-    const originalLocation = window.location;
+    let restoreLocation;
 
     afterEach(() => {
-      // Restore original location
-      delete window.location;
-      window.location = originalLocation;
+      restoreLocation?.();
     });
 
-    it.skip('should return true when pathname includes "review-and-submit"', () => {
-      // skipping to support node 22 upgrade, window.location not supported
-      // may want to stub isReviewAndSubmitPage and test for rendered content
-
-      delete window.location;
-      window.location = { pathname: '/form/review-and-submit' };
+    it('should return true when pathname includes "review-and-submit"', () => {
+      restoreLocation = mockLocation('http://localhost/form/review-and-submit');
       expect(isReviewAndSubmitPage()).to.be.true;
     });
 
     it('should return false when pathname does not include "review-and-submit"', () => {
-      delete window.location;
-      window.location = { pathname: '/form/personal-information' };
+      restoreLocation = mockLocation(
+        'http://localhost/form/personal-information',
+      );
       expect(isReviewAndSubmitPage()).to.be.false;
     });
 

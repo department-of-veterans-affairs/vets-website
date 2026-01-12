@@ -1,18 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import sinon from 'sinon';
 import MockDate from 'mockdate';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
 import reducer from '../../redux/reducer';
 import App from '../../containers/App';
 
 describe('App', () => {
-  const oldLocation = global.window.location;
+  let restoreLocation;
   const getData = ({
     areFeatureTogglesLoading = false,
     hasFeatureFlag = true,
@@ -57,12 +57,12 @@ describe('App', () => {
   };
 
   beforeEach(() => {
-    global.window.location = {};
-    global.window.location.replace = sinon.spy();
+    // Use cross-origin URL to get spy on location.replace()
+    restoreLocation = mockLocation('https://va.gov/travel-pay');
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    restoreLocation?.();
     MockDate.reset();
   });
 

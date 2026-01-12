@@ -4,19 +4,14 @@ import { render, waitFor, cleanup, fireEvent } from '@testing-library/react';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import CreateAccountLink from 'platform/user/authentication/components/CreateAccountLink';
-import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 
 describe('CreateAccountLink', () => {
   const csps = ['logingov', 'idme'];
-  const oldCrypto = global.window.crypto;
 
   csps.forEach(policy => {
-    beforeEach(() => {
-      global.window.crypto = mockCrypto;
-    });
+    // Node 20 has native window.crypto - no need to mock
 
     afterEach(() => {
-      global.window.crypto = oldCrypto;
       cleanup();
     });
 

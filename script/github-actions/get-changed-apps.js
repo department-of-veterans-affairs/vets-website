@@ -1,27 +1,57 @@
 /* eslint-disable no-console */
 const fs = require('fs');
-const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
 const changedAppsConfig = require('../../config/changed-apps-build.json');
 
 /**
+ * Recursively finds files matching a pattern in a directory.
+ * Uses fs methods that are compatible with mock-fs for testing.
+ *
+ * @param {RegExp} pattern - Pattern to match file names against.
+ * @param {string} dir - Directory to search in.
+ * @param {Object} fsModule - File system module to use (defaults to fs).
+ * @returns {string[]} Array of matching file paths.
+ */
+const findFilesSync = (pattern, dir, fsModule = fs) => {
+  const results = [];
+
+  if (!fsModule.existsSync(dir)) return results;
+
+  const items = fsModule.readdirSync(dir);
+
+  for (const item of items) {
+    const fullPath = path.join(dir, item);
+    const stat = fsModule.statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      results.push(...findFilesSync(pattern, fullPath, fsModule));
+    } else if (pattern.test(item)) {
+      results.push(fullPath);
+    }
+  }
+
+  return results;
+};
+
+/**
  * Gets the manifest of all apps in the root app folder that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
+ * @param {Object} fsModule - File system module to use (defaults to fs).
  * @returns {Object[]} Application manifests.
  */
-const getManifests = filePath => {
+const getManifests = (filePath, fsModule = fs) => {
   const root = path.join(__dirname, '../..');
   const rootAppFolderName = filePath.split('/')[2];
   const fullAppPath = path.join(root, './src/applications', rootAppFolderName);
 
-  if (!fs.existsSync(fullAppPath)) return [];
+  if (!fsModule.existsSync(fullAppPath)) return [];
 
-  return find
-    .fileSync(/manifest\.(json|js)$/, fullAppPath)
-    .map(file => JSON.parse(fs.readFileSync(file)));
+  return findFilesSync(/manifest\.(json|js)$/, fullAppPath, fsModule).map(
+    file => JSON.parse(fsModule.readFileSync(file)),
+  );
 };
 
 /**
@@ -37,7 +67,8 @@ const getAllowedApps = (filePath, allowedApps) => {
 
   if (!filePath.startsWith(appsDirectory)) return [];
 
-  const manifests = getManifests(filePath);
+  // Use module.exports.getManifests to allow test stubbing
+  const manifests = module.exports.getManifests(filePath);
   const rootAppFolderName = filePath.split('/')[2];
   const allowedApp = allowedApps.find(
     app => app.rootFolder === rootAppFolderName,
@@ -171,4 +202,6 @@ if (process.env.CHANGED_FILE_PATHS) {
 module.exports = {
   getChangedAppsString,
   isContinuousDeploymentEnabled,
+  // Exported for testing - allows stubbing
+  getManifests,
 };

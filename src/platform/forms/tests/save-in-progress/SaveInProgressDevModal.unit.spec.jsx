@@ -35,9 +35,9 @@ describe('Schemaform <SipsDevModal>', () => {
   };
 
   function setLoc(dev = 'on') {
-    window.location = {
-      hash: `#dev-${dev}`,
-    };
+    // In JSDOM 22+, window.location is non-configurable
+    // Use history API to change location with hash
+    window.history.replaceState({}, '', `http://localhost/#dev-${dev}`);
   }
 
   it('should not render sips-modal link when disabled', () => {

@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
 import App from '../../containers/App';
 import formConfig from '../../config/form';
@@ -157,14 +158,15 @@ function renderApp({
 }
 
 describe('App container logic', () => {
-  const oldLocation = global.window.location;
+  let restoreLocation;
 
   beforeEach(() => {
     document.title = '';
+    restoreLocation = mockLocation('http://localhost:3001/');
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    restoreLocation?.();
     localStorage.removeItem('hasSession');
     formConfig.submitUrl = originalSubmitUrl;
   });

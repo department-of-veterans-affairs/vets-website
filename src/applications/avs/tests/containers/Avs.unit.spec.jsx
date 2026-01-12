@@ -6,11 +6,13 @@ import {
   RouterProvider,
 } from 'react-router-dom-v5-compat';
 import { expect } from 'chai';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockApiRequest,
+  mockLocation,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import sinon from 'sinon';
 
 // import { routes } from '../../router';
 import { Avs } from '../../containers/Avs';
@@ -24,27 +26,15 @@ const id = '9A7AF40B2BC2471EA116891839113252';
 // Temporarily tested with cypress.
 // These tests can be re-instated once the node upgrade is complete.
 describe.skip('Avs container', () => {
-  let oldLocation;
-  const sandbox = sinon.createSandbox();
+  let restoreLocation;
 
   beforeEach(() => {
-    oldLocation = global.window.location;
-    global.window.location = {
-      pathname: '/',
-      href: {
-        value: 'foo',
-      },
-      origin: 'http://localhost',
-      replace: sandbox.stub().callsFake(path => {
-        window.location.pathname += path;
-        window.location.search = path.slice(path.indexOf('?'));
-      }),
-    };
+    // Use cross-origin URL to get spy on location.replace()
+    restoreLocation = mockLocation('https://va.gov/');
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
-    sandbox.restore();
+    restoreLocation?.();
   });
   const initialState = {
     featureToggles: {

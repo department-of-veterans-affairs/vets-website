@@ -7,6 +7,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import {
   mockFetch,
   resetFetch,
+  mockLocation,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import sinon from 'sinon';
@@ -20,21 +21,18 @@ import ResizeObserver from '../fixtures/mocks/ResizeObserver';
 global.ResizeObserver = ResizeObserver;
 let sandbox;
 
-// Skipped until Node 22.
-// `global.window.location.replace = sinon.spy();` fails on Node 14
-describe.skip('App', () => {
-  let oldLocation;
+describe('App', () => {
+  let restoreLocation;
 
   beforeEach(() => {
     mockFetch();
-    oldLocation = global.window.location;
-    global.window.location.replace = sinon.spy();
+    restoreLocation = mockLocation('http://localhost:3001/');
     sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
     resetFetch();
-    global.window.location = oldLocation;
+    restoreLocation?.();
     sandbox.restore();
   });
 

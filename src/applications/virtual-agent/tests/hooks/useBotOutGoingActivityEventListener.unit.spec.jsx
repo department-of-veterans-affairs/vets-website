@@ -3,15 +3,14 @@ import { expect } from 'chai';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { renderHook } from '@testing-library/react-hooks';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import useBotOutgoingActivityEventListener from '../../hooks/useBotOutgoingActivityEventListener';
 
 describe('useBotOutgoingActivityEventListener', () => {
   let sandbox;
   let clock;
-  let reloadStub;
-  let originalLocation;
+  let restoreLocation;
   const now = new Date();
-  const originalWindow = global.window;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -20,34 +19,17 @@ describe('useBotOutgoingActivityEventListener', () => {
       toFake: ['Date'],
     });
 
-    // Set up window.location.reload stub by replacing the entire location object
-    // This approach works with both jsdom and happy-dom
-    reloadStub = sandbox.stub();
-    originalLocation = window.location;
-
-    const locationMock = {
-      ...window.location,
-      reload: reloadStub,
-    };
-
-    Object.defineProperty(window, 'location', {
-      value: locationMock,
-      writable: true,
-      configurable: true,
-    });
+    // Set up window.location mock using mockLocation helper
+    // Use a cross-origin URL to get the mock location object with reload spy
+    restoreLocation = mockLocation('https://dev.va.gov/');
   });
 
   afterEach(() => {
     // Restore the original location object
-    Object.defineProperty(window, 'location', {
-      value: originalLocation,
-      writable: true,
-      configurable: true,
-    });
+    restoreLocation?.();
 
     sandbox.restore();
     clock.restore();
-    global.window = originalWindow;
   });
 
   it('should call addEventListener when enabled (default)', () => {
@@ -85,7 +67,7 @@ describe('useBotOutgoingActivityEventListener', () => {
       global.window.dispatchEvent(new Event('bot-outgoing-activity'));
     });
 
-    expect(reloadStub.calledOnce).to.be.true;
+    expect(window.location.reload.calledOnce).to.be.true;
     expect(setLastMessageTimeStub.notCalled).to.be.true;
   });
 
@@ -102,7 +84,7 @@ describe('useBotOutgoingActivityEventListener', () => {
       global.window.dispatchEvent(new Event('bot-outgoing-activity'));
     });
 
-    expect(reloadStub.notCalled).to.be.true;
+    expect(window.location.reload.notCalled).to.be.true;
     expect(setLastMessageTimeStub.calledOnce).to.be.true;
   });
 
@@ -119,7 +101,7 @@ describe('useBotOutgoingActivityEventListener', () => {
       global.window.dispatchEvent(new Event('bot-outgoing-activity'));
     });
 
-    expect(reloadStub.calledOnce).to.be.true;
+    expect(window.location.reload.calledOnce).to.be.true;
     expect(setLastMessageTimeStub.calledOnce).to.be.true;
   });
 
@@ -136,7 +118,7 @@ describe('useBotOutgoingActivityEventListener', () => {
       global.window.dispatchEvent(new Event('bot-outgoing-activity'));
     });
 
-    expect(reloadStub.calledOnce).to.be.true;
+    expect(window.location.reload.calledOnce).to.be.true;
     expect(setLastMessageTimeStub.notCalled).to.be.true;
   });
 });

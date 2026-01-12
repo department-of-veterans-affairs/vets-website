@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import WelcomeContainer from '../../containers/WelcomeContainer';
 import reducers from '../../reducers';
 
@@ -53,6 +54,12 @@ describe('WelcomeContainer component', () => {
   });
 
   describe('Profile links', () => {
+    let restoreLocation;
+
+    afterEach(() => {
+      restoreLocation?.();
+    });
+
     it('calls datadogRum.addAction on click of profile links', async () => {
       const { getByRole } = setup();
       const spyDog = sinon.spy(datadogRum, 'addAction');
@@ -76,7 +83,7 @@ describe('WelcomeContainer component', () => {
         'link-label': 'Profile',
         'link-origin': 'http://localhost/',
       };
-      global.window.location = new URL(`http://localhost/`);
+      restoreLocation = mockLocation('http://localhost/');
       global.window.dataLayer = [];
       const { getByRole } = setup();
       const profileLink = getByRole('link', { name: /profile/i });

@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import { expect } from 'chai';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import {
   addUniqueEventsToList,
   deriveDefaultSelectedOption,
@@ -18,14 +19,14 @@ import {
 import { createEvent } from './event-generator';
 
 describe('deriveDefaultSelectedOption', () => {
-  const oldLocation = global.window.location.href;
+  let restoreLocation;
 
   afterEach(() => {
-    global.window.location.href = oldLocation;
+    restoreLocation?.();
   });
 
   it('should take the queryParams from the window if they exist and return the correct filter', () => {
-    global.window.location = new URL(
+    restoreLocation = mockLocation(
       'http://localhost:3001/outreach-and-events/events?selectedOption=specific-date',
     );
 
@@ -33,7 +34,7 @@ describe('deriveDefaultSelectedOption', () => {
   });
 
   it('should take the queryParams from the window if they exist and return the correct filter', () => {
-    global.window.location = new URL(
+    restoreLocation = mockLocation(
       'http://localhost:3001/outreach-and-events/events',
     );
 

@@ -2,8 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
-import SearchHelpSignIn from '../../components/SearchHelpSignIn.jsx';
+import SearchHelpSignIn from '../../components/SearchHelpSignIn';
 
 describe('<SearchHelpSignIn>', () => {
   const defaultProps = {
@@ -20,23 +21,18 @@ describe('<SearchHelpSignIn>', () => {
     userGreeting: 'test@vets.gov',
   };
 
-  let oldWindow = null;
+  let restoreLocation = null;
 
   beforeEach(() => {
-    oldWindow = global.window;
-    global.window = Object.create(global.window);
-    Object.assign(global.window, {
-      location: {
-        hostname: 'www.va.gov',
-        origin: 'https://www.va.gov',
-        replace: () => {},
-        pathname: '/',
-      },
-    });
+    // Use mockLocation with cross-origin URL for JSDOM 22+ compatibility
+    restoreLocation = mockLocation('https://www.va.gov/');
   });
 
   afterEach(() => {
-    global.window = oldWindow;
+    if (restoreLocation) {
+      restoreLocation();
+      restoreLocation = null;
+    }
   });
 
   it('should render <SignInProfileMenu/> when logged in', () => {

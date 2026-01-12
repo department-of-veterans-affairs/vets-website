@@ -94,12 +94,13 @@ describe('<ClaimStatusPage>', () => {
       },
     };
     it('should not update document title at mount-time if claim is not available', () => {
+      const originalTitle = document.title;
       renderWithRouter(
         <Provider store={getStore()}>
           <ClaimStatusPage {...props} params={params} />
         </Provider>,
       );
-      expect(document.title).to.equal('');
+      expect(document.title).to.equal(originalTitle);
     });
     it('should update document title with claim details at mount-time if claim is already loaded', () => {
       renderWithRouter(
@@ -149,6 +150,7 @@ describe('<ClaimStatusPage>', () => {
           <ClaimStatusPage {...props} loading params={params} />
         </Provider>,
       );
+      const titleAfterFirstRender = document.title;
       rerenderWithRouter(
         rerender,
         <Provider store={getStore()}>
@@ -160,7 +162,7 @@ describe('<ClaimStatusPage>', () => {
           />
         </Provider>,
       );
-      expect(document.title).to.equal('');
+      expect(document.title).to.equal(titleAfterFirstRender);
     });
     it('should focus on h1 after render', () => {
       const { rerender, container } = renderWithRouter(

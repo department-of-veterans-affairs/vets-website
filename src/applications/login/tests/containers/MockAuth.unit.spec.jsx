@@ -5,12 +5,11 @@ import environments from 'site/constants/environments';
 import { SERVICE_PROVIDERS, GA } from 'platform/user/authentication/constants';
 import sinon from 'sinon';
 import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
-import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import SkinDeep from 'skin-deep';
 import MockAuth from '../../containers/MockAuth';
 import MockAuthButton from '../../components/MockAuthButton';
 
-const originalLocation = global.window.location;
 const originalGA = global.ga;
 
 const base = 'https://dev.va.gov';
@@ -26,15 +25,13 @@ const csps = Object.values(SERVICE_PROVIDERS).filter(
   provider => provider.policy === 'idme' || provider.policy === 'logingov',
 );
 
+let restoreLocation;
+
 const setup = ({ path, mockGA = mockGADefaultArgs }) => {
-  const startingLocation = path ? new URL(`${base}${path}`) : originalLocation;
-  if (Window.prototype.href) {
-    global.window.location.href = startingLocation;
-  } else {
-    global.window.location = startingLocation;
-  }
+  // Use cross-origin URL to get proxy with location tracking
+  const startingLocation = path ? `${base}${path}` : `${base}/`;
+  restoreLocation = mockLocation(startingLocation);
   global.ga = originalGA;
-  global.window.crypto = mockCrypto;
   removeLoginAttempted();
 
   const { mockGAActive, trackingId, throwGAError } = mockGA;
@@ -60,14 +57,12 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
 };
 
 describe('MockAuthButton', () => {
-  const oldWindow = global.window;
   const buildType = __BUILDTYPE__;
   beforeEach(() => {
-    global.window = oldWindow;
     __BUILDTYPE__ = buildType;
   });
   afterEach(() => {
-    global.window = oldWindow;
+    restoreLocation?.();
     __BUILDTYPE__ = buildType;
   });
 

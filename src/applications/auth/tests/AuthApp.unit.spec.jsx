@@ -10,6 +10,7 @@ import {
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { handleTokenRequest, emailNeedsConfirmation } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
@@ -334,12 +335,8 @@ describe('AuthApp', () => {
   });
 
   it('should redirect to /sign-in-confirm-contact-email interstitial page', async () => {
-    const originalLocation = window.location;
-    if (!Location.prototype.replace) {
-      window.location = { replace: sinon.spy() };
-    } else {
-      window.location.replace = sinon.spy();
-    }
+    // Use cross-origin URL to get the proxy with replace spy
+    const restoreLocation = mockLocation('https://dev.va.gov/auth/callback');
 
     const store = {
       dispatch: sinon.spy(),
@@ -391,17 +388,13 @@ describe('AuthApp', () => {
     await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
     expect(window.location.replace.calledWith('/sign-in-confirm-contact-email'))
       .to.be.true;
-    window.location = originalLocation;
+    restoreLocation?.();
     sessionStorage.clear();
   });
 
   it('should redirect to /sign-in-health-portal interstitial page', async () => {
-    const originalLocation = window.location;
-    if (!Location.prototype.replace) {
-      window.location = { replace: sinon.spy() };
-    } else {
-      window.location.replace = sinon.spy();
-    }
+    // Use cross-origin URL to get the proxy with replace spy
+    const restoreLocation = mockLocation('https://dev.va.gov/auth/callback');
 
     const store = {
       dispatch: sinon.spy(),
@@ -459,17 +452,13 @@ describe('AuthApp', () => {
     await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
     expect(window.location.replace.calledWith('/sign-in-health-portal')).to.be
       .true;
-    window.location = originalLocation;
+    restoreLocation?.();
     sessionStorage.clear();
   });
 
   it('should redirect to /my-health', async () => {
-    const originalLocation = window.location;
-    if (!Location.prototype.replace) {
-      window.location = { replace: sinon.spy() };
-    } else {
-      window.location.replace = sinon.spy();
-    }
+    // Use cross-origin URL to get the proxy with replace spy
+    const restoreLocation = mockLocation('https://dev.va.gov/auth/callback');
 
     const store = {
       dispatch: sinon.spy(),
@@ -526,7 +515,7 @@ describe('AuthApp', () => {
     );
     await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
     expect(window.location.replace.calledWith('/my-health')).to.be.true;
-    window.location = originalLocation;
+    restoreLocation?.();
     sessionStorage.clear();
   });
 });

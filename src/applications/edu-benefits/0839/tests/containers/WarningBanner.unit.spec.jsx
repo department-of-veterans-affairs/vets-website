@@ -3,12 +3,18 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import WarningBanner from '../../containers/WarningBanner';
 
 const mockStore = configureStore([]);
 
 describe('WarningBanner Component', () => {
   let store;
+  let restoreLocation;
+
+  afterEach(() => {
+    restoreLocation?.();
+  });
 
   describe('for main institution (isArrayItem = false)', () => {
     it('does not render when institution is eligible', () => {
@@ -247,14 +253,13 @@ describe('WarningBanner Component', () => {
     };
 
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        writable: true,
-        value: { pathname: '/0' },
-      });
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
     });
 
     it('renders warning when code has X in third position', () => {
-      window.location.pathname = '/0';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
       const state = {
         form: {
           data: {
@@ -293,7 +298,8 @@ describe('WarningBanner Component', () => {
     });
 
     it('does not render warning when code is not in branches or extensions', () => {
-      window.location.pathname = '/0';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
       const state = {
         form: {
           data: {
@@ -328,7 +334,8 @@ describe('WarningBanner Component', () => {
     });
 
     it('does not render when code is in branches', () => {
-      window.location.pathname = '/0';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
       const state = {
         form: {
           data: {
@@ -363,7 +370,8 @@ describe('WarningBanner Component', () => {
     });
 
     it('does not render when code is in extensions', () => {
-      window.location.pathname = '/0';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
       const state = {
         form: {
           data: {
@@ -398,7 +406,8 @@ describe('WarningBanner Component', () => {
     });
 
     it('does not render warning for second array item when code has no disqualifying conditions', () => {
-      window.location.pathname = '/1';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/1');
       const state = {
         form: {
           data: {
@@ -438,7 +447,8 @@ describe('WarningBanner Component', () => {
     });
 
     it('does not render when institution is not found', () => {
-      window.location.pathname = '/0';
+      restoreLocation?.();
+      restoreLocation = mockLocation('http://localhost/0');
       const state = {
         form: {
           data: {

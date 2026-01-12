@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { fireEvent, render } from '@testing-library/react';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { DeviceDisconnectionCard } from '../../components/DeviceDisconnectionCard';
 
 describe('Device disconnection card', () => {
@@ -80,19 +81,14 @@ describe('Device disconnection card', () => {
       expect(getDisconnectModal(screen)).to.not.exist;
     });
     it("Should close modal when 'Disconnect device' button is clicked and redirect to disconnect url", async () => {
-      Object.defineProperty(window, 'location', {
-        writable: true,
-        value: {
-          assign: () => {},
-          href: '/',
-        },
-      });
+      const restoreLocation = mockLocation('http://localhost:3001/');
       const disconnectDeviceBtn = modal.__events.primaryButtonClick;
       await disconnectDeviceBtn();
       expect(getDisconnectModal(screen)).to.not.exist;
       expect(global.window.location.href).to.eq(
         `${environment.API_URL}/dhp_connected_devices${device.disconnectUrl}`,
       );
+      restoreLocation?.();
     });
   });
 });

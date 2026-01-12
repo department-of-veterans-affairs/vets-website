@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import mapboxClient from '../../components/MapboxClient';
 import {
   addAllOption,
@@ -49,24 +50,20 @@ import {
 
 describe('GIBCT helpers:', () => {
   describe('isReviewInstance', () => {
-    let locationStub;
-
-    beforeEach(() => {
-      locationStub = sinon.stub(window, 'location').value({ hostname: '' });
-    });
+    let restoreLocation;
 
     afterEach(() => {
-      locationStub.restore();
+      restoreLocation?.();
     });
 
     it('should return false for non-review hostnames', () => {
-      locationStub.value.hostname = 'www.vets.gov';
+      restoreLocation = mockLocation('https://www.vets.gov/');
       const result = isReviewInstance();
       expect(result).to.be.false;
     });
 
     it('should return false for completely different hostnames', () => {
-      locationStub.value.hostname = 'some.other-domain.com';
+      restoreLocation = mockLocation('https://some.other-domain.com/');
       const result = isReviewInstance();
       expect(result).to.be.false;
     });

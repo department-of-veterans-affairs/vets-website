@@ -11,6 +11,7 @@ import {
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
 import reducer from '../../redux/reducer';
 import ComplexClaimSubmitFlowWrapper from '../../containers/ComplexClaimSubmitFlowWrapper';
@@ -25,7 +26,7 @@ import ReviewPage from '../../components/complex-claims/pages/ReviewPage';
 import AgreementPage from '../../components/complex-claims/pages/AgreementPage';
 
 describe('ComplexClaimSubmitFlowWrapper', () => {
-  const oldLocation = global.window.location;
+  let restoreLocation;
 
   const getData = ({
     complexClaimsEnabled = true,
@@ -107,12 +108,12 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
   });
 
   beforeEach(() => {
-    global.window.location = {};
-    global.window.location.replace = sinon.spy();
+    // Use cross-origin URL to get spy on location.replace()
+    restoreLocation = mockLocation('https://va.gov/travel-pay');
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    restoreLocation?.();
   });
 
   const LocationDisplay = () => {

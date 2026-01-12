@@ -10,6 +10,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { parse } from 'date-fns';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import ResponseInboxPage from '../../containers/ResponseInboxPage';
 import { mockInquiryResponse } from '../../utils/mockData';
 import { convertDateForInquirySubheader } from '../../config/helpers';
@@ -27,7 +28,6 @@ describe('ResponseInboxPage', () => {
   const HOST_FOR_APP_MOCK_DATA = 'http://localhost:3000';
   const HOST_FOR_TST_MOCK_DATA = 'Any other string.';
 
-  const originalWindowLocation = window.location;
   const mockStore = configureMockStore([]);
   let store;
   let props;
@@ -37,6 +37,7 @@ describe('ResponseInboxPage', () => {
   let FileUploadStub;
   let askVAAttachmentStorageGetStub;
   let askVAAttachmentStorageClearStub;
+  let restoreLocation;
 
   beforeEach(() => {
     global.window.URL = {
@@ -93,7 +94,7 @@ describe('ResponseInboxPage', () => {
     environmentStub.restore();
     store.clearActions();
     FileUploadStub.restore();
-    window.location = originalWindowLocation;
+    restoreLocation?.();
     localStorage.removeItem('askVAFiles');
     askVAAttachmentStorageGetStub.restore();
     askVAAttachmentStorageClearStub.restore();
@@ -102,13 +103,8 @@ describe('ResponseInboxPage', () => {
   // TODO: Can the component be driven by the router or component state
   //       instead of window.location? joehall-tw
   const overridePathname = url => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        href: url,
-        pathname: url,
-      },
-      writable: true,
-    });
+    restoreLocation?.();
+    restoreLocation = mockLocation(`http://localhost${url}`);
   };
 
   const updateStore = (customState = {}) => {

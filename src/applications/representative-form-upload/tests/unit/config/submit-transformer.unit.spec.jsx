@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { transformForSubmit } from '../../../config/submit-transformer';
 import transformedFixture from '../../e2e/fixtures/data/transformed/submit-transformer.json';
 import claimantTransformedFixture from '../../e2e/fixtures/data/transformed/submit-claimant-transformer.json';
@@ -14,45 +14,42 @@ const validPathname =
 const validFormConfig = formConfig(validPathname);
 
 describe('transformForSubmit', () => {
+  let restoreLocation;
+
+  afterEach(() => {
+    restoreLocation?.();
+  });
+
   it('should transform veteran json correctly', () => {
-    const windowLocationStub = sinon.stub(window, 'location').get(() => ({
-      pathname:
-        'representative/representative-form-upload/submit-va-form-21-686c',
-    }));
+    restoreLocation = mockLocation(
+      'http://localhost/representative/representative-form-upload/submit-va-form-21-686c',
+    );
 
     const transformedResult = JSON.parse(
       transformForSubmit(validFormConfig, form),
     );
     expect(transformedResult).to.deep.equal(transformedFixture);
-
-    windowLocationStub.restore();
   });
 
   it('should transform claimant json correctly', () => {
-    const windowLocationStub = sinon.stub(window, 'location').get(() => ({
-      pathname:
-        'representative/representative-form-upload/submit-va-form-21-686c',
-    }));
+    restoreLocation = mockLocation(
+      'http://localhost/representative/representative-form-upload/submit-va-form-21-686c',
+    );
 
     const transformedResult = JSON.parse(
       transformForSubmit(validFormConfig, claimantTestInfo),
     );
     expect(transformedResult).to.deep.equal(claimantTransformedFixture);
-
-    windowLocationStub.restore();
   });
 
   it('handles empty transformedData', () => {
-    const windowLocationStub = sinon.stub(window, 'location').get(() => ({
-      pathname:
-        'representative/representative-form-upload/submit-va-form-21-686c',
-    }));
+    restoreLocation = mockLocation(
+      'http://localhost/representative/representative-form-upload/submit-va-form-21-686c',
+    );
 
     const transformedResult = JSON.parse(
       transformForSubmit(validFormConfig, minimalForm),
     );
     expect(transformedResult).to.deep.equal(minimalTransformedFixture);
-
-    windowLocationStub.restore();
   });
 });

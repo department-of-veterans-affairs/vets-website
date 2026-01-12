@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon-v20';
 import { Provider } from 'react-redux';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import FacilitySearch, {
   REVIEW_PATHS,
 } from '../../../../components/FormFields/FacilitySearch';
@@ -81,11 +82,16 @@ describe('CG <FacilitySearch>', () => {
   });
 
   context('when review query is `true`', () => {
+    let restoreLocation;
+
     beforeEach(() => {
-      Object.defineProperty(window, 'location', {
-        value: { search: '?review=true' },
-        configurable: true,
-      });
+      restoreLocation = mockLocation(
+        'http://localhost:3001/caregiver?review=true',
+      );
+    });
+
+    afterEach(() => {
+      restoreLocation?.();
     });
 
     it('should call `goToPath` with the correct page route when the back button is clicked', () => {

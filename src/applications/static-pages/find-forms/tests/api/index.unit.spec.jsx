@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import { allFormsRetired, checkFormValidity } from '../../api';
 import * as hooks from '../../hooks/useFindFormsBrowserMonitoring';
 
@@ -7,17 +8,15 @@ describe('find forms API methods', () => {
   const sandbox = sinon.createSandbox();
 
   describe('checkFormValidity', () => {
-    const currentLocation = global.window.location;
+    let restoreLocation;
 
     beforeEach(() => {
-      global.window.location = {
-        ...global.window.location,
-        origin: 'http://localhost:3001',
-      };
+      // Use mockLocation for JSDOM 22 compatibility
+      restoreLocation = mockLocation('http://localhost:3001/');
     });
 
     afterEach(() => {
-      global.window.location = currentLocation;
+      restoreLocation?.();
       sandbox.restore();
     });
 

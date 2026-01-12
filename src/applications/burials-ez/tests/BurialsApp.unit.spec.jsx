@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import BurialsApp from '../BurialsApp';
 
 const burialsLocation = {
@@ -58,15 +59,16 @@ describe('BurialsApp', () => {
       featuresLoading: false,
       burialFormEnabled: false,
     });
-    global.window.location = {
-      href: 'test',
-    };
+    // Use cross-origin URL to get proxy that captures location assignments
+    const restoreLocation = mockLocation('https://va.gov/test');
     render(
       <Provider store={mockStore}>
         <BurialsApp location={{ ...burialsLocation, pathname: 'test' }} />
       </Provider>,
     );
-    const location = window.location.pathname || window.location.href;
-    expect(location).to.eq('/burials-memorials/veterans-burial-allowance/');
+    expect(window.location.href).to.include(
+      '/burials-memorials/veterans-burial-allowance/',
+    );
+    restoreLocation?.();
   });
 });

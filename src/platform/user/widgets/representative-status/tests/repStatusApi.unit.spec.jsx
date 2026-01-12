@@ -61,13 +61,13 @@ describe('RepresentativeStatusApi', () => {
   });
 
   it('should handle errors', async () => {
-    const mockError = new Error('Network error');
     createResponse({ isNetworkError: true });
 
     try {
       await RepresentativeStatusApi.getRepresentativeStatus();
     } catch (error) {
-      expect(error.message).to.contain(mockError.message);
+      // In MSW v2, network errors result in "Failed to fetch" from the fetch API
+      expect(error.message).to.contain('Failed to fetch');
     }
   });
 });

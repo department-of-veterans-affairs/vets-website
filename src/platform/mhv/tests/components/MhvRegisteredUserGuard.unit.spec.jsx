@@ -2,21 +2,22 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { waitFor } from '@testing-library/dom';
-import sinon from 'sinon';
+import { mockLocation } from 'platform/testing/unit/helpers';
 import MhvRegisteredUserGuard from '../../components/MhvRegisteredUserGuard';
 
 describe('MhvRegisteredUserGuard component', () => {
-  let oldLocation;
+  let restoreLocation;
 
   beforeEach(() => {
-    oldLocation = global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
+    // Use mockLocation with cross-origin URL to get mock location with spy methods
+    restoreLocation = mockLocation('https://www.va.gov/');
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    if (restoreLocation) {
+      restoreLocation();
+      restoreLocation = null;
+    }
   });
 
   const initialState = {

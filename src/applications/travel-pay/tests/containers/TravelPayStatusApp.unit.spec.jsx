@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockDate from 'mockdate';
@@ -9,12 +8,13 @@ import { subDays, addDays, format } from 'date-fns';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { mockLocation } from 'platform/testing/unit/helpers';
 
 import reducer from '../../redux/reducer';
 import TravelPayStatusApp from '../../containers/TravelPayStatusApp';
 
 describe('TravelPayStatusApp', () => {
-  const oldLocation = global.window.location;
+  let restoreLocation;
   const getData = ({
     areFeatureTogglesLoading = true,
     hasFeatureFlag = true,
@@ -47,13 +47,13 @@ describe('TravelPayStatusApp', () => {
   };
 
   beforeEach(() => {
-    global.window.location = {};
-    global.window.location.replace = sinon.spy();
+    // Use cross-origin URL to get spy on location.replace()
+    restoreLocation = mockLocation('https://va.gov/travel-pay');
     MockDate.set('2024-06-25');
   });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    restoreLocation?.();
     MockDate.reset();
   });
 
