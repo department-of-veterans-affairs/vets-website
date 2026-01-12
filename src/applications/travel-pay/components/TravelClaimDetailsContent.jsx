@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-import { HelpTextManage } from './HelpText';
+import { ComplexClaimsHelpSection } from './HelpText';
 import ClaimDetailsContent from './ClaimDetailsContent';
 import {
   getClaimDetails,
@@ -102,12 +102,8 @@ export default function TravelClaimDetailsContent() {
           href={REIMBURSEMENT_URL}
           text="Learn how to set up direct deposit for travel pay"
         />
+        <ComplexClaimsHelpSection className="vads-u-margin-left--0" />
       </div>
-      <va-need-help>
-        <div slot="content">
-          <HelpTextManage />
-        </div>
-      </va-need-help>
     </>
   );
 }
