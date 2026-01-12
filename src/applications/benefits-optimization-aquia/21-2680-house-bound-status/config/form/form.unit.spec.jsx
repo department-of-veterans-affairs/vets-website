@@ -203,6 +203,21 @@ describe('Form Configuration', () => {
       expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.be.a(
         'function',
       );
+      // expect fullNamePath to be veteranInformation.veteranFullName when relationship is veteran
+      const formDataVeteran = {
+        claimantRelationship: { relationship: 'veteran' },
+      };
+      expect(
+        formConfig.preSubmitInfo.statementOfTruth.fullNamePath(formDataVeteran),
+      ).to.equal('veteranInformation.veteranFullName');
+
+      // expect fullNamePath to be claimantInformation.claimantFullName when relationship is not veteran
+      const formDataSpouse = {
+        claimantRelationship: { relationship: 'spouse' },
+      };
+      expect(
+        formConfig.preSubmitInfo.statementOfTruth.fullNamePath(formDataSpouse),
+      ).to.equal('claimantInformation.claimantFullName');
     });
 
     it('should have messageAriaDescribedby for accessibility', () => {
