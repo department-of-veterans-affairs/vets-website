@@ -1,7 +1,6 @@
 // All flippers for the 0781 Papersync should be added to this file
 import _ from 'platform/utilities/data';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import { isClaimingNew } from '.';
 // import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoices';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
@@ -22,32 +21,40 @@ function combatOnlySelection(formData) {
 }
 
 /**
- * Checks if the modern 0781 flow should be shown if the flipper is active for this veteran
- * All 0781 page-specific flippers should include a check against this top level flipper
- *
- * @returns
- *   TRUE if
- *     - is set on form via the backend
- *     - Veteran is claiming a new disability, and not a claim for increase
- *   else
- *     - returns false
+ * Checks if a condition is a placeholder rated disability.
+ * @param {string} v - condition string
+ * @returns {boolean} true if it's a placeholder
  */
 const isPlaceholderRated = v => v === 'Rated Disability';
 
-export function showForm0781Pages(formData) {
-  const hasValidNewCondition =
-    Array.isArray(formData?.newDisabilities) &&
-    formData.newDisabilities.some(
-      d =>
-        typeof d?.condition === 'string' &&
-        d.condition.trim().length > 0 &&
-        !isPlaceholderRated(d.condition), // excludes Rated Disability
-    );
+/**
+ * Checks if there is at least one valid new condition.
+ * A valid new condition has a non-empty condition string and is not a placeholder.
+ *
+ * @param {object} formData - full form data
+ * @returns {boolean} true if there is at least one valid new condition
+ */
+const hasValidNewCondition = formData =>
+  Array.isArray(formData?.newDisabilities) &&
+  formData.newDisabilities.some(
+    d =>
+      typeof d?.condition === 'string' &&
+      d.condition.trim().length > 0 &&
+      !isPlaceholderRated(d.condition), // excludes Rated Disability
+  );
 
+/**
+ * Checks if the modern 0781 flow should be shown.
+ * Shows when the syncModern0781Flow flag is true AND there is at least one
+ * valid new condition. This logic works for both legacy and new conditions
+ * workflows without relying on view:claimType.
+ *
+ * @param {object} formData - full form data
+ * @returns {boolean} true if 0781 pages should show
+ */
+export function showForm0781Pages(formData) {
   return (
-    formData?.syncModern0781Flow === true &&
-    isClaimingNew(formData) &&
-    hasValidNewCondition
+    formData?.syncModern0781Flow === true && hasValidNewCondition(formData)
   );
 }
 
