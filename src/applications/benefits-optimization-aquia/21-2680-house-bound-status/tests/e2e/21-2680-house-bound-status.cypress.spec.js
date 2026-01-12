@@ -21,7 +21,9 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           // Click the start link to begin the form
-          cy.get('[data-testid="start-veteran-information-link"]').click();
+          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
+            .last()
+            .click();
         });
       },
       'review-and-submit': ({ afterHook }) => {

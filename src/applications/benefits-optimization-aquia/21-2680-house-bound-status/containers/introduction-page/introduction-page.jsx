@@ -7,9 +7,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import {
   TITLE,
@@ -94,10 +94,11 @@ const ProcessList = () => {
  * @param {Object} props - Component properties
  * @returns {React.ReactElement} Introduction page
  */
-export const IntroductionPage = ({ router }) => {
+export const IntroductionPage = ({ route }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
   const showVerifyIdentity = userLoggedIn && !userIdVerified;
+  const { formConfig, pageList } = route;
 
   useEffect(() => {
     scrollToTop();
@@ -132,14 +133,15 @@ export const IntroductionPage = ({ router }) => {
       {showVerifyIdentity ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
-        <VaLinkAction
-          href="/veteran-information"
-          data-testid="start-veteran-information-link"
-          onClick={e => {
-            e.preventDefault();
-            router.push('/veteran-information');
+        <SaveInProgressIntro
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText="Start your application"
+          devOnly={{
+            forceShowFormControls: true,
           }}
-          text="Start your application"
         />
       )}
 
