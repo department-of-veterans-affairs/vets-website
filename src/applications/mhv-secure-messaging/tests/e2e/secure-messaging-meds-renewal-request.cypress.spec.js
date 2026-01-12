@@ -218,6 +218,11 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
+      cy.findByText(`Select a different care team`).click();
+      cy.findByTestId(`continue-button`).click();
+
+      PatientComposePage.validateAddYourMedicationWarningBanner(true);
+
       const expectedMessageBodyText = [
         `Medication name, strength, and form: `,
         `Prescription number: `,
