@@ -1,10 +1,14 @@
 import React from 'react';
 import {
+  checkboxUI,
+  checkboxSchema,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
   titleUI,
   dateOfBirthUI,
   dateOfBirthSchema,
+  radioUI,
+  radioSchema,
   ssnUI,
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -20,6 +24,8 @@ export const schema = {
       properties: {
         fullName: fullNameNoSuffixSchema,
         birthDate: dateOfBirthSchema,
+        noSSN: checkboxSchema,
+        noSSNReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
         ssn: ssnSchema,
       },
     },
@@ -40,12 +46,31 @@ export const uiSchema = {
     fullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
     birthDate: dateOfBirthUI({
       title: 'Spouse’s date of birth',
+      labelHeaderLevel: '4',
       dataDogHidden: true,
       required: () => true,
     }),
+    noSSN: checkboxUI({
+      title: 'Spouse doesn’t have a Social Security number',
+      required: () => false,
+    }),
+    noSSNReason: radioUI({
+      title: 'Why doesn’t your spouse have a Social Security number?',
+      labels: {
+        NONRESIDENT_ALIEN: 'Nonresident alien',
+        NONE_ASSIGNED: 'No SSN has been assigned or requested',
+      },
+      required: (_chapterData, _index, formData) =>
+        formData?.spouseInformation?.noSSN === true,
+      hideIf: formData => formData?.spouseInformation?.noSSN !== true,
+    }),
     ssn: {
       ...ssnUI('Spouse’s Social Security number'),
-      'ui:required': () => true,
+      'ui:required': (_chapterData, _index, formData) =>
+        formData?.spouseInformation?.noSSN === false,
+      'ui:options': {
+        hideIf: formData => formData?.spouseInformation?.noSSN === true,
+      },
     },
   },
   'view:certificateNotice': {
