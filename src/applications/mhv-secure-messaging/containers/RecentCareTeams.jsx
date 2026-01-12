@@ -197,7 +197,6 @@ const RecentCareTeams = () => {
       </h1>
       <EmergencyNote dropDownFlag />
       <VaRadio
-        enableAnalytics
         class="vads-u-margin-bottom--3"
         error={error}
         label={RECENT_RECIPIENTS_LABEL}
