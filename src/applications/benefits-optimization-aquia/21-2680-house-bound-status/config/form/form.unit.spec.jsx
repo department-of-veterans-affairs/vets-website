@@ -192,22 +192,13 @@ describe('Form Configuration', () => {
       expect(formConfig.preSubmitInfo).to.be.an('object');
     });
 
-    it('should have statementOfTruth', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth).to.exist;
-      expect(formConfig.preSubmitInfo.statementOfTruth.body).to.include(
-        'identifying information',
-      );
+    it('should have required set to true', () => {
+      expect(formConfig.preSubmitInfo.required).to.be.true;
     });
 
-    it('should have correct fullNamePath for statement of truth', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
-        'veteranInformation.veteranFullName',
-      );
-    });
-
-    it('should have messageAriaDescribedby for accessibility', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.messageAriaDescribedby)
-        .to.exist;
+    it('should have CustomComponent for signature', () => {
+      expect(formConfig.preSubmitInfo.CustomComponent).to.exist;
+      expect(formConfig.preSubmitInfo.CustomComponent).to.be.a('function');
     });
   });
 
