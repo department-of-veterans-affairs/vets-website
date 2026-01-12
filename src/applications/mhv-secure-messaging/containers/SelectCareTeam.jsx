@@ -283,6 +283,23 @@ const SelectCareTeam = () => {
     [allFacilities],
   );
 
+  // Track when user types in the care team search box (debounced)
+  useEffect(
+    () => {
+      if (careTeamComboInputValue?.length > 0) {
+        const debounceTimer = setTimeout(() => {
+          recordEvent({
+            event: 'int-text-input-search',
+            'text-input-label': 'Select a care team',
+          });
+        }, 500);
+        return () => clearTimeout(debounceTimer);
+      }
+      return undefined;
+    },
+    [careTeamComboInputValue],
+  );
+
   // updates the available teams in the Care Team combo box
   // if a care system is selected, filter for only that care system
   // if no care system is selected, show all allowed teams

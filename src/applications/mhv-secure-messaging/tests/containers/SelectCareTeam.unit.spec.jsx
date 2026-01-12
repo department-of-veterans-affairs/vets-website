@@ -1203,4 +1203,107 @@ describe('SelectCareTeam', () => {
       });
     });
   });
+
+  describe('Analytics - Care Team Search Input', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    afterEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    const findDataLayerEvent = eventName => {
+      return global.window.dataLayer?.find(e => e.event === eventName);
+    };
+
+    it('should call recordEvent when user types in care team search box', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for the combobox to render
+      await waitFor(() => {
+        expect(screen.getByTestId('compose-recipient-combobox')).to.exist;
+      });
+
+      // Simulate typing in the combobox by triggering onInput event
+      const combobox = screen.getByTestId('compose-recipient-combobox');
+      const inputEvent = new CustomEvent('input', {
+        bubbles: true,
+        detail: { value: 'test search' },
+      });
+      // Mock the shadowRoot querySelector to return an input with the typed value
+      Object.defineProperty(combobox, 'shadowRoot', {
+        value: {
+          querySelector: () => ({ value: 'test search' }),
+        },
+        writable: true,
+      });
+      combobox.dispatchEvent(inputEvent);
+
+      // Wait for debounce timer (500ms) plus some buffer
+      await waitFor(
+        () => {
+          const event = findDataLayerEvent('int-text-input-search');
+          expect(event).to.exist;
+          expect(event).to.deep.include({
+            event: 'int-text-input-search',
+            'text-input-label': 'Select a care team',
+          });
+        },
+        { timeout: 1000 },
+      );
+    });
+
+    it('should not call recordEvent when search box is empty', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for the combobox to render
+      await waitFor(() => {
+        expect(screen.getByTestId('compose-recipient-combobox')).to.exist;
+      });
+
+      // Wait to ensure no event fires
+      await new Promise(resolve => setTimeout(resolve, 600));
+
+      // Check that recordEvent was NOT called for empty search
+      const event = findDataLayerEvent('int-text-input-search');
+      expect(event).to.be.undefined;
+    });
+  });
 });
