@@ -43,9 +43,6 @@ const slice = createApi({
       },
     },
   ) => {
-    console.log('url', url);
-    console.log(_api, extraOptions);
-
     try {
       // NOTE: Return object must have this shape! {data, meta}. You will get an
       // error and it ignore unknown attributes. It is expected to return an
@@ -64,11 +61,9 @@ const slice = createApi({
         },
         body: JSON.stringify(extraOptions?.body),
       });
-      console.log('response', response);
 
       return {
         data: response.data,
-        // included: response.included,
         meta: response.meta,
       };
     } catch (error) {

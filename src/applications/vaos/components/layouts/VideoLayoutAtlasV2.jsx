@@ -1,80 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DetailPageLayout, {
+  What,
+  When,
+  Where,
+  Who,
+  ClinicOrFacilityPhone,
+  Prepare,
+} from './DetailPageLayout';
+import Section from '../Section';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
+import AddToCalendarButton from '../AddToCalendarButton';
+import FacilityDirectionsLink from '../FacilityDirectionsLink';
+import NewTabAnchor from '../NewTabAnchor';
+import Address from '../Address';
+import State from '../State';
 import {
-  captureMissingModalityLogs,
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
-import AddToCalendarButton from '../AddToCalendarButtonV2';
-import Section from '../Section';
-import State from '../State';
-import VideoLink from '../VideoLinkV2';
 import ClinicName from './ClinicName';
-import DetailPageLayout from './DetailPageLayoutV2';
-import { ClinicOrFacilityPhone } from './DetailPageLayoutV2/ClinicOrFacilityPhone';
-import { Prepare } from './DetailPageLayoutV2/Prepare';
-import { Who } from './DetailPageLayoutV2/Who';
-import { What } from './DetailPageLayoutV2/What';
-import { When } from './DetailPageLayoutV2/When';
-import VideoLayoutAtlas from './VideoLayoutAtlasV2';
-import VideoLayoutVA from './VideoLayoutVA';
 
-export default function VideoLayout({ data: appointment }) {
-  // const {
-  //   clinicName,
-  //   clinicPhone,
-  //   clinicPhoneExtension,
-  //   facility,
-  //   facilityPhone,
-  //   isCanceled,
-  //   isPastAppointment,
-  //   startDate,
-  //   status,
-  //   typeOfCareName,
-  //   // videoProviderAddress,
-  //   videoProviderName,
-  // } = useSelector(
-  //   state => selectConfirmedAppointmentData(state, appointment),
-  //   shallowEqual,
-  // );
-
+export default function VideoLayoutAtlas({ data: appointment }) {
   const {
-    isAtlasVideo,
+    atlasConfirmationCode,
+    clinicName,
+    clinicPhone,
+    clinicPhoneExtension,
+    facilityPhone,
     isBooked,
     isCanceled,
-    isClinicVideo,
     isPastAppointment,
     location: facility,
-    practitioners,
+    startDate,
+    timezone,
     typeOfCareName,
+    videoProviderAddress,
+    videoProviderName,
   } = appointment;
 
-  const providers = practitioners
-    .map(practitioner => {
-      if (!practitioner.name) return null;
-      return {
-        name: {
-          firstName: practitioner.name?.given,
-          lastName: practitioner.name?.family,
-        },
-        display: `${practitioner.name?.given} ${practitioner.name?.family}`,
-      };
-    })
-    .filter(Boolean);
-
-  const videoProviderName = providers.length > 0 ? providers[0].display : null;
-
-  if (isAtlasVideo) return <VideoLayoutAtlas data={appointment} />;
-  if (isClinicVideo) return <VideoLayoutVA data={appointment} />;
-
   const address = facility?.address;
-  let heading = 'Video appointment';
-  if (isCanceled) heading = 'Canceled video appointment';
-  else if (isPastAppointment) heading = 'Past video appointment';
+  let heading = 'Video appointment at an ATLAS location';
+  if (isCanceled) heading = 'Canceled video appointment at an ATLAS location';
+  else if (isPastAppointment)
+    heading = 'Past video appointment at an ATLAS location';
 
   if (!appointment.modality) {
     captureMissingModalityLogs(appointment);
@@ -88,9 +61,9 @@ export default function VideoLayout({ data: appointment }) {
     {
       [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
       [NULL_STATE_FIELD.PROVIDER]: !videoProviderName,
-      // [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
+      [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
       [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
-      // [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
+      [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
     },
   );
 
@@ -99,21 +72,16 @@ export default function VideoLayout({ data: appointment }) {
       {isBooked &&
         !isPastAppointment && (
           <Section heading="How to join">
-            <VideoLink appointment={appointment} />
+            You’ll use this appointment code to find your appointment using the
+            computer provided at the site: {atlasConfirmationCode}
           </Section>
         )}
       <When>
-        <AppointmentDate
-          date={appointment.start}
-          timezone={appointment.timezone}
-        />
+        <AppointmentDate date={startDate} timezone={timezone} />
         <br />
-        <AppointmentTime
-          appointment={appointment}
-          timezone={appointment.timezone}
-        />
+        <AppointmentTime appointment={appointment} timezone={timezone} />
         <br />
-        {isCanceled &&
+        {!isCanceled &&
           !isPastAppointment && (
             <div className="vads-u-margin-top--2 vaos-hide-for-print">
               <AddToCalendarButton
@@ -134,23 +102,43 @@ export default function VideoLayout({ data: appointment }) {
         )}
       </Who>
 
+      {!!facility && (
+        <Where
+          heading={
+            isBooked && !isPastAppointment ? 'Where to attend' : undefined
+          }
+        >
+          <Address address={videoProviderAddress} />
+          <div className="vads-u-margin-top--1 vads-u-color--link-default">
+            <FacilityDirectionsLink location={facility} icon />
+          </div>
+        </Where>
+      )}
+
       {((isBooked && isPastAppointment) || isCanceled) && (
         <Section heading="Scheduling facility">
+          {!facility && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
           {!!facility && (
             <>
               <a href={facility.website}>{facility.name}</a>
               <br />
-              <span>
-                {address.city}, <State state={address.state} />
-              </span>
+              <ClinicOrFacilityPhone
+                clinicPhone={clinicPhone}
+                clinicPhoneExtension={clinicPhoneExtension}
+                facilityPhone={facilityPhone}
+              />
             </>
           )}
-          <ClinicName name={facility.clinicName} /> <br />
-          <ClinicOrFacilityPhone
-            clinicPhone={facility.clinicPhone}
-            clinicPhoneExtension={facility.clinicPhoneExtension}
-            facilityPhone={facility.facilityPhone}
-          />
         </Section>
       )}
 
@@ -191,23 +179,23 @@ export default function VideoLayout({ data: appointment }) {
                 <a href={facility.website}>{facility.name}</a>
                 <br />
                 <span>
-                  {address?.city}, <State state={address?.state} />
+                  {address.city}, <State state={address.state} />
                 </span>
               </>
             ) : (
               'Facility not available'
             )}
-            <ClinicName name={facility?.clinicName} /> <br />
+            <ClinicName name={clinicName} /> <br />
             <ClinicOrFacilityPhone
-              clinicPhone={facility?.clinicPhone}
-              clinicPhoneExtension={facility?.clinicPhoneExtension}
-              facilityPhone={facility?.facilityPhone}
+              clinicPhone={clinicPhone}
+              clinicPhoneExtension={clinicPhoneExtension}
+              facilityPhone={facilityPhone}
             />
           </Section>
         )}
     </DetailPageLayout>
   );
 }
-VideoLayout.propTypes = {
+VideoLayoutAtlas.propTypes = {
   data: PropTypes.object,
 };

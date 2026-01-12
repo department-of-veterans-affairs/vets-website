@@ -5,7 +5,6 @@ import {
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import { getRealFacilityId } from '../../utils/appointment';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   captureMissingModalityLogs,
   NULL_STATE_FIELD,
@@ -18,7 +17,7 @@ import NewTabAnchor from '../NewTabAnchor';
 import ClinicName from './ClinicName';
 import ClinicPhysicalLocation from './ClinicPhysicalLocation';
 import DetailPageLayout from './DetailPageLayoutV2';
-import { ClinicOrFacilityPhone } from './DetailPageLayoutV2/ClinicOrFacilityPhone';
+import { ClinicOrFacilityPhone } from './DetailPageLayoutV2/ClinicOrFacilityPhoneV2';
 import { Details } from './DetailPageLayoutV2/Details';
 import { Prepare } from './DetailPageLayoutV2/Prepare';
 import { Where } from './DetailPageLayoutV2/Where';
@@ -49,14 +48,20 @@ export default function InPersonLayout({ data: appointment }) {
 
   // if (!appointment) return null;
 
-  const { patientComments, isPastAppointment, isCanceled, isBooked } =
-    appointment || {};
-  const { location: facility } = appointment;
-  const facilityId = appointment.locationId;
+  const {
+    isBooked,
+    isCanceled,
+    isCerner,
+    isPastAppointment,
+    location: facility,
+    locationId: facilityId,
+    patientComments,
+  } = appointment || {};
+  // const { location: facility } = appointment;
+  // const facilityId = appointment.;
 
   let heading = 'In-person appointment';
-  if (APPOINTMENT_STATUS.cancelled === appointment.status)
-    heading = 'Canceled in-person appointment';
+  if (isCanceled) heading = 'Canceled in-person appointment';
   else if (isPastAppointment) heading = 'Past in-person appointment';
 
   if (!appointment.modality) {
@@ -91,7 +96,7 @@ export default function InPersonLayout({ data: appointment }) {
           timezone={appointment.timezone}
         />
         <br />
-        {isCanceled &&
+        {!isCanceled &&
           !isPastAppointment && (
             <div className="vads-u-margin-top--2 vaos-hide-for-print">
               <AddToCalendarButton
@@ -157,13 +162,9 @@ export default function InPersonLayout({ data: appointment }) {
             <br />
           </>
         )}
-        <ClinicOrFacilityPhone
-          clinicPhone={facility.clinicPhone}
-          clinicPhoneExtension={facility.clinicPhoneExtension}
-          facilityPhone={facility.facilityPhone}
-        />
+        <ClinicOrFacilityPhone facility={facility} />
       </Where>
-      <Details otherDetails={patientComments} isCerner={appointment.isCerner} />
+      <Details otherDetails={patientComments} isCerner={isCerner} />
       {!isPastAppointment &&
         (isBooked || isCanceled) && (
           <Prepare>

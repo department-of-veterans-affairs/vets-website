@@ -13,27 +13,30 @@ import {
 import { selectTimeZoneAbbr } from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
-  data,
+  data: appointment,
   first,
   grouped,
   link,
 }) {
-  const featureUseBrowserTimezone = useSelector(
-    selectFeatureUseBrowserTimezone,
-  );
   const {
     appointmentDateAriaText: dateAriaLabel,
     appointmentDetailAriaText: detailAriaLabel,
     appointmentLocality,
+    id,
     isCanceled,
     isCommunityCare,
     location: clinicLocationInfo,
     modalityIcon,
     modalityText,
     startDate,
-  } = data;
+    timezone,
+  } = appointment;
+
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
+  );
   const timezoneAbbr = useSelector(() =>
-    selectTimeZoneAbbr(data, featureUseBrowserTimezone),
+    selectTimeZoneAbbr(appointment, featureUseBrowserTimezone),
   );
 
   // If the clinic info feature flag is on, we want to show the clinic location info
@@ -90,7 +93,7 @@ export default function AppointmentColumnLayout({
               )}
             >
               <span data-dd-privacy="mask">
-                {formatInTimeZone(startDate, data.timezone, 'd')}
+                {formatInTimeZone(startDate, timezone, 'd')}
               </span>
             </h3>
           </AppointmentColumn>
@@ -111,7 +114,7 @@ export default function AppointmentColumnLayout({
               data-testid="day"
               data-dd-privacy="mask"
             >
-              {formatInTimeZone(startDate, data.timezone, 'EEE')}
+              {formatInTimeZone(startDate, timezone, 'EEE')}
             </span>
           </AppointmentColumn>
         </AppointmentRow>
@@ -148,7 +151,7 @@ export default function AppointmentColumnLayout({
             <span aria-hidden="true" data-dd-privacy="mask">
               {`${formatInTimeZone(
                 startDate,
-                data.timezone,
+                timezone,
                 'h:mm aaaa',
               )} ${timezoneAbbr || ''}`}{' '}
             </span>
@@ -230,8 +233,8 @@ export default function AppointmentColumnLayout({
           <AppointmentColumn
             id={
               featureListViewClinicInfo
-                ? `vaos-appts__namelocation-${data.id}`
-                : `vaos-appts__detail-${data.id}`
+                ? `vaos-appts__namelocation-${id}`
+                : `vaos-appts__detail-${id}`
             }
             className={classNames({
               'vaos-hide-for-print': !featureListViewClinicInfo,
@@ -244,7 +247,7 @@ export default function AppointmentColumnLayout({
             {featureListViewClinicInfo ? (
               <AppointmentClinicInfo
                 clinicLocationInfo={clinicLocationInfo}
-                apptId={data.id}
+                apptId={id}
                 isCanceled={isCanceled}
               />
             ) : (

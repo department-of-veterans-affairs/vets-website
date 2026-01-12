@@ -45,6 +45,8 @@ export default class MockFacilityResponse {
       },
       vistaSite: id.substring(0, 3),
       vastParent: isParent ? id : id.substring(0, 3),
+      website:
+        'https://www.va.gov/cheyenne-health-care/locations/cheyenne-va-medical-center/',
     };
   }
 

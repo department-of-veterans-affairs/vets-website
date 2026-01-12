@@ -26,7 +26,7 @@ function getHeading(appointment) {
     return 'In-person appointment';
   }
 
-  if (appointment.isPhone) {
+  if (appointment.isVAPhoneAppointment) {
     if (appointment.isCanceled) return 'Canceled phone appointment';
     return 'Phone appointment';
   }

@@ -1,9 +1,10 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import { selectTimeZoneAbbr } from '../../appointment-list/redux/selectors';
+import { getTypeOfCareById } from '../../utils/appointment';
 import { APPOINTMENT_STATUS, COMP_AND_PEN } from '../../utils/constants';
 import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
-import { getTypeOfCareById } from '../../utils/appointment';
+import Location from './Location';
 
 // function getReasonForAppointment(appt) {
 //   // get reason code from appt.reasonCode?.coding for v0 appointments
@@ -17,20 +18,20 @@ import { getTypeOfCareById } from '../../utils/appointment';
 //       )?.short;
 // }
 
-function getLocationObject(response) {
-  return {
-    // TODO: what happens when vaos service can't find sta6aid for the appointment
-    vistaId: response.locationId?.substr(0, 3) || null,
-    clinicId: response.clinic,
-    stationId: response.locationId,
-    clinicName: response.serviceName,
-    clinicPhysicalLocation: response.physicalLocation,
-    clinicPhone: response.extension?.clinic?.phoneNumber || null,
-    clinicPhoneExtension:
-      response.extension?.clinic?.phoneNumberExtension || null,
-    name: response.name,
-  };
-}
+// function getLocationObject(response) {
+//   return {
+//     // TODO: what happens when vaos service can't find sta6aid for the appointment
+//     vistaId: response.locationId?.substr(0, 3) || null,
+//     clinicId: response.clinic,
+//     stationId: response.locationId,
+//     clinicName: response.serviceName,
+//     clinicPhysicalLocation: response.physicalLocation,
+//     clinicPhone: response.extension?.clinic?.phoneNumber || null,
+//     clinicPhoneExtension:
+//       response.extension?.clinic?.phoneNumberExtension || null,
+//     name: response.name,
+//   };
+// }
 
 export default class Appointment {
   // _modality;
@@ -63,7 +64,7 @@ export default class Appointment {
     this.isBooked = response.status === APPOINTMENT_STATUS.booked;
     this.isCOVIDVaccine = response.modality === 'vaInPersonVaccine';
     this.isCanceled = response.status === APPOINTMENT_STATUS.cancelled;
-    this.isCancellable = response.cancellable;
+    this.isCancellable = response.cancellable || false;
     this.isCerner = response.isCerner || false;
     this.isClinicVideoAppointment =
       response.modality === 'vaVideoCareAtAVaLocation';
@@ -71,11 +72,12 @@ export default class Appointment {
     this.isCompAndPenAppointment = response.modality === 'claimExamAppointment';
     this.isExpressCare = false;
     this.isInPersion = response.modality === 'vaInPerson';
-    this.isPastAppointment = response.past;
-    this.isPendingAppointment = response.pending;
-    this.isUpcomingAppointment = response.future;
+    this.isPastAppointment = response.past || false;
+    this.isPendingAppointment = response.pending || false;
+    this.isUpcomingAppointment = response.future || false;
     // this.isVideo;
     this.isVideoAtHome = response.modality === 'vaVideoCareAtHome';
+    this.location = response.location ? new Location(response) : null;
     this.locationId = response.locationId;
     this.minutesDuration = Number.isNaN(parseInt(response.minutesDuration, 10))
       ? 60
@@ -94,7 +96,6 @@ export default class Appointment {
     this.timezone = 'America/Chicago'; // appointmentTZ;
     this.type = response.type;
 
-    this.location = getLocationObject(response);
     // this.videoData = getVideoObject(response);
     // this.preferredProviderName=
     //   response.type === 'COMMUNITY_CARE_APPOINTMENT' && response.preferredProviderName
