@@ -1,6 +1,7 @@
 import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../../config/form';
@@ -50,15 +51,15 @@ const testConfig = createTestConfig(
       },
       // When we land on this screener page, progressing through the form is
       // blocked (by design). To successfully complete the test,
-      // once we land here, change `champvaBenefitStatus` to `true`
+      // once we land here, change `view:champvaBenefitStatus` to `true`
       // and click '<< Back' so that we can proceed past the screener
       [ALL_PAGES.benefitApp.path]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.injectAxeThenAxeCheck();
-            if (data.champvaBenefitStatus === false) {
+            if (data['view:champvaBenefitStatus'] === false) {
               // eslint-disable-next-line no-param-reassign
-              data.champvaBenefitStatus = true;
+              data['view:champvaBenefitStatus'] = true;
               // This targets the 'Back to previous page' button
               cy.get('va-link[back="true"]').click({ force: true });
             }
@@ -75,18 +76,6 @@ const testConfig = createTestConfig(
             selectRadioWebComponent(
               'applicantNewAddress',
               data.applicantNewAddress,
-            );
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [ALL_PAGES.missingFileConsent.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.selectVaCheckbox(
-              `consent-checkbox`,
-              data.consentToMailMissingRequiredFiles,
             );
             cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -138,9 +127,27 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
 
+      cy.intercept(
+        'POST',
+        '/ivc_champva/v1/forms/submit_supporting_documents*',
+        {
+          statusCode: 200,
+          body: {
+            data: {
+              attributes: {
+                confirmationCode: '1b39d28c-5d38-4467-808b-9da252b6e95a',
+                name: 'example_upload.png',
+                size: 123,
+              },
+            },
+          },
+        },
+      );
+
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          verifyAllDataWasSubmitted(data, req.body);
+          const withoutViewFields = filterViewFields(data);
+          verifyAllDataWasSubmitted(withoutViewFields, req.body);
         });
         // Mock response
         req.reply({ status: 200 });
