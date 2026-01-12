@@ -1,7 +1,5 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
 import { VaCard } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import { selectProfile } from 'platform/user/selectors';
 import { formatPhone } from '../utils/helpers';
 
 const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
