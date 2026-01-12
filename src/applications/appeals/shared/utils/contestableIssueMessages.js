@@ -104,6 +104,8 @@ export const getBlockedMessage = blockedIssues => {
     return '';
   }
 
+  console.log('blockedIssues: ', blockedIssues);
+
   const issueNames = extractIssueNames(blockedIssues);
   const isSingle = issueNames.length === 1;
   const decisionDate = getDecisionDate(blockedIssues[0]);
