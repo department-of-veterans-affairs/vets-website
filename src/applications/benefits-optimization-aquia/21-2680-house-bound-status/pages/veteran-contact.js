@@ -30,19 +30,19 @@ export const veteranContactUiSchema = {
 
       const title = fullName
         ? `${fullName}'s phone number and email address`
-        : "veteran's phone number and email address";
+        : "Veteran's phone number and email address";
 
       const homePhoneLabel = fullName
         ? `${fullName}'s home phone number`
-        : "veteran's home phone number";
+        : "Veteran's home phone number";
 
       const mobilePhoneLabel = fullName
         ? `${fullName}'s mobile phone number`
-        : "veteran's mobile phone number";
+        : "Veteran's mobile phone number";
 
       const emailLabel = fullName
         ? `${fullName}'s email address`
-        : "veteran's email address";
+        : "Veteran's email address";
 
       return {
         'ui:title': title,
