@@ -27,7 +27,7 @@ describe('<ApplicantContactInfoCard />', () => {
     const { getByText } = render(
       <ApplicantContactInfoCard formData={dataWithoutEmail} />,
     );
-     expect(getByText('Not provided')).to.exist;
+    expect(getByText('Not provided')).to.exist;
   });
 
   it('calls onEdit with "phone" when phone edit button is clicked', () => {

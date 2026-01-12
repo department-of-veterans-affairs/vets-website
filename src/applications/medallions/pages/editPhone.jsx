@@ -43,7 +43,7 @@ const EditPhone = ({
       return 'Please provide a response.';
     }
     if (/[^0-9\-()]/.test(value)) {
-      return "You entered a character we can’t accept. You can only use numbers, dashes, and parentheses.";
+      return 'You entered a character we can’t accept. You can only use numbers, dashes, and parentheses.';
     }
     // Remove non-digit characters for validation
     const digitsOnly = value.replace(/\D/g, '');
