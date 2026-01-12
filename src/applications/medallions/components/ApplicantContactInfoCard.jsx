@@ -5,21 +5,8 @@ import { VaCard } from '@department-of-veterans-affairs/component-library/dist/r
 import { formatPhone } from '../utils/helpers';
 
 const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
-  // const profile = useSelector(selectProfile);
-  // const { vapContactInfo } = profile || {};
-  // const { email: profileEmail, mobilePhone: profileMobilePhone } =
-  //   vapContactInfo || {};
-
-  // Use VA profile data if available, otherwise fall back to form data
   const formContactInfo = formData || {};
-  // const email = profileEmail?.emailAddress || formContactInfo.email;
-  const { email } = formContactInfo;
-
-  // Get raw phone number (just area code + phone number, no extension)
-  // const phoneNumber = profileMobilePhone
-  //   ? `${profileMobilePhone.areaCode}${profileMobilePhone.phoneNumber}`
-  //   : formContactInfo.phoneNumber;
-  const { phoneNumber } = formContactInfo;
+  const { email, phoneNumber } = formContactInfo;
 
   return (
     <div className="vads-u-margin-bottom--3">
