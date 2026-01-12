@@ -159,9 +159,7 @@ describe('<ProfileAlertConfirmEmail />', () => {
         getByTestId('profile-alert--confirm-contact-email');
         getByRole('heading', { name: /Confirm your contact email$/ });
 
-        const confirmButton = container.querySelector(
-          'va-button[text="Confirm"]',
-        );
+        const confirmButton = getByTestId('confirm-email-button');
         expect(confirmButton).to.exist;
 
         const editButton = container.querySelector(
@@ -254,14 +252,14 @@ describe('<ProfileAlertConfirmEmail />', () => {
       mockApiRequest(buildSuccessResponse());
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByRole, getByTestId, queryByTestId } = render(
+      const { getByRole, getByTestId, queryByTestId } = render(
         <ProfileAlertConfirmEmail {...props} />,
         {
           initialState,
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      fireEvent.click(getByTestId('confirm-email-button'));
 
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-success');
@@ -279,14 +277,14 @@ describe('<ProfileAlertConfirmEmail />', () => {
       mockApiRequest({}, false);
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId, getByText } = render(
+      const { getByTestId, getByText } = render(
         <ProfileAlertConfirmEmail {...props} />,
         {
           initialState,
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      fireEvent.click(getByTestId('confirm-email-button'));
 
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-error');
@@ -304,11 +302,11 @@ describe('<ProfileAlertConfirmEmail />', () => {
         confirmationDate: null,
       });
 
-      const { container, getByTestId } = render(<ProfileAlertConfirmEmail />, {
+      const { getByTestId } = render(<ProfileAlertConfirmEmail />, {
         initialState,
       });
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      fireEvent.click(getByTestId('confirm-email-button'));
 
       await waitFor(() => {
         expect(global.fetch.calledOnce).to.be.true;

@@ -9,7 +9,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   it('renders email text, email address, Confirm button, and Edit link', async () => {
     const recordEvent = sinon.spy();
 
-    const { container, findByText } = render(
+    const { container, findByText, getByTestId } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -25,7 +25,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
 
     await findByText('Please try again.');
 
-    const confirmButton = container.querySelector('va-button[text="Confirm"]');
+    const confirmButton = getByTestId('confirm-email-button');
     expect(confirmButton).to.exist;
 
     const link = container.querySelector(
@@ -44,7 +44,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   it('calls onConfirmClick when the Confirm button is clicked', async () => {
     const onConfirmClick = sinon.spy();
 
-    const { container } = render(
+    const { getByTestId } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={onConfirmClick}
@@ -52,7 +52,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
       />,
     );
 
-    const button = container.querySelector('va-button[text="Confirm"]');
+    const button = getByTestId('confirm-email-button');
     expect(button).to.exist;
 
     fireEvent.click(button);
@@ -63,7 +63,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
   });
 
   it('shows loading state when isConfirming is true', async () => {
-    const { container } = render(
+    const { getByTestId } = render(
       <AlertConfirmAddContactEmailError
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -72,7 +72,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
       />,
     );
 
-    const button = container.querySelector('va-button[text="Confirming"]');
+    const button = getByTestId('confirm-email-button');
     expect(button).to.exist;
     expect(button.getAttribute('loading')).to.equal('true');
   });
