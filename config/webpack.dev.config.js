@@ -52,7 +52,10 @@ function generateWebpackDevConfig(buildOptions) {
     },
     port: buildOptions.port,
     host: buildOptions.host,
-    client: { webSocketURL },
+    client: {
+      webSocketURL,
+      overlay: false, // Disable webpack-dev-server overlay to prevent blocking Cypress tests
+    },
     devMiddleware: {
       publicPath: '/generated/',
       stats: {

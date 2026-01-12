@@ -33,11 +33,88 @@ Cypress.on('window:before:load', window => {
   // https://github.com/cypress-io/cypress/issues/95
   delete window.fetch; // eslint-disable-line no-param-reassign
 
-  // Hide Foresee overlay.
+  // Hide Foresee overlay and webpack-dev-server-client-overlay.
   const style = document.createElement('style');
   style.type = 'text/css';
-  style.innerHTML = '.__acs { display: none !important; }';
+  style.innerHTML =
+    '.__acs { display: none !important; } #webpack-dev-server-client-overlay { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }';
   document.head.appendChild(style);
+});
+
+// Use MutationObserver to aggressively remove webpack-dev-server overlay
+// This runs after the window loads to catch dynamically added overlays
+Cypress.on('window:load', win => {
+  const removeOverlay = () => {
+    const overlay = win.document.getElementById(
+      'webpack-dev-server-client-overlay',
+    );
+    if (overlay) {
+      overlay.remove();
+    }
+    // Also check for any iframes with high z-index that might be the overlay
+    const iframes = win.document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      if (
+        iframe.id === 'webpack-dev-server-client-overlay' ||
+        iframe.style.zIndex === '2147483647'
+      ) {
+        iframe.remove();
+      }
+    });
+  };
+
+  // Remove immediately if it exists
+  removeOverlay();
+
+  // Set up observer to catch it if it's added later
+  const observer = new MutationObserver(() => {
+    removeOverlay();
+  });
+
+  // Start observing
+  if (win.document.body) {
+    observer.observe(win.document.body, {
+      childList: true,
+      subtree: true,
+    });
+  } else {
+    // Wait for body to be available
+    const bodyObserver = new MutationObserver(() => {
+      if (win.document.body) {
+        observer.observe(win.document.body, {
+          childList: true,
+          subtree: true,
+        });
+        bodyObserver.disconnect();
+      }
+    });
+    bodyObserver.observe(win.document.documentElement, {
+      childList: true,
+    });
+  }
+});
+
+// Hide webpack-dev-server-client-overlay iframe that can block interactions
+// This runs after page load in case the overlay appears dynamically
+beforeEach(() => {
+  cy.window().then(win => {
+    const overlay = win.document.getElementById(
+      'webpack-dev-server-client-overlay',
+    );
+    if (overlay) {
+      overlay.remove();
+    }
+    // Also check for any iframes with high z-index that might be the overlay
+    const iframes = win.document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      if (
+        iframe.id === 'webpack-dev-server-client-overlay' ||
+        iframe.style.zIndex === '2147483647'
+      ) {
+        iframe.remove();
+      }
+    });
+  });
 });
 
 // Hack to allow the type command to accept and simulate an input with 0 delay.
