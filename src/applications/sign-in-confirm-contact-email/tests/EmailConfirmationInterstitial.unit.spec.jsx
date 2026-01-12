@@ -73,12 +73,12 @@ describe('EmailConfirmationInterstitial', () => {
       .to.not.be.null;
     expect(
       getByText(
-        /We'll send notifications about your VA health care and benefits to this email\./i,
+        /We’ll send notifications about your VA health care and benefits to this email./i,
       ),
     ).to.not.be.null;
     expect(
       getByText(
-        /We'll send all VA notifications to the contact email address listed in your VA\.gov profile\. We won't send any more notifications to the email listed in the previous MyHealtheVet experience\. Make sure the contact email address listed in your VA\.gov profile is the one you want us to send notifications to\./i,
+        /We’ll send all VA notifications to the contact email address listed in your VA.gov profile. We won’t send any more notifications to the email listed in the previous MyHealtheVet experience. Make sure the contact email address listed in your VA.gov profile is the one you want us to send notifications to./i,
       ),
     ).to.not.be.null;
 

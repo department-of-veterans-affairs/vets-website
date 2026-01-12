@@ -128,10 +128,10 @@ describe('Complex Claims Confirmation Page', () => {
     cy.get('va-process-list').should('be.visible');
 
     // Check first process item
-    cy.get('va-process-list-item[header="VA will review your claim"]').should(
+    cy.get('va-process-list-item[header="We’ll review your claim"]').should(
       'be.visible',
     );
-    cy.get('va-process-list-item[header="VA will review your claim"]').should(
+    cy.get('va-process-list-item[header="We’ll review your claim"]').should(
       'contain.text',
       'You can check the status of this claim',
     );
@@ -146,7 +146,7 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check travel pay claims status link
     cy.get(
-      'va-link[href="/my-health/travel-pay/claims/"][text="Check your travel reimbursement claim status"]',
+      'va-link[href="/my-health/travel-pay/claims/"][text="Review your travel reimbursement claim status"]',
     ).should('be.visible');
 
     // Check direct deposit setup link

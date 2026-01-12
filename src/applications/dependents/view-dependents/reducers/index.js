@@ -18,6 +18,23 @@ const initialState = {
 
 let allPeople = null;
 
+/**
+ * @typedef {object} AllDependentsState
+ * @property {boolean} loading - whether data is loading
+ * @property {object|null} error - error object
+ * @property {Array|null} onAwardDependents - list of dependents on award
+ * @property {Array|null} notOnAwardDependents - list of dependents not on award
+ *
+ * @typedef {object} AllDependentsAction
+ * @property {string} type - action type
+ * @property {object} response - API response object
+ * @property {object} error - error object
+ *
+ * All dependents reducer
+ * @param {AllDependentsState} state - redux state
+ * @param {AllDependentsAction} action - redux action
+ * @returns {AllDependentsState} - updated redux state
+ */
 function allDependents(state = initialState, action) {
   switch (action.type) {
     case FETCH_ALL_DEPENDENTS_STARTED:
