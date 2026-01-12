@@ -206,9 +206,7 @@ const formConfig = {
           },
           uiSchema: claimantContactUiSchema,
           schema: claimantContactSchema,
-          // Hidden when veteran is claimant
-          depends: formData =>
-            formData?.claimantRelationship?.relationship !== 'veteran',
+          // Always shown - collects contact info for veteran or claimant
         },
       },
     },
