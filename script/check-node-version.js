@@ -3,7 +3,8 @@ const semver = require('semver');
 const packageJson = require('../package.json');
 const chalk = require('chalk');
 
-const version = packageJson.engines.node;
+// const version = packageJson.engines.node;
+const version = process.versions.node;
 
 if (!semver.satisfies(process.version, version)) {
   console.log(' ');
