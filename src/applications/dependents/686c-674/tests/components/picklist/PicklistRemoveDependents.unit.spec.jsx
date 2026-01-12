@@ -114,7 +114,7 @@ describe('PicklistRemoveDependents', () => {
       'Spouse, 45 years old',
       'Child, 11 years old',
       'Child, 3 months old',
-      'Parent, 82 years oldNote: You can only remove a dependent parent if they have died.',
+      'Parent, 82 years oldNote: You can only use this form to remove a dependent parent if they died.',
     ]);
     expect($('va-additional-info', container)).to.exist;
     expect($('.form-progress-buttons', container)).to.exist;
@@ -135,6 +135,7 @@ describe('PicklistRemoveDependents', () => {
       ...dep,
       key: slugifyText(
         `${dep.fullName.first.toLowerCase()}-${dep.ssn.slice(-4)}`,
+        { convertCamelCase: false },
       ),
       selected: index === 1,
     }));
@@ -197,5 +198,55 @@ describe('PicklistRemoveDependents', () => {
       expect(goToPath.called).to.be.true;
       expect(onSubmit.called).to.be.true;
     });
+  });
+
+  it('should show parent additional info when parent dependent is present', () => {
+    const { container } = renderComponent();
+
+    const additionalInfo = $('va-additional-info', container);
+    expect(additionalInfo).to.exist;
+    expect(additionalInfo.getAttribute('trigger')).to.equal(
+      'How can I remove a dependent parent for reasons other than death?',
+    );
+  });
+
+  it('should not show parent additional info when no parent dependent is present', () => {
+    const dataWithoutParent = {
+      dependents: {
+        hasDependents: true,
+        awarded: [
+          {
+            key: 'spousy-1234',
+            fullName: {
+              first: 'SPOUSY',
+              last: 'FOSTER',
+            },
+            dateOfBirth: createDoB(45),
+            ssn: '000111234',
+            relationshipToVeteran: 'Spouse',
+            selected: false,
+            awardIndicator: 'Y',
+          },
+          {
+            key: 'penny-1234',
+            fullName: {
+              first: 'PENNY',
+              last: 'FOSTER',
+            },
+            dateOfBirth: createDoB(11),
+            ssn: '000111234',
+            relationshipToVeteran: 'Child',
+            selected: false,
+            awardIndicator: 'Y',
+          },
+        ],
+        notAwarded: [],
+      },
+    };
+
+    const { container } = renderComponent({ data: dataWithoutParent });
+
+    const additionalInfo = $('va-additional-info', container);
+    expect(additionalInfo).to.not.exist;
   });
 });

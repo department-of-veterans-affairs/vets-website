@@ -1,5 +1,4 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-
 import Form0996App from './containers/Form0996App';
 import formConfig from './config/form';
 

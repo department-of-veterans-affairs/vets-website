@@ -28,6 +28,7 @@ import serviceNumber from './chapters/03-military-history/serviceNumber';
 import servicePeriods from './chapters/03-military-history/servicePeriods';
 import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
 import previousNames from './chapters/03-military-history/previousNames';
+import { powPages } from './chapters/03-military-history/powPages';
 
 import benefitsSelection from './chapters/04-benefits-selection/benefitsSelection';
 import burialAllowancePartOne from './chapters/04-benefits-selection/burialAllowancePartOne';
@@ -44,14 +45,17 @@ import transportationExpenses from './chapters/04-benefits-selection/transportat
 import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
+import deathCertificateRequired from './chapters/05-additional-information/deathCertificateRequired';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
 
 import {
   pageAndReviewTitle,
   generateDeathFacilitySchemas,
+  showDeathCertificateRequiredPage,
   showHomeHospiceCarePage,
   showHomeHospiceCareAfterDischargePage,
+  showPdfFormAlignment,
 } from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
@@ -334,6 +338,7 @@ const formConfig = {
           uiSchema: previousNames.uiSchema,
           schema: previousNames.schema,
         },
+        ...powPages,
       },
     },
     benefitsSelection: {
@@ -486,8 +491,19 @@ const formConfig = {
             <span className="vads-u-font-size--h3">Death certificate</span>
           ),
           path: 'additional-information/upload-death-certificate',
+          depends: form => !showDeathCertificateRequiredPage(form),
           uiSchema: deathCertificate.uiSchema,
           schema: deathCertificate.schema,
+        },
+        deathCertificateRequired: {
+          title: 'Death certificate',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">Death certificate</span>
+          ),
+          path: 'additional-information/upload-death-certificate-required',
+          depends: form => showDeathCertificateRequiredPage(form),
+          uiSchema: deathCertificateRequired.uiSchema,
+          schema: deathCertificateRequired.schema,
         },
         transportationReceipts: {
           title: 'Transportation receipts',
@@ -518,6 +534,7 @@ const formConfig = {
             </span>
           ),
           path: 'additional-information/fdc-program',
+          depends: () => !showPdfFormAlignment(),
           uiSchema: fasterClaimProcessing.uiSchema,
           schema: fasterClaimProcessing.schema,
         },

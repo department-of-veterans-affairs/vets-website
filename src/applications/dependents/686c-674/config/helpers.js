@@ -37,8 +37,8 @@ export const VaFileNumberMissingAlert = (
     </p>
     <p className="vads-u-font-size--base">
       You’ll need to update your personal information. Call Veterans Benefits
-      Assistance at <va-telephone contact="8008271000" /> between 8:00 a.m. and
-      9:00 p.m. ET Monday through Friday.
+      Assistance at <va-telephone contact={CONTACTS.VA_BENEFITS} /> between 8:00
+      a.m. and 9:00 p.m. ET Monday through Friday.
     </p>
   </>
 );
@@ -129,7 +129,7 @@ export const CancelButton = withRouter(
           clickToClose
         >
           <p>
-            If you cancel, we’ll take you back to Step 1 to update your
+            If you cancel, we’ll take you back to Step 2 to update your
             selection.
           </p>
         </VaModal>

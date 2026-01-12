@@ -1,20 +1,16 @@
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
+
 describe('Loading', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [],
-      },
-    });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
-    cy.intercept('GET', '/v0/benefits_claims', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/appeals', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: {},
-    });
+    mockFeatureToggles();
+    mockClaimsEndpoint();
+    mockAppealsEndpoint();
+    mockStemEndpoint();
   });
 
   it('should display required login view loader', () => {
@@ -63,6 +59,7 @@ describe('Loading', () => {
     /* eslint-enable camelcase */
 
     cy.visit('/track-claims');
+    cy.injectAxe();
 
     cy.findByTestId('required-login-view-loader').should('be.visible');
 
@@ -73,13 +70,10 @@ describe('Loading', () => {
       name: 'Check your claim, decision review, or appeal status',
     });
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
   it('should display downtime notification loader', () => {
-    cy.login();
-
     cy.intercept('GET', '/v0/maintenance_windows*', {
       delay: 1500,
       statusCode: 200,
@@ -88,7 +82,9 @@ describe('Loading', () => {
       },
     }).as('maintenanceWindowsRequest');
 
+    cy.login();
     cy.visit('/track-claims');
+    cy.injectAxe();
 
     cy.findByTestId('downtime-notification-loader').should('be.visible');
 
@@ -99,7 +95,6 @@ describe('Loading', () => {
       name: 'Check your claim, decision review, or appeal status',
     });
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 
@@ -116,6 +111,7 @@ describe('Loading', () => {
 
     cy.login();
     cy.visit('/track-claims');
+    cy.injectAxe();
 
     cy.findByTestId('feature-flags-loader').should('be.visible');
 
@@ -126,7 +122,6 @@ describe('Loading', () => {
       name: 'Check your claim, decision review, or appeal status',
     });
 
-    cy.injectAxe();
     cy.axeCheck();
   });
 });

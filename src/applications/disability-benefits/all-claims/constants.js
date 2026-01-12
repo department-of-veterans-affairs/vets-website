@@ -667,6 +667,12 @@ export const SEPARATION_PAY_DATE_TITLE =
 export const SEPARATION_PAY_DATE_ERROR = 'Please provide a valid year';
 export const SEPARATION_PAY_SECTION_TITLE = 'Separation or Severance Pay';
 
+// Traumatic Events Medical Record Opt-In
+export const TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_TITLE =
+  'Do you give us permission to add an indicator about claim or appeal events to your VA medical record?';
+export const TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_SECTION_TITLE =
+  'Option to add indicator of certain upcoming claim and appeal events to your VA medical record';
+
 // General
 export const YES = 'Yes';
 export const NO = 'No';

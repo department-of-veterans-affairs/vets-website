@@ -18,18 +18,20 @@ import {
 } from '../util/helpers';
 import { resetRecentRecipient } from './recipients';
 import { setThreadRefetchRequired } from './threads';
+import { clearPrescription } from './prescription';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
 };
 
 /**
- * Call to mark message as read.
- * @param {Long} messageId
- * @returns
+ * Call to mark message as read and trigger thread list refetch.
+ * @param {Long} messageId - The ID of the message to mark as read
+ * @returns {Promise<void>}
  *
- * Still need to use getMessage (single message) call to mark unread accordions
- * as read and to handle expanded messages.
+ * Uses getMessage (single message) call to mark the message as read,
+ * then sets refetchRequired to trigger a fresh fetch of the thread list
+ * when navigating back to inbox.
  */
 export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
@@ -40,6 +42,9 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
       type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
     });
+    // Trigger refetch of thread list to get updated read status from API
+    // This ensures the inbox shows the correct read status when navigating back
+    dispatch(setThreadRefetchRequired(true));
   }
 };
 
@@ -196,6 +201,7 @@ export const sendMessage = (
     }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
+    dispatch(clearPrescription());
   } catch (e) {
     const errorCode = e.errors?.[0]?.code;
     const errorDetail = e.errors?.[0]?.detail || e.message;

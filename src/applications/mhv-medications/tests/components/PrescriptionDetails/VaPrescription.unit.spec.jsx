@@ -3,6 +3,7 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/dom';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
@@ -16,8 +17,9 @@ describe('vaPrescription details container', () => {
     return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
       initialState: {
         featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_display_documentation_content: ffEnabled,
+          [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]: ffEnabled,
+          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
+          [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: false,
         },
       },
       reducers: {},
@@ -398,5 +400,179 @@ describe('vaPrescription details container', () => {
     const quantityValue = quantityHeading.nextElementSibling;
     expect(quantityValue).to.exist;
     expect(quantityValue.textContent).to.equal('0');
+  });
+
+  describe('CernerPilot feature flag tests', () => {
+    const FLAG_COMBINATIONS = [
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: false,
+        useV2: false,
+        desc: 'both flags disabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: false,
+        useV2: false,
+        desc: 'only cernerPilot enabled',
+      },
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: true,
+        useV2: false,
+        desc: 'only v2StatusMapping enabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: true,
+        useV2: true,
+        desc: 'both flags enabled',
+      },
+    ];
+
+    const setupWithCernerPilot = (
+      rx = newRx,
+      isCernerPilot = false,
+      isV2StatusMapping = false,
+    ) => {
+      return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
+        initialState: {
+          featureToggles: {
+            [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]: true,
+            [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+            [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
+          },
+        },
+        reducers: {},
+        initialEntries: ['/prescriptions/1234567891'],
+      });
+    };
+
+    describe('CernerPilot and V2StatusMapping flag requirement validation', () => {
+      FLAG_COMBINATIONS.forEach(
+        ({ isCernerPilot, isV2StatusMapping, useV2, desc }) => {
+          it(`uses ${useV2 ? 'V2' : 'V1'} status display when ${desc}`, () => {
+            const dispStatus = useV2
+              ? 'In progress'
+              : 'Active: Refill in Process';
+            const rxWithStatus = { ...prescription, dispStatus };
+            const screen = setupWithCernerPilot(
+              rxWithStatus,
+              isCernerPilot,
+              isV2StatusMapping,
+            );
+            const expectedStatus = useV2
+              ? 'In progress'
+              : 'Active: Refill in process';
+            expect(screen.getByTestId('status')).to.have.text(expectedStatus);
+          });
+        },
+      );
+    });
+
+    // NOTE: Status mapping from V1 to V2 is handled by vets-api
+
+    describe('V2 status display when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
+      const V2_STATUSES = [
+        { v2Status: 'Active', testLabel: 'Active' },
+        { v2Status: 'In progress', testLabel: 'In progress' },
+        { v2Status: 'Inactive', testLabel: 'Inactive' },
+        { v2Status: 'Transferred', testLabel: 'Transferred' },
+        { v2Status: 'Status not available', testLabel: 'Status not available' },
+      ];
+
+      V2_STATUSES.forEach(({ v2Status, testLabel }) => {
+        it(`displays ${testLabel} status correctly when returned by API`, () => {
+          const rxWithStatus = { ...prescription, dispStatus: v2Status };
+          const screen = setupWithCernerPilot(rxWithStatus, true, true);
+          expect(screen.getByTestId('status')).to.have.text(v2Status);
+        });
+      });
+    });
+
+    describe('V1 status display when BOTH flags disabled', () => {
+      const V1_STATUSES = [
+        { v1Status: 'Active: Parked', testLabel: 'Active: Parked' },
+        {
+          v1Status: 'Active: Refill in Process',
+          testLabel: 'Active: Refill in process',
+        },
+        { v1Status: 'Expired', testLabel: 'Expired' },
+        { v1Status: 'Discontinued', testLabel: 'Discontinued' },
+      ];
+
+      V1_STATUSES.forEach(({ v1Status, testLabel }) => {
+        it(`displays ${testLabel} status correctly when returned by API`, () => {
+          const rxWithStatus = { ...prescription, dispStatus: v1Status };
+          const screen = setupWithCernerPilot(rxWithStatus, false, false);
+          expect(screen.getByTestId('status')).to.have.text(testLabel);
+        });
+      });
+    });
+    describe('Non-VA status preservation', () => {
+      FLAG_COMBINATIONS.forEach(
+        ({ isCernerPilot, isV2StatusMapping, desc }) => {
+          it(`preserves Active: Non-VA status when ${desc}`, () => {
+            const rxWithNonVAStatus = {
+              ...prescription,
+              dispStatus: 'Active: Non-VA',
+              prescriptionSource: 'NV',
+            };
+            const screen = setupWithCernerPilot(
+              rxWithNonVAStatus,
+              isCernerPilot,
+              isV2StatusMapping,
+            );
+            expect(screen.getByTestId('status')).to.have.text('Active: Non-VA');
+          });
+        },
+      );
+    });
+
+    it('should handle unknown status with both flags enabled', () => {
+      const rxWithUnknownStatus = {
+        ...prescription,
+        dispStatus: 'Unknown Status',
+      };
+      const screen = setupWithCernerPilot(rxWithUnknownStatus, true, true);
+      expect(screen.getByText('Status not available')).to.exist;
+    });
+
+    it('should display appropriate status descriptions with BOTH CernerPilot and V2StatusMapping flags enabled', () => {
+      const rxWithActiveStatus = {
+        ...prescription,
+        dispStatus: 'Active',
+      };
+      const screen = setupWithCernerPilot(rxWithActiveStatus, true, true);
+      expect(screen.getByText('Active')).to.exist;
+      const statusDropdown = screen.container.querySelector(
+        '[trigger="What does this status mean?"]',
+      );
+      expect(statusDropdown).to.exist;
+    });
+
+    it('should maintain all other prescription details functionality with BOTH CernerPilot and V2StatusMapping flags enabled', () => {
+      const screen = setupWithCernerPilot(newRx, true, true);
+      expect(screen.getByText('Prescription number')).to.exist;
+      expect(screen.getByText('Refills left')).to.exist;
+      expect(
+        screen.getByText(
+          'Request refills by this prescription expiration date',
+        ),
+      ).to.exist;
+      expect(screen.getByText('Facility')).to.exist;
+    });
+
+    it('should pass BOTH CernerPilot and V2StatusMapping flags to status-related components', () => {
+      // When both flags enabled, API returns V2 status directly
+      const rxWithStatus = {
+        ...prescription,
+        dispStatus: 'In progress', // V2 status returned by API
+      };
+      const screen = setupWithCernerPilot(rxWithStatus, true, true);
+      expect(screen.getByText('In progress')).to.exist;
+      const statusElement = screen.getByTestId('status-dropdown');
+      expect(statusElement).to.exist;
+    });
   });
 });

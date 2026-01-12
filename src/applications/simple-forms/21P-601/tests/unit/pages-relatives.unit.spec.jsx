@@ -58,10 +58,10 @@ describe('21P-601 relatives page configurations', () => {
       expect(relativesOverview.schema).to.have.property('type', 'object');
       expect(relativesOverview.schema).to.have.property('properties');
       expect(relativesOverview.schema.properties).to.have.property(
-        'view:noSurvivorsMessage',
+        'view:survivorsMessage',
       );
       expect(
-        relativesOverview.schema.properties['view:noSurvivorsMessage'],
+        relativesOverview.schema.properties['view:survivorsMessage'],
       ).to.have.property('type', 'object');
     });
 
@@ -78,31 +78,31 @@ describe('21P-601 relatives page configurations', () => {
       expect(survivorsUI['ui:required']).to.be.a('function');
       expect(survivorsUI['ui:required']()).to.be.true;
       expect(survivorsUI['ui:title']).to.equal(
-        'Are there any survivors of the beneficiary?',
+        'Are there any dependent survivors of the beneficiary?',
       );
       expect(survivorsUI['ui:webComponentField']).to.exist;
     });
 
     it('has conditional message', () => {
-      const { hideIf } = relativesOverview.uiSchema['view:noSurvivorsMessage'][
+      const { hideIf } = relativesOverview.uiSchema['view:survivorsMessage'][
         'ui:options'
       ];
       expect(hideIf).to.be.a('function');
-      expect(hideIf({ survivors: false })).to.be.false;
-      expect(hideIf({ survivors: true })).to.be.true;
+      expect(hideIf({ survivors: false })).to.be.true;
+      expect(hideIf({ survivors: true })).to.be.false;
     });
 
     it('hides message when other options are selected', () => {
-      const { hideIf } = relativesOverview.uiSchema['view:noSurvivorsMessage'][
+      const { hideIf } = relativesOverview.uiSchema['view:survivorsMessage'][
         'ui:options'
       ];
-      expect(hideIf({ survivors: true })).to.be.true;
+      expect(hideIf({ survivors: false })).to.be.true;
       expect(hideIf({ survivors: undefined })).to.be.true;
     });
 
-    it('has view:noSurvivorsMessage with empty properties', () => {
+    it('has view:survivorsMessage with empty properties', () => {
       const messageSchema =
-        relativesOverview.schema.properties['view:noSurvivorsMessage'];
+        relativesOverview.schema.properties['view:survivorsMessage'];
       expect(messageSchema).to.have.property('properties');
       expect(messageSchema.properties).to.be.an('object');
       expect(Object.keys(messageSchema.properties)).to.have.lengthOf(0);

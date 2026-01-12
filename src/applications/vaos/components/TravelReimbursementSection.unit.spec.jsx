@@ -65,7 +65,7 @@ describe('VAOS Component: TravelReimbursement', () => {
       expect(screen.getByTestId('file-claim-link')).to.exist;
     });
   });
-  it('should display travel reimbursement section with file claim link', async () => {
+  it('should display travel reimbursement section with file claim link (both noClaim and success messages)', async () => {
     const appointment = {
       id: '1234567890',
       kind: 'clinic',
@@ -97,7 +97,41 @@ describe('VAOS Component: TravelReimbursement', () => {
       `/my-health/travel-pay/file-new-claim/${appointment.id}`,
     );
   });
-  it('should display travel reimbursement section with modal confirmation for 30+ day claims', async () => {
+  it('should display travel reimbursement section with file claim link when success message but no claim object', async () => {
+    // Tests the condition: metadata.message === TRAVEL_CLAIM_MESSAGES.success && !claimData.claim
+    const appointment = {
+      id: '1234567890',
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
+      start: startTime,
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: 200,
+              message: 'Data retrieved successfully.',
+              success: true,
+            },
+            // Note: no claim object
+          },
+        },
+        isPastAppointment: true,
+        isInPersonVisit: true,
+      },
+    };
+    const screen = renderWithFeatureToggles(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
+
+    expect(screen.getByText(/Days left to file: 1/i));
+    expect(screen.getByTestId('file-claim-link')).to.exist;
+    expect(screen.getByTestId('file-claim-link')).to.have.attribute(
+      'href',
+      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+    );
+  });
+  it('should display travel reimbursement section for 30+ day claims with warning text', async () => {
     // appointment is past the 30 day window
     const appointment = {
       id: '1234567890',
@@ -124,39 +158,25 @@ describe('VAOS Component: TravelReimbursement', () => {
     );
 
     expect(screen.getByText(/Days left to file: 0/i));
+    expect(
+      screen.getByText(
+        /You didn’t file a claim for this appointment within the 30-day limit/i,
+      ),
+    );
 
-    // Should show file claim link (not how-to-file-claim-link)
+    // Should show file claim link
     const fileClaimLink = screen.getByTestId('file-claim-link');
     expect(fileClaimLink).to.exist;
 
-    // Initially modal should not be visible
-    const initialModal = screen.container.querySelector(
-      'va-modal[visible="false"]',
-    );
-    expect(initialModal).to.exist;
-
-    // Click the link to trigger modal
+    // Note: Modal is not rendered for no claim case, link uses onClick to set modal state
+    // but the modal itself isn't in the DOM for this scenario
     fireEvent.click(fileClaimLink);
 
-    // Modal should now be visible with warning content
+    // Modal should still not be visible for no claim case
     const visibleModal = screen.container.querySelector(
       'va-modal[visible="true"]',
     );
-    expect(visibleModal).to.exist;
-    expect(visibleModal.getAttribute('modal-title')).to.equal(
-      'Your appointment happened more than 30 days ago',
-    );
-    expect(visibleModal.getAttribute('primary-button-text')).to.equal(
-      'Yes, I want to file',
-    );
-    expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
-      'Don’t file',
-    );
-    expect(
-      screen.getByText(
-        'Do you still want to file a travel reimbursement claim?',
-      ),
-    ).to.exist;
+    expect(visibleModal).to.not.exist;
   });
   it('should display travel reimbursement section with link to complete claim when status is Saved', async () => {
     const appointment = {
@@ -193,15 +213,18 @@ describe('VAOS Component: TravelReimbursement', () => {
       { travelPayEnableComplexClaims: true },
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(
       screen.getByText(
         /You already started a claim for this appointment. Add your expenses and file within 30 days days of your appointment date./i,
       ),
     );
+
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+      `/my-health/travel-pay/claims/${claimId}`,
     );
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'text',
@@ -243,6 +266,8 @@ describe('VAOS Component: TravelReimbursement', () => {
       { travelPayEnableComplexClaims: true },
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(
       screen.getByText(
         /You already started a claim for this appointment. Add your expenses and file within 30 days days of your appointment date./i,
@@ -251,7 +276,7 @@ describe('VAOS Component: TravelReimbursement', () => {
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+      `/my-health/travel-pay/claims/${claimId}`,
     );
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'text',
@@ -326,7 +351,7 @@ describe('VAOS Component: TravelReimbursement', () => {
       'Your appointment happened more than 30 days ago',
     );
     expect(visibleModal.getAttribute('primary-button-text')).to.equal(
-      'Yes, I want to file',
+      'File claim',
     );
     expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
       'Don’t file',
@@ -405,7 +430,7 @@ describe('VAOS Component: TravelReimbursement', () => {
       'Your appointment happened more than 30 days ago',
     );
     expect(visibleModal.getAttribute('primary-button-text')).to.equal(
-      'Yes, I want to file',
+      'File claim',
     );
     expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
       'Don’t file',
@@ -449,15 +474,70 @@ describe('VAOS Component: TravelReimbursement', () => {
       <TravelReimbursementSection appointment={appointment} />,
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(
-      screen.getByText(/You’ve already filed a claim for this appointment./i),
+      screen.getByText(/You’ve already filed a claim for this appointment/i),
     );
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      '/my-health/travel-pay/claims/1234',
+      `/my-health/travel-pay/claims/${claimId}`,
     );
   });
+  ['Saved', 'Incomplete'].forEach(claimStatus => {
+    it(`should display finished claim view when complexClaims is disabled but claim exists with ${claimStatus} status`, async () => {
+      const appointment = {
+        start: new Date('2021-09-01T10:00:00Z'),
+        kind: 'clinic',
+        type: 'VA',
+        modality: 'vaInPerson',
+        vaos: {
+          apiData: {
+            travelPayClaim: {
+              metadata: {
+                status: 200,
+                message: 'Data retrieved successfully.',
+                success: true,
+              },
+              claim: {
+                id: '1234',
+                claimNumber: 'string',
+                claimStatus,
+                appointmentDateTime: '2024-01-01T16:45:34.465Z',
+                facilityName: 'Cheyenne VA Medical Center',
+                createdOn: '2024-03-22T21:22:34.465Z',
+                modifiedOn: '2024-01-01T16:44:34.465Z',
+              },
+            },
+          },
+          isPastAppointment: true,
+          isInPersonVisit: true,
+        },
+      };
+      const screen = renderWithFeatureToggles(
+        <TravelReimbursementSection appointment={appointment} />,
+        { travelPayEnableComplexClaims: false },
+      );
+
+      const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
+      // Should show finished claim view, not unfinished claim view
+      expect(
+        screen.getByText(/You’ve already filed a claim for this appointment/i),
+      );
+      expect(screen.getByTestId('view-claim-link')).to.exist;
+      expect(screen.getByTestId('view-claim-link')).to.have.attribute(
+        'href',
+        `/my-health/travel-pay/claims/${claimId}`,
+      );
+      expect(screen.getByTestId('view-claim-link')).to.have.attribute(
+        'text',
+        'Check your claim status',
+      );
+    });
+  });
+
   it('should not display travel reimbursement section if appointment is not past', async () => {
     const appointment = {
       start: new Date('2021-09-01T10:00:00Z'),

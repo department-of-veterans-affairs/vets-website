@@ -10,6 +10,7 @@ import InstitutionAddress from '../containers/InstitutionAddress';
 import WarningBanner from '../containers/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const code = (fieldData || '').trim();
   const details = formData?.institutionDetails || {};
   const isLoading = details?.isLoading;
 
@@ -19,8 +20,15 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
 
   const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
   const notFound = details.institutionName === 'not found';
-  const notIHL = details.ihlEligible === false;
   const notYR = details.yrEligible === false;
+  const hasXInThirdPosition =
+    code.length === 8 && !badFormat && code.charAt(2).toUpperCase() === 'X';
+
+  // TODO: move below 'not found' check after new response code is configured
+  if (hasXInThirdPosition) {
+    errors.addError('Codes with an "X" in the third position are not eligible');
+    return;
+  }
 
   if (badFormat || notFound) {
     errors.addError(
@@ -33,18 +41,16 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
       "The institution isn't eligible for the Yellow Ribbon Program.",
     );
   }
-
-  if (!notYR && notIHL) {
-    errors.addError(
-      'This institution is not an IHL. Please see information below.',
-    );
-  }
 };
 
 const uiSchema = {
   institutionDetails: {
     ...titleUI("Please enter your institution's facility code"),
     'view:additionalInstructions': {
+      'ui:options': {
+        hideIf: formData =>
+          formData?.agreementType === 'withdrawFromYellowRibbonProgram',
+      },
       'ui:description': (
         <va-link
           text="Review additional instructions for the Yellow Ribbon Program Agreement"

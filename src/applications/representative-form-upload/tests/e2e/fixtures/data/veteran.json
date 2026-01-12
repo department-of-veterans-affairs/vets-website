@@ -1,11 +1,11 @@
 {
   "data": {
     "veteranFullName": {
-      "first": "Hector",
-      "last": "Allen"
+      "first": "Chad",
+      "last": "Barrett"
     },
-    "veteranSsn": "796126859",
-    "veteranDateOfBirth": "1932-02-05",
+    "veteranSsn": "796263749",
+    "veteranDateOfBirth": "1975-05-12",
     "address": {
       "country": "USA",
       "street": "123 Any St",
@@ -13,6 +13,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "email": "john@veteran.com"
+    "email": "john@veteran.com",
+    "vaFileNumber": "99999999"
   }
 }

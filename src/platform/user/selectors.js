@@ -40,6 +40,10 @@ export const selectVAPHomePhone = state =>
   selectVAPContactInfo(state)?.homePhone;
 export const selectVAPHomePhoneString = state =>
   createPhoneNumberStringFromData(selectVAPHomePhone(state));
+export const selectVAPWorkPhone = state =>
+  selectVAPContactInfo(state)?.workPhone;
+export const selectVAPWorkPhoneString = state =>
+  createPhoneNumberStringFromData(selectVAPWorkPhone(state));
 export const selectVAPResidentialAddress = state =>
   selectVAPContactInfo(state)?.residentialAddress;
 export const selectVAPMailingAddress = state =>
@@ -51,6 +55,3 @@ export function createIsServiceAvailableSelector(service) {
 
 export const mhvTransitionModalEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransitionModal];
-
-export const dslogonButtonDisabled = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.dslogonButtonDisabled];

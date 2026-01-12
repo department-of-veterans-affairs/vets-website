@@ -33,15 +33,26 @@ export const whatAreAssets = (
   </>
 );
 
+/**
+ * @typedef {object} StudentNetworthTitleProps
+ * @property {number|string} netWorthLimit - Net worth limit value
+ * @property {boolean} featureFlag - Feature flag for formatted net worth
+ *
+ * @param {StudentNetworthTitleProps} props - Net worth title props
+ * @returns {string} Net worth title
+ */
 export const netWorthTitle = ({ netWorthLimit, featureFlag } = {}) => {
-  if (!featureFlag) {
-    return `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`;
-  }
-
   const number = netWorthLimit || NETWORTH_VALUE;
   const formattedNumber = parseInt(
     `${number}`.replace(/,/g, ''),
     10,
   ).toLocaleString('en-US');
+
+  if (!featureFlag) {
+    // If va_dependents_net_worth_and_pension FF is off, show "greater than" wording
+    return `Did your household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`;
+  }
+
+  // If va_dependents_net_worth_and_pension FF is on, show "less than" wording (value gets flipped for RBPS submission)
   return `Did your household have a net worth less than $${formattedNumber} in the last tax year?`;
 };

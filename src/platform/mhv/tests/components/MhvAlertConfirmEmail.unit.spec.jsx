@@ -117,7 +117,7 @@ describe('<MhvAlertConfirmEmail />', () => {
 
         // getByRole('link', { name: /^Go to profile/ });
         const link = container.querySelector('va-link[text~="Go to profile"]');
-        const href = '/profile/contact-information#contact-email-address';
+        const href = '/profile/contact-information#email-address';
         expect(link.href).to.equal(href);
       });
     });
@@ -334,7 +334,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         // getByRole('link', { name: /^Go to profile/ });
         const linkSelector = 'va-link-action[text~="Go to profile"]';
         const link = container.querySelector(linkSelector);
-        const href = '/profile/contact-information#contact-email-address';
+        const href = '/profile/contact-information#email-address';
         expect(link.href).to.equal(href);
 
         // getByRole('button', { name: /^Skip adding email$/ });

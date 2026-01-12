@@ -9,15 +9,19 @@ import submitForm from './submitForm';
 
 import { urlMigration } from '../../config/migrations';
 
-import GetFormHelp from '../../components/GetFormHelp';
+// import GetFormHelp from '../../components/GetFormHelp';
+import GetFormHelp1995 from '../components/GetFormHelp1995';
+// import FormFooter from '../components/FormFooter';
+
 import ErrorText from '../../components/ErrorText';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { chapters } from './chapters';
+import { allChapters } from './chapters';
 
 import manifest from '../manifest.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
-import { introductionPage } from '../helpers';
+import IntroductionRouter from '../containers/IntroductionRouter';
+import { isRerouteEnabled } from '../helperFunctions/isRerouteEnabled';
 
 const {
   preferredContactMethod,
@@ -27,13 +31,14 @@ const {
   usaPhone,
 } = fullSchema1995.definitions;
 
-const formConfig = {
+const baseConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   submit: submitForm,
   trackingPrefix: 'edu-1995-',
   formId: VA_FORM_IDS.FORM_22_1995,
+  disableSave: isRerouteEnabled(),
   saveInProgress: {
     messages: {
       inProgress:
@@ -53,7 +58,6 @@ const formConfig = {
       'Please sign in again to resume your application for education benefits.',
   },
   transformForSubmit: transform,
-  introduction: introductionPage(),
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     preferredContactMethod,
@@ -63,16 +67,20 @@ const formConfig = {
     usaPhone,
   },
   title: 'Change your education benefits',
-  subTitle: 'Form 22-1995',
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
     required: true,
     field: 'privacyAgreementAccepted',
   },
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: GetFormHelp1995,
   errorText: ErrorText,
-  chapters,
+  // Always render the wrapper; it decides which intro component to show once
+  introduction: IntroductionRouter,
+  v3SegmentedProgressBar: true,
 };
 
-export default formConfig;
+export default {
+  ...baseConfig,
+  chapters: allChapters,
+};
