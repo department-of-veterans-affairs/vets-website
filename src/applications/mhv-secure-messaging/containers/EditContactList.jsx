@@ -47,7 +47,7 @@ const EditContactList = () => {
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
 
   const activeDraftId = useSelector(
-    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+    state => state.sm.threadDetails?.draft?.messageId,
   );
 
   const recipients = useSelector(state => state.sm.recipients);
