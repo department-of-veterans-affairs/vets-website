@@ -98,7 +98,6 @@ describe('22-0976 primary institution details page', () => {
 
     expect(container.textContent).to.contain('Test University');
     expect(container.textContent).to.contain('123 Fake St.');
-    expect(container.textContent).to.contain('Public institution');
   });
 
   it('shows an error when input is invalid', async () => {

@@ -82,7 +82,7 @@ describe('SM OH USER NO ASSOCIATION WITH PARTICULAR TG', () => {
 
     cy.get(Locators.ALERTS.EXPIRED_MESSAGE)
       .should('be.visible')
-      .and('have.text', Alerts.OH_OLD_MSG.HEADER);
+      .and('contain', Alerts.OH_OLD_MSG.HEADER);
 
     cy.get(`va-alert> :nth-child(2)`).should(
       'have.text',

@@ -12,27 +12,27 @@ export default {
   path: 'household/legal-status-of-marriage',
   uiSchema: {
     ...titleUI('Legal status of marriage'),
-    awareOfLegalIssues: yesNoUI({
+    validMarriage: yesNoUI({
       title:
         'At the time of your marriage to the Veteran, were you aware of any reason the marriage might not be legally valid?',
     }),
-    legalIssueExplanation: {
+    marriageValidityExplanation: {
       ...textUI({
         title: 'Tell us why your marriage might not be legally valid',
-        required: formData => formData.awareOfLegalIssues === true,
+        required: formData => formData.validMarriage === true,
       }),
       'ui:options': {
-        expandUnder: 'awareOfLegalIssues',
+        expandUnder: 'validMarriage',
         expandUnderCondition: true,
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['awareOfLegalIssues'],
+    required: ['validMarriage'],
     properties: {
-      awareOfLegalIssues: yesNoSchema,
-      legalIssueExplanation: textSchema,
+      validMarriage: yesNoSchema,
+      marriageValidityExplanation: textSchema,
     },
   },
 };
