@@ -1,4 +1,4 @@
-import { getTrackedItemDate } from '../utils/helpers';
+import { getTrackedItemDate, scrubDescription } from '../utils/helpers';
 
 // NOTE: In the long term it will make sense to move some of this logic into
 //       the backend, but doing it here for now makes it easier to modify in
@@ -48,6 +48,7 @@ const transformUnassociatedDocs = docs =>
 const transformAssociatedTrackedItems = items =>
   items.map(item => ({
     ...item,
+    description: scrubDescription(item.description),
     date: getTrackedItemDate(item),
   }));
 

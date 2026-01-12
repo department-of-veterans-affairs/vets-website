@@ -8,8 +8,14 @@ describe('VASS Component: AppointmentCard', () => {
   it('renders card sections and actions', () => {
     const appointmentData = {
       appointmentId: '123',
-      dtStartUtc: '2025-05-01T16:00:00.000Z',
-      providerName: 'Bill Brasky',
+      startUTC: '2025-05-01T16:00:00.000Z',
+      endUTC: '2025-05-01T16:30:00.000Z',
+      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+      agentNickname: 'Bill Brasky',
+      appointmentStatusCode: 1,
+      appointmentStatus: 'Confirmed',
+      cohortStartUtc: '2025-01-01T00:00:00.000Z',
+      cohortEndUtc: '2025-12-31T23:59:59.999Z',
       topics: [{ topicName: 'Benefits' }, { topicName: 'Health care' }],
       showAddToCalendarButton: true,
     };
@@ -45,8 +51,14 @@ describe('VASS Component: AppointmentCard', () => {
     const appointmentData = {
       appointmentId: '456',
       phoneNumber: '8005551212',
-      dtStartUtc: '2025-06-01T16:00:00.000Z',
-      providerName: 'Bill Brasky',
+      startUTC: '2025-06-01T16:00:00.000Z',
+      endUTC: '2025-06-01T16:30:00.000Z',
+      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+      agentNickname: 'Bill Brasky',
+      appointmentStatusCode: 1,
+      appointmentStatus: 'Confirmed',
+      cohortStartUtc: '2025-01-01T00:00:00.000Z',
+      cohortEndUtc: '2025-12-31T23:59:59.999Z',
       topics: [{ topicName: 'Benefits' }],
       showAddToCalendarButton: false,
     };
@@ -64,8 +76,14 @@ describe('VASS Component: AppointmentCard', () => {
   it('omits topics section when no topics are provided', () => {
     const appointmentData = {
       appointmentId: '789',
-      dtStartUtc: '2025-07-01T16:00:00.000Z',
-      providerName: 'Bill Brasky',
+      startUTC: '2025-07-01T16:00:00.000Z',
+      endUTC: '2025-07-01T16:30:00.000Z',
+      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+      agentNickname: 'Bill Brasky',
+      appointmentStatusCode: 1,
+      appointmentStatus: 'Confirmed',
+      cohortStartUtc: '2025-01-01T00:00:00.000Z',
+      cohortEndUtc: '2025-12-31T23:59:59.999Z',
       topics: [],
     };
     const { queryByTestId } = render(
