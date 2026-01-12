@@ -930,6 +930,7 @@ const FacilitiesMap = props => {
       )}
       <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
+      {mapboxTokenValid && <p>&nbsp;</p>}
     </>
   );
 };
