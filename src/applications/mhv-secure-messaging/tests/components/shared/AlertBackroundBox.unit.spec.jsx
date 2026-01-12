@@ -4,7 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { waitFor } from '@testing-library/dom';
 import reducer from '../../../reducers';
 import AlertBackgroundBox from '../../../components/shared/AlertBackgroundBox';
-import { Alerts, Paths } from '../../../util/constants';
+import { Alerts, DefaultFolders, Paths } from '../../../util/constants';
 
 describe('Alert Backround Box component', () => {
   it('ERROR alert should render without errors', async () => {
@@ -421,6 +421,46 @@ describe('Alert Backround Box component', () => {
 
       // Clean up session storage
       sessionStorage.removeItem('sm_composeEntryUrl');
+    });
+
+    it('should NOT render RouterLink when user accessed thread from sent folder (via threadFolderId)', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: '',
+        content: Alerts.Message.SEND_MESSAGE_SUCCESS,
+      };
+      const customState = {
+        sm: {
+          alerts: {
+            alertVisible: true,
+            alertList: [activeAlertObj],
+          },
+          threadDetails: {
+            threadFolderId: DefaultFolders.SENT.id,
+          },
+        },
+      };
+      const setup = initialState =>
+        renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+          initialState,
+          reducers: reducer,
+          path: Paths.SENT,
+        });
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        // Verify the alert content is displayed
+        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+
+        // Verify NO link to sent folder is rendered since user came from sent folder thread
+        const sentLink = screen.container.querySelector(
+          `va-link[href="${Paths.ROOT_URL + Paths.SENT}"]`,
+        );
+        expect(sentLink).to.not.exist;
+      });
     });
   });
 });
