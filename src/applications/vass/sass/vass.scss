@@ -16,6 +16,10 @@ span.vass-usa-label--required {
   font-weight: normal;
 }
 
+.vass-checkbox-group::part(legend) {
+  font-weight: var(--font-weight-bold);
+}
+
 @media print {
   .vass-hide-for-print {
     display: none !important;

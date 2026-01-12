@@ -13,6 +13,19 @@ import {
 import { isServerError, isClientError } from '../util';
 import { errorFragment, noDependentsAlert } from './helpers';
 
+/**
+ * @typedef {Object} ViewDependentsLayoutProps
+ * @property {boolean} loading - whether data is loading
+ * @property {object} error - error object
+ * @property {Array} onAwardDependents - list of dependents on award
+ * @property {Array} notOnAwardDependents - list of dependents not on award
+ * @property {boolean} manageDependentsToggle - whether manage dependents
+ * feature is enabled
+ * @property {string} updateDiariesStatus - status of update diaries API call
+ *
+ * @param {ViewDependentsLayoutProps} props - component props
+ * @returns {JSX.Element} - ViewDependentsLayout component
+ */
 function ViewDependentsLayout(props) {
   let mainContent;
 

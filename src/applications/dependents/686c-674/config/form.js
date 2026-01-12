@@ -9,7 +9,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ReviewDependents from '../components/ReviewDependents';
-import { customSubmit686 } from '../analytics/helpers';
+import { submit } from './submit';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
@@ -64,7 +64,7 @@ export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
-  submit: customSubmit686,
+  submit,
   trackingPrefix: 'disability-21-686c-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

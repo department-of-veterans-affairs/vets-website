@@ -35,7 +35,7 @@ describe('Claimant Information Page', () => {
     );
     expect(vaCheckboxes[1].getAttribute('label')).to.equal('Survivors Pension');
     expect(vaCheckboxes[1].getAttribute('data-key')).to.equal(
-      'survivorPension',
+      'survivorsPension',
     );
     expect(vaCheckboxes[2].getAttribute('label')).to.equal('Accrued benefits');
     expect(vaCheckboxes[2].getAttribute('data-key')).to.equal(
