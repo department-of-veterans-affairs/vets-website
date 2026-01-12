@@ -74,7 +74,7 @@ export const veteranContactSchema = {
   properties: {
     veteranContact: {
       type: 'object',
-      required: ['veteranPhoneNumber'],
+      required: ['veteranPhoneNumber', 'veteranEmail'],
       properties: {
         veteranPhoneNumber: phoneSchema,
         veteranMobilePhone: phoneSchema,
