@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const { randomInt } = require('crypto');
 const { STATUS_KEYS } = require('../constants');
 
 // Base facility & appointment info for mocks
@@ -18,15 +19,13 @@ function createMockClaim(status, index) {
 
   return {
     id: uuidv4(),
-    claimNumber: `TC${Math.floor(
-      1000000000000 + Math.random() * 9000000000000,
-    )}`,
+    claimNumber: `TC${randomInt(1_000_000_000_000, 10_000_000_000_000)}`,
     claimName: `Claim ${index + 1}`,
     claimStatus: status,
     appointmentDateTime: appointmentDateTime.toISOString(),
     facilityId: BASE_FACILITY.id,
     facilityName: BASE_FACILITY.name,
-    totalCostRequested: parseFloat((Math.random() * 500).toFixed(2)),
+    totalCostRequested: randomInt(0, 50_000) / 100,
     reimbursementAmount: 0.0,
     createdOn: createdOn.toISOString(),
     modifiedOn: modifiedOn.toISOString(),
