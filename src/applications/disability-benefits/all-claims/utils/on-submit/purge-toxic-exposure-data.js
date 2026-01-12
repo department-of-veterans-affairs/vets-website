@@ -90,22 +90,17 @@ const hasToxicExposureData = toxicExposure => {
 /**
  * Purges data for a single exposure type based on user opt-out actions.
  *
- * Note: Behavior differs based on whether the section has an "Other" free-text field.
+ * ALL sections filter their details based on checkbox state - when a checkbox
+ * is unchecked (false), the corresponding details entry is removed.
  *
  * Sections WITHOUT otherKey (gulfWar1990, gulfWar2001):
- * - Only have predefined checkbox options (e.g., Afghanistan, Iraq, Yemen)
- * - Selecting "None of these locations" is a complete opt-out of the section
  * - When none === true: Remove the entire section (exposureType + details)
  * - When none !== true: Filter details to only keep checked locations
  *
  * Sections WITH otherKey (herbicide, otherExposures):
- * - Have predefined checkboxes PLUS an "Other" free-text field
- * - Users can describe custom exposures without checking any predefined options
- * - Example: User checks "None of these" but types "Thailand base camp" in Other
- * - Because of this, "None of these" only means "none of the PREDEFINED options"
- *   NOT "I have no exposures at all"
- * - We preserve the main section and only remove orphaned otherKey data
- *   (dates without a description are meaningless)
+ * - When none === true: Keep section (user may have "Other" text), but filter details
+ * - When none !== true: Filter details to only keep checked locations
+ * - Additionally handles orphaned otherKey data (dates without description)
  *
  * @param {Object} toxicExposure - Toxic exposure data object
  * @param {string} exposureType - Exposure type key (e.g., 'gulfWar1990', 'herbicide')
@@ -122,6 +117,12 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
   // For sections with otherKey: Always check for orphaned otherKey data
   // This must run even if the parent exposureType doesn't exist
   if (otherKey && otherKey in result) {
+    // DEBUG: Remove before merging
+    console.log(`purgeExposureDetails: Processing otherKey for ${exposureType}`, {
+      otherKey,
+      otherDataBefore: result[otherKey],
+    });
+
     // Sections with otherKey: Remove orphaned date fields without description
     // Dates without a description are meaningless - the description provides context
     const otherData = result[otherKey];
@@ -148,6 +149,13 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
         }
       }
     }
+
+    // DEBUG: Remove before merging
+    console.log(`purgeExposureDetails: Processed otherKey for ${exposureType}`, {
+      otherKey,
+      otherDataAfter: result[otherKey],
+      wasRemoved: !(otherKey in result),
+    });
   }
 
   // Skip further processing if exposure type not present in data
@@ -155,33 +163,43 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
     return result;
   }
 
-  // For sections with otherKey, we've already handled the otherKey cleanup above
-  // Return early since these sections don't filter details based on checkbox state
-  if (otherKey) {
-    return result;
-  }
-
   // Check if user explicitly opted out by selecting 'none' checkbox
-  // This only applies to sections WITHOUT otherKey (gulfWar1990, gulfWar2001)
   const userSelectedNone = exposureSelections?.none === true;
 
-  if (userSelectedNone) {
+  // For sections WITHOUT otherKey: none === true triggers complete section removal
+  // For sections WITH otherKey: none === true does NOT remove section (user may have "Other" text)
+  if (userSelectedNone && !otherKey) {
     // User explicitly opted out - remove all related data for this exposure type
     delete result[exposureType];
     delete result[detailsKey];
     return result;
   }
 
-  // Sections WITHOUT otherKey: Filter details based on checkbox state
-  // Unchecking a checkbox IS opting out of that specific location
-  if (result[detailsKey] && exposureSelections) {
-    // Filter details to only keep selected items for checkbox-only sections
-    // Example: If gulfWar1990.bahrain === true but gulfWar1990.iraq === false,
-    // keep gulfWar1990Details.bahrain but remove gulfWar1990Details.iraq
+  // Filter details based on checkbox state for ALL sections
+  // Unchecking a checkbox IS opting out of that specific location/exposure
+  // Example: If herbicide.vietnam === true but herbicide.cambodia === false,
+  // keep herbicideDetails.vietnam but remove herbicideDetails.cambodia
+  if (
+    result[detailsKey] &&
+    exposureSelections &&
+    typeof exposureSelections === 'object'
+  ) {
+    // DEBUG: Remove before merging
+    console.log(`purgeExposureDetails: Filtering ${exposureType}`, {
+      detailsKey,
+      exposureSelections,
+      detailsBefore: result[detailsKey],
+    });
+
     result[detailsKey] = pickBy(
       result[detailsKey],
       (_value, key) => exposureSelections[key] === true,
     );
+
+    // DEBUG: Remove before merging
+    console.log(`purgeExposureDetails: Filtered ${exposureType}`, {
+      detailsAfter: result[detailsKey],
+    });
   }
 
   return result;
@@ -221,8 +239,12 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
  * @returns {Object} Form data with opted-out data removed
  */
 export const purgeToxicExposureData = formData => {
+  // DEBUG: Remove before merging
+  console.log('purgeToxicExposureData called with flag:', formData?.disability526ToxicExposureOptOutDataPurge);
+
   // Feature flag check - allows gradual rollout and quick disable if issues arise
   if (!formData?.disability526ToxicExposureOptOutDataPurge) {
+    console.log('purgeToxicExposureData: Feature flag not set, returning unchanged');
     return formData;
   }
 
@@ -258,6 +280,9 @@ export const purgeToxicExposureData = formData => {
   Object.entries(EXPOSURE_TYPE_MAPPING).forEach(([exposureType, mapping]) => {
     toxicExposure = purgeExposureDetails(toxicExposure, exposureType, mapping);
   });
+
+  // DEBUG: Remove before merging
+  console.log('purgeToxicExposureData: Final toxicExposure', toxicExposure);
 
   return { ...clonedData, toxicExposure };
 };

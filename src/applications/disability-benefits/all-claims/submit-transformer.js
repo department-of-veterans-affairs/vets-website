@@ -100,6 +100,9 @@ export function transform(formConfig, form) {
 
     const purgedData = purgeToxicExposureData(restoredData);
 
+    // DEBUG: Remove before merging
+    console.log('transformToxicExposure: purgedData.toxicExposure', purgedData?.toxicExposure);
+
     // Remove feature flag from output (not user data, only needed for purge logic)
     return _.unset('disability526ToxicExposureOptOutDataPurge', purgedData);
   };
@@ -335,6 +338,9 @@ export function transform(formConfig, form) {
     (formData, transformer) => transformer(formData),
     _.cloneDeep(form.data),
   );
+
+  // DEBUG: Remove before merging
+  console.log('submit-transformer: Final toxicExposure', transformedData?.toxicExposure);
 
   return JSON.stringify({ form526: transformedData });
 }
