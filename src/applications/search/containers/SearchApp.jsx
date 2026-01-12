@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -20,10 +20,7 @@ import {
 } from 'platform/site-wide/search-analytics';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
-import {
-  fetchTypeaheadSuggestions,
-  isSearchTermValid,
-} from '~/platform/utilities/search-utilities';
+import { isSearchTermValid } from '~/platform/utilities/search-utilities';
 
 import { fetchSearchResults as retrieveSearchResults } from '../actions';
 
@@ -50,16 +47,12 @@ const SearchApp = ({
   const typeaheadUsed = router?.location?.query?.t === 'true' || false;
 
   const [userInput, setUserInput] = useState(userInputFromURL);
-  const [savedSuggestions, setSavedSuggestions] = useState([]);
-  const [suggestions, setSuggestions] = useState([]);
   const [currentResultsQuery, setCurrentResultsQuery] = useState(
     userInputFromURL,
   );
   const [page, setPage] = useState(pageFromURL);
   const [typeAheadWasUsed, setTypeAheadWasUsed] = useState(typeaheadUsed);
   const [formWasSubmitted, setFormWasSubmitted] = useState(false);
-
-  const instance = useRef({ typeaheadTimer: null });
 
   const {
     currentPage,
@@ -113,21 +106,16 @@ const SearchApp = ({
   // This function compiles GA analytics based on a search that happens in the
   // search bar on the /search page (above the results area)
   const compileAnalyticsDataFromInPageSearch = query => {
-    const validSuggestions =
-      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
-
     return {
-      // The typeahead suggestion box doesn't always exist in the DOM. This means we'll always
-      // run into race conditions trying to track whether a typeahead suggestion was clicked before
-      // the form is submitted. keywordPosition and keywordSelected will always be undefined
+      // Typeahead is disabled, so keywordPosition and keywordSelected will always be undefined
       keywordPosition: undefined,
       keywordSelected: undefined,
       path: document.location.pathname,
       searchLocation: 'Search Results Page',
       searchSelection: 'All VA.gov',
-      searchTypeaheadEnabled: true,
+      searchTypeaheadEnabled: false,
       sitewideSearch: true,
-      suggestionsList: validSuggestions?.length ? validSuggestions : undefined,
+      suggestionsList: undefined,
       userInput: query,
     };
   };
@@ -166,6 +154,7 @@ const SearchApp = ({
         clearGAData,
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(
@@ -175,31 +164,6 @@ const SearchApp = ({
       }
     },
     [searchIsLoading, searchesPerformed],
-  );
-
-  const fetchSuggestions = useCallback(
-    async searchValue => {
-      const typeaheadSuggestions = await fetchTypeaheadSuggestions(searchValue);
-
-      if (typeaheadSuggestions?.length) {
-        setSuggestions(typeaheadSuggestions);
-      }
-    },
-    [setSuggestions],
-  );
-
-  useEffect(
-    () => {
-      // We landed on the page with a search term in the URL; fetch suggestions
-      if (userInput) {
-        const initialSuggestions = fetchSuggestions(userInput);
-
-        if (initialSuggestions?.length) {
-          setSuggestions(initialSuggestions);
-        }
-      }
-    },
-    [fetchSuggestions, setSuggestions],
   );
 
   const updateURL = options => {
@@ -306,18 +270,7 @@ const SearchApp = ({
       setFormWasSubmitted(false);
     }
 
-    clearTimeout(instance.current.typeaheadTimer);
-
-    instance.current.typeaheadTimer = setTimeout(() => {
-      fetchSuggestions(userInput);
-    }, 200);
-
     setUserInput(event.target.value);
-
-    if (userInput?.length <= 2) {
-      setSuggestions([]);
-      setSavedSuggestions([]);
-    }
   };
 
   const renderResults = () => {
@@ -414,10 +367,8 @@ const SearchApp = ({
                   id="search-results-page-dropdown-input-field"
                   data-e2e-id="search-results-page-dropdown-input-field"
                   label="Enter a keyword, phrase, or question"
-                  onBlur={() => clearTimeout(instance.current.typeaheadTimer)}
                   onInput={handleInputChange}
                   onSubmit={event => onInputSubmit(event)}
-                  suggestions={suggestions}
                   value={userInput}
                 />
               </div>
