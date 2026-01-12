@@ -62,6 +62,8 @@ const isValidAccountNumber = accountNumber => {
   return /^[a-z0-9]+$/.test(accountNumber);
 };
 
+// Returns an error if the user only updates the unobfuscated digits of their account number
+// In such a scenario, they should either enter the full account number or leave it unchanged
 export const validateAccountNumber = (
   errors,
   accountNumber,
@@ -83,6 +85,8 @@ export const validateAccountNumber = (
   }
 };
 
+// Returns an error if the user only updates the unobfuscated digits of their routing number
+// In such a scenario, they should either enter the full routing number or leave it unchanged
 export const validateRoutingNumber = (
   errors,
   routingNumber,

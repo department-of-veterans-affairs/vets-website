@@ -6,6 +6,8 @@ import {
   validateMobilePhone,
   validateEmail,
   validateEffectiveDate,
+  validateAccountNumber,
+  validateRoutingNumber,
 } from '../../utils/validations';
 import directDeposit from '../../pages/directDeposit';
 
@@ -56,6 +58,138 @@ describe('Phone validation', () => {
     validateEffectiveDate(errors, '1990-01-01');
 
     expect(errors.addError.called).to.be.true;
+  });
+});
+
+describe('Account Number Validation', () => {
+  let errors;
+  let formData;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+
+    formData = {
+      mebBankInfoConfirmationField: true,
+      'view:directDeposit': {
+        bankAccount: {
+          originalAccountNumber: '*****1234',
+        },
+      },
+    };
+  });
+
+  it('should show error when account number contains asterisks and does not match the original masked number', () => {
+    validateAccountNumber(
+      errors,
+      '*****5678',
+      formData,
+      directDeposit.schema.properties['view:directDeposit'].properties
+        .bankAccount.properties.accountNumber.pattern,
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
+        'ui:errorMessages'
+      ],
+    );
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Please enter a valid 5-17 digit bank account number',
+    );
+  });
+
+  it('should not show error when account number matches the original masked number', () => {
+    validateAccountNumber(
+      errors,
+      '*****1234',
+      formData,
+      directDeposit.schema.properties['view:directDeposit'].properties
+        .bankAccount.properties.accountNumber.pattern,
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
+        'ui:errorMessages'
+      ],
+    );
+
+    expect(errors.addError.calledOnce).to.be.false;
+  });
+
+  it('should not show error when account number is valid (no asterisks) and is different from the original masked number', () => {
+    validateAccountNumber(
+      errors,
+      '12345',
+      formData,
+      directDeposit.schema.properties['view:directDeposit'].properties
+        .bankAccount.properties.accountNumber.pattern,
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
+        'ui:errorMessages'
+      ],
+    );
+
+    expect(errors.addError.calledOnce).to.be.false;
+  });
+});
+
+describe('Routing Number Validation', () => {
+  let errors;
+  let formData;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+
+    formData = {
+      mebBankInfoConfirmationField: true,
+      'view:directDeposit': {
+        bankAccount: {
+          originalRoutingNumber: '*****1234',
+        },
+      },
+    };
+  });
+
+  it('should show error when routing number contains asterisks and does not match the original masked number', () => {
+    validateRoutingNumber(
+      errors,
+      '*****5678',
+      formData,
+      directDeposit.schema.properties['view:directDeposit'].properties
+        .bankAccount.properties.routingNumber.pattern,
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
+        'ui:errorMessages'
+      ],
+    );
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Please enter a valid 9-digit routing number',
+    );
+  });
+
+  it('should not show error when routing number matches the original masked number', () => {
+    validateRoutingNumber(
+      errors,
+      '*****1234',
+      formData,
+      directDeposit.schema.properties['view:directDeposit'].properties
+        .bankAccount.properties.routingNumber.pattern,
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
+        'ui:errorMessages'
+      ],
+    );
+
+    expect(errors.addError.calledOnce).to.be.false;
+  });
+
+  it('should not show error when routing number is valid (no asterisks) and is different from the original masked number', () => {
+    validateRoutingNumber(
+      errors,
+      '726286823',
+      formData,
+      directDeposit.schema.properties['view:directDeposit'].properties
+        .bankAccount.properties.routingNumber.pattern,
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
+        'ui:errorMessages'
+      ],
+    );
+
+    expect(errors.addError.calledOnce).to.be.false;
   });
 });
 
