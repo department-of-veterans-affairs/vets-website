@@ -56,8 +56,8 @@ describe('CopyButton helper: ', () => {
       expect(button.getAttribute('text')).to.equal('Copied!');
     });
 
-    // Advance 2 seconds
-    clock.tick(2000);
+    // Advance 3 seconds
+    clock.tick(3000);
 
     // Should show "Copy" again
     await waitFor(() => {
