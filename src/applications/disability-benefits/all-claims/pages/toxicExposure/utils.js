@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-// VA platform runs validation based on formData.dateString,
-// which is populated after all field blur events
+// va-date only updates formData on blur. ForceFieldBlur ensures fields blur
+// before submission so validation runs on current data.
 const getCurrentYear = () => new Date().getFullYear();
 
 /**
