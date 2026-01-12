@@ -13,36 +13,15 @@ Important considerations:
 
 ## Examples
 
-:clock1: Note that error messaging to the user will display in their local timezone. UTC times are provided here in parentheses for clarity of understanding.
-
-### Veteran's local time is **ahead** of UTC by 10 hours
-
-#### Veteran & server are on two different days
-
-- User time: Jan 9 @ 9am
-- UTC time: Jan 8 @ 11pm
-
-| :calendar: Decision date | Eligible :white_check_mark: / :no_entry_sign: | :question: Reasoning | :clock1: Eligibility |
-| --- | --- | --- | --- |
-| Jan 9 | :no_entry_sign: | The decision date is not the previous day or earlier in **local** time | Eligible on Jan 10 @ 10am local (Jan 10 @ 12am UTC) |
-| Jan 8 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC** time. | Eligible on Jan 9 @ 10am local (Jan 9 @ 12am UTC) |
-| Jan 10 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 11 @ 10am local (Jan 11 @ 12am UTC) |
-
-#### Veteran & server are on the same day
-
-- User time: Jan 9 @ 11am
-- UTC time: Jan 9 @ 1am
-
-| :calendar: Decision date | Eligible :white_check_mark: / :no_entry_sign: | :question: Reasoning | :clock1: Eligibility |
-| --- | --- | --- | --- |
-| Jan 9 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 10 @ 10am local (Jan 10 @ 12am UTC) |
-| Jan 10 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 11 @ 10am local (Jan 11 @ 12am UTC) |
+Notes:
+- Error messaging to the user will display in their local timezone
+- Timezones assigned to example `User time` are just for demonstration.
 
 ### Veteran's local time is **behind** UTC by 11 hours
 
 #### Veteran & server are on two different days
 
-- User time: Jan 9 @ 1pm
+- User time: Jan 9 @ 1pm EST
 - UTC time: Jan 10 @ 12am
 
 | :calendar: Decision date | Eligible :white_check_mark: / :no_entry_sign: | :question: Reasoning | :clock1: Eligibility |
@@ -53,10 +32,33 @@ Important considerations:
 
 #### Veteran & server are on the same day
 
-- User time: Jan 9 @ 6am
+- User time: Jan 9 @ 6am EST
 - UTC time: Jan 9 @ 5pm
 
 | :calendar: Decision date | Eligible :white_check_mark: / :no_entry_sign: | :question: Reasoning | :clock1: Eligibility |
 | --- | --- | --- | --- |
 | Jan 9 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 10 @ 12am local (Jan 10 @ 11am UTC) |
 | Jan 10 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 11 @ 12am local (Jan 11 @ 11am UTC) |
+
+### Veteran's local time is **ahead** of UTC by 10 hours
+
+#### Veteran & server are on two different days
+
+- User time: Jan 9 @ 9am EST
+- UTC time: Jan 8 @ 11pm
+
+| :calendar: Decision date | Eligible :white_check_mark: / :no_entry_sign: | :question: Reasoning | :clock1: Eligibility |
+| --- | --- | --- | --- | --- |
+| Jan 9 | :no_entry_sign: | The decision date is not the previous day or earlier in **local** time | Eligible on Jan 10 @ 10am local (Jan 10 @ 12am UTC) |
+| Jan 8 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC** time. | Eligible on Jan 9 @ 10am local (Jan 9 @ 12am UTC) |
+| Jan 10 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 11 @ 10am local (Jan 11 @ 12am UTC) |
+
+#### Veteran & server are on the same day
+
+- User time: Jan 9 @ 11am EST
+- UTC time: Jan 9 @ 1am
+
+| :calendar: Decision date | Eligible :white_check_mark: / :no_entry_sign: | :question: Reasoning | :clock1: Eligibility |
+| --- | --- | --- | --- | --- |
+| Jan 9 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 10 @ 10am local (Jan 10 @ 12am UTC) |
+| Jan 10 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 11 @ 10am local (Jan 11 @ 12am UTC) |

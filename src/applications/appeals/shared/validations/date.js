@@ -1,4 +1,5 @@
 import {
+  add,
   isFuture,
   isToday,
   isValid,
@@ -12,6 +13,8 @@ import { FORMAT_YMD_DATE_FNS, MAX_YEARS_PAST } from '../constants';
 import {
   fixDateFormat,
   formatDateToReadableString,
+  getCurrentUTCStartOfDay,
+  getUTCDateFromDate,
   isUTCFuture,
   isUTCToday,
   parseDateToDateObj,
@@ -135,7 +138,7 @@ export const determineIfDateBlocksSubmission = (
   date,
   hasMessages,
 ) => {
-  const blockingCriteria = isTodayOrInFuture(date.dateObj);
+  const blockingCriteria = isTodayOrInFuture(date);
 
   console.log('blockingCriteria: ', blockingCriteria);
 
@@ -149,6 +152,7 @@ export const determineIfDateBlocksSubmission = (
     } = blockingCriteria;
 
     const todayLocal = new Date();
+    const todayUtc = getCurrentUTCStartOfDay();
     const tomorrowLocal = new Date(todayLocal).setDate(
       todayLocal.getDate() + 1,
     );
@@ -156,9 +160,20 @@ export const determineIfDateBlocksSubmission = (
     let cutoffDate = todayLocal;
 
     if (isTodayLocal && !aheadOfUtc) {
-      cutoffDate = tomorrowLocal;
+      // ex: DD is 1/1/26, today is 1/1/26 local, local is behind UTC
+      cutoffDate = todayLocal; // date must be before today local
     } else if (isTodayLocal && aheadOfUtc && isTodayUtc) {
-      cutoffDate = tomorrowLocal;
+      // ex: DD is 1/1/26, today is 1/1/26 local, local is ahead of UTC, today is 1/1/26 UTC
+      cutoffDate = todayUtc; // date must be before today UTC
+    } else if (isTodayLocal && aheadOfUtc && isFutureUtc) {
+      // ex: DD is 1/2/26, today is 1/2/26 local, local is ahead of UTC, today is 1/1/26 UTC
+      cutoffDate = todayUtc; // date must be before today UTC
+    } else if (isFutureLocal && !aheadOfUtc) {
+      // ex: DD is 1/2/26, today is 1/1/26 local, local is behind UTC
+      cutoffDate = todayLocal; // date must be before today local
+    } else if (isFutureLocal && aheadOfUtc && isTodayUtc) {
+      // ex: DD is 1/2/26, today is 1/1/26 local, local is ahead of UTC, today is 1/1/26 UTC
+      cutoffDate = todayUtc; // date must be before today UTC
     }
 
     const decisionDateErrorMessage = createDecisionDateErrorMsg(errorMessages);
@@ -202,7 +217,7 @@ export const validateDecisionDate = (
   determineIfDateBlocksSubmission(
     errors,
     sharedErrorMessages,
-    date,
+    date.dateObj,
     hasMessages,
   );
 

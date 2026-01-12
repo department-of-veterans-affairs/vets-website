@@ -81,6 +81,24 @@ export const getReadableDate = dateString =>
   parseDate(dateString, FORMAT_READABLE_DATE_FNS, FORMAT_YMD_DATE_FNS);
 
 /**
+ * Return any given date as a UTC date
+ * @param {Date} date - The date to convert
+ */
+export const getUTCDateFromDate = date => {
+  return new Date(
+    Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      0,
+      0,
+      0,
+      0,
+    ),
+  );
+};
+
+/**
  * Get current UTC date at start of day (midnight)
  * @returns {Date} - Current UTC date at start of day
  */
@@ -100,8 +118,12 @@ export const getCurrentUTCStartOfDay = () => {
   );
 };
 
+// Take a local calendar date and make it midnight UTC (start of day)
 /**
  * Convert any date to UTC start of day (preserving calendar date)
+ * Example:
+ * Given date: Jan 12, 2026 11pm PST
+ * Returns: 
  * @param {Date} date - The date to convert
  * @returns {Date} - UTC date at start of day
  */
