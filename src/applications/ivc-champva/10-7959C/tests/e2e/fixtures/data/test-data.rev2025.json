@@ -1,0 +1,49 @@
+{
+  "description": "Medicare (ABD), has both OHIs (Medigap), US address (new), third party signer",
+  "data": {
+    "champvaBenefitStatus": true,
+    "applicantSsn": "234234234",
+    "applicantName": {
+      "first": "Jimmy",
+      "middle": "Q",
+      "last": "Alvin"
+    },
+    "applicantAddress": {
+      "country": "USA",
+      "street": "456 Street Circle",
+      "city": "Anyburg",
+      "state": "AK",
+      "postalCode": "12323"
+    },
+    "applicantNewAddress": "yes",
+    "applicantPhone": "3331233456",
+    "applicantGender": "male",
+    "view:hasMedicare": true,
+    "medicarePlanType": "c",
+    "medicareNumber": "1EG4TE5MK73",
+    "medicarePartAEffectiveDate": "2023-01-15",
+    "medicarePartBEffectiveDate": "2023-01-15",
+    "medicarePartCCarrier": "Advantage Health Solutions",
+    "medicarePartCEffectiveDate": "2023-02-01",
+    "medicarePharmacyBenefits": true,
+    "medicarePartDStatus": true,
+    "medicarePartDCarrier": "PharmaCare Plus",
+    "medicarePartDEffectiveDate": "2023-02-01",
+    "view:hasHealthInsurance": true,
+    "healthInsurance": [
+      {
+        "insuranceType": "medigap",
+        "medigapPlan": "K",
+        "provider": "Blue Cross Blue Shield",
+        "effectiveDate": "2024-10-01",
+        "expirationDate": "2024-10-02",
+        "throughEmployer": true,
+        "eob": true,
+        "additionalComments": "Additional comment"
+      }
+    ],
+    "certifierRole": "other",
+    "certifierEmail": "certifier@email.gov",
+    "signature": "Certifier Jones"
+  }
+}
