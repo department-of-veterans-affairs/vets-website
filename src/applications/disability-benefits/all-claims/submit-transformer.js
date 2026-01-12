@@ -79,11 +79,14 @@ export function transform(formConfig, form) {
       ? _.set('ratedDisabilities', savedRatedDisabilities, formData)
       : formData;
 
-  // Restore toxicExposure stripped by filterEmptyObjects, then apply purge logic
-  // 1. Restores original toxicExposure so empty objects match InProgressForm
-  // 2. Restores feature flag (stripped by transformForSubmit since not in schema)
-  // 3. Purges only explicit user opt-outs (not empty form scaffolding)
-  // 4. Removes feature flag from output (not user data)
+  /**
+   * Restores and purges toxicExposure data after filterEmptyObjects.
+   *
+   * 1. Restores the original toxicExposure so empty objects match InProgressForm.
+   * 2. Restores the feature flag (stripped by transformForSubmit since not in schema).
+   * 3. Purges only explicit user opt-outs (not empty form scaffolding).
+   * 4. Removes the feature flag from output (not user data).
+   */
   const transformToxicExposure = formData => {
     let restoredData = savedToxicExposure
       ? _.set('toxicExposure', savedToxicExposure, formData)
@@ -99,9 +102,6 @@ export function transform(formConfig, form) {
     }
 
     const purgedData = purgeToxicExposureData(restoredData);
-
-    // DEBUG: Remove before merging
-    console.log('transformToxicExposure: purgedData.toxicExposure', purgedData?.toxicExposure);
 
     // Remove feature flag from output (not user data, only needed for purge logic)
     return _.unset('disability526ToxicExposureOptOutDataPurge', purgedData);
@@ -338,9 +338,6 @@ export function transform(formConfig, form) {
     (formData, transformer) => transformer(formData),
     _.cloneDeep(form.data),
   );
-
-  // DEBUG: Remove before merging
-  console.log('submit-transformer: Final toxicExposure', transformedData?.toxicExposure);
 
   return JSON.stringify({ form526: transformedData });
 }
