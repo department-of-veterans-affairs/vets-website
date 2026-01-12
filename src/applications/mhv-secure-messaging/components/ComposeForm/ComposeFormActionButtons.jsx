@@ -75,7 +75,6 @@ const ComposeFormActionButtons = props => {
         setUnsavedNavigationError={setUnsavedNavigationError}
         cannotReply={cannotReply}
         messageBody={messageBody}
-        draftSequence={null}
         setHideDraft={setHideDraft}
         setIsEditing={setIsEditing}
         savedComposeDraft={savedComposeDraft}

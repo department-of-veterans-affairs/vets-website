@@ -56,7 +56,6 @@ const DeleteDraft = props => {
     navigationError,
     setNavigationError,
     messageBody,
-    draftSequence,
     setHideDraft,
     setIsEditing,
     savedComposeDraft,
@@ -166,17 +165,13 @@ const DeleteDraft = props => {
       {/* TODO add GA event */}
       <button
         type="button"
-        id={`delete-draft-button${draftSequence ? `-${draftSequence}` : ''}`}
+        id="delete-draft-button"
         ref={deleteDraftButtonRef}
         className={`usa-button usa-button-secondary ${
           cannotReply ? 'vads-u-padding-x--4' : 'vads-u-flex--1'
         } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center`}
-        data-testid={`delete-draft-button${
-          draftSequence ? `-${draftSequence}` : ''
-        }`}
-        data-dd-action-name={`Delete Draft Button${
-          draftSequence ? `-${draftSequence}` : ''
-        }`}
+        data-testid="delete-draft-button"
+        data-dd-action-name="Delete Draft Button"
         onClick={() => {
           if (
             newMessageNavErr ||
@@ -195,10 +190,10 @@ const DeleteDraft = props => {
         }}
       >
         {showIcon && <va-icon icon="delete" aria-hidden="true" />}
-        Delete draft {draftSequence && `${draftSequence}`}
+        Delete draft
       </button>
       <DeleteDraftModal
-        draftSequence={draftSequence}
+        draftSequence={null}
         visible={isModalVisible}
         onClose={handleDeleteModalClose}
         onDelete={handleDeleteDraftConfirm}
@@ -211,7 +206,6 @@ DeleteDraft.propTypes = {
   cannotReply: PropType.bool,
   draftBody: PropType.string,
   draftId: PropType.number,
-  draftSequence: PropType.number,
   formPopulated: PropType.bool,
   isModalVisible: PropType.bool,
   messageBody: PropType.string,
