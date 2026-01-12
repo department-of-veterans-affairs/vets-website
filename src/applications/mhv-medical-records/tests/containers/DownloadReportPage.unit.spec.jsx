@@ -439,10 +439,10 @@ describe('DownloadRecordsPage - Missing EHR data for facility names', () => {
       reducers: reducer,
       path: '/download-all',
     });
-    expect(screen.getAllByText('unknown').length).to.be.greaterThan(0);
+    expect(screen.getAllByText('Unknown').length).to.be.greaterThan(0);
   };
 
-  it('renders "unknown" when ehrDataByVhaId is missing', () => {
+  it('renders "Unknown" when ehrDataByVhaId is missing', () => {
     testUnknownFallback(undefined);
   });
 
