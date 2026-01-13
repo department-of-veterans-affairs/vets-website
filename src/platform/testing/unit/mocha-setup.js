@@ -168,6 +168,13 @@ function setupJSDom() {
     clearTimeout(id);
   };
   global.Blob = window.Blob;
+  
+  // Override global Event constructors to use jsdom's implementations
+  // In Node 22, native Event constructors create objects incompatible with jsdom
+  global.Event = window.Event;
+  global.CustomEvent = window.CustomEvent;
+  global.MouseEvent = window.MouseEvent;
+  global.KeyboardEvent = window.KeyboardEvent;
 
   /* Overwrites JSDOM global defaults from read-only to configurable */
   // Define the window getter/setter only once (first call).
