@@ -62,6 +62,7 @@ module.exports = async (on, config) => {
           contents = `${injectedDir}\n\n${contents
             .replace(/~\//g, '')
             .replace(/@@profile/g, 'applications/personalization/profile')
+            .replace(/@@vap-svc/g, 'platform/user/profile/vap-svc')
             .replace(
               /@bio-aquia/g,
               'applications/benefits-optimization-aquia',
@@ -79,9 +80,9 @@ module.exports = async (on, config) => {
     loader: { '.js': 'jsx' },
     format: 'cjs',
     external: [
+      '@department-of-veterans-affairs/web-components/react-bindings',
       'web-components/react-bindings',
       'url-search-params',
-      '@@vap-svc/*',
       '~/platform/*',
       'axe-core/*',
     ],

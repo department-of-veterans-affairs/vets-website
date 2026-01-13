@@ -185,7 +185,7 @@ describe('Intent to file submission', () => {
         cy.intercept(
           'POST',
           '/accredited_representative_portal/v0/intent_to_file',
-          {},
+          data,
         );
       });
 
@@ -243,10 +243,7 @@ describe('Intent to file submission', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-21-0966/confirmation`,
         );
-        cy.get('va-alert').should(
-          'contain',
-          'You submitted the form and supporting evidence',
-        );
+        cy.get('va-alert').should('contain', 'We recorded the intent to file');
       });
 
       it('allows non-veteran claimant submission', () => {
@@ -283,7 +280,7 @@ describe('Intent to file submission', () => {
         );
 
         cy.fillClaimantDetail();
-        cy.fillVeteranDetail(false);
+        cy.fillVeteranDetail();
         cy.get('input[name="root_selectBenefits_SURVIVOR"]').click();
         cy.axeCheck();
         cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -306,10 +303,7 @@ describe('Intent to file submission', () => {
           'eq',
           '/representative/representative-form-upload/submit-va-form-21-0966/confirmation',
         );
-        cy.get('va-alert').should(
-          'contain',
-          'You submitted the form and supporting evidence',
-        );
+        cy.get('va-alert').should('contain', 'We recorded the intent to file');
       });
     });
 
@@ -443,7 +437,10 @@ describe('Intent to file submission', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-21-0966/existing-itf`,
         );
-        cy.get('va-card').should('contain', 'This claimant has an ITF on file');
+        cy.get('va-alert').should(
+          'contain',
+          'This claimant has an intent to file',
+        );
       });
     });
 

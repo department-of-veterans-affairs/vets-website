@@ -138,6 +138,7 @@ const ChooseExpenseType = () => {
             tile
             key={option.route}
             label={option.title}
+            name="choose-expense-type"
             value={option.route}
             description={
               option.name === EXPENSE_TYPES.Mileage.name ? hintText : ''

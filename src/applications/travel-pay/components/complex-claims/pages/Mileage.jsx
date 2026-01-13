@@ -24,6 +24,7 @@ import {
   selectExpenseCreationLoadingState,
   selectAllExpenses,
   selectAppointment,
+  selectExpenseBackDestination,
 } from '../../../redux/selectors';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import {
@@ -46,6 +47,7 @@ const Mileage = () => {
   const { data: appointment } = useSelector(selectAppointment);
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
+  const backDestination = useSelector(selectExpenseBackDestination);
 
   const title = 'Mileage';
 
@@ -228,6 +230,8 @@ const Mileage = () => {
     );
     if (isEditMode) {
       setIsModalVisible(true);
+    } else if (backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
@@ -238,11 +242,12 @@ const Mileage = () => {
   const handleConfirmCancel = () => {
     handleCloseModal();
     dispatch(setUnsavedExpenseChanges(false));
-    navigate(
-      isEditMode
-        ? `/file-new-claim/${apptId}/${claimId}/review`
-        : `/file-new-claim/${apptId}/${claimId}/choose-expense`,
-    );
+
+    if (isEditMode || backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    }
   };
 
   return (
@@ -288,11 +293,13 @@ const Mileage = () => {
           } ${address.zipCode}`}
           value="home-address"
           checked={formState.departureAddress === 'home-address'}
+          name="mileage-departure-address-radio"
         />
         <va-radio-option
           label="Another address"
           value="another-address"
           checked={formState.departureAddress === 'another-address'}
+          name="mileage-departure-address-radio"
         />
       </VaRadio>
 
@@ -308,11 +315,13 @@ const Mileage = () => {
           label={TRIP_TYPES.ROUND_TRIP.label}
           value={TRIP_TYPES.ROUND_TRIP.value}
           checked={formState.tripType === TRIP_TYPES.ROUND_TRIP.value}
+          name="mileage-trip-type-radio"
         />
         <va-radio-option
           label={TRIP_TYPES.ONE_WAY.label}
           value={TRIP_TYPES.ONE_WAY.value}
           checked={formState.tripType === TRIP_TYPES.ONE_WAY.value}
+          name="mileage-trip-type-radio"
         />
       </VaRadio>
 
