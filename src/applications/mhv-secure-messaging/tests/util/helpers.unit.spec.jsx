@@ -1143,7 +1143,7 @@ describe('MHV Secure Messaging helpers', () => {
       };
       const result = buildRxRenewalMessageBody(rxWithInvalidDate, false);
 
-      expect(result).to.include('Last filled on: Date not available');
+      expect(result).to.include('Last filled on: Not filled yet');
     });
 
     it('should handle empty dispensed date and show placeholder', () => {
@@ -1153,7 +1153,7 @@ describe('MHV Secure Messaging helpers', () => {
       };
       const result = buildRxRenewalMessageBody(rxWithEmptyDate, false);
 
-      expect(result).to.include('Last filled on: Date not available');
+      expect(result).to.include('Last filled on: Not filled yet');
     });
 
     it('should handle null rx object and show all placeholders', () => {
@@ -1173,7 +1173,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription expiration date: Date not available',
       );
-      expect(result).to.include('Last filled on: Date not available');
+      expect(result).to.include('Last filled on: Not filled yet');
       expect(result).to.include('Reason for use: Reason for use not available');
       expect(result).to.include('Quantity: Quantity not available');
     });
@@ -1195,7 +1195,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription expiration date: Date not available',
       );
-      expect(result).to.include('Last filled on: Date not available');
+      expect(result).to.include('Last filled on: Not filled yet');
       expect(result).to.include('Reason for use: Reason for use not available');
       expect(result).to.include('Quantity: Quantity not available');
     });
@@ -1217,7 +1217,7 @@ describe('MHV Secure Messaging helpers', () => {
       expect(result).to.include(
         'Prescription expiration date: Date not available',
       );
-      expect(result).to.include('Last filled on: Date not available');
+      expect(result).to.include('Last filled on: Not filled yet');
       expect(result).to.include('Reason for use: Reason for use not available');
       expect(result).to.include('Quantity: Quantity not available');
     });
