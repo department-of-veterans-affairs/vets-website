@@ -248,6 +248,9 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     if (isEqual(data?.[fieldName], [noPreferenceValue])) {
       return true;
     }
+    if (data?.[fieldName] === 'continue') {
+      return true;
+    }
     return optionValues.includes(data?.[fieldName]);
   };
 
