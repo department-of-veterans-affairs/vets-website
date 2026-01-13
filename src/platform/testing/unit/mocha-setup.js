@@ -102,11 +102,47 @@ function setupJSDom() {
   global.Blob = window.Blob;
 
   /* Overwrites JSDOM global defaults from read-only to configurable */
+  // Store the real jsdom window reference
+  const realWindow = window;
+
+  // Track properties that tests add to window so we can clean them up
+  const testAddedWindowProps = new Set();
+
+  // Create a proxy that intercepts property additions and tracks them
+  // This allows tests to add properties while keeping the real jsdom window
   Object.defineProperty(global, 'window', {
-    value: global.window,
+    get: () => realWindow,
+    set: newWindow => {
+      // When tests try to replace window with Object.create(window),
+      // instead copy the new properties to the real window.
+      // This preserves EventTarget functionality in jsdom 16+.
+      if (newWindow && newWindow !== realWindow) {
+        // If it's a plain object or Object.create result, copy its own properties
+        const ownProps = Object.getOwnPropertyNames(newWindow);
+        for (const prop of ownProps) {
+          // Skip inherited Window properties, only copy test-added properties
+          if (
+            !Object.prototype.hasOwnProperty.call(
+              Object.getPrototypeOf(realWindow) || {},
+              prop,
+            )
+          ) {
+            try {
+              const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
+              if (descriptor) {
+                Object.defineProperty(realWindow, prop, descriptor);
+                testAddedWindowProps.add(prop);
+              }
+            } catch (e) {
+              // Some properties may not be configurable, ignore
+            }
+          }
+        }
+      }
+      // Don't actually replace window - always return realWindow via getter
+    },
     configurable: true,
     enumerable: true,
-    writable: true,
   });
 
   Object.defineProperty(global, 'sessionStorage', {

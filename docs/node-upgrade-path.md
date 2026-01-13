@@ -172,6 +172,10 @@ This made debugging test failures difficult because it was unclear which change 
 - [x] Fix focus/blur test assertions
   - Fixed by the global HTMLElement getter (affected `getFocusableElements` tests)
   - Updated `ui.unit.spec.jsx` to capture offsets in `beforeEach` instead of describe block
+- [x] Fix EventTarget validation errors
+  - **Global fix**: Added `global.window` getter/setter proxy in `mocha-setup.js`
+  - Tests using `Object.create(global.window)` now work correctly
+  - Properties are copied to real window instead of replacing it, preserving EventTarget functionality
 - [x] Fix event handling tests (no changes needed - existing failures are pre-existing)
 - [x] Remove crypto polyfills if present
   - jsdom 20 adds `crypto.getRandomValues()` - existing code already handles this correctly
@@ -181,9 +185,12 @@ This made debugging test failures difficult because it was unclear which change 
 - [ ] Create PR and merge
 
 #### Files Changed in Phase 1
-1. `src/platform/testing/unit/mocha-setup.js` - Added global HTMLElement getter
+1. `src/platform/testing/unit/mocha-setup.js` - Added global fixes:
+   - HTMLElement getter for constructor isolation
+   - Window getter/setter proxy for EventTarget preservation
 2. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
 3. `src/applications/dispute-debt/tests/containers/NeedsHelp.unit.spec.jsx` - Remove obsolete customElements mock
+4. `.github/workflows/continuous-integration.yml` - Added workflow_dispatch for full test runs
 
 ### Phase 2: Node Upgrade
 - [ ] Create feature branch
