@@ -31,7 +31,7 @@ const ThreadDetails = props => {
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const recipients = useSelector(state => state.sm.recipients);
-  const { cannotReply, drafts, messages, threadFolderId } = useSelector(
+  const { cannotReply, draft, messages, threadFolderId } = useSelector(
     state => state.sm.threadDetails,
   );
   const { folder } = useSelector(state => state.sm.folders);
@@ -64,11 +64,11 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      if (!folder && drafts?.length > 0) {
+      if (!folder && draft) {
         dispatch(retrieveFolder(threadFolderId));
       }
     },
-    [drafts, dispatch, folder, threadFolderId],
+    [draft, dispatch, folder, threadFolderId],
   );
 
   const handleRedirectToFolder = useCallback(
@@ -127,7 +127,7 @@ const ThreadDetails = props => {
         />
       );
     }
-    if (drafts?.length > 0 && messages?.length > 0) {
+    if (draft && messages?.length > 0) {
       return (
         <>
           <va-loading-indicator
@@ -145,7 +145,7 @@ const ThreadDetails = props => {
           >
             <ReplyForm
               cannotReply={cannotReply}
-              drafts={drafts || []}
+              drafts={[draft] || []}
               header={header}
               messages={messages}
               recipients={recipients}
@@ -175,19 +175,19 @@ const ThreadDetails = props => {
         </>
       );
     }
-    if (drafts?.length === 1 && !messages?.length) {
+    if (draft && !messages?.length) {
       updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
       return (
         <div className="compose-container">
           <ComposeForm
-            draft={drafts[0]}
+            draft={draft}
             recipients={recipients}
             pageTitle="Edit draft"
           />
         </div>
       );
     }
-    if (messages?.length && !drafts?.length) {
+    if (messages?.length && !draft) {
       return (
         <>
           <MessageThreadHeader
