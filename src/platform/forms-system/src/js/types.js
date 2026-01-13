@@ -184,8 +184,7 @@
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
  */
-// a way to signal we have "two" folders
-// something about routing a function or...
+
 /**
  * @typedef {Object} CustomPageProps
  * @property {string} name route.pageConfig.pageKey
