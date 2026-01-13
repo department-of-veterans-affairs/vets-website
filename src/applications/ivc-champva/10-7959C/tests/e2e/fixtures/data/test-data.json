@@ -1,7 +1,7 @@
 {
   "description": "Medicare (ABD), has both OHIs (Medigap), US address (new), third party signer",
   "data": {
-    "champvaBenefitStatus": true,
+    "view:champvaBenefitStatus": true,
     "applicantSsn": "234234234",
     "applicantName": {
       "first": "Jimmy",
@@ -23,11 +23,15 @@
     "applicantMedicarePartBCarrier": "Test B Carrier",
     "applicantMedicarePartAEffectiveDate": "2010-01-01",
     "applicantMedicarePartBEffectiveDate": "2010-01-01",
+    "applicantMedicarePartAPartBCardFront": [],
+    "applicantMedicarePartAPartBCardBack": [],
     "applicantMedicarePharmacyBenefits": false,
     "applicantMedicareClass": "advantage",
     "applicantMedicareStatusD": true,
     "applicantMedicarePartDCarrier": "Test D Carrier",
     "applicantMedicarePartDEffectiveDate": "2010-01-01",
+    "medicarePartDCardFront": [],
+    "medicarePartDCardBack": [],
     "applicantHasPrimary": true,
     "applicantPrimaryProvider": "Primary Provider",
     "applicantPrimaryEffectiveDate": "2010-01-01",
@@ -38,6 +42,9 @@
     "applicantPrimaryInsuranceType": "medigap",
     "primaryMedigapPlan": "A",
     "primaryAdditionalComments": "Additional primary comment",
+    "primaryInsuranceScheduleOfBenefits": [],
+    "primaryInsuranceCardFront": [],
+    "primaryInsuranceCardBack": [],
     "applicantHasSecondary": true,
     "applicantSecondaryProvider": "Secondary Provider",
     "applicantSecondaryEffectiveDate": "2010-01-01",
@@ -48,9 +55,10 @@
     "applicantSecondaryInsuranceType": "medigap",
     "secondaryMedigapPlan": "M",
     "secondaryAdditionalComments": "Additional secondary comment",
+    "secondaryInsuranceCardFront": [],
+    "secondaryInsuranceCardBack": [],
     "certifierRole": "other",
     "certifierEmail": "certifier@email.gov",
-    "signature": "Certifier Jones",
-    "consentToMailMissingRequiredFiles": true
+    "signature": "Certifier Jones"
   }
 }

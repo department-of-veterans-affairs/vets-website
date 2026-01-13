@@ -93,6 +93,16 @@
   margin: 0;
 }
 
+#default-page {
+  h2 {
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+  p {
+    margin: 16px 0;
+  }
+}
+
 .reviewed-file {
   color: var(--vads-color-success-dark);
 }

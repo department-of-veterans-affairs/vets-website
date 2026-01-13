@@ -29,6 +29,7 @@ import { getValidationErrors } from 'platform/forms-system/src/js/utilities/vali
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import { useFetchInProgressForm } from '../hooks/useFetchInProgressForm';
 
 /**
  * Render contact info page
@@ -252,6 +253,9 @@ export const ContactInfoBase = ({
     },
     [missingInfo, hasInitialized, testContinueAlert],
   );
+
+  // Fetch in-progress form data with prefill
+  useFetchInProgressForm();
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');

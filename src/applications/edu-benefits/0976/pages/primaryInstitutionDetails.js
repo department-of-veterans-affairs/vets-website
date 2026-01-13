@@ -25,7 +25,9 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
 
 export default {
   uiSchema: {
-    ...titleUI('Please enter your VA facility code'),
+    ...titleUI(
+      'If your institution has a VA facility code, please enter it below',
+    ),
     primaryInstitutionDetails: {
       facilityCode: {
         ...textUI({
