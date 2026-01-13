@@ -91,7 +91,9 @@ function setupJSDom() {
   /* sets up `global` for testing */
   global.dom = dom;
   global.window = window;
-  global.document = window.document;
+  // Note: global.document is defined as a getter below to ensure modules
+  // like axe-core always use the current window's document after beforeEach
+  // creates a new JSDOM. See the Object.defineProperty for 'document' below.
   global.navigator = { userAgent: 'node.js' };
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
@@ -180,6 +182,15 @@ function setupJSDom() {
   // This fixes tests that capture HTMLElement.prototype at describe-block time.
   Object.defineProperty(global, 'HTMLElement', {
     get: () => global.window.HTMLElement,
+    configurable: true,
+    enumerable: true,
+  });
+
+  // jsdom 16+ also requires document to be a getter so that modules like
+  // axe-core that capture document at import time will use the current
+  // window's document after beforeEach creates a new JSDOM.
+  Object.defineProperty(global, 'document', {
+    get: () => global.window.document,
     configurable: true,
     enumerable: true,
   });
