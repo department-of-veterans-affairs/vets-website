@@ -324,7 +324,6 @@ const ExpensePage = () => {
     if (isLodging) {
       errors = validateLodgingFields(formState, errors);
     }
-
     // Meal-specific validations
     if (isMeal) {
       errors = validateMealFields(formState, errors);
@@ -348,12 +347,15 @@ const ExpensePage = () => {
       DATE_VALIDATION_TYPE.SUBMIT,
     );
 
+    const hasBlockingErrors = Object.values(errors).some(Boolean);
+
     // Extra validation for specific fields
     return (
       emptyFields.length === 0 &&
       isDateValid &&
       isDescriptionValid &&
-      isAmountValid
+      isAmountValid &&
+      !hasBlockingErrors
     );
   };
 
