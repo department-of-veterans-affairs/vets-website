@@ -104,8 +104,8 @@ export function validateToxicExposureGulfWar1990Dates(
 
     // Validate end date is after August 2, 1990 (accepts 1990-XX and 1990-08)
     if (
-      end.year &&
-      (end.year < 1990 || (end.year === 1990 && end.month && end.month < 8))
+      (end.year && end.year < 1990) ||
+      (end.year === 1990 && end.month && end.month < 8)
     ) {
       errors.endDate.addError(messages.endDate1990);
     }
