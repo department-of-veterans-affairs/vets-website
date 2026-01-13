@@ -25,12 +25,10 @@ const CopyButton = ({
       setCopied(true);
       setError(null);
 
-      setTimeout(() => {
-        if (announcementRef.current) {
-          announcementRef.current.textContent = `Copied ${label ||
-            value} to clipboard`;
-        }
-      }, 10);
+      if (announcementRef.current) {
+        announcementRef.current.textContent = `Copied ${label ||
+          value} to clipboard`;
+      }
 
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
