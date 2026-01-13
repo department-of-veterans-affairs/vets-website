@@ -17,7 +17,7 @@ export default function PersonalInformationNote() {
       <va-link
         external
         href="https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/"
-        text="Learn how to change your legal name"
+        text="Find more detailed instructions for how to change your legal name"
       />
     </div>
   );
