@@ -8,10 +8,14 @@ describe('VASS Component: AppointmentCard', () => {
   it('renders card sections and actions', () => {
     const appointmentData = {
       appointmentId: '123',
-      phoneNumber: '8005551212',
-      dtStartUtc: '2025-05-01T16:00:00.000Z',
-      typeOfCare: 'Solid Start',
-      providerName: 'Bill Brasky',
+      startUTC: '2025-05-01T16:00:00.000Z',
+      endUTC: '2025-05-01T16:30:00.000Z',
+      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+      agentNickname: 'Bill Brasky',
+      appointmentStatusCode: 1,
+      appointmentStatus: 'Confirmed',
+      cohortStartUtc: '2025-01-01T00:00:00.000Z',
+      cohortEndUtc: '2025-12-31T23:59:59.999Z',
       topics: [{ topicName: 'Benefits' }, { topicName: 'Health care' }],
       showAddToCalendarButton: true,
     };
@@ -27,6 +31,10 @@ describe('VASS Component: AppointmentCard', () => {
     expect(getByTestId('appointment-type').textContent).to.equal(
       'Phone appointment',
     );
+    expect(getByTestId('solid-start-telephone')).to.exist;
+    expect(
+      getByTestId('solid-start-telephone').getAttribute('contact'),
+    ).to.equal('8008270611');
     expect(getByTestId('how-to-join-section')).to.exist;
     expect(getByTestId('when-section')).to.exist;
     expect(getByTestId('what-section')).to.exist;
@@ -43,9 +51,14 @@ describe('VASS Component: AppointmentCard', () => {
     const appointmentData = {
       appointmentId: '456',
       phoneNumber: '8005551212',
-      dtStartUtc: '2025-06-01T16:00:00.000Z',
-      typeOfCare: 'Solid Start',
-      providerName: 'Bill Brasky',
+      startUTC: '2025-06-01T16:00:00.000Z',
+      endUTC: '2025-06-01T16:30:00.000Z',
+      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+      agentNickname: 'Bill Brasky',
+      appointmentStatusCode: 1,
+      appointmentStatus: 'Confirmed',
+      cohortStartUtc: '2025-01-01T00:00:00.000Z',
+      cohortEndUtc: '2025-12-31T23:59:59.999Z',
       topics: [{ topicName: 'Benefits' }],
       showAddToCalendarButton: false,
     };
@@ -58,5 +71,25 @@ describe('VASS Component: AppointmentCard', () => {
     expect(queryByTestId('add-to-calendar-button')).to.not.exist;
     expect(queryByTestId('print-button')).to.not.exist;
     expect(queryByTestId('cancel-button')).to.not.exist;
+  });
+
+  it('omits topics section when no topics are provided', () => {
+    const appointmentData = {
+      appointmentId: '789',
+      startUTC: '2025-07-01T16:00:00.000Z',
+      endUTC: '2025-07-01T16:30:00.000Z',
+      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+      agentNickname: 'Bill Brasky',
+      appointmentStatusCode: 1,
+      appointmentStatus: 'Confirmed',
+      cohortStartUtc: '2025-01-01T00:00:00.000Z',
+      cohortEndUtc: '2025-12-31T23:59:59.999Z',
+      topics: [],
+    };
+    const { queryByTestId } = render(
+      <AppointmentCard appointmentData={appointmentData} />,
+    );
+
+    expect(queryByTestId('topics-section')).to.not.exist;
   });
 });

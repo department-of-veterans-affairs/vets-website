@@ -11,7 +11,7 @@ import { nameWording, privWrapper } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
-import { migrateCardUploadKeys } from './migrations';
+import migrations from './migrations';
 import { blankSchema } from '../definitions';
 
 import { beneficiaryPages } from '../chapters/applicantInformation';
@@ -25,6 +25,7 @@ import medicareCardUpload from '../chapters/medicare/partsABCardUpload';
 import medicarePartDStatus from '../chapters/medicare/partDStatus';
 import medicarePartDCarrier from '../chapters/medicare/partDCarrier';
 import medicarePartDCardUpload from '../chapters/medicare/partDCardUpload';
+import { medicarePagesRev2025 } from '../chapters/medicare';
 
 import {
   applicantHasInsuranceSchema,
@@ -44,25 +45,10 @@ import benefitStatus from '../chapters/signerInformation/benefitStatus';
 import certifierEmail from '../chapters/signerInformation/certifierEmail';
 import certifierRole from '../chapters/signerInformation/certifierRole';
 import CustomAttestation from '../components/CustomAttestation';
-
-import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
-import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
-import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import { FEATURE_TOGGLES } from '../hooks/useDefaultFormData';
 
 //  import mockdata from '../tests/e2e/fixtures/data/test-data.json';
-
-// Control whether we show the file overview page by calling `hasReq` to
-// determine if any files have not been uploaded. Defaults to false (hide the page)
-// if anything goes sideways.
-function showFileOverviewPage(formData) {
-  try {
-    return hasReq(formData, true, true) || hasReq(formData, false, true);
-  } catch {
-    return false;
-  }
-}
 
 // (First Name Posessive);
 function fnp(formData) {
@@ -76,8 +62,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959C-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -114,8 +98,8 @@ const formConfig = {
         'Your CHAMPVA other health insurance certification application has been saved.',
     },
   },
-  version: 1,
-  migrations: [migrateCardUploadKeys],
+  version: migrations.length,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
   transformForSubmit,
@@ -168,14 +152,10 @@ const formConfig = {
         benefitApp: {
           path: 'benefit-application',
           title: 'Apply for Benefits',
-          depends: formData => !get('champvaBenefitStatus', formData),
+          depends: formData => !get('view:champvaBenefitStatus', formData),
           CustomPage: NotEnrolledPage,
           CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
+          uiSchema: {},
           schema: blankSchema,
         },
         signerEmail: {
@@ -192,22 +172,26 @@ const formConfig = {
     medicareInformation: {
       title: 'Medicare information',
       pages: {
+        ...medicarePagesRev2025,
         hasMedicareAB: {
           path: 'medicare-ab-status',
           title: 'Report Medicare plans',
+          depends: formData => !formData[REV2025_TOGGLE_KEY],
           ...medicareReportPlans,
         },
         medicareClass: {
           path: 'medicare-plan',
           title: 'Medicare plan types',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           ...medicarePlanTypes,
         },
         pharmacyBenefits: {
           path: 'medicare-pharmacy',
           title: 'Medicare pharmacy benefits',
           depends: formData =>
-            !formData['view:champvaForm107959cRev2025'] &&
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData) &&
             ['advantage', 'other'].includes(
               get('applicantMedicareClass', formData),
@@ -217,19 +201,25 @@ const formConfig = {
         partACarrier: {
           path: 'medicare-a-carrier',
           title: 'Medicare Part A carrier',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           ...medicarePartACarrier,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
           title: 'Medicare Part B carrier',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           ...medicarePartBCarrier,
         },
         medicareABCards: {
           path: 'medicare-ab-upload',
           title: 'Medicare card for hospital and medical coverage',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...medicareCardUpload,
@@ -237,13 +227,16 @@ const formConfig = {
         hasMedicareD: {
           path: 'medicare-d-status',
           title: 'Medicare Part D status',
-          depends: formData => get('applicantMedicareStatus', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantMedicareStatus', formData),
           ...medicarePartDStatus,
         },
         partDCarrier: {
           path: 'medicare-d-carrier',
           title: 'Medicare Part D carrier',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
           ...medicarePartDCarrier,
@@ -252,6 +245,7 @@ const formConfig = {
           path: 'medicare-d-upload',
           title: 'Medicare Part D card',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
           CustomPage: FileFieldWrapped,
@@ -522,39 +516,6 @@ const formConfig = {
               } additional comments`,
             ),
           ...applicantInsuranceCommentsSchema(false),
-        },
-      },
-    },
-    fileUpload: {
-      title: 'File Upload',
-      pages: {
-        supportingFilesReview: {
-          path: 'supporting-files',
-          title: 'Upload your supporting files',
-          depends: formData =>
-            !formData[REV2025_TOGGLE_KEY] && showFileOverviewPage(formData),
-          CustomPage: SupportingDocumentsPage,
-          CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: blankSchema,
-        },
-        missingFileConsent: {
-          path: 'consent-mail',
-          title: 'Upload your supporting files',
-          depends: formData =>
-            !formData[REV2025_TOGGLE_KEY] && showFileOverviewPage(formData),
-          CustomPage: MissingFileConsentPage,
-          CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: blankSchema,
         },
       },
     },

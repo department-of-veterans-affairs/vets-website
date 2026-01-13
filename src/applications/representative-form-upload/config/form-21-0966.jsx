@@ -15,7 +15,7 @@ import ITFSubmissionError from './ITFSubmissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 import ITF403Error from '../components/ITF403Error';
 import ITF500Error from '../components/ITF500Error';
-import ExistingItf from '../components/ExistingItf';
+import ITFExistingClaim from '../components/ITFExistingClaim';
 
 const form210966 = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
@@ -71,7 +71,7 @@ const form210966 = (pathname = null) => {
       {
         path: 'existing-itf',
         pageKey: 'existing-itf',
-        component: ExistingItf,
+        component: ITFExistingClaim,
         depends: () => false,
       },
     ],
