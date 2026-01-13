@@ -707,8 +707,8 @@ export default function formReducer(state = initialState, action) {
         ...state,
         patientProviderRelationshipsStatus: FETCH_STATUS.succeeded,
         patientProviderRelationships:
-          action.relationships.patientProviderRelationships,
-        backendServiceFailures: action.relationships.backendServiceFailures,
+          action.relationships?.patientProviderRelationships,
+        backendServiceFailures: action.relationships?.backendServiceFailures,
       };
     case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED:
       return {
