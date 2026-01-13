@@ -29,10 +29,11 @@ export default function EpsAppointmentHeading({
   const isCanceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
   if (isCanceled && !cancellingAppointment) {
     // Determine who cancelled the appointment
-    const canceler =
-      appointment.cancelationReason === CANCELLATION_REASONS.patient
-        ? 'You'
-        : appointment.provider?.name || 'Facility';
+    const isPatientCanceled =
+      appointment.cancelationReason === CANCELLATION_REASONS.patient;
+    const canceler = isPatientCanceled
+      ? 'You'
+      : appointment.provider?.name || 'Facility';
 
     return (
       <AppointmentHeading
@@ -45,7 +46,11 @@ export default function EpsAppointmentHeading({
           },
         }}
         heading={`${canceler} canceled this appointment`}
-        infoText="If you want to reschedule, call us or schedule a new appointment online."
+        infoText={
+          isPatientCanceled
+            ? 'If you want to reschedule, call us or schedule a new appointment online.'
+            : undefined
+        }
       />
     );
   }
@@ -109,7 +114,13 @@ export default function EpsAppointmentHeading({
 }
 
 EpsAppointmentHeading.propTypes = {
-  appointment: PropTypes.object.isRequired,
+  appointment: PropTypes.shape({
+    status: PropTypes.oneOf(Object.values(APPOINTMENT_STATUS)).isRequired,
+    cancelationReason: PropTypes.oneOf(Object.values(CANCELLATION_REASONS)),
+    provider: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }).isRequired,
   cancelSuccess: PropTypes.bool.isRequired,
   cancellingAppointment: PropTypes.bool.isRequired,
   isPastAppointment: PropTypes.bool.isRequired,

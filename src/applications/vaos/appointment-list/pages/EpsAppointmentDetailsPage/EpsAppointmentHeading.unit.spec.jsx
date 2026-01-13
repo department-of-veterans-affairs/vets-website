@@ -358,13 +358,18 @@ describe('EpsAppointmentHeading', () => {
         provider: { name: 'Dr. Smith Cardiology' },
       };
       const store = createTestStore({});
-      const { getByText } = renderWithStoreAndRouter(
+      const { getByText, queryByText } = renderWithStoreAndRouter(
         <EpsAppointmentHeading {...defaultProps} appointment={appointment} />,
         { store },
       );
 
       expect(getByText('Dr. Smith Cardiology canceled this appointment')).to
         .exist;
+      expect(
+        queryByText(
+          'If you want to reschedule, call us or schedule a new appointment online.',
+        ),
+      ).to.not.exist;
     });
 
     it('should show "Facility" when provider name not available', () => {
@@ -388,13 +393,18 @@ describe('EpsAppointmentHeading', () => {
         provider: { name: 'Dr. Smith Cardiology' },
       };
       const store = createTestStore({});
-      const { getByText } = renderWithStoreAndRouter(
+      const { getByText, queryByText } = renderWithStoreAndRouter(
         <EpsAppointmentHeading {...defaultProps} appointment={appointment} />,
         { store },
       );
 
       expect(getByText('Dr. Smith Cardiology canceled this appointment')).to
         .exist;
+      expect(
+        queryByText(
+          'If you want to reschedule, call us or schedule a new appointment online.',
+        ),
+      ).to.not.exist;
     });
 
     it('should not show cancelled message when in cancellation flow', () => {
