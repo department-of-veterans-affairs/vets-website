@@ -106,8 +106,8 @@ export default function SelectProviderPage() {
         )}
 
       {/* No providers returned, no error returned */}
-      {!hasProviders &&
-        !patientRelationshipsError && (
+      {!patientRelationshipsError &&
+        !hasProviders && (
           <NoAvailableProvidersInfo
             isEligibleForRequest={isEligibleForRequest}
             overRequestLimit={overRequestLimit}
