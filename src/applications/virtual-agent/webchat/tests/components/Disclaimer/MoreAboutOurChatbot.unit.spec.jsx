@@ -1,15 +1,15 @@
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import * as WhatToExpectModule from '../../../components/Disclaimer/WhatToExpect';
-import * as ScreenReaderModule from '../../../components/Disclaimer/ScreenReader';
-import * as WhatWeCollectModule from '../../../components/Disclaimer/WhatWeCollect';
+import * as ScreenReaderModule from '../../../../shared/components/Disclaimer/ScreenReader';
+import * as WhatToExpectModule from '../../../../shared/components/Disclaimer/WhatToExpect';
+import * as WhatWeCollectModule from '../../../../shared/components/Disclaimer/WhatWeCollect';
 
-import MoreAboutOurChatbot from '../../../components/Disclaimer/MoreAboutOurChatbot';
+import MoreAboutOurChatbot from '../../../../shared/components/Disclaimer/MoreAboutOurChatbot';
 
 describe('MoreAboutOurChatbot', () => {
   let sandbox;

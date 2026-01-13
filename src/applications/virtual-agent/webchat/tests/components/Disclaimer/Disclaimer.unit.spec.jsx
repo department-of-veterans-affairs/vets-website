@@ -1,15 +1,15 @@
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
 
-import * as BreadcrumbsModule from '../../../components/Disclaimer/Breadcrumbs';
-import * as IntroModule from '../../../components/Disclaimer/Intro';
-import * as BetaTestingModule from '../../../components/Disclaimer/BetaTesting';
-import * as BeforeYouStartModule from '../../../components/Disclaimer/BeforeYouStart';
-import * as AdditionalInfoModule from '../../../components/Disclaimer/AdditionalInfo';
+import * as AdditionalInfoModule from '../../../../shared/components/Disclaimer/AdditionalInfo';
+import * as BeforeYouStartModule from '../../../../shared/components/Disclaimer/BeforeYouStart';
+import * as BetaTestingModule from '../../../../shared/components/Disclaimer/BetaTesting';
+import * as BreadcrumbsModule from '../../../../shared/components/Disclaimer/Breadcrumbs';
+import * as IntroModule from '../../../../shared/components/Disclaimer/Intro';
 
-import Disclaimer from '../../../components/Disclaimer/Disclaimer';
+import Disclaimer from '../../../../shared/components/Disclaimer/Disclaimer';
 
 describe('Disclaimer', () => {
   let sandbox;

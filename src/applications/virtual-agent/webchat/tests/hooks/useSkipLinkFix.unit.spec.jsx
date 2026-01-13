@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { expect } from 'chai';
 
-import useSkipLinkFix from '../../hooks/useSkipLinkFix';
+import useSkipLinkFix from '../../../shared/hooks/useSkipLinkFix';
 
 describe('useSkipLinkFix', () => {
   afterEach(() => {

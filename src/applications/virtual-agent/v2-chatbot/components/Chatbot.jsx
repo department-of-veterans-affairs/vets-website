@@ -1,10 +1,9 @@
 import React from 'react';
 
-import useSkipLinkFix from '../hooks/useSkipLinkFix';
-import Chatbox from './Chatbox';
-import Disclaimer from './Disclaimer/Disclaimer';
+import Disclaimer from '../../shared/components/Disclaimer/Disclaimer';
+import useSkipLinkFix from '../../shared/hooks/useSkipLinkFix';
 
-export default function StickyBot() {
+export const Chatbot = () => {
   useSkipLinkFix();
 
   return (
@@ -14,9 +13,10 @@ export default function StickyBot() {
           <Disclaimer />
         </div>
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7 small-desktop-screen:vads-l-col--5">
-          <Chatbox />
+          <h3>V2 Chatbot Placeholder</h3>
+          <p className="vads-u-font-style--italic">Stay tuned!</p>
         </div>
       </div>
     </div>
   );
-}
+};

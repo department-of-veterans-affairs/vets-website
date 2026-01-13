@@ -1,11 +1,11 @@
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
 
-import StickyBot from '../../components/StickyBot';
-import * as Disclaimer from '../../components/Disclaimer/Disclaimer';
+import * as Disclaimer from '../../../shared/components/Disclaimer/Disclaimer';
 import * as Chatbox from '../../components/Chatbox';
+import StickyBot from '../../components/StickyBot';
 
 describe('StickyBot', () => {
   let sandbox;

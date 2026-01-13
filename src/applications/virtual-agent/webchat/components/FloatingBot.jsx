@@ -1,5 +1,5 @@
 import React from 'react';
-import Disclaimer from './Disclaimer/Disclaimer';
+import Disclaimer from '../../shared/components/Disclaimer/Disclaimer';
 import Chatbox from './Chatbox';
 
 function updateElementById(id, classListAdd, classListRemove) {
@@ -91,6 +91,7 @@ export default function FloatingBot() {
 
         <div
           id="chatbot"
+          data-testid="floating-chatbot"
           className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--5 vads-u-display--block medium-screen:vads-u-display--none"
         >
           <Chatbox />

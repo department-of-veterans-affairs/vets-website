@@ -1,13 +1,13 @@
-import React from 'react';
-import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
 
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import BetaTesting from '../../../components/Disclaimer/BetaTesting';
+import BetaTesting from '../../../../shared/components/Disclaimer/BetaTesting';
 
 describe('BetaTesting', () => {
   describe('BetaTesting', () => {

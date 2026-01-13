@@ -1,10 +1,10 @@
-import React from 'react';
-import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import BeforeYouStart from '../../../components/Disclaimer/BeforeYouStart';
+import BeforeYouStart from '../../../../shared/components/Disclaimer/BeforeYouStart';
 
 describe('BeforeYouStart', () => {
   describe('BeforeYouStart', () => {
