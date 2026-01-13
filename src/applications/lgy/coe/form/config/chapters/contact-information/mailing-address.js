@@ -2,7 +2,6 @@ import React from 'react';
 import addressUiSchema, {
   updateFormDataAddress,
 } from 'platform/forms-system/src/js/definitions/profileAddress';
-
 import { contactInformation } from '../../schemaImports';
 
 const description = () => (
