@@ -14,14 +14,14 @@ const App = ({ formEnabled }) => {
     return (
       <>
         <p>You can verify this information online or by mail.</p>
-	<h4>Option 1: Online</h4>
+        <h4>Option 1: Online</h4>
         <a
           className="vads-c-action-link--blue"
           href="/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
         >
           Submit Employment Questionnaire
         </a>
-	<h4>Option 2: By mail</h4>
+        <h4>Option 2: By mail</h4>
       </>
     );
   }
