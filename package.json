@@ -274,7 +274,7 @@
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^1.9.5",
-    "blob-polyfill": "^5.0.20210201",
+
     "botframework-webchat": "4.17.0",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
@@ -367,6 +367,7 @@
     "**/normalize-url": "^6.0.1",
     "**/qs": "^6.0.4",
     "**/axios": "^0.21.1",
+    "**/cheerio": "1.0.0-rc.12",
     "**/elliptic": "^6.5.4",
     "**/minimatch": "^3.0.2",
     "**/netmask": "^2.0.1",

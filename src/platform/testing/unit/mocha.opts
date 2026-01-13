@@ -2,7 +2,6 @@
 --require src/platform/testing/unit/enzyme-setup.js
 --require core-js/stable
 --require regenerator-runtime/runtime
---require blob-polyfill
 --require isomorphic-fetch
 --require mocha-snapshots
 --compilers js:@babel/register,jsx:@babel/register

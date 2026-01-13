@@ -152,7 +152,15 @@ function setupJSDom() {
   // Note: global.document is defined as a getter below to ensure modules
   // like axe-core always use the current window's document after beforeEach
   // creates a new JSDOM. See the Object.defineProperty for 'document' below.
-  global.navigator = { userAgent: 'node.js' };
+  
+  // Use defineProperty for navigator since it's read-only in Node 22+
+  Object.defineProperty(global, 'navigator', {
+    value: { userAgent: 'node.js' },
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
+  
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
