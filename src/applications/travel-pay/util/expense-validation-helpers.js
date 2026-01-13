@@ -300,6 +300,158 @@ export const validateRequestedAmount = (
 };
 
 /**
+ * Helper: Validates air travel trip type field
+ */
+const validateAirTravelTripType = (formState, errors, isBlurEvent) => {
+  const nextErrors = { ...errors };
+  if (!formState.tripType) {
+    if (isBlurEvent) {
+      nextErrors.tripType = 'Select a trip type';
+    }
+    // Don't clear error on change if field is still empty
+  } else if (
+    formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+    formState.returnDate
+  ) {
+    if (isBlurEvent) {
+      nextErrors.tripType = 'You entered a return date for a one-way trip';
+    }
+    // Don't clear error on change if field is still invalid
+  } else {
+    // Field is valid - clear error regardless of isBlurEvent
+    delete nextErrors.tripType;
+  }
+  return nextErrors;
+};
+
+/**
+ * Helper: Validates air travel vendor name field
+ */
+const validateAirTravelVendorName = (formState, errors, isBlurEvent) => {
+  const nextErrors = { ...errors };
+  if (!formState.vendorName) {
+    if (isBlurEvent) {
+      nextErrors.vendorName = 'Enter the company name';
+    }
+    // Don't clear error on change if field is still empty
+  } else {
+    // Field is valid - clear error regardless of isBlurEvent
+    delete nextErrors.vendorName;
+  }
+  return nextErrors;
+};
+
+/**
+ * Helper: Validates air travel departure date field
+ */
+const validateAirTravelDepartureDate = (formState, errors, isBlurEvent) => {
+  const nextErrors = { ...errors };
+  const { departureDate, returnDate } = formState;
+  const departureDateComplete = isCompleteDate(departureDate);
+  const returnDateComplete = isCompleteDate(returnDate);
+
+  if (!departureDate) {
+    if (isBlurEvent) {
+      nextErrors.departureDate = 'Enter a departure date';
+    }
+  } else if (departureDateComplete) {
+    const [year, month, day] = departureDate.split('-');
+    const futureDateError = getFutureDateError({ year, month, day });
+
+    if (futureDateError) {
+      nextErrors.departureDate = isBlurEvent
+        ? futureDateError
+        : nextErrors.departureDate;
+    } else if (returnDateComplete && departureDate > returnDate) {
+      nextErrors.departureDate = isBlurEvent
+        ? 'Departure date must be before return date'
+        : nextErrors.departureDate;
+    } else {
+      // Field is valid - clear error regardless of isBlurEvent
+      delete nextErrors.departureDate;
+    }
+  } else {
+    // Partial date - clear error to allow user to continue filling
+    delete nextErrors.departureDate;
+  }
+  return nextErrors;
+};
+
+/**
+ * Helper: Validates air travel return date field
+ */
+const validateAirTravelReturnDate = (
+  formState,
+  errors,
+  fieldName,
+  isBlurEvent,
+) => {
+  const nextErrors = { ...errors };
+  const { tripType, departureDate, returnDate } = formState;
+  const departureDateComplete = isCompleteDate(departureDate);
+  const returnDateComplete = isCompleteDate(returnDate);
+  const shouldValidateReturnDate = tripType === TRIP_TYPES.ROUND_TRIP.value;
+
+  // One-way trip with a return date
+  if (tripType === TRIP_TYPES.ONE_WAY.value && returnDateComplete) {
+    nextErrors.returnDate = isBlurEvent
+      ? 'You entered a return date for a one-way trip'
+      : nextErrors.returnDate;
+  }
+  // Round-trip validations
+  else if (shouldValidateReturnDate) {
+    // Only show required error if returnDate field itself is being validated,
+    // not as a side-effect of tripType changing
+    if (!returnDate && fieldName === 'returnDate') {
+      if (isBlurEvent) {
+        nextErrors.returnDate = 'Enter a return date';
+      }
+      // Don't clear error on change if field is still empty
+    } else if (returnDateComplete) {
+      const [year, month, day] = returnDate.split('-');
+      const futureDateError = getFutureDateError({ year, month, day });
+
+      if (futureDateError) {
+        nextErrors.returnDate = isBlurEvent
+          ? futureDateError
+          : nextErrors.returnDate;
+      } else if (departureDateComplete && returnDate < departureDate) {
+        nextErrors.returnDate = isBlurEvent
+          ? 'Return date must be later than departure date'
+          : nextErrors.returnDate;
+      } else {
+        // Field is valid - clear error regardless of isBlurEvent
+        delete nextErrors.returnDate;
+      }
+    } else {
+      // Partial date - clear error to allow user to continue filling
+      delete nextErrors.returnDate;
+    }
+  } else {
+    // One-way trip or no trip type - clear error
+    delete nextErrors.returnDate;
+  }
+  return nextErrors;
+};
+
+/**
+ * Helper: Validates airport fields (departedFrom, arrivedTo)
+ */
+const validateAirportField = (value, fieldName, errors, isBlurEvent) => {
+  const nextErrors = { ...errors };
+  if (!value) {
+    if (isBlurEvent) {
+      nextErrors[fieldName] = 'Enter the airport name';
+    }
+    // Don't clear error on change if field is still empty
+  } else {
+    // Field is valid - clear error regardless of isBlurEvent
+    delete nextErrors[fieldName];
+  }
+  return nextErrors;
+};
+
+/**
  * Validates AirTravel expense fields for a form.
  *
  * Rules:
@@ -317,10 +469,16 @@ export const validateRequestedAmount = (
  * @param {Object} formState - The current state of the expense form
  * @param {Object} errors - The current validation errors object
  * @param {string} [fieldName] - Optional. Name of the single field to validate
+ * @param {boolean} [isBlurEvent] - Optional. True if validating on blur, false on change
  * @returns {Object} nextErrors - Updated errors object with validation results
  */
-export const validateAirTravelFields = (formState, errors, fieldName) => {
-  const nextErrors = { ...errors };
+export const validateAirTravelFields = (
+  formState,
+  errors,
+  fieldName,
+  isBlurEvent = false,
+) => {
+  let nextErrors = { ...errors };
 
   const allFields = [
     'vendorName',
@@ -338,93 +496,57 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
     formState,
   );
 
-  const departureDateComplete = isCompleteDate(formState.departureDate);
-  const returnDateComplete = isCompleteDate(formState.returnDate);
-
   // vendorName
   if (fieldsToValidate.includes('vendorName')) {
-    if (!formState.vendorName) nextErrors.vendorName = 'Enter the company name';
-    else delete nextErrors.vendorName;
+    nextErrors = validateAirTravelVendorName(
+      formState,
+      nextErrors,
+      isBlurEvent,
+    );
   }
 
   // tripType
   if (fieldsToValidate.includes('tripType')) {
-    if (!formState.tripType) nextErrors.tripType = 'Select a trip type';
-    else if (
-      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
-      formState.returnDate
-    ) {
-      nextErrors.tripType = 'You entered a return date for a one-way trip';
-    } else delete nextErrors.tripType;
+    nextErrors = validateAirTravelTripType(formState, nextErrors, isBlurEvent);
   }
 
   // departureDate
   if (fieldsToValidate.includes('departureDate')) {
-    const { departureDate, returnDate } = formState;
-
-    if (!departureDate) {
-      nextErrors.departureDate = 'Enter a departure date';
-    } else if (departureDateComplete) {
-      const [year, month, day] = departureDate.split('-');
-      const futureDateError = getFutureDateError({ year, month, day });
-
-      if (futureDateError) {
-        nextErrors.departureDate = futureDateError;
-      } else if (returnDateComplete && departureDate > returnDate) {
-        nextErrors.departureDate = 'Departure date must be before return date';
-      } else {
-        delete nextErrors.departureDate;
-      }
-    } else {
-      delete nextErrors.departureDate;
-    }
+    nextErrors = validateAirTravelDepartureDate(
+      formState,
+      nextErrors,
+      isBlurEvent,
+    );
   }
 
   // returnDate
   if (fieldsToValidate.includes('returnDate')) {
-    const { tripType, departureDate, returnDate } = formState;
-
-    const shouldValidateReturnDate = tripType === TRIP_TYPES.ROUND_TRIP.value;
-
-    // One-way trip with a return date
-    if (tripType === TRIP_TYPES.ONE_WAY.value && returnDateComplete) {
-      nextErrors.returnDate = 'You entered a return date for a one-way trip';
-    }
-    // Round-trip validations
-    else if (shouldValidateReturnDate) {
-      if (!returnDate) {
-        nextErrors.returnDate = 'Enter a return date';
-      } else if (returnDateComplete) {
-        const [year, month, day] = returnDate.split('-');
-        const futureDateError = getFutureDateError({ year, month, day });
-
-        if (futureDateError) {
-          nextErrors.returnDate = futureDateError;
-        } else if (departureDateComplete && returnDate < departureDate) {
-          nextErrors.returnDate =
-            'Return date must be later than departure date';
-        } else {
-          delete nextErrors.returnDate;
-        }
-      } else {
-        delete nextErrors.returnDate;
-      }
-    } else {
-      delete nextErrors.returnDate;
-    }
+    nextErrors = validateAirTravelReturnDate(
+      formState,
+      nextErrors,
+      fieldName,
+      isBlurEvent,
+    );
   }
 
   // departedFrom
   if (fieldsToValidate.includes('departedFrom')) {
-    if (!formState.departedFrom)
-      nextErrors.departedFrom = 'Enter the airport name';
-    else delete nextErrors.departedFrom;
+    nextErrors = validateAirportField(
+      formState.departedFrom,
+      'departedFrom',
+      nextErrors,
+      isBlurEvent,
+    );
   }
 
   // arrivedTo
   if (fieldsToValidate.includes('arrivedTo')) {
-    if (!formState.arrivedTo) nextErrors.arrivedTo = 'Enter the airport name';
-    else delete nextErrors.arrivedTo;
+    nextErrors = validateAirportField(
+      formState.arrivedTo,
+      'arrivedTo',
+      nextErrors,
+      isBlurEvent,
+    );
   }
 
   return nextErrors;
@@ -444,9 +566,15 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
  * @param {Object} formState - The current state of the expense form
  * @param {Object} errors - The current validation errors object
  * @param {string} [fieldName] - Optional. Name of the field being updated.
+ * @param {boolean} [isBlurEvent] - Optional. True if validating on blur, false on change
  * @returns {Object} nextErrors - Updated errors object with validation results
  */
-export const validateCommonCarrierFields = (formState, errors, fieldName) => {
+export const validateCommonCarrierFields = (
+  formState,
+  errors,
+  fieldName,
+  isBlurEvent = false,
+) => {
   const nextErrors = { ...errors };
 
   // Use helper to determine which fields to validate
@@ -457,16 +585,28 @@ export const validateCommonCarrierFields = (formState, errors, fieldName) => {
 
   // carrierType
   if (fieldsToValidate.includes('carrierType')) {
-    if (!formState.carrierType)
-      nextErrors.carrierType = 'Select a transportation type';
-    else delete nextErrors.carrierType;
+    if (!formState.carrierType) {
+      if (isBlurEvent) {
+        nextErrors.carrierType = 'Select a transportation type';
+      }
+      // Don't clear error on change if field is still empty
+    } else {
+      // Field is valid - clear error regardless of isBlurEvent
+      delete nextErrors.carrierType;
+    }
   }
 
   // reasonNotUsingPOV
   if (fieldsToValidate.includes('reasonNotUsingPOV')) {
-    if (!formState.reasonNotUsingPOV)
-      nextErrors.reasonNotUsingPOV = 'Select a reason';
-    else delete nextErrors.reasonNotUsingPOV;
+    if (!formState.reasonNotUsingPOV) {
+      if (isBlurEvent) {
+        nextErrors.reasonNotUsingPOV = 'Select a reason';
+      }
+      // Don't clear error on change if field is still empty
+    } else {
+      // Field is valid - clear error regardless of isBlurEvent
+      delete nextErrors.reasonNotUsingPOV;
+    }
   }
 
   return nextErrors;
@@ -487,9 +627,15 @@ export const validateCommonCarrierFields = (formState, errors, fieldName) => {
  * @param {Object} formState - The current state of the expense form
  * @param {Object} errors - The current validation errors object
  * @param {string} [fieldName] - Optional. Name of the field being updated.
+ * @param {boolean} [isBlurEvent] - Optional. True if validating on blur, false on change
  * @returns {Object} nextErrors - Updated errors object with validation results
  */
-export const validateLodgingFields = (formState, errors, fieldName) => {
+export const validateLodgingFields = (
+  formState,
+  errors,
+  fieldName,
+  isBlurEvent = false,
+) => {
   const nextErrors = { ...errors };
 
   const allFields = ['vendor', 'checkInDate', 'checkOutDate'];
@@ -518,28 +664,47 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
 
   // vendor
   if (fieldsToValidate.includes('vendor')) {
-    if (!formState.vendor) nextErrors.vendor = 'Enter the name on your receipt';
-    else delete nextErrors.vendor;
+    if (!formState.vendor) {
+      if (isBlurEvent) {
+        nextErrors.vendor = 'Enter the name on your receipt';
+      }
+      // Don't clear error on change if field is still empty
+    } else {
+      // Field is valid - clear error regardless of isBlurEvent
+      delete nextErrors.vendor;
+    }
   }
 
   // checkInDate
   if (fieldsToValidate.includes('checkInDate')) {
     const { checkInDate, checkOutDate } = formState;
-    if (!checkInDate) nextErrors.checkInDate = 'Enter the date you checked in';
-    else if (checkInDateComplete) {
+    if (!checkInDate) {
+      if (isBlurEvent) {
+        nextErrors.checkInDate = 'Enter the date you checked in';
+      }
+      // Don't clear error on change if field is still empty
+    } else if (checkInDateComplete) {
       const [year, month, day] = checkInDate.split('-');
 
       const futureDateError = getFutureDateError({ year, month, day });
 
       if (futureDateError) {
-        nextErrors.checkInDate = futureDateError;
+        if (isBlurEvent) {
+          nextErrors.checkInDate = futureDateError;
+        }
+        // Don't clear error on change if field is still invalid
       } else if (checkOutDateComplete && checkInDate >= checkOutDate) {
-        nextErrors.checkInDate =
-          'Check-in date must be earlier than check-out date';
+        if (isBlurEvent) {
+          nextErrors.checkInDate =
+            'Check-in date must be earlier than check-out date';
+        }
+        // Don't clear error on change if field is still invalid
       } else {
+        // Field is valid - clear error regardless of isBlurEvent
         delete nextErrors.checkInDate;
       }
     } else {
+      // Partial date - clear error to allow user to continue filling
       delete nextErrors.checkInDate;
     }
   }
@@ -549,21 +714,32 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
     const { checkInDate, checkOutDate } = formState;
 
     if (!checkOutDate) {
-      nextErrors.checkOutDate = 'Enter the date you checked out';
+      if (isBlurEvent) {
+        nextErrors.checkOutDate = 'Enter the date you checked out';
+      }
+      // Don't clear error on change if field is still empty
     } else if (checkOutDateComplete) {
       const [year, month, day] = checkOutDate.split('-');
 
       const futureDateError = getFutureDateError({ year, month, day });
 
       if (futureDateError) {
-        nextErrors.checkOutDate = futureDateError;
+        if (isBlurEvent) {
+          nextErrors.checkOutDate = futureDateError;
+        }
+        // Don't clear error on change if field is still invalid
       } else if (checkInDateComplete && checkOutDate <= checkInDate) {
-        nextErrors.checkOutDate =
-          'Check-out date must be later than check-in date';
+        if (isBlurEvent) {
+          nextErrors.checkOutDate =
+            'Check-out date must be later than check-in date';
+        }
+        // Don't clear error on change if field is still invalid
       } else {
+        // Field is valid - clear error regardless of isBlurEvent
         delete nextErrors.checkOutDate;
       }
     } else {
+      // Partial date - clear error to allow user to continue filling
       delete nextErrors.checkOutDate;
     }
   }
@@ -582,20 +758,30 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
  * @param {Object} formState - The current state of the expense form
  * @param {Object} errors - The current validation errors object
  * @param {string} [fieldName] - Optional. Name of the field being updated.
+ * @param {boolean} [isBlurEvent] - Optional. True if validating on blur, false on change
  * @returns {Object} nextErrors - Updated errors object with validation results
  */
-export const validateMealFields = (formState, errors, fieldName) => {
+export const validateMealFields = (
+  formState,
+  errors,
+  fieldName,
+  isBlurEvent = false,
+) => {
   const nextErrors = { ...errors };
 
   // Use helper to determine which fields to validate
   const fieldsToValidate = getFieldsToValidate(['vendorName'], fieldName);
 
   if (fieldsToValidate.includes('vendorName')) {
-    nextErrors.vendorName = formState.vendorName
-      ? undefined
-      : 'Enter the name on your receipt';
-
-    if (!nextErrors.vendorName) delete nextErrors.vendorName;
+    if (!formState.vendorName) {
+      if (isBlurEvent) {
+        nextErrors.vendorName = 'Enter the name on your receipt';
+      }
+      // Don't clear error on change if field is still empty
+    } else {
+      // Field is valid - clear error regardless of isBlurEvent
+      delete nextErrors.vendorName;
+    }
   }
 
   return nextErrors;

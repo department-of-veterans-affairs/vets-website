@@ -262,62 +262,182 @@ const ExpensePage = () => {
 
   const handleFormChange = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
+
+    // Extract value
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
+    // Always update formState with the current value (including partial dates)
+    // This ensures the field doesn't get cleared on re-render
     const newFormState = { ...formState, [name]: value };
     setFormState(newFormState);
 
-    if (!value) return;
+    // For date fields, only run validation if we have a complete date
+    const dateFields = [
+      'purchaseDate',
+      'departureDate',
+      'returnDate',
+      'checkInDate',
+      'checkOutDate',
+    ];
+    const isDateField = dateFields.includes(name);
+    const isCompleteDate = /^\d{4}-\d{2}-\d{2}$/.test(value);
 
-    // Validate the field being updated
+    // Skip validation for partial dates, but still save them to formState
+    if (isDateField && !isCompleteDate && value !== '') {
+      return;
+    }
+
+    // On change: only clear errors if field becomes valid
     setExtraFieldErrors(prevErrors => {
       let nextErrors = { ...prevErrors };
 
-      // Clear base field errors if they become valid on change
-      if (name === 'purchaseDate' && prevErrors.purchaseDate) {
+      // Validate base fields - only clear errors on change, but preserve errors if still invalid
+      if (name === 'purchaseDate') {
         const validationResult = validateReceiptDate(
           value,
           DATE_VALIDATION_TYPE.CHANGE,
         );
         if (validationResult.isValid) {
           delete nextErrors.purchaseDate;
+        } else if (validationResult.purchaseDate) {
+          // Keep existing error on change, don't update to new error message
+          nextErrors.purchaseDate =
+            nextErrors.purchaseDate || validationResult.purchaseDate;
         }
       }
 
-      if (name === 'description' && prevErrors.description) {
+      if (name === 'description') {
         const validationResult = validateDescription(
           value,
           DATE_VALIDATION_TYPE.CHANGE,
         );
         if (validationResult.isValid) {
           delete nextErrors.description;
+        } else if (validationResult.description) {
+          nextErrors.description =
+            nextErrors.description || validationResult.description;
         }
       }
 
-      if (name === 'costRequested' && prevErrors.costRequested) {
+      if (name === 'costRequested') {
         const validationResult = validateRequestedAmount(
           value,
           DATE_VALIDATION_TYPE.CHANGE,
         );
         if (validationResult.isValid) {
           delete nextErrors.costRequested;
+        } else if (validationResult.costRequested) {
+          nextErrors.costRequested =
+            nextErrors.costRequested || validationResult.costRequested;
         }
       }
 
-      // Run type-specific validations
+      // Run type-specific validations - only clear errors on change
       if (isAirTravel) {
-        nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
+        nextErrors = validateAirTravelFields(
+          newFormState,
+          nextErrors,
+          name,
+          false,
+        );
       } else if (isCommonCarrier) {
         nextErrors = validateCommonCarrierFields(
           newFormState,
           nextErrors,
           name,
+          false,
         );
       } else if (isLodging) {
-        nextErrors = validateLodgingFields(newFormState, nextErrors, name);
+        nextErrors = validateLodgingFields(
+          newFormState,
+          nextErrors,
+          name,
+          false,
+        );
       } else if (isMeal) {
-        nextErrors = validateMealFields(newFormState, nextErrors, name);
+        nextErrors = validateMealFields(newFormState, nextErrors, name, false);
+      }
+
+      return nextErrors;
+    });
+  };
+
+  const handleFormBlur = (event, explicitName) => {
+    const name = explicitName ?? event.target?.name ?? event.detail?.name;
+
+    // For date fields, use value from formState instead of event
+    const dateFields = [
+      'purchaseDate',
+      'departureDate',
+      'returnDate',
+      'checkInDate',
+      'checkOutDate',
+    ];
+    const value = dateFields.includes(name)
+      ? formState[name] || ''
+      : event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
+    // Only validate on blur if the field has a value
+    if (!value) {
+      return;
+    }
+
+    // Run validation on blur
+    setExtraFieldErrors(prevErrors => {
+      let nextErrors = { ...prevErrors };
+
+      // Validate base fields
+      if (name === 'purchaseDate') {
+        const validationResult = validateReceiptDate(
+          value,
+          DATE_VALIDATION_TYPE.BLUR,
+        );
+        if (validationResult.purchaseDate) {
+          nextErrors.purchaseDate = validationResult.purchaseDate;
+        } else {
+          delete nextErrors.purchaseDate;
+        }
+      }
+
+      if (name === 'description') {
+        const validationResult = validateDescription(
+          value,
+          DATE_VALIDATION_TYPE.BLUR,
+        );
+        if (validationResult.description) {
+          nextErrors.description = validationResult.description;
+        } else {
+          delete nextErrors.description;
+        }
+      }
+
+      if (name === 'costRequested') {
+        const validationResult = validateRequestedAmount(
+          value,
+          DATE_VALIDATION_TYPE.BLUR,
+        );
+        if (validationResult.errors?.costRequested) {
+          nextErrors.costRequested = validationResult.errors.costRequested;
+        } else {
+          delete nextErrors.costRequested;
+        }
+      }
+
+      // Run type-specific validations with blur flag
+      if (isAirTravel) {
+        nextErrors = validateAirTravelFields(formState, nextErrors, name, true);
+      } else if (isCommonCarrier) {
+        nextErrors = validateCommonCarrierFields(
+          formState,
+          nextErrors,
+          name,
+          true,
+        );
+      } else if (isLodging) {
+        nextErrors = validateLodgingFields(formState, nextErrors, name, true);
+      } else if (isMeal) {
+        nextErrors = validateMealFields(formState, nextErrors, name, true);
       }
 
       return nextErrors;
@@ -387,24 +507,24 @@ const ExpensePage = () => {
       delete errors.receipt;
     }
 
-    // Commoncarrier-specific validations
+    // Commoncarrier-specific validations (pass null to validate all fields)
     if (isCommonCarrier) {
-      errors = validateCommonCarrierFields(formState, errors);
+      errors = validateCommonCarrierFields(formState, errors, null, true);
     }
 
-    // Airtravel-specific validations
+    // Airtravel-specific validations (pass null to validate all fields)
     if (isAirTravel) {
-      errors = validateAirTravelFields(formState, errors);
+      errors = validateAirTravelFields(formState, errors, null, true);
     }
 
-    // Lodging-specific validations
+    // Lodging-specific validations (pass null to validate all fields)
     if (isLodging) {
-      errors = validateLodgingFields(formState, errors);
+      errors = validateLodgingFields(formState, errors, null, true);
     }
 
-    // Meal-specific validations
+    // Meal-specific validations (pass null to validate all fields)
     if (isMeal) {
-      errors = validateMealFields(formState, errors);
+      errors = validateMealFields(formState, errors, null, true);
     }
 
     const dateValidation = validateReceiptDate(
@@ -662,6 +782,7 @@ const ExpensePage = () => {
             <ExpenseMealFields
               formState={formState}
               onChange={handleFormChange}
+              onBlur={handleFormBlur}
               errors={extraFieldErrors}
             />
           )}
@@ -669,6 +790,7 @@ const ExpensePage = () => {
             <ExpenseLodgingFields
               formState={formState}
               onChange={handleFormChange}
+              onBlur={handleFormBlur}
               errors={extraFieldErrors}
             />
           )}
@@ -683,6 +805,7 @@ const ExpensePage = () => {
             <ExpenseAirTravelFields
               formState={formState}
               onChange={handleFormChange}
+              onBlur={handleFormBlur}
               errors={extraFieldErrors}
             />
           )}
@@ -693,16 +816,7 @@ const ExpensePage = () => {
             required
             hint={dateHintText}
             onDateChange={handleFormChange}
-            onDateBlur={e => {
-              const validationResult = validateReceiptDate(
-                e.detail.target?.value,
-                DATE_VALIDATION_TYPE.BLUR,
-              );
-              setExtraFieldErrors(prev => ({
-                ...prev,
-                purchaseDate: validationResult.purchaseDate,
-              }));
-            }}
+            onDateBlur={handleFormBlur}
             {...extraFieldErrors.purchaseDate && {
               error: extraFieldErrors.purchaseDate,
             }}
