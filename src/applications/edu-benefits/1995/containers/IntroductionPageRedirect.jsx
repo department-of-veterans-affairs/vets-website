@@ -15,20 +15,19 @@ export const IntroductionPageRedirect = ({ route, router }) => {
   const rerouteFlag = useSelector(selectMeb1995Reroute);
   const { user, formData } = useSelector(state => getIntroState(state));
 
-  useEffect(
-    () => {
-      focusElement('.va-nav-breadcrumbs-list');
-      const signInAlert = document.querySelector('va-alert-sign-in');
-      if (!signInAlert) return;
+  useEffect(() => {
+    focusElement('.va-nav-breadcrumbs-list');
+    const signInAlert = document.querySelector('va-alert-sign-in');
+    if (!signInAlert) return;
 
-      const updateSignInAlertCopy = async () => {
-        const alertContent = await querySelectorWithShadowRoot(
-          '.va-alert-sign-in__body',
-          'va-alert-sign-in',
-        );
+    const updateSignInAlertCopy = async () => {
+      const alertContent = await querySelectorWithShadowRoot(
+        '.va-alert-sign-in__body',
+        'va-alert-sign-in',
+      );
 
-        if (!alertContent) return;
-        alertContent.innerHTML = `
+      if (!alertContent) return;
+      alertContent.innerHTML = `
         <h2 class="headline">Sign in with a verified account</h2>
         <p>
           Here’s how signing in with an identity-verified account helps you:
@@ -55,12 +54,10 @@ export const IntroductionPageRedirect = ({ route, router }) => {
           <slot name="SignInButton"></slot>
         </p>
       `;
-      };
+    };
 
-      updateSignInAlertCopy();
-    },
-    [user?.login?.currentlyLoggedIn],
-  );
+    updateSignInAlertCopy();
+  }, []);
 
   const handleStartQuestionnaire = useCallback(
     () => {
