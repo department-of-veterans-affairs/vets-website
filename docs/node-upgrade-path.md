@@ -167,8 +167,9 @@ This made debugging test failures difficult because it was unclear which change 
 - [x] Run `yarn test:unit --app-folder <app>` for each platform module
 - [x] Document and categorize test failures
 - [x] Fix `instanceof` and constructor issues
-  - **Global fix**: Added `HTMLElement` getter in `mocha-setup.js` to always return current window's HTMLElement
+  - **Global fix**: Added `HTMLElement` and `Element` getters in `mocha-setup.js` to always return current window's constructors
   - This handles jsdom 16+ breaking change where each window has separate constructors
+  - `Element` getter fixes React component library bindings' `attachProps` function
 - [x] Fix focus/blur test assertions
   - Fixed by the global HTMLElement getter (affected `getFocusableElements` tests)
   - Updated `ui.unit.spec.jsx` to capture offsets in `beforeEach` instead of describe block
@@ -179,25 +180,33 @@ This made debugging test failures difficult because it was unclear which change 
 - [x] Fix axe-core compatibility
   - **Helper fix**: Updated `axeCheck` in `helpers.js` to re-require axe-core for each test
   - axe-core captures window/document at module load time; re-requiring ensures it uses current JSDOM
-  - Added `global.document` getter in `mocha-setup.js` for consistency
+  - Added `global.document` getter/setter in `mocha-setup.js` for consistency and temporary overrides
 - [x] Fix event handling tests (no changes needed - existing failures are pre-existing)
 - [x] Remove crypto polyfills if present
   - jsdom 20 adds `crypto.getRandomValues()` - existing code already handles this correctly
   - Removed obsolete `customElements` mock in `dispute-debt` test
+  - **Global fix**: Made `window.crypto` writable in `mocha-setup.js` for tests that mock it
 - [x] Run full test suite
 - [x] Update any affected documentation
 - [ ] Create PR and merge
 
 #### Files Changed in Phase 1
 1. `src/platform/testing/unit/mocha-setup.js` - Added global fixes:
-   - HTMLElement getter for constructor isolation
+   - HTMLElement and Element getters for constructor isolation
    - Window getter/setter proxy for EventTarget preservation
-   - Document getter for axe-core compatibility
+   - Document getter/setter for axe-core compatibility and temporary overrides
+   - Made `window.location` and `window.crypto` writable for test mocking
 2. `src/platform/testing/unit/axe-plugin.js` - Re-require axe-core for each .accessible() call
 3. `src/platform/forms-system/test/config/helpers.js` - Re-require axe-core for each axeCheck call
 4. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
 5. `src/applications/dispute-debt/tests/containers/NeedsHelp.unit.spec.jsx` - Remove obsolete customElements mock
 6. `.github/workflows/continuous-integration.yml` - Added workflow_dispatch for full test runs
+
+#### Known Pre-Existing Issues (Not Related to jsdom Upgrade)
+- **OAuth utility tests**: The tests in `src/platform/utilities/tests/oauth/` fail on Node 14 due to a bug 
+  in the "OAuth Node 22 updates" commit (#37852). The test checks for `require('node:crypto')` to 
+  determine if native crypto is available, but this check is insufficient - Node 14 has `node:crypto` 
+  but lacks `crypto.webcrypto.subtle`. The fix should check for `webcrypto.subtle` specifically.
 
 ### Phase 2: Node Upgrade
 - [ ] Create feature branch
