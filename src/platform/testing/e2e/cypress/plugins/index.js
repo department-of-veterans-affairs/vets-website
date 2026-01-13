@@ -79,6 +79,7 @@ module.exports = async (on, config) => {
     loader: { '.js': 'jsx' },
     format: 'cjs',
     external: [
+      '@department-of-veterans-affairs/web-components/react-bindings',
       'web-components/react-bindings',
       'url-search-params',
       '@@vap-svc/*',

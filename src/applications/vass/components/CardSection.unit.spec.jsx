@@ -17,7 +17,6 @@ describe('VASS Component: CardSection', () => {
   it('should render with date content', () => {
     const mockDateContent = {
       dateTime: '2025-11-17T20:00:00Z',
-      phoneNumber: '8008270611',
       showAddToCalendarButton: true,
     };
 
@@ -33,7 +32,6 @@ describe('VASS Component: CardSection', () => {
   it('should hide calendar button when flag is false', () => {
     const mockDateContent = {
       dateTime: '2025-11-17T20:00:00Z',
-      phoneNumber: '8008270611',
       showAddToCalendarButton: false,
     };
 

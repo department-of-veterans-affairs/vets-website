@@ -39,6 +39,7 @@ import {
   selectExpenseWithDocument,
   selectDocumentDeleteLoadingState,
   selectExpenseFetchLoadingState,
+  selectExpenseBackDestination,
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
@@ -89,6 +90,7 @@ const ExpensePage = () => {
   const isFetchingExpense = useSelector(
     state => (isEditMode ? selectExpenseFetchLoadingState(state) : false),
   );
+  const backDestination = useSelector(selectExpenseBackDestination);
 
   // Refs
   const initialFormStateRef = useRef({});
@@ -258,56 +260,8 @@ const ExpensePage = () => {
     [formState, dispatch],
   );
 
-  const handleFormChange = (event, explicitName) => {
-    const name = explicitName ?? event.target?.name ?? event.detail?.name;
-    const value =
-      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
-
-    setFormState(prev => {
-      const newFormState = { ...prev, [name]: value };
-
-      // Only validate the field being updated
-      setExtraFieldErrors(prevErrors => {
-        let nextErrors = { ...prevErrors };
-
-        if (isAirTravel) {
-          nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
-        } else if (isCommonCarrier) {
-          nextErrors = validateCommonCarrierFields(
-            newFormState,
-            nextErrors,
-            name,
-          );
-        } else if (isLodging) {
-          nextErrors = validateLodgingFields(newFormState, nextErrors, name);
-        } else if (isMeal) {
-          nextErrors = validateMealFields(newFormState, nextErrors, name);
-        }
-
-        return nextErrors;
-      });
-
-      return newFormState;
-    });
-  };
-
-  const handleOpenCancelModal = () => setIsCancelModalVisible(true);
-  const handleCloseCancelModal = () => setIsCancelModalVisible(false);
-  const handleConfirmCancel = () => {
-    handleCloseCancelModal();
-    // Clear unsaved changes when canceling
-    dispatch(setUnsavedExpenseChanges(false));
-    if (isEditMode) {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
-    } else {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
-      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
-    }
-  };
-
+  // Validation
+  //
   // Field names must match those expected by the expenses_controller in vets-api.
   // The controller converts them to forwards them unchanged to the API.
   const REQUIRED_FIELDS = {
@@ -406,6 +360,7 @@ const ExpensePage = () => {
   const isFormChanged =
     JSON.stringify(previousFormState) !== JSON.stringify(formState);
 
+  // Handlers
   const handleContinue = async () => {
     if (!validatePage()) {
       scrollToFirstError({ focusOnAlertRole: true });
@@ -459,11 +414,15 @@ const ExpensePage = () => {
         ? `${expenseConfig.expensePageText} expense`
         : 'expense';
 
+      // Determine correct article (a vs an) based on first letter
+      const startsWithVowel = /^[aeiou]/i.test(expenseTypeName);
+      const article = startsWithVowel ? 'an' : 'a';
+
       dispatch(
         setReviewPageAlert({
           title: '',
           description: `You successfully ${
-            isEditMode ? 'updated your' : 'added a'
+            isEditMode ? 'updated your' : `added ${article}`
           } ${expenseTypeName}.`,
           type: 'success',
         }),
@@ -491,8 +450,6 @@ const ExpensePage = () => {
     if (isEditMode) {
       setIsCancelModalVisible(true);
     } else {
-      // TODO: Add logic to determine where the user came from and direct them back to the correct location
-      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };
@@ -548,8 +505,54 @@ const ExpensePage = () => {
     }
   };
 
+  const handleFormChange = (event, explicitName) => {
+    const name = explicitName ?? event.target?.name ?? event.detail?.name;
+    const value =
+      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+
+    setFormState(prev => {
+      const newFormState = { ...prev, [name]: value };
+
+      // Only validate the field being updated
+      setExtraFieldErrors(prevErrors => {
+        let nextErrors = { ...prevErrors };
+
+        if (isAirTravel) {
+          nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
+        } else if (isCommonCarrier) {
+          nextErrors = validateCommonCarrierFields(
+            newFormState,
+            nextErrors,
+            name,
+          );
+        } else if (isLodging) {
+          nextErrors = validateLodgingFields(newFormState, nextErrors, name);
+        } else if (isMeal) {
+          nextErrors = validateMealFields(newFormState, nextErrors, name);
+        }
+
+        return nextErrors;
+      });
+
+      return newFormState;
+    });
+  };
+
+  const handleOpenCancelModal = () => setIsCancelModalVisible(true);
+  const handleCloseCancelModal = () => setIsCancelModalVisible(false);
+  const handleConfirmCancel = () => {
+    handleCloseCancelModal();
+    // Clear unsaved changes when canceling
+    dispatch(setUnsavedExpenseChanges(false));
+    if (isEditMode || backDestination === 'review') {
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+    }
+  };
+
   const pageDescription = isAirTravel
-    ? `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
+    ? `Upload a receipt or proof of the expense here. If you’re adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
     : `Upload a receipt or proof of the expense here. If you have multiple ${
         expenseTypeFields.expensePageText
       } expenses, add just 1 on this page. You’ll be able to add more expenses after this.`;

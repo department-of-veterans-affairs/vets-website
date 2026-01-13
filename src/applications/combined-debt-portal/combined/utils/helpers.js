@@ -52,6 +52,16 @@ export const formatDate = date => {
   return isValid(newDate) ? format(new Date(newDate), 'MMMM d, y') : '';
 };
 
+export const formatISODateToMMDDYYYY = isoString => {
+  const date = new Date(isoString);
+
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // months are 0-based
+  const year = date.getUTCFullYear();
+
+  return `${month}/${day}/${year}`;
+};
+
 export const currency = amount => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
