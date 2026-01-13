@@ -205,6 +205,22 @@ This made debugging test failures difficult because it was unclear which change 
 7. `src/platform/utilities/oauth/mockCrypto.js` - Added `setupMockCrypto()` helper, fixed `digest()` to return ArrayBuffer
 8. `src/platform/utilities/tests/oauth/utilities.unit.spec.jsx` - Use setupMockCrypto helper
 9. `src/platform/utilities/tests/oauth/crypto.unit.spec.jsx` - Use setupMockCrypto helper
+10. `src/applications/caregivers/tests/test-helpers/dom-extensions.js` - Move prototype extension to beforeEach hook
+11. `script/run-all-app-tests.sh` - New script for parallel test execution across all applications
+
+#### Pre-existing Test Issues (NOT jsdom-related)
+These test failures exist on the `main` branch and are unrelated to the jsdom upgrade:
+
+| Application | Issue | Root Cause |
+|-------------|-------|------------|
+| login | Cannot set property location | Test captures/restores `global.window` at module load time |
+| benefits-optimization-pingwind | scrollTo stub on wrong object | Test stubs `document.body.scrollTo` instead of `window.scrollTo` |
+| check-in | Date formatting 1 hour off | Timezone-dependent test (fails in non-UTC) |
+| claims-status | TIMEOUT | Slow tests exceeding timeout |
+| user-testing | Year validation failure | Date-dependent test (2025 vs 2026) |
+| mhv-medical-records | Download action assertion | Test expects different action count |
+| mhv-medications | "Found multiple elements" | Query returns multiple matches |
+| representative-form-upload | sessionStorage stub already wrapped | Sinon stub conflict |
 
 ### Phase 2: Node Upgrade
 - [ ] Create feature branch
