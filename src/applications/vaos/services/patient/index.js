@@ -173,7 +173,7 @@ export async function fetchPatientRelationships(
     });
 
     return {
-      patientProviderRelationships: transformPatientRelationships(data || []),
+      patientProviderRelationships: transformPatientRelationships(data),
       backendServiceFailures: data.meta?.failures,
     };
   } catch (e) {
