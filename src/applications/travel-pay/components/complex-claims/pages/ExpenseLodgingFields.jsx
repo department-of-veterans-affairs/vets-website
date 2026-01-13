@@ -6,7 +6,7 @@ import {
   VaDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
+const ExpenseLodgingFields = ({ errors = {}, formState, onChange, onBlur }) => (
   <>
     <div className="vads-u-margin-top--2">
       <VaTextInput
@@ -15,7 +15,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
         value={formState.vendor || ''}
         required
         onInput={onChange}
-        onBlur={onChange}
+        onBlur={onBlur}
         {...errors.vendor && { error: errors.vendor }}
       />
     </div>
@@ -25,7 +25,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
       value={formState.checkInDate || ''}
       required
       onDateChange={onChange}
-      onDateBlur={onChange}
+      onDateBlur={onBlur}
       {...errors.checkInDate && { error: errors.checkInDate }}
     />
     <VaDate
@@ -34,7 +34,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
       value={formState.checkOutDate || ''}
       required
       onDateChange={onChange}
-      onDateBlur={onChange}
+      onDateBlur={onBlur}
       {...errors.checkOutDate && { error: errors.checkOutDate }}
     />
   </>
@@ -43,6 +43,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
 ExpenseLodgingFields.propTypes = {
   errors: PropTypes.object,
   formState: PropTypes.object,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
 };
 

@@ -8,7 +8,12 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { TRIP_TYPES } from '../../../constants';
 
-const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
+const ExpenseAirTravelFields = ({
+  errors = {},
+  formState,
+  onChange,
+  onBlur,
+}) => (
   <>
     <div className="vads-u-margin-top--2">
       <VaTextInput
@@ -17,7 +22,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         value={formState.vendorName || ''}
         required
         onInput={onChange}
-        onBlur={onChange}
+        onBlur={onBlur}
         hint="Enter the company you purchased the ticket from, even if it isn't an airline."
         {...errors.vendorName && { error: errors.vendorName }}
       />
@@ -46,8 +51,8 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         name="departureDate"
         value={formState.departureDate || ''}
         required
-        onDateChange={onChange} // Needed since we need to remove errors on change
-        onDateBlur={onChange}
+        onDateChange={onChange}
+        onDateBlur={onBlur}
         hint="Enter the date on your departure ticket."
         {...errors.departureDate && { error: errors.departureDate }}
       />
@@ -59,7 +64,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         value={formState.departedFrom || ''}
         required
         onInput={onChange}
-        onBlur={onChange}
+        onBlur={onBlur}
         {...errors.departedFrom && { error: errors.departedFrom }}
       />
     </div>
@@ -70,7 +75,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         value={formState.arrivedTo || ''}
         required
         onInput={onChange}
-        onBlur={onChange}
+        onBlur={onBlur}
         {...errors.arrivedTo && { error: errors.arrivedTo }}
       />
     </div>
@@ -79,8 +84,8 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
       name="returnDate"
       value={formState.returnDate || ''}
       required={formState.tripType === TRIP_TYPES.ROUND_TRIP.value}
-      onDateChange={onChange} // Needed since we need to remove errors on change
-      onDateBlur={onChange}
+      onDateChange={onChange}
+      onDateBlur={onBlur}
       hint="Enter the date on your return ticket. For one-way trips, leave this blank."
       {...errors.returnDate && { error: errors.returnDate }}
     />
@@ -90,6 +95,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
 ExpenseAirTravelFields.propTypes = {
   errors: PropTypes.object,
   formState: PropTypes.object,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
 };
 
