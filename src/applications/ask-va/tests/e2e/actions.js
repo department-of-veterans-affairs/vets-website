@@ -88,6 +88,8 @@ const log = content => {
   cy.log(content);
 };
 
+const escapeRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const ensureExists = (content, selector = null) => {
   // cy.log('ensureExists:', selector, content);
   const normalizedContent =
@@ -192,52 +194,34 @@ const clickSearchButton = () => {
 };
 
 const clickRadioButton = selector => {
-  const RADIO_DEFAULT_SELECTOR = `va-radio-option[value*="${selector}"]`;
-  const newSelector = mapSelectorShorthand(selector) || RADIO_DEFAULT_SELECTOR;
-
-  cy.get('body').then($body => {
-    if ($body.find(newSelector).length === 0) {
-      const el = document.createElement('va-radio-option');
-      el.setAttribute('value', selector);
-      document.body.appendChild(el);
-    }
-  });
-
-  cy.get(newSelector).should('exist');
-  cy.get(newSelector).click();
+  const labelRegex = new RegExp(escapeRegExp(selector), 'i');
+  cy.findByRole(
+    'radio',
+    { name: labelRegex },
+    { timeout: 10000, includeShadowDom: true },
+  ).click({ force: true });
 };
 
 const clickRadioButtonYesNo = selector => {
-  const RADIO_LABEL_SELECTOR = `va-radio-option[label*="${selector}"]`;
-  const newSelector = mapSelectorShorthand(selector) || RADIO_LABEL_SELECTOR;
-
-  cy.get(newSelector).should('exist');
-  cy.get(newSelector).click();
+  const labelRegex = new RegExp(escapeRegExp(selector), 'i');
+  cy.findByRole(
+    'radio',
+    { name: labelRegex },
+    { timeout: 10000, includeShadowDom: true },
+  ).click({ force: true });
 };
 
+// eslint-disable-next-line no-unused-vars
 const clickCallToActionButton = (isPrimary = 'primary', text) => {
-  let selectorPrimary;
-  switch (isPrimary) {
-    case 'primary':
-      selectorPrimary = '-primary';
-      break;
-    case 'secondary':
-      selectorPrimary = '-secondary';
-      break;
-    case 'neither':
-      selectorPrimary = '';
-      break;
-    default:
-      selectorPrimary = '';
-      break;
-  }
+  const buttonName = text || 'Continue';
+  const nameRegex = new RegExp(escapeRegExp(buttonName), 'i');
+
   if (text) {
-    cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
-      .contains(text)
-      .should('exist');
-    cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
-      .contains(text)
-      .click({ force: true });
+    cy.findByRole(
+      'button',
+      { name: nameRegex },
+      { timeout: 10000, includeShadowDom: true },
+    ).click({ force: true });
 
     // For submit flows, wait for the submission stub and force navigation to
     // the confirmation page with a stubbed inquiry number so YAML flows can
@@ -256,8 +240,11 @@ const clickCallToActionButton = (isPrimary = 'primary', text) => {
       cy.visit('/contact-us/ask-va/confirmation');
     }
   } else {
-    cy.get(`.usa-button${selectorPrimary}`).should('exist');
-    cy.get(`.usa-button${selectorPrimary}`).click({ force: true });
+    cy.findByRole(
+      'button',
+      { name: /continue|next/i },
+      { timeout: 10000, includeShadowDom: true },
+    ).click({ force: true });
   }
 };
 
@@ -268,15 +255,28 @@ const typeText = (selector, text) => {
 
   const isInShadowDOM = newSelector.indexOf('#') < 0;
 
-  cy.get(newSelector, { includeShadowDom: true }).should('exist'); // TODO: verify this step works
-  if (isInShadowDOM) {
-    cy.get(newSelector, { includeShadowDom: true })
-      .shadow()
-      .find('input')
-      .type(text, { force: true });
-  } else {
-    cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
-  }
+  cy.get(newSelector, { includeShadowDom: true })
+    .should('exist')
+    .then($el => {
+      const label = $el.attr('label');
+      if (label) {
+        cy.findByRole(
+          'textbox',
+          { name: new RegExp(escapeRegExp(label), 'i') },
+          { timeout: 10000, includeShadowDom: true },
+        ).type(text, { force: true });
+        return;
+      }
+
+      if (isInShadowDOM) {
+        cy.wrap($el)
+          .shadow()
+          .find('input')
+          .type(text, { force: true });
+      } else {
+        cy.wrap($el).type(text, { force: true });
+      }
+    });
 };
 
 const typeTextArea = (selector, text) => {
