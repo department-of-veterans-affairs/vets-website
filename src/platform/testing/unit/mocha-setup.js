@@ -198,6 +198,13 @@ function setupJSDom() {
     enumerable: true,
   });
 
+  // HTMLAnchorElement must also be a getter for tests that stub click() on the prototype.
+  Object.defineProperty(global, 'HTMLAnchorElement', {
+    get: () => global.window.HTMLAnchorElement,
+    configurable: true,
+    enumerable: true,
+  });
+
   // Element must also be a getter for the same reason - React component library
   // bindings use `instanceof Element` checks that fail if Element is stale.
   Object.defineProperty(global, 'Element', {
