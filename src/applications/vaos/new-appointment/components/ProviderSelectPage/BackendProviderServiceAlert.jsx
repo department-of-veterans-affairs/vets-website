@@ -55,7 +55,7 @@ function BackendProviderServiceAlert({
         </div>
       )}
 
-      {!showCallToScheduleAlert ? (
+      {!showCallToScheduleAlert && (
         // Patient is eligible for requests
         <div
           aria-atomic="true"
@@ -88,7 +88,7 @@ function BackendProviderServiceAlert({
             </p>
           </InfoAlert>
         </div>
-      ) : null}
+      )}
     </>
   );
 }

@@ -67,9 +67,11 @@ export default function SelectProviderPage() {
         <br />
         <strong>Facility:</strong> {selectedFacility?.name}
       </div>
-      {patientProviderRelationships.map((provider, index) => (
-        <ProviderCard key={index} provider={provider} />
-      ))}
+
+      {hasProviders &&
+        patientProviderRelationships.map((provider, index) => (
+          <ProviderCard key={index} provider={provider} />
+        ))}
     </>
   );
 
