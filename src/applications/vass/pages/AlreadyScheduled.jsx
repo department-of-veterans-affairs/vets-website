@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 
 import Wrapper from '../layout/Wrapper';
+import { VASS_PHONE_NUMBER } from '../utils/constants';
 
 // TODO: replace with actual data
 const appointmentData = {
@@ -29,8 +30,8 @@ const AlreadyScheduled = () => {
       </p>
       <p data-testid="already-scheduled-phone-number">
         Your VA Solid Start representative will call you at the time you
-        requested from <va-telephone contact="8008270611" />. Save this number
-        to ensure you don’t miss the appointment.
+        requested from <va-telephone contact={VASS_PHONE_NUMBER} />. Save this
+        number to ensure you don’t miss the appointment.
       </p>
       <va-link-action
         href={`/cancel-appointment/${appointmentData.appointmentId}`}
@@ -41,8 +42,8 @@ const AlreadyScheduled = () => {
       />
       <p data-testid="already-scheduled-reschedule-message">
         If you want to reschedule this appointment, call us at{' '}
-        <va-telephone contact="8008270611" />. We’re here Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET.
+        <va-telephone contact={VASS_PHONE_NUMBER} />. We’re here Monday through
+        Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </Wrapper>
   );

@@ -13,10 +13,20 @@ const initialState = {
 const minRating = 30;
 
 /**
+ * @typedef {object} RatingInfoState
+ * @property {boolean} loading - whether data is loading
+ * @property {object|null} error - error object
+ * @property {boolean|null} hasMinimumRating - whether user has minimum rating
+ *
+ * @typedef {object} RatingInfoAction
+ * @property {string} type - action type
+ * @property {object} response - API response object
+ * @property {object} error - error object
+ *
  * Sets hasMinimumRating state value
- * @param {object} state
- * @param {object} action
- * @returns {object} state object and loading state
+ * @param {RatingInfoState} state - redux state
+ * @param {RatingInfoAction} action - redux action
+ * @returns {RatingInfoState} - updated redux state
  */
 function ratingValue(state = initialState, action) {
   switch (action.type) {
