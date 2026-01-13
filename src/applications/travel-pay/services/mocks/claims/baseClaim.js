@@ -112,7 +112,7 @@ function buildClaim({
     createdOn: new Date().toISOString(),
     modifiedOn: new Date().toISOString(),
     appointment: {
-      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      id: '167325',
       appointmentSource: 'API',
       appointmentDateTime: new Date().toISOString(),
       appointmentType: 'EnvironmentalHealth',
