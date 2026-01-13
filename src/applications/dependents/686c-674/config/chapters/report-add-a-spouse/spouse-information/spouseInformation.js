@@ -22,27 +22,26 @@ export const schema = {
     spouseInformation: {
       type: 'object',
       properties: {
+        'view:spouseNameTitle': { type: 'object', properties: {} },
         fullName: fullNameNoSuffixSchema,
         birthDate: dateOfBirthSchema,
+        'view:spouseIdTitle': { type: 'object', properties: {} },
         noSSN: checkboxSchema,
         noSSNReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
         ssn: ssnSchema,
       },
     },
-    'view:certificateNotice': {
-      type: 'object',
-      properties: {},
-    },
-    'view:cancelAddSpouse': {
-      type: 'object',
-      properties: {},
-    },
+    'view:certificateNotice': { type: 'object', properties: {} },
+    'view:cancelAddSpouse': { type: 'object', properties: {} },
   },
 };
 
 export const uiSchema = {
   spouseInformation: {
     ...titleUI('Your spouse’s personal information'),
+    'view:spouseNameTitle': {
+      'ui:description': <h4>Spouse’s name</h4>,
+    },
     fullName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
     birthDate: dateOfBirthUI({
       title: 'Spouse’s date of birth',
@@ -50,6 +49,9 @@ export const uiSchema = {
       dataDogHidden: true,
       required: () => true,
     }),
+    'view:spouseIdTitle': {
+      'ui:description': <h4>Spouse’s identification information</h4>,
+    },
     noSSN: checkboxUI({
       title: 'Spouse doesn’t have a Social Security number',
       required: () => false,
