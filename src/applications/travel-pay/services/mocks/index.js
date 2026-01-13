@@ -8,6 +8,10 @@ const {
   setClaimRef,
 } = require('./expenses/expenseHandlers');
 const { getAppointmentById } = require('./vaos/appointmentUtils');
+const {
+  APPOINTMENT_MAP,
+  NON_MATCHING_APPOINTMENTS,
+} = require('./vaos/appointmentData');
 const { buildClaim } = require('./claims/baseClaim');
 const { mockClaimsResponse } = require('./claims/baseClaimList');
 const {
@@ -141,127 +145,104 @@ const responses = {
   'GET /vaos/v2/appointments': (req, res) => {
     const { start: startParam, end: endParam } = req.query;
 
-    // If querying by date range (used by getAppointmentDataByDateTime action)
+    // Build the baseClaim appointment
+    const baseClaim = buildClaim({ claimStatus: 'Saved' });
+    const baseClaimAppt = {
+      id: baseClaim.appointment.id,
+      type: 'appointments',
+      attributes: {
+        ...baseClaim.appointment,
+        localStartTime: new Date(baseClaim.appointment.appointmentDateTime)
+          .toISOString()
+          .replace('Z', '.000-08:00'),
+        start: baseClaim.appointment.appointmentDateTime,
+        end: new Date(
+          new Date(baseClaim.appointment.appointmentDateTime).getTime() +
+            30 * 60 * 1000,
+        ).toISOString(),
+        travelPayClaim: {
+          metadata: {
+            status: 200,
+            success: true,
+            message: 'Data retrieved successfully',
+          },
+          claim: {
+            claimId: baseClaim.claimId,
+            claimNumber: baseClaim.claimNumber,
+            claimStatus: baseClaim.claimStatus,
+            appointmentDateTime: baseClaim.appointment.appointmentDateTime,
+            facilityName: baseClaim.appointment.facilityName,
+            createdOn: baseClaim.createdOn,
+            modifiedOn: baseClaim.modifiedOn,
+          },
+        },
+      },
+    };
+
+    // Build all appointments from APPOINTMENT_MAP
+    const allAppointments = Object.keys(APPOINTMENT_MAP).map(id =>
+      getAppointmentById({
+        id,
+        appointment,
+        generateAppointmentDates,
+        overrideAppointment: (
+          apptData,
+          apptId,
+          { localStartTime, start, end },
+        ) => ({
+          ...apptData.data,
+          id: apptId,
+          type: 'appointments',
+          attributes: {
+            ...apptData.data.attributes,
+            id: apptId,
+            localStartTime,
+            start,
+            end,
+            ...(apptData.data.attributes.travelPayClaim && {
+              travelPayClaim: apptData.data.attributes.travelPayClaim,
+            }),
+          },
+        }),
+      }),
+    );
+
+    // Add non-matching appointments to test filtering
+    const nonMatchingAppointments = NON_MATCHING_APPOINTMENTS.map(a => ({
+      ...appointment.noClaim.data,
+      id: a.id,
+      type: 'appointments',
+      attributes: {
+        ...appointment.noClaim.data.attributes,
+        id: a.id,
+        localStartTime: a.localStartTime,
+        start: a.start,
+        end: a.end,
+      },
+    }));
+
+    // Combine everything
+    const combinedAppointments = [
+      ...allAppointments,
+      baseClaimAppt,
+      ...nonMatchingAppointments,
+    ];
+
+    // Filter by start/end if provided
     if (startParam && endParam) {
       const startDate = new Date(startParam);
       const endDate = new Date(endParam);
 
-      // Create appointment matching the claim details mock datetime
-      const claimDetailsDateTime = claim.appointmentDate;
-      const appointmentDate = new Date(claimDetailsDateTime);
+      const filteredAppointments = combinedAppointments.filter(appt => {
+        const apptStart = new Date(appt.attributes.start);
+        return apptStart >= startDate && apptStart <= endDate;
+      });
 
-      // Check if this appointment falls within the requested range
-      if (appointmentDate >= startDate && appointmentDate <= endDate) {
-        // IMPORTANT: Claim's appointmentDateTime has 'Z' suffix but represents local time (bad data)
-        // Convert it to proper localStartTime format with timezone offset
-        // Example: "2025-03-20T16:30:00Z" (claim) -> "2025-03-20T16:30:00.000-08:00" (localStartTime)
-        const localStartTime = claimDetailsDateTime.replace('Z', '.000-08:00');
-
-        const matchingAppointment = {
-          ...appointment.claim.data,
-          id: claim.appointment.id,
-          type: 'appointments',
-          attributes: {
-            ...appointment.claim.data.attributes,
-            id: claim.appointment.id,
-            localStartTime, // Proper format with timezone offset
-            start: claimDetailsDateTime, // Keep as UTC for backend consistency
-            end: new Date(
-              appointmentDate.getTime() + 30 * 60 * 1000,
-            ).toISOString(),
-          },
-        };
-
-        // Add non-matching appointments to test filtering logic
-        return res.json({
-          data: [
-            {
-              ...appointment.noClaim.data,
-              id: 'non-match-1',
-              type: 'appointments',
-              attributes: {
-                ...appointment.noClaim.data.attributes,
-                id: 'non-match-1',
-                localStartTime: '2025-03-20T10:00:00.000-08:00', // Different time - won't match
-                start: '2025-03-20T18:00:00Z',
-                end: '2025-03-20T18:30:00Z',
-              },
-            },
-            {
-              ...appointment.noClaim.data,
-              id: 'non-match-2',
-              type: 'appointments',
-              attributes: {
-                ...appointment.noClaim.data.attributes,
-                id: 'non-match-2',
-                localStartTime: '2025-03-20T20:00:00.000-08:00', // Different time - won't match
-                start: '2025-03-21T04:00:00Z',
-                end: '2025-03-21T04:30:00Z',
-              },
-            },
-            matchingAppointment,
-          ],
-        });
-      }
-
-      // Return empty array if no appointments match the range
-      return res.json({ data: [] });
+      return res.json({ data: filteredAppointments });
     }
 
-    // Default behavior - return all appointments (list view)
-    const appointments = [
-      appointment.noClaim,
-      appointment.claim,
-      appointment.savedClaim,
-
-      // >30 days appointments
-      appointment.noClaim,
-      appointment.savedClaim,
-    ].map((a, index, array) => {
-      // Generate dates within 30 days of current date
-      let daysOffset;
-      let appointmentId;
-
-      // Make the last two appointments be >30 days old
-      if (index === array.length - 2) {
-        daysOffset = -32; // 32 days in the past
-        appointmentId = '167327';
-      } else if (index === array.length - 1) {
-        daysOffset = -33; // 33 days in the past
-        appointmentId = '167329';
-      } else {
-        daysOffset = -(index * 2 + 1); // Space other appointments 2 days apart in the past, starting at 1 day ago
-        if (index === 0) {
-          appointmentId = '167325';
-        } else if (index === 1) {
-          appointmentId = '167326';
-        } else if (index === 2) {
-          appointmentId = '167328';
-        }
-      }
-
-      const { localStartTime, start, end } = generateAppointmentDates(
-        daysOffset,
-      );
-
-      return {
-        ...a.data,
-        id: appointmentId,
-        type: 'appointments',
-        attributes: {
-          ...a.data.attributes,
-          id: appointmentId,
-          localStartTime,
-          start,
-          end,
-          // Preserve travelPayClaim if it exists
-          ...(a.data.attributes.travelPayClaim && {
-            travelPayClaim: a.data.attributes.travelPayClaim,
-          }),
-        },
-      };
-    });
-    return res.json({ data: appointments });
+    // Return everything if no date range
+    return res.json({ data: combinedAppointments });
   },
   // Get all claims
   // 'GET /travel_pay/v0/claims'
