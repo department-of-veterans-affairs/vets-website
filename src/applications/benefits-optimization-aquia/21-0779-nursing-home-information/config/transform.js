@@ -3,11 +3,6 @@
  * @param {string} phone - Phone number that may contain dashes, spaces, or other characters
  * @returns {string} Phone number with only digits
  */
-// TODO: Quick fix to strip dashes from phone numbers to match backend schema expectations.
-// The vets-json-schema (21-0779) needs updating to properly reflect the data structure:
-// - veteranId should be a nested object containing ssn/vaFileNumber
-// - phone format should be `^\d{10}$`
-// See: https://github.com/department-of-veterans-affairs/va.gov-team/issues/125559
 const stripNonDigits = phone => phone?.replace(/\D/g, '');
 
 export const transform = (formConfig, form) => {
