@@ -7,7 +7,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   recordRadioOptionClick,
   recordButtonClick,
@@ -38,7 +37,6 @@ const ChooseExpenseType = () => {
 
   useSetPageTitle(title);
   useSetFocus();
-  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title);
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {

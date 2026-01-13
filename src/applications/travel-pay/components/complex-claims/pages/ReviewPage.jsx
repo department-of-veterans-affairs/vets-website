@@ -6,7 +6,6 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import { recordButtonClick } from '../../../util/events-helpers';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
@@ -41,7 +40,6 @@ const ReviewPage = () => {
   const title = 'Your unsubmitted expenses';
 
   useSetPageTitle(title);
-  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title);
 
   useEffect(
     () => {

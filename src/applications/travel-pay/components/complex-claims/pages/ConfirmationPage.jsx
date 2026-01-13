@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import { formatDateTime } from '../../../util/dates';
 import {
   selectAppointment,
@@ -14,10 +13,7 @@ import {
 } from '../../../redux/selectors';
 import { ComplexClaimsHelpSection } from '../../HelpText';
 import ExpensesAccordion from './ExpensesAccordion';
-import {
-  TRAVEL_PAY_INFO_LINK,
-  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
-} from '../../../constants';
+import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import WhatHappensNextSection from './WhatHappensNextSection';
 
 const ConfirmationPage = () => {
@@ -52,7 +48,6 @@ const ConfirmationPage = () => {
 
   useSetPageTitle(pageHeader);
   useSetFocus();
-  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, pageHeader);
 
   return (
     <>

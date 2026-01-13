@@ -8,7 +8,6 @@ import {
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   recordRadioOptionClick,
   recordButtonClick,
@@ -52,7 +51,6 @@ const Mileage = () => {
   const title = 'Mileage';
 
   useSetPageTitle(title);
-  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode

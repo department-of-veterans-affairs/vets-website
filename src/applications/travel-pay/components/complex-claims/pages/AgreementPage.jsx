@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import {
   recordButtonClick,
   recordCheckboxEvent,
@@ -32,7 +31,6 @@ const AgreementPage = () => {
 
   useSetPageTitle(title);
   useSetFocus();
-  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title);
 
   const onSubmit = async () => {
     setIsAgreementError(!isAgreementChecked);

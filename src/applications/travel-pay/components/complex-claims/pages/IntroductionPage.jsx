@@ -15,7 +15,6 @@ import {
 import ComplexClaimRedirect from './ComplexClaimRedirect';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import { recordButtonClick } from '../../../util/events-helpers';
 import {
   selectAppointment,
@@ -36,7 +35,6 @@ const IntroductionPage = () => {
 
   useSetPageTitle(title);
   useSetFocus();
-  useRecordPageview(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title);
 
   const apptId = appointment?.id;
 
