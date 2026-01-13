@@ -395,6 +395,10 @@ export const mochaHooks = {
 
   afterAll() {
     server.close();
+    // Clean up jsdom to prevent hanging in Node 22
+    if (global.dom && global.dom.window) {
+      global.dom.window.close();
+    }
   }
 
 };
