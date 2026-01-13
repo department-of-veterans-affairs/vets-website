@@ -59,7 +59,7 @@ describe('InquiriesList', () => {
 
   it('Calculates the correct props for FilterSummary with tabs', () => {
     const sentence =
-      'Showing 1-4 of 7 results for "All" statuses and "All" categories in Personal';
+      'Showing 1-4 of 7 results for "All" statuses and "All" categories in "Personal"';
 
     const view = render(
       <InquiriesList

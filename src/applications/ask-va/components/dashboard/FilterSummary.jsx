@@ -9,11 +9,16 @@ export default function FilterSummary({
   statusFilter,
   tabName,
   total,
+  query,
 }) {
-  const resultsDescription = `${pageStart}-${pageEnd} of ${total}`;
-  const statusDescription = statusFilter === 'All' ? 'statuses' : 'status';
-  const categoryDescription =
-    categoryFilter === 'All' ? 'categories' : 'category';
+  const displayCount = total ? `${pageStart}-${pageEnd} of ${total}` : 'no';
+  const queryPart = query ? `"${query}" for ` : '';
+
+  // Singular or plural
+  const statusAmount = `status${statusFilter !== 'All' ? '' : 'es'}`;
+  const categoryAmount = `categor${categoryFilter !== 'All' ? 'y' : 'ies'}`;
+
+  const tabInfo = tabName ? ` in "${tabName}"` : '';
 
   return (
     <h3
@@ -24,21 +29,16 @@ export default function FilterSummary({
         { 'vads-u-padding-x--2p5': !!tabName },
       )}
     >
-      Showing {total ? resultsDescription : 'no'} results for "
-      <strong>{statusFilter}</strong>" {statusDescription} and "
-      <strong>{categoryFilter}</strong>" {categoryDescription}
-      {!!tabName && (
-        <>
-          {' '}
-          in <strong>{tabName}</strong>
-        </>
-      )}
+      Showing {displayCount} results for {queryPart}"{statusFilter}"{' '}
+      {statusAmount} and "{categoryFilter}" {categoryAmount}
+      {tabInfo}
     </h3>
   );
 }
 
 FilterSummary.propTypes = {
   categoryFilter: PropTypes.string.isRequired,
+  query: PropTypes.string.isRequired,
   statusFilter: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   pageEnd: PropTypes.number,

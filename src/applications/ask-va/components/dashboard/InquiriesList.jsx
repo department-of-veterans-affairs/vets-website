@@ -12,6 +12,7 @@ export default function InquiriesList({
   categoryFilter,
   statusFilter,
   tabName,
+  query,
 }) {
   const [currentPageNum, setCurrentPageNum] = useState(1);
   const itemsPerPage = 4;
@@ -31,6 +32,7 @@ export default function InquiriesList({
           categoryFilter,
           statusFilter,
           tabName,
+          query,
         }}
       />
       <div
@@ -74,6 +76,7 @@ export default function InquiriesList({
 InquiriesList.propTypes = {
   categoryFilter: PropTypes.string.isRequired,
   inquiries: PropTypes.arrayOf(InquiryCard.propTypes.inquiry).isRequired,
+  query: PropTypes.string.isRequired,
   statusFilter: PropTypes.string.isRequired,
   tabName: FilterSummary.propTypes.tabName,
 };
