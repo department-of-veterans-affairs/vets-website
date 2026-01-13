@@ -33,24 +33,21 @@ function BackendProviderServiceAlert({
             headline="You can't schedule an appointment online right now"
             className="vads-u-margin-top--3"
           >
-            <>
-              <p>
-                We're sorry. There's a problem with our system. Try again later.
-              </p>
-              <p>If you need to schedule now, call your VA facility.</p>
+            <p>
+              We're sorry. There's a problem with our system. Try again later.
+            </p>
+            <p>If you need to schedule now, call your VA facility.</p>
 
-              <p className="vaos-u-word-break--break-word">
-                {selectedFacility.name}
-                <br />
-                Main phone:{' '}
-                <FacilityPhone contact={facilityPhone} icon={false} />
-              </p>
-              <p>
-                <NewTabAnchor href="/find-locations">
-                  Find a VA health facility
-                </NewTabAnchor>
-              </p>
-            </>
+            <p className="vaos-u-word-break--break-word">
+              {selectedFacility.name}
+              <br />
+              Main phone: <FacilityPhone contact={facilityPhone} icon={false} />
+            </p>
+            <p>
+              <NewTabAnchor href="/find-locations">
+                Find a VA health facility
+              </NewTabAnchor>
+            </p>
           </InfoAlert>
         </div>
       )}

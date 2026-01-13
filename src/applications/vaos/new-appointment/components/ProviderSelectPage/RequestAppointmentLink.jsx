@@ -8,18 +8,16 @@ function RequestAppointmentLink({ pageKey }) {
   const dispatch = useDispatch();
   const history = useHistory();
   return (
-    <>
-      <va-link
-        active
-        href="my-health/appointments/schedule/va-request/"
-        text="Request an appointment"
-        data-testid="request-appointment-link"
-        onClick={e => {
-          e.preventDefault();
-          dispatch(routeToRequestAppointmentPage(history, pageKey));
-        }}
-      />
-    </>
+    <va-link
+      active
+      href="my-health/appointments/schedule/va-request/"
+      text="Request an appointment"
+      data-testid="request-appointment-link"
+      onClick={e => {
+        e.preventDefault();
+        dispatch(routeToRequestAppointmentPage(history, pageKey));
+      }}
+    />
   );
 }
 

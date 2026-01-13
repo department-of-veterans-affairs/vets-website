@@ -60,20 +60,22 @@ export default function SelectProviderPage() {
     return pageTitle;
   };
 
-  const ProviderInfo = () => (
-    <>
-      <div>
-        <strong>Type of care:</strong> {typeOfCare?.name}
-        <br />
-        <strong>Facility:</strong> {selectedFacility?.name}
-      </div>
+  function ProviderInfo() {
+    return (
+      <>
+        <div>
+          <strong>Type of care:</strong> {typeOfCare?.name}
+          <br />
+          <strong>Facility:</strong> {selectedFacility?.name}
+        </div>
 
-      {hasProviders &&
-        patientProviderRelationships.map((provider, index) => (
-          <ProviderCard key={index} provider={provider} />
-        ))}
-    </>
-  );
+        {hasProviders &&
+          patientProviderRelationships.map((provider, index) => (
+            <ProviderCard key={index} provider={provider} />
+          ))}
+      </>
+    );
+  }
 
   if (loading) {
     return (
