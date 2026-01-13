@@ -23,6 +23,7 @@ import {
 import { PICKLIST_DATA } from '../../config/constants';
 import transformedV3RemoveOnlyData from '../e2e/fixtures/transformed-remove-only-v3';
 import v3RemoveOnlyData from '../e2e/fixtures/removal-only-v3.json';
+import { formConfig } from '../../config/form';
 
 const dataOptions = 'view:removeDependentOptions';
 
@@ -883,6 +884,66 @@ describe('customTransformForSubmit - integration tests', () => {
     expect(submittedData.reportDivorce).to.not.be.undefined;
     expect(submittedData.deaths).to.be.an('array');
     expect(submittedData.deaths).to.have.lengthOf(1);
+  });
+
+  it('should preserve wizard view: fields in add flow with no awarded dependents (regression test)', () => {
+    // This test verifies that wizard fields are preserved even when their pages
+    // are marked inactive due to depends functions checking for awarded dependents.
+    // This was causing a cascade where all view: fields and data were removed.
+    //
+    // CRITICAL: This test MUST use the real formConfig (not mockFormConfig) to
+    // properly exercise the inactive page filtering logic with real depends functions.
+    const form = {
+      data: {
+        vaDependentsV3: true,
+        'view:addOrRemoveDependents': { add: true },
+        'view:addDependentOptions': { addSpouse: true },
+        'view:selectable686Options': { addSpouse: true },
+        currentMarriageInformation: {
+          typeOfMarriage: 'CIVIL',
+          location: { city: 'Test', state: 'AL' },
+          date: '1990-01-01',
+        },
+        doesLiveWithSpouse: {
+          spouseDoesLiveWithVeteran: true,
+        },
+        spouseInformation: {
+          isVeteran: false,
+          fullName: { first: 'Test', last: 'User' },
+          birthDate: '1990-01-01',
+          ssn: '123123123',
+        },
+        dependents: {
+          hasError: false,
+          hasDependents: false,
+          awarded: [], // No awarded dependents - triggers the cascade bug
+        },
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    // Use REAL formConfig to exercise actual page filtering and depends logic
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    // Critical assertions: wizard fields should be preserved
+    expect(submittedData['view:addOrRemoveDependents']).to.not.be.undefined;
+    expect(submittedData['view:addOrRemoveDependents'].add).to.be.true;
+
+    expect(submittedData['view:addDependentOptions']).to.not.be.undefined;
+    expect(submittedData['view:addDependentOptions'].addSpouse).to.be.true;
+
+    expect(submittedData['view:selectable686Options']).to.not.be.undefined;
+    expect(submittedData['view:selectable686Options'].addSpouse).to.be.true;
+
+    // Data fields should also be present
+    expect(submittedData.currentMarriageInformation).to.not.be.undefined;
+    expect(submittedData.doesLiveWithSpouse).to.not.be.undefined;
+    expect(submittedData.spouseInformation).to.not.be.undefined;
   });
 });
 
