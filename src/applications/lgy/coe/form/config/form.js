@@ -27,6 +27,7 @@ import { loanScreener, loanHistory } from './chapters/loans';
 import { fileUpload } from './chapters/documents';
 
 import serviceStatus2 from '../pages/serviceStatus2';
+import uploadDocuments, { getUiSchema } from '../pages/uploadDocuments';
 // import disabilitySeparation from '../pages/disabilitySeparation';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
@@ -73,45 +74,45 @@ const formConfig = {
   useCustomScrollAndFocus: true,
   defaultDefinitions: definitions,
   chapters: {
-    applicantInformationChapter: {
-      title: data => {
-        return data.formData['view:coeFormRebuildCveteam']
-          ? 'Your information'
-          : 'Your personal information on file';
-      },
-      pages: {
-        applicantInformationSummary: {
-          path: 'applicant-information',
-          // There seems to be a bug where the depends clause is ignored for the first item in the form
-          // depends: formData => {
-          //   console.log('the value 2:', formData);
-          //   return !formData['view:coeFormRebuildCveteam'];
-          // },
-          title: 'Your personal information on file',
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
-        },
-        yourInformation: personalInformation,
-      },
-    },
-    contactInformationChapter: {
-      title: 'Your contact information',
-      pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: mailingAddress.title,
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-          updateFormData: mailingAddress.updateFormData,
-        },
-        additionalInformation: {
-          path: 'additional-contact-information',
-          title: additionalInformation.title,
-          uiSchema: additionalInformation.uiSchema,
-          schema: additionalInformation.schema,
-        },
-      },
-    },
+    // applicantInformationChapter: {
+    //   title: data => {
+    //     return data.formData['view:coeFormRebuildCveteam']
+    //       ? 'Your information'
+    //       : 'Your personal information on file';
+    //   },
+    //   pages: {
+    //     applicantInformationSummary: {
+    //       path: 'applicant-information',
+    //       // There seems to be a bug where the depends clause is ignored for the first item in the form
+    //       // depends: formData => {
+    //       //   console.log('the value 2:', formData);
+    //       //   return !formData['view:coeFormRebuildCveteam'];
+    //       // },
+    //       title: 'Your personal information on file',
+    //       uiSchema: applicantInformation.uiSchema,
+    //       schema: applicantInformation.schema,
+    //     },
+    //     yourInformation: personalInformation,
+    //   },
+    // },
+    // contactInformationChapter: {
+    //   title: 'Your contact information',
+    //   pages: {
+    //     mailingAddress: {
+    //       path: 'mailing-address',
+    //       title: mailingAddress.title,
+    //       uiSchema: mailingAddress.uiSchema,
+    //       schema: mailingAddress.schema,
+    //       updateFormData: mailingAddress.updateFormData,
+    //     },
+    //     additionalInformation: {
+    //       path: 'additional-contact-information',
+    //       title: additionalInformation.title,
+    //       uiSchema: additionalInformation.uiSchema,
+    //       schema: additionalInformation.schema,
+    //     },
+    //   },
+    // },
     serviceHistoryChapter: {
       title: data => {
         return data.formData['view:coeFormRebuildCveteam']
@@ -119,15 +120,15 @@ const formConfig = {
           : 'Your service history';
       },
       pages: {
-        serviceStatus: {
-          path: 'service-status',
-          title: 'Service status',
-          depends: formData => {
-            return !formData['view:coeFormRebuildCveteam'];
-          },
-          uiSchema: serviceStatus.uiSchema,
-          schema: serviceStatus.schema,
-        },
+        // serviceStatus: {
+        //   path: 'service-status',
+        //   title: 'Service status',
+        //   depends: formData => {
+        //     return !formData['view:coeFormRebuildCveteam'];
+        //   },
+        //   uiSchema: serviceStatus.uiSchema,
+        //   schema: serviceStatus.schema,
+        // },
         serviceStatus2: {
           path: 'service-status-2',
           title: 'Service status',
@@ -143,35 +144,44 @@ const formConfig = {
         //   uiSchema: disabilitySeparation.uiSchema,
         //   schema: disabilitySeparation.schema,
         // },
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service history',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
-        },
+        // serviceHistory: {
+        //   path: 'service-history',
+        //   title: 'Service history',
+        //   uiSchema: serviceHistory.uiSchema,
+        //   schema: serviceHistory.schema,
+        // },
       },
     },
-    loansChapter: {
-      title: 'Your VA loan history',
-      pages: {
-        loanScreener: {
-          path: 'existing-loan-screener',
-          title: 'Existing loans',
-          uiSchema: loanScreener.uiSchema,
-          schema: loanScreener.schema,
-        },
-        loanHistory: {
-          path: 'loan-history',
-          title: 'VA-backed loan history',
-          uiSchema: loanHistory.uiSchema,
-          schema: loanHistory.schema,
-          depends: formData => formData?.vaLoanIndicator,
-        },
-      },
-    },
+    // loansChapter: {
+    //   title: 'Your VA loan history',
+    //   pages: {
+    //     loanScreener: {
+    //       path: 'existing-loan-screener',
+    //       title: 'Existing loans',
+    //       uiSchema: loanScreener.uiSchema,
+    //       schema: loanScreener.schema,
+    //     },
+    //     loanHistory: {
+    //       path: 'loan-history',
+    //       title: 'VA-backed loan history',
+    //       uiSchema: loanHistory.uiSchema,
+    //       schema: loanHistory.schema,
+    //       depends: formData => formData?.vaLoanIndicator,
+    //     },
+    //   },
+    // },
     documentsChapter: {
       title: 'Your supporting documents',
       pages: {
+        upload2: {
+          path: 'upload-your-documents',
+          title: 'Upload your documents',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: getUiSchema(),
+          schema: uploadDocuments.schema,
+        },
         upload: {
           path: 'upload-supporting-documents',
           title: 'Upload your documents',
