@@ -196,6 +196,7 @@ This made debugging test failures difficult because it was unclear which change 
    - Window getter/setter proxy for EventTarget preservation
    - Document getter/setter for axe-core compatibility and temporary overrides
    - Made `window.location` and `window.crypto` writable for test mocking
+   - Global `addEventListener`/`removeEventListener` stubs for modules that call them at load time (e.g., web-vitals)
 2. `src/platform/testing/unit/axe-plugin.js` - Re-require axe-core for each .accessible() call
 3. `src/platform/forms-system/test/config/helpers.js` - Re-require axe-core for each axeCheck call
 4. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
