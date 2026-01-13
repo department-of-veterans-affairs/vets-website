@@ -1,4 +1,3 @@
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -23,27 +22,6 @@ const formConfig = {
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/education',
-        label: 'Education',
-      },
-      {
-        href: '/education/other-va-education-benefits',
-        label: 'Other va education benefits',
-      },
-      {
-        href: '/education/other-va-education-benefits/reimbursements',
-        label: 'Reimbursements',
-      },
-      {
-        href: '/forms/22-10272/request-prep-course-reimbursement-online',
-        label: 'Test reimbursement 22 10272',
-      },
-    ],
-  }),
   formId: VA_FORM_IDS.FORM_22_10272,
   saveInProgress: {
     messages: {
