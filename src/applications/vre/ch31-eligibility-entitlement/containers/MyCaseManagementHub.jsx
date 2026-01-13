@@ -4,11 +4,12 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { fetchCh31CaseStatusDetails } from '../actions/ch31-my-eligibility-and-benefits';
 import HubCardList from '../components/HubCardList';
-// import ApplicationDiscontinuedAlert from '../components/ApplicationDiscontinuedAlert';
 import NeedHelp from '../components/NeedHelp';
 import AppointmentScheduledAlert from '../components/AppointmentScheduledAlert';
 import CaseProgressDescription from '../components/CaseProgressDescription';
+import ApplicationDiscontinuedAlert from '../components/ApplicationDiscontinuedAlert';
 import LoadCaseDetailsFailedAlert from '../components/LoadCaseDetailsFailedAlert';
+import ApplicationInterruptedAlert from '../components/ApplicationInterruptedAlert';
 
 const stepLabels = [
   'Application Received',
@@ -105,6 +106,14 @@ const MyCaseManagementHub = () => {
     );
   }
 
+  const isDiscontinued =
+    caseStatusDetails?.attributes?.externalStatus?.isDiscontinued;
+
+  const discontinuedReason =
+    caseStatusDetails?.attributes?.externalStatus?.discontinuedReason;
+
+  const isInterrupted = caseStatusDetails?.attributes?.isInterrupted;
+
   return (
     <div className="row">
       <div className="vads-u-margin-top--0p5 vads-u-margin-x--1 vads-u-margin-bottom--2 medium-screen:vads-u-margin-x--0">
@@ -118,45 +127,51 @@ const MyCaseManagementHub = () => {
 
         <h2>Chapter 31 Case Progress</h2>
 
-        {caseStatusError ? (
-          <LoadCaseDetailsFailedAlert />
-        ) : (
-          <>
-            {showAppointmentAlert && <AppointmentScheduledAlert />}
-
-            {/* <ApplicationDiscontinuedAlert /> */}
-            <div className="usa-width-one-whole vads-u-margin-top--2">
-              <va-segmented-progress-bar
-                counters="small"
-                current={String(current)}
-                heading-text="VA Benefits"
-                label="Label is here"
-                labels={labelsWithStatus.join(';')}
-                total={String(total)}
-              />
-            </div>
-
-            <CaseProgressDescription step={current} />
-
-            <div className="usa-width-one-whole vads-u-margin-top--3 vads-u-margin-bottom--3">
-              <va-button
-                class="vads-u-margin-right--1"
-                secondary
-                onClick={goPrev}
-                disabled={current === 1}
-                text="Previous step"
-              />
-              <va-button
-                class="vads-u-margin-right--1"
-                onClick={goNext}
-                disabled={current === total}
-                text="Next step"
-              />
-            </div>
-
-            <HubCardList step={current} />
-          </>
+        {caseStatusError && <LoadCaseDetailsFailedAlert />}
+        {isDiscontinued && (
+          <ApplicationDiscontinuedAlert
+            discontinuedReason={discontinuedReason}
+          />
         )}
+        {isInterrupted && <ApplicationInterruptedAlert />}
+
+        {!caseStatusError &&
+          !isDiscontinued &&
+          !isInterrupted && (
+            <>
+              {showAppointmentAlert && <AppointmentScheduledAlert />}
+              <div className="usa-width-one-whole vads-u-margin-top--2">
+                <va-segmented-progress-bar
+                  counters="small"
+                  current={String(current)}
+                  heading-text="VA Benefits"
+                  label="Label is here"
+                  labels={labelsWithStatus.join(';')}
+                  total={String(total)}
+                />
+              </div>
+
+              <CaseProgressDescription step={current} />
+
+              <div className="usa-width-one-whole vads-u-margin-top--3 vads-u-margin-bottom--3">
+                <va-button
+                  class="vads-u-margin-right--1"
+                  secondary
+                  onClick={goPrev}
+                  disabled={current === 1}
+                  text="Previous step"
+                />
+                <va-button
+                  class="vads-u-margin-right--1"
+                  onClick={goNext}
+                  disabled={current === total}
+                  text="Next step"
+                />
+              </div>
+
+              <HubCardList step={current} />
+            </>
+          )}
 
         <div className="usa-width-two-thirds">
           <NeedHelp />

@@ -77,7 +77,7 @@ describe('validateReceiptDate', () => {
     const result = validateReceiptDate(null, DATE_VALIDATION_TYPE.SUBMIT);
 
     expect(result.isValid).to.be.false;
-    expect(result.purchaseDate).to.equal('Enter the date of your receipt');
+    expect(result.purchaseDate).to.equal('Enter the date on your receipt');
   });
 
   it('does not show required error on CHANGE', () => {
