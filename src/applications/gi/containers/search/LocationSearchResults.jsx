@@ -338,7 +338,7 @@ function LocationSearchResults({
     if (!streetAddress.position.longitude || !streetAddress.position.latitude)
       return;
 
-    const currentMarkerElement = document.createElement('button');
+    const currentMarkerElement = document.createElement('div');
     currentMarkerElement.className = 'current-position';
     new mapboxgl.Marker(currentMarkerElement)
       .setLngLat([
