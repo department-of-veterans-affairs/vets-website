@@ -7,6 +7,7 @@ const initialState = {
   hydrated: false,
   selectedDate: null,
   selectedTopics: [],
+  obfuscatedEmail: null,
   token: null,
 };
 
@@ -23,9 +24,13 @@ export const formSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
+    setObfuscatedEmail: (state, action) => {
+      state.obfuscatedEmail = action.payload;
+    },
     clearFormData: state => {
       state.selectedDate = null;
       state.selectedTopics = [];
+      state.obfuscatedEmail = null;
       state.token = null;
     },
     hydrateFormData: (state, action) => {
@@ -44,6 +49,7 @@ export const {
   setSelectedDate,
   setSelectedTopics,
   setToken,
+  setObfuscatedEmail,
   clearFormData,
   hydrateFormData,
 } = formSlice.actions;
@@ -52,5 +58,6 @@ export const selectSelectedDate = state => state.vassForm.selectedDate;
 export const selectSelectedTopics = state => state.vassForm.selectedTopics;
 export const selectHydrated = state => state.vassForm.hydrated;
 export const selectToken = state => state.vassForm.token;
+export const selectObfuscatedEmail = state => state.vassForm.obfuscatedEmail;
 
 export default formSlice.reducer;

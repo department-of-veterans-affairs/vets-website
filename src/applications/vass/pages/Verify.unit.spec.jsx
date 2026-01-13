@@ -3,7 +3,13 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
-import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockFetch,
+  resetFetch,
+  setFetchJSONResponse,
+  setFetchJSONFailure,
+  inputVaTextInput,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import Verify from './Verify';
 import reducers from '../redux/reducers';
@@ -25,6 +31,8 @@ const defaultRenderOptions = {
     vassForm: {
       hydrated: false,
       selectedDate: null,
+      obfuscatedEmail: null,
+      token: null,
       selectedTopics: [],
     },
   },
@@ -33,6 +41,14 @@ const defaultRenderOptions = {
 };
 
 describe('VASS Component: Verify', () => {
+  beforeEach(() => {
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
+  });
+
   it('should render all content', () => {
     const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
       <Verify />,
@@ -45,33 +61,6 @@ describe('VASS Component: Verify', () => {
     expect(getByTestId('dob-input')).to.exist;
     expect(getByTestId('submit-button')).to.exist;
     expect(queryByTestId('verify-error-alert')).to.not.exist;
-  });
-
-  it('should display error alert when submitting with incorrect credentials', async () => {
-    const {
-      getByTestId,
-      queryByTestId,
-      container,
-    } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
-
-    const submitButton = getByTestId('submit-button');
-
-    const dobInput = container.querySelector(
-      'va-memorable-date[data-testid="dob-input"]',
-    );
-    dobInput.__events.dateChange({ target: { value: '1990-01-01' } });
-
-    inputVaTextInput(
-      container,
-      'WrongName',
-      'va-text-input[data-testid="last-name-input"]',
-    );
-
-    submitButton.click();
-
-    await waitFor(() => {
-      expect(queryByTestId('verify-error-alert')).to.exist;
-    });
   });
 
   describe('when cancellation url parameter is true', () => {
@@ -87,6 +76,14 @@ describe('VASS Component: Verify', () => {
     });
 
     it('should navigate to enter otc page passing cancel=true as a url parameter', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          message: 'OTC sent to registered email address',
+          expiresIn: 600,
+          email: 's****@email.com',
+        },
+      });
+
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
@@ -125,6 +122,14 @@ describe('VASS Component: Verify', () => {
 
   describe('successful verification navigation', () => {
     it('should navigate to enter-otc page with valid credentials', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          message: 'OTC sent to registered email address',
+          expiresIn: 600,
+          email: 's****@email.com',
+        },
+      });
+
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
@@ -157,6 +162,81 @@ describe('VASS Component: Verify', () => {
         expect(getByTestId('location-display').textContent).to.equal(
           '/enter-otc',
         );
+      });
+    });
+  });
+
+  describe('API error handling', () => {
+    it('should display error alert when credentials are invalid', async () => {
+      setFetchJSONFailure(global.fetch.onCall(0), {
+        errors: [
+          {
+            code: 'invalid_credentials',
+            detail: 'Unable to verify identity. Please check your information.',
+          },
+        ],
+      });
+
+      const {
+        getByTestId,
+        queryByTestId,
+        container,
+      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
+
+      const submitButton = getByTestId('submit-button');
+
+      const dobInput = container.querySelector(
+        'va-memorable-date[data-testid="dob-input"]',
+      );
+      dobInput.__events.dateChange({ target: { value: '1990-01-01' } });
+
+      inputVaTextInput(
+        container,
+        'WrongName',
+        'va-text-input[data-testid="last-name-input"]',
+      );
+
+      submitButton.click();
+
+      await waitFor(() => {
+        expect(queryByTestId('verify-error-alert')).to.exist;
+      });
+    });
+
+    it('should display verification error message when rate limit is exceeded', async () => {
+      setFetchJSONFailure(global.fetch.onCall(0), {
+        errors: [
+          {
+            code: 'rate_limit_exceeded',
+            detail: 'Too many OTC requests.  Please try again later.',
+            retryAfter: 900,
+          },
+        ],
+      });
+
+      const {
+        getByTestId,
+        queryByTestId,
+        container,
+      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
+
+      const submitButton = getByTestId('submit-button');
+
+      const dobInput = container.querySelector(
+        'va-memorable-date[data-testid="dob-input"]',
+      );
+      dobInput.__events.dateChange({ target: { value: '1990-01-01' } });
+
+      inputVaTextInput(
+        container,
+        'WrongName',
+        'va-text-input[data-testid="last-name-input"]',
+      );
+
+      submitButton.click();
+
+      await waitFor(() => {
+        expect(queryByTestId('verification-error-alert')).to.exist;
       });
     });
   });

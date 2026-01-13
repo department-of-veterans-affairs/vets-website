@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui';
+import { useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
+import { selectObfuscatedEmail } from '../redux/slices/formSlice';
 
 const mockUser = {
   uuid: 'c0ffee-1234-beef-5678',
@@ -38,8 +40,7 @@ const EnterOTC = () => {
   const [searchParams] = useSearchParams();
   const cancellationFlow = searchParams.get('cancel') === 'true';
   const navigate = useNavigate();
-  // TODO: get veteran email from lorota?
-  const veteranEmail = 't***@test.com';
+  const obfuscatedEmail = useSelector(selectObfuscatedEmail);
 
   const [code, setCode] = useState('');
   const [error, setError] = useState(undefined);
@@ -108,7 +109,7 @@ const EnterOTC = () => {
           data-testid="enter-otc-success-alert"
         >
           <p className="vads-u-margin-y--0">
-            {`We just emailed a one-time verification code to ${veteranEmail}.
+            {`We just emailed a one-time verification code to ${obfuscatedEmail}.
           Please check your email and come back to enter the code to complete
           your verification process and start scheduling your appointment.`}
           </p>

@@ -2,11 +2,15 @@ import { expect } from 'chai';
 import formReducer, {
   setSelectedDate,
   setSelectedTopics,
+  setToken,
+  setObfuscatedEmail,
   clearFormData,
   hydrateFormData,
   selectSelectedDate,
   selectSelectedTopics,
   selectHydrated,
+  selectToken,
+  selectObfuscatedEmail,
 } from './formSlice';
 
 describe('formSlice', () => {
@@ -17,6 +21,7 @@ describe('formSlice', () => {
         hydrated: false,
         selectedDate: null,
         selectedTopics: [],
+        obfuscatedEmail: null,
         token: null,
       });
     });
@@ -27,6 +32,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: null,
           selectedTopics: [],
+          obfuscatedEmail: null,
           token: null,
         };
         const dateString = '2025-01-15T10:00:00.000Z';
@@ -41,6 +47,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1'],
+          obfuscatedEmail: null,
           token: null,
         };
         const newDateString = '2025-02-20T14:30:00.000Z';
@@ -60,6 +67,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: null,
           selectedTopics: [],
+          obfuscatedEmail: null,
           token: null,
         };
         const topics = ['topic-1', 'topic-2', 'topic-3'];
@@ -74,6 +82,7 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1'],
+          obfuscatedEmail: null,
           token: null,
         };
         const newTopics = ['topic-2', 'topic-3'];
@@ -88,11 +97,72 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: null,
           selectedTopics: ['topic-1', 'topic-2'],
+          obfuscatedEmail: null,
           token: null,
         };
         const actual = formReducer(initialState, setSelectedTopics([]));
 
         expect(actual.selectedTopics).to.deep.equal([]);
+      });
+    });
+
+    describe('setToken', () => {
+      it('should set the token', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: null,
+          token: null,
+        };
+        const token = 'abc123';
+        const actual = formReducer(initialState, setToken(token));
+
+        expect(actual.token).to.equal(token);
+      });
+
+      it('should update the token when one already exists', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: null,
+          token: 'old-token',
+        };
+        const newToken = 'new-token';
+        const actual = formReducer(initialState, setToken(newToken));
+
+        expect(actual.token).to.equal(newToken);
+      });
+    });
+
+    describe('setObfuscatedEmail', () => {
+      it('should set the obfuscated email', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: null,
+          token: null,
+        };
+        const email = 't***@example.com';
+        const actual = formReducer(initialState, setObfuscatedEmail(email));
+
+        expect(actual.obfuscatedEmail).to.equal(email);
+      });
+
+      it('should update the obfuscated email when one already exists', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: 'old***@example.com',
+          token: null,
+        };
+        const newEmail = 'new***@example.com';
+        const actual = formReducer(initialState, setObfuscatedEmail(newEmail));
+
+        expect(actual.obfuscatedEmail).to.equal(newEmail);
       });
     });
 
@@ -102,12 +172,15 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1', 'topic-2'],
-          token: null,
+          obfuscatedEmail: 't***@example.com',
+          token: 'abc123',
         };
         const actual = formReducer(initialState, clearFormData());
 
         expect(actual.selectedDate).to.be.null;
         expect(actual.selectedTopics).to.deep.equal([]);
+        expect(actual.obfuscatedEmail).to.be.null;
+        expect(actual.token).to.be.null;
       });
 
       it('should return initial state when clearing already empty data', () => {
@@ -115,12 +188,15 @@ describe('formSlice', () => {
           hydrated: false,
           selectedDate: null,
           selectedTopics: [],
+          obfuscatedEmail: null,
           token: null,
         };
         const actual = formReducer(initialState, clearFormData());
 
         expect(actual.selectedDate).to.be.null;
         expect(actual.selectedTopics).to.deep.equal([]);
+        expect(actual.obfuscatedEmail).to.be.null;
+        expect(actual.token).to.be.null;
       });
     });
 
@@ -156,6 +232,7 @@ describe('formSlice', () => {
             hydrated: false,
             selectedDate: '2025-01-15T10:00:00.000Z',
             selectedTopics: [],
+            obfuscatedEmail: null,
             token: null,
           },
         };
@@ -169,6 +246,7 @@ describe('formSlice', () => {
             hydrated: false,
             selectedDate: null,
             selectedTopics: [],
+            obfuscatedEmail: null,
             token: null,
           },
         };
@@ -184,6 +262,7 @@ describe('formSlice', () => {
             hydrated: false,
             selectedDate: null,
             selectedTopics: ['topic-1', 'topic-2'],
+            obfuscatedEmail: null,
             token: null,
           },
         };
@@ -197,6 +276,7 @@ describe('formSlice', () => {
             hydrated: false,
             selectedDate: null,
             selectedTopics: [],
+            obfuscatedEmail: null,
             token: null,
           },
         };
@@ -212,11 +292,72 @@ describe('formSlice', () => {
             hydrated: true,
             selectedDate: null,
             selectedTopics: [],
+            obfuscatedEmail: null,
             token: null,
           },
         };
         const result = selectHydrated(state);
         expect(result).to.be.true;
+      });
+    });
+
+    describe('selectToken', () => {
+      it('should select the token from state', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: 'abc123',
+          },
+        };
+        const result = selectToken(state);
+        expect(result).to.equal('abc123');
+      });
+
+      it('should return null when no token is set', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+          },
+        };
+        const result = selectToken(state);
+        expect(result).to.be.null;
+      });
+    });
+
+    describe('selectObfuscatedEmail', () => {
+      it('should select the obfuscated email from state', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: 't***@example.com',
+            token: null,
+          },
+        };
+        const result = selectObfuscatedEmail(state);
+        expect(result).to.equal('t***@example.com');
+      });
+
+      it('should return null when no obfuscated email is set', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+          },
+        };
+        const result = selectObfuscatedEmail(state);
+        expect(result).to.be.null;
       });
     });
   });

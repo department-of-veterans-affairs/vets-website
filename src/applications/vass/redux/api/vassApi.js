@@ -1,7 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { setToken } from '../slices/formSlice';
+import { setObfuscatedEmail, setToken } from '../slices/formSlice';
 
 const api = async (url, options, ...rest) => {
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
@@ -13,9 +13,9 @@ export const vassApi = createApi({
   keepUnusedDataFor: environment.isUnitTest() ? 0 : 60,
   endpoints: builder => ({
     postAuthentication: builder.mutation({
-      async queryFn({ uuid, lastname, dob }) {
+      async queryFn({ uuid, lastname, dob }, { dispatch }) {
         try {
-          return await api('/vass/v0/authenticate', {
+          const response = await api('/vass/v0/authenticate', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -26,11 +26,15 @@ export const vassApi = createApi({
               dob,
             }),
           });
+          if (response.data?.email) {
+            dispatch(setObfuscatedEmail(response.data.email));
+          }
+          return response;
         } catch (error) {
           // captureError(error, false, 'post referral appointment');
           // TODO: do something with error
           return {
-            error: { status: error.status || 500, message: error?.message },
+            error: error.errors[0],
           };
         }
       },
