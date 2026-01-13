@@ -38,6 +38,11 @@ describe('VASS Component: DateTimeSelection', () => {
         vassForm: {
           selectedDate,
           selectedTopics: [],
+          obfuscatedEmail: null,
+          token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         },
       },
       reducers,
