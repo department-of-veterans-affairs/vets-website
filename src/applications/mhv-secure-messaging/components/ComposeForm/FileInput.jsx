@@ -13,7 +13,6 @@ const FileInput = props => {
     attachFileError,
     attachments,
     attachmentScanError,
-    draftSequence,
     isOhTriageGroup,
     setAttachFileError,
     setAttachFileSuccess,
@@ -168,15 +167,6 @@ const FileInput = props => {
     setAttachFileSuccess(false);
   };
 
-  const draftText = useMemo(
-    () => {
-      if (draftSequence) {
-        return ` to draft ${draftSequence}`;
-      }
-      return '';
-    },
-    [draftSequence],
-  );
   const attachText = useMemo(
     () => {
       if (attachments.length > 0) {
@@ -201,7 +191,7 @@ const FileInput = props => {
     >
       {attachFileError && (
         <label
-          htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+          htmlFor="attachments"
           id={`error-${selectedFileId}`}
           role="alert"
           data-testid="file-input-error-message"
@@ -217,20 +207,15 @@ const FileInput = props => {
         !attachmentScanError && (
           <>
             {/* Wave plugin addressed this as an issue, label required */}
-            <label
-              htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-              hidden
-            >
+            <label htmlFor="attachments" hidden>
               Attachments input
             </label>
             <input
               ref={fileInputRef}
               type="file"
-              id={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-              name={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-              data-testid={`attach-file-input${
-                draftSequence ? `-${draftSequence}` : ''
-              }`}
+              id="attachments"
+              name="attachments"
+              data-testid="attach-file-input"
               onChange={handleFiles}
               hidden
             />
@@ -238,15 +223,11 @@ const FileInput = props => {
             <va-button
               onClick={useFileInput}
               secondary
-              text={`${attachText}${draftText}`}
+              text={attachText}
               class="attach-file-button"
-              data-testid={`attach-file-button${
-                draftSequence ? `-${draftSequence}` : ''
-              }`}
-              id={`attach-file-button${
-                draftSequence ? `-${draftSequence}` : ''
-              }`}
-              data-dd-action-name={`${attachText}${draftText} Button`}
+              data-testid="attach-file-button"
+              id="attach-file-button"
+              data-dd-action-name={`${attachText} Button`}
             />
           </>
         )}
@@ -258,7 +239,6 @@ FileInput.propTypes = {
   attachFileError: PropTypes.object,
   attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
-  draftSequence: PropTypes.number,
   isOhTriageGroup: PropTypes.bool,
   setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
