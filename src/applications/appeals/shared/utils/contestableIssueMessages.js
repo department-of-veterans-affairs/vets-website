@@ -1,13 +1,4 @@
-import { add } from 'date-fns';
-import {
-  formatDatePart,
-  formatDateWithMidnight,
-  formatDateWithTime,
-  getCurrentTimeZoneAbbr,
-  parseDateToDateObj,
-  toUTCStartOfDay,
-} from './dates';
-import { FORMAT_YMD_DATE_FNS } from '../constants';
+import { getAvailableDateTimeForBlockedIssue } from '../validations/date';
 
 /**
  * Helper: Extract decision date from contestable issue object
@@ -16,45 +7,6 @@ import { FORMAT_YMD_DATE_FNS } from '../constants';
  * Note: Only used for API contestable issues (approxDecisionDate), not user-entered additional issues
  */
 const getDecisionDate = issue => issue.approxDecisionDate;
-
-/**
- * Helper: Check if UTC midnight falls on the same local day as decision date
- * @param {Date} decisionDate - The original decision date
- * @param {Date} utcMidnight - UTC midnight converted to local time
- * @returns {boolean} True if they fall on the same local day
- */
-const isSameDayAsDecision = (decisionDate, utcMidnight) => {
-  const decisionLocalDay = formatDatePart(decisionDate);
-  const utcMidnightLocalDay = formatDatePart(utcMidnight);
-  return decisionLocalDay === utcMidnightLocalDay;
-};
-
-/**
- * Calculate "available after" time based on blocking type
- * Single function that handles both local and UTC blocking scenarios
- * @param {string} decisionDate - The decision date in YYYY-MM-DD format
- * @param {string} blockingType - Either 'local' or 'utc'
- * @returns {string} Complete formatted datetime when available
- */
-const getAvailableAfterDate = (decisionDate, blockingType) => {
-  const parsedDate = parseDateToDateObj(decisionDate, FORMAT_YMD_DATE_FNS);
-  const timezone = getCurrentTimeZoneAbbr();
-  const nextLocalDay = add(parsedDate, { days: 1 });
-
-  if (blockingType === 'local') {
-    return formatDateWithMidnight(nextLocalDay, timezone);
-  }
-
-  const utcMidnight = toUTCStartOfDay(nextLocalDay);
-
-  if (isSameDayAsDecision(parsedDate, utcMidnight)) {
-    return formatDateWithMidnight(nextLocalDay, timezone);
-  }
-
-  // UTC midnight falls on a different local day than the decision date,
-  // so show the actual converted time (e.g., "October 30, 2025, 5:00 p.m. PST")
-  return formatDateWithTime(utcMidnight, timezone);
-};
 
 /**
  * Formats an array of issue names into a natural language list
@@ -104,14 +56,12 @@ export const getBlockedMessage = blockedIssues => {
     return '';
   }
 
-  console.log('blockedIssues: ', blockedIssues);
-
   const issueNames = extractIssueNames(blockedIssues);
   const isSingle = issueNames.length === 1;
   const decisionDate = getDecisionDate(blockedIssues[0]);
-
-  const { blockingType } = blockedIssues[0];
-  const availableAfter = getAvailableAfterDate(decisionDate, blockingType);
+  const availableDateTime = getAvailableDateTimeForBlockedIssue(
+    new Date(decisionDate),
+  );
 
   return `We're sorry. Your ${formatIssueList(issueNames)} ${
     isSingle ? 'issue' : 'issues'
@@ -119,5 +69,5 @@ export const getBlockedMessage = blockedIssues => {
     isSingle ? "isn't" : "aren't"
   } available to add to your appeal yet. You can come back and select ${
     isSingle ? 'it' : 'them'
-  } after ${availableAfter}.`;
+  } after ${availableDateTime}.`;
 };
