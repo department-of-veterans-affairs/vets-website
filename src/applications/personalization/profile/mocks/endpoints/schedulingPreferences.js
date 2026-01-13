@@ -14,7 +14,8 @@ const all = {
         // },
         {
           itemId: 3, // preferredAppointmentTimes
-          optionIds: ['28'], // noPreference
+          // optionIds: ['28'], // noPreference
+          optionIds: ['18', '20', '21', '23'], // Monday morning, Tuesday morning or afternoon, Wednesday afternoon
         },
         {
           itemId: 4, // needsHelpSchedulingAppointments

@@ -270,6 +270,38 @@ export const getSchedulingPreferencesContactMethodDisplay = optionId => {
   return display;
 };
 
+export const getSchedulingPreferencesTimesDisplay = optionIds => {
+  if (!optionIds || optionIds.length === 0) return 'No preference';
+
+  const displayNames = optionIds.map(optionId =>
+    getSchedulingPreferencesOptionDisplayName(
+      FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES,
+      optionId,
+    ),
+  );
+
+  const days = {};
+  displayNames.forEach(name => {
+    const [day, timeOfDay] = name.split('_');
+    const formattedDay =
+      day.charAt(0).toUpperCase() + day.toLowerCase().slice(1);
+    if (!days[formattedDay]) {
+      days[formattedDay] = [];
+    }
+    days[formattedDay].push(timeOfDay.toLowerCase());
+  });
+
+  return (
+    <ul>
+      {Object.entries(days).map(([day, times]) => (
+        <li key={day}>
+          {day}: {times.join(' or ')}
+        </li>
+      ))}
+    </ul>
+  );
+};
+
 const MissingContactMethodData = ({ displayDetails }) => {
   return (
     <va-alert status="error" visible class="vads-u-margin-y--2">
