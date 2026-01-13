@@ -9,7 +9,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Phone and email address'),
+    ...titleUI('Your phone and email address'),
     phoneNumber: internationalPhoneUI({
       title: 'Phone number',
       hint: null,
@@ -17,7 +17,10 @@ export default {
         required: 'Please enter your phone number',
       },
     }),
-    emailAddress: emailUI(),
+    emailAddress: emailUI({
+      hint:
+        "We'll use this email address to send you notifications in regards to your claim",
+    }),
   },
   schema: {
     type: 'object',

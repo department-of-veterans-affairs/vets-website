@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { connect, useSelector } from 'react-redux';
-import {
-  isLoggedIn,
-  selectProfile,
-  isProfileLoading,
-} from 'platform/user/selectors';
+import { useSelector } from 'react-redux';
+import { isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 
 // Components
@@ -67,22 +63,13 @@ export const IntroductionPage = props => {
             unauthStartText="Sign in or create an account"
           />
         ) : (
-          <>
-            <va-alert status="info" visible class="vads-u-margin-y--4">
-              <h3 slot="headline">We've prefilled some of your information</h3>
-              Since you're signed in, we can prefill part of your application
-              based on your profile details. You can also save your application
-              in progress and come back later to finish filling it out.
-            </va-alert>
-            <SaveInProgressIntro
-              headingLevel={2}
-              prefillEnabled={formConfig.prefillEnabled}
-              formConfig={formConfig}
-              pageList={pageList}
-              startText="Start your Authorization to disclose personal information"
-              buttonOnly
-            />
-          </>
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            formConfig={formConfig}
+            pageList={pageList}
+            startText="Start your Authorization to disclose personal information"
+          />
         )}
       </div>
 
