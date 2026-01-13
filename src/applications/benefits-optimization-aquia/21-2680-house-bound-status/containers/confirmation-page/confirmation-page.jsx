@@ -77,7 +77,7 @@ const WhatsNextSection = ({ confirmationNumber }) => {
         <va-process-list-item header="Upload your fully completed form.">
           <p>
             <va-link-action
-              href="/find-forms/upload/21-2680/introduction"
+              href="/forms/upload/21-2680/introduction"
               text="Upload your completed VA form 21-2680"
             />
           </p>

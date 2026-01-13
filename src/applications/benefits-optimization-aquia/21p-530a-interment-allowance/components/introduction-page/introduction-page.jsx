@@ -38,10 +38,7 @@ const ProcessList = () => {
           Tribal organization. If you are applying for the VA interment
           allowance and applying as an individual, use form&nbsp;
           <span>
-            <va-link
-              href="/find-forms/about-form-21p-530ez/"
-              text="21P-530EZ"
-            />
+            <va-link href="/forms/21p-530ez/" text="21P-530EZ" />
           </span>
         </p>
       </va-process-list-item>

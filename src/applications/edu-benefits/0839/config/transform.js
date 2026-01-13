@@ -27,10 +27,10 @@ export default function transform(formConfig, form) {
       formData.agreementType === 'modifyExistingAgreement'
     ) {
       clonedData.yellowRibbonProgramTerms = {
-        firstAcknowledgement: 'yes',
-        secondAcknowledgement: 'yes',
-        thirdAcknowledgement: 'yes',
-        fourthAcknowledgement: 'yes',
+        firstAcknowledgement: formData.statement1Initial,
+        secondAcknowledgement: formData.statement2Initial,
+        thirdAcknowledgement: formData.statement3Initial,
+        fourthAcknowledgement: formData.statement4Initial,
         agreeToProvideYellowRibbonProgramContributions: true,
       };
     }
@@ -76,14 +76,6 @@ export default function transform(formConfig, form) {
           : 'USD';
 
         request.degreeProgram = request.collegeOrProfessionalSchool;
-
-        if (
-          request.degreeLevel !== 'undergraduate' ||
-          request.degreeLevel !== 'graduate' ||
-          request.degreeLevel !== 'doctoral'
-        ) {
-          request.degreeLevel = 'all';
-        }
 
         request.eligibleIndividuals = 1000000;
 
@@ -171,7 +163,10 @@ export default function transform(formConfig, form) {
 
       clonedData.pointOfContact.emailAddress = clonedData.pointsOfContact.email;
 
-      if (pointOfContactRole.length === 3) {
+      if (
+        pointOfContactRole.includes('YellowRibbonProgramPOC') &&
+        pointOfContactRole.includes('schoolCertifyingOfficial')
+      ) {
         clonedData.pointOfContactTwo = clonedData.pointsOfContact;
 
         clonedData.pointOfContact.role = 'YellowRibbonProgramPOC';
