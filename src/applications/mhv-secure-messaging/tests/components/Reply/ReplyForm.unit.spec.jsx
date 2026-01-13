@@ -215,7 +215,7 @@ describe('Reply form component', () => {
         threadDetails: {
           ...initialState.sm.threadDetails,
           messages: [replyMessage],
-          drafts: [],
+          draft: null,
           isLoading: false,
           cannotReply: false,
           replyToName: replyMessage.recipientName,
@@ -381,7 +381,7 @@ describe('Reply form component', () => {
     const screen = render(
       customState,
       {
-        drafts: ohDrafts,
+        draft: ohDrafts[0],
         recipients: customState.sm.recipients,
         messages: ohMessages,
       },
