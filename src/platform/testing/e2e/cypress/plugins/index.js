@@ -83,7 +83,6 @@ module.exports = async (on, config) => {
       '@department-of-veterans-affairs/web-components/react-bindings',
       'web-components/react-bindings',
       'url-search-params',
-      // '@@vap-svc/*',
       '~/platform/*',
       'axe-core/*',
     ],
