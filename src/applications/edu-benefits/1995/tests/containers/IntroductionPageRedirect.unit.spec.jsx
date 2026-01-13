@@ -314,7 +314,7 @@ describe('IntroductionPageRedirect', () => {
   });
 
   describe('Rudisill review section', () => {
-    it('should display Rudisill review section when meb1995Reroute feature flag is enabled', () => {
+    it('should display Rudisill review section when meb1995RudisillAccess feature flag is enabled', () => {
       const store = createMockStore(true, {
         login: { currentlyLoggedIn: false },
         profile: { savedForms: [], loading: false, prefillsAvailable: [] },
