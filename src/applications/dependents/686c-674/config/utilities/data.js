@@ -481,6 +481,17 @@ function transformChildDeath(item) {
 }
 
 /**
+ * Validates that SSN is exactly 9 digits
+ * @param {string} ssn - SSN to validate
+ * @returns {boolean} true if SSN is exactly 9 digits
+ */
+function isValidSSN(ssn) {
+  if (!ssn) return false;
+  const digitsOnly = String(ssn).replace(/\D/g, '');
+  return digitsOnly.length === 9;
+}
+
+/**
  * Transform V3 picklist item with removalReason: 'marriageEnded' to V2 format
  * @param {Object} item - Picklist item
  * @returns {Object} V2 reportDivorce format
@@ -493,9 +504,8 @@ function transformSpouseDivorce(item) {
     other: 'Other',
   };
 
-  return {
+  const result = {
     fullName: item.fullName,
-    ssn: item.ssn,
     birthDate: item.dateOfBirth,
     date: item.endDate,
     // TODO: Should we support Other option or default to annulmentOrVoid
@@ -505,6 +515,13 @@ function transformSpouseDivorce(item) {
     // TODO: Confirm income field source - currently defaulting to 'N'
     spouseIncome: 'N',
   };
+
+  // Only include SSN if it's exactly 9 digits
+  if (isValidSSN(item.ssn)) {
+    result.ssn = item.ssn;
+  }
+
+  return result;
 }
 
 /**
@@ -768,8 +785,8 @@ export function enrichDivorceWithSSN(data) {
     return namesMatch && birthDatesMatch;
   });
 
-  // If we found a match, add the SSN
-  if (matchingSpouse?.ssn) {
+  // If we found a match, add the SSN (only if it's exactly 9 digits)
+  if (matchingSpouse?.ssn && isValidSSN(matchingSpouse.ssn)) {
     return {
       ...data,
       reportDivorce: {
