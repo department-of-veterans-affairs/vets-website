@@ -54,9 +54,7 @@ export default function SelectProviderPage() {
     if (patientProviderRelationships?.length === 1) return singleProviderTitle;
 
     // No provider header, no error
-    if ((patientProviderRelationships?.length || 0) === 0)
-      // coerce this to 0
-      return cantScheduleTitle;
+    if (!hasProviders) return cantScheduleTitle;
 
     // return default pageTitle
     return pageTitle;
