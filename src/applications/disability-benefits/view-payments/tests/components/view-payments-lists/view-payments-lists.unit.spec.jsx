@@ -36,8 +36,7 @@ describe('View Payments Lists', () => {
     );
   };
 
-  // Set up default handler before each test (mocha-setup resets handlers in beforeEach)
-  beforeEach(() => {
+  before(() => {
     server.use(
       createGetHandler(
         `${environment.API_URL}/v0/profile/payment_history`,
@@ -51,6 +50,7 @@ describe('View Payments Lists', () => {
       ),
     );
   });
+  afterEach(() => server.resetHandlers());
 
   it('renders View Payments Lists component with both tables', async () => {
     const initialState = {
