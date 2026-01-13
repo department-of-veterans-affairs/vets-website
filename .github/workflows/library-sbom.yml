@@ -2,7 +2,9 @@ name: Library SBOM Generation
 
 on:
   push:
-    branches: [main, eb-library-sbom-workflow]
+    branches: [main]
+    paths:
+      - 'yarn.lock'
   workflow_dispatch:
 
 permissions:
