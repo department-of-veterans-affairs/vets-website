@@ -8,7 +8,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
-import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import migrations from './migrations';
@@ -220,8 +219,6 @@ const formConfig = {
           depends: formData =>
             !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...medicareCardUpload,
         },
         hasMedicareD: {
@@ -248,9 +245,6 @@ const formConfig = {
             !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
           ...medicarePartDCardUpload,
         },
       },
@@ -354,8 +348,6 @@ const formConfig = {
                 formData.applicantPrimaryProvider
               } schedule of benefits`,
             ),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...applicantInsuranceSOBSchema(true),
         },
         primaryCard: {
@@ -365,8 +357,6 @@ const formConfig = {
             get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(`${fnp(formData)} health insurance card`),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...applicantInsuranceCardSchema(true),
         },
         primaryComments: {
@@ -487,8 +477,6 @@ const formConfig = {
                 formData.applicantSecondaryProvider
               } schedule of benefits`,
             ),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...applicantInsuranceSOBSchema(false),
         },
         secondaryCard: {
@@ -499,8 +487,6 @@ const formConfig = {
             get('applicantHasSecondary', formData),
           title: formData =>
             privWrapper(`${fnp(formData)} health insurance card`),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...applicantInsuranceCardSchema(false),
         },
         secondaryComments: {
