@@ -26,11 +26,15 @@ describe('Your claims unavailable,', () => {
     cy.visit('/track-claims');
     cy.injectAxe();
 
-    cy.findByRole('heading', {
-      name: "We can't access some of your claims or appeals right now",
-      level: 3,
-    });
-    cy.findByText(bodyText);
+    cy.get('va-alert[status="warning"]')
+      .should('exist')
+      .within(() => {
+        cy.contains(
+          'h3',
+          "We can't access some of your claims or appeals right now",
+        ).should('exist');
+        cy.contains(bodyText).should('exist');
+      });
 
     cy.axeCheck();
   });
@@ -42,11 +46,15 @@ describe('Your claims unavailable,', () => {
     cy.visit('/track-claims');
     cy.injectAxe();
 
-    cy.findByRole('heading', {
-      name: "We can't access some of your claims right now",
-      level: 3,
-    });
-    cy.findByText(bodyText);
+    cy.get('va-alert[status="warning"]')
+      .should('exist')
+      .within(() => {
+        cy.contains(
+          'h3',
+          "We can't access some of your claims right now",
+        ).should('exist');
+        cy.contains(bodyText).should('exist');
+      });
 
     cy.axeCheck();
   });
@@ -58,11 +66,15 @@ describe('Your claims unavailable,', () => {
     cy.visit('/track-claims');
     cy.injectAxe();
 
-    cy.findByRole('heading', {
-      name: "We can't access some of your appeals right now",
-      level: 3,
-    });
-    cy.findByText(bodyText);
+    cy.get('va-alert[status="warning"]')
+      .should('exist')
+      .within(() => {
+        cy.contains(
+          'h3',
+          "We can't access some of your appeals right now",
+        ).should('exist');
+        cy.contains(bodyText).should('exist');
+      });
 
     cy.axeCheck();
   });
