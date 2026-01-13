@@ -214,6 +214,14 @@ function setupJSDom() {
     enumerable: true,
     writable: true,
   });
+
+  // jsdom 16+ made crypto read-only, but tests need to mock it
+  Object.defineProperty(window, 'crypto', {
+    value: window.crypto,
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
 }
 /* eslint-disable no-console */
 
