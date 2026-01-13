@@ -31,6 +31,7 @@ import {
   sendDataDogAction,
   getFailedDomainList,
   sendDatadogError,
+  logRumError,
 } from '../../util/helpers';
 import { getTxtContent } from '../../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../../actions/blueButtonReport';
@@ -140,17 +141,45 @@ const DownloadFileType = props => {
     [dateFilterOption, history, recordFilter],
   );
 
+  const isValidDate = useCallback((date, functionName, dateType) => {
+    if (!date || date === 'any') return false;
+    const parsed = new Date(date);
+    const isValid = !Number.isNaN(parsed.getTime());
+    if (!isValid) {
+      logRumError(
+        new Error('Invalid date when preparing Blue Button download'),
+        {
+          functionName,
+          dateType,
+        },
+      );
+    }
+    return isValid;
+  }, []);
+
   const filterByDate = useCallback(
-    recDate => {
+    recDateParam => {
       if (dateFilterOption === 'any') {
         return true;
       }
-      return (
-        isBefore(new Date(fromDate), new Date(recDate)) &&
-        isAfter(new Date(toDate), new Date(recDate))
-      );
+      // If the record date is invalid, include it (can't filter what we can't compare)
+      if (!isValidDate(recDateParam, 'filterByDate', 'record date')) {
+        return true;
+      }
+      const recordDate = new Date(recDateParam);
+      const hasValidFrom = isValidDate(fromDate, 'filterByDate', 'from date');
+      const hasValidTo = isValidDate(toDate, 'filterByDate', 'to date');
+      // If neither filter date is valid, include the record
+      if (!hasValidFrom && !hasValidTo) {
+        return true;
+      }
+      // Apply whichever filter(s) are valid
+      const isAfterFrom =
+        !hasValidFrom || isBefore(new Date(fromDate), recordDate);
+      const isBeforeTo = !hasValidTo || isAfter(new Date(toDate), recordDate);
+      return isAfterFrom && isBeforeTo;
     },
-    [dateFilterOption, fromDate, toDate],
+    [dateFilterOption, fromDate, toDate, isValidDate],
   );
 
   /**
@@ -330,13 +359,18 @@ const DownloadFileType = props => {
 
   const formatDateRange = useCallback(
     () => {
+      const hasValidFromDate = isValidDate(
+        fromDate,
+        'formatDateRange',
+        'from date',
+      );
+      const hasValidToDate = isValidDate(toDate, 'formatDateRange', 'to date');
       return {
-        fromDate:
-          fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
-        toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+        fromDate: hasValidFromDate ? formatDateLong(fromDate) : 'any',
+        toDate: hasValidToDate ? formatDateLong(toDate) : 'any',
       };
     },
-    [fromDate, toDate],
+    [fromDate, toDate, isValidDate],
   );
 
   const logAal = status => {

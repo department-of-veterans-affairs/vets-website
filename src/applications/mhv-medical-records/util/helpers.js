@@ -736,11 +736,12 @@ export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };
 
+export const logRumError = (error, context) => {
+  datadogRum.addError(error, { app: 'Medical Records', ...context });
+};
+
 export const sendDatadogError = (error, feature) => {
-  datadogRum.addError(error, {
-    app: 'Medical Records',
-    feature,
-  });
+  logRumError(error, { feature });
 };
 
 export const handleDataDogAction = ({
