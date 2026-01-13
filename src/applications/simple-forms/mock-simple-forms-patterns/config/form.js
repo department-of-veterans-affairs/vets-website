@@ -3,7 +3,6 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 // pages
 import chapterSelect from '../pages/chapterSelect';
 import textInput from '../pages/mockTextInput';
