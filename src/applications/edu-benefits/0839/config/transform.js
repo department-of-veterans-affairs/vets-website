@@ -46,19 +46,20 @@ export default function transform(formConfig, form) {
 
   const yellowRibbonProgramRequestTransform = formData => {
     const clonedData = cloneDeep(formData);
+    let yearRange;
 
     clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
       (request, idx) => {
         if (idx === 0) {
-          const yearRange = request.academicYearDisplay
+          yearRange = request.academicYearDisplay
             ? request.academicYearDisplay.split('-')
             : request.academicYear.split('-');
-
-          request.yearRange = {
-            from: `${yearRange[0]}-XX-XX`,
-            to: `${yearRange[1]}-XX-XX`,
-          };
         }
+
+        request.yearRange = {
+          from: `${yearRange[0]}-XX-XX`,
+          to: `${yearRange[1]}-XX-XX`,
+        };
 
         const maximumNumberOfStudents =
           request.maximumStudentsOption === 'unlimited'
