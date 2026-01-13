@@ -13,6 +13,9 @@ export const burialOrganizationMailingAddressPage = {
       recipientOrganization: {
         address: addressUI({
           omit: ['isMilitary', 'street3'],
+          labels: {
+            street2: 'Apt./Unit Number',
+          },
         }),
       },
     },

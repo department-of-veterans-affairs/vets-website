@@ -93,25 +93,27 @@ describe('Travel Pay – UnsupportedMileage', () => {
     // Check main heading
     expect(
       screen.getByRole('heading', {
-        name: 'You’ll need to file this claim in another tool',
+        name: 'Complete and file your claim in BTSSS',
       }),
     ).to.exist;
 
     // Check explanatory text
     expect(
       screen.getByText(
-        /Right now you can only file travel reimbursement claims on VA.gov if you departed from the address we have on file and traveled round trip./i,
+        /Your travel was one way or you started from somewhere other than your home address. We can’t file your travel reimbursement claim here right now./i,
       ),
     ).to.exist;
 
     expect(
       screen.getByText(
-        /To file a one-way claim or a claim from another address, use the Beneficiary Travel Self Service System \(BTSSS\)./i,
+        /Any information you’ve added here will be available in BTSSS./i,
       ),
     ).to.exist;
 
     // Check BTSSS link
-    const btsssLink = $('va-link[text="Continue this claim in BTSSS"]');
+    const btsssLink = $(
+      'va-link[text="Complete and file your claim in BTSSS"]',
+    );
     expect(btsssLink).to.exist;
     expect(btsssLink).to.have.attribute('href', BTSSS_PORTAL_URL);
     expect(btsssLink).to.have.attribute('external');
@@ -135,7 +137,9 @@ describe('Travel Pay – UnsupportedMileage', () => {
       },
     );
 
-    const btsssLink = $('va-link[text="Continue this claim in BTSSS"]');
+    const btsssLink = $(
+      'va-link[text="Complete and file your claim in BTSSS"]',
+    );
     expect(btsssLink).to.have.attribute(
       'href',
       'https://dvagov-btsss.dynamics365portals.us/',

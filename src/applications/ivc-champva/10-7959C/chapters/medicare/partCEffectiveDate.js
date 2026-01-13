@@ -1,9 +1,8 @@
 import {
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
   textSchema,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { futureDateSchema, futureDateUI } from '../../definitions';
 import { titleWithNameUI } from '../../utils/titles';
 import content from '../../locales/en/content.json';
 
@@ -20,24 +19,21 @@ const HINT_TEXT = {
 export default {
   uiSchema: {
     ...titleWithNameUI(TITLE_TEXT),
-    applicantMedicarePartCCarrier: textUI({
+    medicarePartCCarrier: textUI({
       title: INPUT_LABELS.carrier,
       hint: HINT_TEXT.carrier,
     }),
-    applicantMedicarePartCEffectiveDate: currentOrPastDateUI({
+    medicarePartCEffectiveDate: futureDateUI({
       title: INPUT_LABELS.effectiveDate,
       hint: HINT_TEXT.effectiveDate,
     }),
   },
   schema: {
     type: 'object',
-    required: [
-      'applicantMedicarePartCCarrier',
-      'applicantMedicarePartCEffectiveDate',
-    ],
+    required: ['medicarePartCCarrier', 'medicarePartCEffectiveDate'],
     properties: {
-      applicantMedicarePartCCarrier: textSchema,
-      applicantMedicarePartCEffectiveDate: currentOrPastDateSchema,
+      medicarePartCCarrier: textSchema,
+      medicarePartCEffectiveDate: futureDateSchema,
     },
   },
 };

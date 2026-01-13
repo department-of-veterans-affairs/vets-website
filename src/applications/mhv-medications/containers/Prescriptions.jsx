@@ -259,12 +259,12 @@ const Prescriptions = () => {
       if (!isLoading) {
         if (prescriptionId) {
           goToPrevious();
-        } else {
+        } else if (!rxRenewalMessageSuccess && !deleteDraftSuccess) {
           focusElement(document.querySelector('h1'));
         }
       }
     },
-    [isLoading, prescriptionId],
+    [isLoading, prescriptionId, rxRenewalMessageSuccess, deleteDraftSuccess],
   );
 
   useEffect(

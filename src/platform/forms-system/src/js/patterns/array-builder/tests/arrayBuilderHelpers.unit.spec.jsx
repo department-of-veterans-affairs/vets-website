@@ -313,7 +313,7 @@ describe('arrayBuilder helpers', () => {
   it('createArrayBuilderUpdatedPath', () => {
     const path = helpers.createArrayBuilderUpdatedPath({
       basePath: '/path-summary',
-      nounSingular: 'employer',
+      arrayPath: 'employer',
       index: 0,
     });
 
@@ -444,21 +444,21 @@ describe('maxItemsHint', () => {
 describe('getUpdatedItemFromPath', () => {
   it('should return null values if no updated param', () => {
     const updatedItem = helpers.getUpdatedItemFromPath('');
-    expect(updatedItem.nounSingular).to.eq(null);
+    expect(updatedItem.arrayPathSlug).to.eq(null);
     expect(updatedItem.index).to.eq(null);
   });
 
   it('should return expected values for an item', () => {
     const updatedItem = helpers.getUpdatedItemFromPath('?updated=employer-0');
-    expect(updatedItem.nounSingular).to.eq('employer');
+    expect(updatedItem.arrayPathSlug).to.eq('employer');
     expect(updatedItem.index).to.eq(0);
   });
 
-  it('should return expected values for an item', () => {
+  it('should return expected values for an item with multi-word slug', () => {
     const updatedItem = helpers.getUpdatedItemFromPath(
       '?updated=treatment-records-2',
     );
-    expect(updatedItem.nounSingular).to.eq('treatment records');
+    expect(updatedItem.arrayPathSlug).to.eq('treatment-records');
     expect(updatedItem.index).to.eq(2);
   });
 });
@@ -544,18 +544,88 @@ describe('replaceItemInFormData', () => {
 });
 
 describe('slugifyText', () => {
-  it('should return a slugified version of the noun singular', () => {
-    let text = 'Treatment records';
-    let slugified = helpers.slugifyText(text);
-    expect(slugified).to.equal('treatment-records');
+  describe('nounSingular examples', () => {
+    it('should handle single words', () => {
+      expect(helpers.slugifyText('employer')).to.equal('employer');
+      expect(helpers.slugifyText('dependent')).to.equal('dependent');
+      expect(helpers.slugifyText('program')).to.equal('program');
+    });
 
-    text = 'employer';
-    slugified = helpers.slugifyText(text);
-    expect(slugified).to.equal('employer');
+    it('should handle two-word nouns', () => {
+      expect(helpers.slugifyText('treatment record')).to.equal(
+        'treatment-record',
+      );
+      expect(helpers.slugifyText('previous name')).to.equal('previous-name');
+      expect(helpers.slugifyText('medical treatment')).to.equal(
+        'medical-treatment',
+      );
+      expect(helpers.slugifyText('dependent child')).to.equal(
+        'dependent-child',
+      );
+    });
 
-    text = 'traumatic event';
-    slugified = helpers.slugifyText(text);
-    expect(slugified).to.equal('traumatic-event');
+    it('should handle long multi-word nouns', () => {
+      expect(helpers.slugifyText('federal medical facility')).to.equal(
+        'federal-medical-facility',
+      );
+      expect(helpers.slugifyText('asset previously not reported')).to.equal(
+        'asset-previously-not-reported',
+      );
+    });
+  });
+
+  describe('features', () => {
+    it('should convert camelCase to kebab-case by default', () => {
+      expect(helpers.slugifyText('employerName')).to.equal('employer-name');
+      expect(helpers.slugifyText('myVeryLongCamelCaseString')).to.equal(
+        'my-very-long-camel-case-string',
+      );
+    });
+
+    it('should preserve camelCase (just lowercase) when convertCamelCase is false', () => {
+      expect(
+        helpers.slugifyText('employerName', { convertCamelCase: false }),
+      ).to.equal('employername');
+      expect(
+        helpers.slugifyText('myVeryLongCamelCaseString', {
+          convertCamelCase: false,
+        }),
+      ).to.equal('myverylongcamelcasestring');
+    });
+
+    it('should preserve special characters', () => {
+      expect(helpers.slugifyText('name (with) parens')).to.equal(
+        'name-(with)-parens',
+      );
+      expect(helpers.slugifyText('test!@#$%^&*()test')).to.equal(
+        'test!@#$%^&*()test',
+      );
+    });
+
+    it('should preserve multiple spaces as multiple dashes', () => {
+      expect(helpers.slugifyText('multiple  spaces')).to.equal(
+        'multiple--spaces',
+      );
+      expect(helpers.slugifyText('too---many---dashes')).to.equal(
+        'too---many---dashes',
+      );
+    });
+
+    it('should preserve existing dashes in names or identifiers', () => {
+      expect(helpers.slugifyText('mary-anne-3333')).to.equal('mary-anne-3333');
+      expect(helpers.slugifyText('jean-luc')).to.equal('jean-luc');
+      expect(helpers.slugifyText('SSN-123-45-6789')).to.equal(
+        'ssn-123-45-6789',
+      );
+    });
+
+    it('should handle edge cases', () => {
+      expect(helpers.slugifyText('')).to.equal('');
+      expect(helpers.slugifyText(null)).to.equal('');
+      expect(helpers.slugifyText(undefined)).to.equal('');
+      expect(helpers.slugifyText('---')).to.equal('---');
+      expect(helpers.slugifyText('test 123 name')).to.equal('test-123-name');
+    });
   });
 });
 

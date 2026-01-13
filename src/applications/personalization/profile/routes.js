@@ -3,6 +3,7 @@ import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 import ProfileHub from './components/hub/ProfileHub';
+import { ContactMethodContainer } from './components/health-care-settings/sub-tasks/contact-method/ContactMethodContainer';
 
 const getRoutes = (
   {
@@ -32,6 +33,27 @@ const getRoutes = (
       component: profile2Enabled ? ProfileHub : Hub,
       name: PROFILE_PATH_NAMES.PROFILE_ROOT,
       path: PROFILE_PATHS.PROFILE_ROOT,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
+      component: ContactMethodContainer,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
+      path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
+      component: Edit,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_TIME,
+      path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_TIMES,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
+      component: Edit,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_APPOINTMENT_TIME,
+      path: PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
       requiresLOA3: true,
       requiresMVI: true,
     },

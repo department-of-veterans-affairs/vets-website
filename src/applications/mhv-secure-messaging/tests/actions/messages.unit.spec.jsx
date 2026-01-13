@@ -427,6 +427,58 @@ describe('messages actions', () => {
       });
   });
 
+  it('should dispatch clearPrescription action on successful sendMessage', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          false,
+          false,
+          false,
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+
+        expect(actions).to.deep.include({
+          type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+        });
+      });
+  });
+
+  it('should NOT dispatch clearPrescription action on failed sendMessage', async () => {
+    const store = mockStore();
+    mockFetch({ ...errorResponse }, false);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          false,
+          false,
+          false,
+        ),
+      )
+      .catch(() => {
+        const actions = store.getActions();
+
+        expect(actions).to.not.deep.include({
+          type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+        });
+      });
+  });
+
   it('should log prescription renewal message when isRxRenewal is true', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);

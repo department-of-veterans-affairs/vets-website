@@ -34,6 +34,7 @@ import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 import { saveDraft } from '../actions/draftDetails';
 import manifest from '../manifest.json';
 import featureToggles from '../hooks/useFeatureToggles';
+import { draftIsClean } from '../util/helpers';
 
 const SelectCareTeam = () => {
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
@@ -97,6 +98,25 @@ const SelectCareTeam = () => {
       }
     },
     [draftInProgress.recipientId],
+  );
+
+  useEffect(
+    () => {
+      if (
+        !draftInProgress?.messageId &&
+        !!draftInProgress?.recipientId &&
+        draftInProgress?.navigationError?.title ===
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE.title &&
+        draftIsClean(draftInProgress)
+      ) {
+        dispatch(
+          updateDraftInProgress({
+            navigationError: null,
+          }),
+        );
+      }
+    },
+    [draftInProgress, dispatch],
   );
 
   const careTeamHandler = useCallback(

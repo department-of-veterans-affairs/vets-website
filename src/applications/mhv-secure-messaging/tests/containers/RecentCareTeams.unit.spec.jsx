@@ -142,6 +142,26 @@ describe('RecentCareTeams component', () => {
       expect(descriptions).to.include('VA Hospital');
     });
 
+    it('should have accessible radio group with label-header-level and hint', () => {
+      renderComponent();
+
+      const radioGroup = document.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+
+      // Verify label is the heading text only (not combined with hint)
+      expect(radioGroup.getAttribute('label')).to.equal(
+        'Select a team you want to message',
+      );
+
+      // Verify hint contains the helper text
+      expect(radioGroup.getAttribute('hint')).to.include(
+        'This list only includes teams',
+      );
+
+      // Verify label-header-level is set for proper heading structure
+      expect(radioGroup.getAttribute('label-header-level')).to.equal('2');
+    });
+
     it('should render loading indicator when recentRecipients is undefined', () => {
       const state = {
         ...defaultState,

@@ -63,7 +63,6 @@ import {
   updateDraftInProgress,
 } from '../../actions/threadDetails';
 import SelectedRecipientTitle from './SelectedRecipientTitle';
-import { clearPrescription } from '../../actions/prescription';
 import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 import useNavigationError from '../../hooks/useNavigationError';
 
@@ -149,15 +148,6 @@ const ComposeForm = props => {
       }
     },
     [redirectPath],
-  );
-
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearPrescription());
-      };
-    },
-    [dispatch],
   );
 
   useEffect(
