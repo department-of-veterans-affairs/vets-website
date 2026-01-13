@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -13,17 +15,20 @@ const getData = ({
   getCoeMock = () => {},
   showCOE = true,
   loading = false,
-} = {}) => ({
-  props: {
-    children: <div>children</div>,
-    formData: {},
-    getCoe: () => {},
-    getCoeMock,
-    loggedIn,
-    location: { pathname: '/introduction', search: '' },
-  },
-  mockStore: {
-    getState: () => ({
+} = {}) => {
+  const middleware = [thunk];
+  const mockStore = configureStore(middleware);
+
+  return {
+    props: {
+      children: <div>children</div>,
+      formData: {},
+      getCoe: () => {},
+      getCoeMock,
+      loggedIn,
+      location: { pathname: '/introduction', search: '' },
+    },
+    mockStore: mockStore({
       user: {
         login: {
           currentlyLoggedIn: loggedIn,
@@ -36,6 +41,7 @@ const getData = ({
         loadedData: {
           metadata: {},
         },
+        data: {},
       },
       featureToggles: {
         loading,
@@ -52,10 +58,8 @@ const getData = ({
         dismissedDowntimeWarnings: [],
       },
     }),
-    subscribe: () => {},
-    dispatch: () => {},
-  },
-});
+  };
+};
 
 describe('App', () => {
   it('should render', () => {

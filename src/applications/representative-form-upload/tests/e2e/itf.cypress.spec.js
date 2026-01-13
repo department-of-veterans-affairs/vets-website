@@ -280,7 +280,7 @@ describe('Intent to file submission', () => {
         );
 
         cy.fillClaimantDetail();
-        cy.fillVeteranDetail(false);
+        cy.fillVeteranDetail();
         cy.get('input[name="root_selectBenefits_SURVIVOR"]').click();
         cy.axeCheck();
         cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -437,7 +437,10 @@ describe('Intent to file submission', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-21-0966/existing-itf`,
         );
-        cy.get('va-card').should('contain', 'This claimant has an ITF on file');
+        cy.get('va-alert').should(
+          'contain',
+          'This claimant has an intent to file',
+        );
       });
     });
 

@@ -8,10 +8,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
-import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
-import { migrateCardUploadKeys } from './migrations';
+import migrations from './migrations';
 import { blankSchema } from '../definitions';
 
 import { beneficiaryPages } from '../chapters/applicantInformation';
@@ -45,25 +44,10 @@ import benefitStatus from '../chapters/signerInformation/benefitStatus';
 import certifierEmail from '../chapters/signerInformation/certifierEmail';
 import certifierRole from '../chapters/signerInformation/certifierRole';
 import CustomAttestation from '../components/CustomAttestation';
-
-import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
-import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
-import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import { FEATURE_TOGGLES } from '../hooks/useDefaultFormData';
 
 //  import mockdata from '../tests/e2e/fixtures/data/test-data.json';
-
-// Control whether we show the file overview page by calling `hasReq` to
-// determine if any files have not been uploaded. Defaults to false (hide the page)
-// if anything goes sideways.
-function showFileOverviewPage(formData) {
-  try {
-    return hasReq(formData, true, true) || hasReq(formData, false, true);
-  } catch {
-    return false;
-  }
-}
 
 // (First Name Posessive);
 function fnp(formData) {
@@ -77,8 +61,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959C-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -115,8 +97,8 @@ const formConfig = {
         'Your CHAMPVA other health insurance certification application has been saved.',
     },
   },
-  version: 1,
-  migrations: [migrateCardUploadKeys],
+  version: migrations.length,
+  migrations,
   prefillEnabled: true,
   prefillTransformer,
   transformForSubmit,
@@ -169,14 +151,10 @@ const formConfig = {
         benefitApp: {
           path: 'benefit-application',
           title: 'Apply for Benefits',
-          depends: formData => !get('champvaBenefitStatus', formData),
+          depends: formData => !get('view:champvaBenefitStatus', formData),
           CustomPage: NotEnrolledPage,
           CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
+          uiSchema: {},
           schema: blankSchema,
         },
         signerEmail: {
@@ -241,8 +219,6 @@ const formConfig = {
           depends: formData =>
             !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...medicareCardUpload,
         },
         hasMedicareD: {
@@ -269,9 +245,6 @@ const formConfig = {
             !formData[REV2025_TOGGLE_KEY] &&
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
           ...medicarePartDCardUpload,
         },
       },
@@ -375,8 +348,6 @@ const formConfig = {
                 formData.applicantPrimaryProvider
               } schedule of benefits`,
             ),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...applicantInsuranceSOBSchema(true),
         },
         primaryCard: {
@@ -386,8 +357,6 @@ const formConfig = {
             get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(`${fnp(formData)} health insurance card`),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...applicantInsuranceCardSchema(true),
         },
         primaryComments: {
@@ -508,8 +477,6 @@ const formConfig = {
                 formData.applicantSecondaryProvider
               } schedule of benefits`,
             ),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...applicantInsuranceSOBSchema(false),
         },
         secondaryCard: {
@@ -520,8 +487,6 @@ const formConfig = {
             get('applicantHasSecondary', formData),
           title: formData =>
             privWrapper(`${fnp(formData)} health insurance card`),
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
           ...applicantInsuranceCardSchema(false),
         },
         secondaryComments: {
@@ -537,39 +502,6 @@ const formConfig = {
               } additional comments`,
             ),
           ...applicantInsuranceCommentsSchema(false),
-        },
-      },
-    },
-    fileUpload: {
-      title: 'File Upload',
-      pages: {
-        supportingFilesReview: {
-          path: 'supporting-files',
-          title: 'Upload your supporting files',
-          depends: formData =>
-            !formData[REV2025_TOGGLE_KEY] && showFileOverviewPage(formData),
-          CustomPage: SupportingDocumentsPage,
-          CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: blankSchema,
-        },
-        missingFileConsent: {
-          path: 'consent-mail',
-          title: 'Upload your supporting files',
-          depends: formData =>
-            !formData[REV2025_TOGGLE_KEY] && showFileOverviewPage(formData),
-          CustomPage: MissingFileConsentPage,
-          CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: blankSchema,
         },
       },
     },
