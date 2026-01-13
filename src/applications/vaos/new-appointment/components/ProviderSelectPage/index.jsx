@@ -50,7 +50,7 @@ export default function SelectProviderPage() {
     // Providers endpoint returns with an error
     if (patientRelationshipsError) return pageTitle;
 
-    // Single provider header
+    // Single provider header, no error
     if (patientProviderRelationships?.length === 1) return singleProviderTitle;
 
     // No provider header, no error
