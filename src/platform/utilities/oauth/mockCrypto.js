@@ -21,11 +21,15 @@ export const mockCrypto = {
       const _data = getArrayBufferOrView(data);
 
       return new Promise((resolve, _) => {
-        resolve(
-          createHash(_algorithm)
-            .update(_data)
-            .digest(),
+        const buffer = createHash(_algorithm)
+          .update(_data)
+          .digest();
+        // Convert Node Buffer to ArrayBuffer to match native crypto.subtle.digest()
+        const arrayBuffer = buffer.buffer.slice(
+          buffer.byteOffset,
+          buffer.byteOffset + buffer.byteLength,
         );
+        resolve(arrayBuffer);
       });
     },
   },
