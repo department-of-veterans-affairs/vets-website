@@ -204,6 +204,17 @@ describe('VASS Component: EnterOTC', () => {
         },
       });
 
+      // Mock getUserAppointment returning 404 (no existing appointment)
+      setFetchJSONFailure(global.fetch.onCall(1), {
+        errors: [
+          {
+            code: 'not_found',
+            detail: 'No appointment found for user',
+            status: 404,
+          },
+        ],
+      });
+
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
@@ -283,6 +294,111 @@ describe('VASS Component: EnterOTC', () => {
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
           '/cancel-appointment/abcdef123456',
+        );
+      });
+    });
+  });
+
+  describe('existing appointment redirect', () => {
+    it('should redirect to already-scheduled page when user has existing appointment', async () => {
+      // Mock successful OTC verification
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          token: 'jwt-token',
+          expiresIn: 3600,
+          tokenType: 'Bearer',
+        },
+      });
+
+      // Mock getUserAppointment returning an existing appointment
+      setFetchJSONResponse(global.fetch.onCall(1), {
+        data: {
+          appointmentId: 'existing123',
+          dtStartUtc: '2025-05-01T16:00:00.000Z',
+          phoneNumber: '8008270611',
+          typeOfCare: 'Solid Start',
+        },
+      });
+
+      const { container, getByTestId } = renderWithStoreAndRouterV6(
+        <>
+          <Routes>
+            <Route path="/enter-otc" element={<EnterOTC />} />
+            <Route
+              path="/already-scheduled"
+              element={<div>Already Scheduled Page</div>}
+            />
+            <Route path="/date-time" element={<div>Date Time Page</div>} />
+          </Routes>
+          <LocationDisplay />
+        </>,
+        {
+          initialState: {},
+          reducers,
+          initialEntries: ['/enter-otc'],
+          additionalMiddlewares: [vassApi.middleware],
+        },
+      );
+
+      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      const continueButton = getByTestId('continue-button');
+      continueButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/already-scheduled',
+        );
+      });
+    });
+
+    it('should continue to date-time page when user has no existing appointment', async () => {
+      // Mock successful OTC verification
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          token: 'jwt-token',
+          expiresIn: 3600,
+          tokenType: 'Bearer',
+        },
+      });
+
+      // Mock getUserAppointment returning 404 (no appointment)
+      setFetchJSONFailure(global.fetch.onCall(1), {
+        errors: [
+          {
+            code: 'not_found',
+            detail: 'No appointment found for user',
+            status: 404,
+          },
+        ],
+      });
+
+      const { container, getByTestId } = renderWithStoreAndRouterV6(
+        <>
+          <Routes>
+            <Route path="/enter-otc" element={<EnterOTC />} />
+            <Route
+              path="/already-scheduled"
+              element={<div>Already Scheduled Page</div>}
+            />
+            <Route path="/date-time" element={<div>Date Time Page</div>} />
+          </Routes>
+          <LocationDisplay />
+        </>,
+        {
+          initialState: {},
+          reducers,
+          initialEntries: ['/enter-otc'],
+          additionalMiddlewares: [vassApi.middleware],
+        },
+      );
+
+      inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
+      const continueButton = getByTestId('continue-button');
+      continueButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/date-time',
         );
       });
     });

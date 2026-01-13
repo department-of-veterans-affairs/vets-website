@@ -2,21 +2,47 @@ import React from 'react';
 import { format } from 'date-fns';
 
 import Wrapper from '../layout/Wrapper';
-
-// TODO: replace with actual data
-const appointmentData = {
-  appointmentId: '123',
-  phoneNumber: '8005551212',
-  dtStartUtc: '2025-05-01T16:00:00.000Z',
-  typeOfCare: 'Solid Start',
-  providerName: 'Bill Brasky',
-  topics: [
-    { topicName: 'Benefits', topicId: '123' },
-    { topicName: 'Health care', topicId: '456' },
-  ],
-};
+import { useGetUserAppointmentQuery } from '../redux/api/vassApi';
 
 const AlreadyScheduled = () => {
+  const {
+    data: appointmentResponse,
+    isLoading,
+    isError,
+  } = useGetUserAppointmentQuery();
+
+  if (isLoading) {
+    return (
+      <Wrapper
+        testID="already-scheduled-page"
+        pageTitle="You already scheduled your appointment with VA Solid Start"
+      >
+        <va-loading-indicator
+          message="Loading your appointment..."
+          data-testid="loading-indicator"
+        />
+      </Wrapper>
+    );
+  }
+
+  if (isError || !appointmentResponse?.data) {
+    return (
+      <Wrapper
+        testID="already-scheduled-page"
+        pageTitle="You already scheduled your appointment with VA Solid Start"
+      >
+        <va-alert status="error" data-testid="error-alert">
+          <p className="vads-u-margin-y--0">
+            We’re sorry. We can’t access your appointment information right now.
+            Please try again later or call us at{' '}
+            <va-telephone contact="8008270611" />.
+          </p>
+        </va-alert>
+      </Wrapper>
+    );
+  }
+
+  const appointmentData = appointmentResponse.data;
   const appointmentDate = new Date(appointmentData.dtStartUtc);
   return (
     <Wrapper

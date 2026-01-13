@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui';
 import Wrapper from '../layout/Wrapper';
-import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
+import {
+  usePostOTCVerificationMutation,
+  useGetUserAppointmentQuery,
+} from '../redux/api/vassApi';
 
 const mockUser = {
   uuid: 'c0ffee-1234-beef-5678',
@@ -45,8 +48,15 @@ const EnterOTC = () => {
   const [error, setError] = useState(undefined);
   const [fieldError, setFieldError] = useState(undefined);
   const [focusTrigger, setFocusTrigger] = useState(0);
+  const [checkingAppointment, setCheckingAppointment] = useState(false);
 
   const [postOTCVerification, { isLoading }] = usePostOTCVerificationMutation();
+  const { refetch: refetchUserAppointment } = useGetUserAppointmentQuery(
+    undefined,
+    {
+      skip: true, // Skip initial fetch, we'll manually trigger it
+    },
+  );
 
   useEffect(
     () => {
@@ -82,7 +92,24 @@ const EnterOTC = () => {
       setFocusTrigger(prev => prev + 1);
       return;
     }
-    // TODO: handle otc verification success
+
+    // Store token for subsequent API calls
+    if (response.data?.token) {
+      localStorage.setItem('token', response.data.token);
+    }
+
+    // Check if user already has an appointment
+    setCheckingAppointment(true);
+    const appointmentCheck = await refetchUserAppointment();
+    setCheckingAppointment(false);
+
+    // If user has an existing appointment, redirect to already-scheduled page
+    if (appointmentCheck.data?.data) {
+      navigate('/already-scheduled');
+      return;
+    }
+
+    // Otherwise, continue with normal flow
     if (cancellationFlow) {
       navigate('/cancel-appointment/abcdef123456');
     } else {
@@ -145,7 +172,7 @@ const EnterOTC = () => {
           text="Continue"
           data-testid="continue-button"
           uswds
-          loading={isLoading}
+          loading={isLoading || checkingAppointment}
         />
       </div>
     </Wrapper>

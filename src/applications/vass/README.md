@@ -1,6 +1,15 @@
 # VASS
 // TODO: ADD description
 
+## Appointment Scheduling Flow
+
+The VASS application allows service members to schedule VA Solid Start appointments. After the verification flow (last name, DOB, and OTC), the system checks if the user already has a scheduled appointment:
+
+- **If appointment exists:** User is redirected to the "already scheduled" page showing their existing appointment details
+- **If no appointment exists:** User continues to the normal scheduling flow (date/time selection, topic selection, review, and confirmation)
+
+This prevents users from accidentally scheduling duplicate appointments when reusing old links.
+
 ## URL
 http://localhost:3001/service-member/benefits/solid-start/schedule
 https://staging.va.gov/service-member/benefits/solid-start/schedule
@@ -24,14 +33,22 @@ yarn test:unit --app-folder vass --log-level all
 
 # E2E tests
 yarn cy:open
-yarn cy:run --spec "src/applications/vass/tests/e2e/vass.cypress.spec.js"
+yarn cy:run --spec "src/applications/vass/tests/vass.cypress.spec.js"
 ```
 
 ## Mock UUIDs
 There are several different mock UUIDs that can be used as a value for the `uuid` URL param.
 
-- Happy path: 'http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678`
+- Happy path (no existing appointment): 'http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678`
   - uuid='c0ffee-1234-beef-5678'
   - lastname='Smith'
   - dob='1935-04-07'
   - otc='123456'
+  - This user has **no** existing appointment and will continue through the scheduling flow
+
+- User with existing appointment: 'http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=has-appointment`
+  - uuid='has-appointment'
+  - lastname='Smith'
+  - dob='1935-04-07'
+  - otc='123456'
+  - This user has an **existing** appointment and will be redirected to the "already scheduled" page after OTC verification
