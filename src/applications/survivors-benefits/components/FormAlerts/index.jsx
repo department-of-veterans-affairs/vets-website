@@ -27,51 +27,6 @@ export const AdditionalMarriagesAlert = () => (
   </va-alert-expandable>
 );
 
-export const PreviousAdditionalMarriagesAlert = () => (
-  <va-alert-expandable
-    status="warning"
-    trigger="You'll need to submit VA Form 21-4138"
-    disable-border="true"
-  >
-    <p>
-      If "YES," please submit a VA Form 21-686c, Application to Request to Add
-      And/Or Remove Dependents, or VA Form 21-4138, Statement in Support of
-      Claim, as needed to provide the information for additional marital history
-    </p>
-    <p>
-      <va-link
-        href="/find-forms/about-form-21-4138/"
-        external
-        text="Get VA Form 21-4138 to download"
-      />
-    </p>
-  </va-alert-expandable>
-);
-
-export const DependentChildrenAlert = () => (
-  <va-alert-expandable
-    status="warning"
-    trigger="You'll need to submit VA Form 21-4138"
-    disable-border="true"
-  >
-    <p>
-      If "YES," please submit a VA Form 21-686c, Application to Request to Add
-      And/Or Remove Dependents, or VA Form 21-4138, Statement in Support of
-      Claim, as needed to provide the information for additional marital
-      history.Please complete a VA Form 21-686c, Application Request to Add
-      and/or Remove Dependents, if you need more space for additional
-      dependents.
-    </p>
-    <p>
-      <va-link
-        href="/find-forms/about-form-21-4138/"
-        external
-        text="Get VA Form 21-4138 to download"
-      />
-    </p>
-  </va-alert-expandable>
-);
-
 const RequestFormAlert = ({
   title,
   formName,
