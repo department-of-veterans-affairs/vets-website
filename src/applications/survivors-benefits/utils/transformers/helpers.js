@@ -5,3 +5,29 @@ export const truncateMiddleName = name => {
     middle: name.middle.charAt(0),
   };
 };
+
+export const truncateName = (name, firstMax, middleMax, lastMax) => {
+  if (!name) return name;
+  return {
+    ...name,
+    first: name.first?.substring(0, firstMax),
+    middle: name.middle?.substring(0, middleMax),
+    last: name.last?.substring(0, lastMax),
+  };
+};
+
+export const combineCityState = (city, stateOrCountry) => {
+  if (!city && !stateOrCountry) return '';
+  if (city && stateOrCountry) {
+    return `${city}, ${stateOrCountry}`;
+  }
+  return city || stateOrCountry;
+};
+
+export const combineMarriageDates = (startDate, endDate) => {
+  if (!startDate && !endDate) return '';
+  if (startDate && endDate) {
+    return `${startDate} - ${endDate}`;
+  }
+  return startDate || endDate;
+};

@@ -11,6 +11,7 @@ import {
   truncateMiddleInitials,
   unnestOtherServiceNames,
   combineUnitNameAddress,
+  chapter4Transform,
 } from '../utils/transformers';
 
 export const transform = (formConfig, form) => {
@@ -25,6 +26,7 @@ export const transform = (formConfig, form) => {
   transformedData = truncateMiddleInitials(transformedData);
   transformedData = unnestOtherServiceNames(transformedData);
   transformedData = combineUnitNameAddress(transformedData);
+  transformedData = chapter4Transform(transformedData);
   return JSON.stringify({
     survivorsBenefitsClaim: {
       form: transformedData,

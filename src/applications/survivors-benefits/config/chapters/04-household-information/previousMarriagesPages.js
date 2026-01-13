@@ -373,7 +373,7 @@ const marriageEndPage = {
       labels: previousMarriageEndOptions,
       labelHeaderLevel: 3,
     }),
-    reasonForSeparationExplanation: {
+    separationExplanation: {
       ...textUI({
         title: 'Tell us how the marriage ended',
         required: (formData, index) => {
@@ -404,7 +404,7 @@ const marriageEndPage = {
     required: ['reasonForSeparation'],
     properties: {
       reasonForSeparation: radioSchema(Object.keys(previousMarriageEndOptions)),
-      reasonForSeparationExplanation: {
+      separationExplanation: {
         type: 'string',
       },
     },

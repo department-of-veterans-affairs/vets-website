@@ -20,7 +20,7 @@ export default {
       title: 'How did the marriage end?',
       labels: remarriageEndOptions,
     }),
-    remarriageEndOtherReason: {
+    endCauseExplanation: {
       ...textUI({
         title: 'Tell us how the marriage ended.',
         required: formData => formData?.remarriageEndCause === 'other',
@@ -47,7 +47,7 @@ export default {
     required: ['remarriageEndCause', 'remarriageDates'],
     properties: {
       remarriageEndCause: radioSchema(Object.keys(remarriageEndOptions)),
-      remarriageEndOtherReason: textSchema,
+      endCauseExplanation: textSchema,
       remarriageDates: {
         type: 'object',
         required: ['from'],

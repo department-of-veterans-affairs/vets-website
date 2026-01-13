@@ -19,7 +19,7 @@
     "from": "2020-01-01",
     "to": "2022-02-02"
   },
-  "remarriageEndOtherReason": "Some other reason",
+  "endCauseExplanation": "Some other cause",
   "remarriageEndCause": "other",
   "claimantHasAdditionalMarriages": true,
   "separationDueToAssignedReasons": "RELATIONSHIP_DIFFERENCES",
@@ -32,19 +32,19 @@
   "marriageValidityExplanation": "Some explanation",
   "marriageToVeteranEndDate": "2023-03-03",
   "marriageToVeteranEndLocation": {
-    "city": "rgegerg",
+    "city": "EndCity",
     "state": "AL"
   },
   "marriageType": "other",
-  "marriageTypeExplanation": "Some other way",
+  "typeOfMarriageExplanation": "Some other way",
   "marriageToVeteranStartDate": "2022-03-03",
   "marriageToVeteranStartLocation": {
-    "city": "fgfgr",
+    "city": "StartCity",
     "state": "AL"
   },
   "marriedToVeteranAtTimeOfDeath": false,
   "howMarriageEnded": "other",
-  "howMarriageEndedExplanation": "Some other reason",
+  "marriageEndedExplanation": "Some other reason",
   "receivedBenefits": false,
   "claims": {
     "DIC": true,
@@ -255,7 +255,7 @@
   "veteranMarriages": [
     {
       "reasonForSeparation": "OTHER",
-      "reasonForSeparationExplanation": "Some other reason",
+      "separationExplanation": "Some other reason",
       "dateOfMarriage": "1990-01-01",
       "dateOfSeparation": "2000-01-01",
       "locationOfSeparation": {
@@ -294,7 +294,7 @@
   "spouseMarriages": [
     {
       "reasonForSeparation": "OTHER",
-      "reasonForSeparationExplanation": "Some other reason",
+      "separationExplanation": "Some other reason",
       "dateOfMarriage": "1991-01-01",
       "dateOfSeparation": "2001-01-01",
       "locationOfSeparation": {
