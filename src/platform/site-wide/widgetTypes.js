@@ -19,6 +19,7 @@ export default {
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   DISPUTE_DEBT_LINK: 'dispute-debt-link',
   EDUCATION_APP_STATUS: 'education-app-status',
+  EMPLOYMENT_QUESTIONNAIRE: 'employment-questionnaire',
   EVENTS: 'events',
   EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
