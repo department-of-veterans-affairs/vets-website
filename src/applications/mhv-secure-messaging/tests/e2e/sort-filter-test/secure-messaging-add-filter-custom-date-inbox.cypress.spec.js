@@ -93,6 +93,31 @@ describe('SM INBOX ADD FILTER CUSTOM DATE RANGE', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
+  it('verify error when date fields are partially filled (day only)', () => {
+    // Fill only the day for start date (leaving month and year empty)
+    PatientFilterPage.selectStartDay('4');
+    // Fill only the day for end date (leaving month and year empty)
+    PatientFilterPage.selectEndDay('30');
+
+    cy.findByTestId('filter-messages-button').click();
+
+    // Verify start date error appears
+    PatientFilterPage.getRequiredFieldError(
+      Locators.BLOCKS.FILTER_START_DATE,
+    ).should('have.text', Alerts.DATE_FILTER.EMPTY_START_DATE);
+
+    // Verify end date error appears
+    PatientFilterPage.getRequiredFieldError(
+      Locators.BLOCKS.FILTER_END_DATE,
+    ).should('have.text', Alerts.DATE_FILTER.EMPTY_END_DATE);
+
+    // Verify focus is on first error field
+    cy.findByTestId('date-start').should('be.focused');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
   it('clears start and end date errors on filter clear', () => {
     cy.get(Locators.BUTTONS.FILTER).click();
     cy.get(Locators.CLEAR_FILTERS).click();
