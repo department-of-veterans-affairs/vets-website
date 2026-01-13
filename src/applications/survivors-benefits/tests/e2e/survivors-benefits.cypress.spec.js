@@ -10,7 +10,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['minimal-test'],
+    dataSets: ['minimal-test-a', 'minimal-test-b'],
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -78,6 +78,34 @@ const testConfig = createTestConfig(
             }
             cy.clickFormContinue();
           });
+        });
+      },
+      'claimant-relationship': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.claimantRelationship) {
+              cy.selectVaRadioOption(
+                'root_claimantRelationship',
+                data.claimantRelationship,
+              );
+            }
+            cy.clickFormContinue();
+          });
+        });
+      },
+      'claimant-other': ({ afterHook }) => {
+        afterHook(() => {
+          // Verify the exit application link exists
+          cy.get('va-link-action')
+            .should('exist')
+            .and('have.attr', 'text', 'Exit application')
+            .and('have.attr', 'href', 'https://va.gov/')
+            .and('have.attr', 'type', 'secondary');
+
+          cy.clickFormBack();
+          cy.url().should('include', 'claimant-relationship');
+          cy.selectVaRadioOption('root_claimantRelationship', 'SPOUSE');
+          cy.clickFormContinue();
         });
       },
       'service-period': ({ afterHook }) => {
