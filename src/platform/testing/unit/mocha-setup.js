@@ -27,6 +27,11 @@ import { rest } from 'msw';
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
+
+// Module-scoped reference to the current JSDOM window.
+// Updated each time setupJSDom() is called.
+// The global.window getter references this so it always returns the current window.
+let currentRealWindow = null;
 Sentry.init({
   autoSessionTracking: false,
   dsn: 'http://one@fake/dsn/0',
@@ -95,9 +100,14 @@ function setupJSDom() {
 
   const { window } = dom;
 
+  // Update the module-scoped reference to the current window.
+  // The global.window getter (defined once below) references this.
+  currentRealWindow = window;
+
   /* sets up `global` for testing */
   global.dom = dom;
-  global.window = window;
+  // Note: We set global.window directly first, then define getter/setter below.
+  // On subsequent calls, the getter will return currentRealWindow (updated above).
   // Note: global.document is defined as a getter below to ensure modules
   // like axe-core always use the current window's document after beforeEach
   // creates a new JSDOM. See the Object.defineProperty for 'document' below.
@@ -111,48 +121,43 @@ function setupJSDom() {
   global.Blob = window.Blob;
 
   /* Overwrites JSDOM global defaults from read-only to configurable */
-  // Store the real jsdom window reference
-  const realWindow = window;
-
-  // Track properties that tests add to window so we can clean them up
-  const testAddedWindowProps = new Set();
-
-  // Create a proxy that intercepts property additions and tracks them
-  // This allows tests to add properties while keeping the real jsdom window
-  Object.defineProperty(global, 'window', {
-    get: () => realWindow,
-    set: newWindow => {
-      // When tests try to replace window with Object.create(window),
-      // instead copy the new properties to the real window.
-      // This preserves EventTarget functionality in jsdom 16+.
-      if (newWindow && newWindow !== realWindow) {
-        // If it's a plain object or Object.create result, copy its own properties
-        const ownProps = Object.getOwnPropertyNames(newWindow);
-        for (const prop of ownProps) {
-          // Skip inherited Window properties, only copy test-added properties
-          if (
-            !Object.prototype.hasOwnProperty.call(
-              Object.getPrototypeOf(realWindow) || {},
-              prop,
-            )
-          ) {
-            try {
-              const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
-              if (descriptor) {
-                Object.defineProperty(realWindow, prop, descriptor);
-                testAddedWindowProps.add(prop);
+  // Define the window getter/setter only once (first call).
+  // It references currentRealWindow which is updated on each setupJSDom call.
+  if (!Object.getOwnPropertyDescriptor(global, 'window')?.get) {
+    Object.defineProperty(global, 'window', {
+      get: () => currentRealWindow,
+      set: newWindow => {
+        // When tests try to replace window with Object.create(window),
+        // instead copy the new properties to the real window.
+        // This preserves EventTarget functionality in jsdom 16+.
+        if (newWindow && newWindow !== currentRealWindow) {
+          // If it's a plain object or Object.create result, copy its own properties
+          const ownProps = Object.getOwnPropertyNames(newWindow);
+          for (const prop of ownProps) {
+            // Skip inherited Window properties, only copy test-added properties
+            if (
+              !Object.prototype.hasOwnProperty.call(
+                Object.getPrototypeOf(currentRealWindow) || {},
+                prop,
+              )
+            ) {
+              try {
+                const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
+                if (descriptor) {
+                  Object.defineProperty(currentRealWindow, prop, descriptor);
+                }
+              } catch (e) {
+                // Some properties may not be configurable, ignore
               }
-            } catch (e) {
-              // Some properties may not be configurable, ignore
             }
           }
         }
-      }
-      // Don't actually replace window - always return realWindow via getter
-    },
-    configurable: true,
-    enumerable: true,
-  });
+        // Don't actually replace window - always return currentRealWindow via getter
+      },
+      configurable: true,
+      enumerable: true,
+    });
+  }
 
   Object.defineProperty(global, 'sessionStorage', {
     value: window.sessionStorage,
@@ -217,10 +222,10 @@ function setupJSDom() {
 
   // jsdom 16+ makes window.location a getter-only property on the prototype.
   // Delete it first, then redefine as a writable data property.
-  // Use realWindow directly since global.window getter returns it.
-  const currentLocation = realWindow.location;
-  delete realWindow.location;
-  Object.defineProperty(realWindow, 'location', {
+  // Use currentRealWindow directly since global.window getter returns it.
+  const currentLocation = currentRealWindow.location;
+  delete currentRealWindow.location;
+  Object.defineProperty(currentRealWindow, 'location', {
     value: currentLocation,
     configurable: true,
     enumerable: true,
@@ -228,8 +233,8 @@ function setupJSDom() {
   });
 
   // jsdom 16+ made crypto read-only, but tests need to mock it
-  delete realWindow.crypto;
-  Object.defineProperty(realWindow, 'crypto', {
+  delete currentRealWindow.crypto;
+  Object.defineProperty(currentRealWindow, 'crypto', {
     value: window.crypto,
     configurable: true,
     enumerable: true,
