@@ -45,25 +45,10 @@ import benefitStatus from '../chapters/signerInformation/benefitStatus';
 import certifierEmail from '../chapters/signerInformation/certifierEmail';
 import certifierRole from '../chapters/signerInformation/certifierRole';
 import CustomAttestation from '../components/CustomAttestation';
-
-import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
-import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
-import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import { FEATURE_TOGGLES } from '../hooks/useDefaultFormData';
 
 //  import mockdata from '../tests/e2e/fixtures/data/test-data.json';
-
-// Control whether we show the file overview page by calling `hasReq` to
-// determine if any files have not been uploaded. Defaults to false (hide the page)
-// if anything goes sideways.
-function showFileOverviewPage(formData) {
-  try {
-    return hasReq(formData, true, true) || hasReq(formData, false, true);
-  } catch {
-    return false;
-  }
-}
 
 // (First Name Posessive);
 function fnp(formData) {
@@ -77,8 +62,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959C-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -533,39 +516,6 @@ const formConfig = {
               } additional comments`,
             ),
           ...applicantInsuranceCommentsSchema(false),
-        },
-      },
-    },
-    fileUpload: {
-      title: 'File Upload',
-      pages: {
-        supportingFilesReview: {
-          path: 'supporting-files',
-          title: 'Upload your supporting files',
-          depends: formData =>
-            !formData[REV2025_TOGGLE_KEY] && showFileOverviewPage(formData),
-          CustomPage: SupportingDocumentsPage,
-          CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: blankSchema,
-        },
-        missingFileConsent: {
-          path: 'consent-mail',
-          title: 'Upload your supporting files',
-          depends: formData =>
-            !formData[REV2025_TOGGLE_KEY] && showFileOverviewPage(formData),
-          CustomPage: MissingFileConsentPage,
-          CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: blankSchema,
         },
       },
     },
