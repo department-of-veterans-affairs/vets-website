@@ -39,15 +39,18 @@ The form has **16 total pages** organized into a single-chapter flow, with condi
 ### All Users Path (Pages 1-4)
 
 - **Page 1: Introduction Page**
+
   - Explains form purpose and requirements for nursing home officials
   - OMB information and estimated burden
 
 - **Page 2: Nursing Official Information** (`nursing-official-information`)
+
   - Official's name
   - Job title
   - Facility phone number
 
 - **Page 3: Nursing Home Details** (`nursing-home-details`)
+
   - Name of nursing home facility
   - Complete facility address (street, city, state, ZIP)
 
@@ -58,6 +61,7 @@ The form has **16 total pages** organized into a single-chapter flow, with condi
 ### Path 1: Patient is the Veteran (Pages 5-6)
 
 - **Page 5: Veteran Personal Information** (`veteran-personal-info`)
+
   - Veteran's full name (first, middle, last - no suffix)
   - Date of birth
 
@@ -68,14 +72,17 @@ The form has **16 total pages** organized into a single-chapter flow, with condi
 ### Path 2: Patient is Spouse/Parent (Pages 5-8)
 
 - **Page 5: Claimant Personal Information** (`claimant-personal-info`)
+
   - Patient's (spouse/parent) full name
   - Date of birth
 
 - **Page 6: Claimant Identification Information** (`claimant-identification-info`)
+
   - Patient's Social Security Number
   - VA file number (optional)
 
 - **Page 7: Veteran Personal Information** (`veteran-personal-info`)
+
   - Connected Veteran's full name
   - Date of birth
 
@@ -86,22 +93,28 @@ The form has **16 total pages** organized into a single-chapter flow, with condi
 ### Continuing for All Users (Pages 7-15 or 9-17)
 
 - **Page 9: Certification Level of Care** (`certification-level-of-care`)
+
   - Skilled nursing care
   - Intermediate nursing care
 
 - **Page 10: Admission Date** (`admission-date`)
+
   - Date patient was admitted to facility
 
 - **Page 11: Medicaid Facility Status** (`medicaid-facility`)
+
   - Whether facility is Medicaid-approved
 
 - **Page 12: Medicaid Application** (`medicaid-application`)
+
   - Whether patient has applied for Medicaid
 
 - **Page 13: Medicaid Coverage Status** (`medicaid-status`)
+
   - Whether patient is currently covered by Medicaid
 
 - **Page 14: Medicaid Start Date** (`medicaid-start-date`) - **Conditional**
+
   - Shown only if patient is currently covered by Medicaid
   - Date Medicaid coverage began
 
@@ -111,6 +124,7 @@ The form has **16 total pages** organized into a single-chapter flow, with condi
 ### Final Pages (All Users)
 
 - **Page 16: Review and Submit**
+
   - Pre-submission review of all entered information
   - Statement of truth with signature
   - Privacy policy acknowledgment
@@ -205,6 +219,16 @@ yarn watch --env entry=auth,static-pages,login-page,21-0779-nursing-home-informa
 **Fields collected**:
 
 - Date Medicaid coverage began
+
+## Content Widget
+
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/forms/21-0779/`).
+
+- **Widget Type**: `form210779`
+- **Feature Flag**: `form_0779_enabled`
+- **Widget Location**: `src/applications/static-pages/benefits-optimization-aquia/21-0779/`
+
+When the feature flag is off, the widget shows "Submit this form by mail" instead of a link to the digital form.
 
 ## Support
 
