@@ -400,6 +400,7 @@ describe('GIBCT helpers:', () => {
             ctx.json({
               features: [
                 {
+                  // eslint-disable-next-line camelcase
                   place_name:
                     'Kinney Creek Road, Gales Creek, Oregon 97117, United States',
                 },
