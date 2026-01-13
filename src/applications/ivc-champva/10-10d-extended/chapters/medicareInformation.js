@@ -34,6 +34,7 @@ import {
 } from '../helpers';
 import { futureDateUI, futureDateSchema } from '../definitions';
 import medicareParticipant from './medicareInformation/participants';
+import medicareNumber from './medicareInformation/medicareNumber';
 import {
   MedicarePartADescription,
   MedicarePartBDescription,
@@ -718,6 +719,11 @@ export const medicarePages = arrayBuilderPages(
       path: 'medicare-plan-type/:index',
       title: 'Medicare plan type',
       ...medicarePlanTypes,
+    }),
+    medicareBeneficiaryIdentifier: pageBuilder.itemPage({
+      path: 'medicare-beneficiary-identifier/:index',
+      title: 'Medicare beneficiary identifier',
+      ...medicareNumber,
     }),
     medicarePartAEffectiveDate: pageBuilder.itemPage({
       path: 'medicare-part-a-effective-date/:index',
