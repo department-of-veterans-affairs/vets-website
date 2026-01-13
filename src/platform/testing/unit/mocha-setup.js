@@ -58,6 +58,11 @@ if (typeof global.Request !== 'undefined' && !global.Request.prototype.arrayBuff
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
+
+// Module-scoped reference to the current JSDOM window.
+// Updated each time setupJSDom() is called.
+// The global.window getter references this so it always returns the current window.
+let currentRealWindow = null;
 Sentry.init({
   autoSessionTracking: false,
   dsn: 'http://one@fake/dsn/0',
@@ -126,9 +131,14 @@ function setupJSDom() {
 
   const { window } = dom;
 
+  // Update the module-scoped reference to the current window.
+  // The global.window getter (defined once below) references this.
+  currentRealWindow = window;
+
   /* sets up `global` for testing */
   global.dom = dom;
-  global.window = window;
+  // Note: We set global.window directly first, then define getter/setter below.
+  // On subsequent calls, the getter will return currentRealWindow (updated above).
   // Note: global.document is defined as a getter below to ensure modules
   // like axe-core always use the current window's document after beforeEach
   // creates a new JSDOM. See the Object.defineProperty for 'document' below.
@@ -142,48 +152,43 @@ function setupJSDom() {
   global.Blob = window.Blob;
 
   /* Overwrites JSDOM global defaults from read-only to configurable */
-  // Store the real jsdom window reference
-  const realWindow = window;
-
-  // Track properties that tests add to window so we can clean them up
-  const testAddedWindowProps = new Set();
-
-  // Create a proxy that intercepts property additions and tracks them
-  // This allows tests to add properties while keeping the real jsdom window
-  Object.defineProperty(global, 'window', {
-    get: () => realWindow,
-    set: newWindow => {
-      // When tests try to replace window with Object.create(window),
-      // instead copy the new properties to the real window.
-      // This preserves EventTarget functionality in jsdom 16+.
-      if (newWindow && newWindow !== realWindow) {
-        // If it's a plain object or Object.create result, copy its own properties
-        const ownProps = Object.getOwnPropertyNames(newWindow);
-        for (const prop of ownProps) {
-          // Skip inherited Window properties, only copy test-added properties
-          if (
-            !Object.prototype.hasOwnProperty.call(
-              Object.getPrototypeOf(realWindow) || {},
-              prop,
-            )
-          ) {
-            try {
-              const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
-              if (descriptor) {
-                Object.defineProperty(realWindow, prop, descriptor);
-                testAddedWindowProps.add(prop);
+  // Define the window getter/setter only once (first call).
+  // It references currentRealWindow which is updated on each setupJSDom call.
+  if (!Object.getOwnPropertyDescriptor(global, 'window')?.get) {
+    Object.defineProperty(global, 'window', {
+      get: () => currentRealWindow,
+      set: newWindow => {
+        // When tests try to replace window with Object.create(window),
+        // instead copy the new properties to the real window.
+        // This preserves EventTarget functionality in jsdom 16+.
+        if (newWindow && newWindow !== currentRealWindow) {
+          // If it's a plain object or Object.create result, copy its own properties
+          const ownProps = Object.getOwnPropertyNames(newWindow);
+          for (const prop of ownProps) {
+            // Skip inherited Window properties, only copy test-added properties
+            if (
+              !Object.prototype.hasOwnProperty.call(
+                Object.getPrototypeOf(currentRealWindow) || {},
+                prop,
+              )
+            ) {
+              try {
+                const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
+                if (descriptor) {
+                  Object.defineProperty(currentRealWindow, prop, descriptor);
+                }
+              } catch (e) {
+                // Some properties may not be configurable, ignore
               }
-            } catch (e) {
-              // Some properties may not be configurable, ignore
             }
           }
         }
-      }
-      // Don't actually replace window - always return realWindow via getter
-    },
-    configurable: true,
-    enumerable: true,
-  });
+        // Don't actually replace window - always return currentRealWindow via getter
+      },
+      configurable: true,
+      enumerable: true,
+    });
+  }
 
   Object.defineProperty(global, 'sessionStorage', {
     value: window.sessionStorage,
@@ -224,6 +229,13 @@ function setupJSDom() {
     enumerable: true,
   });
 
+  // HTMLAnchorElement must also be a getter for tests that stub click() on the prototype.
+  Object.defineProperty(global, 'HTMLAnchorElement', {
+    get: () => global.window.HTMLAnchorElement,
+    configurable: true,
+    enumerable: true,
+  });
+
   // Element must also be a getter for the same reason - React component library
   // bindings use `instanceof Element` checks that fail if Element is stale.
   Object.defineProperty(global, 'Element', {
@@ -248,10 +260,10 @@ function setupJSDom() {
 
   // jsdom 16+ makes window.location a getter-only property on the prototype.
   // Delete it first, then redefine as a writable data property.
-  // Use realWindow directly since global.window getter returns it.
-  const currentLocation = realWindow.location;
-  delete realWindow.location;
-  Object.defineProperty(realWindow, 'location', {
+  // Use currentRealWindow directly since global.window getter returns it.
+  const currentLocation = currentRealWindow.location;
+  delete currentRealWindow.location;
+  Object.defineProperty(currentRealWindow, 'location', {
     value: currentLocation,
     configurable: true,
     enumerable: true,
@@ -259,8 +271,8 @@ function setupJSDom() {
   });
 
   // jsdom 16+ made crypto read-only, but tests need to mock it
-  delete realWindow.crypto;
-  Object.defineProperty(realWindow, 'crypto', {
+  delete currentRealWindow.crypto;
+  Object.defineProperty(currentRealWindow, 'crypto', {
     value: window.crypto,
     configurable: true,
     enumerable: true,
@@ -270,6 +282,41 @@ function setupJSDom() {
 /* eslint-disable no-console */
 
 setupJSDom();
+
+// Patch VA component library's isCoveredByReact to return false for click events.
+// This forces the React bindings to use syncEvent() for click handlers on web components,
+// which is needed because React's synthetic event delegation doesn't work properly
+// with web component shadow DOM in jsdom. Without this patch, onClick handlers on
+// VaLinkAction, VaButton, etc. don't fire when using fireEvent.click() or .click().
+try {
+  // Clear any cached component library modules so we can patch before they're re-exported
+  Object.keys(require.cache)
+    .filter(k => k.includes('component-library'))
+    .forEach(k => {
+      delete require.cache[k];
+    });
+
+  // eslint-disable-next-line import/no-unresolved
+  const attachPropsModule = require('@department-of-veterans-affairs/component-library/dist/react-bindings/react-component-lib/utils/attachProps');
+  const originalIsCoveredByReact = attachPropsModule.isCoveredByReact;
+  const patchedIsCoveredByReact = eventName => {
+    // Return false for click events so syncEvent is used instead of React delegation
+    if (eventName === 'click') {
+      return false;
+    }
+    return originalIsCoveredByReact(eventName);
+  };
+
+  // Patch the attachProps module directly (this is a writable property)
+  attachPropsModule.isCoveredByReact = patchedIsCoveredByReact;
+
+  // Now require the utils module which will pick up the patched version via __exportStar
+  // eslint-disable-next-line import/no-unresolved, no-unused-vars
+  const utilsModule = require('@department-of-veterans-affairs/component-library/dist/react-bindings/react-component-lib/utils');
+} catch (e) {
+  // Component library not installed or path changed - silently ignore
+}
+
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
