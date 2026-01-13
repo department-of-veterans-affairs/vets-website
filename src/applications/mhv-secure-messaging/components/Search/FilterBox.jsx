@@ -69,13 +69,21 @@ const FilterBox = forwardRef((props, ref) => {
         setToDateError(ErrorMessages.SearchForm.END_DATE_REQUIRED);
         invalidInputs.push(toDateRef);
       }
-      if (fromDate && toDate && moment(toDate).isBefore(fromDate)) {
+      if (
+        isValidDateValue(fromDate) &&
+        isValidDateValue(toDate) &&
+        moment(toDate).isBefore(fromDate)
+      ) {
         formInvalid = true;
         setFromDateError(ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE);
         setToDateError(ErrorMessages.SearchForm.END_DATE_BEFORE_START_DATE);
         invalidInputs.push(fromDateRef);
       }
-      if (fromDate && toDate && moment(fromDate).isBefore(toDate)) {
+      if (
+        isValidDateValue(fromDate) &&
+        isValidDateValue(toDate) &&
+        moment(fromDate).isBefore(toDate)
+      ) {
         formInvalid = false;
         setFromDateError('');
         setToDateError('');
