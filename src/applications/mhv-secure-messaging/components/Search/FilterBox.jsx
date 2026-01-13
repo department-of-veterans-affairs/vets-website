@@ -16,6 +16,7 @@ import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DateRangeOptions, SelectCategories } from '../../util/inputContants';
 import { ErrorMessages } from '../../util/constants';
+import { isValidDateValue } from '../../util/helpers';
 
 const FilterBox = forwardRef((props, ref) => {
   const {
@@ -55,16 +56,15 @@ const FilterBox = forwardRef((props, ref) => {
 
   const checkFormValidity = () => {
     const today = new Date();
-    // TODO: add validation for ALL blank fields
     let formInvalid;
     const invalidInputs = [];
     if (dateRange === 'custom') {
-      if (!fromDate) {
+      if (!isValidDateValue(fromDate)) {
         formInvalid = true;
         setFromDateError(ErrorMessages.SearchForm.START_DATE_REQUIRED);
         invalidInputs.push(fromDateRef);
       }
-      if (!toDate) {
+      if (!isValidDateValue(toDate)) {
         formInvalid = true;
         setToDateError(ErrorMessages.SearchForm.END_DATE_REQUIRED);
         invalidInputs.push(toDateRef);
