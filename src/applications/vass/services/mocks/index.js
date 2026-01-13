@@ -10,7 +10,7 @@ const {
 
 const mockUUIDs = Object.freeze({
   'c0ffee-1234-beef-5678': {
-    lastName: 'Smith',
+    lastname: 'Smith',
     dob: '1935-04-07',
     otc: '123456',
     email: 's****@email.com',
@@ -71,7 +71,7 @@ const responses = {
       `${new Date().toISOString()}|${attemptCount + 1}`,
     );
     const mockUser = mockUUIDs[uuid];
-    if (lastname === mockUser?.lastName && dob === mockUser?.dob) {
+    if (lastname === mockUser?.lastname && dob === mockUser?.dob) {
       lowAuthVerifications.delete(uuid);
       return res.json({
         data: {
@@ -108,10 +108,9 @@ const responses = {
     otcUseCounts.set(uuid, useCount + 1);
     const mockUser = mockUUIDs[uuid];
     if (
-      mockUser &&
-      otc === mockUser.otc &&
-      lastname === mockUser.lastname &&
-      dob === mockUser.dob
+      otc === mockUser?.otc &&
+      lastname === mockUser?.lastname &&
+      dob === mockUser?.dob
     ) {
       otcUseCounts.delete(uuid); // reset the use count on successful verification to allow for new attempts
       const expiresIn = 3600; // 1 hour

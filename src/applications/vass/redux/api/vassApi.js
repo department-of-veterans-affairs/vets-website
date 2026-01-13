@@ -1,7 +1,11 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { setObfuscatedEmail, setToken } from '../slices/formSlice';
+import {
+  setObfuscatedEmail,
+  setToken,
+  setLowAuthFormData,
+} from '../slices/formSlice';
 
 const api = async (url, options, ...rest) => {
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
@@ -27,6 +31,7 @@ export const vassApi = createApi({
             }),
           });
           if (response.data?.email) {
+            dispatch(setLowAuthFormData({ uuid, lastname, dob }));
             dispatch(setObfuscatedEmail(response.data.email));
           }
           return response;
@@ -40,7 +45,8 @@ export const vassApi = createApi({
       },
     }),
     postOTCVerification: builder.mutation({
-      async queryFn({ otc, uuid, lastname, dob }) {
+      async queryFn({ otc }, { getState }) {
+        const { uuid, lastname, dob } = getState().vassForm;
         try {
           return await api('/vass/v0/authenticate-otc', {
             method: 'POST',

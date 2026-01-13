@@ -2,13 +2,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 /** @typedef {{ topicId: string, topicName: string }} Topic */
-/** @type {{ selectedDate: Date | null, selectedTopics: Topic[], token: string | null }} */
+/** @type {{ selectedDate: Date | null, selectedTopics: Topic[], obfuscatedEmail: string | null, uuid: string | null, token: string | null, lastname: string | null, dob: string | null }} */
 const initialState = {
   hydrated: false,
   selectedDate: null,
   selectedTopics: [],
   obfuscatedEmail: null,
   token: null,
+  uuid: null,
+  lastname: null,
+  dob: null,
 };
 
 export const formSlice = createSlice({
@@ -27,11 +30,19 @@ export const formSlice = createSlice({
     setObfuscatedEmail: (state, action) => {
       state.obfuscatedEmail = action.payload;
     },
+    setLowAuthFormData: (state, action) => {
+      state.uuid = action.payload.uuid;
+      state.lastname = action.payload.lastname;
+      state.dob = action.payload.dob;
+    },
     clearFormData: state => {
       state.selectedDate = null;
       state.selectedTopics = [];
       state.obfuscatedEmail = null;
+      state.uuid = null;
       state.token = null;
+      state.lastname = null;
+      state.dob = null;
     },
     hydrateFormData: (state, action) => {
       state.hydrated = true;
@@ -48,6 +59,7 @@ export const formSlice = createSlice({
 export const {
   setSelectedDate,
   setSelectedTopics,
+  setLowAuthFormData,
   setToken,
   setObfuscatedEmail,
   clearFormData,
@@ -56,8 +68,11 @@ export const {
 
 export const selectSelectedDate = state => state.vassForm.selectedDate;
 export const selectSelectedTopics = state => state.vassForm.selectedTopics;
+export const selectUuid = state => state.vassForm.uuid;
 export const selectHydrated = state => state.vassForm.hydrated;
 export const selectToken = state => state.vassForm.token;
 export const selectObfuscatedEmail = state => state.vassForm.obfuscatedEmail;
+export const selectLastname = state => state.vassForm.lastname;
+export const selectDob = state => state.vassForm.dob;
 
 export default formSlice.reducer;

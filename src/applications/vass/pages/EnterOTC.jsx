@@ -6,12 +6,6 @@ import Wrapper from '../layout/Wrapper';
 import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
 import { selectObfuscatedEmail } from '../redux/slices/formSlice';
 
-const mockUser = {
-  uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
-  dob: '1935-04-07',
-};
-
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
     case 'account_locked':
@@ -72,9 +66,6 @@ const EnterOTC = () => {
     }
     const response = await postOTCVerification({
       otc: code,
-      uuid: mockUser.uuid,
-      lastname: mockUser.lastname,
-      dob: mockUser.dob,
     });
 
     if (response.error) {

@@ -2,6 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { combineReducers, applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 import {
   mockFetch,
@@ -34,6 +37,9 @@ const defaultRenderOptions = {
       obfuscatedEmail: null,
       token: null,
       selectedTopics: [],
+      uuid: null,
+      lastname: null,
+      dob: null,
     },
   },
   reducers,
@@ -67,7 +73,7 @@ describe('VASS Component: Verify', () => {
     it('should display the correct page title', () => {
       const { getByTestId } = renderWithStoreAndRouterV6(<Verify />, {
         ...defaultRenderOptions,
-        initialEntries: ['/verify?cancel=true'],
+        initialEntries: ['/?cancel=true'],
       });
 
       expect(getByTestId('header').textContent).to.contain(
@@ -87,14 +93,14 @@ describe('VASS Component: Verify', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path="/verify" element={<Verify />} />
+            <Route path="/" element={<Verify />} />
             <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
         {
           ...defaultRenderOptions,
-          initialEntries: ['/verify?cancel=true'],
+          initialEntries: ['/?cancel=true'],
         },
       );
 
@@ -120,7 +126,7 @@ describe('VASS Component: Verify', () => {
     });
   });
 
-  describe('successful verification navigation', () => {
+  describe('successful verification', () => {
     it('should navigate to enter-otc page with valid credentials', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
@@ -133,14 +139,14 @@ describe('VASS Component: Verify', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path="/verify" element={<Verify />} />
+            <Route path="/" element={<Verify />} />
             <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
         {
           ...defaultRenderOptions,
-          initialEntries: ['/verify'],
+          initialEntries: ['/?uuid=c0ffee-1234-beef-5678'],
         },
       );
 
@@ -163,6 +169,63 @@ describe('VASS Component: Verify', () => {
           '/enter-otc',
         );
       });
+    });
+
+    it('should set low auth form data when verification is successful', async () => {
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          message: 'OTC sent to registered email address',
+          expiresIn: 600,
+          email: 's****@email.com',
+        },
+      });
+
+      const store = createStore(
+        combineReducers({ ...commonReducer, ...reducers }),
+        defaultRenderOptions.initialState,
+        applyMiddleware(thunk, vassApi.middleware),
+      );
+
+      const { container, getByTestId } = renderWithStoreAndRouterV6(
+        <>
+          <Routes>
+            <Route path="/" element={<Verify />} />
+            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+          </Routes>
+          <LocationDisplay />
+        </>,
+        {
+          ...defaultRenderOptions,
+          store,
+          initialEntries: ['/?uuid=c0ffee-1234-beef-5678'],
+        },
+      );
+
+      // Fill in valid credentials
+      inputVaTextInput(
+        container,
+        'Smith',
+        'va-text-input[data-testid="last-name-input"]',
+      );
+      const dobInput = container.querySelector(
+        'va-memorable-date[data-testid="dob-input"]',
+      );
+      dobInput.__events.dateChange({ target: { value: '1935-04-07' } });
+
+      const submitButton = getByTestId('submit-button');
+      submitButton.click();
+
+      await waitFor(() => {
+        expect(getByTestId('location-display').textContent).to.equal(
+          '/enter-otc',
+        );
+      });
+      // check for redux state
+      const state = store.getState();
+      expect(state.vassForm.uuid).to.equal('c0ffee-1234-beef-5678');
+      expect(state.vassForm.lastname).to.equal('Smith');
+      expect(state.vassForm.dob).to.equal('1935-04-07');
+      expect(state.vassForm.obfuscatedEmail).to.equal('s****@email.com');
     });
   });
 

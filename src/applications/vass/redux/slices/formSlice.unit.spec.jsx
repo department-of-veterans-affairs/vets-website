@@ -4,6 +4,7 @@ import formReducer, {
   setSelectedTopics,
   setToken,
   setObfuscatedEmail,
+  setLowAuthFormData,
   clearFormData,
   hydrateFormData,
   selectSelectedDate,
@@ -11,6 +12,9 @@ import formReducer, {
   selectHydrated,
   selectToken,
   selectObfuscatedEmail,
+  selectUuid,
+  selectLastname,
+  selectDob,
 } from './formSlice';
 
 describe('formSlice', () => {
@@ -23,6 +27,9 @@ describe('formSlice', () => {
         selectedTopics: [],
         obfuscatedEmail: null,
         token: null,
+        uuid: null,
+        lastname: null,
+        dob: null,
       });
     });
 
@@ -34,6 +41,9 @@ describe('formSlice', () => {
           selectedTopics: [],
           obfuscatedEmail: null,
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const dateString = '2025-01-15T10:00:00.000Z';
         const actual = formReducer(initialState, setSelectedDate(dateString));
@@ -49,6 +59,9 @@ describe('formSlice', () => {
           selectedTopics: ['topic-1'],
           obfuscatedEmail: null,
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const newDateString = '2025-02-20T14:30:00.000Z';
         const actual = formReducer(
@@ -69,6 +82,9 @@ describe('formSlice', () => {
           selectedTopics: [],
           obfuscatedEmail: null,
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const topics = ['topic-1', 'topic-2', 'topic-3'];
         const actual = formReducer(initialState, setSelectedTopics(topics));
@@ -84,6 +100,9 @@ describe('formSlice', () => {
           selectedTopics: ['topic-1'],
           obfuscatedEmail: null,
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const newTopics = ['topic-2', 'topic-3'];
         const actual = formReducer(initialState, setSelectedTopics(newTopics));
@@ -99,6 +118,9 @@ describe('formSlice', () => {
           selectedTopics: ['topic-1', 'topic-2'],
           obfuscatedEmail: null,
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const actual = formReducer(initialState, setSelectedTopics([]));
 
@@ -114,6 +136,9 @@ describe('formSlice', () => {
           selectedTopics: [],
           obfuscatedEmail: null,
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const token = 'abc123';
         const actual = formReducer(initialState, setToken(token));
@@ -128,6 +153,9 @@ describe('formSlice', () => {
           selectedTopics: [],
           obfuscatedEmail: null,
           token: 'old-token',
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const newToken = 'new-token';
         const actual = formReducer(initialState, setToken(newToken));
@@ -144,6 +172,9 @@ describe('formSlice', () => {
           selectedTopics: [],
           obfuscatedEmail: null,
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const email = 't***@example.com';
         const actual = formReducer(initialState, setObfuscatedEmail(email));
@@ -158,11 +189,62 @@ describe('formSlice', () => {
           selectedTopics: [],
           obfuscatedEmail: 'old***@example.com',
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const newEmail = 'new***@example.com';
         const actual = formReducer(initialState, setObfuscatedEmail(newEmail));
 
         expect(actual.obfuscatedEmail).to.equal(newEmail);
+      });
+    });
+
+    describe('setLowAuthFormData', () => {
+      it('should set uuid, lastname, and dob', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: null,
+          token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
+        };
+        const payload = {
+          uuid: 'c0ffee-1234-beef-5678',
+          lastname: 'Doe',
+          dob: '1990-01-15',
+        };
+        const actual = formReducer(initialState, setLowAuthFormData(payload));
+
+        expect(actual.uuid).to.equal(payload.uuid);
+        expect(actual.lastname).to.equal(payload.lastname);
+        expect(actual.dob).to.equal(payload.dob);
+      });
+
+      it('should update uuid, lastname, and dob when they already exist', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: null,
+          token: null,
+          uuid: 'old-uuid',
+          lastname: 'OldName',
+          dob: '1980-05-20',
+        };
+        const payload = {
+          uuid: 'new-uuid',
+          lastname: 'NewName',
+          dob: '1995-12-25',
+        };
+        const actual = formReducer(initialState, setLowAuthFormData(payload));
+
+        expect(actual.uuid).to.equal(payload.uuid);
+        expect(actual.lastname).to.equal(payload.lastname);
+        expect(actual.dob).to.equal(payload.dob);
       });
     });
 
@@ -174,6 +256,9 @@ describe('formSlice', () => {
           selectedTopics: ['topic-1', 'topic-2'],
           obfuscatedEmail: 't***@example.com',
           token: 'abc123',
+          uuid: 'c0ffee-1234-beef-5678',
+          lastname: 'Doe',
+          dob: '1990-01-15',
         };
         const actual = formReducer(initialState, clearFormData());
 
@@ -181,6 +266,9 @@ describe('formSlice', () => {
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.obfuscatedEmail).to.be.null;
         expect(actual.token).to.be.null;
+        expect(actual.uuid).to.be.null;
+        expect(actual.lastname).to.be.null;
+        expect(actual.dob).to.be.null;
       });
 
       it('should return initial state when clearing already empty data', () => {
@@ -190,6 +278,9 @@ describe('formSlice', () => {
           selectedTopics: [],
           obfuscatedEmail: null,
           token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
         };
         const actual = formReducer(initialState, clearFormData());
 
@@ -197,6 +288,9 @@ describe('formSlice', () => {
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.obfuscatedEmail).to.be.null;
         expect(actual.token).to.be.null;
+        expect(actual.uuid).to.be.null;
+        expect(actual.lastname).to.be.null;
+        expect(actual.dob).to.be.null;
       });
     });
 
@@ -206,12 +300,14 @@ describe('formSlice', () => {
           selectedSlotTime: '2025-03-01T10:00:00.000Z',
           selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
           token: null,
+          uuid: null,
         };
         const actual = formReducer(undefined, hydrateFormData(payload));
 
         expect(actual.hydrated).to.be.true;
         expect(actual.selectedDate).to.equal(payload.selectedSlotTime);
         expect(actual.selectedTopics).to.deep.equal(payload.selectedTopics);
+        expect(actual.uuid).to.be.null;
       });
 
       it('should only flip hydrated when payload is empty', () => {
@@ -220,6 +316,7 @@ describe('formSlice', () => {
         expect(actual.hydrated).to.be.true;
         expect(actual.selectedDate).to.be.null;
         expect(actual.selectedTopics).to.deep.equal([]);
+        expect(actual.uuid).to.be.null;
       });
     });
   });
@@ -234,6 +331,9 @@ describe('formSlice', () => {
             selectedTopics: [],
             obfuscatedEmail: null,
             token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectSelectedDate(state);
@@ -248,6 +348,9 @@ describe('formSlice', () => {
             selectedTopics: [],
             obfuscatedEmail: null,
             token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectSelectedDate(state);
@@ -264,6 +367,9 @@ describe('formSlice', () => {
             selectedTopics: ['topic-1', 'topic-2'],
             obfuscatedEmail: null,
             token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectSelectedTopics(state);
@@ -278,6 +384,9 @@ describe('formSlice', () => {
             selectedTopics: [],
             obfuscatedEmail: null,
             token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectSelectedTopics(state);
@@ -294,6 +403,9 @@ describe('formSlice', () => {
             selectedTopics: [],
             obfuscatedEmail: null,
             token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectHydrated(state);
@@ -310,6 +422,9 @@ describe('formSlice', () => {
             selectedTopics: [],
             obfuscatedEmail: null,
             token: 'abc123',
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectToken(state);
@@ -324,6 +439,9 @@ describe('formSlice', () => {
             selectedTopics: [],
             obfuscatedEmail: null,
             token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectToken(state);
@@ -340,6 +458,9 @@ describe('formSlice', () => {
             selectedTopics: [],
             obfuscatedEmail: 't***@example.com',
             token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectObfuscatedEmail(state);
@@ -354,9 +475,103 @@ describe('formSlice', () => {
             selectedTopics: [],
             obfuscatedEmail: null,
             token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
           },
         };
         const result = selectObfuscatedEmail(state);
+        expect(result).to.be.null;
+      });
+    });
+
+    describe('selectUuid', () => {
+      it('should select the uuid from state', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+            uuid: 'c0ffee-1234-beef-5678',
+            lastname: null,
+            dob: null,
+          },
+        };
+        const result = selectUuid(state);
+        expect(result).to.equal('c0ffee-1234-beef-5678');
+      });
+    });
+
+    describe('selectLastname', () => {
+      it('should select the lastname from state', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+            uuid: null,
+            lastname: 'Doe',
+            dob: null,
+          },
+        };
+        const result = selectLastname(state);
+        expect(result).to.equal('Doe');
+      });
+
+      it('should return null when no lastname is set', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
+          },
+        };
+        const result = selectLastname(state);
+        expect(result).to.be.null;
+      });
+    });
+
+    describe('selectDob', () => {
+      it('should select the dob from state', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+            uuid: null,
+            lastname: null,
+            dob: '1990-01-15',
+          },
+        };
+        const result = selectDob(state);
+        expect(result).to.equal('1990-01-15');
+      });
+
+      it('should return null when no dob is set', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
+          },
+        };
+        const result = selectDob(state);
         expect(result).to.be.null;
       });
     });
