@@ -201,12 +201,8 @@ This made debugging test failures difficult because it was unclear which change 
 4. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
 5. `src/applications/dispute-debt/tests/containers/NeedsHelp.unit.spec.jsx` - Remove obsolete customElements mock
 6. `.github/workflows/continuous-integration.yml` - Added workflow_dispatch for full test runs
-
-#### Known Pre-Existing Issues (Not Related to jsdom Upgrade)
-- **OAuth utility tests**: The tests in `src/platform/utilities/tests/oauth/` fail on Node 14 due to a bug 
-  in the "OAuth Node 22 updates" commit (#37852). The test checks for `require('node:crypto')` to 
-  determine if native crypto is available, but this check is insufficient - Node 14 has `node:crypto` 
-  but lacks `crypto.webcrypto.subtle`. The fix should check for `webcrypto.subtle` specifically.
+7. `src/platform/utilities/tests/oauth/utilities.unit.spec.jsx` - Fix webcrypto.subtle detection for Node 14
+8. `src/platform/utilities/tests/oauth/crypto.unit.spec.jsx` - Fix webcrypto.subtle detection for Node 14
 
 ### Phase 2: Node Upgrade
 - [ ] Create feature branch

@@ -4,23 +4,11 @@ import {
   base64UrlEncode,
   generateRandomString,
 } from '../../oauth/crypto';
-import { mockCrypto } from '../../oauth/mockCrypto';
+import { setupMockCrypto } from '../../oauth/mockCrypto';
 
 describe('OAuth - Crypto', () => {
   beforeEach(() => {
-    let hasWebCryptoSubtle = false;
-    try {
-      // eslint-disable-next-line import/no-unresolved
-      const nodeCrypto = require('node:crypto');
-      // Node 14 has node:crypto but lacks webcrypto.subtle (added in Node 15)
-      hasWebCryptoSubtle = !!nodeCrypto?.webcrypto?.subtle;
-    } catch {
-      hasWebCryptoSubtle = false;
-    }
-
-    if (!hasWebCryptoSubtle) {
-      window.crypto = mockCrypto;
-    }
+    setupMockCrypto();
   });
 
   describe('sha256', async () => {
