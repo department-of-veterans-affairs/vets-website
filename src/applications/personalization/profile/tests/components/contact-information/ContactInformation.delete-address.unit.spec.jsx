@@ -72,23 +72,18 @@ async function testTransactionCreationFails(addressName) {
 }
 
 describe('Deleting', () => {
-  before(() => {
+  beforeEach(() => {
     server.use(
       ...mocks.deleteResidentialAddressSuccess,
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-  });
-  beforeEach(() => {
     window.VetsGov = { pollTimeout: 5 };
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-  });
-  afterEach(() => {
-    server.resetHandlers();
   });
 
   const resAddressName = FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS];

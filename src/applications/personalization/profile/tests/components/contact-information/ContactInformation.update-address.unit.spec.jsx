@@ -185,23 +185,18 @@ async function testSlowFailure(addressName) {
 }
 
 describe('Updating', () => {
-  before(() => {
+  beforeEach(() => {
     server.use(
       ...mocks.editAddressSuccess,
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-  });
-  beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-  });
-  afterEach(() => {
-    server.resetHandlers();
   });
 
   // the list of address fields that we need to test

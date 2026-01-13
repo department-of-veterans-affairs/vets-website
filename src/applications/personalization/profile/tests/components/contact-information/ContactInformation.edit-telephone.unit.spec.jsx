@@ -204,23 +204,18 @@ const testBase = async numberName => {
 };
 
 describe('Editing', () => {
-  before(() => {
+  beforeEach(() => {
     server.use(
       ...mocks.editPhoneNumberSuccess(),
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-  });
-  beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-  });
-  afterEach(() => {
-    server.resetHandlers();
   });
 
   testBase(FIELD_TITLES[FIELD_NAMES.HOME_PHONE]);

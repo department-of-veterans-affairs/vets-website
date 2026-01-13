@@ -73,15 +73,12 @@ describe('useDirectDeposit hook', () => {
   const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
   let store;
 
-  before(() => {
+  beforeEach(() => {
     server.use(
       createPutHandler(endpointUrl, () =>
         jsonResponse(directDeposits.updates.success, { status: 200 }),
       ),
     );
-  });
-
-  beforeEach(() => {
     store = mockStore(baseState);
   });
 

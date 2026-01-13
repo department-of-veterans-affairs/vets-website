@@ -37,18 +37,13 @@ const apiURL = `${environment.API_URL}/v0${endpoint}`;
 
 describe('fetching communication preferences', () => {
   let store;
-  before(() => {
+  beforeEach(() => {
     server.use(
       createGetHandler(apiURL, () =>
         jsonResponse(getMaximalCommunicationGroupsSuccess),
       ),
     );
-  });
-  beforeEach(() => {
     store = mockStore(createState({}));
-  });
-  afterEach(() => {
-    server.resetHandlers();
   });
   context(
     "when a user's only facility is one that supports Rx tracking",
@@ -243,13 +238,11 @@ describe('fetching communication preferences', () => {
 
 describe('saveCommunicationPreferenceChannel', () => {
   let store;
-  before(() => {
+  beforeEach(() => {
     server.use(
       createPostHandler(apiURL, () => jsonResponse(postSuccess)),
       createPatchHandler(`${apiURL}/*`, () => jsonResponse(patchSuccess)),
     );
-  });
-  beforeEach(() => {
     store = mockStore(
       createState({
         loadingStatus: 'loaded',
@@ -371,7 +364,8 @@ describe('saveCommunicationPreferenceChannel', () => {
           );
         });
         // now make the API work correctly and try to update the pref again
-        server.resetHandlers();
+        // Re-add success handlers (resetHandlers would clear all handlers)
+        server.use(createPostHandler(apiURL, () => jsonResponse(postSuccess)));
         promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'POST',
@@ -435,7 +429,10 @@ describe('saveCommunicationPreferenceChannel', () => {
           );
         });
         // now make the API work correctly and try to update the pref again
-        server.resetHandlers();
+        // Re-add success handlers (resetHandlers would clear all handlers)
+        server.use(
+          createPatchHandler(`${apiURL}/*`, () => jsonResponse(patchSuccess)),
+        );
         promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'PATCH',

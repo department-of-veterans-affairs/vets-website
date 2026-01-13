@@ -8,7 +8,6 @@ import { server } from 'platform/testing/unit/mocha-setup';
 import RepresentativeStatusApi from '../api/RepresentativeStatusApi';
 
 describe('RepresentativeStatusApi', () => {
-
   const createResponse = ({
     status = 200,
     json = {},

@@ -65,23 +65,18 @@ async function testTransactionCreationFails(numberName) {
 }
 
 describe('Deleting', () => {
-  before(() => {
+  beforeEach(() => {
     server.use(
       ...mocks.deletePhoneNumberSuccess(),
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-  });
-  beforeEach(() => {
     window.VetsGov = { pollTimeout: 5 };
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-  });
-  afterEach(() => {
-    server.resetHandlers();
   });
 
   // the list of number fields that we need to test
