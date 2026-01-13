@@ -23,7 +23,11 @@ function BackendProviderServiceAlert({
     <>
       {showCallToScheduleAlert && (
         // Patient is NOT eligible for requests
-        <div aria-atomic="true" aria-live="assertive">
+        <div
+          aria-atomic="true"
+          aria-live="assertive"
+          data-testid="backend-relationship-service-alert-call"
+        >
           <InfoAlert
             status="error"
             headline="You can't schedule an appointment online right now"
@@ -53,7 +57,11 @@ function BackendProviderServiceAlert({
 
       {!showCallToScheduleAlert ? (
         // Patient is eligible for requests
-        <div aria-atomic="true" aria-live="assertive">
+        <div
+          aria-atomic="true"
+          aria-live="assertive"
+          data-testid="backend-relationship-service-alert-request"
+        >
           <InfoAlert
             status="warning"
             headline="We can't load your providers right now"
