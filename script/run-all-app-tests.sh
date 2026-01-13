@@ -25,7 +25,7 @@
 #   1 - One or more tests failed or timed out
 #   2 - Script error (wrong directory, invalid arguments, etc.)
 
-set -o pipefail
+set -e -o pipefail
 
 # Colors for output
 readonly RED='\033[0;31m'
@@ -41,7 +41,31 @@ CLEANUP_DAYS=7     # Default cleanup of results older than 7 days
 
 # Show help message
 show_help() {
-    sed -n '3,24p' "$0" | sed 's/^# \?//'
+    cat << 'EOF'
+Run unit tests for all applications in parallel and summarize results
+
+This script discovers all application folders under src/applications,
+runs their unit tests in parallel, and generates a comprehensive summary
+of results including pass/fail counts, timeouts, and failure details.
+
+Usage: ./script/run-all-app-tests.sh [OPTIONS]
+
+Options:
+  --timeout SECONDS  Timeout per application (default: 600)
+  --jobs, -j N       Number of parallel jobs (default: 4)
+  --cleanup-days N   Remove result dirs older than N days (default: 7, 0 to disable)
+  --help, -h         Show this help message
+
+Examples:
+  ./script/run-all-app-tests.sh
+  ./script/run-all-app-tests.sh --timeout 300 --jobs 8
+  ./script/run-all-app-tests.sh -j 2 --cleanup-days 3
+
+Exit codes:
+  0 - All tests passed
+  1 - One or more tests failed or timed out
+  2 - Script error (wrong directory, invalid arguments, etc.)
+EOF
     exit 0
 }
 
@@ -55,20 +79,33 @@ validate_number() {
     fi
 }
 
+# Validate that an argument value is provided
+validate_arg_value() {
+    local flag="$1"
+    local value="$2"
+    if [[ -z "$value" || "$value" == -* ]]; then
+        echo -e "${RED}Error:${NC} $flag requires a value" >&2
+        exit 2
+    fi
+}
+
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
         --timeout)
+            validate_arg_value "--timeout" "$2"
             validate_number "timeout" "$2"
             TIMEOUT="$2"
             shift 2
             ;;
         --jobs|-j)
+            validate_arg_value "--jobs" "$2"
             validate_number "jobs" "$2"
             JOBS="$2"
             shift 2
             ;;
         --cleanup-days)
+            validate_arg_value "--cleanup-days" "$2"
             validate_number "cleanup-days" "$2"
             CLEANUP_DAYS="$2"
             shift 2
@@ -90,12 +127,22 @@ if [[ ! -d "src/applications" ]]; then
     exit 2
 fi
 
+# Validate required commands are available
+for cmd in timeout flock; do
+    if ! command -v "$cmd" &>/dev/null; then
+        echo -e "${RED}Error:${NC} Required command '$cmd' is not available." >&2
+        echo "On macOS, install coreutils: brew install coreutils" >&2
+        exit 2
+    fi
+done
+
 # Cleanup old result directories
 if [[ "$CLEANUP_DAYS" -gt 0 ]]; then
     old_dirs=$(find /tmp -maxdepth 1 -name "test-results-*" -type d -mtime +"$CLEANUP_DAYS" 2>/dev/null | wc -l | tr -d ' ')
     if [[ "$old_dirs" -gt 0 ]]; then
         echo -e "${BLUE}Cleaning up${NC} $old_dirs old result directories (older than $CLEANUP_DAYS days)..."
-        find /tmp -maxdepth 1 -name "test-results-*" -type d -mtime +"$CLEANUP_DAYS" -exec rm -rf {} \; 2>/dev/null
+        # Use -print0 and xargs for safe handling of directory names
+        find /tmp -maxdepth 1 -name "test-results-*" -type d -mtime +"$CLEANUP_DAYS" -print0 2>/dev/null | xargs -0 rm -rf 2>/dev/null || true
     fi
 fi
 
@@ -105,7 +152,10 @@ RESULTS_DIR="/tmp/test-results-$TIMESTAMP"
 RESULTS_FILE="$RESULTS_DIR/results.txt"
 SUMMARY_FILE="$RESULTS_DIR/summary.txt"
 PROGRESS_FILE="$RESULTS_DIR/.progress"
-mkdir -p "$RESULTS_DIR"
+if ! mkdir -p "$RESULTS_DIR"; then
+    echo -e "${RED}Error:${NC} Failed to create results directory at '$RESULTS_DIR'." >&2
+    exit 2
+fi
 
 echo "Starting test run at $(date)"
 echo "Results directory: $RESULTS_DIR"
@@ -141,9 +191,11 @@ test_app() {
     
     # Check if app has tests
     local TEST_COUNT
-    TEST_COUNT=$(find "src/applications/$APP" -name "*.unit.spec.js" -o -name "*.unit.spec.jsx" 2>/dev/null | wc -l | tr -d ' ')
+    TEST_COUNT=$(find "src/applications/$APP" \( -name "*.unit.spec.js" -o -name "*.unit.spec.jsx" \) 2>/dev/null | wc -l | tr -d ' ')
     
     # Update and display progress (using flock for thread safety)
+    # Note: This nested function is intentional - it captures variables from test_app's scope
+    # and is available in the subshell because test_app is exported via export -f
     update_progress() {
         local status="$1"
         local current
@@ -185,8 +237,14 @@ test_app() {
         echo "PASSED|$DURATION|$PASS_COUNT|$PASS_COUNT passing" > "$APP_RESULT_FILE"
         update_progress "[PASS] $APP - $PASS_COUNT passing (${DURATION}s)"
     else
-        echo "FAILED|$DURATION|$PASS_COUNT|$FAIL_COUNT failing, $PASS_COUNT passing" > "$APP_RESULT_FILE"
-        update_progress "[FAIL] $APP - $FAIL_COUNT failing (${DURATION}s)"
+        # Distinguish between test failures and execution errors (e.g., missing dependencies)
+        if [[ "$PASS_COUNT" -eq 0 && "$FAIL_COUNT" -eq 0 ]]; then
+            echo "ERROR|$DURATION|0|test command failed (exit code $EXIT_CODE); see log for details" > "$APP_RESULT_FILE"
+            update_progress "[ERROR] $APP - test command failed (exit code $EXIT_CODE) (${DURATION}s)"
+        else
+            echo "FAILED|$DURATION|$PASS_COUNT|$FAIL_COUNT failing, $PASS_COUNT passing" > "$APP_RESULT_FILE"
+            update_progress "[FAIL] $APP - $FAIL_COUNT failing (${DURATION}s)"
+        fi
     fi
 }
 
@@ -204,10 +262,12 @@ PASSED=0
 FAILED=0
 SKIPPED=0
 TIMEOUT_COUNT=0
+ERROR_COUNT=0
 declare -a PASSED_APPS=()
 declare -a FAILED_APPS=()
 declare -a SKIPPED_APPS=()
 declare -a TIMEOUT_APPS=()
+declare -a ERROR_APPS=()
 
 for APP in "${APP_FOLDERS[@]}"; do
     RESULT_FILE="$RESULTS_DIR/$APP.result"
@@ -230,7 +290,7 @@ for APP in "${APP_FOLDERS[@]}"; do
                     {
                         echo ""
                         echo "--- $APP failure details ---"
-                        grep -A 10 "AssertionError\|Error:\|failing" "$RESULTS_DIR/$APP.log" | head -30
+                        grep -E -A 10 'AssertionError|Error:|failing' "$RESULTS_DIR/$APP.log" | head -30
                         echo "--- end $APP ---"
                     } >> "$RESULTS_FILE"
                 fi
@@ -246,6 +306,21 @@ for APP in "${APP_FOLDERS[@]}"; do
                 TIMEOUT_APPS+=("$APP")
                 echo -e "${RED}TIMEOUT${NC} $APP - $INFO"
                 echo "$APP: TIMEOUT - $INFO" >> "$RESULTS_FILE"
+                ;;
+            ERROR)
+                ERROR_COUNT=$((ERROR_COUNT + 1))
+                ERROR_APPS+=("$APP")
+                echo -e "${RED}ERROR${NC} $APP - $INFO (${DURATION}s)"
+                echo "$APP: ERROR - $INFO (${DURATION}s)" >> "$RESULTS_FILE"
+                # Append error details from log
+                if [[ -f "$RESULTS_DIR/$APP.log" ]]; then
+                    {
+                        echo ""
+                        echo "--- $APP error details ---"
+                        tail -50 "$RESULTS_DIR/$APP.log"
+                        echo "--- end $APP ---"
+                    } >> "$RESULTS_FILE"
+                fi
                 ;;
         esac
     else
@@ -268,6 +343,7 @@ echo "========================================"
     echo "Total applications: $TOTAL_APPS"
     echo "  Passed:   $PASSED"
     echo "  Failed:   $FAILED"
+    echo "  Errors:   $ERROR_COUNT (execution errors)"
     echo "  Skipped:  $SKIPPED (no tests)"
     echo "  Timeout:  $TIMEOUT_COUNT"
     echo ""
@@ -275,6 +351,14 @@ echo "========================================"
     if [[ ${#FAILED_APPS[@]} -gt 0 ]]; then
         echo "FAILED APPLICATIONS:"
         for app in "${FAILED_APPS[@]}"; do
+            echo "  - $app"
+        done
+        echo ""
+    fi
+    
+    if [[ ${#ERROR_APPS[@]} -gt 0 ]]; then
+        echo "ERROR APPLICATIONS (execution errors):"
+        for app in "${ERROR_APPS[@]}"; do
             echo "  - $app"
         done
         echo ""
@@ -300,8 +384,8 @@ echo "Individual logs: $RESULTS_DIR/<app>.log"
 # Cleanup temporary files
 rm -f "$PROGRESS_FILE" "$PROGRESS_FILE.lock" "$RESULTS_DIR/.starts.log"
 
-# Exit with failure if any tests failed
-if [[ $FAILED -gt 0 ]] || [[ $TIMEOUT_COUNT -gt 0 ]]; then
+# Exit with failure if any tests failed, errored, or timed out
+if [[ $FAILED -gt 0 ]] || [[ $TIMEOUT_COUNT -gt 0 ]] || [[ $ERROR_COUNT -gt 0 ]]; then
     exit 1
 fi
 exit 0
