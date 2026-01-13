@@ -297,7 +297,7 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    const markerElement = document.createElement('div');
+    const markerElement = document.createElement('button');
     markerElement.className = 'location-letter-marker';
     markerElement.innerText = index + 1;
 
@@ -322,7 +322,7 @@ function LocationSearchResults({
       locationBounds.extend(lngLat);
     }
 
-    new mapboxgl.Marker(markerElement)
+    new mapboxgl.Marker(markerElement).innerHTML
       .setLngLat([longitude, latitude])
       .setPopup(popup)
       .addTo(map.current);
@@ -338,7 +338,7 @@ function LocationSearchResults({
     if (!streetAddress.position.longitude || !streetAddress.position.latitude)
       return;
 
-    const currentMarkerElement = document.createElement('div');
+    const currentMarkerElement = document.createElement('button');
     currentMarkerElement.className = 'current-position';
     new mapboxgl.Marker(currentMarkerElement)
       .setLngLat([
