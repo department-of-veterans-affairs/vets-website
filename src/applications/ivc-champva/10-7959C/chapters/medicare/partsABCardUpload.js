@@ -40,6 +40,10 @@ export default {
   },
   schema: {
     type: 'object',
+    required: [
+      'applicantMedicarePartAPartBCardFront',
+      'applicantMedicarePartAPartBCardBack',
+    ],
     properties: {
       'view:fileUploadBlurb': blankSchema,
       applicantMedicarePartAPartBCardFront: singleFileSchema,
