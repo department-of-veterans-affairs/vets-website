@@ -322,8 +322,31 @@ describe('Form Configuration', () => {
       const page =
         formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
-      it('should include claimant name in title when name is provided', () => {
+      it('should use veteran name when veteran is claimant', () => {
         const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: {
+            veteranFullName: { first: 'Luke', last: 'Skywalker' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          "Luke Skywalker's phone number and email address",
+        );
+      });
+
+      it('should use default veteran text when veteran is claimant but name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: { veteranFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          "Veteran's phone number and email address",
+        );
+      });
+
+      it('should include claimant name in title when claimant is not veteran', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
           claimantInformation: {
             claimantFullName: { first: 'Han', last: 'Solo' },
           },
@@ -333,8 +356,9 @@ describe('Form Configuration', () => {
         );
       });
 
-      it('should use default title when claimant name is missing', () => {
+      it('should use default claimant text when claimant name is missing', () => {
         const formData = {
+          claimantRelationship: { relationship: 'spouse' },
           claimantInformation: { claimantFullName: {} },
         };
         expect(page.title(formData)).to.equal(
