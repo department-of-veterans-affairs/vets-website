@@ -65,6 +65,12 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
  * @returns { formattedDate: string, formattedTime: string } formatted datestamp, formatted timestamp
  */
 export const formatDateTime = datetimeString => {
+  // Guard against null, undefined, empty string, or falsy values
+  // Without this check, new Date(null) returns epoch date (1970-01-01)
+  if (!datetimeString) {
+    return { formattedDate: '', formattedTime: '' };
+  }
+
   const dateTime = new Date(datetimeString);
   if (Number.isNaN(dateTime.getTime())) {
     return { formattedDate: '', formattedTime: '' };

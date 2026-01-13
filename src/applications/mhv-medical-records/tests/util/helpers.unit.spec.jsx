@@ -1117,6 +1117,34 @@ describe('formatDateTime', () => {
     expect(formattedDate).to.equal('January 5, 2025');
     expect(formattedTime).to.equal('12:00 AM');
   });
+
+  it('returns empty strings for null input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(null);
+
+    expect(formattedDate).to.equal('');
+    expect(formattedTime).to.equal('');
+  });
+
+  it('returns empty strings for undefined input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(undefined);
+
+    expect(formattedDate).to.equal('');
+    expect(formattedTime).to.equal('');
+  });
+
+  it('returns empty strings for 0 input (prevents epoch date)', () => {
+    const { formattedDate, formattedTime } = formatDateTime(0);
+
+    expect(formattedDate).to.equal('');
+    expect(formattedTime).to.equal('');
+  });
+
+  it('returns empty strings for empty string input', () => {
+    const { formattedDate, formattedTime } = formatDateTime('');
+
+    expect(formattedDate).to.equal('');
+    expect(formattedTime).to.equal('');
+  });
 });
 
 describe('resolveAcceleratedDateRange', () => {
