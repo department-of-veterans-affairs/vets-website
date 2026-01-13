@@ -371,14 +371,17 @@ const validateAirTravelReturnDate = (
 
   // Round-trip validations
   if (shouldValidateReturnDate) {
-    // Only show required error if returnDate field itself is being validated,
-    // not as a side-effect of tripType changing
-    if (!returnDate && fieldName === 'returnDate') {
-      return 'Enter a return date';
-    }
-
     if (!returnDateComplete) {
-      return null; // Partial date, no error
+      // Only show required error if returnDate field itself is being validated,
+      // not as a side-effect of tripType changing
+      if (
+        fieldName === 'returnDate' ||
+        fieldName === null ||
+        fieldName === undefined
+      ) {
+        return 'Enter a return date';
+      }
+      return null; // Partial date from tripType change, no error
     }
 
     const [year, month, day] = returnDate.split('-');
