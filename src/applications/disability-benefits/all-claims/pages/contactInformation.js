@@ -42,10 +42,16 @@ const defaultAddressUI = {
   }),
 };
 
-// Create custom country names that display 'USA' instead of 'United States'
-const COUNTRY_VALUES = constants.countries.map(country => country.value);
-const COUNTRY_NAMES = constants.countries.map(
-  country => (country.value === 'USA' ? 'USA' : country.label),
+// Use country list directly from schema to ensure validation compatibility
+const schemaCountries = fullSchema.definitions.country.enum;
+
+// Filter countries from constants to only include schema-valid ones
+const filteredCountries = constants.countries.filter(country =>
+  schemaCountries.includes(country.label),
+);
+const COUNTRY_VALUES = filteredCountries.map(country => country.value);
+const COUNTRY_NAMES = filteredCountries.map(
+  country => (country.label === 'United States' ? 'USA' : country.label),
 );
 
 // Filter out military states from regular state options
@@ -209,7 +215,7 @@ export const uiSchema = {
       },
     },
     addressLine1: {
-      ...defaultAddressUI.street,
+      ...defaultAddressUI.addressLine1,
       'ui:validations': [
         (errors, value) => {
           if (value) {
@@ -224,7 +230,7 @@ export const uiSchema = {
       ],
     },
     addressLine2: {
-      ...defaultAddressUI.street2,
+      ...defaultAddressUI.addressLine2,
       'ui:validations': [
         (errors, value) => {
           if (value) {
@@ -239,7 +245,7 @@ export const uiSchema = {
       ],
     },
     addressLine3: {
-      ...defaultAddressUI.street3,
+      ...defaultAddressUI.addressLine3,
       'ui:validations': [
         (errors, value) => {
           if (value) {
