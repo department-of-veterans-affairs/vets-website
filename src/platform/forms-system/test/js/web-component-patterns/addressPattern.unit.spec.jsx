@@ -780,9 +780,9 @@ describe('addressPattern mapping functions', () => {
       };
 
       // Even though addressLine1 would be omitted, the collision should be detected first
-      expect(() =>
-        applyKeyMapping(originalSchema, keys, ['addressLine1']),
-      ).to.throw(/Field mapping would cause key collisions/);
+      expect(() => applyKeyMapping(originalSchema, keys)).to.throw(
+        /Field mapping would cause key collisions/,
+      );
     });
 
     it('should handle complex collision scenarios with multiple mappings', () => {
