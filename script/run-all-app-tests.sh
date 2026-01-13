@@ -128,13 +128,17 @@ if [[ ! -d "src/applications" ]]; then
 fi
 
 # Validate required commands are available
-for cmd in timeout flock; do
-    if ! command -v "$cmd" &>/dev/null; then
-        echo -e "${RED}Error:${NC} Required command '$cmd' is not available." >&2
-        echo "On macOS, install coreutils: brew install coreutils" >&2
-        exit 2
-    fi
-done
+if ! command -v timeout &>/dev/null; then
+    echo -e "${RED}Error:${NC} Required command 'timeout' is not available." >&2
+    echo "On macOS, install coreutils: brew install coreutils" >&2
+    exit 2
+fi
+
+if ! command -v flock &>/dev/null; then
+    echo -e "${RED}Error:${NC} Required command 'flock' is not available." >&2
+    echo "On macOS, install flock: brew install flock" >&2
+    exit 2
+fi
 
 # Cleanup old result directories
 if [[ "$CLEANUP_DAYS" -gt 0 ]]; then
@@ -164,7 +168,11 @@ echo "Parallel jobs: $JOBS"
 echo ""
 
 # Get list of application folders using array for safety
-mapfile -t APP_FOLDERS < <(find src/applications -maxdepth 1 -mindepth 1 -type d -exec basename {} \; | sort)
+# Using while loop instead of mapfile for bash 3.x compatibility (macOS default)
+APP_FOLDERS=()
+while IFS= read -r folder; do
+    APP_FOLDERS+=("$folder")
+done < <(find src/applications -maxdepth 1 -mindepth 1 -type d -exec basename {} \; | sort)
 TOTAL_APPS=${#APP_FOLDERS[@]}
 
 if [[ "$TOTAL_APPS" -eq 0 ]]; then
