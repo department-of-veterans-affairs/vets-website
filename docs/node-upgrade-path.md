@@ -193,10 +193,11 @@ This made debugging test failures difficult because it was unclear which change 
    - HTMLElement getter for constructor isolation
    - Window getter/setter proxy for EventTarget preservation
    - Document getter for axe-core compatibility
-2. `src/platform/forms-system/test/config/helpers.js` - Re-require axe-core for each axeCheck call
-3. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
-4. `src/applications/dispute-debt/tests/containers/NeedsHelp.unit.spec.jsx` - Remove obsolete customElements mock
-5. `.github/workflows/continuous-integration.yml` - Added workflow_dispatch for full test runs
+2. `src/platform/testing/unit/axe-plugin.js` - Re-require axe-core for each .accessible() call
+3. `src/platform/forms-system/test/config/helpers.js` - Re-require axe-core for each axeCheck call
+4. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
+5. `src/applications/dispute-debt/tests/containers/NeedsHelp.unit.spec.jsx` - Remove obsolete customElements mock
+6. `.github/workflows/continuous-integration.yml` - Added workflow_dispatch for full test runs
 
 ### Phase 2: Node Upgrade
 - [ ] Create feature branch
