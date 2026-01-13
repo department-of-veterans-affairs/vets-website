@@ -30,7 +30,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingCernerPilot = true,
     mhvSecureMessagingLargeAttachments = true,
     mhvSecureMessagingCuratedListFlow = true,
-    mhvSecureMessagingRecentRecipients = false,
+    mhvSecureMessagingRecentRecipients = true,
   } = toggles;
 
   return {
