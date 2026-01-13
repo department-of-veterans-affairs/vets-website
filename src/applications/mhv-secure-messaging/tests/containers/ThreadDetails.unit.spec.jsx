@@ -221,6 +221,7 @@ describe('Thread Details container', () => {
           triageTeams: recipients,
         },
         threadDetails: {
+          draft: singleDraftThread.draftMessage,
           drafts: [singleDraftThread.draftMessage],
           messages: [],
           isLoading: false,
@@ -292,6 +293,10 @@ describe('Thread Details container', () => {
               draftDate: new Date(),
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+            draftDate: new Date(),
+          },
           messages: [
             {
               ...replyMessage,
@@ -361,6 +366,10 @@ describe('Thread Details container', () => {
               draftDate: new Date(),
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+            draftDate: new Date(),
+          },
           messages: [
             {
               ...replyMessage,
@@ -448,6 +457,10 @@ describe('Thread Details container', () => {
               draftDate: new Date(),
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+            draftDate: new Date(),
+          },
           messages: [...draftMessageHistoryUpdated],
         },
         recipients: {
@@ -541,6 +554,10 @@ describe('Thread Details container', () => {
               draftDate: new Date(),
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+            draftDate: new Date(),
+          },
           messages: [...draftMessageHistoryUpdated],
         },
         recipients: {
@@ -578,6 +595,7 @@ describe('Thread Details container', () => {
         },
         threadDetails: {
           drafts: [replyDraftMessage],
+          draft: replyDraftMessage,
           messages: [replyMessage],
         },
         recipients: {
@@ -644,6 +662,9 @@ describe('Thread Details container', () => {
               ...replyDraftMessage,
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+          },
           messages: [replyMessage],
         },
         recipients: {
@@ -683,6 +704,11 @@ describe('Thread Details container', () => {
               replyToMessageId: 1234,
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+            threadFolderId: folderId,
+            replyToMessageId: 1234,
+          },
           messages: [replyMessage],
         },
         recipients: {
@@ -732,6 +758,11 @@ describe('Thread Details container', () => {
               replyToMessageId: 1234,
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+            threadFolderId: folderId,
+            replyToMessageId: 1234,
+          },
           messages: [replyMessage],
         },
         recipients: {
@@ -778,6 +809,11 @@ describe('Thread Details container', () => {
               replyToMessageId: 1234,
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+            threadFolderId: folderId,
+            replyToMessageId: 1234,
+          },
           messages: [replyMessage],
         },
         recipients: {
@@ -822,6 +858,10 @@ describe('Thread Details container', () => {
               replyToMessageId: 1234,
             },
           ],
+          draft: {
+            ...replyDraftMessage,
+            replyToMessageId: 1234,
+          },
           messages: [replyMessage],
         },
         recipients: {

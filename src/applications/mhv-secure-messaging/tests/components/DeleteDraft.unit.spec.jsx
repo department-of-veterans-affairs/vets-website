@@ -10,7 +10,7 @@ import { drafts, inbox, sent } from '../fixtures/folder-inbox-response.json';
 import thread from '../fixtures/reducers/thread-with-multiple-drafts-reducer.json';
 import reducer from '../../reducers';
 import { Prompts, Paths } from '../../util/constants';
-import { drafts as mockDraft } from '../fixtures/saved-draft-mock-prop.json';
+import { draft as mockDraft } from '../fixtures/saved-draft-mock-prop.json';
 
 describe('Delete Draft component', () => {
   let setIsModalVisibleSpy;
@@ -39,9 +39,12 @@ describe('Delete Draft component', () => {
           folder: drafts,
         },
         threadDetails: {
-          drafts: [
-            { ...draft, isSaving: false, saveError: null, lastSaveTime: null },
-          ],
+          draft: {
+            ...draft,
+            isSaving: false,
+            saveError: null,
+            lastSaveTime: null,
+          },
           isSaving: false,
           saveError: null,
           lastSaveTime: draft.lastSaveTime,
@@ -147,7 +150,7 @@ describe('Delete Draft component', () => {
           folder: inbox,
         },
         threadDetails: {
-          drafts: [],
+          draft: null,
           cannotReply: false,
         },
       },
@@ -181,7 +184,7 @@ describe('Delete Draft component', () => {
           folder: inbox,
         },
         threadDetails: {
-          drafts: [],
+          draft: null,
           cannotReply: false,
         },
       },
@@ -259,7 +262,7 @@ describe('Delete Draft component', () => {
           folder: sent,
         },
         threadDetails: {
-          drafts: [],
+          draft: null,
           cannotReply: false,
           messages: [{ messageId: 1234567 }],
         },
@@ -307,7 +310,7 @@ describe('Delete Draft component', () => {
           folder: sent,
         },
         threadDetails: {
-          drafts: mockDraft,
+          draft: mockDraft,
           cannotReply: false,
           messages: [{ messageId: 1234567 }],
           threadFolderId: -1,
@@ -320,10 +323,10 @@ describe('Delete Draft component', () => {
     };
     const screen = renderWithStoreAndRouter(
       <DeleteDraft
-        draftId={mockDraft[0].messageId}
-        messageBody={mockDraft[0].body}
+        draftId={mockDraft.messageId}
+        messageBody={mockDraft.body}
         blankReplyDraft={false}
-        draftBody={mockDraft[0].body}
+        draftBody={mockDraft.body}
         savedReplyDraft
       />,
       {
@@ -358,7 +361,7 @@ describe('Delete Draft component', () => {
           folder: sent,
         },
         threadDetails: {
-          drafts: mockDraft,
+          draft: mockDraft,
           cannotReply: false,
           messages: [{ messageId: 1234567 }],
           threadFolderId: -1,
@@ -371,10 +374,10 @@ describe('Delete Draft component', () => {
     };
     const { getByTestId } = renderWithStoreAndRouter(
       <DeleteDraft
-        draftId={mockDraft[0].messageId}
-        messageBody={mockDraft[0].body}
+        draftId={mockDraft.messageId}
+        messageBody={mockDraft.body}
         blankReplyDraft={false}
-        draftBody={mockDraft[0].body}
+        draftBody={mockDraft.body}
         savedReplyDraft
         inProgressReplyDraft={false}
         draftsCount={1}

@@ -262,6 +262,16 @@ export const updateDrafts = draft => {
   return [draft[0]];
 };
 
+export const updateDraft = draft => {
+  if (Array.isArray(draft)) {
+    return draft[0];
+  }
+  if (typeof draft === 'object') {
+    return draft;
+  }
+  return draft;
+};
+
 // navigation helper
 export const setUnsavedNavigationError = (
   typeOfError,

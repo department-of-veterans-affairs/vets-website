@@ -1,30 +1,16 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 import { ErrorMessages } from '../../util/constants';
 
-const DraftSavedInfo = props => {
-  const { messageId, drafts } = props;
-
+const DraftSavedInfo = () => {
   const threadDetails = useSelector(state => state.sm.threadDetails);
 
   const { isSaving = null, saveError = null, lastSaveTime = null } = useMemo(
     () => {
-      const draft = messageId
-        ? drafts?.find(d => d.messageId === messageId)
-        : null;
-
-      if (drafts?.length > 1) {
-        return {
-          isSaving: draft?.isSaving,
-          saveError: draft?.saveError,
-          lastSaveTime: draft?.lastSaveTime,
-        };
-      }
       return threadDetails;
     },
-    [drafts, messageId, threadDetails],
+    [threadDetails],
   );
 
   const content = useMemo(
@@ -80,11 +66,6 @@ const DraftSavedInfo = props => {
     );
   }
   return '';
-};
-
-DraftSavedInfo.propTypes = {
-  drafts: PropTypes.array,
-  messageId: PropTypes.number,
 };
 
 export default DraftSavedInfo;
