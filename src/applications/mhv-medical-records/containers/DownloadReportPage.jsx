@@ -93,25 +93,27 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
 
-  // Map facility IDs to facility names
+  // Map facility IDs to facility names, fallback to 'Unknown' if empty
   const vistaFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return [];
+      if (!ehrDataByVhaId) return ['Unknown'];
       const vistaFacilities = facilities.filter(f => !f.isCerner);
-      return vistaFacilities
+      const names = vistaFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
+      return names.length ? names : ['Unknown'];
     },
     [facilities, ehrDataByVhaId],
   );
 
   const ohFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return [];
+      if (!ehrDataByVhaId) return ['Unknown'];
       const ohFacilities = facilities.filter(f => f.isCerner);
-      return ohFacilities
+      const names = ohFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
+      return names.length ? names : ['Unknown'];
     },
     [facilities, ehrDataByVhaId],
   );
@@ -267,21 +269,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       return (
         <div>
           <VistaAndOHIntroText
-            ohFacilityNames={
-              ohFacilityNames.length ? ohFacilityNames : ['Unknown']
-            }
-            vistaFacilityNames={
-              vistaFacilityNames.length ? vistaFacilityNames : ['Unknown']
-            }
+            ohFacilityNames={ohFacilityNames}
+            vistaFacilityNames={vistaFacilityNames}
             holdTimeMessagingUpdate={holdTimeMessagingUpdate}
           />
           <VistaAndOHContent
-            vistaFacilityNames={
-              vistaFacilityNames.length ? vistaFacilityNames : ['Unknown']
-            }
-            ohFacilityNames={
-              ohFacilityNames.length ? ohFacilityNames : ['Unknown']
-            }
+            vistaFacilityNames={vistaFacilityNames}
+            ohFacilityNames={ohFacilityNames}
             handleDownloadCCDV2={handleDownloadCCDV2}
             ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
             failedSeiDomains={failedSeiDomains}
