@@ -23,11 +23,11 @@ describe('CopyButton helper: ', () => {
   });
 
   const renderCopyButton = (props = {}) => {
-    const { container } = render(
+    const { container, getByRole } = render(
       <CopyButton value="Test Value" buttonText="Copy" {...props} />,
     );
     return {
-      button: container.querySelector('button'),
+      button: getByRole('button'),
       container,
     };
   };
