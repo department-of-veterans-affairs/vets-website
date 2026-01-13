@@ -292,7 +292,7 @@ export const getSchedulingPreferencesTimesDisplay = optionIds => {
   });
 
   return (
-    <ul>
+    <ul className="vads-u-margin-y--0">
       {Object.entries(days).map(([day, times]) => (
         <li key={day}>
           {day}: {times.join(' or ')}
