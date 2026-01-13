@@ -1094,7 +1094,6 @@ const ComposeForm = props => {
           <ComposeFormActionButtons
             cannotReply={noAssociations || allTriageGroupsBlocked}
             draftId={draft?.messageId}
-            draftsCount={1}
             formPopulated={formPopulated}
             navigationError={navigationError}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
