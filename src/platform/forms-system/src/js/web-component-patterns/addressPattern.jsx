@@ -904,6 +904,11 @@ export const addressSchema = (options = {}) => {
   const schema = commonDefinitions.profileAddress;
   let { properties } = schema;
 
+  // Only create a new object if we need to modify properties
+  if (omit.length === 0 && Object.keys(keys).length === 0) {
+    return schema;
+  }
+
   if (omit.length > 0) {
     validateKeys(omit, 'omit', MAPPABLE_KEYS);
     properties = utilsOmit(omit, properties);
