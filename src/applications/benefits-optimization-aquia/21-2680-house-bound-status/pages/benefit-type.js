@@ -12,7 +12,7 @@ import {
 import { isClaimantVeteran } from '../utils';
 
 /**
- * Generate page title based on claimant relationship
+ * Generate radio button title based on claimant relationship
  */
 const getRadioTitle = formData => {
   if (isClaimantVeteran(formData)) {
