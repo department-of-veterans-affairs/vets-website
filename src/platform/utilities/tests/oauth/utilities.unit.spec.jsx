@@ -41,16 +41,17 @@ describe('OAuth - Utilities', () => {
   let validCookie;
 
   beforeEach(() => {
-    let hasNodeCrypto = false;
+    let hasWebCryptoSubtle = false;
     try {
       // eslint-disable-next-line import/no-unresolved
-      require('node:crypto');
-      hasNodeCrypto = true;
+      const nodeCrypto = require('node:crypto');
+      // Node 14 has node:crypto but lacks webcrypto.subtle (added in Node 15)
+      hasWebCryptoSubtle = !!nodeCrypto?.webcrypto?.subtle;
     } catch {
-      hasNodeCrypto = false;
+      hasWebCryptoSubtle = false;
     }
 
-    if (!hasNodeCrypto) {
+    if (!hasWebCryptoSubtle) {
       window.crypto = mockCrypto;
     }
 
