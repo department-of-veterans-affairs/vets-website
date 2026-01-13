@@ -72,11 +72,14 @@ function fillDate(formDOM, partialId, dateString) {
       },
     },
   );
-  ReactTestUtils.Simulate.change(inputs.find(i => i.id === `${partialId}Day`), {
-    target: {
-      value: date[2],
+  ReactTestUtils.Simulate.change(
+    inputs.find(i => i.id === `${partialId}Day`),
+    {
+      target: {
+        value: date[2],
+      },
     },
-  });
+  );
   ReactTestUtils.Simulate.change(
     inputs.find(i => i.id === `${partialId}Year`),
     {
@@ -125,38 +128,69 @@ function mockFetch(returnVal, shouldResolve = true) {
 }
 
 export function setFetchJSONResponse(stub, data = null) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
+  // Use status 200 to make ok = true (read-only in Node 22)
+  const response = new Response(null, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  // Define url as a writable property (read-only in native Response)
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
+
   if (data) {
-    response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
   }
   stub.resolves(response);
 }
 
 export function setFetchJSONFailure(stub, data) {
+  // Use status 400 to make ok = false (read-only in Node 22)
   const response = new Response(null, {
+    status: 400,
     headers: { 'content-type': ['application/json'] },
   });
-  response.ok = false;
-  response.url = environment.API_URL;
+
+  // Define url as a writable property (read-only in native Response)
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
+
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobResponse(stub, data) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
+  // Use status 200 to make ok = true (read-only in Node 22)
+  const response = new Response(null, { status: 200 });
+
+  // Define url as a writable property (read-only in native Response)
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
+
   response.blob = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobFailure(stub, error) {
-  const response = new Response();
-  response.ok = false;
-  response.url = environment.API_URL;
+  // Use status 400 to make ok = false (read-only in Node 22)
+  const response = new Response(null, { status: 400 });
+
+  // Define url as a writable property (read-only in native Response)
+  Object.defineProperty(response, 'url', {
+    value: environment.API_URL,
+    writable: true,
+    configurable: true,
+  });
+
   response.blob = () => Promise.reject(new Error(error));
   stub.resolves(response);
 }
