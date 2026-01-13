@@ -218,11 +218,45 @@
       "state": "GA"
     }
   ],
+  "veteranChildrenCount": "12",
   "veteransChildren": [
     {
       "childFullName": {
-        "first": "ChildFirst",
-        "last": "ChildLast"
+        "first": "FirstChild",
+        "middle": "ChildMiddle",
+        "last": "LastName"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "Some City",
+        "state": "OH",
+        "country": "USA"
+      },
+      "bornOutsideUS": false,
+      "relationship": "BIOLOGICAL",
+      "inSchool": true,
+      "seriouslyDisabled": false,
+      "hasBeenMarried": true,
+      "currentlyMarried": false,
+      "livesWith": false,
+      "mailingAddress": {
+        "country": "USA",
+        "street": "123 Child St",
+        "city": "Child City",
+        "state": "AL",
+        "postalCode": "12313"
+      },
+      "custodianFullName": {
+        "first": "CustodianFirst",
+        "last": "CustodianLast"
+      },
+      "childSupport": 5000
+    },
+    {
+      "childFullName": {
+        "first": "MiddleChild",
+        "last": "Testerson"
       },
       "childDateOfBirth": "2010-10-10",
       "childSocialSecurityNumber": "123451234",
@@ -233,6 +267,39 @@
       },
       "bornOutsideUS": false,
       "relationship": "ADOPTED",
+      "inSchool": false,
+      "seriouslyDisabled": true,
+      "hasBeenMarried": false,
+      "currentlyMarried": false,
+      "livesWith": false,
+      "mailingAddress": {
+        "country": "USA",
+        "street": "123 Child St",
+        "city": "Child City",
+        "state": "AL",
+        "postalCode": "12313"
+      },
+      "custodianFullName": {
+        "first": "CustodianFirst",
+        "last": "CustodianLast"
+      },
+      "childSupport": 5000
+    },
+    {
+      "childFullName": {
+        "first": "ReallyLongChildFirstName",
+        "middle": "ReallyLongMiddleName",
+        "last": "ReallyLongChildLastName"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "Some City",
+        "state": "OH",
+        "country": "USA"
+      },
+      "bornOutsideUS": false,
+      "relationship": "STEPCHILD",
       "inSchool": true,
       "seriouslyDisabled": false,
       "hasBeenMarried": true,
@@ -291,6 +358,7 @@
       }
     }
   ],
+  "veteranHasAdditionalMarriages": false,
   "spouseMarriages": [
     {
       "reasonForSeparation": "OTHER",
@@ -329,5 +397,6 @@
         "middle": "Spouse2MiddleName"
       }
     }
-  ]
+  ],
+  "spouseHasAdditionalMarriages": true
 }

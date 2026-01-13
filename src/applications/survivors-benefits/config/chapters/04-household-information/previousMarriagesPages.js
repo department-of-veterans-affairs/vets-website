@@ -14,11 +14,16 @@ import {
   radioSchema,
   checkboxUI,
   checkboxSchema,
+  yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import constants from 'vets-json-schema/dist/constants.json';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { previousMarriageEndOptions } from '../../../utils/labels';
-import { handleAlertMaxItems } from '../../../components/FormAlerts';
+import {
+  handleAlertMaxItems,
+  PreviousAdditionalMarriagesAlert,
+} from '../../../components/FormAlerts';
 
 // Show previous marriages pages ONLY if user answered YES to hadPreviousMarriages
 // Ansering NO skips all previous marriage flows and jumps to Dependents
@@ -61,8 +66,7 @@ export const options = {
     (!item?.marriedOutsideUS && !item?.locationOfMarriage?.state) ||
     (item?.marriedOutsideUS && !item?.locationOfMarriage?.country) ||
     !item?.reasonForSeparation ||
-    (item?.reasonForSeparation === 'OTHER' &&
-      !item?.reasonForSeparationExplanation),
+    (item?.reasonForSeparation === 'OTHER' && !item?.separationExplanation),
   maxItems: 2,
   text: {
     cancelAddTitle: 'Cancel adding this previous marriage?',
@@ -143,12 +147,39 @@ const summaryPage = {
         hint: '',
       },
     ),
+    spouseHasAdditionalMarriages: {
+      ...yesNoUI('Do you have additional marriages to report?'),
+      'ui:options': {
+        hideIf: formData => {
+          const itemCount = formData?.spouseMarriages?.length;
+          return itemCount < options.maxItems;
+        },
+      },
+      'ui:required': formData => {
+        const itemCount = formData?.spouseMarriages?.length;
+        return itemCount === options.maxItems;
+      },
+    },
+    previousAdditionalMarriagesAlert: {
+      'ui:description': PreviousAdditionalMarriagesAlert,
+      'ui:options': {
+        hideIf: formData => {
+          return !formData?.spouseHasAdditionalMarriages;
+        },
+        displayEmptyObjectOnReview: true,
+      },
+    },
   },
   schema: {
     type: 'object',
     required: ['view:hasPreviousMarriages'],
     properties: {
       'view:hasPreviousMarriages': arrayBuilderYesNoSchema,
+      spouseHasAdditionalMarriages: yesNoSchema,
+      previousAdditionalMarriagesAlert: {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };

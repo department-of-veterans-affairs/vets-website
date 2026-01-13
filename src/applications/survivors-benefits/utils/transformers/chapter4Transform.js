@@ -1,4 +1,4 @@
-import { combineCityState, truncateName } from './helpers';
+import { combineCityState, truncateName, buildChildStatus } from './helpers';
 
 export function chapter4Transform(formData) {
   const parsedFormData = JSON.parse(formData);
@@ -66,6 +66,22 @@ export function chapter4Transform(formData) {
     );
   }
 
+  if (parsedFormData?.veteransChildren?.length) {
+    transformedValue.veteransChildren = parsedFormData.veteransChildren.map(
+      child => {
+        return {
+          ...child,
+          childFullName: truncateName(child.childFullName, 12, 1, 18),
+          childPlaceOfBirth: combineCityState(
+            child.birthPlace?.city,
+            child.birthPlace?.state || child.birthPlace?.country,
+          ),
+          childStatus: buildChildStatus(child),
+        };
+      },
+    );
+  }
+
   // yes/no for separation dur to marital discord...
   if (parsedFormData?.separationDueToAssignedReasons) {
     if (
@@ -103,6 +119,17 @@ export function chapter4Transform(formData) {
   if (parsedFormData?.typeOfMarriageExplanation) {
     transformedValue.marriageTypeExplanation =
       parsedFormData.typeOfMarriageExplanation;
+  }
+
+  if (
+    !parsedFormData?.veteranChildrenCount &&
+    parsedFormData?.veteransChildren?.length
+  ) {
+    transformedValue.veteranChildrenCount =
+      parsedFormData.veteransChildren.length;
+  } else {
+    transformedValue.veteranChildrenCount =
+      parsedFormData?.veteranChildrenCount || 0;
   }
 
   return JSON.stringify(transformedValue);

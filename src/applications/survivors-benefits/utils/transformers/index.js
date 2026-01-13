@@ -8,4 +8,3 @@ export * from './transformCareExpenses';
 export * from './truncateMiddleInitials';
 export * from './unnestOtherServiceNames';
 export * from './updateBankValues';
-export * from './updateChildOfVeteran';

@@ -31,3 +31,23 @@ export const combineMarriageDates = (startDate, endDate) => {
   }
   return startDate || endDate;
 };
+
+export const buildChildStatus = child => {
+  const statusParts = [];
+  if (child?.relationship) {
+    statusParts.push(child.relationship);
+  }
+  if (child?.inSchool) {
+    statusParts.push('18-23_YEARS_OLD');
+  }
+  if (child?.seriouslyDisabled) {
+    statusParts.push('SERIOUSLY_DISABLED');
+  }
+  if (child?.hasBeenMarried) {
+    statusParts.push('CHILD_PREVIOUSLY_MARRIED');
+  }
+  if (!child?.livesWith) {
+    statusParts.push('DOES_NOT_LIVE_WITH_SPOUSE');
+  }
+  return statusParts;
+};

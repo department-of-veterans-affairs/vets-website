@@ -7,7 +7,6 @@ import {
   updateBankValues,
   transformCareExpenses,
   combineTreatmentFacility,
-  updateChildOfVeteran,
   truncateMiddleInitials,
   unnestOtherServiceNames,
   combineUnitNameAddress,
@@ -22,7 +21,6 @@ export const transform = (formConfig, form) => {
   transformedData = updateBankValues(transformedData);
   transformedData = transformCareExpenses(transformedData);
   transformedData = combineTreatmentFacility(transformedData);
-  transformedData = updateChildOfVeteran(transformedData);
   transformedData = truncateMiddleInitials(transformedData);
   transformedData = unnestOtherServiceNames(transformedData);
   transformedData = combineUnitNameAddress(transformedData);

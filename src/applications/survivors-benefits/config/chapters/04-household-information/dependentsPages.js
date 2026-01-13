@@ -24,6 +24,8 @@ import {
   addressUI,
   addressSchema,
   titleUI,
+  numberUI,
+  numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   STATE_NAMES,
@@ -35,7 +37,10 @@ import {
   DependentChildDescription,
   seriouslyDisabledDescription,
 } from '../../../utils/helpers';
-import { VaForm214138Alert } from '../../../components/FormAlerts';
+import {
+  VaForm214138Alert,
+  DependentChildrenAlert,
+} from '../../../components/FormAlerts';
 
 /**
  * Dependent children (array builder)
@@ -127,11 +132,45 @@ const summaryPage = {
         labelHeaderLevel: 3,
       },
     ),
+    veteranChildrenCount: {
+      ...numberUI({
+        title: 'How many dependent children do you have?',
+        hint: `Including the ${options.maxItems} added to the form.`,
+        min: 3,
+        max: 99,
+      }),
+      'ui:options': {
+        hideIf: formData => {
+          return formData?.veteransChildren?.length < options.maxItems;
+        },
+      },
+      'ui:required': formData => {
+        const itemCount = formData?.veteransChildren?.length;
+        return itemCount === options.maxItems;
+      },
+    },
+    dependentChildrenAlert: {
+      'ui:description': DependentChildrenAlert,
+      'ui:options': {
+        hideIf: formData => {
+          return (
+            !formData?.veteranChildrenCount ||
+            formData?.veteranChildrenCount <= options.maxItems
+          );
+        },
+        displayEmptyObjectOnReview: true,
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
+      veteranChildrenCount: numberSchema,
       'view:isAddingDependent': arrayBuilderYesNoSchema,
+      dependentChildrenAlert: {
+        type: 'object',
+        properties: {},
+      },
     },
     required: ['view:isAddingDependent'],
   },
