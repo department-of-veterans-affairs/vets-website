@@ -2,17 +2,17 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { additionalInstitutionsWithCodeArrayOptions } from '../helpers';
+import { additionalInstitutionsWithoutCodeArrayOptions } from '../helpers';
 
 export default {
   uiSchema: {
     'view:hasAdditionalInstitutions': arrayBuilderYesNoUI(
-      additionalInstitutionsWithCodeArrayOptions,
+      additionalInstitutionsWithoutCodeArrayOptions,
       {
-        title:
-          'Do you have any additional locations you’d like to add to this application?',
+        title: 'Does your institution have additional locations?',
         labelHeaderLevel: 'p',
-        hint: '',
+        hint:
+          'Additional locations are officially associated with your academic institution.',
         labels: {
           Y: 'Yes, I have additional locations to add',
           N: 'No, I don’t have additional locations to add',
@@ -22,8 +22,7 @@ export default {
         },
       },
       {
-        title:
-          'Do you have another location you’d like to add to this application?',
+        title: 'Do you have another additional location to add?',
         labelHeaderLevel: 'p',
         hint: '',
         labels: {
