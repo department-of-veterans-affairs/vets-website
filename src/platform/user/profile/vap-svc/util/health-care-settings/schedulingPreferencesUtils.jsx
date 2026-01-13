@@ -98,9 +98,12 @@ export const schedulingPreferenceOptions = fieldName => {
   }
 };
 
-export const getSchedulingPreferenceInitialFormValues = (fieldname, data) => {
+export const getSchedulingPreferenceInitialFormValues = (fieldName, data) => {
   // If we have data from API, use it; otherwise empty string for radio buttons
-  return data ? { [fieldname]: data[fieldname] } : { [fieldname]: '' };
+  if (isSingleSchedulingPreference(fieldName)) {
+    return data ? { [fieldName]: data[fieldName] } : { [fieldName]: '' };
+  }
+  return data ? { [fieldName]: data[fieldName] } : { [fieldName]: [] };
 };
 
 const getSchedulingPreferenceItemId = fieldName => {
@@ -118,8 +121,8 @@ export const getSchedulingPreferencesOptionInCopy = (fieldName, itemId) => {
   return FIELD_OPTION_IN_COPY[fieldName]?.[itemId];
 };
 
-export const schedulingPreferencesUiSchema = fieldname => {
-  switch (fieldname) {
+export const schedulingPreferencesUiSchema = fieldName => {
+  switch (fieldName) {
     case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
       return getContactMethodUiSchema();
     case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
@@ -128,16 +131,16 @@ export const schedulingPreferencesUiSchema = fieldname => {
       return getAppointmentTimesUiSchema();
     default:
       return {
-        [fieldname]: radioUI({
-          title: FIELD_TITLES[fieldname],
-          labels: { ...schedulingPreferenceOptions(fieldname) },
+        [fieldName]: radioUI({
+          title: FIELD_TITLES[fieldName],
+          labels: { ...schedulingPreferenceOptions(fieldName) },
         }),
       };
   }
 };
 
-export const schedulingPreferencesFormSchema = fieldname => {
-  switch (fieldname) {
+export const schedulingPreferencesFormSchema = fieldName => {
+  switch (fieldName) {
     case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
       return getContactMethodFormSchema();
     case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
@@ -148,8 +151,8 @@ export const schedulingPreferencesFormSchema = fieldname => {
       return {
         type: 'object',
         properties: {
-          [fieldname]: {
-            ...radioSchema(Object.keys(schedulingPreferenceOptions(fieldname))),
+          [fieldName]: {
+            ...radioSchema(Object.keys(schedulingPreferenceOptions(fieldName))),
           },
         },
       };
@@ -185,21 +188,28 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   return { itemId, optionIds };
 };
 
+// inner loop of convertSchedulingPreferencesToReduxFormat
+export const convertSchedulingPreferenceToReduxFormat = (item, fieldName) => {
+  if (isSingleSchedulingPreference(fieldName)) {
+    const [firstOptionId] = item.optionIds;
+    return `option-${firstOptionId}`;
+  }
+  return item.optionIds.length
+    ? item.optionIds.map(optionId => `option-${optionId}`)
+    : [];
+};
+
 export const convertSchedulingPreferencesToReduxFormat = items => {
   const formattedData = {};
-
   items.preferences.forEach(item => {
     const fieldName = Object.keys(FIELD_ITEM_IDS).find(
       key => FIELD_ITEM_IDS[key] === item.itemId,
     );
-    if (isSingleSchedulingPreference(fieldName)) {
-      const [firstOptionId] = item.optionIds;
-      formattedData[fieldName] = `option-${firstOptionId}`;
-    } else {
-      formattedData[fieldName] = item.optionIds.length
-        ? item.optionIds.map(optionId => `option-${optionId}`)
-        : [];
-    }
+
+    formattedData[fieldName] = convertSchedulingPreferenceToReduxFormat(
+      item,
+      fieldName,
+    );
   });
 
   return formattedData;

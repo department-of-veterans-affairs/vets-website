@@ -108,7 +108,7 @@ PreferenceSelection.propTypes = {
   noPreferenceValue: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   setPageData: PropTypes.func.isRequired,
-  data: PropTypes.string,
+  data: PropTypes.array,
   error: PropTypes.bool,
 };
 
