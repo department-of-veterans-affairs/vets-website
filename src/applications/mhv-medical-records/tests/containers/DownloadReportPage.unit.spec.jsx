@@ -421,7 +421,7 @@ describe('DownloadRecordsPage with last successful update timestamp', () => {
 });
 
 describe('DownloadRecordsPage - Missing EHR data for facility names', () => {
-  const testUnknownFallback = ehrData => {
+  const testNoneRecordedFallback = ehrData => {
     const state = {
       ...getBaseState(bothFacilities, ['456']),
       drupalStaticData: {
@@ -439,15 +439,15 @@ describe('DownloadRecordsPage - Missing EHR data for facility names', () => {
       reducers: reducer,
       path: '/download-all',
     });
-    expect(screen.getAllByText('Unknown').length).to.be.greaterThan(0);
+    expect(screen.getAllByText('None recorded').length).to.be.greaterThan(0);
   };
 
-  it('renders "Unknown" when ehrDataByVhaId is missing', () => {
-    testUnknownFallback(undefined);
+  it('renders "None recorded" when ehrDataByVhaId is missing', () => {
+    testNoneRecordedFallback(undefined);
   });
 
-  it('renders "unknown" when facility IDs not found', () => {
-    testUnknownFallback({ 999: { vamcSystemName: 'Other' } });
+  it('renders "None recorded" when facility IDs not found', () => {
+    testNoneRecordedFallback({ 999: { vamcSystemName: 'Other' } });
   });
 });
 

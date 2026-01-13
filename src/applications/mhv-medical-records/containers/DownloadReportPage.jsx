@@ -93,27 +93,27 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
 
-  // Map facility IDs to facility names, fallback to 'Unknown' if empty
+  // Map facility IDs to facility names, fallback to 'None recorded' if empty
   const vistaFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return ['Unknown'];
+      if (!ehrDataByVhaId) return ['None recorded'];
       const vistaFacilities = facilities.filter(f => !f.isCerner);
       const names = vistaFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
-      return names.length ? names : ['Unknown'];
+      return names.length ? names : ['None recorded'];
     },
     [facilities, ehrDataByVhaId],
   );
 
   const ohFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return ['Unknown'];
+      if (!ehrDataByVhaId) return ['None recorded'];
       const ohFacilities = facilities.filter(f => f.isCerner);
       const names = ohFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
-      return names.length ? names : ['Unknown'];
+      return names.length ? names : ['None recorded'];
     },
     [facilities, ehrDataByVhaId],
   );
