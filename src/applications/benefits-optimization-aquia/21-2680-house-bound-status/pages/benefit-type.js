@@ -68,7 +68,7 @@ export const benefitTypeUiSchema = {
           <p>
             SMP is an increased monthly amount paid to a veteran or survivor who
             is eligible for Veterans Pension or Survivors benefits. Apply for
-            Special Monthly Compensation (SMC) if you:
+            Special Monthly Pension (SMP) if you:
           </p>
           <ul>
             <li>Are a Veteran or the surviving spouse of a Veteran</li>
