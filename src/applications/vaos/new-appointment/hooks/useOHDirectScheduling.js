@@ -18,6 +18,6 @@ export function useOHDirectScheduling() {
   return (
     featureOHDirectSchedule &&
     featureRemoveFacilityConfigCheck &&
-    OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare.idV2)
+    OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare?.idV2)
   );
 }
