@@ -99,15 +99,6 @@ describe('Form Configuration', () => {
       expect(page.schema).to.exist;
     });
 
-    it('should have veteran contact page', () => {
-      const page =
-        formConfig.chapters.veteranInformationChapter.pages.veteranContact;
-      expect(page).to.exist;
-      expect(page.path).to.equal('veteran-contact');
-      expect(page.uiSchema).to.exist;
-      expect(page.schema).to.exist;
-    });
-
     it('should have claimant relationship page', () => {
       const page =
         formConfig.chapters.claimantInformationChapter.pages
@@ -497,7 +488,7 @@ describe('Form Configuration', () => {
 
   describe('Conditional Page Logic', () => {
     describe('Claimant Information Conditional Pages', () => {
-      it('should show claimant pages when claimantRelationship is not veteran', () => {
+      it('should show claimant info, SSN, and address pages when claimantRelationship is not veteran', () => {
         const formData = {
           claimantRelationship: {
             relationship: 'spouse',
@@ -511,16 +502,13 @@ describe('Form Configuration', () => {
           formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
         const claimantAddressPage =
           formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
-        const claimantContactPage =
-          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
         expect(claimantInfoPage.depends(formData)).to.be.true;
         expect(claimantSSNPage.depends(formData)).to.be.true;
         expect(claimantAddressPage.depends(formData)).to.be.true;
-        expect(claimantContactPage.depends(formData)).to.be.true;
       });
 
-      it('should hide claimant pages when claimantRelationship is veteran', () => {
+      it('should hide claimant info, SSN, and address pages when claimantRelationship is veteran', () => {
         const formData = {
           claimantRelationship: {
             relationship: 'veteran',
@@ -534,14 +522,17 @@ describe('Form Configuration', () => {
           formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
         const claimantAddressPage =
           formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
-        const claimantContactPage =
-          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
         expect(claimantInfoPage.depends(formData)).to.be.false;
         expect(claimantSSNPage.depends(formData)).to.be.false;
         expect(claimantAddressPage.depends(formData)).to.be.false;
-        expect(claimantContactPage.depends(formData)).to.be.false;
       });
+    });
+
+    it('should always show claimant contact page regardless of relationship', () => {
+      const claimantContactPage =
+        formConfig.chapters.claimantInformationChapter.pages.claimantContact;
+      expect(claimantContactPage.depends).to.be.undefined;
     });
 
     describe('Hospitalization Conditional Pages', () => {

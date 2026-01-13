@@ -26,8 +26,6 @@ import {
   veteranSsnSchema,
   veteranAddressUiSchema,
   veteranAddressSchema,
-  veteranContactUiSchema,
-  veteranContactSchema,
   claimantRelationshipUiSchema,
   claimantRelationshipSchema,
   claimantInformationUiSchema,
@@ -130,12 +128,6 @@ const formConfig = {
           uiSchema: veteranAddressUiSchema,
           schema: veteranAddressSchema,
         },
-        veteranContact: {
-          path: 'veteran-contact',
-          title: "Veteran's phone number and email address",
-          uiSchema: veteranContactUiSchema,
-          schema: veteranContactSchema,
-        },
       },
     },
 
@@ -214,9 +206,6 @@ const formConfig = {
           },
           uiSchema: claimantContactUiSchema,
           schema: claimantContactSchema,
-          // Hidden when veteran is claimant
-          depends: formData =>
-            formData?.claimantRelationship?.relationship !== 'veteran',
         },
       },
     },

@@ -20,13 +20,13 @@
         "postalCode": "85326"
       }
     },
-    "veteranContact": {
-      "veteranPhoneNumber": "5205551313",
-      "veteranMobilePhone": "5205551314",
-      "veteranEmail": "hsolo@smuggler.net"
-    },
     "claimantRelationship": {
       "relationship": "veteran"
+    },
+    "claimantContact": {
+      "claimantPhoneNumber": "5205551313",
+      "claimantMobilePhone": "5205551314",
+      "claimantEmail": "hsolo@smuggler.net"
     },
     "benefitType": {
       "benefitType": "SMP"

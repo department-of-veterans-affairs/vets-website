@@ -166,8 +166,8 @@ describe('Submit Transformer', () => {
         claimantRelationship: {
           relationship: 'veteran',
         },
-        veteranContact: {
-          veteranPhoneNumber: '(555) 123-4567',
+        claimantContact: {
+          claimantPhoneNumber: '(555) 123-4567',
         },
       };
       const result = transformAndParse(mockFormConfig, formData);
