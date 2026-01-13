@@ -3,7 +3,6 @@ import {
   capitalizeEachWord,
   formSubtitle,
   formTitle,
-  isClaimingNew,
   isPlaceholderRated,
   makeConditionsSchema,
   sippableId,
@@ -123,11 +122,12 @@ export function teSubtitle(
 
 /* ---------- utils ---------- */
 /**
- * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. the claim has a claim type of new
- *  2. claiming at least one new disability
+ * Checks if a disability is a real toxic exposure candidate.
+ * A disability is a candidate if it has a valid condition string,
+ * is not a placeholder rated disability, and has cause 'NEW' or 'SECONDARY'.
  *
- * @returns true if all criteria are met, false otherwise
+ * @param {object} d - disability object
+ * @returns {boolean} true if the disability is a valid TE candidate
  */
 const isRealTECandidate = d =>
   d &&
@@ -135,13 +135,29 @@ const isRealTECandidate = d =>
   !isPlaceholderRated(d.condition) &&
   (d.cause === 'NEW' || d.cause === 'SECONDARY');
 
+/**
+ * Checks if the form data contains at least one real new disability
+ * that is a toxic exposure candidate.
+ *
+ * @param {object} formData - full form data
+ * @returns {boolean} true if there is at least one real new disability
+ */
 const hasRealNewDisabilities = formData =>
   Array.isArray(formData?.newDisabilities) &&
   formData.newDisabilities.some(isRealTECandidate);
 
+/**
+ * Checks if the toxic exposure pages should be displayed.
+ * Shows when there is at least one real new or secondary condition.
+ * This logic works for both legacy and new conditions workflows.
+ *
+ * @param {object} formData - full form data
+ * @returns {boolean} true if toxic exposure pages should show
+ */
 export const showToxicExposurePages = formData => {
-  // Only show when claiming new AND there is at least one real (non-placeholder) condition
-  return isClaimingNew(formData) && hasRealNewDisabilities(formData);
+  // Show when there is at least one real (non-placeholder) new or secondary condition
+  // This approach works across both workflows without relying on view:claimType
+  return hasRealNewDisabilities(formData);
 };
 
 /**
