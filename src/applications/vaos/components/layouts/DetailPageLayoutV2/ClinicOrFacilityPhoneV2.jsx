@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import FacilityPhone from '../../FacilityPhone';
 
-export function ClinicOrFacilityPhone({ facility }) {
+export default function ClinicOrFacilityPhone({ facility }) {
   if (facility) {
     const { clinicPhone, clinicPhoneExtension, facilityPhone } = facility;
 

@@ -4,7 +4,7 @@ export default class AppointmentVideoHome extends AppointmentVideo {
   constructor(response) {
     super(response);
 
-    // this.modality = 'vaVideoCareAtHome';
+    this.isVideoAtHome = response.modality === 'vaVideoCareAtHome';
     this._modalityIcon = 'videocam';
     this.modalityText = 'Video';
   }

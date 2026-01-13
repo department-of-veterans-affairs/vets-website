@@ -15,13 +15,13 @@ import State from '../State';
 import VideoLink from '../VideoLinkV2';
 import ClinicName from './ClinicName';
 import DetailPageLayout from './DetailPageLayoutV2';
-import { ClinicOrFacilityPhone } from './DetailPageLayoutV2/ClinicOrFacilityPhone';
-import { Prepare } from './DetailPageLayoutV2/Prepare';
-import { Who } from './DetailPageLayoutV2/Who';
-import { What } from './DetailPageLayoutV2/What';
-import { When } from './DetailPageLayoutV2/When';
+import ClinicOrFacilityPhone from './DetailPageLayoutV2/ClinicOrFacilityPhone';
+import Prepare from './DetailPageLayoutV2/Prepare';
+import Who from './DetailPageLayoutV2/Who';
+import What from './DetailPageLayoutV2/What';
+import When from './DetailPageLayoutV2/When';
 import VideoLayoutAtlas from './VideoLayoutAtlasV2';
-import VideoLayoutVA from './VideoLayoutVA';
+import VideoLayoutVA from './VideoLayoutVAV2';
 
 export default function VideoLayout({ data: appointment }) {
   // const {
@@ -43,10 +43,10 @@ export default function VideoLayout({ data: appointment }) {
   // );
 
   const {
-    isAtlasVideo,
+    isAtlasVideoAppointment,
     isBooked,
     isCanceled,
-    isClinicVideo,
+    isClinicVideoAppointment,
     isPastAppointment,
     location: facility,
     practitioners,
@@ -68,8 +68,8 @@ export default function VideoLayout({ data: appointment }) {
 
   const videoProviderName = providers.length > 0 ? providers[0].display : null;
 
-  if (isAtlasVideo) return <VideoLayoutAtlas data={appointment} />;
-  if (isClinicVideo) return <VideoLayoutVA data={appointment} />;
+  if (isAtlasVideoAppointment) return <VideoLayoutAtlas data={appointment} />;
+  if (isClinicVideoAppointment) return <VideoLayoutVA data={appointment} />;
 
   const address = facility?.address;
   let heading = 'Video appointment';

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { startAppointmentCancel } from '../../../appointment-list/redux/actions';
 import { GA_PREFIX, APPOINTMENT_STATUS } from '../../../utils/constants';
 
-export function CancelButton({ appointment, setCancelStateFunction }) {
+export default function CancelButton({ appointment, setCancelStateFunction }) {
   const dispatch = useDispatch();
   const { status, isCancellable, isPastAppointment } = appointment;
 

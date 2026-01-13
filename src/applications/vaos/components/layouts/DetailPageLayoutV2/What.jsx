@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Section from '../../Section';
 
-export function What({ children, level = 2 }) {
+export default function What({ children, level = 2 }) {
   if (!children) {
     return null;
   }

@@ -19,7 +19,7 @@ import ErrorAlert from '../../ErrorAlert';
 import FullWidthLayout from '../../FullWidthLayout';
 import StatusAlert from '../../StatusAlertV2';
 import TravelReimbursementSection from '../../TravelReimbursementSection';
-import { CancelButton } from './CancelButton';
+import CancelButton from './CancelButton';
 
 export default function DetailPageLayout({
   children,
@@ -36,14 +36,6 @@ export default function DetailPageLayout({
     cancelAppointment,
     { isError, isLoading, isSuccess, isUninitialized },
   ] = useCancelAppointmentMutation();
-  // console.log(
-  //   'cancelAppointment',
-  //   isError,
-  //   isLoading,
-  //   isSuccess,
-  //   isUninitialized,
-  //   isUpdating,
-  // );
   const featureTravelPayViewClaimDetails = useSelector(state =>
     selectFeatureTravelPayViewClaimDetails(state),
   );

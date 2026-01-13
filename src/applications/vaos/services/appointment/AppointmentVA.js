@@ -4,8 +4,8 @@ export default class AppointmentVA extends Appointment {
   constructor(response) {
     super(response);
 
+    this.isInPersion = response.modality === 'vaInPerson';
     this.isInPersonVisit = true;
-    // this.modality = 'vaInPerson';
 
     if (this.isPendingAppointment) this.modalityText = 'In person';
     else {

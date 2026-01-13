@@ -5,7 +5,9 @@ export default class AppointmentVideoVA extends AppointmentVideo {
   constructor(response) {
     super(response);
 
-    // this.modality = 'vaVideoCareAtAVaLocation';
+    this.isClinicVideoAppointment =
+      response.modality === 'vaVideoCareAtAVaLocation';
+
     this.modalityText = this.facilityName
       ? `At ${this.facilityName}`
       : 'At VA facility';

@@ -51,6 +51,12 @@ export default class Appointment {
     this.avsPath = response.past ? response.avsPath : null;
     this.cancelationReason =
       response.cancelationReason?.coding?.[0].code || null;
+    this.contactEmail = response.contact?.telecom.find(
+      t => t.type === 'email',
+    )?.value;
+    this.contactPhone = response.contact?.telecom.find(
+      t => t.type === 'phone',
+    )?.value;
 
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
@@ -58,25 +64,17 @@ export default class Appointment {
     this.extension = response.extension;
 
     this.id = response.id;
-    this.isAtlasVideoAppointment =
-      response.modality === 'vaVideoCareAtAnAtlasLocation';
     this.isBadAppointmentId = false;
     this.isBooked = response.status === APPOINTMENT_STATUS.booked;
-    this.isCOVIDVaccine = response.modality === 'vaInPersonVaccine';
     this.isCanceled = response.status === APPOINTMENT_STATUS.cancelled;
     this.isCancellable = response.cancellable || false;
     this.isCerner = response.isCerner || false;
-    this.isClinicVideoAppointment =
-      response.modality === 'vaVideoCareAtAVaLocation';
     // this.isCommunityCare = response.kind === 'cc';
-    this.isCompAndPenAppointment = response.modality === 'claimExamAppointment';
     this.isExpressCare = false;
-    this.isInPersion = response.modality === 'vaInPerson';
     this.isPastAppointment = response.past || false;
     this.isPendingAppointment = response.pending || false;
     this.isUpcomingAppointment = response.future || false;
     // this.isVideo;
-    this.isVideoAtHome = response.modality === 'vaVideoCareAtHome';
     this.location = response.location ? new Location(response) : null;
     this.locationId = response.locationId;
     this.minutesDuration = Number.isNaN(parseInt(response.minutesDuration, 10))

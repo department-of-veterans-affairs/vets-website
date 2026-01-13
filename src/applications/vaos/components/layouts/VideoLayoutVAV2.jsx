@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -14,55 +14,38 @@ import Address from '../Address';
 import AddToCalendarButton from '../AddToCalendarButtonV2';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import NewTabAnchor from '../NewTabAnchor';
+import Section from '../Section';
 import ClinicName from './ClinicName';
 import ClinicPhysicalLocation from './ClinicPhysicalLocation';
 import DetailPageLayout from './DetailPageLayoutV2';
-import ClinicOrFacilityPhone from './DetailPageLayoutV2/ClinicOrFacilityPhoneV2';
-import Details from './DetailPageLayoutV2/Details';
+import ClinicOrFacilityPhone from './DetailPageLayoutV2/ClinicOrFacilityPhone';
 import Prepare from './DetailPageLayoutV2/Prepare';
-import Where from './DetailPageLayoutV2/Where';
-import Who from './DetailPageLayoutV2/Who';
 import What from './DetailPageLayoutV2/What';
 import When from './DetailPageLayoutV2/When';
+import Who from './DetailPageLayoutV2/Who';
 
-export default function InPersonLayout({ data: appointment }) {
-  //   const {
-  //     clinicName,
-  //     clinicPhysicalLocation,
-  //     clinicPhone,
-  //     clinicPhoneExtension,
-  //     facility,
-  //     facilityPhone,
-  //     locationId,
-  //     isPastAppointment,
-  //     practitionerName,
-  //     startDate,
-  //     status,
-  //     timezone,
-  //     appointment.typeOfCareName,
-  //     isCerner,
-  //   } = useSelector(
-  //     state => selectConfirmedAppointmentData(state, appointment),
-  //     shallowEqual,
-  //   );
-
-  // if (!appointment) return null;
-
+export default function VideoLayoutVA({ data: appointment }) {
   const {
+    clinicName,
+    clinicPhysicalLocation,
+    clinicPhone,
+    clinicPhoneExtension,
+    facility,
+    facilityPhone,
+    locationId,
     isBooked,
     isCanceled,
-    isCerner,
     isPastAppointment,
-    location: facility,
-    locationId: facilityId,
-    patientComments,
-  } = appointment || {};
-  // const { location: facility } = appointment;
-  // const facilityId = appointment.;
+    startDate,
+    timezone,
+    typeOfCareName,
+    videoProviderName,
+  } = appointment;
 
-  let heading = 'In-person appointment';
-  if (isCanceled) heading = 'Canceled in-person appointment';
-  else if (isPastAppointment) heading = 'Past in-person appointment';
+  let heading = 'Video appointment at a VA location';
+  const facilityId = locationId;
+  if (isCanceled) heading = 'Canceled video appointment at VA location';
+  else if (isPastAppointment) heading = 'Past video appointment at VA location';
 
   if (!appointment.modality) {
     captureMissingModalityLogs(appointment);
@@ -74,27 +57,28 @@ export default function InPersonLayout({ data: appointment }) {
       isCerner: appointment.isCerner,
     },
     {
-      [NULL_STATE_FIELD.TYPE_OF_CARE]: !appointment.typeOfCareName,
-      [NULL_STATE_FIELD.PROVIDER]: !appointment.practitionerName,
-      [NULL_STATE_FIELD.CLINIC_PHONE]: !appointment.clinicPhone,
+      [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+      [NULL_STATE_FIELD.PROVIDER]: !videoProviderName,
+      [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
       [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
-      [NULL_STATE_FIELD.FACILITY_DETAILS]: !appointment.location,
-      [NULL_STATE_FIELD.FACILITY_PHONE]: !appointment.location?.facilityPhone,
+      [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+      [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
     },
   );
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
+      {isBooked &&
+        !isPastAppointment && (
+          <Section heading="How to join">
+            Join this video appointment at a VA facility.
+            <br />
+          </Section>
+        )}
       <When>
-        <AppointmentDate
-          date={appointment.startDate}
-          timezone={appointment.timezone}
-        />
+        <AppointmentDate date={startDate} timezone={timezone} />
         <br />
-        <AppointmentTime
-          appointment={appointment}
-          timezone={appointment.timezone}
-        />
+        <AppointmentTime appointment={appointment} timezone={timezone} />
         <br />
         {!isCanceled &&
           !isPastAppointment && (
@@ -106,17 +90,16 @@ export default function InPersonLayout({ data: appointment }) {
             </div>
           )}
       </When>
+
       <What>
-        {appointment.typeOfCareName && (
-          <span data-dd-privacy="mask">{appointment.typeOfCareName}</span>
-        )}
+        {typeOfCareName && <span data-dd-privacy="mask">{typeOfCareName}</span>}
       </What>
       <Who>
-        {appointment.practitionerName && (
-          <span data-dd-privacy="mask">{appointment.practitionerName}</span>
+        {videoProviderName && (
+          <span data-dd-privacy="mask">{videoProviderName}</span>
         )}
       </Who>
-      <Where heading={isBooked ? 'Where to attend' : undefined}>
+      <Section heading="Where to attend">
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
         {!facility &&
           !facilityId && (
@@ -144,7 +127,6 @@ export default function InPersonLayout({ data: appointment }) {
                 View facility information
               </NewTabAnchor>
               <br />
-              <br />
             </>
           )}
         {!!facility && (
@@ -155,16 +137,16 @@ export default function InPersonLayout({ data: appointment }) {
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <FacilityDirectionsLink location={facility} icon />
             </div>
-            <ClinicName name={facility.clinicName} />{' '}
-            <ClinicPhysicalLocation
-              location={facility.clinicPhysicalLocation}
-            />{' '}
-            <br />
+            <ClinicName name={clinicName} />{' '}
+            <ClinicPhysicalLocation location={clinicPhysicalLocation} /> <br />
           </>
         )}
-        <ClinicOrFacilityPhone facility={facility} />
-      </Where>
-      <Details otherDetails={patientComments} isCerner={isCerner} />
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
+      </Section>
       {!isPastAppointment &&
         (isBooked || isCanceled) && (
           <Prepare>
@@ -180,9 +162,16 @@ export default function InPersonLayout({ data: appointment }) {
             </p>
           </Prepare>
         )}
+      {isBooked &&
+        !isPastAppointment && (
+          <Section heading="Need to make changes?">
+            Contact this facility if you need to reschedule or cancel your
+            appointment.
+          </Section>
+        )}
     </DetailPageLayout>
   );
 }
-InPersonLayout.propTypes = {
+VideoLayoutVA.propTypes = {
   data: PropTypes.object,
 };

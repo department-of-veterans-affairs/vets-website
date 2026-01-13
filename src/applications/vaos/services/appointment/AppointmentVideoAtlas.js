@@ -6,6 +6,8 @@ export default class AppointmentVideoAtlas extends AppointmentVideo {
     super(response);
 
     this.atlasConfirmationCode = response.telehealth?.atlas?.confirmationCode;
+    this.isAtlasVideoAppointment =
+      response.modality === 'vaVideoCareAtAnAtlasLocation';
 
     const { atlas } = response.telehealth;
     this.atlasLocation = {

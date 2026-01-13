@@ -10,7 +10,6 @@ export default class AppointmentCC extends Appointment {
     super(response);
 
     this.isCommunityCare = response.kind === 'cc';
-    // this.modality = 'communityCare';
     this.modalityText = this.isPendingAppointment ? 'Community care' : null;
 
     this.practiceName = response.extension?.ccLocation?.practiceName;

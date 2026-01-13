@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Section from '../../Section';
 
-export function When({ children, level = 2 }) {
+export default function When({ children, level = 2 }) {
   return (
     <Section heading="When" level={level}>
       <span data-dd-privacy="mask">{children}</span>

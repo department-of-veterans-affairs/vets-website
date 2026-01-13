@@ -7,7 +7,7 @@ import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests'
 import UpcomingAppointmentsDetailsPage from './pages/UpcomingAppointmentsDetailsPage/indexV2';
 import EpsAppointmentDetailsPage from './pages/EpsAppointmentDetailsPage/EpsAppointmentDetailsPage';
 import AppointmentsPage from './pages/AppointmentsPage/indexV2';
-import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
+import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPageV2';
 
 export default function AppointmentList() {
   useManualScrollRestoration();

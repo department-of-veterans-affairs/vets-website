@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Section from '../../Section';
 
-export function Details({
+export default function Details({
   otherDetails,
   request,
   level = 2,

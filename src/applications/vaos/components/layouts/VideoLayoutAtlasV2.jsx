@@ -1,29 +1,28 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import DetailPageLayout, {
-  What,
-  When,
-  Where,
-  Who,
-  ClinicOrFacilityPhone,
-  Prepare,
-} from './DetailPageLayout';
-import Section from '../Section';
+import React from 'react';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
-import AddToCalendarButton from '../AddToCalendarButton';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import NewTabAnchor from '../NewTabAnchor';
-import Address from '../Address';
-import State from '../State';
 import {
+  captureMissingModalityLogs,
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
-  captureMissingModalityLogs,
 } from '../../utils/events';
+import Address from '../Address';
+import AddToCalendarButton from '../AddToCalendarButtonV2';
+import FacilityDirectionsLink from '../FacilityDirectionsLink';
+import NewTabAnchor from '../NewTabAnchor';
+import Section from '../Section';
+import State from '../State';
 import ClinicName from './ClinicName';
+import DetailPageLayout from './DetailPageLayoutV2';
+import ClinicOrFacilityPhone from './DetailPageLayoutV2/ClinicOrFacilityPhone';
+import Prepare from './DetailPageLayoutV2/Prepare';
+import What from './DetailPageLayoutV2/What';
+import When from './DetailPageLayoutV2/When';
+import Where from './DetailPageLayoutV2/Where';
+import Who from './DetailPageLayoutV2/Who';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
