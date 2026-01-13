@@ -36,7 +36,7 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => {
             <div className="account-parts-container vads-u-display--flex">
               {accountParts.map((part, index) => (
                 <div key={index} className="account-part-row">
-                  <span>Part {index + 1}</span>
+                  <span className="info-header">Part {index + 1}</span>
                   <strong>{part}</strong>
                   <CopyButton
                     value={part}

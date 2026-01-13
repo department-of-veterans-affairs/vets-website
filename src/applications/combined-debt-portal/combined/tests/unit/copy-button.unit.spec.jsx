@@ -27,7 +27,7 @@ describe('CopyButton helper: ', () => {
       <CopyButton value="Test Value" buttonText="Copy" {...props} />,
     );
     return {
-      button: container.querySelector('va-button'),
+      button: container.querySelector('button'),
       container,
     };
   };
@@ -48,26 +48,26 @@ describe('CopyButton helper: ', () => {
     });
     const { button } = renderCopyButton();
 
-    expect(button.getAttribute('text')).to.equal('Copy');
+    expect(button.textContent).to.include('Copy');
     fireEvent.click(button);
 
     // Should show "Copied!"
     await waitFor(() => {
-      expect(button.getAttribute('text')).to.equal('Copied!');
+      expect(button.textContent).to.include('Copied!');
     });
 
-    // Advance 3 seconds
-    clock.tick(3000);
+    // Advance 2 seconds
+    clock.tick(2000);
 
     // Should show "Copy" again
     await waitFor(() => {
-      expect(button.getAttribute('text')).to.equal('Copy');
+      expect(button.textContent).to.include('Copy');
     });
     clock.restore();
   });
 
   it('should render with the correct button text', () => {
     const { button } = renderCopyButton({ buttonText: 'Copy Me' });
-    expect(button.getAttribute('text')).to.equal('Copy Me');
+    expect(button.textContent).to.include('Copy Me');
   });
 });

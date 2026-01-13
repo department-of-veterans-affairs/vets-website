@@ -68,7 +68,15 @@
   max-width: 140px;
   width: 20%;
 
-  span {
+  .info-header {
     font-size: 1rem;
+  }
+
+  button {
+    margin-left: -6px !important;
+  }
+
+  .copy-error {
+    margin-left: -2px;
   }
 }

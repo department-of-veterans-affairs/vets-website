@@ -7,7 +7,7 @@ const CopyButton = ({
   label,
   className = '',
   buttonText = 'Copy',
-  timeout = 3000,
+  timeout = 2000,
 }) => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState(null);
@@ -27,7 +27,8 @@ const CopyButton = ({
 
       setTimeout(() => {
         if (announcementRef.current) {
-          announcementRef.current.textContent = 'Copied to clipboard';
+          announcementRef.current.textContent = `Copied ${label ||
+            value} to clipboard`;
         }
       }, 10);
 
@@ -35,7 +36,7 @@ const CopyButton = ({
         clearTimeout(timeoutRef.current);
       }
 
-      // Reset after default of 3 seconds
+      // Reset after default of 2 seconds
       timeoutRef.current = setTimeout(() => {
         if (announcementRef.current) {
           announcementRef.current.textContent = '';
@@ -78,17 +79,15 @@ const CopyButton = ({
   return (
     <div className={`copy-button-container ${className}`}>
       {!error ? (
-        <>
+        <button
+          className="copy-button"
+          aria-label={`Copy ${label || value} to clipboard`}
+          aria-describedby="copy-status"
+          onClick={handleCopy}
+        >
           <va-icon icon="content_copy" size="1" srtext="Copy" />
-          <va-button
-            onClick={handleCopy}
-            text={copied ? 'Copied!' : buttonText}
-            secondary
-            aria-describedby="copy-status"
-            aria-label={`Copy ${label || value} to clipboard`}
-            class="vads-u-border--0 vads-u-padding--0"
-          />
-        </>
+          <span className="button-text">{copied ? 'Copied!' : buttonText}</span>
+        </button>
       ) : (
         <div className="copy-error" role="alert" aria-live="assertive">
           <va-icon icon="error" size="1" srtext="Copy error" />
@@ -110,11 +109,11 @@ const CopyButton = ({
 };
 
 CopyButton.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  label: PropTypes.string,
-  className: PropTypes.string,
   buttonText: PropTypes.string,
+  className: PropTypes.string,
+  label: PropTypes.string,
   timeout: PropTypes.number,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default CopyButton;
