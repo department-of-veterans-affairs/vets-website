@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -157,7 +157,9 @@ describe('IntroductionPage', () => {
     expect(link).to.exist;
 
     // Trigger the click event - handler is attached via syncEvent from React bindings
-    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    link.dispatchEvent(
+      new MouseEvent('click', { bubbles: true, cancelable: true }),
+    );
 
     // Check actual sessionStorage value was set (not using spy due to jsdom 20 compatibility)
     expect(sessionStorage.getItem('formIncompleteARP')).to.equal('true');
