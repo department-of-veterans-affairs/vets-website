@@ -1,11 +1,9 @@
 import { textUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { titleWithNameUI } from '../../utils/titles';
+import { medicarePageTitleUI } from '../../helpers/titles';
 import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = content['medicare--mbi-title'];
+const TITLE_TEXT = content['medicare--mbi-label'];
 const DESC_TEXT = content['medicare--mbi-description'];
-
-const INPUT_LABEL = content['medicare--mbi-label'];
 const HINT_TEXT = content['medicare--mbi-hint'];
 
 const ERR_MSG_PATTERN = content['validation--mbi-invalid'];
@@ -20,9 +18,9 @@ const MBI_SCHEMA = {
 
 export default {
   uiSchema: {
-    ...titleWithNameUI(TITLE_TEXT, DESC_TEXT),
+    ...medicarePageTitleUI(TITLE_TEXT, DESC_TEXT),
     medicareNumber: textUI({
-      title: INPUT_LABEL,
+      title: TITLE_TEXT,
       hint: HINT_TEXT,
       errorMessages: {
         pattern: ERR_MSG_PATTERN,
