@@ -1,3 +1,6 @@
+/**
+ * E2E test for blocked issues on 996 form.
+ */
 import path from 'path';
 
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
