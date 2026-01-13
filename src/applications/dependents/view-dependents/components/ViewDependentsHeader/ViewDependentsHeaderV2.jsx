@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
-import { VaAlert } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 

@@ -278,6 +278,13 @@ src/applications/time-of-need @department-of-veterans-affairs/bah-mbs-selfserv @
 src/applications/simple-forms/21P-601 @department-of-veterans-affairs/bio-heart-team @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/simple-forms/21p-0537 @department-of-veterans-affairs/bio-heart-team @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Disability Benefits - Pathways
+src/applications/simple-forms/21-10210 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/21-4138 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/21-0966 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/21-0972 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/26-4555 @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/disability-benefits-2 @department-of-veterans-affairs/va-platform-cop-frontend
+
 # Transition Experience
 src/applications/discover-your-benefits @department-of-veterans-affairs/transition-experience @department-of-veterans-affairs/va-platform-cop-frontend
 

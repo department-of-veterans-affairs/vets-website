@@ -12,24 +12,24 @@ import {
 export default {
   uiSchema: {
     ...titleUI('National Guard service period'),
-    dateOfActivation: currentOrPastDateUI({
+    nationalGuardActivationDate: currentOrPastDateUI({
       title: 'Date of activation',
       monthSelect: false,
     }),
     unitName: textUI({
       title: 'Reserve or National Guard Unit name',
     }),
-    unitPhoneNumber: internationalPhoneUI({
+    unitPhone: internationalPhoneUI({
       title: 'Reserve or National Guard Unit primary phone number',
     }),
   },
   schema: {
     type: 'object',
-    required: ['dateOfActivation', 'unitPhoneNumber', 'unitName'],
+    required: ['nationalGuardActivationDate', 'unitPhone', 'unitName'],
     properties: {
-      dateOfActivation: currentOrPastDateSchema,
+      nationalGuardActivationDate: currentOrPastDateSchema,
       unitName: textSchema,
-      unitPhoneNumber: internationalPhoneSchema({ required: true }),
+      unitPhone: internationalPhoneSchema({ required: true }),
     },
   },
 };
