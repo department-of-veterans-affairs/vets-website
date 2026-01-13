@@ -16,6 +16,7 @@ describe('BetaTesting', () => {
 
       const betaTestingText = $('h2', container);
       const questionsText = $$('p', container);
+      const listItems = $$('li', container);
 
       expect(betaTestingText).to.exist;
       expect(betaTestingText.textContent).to.equal(
@@ -27,7 +28,17 @@ describe('BetaTesting', () => {
         "Welcome to our chatbot, a new part of VA.gov. We're still building the bot's ability to respond to your questions, so it won't have answers to every question.",
       );
       expect(questionsText[1].textContent).to.equal(
-        'If you have questions about VA benefits and services that our chatbot can’t answer right now, you can get the information in any of these ways:Call us at one of our helpful VA phone numbersContact us online through Ask VAExplore our resources and support content',
+        'If you have questions about VA benefits and services that our chatbot can’t answer right now, you can get the information in any of these ways:',
+      );
+      expect(listItems).to.exist;
+      expect(listItems[0].textContent).to.equal(
+        'Call us at one of our helpful VA phone numbers',
+      );
+      expect(listItems[1].textContent).to.equal(
+        'Contact us online through Ask VA',
+      );
+      expect(listItems[2].textContent).to.equal(
+        'Explore our resources and support content',
       );
     });
   });
