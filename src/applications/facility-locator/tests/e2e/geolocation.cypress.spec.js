@@ -13,7 +13,9 @@ Cypress.Commands.add(
   (latitude = 34.0522, longitude = -118.2437) => {
     cy.window().then($window => {
       cy.stub($window.navigator.geolocation, 'getCurrentPosition', callback => {
-        callback({ coords: { latitude, longitude } });
+        setTimeout(() => {
+          callback({ coords: { latitude, longitude } });
+        }, 100);
       });
     });
   },
@@ -22,9 +24,6 @@ Cypress.Commands.add(
 for (const featureSet of featureSetsToTest) {
   describe(`Facility geolocation ${enabledFeatures(featureSet)}`, () => {
     const useMyLocationLink = '.use-my-location-link';
-
-    const locationInputField =
-      '.street-city-state-zip-autosuggest-label-container';
 
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles?*', {
@@ -46,10 +45,10 @@ for (const featureSet of featureSetsToTest) {
       cy.get('#street-city-state-zip').should('be.empty');
 
       cy.get(useMyLocationLink).click();
-      cy.get(locationInputField).contains('Finding your location...');
+      cy.get(useMyLocationLink).contains('Finding your location...');
       cy.waitUntil(() =>
         cy
-          .get(locationInputField)
+          .get(useMyLocationLink)
           .contains('Use my location')
           .then(() => {
             cy.get('#street-city-state-zip').then(elem => {
