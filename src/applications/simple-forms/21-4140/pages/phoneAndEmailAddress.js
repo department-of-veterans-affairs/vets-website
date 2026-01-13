@@ -13,9 +13,6 @@ phoneNumberUISchema['ui:errorMessages'] = {
 };
 
 const emailAddressUISchema = emailUI('Email address');
-emailAddressUISchema['ui:errorMessages'] = {
-  required: 'Please enter your email address',
-};
 
 /** @type {PageSchema} */
 export default {
@@ -32,6 +29,6 @@ export default {
       mobilePhoneNumber: phoneSchema,
       emailAddress: emailSchema,
     },
-    required: ['phoneNumber', 'emailAddress'],
+    required: ['phoneNumber'],
   },
 };

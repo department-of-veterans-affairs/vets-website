@@ -9,6 +9,8 @@ import {
   combineTreatmentFacility,
   updateChildOfVeteran,
   truncateMiddleInitials,
+  unnestOtherServiceNames,
+  combineUnitNameAddress,
 } from '../utils/transformers';
 
 export const transform = (formConfig, form) => {
@@ -21,6 +23,8 @@ export const transform = (formConfig, form) => {
   transformedData = combineTreatmentFacility(transformedData);
   transformedData = updateChildOfVeteran(transformedData);
   transformedData = truncateMiddleInitials(transformedData);
+  transformedData = unnestOtherServiceNames(transformedData);
+  transformedData = combineUnitNameAddress(transformedData);
   return JSON.stringify({
     survivorsBenefitsClaim: {
       form: transformedData,

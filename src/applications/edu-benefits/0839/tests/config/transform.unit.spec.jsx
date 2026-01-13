@@ -27,13 +27,14 @@ describe('transform function', () => {
       const form = {
         data: {
           authorizedOfficial: {
+            fullName: { first: 'John', last: 'Doe' },
             phoneNumber: { contact: '5551234567' },
           },
           agreementType: 'startNewOpenEndedAgreement',
-          statement1Initial: 'X',
-          statement2Initial: 'Y',
-          statement3Initial: 'Z',
-          statement4Initial: 'W',
+          statement1Initial: 'JD',
+          statement2Initial: 'JD',
+          statement3Initial: 'JD',
+          statement4Initial: 'JD',
           agreementCheckbox: true,
           institutionDetails: { isUsaSchool: true },
           yellowRibbonProgramRequest: [],
@@ -45,10 +46,10 @@ describe('transform function', () => {
       const formData = parsed.educationBenefitsClaim.form;
 
       expect(formData.yellowRibbonProgramTerms).to.deep.equal({
-        firstAcknowledgement: 'yes',
-        secondAcknowledgement: 'yes',
-        thirdAcknowledgement: 'yes',
-        fourthAcknowledgement: 'yes',
+        firstAcknowledgement: 'JD',
+        secondAcknowledgement: 'JD',
+        thirdAcknowledgement: 'JD',
+        fourthAcknowledgement: 'JD',
         agreeToProvideYellowRibbonProgramContributions: true,
       });
       expect(formData.statement1Initial).to.be.undefined;
@@ -63,9 +64,14 @@ describe('transform function', () => {
       const form = {
         data: {
           authorizedOfficial: {
+            fullName: { first: 'John', last: 'Doe' },
             phoneNumber: { contact: '5551234567' },
           },
           agreementType: 'modifyExistingAgreement',
+          statement1Initial: 'JD',
+          statement2Initial: 'JD',
+          statement3Initial: 'JD',
+          statement4Initial: 'JD',
           institutionDetails: { isUsaSchool: true },
           yellowRibbonProgramRequest: [],
         },
@@ -76,10 +82,10 @@ describe('transform function', () => {
       const formData = parsed.educationBenefitsClaim.form;
 
       expect(formData.yellowRibbonProgramTerms).to.deep.equal({
-        firstAcknowledgement: 'yes',
-        secondAcknowledgement: 'yes',
-        thirdAcknowledgement: 'yes',
-        fourthAcknowledgement: 'yes',
+        firstAcknowledgement: 'JD',
+        secondAcknowledgement: 'JD',
+        thirdAcknowledgement: 'JD',
+        fourthAcknowledgement: 'JD',
         agreeToProvideYellowRibbonProgramContributions: true,
       });
     });
