@@ -139,6 +139,15 @@ function setupJSDom() {
 
   copyProps(window, global);
 
+  // jsdom 16+ creates separate constructor instances per window.
+  // Define HTMLElement as a getter so tests always get the current window's version.
+  // This fixes tests that capture HTMLElement.prototype at describe-block time.
+  Object.defineProperty(global, 'HTMLElement', {
+    get: () => global.window.HTMLElement,
+    configurable: true,
+    enumerable: true,
+  });
+
   Object.defineProperty(window, 'location', {
     value: window.location,
     configurable: true,
