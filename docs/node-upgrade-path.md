@@ -201,8 +201,9 @@ This made debugging test failures difficult because it was unclear which change 
 4. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
 5. `src/applications/dispute-debt/tests/containers/NeedsHelp.unit.spec.jsx` - Remove obsolete customElements mock
 6. `.github/workflows/continuous-integration.yml` - Added workflow_dispatch for full test runs
-7. `src/platform/utilities/tests/oauth/utilities.unit.spec.jsx` - Fix webcrypto.subtle detection for Node 14
-8. `src/platform/utilities/tests/oauth/crypto.unit.spec.jsx` - Fix webcrypto.subtle detection for Node 14
+7. `src/platform/utilities/oauth/mockCrypto.js` - Added `setupMockCrypto()` helper, fixed `digest()` to return ArrayBuffer
+8. `src/platform/utilities/tests/oauth/utilities.unit.spec.jsx` - Use setupMockCrypto helper
+9. `src/platform/utilities/tests/oauth/crypto.unit.spec.jsx` - Use setupMockCrypto helper
 
 ### Phase 2: Node Upgrade
 - [ ] Create feature branch
