@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CardSection from './CardSection';
+import { VASS_PHONE_NUMBER } from '../utils/constants';
 
 const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
   const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const phoneNumber = '8008270611';
   return (
     <va-card
       data-testid="appointment-card"
@@ -24,7 +24,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
             Your representative will call you from{' '}
             <va-telephone
-              contact={phoneNumber}
+              contact={VASS_PHONE_NUMBER}
               data-testid="solid-start-telephone"
             />
             . If you have questions or need to reschedule, contact VA Solid
@@ -38,7 +38,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
         dateContent={{
           dateTime: appointmentData?.startUTC,
           timezone: browserTimezone,
-          phoneNumber,
+          phoneNumber: VASS_PHONE_NUMBER,
           showAddToCalendarButton: appointmentData?.showAddToCalendarButton,
         }}
       />
