@@ -259,7 +259,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=14.15.0 <16",
+    "node": ">=22.0.0 <23",
     "yarn": "1.19.1"
   },
   "private": true,
