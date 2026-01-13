@@ -176,6 +176,10 @@ This made debugging test failures difficult because it was unclear which change 
   - **Global fix**: Added `global.window` getter/setter proxy in `mocha-setup.js`
   - Tests using `Object.create(global.window)` now work correctly
   - Properties are copied to real window instead of replacing it, preserving EventTarget functionality
+- [x] Fix axe-core compatibility
+  - **Helper fix**: Updated `axeCheck` in `helpers.js` to re-require axe-core for each test
+  - axe-core captures window/document at module load time; re-requiring ensures it uses current JSDOM
+  - Added `global.document` getter in `mocha-setup.js` for consistency
 - [x] Fix event handling tests (no changes needed - existing failures are pre-existing)
 - [x] Remove crypto polyfills if present
   - jsdom 20 adds `crypto.getRandomValues()` - existing code already handles this correctly
@@ -188,9 +192,11 @@ This made debugging test failures difficult because it was unclear which change 
 1. `src/platform/testing/unit/mocha-setup.js` - Added global fixes:
    - HTMLElement getter for constructor isolation
    - Window getter/setter proxy for EventTarget preservation
-2. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
-3. `src/applications/dispute-debt/tests/containers/NeedsHelp.unit.spec.jsx` - Remove obsolete customElements mock
-4. `.github/workflows/continuous-integration.yml` - Added workflow_dispatch for full test runs
+   - Document getter for axe-core compatibility
+2. `src/platform/forms-system/test/config/helpers.js` - Re-require axe-core for each axeCheck call
+3. `src/platform/forms-system/test/js/utilities/ui.unit.spec.jsx` - Move offset capture to beforeEach
+4. `src/applications/dispute-debt/tests/containers/NeedsHelp.unit.spec.jsx` - Remove obsolete customElements mock
+5. `.github/workflows/continuous-integration.yml` - Added workflow_dispatch for full test runs
 
 ### Phase 2: Node Upgrade
 - [ ] Create feature branch
