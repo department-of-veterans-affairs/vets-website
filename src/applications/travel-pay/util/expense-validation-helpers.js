@@ -203,7 +203,7 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   const isComplete = parts.every(p => Number.isInteger(p));
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
-    error = 'Enter the date of your receipt';
+    error = 'Enter the date on your receipt';
   } else if (isComplete) {
     error = getFutureDateError({ year, month, day });
   }
