@@ -67,7 +67,7 @@ export const benefitTypeUiSchema = {
         <va-accordion-item header="Special Monthly Pension (SMP)" id="smp">
           <p>
             SMP is an increased monthly amount paid to a veteran or survivor who
-            is eligible for Veterans Pension or Survivors benefits. APply for
+            is eligible for Veterans Pension or Survivors benefits. Apply for
             Special Monthly Compensation (SMC) if you:
           </p>
           <ul>
