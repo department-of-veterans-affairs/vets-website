@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
-
 import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
 import PropTypes from 'prop-types';
+import { benefitCopy } from '../helpers/index';
 
 export const ConfirmationPageViewITF = ({
   submitDate,
@@ -75,7 +75,8 @@ export const ConfirmationPageViewITF = ({
         </h2>
         {formattedAddress && <div>{formattedAddress}</div>}
         <p className="vads-u-margin-bottom--0">
-          <b>Benefit:</b> {itfTypes[benefitType]} (VA Form 21-526EZ) <br />
+          <b>Benefit:</b> {benefitType && benefitCopy(benefitType)}
+          <br />
           <b>ITF Date:</b> {formattedSubmitDate} (Expires in 365 days)
         </p>
       </va-card>
@@ -88,7 +89,8 @@ export const ConfirmationPageViewITF = ({
           <va-process-list-item header="Submit the claim prior to ITF expiration date">
             <p>
               You should submit the claim as soon as possible. The intent to
-              file for {itfTypes[benefitType]} expires one year from today.
+              file for {benefitType && itfTypes[benefitType]} expires one year
+              from today.
             </p>
           </va-process-list-item>
         </va-process-list>
