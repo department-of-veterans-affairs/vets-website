@@ -49,7 +49,7 @@ Notes:
 
 | :calendar: Decision date | Eligible :white_check_mark: / :no_entry_sign: | :question: Reasoning | :clock1: Eligibility |
 | --- | --- | --- | --- | --- |
-| Jan 9 | :no_entry_sign: | The decision date is not the previous day or earlier in **local** time | Eligible on Jan 10 @ 10am local (Jan 10 @ 12am UTC) |
+| Jan 9 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time | Eligible on Jan 10 @ 10am local (Jan 10 @ 12am UTC) |
 | Jan 8 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC** time. | Eligible on Jan 9 @ 10am local (Jan 9 @ 12am UTC) |
 | Jan 10 | :no_entry_sign: | The decision date is not the previous day or earlier in **UTC or local** time. | Eligible on Jan 11 @ 10am local (Jan 11 @ 12am UTC) |
 

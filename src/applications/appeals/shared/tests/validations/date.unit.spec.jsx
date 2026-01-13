@@ -1,8 +1,9 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import errorMessages from '../../content/errorMessages';
 import {
-  addDateErrorMessages,
+  // addDateErrorMessages,
+  getAvailableDateTimeForBlockedIssue,
   isTodayOrInFuture,
   createDecisionDateErrorMsg,
 } from '../../validations/date';
@@ -189,12 +190,80 @@ describe('createDecisionDateErrorMsg', () => {
     );
   });
 
-  it('should work with the actual errorMessages.decisions.pastDate function', () => {
+  it('should work with the actual errorMessages.decisions.dateUnavailable function', () => {
     const result = createDecisionDateErrorMsg(errorMessages);
 
-    expect(typeof errorMessages.decisions.pastDate).to.equal('function');
+    expect(typeof errorMessages.decisions.dateUnavailable).to.equal('function');
     expect(result).to.match(
       /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
     );
+  });
+});
+
+describe('getAvailableDateTimeForBlockedIssue', () => {
+  // Timezone abbrevations mapped to their timezone offsets in minutes
+  const timezones = {
+    ACST: -630, // Australia
+    AKST: 540, // Alaska
+    CST: 360, // Central U.S.
+    EST: 300, // Eastern U.S.
+    JST: -540, // Japan,
+    PST: 480, // Pacific U.S.
+  };
+
+  let currentTime;
+
+  const mockTimezoneOffset = timezone =>
+    sinon
+      .stub(Date.prototype, 'getTimezoneOffset')
+      .returns(timezones[timezone]);
+
+  describe.only('decision date = todayLocal, local is behind UTC, UTC is next day', () => {
+    // Time in Alaska: 4pm Jan 9
+    // UTC time: 1am Jan 10
+    let timezoneStub;
+
+    beforeEach(() => {
+      // Mock timezone FIRST, before setting fake timers
+      timezoneStub = mockTimezoneOffset('AKST');
+
+      // Then set fake timers
+      currentTime = sinon.useFakeTimers(
+        new Date('2026-01-10T01:00:00Z').getTime(),
+      );
+    });
+
+    afterEach(() => {
+      // Restore in reverse order
+      if (currentTime) {
+        currentTime.restore();
+      }
+
+      if (timezoneStub) {
+        timezoneStub.restore();
+      }
+    });
+
+    const blockingCriteria = {
+      aheadOfUtc: false,
+      isFutureLocal: false,
+      isFutureUtc: false,
+      isTodayLocal: true,
+      isTodayUtc: false,
+    };
+
+    it('should return the proper available date/time', () => {
+      const decisionDate = new Date('2026-01-09T09:00:00Z'); // 12am AKST
+
+      const now = new Date();
+      console.log('UTC:', now.toISOString()); // Will show 2026-01-10T01:00:00.000Z
+      console.log('Local date:', now.getDate()); // Should show 9
+      console.log('now: ', now);
+      console.log('Timezone offset:', now.getTimezoneOffset()); // Should show 540
+
+      expect(
+        getAvailableDateTimeForBlockedIssue(blockingCriteria, decisionDate),
+      ).to.eq('');
+    });
   });
 });

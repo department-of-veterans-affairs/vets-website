@@ -123,7 +123,7 @@ export const getCurrentUTCStartOfDay = () => {
  * Convert any date to UTC start of day (preserving calendar date)
  * Example:
  * Given date: Jan 12, 2026 11pm PST
- * Returns: 
+ * Returns:
  * @param {Date} date - The date to convert
  * @returns {Date} - UTC date at start of day
  */
@@ -131,6 +131,20 @@ export const toUTCStartOfDay = date => {
   return new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
   );
+};
+
+/**
+ * Convert a UTC date to local timezone
+ * Returns a new Date object representing the same instant in time.
+ * When accessed with local methods (getHours(), etc.), it will show local time.
+ * Example:
+ * Given UTC date: Jan 12, 2026 00:00:00 UTC
+ * Returns: Jan 11, 2026 16:00:00 PST (or whatever the local equivalent is)
+ * @param {Date} utcDate - The UTC date to convert
+ * @returns {Date} - Date object representing the same instant, viewable in local timezone
+ */
+export const fromUTCToLocalDate = utcDate => {
+  return new Date(utcDate.getTime());
 };
 
 /**
