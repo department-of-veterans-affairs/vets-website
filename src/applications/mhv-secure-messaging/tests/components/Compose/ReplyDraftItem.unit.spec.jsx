@@ -29,7 +29,6 @@ describe('ReplyDraftItem component', () => {
 
   const defaultProps = {
     draft,
-    drafts: [draft],
     cannotReply: false,
     editMode: true,
     signature: undefined,
@@ -44,14 +43,12 @@ describe('ReplyDraftItem component', () => {
     sm: {
       folders: { folder: { folderId: 0 } },
       threadDetails: {
-        drafts: [
-          {
-            ...draft,
-            isSaving: false,
-            saveError: null,
-            lastSaveTime: null,
-          },
-        ],
+        draft: {
+          ...draft,
+          isSaving: false,
+          saveError: null,
+          lastSaveTime: null,
+        },
         isSaving: false,
       },
     },
@@ -109,14 +106,12 @@ describe('ReplyDraftItem component', () => {
       sm: {
         folders: { folder: { folderId: 0 } },
         threadDetails: {
-          drafts: [
-            {
-              ...draft,
-              isSaving: true,
-              saveError: null,
-              lastSaveTime: null,
-            },
-          ],
+          draft: {
+            ...draft,
+            isSaving: true,
+            saveError: null,
+            lastSaveTime: null,
+          },
           isSaving: true,
           isEditing: true,
         },
@@ -146,14 +141,12 @@ describe('ReplyDraftItem component', () => {
       sm: {
         folders: { folder: { folderId: 0 } },
         threadDetails: {
-          drafts: [
-            {
-              ...draft,
-              isSaving: false,
-              saveError: null,
-              lastSaveTime,
-            },
-          ],
+          draft: {
+            ...draft,
+            isSaving: false,
+            saveError: null,
+            lastSaveTime,
+          },
           isSaving: false,
           lastSaveTime,
         },
