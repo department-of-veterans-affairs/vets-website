@@ -199,8 +199,7 @@ describe('Previous marriages pages', () => {
   it("requires 'Tell us how the marriage ended' when reason is OTHER", () => {
     const endItemUi = findItemUi(previousMarriageEndPage);
     expect(endItemUi, 'marriage end item UI not found').to.exist;
-    const otherRequired =
-      endItemUi.reasonForSeparationExplanation['ui:required'];
+    const otherRequired = endItemUi.separationExplanation['ui:required'];
     expect(otherRequired).to.be.a('function');
 
     const itemOther = { spouseMarriages: [{ reasonForSeparation: 'OTHER' }] };

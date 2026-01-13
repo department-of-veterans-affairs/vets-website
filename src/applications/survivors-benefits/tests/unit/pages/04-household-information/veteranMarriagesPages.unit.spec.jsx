@@ -281,8 +281,8 @@ describe('Veteran Previous Marriages pages', () => {
     });
 
     // Text field config
-    const otherUi = itemUi.reasonForSeparationExplanation;
-    expect(otherUi, 'reasonForSeparationExplanation').to.exist;
+    const otherUi = itemUi.separationExplanation;
+    expect(otherUi, 'separationExplanation').to.exist;
     expect(otherUi['ui:title']).to.equal('Tell us how the marriage ended');
     const otherOptions = otherUi['ui:options'] || {};
 
