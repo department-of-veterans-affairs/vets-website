@@ -396,10 +396,10 @@ const SmBreadcrumbs = () => {
     history.push(href);
   };
 
-  // Wrap with focus management
-  const { handleRouteChange: handleRouteChangeWithFocus } = useBreadcrumbFocus(
-    handleRouteChange,
-  );
+  const {
+    handleRouteChange: handleRouteChangeWithFocus,
+    handleClick: handleBreadcrumbClick,
+  } = useBreadcrumbFocus(handleRouteChange);
 
   // Determine the correct back link href based on compose flow logic
   // Special case for contact list: use previousUrl directly to avoid timing issues
@@ -443,7 +443,8 @@ const SmBreadcrumbs = () => {
       breadcrumbList={newCrumbsList}
       label="Breadcrumb"
       home-veterans-affairs
-      onRouteChange={handleRouteChangeWithFocus} // Use wrapped handler
+      onRouteChange={handleRouteChangeWithFocus}
+      onClick={handleBreadcrumbClick}
       className="mobile-lg:vads-u-margin-y--2"
       dataTestid="sm-breadcrumbs"
       data-dd-action-name="Breadcrumb"
