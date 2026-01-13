@@ -297,9 +297,17 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    const markerElement = document.createElement('button');
+    const markerElement = document.createElement('div');
     markerElement.className = 'location-letter-marker';
-    markerElement.innerText = index + 1;
+
+    // Set innerHTML with button inside for proper transform support
+    markerElement.innerHTML = `
+      <span class="marker-span">
+        <button class="marker-button" type="button">
+          ${index + 1}
+        </button>
+      </span>
+    `;
 
     const currentPage = Math.ceil((index + 1) / MAX_PAGE_LIST_LENGTH);
     markerElement.addEventListener('click', () => {
@@ -322,7 +330,7 @@ function LocationSearchResults({
       locationBounds.extend(lngLat);
     }
 
-    new mapboxgl.Marker(markerElement).innerHTML
+    new mapboxgl.Marker({ element: markerElement })
       .setLngLat([longitude, latitude])
       .setPopup(popup)
       .addTo(map.current);
@@ -338,7 +346,7 @@ function LocationSearchResults({
     if (!streetAddress.position.longitude || !streetAddress.position.latitude)
       return;
 
-    const currentMarkerElement = document.createElement('div');
+    const currentMarkerElement = document.createElement('button');
     currentMarkerElement.className = 'current-position';
     new mapboxgl.Marker(currentMarkerElement)
       .setLngLat([
