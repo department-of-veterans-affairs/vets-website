@@ -1,27 +1,27 @@
-import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import React from 'react';
 
 function CrisisLine() {
   return (
     <>
-      <p>
+      <p className="vads-u-margin-bottom--1">
         To connect with a Veterans Crisis Line responder anytime day or night:
-        <ul>
-          <li>
-            Dialing <va-telephone contact="988" /> and press 1.
-          </li>
-          <li>
-            Calling <va-telephone contact="8002738255" /> and press 1.
-          </li>
-          <li>
-            Texting <va-telephone contact="838255" />.
-          </li>
-          <li>
-            If you have hearing loss, call{' '}
-            <va-telephone contact={CONTACTS.SUICIDE_PREVENTION_LIFELINE} tty />.
-          </li>
-        </ul>
       </p>
+      <ul className="vads-u-margin-top--0">
+        <li>
+          Dialing <va-telephone contact="988" /> and press 1.
+        </li>
+        <li>
+          Calling <va-telephone contact="8002738255" /> and press 1.
+        </li>
+        <li>
+          Texting <va-telephone contact="838255" />.
+        </li>
+        <li>
+          If you have hearing loss, call{' '}
+          <va-telephone contact={CONTACTS.SUICIDE_PREVENTION_LIFELINE} tty />.
+        </li>
+      </ul>
     </>
   );
 }

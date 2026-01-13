@@ -34,8 +34,8 @@ export default function BetaTesting() {
           can’t answer right now,{' '}
         </b>
         you can get the information in any of these ways:
-        <Links />
       </p>
+      <Links />
     </>
   );
 }

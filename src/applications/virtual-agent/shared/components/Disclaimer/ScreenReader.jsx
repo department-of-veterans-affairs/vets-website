@@ -70,15 +70,15 @@ export default function ScreenReader() {
         If you’re blind or have low vision, follow these steps to use our
         chatbot on a desktop computer with a screen reader:
       </p>
-      <p>
-        <ol>
-          <ListeningToMessages />
-          <AskingAQuestion />
-          <SelectingAMessage />
-          <UsingLinks />
-          <Exiting />
-        </ol>
-      </p>
+
+      <ol>
+        <ListeningToMessages />
+        <AskingAQuestion />
+        <SelectingAMessage />
+        <UsingLinks />
+        <Exiting />
+      </ol>
+
       <p>
         <b>Note:</b> We’re currently in beta testing. Thank you for your
         patience as we work to make our chatbot easier to use.

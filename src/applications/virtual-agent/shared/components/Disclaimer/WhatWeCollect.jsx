@@ -3,17 +3,17 @@ import React from 'react';
 function WhatWeKeep() {
   return (
     <>
-      <p>
+      <p className="vads-u-margin-bottom--1">
         <b>We keep only this information when you use our chatbot:</b>
-        <ul>
-          <li>A record of what you typed</li>
-          <li>Your answers to our survey questions</li>
-          <li>
-            How long you used our chatbot, the links you clicked on, and other
-            data
-          </li>
-        </ul>
       </p>
+      <ul className="vads-u-margin-top--0">
+        <li>A record of what you typed</li>
+        <li>Your answers to our survey questions</li>
+        <li>
+          How long you used our chatbot, the links you clicked on, and other
+          data
+        </li>
+      </ul>
     </>
   );
 }
@@ -21,22 +21,20 @@ function WhatWeKeep() {
 function Privacy() {
   return (
     <>
-      <p>
+      <p className="vads-u-margin-bottom--1">
         <b>We protect your privacy in these ways:</b>
-        <ul>
-          <li>
-            We don’t collect any information that can be used to identify you.
-          </li>
-          <li>We don’t use your information to contact you.</li>
-          <li>
-            We combine your information with others as a summary to study for
-            ideas to improve our chatbot tool.
-          </li>
-          <li>
-            We don’t share any of the information we collect outside of VA.
-          </li>
-        </ul>
       </p>
+      <ul className="vads-u-margin-top--0">
+        <li>
+          We don’t collect any information that can be used to identify you.
+        </li>
+        <li>We don’t use your information to contact you.</li>
+        <li>
+          We combine your information with others as a summary to study for
+          ideas to improve our chatbot tool.
+        </li>
+        <li>We don’t share any of the information we collect outside of VA.</li>
+      </ul>
     </>
   );
 }

@@ -6,23 +6,20 @@ function CantDo() {
       <p>
         <b>Our chatbot can’t do any of these things:</b>
       </p>
-      <p>
-        <ul>
-          <li>Determine if you have a medical or mental health condition</li>
-          <li>
-            Provide medical or mental health advice, treatment, or counseling
-          </li>
-          <li>
-            Answer questions or take reports about your prescriptions or side
-            effects
-          </li>
-          <li>Help you with a personal, medical, or mental health emergency</li>
-          <li>
-            Transfer you directly to one of our call center representatives
-          </li>
-          <li>Help you sign in to VA.gov</li>
-        </ul>
-      </p>
+
+      <ul>
+        <li>Determine if you have a medical or mental health condition</li>
+        <li>
+          Provide medical or mental health advice, treatment, or counseling
+        </li>
+        <li>
+          Answer questions or take reports about your prescriptions or side
+          effects
+        </li>
+        <li>Help you with a personal, medical, or mental health emergency</li>
+        <li>Transfer you directly to one of our call center representatives</li>
+        <li>Help you sign in to VA.gov</li>
+      </ul>
     </>
   );
 }
