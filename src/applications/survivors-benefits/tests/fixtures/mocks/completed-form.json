@@ -240,17 +240,6 @@
       "hasBeenMarried": true,
       "currentlyMarried": false,
       "livesWith": false,
-      "mailingAddress": {
-        "country": "USA",
-        "street": "123 Child St",
-        "city": "Child City",
-        "state": "AL",
-        "postalCode": "12313"
-      },
-      "custodianFullName": {
-        "first": "CustodianFirst",
-        "last": "CustodianLast"
-      },
       "childSupport": 5000
     },
     {
@@ -271,25 +260,14 @@
       "seriouslyDisabled": true,
       "hasBeenMarried": false,
       "currentlyMarried": false,
-      "livesWith": false,
-      "mailingAddress": {
-        "country": "USA",
-        "street": "123 Child St",
-        "city": "Child City",
-        "state": "AL",
-        "postalCode": "12313"
-      },
-      "custodianFullName": {
-        "first": "CustodianFirst",
-        "last": "CustodianLast"
-      },
+      "livesWith": true,
       "childSupport": 5000
     },
     {
       "childFullName": {
-        "first": "ReallyLongChildFirstName",
-        "middle": "ReallyLongMiddleName",
-        "last": "ReallyLongChildLastName"
+        "first": "Reallylongchildfirstname",
+        "middle": "Reallylongmiddlename",
+        "last": "Reallylongchildlastname"
       },
       "childDateOfBirth": "2010-10-10",
       "childSocialSecurityNumber": "123451234",
@@ -305,20 +283,20 @@
       "hasBeenMarried": true,
       "currentlyMarried": false,
       "livesWith": false,
-      "mailingAddress": {
-        "country": "USA",
-        "street": "123 Child St",
-        "city": "Child City",
-        "state": "AL",
-        "postalCode": "12313"
-      },
-      "custodianFullName": {
-        "first": "CustodianFirst",
-        "last": "CustodianLast"
-      },
       "childSupport": 5000
     }
   ],
+  "custodianFullName": {
+    "first": "Custodianfirst",
+    "last": "Custodianlast"
+  },
+  "custodianAddress": {
+    "country": "USA",
+    "street": "123 Child St",
+    "city": "Child City",
+    "state": "AL",
+    "postalCode": "12313"
+  },
   "veteranMarriages": [
     {
       "reasonForSeparation": "OTHER",
@@ -358,7 +336,7 @@
       }
     }
   ],
-  "veteranHasAdditionalMarriages": false,
+  "veteranAdditionalMarriagesCount": "2",
   "spouseMarriages": [
     {
       "reasonForSeparation": "OTHER",
@@ -398,5 +376,5 @@
       }
     }
   ],
-  "spouseHasAdditionalMarriages": true
+  "spouseAdditionalMarriagesCount": "5"
 }

@@ -16,8 +16,6 @@ import {
   checkboxSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-  yesNoSchema,
-  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from 'platform/utilities/data/get';
 import {
@@ -27,10 +25,7 @@ import {
   COUNTRY_VALUES,
   previousMarriageEndOptions,
 } from '../../../utils/labels';
-import {
-  handleAlertMaxItems,
-  PreviousAdditionalMarriagesAlert,
-} from '../../../components/FormAlerts';
+import { handleAlertMaxItems } from '../../../components/FormAlerts';
 
 /**
  * Pages for Veteran's previous marriages (array-builder)
@@ -52,7 +47,7 @@ const options = {
   arrayPath: 'veteranMarriages',
   nounSingular: 'previous marriage',
   nounPlural: 'previous marriages',
-  required: false,
+  required: true,
   maxItems: 2,
   isItemIncomplete: item => !item?.spouseFullName || !item?.dateOfMarriage,
   text: {
@@ -116,38 +111,11 @@ const summaryPage = {
         hint: '',
       },
     ),
-    veteranHasAdditionalMarriages: {
-      ...yesNoUI('Do you have additional marriages to report?'),
-      'ui:options': {
-        hideIf: formData => {
-          const itemCount = formData?.veteranMarriages?.length;
-          return itemCount < options.maxItems;
-        },
-      },
-      'ui:required': formData => {
-        const itemCount = formData?.veteranMarriages?.length;
-        return itemCount === options.maxItems;
-      },
-    },
-    previousAdditionalMarriagesAlert: {
-      'ui:description': PreviousAdditionalMarriagesAlert,
-      'ui:options': {
-        hideIf: formData => {
-          return !formData?.veteranHasAdditionalMarriages;
-        },
-        displayEmptyObjectOnReview: true,
-      },
-    },
   },
   schema: {
     type: 'object',
     properties: {
       'view:wasMarriedBefore': arrayBuilderYesNoSchema,
-      veteranHasAdditionalMarriages: yesNoSchema,
-      previousAdditionalMarriagesAlert: {
-        type: 'object',
-        properties: {},
-      },
     },
     required: ['view:wasMarriedBefore'],
   },
@@ -389,7 +357,8 @@ export const veteranMarriagesPages = arrayBuilderPages(
       path: 'household/veteran-previous-marriages',
       depends: formData =>
         formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-        formData.hadPreviousMarriages === true,
+        formData.hadPreviousMarriages === true &&
+        formData.veteranAdditionalMarriagesCount > 0,
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
@@ -399,7 +368,8 @@ export const veteranMarriagesPages = arrayBuilderPages(
       path: 'household/veteran-previous-marriages/add',
       depends: formData =>
         formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-        formData.hadPreviousMarriages === true,
+        formData.hadPreviousMarriages === true &&
+        formData.veteranAdditionalMarriagesCount > 0,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
@@ -408,7 +378,8 @@ export const veteranMarriagesPages = arrayBuilderPages(
       path: 'household/veteran-previous-marriages/:index/spouse-name',
       depends: formData =>
         formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-        formData.hadPreviousMarriages === true,
+        formData.hadPreviousMarriages === true &&
+        formData.veteranAdditionalMarriagesCount > 0,
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
     }),
@@ -417,7 +388,8 @@ export const veteranMarriagesPages = arrayBuilderPages(
       path: 'household/veteran-previous-marriages/:index/marriage-date-place',
       depends: formData =>
         formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-        formData.hadPreviousMarriages === true,
+        formData.hadPreviousMarriages === true &&
+        formData.veteranAdditionalMarriagesCount > 0,
       uiSchema: marriageDatePlacePage.uiSchema,
       schema: marriageDatePlacePage.schema,
     }),
@@ -426,7 +398,8 @@ export const veteranMarriagesPages = arrayBuilderPages(
       path: 'household/veteran-previous-marriages/:index/marriage-ended',
       depends: formData =>
         formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-        formData.hadPreviousMarriages === true,
+        formData.hadPreviousMarriages === true &&
+        formData.veteranAdditionalMarriagesCount > 0,
       uiSchema: endedPage.uiSchema,
       schema: endedPage.schema,
     }),
@@ -436,7 +409,8 @@ export const veteranMarriagesPages = arrayBuilderPages(
         'household/veteran-previous-marriages/:index/marriage-end-date-location',
       depends: formData =>
         formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-        formData.hadPreviousMarriages === true,
+        formData.hadPreviousMarriages === true &&
+        formData.veteranAdditionalMarriagesCount > 0,
       uiSchema: marriageEndDateLocationPage.uiSchema,
       schema: marriageEndDateLocationPage.schema,
     }),

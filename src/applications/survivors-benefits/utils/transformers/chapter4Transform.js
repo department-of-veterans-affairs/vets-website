@@ -23,6 +23,11 @@ export function chapter4Transform(formData) {
   }
 
   if (parsedFormData?.spouseMarriages?.length) {
+    if (parsedFormData?.spouseAdditionalMarriagesCount > 2) {
+      transformedValue.spouseHasAdditionalMarriages = true;
+    } else {
+      transformedValue.spouseHasAdditionalMarriages = false;
+    }
     transformedValue.spouseMarriages = parsedFormData.spouseMarriages.map(
       marriage => {
         return {
@@ -45,13 +50,18 @@ export function chapter4Transform(formData) {
   }
 
   if (parsedFormData?.veteranMarriages?.length) {
+    if (parsedFormData?.veteranAdditionalMarriagesCount > 2) {
+      transformedValue.veteranHasAdditionalMarriages = true;
+    } else {
+      transformedValue.veteranHasAdditionalMarriages = false;
+    }
     transformedValue.veteranMarriages = parsedFormData.veteranMarriages.map(
       marriage => {
         return {
           ...marriage,
           locationOfMarriage: combineCityState(
             marriage.locationOfMarriage?.city,
-            marriage.locationOfMarriage?.city ||
+            marriage.locationOfMarriage?.state ||
               marriage.locationOfMarriage?.country,
           ),
           locationOfSeparation: combineCityState(
@@ -121,15 +131,13 @@ export function chapter4Transform(formData) {
       parsedFormData.typeOfMarriageExplanation;
   }
 
-  if (
-    !parsedFormData?.veteranChildrenCount &&
-    parsedFormData?.veteransChildren?.length
-  ) {
-    transformedValue.veteranChildrenCount =
-      parsedFormData.veteransChildren.length;
-  } else {
-    transformedValue.veteranChildrenCount =
-      parsedFormData?.veteranChildrenCount || 0;
+  if (parsedFormData?.custodianFullName) {
+    transformedValue.custodianFullName = truncateName(
+      parsedFormData.custodianFullName,
+      12,
+      1,
+      18,
+    );
   }
 
   return JSON.stringify(transformedValue);

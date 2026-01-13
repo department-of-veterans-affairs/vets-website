@@ -35,6 +35,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: true,
+      spouseAdditionalMarriagesCount: '2',
     };
     expect(previousMarriagesIntro.depends(formData1)).to.equal(true);
     expect(previousMarriagesSummary.depends(formData1)).to.equal(true);
@@ -44,6 +45,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false, // Answered NO
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriagesIntro.depends(formData2)).to.equal(false);
     expect(previousMarriagesSummary.depends(formData2)).to.equal(false);
@@ -53,6 +55,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
       hadPreviousMarriages: true,
+      spouseAdditionalMarriagesCount: '1',
     };
     expect(previousMarriagesIntro.depends(formData3)).to.equal(false);
     expect(previousMarriagesSummary.depends(formData3)).to.equal(false);
@@ -62,6 +65,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: true,
+      spouseAdditionalMarriagesCount: '1',
     };
     expect(previousMarriagesIntro.depends(formData4)).to.equal(true);
     expect(previousMarriagesSummary.depends(formData4)).to.equal(true);
@@ -73,6 +77,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: false, // Answered NO
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriageItemPage.depends(formData1)).to.be.false;
     // console.log('dependentsIntro', dependentsIntro);
@@ -82,6 +87,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false,
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriageItemPage.depends(formData2)).to.be.false;
 
@@ -90,6 +96,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
       hadPreviousMarriages: true,
+      spouseAdditionalMarriagesCount: '1',
     };
     expect(previousMarriageItemPage.depends(formData3)).to.be.false;
   });
@@ -100,6 +107,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: false,
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriageDateAndLocationPage.depends(formData1)).to.be.false;
 
@@ -108,6 +116,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false,
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriageDateAndLocationPage.depends(formData2)).to.be.false;
 
@@ -116,6 +125,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
       hadPreviousMarriages: true,
+      spouseAdditionalMarriagesCount: '1',
     };
     expect(previousMarriageDateAndLocationPage.depends(formData3)).to.be.false;
   });
@@ -126,6 +136,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: false,
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriageEndPage.depends(formData1)).to.be.false;
 
@@ -134,6 +145,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false,
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriageEndPage.depends(formData2)).to.be.false;
 
@@ -142,6 +154,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
       hadPreviousMarriages: true,
+      spouseAdditionalMarriagesCount: '1',
     };
     expect(previousMarriageEndPage.depends(formData3)).to.be.false;
   });
@@ -152,6 +165,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: true,
       hadPreviousMarriages: false,
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriageEndDateAndLocationPage.depends(formData1)).to.be
       .false;
@@ -161,6 +175,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'SURVIVING_SPOUSE',
       recognizedAsSpouse: false,
       hadPreviousMarriages: false,
+      spouseAdditionalMarriagesCount: '0',
     };
     expect(previousMarriageEndDateAndLocationPage.depends(formData2)).to.be
       .false;
@@ -170,6 +185,7 @@ describe('Previous marriages pages', () => {
       claimantRelationship: 'CHILD',
       recognizedAsSpouse: false,
       hadPreviousMarriages: true,
+      spouseAdditionalMarriagesCount: '1',
     };
     expect(previousMarriageEndDateAndLocationPage.depends(formData3)).to.be
       .false;

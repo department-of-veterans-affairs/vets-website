@@ -14,21 +14,17 @@ import {
   radioSchema,
   checkboxUI,
   checkboxSchema,
-  yesNoSchema,
-  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import constants from 'vets-json-schema/dist/constants.json';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { previousMarriageEndOptions } from '../../../utils/labels';
-import {
-  handleAlertMaxItems,
-  PreviousAdditionalMarriagesAlert,
-} from '../../../components/FormAlerts';
+import { handleAlertMaxItems } from '../../../components/FormAlerts';
 
 // Show previous marriages pages ONLY if user answered YES to hadPreviousMarriages
 // Ansering NO skips all previous marriage flows and jumps to Dependents
 const shouldShowPreviousMarriages = formData =>
-  formData.hadPreviousMarriages === true;
+  formData.hadPreviousMarriages === true &&
+  formData.spouseAdditionalMarriagesCount > 0;
 
 // Get military states to filter them out
 const MILITARY_STATE_VALUES = constants.militaryStates.map(
@@ -56,7 +52,7 @@ export const options = {
   arrayPath: 'spouseMarriages',
   nounSingular: 'previous marriage',
   nounPlural: 'previous marriages',
-  required: false,
+  required: true,
   minItems: 0,
   isItemIncomplete: item =>
     !item?.spouseFullName?.first ||
@@ -147,39 +143,12 @@ const summaryPage = {
         hint: '',
       },
     ),
-    spouseHasAdditionalMarriages: {
-      ...yesNoUI('Do you have additional marriages to report?'),
-      'ui:options': {
-        hideIf: formData => {
-          const itemCount = formData?.spouseMarriages?.length;
-          return itemCount < options.maxItems;
-        },
-      },
-      'ui:required': formData => {
-        const itemCount = formData?.spouseMarriages?.length;
-        return itemCount === options.maxItems;
-      },
-    },
-    previousAdditionalMarriagesAlert: {
-      'ui:description': PreviousAdditionalMarriagesAlert,
-      'ui:options': {
-        hideIf: formData => {
-          return !formData?.spouseHasAdditionalMarriages;
-        },
-        displayEmptyObjectOnReview: true,
-      },
-    },
   },
   schema: {
     type: 'object',
     required: ['view:hasPreviousMarriages'],
     properties: {
       'view:hasPreviousMarriages': arrayBuilderYesNoSchema,
-      spouseHasAdditionalMarriages: yesNoSchema,
-      previousAdditionalMarriagesAlert: {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

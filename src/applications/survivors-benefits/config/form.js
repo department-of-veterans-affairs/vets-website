@@ -43,10 +43,15 @@ import remarriage from './chapters/04-household-information/remarriage';
 import remarriageDetails from './chapters/04-household-information/remarriageDetails';
 import additionalMarriages from './chapters/04-household-information/additionalMarriages';
 import spouseMarriages from './chapters/04-household-information/spouseMarriages';
+import previousMarriagesCount from './chapters/04-household-information/previousMarriagesCount';
+import veteranMarriagesCount from './chapters/04-household-information/veteranMarriagesCount';
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
 import { veteranMarriagesPages } from './chapters/04-household-information/veteranMarriagesPages';
 import veteranChildren from './chapters/04-household-information/veteranChildren';
+import dependentsCount from './chapters/04-household-information/dependentsCount';
 import dependentsPages from './chapters/04-household-information/dependentsPages';
+import custodianAddress from './chapters/04-household-information/custodianAddress';
+import custodianName from './chapters/04-household-information/custodianName';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -386,10 +391,65 @@ const formConfig = {
           uiSchema: spouseMarriages.uiSchema,
           schema: spouseMarriages.schema,
         },
+        previousMarriagesCount: {
+          path: 'household/previous-marriages-count',
+          title: 'Number of additional marriages',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
+            formData.hadPreviousMarriages === true,
+          uiSchema: previousMarriagesCount.uiSchema,
+          schema: previousMarriagesCount.schema,
+        },
         ...previousMarriagesPages,
+        veteranMarriagesCount: {
+          path: 'household/veteran-marriages-count',
+          title: 'Number of veteran marriages',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
+          uiSchema: veteranMarriagesCount.uiSchema,
+          schema: veteranMarriagesCount.schema,
+        },
         ...veteranMarriagesPages,
         veteranChildren,
+        dependentsCount: {
+          path: 'household/dependents-count',
+          title: 'Number of dependents',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
+          uiSchema: dependentsCount.uiSchema,
+          schema: dependentsCount.schema,
+        },
         ...dependentsPages,
+        custodianName: {
+          path: 'household/custodian-name',
+          title: "Custodian's name",
+          depends: formData => {
+            if (formData.veteranChildrenCount > 0) {
+              const livesWith = formData?.veteransChildren?.findIndex(
+                element => element.livesWith === false,
+              );
+              return livesWith !== -1;
+            }
+            return false;
+          },
+          uiSchema: custodianName.uiSchema,
+          schema: custodianName.schema,
+        },
+        custodianAddress: {
+          path: 'household/custodian-address',
+          title: "Custodian's mailing address",
+          depends: formData => {
+            if (formData.veteranChildrenCount > 0) {
+              const livesWith = formData?.veteransChildren?.findIndex(
+                element => element.livesWith === false,
+              );
+              return livesWith !== -1;
+            }
+            return false;
+          },
+          uiSchema: custodianAddress.uiSchema,
+          schema: custodianAddress.schema,
+        },
       },
     },
     // Chapter 5 - Claim Information
