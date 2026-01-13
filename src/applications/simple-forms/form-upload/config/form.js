@@ -53,6 +53,7 @@ const formConfig = (pathname = null) => {
     trackingPrefix,
     confirmation: ConfirmationPage,
     CustomReviewTopContent,
+    dynamicPaths: true,
     ...minimalHeaderFormConfigOptions(),
     customText: { appType: 'form' },
     hideReviewChapters: true,
