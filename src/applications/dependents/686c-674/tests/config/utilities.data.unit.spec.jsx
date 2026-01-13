@@ -1332,6 +1332,30 @@ describe('transformPicklistToV2', () => {
     expect(result.reportDivorce.ssn).to.equal('123456789');
   });
 
+  it('should normalize SSN in reportDivorce by removing dashes', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '123-45-6789', // 9 digits with dashes
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2020-01-01',
+          endCity: 'test',
+          endState: 'AS',
+          endOutsideUs: false,
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.reportDivorce).to.be.an('object');
+    // Should strip dashes and send digits only
+    expect(result.reportDivorce.ssn).to.equal('123456789');
+  });
+
   it('should transform spouse death to deaths array', () => {
     const data = {
       [PICKLIST_DATA]: [
@@ -2085,7 +2109,7 @@ describe('enrichDivorceWithSSN', () => {
     expect(result.reportDivorce.ssn).to.be.undefined;
   });
 
-  it('should add SSN if it is exactly 9 digits (with formatting)', () => {
+  it('should normalize SSN by removing dashes and formatting', () => {
     const data = {
       reportDivorce: {
         fullName: { first: 'Jane', last: 'Doe' },
@@ -2105,7 +2129,7 @@ describe('enrichDivorceWithSSN', () => {
 
     const result = enrichDivorceWithSSN(data);
 
-    // Should add SSN even with formatting characters
-    expect(result.reportDivorce.ssn).to.equal('123-45-6789');
+    // Should normalize SSN to digits only (remove dashes)
+    expect(result.reportDivorce.ssn).to.equal('123456789');
   });
 });

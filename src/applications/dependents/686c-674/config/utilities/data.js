@@ -492,6 +492,16 @@ function isValidSSN(ssn) {
 }
 
 /**
+ * Normalizes SSN to digits only (removes dashes and other formatting)
+ * @param {string} ssn - SSN to normalize
+ * @returns {string} SSN with only digits
+ */
+function normalizeSSN(ssn) {
+  if (!ssn) return '';
+  return String(ssn).replace(/\D/g, '');
+}
+
+/**
  * Transform V3 picklist item with removalReason: 'marriageEnded' to V2 format
  * @param {Object} item - Picklist item
  * @returns {Object} V2 reportDivorce format
@@ -516,9 +526,9 @@ function transformSpouseDivorce(item) {
     spouseIncome: 'N',
   };
 
-  // Only include SSN if it's exactly 9 digits
+  // Only include SSN if it's exactly 9 digits, and normalize to digits only
   if (isValidSSN(item.ssn)) {
-    result.ssn = item.ssn;
+    result.ssn = normalizeSSN(item.ssn);
   }
 
   return result;
@@ -785,13 +795,13 @@ export function enrichDivorceWithSSN(data) {
     return namesMatch && birthDatesMatch;
   });
 
-  // If we found a match, add the SSN (only if it's exactly 9 digits)
+  // If we found a match, add the SSN (only if it's exactly 9 digits, normalized to digits only)
   if (matchingSpouse?.ssn && isValidSSN(matchingSpouse.ssn)) {
     return {
       ...data,
       reportDivorce: {
         ...reportDivorce,
-        ssn: matchingSpouse.ssn,
+        ssn: normalizeSSN(matchingSpouse.ssn),
       },
     };
   }
