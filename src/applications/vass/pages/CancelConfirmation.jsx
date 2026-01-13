@@ -1,6 +1,7 @@
 import React from 'react';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
+import { VASS_PHONE_NUMBER } from '../utils/constants';
 // TODO: replace with actual data from API
 const appointmentData = {
   appointmentId: 'abcdef123456',
@@ -35,7 +36,7 @@ const CancelConfirmation = () => {
         If you need to reschedule, call us at{' '}
         <va-telephone
           data-testid="cancel-confirmation-phone"
-          contact="8008270611"
+          contact={VASS_PHONE_NUMBER}
         />
         . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>

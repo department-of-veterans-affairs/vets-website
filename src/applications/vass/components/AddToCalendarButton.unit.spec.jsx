@@ -7,7 +7,6 @@ import AddToCalendarButton from './AddToCalendarButton';
 describe('VASS Component: AddToCalendarButton', () => {
   const mockAppointment = {
     dateTime: '2025-11-17T20:00:00Z',
-    phoneNumber: '8008270611',
   };
 
   it('should render all content', () => {
