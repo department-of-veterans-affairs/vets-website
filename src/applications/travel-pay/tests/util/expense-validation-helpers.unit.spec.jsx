@@ -106,7 +106,7 @@ describe('validateReceiptDate', () => {
 
     expect(isValid).to.be.false;
     expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: 'Enter the date of your receipt',
+      purchaseDate: 'Enter the date on your receipt',
     });
   });
 
