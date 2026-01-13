@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -28,7 +28,6 @@ const ui = (
   </MemoryRouter>
 );
 let view;
-let server;
 
 // helper function that returns the Edit va-button
 // since RTL doesn't support getByRole/getByText queries for web components
@@ -187,12 +186,11 @@ async function testSlowFailure(addressName) {
 
 describe('Updating', () => {
   before(() => {
-    server = setupServer(
+    server.use(
       ...mocks.editAddressSuccess,
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-    server.listen();
   });
   beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
@@ -204,9 +202,6 @@ describe('Updating', () => {
   });
   afterEach(() => {
     server.resetHandlers();
-  });
-  after(() => {
-    server.close();
   });
 
   // the list of address fields that we need to test

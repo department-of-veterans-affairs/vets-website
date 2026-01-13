@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 
 import { expect } from 'chai';
-import { setupServer } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
@@ -21,7 +21,6 @@ const ui = (
   </MemoryRouter>
 );
 let view;
-let server;
 
 // helper function that returns the Edit or Remove va-button
 // since RTL doesn't support getByRole/getByText queries for web components
@@ -74,12 +73,11 @@ async function testTransactionCreationFails(addressName) {
 
 describe('Deleting', () => {
   before(() => {
-    server = setupServer(
+    server.use(
       ...mocks.deleteResidentialAddressSuccess,
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-    server.listen();
   });
   beforeEach(() => {
     window.VetsGov = { pollTimeout: 5 };
@@ -91,9 +89,6 @@ describe('Deleting', () => {
   });
   afterEach(() => {
     server.resetHandlers();
-  });
-  after(() => {
-    server.close();
   });
 
   const resAddressName = FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS];

@@ -6,8 +6,8 @@ import configureStore from 'redux-mock-store';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import App from './index';
 
@@ -31,13 +31,6 @@ const setupAvailableFormsResponse = (server, status, responsePayload) => {
 
 describe('App component', () => {
   let store;
-  const server = setupServer();
-  before(() => {
-    server.listen();
-  });
-  after(() => {
-    server.close();
-  });
   setupAvailableFormsResponse(server, 200, goodAvailableFormsResponse);
 
   const unauthenticatedState = {
