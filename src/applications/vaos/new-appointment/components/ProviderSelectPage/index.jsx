@@ -31,14 +31,6 @@ export default function SelectProviderPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
   const singleProviderTitle = `Your ${typeOfCare.name.toLowerCase()} provider`;
   const cantScheduleTitle = "You can't schedule this appointment online";
-  let pageHeader = pageTitle;
-  if (patientProviderRelationships?.length === 1) {
-    pageHeader = singleProviderTitle;
-  } else if ((patientProviderRelationships?.length || 0) === 0) {
-    // coerce this to 0
-    pageHeader = cantScheduleTitle;
-  } // no else, keep default pageTitle
-
   const hasProviders = (patientProviderRelationships?.length || 0) > 0;
 
   // eligibility issues
@@ -54,6 +46,22 @@ export default function SelectProviderPage() {
     [pageTitle],
   );
 
+  const pageHeader = () => {
+    // Providers endpoint returns with an error
+    if (patientRelationshipsError) return pageTitle;
+
+    // Single provider header
+    if (patientProviderRelationships?.length === 1) return singleProviderTitle;
+
+    // No provider header, no error
+    if ((patientProviderRelationships?.length || 0) === 0)
+      // coerce this to 0
+      return cantScheduleTitle;
+
+    // return default pageTitle
+    return pageTitle;
+  };
+
   const ProviderInfo = () => (
     <>
       <div>
@@ -66,6 +74,7 @@ export default function SelectProviderPage() {
       ))}
     </>
   );
+
   if (loading) {
     return (
       <div className="vads-u-margin-y--8" data-testid="loading-indicator">
@@ -80,9 +89,10 @@ export default function SelectProviderPage() {
         data-testid="page-header-provider-select"
         className="vads-u-font-size--h2"
       >
-        {pageHeader}
+        {pageHeader()}
       </h1>
 
+      {/* Error state, an error is returned, no providers returned */}
       {patientRelationshipsError &&
         !hasProviders && (
           <>
@@ -95,6 +105,7 @@ export default function SelectProviderPage() {
           </>
         )}
 
+      {/* No providers returned, no error returned */}
       {!hasProviders &&
         !patientRelationshipsError && (
           <NoAvailableProvidersInfo
@@ -105,16 +116,16 @@ export default function SelectProviderPage() {
           />
         )}
 
+      {/* Has providers returned, no errors */}
       {hasProviders ? <ProviderInfo /> : null}
 
-      {!patientRelationshipsError && (
-        <ScheduleWithDifferentProvider
-          isEligibleForRequest={isEligibleForRequest}
-          overRequestLimit={overRequestLimit}
-          selectedFacility={selectedFacility}
-          hasProviders={hasProviders}
-        />
-      )}
+      <ScheduleWithDifferentProvider
+        isEligibleForRequest={isEligibleForRequest}
+        overRequestLimit={overRequestLimit}
+        selectedFacility={selectedFacility}
+        hasProviders={hasProviders}
+        patientRelationshipsError={patientRelationshipsError}
+      />
     </div>
   );
 }

@@ -9,9 +9,15 @@ export default function ScheduleWithDifferentProvider({
   overRequestLimit,
   selectedFacility,
   hasProviders = true,
+  patientRelationshipsError = false,
   pageKey = 'selectProvider',
 }) {
   const facilityPhone = getFacilityPhone(selectedFacility);
+
+  // If there is an endpoint error, return null
+  if (patientRelationshipsError) {
+    return null;
+  }
 
   // now under title text is handled in the no available providers info section
   if (overRequestLimit || !isEligibleForRequest) {
@@ -59,4 +65,5 @@ ScheduleWithDifferentProvider.propTypes = {
   selectedFacility: PropTypes.object.isRequired,
   hasProviders: PropTypes.bool,
   pageKey: PropTypes.string,
+  patientRelationshipsError: PropTypes.bool,
 };
