@@ -213,7 +213,6 @@ These test failures exist on the `main` branch and are unrelated to the jsdom up
 
 | Application | Issue | Root Cause |
 |-------------|-------|------------|
-| login | Cannot set property location | Test captures/restores `global.window` at module load time |
 | benefits-optimization-pingwind | scrollTo stub on wrong object | Test stubs `document.body.scrollTo` instead of `window.scrollTo` |
 | check-in | Date formatting 1 hour off | Timezone-dependent test (fails in non-UTC) |
 | claims-status | TIMEOUT | Slow tests exceeding timeout |
