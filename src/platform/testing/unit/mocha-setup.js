@@ -186,11 +186,24 @@ function setupJSDom() {
     enumerable: true,
   });
 
+  // Element must also be a getter for the same reason - React component library
+  // bindings use `instanceof Element` checks that fail if Element is stale.
+  Object.defineProperty(global, 'Element', {
+    get: () => global.window.Element,
+    configurable: true,
+    enumerable: true,
+  });
+
   // jsdom 16+ also requires document to be a getter so that modules like
   // axe-core that capture document at import time will use the current
   // window's document after beforeEach creates a new JSDOM.
+  // We use a backing variable to allow tests to temporarily override document.
+  let documentOverride = null;
   Object.defineProperty(global, 'document', {
-    get: () => global.window.document,
+    get: () => documentOverride || global.window.document,
+    set: val => {
+      documentOverride = val;
+    },
     configurable: true,
     enumerable: true,
   });
