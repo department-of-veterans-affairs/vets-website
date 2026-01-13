@@ -215,15 +215,21 @@ function setupJSDom() {
     enumerable: true,
   });
 
-  Object.defineProperty(window, 'location', {
-    value: window.location,
+  // jsdom 16+ makes window.location a getter-only property on the prototype.
+  // Delete it first, then redefine as a writable data property.
+  // Use realWindow directly since global.window getter returns it.
+  const currentLocation = realWindow.location;
+  delete realWindow.location;
+  Object.defineProperty(realWindow, 'location', {
+    value: currentLocation,
     configurable: true,
     enumerable: true,
     writable: true,
   });
 
   // jsdom 16+ made crypto read-only, but tests need to mock it
-  Object.defineProperty(window, 'crypto', {
+  delete realWindow.crypto;
+  Object.defineProperty(realWindow, 'crypto', {
     value: window.crypto,
     configurable: true,
     enumerable: true,
