@@ -92,64 +92,65 @@ export default function DashboardCards() {
 
   return (
     <div className="vads-u-width--full vads-u-margin-bottom--5">
-      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
         Your questions
       </h2>
       {inquiries.personal.length || inquiries.business.length ? (
         <>
           <div className="filter-container">
-            <div className="vacardSelectFilters">
-              <div className="search-container">
-                <VaTextInput
-                  value={pendingQuery}
-                  label="Search"
-                  inputMode="search"
-                  onVaInput={e => {
-                    setPendingQuery(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <VaSelect
-                  hint={null}
-                  label="Filter by status"
-                  name="status"
-                  value={pendingStatusFilter}
-                  onVaSelect={event => {
-                    setPendingStatusFilter(
-                      event.target.value ? event.target.value : 'All',
-                    );
-                  }}
-                >
-                  <option value="All">All</option>
-                  <option value="In progress">In progress</option>
-                  <option value="Replied">Replied</option>
-                  <option value="Reopened">Reopened</option>
-                </VaSelect>
-              </div>
-              <div>
-                <VaSelect
-                  hint={null}
-                  label="Filter by category"
-                  name="category"
-                  value={pendingCategoryFilter}
-                  onVaSelect={event => {
-                    setPendingCategoryFilter(
-                      event.target.value ? event.target.value : 'All',
-                    );
-                  }}
-                >
-                  <option value="All">All</option>
-                  {categories.map(category => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </VaSelect>
-              </div>
+            <div className="search-container">
+              <VaTextInput
+                value={pendingQuery}
+                label="Search"
+                inputMode="search"
+                onVaInput={e => {
+                  setPendingQuery(e.target.value);
+                }}
+              />
+            </div>
+            <div>
+              <VaSelect
+                hint={null}
+                label="Filter by status"
+                name="status"
+                value={pendingStatusFilter}
+                onVaSelect={event => {
+                  setPendingStatusFilter(
+                    event.target.value ? event.target.value : 'All',
+                  );
+                }}
+              >
+                <option value="All">All</option>
+                <option value="In progress">In progress</option>
+                <option value="Replied">Replied</option>
+                <option value="Reopened">Reopened</option>
+              </VaSelect>
+            </div>
+            <div className="vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--0">
+              <VaSelect
+                hint={null}
+                label="Filter by category"
+                name="category"
+                value={pendingCategoryFilter}
+                onVaSelect={event => {
+                  setPendingCategoryFilter(
+                    event.target.value ? event.target.value : 'All',
+                  );
+                }}
+              >
+                <option value="All">All</option>
+                {categories.map(category => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </VaSelect>
             </div>
 
-            <div className="filter-actions">
+            <div
+              // Keeps button pair aligned in parent correctly on mobile & desktop
+              className="vads-u-margin-bottom--neg0p5 medium-screen:vads-u-padding-right--0p5 vads-u-margin-x--neg0p5 medium-screen:vads-u-margin-x--0"
+            >
               <VaButtonPair
                 primaryLabel="Apply filters"
                 secondaryLabel="Clear all filters"
@@ -166,8 +167,8 @@ export default function DashboardCards() {
                   setPendingStatusFilter('All');
                   setPendingCategoryFilter('All');
                 }}
-                leftButtonText="Apply filters"
-                rightButtonText="Clear all filters"
+                leftButtonText="Apply"
+                rightButtonText="Clear"
               />
             </div>
           </div>
