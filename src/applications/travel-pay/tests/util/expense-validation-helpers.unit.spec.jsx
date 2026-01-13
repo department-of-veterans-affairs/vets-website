@@ -212,7 +212,6 @@ describe('validateRequestedAmount', () => {
 
 describe('validateAirTravelFields', () => {
   let formState;
-  let errors;
 
   beforeEach(() => {
     formState = {
@@ -223,15 +222,15 @@ describe('validateAirTravelFields', () => {
       departedFrom: '',
       arrivedTo: '',
     };
-    errors = {};
   });
 
   it('validates all fields at once and sets errors for empty values', () => {
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
     expect(nextErrors).to.deep.equal({
       vendorName: 'Enter the company name',
       tripType: 'Select a trip type',
       departureDate: 'Enter a departure date',
+      returnDate: null,
       departedFrom: 'Enter the airport name',
       arrivedTo: 'Enter the airport name',
     });
@@ -239,9 +238,9 @@ describe('validateAirTravelFields', () => {
 
   it('validates a single field and leaves others untouched', () => {
     formState.vendorName = 'Acme Airlines';
-    const nextErrors = validateAirTravelFields(formState, errors, 'vendorName');
+    const nextErrors = validateAirTravelFields(formState, 'vendorName');
 
-    expect(nextErrors.vendorName).to.be.undefined;
+    expect(nextErrors.vendorName).to.equal(null);
   });
 
   it('throws error when departureDate is after returnDate and both are complete', () => {
@@ -251,7 +250,6 @@ describe('validateAirTravelFields', () => {
         returnDate: '2025-01-10',
         tripType: TRIP_TYPES.ROUND_TRIP.value,
       },
-      {},
       'departureDate',
     );
 
@@ -274,9 +272,15 @@ describe('validateAirTravelFields', () => {
       arrivedTo: 'LAX',
     };
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
-    expect(nextErrors).to.deep.equal({});
+    // All fields should return null for valid values
+    expect(nextErrors.vendorName).to.equal(null);
+    expect(nextErrors.tripType).to.equal(null);
+    expect(nextErrors.departureDate).to.equal(null);
+    expect(nextErrors.returnDate).to.equal(null);
+    expect(nextErrors.departedFrom).to.equal(null);
+    expect(nextErrors.arrivedTo).to.equal(null);
   });
 
   it('requires returnDate for ROUND_TRIP', () => {
@@ -284,7 +288,7 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-05';
     formState.returnDate = '';
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
     expect(nextErrors.returnDate).to.equal('Enter a return date');
   });
 
@@ -293,9 +297,9 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-01';
     formState.returnDate = '';
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
-    expect(nextErrors.returnDate).to.be.undefined;
+    expect(nextErrors.returnDate).to.equal(null);
   });
 
   it('errors if returnDate is entered for ONE_WAY trip', () => {
@@ -303,7 +307,7 @@ describe('validateAirTravelFields', () => {
     formState.returnDate = '2025-01-10';
     formState.departureDate = '2025-01-05';
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal(
       'You entered a return date for a one-way trip',
@@ -317,18 +321,18 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-05';
     formState.returnDate = ''; // empty, so no comparison error
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
-    expect(nextErrors.departureDate).to.be.undefined;
+    expect(nextErrors.departureDate).to.equal(null);
   });
 
   it('validates returnDate only if departureDate exists', () => {
     formState.returnDate = '2025-01-10';
     formState.departureDate = ''; // empty, so no comparison error
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
-    expect(nextErrors.returnDate).to.be.undefined;
+    expect(nextErrors.returnDate).to.equal(null);
   });
 
   it('errors if departureDate is in the future', () => {
@@ -339,7 +343,7 @@ describe('validateAirTravelFields', () => {
 
     formState.departureDate = futureDate;
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.departureDate).to.equal("Don't enter a future date");
   });
@@ -354,7 +358,7 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-05';
     formState.returnDate = futureDate;
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal("Don't enter a future date");
   });
@@ -368,7 +372,7 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = futureDate;
     formState.returnDate = '2025-01-01';
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.departureDate).to.equal("Don't enter a future date");
   });
@@ -383,7 +387,7 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-01';
     formState.returnDate = futureDate;
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal("Don't enter a future date");
   });
@@ -393,12 +397,12 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-01';
     formState.returnDate = '2025-01-10';
 
-    let nextErrors = validateAirTravelFields(formState, errors);
-    expect(nextErrors.returnDate).to.be.undefined;
+    let nextErrors = validateAirTravelFields(formState);
+    expect(nextErrors.returnDate).to.equal(null);
 
     // Switch trip type to ONE_WAY
     formState.tripType = TRIP_TYPES.ONE_WAY.value;
-    nextErrors = validateAirTravelFields(formState, nextErrors);
+    nextErrors = validateAirTravelFields(formState);
 
     // Error should appear because returnDate is present
     expect(nextErrors.returnDate).to.equal(
@@ -411,12 +415,12 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-01';
     formState.returnDate = ''; // no return date
 
-    let nextErrors = validateAirTravelFields(formState, errors);
-    expect(nextErrors.returnDate).to.be.undefined;
+    let nextErrors = validateAirTravelFields(formState);
+    expect(nextErrors.returnDate).to.equal(null);
 
     // Switch trip type to ROUND_TRIP
     formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
-    nextErrors = validateAirTravelFields(formState, nextErrors);
+    nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal('Enter a return date');
   });
@@ -426,7 +430,7 @@ describe('validateAirTravelFields', () => {
     formState.returnDate = '2025-01-10';
     formState.departureDate = '2025-01-05';
 
-    const nextErrors = validateAirTravelFields(formState, errors);
+    const nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal(
       'You entered a return date for a one-way trip',
@@ -441,14 +445,14 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-01';
     formState.returnDate = '';
 
-    let nextErrors = validateAirTravelFields(formState, errors);
+    let nextErrors = validateAirTravelFields(formState);
     expect(nextErrors.returnDate).to.equal('Enter a return date');
 
     // Change tripType to ONE_WAY
     formState.tripType = TRIP_TYPES.ONE_WAY.value;
-    nextErrors = validateAirTravelFields(formState, nextErrors);
+    nextErrors = validateAirTravelFields(formState);
 
-    expect(nextErrors.returnDate).to.be.undefined;
+    expect(nextErrors.returnDate).to.equal(null);
   });
 
   it('revalidates returnDate when tripType changes and returnDate exists', () => {
@@ -456,12 +460,12 @@ describe('validateAirTravelFields', () => {
     formState.departureDate = '2025-01-01';
     formState.returnDate = '2025-01-02';
 
-    let nextErrors = validateAirTravelFields(formState, errors);
-    expect(nextErrors.returnDate).to.be.undefined;
+    let nextErrors = validateAirTravelFields(formState);
+    expect(nextErrors.returnDate).to.equal(null);
 
     // Change tripType to ONE_WAY
     formState.tripType = TRIP_TYPES.ONE_WAY.value;
-    nextErrors = validateAirTravelFields(formState, nextErrors);
+    nextErrors = validateAirTravelFields(formState);
 
     expect(nextErrors.returnDate).to.equal(
       'You entered a return date for a one-way trip',
@@ -471,18 +475,16 @@ describe('validateAirTravelFields', () => {
 
 describe('validateCommonCarrierFields', () => {
   let formState;
-  let errors;
 
   beforeEach(() => {
     formState = {
       carrierType: '',
       reasonNotUsingPOV: '',
     };
-    errors = {};
   });
 
   it('sets errors when fields are empty', () => {
-    const nextErrors = validateCommonCarrierFields(formState, errors);
+    const nextErrors = validateCommonCarrierFields(formState);
 
     expect(nextErrors).to.deep.equal({
       carrierType: 'Select a transportation type',
@@ -495,27 +497,23 @@ describe('validateCommonCarrierFields', () => {
       carrierType: 'Bus',
       reasonNotUsingPOV: 'No personal vehicle',
     };
-    const nextErrors = validateCommonCarrierFields(formState, errors);
+    const nextErrors = validateCommonCarrierFields(formState);
 
-    expect(nextErrors).to.deep.equal({});
+    expect(nextErrors.carrierType).to.equal(null);
+    expect(nextErrors.reasonNotUsingPOV).to.equal(null);
   });
 
   it('validates a single field only', () => {
     formState.carrierType = 'Train';
-    const nextErrors = validateCommonCarrierFields(
-      formState,
-      errors,
-      'carrierType',
-    );
+    const nextErrors = validateCommonCarrierFields(formState, 'carrierType');
 
-    expect(nextErrors.carrierType).to.be.undefined;
-    expect(nextErrors.reasonNotUsingPOV).to.be.undefined; // untouched
+    expect(nextErrors.carrierType).to.equal(null);
+    expect(nextErrors.reasonNotUsingPOV).to.be.undefined; // not validated
   });
 });
 
 describe('validateLodgingFields', () => {
   let formState;
-  let errors;
 
   beforeEach(() => {
     formState = {
@@ -523,11 +521,10 @@ describe('validateLodgingFields', () => {
       checkInDate: '',
       checkOutDate: '',
     };
-    errors = {};
   });
 
   it('validates all fields at once and sets errors for empty values', () => {
-    const nextErrors = validateLodgingFields(formState, errors);
+    const nextErrors = validateLodgingFields(formState);
 
     expect(nextErrors).to.deep.equal({
       vendor: 'Enter the name on your receipt',
@@ -538,9 +535,9 @@ describe('validateLodgingFields', () => {
 
   it('validates a single field (vendor) and leaves others untouched', () => {
     formState.vendor = 'Hotel California';
-    const nextErrors = validateLodgingFields(formState, errors, 'vendor');
+    const nextErrors = validateLodgingFields(formState, 'vendor');
 
-    expect(nextErrors.vendor).to.be.undefined;
+    expect(nextErrors.vendor).to.equal(null);
     expect(nextErrors.checkInDate).to.be.undefined;
     expect(nextErrors.checkOutDate).to.be.undefined;
   });
@@ -551,11 +548,10 @@ describe('validateLodgingFields', () => {
         checkInDate: '2025-01',
         checkOutDate: '2025-01-10',
       },
-      {},
       'checkInDate',
     );
 
-    expect(nextErrors.checkInDate).to.be.undefined;
+    expect(nextErrors.checkInDate).to.equal(null);
   });
 
   it('does not throw ordering error when checkOutDate is incomplete', () => {
@@ -564,23 +560,22 @@ describe('validateLodgingFields', () => {
         checkInDate: '2025-01-10',
         checkOutDate: '2025-01',
       },
-      {},
       'checkOutDate',
     );
 
-    expect(nextErrors.checkOutDate).to.be.undefined;
+    expect(nextErrors.checkOutDate).to.equal(null);
   });
 
   it('requires checkInDate if empty', () => {
     formState.checkOutDate = '2025-01-10';
-    const nextErrors = validateLodgingFields(formState, errors, 'checkInDate');
+    const nextErrors = validateLodgingFields(formState, 'checkInDate');
 
     expect(nextErrors.checkInDate).to.equal('Enter the date you checked in');
   });
 
   it('requires checkOutDate if empty', () => {
     formState.checkInDate = '2025-01-05';
-    const nextErrors = validateLodgingFields(formState, errors, 'checkOutDate');
+    const nextErrors = validateLodgingFields(formState, 'checkOutDate');
 
     expect(nextErrors.checkOutDate).to.equal('Enter the date you checked out');
   });
@@ -591,7 +586,6 @@ describe('validateLodgingFields', () => {
         checkInDate: '2025-01-10',
         checkOutDate: '2025-01-05',
       },
-      {},
       'checkInDate',
     );
 
@@ -608,16 +602,18 @@ describe('validateLodgingFields', () => {
     formState.checkInDate = '2025-01-05';
     formState.checkOutDate = '2025-01-10';
 
-    const nextErrors = validateLodgingFields(formState, errors);
+    const nextErrors = validateLodgingFields(formState);
 
-    expect(nextErrors).to.deep.equal({});
+    expect(nextErrors.vendor).to.equal(null);
+    expect(nextErrors.checkInDate).to.equal(null);
+    expect(nextErrors.checkOutDate).to.equal(null);
   });
 
   it('flags error if checkInDate is in the future', () => {
     formState.checkInDate = getFutureDateString();
     formState.checkOutDate = '2025-01-10';
 
-    const nextErrors = validateLodgingFields(formState, errors);
+    const nextErrors = validateLodgingFields(formState);
 
     expect(nextErrors.checkInDate).to.equal("Don't enter a future date");
   });
@@ -626,7 +622,7 @@ describe('validateLodgingFields', () => {
     formState.checkInDate = '2025-01-05';
     formState.checkOutDate = getFutureDateString();
 
-    const nextErrors = validateLodgingFields(formState, errors);
+    const nextErrors = validateLodgingFields(formState);
 
     expect(nextErrors.checkOutDate).to.equal("Don't enter a future date");
   });
@@ -634,13 +630,10 @@ describe('validateLodgingFields', () => {
   it('allows ordering error on checkOutDate even when checkInDate is future', () => {
     const futureDate = getFutureDateString();
 
-    const nextErrors = validateLodgingFields(
-      {
-        checkInDate: futureDate,
-        checkOutDate: '2025-01-01',
-      },
-      {},
-    );
+    const nextErrors = validateLodgingFields({
+      checkInDate: futureDate,
+      checkOutDate: '2025-01-01',
+    });
 
     expect(nextErrors.checkInDate).to.equal("Don't enter a future date");
     expect(nextErrors.checkOutDate).to.equal(
@@ -659,7 +652,7 @@ describe('validateMealFields', () => {
   });
 
   it('validates all fields at once and sets error for empty vendorName', () => {
-    const nextErrors = validateMealFields(formState, errors);
+    const nextErrors = validateMealFields(formState);
 
     expect(nextErrors).to.deep.equal({
       vendorName: 'Enter the name on your receipt',
@@ -670,23 +663,24 @@ describe('validateMealFields', () => {
     formState.vendorName = 'Test Vendor';
     errors.vendorName = 'Previous error';
 
-    const nextErrors = validateMealFields(formState, errors);
+    const nextErrors = validateMealFields(formState);
 
-    expect(nextErrors).to.deep.equal({});
+    expect(nextErrors.vendorName).to.equal(null);
   });
 
   it('validates only the specified field (vendorName) when fieldName is provided', () => {
-    const nextErrors = validateMealFields(formState, errors, 'vendorName');
+    const nextErrors = validateMealFields(formState, 'vendorName');
 
     expect(nextErrors.vendorName).to.equal('Enter the name on your receipt');
   });
 
-  it('preserves other unrelated errors', () => {
+  it('does not include unrelated fields in validation result', () => {
     formState.vendorName = 'Test Vendor';
-    errors.otherField = 'Some other error';
 
-    const nextErrors = validateMealFields(formState, errors);
+    const nextErrors = validateMealFields(formState);
 
-    expect(nextErrors).to.deep.equal({ otherField: 'Some other error' });
+    // Only vendorName should be in the result
+    expect(nextErrors.vendorName).to.equal(null);
+    expect(nextErrors.otherField).to.be.undefined;
   });
 });
