@@ -63,11 +63,14 @@ function Form1995Entry({
   const isLoadingToggles = useToggleLoadingValue();
 
   // Store Rudisill flag in sessionStorage for helpers.jsx usage
-  useEffect(() => {
-    if (rudisillFlag !== undefined) {
-      sessionStorage.setItem('isRudisill1995', JSON.stringify(rudisillFlag));
-    }
-  }, [rudisillFlag]);
+  useEffect(
+    () => {
+      if (rudisillFlag !== undefined) {
+        sessionStorage.setItem('isRudisill1995', JSON.stringify(rudisillFlag));
+      }
+    },
+    [rudisillFlag],
+  );
 
   // Check sessionStorage for Rudisill flow state
   // On intro page, URL is source of truth (sessionStorage may be stale from previous flow)
@@ -84,82 +87,88 @@ function Form1995Entry({
     isRudisillFlowSession = sessionStorage.getItem('isRudisillFlow') === 'true';
   }
 
-  useEffect(() => {
-    const currentFormData = formData || {};
+  useEffect(
+    () => {
+      const currentFormData = formData || {};
 
-    if (rerouteFlag === undefined) {
-      return;
-    }
-
-    // Sync formData with sessionStorage state
-    // If sessionStorage says NOT Rudisill but formData says Rudisill, clear formData
-    // This handles returning to questionnaire from Rudisill flow
-    if (!isRudisillFlowSession && currentFormData.isRudisillFlow === true) {
-      const nextFormData = { ...currentFormData };
-      delete nextFormData.isRudisillFlow;
-      setFormData({
-        ...nextFormData,
-        isMeb1995Reroute: rerouteFlag,
-        currentBenefitType: claimantCurrentBenefit,
-      });
-      return;
-    }
-
-    // Restore Rudisill flow state from saved formData (for save-in-progress resume)
-    // Only do this if sessionStorage isn't already cleared (user didn't return to questionnaire)
-    if (isRudisillFlowSession && currentFormData.isRudisillFlow === true) {
-      sessionStorage.setItem('isRudisillFlow', 'true');
-    }
-
-    if (!rerouteFlag) {
-      if (currentFormData.isMeb1995Reroute || currentFormData.isRudisillFlow) {
-        const nextFormData = { ...currentFormData };
-        delete nextFormData.isMeb1995Reroute;
-        delete nextFormData.currentBenefitType;
-        delete nextFormData.isRudisillFlow;
-        setFormData(nextFormData);
+      if (rerouteFlag === undefined) {
+        return;
       }
-      return;
-    }
 
-    // If in Rudisill flow, ensure formData has the flag set
-    if (isRudisillFlowSession) {
-      // Always set isRudisillFlow if sessionStorage indicates Rudisill flow
-      // and formData doesn't have it yet or has incorrect state
-      if (
-        currentFormData.isRudisillFlow !== true ||
-        currentFormData.isMeb1995Reroute !== undefined
-      ) {
+      // Sync formData with sessionStorage state
+      // If sessionStorage says NOT Rudisill but formData says Rudisill, clear formData
+      // This handles returning to questionnaire from Rudisill flow
+      if (!isRudisillFlowSession && currentFormData.isRudisillFlow === true) {
         const nextFormData = { ...currentFormData };
-        delete nextFormData.isMeb1995Reroute;
-        delete nextFormData.currentBenefitType;
+        delete nextFormData.isRudisillFlow;
         setFormData({
           ...nextFormData,
-          isRudisillFlow: true,
+          isMeb1995Reroute: rerouteFlag,
+          currentBenefitType: claimantCurrentBenefit,
+        });
+        return;
+      }
+
+      // Restore Rudisill flow state from saved formData (for save-in-progress resume)
+      // Only do this if sessionStorage isn't already cleared (user didn't return to questionnaire)
+      if (isRudisillFlowSession && currentFormData.isRudisillFlow === true) {
+        sessionStorage.setItem('isRudisillFlow', 'true');
+      }
+
+      if (!rerouteFlag) {
+        if (
+          currentFormData.isMeb1995Reroute ||
+          currentFormData.isRudisillFlow
+        ) {
+          const nextFormData = { ...currentFormData };
+          delete nextFormData.isMeb1995Reroute;
+          delete nextFormData.currentBenefitType;
+          delete nextFormData.isRudisillFlow;
+          setFormData(nextFormData);
+        }
+        return;
+      }
+
+      // If in Rudisill flow, ensure formData has the flag set
+      if (isRudisillFlowSession) {
+        // Always set isRudisillFlow if sessionStorage indicates Rudisill flow
+        // and formData doesn't have it yet or has incorrect state
+        if (
+          currentFormData.isRudisillFlow !== true ||
+          currentFormData.isMeb1995Reroute !== undefined
+        ) {
+          const nextFormData = { ...currentFormData };
+          delete nextFormData.isMeb1995Reroute;
+          delete nextFormData.currentBenefitType;
+          setFormData({
+            ...nextFormData,
+            isRudisillFlow: true,
+          });
+        }
+        return;
+      }
+
+      // Normal reroute flow
+      const shouldUpdateFormData =
+        currentFormData.isMeb1995Reroute !== rerouteFlag ||
+        currentFormData.currentBenefitType !== claimantCurrentBenefit;
+
+      if (shouldUpdateFormData) {
+        setFormData({
+          ...currentFormData,
+          isMeb1995Reroute: rerouteFlag,
+          currentBenefitType: claimantCurrentBenefit,
         });
       }
-      return;
-    }
-
-    // Normal reroute flow
-    const shouldUpdateFormData =
-      currentFormData.isMeb1995Reroute !== rerouteFlag ||
-      currentFormData.currentBenefitType !== claimantCurrentBenefit;
-
-    if (shouldUpdateFormData) {
-      setFormData({
-        ...currentFormData,
-        isMeb1995Reroute: rerouteFlag,
-        currentBenefitType: claimantCurrentBenefit,
-      });
-    }
-  }, [
-    claimantCurrentBenefit,
-    formData,
-    isRudisillFlowSession,
-    rerouteFlag,
-    setFormData,
-  ]);
+    },
+    [
+      claimantCurrentBenefit,
+      formData,
+      isRudisillFlowSession,
+      rerouteFlag,
+      setFormData,
+    ],
+  );
 
   if (isLoadingToggles || rerouteFlag === undefined) {
     return <va-loading-indicator label="Loading" message="Loading..." />;
@@ -243,4 +252,7 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form1995Entry);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form1995Entry);
