@@ -14,9 +14,9 @@ import { isClaimantVeteran } from '../utils';
 /**
  * Generate page title based on claimant relationship
  */
-const getPageTitle = formData => {
+const getRadioTitle = formData => {
   if (isClaimantVeteran(formData)) {
-    return 'Select which benefit you are applying for';
+    return 'Select which benefit you are applying for ';
   }
 
   // Get claimant's actual name
@@ -27,9 +27,9 @@ const getPageTitle = formData => {
 
   // If we have a name, use it; otherwise fallback to "you are"
   if (fullName) {
-    return `Select which benefit ${fullName} is applying for`;
+    return `Select which benefit ${fullName} is applying for `;
   }
-  return 'Select which benefit you are applying for';
+  return 'Select which benefit you are applying for ';
 };
 
 /**
@@ -37,18 +37,51 @@ const getPageTitle = formData => {
  * Selects between Special Monthly Compensation (SMC) and Special Monthly Pension (SMP)
  */
 export const benefitTypeUiSchema = {
-  'ui:title': 'Benefit type',
+  'ui:title': 'Which benefit should I apply for?',
   'ui:description': () => (
-    <p>
-      <a
-        href="https://www.va.gov/pension/aid-attendance-housebound/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Find out more about the difference between Special Monthly Compensation
-        (SMC) and Special Monthly Pension (SMP).
-      </a>
-    </p>
+    <>
+      <p>
+        If you are not sure which benefit you are eligible for, learn more about
+        Special Monthly Compensation and Special Monthly Pension.
+      </p>
+      <va-accordion>
+        <va-accordion-item header="Special Monthly Compensation (SMC)" id="smc">
+          <p>
+            SMC benefits are paid in addition to monthly compensation or
+            Dependency Indemnity Compensation (DIC). Apply for Special Monthly
+            Compensation (SMC) if you:
+          </p>
+          <ul>
+            <li>
+              Are a Veteran or the surviving spouse or parent of a Veteran
+            </li>
+            <li>Require help with everyday tasks</li>
+            <li>Are housebound (because of permanent disability)</li>
+            <li>
+              Are currently receiving, or are eligible for monthly compensation
+              or Dependency Indemnity Compensation (DIC). SMC benefits are not
+              paid without eligibility to compensation.
+            </li>
+          </ul>
+        </va-accordion-item>
+        <va-accordion-item header="Special Monthly Pension (SMP)" id="smp">
+          <p>
+            SMP is an increased monthly amount paid to a veteran or survivor who
+            is eligible for Veterans Pension or Survivors benefits. APply for
+            Special Monthly Compensation (SMC) if you:
+          </p>
+          <ul>
+            <li>Are a Veteran or the surviving spouse of a Veteran</li>
+            <li>Require help with everyday tasks</li>
+            <li>Are housebound (because of permanent disability)</li>
+            <li>
+              Currently receive, or are eligible for, Veteran’s Pension and/or
+              Survivors benefits
+            </li>
+          </ul>
+        </va-accordion-item>
+      </va-accordion>
+    </>
   ),
   benefitType: {
     benefitType: radioUI({
@@ -64,13 +97,18 @@ export const benefitTypeUiSchema = {
           'is an increased monthly amount paid to a Veteran or survivor who is eligible for Veterans Pension or Survivors benefits.',
       },
       tile: true,
+      labelHeaderLevel: 3,
     }),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
-      const pageTitle = getPageTitle(fullData || formData);
+      const radioTitle = getRadioTitle(formData || fullData);
       return {
-        'ui:title': pageTitle,
+        benefitType: {
+          benefitType: {
+            'ui:title': radioTitle,
+          },
+        },
       };
     },
   },
