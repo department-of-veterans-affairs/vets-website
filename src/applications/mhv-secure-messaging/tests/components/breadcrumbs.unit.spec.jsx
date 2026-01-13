@@ -246,7 +246,7 @@ describe('Breadcrumbs', () => {
           previousUrl: Paths.COMPOSE,
         },
         threadDetails: {
-          drafts: [{ messageId: '123123' }],
+          draft: { messageId: '123123' },
         },
       },
     };

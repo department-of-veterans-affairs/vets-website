@@ -18,7 +18,7 @@ const SmBreadcrumbs = () => {
   const crumbsList = useSelector(state => state.sm.breadcrumbs.crumbsList);
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
   const activeDraftId = useSelector(
-    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+    state => state.sm.threadDetails?.draft?.messageId,
   );
   const recentRecipients = useSelector(
     state => state.sm.recipients?.recentRecipients,
