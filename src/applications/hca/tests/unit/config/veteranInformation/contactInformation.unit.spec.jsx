@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca VeteranContactInformation config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca VeteranContactInformation config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 3;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,44 @@ describe('hca VeteranContactInformation config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        email: {
+          type: 'string',
+        },
+        homePhone: {
+          type: 'string',
+        },
+        mobilePhone: {
+          type: 'string',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      email: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:options': {},
+      },
+      homePhone: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:options': {},
+      },
+      mobilePhone: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:options': {},
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

@@ -15,7 +15,10 @@ const ConfirmationPageITF = () => {
     ? new Date(submission.response.attributes.expirationDate)
     : null;
 
-  const { first, last } = form.data.veteranFullName;
+  const { first, last } =
+    form.data.isVeteran === 'no'
+      ? form.data.claimantFullName
+      : form.data.veteranFullName;
   const { city, state, postalCode } = form.data.address;
 
   const address = { city, state, postalCode };

@@ -30,13 +30,6 @@ export const ConfirmationPageViewITF = ({
       ? `${address.city}, ${address.state} ${address.postalCode}`
       : null;
 
-  const itfTypes = {
-    compensation: 'Disability compensation',
-    pension: 'Pension',
-    survivor:
-      'Survivors pension and/or dependency and indemnity compensation (DIC)',
-  };
-
   useEffect(
     () => {
       if (alertRef?.current) {
@@ -89,8 +82,8 @@ export const ConfirmationPageViewITF = ({
           <va-process-list-item header="Submit the claim prior to ITF expiration date">
             <p>
               You should submit the claim as soon as possible. The intent to
-              file for {benefitType && itfTypes[benefitType]} expires one year
-              from today.
+              file for {benefitType && benefitCopy(benefitType)} expires one
+              year from today.
             </p>
           </va-process-list-item>
         </va-process-list>

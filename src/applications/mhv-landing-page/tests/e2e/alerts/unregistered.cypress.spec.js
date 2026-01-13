@@ -25,7 +25,7 @@ describe(appName, () => {
         cy.injectAxeThenAxeCheck();
 
         // Test that the no health data message is present
-        cy.findByRole('heading', { name: headline }).should.exist;
+        cy.findByRole('heading', { name: new RegExp(headline) }).should.exist;
 
         // Check the cards are not visible
         cy.findAllByTestId(/^mhv-link-group-card-/).should('not.exist');
@@ -53,7 +53,9 @@ describe(appName, () => {
         cy.findByRole('heading', { name: /VA health benefits/i }).should.exist;
 
         // Test that the no health data message is NOT present
-        cy.findByRole('heading', { name: headline }).should('not.exist');
+        cy.findByRole('heading', { name: new RegExp(headline) }).should(
+          'not.exist',
+        );
       });
     });
   });
