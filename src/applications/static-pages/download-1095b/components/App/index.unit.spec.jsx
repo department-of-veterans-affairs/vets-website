@@ -20,8 +20,8 @@ const emptyAvailableFormsResponse = {
   availableForms: [],
 };
 
-const setupAvailableFormsResponse = (server, status, responsePayload) => {
-  server.use(
+const setupAvailableFormsResponse = (mswServer, status, responsePayload) => {
+  mswServer.use(
     createGetHandler(
       'https://dev-api.va.gov/v0/form1095_bs/available_forms',
       () => jsonResponse(responsePayload || {}, { status }),
