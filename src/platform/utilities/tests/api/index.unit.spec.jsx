@@ -1,8 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { expect } from 'chai';
-import { rest } from 'msw';
-import { server } from 'platform/testing/unit/mocha-setup';
+import { server, rest } from 'platform/testing/unit/mocha-setup';
 import sinon from 'sinon';
 import { apiRequest, fetchAndUpdateSessionExpiration } from '../../api';
 import environment from '../../environment';
