@@ -1,5 +1,10 @@
 {
   "processOption": true,
+  "bankAccount": {
+    "accountType": "checking",
+    "accountNumber": "001122334455",
+    "routingNumber": "123123123"
+  },
   "view:allowanceStatement": {
     "confirmation": {
       "checkBox": true
