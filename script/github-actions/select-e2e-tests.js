@@ -105,8 +105,27 @@ function exportVariables(tests) {
     core.exportVariable('NUM_CONTAINERS', 4);
     core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3]);
   } else {
-    core.exportVariable('NUM_CONTAINERS', 7);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
+    core.exportVariable('NUM_CONTAINERS', 17);
+    // core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
+    core.exportVariable('CI_NODE_INDEX', [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+    ]);
   }
   core.exportVariable('TESTS', 'true');
   fs.writeFileSync(`e2e_tests_to_test.json`, JSON.stringify(tests));
@@ -130,17 +149,16 @@ function main() {
   );
 
   const changedAppsForStressTest = CHANGED_FILE_PATHS
-    ? CHANGED_FILE_PATHS.map(
-        filePath =>
-          filePath.startsWith('src/applications')
-            ? filePath
-                .split('/')
-                .slice(0, 3)
-                .join('/')
-            : `${filePath
-                .split('/')
-                .slice(0, 3)
-                .join('/')}/`,
+    ? CHANGED_FILE_PATHS.map(filePath =>
+        filePath.startsWith('src/applications')
+          ? filePath
+              .split('/')
+              .slice(0, 3)
+              .join('/')
+          : `${filePath
+              .split('/')
+              .slice(0, 3)
+              .join('/')}/`,
       )
     : [];
 
