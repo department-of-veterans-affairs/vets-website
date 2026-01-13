@@ -203,9 +203,8 @@ describe('Compose form component', () => {
     // Ensure prefilled (signature) value is present
     expect(messageEl).to.have.attribute('value');
 
-    // Clear the textarea value and dispatch input
-    messageEl.value = '';
-    messageEl.dispatchEvent(new Event('input', { bubbles: true }));
+    // Clear the textarea value using testing-library helper (empty string triggers 'deleted' event)
+    inputVaTextInput(screen.container, '', 'va-textarea');
 
     await waitFor(() => {
       const hasClearedEvent = window.dataLayer?.some(
@@ -239,8 +238,7 @@ describe('Compose form component', () => {
     expect(messageEl).to.have.attribute('value');
 
     // Change value to something different (non-empty)
-    messageEl.value = 'Edited content';
-    messageEl.dispatchEvent(new Event('input', { bubbles: true }));
+    inputVaTextInput(screen.container, 'Edited content', 'va-textarea');
 
     await waitFor(() => {
       const hasEditedEvent = window.dataLayer?.some(
