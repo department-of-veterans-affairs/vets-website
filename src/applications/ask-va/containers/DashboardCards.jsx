@@ -146,7 +146,9 @@ export default function DashboardCards() {
                 ))}
               </VaSelect>
             </div>
-            <div // Keeps button pair aligned in parent correctly on mobile & desktop
+
+            <div
+              // Keeps button pair aligned in parent correctly on mobile & desktop
               className="vads-u-margin-bottom--neg0p5 medium-screen:vads-u-padding-right--0p5 vads-u-margin-x--neg0p5 medium-screen:vads-u-margin-x--0"
             >
               <VaButtonPair
