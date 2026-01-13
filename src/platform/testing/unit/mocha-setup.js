@@ -4,6 +4,13 @@
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
 
+// Some libraries (like web-vitals) call addEventListener at module load time,
+// before JSDOM is set up. Provide no-op stubs that get replaced in setupJSDom.
+if (typeof global.addEventListener === 'undefined') {
+  global.addEventListener = () => {};
+  global.removeEventListener = () => {};
+}
+
 import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
