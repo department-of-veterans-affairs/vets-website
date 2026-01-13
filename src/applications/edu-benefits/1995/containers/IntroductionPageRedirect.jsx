@@ -8,11 +8,15 @@ import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import { fetchClaimantInfo } from '../actions';
-import { selectMeb1995Reroute } from '../selectors/featureToggles';
+import {
+  selectMeb1995Reroute,
+  selectMeb1995RudisillAccess,
+} from '../selectors/featureToggles';
 
 export const IntroductionPageRedirect = ({ route, router }) => {
   const dispatch = useDispatch();
   const rerouteFlag = useSelector(selectMeb1995Reroute);
+  const rudisillAccessEnabled = useSelector(selectMeb1995RudisillAccess);
   const { user, formData } = useSelector(state => getIntroState(state));
 
   useEffect(() => {
@@ -140,17 +144,21 @@ export const IntroductionPageRedirect = ({ route, router }) => {
         Eligibility, use the questionnaire to determine which form you need.
       </p>
 
-      <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-        Rudisill review
-      </h4>
-      <p className="vads-u-margin-top--0">
-        If you need a Rudisill review,{' '}
-        <va-link
-          href="/education/apply-for-education-benefits/application/1995/introduction?rudisill=true"
-          text="you can submit a Rudisill review request through this online form"
-        />
-        .
-      </p>
+      {rudisillAccessEnabled && (
+        <>
+          <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+            Rudisill review
+          </h4>
+          <p className="vads-u-margin-top--0">
+            If you need a Rudisill review,{' '}
+            <va-link
+              href="/education/apply-for-education-benefits/application/1995/introduction?rudisill=true"
+              text="you can submit a Rudisill review request through this online form"
+            />
+            .
+          </p>
+        </>
+      )}
 
       {user?.login?.currentlyLoggedIn ? (
         <>

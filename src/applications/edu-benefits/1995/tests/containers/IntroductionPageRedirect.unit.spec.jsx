@@ -21,12 +21,14 @@ describe('IntroductionPageRedirect', () => {
     pageList: [],
   };
 
-  const createMockStore = (rerouteFlag, user) => {
+  const createMockStore = (rerouteFlag, user, rudisillAccessFlag = true) => {
     return mockStore({
       featureToggles: {
         loading: false,
         // eslint-disable-next-line camelcase
         meb_1995_re_reroute: rerouteFlag,
+        // eslint-disable-next-line camelcase
+        meb_1995_rudisill_access: rudisillAccessFlag,
       },
       form: {
         data: {},
