@@ -38,7 +38,7 @@ describe('FilterSummary', () => {
 
   it('renders correct sentence with tabs', () => {
     const sentence =
-      'Showing 1-5 of 5 results for "All" statuses and "All" categories in Business';
+      'Showing 1-5 of 5 results for "All" statuses and "All" categories in "Business"';
     const view = render(
       <FilterSummary
         categoryFilter="All"

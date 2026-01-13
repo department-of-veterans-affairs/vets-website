@@ -700,7 +700,7 @@ describe('<DashboardCards>', () => {
 
       const filterSummary = await view.findByRole('heading', {
         level: 3,
-        name: /categories in business/i,
+        name: /categories in "business"/i,
       });
 
       expect(tabButtons.childNodes.length).to.equal(2);
@@ -717,7 +717,7 @@ describe('<DashboardCards>', () => {
       expect(
         await view.findByRole('heading', {
           level: 3,
-          name: /categories in business/i,
+          name: /categories in "business"/i,
         }),
       ).to.exist;
       expect(personalTab).to.exist;
@@ -726,14 +726,14 @@ describe('<DashboardCards>', () => {
 
       const personalSummary = await view.findByRole('heading', {
         level: 3,
-        name: /categories in personal/i,
+        name: /categories in "personal"/i,
       });
 
       expect(personalSummary).to.exist;
       expect(() => {
         view.getByRole('heading', {
           level: 3,
-          name: /categories in business/i,
+          name: /categories in "business"/i,
         });
       }).to.throw();
     });

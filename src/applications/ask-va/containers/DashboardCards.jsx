@@ -187,7 +187,7 @@ export default function DashboardCards() {
                       query,
                     })}
                     tabName="Business"
-                    {...{ categoryFilter, statusFilter }}
+                    {...{ categoryFilter, statusFilter, query }}
                   />
                 </TabPanel>
                 <TabPanel>
@@ -199,7 +199,7 @@ export default function DashboardCards() {
                       query,
                     })}
                     tabName="Personal"
-                    {...{ categoryFilter, statusFilter }}
+                    {...{ categoryFilter, statusFilter, query }}
                   />
                 </TabPanel>
               </Tabs>
@@ -213,7 +213,7 @@ export default function DashboardCards() {
                   statusFilter,
                   query,
                 })}
-                {...{ categoryFilter, statusFilter }}
+                {...{ categoryFilter, statusFilter, query }}
               />
             </>
           )}
