@@ -6,6 +6,7 @@ const responses = {
       type: 'ch31_case_details',
       attributes: {
         resCaseId: 123456,
+        isInterrupted: false,
         isTransferredToCwnrs: false,
         externalStatus: {
           isDiscontinued: false,
