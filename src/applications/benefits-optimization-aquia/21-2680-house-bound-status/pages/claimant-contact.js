@@ -24,9 +24,14 @@ export const claimantContactUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const data = fullData || formData;
-      const firstName =
-        data?.claimantInformation?.claimantFullName?.first || '';
-      const lastName = data?.claimantInformation?.claimantFullName?.last || '';
+      const relationship = data?.claimantRelationship?.relationship;
+
+      const nameSource =
+        relationship === 'veteran'
+          ? data?.veteranInformation.veteranFullName
+          : data?.claimantInformation.claimantFullName;
+      const firstName = nameSource?.first || '';
+      const lastName = nameSource?.last || '';
       const fullName = `${firstName} ${lastName}`.trim();
 
       const title = fullName
