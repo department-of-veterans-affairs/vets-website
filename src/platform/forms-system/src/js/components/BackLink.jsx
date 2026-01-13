@@ -63,7 +63,7 @@ export const BackLinkImpl = ({
   function onClick(e) {
     e.preventDefault();
 
-    const route = getRoute(routes, location);
+    const route = getRoute(routes, location, dynamicPaths);
 
     goBack({
       formData: form.data,
