@@ -84,7 +84,7 @@ export const validateYMDate = (errors, rawDateString = '') => {
   } else if (date.hasErrors) {
     errors.addError(sharedErrorMessages.invalidDate);
   } else if (isToday(date.dateObj) || isFuture(date.dateObj)) {
-    errors.addError(error.pastDate);
+    errors.addError(error.dateUnavailable);
   } else if (isBefore(date.dateObj, minDate)) {
     errors.addError(error.newerDate);
   }
