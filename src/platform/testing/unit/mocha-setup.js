@@ -251,6 +251,41 @@ function setupJSDom() {
 /* eslint-disable no-console */
 
 setupJSDom();
+
+// Patch VA component library's isCoveredByReact to return false for click events.
+// This forces the React bindings to use syncEvent() for click handlers on web components,
+// which is needed because React's synthetic event delegation doesn't work properly
+// with web component shadow DOM in jsdom. Without this patch, onClick handlers on
+// VaLinkAction, VaButton, etc. don't fire when using fireEvent.click() or .click().
+try {
+  // Clear any cached component library modules so we can patch before they're re-exported
+  Object.keys(require.cache)
+    .filter(k => k.includes('component-library'))
+    .forEach(k => {
+      delete require.cache[k];
+    });
+
+  // eslint-disable-next-line import/no-unresolved
+  const attachPropsModule = require('@department-of-veterans-affairs/component-library/dist/react-bindings/react-component-lib/utils/attachProps');
+  const originalIsCoveredByReact = attachPropsModule.isCoveredByReact;
+  const patchedIsCoveredByReact = eventName => {
+    // Return false for click events so syncEvent is used instead of React delegation
+    if (eventName === 'click') {
+      return false;
+    }
+    return originalIsCoveredByReact(eventName);
+  };
+
+  // Patch the attachProps module directly (this is a writable property)
+  attachPropsModule.isCoveredByReact = patchedIsCoveredByReact;
+
+  // Now require the utils module which will pick up the patched version via __exportStar
+  // eslint-disable-next-line import/no-unresolved, no-unused-vars
+  const utilsModule = require('@department-of-veterans-affairs/component-library/dist/react-bindings/react-component-lib/utils');
+} catch (e) {
+  // Component library not installed or path changed - silently ignore
+}
+
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
