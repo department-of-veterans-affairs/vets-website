@@ -14,7 +14,7 @@ import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
 import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
 import { getIsInPilotReferralStation } from './utils/pilot';
 
-export default function ScheduleReferral() {
+export default function ScheduleReferral({ currentReferral: propReferral }) {
   const location = useLocation();
   const history = useHistory();
   const currentPage = useSelector(selectCurrentPage);
@@ -24,9 +24,11 @@ export default function ScheduleReferral() {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id);
+  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
+    skip: !!propReferral,
+  });
 
-  const currentReferral = referral?.attributes;
+  const currentReferral = propReferral?.attributes || referral?.attributes;
   const selectedSlotKey = currentReferral
     ? getReferralSlotKey(currentReferral.uuid)
     : null;
