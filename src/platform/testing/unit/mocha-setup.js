@@ -268,6 +268,9 @@ const server = setupServer(
   }),
 );
 
+// Export server and rest for tests that need to add custom handlers
+export { server, rest };
+
 export const mochaHooks = {
   beforeAll() {
     server.listen({ onUnhandledRequest: 'bypass' });
