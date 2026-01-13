@@ -1,6 +1,8 @@
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -31,6 +33,30 @@ import serviceStatus2 from '../pages/serviceStatus2';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
+
+const customConfig = {
+  // Page identification
+  contactInfoPageKey: 'confirmContactInformation',
+  contactPath: 'contact-information',
+  // Content customization
+  content: getContent('application'), // or custom content object
+  // Data keys - customize where contact info is stored in form data
+  wrapperKey: 'veteran',
+  emailKey: 'email',
+  homePhoneKey: 'homePhone',
+  mobilePhoneKey: 'mobilePhone',
+  addressKey: 'mailingAddress',
+  // Which fields to include
+  included: ['email', 'mobilePhone', 'mailingAddress'], // Excludes home phone
+  // Required fields - prevents form continuation if missing
+  contactInfoRequiredKeys: ['email', 'mobilePhone', 'mailingAddress'],
+  // UI options
+  contactSectionHeadingLevel: 'h4', // Default: 'h3' (main page) or 'h4' (review)
+  editContactInfoHeadingLevel: 'h3', // Default: 'h3'
+  disableMockContactInfo: false, // Disable mock data in local development
+
+  prefillPatternEnabled: true, // Enable prefill pattern features
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -73,43 +99,44 @@ const formConfig = {
   useCustomScrollAndFocus: true,
   defaultDefinitions: definitions,
   chapters: {
-    applicantInformationChapter: {
-      title: data => {
-        return data.formData['view:coeFormRebuildCveteam']
-          ? 'Your information'
-          : 'Your personal information on file';
-      },
-      pages: {
-        applicantInformationSummary: {
-          path: 'applicant-information',
-          // There seems to be a bug where the depends clause is ignored for the first item in the form
-          // depends: formData => {
-          //   console.log('the value 2:', formData);
-          //   return !formData['view:coeFormRebuildCveteam'];
-          // },
-          title: 'Your personal information on file',
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
-        },
-        yourInformation: personalInformation,
-      },
-    },
+    // applicantInformationChapter: {
+    //   title: data => {
+    //     return data.formData['view:coeFormRebuildCveteam']
+    //       ? 'Your information'
+    //       : 'Your personal information on file';
+    //   },
+    //   pages: {
+    //     applicantInformationSummary: {
+    //       path: 'applicant-information',
+    //       // There seems to be a bug where the depends clause is ignored for the first item in the form
+    //       // depends: formData => {
+    //       //   console.log('the value 2:', formData);
+    //       //   return !formData['view:coeFormRebuildCveteam'];
+    //       // },
+    //       title: 'Your personal information on file',
+    //       uiSchema: applicantInformation.uiSchema,
+    //       schema: applicantInformation.schema,
+    //     },
+    //     yourInformation: personalInformation,
+    //   },
+    // },
     contactInformationChapter: {
       title: 'Your contact information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: mailingAddress.title,
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-          updateFormData: mailingAddress.updateFormData,
-        },
+        // mailingAddress: {
+        //   path: 'mailing-address',
+        //   title: mailingAddress.title,
+        //   uiSchema: mailingAddress.uiSchema,
+        //   schema: mailingAddress.schema,
+        //   updateFormData: mailingAddress.updateFormData,
+        // },
         additionalInformation: {
           path: 'additional-contact-information',
           title: additionalInformation.title,
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
         },
+        ...profileContactInfoPages(customConfig),
       },
     },
     serviceHistoryChapter: {
