@@ -55,7 +55,10 @@ const formConfig = (pathname = null) => {
     CustomReviewTopContent,
     dynamicPaths: true,
     ...minimalHeaderFormConfigOptions(),
-    customText: { appType: 'form' },
+    customText: {
+      appType: 'form',
+      reviewPageFormTitle: `Review and submit VA Form ${formNumber}`,
+    },
     hideReviewChapters: true,
     introduction: IntroductionPage,
     formId,
