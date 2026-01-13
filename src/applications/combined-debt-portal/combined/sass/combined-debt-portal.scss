@@ -56,7 +56,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 270px;
+    @media (min-width: $small-screen) {
+      width: 270px;
+    }
 }
 
 .account-parts-container {

@@ -1,7 +1,7 @@
 .copy-button-container {
   display: inline-flex;
   color: var(--vads-color-primary) !important;
-  width: 113px;
+  width: 113px; //Needed so that the button text updates (or error state) don't make the buttons shift
 
   .copy-button {
     border-radius: 0.25rem;

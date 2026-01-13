@@ -12,8 +12,57 @@ export const getDeductionDescription = code => {
   return `${description}`;
 };
 
+const DebtDetailRow = ({ label, value, displayValue, copyable }) => (
+  <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
+    <div className="debt-copy-row">
+      <span>{label}</span>
+      {copyable && (
+        <CopyButton value={value} className="vads-u-flex-shrink--0" />
+      )}
+    </div>
+    <div>
+      <strong>{displayValue}</strong>
+    </div>
+  </li>
+);
+
 const HowDoIPay = ({ userData }) => {
   const { deductionCode } = userData;
+
+  const debtDetails = [
+    {
+      label: 'Current balance',
+      value: userData.currentAr,
+      displayValue: `$${userData.currentAr}`,
+      copyable: true,
+    },
+    {
+      label: userData.receivableId ? 'Receivable ID' : 'File Number',
+      value: userData.receivableId || userData.fileNumber,
+      displayValue: userData.receivableId || userData.fileNumber,
+      copyable: true,
+    },
+    {
+      label: 'Payee Number',
+      value: userData.payeeNumber,
+      displayValue: userData.payeeNumber,
+      copyable: true,
+    },
+    {
+      label: 'Person Entitled',
+      value: userData.personEntitled,
+      displayValue: userData.personEntitled,
+      copyable: true,
+    },
+    {
+      label: 'Deduction Code',
+      value: userData.deductionCode,
+      displayValue: `${userData.deductionCode} – ${getDeductionDescription(
+        deductionCode,
+      )}`,
+      copyable: false,
+    },
+  ];
 
   return (
     <section>
@@ -36,66 +85,9 @@ const HowDoIPay = ({ userData }) => {
       </p>
       {userData ? (
         <ul className="vads-u-padding-left--0">
-          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
-            <div className="debt-copy-row">
-              <span>Current balance</span>
-              <CopyButton
-                value={userData.currentAr}
-                className="vads-u-flex-shrink--0"
-              />
-            </div>
-            <div>
-              <strong>${userData.currentAr}</strong>
-            </div>
-          </li>
-          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
-            <div className="debt-copy-row">
-              <span>
-                {userData.receivableId ? 'Receivable ID' : 'File Number'}
-              </span>
-              <CopyButton
-                value={userData.receivableId || userData.fileNumber}
-                className="vads-u-flex-shrink--0"
-              />
-            </div>
-            <div>
-              <strong>{userData.receivableId || userData.fileNumber}</strong>
-            </div>
-          </li>
-          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
-            <div className="debt-copy-row">
-              <span>Payee Number</span>
-              <CopyButton
-                value={userData.payeeNumber}
-                className="vads-u-flex-shrink--0"
-              />
-            </div>
-            <div>
-              <strong>{userData.payeeNumber}</strong>
-            </div>
-          </li>
-          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
-            <div className="debt-copy-row">
-              <span>Person Entitled</span>
-              <CopyButton
-                value={userData.personEntitled}
-                className="vads-u-flex-shrink--0"
-              />
-            </div>
-            <div>
-              <strong>{userData.personEntitled}</strong>
-            </div>
-          </li>
-          <li className="vads-u-display--flex vads-u-flex-direction--column">
-            <span>Deduction Code</span>
-            <div>
-              <strong>
-                {userData.deductionCode}
-                {' – '}
-                {getDeductionDescription(deductionCode)}
-              </strong>
-            </div>
-          </li>
+          {debtDetails.map(detail => (
+            <DebtDetailRow key={detail.label} {...detail} />
+          ))}
         </ul>
       ) : (
         <ul className="vads-u-padding-left--0">

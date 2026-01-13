@@ -14,33 +14,39 @@ const CopyButton = ({
   const timeoutRef = useRef(null);
   const announcementRef = useRef(null);
 
-  const handleCopy = async () => {
+  const DEFAULT_ANNOUNCEMENT_VALUE = '';
+
+  const updateAnnouncement = (message = DEFAULT_ANNOUNCEMENT_VALUE) => {
     if (announcementRef.current) {
-      announcementRef.current.textContent = '';
+      announcementRef.current.textContent = message;
     }
+  };
+
+  const clearExistingTimeout = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+
+  const scheduleReset = resetFn => {
+    clearExistingTimeout();
+    timeoutRef.current = setTimeout(() => {
+      updateAnnouncement();
+      resetFn();
+    }, timeout);
+  };
+
+  const handleCopy = async () => {
+    updateAnnouncement();
 
     try {
-      const textToCopy = value;
-      await navigator.clipboard.writeText(textToCopy);
+      await navigator.clipboard.writeText(value);
+
       setCopied(true);
       setError(null);
 
-      if (announcementRef.current) {
-        announcementRef.current.textContent = `Copied ${label ||
-          value} to clipboard`;
-      }
-
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      // Reset after default of 2 seconds
-      timeoutRef.current = setTimeout(() => {
-        if (announcementRef.current) {
-          announcementRef.current.textContent = '';
-        }
-        setCopied(false);
-      }, timeout);
+      updateAnnouncement(`Copied ${label || value} to clipboard`);
+      scheduleReset(() => setCopied(false));
 
       recordEvent({
         event: 'cta-button-click',
@@ -52,25 +58,15 @@ const CopyButton = ({
       setError('Failed to copy');
       setCopied(false);
 
-      if (announcementRef.current) {
-        announcementRef.current.textContent = 'Failed to copy';
-      }
-
-      timeoutRef.current = setTimeout(() => {
-        if (announcementRef.current) {
-          announcementRef.current.textContent = '';
-        }
-        setError(null);
-      }, timeout);
+      updateAnnouncement('Failed to copy');
+      scheduleReset(() => setError(null));
     }
   };
 
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      clearExistingTimeout();
     };
   }, []);
 
