@@ -34,6 +34,7 @@ describe('VAOS Backend Service Alert', () => {
     const appointment = new MockAppointmentResponse({
       localStartTime: addDays(now, 1),
       status: APPOINTMENT_STATUS.booked,
+      future: true,
     }).setLocation(new MockFacilityResponse());
 
     mockAppointmentsApi({

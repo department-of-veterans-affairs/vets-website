@@ -13,8 +13,8 @@ const ReportMedicareDescription = (
       </li>
       <li>
         <strong>If you’re pre-enrolled in Medicare</strong> with a future
-        effective date, you need to submit using the Other Health Insurance
-        Certification (VA Form 10-7959c) before you file your first claim.
+        effective date, you’ll need to upload a copy of the front and back of
+        your Medicare card with this form.
       </li>
     </ul>
   </>

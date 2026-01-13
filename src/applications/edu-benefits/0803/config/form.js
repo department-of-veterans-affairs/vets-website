@@ -4,6 +4,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -17,8 +18,6 @@ import * as PreviouslyApplied from '../pages/PreviouslyApplied';
 import * as SelectVABenefit from '../pages/SelectVABenefit';
 import * as VABenefitWarning from '../pages/VABenefitWarning';
 import * as PayeeNumber from '../pages/PayeeNumber';
-import * as MailingAddress from '../pages/MailingAddress';
-import * as PhoneAndEmail from '../pages/PhoneAndEmail';
 import * as TestNameAndDate from '../pages/TestNameAndDate';
 import * as OrganizationInfo from '../pages/OrganizationInfo';
 import * as TestCost from '../pages/TestCost';
@@ -125,18 +124,11 @@ const formConfig = {
             formData?.vaBenefitProgram === 'chapter35' &&
             !!formData.vaFileNumber,
         },
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing Address',
-          uiSchema: MailingAddress.uiSchema,
-          schema: MailingAddress.schema,
-        },
-        phoneAndEmail: {
-          path: 'phone-and-email',
-          title: 'Phone and Email',
-          uiSchema: PhoneAndEmail.uiSchema,
-          schema: PhoneAndEmail.schema,
-        },
+        ...profileContactInfoPages({
+          contactInfoRequiredKeys: ['mailingAddress'],
+          // disableMockContactInfo: true,
+          // prefillPatternEnabled: true,
+        }),
       },
     },
     testInformationChapter: {
