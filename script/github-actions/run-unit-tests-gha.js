@@ -102,7 +102,7 @@ function buildTestCommand(testPaths) {
 
   return `STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
+  ].toLowerCase()} ${testRunner} --exit --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
   } ${testPaths.join(' ')}`;
 }
