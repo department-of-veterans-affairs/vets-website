@@ -25,6 +25,37 @@ import { sentryTransport } from './sentry';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
+// Polyfill Request.prototype.arrayBuffer for MSW v1 compatibility with node-fetch
+// node-fetch v2 doesn't implement arrayBuffer() on Request
+if (typeof global.Request !== 'undefined' && !global.Request.prototype.arrayBuffer) {
+  global.Request.prototype.arrayBuffer = async function() {
+    const body = this.body;
+    if (!body) return new ArrayBuffer(0);
+    // Handle string body
+    if (typeof body === 'string') {
+      const buffer = Buffer.from(body);
+      return buffer.buffer.slice(
+        buffer.byteOffset,
+        buffer.byteOffset + buffer.byteLength,
+      );
+    }
+    // Handle stream body
+    const chunks = [];
+    for await (const chunk of body) {
+      if (typeof chunk === 'string') {
+        chunks.push(Buffer.from(chunk));
+      } else {
+        chunks.push(chunk);
+      }
+    }
+    const buffer = Buffer.concat(chunks);
+    return buffer.buffer.slice(
+      buffer.byteOffset,
+      buffer.byteOffset + buffer.byteLength,
+    );
+  };
+}
+
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 Sentry.init({
