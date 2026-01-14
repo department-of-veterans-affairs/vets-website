@@ -60,7 +60,7 @@ export default function SelectProviderPage() {
     return pageTitle;
   };
 
-  function ProviderInfo() {
+  function TypeOfCareAndFacilityInfo() {
     return (
       <>
         <div>
@@ -68,11 +68,6 @@ export default function SelectProviderPage() {
           <br />
           <strong>Facility:</strong> {selectedFacility?.name}
         </div>
-
-        {hasProviders &&
-          patientProviderRelationships.map((provider, index) => (
-            <ProviderCard key={index} provider={provider} />
-          ))}
       </>
     );
   }
@@ -98,7 +93,7 @@ export default function SelectProviderPage() {
       {patientRelationshipsError &&
         !hasProviders && (
           <>
-            <ProviderInfo />
+            <TypeOfCareAndFacilityInfo />
             <BackendProviderServiceAlert
               selectedFacility={selectedFacility}
               isEligibleForRequest={isEligibleForRequest}
@@ -119,7 +114,14 @@ export default function SelectProviderPage() {
         )}
 
       {/* Has providers returned, no errors */}
-      {hasProviders ? <ProviderInfo /> : null}
+      {hasProviders ? (
+        <>
+          <TypeOfCareAndFacilityInfo />
+          {patientProviderRelationships.map((provider, index) => (
+            <ProviderCard key={index} provider={provider} />
+          ))}
+        </>
+      ) : null}
 
       <ScheduleWithDifferentProvider
         isEligibleForRequest={isEligibleForRequest}
