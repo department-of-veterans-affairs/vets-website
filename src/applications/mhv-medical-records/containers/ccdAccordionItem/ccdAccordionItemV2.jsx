@@ -14,7 +14,7 @@ const CCDAccordionItemV2 = ({ generatingCCD, handleDownloadCCD }) => (
     </p>
 
     {generatingCCD ? (
-      <div id="generating-ccd-indicator">
+      <div id="generating-ccd-indicator" data-testid="generating-ccd-indicator">
         <TrackedSpinner
           id="download-ccd-spinner"
           label="Loading"

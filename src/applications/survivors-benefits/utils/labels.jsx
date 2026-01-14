@@ -10,14 +10,14 @@ export const dicOptions = {
 };
 
 export const servicesOptions = {
-  ARMY: 'Army',
-  NAVY: 'Navy',
-  AIR_FORCE: 'Air Force',
-  COAST_GUARD: 'Coast Guard',
-  MARINE_CORPS: 'Marine Corps',
-  SPACE_FORCE: 'Space Force',
-  USPHS: 'USPHS',
-  NOAA: 'NOAA',
+  army: 'Army',
+  navy: 'Navy',
+  airForce: 'Air Force',
+  coastGuard: 'Coast Guard',
+  marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
+  usphs: 'USPHS',
+  noaa: 'NOAA',
 };
 
 export const claimantRelationshipOptions = {
@@ -36,9 +36,9 @@ export const marriageEndOptions = {
 };
 
 export const marriageTypeOptions = {
-  CIVIL_RELIGIOUS:
-    'In a civil or religious ceremony with an officiant who signed me marriage license',
-  OTHER_WAY: 'Some other way',
+  ceremonial:
+    'In a civil or religious ceremony with an officiant who signed my marriage license',
+  other: 'Some other way',
 };
 
 export const separationReasonOptions = {
@@ -54,10 +54,10 @@ export const previousMarriageEndOptions = {
 };
 
 export const remarriageEndOptions = {
-  DID_NOT_END: 'Did not end',
-  SPOUSE_DEATH: "Spouse's death",
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
+  didNotEnd: 'Did not end',
+  death: "Spouse's death",
+  divorce: 'Divorce',
+  other: 'Other',
 };
 
 export const bankAccountTypeOptions = {

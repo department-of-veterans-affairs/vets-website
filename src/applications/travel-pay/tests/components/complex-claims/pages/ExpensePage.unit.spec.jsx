@@ -361,7 +361,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           if (key === 'AirTravel') {
             expect(
               getByText(
-                `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`,
+                `Upload a receipt or proof of the expense here. If you’re adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`,
               ),
             ).to.exist;
           } else {

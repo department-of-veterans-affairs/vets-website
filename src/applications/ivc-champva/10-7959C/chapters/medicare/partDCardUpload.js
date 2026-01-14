@@ -30,6 +30,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['medicarePartDCardFront', 'medicarePartDCardBack'],
     properties: {
       medicarePartDCardFront: singleAttachmentSchema,
       medicarePartDCardBack: singleAttachmentSchema,
