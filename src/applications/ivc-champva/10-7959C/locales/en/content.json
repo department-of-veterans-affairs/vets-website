@@ -85,6 +85,7 @@
   "medicare--general-pharmacy-label": "Does the beneficiary’s Medicare plan provide pharmacy benefits?",
   "medicare--general-pharmacy-hint": "You can find this information on the front of the Medicare card.",
   "medicare--intro-title": "Report Medicare",
+  "medicare--mbi-title": "%s MBI",
   "medicare--mbi-description": "Every Medicare recipient has an 11-character Medicare Beneficiary Identifier (MBI) code. You can find this code on the front of Medicare cards or on medicare.gov accounts.",
   "medicare--mbi-label": "MBI",
   "medicare--mbi-hint": "You can enter an HICN if that’s what’s shown on the Medicare card.",

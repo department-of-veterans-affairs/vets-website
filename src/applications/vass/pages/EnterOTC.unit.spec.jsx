@@ -27,6 +27,11 @@ const defaultRenderOptions = {
       hydrated: false,
       selectedDate: null,
       selectedTopics: [],
+      obfuscatedEmail: 't***@test.com',
+      uuid: 'c0ffee-1234-beef-5678',
+      token: null,
+      lastname: 'Smith',
+      dob: '1935-04-07',
     },
   },
   reducers,
@@ -50,9 +55,9 @@ describe('VASS Component: EnterOTC', () => {
 
     expect(screen.getByTestId('header')).to.exist;
     expect(screen.getByTestId('enter-otc-success-alert')).to.exist;
-    expect(screen.getByTestId('enter-otc-success-alert').textContent).to.match(
-      /t\*\*\*@test.com/i,
-    );
+    expect(
+      screen.getByTestId('enter-otc-success-alert').textContent,
+    ).to.contain(defaultRenderOptions.initialState.vassForm.obfuscatedEmail);
     expect(screen.queryByTestId('enter-otc-error-alert')).to.not.exist;
     const otcInput = screen.getByTestId('otc-input');
     expect(otcInput).to.exist;
