@@ -213,3 +213,21 @@ export const expiresSoonIcon = expDate => {
   }
   return null;
 };
+
+export const benefitCopy = ITFType => {
+  switch (ITFType) {
+    case 'compensation':
+      return <span>Disability compensation (VA Form 21-526EZ)</span>;
+    case 'pension':
+      return <span>Pension (VA Form 21P-527EZ)</span>;
+    case 'survivor':
+      return (
+        <span>
+          Survivors pension and/or dependency and indemnity compensation (DIC)
+          (VA Form 21P-534 or VA Form 21P-534EZ)
+        </span>
+      );
+    default:
+      return null;
+  }
+};

@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca VaPension config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca VaPension config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 2;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,29 @@ describe('hca VaPension config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        vaPensionType: {
+          type: 'string',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'ui:description': {},
+      vaPensionType: {
+        'ui:title': {},
+        'ui:options': {},
+        'ui:reviewField': {},
+      },
+    },
+    expectedRequired: ['vaPensionType'],
+    pageName: pageTitle,
+  });
 });

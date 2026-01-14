@@ -1,4 +1,5 @@
 import React from 'react';
+import { VASS_PHONE_NUMBER } from '../utils/constants';
 
 export default function NeedHelp() {
   return (
@@ -19,7 +20,7 @@ export default function NeedHelp() {
           <span className="vads-u-font-weight--normal">
             give us a call at{' '}
             <va-telephone
-              contact="8008270611"
+              contact={VASS_PHONE_NUMBER}
               data-testid="solid-start-telephone"
             />
             or visit{' '}
