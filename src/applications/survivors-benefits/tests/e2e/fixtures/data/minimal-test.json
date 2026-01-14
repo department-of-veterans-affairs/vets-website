@@ -58,6 +58,9 @@
         "first": "John",
         "last": "Doe"
       },
-      "veteranDateOfBirth": "1954-01-11"
+      "veteranDateOfBirth": "1954-01-11",
+      "veteranChildrenCount": "0",
+      "veteranAdditionalMarriagesCount": "0",
+      "spouseAdditionalMarriagesCount": "0"
   }
 }

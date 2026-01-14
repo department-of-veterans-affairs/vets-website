@@ -69,10 +69,12 @@
       ]
     },
     "doctorCareQuestion": {
-      "hasReceivedDoctorCare": true
+      "hasReceivedDoctorCare": true,
+      "doctorCareType": "va"
     },
     "hospitalizationQuestion": {
       "hasBeenHospitalized": true,
+      "hospitalType": "both",
       "view:treatmentAtNonVA": false
     },
     "doctors": [
@@ -121,13 +123,17 @@
           "state": "VA",
           "postalCode": "23219",
           "country": "USA"
-        }
-      }
-    ],
-    "treatmentDates": [
-      {
-        "startDate": "2023-05-05",
-        "endDate": "2023-05-10"
+        },
+        "connectedDisabilities": [
+          "Chronic lumbar strain",
+          "PTSD"
+        ],
+        "treatmentDates": [
+          {
+            "startDate": "2023-05-05",
+            "endDate": "2023-05-10"
+          }
+        ]
       }
     ],
     "sectionThree": {

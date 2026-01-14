@@ -46,7 +46,11 @@ import spouseMarriages from './chapters/04-household-information/spouseMarriages
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
 import { veteranMarriagesPages } from './chapters/04-household-information/veteranMarriagesPages';
 import veteranChildren from './chapters/04-household-information/veteranChildren';
+import dependentsCount from './chapters/04-household-information/dependentsCount';
 import dependentsPages from './chapters/04-household-information/dependentsPages';
+import dependentsResidence from './chapters/04-household-information/dependentsResidence';
+import dependentsAddress from './chapters/04-household-information/dependentsAddress';
+import dependentsCustodian from './chapters/04-household-information/dependentsCustodian';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -348,9 +352,8 @@ const formConfig = {
           title: 'Separation details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            (formData.separationDueToAssignedReasons ===
-              'RELATIONSHIP_DIFFERENCES' ||
-              formData.separationDueToAssignedReasons === 'OTHER'),
+            formData.separationDueToAssignedReasons &&
+            formData.separationDueToAssignedReasons !== 'OTHER',
           uiSchema: separationDetails.uiSchema,
           schema: separationDetails.schema,
         },
@@ -367,7 +370,7 @@ const formConfig = {
           title: 'Remarriage details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            formData.remarried === true,
+            formData.remarriedAfterVeteralDeath === true,
           uiSchema: remarriageDetails.uiSchema,
           schema: remarriageDetails.schema,
         },
@@ -376,7 +379,7 @@ const formConfig = {
           title: 'Additional marriages',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            formData.remarried === true,
+            formData.remarriedAfterVeteralDeath === true,
           uiSchema: additionalMarriages.uiSchema,
           schema: additionalMarriages.schema,
         },
@@ -390,8 +393,53 @@ const formConfig = {
         },
         ...previousMarriagesPages,
         ...veteranMarriagesPages,
-        veteranChildren,
+        veteranChildren: {
+          path: 'household/children-of-veteran',
+          title: 'Children of Veteran',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' ||
+            formData.hadPreviousMarriages === true,
+          uiSchema: veteranChildren.uiSchema,
+          schema: veteranChildren.schema,
+        },
+        dependentsCount: {
+          path: 'household/dependents-count',
+          title: 'Number of dependents',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
+          uiSchema: dependentsCount.uiSchema,
+          schema: dependentsCount.schema,
+        },
         ...dependentsPages,
+        dependentsResidence: {
+          path: 'household/dependents-residence',
+          title: 'Dependent’s residence',
+          depends: formData => {
+            if (formData.veteranChildrenCount > 0) {
+              const livesWith = formData?.veteransChildren?.findIndex(
+                element => element.livesWith === false,
+              );
+              return livesWith !== -1;
+            }
+            return false;
+          },
+          uiSchema: dependentsResidence.uiSchema,
+          schema: dependentsResidence.schema,
+        },
+        dependentsAddress: {
+          path: 'household/dependents-address',
+          title: 'Dependent’s mailing address',
+          depends: formData => formData?.dependentsResidence === true,
+          uiSchema: dependentsAddress.uiSchema,
+          schema: dependentsAddress.schema,
+        },
+        dependentsName: {
+          path: 'household/dependents-custodian',
+          title: 'Dependent’s custodian',
+          depends: formData => formData?.dependentsResidence === true,
+          uiSchema: dependentsCustodian.uiSchema,
+          schema: dependentsCustodian.schema,
+        },
       },
     },
     // Chapter 5 - Claim Information
