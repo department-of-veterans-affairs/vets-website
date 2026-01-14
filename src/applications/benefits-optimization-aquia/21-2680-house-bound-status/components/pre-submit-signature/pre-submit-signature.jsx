@@ -5,7 +5,12 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { isClaimantVeteran } from '../../utils/relationship-helpers';
-import { getVeteranName, getClaimantName } from '../../utils/name-helpers';
+import {
+  getVeteranName,
+  getClaimantName,
+  getVeteranFullNameWithMiddle,
+  getClaimantFullNameWithMiddle,
+} from '../../utils/name-helpers';
 
 /**
  * Normalize names for comparison: trim, lowercase, remove extra spaces
@@ -23,8 +28,8 @@ export const normalizeName = name => {
 /**
  * Get all valid signer names from form data
  * Returns an array of names that are valid for signing:
- * - Always includes veteran/beneficiary name
- * - Includes claimant name if claimant is not the veteran
+ * - Always includes veteran/beneficiary name (with and without middle)
+ * - Includes claimant name if claimant is not the veteran (with and without middle)
  *
  * @param {Object} formData - The form data
  * @returns {string[]} Array of valid signer names
@@ -32,17 +37,25 @@ export const normalizeName = name => {
 export const getValidSignerNames = formData => {
   const names = [];
 
-  // Veteran/beneficiary can always sign
+  // Veteran/beneficiary can always sign (both with and without middle name)
   const veteranName = getVeteranName(formData, '');
   if (veteranName) {
     names.push(veteranName);
   }
+  const veteranNameWithMiddle = getVeteranFullNameWithMiddle(formData);
+  if (veteranNameWithMiddle) {
+    names.push(veteranNameWithMiddle);
+  }
 
-  // If claimant is not the veteran, they can also sign
+  // If claimant is not the veteran, they can also sign (both with and without middle name)
   if (!isClaimantVeteran(formData)) {
     const claimantName = getClaimantName(formData, '');
     if (claimantName) {
       names.push(claimantName);
+    }
+    const claimantNameWithMiddle = getClaimantFullNameWithMiddle(formData);
+    if (claimantNameWithMiddle) {
+      names.push(claimantNameWithMiddle);
     }
   }
 
