@@ -10,6 +10,7 @@ import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   DowntimeNotification,
   externalServices,
@@ -18,6 +19,7 @@ import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
+import LockedCategoryDisplay from './LockedCategoryDisplay';
 import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
@@ -61,7 +63,6 @@ import {
   updateDraftInProgress,
 } from '../../actions/threadDetails';
 import SelectedRecipientTitle from './SelectedRecipientTitle';
-import { clearPrescription } from '../../actions/prescription';
 import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 import useNavigationError from '../../hooks/useNavigationError';
 
@@ -103,6 +104,11 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [isAutoSave, setIsAutoSave] = useState(true);
+  const initialTextareaValueRef = useRef(
+    draftInProgress?.body?.length ? draftInProgress.body : undefined,
+  );
+  const prefillClearedReportedRef = useRef(false);
+  const prefillEditedReportedRef = useRef(false);
 
   const recipientExists = useCallback(
     recipientId => {
@@ -146,15 +152,6 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      return () => {
-        dispatch(clearPrescription());
-      };
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
       if (isRxRenewalDraft) {
         const messageSubject = 'Renewal Needed';
         const messageBody = buildRxRenewalMessageBody(
@@ -169,9 +166,11 @@ const ComposeForm = props => {
             category: Categories.MEDICATIONS.value,
           }),
         );
+
+        recordEvent({ event: 'sm_editor_prefill_loaded' });
       }
     },
-    [renewalPrescription, isRxRenewalDraft, dispatch],
+    [renewalPrescription, isRxRenewalDraft, rxError, dispatch],
   );
 
   useEffect(
@@ -305,6 +304,39 @@ const ComposeForm = props => {
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
 
+  useEffect(
+    () => {
+      if (
+        initialTextareaValueRef.current === undefined &&
+        messageBody &&
+        messageBody.length > 0
+      ) {
+        initialTextareaValueRef.current = messageBody;
+      }
+    },
+    [messageBody],
+  );
+
+  const formattedSignature = useMemo(
+    () => {
+      return messageSignatureFormatter(signature);
+    },
+    [signature],
+  );
+
+  useEffect(
+    () => {
+      if (
+        initialTextareaValueRef.current === undefined &&
+        !messageBody &&
+        formattedSignature
+      ) {
+        initialTextareaValueRef.current = formattedSignature;
+      }
+    },
+    [formattedSignature, messageBody],
+  );
+
   const validMessageType = {
     SAVE: 'save',
     SEND: 'send',
@@ -334,13 +366,6 @@ const ComposeForm = props => {
       }
     },
     [categories, dispatch],
-  );
-
-  const formattedSignature = useMemo(
-    () => {
-      return messageSignatureFormatter(signature);
-    },
-    [signature],
   );
 
   const setUnsavedNavigationError = useCallback(
@@ -384,6 +409,46 @@ const ComposeForm = props => {
       }
     },
     [setNavigationError],
+  );
+
+  const renderCategorySection = useMemo(
+    () => {
+      if (noAssociations || allTriageGroupsBlocked) {
+        return (
+          <ViewOnlyDraftSection
+            title={FormLabels.CATEGORY}
+            body={`${Categories[(draft?.category)].label}: ${
+              Categories[(draft?.category)].description
+            }`}
+          />
+        );
+      }
+      if (isRxRenewalDraft) {
+        return <LockedCategoryDisplay />;
+      }
+      return (
+        <CategoryInput
+          categories={categories}
+          category={category}
+          categoryError={categoryError}
+          setCategory={setCategory}
+          setCategoryError={setCategoryError}
+          setUnsavedNavigationError={setUnsavedNavigationError}
+          setNavigationError={setNavigationError}
+        />
+      );
+    },
+    [
+      noAssociations,
+      allTriageGroupsBlocked,
+      isRxRenewalDraft,
+      draft?.category,
+      categories,
+      category,
+      categoryError,
+      setUnsavedNavigationError,
+      setNavigationError,
+    ],
   );
 
   useEffect(
@@ -838,13 +903,32 @@ const ComposeForm = props => {
   };
 
   const messageBodyHandler = e => {
-    setMessageBody(e.target.value);
+    const newValue = e.target.value;
+    if (
+      newValue === '' &&
+      !prefillClearedReportedRef.current &&
+      initialTextareaValueRef.current &&
+      initialTextareaValueRef.current.length > 0
+    ) {
+      recordEvent({ event: 'sm_editor_prefill_deleted' });
+      prefillClearedReportedRef.current = true;
+    }
+    if (
+      newValue !== '' &&
+      !prefillEditedReportedRef.current &&
+      initialTextareaValueRef.current !== undefined &&
+      initialTextareaValueRef.current !== newValue
+    ) {
+      recordEvent({ event: 'sm_editor_prefill_edited' });
+      prefillEditedReportedRef.current = true;
+    }
+    setMessageBody(newValue);
     dispatch(
       updateDraftInProgress({
-        body: e.target.value,
+        body: newValue,
       }),
     );
-    if (e.target.value) setBodyError('');
+    if (newValue) setBodyError('');
     setUnsavedNavigationError();
   };
 
@@ -955,24 +1039,7 @@ const ComposeForm = props => {
             <SelectedRecipientTitle draftInProgress={draftInProgress} />
           )}
           <div className="compose-form-div vads-u-margin-y--3">
-            {noAssociations || allTriageGroupsBlocked ? (
-              <ViewOnlyDraftSection
-                title={FormLabels.CATEGORY}
-                body={`${Categories[(draft?.category)].label}: ${
-                  Categories[(draft?.category)].description
-                }`}
-              />
-            ) : (
-              <CategoryInput
-                categories={categories}
-                category={category}
-                categoryError={categoryError}
-                setCategory={setCategory}
-                setCategoryError={setCategoryError}
-                setUnsavedNavigationError={setUnsavedNavigationError}
-                setNavigationError={setNavigationError}
-              />
-            )}
+            {renderCategorySection}
           </div>
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (

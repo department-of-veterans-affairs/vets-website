@@ -135,6 +135,7 @@ describe('PicklistRemoveDependents', () => {
       ...dep,
       key: slugifyText(
         `${dep.fullName.first.toLowerCase()}-${dep.ssn.slice(-4)}`,
+        { convertCamelCase: false },
       ),
       selected: index === 1,
     }));
@@ -205,7 +206,7 @@ describe('PicklistRemoveDependents', () => {
     const additionalInfo = $('va-additional-info', container);
     expect(additionalInfo).to.exist;
     expect(additionalInfo.getAttribute('trigger')).to.equal(
-      'How can I remove a dependent parent?',
+      'How can I remove a dependent parent for reasons other than death?',
     );
   });
 

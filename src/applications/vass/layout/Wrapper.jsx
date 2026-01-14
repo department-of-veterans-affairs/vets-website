@@ -1,11 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import classNames from 'classnames';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
+import {
+  hydrateFormData,
+  selectHydrated,
+  selectUuid,
+} from '../redux/slices/formSlice';
+import { usePersistentSelections } from '../hooks/usePersistentSelections';
 
 const Wrapper = props => {
   const {
@@ -16,9 +22,23 @@ const Wrapper = props => {
     showBackLink = false,
     required = false,
     verificationError,
+    loading = false,
+    loadingMessage = 'Loading...',
   } = props;
-
+  const hydrated = useSelector(selectHydrated);
+  const uuid = useSelector(selectUuid);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { getSaved } = usePersistentSelections(uuid);
+
+  const loadSavedData = useCallback(
+    () => {
+      if (!hydrated) {
+        dispatch(hydrateFormData(getSaved()));
+      }
+    },
+    [dispatch, getSaved, hydrated],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -34,6 +54,24 @@ const Wrapper = props => {
     },
     [verificationError],
   );
+
+  useEffect(
+    () => {
+      loadSavedData();
+    },
+    [loadSavedData],
+  );
+
+  if (loading) {
+    return (
+      <div className="vads-l-grid-container vads-u-margin-y--8">
+        <va-loading-indicator
+          data-testid="loading-indicator"
+          message={loadingMessage}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -94,8 +132,10 @@ export default Wrapper;
 
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  pageTitle: PropTypes.string.isRequired,
   className: PropTypes.string,
+  loading: PropTypes.bool,
+  loadingMessage: PropTypes.string,
+  pageTitle: PropTypes.string,
   required: PropTypes.bool,
   showBackLink: PropTypes.bool,
   testID: PropTypes.string,

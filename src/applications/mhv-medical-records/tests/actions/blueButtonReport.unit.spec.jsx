@@ -93,6 +93,67 @@ describe('Blue Button Actions', () => {
         );
       });
 
+      describe('vaccines with accelerating toggle', () => {
+        let getVaccineListStub;
+        let getAcceleratedImmunizationsStub;
+
+        beforeEach(() => {
+          getVaccineListStub = sinon
+            .stub(MrApi, 'getVaccineList')
+            .resolves({ mockData: 'v1VaccinesData' });
+          getAcceleratedImmunizationsStub = sinon
+            .stub(MrApi, 'getAcceleratedImmunizations')
+            .resolves({ mockData: 'v2ImmunizationsData' });
+        });
+
+        afterEach(() => {
+          getVaccineListStub.restore();
+          getAcceleratedImmunizationsStub.restore();
+        });
+
+        it('should call v1 getVaccineList and dispatch GET_LIST when isAcceleratingVaccines is false', async () => {
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData(
+            { vaccines: true, isAcceleratingVaccines: false },
+            {},
+          );
+          await action(dispatch);
+
+          expect(getVaccineListStub.calledOnce).to.be.true;
+          expect(getAcceleratedImmunizationsStub.called).to.be.false;
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            Actions.Vaccines.GET_LIST,
+          );
+        });
+
+        it('should call v2 getAcceleratedImmunizations and dispatch GET_UNIFIED_LIST when isAcceleratingVaccines is true', async () => {
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData(
+            { vaccines: true, isAcceleratingVaccines: true },
+            {},
+          );
+          await action(dispatch);
+
+          expect(getAcceleratedImmunizationsStub.calledOnce).to.be.true;
+          expect(getVaccineListStub.called).to.be.false;
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            Actions.Vaccines.GET_UNIFIED_LIST,
+          );
+        });
+
+        it('should call v1 getVaccineList and dispatch GET_LIST when isAcceleratingVaccines is not provided (default)', async () => {
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData({ vaccines: true }, {});
+          await action(dispatch);
+
+          expect(getVaccineListStub.calledOnce).to.be.true;
+          expect(getAcceleratedImmunizationsStub.called).to.be.false;
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            Actions.Vaccines.GET_LIST,
+          );
+        });
+      });
+
       it('should get conditions', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);

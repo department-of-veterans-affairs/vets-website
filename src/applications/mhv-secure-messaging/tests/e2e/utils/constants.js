@@ -108,6 +108,7 @@ export const Locators = {
     'recent-care-teams-continue-button',
   COMPOSE_RECIPIENT_TITLE: 'compose-recipient-title',
   COMPOSE_CATEGORY_DROPDOWN: 'compose-message-categories',
+  LOCKED_CATEGORY_DISPLAY: 'locked-category-display',
   INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
@@ -144,7 +145,7 @@ export const Locators = {
     MOVE: `#move-button`,
     TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
-    MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
+    MOVE_BUTTON_TEST_ID: 'move-button-text',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
     SEND_TEST_ID: 'send-button',
@@ -423,7 +424,8 @@ export const Data = {
   HCS_SELECT: `Select care team`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
   RECENT_RECIPIENTS_HEADER: 'Care teams you recently sent messages to',
-  RECENT_RECIPIENTS_LABEL: `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`,
+  RECENT_RECIPIENTS_LABEL: 'Select a team you want to message',
+  RECENT_RECIPIENTS_HINT: `This list only includes teams that you've sent messages to in the last 6 months. If you want to contact another team, select "A different care team."`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
@@ -441,7 +443,7 @@ export const Data = {
   READ_RECEIPT: `Opened by your care team`,
   UNREAD_RECEIPT: `Not yet opened by your care team`,
   CURATED_LIST: {
-    CANT_FIND_TEAM: `What to do if you can’t find your care team`,
+    CANT_FIND_TEAM_LINK: `Learn what to do if you can’t find your care team`,
     CONTACT_LIST_UPDATE: `Update your contact list`,
     SELECT_CARE_TEAM: `Select a different care team`,
   },

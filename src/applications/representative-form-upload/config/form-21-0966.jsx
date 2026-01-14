@@ -1,62 +1,42 @@
+import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
-import {
-  radioSchema,
-  radioUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPageITF from '../containers/ConfirmationPageITF';
 import IntroductionPageITF from '../containers/IntroductionPageITF';
 import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
-import { veteranInformationPage } from '../pages/veteranInformation';
+import { itfVeteranInformationPage } from '../pages/itfVeteranInformation';
 import { IsVeteranPage, isVeteranPage } from '../pages/isVeteranPage';
 import { itfTransformForSubmit } from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
 import { getIntentsToFile } from '../helpers/intent-to-file-helper';
-import submissionError from './submissionError';
+import ITFSubmissionError from './ITFSubmissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
-import PermissionError from '../components/PermissionError';
-import ExistingItf from '../components/ExistingItf';
+import ITF403Error from '../components/ITF403Error';
+import ITF500Error from '../components/ITF500Error';
+import ITFExistingClaim from '../components/ITFExistingClaim';
 
 const form210966 = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
   const trackingPrefix = `form-${formNumber.toLowerCase()}-`;
 
-  const itfVeteranInformationPageUiSchema = {
-    ...veteranInformationPage.uiSchema,
-  };
-  itfVeteranInformationPageUiSchema.benefitType = radioUI({
-    title: 'What benefit do you intend to file for?',
-    labels: { compensation: 'Compensation', pension: 'Pension' },
-  });
-  const itfVeteranInformationPageSchema = {
-    ...veteranInformationPage.schema,
-  };
-  itfVeteranInformationPageSchema.properties = {
-    ...itfVeteranInformationPageSchema.properties,
-  };
-  itfVeteranInformationPageSchema.properties.benefitType = radioSchema([
-    'compensation',
-    'pension',
-  ]);
-  itfVeteranInformationPageSchema.required = [
-    ...itfVeteranInformationPageSchema.required,
-    'benefitType',
-  ];
-
   return {
-    formId: formNumber,
+    formId: '21-0966',
     rootUrl: manifest.rootUrl,
     urlPrefix: `/submit-va-form-${formNumber}/`,
     submitUrl: `${
       environment.API_URL
     }/accredited_representative_portal/v0/intent_to_file`,
-    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    dev: {
+      collapsibleNavLinks: true,
+      showNavLinks: !window.Cypress,
+      disableWindowUnloadInCI: true,
+    },
     disableSave: true,
     trackingPrefix,
     introduction: IntroductionPageITF,
-    confirmation: ConfirmationPage,
+    confirmation: ConfirmationPageITF,
     CustomTopContent,
     customText: {
       appType: 'form',
@@ -64,10 +44,10 @@ const form210966 = (pathname = null) => {
       reviewPageTitle: 'Review and submit',
     },
     hideReviewChapters: true,
-    version: 1,
+    version: 0,
     prefillEnabled: false,
     transformForSubmit: itfTransformForSubmit,
-    submissionError,
+    submissionError: ITFSubmissionError,
     defaultDefinitions: {},
     additionalRoutes: [
       {
@@ -77,15 +57,21 @@ const form210966 = (pathname = null) => {
         depends: () => false,
       },
       {
-        path: 'permission-error',
-        pageKey: 'permission-error',
-        component: PermissionError,
-        depends: () => false,
+        path: 'intent-to-file-no-representation',
+        pageKey: 'intent-to-file-no-representation',
+        component: ITF403Error,
+        depends: formData => formData,
+      },
+      {
+        path: 'intent-to-file-unknown',
+        pageKey: 'intent-to-file-unknown',
+        component: ITF500Error,
+        depends: formData => formData,
       },
       {
         path: 'existing-itf',
         pageKey: 'existing-itf',
-        component: ExistingItf,
+        component: ITFExistingClaim,
         depends: () => false,
       },
     ],
@@ -97,11 +83,11 @@ const form210966 = (pathname = null) => {
     },
     chapters: {
       isVeteranChapter: {
-        title: 'Claimant background',
+        title: 'Claimant background ',
         pages: {
           isVeteranPage: {
-            path: 'is-veteran',
-            title: "Claimant's background",
+            path: 'claimant-background',
+            title: 'Claimant background',
             uiSchema: isVeteranPage.uiSchema,
             schema: isVeteranPage.schema,
             CustomPage: IsVeteranPage,
@@ -115,7 +101,7 @@ const form210966 = (pathname = null) => {
           veteranInformationPage: {
             path: 'veteran-information',
             title: 'Claimant information',
-            uiSchema: itfVeteranInformationPageUiSchema,
+            uiSchema: itfVeteranInformationPage.uiSchema,
             depends: formData => {
               return formData.isVeteran === 'yes';
             },
@@ -127,7 +113,7 @@ const form210966 = (pathname = null) => {
                 setFormData,
                 urlPrefix: `submit-va-form-${formNumber}/`,
               }),
-            schema: itfVeteranInformationPageSchema,
+            schema: itfVeteranInformationPage.schema,
             scrollAndFocusTarget,
             // we want req'd fields prefilled for LOCAL testing/previewing
             // one single initialData prop here will suffice for entire form
@@ -137,6 +123,11 @@ const form210966 = (pathname = null) => {
       },
       claimantInformationChapter: {
         title: 'Claimant and Veteran information',
+        reviewDescription: () => (
+          <div className="itf-review-heading">
+            Claimant and Veteran information
+          </div>
+        ),
         pages: {
           claimantInformation: {
             path: 'claimant-information',
@@ -164,7 +155,7 @@ const form210966 = (pathname = null) => {
             scrollAndFocusTarget,
             // we want req'd fields prefilled for LOCAL testing/previewing
             // one single initialData prop here will suffice for entire form
-            initialData: getMockData(),
+            initialData: getMockData(true),
           },
         },
       },

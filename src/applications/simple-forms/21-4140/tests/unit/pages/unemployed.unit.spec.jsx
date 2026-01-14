@@ -10,7 +10,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.unemployedChapter.pages.unemployed;
+} = formConfig.chapters.unemploymentChapter.pages.unemployed;
 
 const pageTitle = 'unemployed';
 

@@ -1,12 +1,26 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   VaAlert,
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
+import { recordType2FailureEvent } from '../utils/analytics';
 
-function UploadType2ErrorAlert({ failedSubmissions }) {
+const HEADING = 'We need you to submit files by mail or in person';
+
+function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
+  // Record Type 2 failure event every time component mounts with failed submissions
+  // Only fires on status page
+  useEffect(
+    () => {
+      if (failedSubmissions && failedSubmissions.length > 0 && isStatusPage) {
+        recordType2FailureEvent({ count: 1 });
+      }
+    },
+    [failedSubmissions, isStatusPage],
+  );
+
   // Don't render anything if there are no failed submissions
   if (!failedSubmissions || failedSubmissions.length === 0) {
     return null;
@@ -87,9 +101,11 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
       status="error"
       visible
     >
-      <h3 className="usa-alert-heading">
-        We need you to submit files by mail or in person
-      </h3>
+      {isStatusPage ? (
+        <h4 className="usa-alert-heading vads-u-font-size--h3">{HEADING}</h4>
+      ) : (
+        <h3 className="usa-alert-heading">{HEADING}</h3>
+      )}
       <div className="vads-u-margin-y--0">{body}</div>
     </VaAlert>
   );
@@ -97,6 +113,7 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
 
 UploadType2ErrorAlert.propTypes = {
   failedSubmissions: PropTypes.array,
+  isStatusPage: PropTypes.bool,
 };
 
 export default UploadType2ErrorAlert;

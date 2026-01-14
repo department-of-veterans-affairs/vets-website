@@ -14,6 +14,26 @@ const initialState = {
   submittedDependents: [],
 };
 
+/**
+ * @typedef {Object} ManageDependentsState
+ * @property {object} dependentsState - redux state for manage dependents forms
+ * @property {boolean|null} openFormlett - whether formlett is open
+ * @property {Array} submittedDependents - list of successfully submitted
+ * dependents
+ *
+ * @typedef {Object} ManageDependentsAction
+ * @property {string} type - action type
+ * @property {object} formSchema - schema for 686c-674
+ * @property {object} uiSchema - uiSchema for 686c-674
+ * @property {object} formData - form data for 686c-674
+ * @property {string} stateKey - form data key
+ * @property {string} status - loading status
+ * @property {object} error - error object
+ *
+ * @param {ManageDependentsState} state - redux state
+ * @param {ManageDependentsAction} action - redux action
+ * @returns {ManageDependentsState} - updated redux state
+ */
 export function removeDependents(state = initialState, action) {
   // schema, uiSchema, and formData are already extracted based on index (stateKey) here.
   if (action.type === FORM_DATA_UPDATED) {

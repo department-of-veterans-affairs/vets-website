@@ -8,13 +8,13 @@ const DependentsAndContacts = () => {
     <Tier2PageContent pageHeader="Dependents and contacts">
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE}
-        content="Review contact information for your current accredited attorney, claims agent, or Veterans Service Organization (VSO)"
+        content="Review contact information for your current accredited attorney, claims agent, or Veterans Service Organization (VSO)."
         href={PROFILE_PATHS.ACCREDITED_REPRESENTATIVE}
         reactLink
       />
       <ProfileHubItem
-        heading="VA dependents"
-        content="These are the dependents we have on file for you. Use this page to update or verify your dependents every year"
+        heading="Dependents on file"
+        content="Review the dependents we have on file for your disability, pension, or DIC benefits. And learn how to add or remove dependents."
         href="/manage-dependents/view"
       />
     </Tier2PageContent>

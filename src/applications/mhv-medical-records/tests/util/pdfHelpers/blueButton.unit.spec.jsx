@@ -11,6 +11,40 @@ import {
 } from '../../../util/constants';
 
 describe('generateBlueButtonData', () => {
+  const labsAndTests = [
+    {
+      name: 'Test 1',
+      type: labTypes.CHEM_HEM,
+      results: [{ name: 'Test result 1', result: 'Test result 1' }],
+    },
+    {
+      name: 'Test 2',
+      type: labTypes.MICROBIOLOGY,
+      results: [
+        {
+          name: 'Test result 2',
+          result: 'Test result 2',
+          labType: 'Test lab type',
+        },
+      ],
+    },
+    {
+      name: 'Test 3',
+      type: labTypes.PATHOLOGY,
+      results: [{ name: 'Test result 3', result: 'Test result 3' }],
+    },
+    {
+      name: 'Test 4',
+      type: labTypes.CHEM_HEM,
+      results: [{ name: 'Test result 4', result: 'Test result 4' }],
+    },
+    {
+      name: 'Test 5',
+      type: labTypes.RADIOLOGY,
+      results: [{ name: 'Test result 5', result: 'Test result 5' }],
+    },
+  ];
+
   it('should return an empty array when no records are provided', () => {
     const result = generateBlueButtonData({}, []);
     expect(result).to.be.an('array');
@@ -18,50 +52,38 @@ describe('generateBlueButtonData', () => {
   });
 
   it('should generate data for labs and tests', () => {
-    const labsAndTests = [
-      {
-        name: 'Test 1',
-        type: labTypes.CHEM_HEM,
-        results: [{ name: 'Test result 1', result: 'Test result 1' }],
-      },
-      {
-        name: 'Test 2',
-        type: labTypes.MICROBIOLOGY,
-        results: [
-          {
-            name: 'Test result 2',
-            result: 'Test result 2',
-            labType: 'Test lab type',
-          },
-        ],
-      },
-      {
-        name: 'Test 3',
-        type: labTypes.PATHOLOGY,
-        results: [{ name: 'Test result 3', result: 'Test result 3' }],
-      },
-      {
-        name: 'Test 4',
-        type: labTypes.CHEM_HEM,
-        results: [{ name: 'Test result 4', result: 'Test result 4' }],
-      },
-      {
-        name: 'Test 5',
-        type: labTypes.RADIOLOGY,
-        results: [{ name: 'Test result 5', result: 'Test result 5' }],
-      },
-    ];
     const result = generateBlueButtonData({ labsAndTests }, ['labTests']);
     expect(result).to.be.an('array').that.is.not.empty;
     const labsAndTestsSection = result.find(
       section => section.type === recordType.LABS_AND_TESTS,
     );
     expect(labsAndTestsSection).to.exist;
+    expect(labsAndTestsSection.subtitles[0]).to.equal(
+      'Most lab and test results are available 36 hours after the lab confirms them. Pathology results may take 14 days or longer to confirm.',
+    );
+    expect(labsAndTestsSection.subtitles).to.have.lengthOf(4);
     expect(labsAndTestsSection.records).to.have.lengthOf(5);
     expect(labsAndTestsSection.records[0].title).to.equal('Test 1');
     expect(
       labsAndTestsSection.records[0].results.items[0].items[0].value,
     ).to.equal('Test result 1');
+  });
+
+  it('should generate data for labs and tests: subtitles based on holdTimeMessagingUpdate being true', () => {
+    const result = generateBlueButtonData({ labsAndTests }, ['labTests'], true);
+    const labsAndTestsSection = result.find(
+      section => section.type === recordType.LABS_AND_TESTS,
+    );
+    expect(labsAndTestsSection.subtitles[0]).to.equal(
+      `Your test results are available here as soon as they're ready. You may have access to your results before your care team reviews them.`,
+    );
+    expect(labsAndTestsSection.subtitles[1]).to.equal(
+      'Please give your care team some time to review your results. Test results can be complex. Your team can help you understand what the results mean for your overall health.',
+    );
+    expect(labsAndTestsSection.subtitles[2]).to.equal(
+      'If you do review results on your own, remember that many factors can affect what they mean for you. If you have concerns, contact your care team.',
+    );
+    expect(labsAndTestsSection.subtitles).to.have.lengthOf(6);
   });
 
   it('should generate data for care summaries and notes', () => {

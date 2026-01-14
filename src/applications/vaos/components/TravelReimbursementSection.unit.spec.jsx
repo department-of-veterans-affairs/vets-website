@@ -213,15 +213,18 @@ describe('VAOS Component: TravelReimbursement', () => {
       { travelPayEnableComplexClaims: true },
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(
       screen.getByText(
         /You already started a claim for this appointment. Add your expenses and file within 30 days days of your appointment date./i,
       ),
     );
+
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+      `/my-health/travel-pay/claims/${claimId}`,
     );
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'text',
@@ -263,6 +266,8 @@ describe('VAOS Component: TravelReimbursement', () => {
       { travelPayEnableComplexClaims: true },
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(
       screen.getByText(
         /You already started a claim for this appointment. Add your expenses and file within 30 days days of your appointment date./i,
@@ -271,7 +276,7 @@ describe('VAOS Component: TravelReimbursement', () => {
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+      `/my-health/travel-pay/claims/${claimId}`,
     );
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'text',
@@ -346,7 +351,7 @@ describe('VAOS Component: TravelReimbursement', () => {
       'Your appointment happened more than 30 days ago',
     );
     expect(visibleModal.getAttribute('primary-button-text')).to.equal(
-      'Yes, I want to file',
+      'File claim',
     );
     expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
       'Don’t file',
@@ -425,7 +430,7 @@ describe('VAOS Component: TravelReimbursement', () => {
       'Your appointment happened more than 30 days ago',
     );
     expect(visibleModal.getAttribute('primary-button-text')).to.equal(
-      'Yes, I want to file',
+      'File claim',
     );
     expect(visibleModal.getAttribute('secondary-button-text')).to.equal(
       'Don’t file',
@@ -469,13 +474,15 @@ describe('VAOS Component: TravelReimbursement', () => {
       <TravelReimbursementSection appointment={appointment} />,
     );
 
+    const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
     expect(
       screen.getByText(/You’ve already filed a claim for this appointment/i),
     );
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      '/my-health/travel-pay/claims/1234',
+      `/my-health/travel-pay/claims/${claimId}`,
     );
   });
   ['Saved', 'Incomplete'].forEach(claimStatus => {
@@ -513,6 +520,8 @@ describe('VAOS Component: TravelReimbursement', () => {
         { travelPayEnableComplexClaims: false },
       );
 
+      const claimId = appointment.vaos.apiData.travelPayClaim.claim.id;
+
       // Should show finished claim view, not unfinished claim view
       expect(
         screen.getByText(/You’ve already filed a claim for this appointment/i),
@@ -520,7 +529,7 @@ describe('VAOS Component: TravelReimbursement', () => {
       expect(screen.getByTestId('view-claim-link')).to.exist;
       expect(screen.getByTestId('view-claim-link')).to.have.attribute(
         'href',
-        '/my-health/travel-pay/claims/1234',
+        `/my-health/travel-pay/claims/${claimId}`,
       );
       expect(screen.getByTestId('view-claim-link')).to.have.attribute(
         'text',

@@ -1,23 +1,45 @@
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/ch31_case_details': {
+  'GET /vre/v0/ch31_case_details': {
     data: {
       id: '',
       type: 'ch31_case_details',
       attributes: {
-        res_case_id: 123456,
-        is_transfered_to_cwnrs: true,
-        external_status: {
-          is_discontinued: false,
-          discontinued_reason: null,
-          state_list: [
-            { step_code: 'APPL', status: 'COMPLETED' },
-            { step_code: 'ELGLDET', status: 'COMPLETED' },
-            { step_code: 'ORICMPT', status: 'PENDING' },
-            { step_code: 'INTAKE', status: 'ACTIVE' },
-            { step_code: 'ENTLDET', status: 'PENDING' },
-            { step_code: 'PLANSELECT', status: 'PENDING' },
-            { step_code: 'BFSACT', status: 'PENDING' },
+        resCaseId: 123456,
+        isInterrupted: false,
+        isTransferredToCwnrs: false,
+        externalStatus: {
+          isDiscontinued: false,
+          discontinuedReason: null,
+          stateList: [
+            {
+              stepCode: 'APPL',
+              status: 'COMPLETED',
+            },
+            {
+              stepCode: 'ELGLDET',
+              status: 'COMPLETED',
+            },
+            {
+              stepCode: 'ORICMPT',
+              status: 'ACTIVE',
+            },
+            {
+              stepCode: 'INTAKE',
+              status: 'PENDING',
+            },
+            {
+              stepCode: 'ENTLDET',
+              status: 'PENDING',
+            },
+            {
+              stepCode: 'PLANSELECT',
+              status: 'PENDING',
+            },
+            {
+              stepCode: 'BFSACT',
+              status: 'PENDING',
+            },
           ],
         },
       },

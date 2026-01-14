@@ -7,13 +7,10 @@ import { Link } from 'react-router-dom-v5-compat';
 import {
   setReviewPageAlert,
   deleteExpenseDeleteDocument,
+  clearReviewPageAlert,
 } from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
-import {
-  EXPENSE_TYPES,
-  TRIP_TYPES,
-  EXPENSE_TYPE_KEYS,
-} from '../../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import { formatDate } from '../../../util/dates';
 import { currency } from '../../../util/string-helpers';
 import ExpenseCardDetails from './ExpenseCardDetails';
@@ -47,6 +44,8 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
           expenseId,
         ),
       );
+      // Clear any existing alerts after successful deletion
+      dispatch(clearReviewPageAlert());
     } catch (error) {
       // Any error from deleting either the expense or document ends up here
       dispatch(
@@ -89,10 +88,6 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                         {address.city}, {address.stateCode} {address.zipCode}
                       </>
                     ),
-                  },
-                  {
-                    label: 'Was your trip round trip or one way?',
-                    value: TRIP_TYPES.ROUND_TRIP.label,
                   },
                 ]}
               />

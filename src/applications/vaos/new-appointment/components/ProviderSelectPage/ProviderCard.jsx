@@ -10,9 +10,12 @@ import {
   updateSelectedProvider,
 } from '../../redux/actions';
 import { getFormData } from '../../redux/selectors';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 
 function handleClick({ history, dispatch, data, provider, pageKey }) {
-  return () => {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
     dispatch(routeToNextAppointmentPage(history, pageKey, data));
     dispatch(updateSelectedProvider(provider));
@@ -20,17 +23,12 @@ function handleClick({ history, dispatch, data, provider, pageKey }) {
 }
 
 export default function ProviderCard({ provider }) {
-  // Temporarily marking all providers as hasAvailability=true to enable a
-  // test on staging
-  const hasAvailability = true;
-  const { lastSeen, providerName } = provider;
-
-  // const { lastSeen, providerName, hasAvailability } = provider;
-
+  const { lastSeen, providerName, hasAvailability } = provider;
   const dispatch = useDispatch();
   const history = useHistory();
   const pageKey = useSelector(state => state?.newAppointment?.currentPageKey);
   const data = useSelector(getFormData);
+  const { preferredDate } = useSelector(getNewAppointmentFlow);
 
   return (
     <div>
@@ -52,6 +50,8 @@ export default function ProviderCard({ provider }) {
 
       {hasAvailability && (
         <VaLink
+          href={preferredDate.url}
+          aria-label={`Choose your preferred date and time with ${providerName}`}
           active
           data-testid="choose-date-time"
           text="Choose your preferred date and time"
@@ -67,7 +67,7 @@ export default function ProviderCard({ provider }) {
 
       <hr
         aria-hidden="true"
-        className="vads-u-margin-bottom--2 vads-u-margin-top--2"
+        className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-border-color--gray-medium"
       />
     </div>
   );

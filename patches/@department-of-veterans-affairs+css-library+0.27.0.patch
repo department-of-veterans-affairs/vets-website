@@ -1,0 +1,27 @@
+diff --git a/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/_functions.scss b/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/_functions.scss
+index fa32546..a90dd12 100644
+--- a/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/_functions.scss
++++ b/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/_functions.scss
+@@ -1,5 +1,4 @@
+ @import "./formation-overrides/variables";
+-@import "./override-function";
+ @charset "UTF-8";
+ 
+ 
+diff --git a/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss b/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss
+index 0c7a0aa..c7dc322 100644
+--- a/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss
++++ b/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss
+@@ -1,7 +1,8 @@
+-/**
+-  Variables ported over from Formation so that we can keep those stylesheets
+-  working while we work on deprecation.
+-**/
++// Variables ported over from Formation so that we can keep those stylesheets
++// working while we work on deprecation.
++
++// Re-export override-function members so consumers don't need to import it separately
++@forward '../override-function';
+ 
+ @use '../override-function' as *;
+ 

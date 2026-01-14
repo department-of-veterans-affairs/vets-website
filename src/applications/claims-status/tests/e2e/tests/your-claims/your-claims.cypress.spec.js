@@ -1,6 +1,8 @@
 import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
   mockFeatureToggles,
-  mockListPageEndpoints,
+  mockStemEndpoint,
 } from '../../support/helpers/mocks';
 import {
   verifyNeedHelp,
@@ -10,7 +12,9 @@ import {
 describe('Your claims', () => {
   beforeEach(() => {
     mockFeatureToggles();
-    mockListPageEndpoints();
+    mockClaimsEndpoint();
+    mockAppealsEndpoint();
+    mockStemEndpoint();
 
     cy.login();
     cy.visit('/track-claims');
@@ -71,7 +75,7 @@ describe('Your claims', () => {
     cy.get('va-additional-info')
       .shadow()
       .findByRole('button', {
-        name: 'Find out why we sometimes combine claims.',
+        name: 'Find out why we sometimes combine claims',
       });
 
     cy.findByText(
@@ -85,7 +89,7 @@ describe('Your claims', () => {
     cy.get('va-additional-info')
       .shadow()
       .findByRole('button', {
-        name: 'Find out why we sometimes combine claims.',
+        name: 'Find out why we sometimes combine claims',
       })
       .click();
 
