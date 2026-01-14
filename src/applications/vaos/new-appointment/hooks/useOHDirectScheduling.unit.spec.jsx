@@ -33,7 +33,6 @@ describe('VAOS Hook: useOHDirectScheduling', () => {
   it('should return false when typeOfCare is not in OH_ENABLED_TYPES_OF_CARE', () => {
     useSelectorStub.onCall(0).returns(true); // featureOHDirectSchedule
     useSelectorStub.onCall(1).returns({}); // data
-    useSelectorStub.onCall(2).returns(true); // featureRemoveFacilityConfigCheck
     getTypeOfCareStub.returns({ idV2: 'primaryCare' });
 
     const { result } = renderHook(() => useOHDirectScheduling());
@@ -44,7 +43,6 @@ describe('VAOS Hook: useOHDirectScheduling', () => {
   it('should return true when feature flag is enabled and typeOfCare is foodAndNutrition', () => {
     useSelectorStub.onCall(0).returns(true); // featureOHDirectSchedule
     useSelectorStub.onCall(1).returns({}); // data
-    useSelectorStub.onCall(2).returns(true); // featureRemoveFacilityConfigCheck
     getTypeOfCareStub.returns({ idV2: 'foodAndNutrition' });
 
     const { result } = renderHook(() => useOHDirectScheduling());
@@ -55,7 +53,6 @@ describe('VAOS Hook: useOHDirectScheduling', () => {
   it('should return false when typeOfCare is undefined', () => {
     useSelectorStub.onCall(0).returns(true); // featureOHDirectSchedule
     useSelectorStub.onCall(1).returns({}); // data
-    useSelectorStub.onCall(2).returns(true); // featureRemoveFacilityConfigCheck
     getTypeOfCareStub.returns(undefined);
 
     const { result } = renderHook(() => useOHDirectScheduling());
@@ -66,7 +63,6 @@ describe('VAOS Hook: useOHDirectScheduling', () => {
   it('should return false when typeOfCare.idV2 is undefined', () => {
     useSelectorStub.onCall(0).returns(true); // featureOHDirectSchedule
     useSelectorStub.onCall(1).returns({}); // data
-    useSelectorStub.onCall(2).returns(true); // featureRemoveFacilityConfigCheck
     getTypeOfCareStub.returns({ idV2: undefined });
 
     const { result } = renderHook(() => useOHDirectScheduling());
