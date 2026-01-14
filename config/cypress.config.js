@@ -1,4 +1,5 @@
 const { defineConfig } = require('cypress');
+const { TEST_SERVER_BASE_URL } = require('./test-server.config');
 
 const cypressConfig = {
   viewportWidth: 1920,
@@ -190,7 +191,7 @@ const cypressConfig = {
         config,
       );
     },
-    baseUrl: 'http://localhost:3001',
+    baseUrl: TEST_SERVER_BASE_URL,
     specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
     includeShadowDom: true,

@@ -8,6 +8,8 @@ import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
 
+const baseUrl = Cypress.config('baseUrl');
+
 describe('SM SINGLE FACILITY CONTACT LIST', () => {
   beforeEach(() => {
     SecureMessagingSite.login(
@@ -35,7 +37,7 @@ describe('SM SINGLE FACILITY CONTACT LIST', () => {
       cy.then(() => {
         expect(beforeUnloadStub).to.have.been.called;
         expect(win.location.href).to.eq(
-          `http://localhost:3001${Paths.UI_MAIN}/medications/about`,
+          `${baseUrl}${Paths.UI_MAIN}/medications/about`,
         );
       });
     });
@@ -54,7 +56,7 @@ describe('SM SINGLE FACILITY CONTACT LIST', () => {
       cy.then(() => {
         expect(beforeUnloadStub).to.have.been.called;
         expect(win.location.href).to.eq(
-          `http://localhost:3001${Paths.UI_MAIN}/find-locations`,
+          `${baseUrl}${Paths.UI_MAIN}/find-locations`,
         );
       });
     });
@@ -72,9 +74,7 @@ describe('SM SINGLE FACILITY CONTACT LIST', () => {
 
       cy.then(() => {
         expect(beforeUnloadStub).to.have.been.called;
-        expect(win.location.href).to.eq(
-          `http://localhost:3001${Paths.UI_MAIN}/inbox/`,
-        );
+        expect(win.location.href).to.eq(`${baseUrl}${Paths.UI_MAIN}/inbox/`);
       });
     });
   });
@@ -92,7 +92,7 @@ describe('SM SINGLE FACILITY CONTACT LIST', () => {
       cy.then(() => {
         expect(beforeUnloadStub).to.have.been.called;
         expect(win.location.href).to.eq(
-          `http://localhost:3001${Paths.UI_MAIN}/contact-list`,
+          `${baseUrl}${Paths.UI_MAIN}/contact-list`,
         );
       });
     });

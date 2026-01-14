@@ -11,6 +11,8 @@ import searchMockResponse from './fixtures/searchResponses/search-sent-folder-re
 import PatientRecentRecipientsPage from './pages/PatientRecentRecipientsPage';
 import SharedComponents from './pages/SharedComponents';
 
+const baseUrl = Cypress.config('baseUrl');
+
 describe('SM Medications Renewal Request', () => {
   describe('in curated list flow', () => {
     const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
@@ -45,9 +47,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
       SharedComponents.backBreadcrumb().should(
@@ -120,9 +120,7 @@ describe('SM Medications Renewal Request', () => {
         'recentRecipients',
       );
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@vamcUser');
       cy.wait('@recipients');
@@ -146,9 +144,7 @@ describe('SM Medications Renewal Request', () => {
 
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
       PatientComposePage.validateRecipientTitle(
-        `VA Kansas City health care - ${
-          mockRecipients.data[1].attributes.name
-        }`,
+        `VA Kansas City health care - ${mockRecipients.data[1].attributes.name}`,
       );
 
       PatientComposePage.validateLockedCategoryDisplay();
@@ -200,9 +196,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
       PatientComposePage.selectComboBoxRecipient(
@@ -338,9 +332,7 @@ describe('SM Medications Renewal Request', () => {
       );
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
       SharedComponents.backBreadcrumb().should(
@@ -383,7 +375,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.deleteUnsavedDraft();
       cy.url().should(
         'include',
-        'http://localhost:3001/my-health/medications/?page=1&draftDeleteSuccess=true',
+        `${baseUrl}/my-health/medications/?page=1&draftDeleteSuccess=true`,
       );
     });
   });
@@ -415,9 +407,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
 
@@ -473,9 +463,7 @@ describe('SM Medications Renewal Request', () => {
       const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(
-        `${
-          Paths.UI_MAIN
-        }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
+        `${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       cy.wait('@medicationById');
       PatientComposePage.validateAddYourMedicationWarningBanner(true);

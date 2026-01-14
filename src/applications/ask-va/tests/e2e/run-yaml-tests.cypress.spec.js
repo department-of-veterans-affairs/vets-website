@@ -19,6 +19,8 @@ import STEPS from './actions';
 import formsTestsToRun from './fixtures/flows/forms/tests-to-run.json';
 import dashBoardTestsToRun from './fixtures/flows/dashboard/tests-to-run.json';
 
+const baseUrl = Cypress.config('baseUrl');
+
 const EMPTY_FLOW_YML = `
 flow:
   steps:
@@ -105,9 +107,7 @@ const executeSteps = (steps, folder) => {
       case 'include':
         if (step.target === 'page') {
           // TODO: run steps from the included page
-          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/include-pages/${
-            step.value
-          }.yml`;
+          const p = `src/applications/ask-va/tests/e2e/fixtures/flows/${folder}/include-pages/${step.value}.yml`;
           cy.wrap(null).then(() => {
             cy.readFile(`${p}`).then(f => {
               const flow = YAML.parse(f); // .flow;
@@ -144,10 +144,10 @@ describe('YAML tests', () => {
           if (flow.runOnCI === true) {
             if (['13m.yml'].includes(file)) {
               cy.visit(
-                'http://localhost:3001/contact-us/ask-va/user/dashboard/A-20250409-2205184',
+                `${baseUrl}/contact-us/ask-va/user/dashboard/A-20250409-2205184`,
               );
             } else {
-              cy.visit('http://localhost:3001/contact-us/ask-va/');
+              cy.visit(`${baseUrl}/contact-us/ask-va/`);
             }
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
