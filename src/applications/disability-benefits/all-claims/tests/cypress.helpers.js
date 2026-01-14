@@ -723,6 +723,38 @@ export const pageHooks = (cy, testOptions) => ({
     cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
+  'supporting-evidence/orientation': () => {
+    // The orientation page can be legacy or enhanced depending on the feature flag.
+    // Web components may take a moment to hydrate; wait for either legacy marker text
+    // or the enhanced accordion element to appear.
+    cy.get('body', { timeout: 15000 }).should($body => {
+      const hasEnhancedAccordion = $body.find('va-accordion-item#first').length;
+      const hasLegacyMarker = /you can submit these types of evidence/i.test(
+        $body.text(),
+      );
+
+      expect(hasEnhancedAccordion || hasLegacyMarker).to.equal(true);
+    });
+
+    cy.get('body').then($body => {
+      const hasEnhancedAccordion = $body.find('va-accordion-item#first').length;
+
+      if (hasEnhancedAccordion) {
+        cy.get('va-accordion', { timeout: 15000 }).should('exist');
+        cy.get('va-accordion-item#first', { timeout: 15000 })
+          .should('exist')
+          .and(
+            'have.attr',
+            'header',
+            'Where supporting documents may come from and additional forms',
+          );
+      } else {
+        cy.contains(/you can submit these types of evidence/i).should('exist');
+        cy.contains(/section 5103 notice/i).should('exist');
+      }
+    });
+  },
+
   'review-veteran-details/separation-location': () => {
     cy.get('@testData').then(data => {
       cy.get('input[name="root_serviceInformation_separationLocation"]').type(
