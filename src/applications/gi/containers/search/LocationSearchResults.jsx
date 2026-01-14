@@ -300,15 +300,6 @@ function LocationSearchResults({
     const markerElement = document.createElement('div');
     markerElement.className = 'location-letter-marker';
 
-    // Set innerHTML with button inside for proper transform support
-    markerElement.innerHTML = `
-      <span class="marker-span">
-        <button class="marker-button" type="button">
-          ${index + 1}
-        </button>
-      </span>
-    `;
-
     const currentPage = Math.ceil((index + 1) / MAX_PAGE_LIST_LENGTH);
     markerElement.addEventListener('click', () => {
       setPagination(prev => {
@@ -334,6 +325,11 @@ function LocationSearchResults({
       .setLngLat([longitude, latitude])
       .setPopup(popup)
       .addTo(map.current);
+
+    markerElement.innerHTML = `<span class="marker-span"><button class="marker-button" type="button">${index +
+      1}</button></span>`;
+    // eslint-disable-next-line no-console
+    console.log('markerElement', markerElement);
 
     mapMarkers.push(markerElement);
   };
