@@ -45,7 +45,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_0839,
-  useCustomScrollAndFocus: true,
   saveInProgress: {
     messages: {
       inProgress: 'Your form (22-0839) is in progress.',
