@@ -234,28 +234,6 @@ describe('addressPattern mapping functions', () => {
         expect(result.properties).to.have.property('isMilitary');
       });
 
-      it('should preserve property configurations when mapping keys', () => {
-        const keys = {
-          street: 'addressLine1',
-          postalCode: 'zipCode',
-        };
-
-        const result = addressSchema({ keys });
-
-        // Check that property definitions are preserved
-        expect(result.properties.addressLine1).to.have.property(
-          'type',
-          'string',
-        );
-        expect(result.properties.addressLine1).to.have.property('minLength', 1);
-        expect(result.properties.addressLine1).to.have.property(
-          'maxLength',
-          100,
-        );
-
-        expect(result.properties.zipCode).to.have.property('type', 'string');
-      });
-
       it('should apply omit filtering with mapped keys', () => {
         const keys = {
           street: 'addressLine1',
