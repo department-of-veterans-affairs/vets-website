@@ -79,12 +79,12 @@ const CopyButton = ({
           aria-describedby="copy-status"
           onClick={handleCopy}
         >
-          <va-icon icon="content_copy" size="1" srtext="Copy" />
+          <va-icon icon="content_copy" size="2" srtext="Copy" />
           <span className="button-text">{copied ? 'Copied!' : buttonText}</span>
         </button>
       ) : (
         <div className="copy-error" role="alert" aria-live="assertive">
-          <va-icon icon="error" size="1" srtext="Copy error" />
+          <va-icon icon="error" size="2" srtext="Copy error" />
           <span className="vads-u-margin-left--0p5">{error}</span>
         </div>
       )}

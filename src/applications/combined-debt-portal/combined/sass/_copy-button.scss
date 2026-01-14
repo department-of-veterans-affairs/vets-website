@@ -5,25 +5,25 @@
 
   .copy-button {
     border-radius: 0.25rem;
-    padding: 0.15rem 0.38rem;
+    padding: 0.25rem;
     margin: 0;
     display: inline-flex;
     align-items: center;
-    outline-offset: 0px;
-    font-size: 0.94rem;
+    outline-offset: 1px;
+    font-size: 1rem;
     justify-content: normal;
     background-color: transparent;
     color: var(--vads-color-primary) !important;
+    max-width: fit-content;
+    max-height: fit-content;
 
-    &:hover {
+    &:hover, &:active {
       background-color: var(--vads-color-primary-lighter);
-      outline: 2px solid var(--vads-color-action-focus-on-light);
+      color: var(--vads-color-primary-darklink);
     }
 
-    &:focus {
-      background-color: var(--vads-color-primary-lighter);
+    &:focus, &:active {
       outline: 2px solid var(--vads-color-action-focus-on-light);
-      outline-offset: 0px;
     }
 
     span {

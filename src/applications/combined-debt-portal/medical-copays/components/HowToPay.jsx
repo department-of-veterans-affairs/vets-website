@@ -33,11 +33,13 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => {
         <ul className="vads-u-padding-left--0">
           <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2p5 vads-u-max-width--none">
             <span>Account number</span>
-            <div className="account-parts-container vads-u-display--flex">
+            <div className="account-parts-container">
               {accountParts.map((part, index) => (
                 <div key={index} className="account-part-row">
-                  <span className="info-header">Part {index + 1}</span>
-                  <strong>{part}</strong>
+                  <div className="vads-u-display--flex vads-u-flex-direction--column">
+                    <span className="info-header">Part {index + 1}</span>
+                    <strong>{part}</strong>
+                  </div>
                   <CopyButton
                     value={part}
                     className="vads-u-flex-shrink--0"

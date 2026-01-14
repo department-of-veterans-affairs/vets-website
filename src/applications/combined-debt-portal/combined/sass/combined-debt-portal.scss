@@ -62,13 +62,19 @@
 }
 
 .account-parts-container {
+  display: grid;
+  width: 100%;
+  row-gap: .95rem;
   margin-top: 0.15rem;
+
+  @media (min-width: $small-screen) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
 }
 
 .account-part-row {
-  display: grid;
-  max-width: 140px;
-  width: 20%;
+  display: flex;
+  justify-content: space-between;
 
   .info-header {
     font-size: 1rem;
@@ -80,5 +86,9 @@
 
   .copy-error {
     margin-left: -2px;
+  }
+
+  @media (min-width: $small-screen) {
+    display: block;
   }
 }
