@@ -82,7 +82,7 @@
       "serviceBranch": "Navy"
     }
   ],
-    "toursOfDuty": [
+  "toursOfDuty": [
     {
       "serviceBranch": "Navy",
       "dateRange": {
@@ -139,7 +139,7 @@
     "accountNumber": "88888888888",
     "accountType": "checking",
     "bankName": "foo bank",
-    "routingNumber": "123456789"
+    "routingNumber": "123123123"
   },
   "noRapidProcessing": true,
   "spouseIsVeteran": true,

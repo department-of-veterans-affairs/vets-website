@@ -37,10 +37,10 @@
       ],
       "patientIcn": "1013120826V646496",
       "locationId": "983GC",
-      "localStartTime": "2025-01-20T16:30:00.000-08:00",
+      "localStartTime": "2025-02-20T16:30:00.000-08:00",
       "clinic": "945",
-      "start": "2025-01-20T16:30:00Z",
-      "end": "2025-01-20T17:00:00Z",
+      "start": "2025-02-20T16:30:00Z",
+      "end": "2025-02-20T17:00:00Z",
       "created": "2024-03-17T00:00:00Z",
       "cancellable": false,
       "extension": {
@@ -100,10 +100,10 @@
           "id": "bd427107-91ac-4a4a-94ae-177df5aa32dc",
           "claimNumber": "8c661fg8-7a96-5b7a-a64b-583e6dg96c32",
           "claimStatus": "Saved",
-          "appointmentDateTime": "2023-02-23T22:22:52.549Z",
-          "facilityName": "Tomah VA Medical Center",
-          "createdOn": "2023-02-24T22:22:52.549Z",
-          "modifiedOn": "2023-02-26T22:22:52.549Z"
+          "appointmentDateTime": "2025-02-20T16:30:00Z",
+          "facilityName": "Fort Collins VA Clinic",
+          "createdOn": "2025-03-24T22:22:52.549Z",
+          "modifiedOn": "2025-03-26T22:22:52.549Z"
         }
       }
     }
