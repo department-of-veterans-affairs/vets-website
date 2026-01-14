@@ -23,11 +23,6 @@ export function chapter4Transform(formData) {
   }
 
   if (parsedFormData?.spouseMarriages?.length) {
-    if (parsedFormData?.spouseAdditionalMarriagesCount > 2) {
-      transformedValue.spouseHasAdditionalMarriages = true;
-    } else {
-      transformedValue.spouseHasAdditionalMarriages = false;
-    }
     transformedValue.spouseMarriages = parsedFormData.spouseMarriages.map(
       marriage => {
         return {
@@ -50,11 +45,6 @@ export function chapter4Transform(formData) {
   }
 
   if (parsedFormData?.veteranMarriages?.length) {
-    if (parsedFormData?.veteranAdditionalMarriagesCount > 2) {
-      transformedValue.veteranHasAdditionalMarriages = true;
-    } else {
-      transformedValue.veteranHasAdditionalMarriages = false;
-    }
     transformedValue.veteranMarriages = parsedFormData.veteranMarriages.map(
       marriage => {
         return {
