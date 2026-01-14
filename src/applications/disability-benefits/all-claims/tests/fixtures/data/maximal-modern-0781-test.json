@@ -6,6 +6,7 @@
     },
     "standardClaim": true,
     "disability526ToxicExposureOptOutDataPurge": true,
+    "disabilityCompensation0781SupportingDocumentsEnhancement": false,
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
