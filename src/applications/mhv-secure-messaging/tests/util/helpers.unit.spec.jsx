@@ -13,7 +13,6 @@ import {
   setCaretToPos,
   setUnsavedNavigationError,
   titleCase,
-  updateDrafts,
   findAllowedFacilities,
   handleRemoveAttachmentButtonId,
   handleRemoveAttachmentModalId,
@@ -152,28 +151,6 @@ describe('MHV Secure Messaging helpers', () => {
       ErrorMessages,
     );
     sinon.assert.calledWith(setNavigationError, navigationError);
-  });
-
-  it('updateDrafts should update drafts', () => {
-    const drafts = [
-      {
-        id: 1,
-        attributes: {
-          message: 'existing array draft',
-        },
-      },
-    ];
-    const draft = {
-      0: {
-        id: 1,
-        message: 'converted to array draft',
-      },
-    };
-    const existingArrDraft = updateDrafts(drafts);
-    expect(existingArrDraft).to.eql(drafts);
-
-    const convertedArrDraft = updateDrafts(draft);
-    expect(convertedArrDraft).to.eql([draft[0]]);
   });
 
   describe('getSize function', () => {

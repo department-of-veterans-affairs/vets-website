@@ -252,16 +252,6 @@ export const updateMessageInThread = (thread, response) => {
   });
 };
 
-export const updateDrafts = draft => {
-  if (Array.isArray(draft)) {
-    return draft;
-  }
-  if (typeof draft === 'object') {
-    return [draft[0]];
-  }
-  return [draft[0]];
-};
-
 export const updateDraft = draft => {
   if (Array.isArray(draft)) {
     return draft[0];

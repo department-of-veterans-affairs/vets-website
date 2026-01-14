@@ -1,13 +1,8 @@
 import { Actions } from '../util/actionTypes';
-import {
-  updateMessageInThread,
-  updateDrafts,
-  updateDraft,
-} from '../util/helpers';
+import { updateMessageInThread, updateDraft } from '../util/helpers';
 
 const initialState = {
   acceptInterstitial: false,
-  drafts: [],
   draft: null,
   messages: undefined,
   isLoading: false,
@@ -75,17 +70,6 @@ export const threadDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         draft: draftHandler(state.draft, action.payload),
-        drafts: updateDrafts(state.drafts).map(d => {
-          if (d.messageId === action.payload.messageId) {
-            return {
-              ...d,
-              ...action.payload,
-              isSaving: false,
-              lastSaveTime: Date.now(),
-            };
-          }
-          return d;
-        }),
         isSaving: false,
         lastSaveTime: Date.now(),
       };
@@ -93,15 +77,11 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.DRAFT_SAVE_STARTED:
       return {
         ...state,
-        drafts:
-          state.drafts?.length > 1
-            ? state.drafts.map(d => {
-                if (d.messageId === action.payload.messageId) {
-                  return { ...d, isSaving: true, saveError: null };
-                }
-                return d;
-              })
-            : state.drafts,
+        draft: {
+          ...state.draft,
+          isSaving: true,
+          saveError: null,
+        },
         isSaving: true,
         saveError: null,
       };
@@ -116,15 +96,6 @@ export const threadDetailsReducer = (state = initialState, action) => {
           saveError: null,
           lastSaveTime: Date.now(),
         },
-        drafts: [
-          ...state.drafts,
-          {
-            ...action.response.data.attributes,
-            isSaving: false,
-            saveError: null,
-            lastSaveTime: Date.now(),
-          },
-        ],
         draftInProgress: {
           ...state.draftInProgress,
           messageId: action.response.data.attributes.messageId,
@@ -137,17 +108,6 @@ export const threadDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         draft: draftErrorHandler(state.draft, action.payload, action.response),
-        drafts: state.drafts.map(d => {
-          if (d.messageId === action.payload.messageId) {
-            return {
-              ...d,
-              isSaving: false,
-              lastSaveTime: null,
-              saveError: { ...action.response },
-            };
-          }
-          return d;
-        }),
       };
     case Actions.Thread.RESET_LAST_SAVE_TIME:
       return {

@@ -102,11 +102,6 @@ export const retrieveMessageThread = messageId => async dispatch => {
               messageBody: decodeHtmlEntities(drafts[0].attributes.body),
             }
           : null,
-        drafts: drafts.map(m => ({
-          ...m.attributes,
-          body: decodeHtmlEntities(m.attributes.body),
-          messageBody: decodeHtmlEntities(m.attributes.body),
-        })),
         messages: messages.map(m => ({
           ...m.attributes,
           body: decodeHtmlEntities(m.attributes.body),

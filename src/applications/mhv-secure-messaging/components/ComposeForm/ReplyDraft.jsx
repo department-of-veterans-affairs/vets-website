@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import ReplyDraftItem from './ReplyDraftItem';
 import { Actions } from '../../util/actionTypes';
 
-const ReplyDrafts = props => {
+const ReplyDraft = props => {
   const {
     cannotReply,
     draft,
@@ -71,7 +71,7 @@ const ReplyDrafts = props => {
   );
 };
 
-ReplyDrafts.propTypes = {
+ReplyDraft.propTypes = {
   cannotReply: PropTypes.bool,
   draft: PropTypes.object,
   isEditing: PropTypes.bool,
@@ -87,4 +87,4 @@ ReplyDrafts.propTypes = {
   setIsSending: PropTypes.func,
 };
 
-export default ReplyDrafts;
+export default ReplyDraft;

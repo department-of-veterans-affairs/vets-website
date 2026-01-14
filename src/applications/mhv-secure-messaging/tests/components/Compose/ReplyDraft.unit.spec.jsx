@@ -2,10 +2,10 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import reducer from '../../../reducers';
-import ReplyDrafts from '../../../components/ComposeForm/ReplyDrafts';
+import ReplyDraft from '../../../components/ComposeForm/ReplyDraft';
 import threadWithOneDraft from '../../fixtures/reducers/thread-with-one-draft-reducer.json';
 
-describe('ReplyDrafts component', () => {
+describe('ReplyDraft component', () => {
   const replyMessage = threadWithOneDraft.threadDetails.messages[0];
   const { draft, cannotReply, replyToName } = threadWithOneDraft.threadDetails;
   const defaultProps = {
@@ -34,7 +34,7 @@ describe('ReplyDrafts component', () => {
     },
   };
   const setup = ({ initialState = defaultState, props = defaultProps }) =>
-    renderWithStoreAndRouter(<ReplyDrafts {...props} />, {
+    renderWithStoreAndRouter(<ReplyDraft {...props} />, {
       initialState,
       reducers: reducer,
     });

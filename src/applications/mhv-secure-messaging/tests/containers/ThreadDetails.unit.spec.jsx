@@ -800,12 +800,6 @@ describe('Thread Details container', () => {
           folder: inbox,
         },
         threadDetails: {
-          drafts: [
-            {
-              ...replyDraftMessage,
-              replyToMessageId: 1234,
-            },
-          ],
           draft: {
             ...replyDraftMessage,
             replyToMessageId: 1234,

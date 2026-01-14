@@ -17,7 +17,7 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
-import ReplyDrafts from './ReplyDrafts';
+import ReplyDraft from './ReplyDraft';
 import MessageActionButtons from '../MessageActionButtons';
 import {
   BlockedTriageAlertStyles,
@@ -247,7 +247,7 @@ const ReplyForm = props => {
                 <h2 id="draft-reply-header" data-testid="draft-reply-header">
                   Draft
                 </h2>
-                <ReplyDrafts
+                <ReplyDraft
                   draft={draft}
                   cannotReply={cannotReply}
                   isSaving={isSaving}
