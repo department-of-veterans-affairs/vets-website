@@ -287,6 +287,7 @@ export function getPatientRelationships() {
     } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
       captureError(error);
+      return;
     }
 
     dispatch({
