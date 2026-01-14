@@ -16,12 +16,12 @@ export default {
       'Mailing address',
       'We’ll send any important information about your application to this address.',
     ),
-    address: addressUI(),
+    claimantAddress: addressUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      address: addressSchemaWithDefault,
+      claimantAddress: addressSchemaWithDefault,
     },
   },
 };

@@ -90,6 +90,12 @@ const formConfig = {
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
+        phoneAndEmailAddress: {
+          path: 'phone-and-email-address',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmailAddress.uiSchema,
+          schema: phoneAndEmailAddress.schema,
+        },
       },
     },
     disclosureChapter: {
