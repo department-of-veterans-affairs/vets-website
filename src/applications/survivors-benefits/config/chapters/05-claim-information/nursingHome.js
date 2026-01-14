@@ -27,7 +27,9 @@ export default {
     inNursingHomeAlert: {
       'ui:description': RequestNursingHomeInformationAlert,
       'ui:options': {
-        hideIf: formData => !isYes(formData?.claimantLivesInANursingHome),
+        hideIf: formData =>
+          !isYes(formData?.claimantLivesInANursingHome) ||
+          formData?.claimingMonthlySpecialPension === true,
         displayEmptyObjectOnReview: true,
       },
     },

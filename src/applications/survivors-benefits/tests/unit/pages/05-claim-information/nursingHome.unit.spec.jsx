@@ -65,7 +65,7 @@ describe('Nursing Home Page', () => {
     nursingHomeRadio.__events.vaValueChange({
       detail: { value: 'Y' },
     });
-    expect($$('va-alert-expandable', formDOM).length).to.equal(2);
+    expect($$('va-alert-expandable', formDOM).length).to.equal(1);
     assistanceRadio.__events.vaValueChange({
       detail: { value: 'N' },
     });
