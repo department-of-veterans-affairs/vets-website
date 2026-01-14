@@ -411,7 +411,15 @@ const formConfig = {
           schema: veteranMarriagesCount.schema,
         },
         ...veteranMarriagesPages,
-        veteranChildren,
+        veteranChildren: {
+          path: 'household/children-of-veteran',
+          title: 'Children of Veteran',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE' ||
+            formData.hadPreviousMarriages === true,
+          uiSchema: veteranChildren.uiSchema,
+          schema: veteranChildren.schema,
+        },
         dependentsCount: {
           path: 'household/dependents-count',
           title: 'Number of dependents',
