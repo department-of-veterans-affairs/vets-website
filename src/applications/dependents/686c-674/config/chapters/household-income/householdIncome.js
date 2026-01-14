@@ -1,9 +1,10 @@
+import React from 'react';
 import {
   titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { whatAreAssets, netWorthTitle } from './helpers';
+import { whatAreAssets, netWorthTitle, netWorthDescription } from './helpers';
 import { NetWorthFooter } from '../../../components/PensionContent';
 
 export const schema = {
@@ -18,11 +19,13 @@ export const schema = {
 };
 
 export const uiSchema = {
-  ...titleUI(
-    'Your net worth',
-    'Because you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets, your annual income, and the assets and income of your dependents (including your spouse if you are married).',
+  ...titleUI('Your net worth'),
+  'ui:description': formData => (
+    <>
+      <p>{netWorthDescription(formData?.vaDependentsNetWorthAndPension)}</p>
+      {whatAreAssets}
+    </>
   ),
-  'ui:description': whatAreAssets,
   'ui:options': {
     updateSchema: (formData, formSchema) => {
       // Use 'view:householdIncome' as UI value and householdIncome as RBPS value
