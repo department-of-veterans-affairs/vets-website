@@ -46,6 +46,12 @@ import {
   hospitalizationFacilitySchema,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
+import { isClaimantVeteran } from '@bio-aquia/21-2680-house-bound-status/utils/relationship-helpers';
+import {
+  getVeteranName,
+  getClaimantName,
+} from '@bio-aquia/21-2680-house-bound-status/utils/name-helpers';
+
 /**
  * @typedef {Object} FormConfig
  * @property {string} rootUrl - Base URL for the form
@@ -195,20 +201,18 @@ const formConfig = {
         claimantContact: {
           path: 'claimant-contact',
           title: formData => {
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
+            const isVeteran = isClaimantVeteran(formData);
+            const fullName = isVeteran
+              ? getVeteranName(formData, '')
+              : getClaimantName(formData, '');
+            const fallback = isVeteran ? "Veteran's" : "Claimant's";
             return fullName
               ? `${fullName}'s phone number and email address`
-              : "Claimant's phone number and email address";
+              : `${fallback} phone number and email address`;
           },
           uiSchema: claimantContactUiSchema,
           schema: claimantContactSchema,
-          // Hidden when veteran is claimant
-          depends: formData =>
-            formData?.claimantRelationship?.relationship !== 'veteran',
+          // Always shown - collects contact info for veteran or claimant
         },
       },
     },

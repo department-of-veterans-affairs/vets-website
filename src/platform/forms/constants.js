@@ -102,6 +102,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0304_UPLOAD: '21-0304-UPLOAD',
   FORM_21_651_UPLOAD: '21-651-UPLOAD',
   FORM_21P_4185_UPLOAD: '21P-4185-UPLOAD',
+  FORM_21P_535_UPLOAD: '21P-535-UPLOAD',
   FORM_22_10297: '22-10297',
   FORM_22_0839: '22-0839',
   FORM_22_10275: '22-10275',
@@ -528,6 +529,15 @@ export const MY_VA_SIP_FORMS = [
     title: 'form 21-2680 upload',
     description: 'uploaded file for form 21-2680',
     trackingPrefix: 'form-21-2680-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_535_UPLOAD,
+    benefit:
+      'Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation When Applicable)',
+    title: 'form 21P-535',
+    description:
+      'Dependency and Indemnity Compensation by Parent(s) (Including Accrued Benefits and Death Compensation When Applicable)',
+    trackingPrefix: 'form-21P-535-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_0845,

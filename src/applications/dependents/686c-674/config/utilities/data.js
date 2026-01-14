@@ -65,6 +65,15 @@ export const customFormReplacer = (key, value) => {
 };
 
 /**
+ * Check if the form should go through v3 picklist unless Veteran has a v2 form
+ * in progress
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if v3 picklist should be shown
+ */
+export const showV3Picklist = formData =>
+  !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
+
+/**
  * Extract data fields with values from source data
  *
  * Returns only fields that have meaningful data (non-empty values/arrays).
@@ -166,7 +175,13 @@ export function buildSubmissionData(payload) {
   const enabledRemoveOptions = {};
   if (removeEnabled) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
-      if (removeOptions[option] === true) {
+      // Support both V2 (checkbox) and V3 (picklist) flows:
+      // - V2: removeOptions[option] is set when user checks the box - only check selected options
+      // - V3: removeOptions is empty - check all options after picklist transformation
+      const isV3Flow = showV3Picklist(sourceData);
+      const shouldCheckOption = isV3Flow || removeOptions[option] === true;
+
+      if (shouldCheckOption) {
         const optionData = extractDataFields(sourceData, fields);
         if (Object.keys(optionData).length > 0) {
           Object.assign(cleanData, optionData);
@@ -311,15 +326,6 @@ export const isAddingDependents = formData =>
  */
 export const isRemovingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.remove;
-
-/**
- * Check if the form should go through v3 picklist unless Veteran has a v2 form
- * in progress
- * @param {object} formData - form data object
- * @returns {boolean} - true if v3 picklist should be shown
- */
-export const showV3Picklist = formData =>
-  !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
 
 /**
  * Show v2 flow if Veteran has a v2 form in progress
@@ -795,11 +801,25 @@ function prepareSubmissionPayload(form) {
 /**
  * Filters out data from inactive pages based on form configuration.
  *
+ * IMPORTANT: Preserves critical wizard fields needed for page dependencies
+ * during submission, even if their pages are marked inactive. This prevents
+ * a cascade where removing view:addOrRemoveDependents causes all dependent
+ * pages to become inactive and lose their data.
+ *
  * @param {Object} formConfig - Form configuration object defining pages and structure
  * @param {Object} payload - Payload object with data property
- * @returns {Object} Payload object with inactive page data removed
+ * @returns {Object} Payload object with inactive page data removed (but wizard fields preserved)
  */
 function removeInactivePageData(formConfig, payload) {
+  // Preserve wizard fields that are needed for page dependencies
+  const wizardFields = {
+    'view:addOrRemoveDependents': payload.data?.['view:addOrRemoveDependents'],
+    'view:addDependentOptions': payload.data?.['view:addDependentOptions'],
+    'view:removeDependentOptions':
+      payload.data?.['view:removeDependentOptions'],
+    'view:selectable686Options': payload.data?.['view:selectable686Options'],
+  };
+
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     payload.data,
@@ -807,7 +827,30 @@ function removeInactivePageData(formConfig, payload) {
   const activePages = getActivePages(expandedPages, payload.data);
   const inactivePages = getInactivePages(expandedPages, payload.data);
 
-  return filterInactivePageData(inactivePages, activePages, payload);
+  const filtered = filterInactivePageData(inactivePages, activePages, payload);
+
+  // CRITICAL: filterInactivePageData can return either:
+  // - Payload structure: { data: {...}, ... }
+  // - Data object directly: { field1: ..., field2: ..., ... }
+  // We need to restore wizard fields to the correct location
+  if (!filtered) {
+    return payload;
+  }
+
+  // Check if filtered has a data property (payload structure) or is a data object directly
+  const isPayloadStructure = filtered.data !== undefined;
+  const dataObject = isPayloadStructure ? filtered.data : filtered;
+
+  // Restore wizard fields if they were removed
+  // (They may have been removed if their pages were marked inactive due to
+  // depends functions that check for awarded dependents in V3 flow)
+  Object.keys(wizardFields).forEach(key => {
+    if (wizardFields[key] && !dataObject[key]) {
+      dataObject[key] = wizardFields[key];
+    }
+  });
+
+  return filtered;
 }
 
 /**
@@ -874,7 +917,8 @@ function rebuildSubmissionPayload(payload, transformedData) {
  * 4. Transform V3 picklist data to V2 format
  * 5. Enrich reportDivorce with SSN from awarded dependents
  * 6. Rebuild submission data with validated flags
- * 7. Serialize to JSON
+ * 7. Extract data from payload structure for backend
+ * 8. Serialize to JSON
  *
  * @param {Object} formConfig - Form configuration object defining structure
  * @param {Object} form - Raw form data from Redux store
@@ -905,9 +949,14 @@ export function customTransformForSubmit(formConfig, form) {
     enrichedData,
   );
 
-  // Step 7: Serialize to JSON for backend submission
+  // Step 7: Extract the data from payload structure for backend submission
+  // buildSubmissionData returns { data: cleanData, ...payload }
+  // but backend expects just the cleanData without the wrapper
+  const submissionData = finalPayload.data || finalPayload;
+
+  // Step 8: Serialize to JSON for backend submission
   return {
-    body: JSON.stringify(finalPayload, customFormReplacer) || '{}',
+    body: JSON.stringify(submissionData, customFormReplacer) || '{}',
     data: finalPayload || {},
   };
 }

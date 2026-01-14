@@ -5,8 +5,8 @@
  */
 
 import {
-  firstNameLastNameNoSuffixUI,
-  firstNameLastNameNoSuffixSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -18,13 +18,26 @@ const relationshipLabels = {
   parent: "Veteran's parent's",
 };
 
+const formatFullNameTitles = name => {
+  switch (name) {
+    case 'first or given name':
+      return 'First or given name';
+    case 'middle name':
+      return 'Middle initial';
+    case 'last or family name':
+      return 'Last or family name';
+    default:
+      return name;
+  }
+};
+
 /**
  * uiSchema for Claimant Information page
  * Collects claimant's full name and date of birth
  */
 export const claimantInformationUiSchema = {
   claimantInformation: {
-    claimantFullName: firstNameLastNameNoSuffixUI(),
+    claimantFullName: fullNameNoSuffixUI(formatFullNameTitles),
     claimantDob: dateOfBirthUI(),
   },
   'ui:options': {
@@ -47,9 +60,9 @@ export const claimantInformationUiSchema = {
  */
 // Customize the name schema to add maxLength constraint for middle name
 const customNameSchema = {
-  ...firstNameLastNameNoSuffixSchema,
+  ...fullNameNoSuffixSchema,
   properties: {
-    ...firstNameLastNameNoSuffixSchema.properties,
+    ...fullNameNoSuffixSchema.properties,
     middle: {
       type: 'string',
       maxLength: 1,
