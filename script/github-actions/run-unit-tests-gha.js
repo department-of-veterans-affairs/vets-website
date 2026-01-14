@@ -33,10 +33,32 @@ const COMMAND_LINE_OPTIONS = [
 
 // Get command line options
 const options = commandLineArgs(COMMAND_LINE_OPTIONS);
-// log this out to determing if we still need this
+
+// Helper function to check if a custom path pattern was provided
+function hasCustomPathPattern() {
+  // Check if the path was explicitly provided (not the default)
+  return (
+    options.path &&
+    options.path.length > 0 &&
+    !(options.path.length === 1 && options.path[0] === DEFAULT_SPEC_PATTERN)
+  );
+}
 
 // Helper function to get test paths
 function getTestPaths() {
+  // If a custom path pattern was provided, use it directly
+  if (hasCustomPathPattern()) {
+    return options.path.flatMap(pattern => glob.sync(pattern));
+  }
+
+  // If app-folder is specified, use it to generate the pattern
+  if (options['app-folder']) {
+    const appPattern = `src/applications/${
+      options['app-folder']
+    }/**/*.unit.spec.js?(x)`;
+    return glob.sync(appPattern);
+  }
+
   if (options['full-suite']) {
     return glob.sync(DEFAULT_SPEC_PATTERN);
   }
@@ -107,6 +129,17 @@ function buildTestCommand(testPaths) {
   } ${testPaths.join(' ')}`;
 }
 
+// Helper function to describe which pattern source is being used
+function getPatternSource() {
+  if (hasCustomPathPattern()) {
+    return options.path.join(', ');
+  }
+  if (options['app-folder']) {
+    return `src/applications/${options['app-folder']}/**/*.unit.spec.js?(x)`;
+  }
+  return 'auto-detected';
+}
+
 // Main execution
 async function main() {
   try {
@@ -117,6 +150,9 @@ async function main() {
       core.exportVariable('tests_ran', 'false');
       return;
     }
+
+    console.log(`Running tests matching patterns: ${getPatternSource()}`);
+    console.log(`Found ${testPaths.length} test file(s)`);
 
     const command = buildTestCommand(testPaths);
     await runCommand(command);
