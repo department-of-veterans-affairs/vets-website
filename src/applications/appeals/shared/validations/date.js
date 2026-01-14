@@ -1,6 +1,5 @@
 import {
   add,
-  format,
   isFuture,
   isToday,
   isValid,
@@ -13,16 +12,11 @@ import sharedErrorMessages from '../content/errorMessages';
 import { FORMAT_YMD_DATE_FNS, MAX_YEARS_PAST } from '../constants';
 import {
   fixDateFormat,
-  formatDateToReadableString,
-  fromUTCToLocalDate,
-  getCurrentUTCStartOfDay,
-  getUTCDateFromDate,
+  formatDateWithTime,
   isUTCFuture,
   isUTCToday,
   parseDateToDateObj,
-  toUTCStartOfDay,
 } from '../utils/dates';
-import { getCurrentTimeZoneAbbr } from '../utils/contestableIssueMessages';
 
 /**
  * Primary criteria for whether a contestable issue decision date should be blocked
@@ -40,10 +34,6 @@ import { getCurrentTimeZoneAbbr } from '../utils/contestableIssueMessages';
 export const isTodayOrInFuture = date => {
   if (!date || !isValid(date)) return false;
 
-  // Determine whether local timezone is ahead or behind UTC
-  // Negative values are ahead of UTC
-  const timezoneOffset = new Date().getTimezoneOffset();
-
   const blockingCriteria = {
     isTodayLocal: isToday(date), // Decision date = local day
     isFutureLocal: isFuture(date), // Decision date after current local day
@@ -51,17 +41,7 @@ export const isTodayOrInFuture = date => {
     isFutureUtc: isUTCFuture(date), // Decision date after current UTC day
   };
 
-  if (Object.values(blockingCriteria).some(value => value)) {
-    return {
-      ...blockingCriteria,
-      blocked: true,
-      aheadOfUtc: timezoneOffset < 0, // Local time is later than UTC time (user is east of Greenwich)
-    };
-  }
-
-  return {
-    blocked: false,
-  };
+  return Object.values(blockingCriteria).some(value => value)?.length > 0;
 };
 
 const buildDatePartErrors = (month, day, year) => {
@@ -113,74 +93,52 @@ export const createDateObject = rawDateString => {
 };
 
 /**
- * Create dynamic error message for decision dates that are blocked
- * Always show "The date must be before [cutoff day expressed in the user's local timezone]"
+ * Calculate when a blocked contestable issue decision date becomes eligible for submission
+ * See README-decision-date-validation.md for business rules & detailed examples
  *
- * The cutoff date may not be the user's local current day
- * If they are behind UTC time, the cutoff date will be based on local time
- * If they are ahead of UTC time, the cutoff date will be based on UTC time
- *
- * Whichever is the case, contestable issues cannot be selected on the same day as the
- * given decision date in local time or UTC (server) time, whichever is sooner.
- * The decision date must be in the past for local time, if sooner, or UTC time if later
- *
- * This tells users the earliest acceptable date that will pass validation globally
- * @param {Object} errorMessages - Error messages object containing decisions.dateUnavailable function
- * @returns {string} Formatted error message showing UTC today as calendar date
+ * @param {Date} decisionDate - The decision date in user's local timezone
+ * @returns {string} Formatted date/time when issue becomes eligible (e.g., "Jan. 10, 2026 at 10 a.m. JST")
  */
-export const createDecisionDateErrorMsg = (errorMessages, availableDate) => {
-  const formattedAvailableDate = formatDateToReadableString(availableDate);
+export const getAvailableDateTimeForBlockedIssue = decisionDate => {
+  const aheadOfUtc = new Date().getTimezoneOffset() < 0;
+  const dayAfterDecisionDate = add(decisionDate, { days: 1 });
+  let availableDateTime;
 
-  return errorMessages.decisions.dateUnavailable(formattedAvailableDate);
-};
-
-/**
- * Format a date to readable string with time and timezone
- * @param {Date} date - Date object to format
- * @returns {string} Formatted date string like "Jan. 10, 2026 at 12 a.m. AKST"
- */
-export const formatUTCDateToLocalWithTime = date => {
-  if (!date || !isValid(date)) return '';
-
-  const hours = date.getHours();
-  const period = hours >= 12 ? 'p.m.' : 'a.m.';
-  const displayHours = hours % 12 || 12;
-  const timezone = getCurrentTimeZoneAbbr();
-
-  // Format: "Jan. 10, 2026"
-  const dateStr = format(date, 'MMM. d, yyyy');
-
-  return `${dateStr} at ${displayHours} ${period} ${timezone}`;
-};
-
-// Check out README-decision-date-validation.md for detailed explanation of this logic
-export const getAvailableDateTimeForBlockedIssue = (blockingCriteria, date) => {
-  const {
-    aheadOfUtc,
-    isFutureLocal,
-    isFutureUtc,
-    isTodayLocal,
-    isTodayUtc,
-  } = blockingCriteria;
-
-  const todayLocal = new Date();
-  const todayUtc = getCurrentUTCStartOfDay();
-
-  const dayAfterDecisionDate = add(date, { days: 1 });
-  const tomorrowUtc = add(todayUtc, { days: 1 });
-
-  let availableDateTime = todayLocal;
-
-  if ((isTodayLocal || isFutureLocal) && !aheadOfUtc) {
-    availableDateTime = dayAfterDecisionDate;
-  } else if (isTodayLocal && aheadOfUtc && isTodayUtc) {
-    availableDateTime = fromUTCToLocalDate(tomorrowUtc);
-  } else if ((isTodayLocal || isFutureLocal) && aheadOfUtc && isFutureUtc) {
-    const eligibleForUtc = toUTCStartOfDay(dayAfterDecisionDate);
-    availableDateTime = fromUTCToLocalDate(eligibleForUtc);
+  if (!aheadOfUtc) {
+    availableDateTime = new Date(
+      dayAfterDecisionDate.getFullYear(),
+      dayAfterDecisionDate.getMonth(),
+      dayAfterDecisionDate.getDate(),
+      0,
+      0,
+      0,
+      0,
+    );
+  } else {
+    availableDateTime = new Date(
+      Date.UTC(
+        dayAfterDecisionDate.getFullYear(),
+        dayAfterDecisionDate.getMonth(),
+        dayAfterDecisionDate.getDate(),
+        0,
+        0,
+        0,
+        0,
+      ),
+    );
   }
 
-  return formatUTCDateToLocalWithTime(availableDateTime);
+  return formatDateWithTime(availableDateTime);
+};
+
+export const addBlockedMessage = (date, errors) => {
+  const availableDateTime = getAvailableDateTimeForBlockedIssue(date.dateObj);
+
+  const errorMessage = sharedErrorMessages.decisions.dateUnavailable(
+    availableDateTime,
+  );
+
+  errors.addError(errorMessage);
 };
 
 // add second error message containing the part of the date with an error;
@@ -193,21 +151,6 @@ export const createScreenReaderErrorMsg = (errors, datePartErrors) => {
   if (partialDateError) {
     errors.addError(partialDateError);
   }
-};
-
-export const addBlockedMessage = (blockingCriteria, date, errors) => {
-  const availableDateTime = getAvailableDateTimeForBlockedIssue(
-    blockingCriteria,
-    date.dateObj,
-  );
-
-  const formattedAvailableDate = formatDateToReadableString(availableDateTime);
-
-  const errorMessage = sharedErrorMessages.decisions.dateUnavailable(
-    formattedAvailableDate,
-  );
-
-  errors.addError(errorMessage);
 };
 
 // We have to pass unused args to this function because the checkValidation function
@@ -224,10 +167,10 @@ export const validateDecisionDate = (
 ) => {
   const date = createDateObject(rawDateString);
   let hasMessages = false;
-  const blockingCriteria = isTodayOrInFuture(date);
+  const isBlocked = isTodayOrInFuture(date.dateObj);
 
-  if (blockingCriteria.blocked) {
-    addBlockedMessage(blockingCriteria, date, errors);
+  if (isBlocked) {
+    addBlockedMessage(date, errors);
   }
 
   const minDate100 = startOfDay(subYears(new Date(), MAX_YEARS_PAST));

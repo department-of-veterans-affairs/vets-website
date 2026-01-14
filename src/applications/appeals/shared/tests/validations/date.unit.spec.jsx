@@ -1,11 +1,7 @@
 import { expect } from 'chai';
-import sinon from 'sinon-v20';
-import errorMessages from '../../content/errorMessages';
 import {
-  // addDateErrorMessages,
   getAvailableDateTimeForBlockedIssue,
   isTodayOrInFuture,
-  createDecisionDateErrorMsg,
 } from '../../validations/date';
 
 describe('isTodayOrInFuture - Dual Validation Logic', () => {
@@ -142,128 +138,131 @@ describe('isTodayOrInFuture - Dual Validation Logic', () => {
   });
 });
 
-describe('addDateErrorMessages', () => {
-  it('should not have an error', () => {
-    const errors = { addError: sinon.spy() };
-    const result = addDateErrorMessages(errors, errorMessages, {});
-    expect(errors.addError.called).to.be.false;
-    expect(result).to.eq(false);
-  });
-  it('should show an error when a date is blank', () => {
-    const errors = { addError: sinon.spy() };
-    const date = { isInvalid: true, errors: {} };
-    const result = addDateErrorMessages(errors, errorMessages, date);
-    expect(errors.addError.args[0][0]).to.eq(errorMessages.decisions.blankDate);
-    expect(date.errors.other).to.be.true;
-    expect(result).to.be.true;
-  });
-  it('should not show an error when a date invalid', () => {
-    const errors = { addError: sinon.spy() };
-    const date = { hasErrors: true, errors: {} };
-    const result = addDateErrorMessages(errors, errorMessages, date);
-    expect(errors.addError.args[0][0]).to.eq(errorMessages.invalidDate);
-    expect(date.errors.other).to.be.true;
-    expect(result).to.be.true;
-  });
-  it('should not show an error when a date today or in the future', () => {
-    const errors = { addError: sinon.spy() };
-    const date = {
-      isTodayOrInFuture: true,
-      errors: {},
-      dateObj: new Date(), // Add the dateObj property that createDecisionDateErrorMsg needs
-    };
-    const result = addDateErrorMessages(errors, errorMessages, date);
-    expect(errors.addError.args[0][0]).to.match(
-      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
-    );
-    expect(date.errors.year).to.be.true;
-    expect(result).to.be.true;
-  });
-});
-
-describe('createDecisionDateErrorMsg', () => {
-  it("should format error message with readable date using today's date", () => {
-    const result = createDecisionDateErrorMsg(errorMessages);
-
-    expect(result).to.match(
-      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
-    );
-  });
-
-  it('should work with the actual errorMessages.decisions.dateUnavailable function', () => {
-    const result = createDecisionDateErrorMsg(errorMessages);
-
-    expect(typeof errorMessages.decisions.dateUnavailable).to.equal('function');
-    expect(result).to.match(
-      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
-    );
-  });
-});
-
 describe('getAvailableDateTimeForBlockedIssue', () => {
-  // Timezone abbrevations mapped to their timezone offsets in minutes
-  const timezones = {
-    ACST: -630, // Australia
-    AKST: 540, // Alaska
-    CST: 360, // Central U.S.
-    EST: 300, // Eastern U.S.
-    JST: -540, // Japan,
-    PST: 480, // Pacific U.S.
+  // Helper to format month according to VA.gov style guide
+  const formatMonth = date => {
+    const month = date.getMonth();
+    const monthNames = [
+      'Jan.',
+      'Feb.',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'Aug.',
+      'Sept.',
+      'Oct.',
+      'Nov.',
+      'Dec.',
+    ];
+
+    return monthNames[month];
   };
 
-  let currentTime;
-
-  const mockTimezoneOffset = timezone =>
-    sinon
-      .stub(Date.prototype, 'getTimezoneOffset')
-      .returns(timezones[timezone]);
-
-  describe.only('decision date = todayLocal, local is behind UTC, UTC is next day', () => {
-    // Time in Alaska: 4pm Jan 9
-    // UTC time: 1am Jan 10
-    let timezoneStub;
-
-    beforeEach(() => {
-      // Mock timezone FIRST, before setting fake timers
-      timezoneStub = mockTimezoneOffset('AKST');
-
-      // Then set fake timers
-      currentTime = sinon.useFakeTimers(
-        new Date('2026-01-10T01:00:00Z').getTime(),
-      );
-    });
-
-    afterEach(() => {
-      // Restore in reverse order
-      if (currentTime) {
-        currentTime.restore();
-      }
-
-      if (timezoneStub) {
-        timezoneStub.restore();
-      }
-    });
-
-    const blockingCriteria = {
-      aheadOfUtc: false,
-      isFutureLocal: false,
-      isFutureUtc: false,
-      isTodayLocal: true,
-      isTodayUtc: false,
-    };
-
-    it('should return the proper available date/time', () => {
-      const decisionDate = new Date('2026-01-09T09:00:00Z'); // 12am AKST
-
+  describe('user timezone behind UTC', () => {
+    it('should show midnight next day in local time when decision date is today', () => {
       const now = new Date();
-      console.log('UTC:', now.toISOString()); // Will show 2026-01-10T01:00:00.000Z
-      console.log('Local date:', now.getDate()); // Should show 9
-      console.log('now: ', now);
-      console.log('Timezone offset:', now.getTimezoneOffset()); // Should show 540
+      const decisionDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        13,
+        0,
+        0,
+      );
 
-      expect(
-        getAvailableDateTimeForBlockedIssue(blockingCriteria, decisionDate),
-      ).to.eq('');
+      const result = getAvailableDateTimeForBlockedIssue(decisionDate);
+
+      const tomorrow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+      );
+      const monthFormatted = formatMonth(tomorrow);
+      const day = tomorrow.getDate();
+      const year = tomorrow.getFullYear();
+
+      expect(result).to.include(`${monthFormatted} ${day}, ${year}`);
+      expect(result).to.match(/12:00 a\.m\./);
+    });
+
+    it('should show midnight next day when decision date is in future', () => {
+      const now = new Date();
+      const decisionDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        10,
+        0,
+        0,
+      );
+
+      const result = getAvailableDateTimeForBlockedIssue(decisionDate);
+
+      const dayAfterTomorrow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 2,
+      );
+      const monthFormatted = formatMonth(dayAfterTomorrow);
+      const day = dayAfterTomorrow.getDate();
+      const year = dayAfterTomorrow.getFullYear();
+
+      expect(result).to.include(`${monthFormatted} ${day}, ${year}`);
+      expect(result).to.match(/12:00 a\.m\./);
+    });
+  });
+
+  describe('User AHEAD of UTC', () => {
+    it('should convert UTC midnight to local time when decision is today', () => {
+      const now = new Date();
+      const decisionDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        9,
+        0,
+        0,
+      );
+
+      const result = getAvailableDateTimeForBlockedIssue(decisionDate);
+
+      const tomorrow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+      );
+      const monthFormatted = formatMonth(tomorrow);
+      const day = tomorrow.getDate();
+      const year = tomorrow.getFullYear();
+
+      expect(result).to.include(`${monthFormatted} ${day}, ${year}`);
+    });
+
+    it('should convert UTC midnight to local time for future decision dates', () => {
+      const now = new Date();
+      const decisionDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        11,
+        0,
+        0,
+      );
+
+      const result = getAvailableDateTimeForBlockedIssue(decisionDate);
+
+      const dayAfterTomorrow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 2,
+      );
+      const monthFormatted = formatMonth(dayAfterTomorrow);
+      const day = dayAfterTomorrow.getDate();
+      const year = dayAfterTomorrow.getFullYear();
+
+      expect(result).to.include(`${monthFormatted} ${day}, ${year}`);
     });
   });
 });

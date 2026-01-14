@@ -1,5 +1,6 @@
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { parse, parseISO, add, format, isValid } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import {
   FORMAT_YMD_DATE_FNS,
   FORMAT_READABLE_DATE_FNS,
@@ -7,6 +8,20 @@ import {
   REGEXP,
 } from '../constants';
 import { addLeadingZero, coerceStringValue } from '.';
+
+const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+/**
+ * Get the current timezone abbreviation (e.g., "PST", "EST", "JST")
+ * Uses date-fns-tz to properly handle DST (EDT vs EST, PDT vs PST, etc.)
+ * @returns {string} Timezone abbreviation
+ */
+export const getCurrentTimeZoneAbbr = () => {
+  const timezone = USER_TIMEZONE;
+  const now = new Date();
+
+  return formatInTimeZone(now, timezone, 'zzz');
+};
 
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
@@ -118,43 +133,14 @@ export const getCurrentUTCStartOfDay = () => {
   );
 };
 
-// Take a local calendar date and make it midnight UTC (start of day)
-/**
- * Convert any date to UTC start of day (preserving calendar date)
- * Example:
- * Given date: Jan 12, 2026 11pm PST
- * Returns:
- * @param {Date} date - The date to convert
- * @returns {Date} - UTC date at start of day
- */
-export const toUTCStartOfDay = date => {
-  return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
-  );
-};
-
-/**
- * Convert a UTC date to local timezone
- * Returns a new Date object representing the same instant in time.
- * When accessed with local methods (getHours(), etc.), it will show local time.
- * Example:
- * Given UTC date: Jan 12, 2026 00:00:00 UTC
- * Returns: Jan 11, 2026 16:00:00 PST (or whatever the local equivalent is)
- * @param {Date} utcDate - The UTC date to convert
- * @returns {Date} - Date object representing the same instant, viewable in local timezone
- */
-export const fromUTCToLocalDate = utcDate => {
-  return new Date(utcDate.getTime());
-};
-
 /**
  * Check if a date is in the future in UTC timezone
  * @param {Date} date - Date to check
- * @returns {boolean} - True if date is today or future in UTC
+ * @returns {boolean} - True if date is after today in UTC
  */
 export const isUTCFuture = date => {
-  const utcToday = getCurrentUTCStartOfDay().toDateString();
-  const issueDate = date.toDateString();
+  const utcToday = getCurrentUTCStartOfDay();
+  const issueDate = getUTCDateFromDate(date);
 
   return issueDate > utcToday;
 };
@@ -165,10 +151,10 @@ export const isUTCFuture = date => {
  * @returns {boolean} - True if date is today in UTC
  */
 export const isUTCToday = date => {
-  const utcToday = getCurrentUTCStartOfDay().toDateString();
-  const issueDate = date.toDateString();
+  const utcToday = getCurrentUTCStartOfDay();
+  const issueDate = getUTCDateFromDate(date);
 
-  return issueDate === utcToday;
+  return issueDate.getTime() === utcToday.getTime();
 };
 
 /**
@@ -196,6 +182,31 @@ export const formatDateToReadableString = date => {
   const year = format(date, 'yyyy');
 
   return `${abbreviatedMonth} ${day}, ${year}`;
+};
+
+/**
+ * Helper: Format time part in readable format
+ * @param {Date} date - Date to format
+ * @returns {string} Formatted time (e.g., "3:45 p.m.")
+ */
+const formatTimePart = date => {
+  // Use date-fns-tz to format time with proper AM/PM formatting
+  const timeString = formatInTimeZone(date, USER_TIMEZONE, 'h:mm a');
+  // Convert "AM" to "a.m." and "PM" to "p.m." to match VA style guide
+  return timeString.replace(/AM/g, 'a.m.').replace(/PM/g, 'p.m.');
+};
+
+/**
+ * Helper: Format date with specific time in local timezone
+ * Used for showing UTC conversion times, e.g., in Japan (UTC+9), UTC midnight becomes 9:00 a.m. JST
+ * @param {Date} date - Date to format
+ * @returns {string} Formatted date with specific time
+ */
+export const formatDateWithTime = date => {
+  const timezoneAbbr = getCurrentTimeZoneAbbr();
+  const datePart = formatDateToReadableString(date);
+  const timePart = formatTimePart(date);
+  return `${datePart}, ${timePart} ${timezoneAbbr}`;
 };
 
 /**
