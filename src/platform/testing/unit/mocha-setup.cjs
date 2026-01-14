@@ -195,10 +195,13 @@ export const mochaHooks = {
   },
 
   beforeEach() {
+    if (global.window) {
+      setupHappyDom();
+    }
     setupHappyDom();
     resetFetch();
     cleanupStorage();
-    if (isStressTest == 'false') {
+    if (isStressTest === 'false') {
       checkAllowList(this);
     }
     if (process.env.CI || ['trace', 'debug'].includes(process.env.LOG_LEVEL)) {
