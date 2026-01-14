@@ -10,6 +10,7 @@ import AlertConfirmContactEmailContent from './AlertConfirmContactEmailContent';
  */
 const AlertConfirmAddContactEmailError = ({
   emailAddress,
+  isConfirming = false,
   onConfirmClick,
   recordEvent,
 }) => {
@@ -30,6 +31,7 @@ const AlertConfirmAddContactEmailError = ({
       <p>Please try again.</p>
       <AlertConfirmContactEmailContent
         emailAddress={emailAddress}
+        isConfirming={isConfirming}
         onConfirmClick={() => onConfirmClick()}
       />
     </VaAlert>
@@ -38,8 +40,9 @@ const AlertConfirmAddContactEmailError = ({
 
 AlertConfirmAddContactEmailError.propTypes = {
   emailAddress: PropTypes.string.isRequired,
-  recordEvent: PropTypes.func.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
+  recordEvent: PropTypes.func.isRequired,
+  isConfirming: PropTypes.bool,
 };
 
 export default AlertConfirmAddContactEmailError;

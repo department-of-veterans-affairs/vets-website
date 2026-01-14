@@ -18,9 +18,9 @@ export const options = {
   isItemIncomplete: item => !item?.powDateRange?.from || !item.powDateRange?.to, // include all required fields here
   text: {
     getItemName: item =>
-      item?.powDateRange
-        ? `${formatDateLong(item.powDateRange?.from)} - ${formatDateLong(
-            item.powDateRange?.to,
+      item?.powDateRange?.from && item?.powDateRange?.to
+        ? `${formatDateLong(item.powDateRange.from)} - ${formatDateLong(
+            item.powDateRange.to,
           )}`
         : undefined,
     summaryTitleWithoutItems: 'Prisoner of war status',
@@ -45,6 +45,12 @@ export const options = {
     cancelEditNo: 'No',
     cancelNo: 'No',
     deleteTitle: 'Delete this confinement period',
+    deleteDescription: ({ itemData, nounSingular, nounPlural }) => {
+      const itemName = options.text.getItemName?.(itemData);
+      return itemName
+        ? `This will delete ${itemName} from your list of ${nounPlural}.`
+        : `This will delete this ${nounSingular} from your list of ${nounPlural}`;
+    },
   },
 };
 
@@ -58,7 +64,7 @@ const summaryPage = {
     'view:isAddingPeriods': arrayBuilderYesNoUI(
       options,
       {
-        title: 'Have you ever been a prisoner of war?',
+        title: 'Was the Veteran ever a prisoner of war?',
         labelHeaderLevel: ' ',
         hint: null,
       },
