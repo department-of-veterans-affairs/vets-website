@@ -1102,11 +1102,11 @@ describe('formatDateTime', () => {
     expect(formattedTime).to.equal('12:00 PM');
   });
 
-  it('returns empty strings for invalid input', () => {
+  it('returns null for invalid input', () => {
     const { formattedDate, formattedTime } = formatDateTime('not-a-date');
 
-    expect(formattedDate).to.equal('');
-    expect(formattedTime).to.equal('');
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
   it('handles midnight correctly (12:00 AM)', () => {
@@ -1118,32 +1118,32 @@ describe('formatDateTime', () => {
     expect(formattedTime).to.equal('12:00 AM');
   });
 
-  it('returns empty strings for null input (prevents epoch date)', () => {
+  it('returns null for null input (prevents epoch date)', () => {
     const { formattedDate, formattedTime } = formatDateTime(null);
 
-    expect(formattedDate).to.equal('');
-    expect(formattedTime).to.equal('');
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
-  it('returns empty strings for undefined input (prevents epoch date)', () => {
+  it('returns null for undefined input (prevents epoch date)', () => {
     const { formattedDate, formattedTime } = formatDateTime(undefined);
 
-    expect(formattedDate).to.equal('');
-    expect(formattedTime).to.equal('');
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
-  it('returns empty strings for 0 input (prevents epoch date)', () => {
+  it('returns null for 0 input (prevents epoch date)', () => {
     const { formattedDate, formattedTime } = formatDateTime(0);
 
-    expect(formattedDate).to.equal('');
-    expect(formattedTime).to.equal('');
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 
-  it('returns empty strings for empty string input', () => {
+  it('returns null for empty string input', () => {
     const { formattedDate, formattedTime } = formatDateTime('');
 
-    expect(formattedDate).to.equal('');
-    expect(formattedTime).to.equal('');
+    expect(formattedDate).to.equal(null);
+    expect(formattedTime).to.equal(null);
   });
 });
 
