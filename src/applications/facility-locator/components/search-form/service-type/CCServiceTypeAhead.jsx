@@ -196,12 +196,10 @@ class CCServiceTypeAhead extends Component {
           getInputProps,
           getItemProps,
           getLabelProps,
-          getMenuProps,
           isOpen,
           inputValue,
           highlightedIndex,
         }) => {
-          const { id } = getMenuProps();
           return (
             <div
               id="service-error"
@@ -244,7 +242,7 @@ class CCServiceTypeAhead extends Component {
                   id="service-type-ahead-input"
                   aria-describedby="could-not-find-service-prompt error-message"
                   aria-expanded={isOpen ? 'true' : 'false'}
-                  aria-controls={id}
+                  aria-controls="service-typeahead"
                 />
 
                 {this.renderSearchForAvailableServicePrompt(inputValue)}
@@ -255,7 +253,6 @@ class CCServiceTypeAhead extends Component {
                     getItemProps,
                     highlightedIndex,
                     inputValue,
-                    id,
                   )}
                 {this.renderTryAnotherServicePrompt(inputValue)}
               </span>
