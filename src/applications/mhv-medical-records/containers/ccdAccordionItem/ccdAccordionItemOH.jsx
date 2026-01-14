@@ -13,7 +13,10 @@ const CCDAccordionItemOH = ({ generatingCCD, handleDownloadCCDV2 }) => (
     </p>
 
     {generatingCCD ? (
-      <div id="generating-ccd-oh-indicator">
+      <div
+        id="generating-ccd-oh-indicator"
+        data-testid="generating-ccd-oh-indicator"
+      >
         <TrackedSpinner
           id="download-ccd-oh-spinner"
           label="Loading"

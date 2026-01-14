@@ -7,17 +7,8 @@ import { renderInReduxProvider as render } from '@department-of-veterans-affairs
 import { ProfileAlertConfirmEmailContent } from 'platform/mhv/components/MhvAlertConfirmEmail/ProfileAlertConfirmEmailContent';
 
 describe('<ProfileAlertConfirmEmailContent />', () => {
-  const clickButton = (container, clickSecondary = false) => {
-    fireEvent(
-      container.querySelector('va-button-pair'),
-      new CustomEvent(clickSecondary ? 'secondaryClick' : 'primaryClick', {
-        bubbles: true,
-      }),
-    );
-  };
-
-  it('renders text, email address, and button pair', async () => {
-    const { container, findByText } = render(
+  it('renders text, email address, Confirm button, and Edit button', async () => {
+    const { container, findByText, getByTestId } = render(
       <ProfileAlertConfirmEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={() => {}}
@@ -31,19 +22,19 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
 
     await findByText('vet@va.gov');
 
-    const buttonPair = container.querySelector('va-button-pair');
-    expect(buttonPair).to.exist;
+    const confirmButton = getByTestId('mhv-alert--confirm-email-button');
+    expect(confirmButton).to.exist;
 
-    expect(buttonPair.getAttribute('left-button-text')).to.equal('Confirm');
-    expect(buttonPair.getAttribute('right-button-text')).to.equal(
-      'Edit contact email',
+    const editButton = container.querySelector(
+      'va-button[text="Edit contact email"]',
     );
+    expect(editButton).to.exist;
   });
 
-  it('calls onConfirmClick when primary button is clicked', async () => {
+  it('calls onConfirmClick when Confirm button is clicked', async () => {
     const onConfirmClick = sinon.spy();
 
-    const { container } = render(
+    const { getByTestId } = render(
       <ProfileAlertConfirmEmailContent
         emailAddress="vet@va.gov"
         onConfirmClick={onConfirmClick}
@@ -51,13 +42,15 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
-    clickButton(container);
+    const button = getByTestId('mhv-alert--confirm-email-button');
+    fireEvent.click(button);
+
     await waitFor(() => {
       expect(onConfirmClick.calledOnce).to.be.true;
     });
   });
 
-  it('calls onEditClick when secondary button is clicked', async () => {
+  it('calls onEditClick when Edit button is clicked', async () => {
     const onEditClick = sinon.spy();
 
     const { container } = render(
@@ -68,9 +61,33 @@ describe('<ProfileAlertConfirmEmailContent />', () => {
       />,
     );
 
-    clickButton(container, true);
+    const editButton = container.querySelector(
+      'va-button[text="Edit contact email"]',
+    );
+    fireEvent.click(editButton);
+
     await waitFor(() => {
       expect(onEditClick.calledOnce).to.be.true;
     });
+  });
+
+  it('shows loading state and hides Edit button when isConfirming is true', async () => {
+    const { container, getByTestId } = render(
+      <ProfileAlertConfirmEmailContent
+        emailAddress="vet@va.gov"
+        onConfirmClick={() => {}}
+        onEditClick={() => {}}
+        isConfirming
+      />,
+    );
+
+    const confirmButton = getByTestId('mhv-alert--confirm-email-button');
+    expect(confirmButton).to.exist;
+    expect(confirmButton.getAttribute('loading')).to.equal('true');
+
+    const editButton = container.querySelector(
+      'va-button[text="Edit contact email"]',
+    );
+    expect(editButton).to.be.null;
   });
 });
