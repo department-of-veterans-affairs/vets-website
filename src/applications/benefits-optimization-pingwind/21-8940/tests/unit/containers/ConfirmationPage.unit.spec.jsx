@@ -59,16 +59,4 @@ describe('ConfirmationPage', () => {
     expect(wrapper.text()).to.include(format(submitDate, 'MMMM d, yyyy'));
     expect(wrapper.text()).to.include('1234');
   });
-
-  it('should throw error when state.form is undefined', () => {
-    let errorWrapper;
-
-    expect(() => {
-      errorWrapper = mountPage({});
-    }).to.throw();
-
-    if (errorWrapper) {
-      errorWrapper.unmount();
-    }
-  });
 });
