@@ -192,7 +192,7 @@ const ConfirmationQuestion = ({
       <VaRadio
         id="confirmation-question"
         name="confirmation-question"
-        label="Are you applying for increased unemployability compensation benefits?"
+        label="Are you applying for increased compensation due to unemployability?"
         required
         value={confirmationValue}
         error={radioError || confirmationError}
