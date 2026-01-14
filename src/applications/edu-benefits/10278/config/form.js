@@ -13,7 +13,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import prefillTransform from './prefillTransform';
-import PersonalInformationNote from '../../0803/components/PersonalInformationNote';
+import PersonalInformationNote from '../components/PersonalInformationNote';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
