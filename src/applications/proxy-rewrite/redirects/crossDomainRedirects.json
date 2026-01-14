@@ -2184,24 +2184,6 @@
 },
 {
   "domain": "www.caregiver.va.gov",
-  "src": "/support/New_CSC_Page.asp",
-  "dest": "/resources/caregiver-support-teams/",
-  "catchAll": true
-},
-{
-  "domain": "www.caregiver.va.gov",
-  "src": "/support/CSP_Direct_Deposit.asp",
-  "dest": "/resources/how-do-i-set-up-direct-deposit-as-a-caregiver/",
-  "catchAll": true
-},
-{
-  "domain": "www.caregiver.va.gov",
-  "src": "/support/PCAFC_Appeals.asp",
-  "dest": "/decision-reviews/family-caregiver-program-reviews/",
-  "catchAll": true
-},
-{
-  "domain": "www.caregiver.va.gov",
   "src": "/Announcements.asp",
   "dest": "/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/",
   "catchAll": true
