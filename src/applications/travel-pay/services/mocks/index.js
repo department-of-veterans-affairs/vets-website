@@ -152,7 +152,11 @@ const responses = {
       type: 'appointments',
       attributes: {
         ...baseClaim.appointment,
-        localStartTime: baseClaim.appointment.appointmentDateTime,
+        // Convert it to proper localStartTime format with timezone offset
+        // Example: "2025-03-20T16:30:00Z" (claim) -> "2025-03-20T16:30:00.000-08:00" (localStartTime)
+        localStartTime: new Date(baseClaim.appointment.appointmentDateTime)
+          .toISOString()
+          .replace('Z', '.000-08:00'),
         start: baseClaim.appointment.appointmentDateTime,
         end: new Date(
           new Date(baseClaim.appointment.appointmentDateTime).getTime() +
