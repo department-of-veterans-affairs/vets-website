@@ -1,4 +1,3 @@
-import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
@@ -13,7 +12,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import prefillTransform from './prefillTransform';
-import PersonalInformationNote from '../components/PersonalInformationNote';
 import * as discloseInformation from '../pages/discloseInformation';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -74,7 +72,6 @@ const formConfig = {
           dataAdapter: {
             ssnPath: 'ssn',
           },
-          note: <PersonalInformationNote />,
         }),
         // nameAndDateOfBirth: {
         //   path: 'name-and-date-of-birth',
