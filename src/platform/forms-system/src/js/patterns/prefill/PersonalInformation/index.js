@@ -21,23 +21,6 @@ import { PersonalInformationReview } from './PersonalInformationReview';
  * @typedef {import('./PersonalInformation').DataAdapter} DataAdapter
  */
 
-export const defaultPageConfig = {
-  key: 'personalInfoPage',
-  title: 'Personal Information',
-  path: 'personal-information',
-  personalInfoConfig: defaultConfig,
-  dataAdapter: {},
-  errorMessage: DefaultErrorMessage,
-  cardHeader: <DefaultCardHeader />,
-  header: <DefaultHeader />,
-  note: null,
-  footer: null,
-  contentBeforeButtons: null,
-  contentAfterButtons: null,
-  hideOnReview: false,
-  depends: () => true,
-};
-
 /**
  * Add this page to config/form
  * Spread the returned object into the app config/form
@@ -45,24 +28,25 @@ export const defaultPageConfig = {
  * @returns {Object} - form config pages for a chapter
  */
 const profilePersonalInfoPage = ({
-  key = defaultPageConfig.key,
-  title = defaultPageConfig.title,
-  path = defaultPageConfig.path,
-  personalInfoConfig = defaultPageConfig.personalInfoConfig,
-  dataAdapter = defaultPageConfig.dataAdapter,
-  errorMessage = defaultPageConfig.errorMessage,
-  cardHeader = defaultPageConfig.cardHeader,
-  header = defaultPageConfig.header,
-  note = defaultPageConfig.note,
-  footer = defaultPageConfig.footer,
-  contentBeforeButtons = defaultPageConfig.contentBeforeButtons,
-  contentAfterButtons = defaultPageConfig.contentAfterButtons,
-  hideOnReview = defaultPageConfig.hideOnReview,
-  depends = defaultPageConfig.depends,
+  key = 'personalInfoPage',
+  title = 'Personal Information',
+  path = 'personal-information',
+  personalInfoConfig = defaultConfig,
+  dataAdapter = {},
+  errorMessage = DefaultErrorMessage,
+  cardHeader = <DefaultCardHeader />,
+  header = <DefaultHeader />,
+  note = null,
+  footer = null,
+  contentBeforeButtons = null,
+  contentAfterButtons = null,
+  hideOnReview = false,
+  depends = () => true,
   background = false,
-} = defaultPageConfig) => {
+  prefillTransformer = null,
+} = {}) => {
   const config = {
-    ...defaultPageConfig.personalInfoConfig,
+    ...defaultConfig,
     ...personalInfoConfig,
   };
 
@@ -76,6 +60,7 @@ const profilePersonalInfoPage = ({
       background={background}
       contentBeforeButtons={contentBeforeButtons || props.contentBeforeButtons}
       contentAfterButtons={contentAfterButtons || props.contentAfterButtons}
+      prefillTransformer={prefillTransformer}
     >
       {header && (
         <PersonalInformationHeader>{header}</PersonalInformationHeader>

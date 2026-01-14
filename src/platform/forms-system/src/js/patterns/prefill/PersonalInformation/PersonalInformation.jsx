@@ -5,7 +5,7 @@ import { format, isValid } from 'date-fns';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import environment from 'platform/utilities/environment';
 import mask, {
   formatNumberForScreenReader,
 } from 'platform/forms-system/src/js/utilities/ui/mask-string';
@@ -88,6 +88,7 @@ export const PersonalInformation = ({
   errorMessage,
   formOptions = {},
   background = false,
+  prefillTransformer,
 }) => {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -107,7 +108,7 @@ export const PersonalInformation = ({
   const { note, header, footer, cardHeader } = getChildrenByType(children);
 
   // Fetch in-progress form data with prefill
-  useFetchInProgressForm();
+  useFetchInProgressForm(prefillTransformer);
 
   // Helper function to render SSN based on configuration
   const renderSSN = () => {
@@ -251,7 +252,9 @@ export const PersonalInformation = ({
           </p>
           <va-link
             external
-            href={getAppUrl('facilities')}
+            href={`${
+              environment.BASE_URL
+            }/resources/how-to-change-your-legal-name-on-file-with-va/`}
             text="Learn how to change your legal name"
           />
         </div>
@@ -320,6 +323,7 @@ PersonalInformation.propTypes = {
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  prefillTransformer: PropTypes.func,
 };
 
 // the following are the allowed child components for the PersonalInformation component

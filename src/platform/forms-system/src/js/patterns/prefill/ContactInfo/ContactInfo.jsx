@@ -65,6 +65,7 @@ export const ContactInfoBase = ({
   disableMockContactInfo = false,
   contactSectionHeadingLevel,
   contactPath,
+  prefillTransformer,
   ...rest
 }) => {
   const { router } = rest;
@@ -255,7 +256,7 @@ export const ContactInfoBase = ({
   );
 
   // Fetch in-progress form data with prefill
-  useFetchInProgressForm();
+  useFetchInProgressForm(prefillTransformer);
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
@@ -634,6 +635,7 @@ ContactInfoBase.propTypes = {
   immediateRedirect: PropTypes.bool,
   keys: contactInfoPropTypes.keys,
   prefillPatternEnabled: PropTypes.bool,
+  prefillTransformer: PropTypes.func,
   requiredKeys: PropTypes.arrayOf(PropTypes.string),
   setFormData: PropTypes.func,
   testContinueAlert: PropTypes.bool,
