@@ -237,6 +237,7 @@ function setupJSDom() {
     addListener: f => f,
     removeListener: f => f,
   });
+  window.scroll = () => {};
   window.scrollTo = () => {};
   window.VetsGov = { scroll };
   window.Forms = { scroll };
