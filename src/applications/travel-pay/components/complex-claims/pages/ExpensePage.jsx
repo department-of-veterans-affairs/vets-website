@@ -565,11 +565,14 @@ const ExpensePage = () => {
 
     setExtraFieldErrors(finalErrors);
 
+    const hasBlockingErrors = Object.values(errors).some(Boolean);
+
     return (
       emptyFields.length === 0 &&
       dateValidation.isValid &&
       descriptionValidation.isValid &&
-      amountValidation.isValid
+      amountValidation.isValid &&
+      !hasBlockingErrors
     );
   };
 
