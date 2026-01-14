@@ -11,6 +11,7 @@
     "strict": true,
     "noImplicitAny": true,
     "types": ["mocha", "chai"],
+    "typeRoots": ["./types", "../../../node_modules/@types"],
     "baseUrl": "../../../src",
     "paths": {
       "platform/*": ["platform/*"],
@@ -24,5 +25,9 @@
     "../../../config/globalTypes/global-state.d.ts",
     "../../../config/globalTypes/router-types.d.ts",
     "types/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "../../../node_modules/@department-of-veterans-affairs/component-library/dist/react-bindings/react-component-lib/createOverlayComponent.tsx"
   ]
 }
