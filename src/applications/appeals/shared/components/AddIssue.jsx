@@ -80,6 +80,8 @@ const AddIssue = (props, appAbbr) => {
     dateValidations,
     issueDate || '',
     data,
+    null,
+    appAbbr,
   );
 
   // check name & date combo uniqueness
