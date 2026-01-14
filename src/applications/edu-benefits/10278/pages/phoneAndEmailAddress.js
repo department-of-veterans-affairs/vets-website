@@ -10,25 +10,32 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Your phone and email address'),
-    phoneNumber: internationalPhoneUI({
-      title: 'Phone number',
-      hint: null,
-      errorMessages: {
-        required: 'Please enter your phone number',
-      },
-    }),
-    emailAddress: emailUI({
-      title: 'Email',
-      hint:
-        "We'll use this email address to send you notifications in regards to your claim",
-    }),
+    claimantContactInformation: {
+      phoneNumber: internationalPhoneUI({
+        title: 'Phone number',
+        hint: null,
+        errorMessages: {
+          required: 'Please enter your phone number',
+        },
+      }),
+      emailAddress: emailUI({
+        title: 'Email',
+        hint:
+          "We'll use this email address to send you notifications in regards to your claim",
+      }),
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      phoneNumber: internationalPhoneSchema(),
-      emailAddress: emailSchema,
+      claimantContactInformation: {
+        type: 'object',
+        properties: {
+          phoneNumber: internationalPhoneSchema(),
+          emailAddress: emailSchema,
+        },
+        required: ['phoneNumber'],
+      },
     },
-    required: ['phoneNumber'],
   },
 };

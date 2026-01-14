@@ -40,10 +40,12 @@ describe('22-10278 phone and email address page', () => {
 
   it('renders without errors when phone number is provided', () => {
     const { container } = renderPage({
-      phoneNumber: {
-        countryCode: '1',
-        areaCode: '555',
-        phoneNumber: '1234567',
+      claimantContactInformation: {
+        phoneNumber: {
+          countryCode: '1',
+          areaCode: '555',
+          phoneNumber: '1234567',
+        },
       },
     });
     expect(container.querySelectorAll('[error]')).to.have.length(0);
