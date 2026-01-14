@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import page from '../../pages/additionalInstitutionsSummaryWithCode';
+import page from '../../pages/additionalInstitutionsSummaryWithoutCode';
 
 const renderPage = (formData = {}) =>
   render(
@@ -20,7 +20,7 @@ describe('22-0976 additional institutions summary page', () => {
 
     expect(
       container.querySelector(
-        'va-radio[label="Do you have any additional locations you’d like to add to this application?"]',
+        'va-radio[label="Does your institution have additional locations?"]',
       ),
     ).to.exist;
   });
