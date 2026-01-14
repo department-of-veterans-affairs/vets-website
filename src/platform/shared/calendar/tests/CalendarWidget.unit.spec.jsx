@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import {
   addDays,
@@ -30,7 +30,7 @@ describe('Shared Component: CalendarWidget', () => {
       },
     ];
 
-    render(
+    const { queryByTestId } = render(
       <CalendarWidget
         id="test-calendar"
         availableSlots={availableSlots}
@@ -43,7 +43,7 @@ describe('Shared Component: CalendarWidget', () => {
       />,
     );
 
-    expect(screen.queryByTestId('vaos-calendar')).to.exist;
+    expect(queryByTestId('vaos-calendar')).to.exist;
   });
 
   it('should show validation alert when max selections+1 dates selected for requests', async () => {
@@ -55,7 +55,7 @@ describe('Shared Component: CalendarWidget', () => {
       format(addDays(now, 4), DATE_FORMATS.ISODateTimeLocal),
     ];
 
-    render(
+    const { queryByText } = render(
       <CalendarWidget
         id="test-calendar"
         maxSelections={3}
@@ -67,7 +67,7 @@ describe('Shared Component: CalendarWidget', () => {
     );
 
     expect(
-      screen.queryByText(
+      queryByText(
         'You can only select 3 times for your appointment. Deselect the 4th time to continue.',
       ),
     ).to.exist;
@@ -83,7 +83,7 @@ describe('Shared Component: CalendarWidget', () => {
       format(addDays(minDate, 5), DATE_FORMATS.ISODateTimeLocal),
     ];
 
-    render(
+    const { queryByText } = render(
       <CalendarWidget
         id="test-calendar"
         maxSelections={3}
@@ -95,7 +95,7 @@ describe('Shared Component: CalendarWidget', () => {
     );
 
     expect(
-      screen.queryByText(
+      queryByText(
         'You can only select 3 times for your appointment. Deselect 2 times to continue.',
       ),
     ).to.exist;
@@ -112,7 +112,7 @@ describe('Shared Component: CalendarWidget', () => {
       },
     ];
 
-    render(
+    const { queryByText, queryByTestId } = render(
       <CalendarWidget
         id="test-calendar"
         availableSlots={availableSlots}
@@ -128,12 +128,12 @@ describe('Shared Component: CalendarWidget', () => {
       />,
     );
 
-    expect(screen.queryByText('Calendar is currently disabled')).to.exist;
-    expect(screen.queryByTestId('vaos-calendar')).to.exist;
-    expect(screen.queryByTestId('vaos-calendar')).to.have.class(
+    expect(queryByText('Calendar is currently disabled')).to.exist;
+    expect(queryByTestId('vaos-calendar')).to.exist;
+    expect(queryByTestId('vaos-calendar')).to.have.class(
       'vads-u-visibility--hidden',
     );
-    expect(screen.queryByTestId('vaos-calendar')).to.have.class(
+    expect(queryByTestId('vaos-calendar')).to.have.class(
       'vaos-calendar__disabled',
     );
   });
@@ -153,7 +153,7 @@ describe('Shared Component: CalendarWidget', () => {
       },
     ];
 
-    render(
+    const { queryByText, queryByTestId } = render(
       <CalendarWidget
         id="test-calendar"
         availableSlots={availableSlots}
@@ -169,12 +169,12 @@ describe('Shared Component: CalendarWidget', () => {
       />,
     );
 
-    expect(screen.queryByText('Calendar is currently disabled')).to.exist;
-    expect(screen.queryByTestId('vaos-calendar')).to.exist;
-    expect(screen.queryByTestId('vaos-calendar')).not.to.have.class(
+    expect(queryByText('Calendar is currently disabled')).to.exist;
+    expect(queryByTestId('vaos-calendar')).to.exist;
+    expect(queryByTestId('vaos-calendar')).not.to.have.class(
       'vads-u-visibility--hidden',
     );
-    expect(screen.queryByTestId('vaos-calendar')).to.have.class(
+    expect(queryByTestId('vaos-calendar')).to.have.class(
       'vaos-calendar__disabled',
     );
   });
