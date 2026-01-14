@@ -384,6 +384,13 @@ jobs:
             echo "tests_ran=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Rename results file to avoid merge collisions
+        if: ${{ always() && steps.check-tests.outputs.has_tests == 'true' }}
+        run: |
+          if [[ -f "mocha/results/unit-tests.json" ]]; then
+            mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.app.folder }}.json
+          fi
+
       - name: Archive unit test results
         if: ${{ always() && steps.check-tests.outputs.has_tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
