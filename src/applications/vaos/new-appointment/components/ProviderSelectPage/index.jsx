@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';
@@ -46,19 +46,30 @@ export default function SelectProviderPage() {
     [pageTitle],
   );
 
-  const pageHeader = () => {
-    // Providers endpoint returns with an error
-    if (patientRelationshipsError) return pageTitle;
+  const pageHeader = useMemo(
+    () => {
+      // Providers endpoint returns with an error
+      if (patientRelationshipsError) return pageTitle;
 
-    // Single provider header, no error
-    if (patientProviderRelationships?.length === 1) return singleProviderTitle;
+      // Single provider header, no error
+      if (patientProviderRelationships?.length === 1)
+        return singleProviderTitle;
 
-    // No provider header, no error
-    if (!hasProviders) return cantScheduleTitle;
+      // No provider header, no error
+      if (!hasProviders) return cantScheduleTitle;
 
-    // return default pageTitle
-    return pageTitle;
-  };
+      // return default pageTitle
+      return pageTitle;
+    },
+    [
+      patientRelationshipsError,
+      pageTitle,
+      patientProviderRelationships,
+      singleProviderTitle,
+      hasProviders,
+      cantScheduleTitle,
+    ],
+  );
 
   function TypeOfCareAndFacilityInfo() {
     return (
@@ -86,7 +97,7 @@ export default function SelectProviderPage() {
         data-testid="page-header-provider-select"
         className="vads-u-font-size--h2"
       >
-        {pageHeader()}
+        {pageHeader}
       </h1>
 
       {/* Error state, an error is returned, no providers returned */}
