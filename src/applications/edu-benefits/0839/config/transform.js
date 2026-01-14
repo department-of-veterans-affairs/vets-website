@@ -46,12 +46,15 @@ export default function transform(formConfig, form) {
 
   const yellowRibbonProgramRequestTransform = formData => {
     const clonedData = cloneDeep(formData);
+    let yearRange;
 
     clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
-      request => {
-        const yearRange = request.academicYearDisplay
-          ? request.academicYearDisplay.split('-')
-          : request.academicYear.split('-');
+      (request, idx) => {
+        if (idx === 0) {
+          yearRange = request.academicYearDisplay
+            ? request.academicYearDisplay.split('-')
+            : request.academicYear.split('-');
+        }
 
         request.yearRange = {
           from: `${yearRange[0]}-XX-XX`,
