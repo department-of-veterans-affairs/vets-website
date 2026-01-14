@@ -538,7 +538,20 @@ const ExpensePage = () => {
       DATE_VALIDATION_TYPE.SUBMIT,
     );
 
-    // Extra validation for specific fields
+    // Merge all validation results into errors
+    const finalErrors = {
+      ...errors,
+      ...(dateValidation.purchaseDate && {
+        purchaseDate: dateValidation.purchaseDate,
+      }),
+      ...(descriptionValidation.description && {
+        description: descriptionValidation.description,
+      }),
+      ...amountValidation.errors,
+    };
+
+    setExtraFieldErrors(finalErrors);
+
     return (
       emptyFields.length === 0 &&
       dateValidation.isValid &&
