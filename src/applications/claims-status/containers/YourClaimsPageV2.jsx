@@ -40,16 +40,33 @@ import {
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
+import ClaimsFilter from '../components/ClaimsFilter';
 import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 import { Type2FailureAnalyticsProvider } from '../contexts/Type2FailureAnalyticsContext';
+
+/**
+ * Determines if a claim, appeal, or STEM claim is closed.
+ * - Benefits claims: closed when status is 'COMPLETE'
+ * - STEM claims: always closed (denied)
+ * - Appeals: closed when active === false
+ */
+function isItemClosed(item) {
+  return (
+    item.attributes.status === 'COMPLETE' ||
+    item.attributes.claimType === 'STEM' ||
+    item.attributes.active === false
+  );
+}
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
 
     this.state = {
       page: YourClaimsPageV2.getPageFromURL(props),
+      claimsFilter: sessionStorage.getItem('claimsFilter') || 'all',
     };
   }
 
@@ -106,8 +123,27 @@ class YourClaimsPageV2 extends React.Component {
     const newURL = `${this.props.location.pathname}?page=${event.detail.page}`;
     this.props.navigate(newURL);
     this.setState({ page: event.detail.page });
-    // Move focus to "Showing X through Y of Z events..." for screenreaders
+    // Move focus to "Showing X - Y of Z records..." for screenreaders
     setPageFocus('#pagination-info');
+  }
+
+  handleFilterChange(filter) {
+    sessionStorage.setItem('claimsFilter', filter);
+    // Navigate to page 1 when filter changes (removes ?page=X from URL)
+    this.props.navigate(this.props.location.pathname);
+    this.setState({ claimsFilter: filter, page: 1 });
+  }
+
+  getFilteredList() {
+    const { list } = this.props;
+    const { claimsFilter } = this.state;
+
+    if (claimsFilter === 'all') return list;
+
+    return list.filter(
+      item =>
+        claimsFilter === 'closed' ? isItemClosed(item) : !isItemClosed(item),
+    );
   }
 
   renderListItem(claim) {
@@ -175,6 +211,8 @@ class YourClaimsPageV2 extends React.Component {
       stemClaimsLoading,
     } = this.props;
 
+    const filteredList = this.getFilteredList();
+
     let content;
     let pageInfo;
     const allRequestsLoaded =
@@ -184,23 +222,23 @@ class YourClaimsPageV2 extends React.Component {
     const atLeastOneRequestLoading =
       claimsLoading || appealsLoading || stemClaimsLoading;
     const emptyList = !(list && list.length);
+    const emptyFilteredList = !(filteredList && filteredList.length);
+    const { claimsFilter } = this.state;
+    const filterLabel =
+      claimsFilter === 'all' ? 'records' : `${claimsFilter} records`;
+
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = <ClaimCardLoadingSkeleton />;
-    } else if (!emptyList) {
-      const listLen = list.length;
+    } else if (!emptyFilteredList) {
+      const listLen = filteredList.length;
       const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
       const shouldPaginate = numPages > 1;
 
-      const pageItems = getVisibleRows(list, this.state.page);
-
-      if (shouldPaginate) {
-        const range = getPageRange(this.state.page, listLen);
-        const { end, start } = range;
-
-        const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
-
-        pageInfo = <p id="pagination-info">{txt}</p>;
-      }
+      const pageItems = getVisibleRows(filteredList, this.state.page);
+      const range = getPageRange(this.state.page, listLen);
+      const { end, start } = range;
+      const txt = `Showing ${start}-${end} of ${listLen} ${filterLabel}`;
+      pageInfo = <p id="pagination-info">{txt}</p>;
 
       content = (
         <Type2FailureAnalyticsProvider key={this.state.page}>
@@ -219,7 +257,7 @@ class YourClaimsPageV2 extends React.Component {
         </Type2FailureAnalyticsProvider>
       );
     } else if (allRequestsLoaded) {
-      content = <NoClaims />;
+      content = <NoClaims recordType={filterLabel} />;
     }
 
     return (
@@ -239,18 +277,11 @@ class YourClaimsPageV2 extends React.Component {
               Your claims, decision reviews, or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <div className="additional-info-loading-container">
-              <va-additional-info
-                id="claims-combined"
-                class="claims-combined"
-                trigger="Find out why we sometimes combine claims"
-              >
-                <div>
-                  If you turn in a new claim while we’re reviewing another one
-                  from you, we’ll add any new information to the original claim
-                  and close the new claim, with no action required from you.
-                </div>
-              </va-additional-info>
+            <div className="claims-filter-container vads-u-margin-y--2">
+              <ClaimsFilter
+                selected={this.state.claimsFilter}
+                onFilterChange={this.handleFilterChange}
+              />
             </div>
             {content}
             <ClaimLetterSection />
@@ -314,11 +345,7 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ]
-    .filter(
-      claim =>
-        claim.attributes.status === 'COMPLETE' ||
-        claim.attributes.claimType === 'STEM',
-    )
+    .filter(isItemClosed)
     .sort(sortByLastUpdated);
 
   const inProgressClaims = [
@@ -326,11 +353,7 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ]
-    .filter(
-      claim =>
-        claim.attributes.status !== 'COMPLETE' &&
-        claim.attributes.claimType !== 'STEM',
-    )
+    .filter(item => !isItemClosed(item))
     .sort(sortByLastUpdated);
 
   const sortedList = [...inProgressClaims, ...closedClaims];
