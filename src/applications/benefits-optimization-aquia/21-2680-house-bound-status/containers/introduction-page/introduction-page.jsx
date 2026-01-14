@@ -151,6 +151,7 @@ export const IntroductionPage = ({ route }) => {
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
+          verifiedPrefillAlert={<></>}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start your application"
