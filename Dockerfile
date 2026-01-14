@@ -1,6 +1,6 @@
 # based on https://github.com/nodejs/docker-node/blob/master/4.7/slim/Dockerfile
 
-FROM public.ecr.aws/bitnami/node:22.12.0
+FROM public.ecr.aws/bitnami/node:22.22.0
 
 # default case is Jenkins, but we want to be able to overwrite this
 ARG userid=504

@@ -1,4 +1,4 @@
-FROM public.ecr.aws/bitnami/node:22.12.0
+FROM public.ecr.aws/bitnami/node:22.22.0
 
 # Copy startup script into place
 COPY src/platform/utilities/preview-environment/start.sh .
