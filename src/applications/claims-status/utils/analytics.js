@@ -396,7 +396,7 @@ export const recordUploadCancelEvent = ({
   recordEvent(
     createUploadEvent('claims-upload-cancel', {
       'api-name': 'Claims and Appeals Upload',
-      'api-status': 'successful',
+      'api-status': 'cancel',
       'upload-cancel-file-count': cancelFileCount,
       'upload-retry': retryFileCount > 0,
       'upload-retry-file-count': retryFileCount,

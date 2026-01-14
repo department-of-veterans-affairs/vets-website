@@ -552,7 +552,7 @@ describe('analytics helpers', () => {
       expect(window.dataLayer[0]).to.deep.equal({
         event: 'claims-upload-cancel',
         'api-name': 'Claims and Appeals Upload',
-        'api-status': 'successful',
+        'api-status': 'cancel',
         'error-key': undefined,
         'upload-cancel-file-count': 3,
         'upload-fail-alert-count': undefined,
