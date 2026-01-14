@@ -5,7 +5,6 @@ import {
   addStudentsIntroPage,
   addStudentsSummaryPage,
   studentInformationPage,
-  studentIDInformationPage,
   studentIncomePage,
   studentAddressPage,
   studentMaritalStatusPage,
@@ -61,15 +60,6 @@ export default {
         path: 'report-674/add-students/:index/student-information',
         uiSchema: studentInformationPage.uiSchema,
         schema: studentInformationPage.schema,
-        depends: formData =>
-          isChapterFieldRequired(formData, TASK_KEYS.report674) &&
-          isAddingDependents(formData),
-      }),
-      addStudentsPartTwo: pageBuilder.itemPage({
-        title: 'Add one or more students between ages 18 and 23',
-        path: 'report-674/add-students/:index/student-identification',
-        uiSchema: studentIDInformationPage.uiSchema,
-        schema: studentIDInformationPage.schema,
         depends: formData =>
           isChapterFieldRequired(formData, TASK_KEYS.report674) &&
           isAddingDependents(formData),
