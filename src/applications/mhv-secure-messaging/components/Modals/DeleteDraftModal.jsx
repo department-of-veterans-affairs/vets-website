@@ -5,23 +5,16 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { Prompts } from '../../util/constants';
 
 const DeleteDraftModal = props => {
-  const { draftSequence } = props;
   return (
     <VaModal
-      id={`delete-draft-modal${draftSequence ? `-${draftSequence}` : ''}`}
-      data-testid={`delete-draft-modal${
-        draftSequence ? `-${draftSequence}` : ''
-      }`}
-      data-dd-action-name={`${Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER} Modal${
-        draftSequence ? ` ${draftSequence}` : ''
-      }`}
+      id="delete-draft-modal"
+      data-testid="delete-draft-modal"
+      data-dd-action-name={`${Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER} Modal`}
       modalTitle={Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER}
       onCloseEvent={() => {
         props.onClose();
         datadogRum.addAction(
-          `${Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER} Modal${
-            draftSequence ? ` ${draftSequence} Closed` : ' Closed'
-          }`,
+          `${Prompts.Draft.DELETE_DRAFT_CONFIRM_HEADER} Modal Closed`,
         );
       }}
       visible={props.visible}
@@ -34,9 +27,7 @@ const DeleteDraftModal = props => {
         <va-button
           id="delete-draft"
           data-testid="confirm-delete-draft"
-          data-dd-action-name={`Confirm Delete Draft Button ${
-            draftSequence ? ` ${draftSequence}` : ''
-          }`}
+          data-dd-action-name="Confirm Delete Draft Button"
           class="vads-u-padding-right--0 vads-u-padding-bottom--1p5 mobile-lg:vads-u-padding-right--2 mobile-lg:vads-u-padding-bottom--0"
           text="Delete draft"
           onClick={props.onDelete}
@@ -44,9 +35,7 @@ const DeleteDraftModal = props => {
         <va-button
           id="delete-cancel"
           data-testid="cancel-delete-draft"
-          data-dd-action-name={`Cancel Delete Draft Button ${
-            draftSequence ? ` ${draftSequence}` : ''
-          }`}
+          data-dd-action-name="Cancel Delete Draft Button"
           secondary
           text="Cancel"
           onClick={props.onClose}
@@ -57,7 +46,6 @@ const DeleteDraftModal = props => {
 };
 
 DeleteDraftModal.propTypes = {
-  draftSequence: PropTypes.number,
   id: PropTypes.number,
   visible: PropTypes.bool,
   onClose: PropTypes.func,

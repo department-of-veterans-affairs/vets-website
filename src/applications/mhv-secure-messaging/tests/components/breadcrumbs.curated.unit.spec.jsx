@@ -130,7 +130,7 @@ describe('Curated list breadcrumb back navigation', () => {
     const { container, history } = renderAt(Paths.CONTACT_LIST, {
       sm: {
         breadcrumbs: { previousUrl: Paths.COMPOSE },
-        threadDetails: { drafts: [{ messageId }] },
+        threadDetails: { draft: { messageId } },
       },
     });
     await waitFor(() => {
@@ -158,7 +158,7 @@ describe('Curated list breadcrumb back navigation', () => {
         breadcrumbs: {
           previousUrl: previousPage,
         },
-        threadDetails: { drafts: [] },
+        threadDetails: { draft: null },
       },
     });
 

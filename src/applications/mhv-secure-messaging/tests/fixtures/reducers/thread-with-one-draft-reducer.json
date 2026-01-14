@@ -1,5 +1,26 @@
 {
   "threadDetails": {
+    "draft": {
+      "messageId": 3195025,
+      "category": "TEST_RESULTS",
+      "subject": "Test Inquiry",
+      "body": "newDraftaaa",
+      "attachment": false,
+      "sentDate": null,
+      "senderId": 251391,
+      "senderName": "PATIENT, MISTER",
+      "recipientId": 3188767,
+      "recipientName": "TG API TESTING",
+      "readReceipt": null,
+      "triageGroupName": "TG API TESTING",
+      "proxySenderName": null,
+      "threadId": 3188781,
+      "folderId": -2,
+      "messageBody": "newDraftaaa",
+      "draftDate": "2023-12-13T17:27:17.000+00:00",
+      "toDate": null,
+      "hasAttachments": false
+    },
     "drafts": [
       {
         "messageId": 3195025,

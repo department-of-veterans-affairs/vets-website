@@ -214,7 +214,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -251,7 +251,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -318,7 +318,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -356,7 +356,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -398,7 +398,7 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          drafts: [],
+          draft: null,
           draftInProgress: {},
         },
         preferences: signatureReducers.signatureEnabled,
@@ -448,7 +448,7 @@ describe('Compose form component', () => {
         categories: { categories },
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
         preferences: signatureReducers.signatureEnabled,
       },
@@ -653,7 +653,7 @@ describe('Compose form component', () => {
         categories: { categories },
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -694,7 +694,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -1297,7 +1297,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
           draftInProgress: {},
         },
       },
@@ -1362,7 +1362,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
           draftInProgress: {},
         },
       },
@@ -1701,7 +1701,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -1743,7 +1743,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           draftInProgress: {},
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -2129,7 +2129,7 @@ describe('Compose form component', () => {
           },
           threadDetails: {
             ...draftState.sm.threadDetails,
-            drafts: [customDraftMessage],
+            draft: customDraftMessage,
           },
         },
       };
@@ -2193,7 +2193,7 @@ describe('Compose form component', () => {
           },
           threadDetails: {
             ...draftState.sm.threadDetails,
-            drafts: [customDraftMessage],
+            draft: customDraftMessage,
           },
         },
       };
@@ -2258,7 +2258,7 @@ describe('Compose form component', () => {
           },
           threadDetails: {
             ...draftState.sm.threadDetails,
-            drafts: [customDraftMessage],
+            draft: customDraftMessage,
           },
         },
       };
@@ -2317,7 +2317,7 @@ describe('Compose form component', () => {
           },
           threadDetails: {
             ...draftState.sm.threadDetails,
-            drafts: [customDraftMessage],
+            draft: customDraftMessage,
           },
         },
       };

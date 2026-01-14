@@ -338,7 +338,7 @@ describe('Compose container', () => {
             allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
           },
           threadDetails: {
-            drafts: [],
+            draft: null,
             acceptInterstitial: false,
           },
         },
@@ -371,7 +371,7 @@ describe('Compose container', () => {
             recentRecipients: [noBlockedRecipients.mockAllowedRecipients[0]],
           },
           threadDetails: {
-            drafts: [],
+            draft: null,
             acceptInterstitial: false,
           },
         },

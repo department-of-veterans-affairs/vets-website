@@ -18,7 +18,7 @@ const MessageReply = () => {
     customFoldersRedesignEnabled,
     largeAttachmentsEnabled,
   } = useFeatureToggles();
-  const { drafts, error, messages, acceptInterstitial } = useSelector(
+  const { draft, error, messages, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
   const replyMessage = messages?.length && messages[0];
@@ -74,7 +74,7 @@ const MessageReply = () => {
 
     return (
       <ReplyForm
-        drafts={drafts || []}
+        draft={draft || null}
         replyMessage={replyMessage}
         recipients={recipients}
         messages={messages}

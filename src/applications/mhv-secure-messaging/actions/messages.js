@@ -95,6 +95,13 @@ export const retrieveMessageThread = messageId => async dispatch => {
         threadFolderId,
         cannotReply: isOlderThan(lastSentDate, 45),
         replyToMessageId: response.data[0].attributes.messageId,
+        draft: drafts[0]
+          ? {
+              ...drafts[0].attributes,
+              body: decodeHtmlEntities(drafts[0].attributes.body),
+              messageBody: decodeHtmlEntities(drafts[0].attributes.body),
+            }
+          : null,
         drafts: drafts.map(m => ({
           ...m.attributes,
           body: decodeHtmlEntities(m.attributes.body),

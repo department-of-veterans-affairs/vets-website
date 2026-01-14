@@ -30,7 +30,7 @@ const Compose = () => {
 
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
-  const { drafts, saveError, acceptInterstitial } = useSelector(
+  const { draft, saveError, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
   const signature = useSelector(state => state.sm.preferences.signature);
@@ -40,7 +40,6 @@ const Compose = () => {
     state => state.sm.threads,
   );
 
-  const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
 
@@ -87,7 +86,7 @@ const Compose = () => {
 
   useEffect(
     () => {
-      if (draftMessage?.messageId && draftMessage.draftDate === null) {
+      if (draft?.messageId && draft.draftDate === null) {
         history.push(Paths.INBOX);
       }
       return () => {
@@ -96,7 +95,7 @@ const Compose = () => {
         }
       };
     },
-    [isDraftPage, draftMessage, history, dispatch],
+    [isDraftPage, draft, history, dispatch],
   );
 
   useEffect(
@@ -173,7 +172,7 @@ const Compose = () => {
         <>
           <ComposeForm
             pageTitle={pageTitle}
-            draft={draftMessage}
+            draft={draft}
             recipients={!recipients.error && recipients}
             signature={signature}
           />
