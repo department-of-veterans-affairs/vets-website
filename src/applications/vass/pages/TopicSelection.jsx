@@ -10,19 +10,18 @@ import { usePersistentSelections } from '../hooks/usePersistentSelections';
 import {
   setSelectedTopics,
   selectSelectedTopics,
+  selectUuid,
 } from '../redux/slices/formSlice';
 import { useGetTopicsQuery } from '../redux/api/vassApi';
 import { useErrorFocus } from '../hooks/useErrorFocus';
-
-// TODO: remove this once we have a real UUID
-import { UUID } from '../services/mocks/utils/formData';
 
 const TopicSelection = () => {
   const { error, handleSetError } = useErrorFocus('va-checkbox-group');
   const dispatch = useDispatch();
   const selectedTopics = useSelector(selectSelectedTopics);
+  const uuid = useSelector(selectUuid);
   const navigate = useNavigate();
-  const { saveTopicsSelection } = usePersistentSelections(UUID);
+  const { saveTopicsSelection } = usePersistentSelections(uuid);
   const { data } = useGetTopicsQuery();
   const topics = useMemo(() => data?.topics || [], [data]);
 

@@ -65,6 +65,7 @@ export const fetchDebts = async dispatch => {
     const simplifiedResponse = filteredResponse.map(debt => ({
       compositeDebtId: debt.compositeDebtId,
       label: getDebtLabel(debt),
+      submitted: debt.submitted || false,
       description: getDebtDescription(debt),
       debtType: DEBT_TYPES.DEBT,
       deductionCode: debt.deductionCode,

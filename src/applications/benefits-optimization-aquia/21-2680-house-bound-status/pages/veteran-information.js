@@ -11,6 +11,19 @@ import {
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const formatFullNameTitles = name => {
+  switch (name) {
+    case 'first or given name':
+      return 'First or given name';
+    case 'middle name':
+      return 'Middle initial';
+    case 'last or family name':
+      return 'Last or family name';
+    default:
+      return name;
+  }
+};
+
 /**
  * uiSchema for Veteran Information page
  * Collects veteran's full name and date of birth
@@ -20,7 +33,7 @@ export const veteranInformationUiSchema = {
   'ui:description':
     'Confirm the personal information we have on file for the Veteran.',
   veteranInformation: {
-    veteranFullName: fullNameNoSuffixUI(),
+    veteranFullName: fullNameNoSuffixUI(formatFullNameTitles),
     veteranDob: dateOfBirthUI(),
   },
 };

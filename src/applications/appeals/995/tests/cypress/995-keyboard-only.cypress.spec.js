@@ -1,3 +1,6 @@
+/**
+ * E2E test for keyboard only navigation on 995 form.
+ */
 import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
 import mockPrefill from '../fixtures/mocks/prefill.json';
