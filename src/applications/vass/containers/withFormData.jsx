@@ -63,6 +63,7 @@ const withFormData = (Component, requiredFields = []) => {
             dispatch(clearFormData());
           }
 
+          // TODO: redirect to the "Something went wrong" page or the root page with UUID query param
           navigate(redirectPath, {
             replace: true,
           });

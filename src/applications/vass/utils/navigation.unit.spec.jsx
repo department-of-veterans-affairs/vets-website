@@ -1,12 +1,11 @@
 import { expect } from 'chai';
 import {
   routes,
-  URLS,
   findMissingField,
   findRouteForField,
   getFirstTokenRoute,
 } from './navigation';
-import { AUTH_LEVELS } from './constants';
+import { AUTH_LEVELS, URLS } from './constants';
 
 describe('VASS Utils: navigation', () => {
   describe('routes', () => {
