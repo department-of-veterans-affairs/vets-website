@@ -99,27 +99,28 @@ const formConfig = {
   useCustomScrollAndFocus: true,
   defaultDefinitions: definitions,
   chapters: {
-    // applicantInformationChapter: {
-    //   title: data => {
-    //     return data.formData['view:coeFormRebuildCveteam']
-    //       ? 'Your information'
-    //       : 'Your personal information on file';
-    //   },
-    //   pages: {
-    //     applicantInformationSummary: {
-    //       path: 'applicant-information',
-    //       // There seems to be a bug where the depends clause is ignored for the first item in the form
-    //       // depends: formData => {
-    //       //   console.log('the value 2:', formData);
-    //       //   return !formData['view:coeFormRebuildCveteam'];
-    //       // },
-    //       title: 'Your personal information on file',
-    //       uiSchema: applicantInformation.uiSchema,
-    //       schema: applicantInformation.schema,
-    //     },
-    //     yourInformation: personalInformation,
-    //   },
-    // },
+    applicantInformationChapter: {
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Your information'
+          : 'Your personal information on file';
+      },
+      pages: {
+        // applicantInformationSummary: {
+        //   path: 'applicant-information',
+        //   // There seems to be a bug where the depends clause is ignored for the first item in the form
+        //   // depends: formData => {
+        //   //   console.log('the value 2:', formData);
+        //   //   return !formData['view:coeFormRebuildCveteam'];
+        //   // },
+        //   title: 'Your personal information on file',
+        //   uiSchema: applicantInformation.uiSchema,
+        //   schema: applicantInformation.schema,
+        // },
+        yourInformation: personalInformation,
+        ...profileContactInfoPages(),
+      },
+    },
     contactInformationChapter: {
       title: 'Your contact information',
       pages: {
@@ -130,13 +131,14 @@ const formConfig = {
         //   schema: mailingAddress.schema,
         //   updateFormData: mailingAddress.updateFormData,
         // },
-        additionalInformation: {
-          path: 'additional-contact-information',
-          title: additionalInformation.title,
-          uiSchema: additionalInformation.uiSchema,
-          schema: additionalInformation.schema,
-        },
-        ...profileContactInfoPages(customConfig),
+        // additionalInformation: {
+        //   path: 'additional-contact-information',
+        //   title: additionalInformation.title,
+        //   uiSchema: additionalInformation.uiSchema,
+        //   schema: additionalInformation.schema,
+        // },
+        
+        //...profileContactInfoPages(customConfig),
       },
     },
     serviceHistoryChapter: {
