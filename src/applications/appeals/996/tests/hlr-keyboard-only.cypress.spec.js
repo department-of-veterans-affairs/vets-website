@@ -1,3 +1,6 @@
+/**
+ * E2E test for keyboard only navigation on 996 form.
+ */
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';

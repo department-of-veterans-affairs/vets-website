@@ -871,7 +871,7 @@ describe('Google Analytics', () => {
       'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should record claims-upload-success event on successful upload', () => {
@@ -910,7 +910,7 @@ describe('Google Analytics', () => {
       'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should record claims-upload-failure event on Type 1 upload failure', () => {
@@ -938,7 +938,7 @@ describe('Google Analytics', () => {
       'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should include retry count when uploading the same file multiple times', () => {
@@ -998,6 +998,6 @@ describe('Google Analytics', () => {
       'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

@@ -576,6 +576,25 @@ const baseClaims = [
           canUploadFile: true,
         }),
 
+        // ASB - tell us specific disability (isSensitive: true)
+        // Shows "Request for evidence" header with specific disability content
+        createTrackedItem(
+          15,
+          'ASB-tell us specific disability fm asbestos exposure',
+          true,
+          {
+            requestedDate: '2025-10-23',
+            suspenseDate: '2026-01-23',
+            friendlyName: 'asbestos exposure information',
+            shortDescription:
+              'To process your disability claim, we need to know the disease or disability caused by the asbestos exposure.',
+            supportAliases: [
+              'ASB-tell us specific disability fm asbestos exposure',
+            ],
+            canUploadFile: true,
+          },
+        ),
+
         // Path 4: Frontend override with longDescription but NO nextSteps
         // Shows generic "Next steps" section
         createTrackedItem(4, 'Employer (21-4192)', true, {
