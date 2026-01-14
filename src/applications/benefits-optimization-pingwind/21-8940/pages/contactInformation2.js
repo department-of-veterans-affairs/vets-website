@@ -50,7 +50,7 @@ export default {
     properties: {
       [veteranFields.parentObject]: {
         type: 'object',
-        required: [veteranFields.homePhone, veteranFields.email],
+        required: [veteranFields.homePhone],
         properties: {
           [veteranFields.homePhone]: internationalPhoneSchema({
             required: true,

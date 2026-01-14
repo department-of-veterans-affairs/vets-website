@@ -75,6 +75,80 @@ describe('showForm0781Pages', () => {
       expect(showForm0781Pages(formData)).to.eq(false);
     });
   });
+
+  describe('when user has rated disabilities and new conditions (new conditions workflow)', () => {
+    it('should return true when flipper is on', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        ratedDisabilities: [
+          {
+            name: 'Tinnitus',
+            ratedDisabilityId: '111111',
+            diagnosticCode: 6260,
+            decisionCode: 'SVCCONNCTED',
+            ratingPercentage: 10,
+          },
+        ],
+        newDisabilities: [
+          {
+            condition: 'PTSD',
+          },
+        ],
+        disabilityCompNewConditionsWorkflow: true,
+      };
+      expect(showForm0781Pages(formData)).to.eq(true);
+    });
+
+    it('should return false when flipper is off', () => {
+      const formData = {
+        syncModern0781Flow: false,
+        ratedDisabilities: [
+          {
+            name: 'Tinnitus',
+            ratedDisabilityId: '111111',
+            diagnosticCode: 6260,
+            decisionCode: 'SVCCONNCTED',
+            ratingPercentage: 10,
+          },
+        ],
+        newDisabilities: [
+          {
+            condition: 'PTSD',
+          },
+        ],
+        disabilityCompNewConditionsWorkflow: true,
+      };
+      expect(showForm0781Pages(formData)).to.eq(false);
+    });
+  });
+
+  describe('when only placeholder rated disability exists', () => {
+    it('should return false', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        newDisabilities: [
+          {
+            condition: 'Rated Disability',
+          },
+        ],
+      };
+      expect(showForm0781Pages(formData)).to.eq(false);
+    });
+  });
+
+  describe('when condition is empty or whitespace', () => {
+    it('should return false', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        newDisabilities: [
+          {
+            condition: '   ',
+          },
+        ],
+      };
+      expect(showForm0781Pages(formData)).to.eq(false);
+    });
+  });
 });
 
 describe('isCompletingForm0781', () => {
