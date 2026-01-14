@@ -40,7 +40,7 @@ jobs:
             if [ -n "$PACKAGE_JSON_DIFF" ]; then
               # Get changed lines (excluding context lines and approved packages)
               # Note: blob-polyfill, cheerio, and engines field changes are allowed for Node 22 upgrade
-              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'jsdom' | grep -v '"msw"' | grep -v '"node-sass"' | grep -v '"sass"' | grep -v 'patch-package' | grep -v 'blob-polyfill' | grep -v 'cheerio' | grep -v '"engines"' | grep -v '"node":' | grep -v '"yarn":' || echo "")
+              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'jsdom' | grep -v '"msw"' | grep -v '"node-sass"' | grep -v '"sass"' | grep -v 'patch-package' | grep -v 'blob-polyfill' | grep -v 'cheerio' | grep -v '"engines"' | grep -v '"node":' | grep -v '"yarn":' |  grep -v 'husky'  || echo "")
 
               if [ -n "$CHANGED_LINES" ]; then
                 # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)

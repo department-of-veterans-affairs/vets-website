@@ -36,7 +36,7 @@ describe('View Payments Lists', () => {
     );
   };
 
-  before(() => {
+  beforeEach(() => {
     server.use(
       createGetHandler(
         `${environment.API_URL}/v0/profile/payment_history`,
@@ -50,7 +50,6 @@ describe('View Payments Lists', () => {
       ),
     );
   });
-  afterEach(() => server.resetHandlers());
 
   it('renders View Payments Lists component with both tables', async () => {
     const initialState = {
