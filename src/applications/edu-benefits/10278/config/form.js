@@ -10,6 +10,7 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import * as discloseInformation from '../pages/discloseInformation';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -81,6 +82,28 @@ const formConfig = {
           title: 'Mailing address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
+        },
+      },
+    },
+    disclosureChapter: {
+      title: 'Type of third party',
+      pages: {
+        discloseInformation: {
+          path: 'type-of-third-party',
+          title: 'Disclose your personal information to a third party',
+          uiSchema: discloseInformation.uiSchema,
+          schema: discloseInformation.schema,
+
+          onNavForward: ({ formData, goPath }) => {
+            if (formData?.discloseInformation?.authorize === 'organization') {
+              //  go straight into add flow (hides summary until after first item)
+              goPath('/authorized-organizations/0?add=true');
+              return;
+            }
+
+            // person flow (use your actual person page path)
+            goPath('/third-party-person-name');
+          },
         },
       },
     },

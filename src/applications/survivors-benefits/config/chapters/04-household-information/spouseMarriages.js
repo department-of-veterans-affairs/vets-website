@@ -8,7 +8,7 @@ import {
 export default {
   title: 'Previous marriages',
   path: 'household/spouse-marriage-question',
-  depends: formData => formData.claimantRelationship === 'SPOUSE',
+  depends: formData => formData.claimantRelationship === 'SURVIVING_SPOUSE',
   uiSchema: {
     ...titleUI('Previous marriages'),
     recognizedAsSpouse: yesNoUI({

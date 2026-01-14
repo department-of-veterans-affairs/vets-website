@@ -11,6 +11,9 @@ import {
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { isClaimantVeteran } from '../utils/relationship-helpers';
+import { getVeteranName, getClaimantName } from '../utils/name-helpers';
+
 /**
  * uiSchema for Claimant Contact page
  * Collects claimant's phone numbers and email
@@ -24,31 +27,40 @@ export const claimantContactUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const data = fullData || formData;
-      const firstName =
-        data?.claimantInformation?.claimantFullName?.first || '';
-      const lastName = data?.claimantInformation?.claimantFullName?.last || '';
-      const fullName = `${firstName} ${lastName}`.trim();
+      const isVeteran = isClaimantVeteran(data);
+
+      // Get the appropriate name based on relationship
+      const fullName = isVeteran
+        ? getVeteranName(data, '')
+        : getClaimantName(data, '');
+
+      // Use appropriate fallback based on relationship
+      const fallback = isVeteran ? "Veteran's" : "Claimant's";
 
       const title = fullName
         ? `${fullName}'s phone number and email address`
-        : "Claimant's phone number and email address";
+        : `${fallback} phone number and email address`;
 
       const homePhoneLabel = fullName
         ? `${fullName}'s home phone number`
-        : "Claimant's home phone number";
+        : `${fallback} home phone number`;
 
       const mobilePhoneLabel = fullName
         ? `${fullName}'s mobile phone number`
-        : "Claimant's mobile phone number";
+        : `${fallback} mobile phone number`;
 
       const emailLabel = fullName
         ? `${fullName}'s email address`
-        : "Claimant's email address";
+        : `${fallback} email address`;
+
+      // Use appropriate pronouns for veterans vs other claimants
+      const description = isVeteran
+        ? 'We may use your contact information to contact you if we have questions about your application or if we need more information.'
+        : 'We may use their contact information to contact them if we have questions about their application or if we need more information.';
 
       return {
         'ui:title': title,
-        'ui:description':
-          'We may use their contact information to contact them if we have questions about their application or if we need more information.',
+        'ui:description': description,
         claimantContact: {
           claimantPhoneNumber: {
             'ui:title': homePhoneLabel,
