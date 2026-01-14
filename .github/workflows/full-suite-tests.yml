@@ -13,6 +13,11 @@ on:
         required: false
         type: boolean
         default: false
+      unit_test_app_list:
+        description: 'Comma-separated list of app folder names to test (e.g., claims-status,hca). Leave empty to test all apps. Platform tests always run.'
+        required: false
+        type: string
+        default: ''
 
 concurrency:
   group: full-suite-tests-${{ github.ref }}
@@ -216,10 +221,17 @@ jobs:
         if: ${{ inputs.run_full_unit_test_suite }}
         id: unit-test-matrix
         run: |
-          # Get all application folders as JSON array
-          APP_FOLDERS=$(ls -d src/applications/*/ 2>/dev/null | xargs -n1 basename | jq -R -s -c 'split("\n") | map(select(length > 0)) | map({folder: ., type: "application"})')
+          APP_LIST_INPUT="${{ inputs.unit_test_app_list }}"
+          
+          if [[ -n "$APP_LIST_INPUT" ]]; then
+            # Use the provided list of apps
+            APP_FOLDERS=$(echo "$APP_LIST_INPUT" | tr ',' '\n' | jq -R -s -c 'split("\n") | map(select(length > 0)) | map({folder: ., type: "application"})')
+          else
+            # Get all application folders as JSON array
+            APP_FOLDERS=$(ls -d src/applications/*/ 2>/dev/null | xargs -n1 basename | jq -R -s -c 'split("\n") | map(select(length > 0)) | map({folder: ., type: "application"})')
+          fi
 
-          # Add platform as a separate entry
+          # Always add platform as a separate entry
           PLATFORM_ENTRY='[{"folder": "platform", "type": "platform"}]'
 
           # Combine into a single matrix (compact, single-line output)
