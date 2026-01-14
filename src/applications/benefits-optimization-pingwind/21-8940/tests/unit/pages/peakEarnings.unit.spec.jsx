@@ -11,8 +11,8 @@ const {
 } = formConfig.chapters.sectionThreeChapter.pages.peakEarnings;
 const pageTitle = 'peak earnings';
 
-// All inputs use web components
-const expectedWebComponents = 3;
+// Only the max earnings and occupation fields use web components
+const expectedWebComponents = 2;
 
 testNumberOfWebComponentFields(
   formConfig,

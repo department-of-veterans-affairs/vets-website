@@ -120,7 +120,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
   }),
   employmentHistoryPage: pageBuilder.itemPage({
     title: 'Employment application record',
-    path: 'employment-application-record/:index/',
+    path: 'employment-application-record/:index/basic-info',
     uiSchema: employmentInformationPage.uiSchema,
     schema: employmentInformationPage.schema,
   }),

@@ -39,6 +39,7 @@ import employmentStatementHistory from '../pages/employmentStatementHistory';
 import sectionFour from '../pages/sectionFour';
 import additionalRemarks from '../pages/additionalRemarks';
 import sectionSix from '../pages/sectionSix';
+import supportingDocuments from '../pages/supportingDocuments';
 
 import doctorCareQuestion from '../pages/doctorCareQuestion';
 import hospitalQuestion from '../pages/hospitalQuestion';
@@ -88,7 +89,7 @@ const sectionOneBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h4>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Your name and identification numbers</li>
             <li>Your contact information (address, email, phone number)</li>
@@ -129,7 +130,7 @@ const sectionTwoBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h4>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Which disabilities prevent you from working</li>
             <li>Doctors and hospitals you’ve visited in the past 12 months</li>
@@ -164,11 +165,11 @@ const sectionThreeBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h4>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>When your disability began affecting your work</li>
-            <li>Employment details for the past 5 years</li>
-            <li>Your highest earnings and current income</li>
+            <li>Employment details for the last 5 years you worked</li>
+            <li>Your highest earnings and current income (if applicable)</li>
             <li>Whether you’ve tried to find work since becoming disabled</li>
             <li>Takes about 20-25 minutes (longest section)</li>
           </ul>
@@ -190,7 +191,7 @@ const sectionFourBannerPage = {
     ...inlineTitleUI('Section IV - Schooling and Other Training'),
     'ui:description': (
       <div className="vads-u-margin-top--8">
-        <p>We’ll start by confirming your identity and how to reach you.</p>
+        <p>Your educational background and any training you've received.</p>
         <div
           style={{
             backgroundColor: '#e7f4f7',
@@ -200,7 +201,7 @@ const sectionFourBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h4>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Highest level of education completed</li>
             <li>Training before and after becoming too disabled to work</li>
@@ -233,7 +234,7 @@ const sectionFiveBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h4>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Space for any additional details about your situation</li>
             <li>Upload any supporting documentation</li>
@@ -268,7 +269,7 @@ const sectionSixBannerPage = {
             margin: '16px 0',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h3>
+          <h4 style={{ marginTop: 0, color: '#1b4480' }}>What to expect:</h4>
           <ul style={{ marginBottom: 0, color: '#1b4480' }}>
             <li>Review all your information</li>
             <li>Electronically sign and submit</li>
@@ -531,6 +532,12 @@ const formConfig = {
           title: 'Additional Remarks',
           uiSchema: additionalRemarks.uiSchema,
           schema: additionalRemarks.schema,
+        },
+        supportingDocuments: {
+          path: 'supporting-documents',
+          title: 'Upload Supporting Documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
         },
       },
     },
