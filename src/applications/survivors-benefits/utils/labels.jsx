@@ -37,7 +37,7 @@ export const marriageEndOptions = {
 
 export const marriageTypeOptions = {
   ceremonial:
-    'In a civil or religious ceremony with an officiant who signed me marriage license',
+    'In a civil or religious ceremony with an officiant who signed my marriage license',
   other: 'Some other way',
 };
 
