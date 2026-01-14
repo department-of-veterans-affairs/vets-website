@@ -18,7 +18,7 @@ import {
   isLOA3,
   isVAPatient,
   selectProfile,
-  signInServiceEnabled,
+  // signInServiceEnabled,
   hasMessagingAccess,
   mhvAccountStatusLoading,
 } from '../selectors';
@@ -29,7 +29,7 @@ const LandingPageContainer = () => {
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const useSiS = useSelector(signInServiceEnabled);
+  // const useSiS = useSelector(signInServiceEnabled);
   const registered = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
@@ -90,7 +90,7 @@ const LandingPageContainer = () => {
 
   return (
     <RequiredLoginView
-      useSiS={useSiS}
+      useSiS
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >

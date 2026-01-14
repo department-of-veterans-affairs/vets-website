@@ -1,6 +1,6 @@
 import {
   isAuthenticatedWithSSOe,
-  signInServiceEnabled,
+  // signInServiceEnabled,
   signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import {
@@ -66,7 +66,7 @@ export {
   selectProfile,
   selectProfileLoa,
   selectProfileLogInProvider,
-  signInServiceEnabled,
+  // signInServiceEnabled,
   signInServiceName,
   showVerifyAndRegisterAlert,
 };

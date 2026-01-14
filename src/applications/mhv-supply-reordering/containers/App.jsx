@@ -12,7 +12,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import MhvRegisteredUserGuard from 'platform/mhv/components/MhvRegisteredUserGuard';
 import formConfig from '../config/form';
-import { signInServiceEnabled } from '../selectors';
+// import { signInServiceEnabled } from '../selectors';
 
 const serviceRequired = [
   // backendServices.FACILITIES,
@@ -24,7 +24,7 @@ const serviceRequired = [
 
 const App = ({ location, children }) => {
   const { user } = useSelector(state => state);
-  const useSiS = useSelector(signInServiceEnabled);
+  // const useSiS = useSelector(signInServiceEnabled);
   const showMhvSecondaryNav =
     location.pathname.includes('/introduction') ||
     location.pathname.includes('/confirmation');
@@ -45,11 +45,7 @@ const App = ({ location, children }) => {
   }
 
   return (
-    <RequiredLoginView
-      useSiS={useSiS}
-      user={user}
-      serviceRequired={serviceRequired}
-    >
+    <RequiredLoginView useSiS user={user} serviceRequired={serviceRequired}>
       <MhvRegisteredUserGuard>
         <>
           {showMhvSecondaryNav && <MhvSecondaryNav />}
