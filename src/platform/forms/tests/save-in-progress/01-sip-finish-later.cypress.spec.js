@@ -4,6 +4,9 @@ import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
+const getSipSaveLink = () =>
+  cy.get('va-link.schemaform-sip-save-link', { includeShadowDom: true });
+
 describe('SIP Finish Later', () => {
   // Skipping test as it is disabled in nightwatch.  Final assertion error message does not show up on the front end.
   it('Saves, Loads, and Fails appropriately in all cases', () => {
@@ -38,7 +41,7 @@ describe('SIP Finish Later', () => {
     cy.url().should('not.contain', '/introduction');
     cy.url().should('contain', '/first-page');
 
-    cy.get('.schemaform-sip-save-link');
+    getSipSaveLink();
     cy.get('input[name="root_email"]').should(
       'have.attr',
       'value',
@@ -48,7 +51,10 @@ describe('SIP Finish Later', () => {
     // save and finish a form later
     cy.fill('input[name="root_veteranFullName_first"]', 'Larry');
     cy.fill('input[name="root_veteranFullName_last"]', 'Walker');
-    cy.get('.schemaform-sip-save-link').click();
+    getSipSaveLink()
+      .shadow()
+      .find('a')
+      .click();
 
     cy.url().should('not.contain', '/first-page');
     cy.url().should('contain', 'form-saved');
@@ -60,11 +66,14 @@ describe('SIP Finish Later', () => {
       .shadow()
       .find('button')
       .click();
-    cy.get('.schemaform-sip-save-link').should('be.visible');
+    getSipSaveLink().should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
     });
-    cy.get('.schemaform-sip-save-link').click();
+    getSipSaveLink()
+      .shadow()
+      .find('a')
+      .click();
 
     cy.get('.usa-alert-error', { timeout: Timeouts.slow }).should('be.visible');
     cy.url().should('contain', 'first-page');
@@ -92,7 +101,10 @@ describe('SIP Finish Later', () => {
     });
     /* eslint-enable camelcase */
 
-    cy.get('.schemaform-sip-save-link').click();
+    getSipSaveLink()
+      .shadow()
+      .find('a')
+      .click();
     cy.get('.usa-alert-body').should(
       'contain',
       'Your mock sip benefits application has been saved',
@@ -124,7 +136,10 @@ describe('SIP Finish Later', () => {
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 401,
     }).as('401Form');
-    cy.get('.schemaform-sip-save-link').click();
+    getSipSaveLink()
+      .shadow()
+      .find('a')
+      .click();
 
     cy.url().should('contain', 'first-page');
     cy.get('input[name="root_veteranFullName_first"]').should(

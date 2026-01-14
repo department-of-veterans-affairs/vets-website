@@ -4,6 +4,9 @@ import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
+const getSipSaveLink = () =>
+  cy.get('va-link.schemaform-sip-save-link', { includeShadowDom: true });
+
 describe('SIP Autosave Test', () => {
   it('fails and properly recovers', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
@@ -34,7 +37,7 @@ describe('SIP Autosave Test', () => {
     cy.url().should('not.contain', '/introduction');
     cy.url().should('contain', '/first-page');
 
-    cy.get('.schemaform-sip-save-link').should('be.visible');
+    getSipSaveLink().should('be.visible');
     cy.get('input[name="root_email"]').should(
       'have.attr',
       'value',
@@ -43,7 +46,7 @@ describe('SIP Autosave Test', () => {
     cy.fill('input[name="root_veteranFullName_first"]', 'Larry');
     cy.get('.saved-success-container').should('be.visible');
     cy.get('.main .usa-button-primary').click();
-    cy.get('.schemaform-sip-save-link').should('be.visible');
+    getSipSaveLink().should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
     });
@@ -86,7 +89,7 @@ describe('SIP Autosave Test', () => {
     // Can't recover from this because it logs you out and we'd have to log in again
 
     cy.get('.main .usa-button-primary').click();
-    cy.get('.schemaform-sip-save-link');
+    getSipSaveLink();
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 401,
     });

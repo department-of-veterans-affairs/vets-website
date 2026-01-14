@@ -7,6 +7,13 @@ import { setFeatureToggles } from './intercepts/features-toggles';
 const fillTextWebComponent = (fieldName, value) => {
   cy.fillVaTextInput(`root_${fieldName}`, value);
 };
+const selectClaimantRadio = label => {
+  cy.findByRole(
+    'radio',
+    { name: label },
+    { timeout: 10000, includeShadowDom: true },
+  ).click({ force: true });
+};
 const data = prefillTransformer.formData;
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '/accredited_representative_portal/v0/user', {
@@ -212,7 +219,7 @@ describe('Intent to file submission', () => {
           `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
         );
 
-        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        selectClaimantRadio(/^The claimant is the Veteran$/);
         cy.findByRole('button', { name: /^Continue$/ }).click();
         cy.location('pathname').should(
           'eq',
@@ -269,9 +276,9 @@ describe('Intent to file submission', () => {
           '/representative/representative-form-upload/submit-va-form-21-0966/claimant-background',
         );
 
-        cy.findByLabelText(
+        selectClaimantRadio(
           /^The claimant is a survivor or dependent of the Veteran$/,
-        ).click();
+        );
         cy.findByRole('button', { name: /^Continue$/ }).click();
         cy.axeCheck();
         cy.location('pathname').should(
@@ -344,7 +351,7 @@ describe('Intent to file submission', () => {
           `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
         );
 
-        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        selectClaimantRadio(/^The claimant is the Veteran$/);
         cy.findByRole('button', { name: /^Continue$/ }).click();
         cy.location('pathname').should(
           'eq',
@@ -412,7 +419,7 @@ describe('Intent to file submission', () => {
           `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
         );
 
-        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        selectClaimantRadio(/^The claimant is the Veteran$/);
         cy.findByRole('button', { name: /^Continue$/ }).click();
         cy.location('pathname').should(
           'eq',
@@ -474,7 +481,7 @@ describe('Intent to file submission', () => {
           `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
         );
 
-        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        selectClaimantRadio(/^The claimant is the Veteran$/);
         cy.findByRole('button', { name: /^Continue$/ }).click();
         cy.location('pathname').should(
           'eq',
@@ -535,7 +542,7 @@ describe('Intent to file submission', () => {
           `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
         );
 
-        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        selectClaimantRadio(/^The claimant is the Veteran$/);
         cy.findByRole('button', { name: /^Continue$/ }).click();
         cy.location('pathname').should(
           'eq',

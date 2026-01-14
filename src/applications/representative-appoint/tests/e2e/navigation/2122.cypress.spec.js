@@ -38,7 +38,11 @@ describe('Authenticated', () => {
       // CLAIMANT_TYPE
       h.verifyUrl(ROUTES.CLAIMANT_TYPE);
       cy.injectAxeThenAxeCheck();
-      cy.get('va-radio-option[value="Yes"] label').click();
+      cy.findByRole(
+        'radio',
+        { name: /yes/i },
+        { timeout: 10000, includeShadowDom: true },
+      ).click({ force: true });
       h.clickContinue();
 
       // REPRESENTATIVE_SELECT

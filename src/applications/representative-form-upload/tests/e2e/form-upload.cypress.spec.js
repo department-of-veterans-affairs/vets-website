@@ -11,6 +11,13 @@ const mockSubmit = JSON.stringify({
 const fillTextWebComponent = (fieldName, value) => {
   cy.fillVaTextInput(`root_${fieldName}`, value);
 };
+const selectClaimantRadio = label => {
+  cy.findByRole(
+    'radio',
+    { name: label },
+    { timeout: 10000, includeShadowDom: true },
+  ).click({ force: true });
+};
 const data = prefillTransformer.formData;
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '/accredited_representative_portal/v0/user', {
@@ -126,7 +133,7 @@ describe('Representative Form Upload', () => {
             `/representative/representative-form-upload/submit-va-form-${formId}/is-veteran`,
           );
 
-          cy.findByLabelText(/^The claimant is the Veteran$/).click();
+          selectClaimantRadio(/^The claimant is the Veteran$/);
           cy.findByRole('button', { name: /^Continue$/ }).click();
           cy.location('pathname').should(
             'eq',
@@ -199,7 +206,7 @@ describe('Representative Form Upload', () => {
             `/representative/representative-form-upload/submit-va-form-${formId}/is-veteran`,
           );
 
-          cy.findByLabelText(/^The claimant is the Veteran$/).click();
+          selectClaimantRadio(/^The claimant is the Veteran$/);
           cy.findByRole('button', { name: /^Continue$/ }).click();
           cy.axeCheck();
 
@@ -279,9 +286,9 @@ describe('Representative Form Upload', () => {
         '/representative/representative-form-upload/submit-va-form-21-686c/is-veteran',
       );
 
-      cy.findByLabelText(
+      selectClaimantRadio(
         /^The claimant is a survivor or dependent of the Veteran$/,
-      ).click();
+      );
       cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.axeCheck();
       cy.location('pathname').should(
@@ -376,7 +383,7 @@ describe('Representative Form Upload', () => {
         `/representative/representative-form-upload/submit-va-form-21-686c/is-veteran`,
       );
 
-      cy.findByLabelText(/^The claimant is the Veteran$/).click();
+      selectClaimantRadio(/^The claimant is the Veteran$/);
       cy.findByRole('button', { name: /^Continue$/ }).click();
       cy.location('pathname').should(
         'eq',

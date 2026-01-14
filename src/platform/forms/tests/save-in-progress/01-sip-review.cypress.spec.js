@@ -3,6 +3,9 @@ import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
+const getSipSaveLink = () =>
+  cy.get('va-link.schemaform-sip-save-link', { includeShadowDom: true });
+
 describe('SIP Review Test', () => {
   it('Saves appropriately', () => {
     const reviewUrl = '/mock-sip-form/review-and-submit?skip';
@@ -37,7 +40,10 @@ describe('SIP Review Test', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    cy.get('.schemaform-sip-save-link').click();
+    getSipSaveLink()
+      .shadow()
+      .find('a')
+      .click();
 
     cy.url()
       .should('not.contain', '/review-and-submit')
@@ -48,11 +54,11 @@ describe('SIP Review Test', () => {
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
     });
-    cy.get('.schemaform-sip-save-link')
-      .should('be.visible')
-      .then(link => {
-        cy.wrap(link).click();
-      });
+    getSipSaveLink().should('be.visible');
+    getSipSaveLink()
+      .shadow()
+      .find('a')
+      .click();
 
     cy.get('.usa-alert-error', { timeout: Timeouts.slow });
 

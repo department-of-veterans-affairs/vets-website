@@ -40,7 +40,11 @@ describe('Unauthenticated', () => {
       // CLAIMANT_TYPE
       h.verifyUrl(ROUTES.CLAIMANT_TYPE);
       cy.injectAxeThenAxeCheck();
-      cy.get('va-radio-option[value="No"] label').click();
+      cy.findByRole(
+        'radio',
+        { name: /no/i },
+        { timeout: 10000, includeShadowDom: true },
+      ).click({ force: true });
       h.clickContinue();
 
       // REPRESENTATIVE_SELECT
