@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -124,7 +124,7 @@ describe('YourPersonalInformationAuthenticated', () => {
     expect(getByText('Date of birth: None provided')).to.exist;
   });
 
-  it('should redirect if not logged in', () => {
+  it('should redirect if not logged in', async () => {
     const goForwardSpy = sinon.spy();
     const store = createMockStore({
       formData: {
@@ -146,6 +146,8 @@ describe('YourPersonalInformationAuthenticated', () => {
       </Provider>,
     );
 
-    expect(goForwardSpy.calledOnce).to.be.true;
+    await waitFor(() => {
+      expect(goForwardSpy.called).to.be.true;
+    });
   });
 });

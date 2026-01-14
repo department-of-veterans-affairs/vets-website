@@ -7,6 +7,11 @@ describe('Constants', () => {
   let envStub;
   let constants;
 
+  const withApiUrl = apiUrl => ({
+    ...environment.default,
+    API_URL: apiUrl,
+  });
+
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     envStub = sandbox.stub(environment, 'default');
@@ -20,13 +25,13 @@ describe('Constants', () => {
 
   describe('mockTestingFlagforAPI', () => {
     it('should be true when API_URL is localhost:3000', () => {
-      envStub.value({ API_URL: 'http://localhost:3000' });
+      envStub.value(withApiUrl('http://localhost:3000'));
       constants = require('../constants');
       expect(constants.mockTestingFlagforAPI).to.be.true;
     });
 
     it('should be false when API_URL is not localhost:3000', () => {
-      envStub.value({ API_URL: 'https://dev-api.va.gov' });
+      envStub.value(withApiUrl('https://dev-api.va.gov'));
       constants = require('../constants');
       expect(constants.mockTestingFlagforAPI).to.be.false;
     });
@@ -34,7 +39,7 @@ describe('Constants', () => {
 
   describe('URL constants', () => {
     it('should include mock data parameter when mockTestingFlagforAPI is true', () => {
-      envStub.value({ API_URL: 'http://localhost:3000' });
+      envStub.value(withApiUrl('http://localhost:3000'));
       constants = require('../constants');
       expect(constants.URL.GET_CATEGORIES).to.include('user_mock_data=true');
       expect(constants.URL.GET_TOPICS).to.include('user_mock_data=true');
@@ -42,7 +47,7 @@ describe('Constants', () => {
     });
 
     it('should not include mock data parameter when mockTestingFlagforAPI is false', () => {
-      envStub.value({ API_URL: 'https://dev-api.va.gov' });
+      envStub.value(withApiUrl('https://dev-api.va.gov'));
       constants = require('../constants');
       expect(constants.URL.GET_CATEGORIES).to.not.include(
         'user_mock_data=true',
@@ -56,7 +61,7 @@ describe('Constants', () => {
     const API_URL = 'https://dev-api.va.gov';
 
     beforeEach(() => {
-      envStub.value({ API_URL });
+      envStub.value(withApiUrl(API_URL));
       constants = require('../constants');
     });
 
@@ -90,7 +95,7 @@ describe('Constants', () => {
 
   describe('hasPrefillInformation', () => {
     beforeEach(() => {
-      envStub.value({ API_URL: 'https://dev-api.va.gov' });
+      envStub.value(withApiUrl('https://dev-api.va.gov'));
       constants = require('../constants');
     });
 
