@@ -126,6 +126,7 @@ class CCServiceTypeAhead extends Component {
   ) => {
     return (
       <div
+        id="service-typeahead-listbox"
         className={`dropdown${
           this.props.useProgressiveDisclosure && this.props.isSmallDesktop
             ? ' drowpdown-fl-sm-desktop'
@@ -242,7 +243,7 @@ class CCServiceTypeAhead extends Component {
                   id="service-type-ahead-input"
                   aria-describedby="could-not-find-service-prompt error-message"
                   aria-expanded={isOpen}
-                  aria-controls="service-typeahead"
+                  aria-controls="service-typeahead-listbox"
                 />
 
                 {this.renderSearchForAvailableServicePrompt(inputValue)}
