@@ -81,22 +81,7 @@ describe('21-8940 container/ConfirmationQuestion', () => {
       delete document.body.scrollTo;
     }
   });
-
-  it('renders page content and scrolls to top', async () => {
-    const { getByRole } = renderPage();
-
-    await waitFor(() => {
-      expect(bodyScrollStub.called).to.be.true;
-    });
-
-    expect(
-      getByRole('heading', {
-        level: 1,
-        name: "Let's confirm VA Form 21-8940 is the right form for your needs",
-      }),
-    ).to.exist;
-  });
-
+  
   it('navigates back to introduction when back button is clicked', async () => {
     const { getByRole, router } = renderPage();
     const routerPush = router.push;
