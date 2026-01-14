@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import i18nDebtApp from 'applications/dispute-debt/i18n';
 import { setFocus } from '../utils';
 
 import AlertCard from './AlertCard';
@@ -120,8 +121,9 @@ const DebtSelection = ({ formContext }) => {
       <div>
         <h4 className="vads-u-margin-top--1">{debt.label}</h4>
         <p>
-          Note: This debt has already been disputed on {debt.submissionDate} and
-          cannot be disputed again. It can take up to 60 days to process.
+          {i18nDebtApp.t('debt-selection.submitted-note', {
+            date: debt.submissionDate,
+          })}
         </p>
       </div>
     </va-card>
