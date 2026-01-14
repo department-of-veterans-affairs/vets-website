@@ -11,13 +11,13 @@ const INPUT_LABEL = content['medicare--part-d-status-label'];
 export default {
   uiSchema: {
     ...titleWithNameUI(TITLE_TEXT),
-    hasMedicarePartD: yesNoUI(INPUT_LABEL),
+    medicarePartDStatus: yesNoUI(INPUT_LABEL),
   },
   schema: {
     type: 'object',
-    required: ['hasMedicarePartD'],
+    required: ['medicarePartDStatus'],
     properties: {
-      hasMedicarePartD: yesNoSchema,
+      medicarePartDStatus: yesNoSchema,
     },
   },
 };

@@ -313,8 +313,31 @@ describe('Form Configuration', () => {
       const page =
         formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
-      it('should include claimant name in title when name is provided', () => {
+      it('should use veteran name when veteran is claimant', () => {
         const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: {
+            veteranFullName: { first: 'Luke', last: 'Skywalker' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          "Luke Skywalker's phone number and email address",
+        );
+      });
+
+      it('should use default veteran text when veteran is claimant but name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: { veteranFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          "Veteran's phone number and email address",
+        );
+      });
+
+      it('should include claimant name in title when claimant is not veteran', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
           claimantInformation: {
             claimantFullName: { first: 'Han', last: 'Solo' },
           },
@@ -324,8 +347,9 @@ describe('Form Configuration', () => {
         );
       });
 
-      it('should use default title when claimant name is missing', () => {
+      it('should use default claimant text when claimant name is missing', () => {
         const formData = {
+          claimantRelationship: { relationship: 'spouse' },
           claimantInformation: { claimantFullName: {} },
         };
         expect(page.title(formData)).to.equal(
@@ -479,7 +503,7 @@ describe('Form Configuration', () => {
 
   describe('Conditional Page Logic', () => {
     describe('Claimant Information Conditional Pages', () => {
-      it('should show claimant pages when claimantRelationship is not veteran', () => {
+      it('should show claimant info, SSN, and address pages when claimantRelationship is not veteran', () => {
         const formData = {
           claimantRelationship: {
             relationship: 'spouse',
@@ -493,16 +517,13 @@ describe('Form Configuration', () => {
           formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
         const claimantAddressPage =
           formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
-        const claimantContactPage =
-          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
         expect(claimantInfoPage.depends(formData)).to.be.true;
         expect(claimantSSNPage.depends(formData)).to.be.true;
         expect(claimantAddressPage.depends(formData)).to.be.true;
-        expect(claimantContactPage.depends(formData)).to.be.true;
       });
 
-      it('should hide claimant pages when claimantRelationship is veteran', () => {
+      it('should hide claimant info, SSN, and address pages when claimantRelationship is veteran', () => {
         const formData = {
           claimantRelationship: {
             relationship: 'veteran',
@@ -516,13 +537,19 @@ describe('Form Configuration', () => {
           formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
         const claimantAddressPage =
           formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
-        const claimantContactPage =
-          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
 
         expect(claimantInfoPage.depends(formData)).to.be.false;
         expect(claimantSSNPage.depends(formData)).to.be.false;
         expect(claimantAddressPage.depends(formData)).to.be.false;
-        expect(claimantContactPage.depends(formData)).to.be.false;
+      });
+
+      it('should always show claimant contact page regardless of relationship', () => {
+        const claimantContactPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
+
+        // claimantContact page should not have a depends function
+        // because it should always be shown to collect contact info
+        expect(claimantContactPage.depends).to.be.undefined;
       });
     });
 
