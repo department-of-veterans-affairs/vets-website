@@ -163,8 +163,12 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
     req.setRequestHeader('Content-Type', 'application/json');
-    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
-    req.setRequestHeader('Source-App-Name', window.appName);
+    if (csrfTokenStored) {
+      req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    }
+    if (window.appName) {
+      req.setRequestHeader('Source-App-Name', window.appName);
+    }
     req.withCredentials = true;
 
     req.send(body);
@@ -443,8 +447,12 @@ export function uploadFile(
     });
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
-    req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
-    req.setRequestHeader('Source-App-Name', window.appName);
+    if (csrfTokenStored) {
+      req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    }
+    if (window.appName) {
+      req.setRequestHeader('Source-App-Name', window.appName);
+    }
     req.withCredentials = true;
     req.send(payload);
 
