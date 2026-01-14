@@ -21,6 +21,8 @@ import {
   ssnSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  checkboxUI,
+  checkboxSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
   currencyUI,
@@ -144,36 +146,58 @@ export const studentInformationPage = {
       title: 'Add a student',
       nounSingular: addStudentsOptions.nounSingular,
     }),
+    'view:childNameTitle': {
+      'ui:description': <h4>Child’s name</h4>,
+    },
     fullName: fullNameNoSuffixUI(title => `Student’s ${title}`),
     birthDate: currentOrPastDateUI({
       title: 'Student’s date of birth',
+      labelHeaderLevel: '4',
       dataDogHidden: true,
       required: () => true,
     }),
+    'view:childIdTitle': {
+      'ui:description': <h4>Child’s identification information</h4>,
+    },
+    noSSN: checkboxUI({
+      title: 'Child doesn’t have a Social Security number',
+      required: () => false,
+      hideIf: formData => !formData?.vaDependentsNoSSN, // check feature flag
+    }),
+    noSSNReason: radioUI({
+      title: 'Why doesn’t your child have a Social Security number?',
+      labels: {
+        NONRESIDENT_ALIEN: 'Nonresident alien',
+        NONE_ASSIGNED: 'No SSN has been assigned or requested',
+      },
+      required: (_chapterData, _index, formData) =>
+        formData?.studentInformation[_index]?.noSSN === true,
+      hideIf: (formData, _index) =>
+        formData?.studentInformation[_index]?.noSSN !== true,
+      errorMessages: {
+        required: 'Tell us why the child doesn’t have a Social Security number',
+      },
+    }),
+    ssn: {
+      ...ssnUI('Child’s Social Security number'),
+      'ui:required': (_chapterData, _index, formData) =>
+        !formData?.studentInformation[_index]?.noSSN,
+      'ui:options': {
+        hideIf: (formData, _index) =>
+          formData?.studentInformation[_index]?.noSSN,
+      },
+    },
   },
   schema: {
     type: 'object',
     required: ['fullName', 'birthDate'],
     properties: {
+      'view:childNameTitle': { type: 'object', properties: {} },
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,
-    },
-  },
-};
-
-/** @returns {PageSchema} */
-export const studentIDInformationPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s information'),
-    ssn: {
-      ...ssnUI('Student’s Social Security number'),
-      'ui:required': () => true,
-    },
-  },
-  schema: {
-    type: 'object',
-    required: ['ssn'],
-    properties: {
+      'view:childIdTitle': { type: 'object', properties: {} },
+      noSSN: checkboxSchema,
+      noSSNReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
       ssn: ssnSchema,
     },
   },
