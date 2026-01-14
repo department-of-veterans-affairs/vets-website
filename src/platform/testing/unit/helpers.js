@@ -72,14 +72,11 @@ function fillDate(formDOM, partialId, dateString) {
       },
     },
   );
-  ReactTestUtils.Simulate.change(
-    inputs.find(i => i.id === `${partialId}Day`),
-    {
-      target: {
-        value: date[2],
-      },
+  ReactTestUtils.Simulate.change(inputs.find(i => i.id === `${partialId}Day`), {
+    target: {
+      value: date[2],
     },
-  );
+  });
   ReactTestUtils.Simulate.change(
     inputs.find(i => i.id === `${partialId}Year`),
     {
@@ -111,28 +108,16 @@ export function changeDropdown(form, selector, value) {
  * @param returnVal The value to return from the fetch promise
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
-function setResponseUrl(response, url) {
-  if (!response || typeof response !== 'object') {
-    return;
-  }
-
-  try {
-    Object.defineProperty(response, 'url', { value: url });
-  } catch (error) {
-    // Ignore read-only url on Response instances.
-  }
-}
-
 function mockFetch(returnVal, shouldResolve = true) {
   const fetchStub = sinon.stub(global, 'fetch');
   fetchStub.callsFake(url => {
     let response = returnVal;
     if (!response) {
-      response = new Response(null, {
-        status: 404,
-        statusText: 'Not Found',
-      });
-      setResponseUrl(response, url);
+      response = new Response();
+      response.ok = false;
+      response.url = url;
+      response.status = 404;
+      response.statusText = 'Not Found';
     }
 
     return shouldResolve ? Promise.resolve(response) : Promise.reject(response);
@@ -141,7 +126,8 @@ function mockFetch(returnVal, shouldResolve = true) {
 
 export function setFetchJSONResponse(stub, data = null) {
   const response = new Response();
-  setResponseUrl(response, environment.API_URL);
+  response.ok = true;
+  response.url = environment.API_URL;
   if (data) {
     response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
@@ -151,24 +137,26 @@ export function setFetchJSONResponse(stub, data = null) {
 
 export function setFetchJSONFailure(stub, data) {
   const response = new Response(null, {
-    status: 400,
     headers: { 'content-type': ['application/json'] },
   });
-  setResponseUrl(response, environment.API_URL);
+  response.ok = false;
+  response.url = environment.API_URL;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobResponse(stub, data) {
   const response = new Response();
-  setResponseUrl(response, environment.API_URL);
+  response.ok = true;
+  response.url = environment.API_URL;
   response.blob = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobFailure(stub, error) {
-  const response = new Response(null, { status: 400 });
-  setResponseUrl(response, environment.API_URL);
+  const response = new Response();
+  response.ok = false;
+  response.url = environment.API_URL;
   response.blob = () => Promise.reject(new Error(error));
   stub.resolves(response);
 }
