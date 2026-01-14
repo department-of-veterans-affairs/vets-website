@@ -152,9 +152,7 @@ const responses = {
       type: 'appointments',
       attributes: {
         ...baseClaim.appointment,
-        localStartTime: new Date(baseClaim.appointment.appointmentDateTime)
-          .toISOString()
-          .replace('Z', '.000-08:00'),
+        localStartTime: baseClaim.appointment.appointmentDateTime,
         start: baseClaim.appointment.appointmentDateTime,
         end: new Date(
           new Date(baseClaim.appointment.appointmentDateTime).getTime() +
@@ -170,7 +168,7 @@ const responses = {
             claimId: baseClaim.claimId,
             claimNumber: baseClaim.claimNumber,
             claimStatus: baseClaim.claimStatus,
-            appointmentDateTime: baseClaim.appointment.appointmentDateTime,
+            appointmentDate: baseClaim.appointment.appointmentDate,
             facilityName: baseClaim.appointment.facilityName,
             createdOn: baseClaim.createdOn,
             modifiedOn: baseClaim.modifiedOn,
