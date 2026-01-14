@@ -11,18 +11,21 @@ const ExpensesAccordion = ({
   headerLevel = 3,
 }) => {
   // Group expenses by expenseType and attach their document
-  const groupedExpenses = useMemo(() => {
-    return expenses.reduce((acc, expense) => {
-      const { expenseType, documentId } = expense;
-      const expenseDocument =
-        documents.find(doc => doc.documentId === documentId) || null;
-      const expenseWithDocument = { ...expense, document: expenseDocument };
+  const groupedExpenses = useMemo(
+    () => {
+      return expenses.reduce((acc, expense) => {
+        const { expenseType, documentId } = expense;
+        const expenseDocument =
+          documents.find(doc => doc.documentId === documentId) || null;
+        const expenseWithDocument = { ...expense, document: expenseDocument };
 
-      if (!acc[expenseType]) acc[expenseType] = [];
-      acc[expenseType].push(expenseWithDocument);
-      return acc;
-    }, {});
-  }, [expenses, documents]);
+        if (!acc[expenseType]) acc[expenseType] = [];
+        acc[expenseType].push(expenseWithDocument);
+        return acc;
+      }, {});
+    },
+    [expenses, documents],
+  );
 
   const expenseEntries = Object.entries(groupedExpenses);
   const hasExpenses = expenseEntries.length > 0;

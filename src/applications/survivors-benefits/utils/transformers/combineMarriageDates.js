@@ -9,7 +9,9 @@ export function combineMarriageDates(formData) {
     transformedValue.treatments = parsedFormData.treatments.map(center => {
       return {
         ...center,
-        facility: `${center.vaMedicalCenterName} - ${center.city}, ${center.state}`,
+        facility: `${center.vaMedicalCenterName} - ${center.city}, ${
+          center.state
+        }`,
         treatmentDates: {
           start: center.startDate,
           end: center.endDate,

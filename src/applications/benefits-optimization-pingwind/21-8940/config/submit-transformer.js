@@ -111,20 +111,18 @@ const normalizeCountry = country => {
 
 const pruneEmpty = value => {
   if (Array.isArray(value)) {
-    const prunedArray = value
-      .map(item => pruneEmpty(item))
-      .filter(item => {
-        if (item == null) {
-          return false;
-        }
-        if (Array.isArray(item)) {
-          return item.length > 0;
-        }
-        if (typeof item === 'object') {
-          return Object.keys(item).length > 0;
-        }
-        return true;
-      });
+    const prunedArray = value.map(item => pruneEmpty(item)).filter(item => {
+      if (item == null) {
+        return false;
+      }
+      if (Array.isArray(item)) {
+        return item.length > 0;
+      }
+      if (typeof item === 'object') {
+        return Object.keys(item).length > 0;
+      }
+      return true;
+    });
 
     return prunedArray.length ? prunedArray : undefined;
   }

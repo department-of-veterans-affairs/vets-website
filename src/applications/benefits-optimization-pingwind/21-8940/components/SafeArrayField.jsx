@@ -15,27 +15,30 @@ const SafeArrayField = props => {
     ...rest
   } = props;
 
-  const normalizedSchema = useMemo(() => {
-    if (!schema || !schema.items) {
-      return schema;
-    }
+  const normalizedSchema = useMemo(
+    () => {
+      if (!schema || !schema.items) {
+        return schema;
+      }
 
-    // If items is already an array (tuple-style), return as-is
-    if (Array.isArray(schema.items)) {
-      return schema;
-    }
+      // If items is already an array (tuple-style), return as-is
+      if (Array.isArray(schema.items)) {
+        return schema;
+      }
 
-    // For backwards compatibility: Convert single item schema to tuple format
-    // This ensures getItemSchema works correctly with platform's ArrayField
-    return {
-      ...schema,
-      items: [schema.items],
-      additionalItems:
-        schema.additionalItems !== undefined
-          ? schema.additionalItems
-          : schema.items,
-    };
-  }, [schema]);
+      // For backwards compatibility: Convert single item schema to tuple format
+      // This ensures getItemSchema works correctly with platform's ArrayField
+      return {
+        ...schema,
+        items: [schema.items],
+        additionalItems:
+          schema.additionalItems !== undefined
+            ? schema.additionalItems
+            : schema.items,
+      };
+    },
+    [schema],
+  );
 
   const getItemSchemaForIndex = useCallback(
     index => {
@@ -58,75 +61,84 @@ const SafeArrayField = props => {
     [normalizedSchema],
   );
 
-  const { sanitizedData, corrections } = useMemo(() => {
-    const issues = [];
+  const { sanitizedData, corrections } = useMemo(
+    () => {
+      const issues = [];
 
-    if (!Array.isArray(formData)) {
-      if (formData !== undefined && formData !== null) {
-        issues.push({ type: 'nonArrayRoot', received: formData });
-      }
-      return { sanitizedData: [], corrections: issues };
-    }
-
-    let arrayChanged = false;
-
-    const sanitizedItems = formData.map((item, index) => {
-      const schemaForIndex = getItemSchemaForIndex(index);
-      const expectsObject =
-        schemaForIndex?.type === 'object' || !!schemaForIndex?.properties;
-
-      if (!expectsObject) {
-        return item;
+      if (!Array.isArray(formData)) {
+        if (formData !== undefined && formData !== null) {
+          issues.push({ type: 'nonArrayRoot', received: formData });
+        }
+        return { sanitizedData: [], corrections: issues };
       }
 
-      if (!item || Array.isArray(item) || typeof item !== 'object') {
-        issues.push({ type: 'nonObjectItem', item, index, schemaForIndex });
-        arrayChanged = true;
-        return {};
-      }
+      let arrayChanged = false;
 
-      let itemChanged = false;
-      const updatedItem = { ...item };
-      Object.entries(schemaForIndex?.properties || {}).forEach(
-        ([key, propSchema]) => {
-          if (propSchema?.type === 'array' && updatedItem[key] === undefined) {
-            updatedItem[key] = [];
-            itemChanged = true;
-          }
-        },
-      );
+      const sanitizedItems = formData.map((item, index) => {
+        const schemaForIndex = getItemSchemaForIndex(index);
+        const expectsObject =
+          schemaForIndex?.type === 'object' || !!schemaForIndex?.properties;
 
-      if (itemChanged) {
-        arrayChanged = true;
-        return updatedItem;
-      }
+        if (!expectsObject) {
+          return item;
+        }
 
-      return item;
-    });
-
-    if (!arrayChanged) {
-      for (let index = 0; index < sanitizedItems.length; index += 1) {
-        if (sanitizedItems[index] !== formData[index]) {
+        if (!item || Array.isArray(item) || typeof item !== 'object') {
+          issues.push({ type: 'nonObjectItem', item, index, schemaForIndex });
           arrayChanged = true;
-          break;
+          return {};
+        }
+
+        let itemChanged = false;
+        const updatedItem = { ...item };
+        Object.entries(schemaForIndex?.properties || {}).forEach(
+          ([key, propSchema]) => {
+            if (
+              propSchema?.type === 'array' &&
+              updatedItem[key] === undefined
+            ) {
+              updatedItem[key] = [];
+              itemChanged = true;
+            }
+          },
+        );
+
+        if (itemChanged) {
+          arrayChanged = true;
+          return updatedItem;
+        }
+
+        return item;
+      });
+
+      if (!arrayChanged) {
+        for (let index = 0; index < sanitizedItems.length; index += 1) {
+          if (sanitizedItems[index] !== formData[index]) {
+            arrayChanged = true;
+            break;
+          }
         }
       }
-    }
 
-    const normalizedData =
-      issues.length || arrayChanged ? sanitizedItems : formData;
-    return { sanitizedData: normalizedData, corrections: issues };
-  }, [formData, getItemSchemaForIndex]);
+      const normalizedData =
+        issues.length || arrayChanged ? sanitizedItems : formData;
+      return { sanitizedData: normalizedData, corrections: issues };
+    },
+    [formData, getItemSchemaForIndex],
+  );
 
-  useEffect(() => {
-    if (!corrections.length) {
-      return;
-    }
+  useEffect(
+    () => {
+      if (!corrections.length) {
+        return;
+      }
 
-    if (onChange) {
-      onChange(sanitizedData);
-    }
-  }, [corrections, onChange, sanitizedData]);
+      if (onChange) {
+        onChange(sanitizedData);
+      }
+    },
+    [corrections, onChange, sanitizedData],
+  );
 
   // Safety check: ensure normalizedSchema is valid before rendering
   const safeSchema = normalizedSchema ||

@@ -10,8 +10,9 @@ const extractDisabilityLabels = fullData => {
   const candidates = fullData?.disabilityDescription || [];
 
   const labels = candidates
-    .map(entry =>
-      entry && typeof entry === 'object' ? entry.disability : undefined,
+    .map(
+      entry =>
+        entry && typeof entry === 'object' ? entry.disability : undefined,
     )
     .filter(item => typeof item === 'string' && item.trim().length);
 
@@ -89,27 +90,38 @@ const ConnectedDisabilitiesFieldDebug = props => {
   // Get the full form data from Redux store
   const fullFormData = useSelector(state => state?.form?.data || {});
 
-  const options = useMemo(() => {
-    // Extract disabilities from the full form data
-    const disabilitiesFromFullData = extractDisabilityLabels(fullFormData);
+  const options = useMemo(
+    () => {
+      // Extract disabilities from the full form data
+      const disabilitiesFromFullData = extractDisabilityLabels(fullFormData);
 
-    return disabilitiesFromFullData.length > 0 ? disabilitiesFromFullData : [];
-  }, [fullFormData]);
+      return disabilitiesFromFullData.length > 0
+        ? disabilitiesFromFullData
+        : [];
+    },
+    [fullFormData],
+  );
 
-  const selections = useMemo(() => {
-    return Array.isArray(formData)
-      ? formData.filter(item => typeof item === 'string')
-      : [];
-  }, [formData]);
+  const selections = useMemo(
+    () => {
+      return Array.isArray(formData)
+        ? formData.filter(item => typeof item === 'string')
+        : [];
+    },
+    [formData],
+  );
 
-  useEffect(() => {
-    const coerced = coerceSelections(formData, options);
-    const needsNormalization =
-      !Array.isArray(formData) || !arraysEqual(coerced, selections);
-    if (needsNormalization) {
-      onChange(coerced);
-    }
-  }, [formData, onChange, options, selections]);
+  useEffect(
+    () => {
+      const coerced = coerceSelections(formData, options);
+      const needsNormalization =
+        !Array.isArray(formData) || !arraysEqual(coerced, selections);
+      if (needsNormalization) {
+        onChange(coerced);
+      }
+    },
+    [formData, onChange, options, selections],
+  );
 
   const handleChange = event => {
     const value = event?.target?.value;

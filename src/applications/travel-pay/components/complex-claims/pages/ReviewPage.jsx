@@ -39,18 +39,21 @@ const ReviewPage = () => {
   useSetPageTitle(title);
   useRecordPageview('complex-claims', title);
 
-  useEffect(() => {
-    if (alertMessage) {
-      if (alertRef.current) {
-        focusElement(alertRef.current);
+  useEffect(
+    () => {
+      if (alertMessage) {
+        if (alertRef.current) {
+          focusElement(alertRef.current);
+        }
+      } else {
+        const firstH1 = document.getElementsByTagName('h1')[0];
+        if (firstH1) {
+          focusElement(firstH1);
+        }
       }
-    } else {
-      const firstH1 = document.getElementsByTagName('h1')[0];
-      if (firstH1) {
-        focusElement(firstH1);
-      }
-    }
-  }, [alertMessage]);
+    },
+    [alertMessage],
+  );
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
