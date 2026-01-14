@@ -72,11 +72,14 @@ function fillDate(formDOM, partialId, dateString) {
       },
     },
   );
-  ReactTestUtils.Simulate.change(inputs.find(i => i.id === `${partialId}Day`), {
-    target: {
-      value: date[2],
+  ReactTestUtils.Simulate.change(
+    inputs.find(i => i.id === `${partialId}Day`),
+    {
+      target: {
+        value: date[2],
+      },
     },
-  });
+  );
   ReactTestUtils.Simulate.change(
     inputs.find(i => i.id === `${partialId}Year`),
     {
@@ -124,24 +127,19 @@ function mockFetch(returnVal, shouldResolve = true) {
   });
 }
 
-export function setFetchJSONResponse(stub, data = null) {
-  const response = new Response();
-  response.ok = true;
-  response.url = environment.API_URL;
-  if (data) {
-    response.headers.set('Content-Type', 'application/json');
-    response.json = () => Promise.resolve(data);
-  }
+export function setFetchJSONResponse(stub, data) {
+  const response = new Response(JSON.stringify(data), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
   stub.resolves(response);
 }
 
 export function setFetchJSONFailure(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
+  const response = new Response(JSON.stringify(data), {
+    status: 400,
+    headers: { 'Content-Type': 'application/json' },
   });
-  response.ok = false;
-  response.url = environment.API_URL;
-  response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
 

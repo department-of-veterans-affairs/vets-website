@@ -168,8 +168,15 @@ const checkAllowList = testContext => {
 chai.use(chaiAxe);
 
 const cleanupStorage = () => {
-  localStorage.clear();
-  sessionStorage.clear();
+  if (global.localStorage) {
+    global.localStorage.clear();
+  }
+  if (global.sessionStorage) {
+    global.sessionStorage.clear();
+  }
+  if (global.window?.happyDOM?.storage) {
+    global.window.happyDOM.storage.clear();
+  }
 };
 
 function flushPromises() {
