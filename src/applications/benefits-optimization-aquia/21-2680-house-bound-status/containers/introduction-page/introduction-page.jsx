@@ -151,17 +151,7 @@ export const IntroductionPage = ({ route }) => {
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
-          verifiedPrefillAlert={
-            <div>
-              <va-alert status="info" uswds visible slim>
-                <div className="usa-alert-body">
-                  You can save this application in progress and come back later
-                  to finish filling it out.
-                </div>
-              </va-alert>
-              <br />
-            </div>
-          }
+          verifiedPrefillAlert={<></>}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start your application"
