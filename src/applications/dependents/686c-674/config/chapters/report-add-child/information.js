@@ -48,14 +48,16 @@ export const information = {
         formData?.childrenToAdd[_index]?.noSSN === true,
       hideIf: (formData, _index) =>
         formData?.childrenToAdd[_index]?.noSSN !== true,
+      errorMessages: {
+        required: 'Tell us why the child doesn’t have a Social Security number',
+      },
     }),
     ssn: {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': (_chapterData, _index, formData) =>
-        formData?.childrenToAdd[_index]?.noSSN === false,
+        !formData?.childrenToAdd[_index]?.noSSN,
       'ui:options': {
-        hideIf: (formData, _index) =>
-          formData?.childrenToAdd[_index]?.noSSN === true,
+        hideIf: (formData, _index) => formData?.childrenToAdd[_index]?.noSSN,
       },
     },
   },
