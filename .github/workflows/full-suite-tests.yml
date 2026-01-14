@@ -316,7 +316,7 @@ jobs:
 
       - name: Run unit tests (full suite)
         id: run-tests
-        run: yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+        run: yarn test:unit:gha --full-suite --coverage --log-level verbose
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           IS_STRESS_TEST: false

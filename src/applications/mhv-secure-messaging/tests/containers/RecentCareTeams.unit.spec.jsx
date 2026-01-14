@@ -103,11 +103,13 @@ describe('RecentCareTeams component', () => {
       ).to.exist;
 
       // Check for va-radio element with the label attribute
-      const radioGroup = document.querySelector('va-radio');
-      expect(radioGroup).to.exist;
-      expect(radioGroup.getAttribute('label')).to.include(
-        'Select a team you want to message',
-      );
+      await waitFor(() => {
+        const radioGroup = document.querySelector('va-radio');
+        expect(radioGroup).to.exist;
+        expect(radioGroup.getAttribute('label')).to.include(
+          'Select a team you want to message',
+        );
+      });
 
       // Check for va-radio-option elements with label attributes
       const radioOptions = document.querySelectorAll('va-radio-option');
@@ -744,6 +746,44 @@ describe('RecentCareTeams component', () => {
       );
 
       expect(radioOptions.length).to.equal(mockRecentRecipients.length);
+    });
+  });
+
+  describe('Google Analytics (recordEvent)', () => {
+    beforeEach(() => {
+      window.dataLayer = [];
+    });
+
+    it('should push event when a recent care team is selected', async () => {
+      const screen = renderComponent();
+
+      selectVaRadio(screen.container, 1);
+
+      await waitFor(() => {
+        const hasEvent = window.dataLayer?.some(
+          e =>
+            e?.event === 'int-select-box-option-click' &&
+            e['select-selectLabel'] === 'recent care team' &&
+            e['select-required'] === true,
+        );
+        expect(hasEvent).to.be.true;
+      });
+    });
+
+    it('should push event when "A different care team" is selected', async () => {
+      const screen = renderComponent();
+
+      selectVaRadio(screen.container, 'other');
+
+      await waitFor(() => {
+        const hasEvent = window.dataLayer?.some(
+          e =>
+            e?.event === 'int-select-box-option-click' &&
+            e['select-selectLabel'] === 'other' &&
+            e['select-required'] === true,
+        );
+        expect(hasEvent).to.be.true;
+      });
     });
   });
 
