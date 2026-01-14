@@ -233,7 +233,7 @@ nvm use 22
 nvm install 22 && nvm use 22
 
 # Create a temporary branch from the Node 22 test branch
-git checkout -b temp-test-node22 origin/node-22-bug-bash-testing
+git checkout -b temp-test-node22 origin/node-22-dev-branch
 
 # Merge your feature branch into it (this replicates what CI does)
 git merge your-feature-branch
