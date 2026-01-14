@@ -168,7 +168,15 @@ function setupJSDom() {
     clearTimeout(id);
   };
   global.Blob = window.Blob;
-  
+
+  // Polyfill URL.createObjectURL and revokeObjectURL for tests that stub them
+  if (!URL.createObjectURL) {
+    URL.createObjectURL = () => '';
+  }
+  if (!URL.revokeObjectURL) {
+    URL.revokeObjectURL = () => {};
+  }
+
   // Override global Event constructors to use jsdom's implementations
   // In Node 22, native Event constructors create objects incompatible with jsdom
   global.Event = window.Event;
