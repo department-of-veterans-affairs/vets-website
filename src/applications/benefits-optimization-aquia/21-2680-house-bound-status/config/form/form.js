@@ -103,7 +103,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
