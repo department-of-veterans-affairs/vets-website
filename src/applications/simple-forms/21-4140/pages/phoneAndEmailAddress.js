@@ -7,13 +7,20 @@ import {
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const phoneNumberUISchema = phoneUI('Home phone number');
+phoneNumberUISchema['ui:errorMessages'] = {
+  required: 'Please enter your 10-digit phone number (with or without dashes)',
+};
+
+const emailAddressUISchema = emailUI('Email address');
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Your phone and email address'),
-    phoneNumber: phoneUI('Home phone number'),
+    phoneNumber: phoneNumberUISchema,
     mobilePhoneNumber: phoneUI('Mobile phone number'),
-    emailAddress: emailUI('Email address'),
+    emailAddress: emailAddressUISchema,
   },
   schema: {
     type: 'object',
@@ -22,6 +29,6 @@ export default {
       mobilePhoneNumber: phoneSchema,
       emailAddress: emailSchema,
     },
-    required: ['phoneNumber', 'emailAddress'],
+    required: ['phoneNumber'],
   },
 };

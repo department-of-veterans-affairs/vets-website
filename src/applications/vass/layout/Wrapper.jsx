@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
-import { hydrateFormData, selectHydrated } from '../redux/slices/formSlice';
+import {
+  hydrateFormData,
+  selectHydrated,
+  selectUuid,
+} from '../redux/slices/formSlice';
 import { usePersistentSelections } from '../hooks/usePersistentSelections';
-
-// TODO: remove this once we have a real UUID
-import { UUID } from '../services/mocks/utils/formData';
 
 const Wrapper = props => {
   const {
@@ -21,11 +22,14 @@ const Wrapper = props => {
     showBackLink = false,
     required = false,
     verificationError,
+    loading = false,
+    loadingMessage = 'Loading...',
   } = props;
   const hydrated = useSelector(selectHydrated);
+  const uuid = useSelector(selectUuid);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { getSaved } = usePersistentSelections(UUID);
+  const { getSaved } = usePersistentSelections(uuid);
 
   const loadSavedData = useCallback(
     () => {
@@ -57,6 +61,17 @@ const Wrapper = props => {
     },
     [loadSavedData],
   );
+
+  if (loading) {
+    return (
+      <div className="vads-l-grid-container vads-u-margin-y--8">
+        <va-loading-indicator
+          data-testid="loading-indicator"
+          message={loadingMessage}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -117,8 +132,10 @@ export default Wrapper;
 
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  pageTitle: PropTypes.string.isRequired,
   className: PropTypes.string,
+  loading: PropTypes.bool,
+  loadingMessage: PropTypes.string,
+  pageTitle: PropTypes.string,
   required: PropTypes.bool,
   showBackLink: PropTypes.bool,
   testID: PropTypes.string,

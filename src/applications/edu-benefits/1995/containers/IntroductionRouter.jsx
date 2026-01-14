@@ -2,10 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import IntroductionPage from './IntroductionPage';
 import IntroductionPageUpdate from './IntroductionPageUpdate';
 import IntroductionPageRedirect from './IntroductionPageRedirect';
-import { isProductionOfTestProdEnv } from '../helpers';
 import { selectMeb1995Reroute } from '../selectors/featureToggles';
 
 const IntroductionRouter = props => {
@@ -24,10 +22,6 @@ const IntroductionRouter = props => {
 
   if (rerouteEnabled) {
     return <IntroductionPageRedirect {...props} />;
-  }
-
-  if (isProductionOfTestProdEnv()) {
-    return <IntroductionPage {...props} />;
   }
 
   return <IntroductionPageUpdate {...props} />;

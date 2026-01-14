@@ -6,7 +6,6 @@ import {
   DATETIME_FORMATS,
   FIELD_NONE_NOTED,
   medStatusDisplayTypes,
-  pdfStatusDefinitions,
   RX_SOURCE,
   DISPENSE_STATUS,
 } from '../../util/constants';
@@ -24,11 +23,17 @@ import MedicationDescription from '../shared/MedicationDescription';
 import {
   selectCernerPilotFlag,
   selectPendingMedsFlag,
+  selectV2StatusMappingFlag,
 } from '../../util/selectors';
+import {
+  getStatusDefinitions,
+  getPdfStatusDefinitionKey,
+} from '../../util/helpers/getRxStatus';
 
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
   const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const latestTrackingStatus = rx?.trackingList?.[0];
@@ -41,6 +46,14 @@ const PrescriptionPrintOnly = props => {
     rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
+  const statusDefinitions = getStatusDefinitions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
+  const statusDefinitionKey = getPdfStatusDefinitionKey(
+    rx.dispStatus,
+    rx.refillStatus,
+  );
 
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
@@ -118,17 +131,19 @@ const PrescriptionPrintOnly = props => {
               : 'About your prescription'}
           </DetailsHeaderElement>
           <div className="print-only-rx-details-container">
-            {!pendingMed && !pendingRenewal ? (
-              <p>
-                <strong>Last filled on:</strong>{' '}
-                {rx?.sortedDispensedDate
-                  ? dateFormat(
-                      rx.sortedDispensedDate,
-                      DATETIME_FORMATS.longMonthDate,
-                    )
-                  : 'Not filled yet'}
-              </p>
-            ) : null}
+            {!pendingMed &&
+              !pendingRenewal &&
+              (rx?.sortedDispensedDate || !isCernerPilot) && (
+                <p>
+                  <strong>Last filled on:</strong>{' '}
+                  {rx?.sortedDispensedDate
+                    ? dateFormat(
+                        rx.sortedDispensedDate,
+                        DATETIME_FORMATS.longMonthDate,
+                      )
+                    : 'Not filled yet'}
+                </p>
+              )}
             {!pendingMed &&
               !pendingRenewal && (
                 <>
@@ -140,14 +155,18 @@ const PrescriptionPrintOnly = props => {
               )}
             <p>
               <strong>Status: </strong>
-              {prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.PRINT)}
+              {prescriptionMedAndRenewalStatus(
+                rx,
+                medStatusDisplayTypes.PRINT,
+                isCernerPilot,
+              )}
             </p>
             {!pendingMed &&
               !pendingRenewal &&
-              pdfStatusDefinitions[rx.refillStatus] &&
-              pdfStatusDefinitions[rx.refillStatus].length > 1 && (
+              statusDefinitions[statusDefinitionKey] &&
+              statusDefinitions[statusDefinitionKey].length > 1 && (
                 <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
-                  {pdfStatusDefinitions[rx.refillStatus]
+                  {statusDefinitions[statusDefinitionKey]
                     .slice(1) // skip the first line (already displayed)
                     .map((def, i) => {
                       if (Array.isArray(def.value)) {
@@ -326,15 +345,17 @@ const PrescriptionPrintOnly = props => {
                           <h4>
                             {`Prescription number: ${entry.prescriptionNumber}`}
                           </h4>
-                          <p>
-                            <strong>Last filled:</strong>{' '}
-                            {entry.sortedDispensedDate
-                              ? dateFormat(
-                                  entry.sortedDispensedDate,
-                                  DATETIME_FORMATS.longMonthDate,
-                                )
-                              : 'Not filled yet'}
-                          </p>
+                          {(entry.sortedDispensedDate || !isCernerPilot) && (
+                            <p>
+                              <strong>Last filled:</strong>{' '}
+                              {entry.sortedDispensedDate
+                                ? dateFormat(
+                                    entry.sortedDispensedDate,
+                                    DATETIME_FORMATS.longMonthDate,
+                                  )
+                                : 'Not filled yet'}
+                            </p>
+                          )}
                           <p>
                             <strong>Quantity:</strong>{' '}
                             {validateField(entry.quantity)}

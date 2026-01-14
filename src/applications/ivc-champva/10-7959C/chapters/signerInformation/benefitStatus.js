@@ -1,25 +1,23 @@
 import {
-  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { titleWithRoleUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const INPUT_LABEL = 'Does the beneficiary receive CHAMPVA benefits now?';
-const PAGE_TITLE = ({ formData }) =>
-  `${
-    formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-  } CHAMPVA benefit status`;
+const TITLE_TEXT = content['signer--benefit-status-title'];
+const INPUT_LABEL = content['signer--benefit-status-label'];
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
-    champvaBenefitStatus: yesNoUI(INPUT_LABEL),
+    ...titleWithRoleUI(TITLE_TEXT),
+    'view:champvaBenefitStatus': yesNoUI(INPUT_LABEL),
   },
   schema: {
     type: 'object',
-    required: ['champvaBenefitStatus'],
+    required: ['view:champvaBenefitStatus'],
     properties: {
-      champvaBenefitStatus: yesNoSchema,
+      'view:champvaBenefitStatus': yesNoSchema,
     },
   },
 };

@@ -35,6 +35,59 @@
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
     "syncModern0781Flow": true,
+    "toxicExposure": {
+      "conditions": {},
+      "gulfWar1990": {},
+      "gulfWar1990Details": {
+        "afghanistan": {},
+        "bahrain": {},
+        "egypt": {},
+        "iraq": {},
+        "israel": {},
+        "jordan": {},
+        "kuwait": {},
+        "neutralzone": {},
+        "oman": {},
+        "qatar": {},
+        "saudiarabia": {},
+        "somalia": {},
+        "syria": {},
+        "uae": {},
+        "turkey": {},
+        "waters": {},
+        "airspace": {}
+      },
+      "gulfWar2001": {},
+      "gulfWar2001Details": {
+        "djibouti": {},
+        "lebanon": {},
+        "uzbekistan": {},
+        "yemen": {},
+        "airspace": {}
+      },
+      "herbicide": {},
+      "otherHerbicideLocations": {},
+      "herbicideDetails": {
+        "cambodia": {},
+        "guam": {},
+        "koreandemilitarizedzone": {},
+        "johnston": {},
+        "laos": {},
+        "c123": {},
+        "thailand": {},
+        "vietnam": {}
+      },
+      "otherExposures": {},
+      "specifyOtherExposures": {},
+      "otherExposuresDetails": {
+        "asbestos": {},
+        "chemical": {},
+        "water": {},
+        "mos": {},
+        "mustardgas": {},
+        "radiation": {}
+      }
+    },
     "mentalHealthWorkflowChoice": "optForOnlineForm0781",
     "form0781": {
       "eventTypes": {

@@ -279,7 +279,7 @@ const formConfig = {
         },
         remarks: {
           path: 'additional-info/remarks',
-          title: 'Additional remarks (optional)',
+          title: 'Additional remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
           scrollAndFocusTarget,

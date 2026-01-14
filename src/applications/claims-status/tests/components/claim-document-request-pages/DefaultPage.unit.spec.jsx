@@ -7,6 +7,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { renderWithReduxAndRouter } from '../../utils';
 import { buildDateFormatter, scrubDescription } from '../../../utils/helpers';
+import { evidenceDictionary } from '../../../utils/evidenceDictionary';
 
 import DefaultPage from '../../../components/claim-document-request-pages/DefaultPage';
 
@@ -65,14 +66,24 @@ describe('<DefaultPage>', () => {
     );
     getByText('What we need from you', { selector: 'h2' });
     getByText('To respond to this request:');
-    getByText(
-      'If you need help understanding this request, check your claim letter online.',
-    );
+    getByText('You can find blank copies of many VA forms online.');
     expect($('va-link', container)).to.exist;
     expect($('.optional-upload', container)).to.not.exist;
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input-multiple', container)).to.exist;
+
+    // Verify "Next steps" section content for API description (no frontend content)
+    const bulletItems = container.querySelectorAll('.bullet-disc li');
+    expect(bulletItems.length).to.equal(2);
+    // Bullet points should NOT have terminal periods
+    bulletItems.forEach(bulletItem => {
+      expect(bulletItem.textContent).to.not.match(/\.$/);
+    });
+    // Verify link text uses action verb
+    const findFormsLink = $('va-link[href="/find-forms"]', container);
+    expect(findFormsLink).to.exist;
+    expect(findFormsLink.getAttribute('text')).to.equal('Find a VA form');
   });
 
   it('should render update 21-4142 information', () => {
@@ -448,6 +459,478 @@ describe('<DefaultPage>', () => {
         within(notifications[1]).getByText(
           'We need you to submit files by mail or in person',
         );
+      });
+    });
+  });
+
+  // ============================================================
+  // PATH COVERAGE TESTS
+  // Parameterized tests to exercise all DefaultPage.jsx rendering paths
+  // ============================================================
+  describe('First party path coverage tests', () => {
+    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
+    const pastSuspenseDate = nineMonthsAgoSuspenseDate;
+
+    // Helper to get dictionary entry for a displayName
+    const getDictEntry = displayName => evidenceDictionary[displayName];
+
+    const firstPartyTestCases = [
+      {
+        id: 1,
+        name: 'Frontend override with longDescription + nextSteps',
+        item: {
+          id: 1,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry('21-4142/21-4142a'),
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: 21-4142\/21-4142a/,
+        expectedDescriptionText:
+          'we need your permission to request your personal information',
+        showsAddFilesForm: true,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+      {
+        id: 2,
+        name: 'Past due date warning alert',
+        item: {
+          id: 2,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2024-01-01',
+          suspenseDate: pastSuspenseDate,
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry('21-4142/21-4142a'),
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: 21-4142\/21-4142a/,
+        expectedDescriptionText:
+          'we need your permission to request your personal information',
+        showsAddFilesForm: true,
+        showsPastDueAlert: true,
+        showsThirdPartyNotice: false,
+      },
+      {
+        id: 3,
+        name: 'Frontend override with isSensitive: true',
+        item: {
+          id: 3,
+          displayName: 'ASB - tell us where, when, how exposed',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          friendlyName: 'Asbestos exposure details',
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry('ASB - tell us where, when, how exposed'),
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: asbestos exposure details/i,
+        expectedDescriptionText:
+          'To process your disability claim for asbestos exposure',
+        showsAddFilesForm: true,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+      {
+        id: 15,
+        name: 'ASB - tell us specific disability (isSensitive: true)',
+        item: {
+          id: 15,
+          displayName: 'ASB-tell us specific disability fm asbestos exposure',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-10-23',
+          suspenseDate: futureSuspenseDate,
+          friendlyName: 'asbestos exposure information',
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry(
+          'ASB-tell us specific disability fm asbestos exposure',
+        ),
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: asbestos exposure information/i,
+        expectedDescriptionText:
+          'To process your disability claim for asbestos exposure, we need information about your asbestos-related disease or disability:',
+        showsAddFilesForm: true,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+      {
+        id: 4,
+        name: 'Frontend override with longDescription but NO nextSteps',
+        item: {
+          id: 4,
+          displayName: 'Employer (21-4192)',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry('Employer (21-4192)'),
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: Employer \(21-4192\)/,
+        expectedDescriptionText:
+          'we sent a letter to your last employer to ask about your job and why you left',
+        // Generic next steps shown because no nextSteps in dictionary
+        expectedNextStepsTestId: 'next-steps-in-what-we-need-from-you',
+        showsAddFilesForm: true,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+      {
+        id: 5,
+        name: 'No frontend override, WITH friendlyName',
+        item: {
+          id: 5,
+          displayName: 'Unknown Request Type',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          friendlyName: 'Custom friendly name for testing',
+          canUploadFile: true,
+        },
+        dictionaryEntry: null, // No dictionary entry
+        expectedHeader: 'Custom friendly name for testing',
+        expectedSubheaderPattern: /Respond by/,
+        expectedSubheaderExcludes: 'Unknown Request Type',
+        expectedDescriptionText:
+          'we’re unable to provide more information about the request',
+        expectedNextStepsTestId: 'next-steps-in-claim-letter',
+        showsAddFilesForm: true,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+      {
+        id: 6,
+        name: 'No frontend override, NO friendlyName, NO description',
+        item: {
+          id: 6,
+          displayName: 'Generic Request No Override',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          description: null,
+          canUploadFile: true,
+        },
+        dictionaryEntry: null, // No dictionary entry
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: Generic Request No Override/,
+        expectedDescriptionText:
+          'we’re unable to provide more information about the request',
+        expectedNextStepsTestId: 'next-steps-in-claim-letter',
+        showsAddFilesForm: true,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+      {
+        id: 7,
+        name: 'No frontend override, WITH API description',
+        item: {
+          id: 7,
+          displayName: 'Another Generic Request',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          description: 'API-provided description for this request',
+          canUploadFile: true,
+        },
+        dictionaryEntry: null, // No dictionary entry
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: Another Generic Request/,
+        expectedDescriptionText: 'API-provided description for this request',
+        expectedNextStepsTestId: 'next-steps-in-what-we-need-from-you',
+        showsAddFilesForm: true,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+      {
+        id: 8,
+        name: 'Upload disabled (canUploadFile: false)',
+        item: {
+          id: 8,
+          displayName: '21-4142/21-4142a',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: false,
+        },
+        dictionaryEntry: getDictEntry('21-4142/21-4142a'),
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: 21-4142\/21-4142a/,
+        expectedDescriptionText:
+          'we need your permission to request your personal information',
+        showsAddFilesForm: false,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+    ];
+
+    firstPartyTestCases.forEach(testCase => {
+      it(`Path ${testCase.id}: ${testCase.name}`, () => {
+        const {
+          getByText,
+          getByTestId,
+          queryByText,
+          queryByTestId,
+          container,
+        } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={testCase.item} />,
+          { initialState },
+        );
+
+        // Verify header
+        getByText(testCase.expectedHeader);
+
+        // Verify subheader
+        const h1 = $('h1', container);
+        const subheaderSpan = $('span', h1);
+        expect(subheaderSpan.textContent).to.match(
+          testCase.expectedSubheaderPattern,
+        );
+        if (testCase.expectedSubheaderExcludes) {
+          expect(subheaderSpan.textContent).to.not.include(
+            testCase.expectedSubheaderExcludes,
+          );
+        }
+
+        // Verify past due alert
+        const pastDueAlert = queryByText(
+          'Deadline passed for requested information',
+        );
+        if (testCase.showsPastDueAlert) {
+          expect(pastDueAlert).to.exist;
+        } else {
+          expect(pastDueAlert).to.not.exist;
+        }
+
+        // Verify description header (always "What we need from you" for first party)
+        getByText('What we need from you', { selector: 'h2' });
+
+        // Verify description content and "Learn about this request" section
+        if (testCase.dictionaryEntry?.longDescription) {
+          expect(getByTestId('frontend-description')).to.exist;
+          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
+          expect(queryByTestId('learn-about-request-section')).to.exist;
+        } else if (testCase.item.description) {
+          expect(getByTestId('api-description')).to.exist;
+          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
+          expect(queryByTestId('learn-about-request-section')).to.not.exist;
+        } else {
+          expect(getByTestId('empty-state-description')).to.exist;
+          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
+          expect(queryByTestId('learn-about-request-section')).to.not.exist;
+        }
+
+        // Verify next steps
+        if (testCase.dictionaryEntry?.nextSteps) {
+          expect(testCase.dictionaryEntry.nextSteps).to.exist;
+          getByText('Next steps', { selector: 'h2' });
+        } else if (testCase.expectedNextStepsTestId) {
+          expect(getByTestId(testCase.expectedNextStepsTestId)).to.exist;
+        }
+
+        // Verify AddFilesForm
+        const addFilesForm = $('.add-files-form', container);
+        if (testCase.showsAddFilesForm) {
+          expect(addFilesForm).to.exist;
+        } else {
+          expect(addFilesForm).to.not.exist;
+        }
+      });
+    });
+  });
+
+  describe('Third party path coverage tests', () => {
+    const futureSuspenseDate = fiveMonthsFromNowSuspenseDate;
+
+    // Helper to get dictionary entry for a displayName
+    const getDictEntry = displayName => evidenceDictionary[displayName];
+
+    const thirdPartyTestCases = [
+      {
+        id: 9,
+        name: 'DBQ request with noActionNeeded',
+        item: {
+          id: 9,
+          displayName: 'DBQ AUDIO Hearing Loss and Tinnitus',
+          status: 'NEEDED_FROM_OTHERS',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry('DBQ AUDIO Hearing Loss and Tinnitus'),
+        expectedHeader: 'Request for an exam',
+        expectedSubheaderPattern: /We made a request on .* for: DBQ AUDIO/,
+        expectedDescriptionText:
+          'we’ve requested a disability exam for your hearing',
+        showsAddFilesForm: true,
+      },
+      {
+        id: 10,
+        name: 'Frontend override with noActionNeeded (non-DBQ)',
+        item: {
+          id: 10,
+          displayName: 'Employer (21-4192)',
+          status: 'NEEDED_FROM_OTHERS',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry('Employer (21-4192)'),
+        expectedHeader: 'Request for evidence outside VA',
+        expectedSubheaderPattern: /We made a request outside VA on .* for: Employer/,
+        expectedDescriptionText: 'we sent a letter to your last employer',
+        showsAddFilesForm: true,
+      },
+      {
+        id: 11,
+        name: 'WITH friendlyName, no frontend override',
+        item: {
+          id: 11,
+          displayName: 'Unknown Third Party Request',
+          status: 'NEEDED_FROM_OTHERS',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          friendlyName: 'Third party friendly name',
+          canUploadFile: true,
+        },
+        dictionaryEntry: null, // No dictionary entry
+        expectedHeader: 'Your third party friendly name',
+        expectedSubheaderPattern: /We made a request outside VA on/,
+        expectedSubheaderExcludes: 'Unknown Third Party Request',
+        // No description shown for third party without frontend/API description
+        expectedDescriptionText: null,
+        showsAddFilesForm: true,
+      },
+      {
+        id: 12,
+        name: 'No friendlyName, no frontend override',
+        item: {
+          id: 12,
+          displayName: 'Generic Third Party Request',
+          status: 'NEEDED_FROM_OTHERS',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+        },
+        dictionaryEntry: null,
+        expectedHeader: 'Request for evidence outside VA',
+        expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
+        // No description shown for third party without frontend/API description
+        expectedDescriptionText: null,
+        showsAddFilesForm: true,
+      },
+      {
+        id: 13,
+        name: 'Frontend override with longDescription, NOT noActionNeeded',
+        item: {
+          id: 13,
+          displayName: 'PMR Pending',
+          status: 'NEEDED_FROM_OTHERS',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry('PMR Pending'),
+        expectedHeader: 'Request for evidence outside VA',
+        expectedSubheaderPattern: /We made a request outside VA on .* for: PMR Pending/,
+        expectedDescriptionText: 'we’ve requested your non-VA medical records',
+        showsAddFilesForm: true,
+      },
+      {
+        id: 14,
+        name: 'No frontend override, WITH API description',
+        item: {
+          id: 14,
+          displayName: 'Generic Third Party Request',
+          status: 'NEEDED_FROM_OTHERS',
+          requestedDate: '2025-12-01',
+          suspenseDate: futureSuspenseDate,
+          description: 'API-provided description for this request',
+          canUploadFile: true,
+        },
+        dictionaryEntry: null,
+        expectedHeader: 'Request for evidence outside VA',
+        expectedSubheaderPattern: /We made a request outside VA on .* for: Generic Third Party Request/,
+        expectedDescriptionText: 'API-provided description for this request',
+        showsAddFilesForm: true,
+      },
+    ];
+
+    thirdPartyTestCases.forEach(testCase => {
+      it(`Path ${testCase.id}: ${testCase.name}`, () => {
+        const {
+          getByText,
+          getByTestId,
+          queryByText,
+          queryByTestId,
+          container,
+        } = renderWithReduxAndRouter(
+          <DefaultPage {...defaultProps} item={testCase.item} />,
+          { initialState },
+        );
+
+        // Verify header
+        getByText(testCase.expectedHeader);
+
+        // Verify subheader
+        const h1 = $('h1', container);
+        const subheaderSpan = $('span', h1);
+        expect(subheaderSpan.textContent).to.match(
+          testCase.expectedSubheaderPattern,
+        );
+        if (testCase.expectedSubheaderExcludes) {
+          expect(subheaderSpan.textContent).to.not.include(
+            testCase.expectedSubheaderExcludes,
+          );
+        }
+
+        // Verify section header (always "What we're notifying you about" for third party)
+        getByText('What we’re notifying you about', { selector: 'h2' });
+
+        // Verify third party notice (always shown for third party)
+        expect($('.optional-upload', container)).to.exist;
+        expect(
+          queryByText('This is just a notice. No action is needed by you.'),
+        ).to.exist;
+
+        // Verify description content (no "Learn about" section for third party)
+        if (testCase.dictionaryEntry?.longDescription) {
+          expect(getByTestId('frontend-description')).to.exist;
+          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
+        } else if (testCase.item.description) {
+          expect(getByTestId('api-description')).to.exist;
+          getByText(new RegExp(testCase.expectedDescriptionText, 'i'));
+        } else {
+          // Third party requests without frontend/API description show no description
+          // (empty-state-description is only shown for first party requests)
+          expect(queryByTestId('frontend-description')).to.not.exist;
+          expect(queryByTestId('api-description')).to.not.exist;
+          expect(queryByTestId('empty-state-description')).to.not.exist;
+        }
+        expect(queryByTestId('learn-about-request-section')).to.not.exist;
+
+        // Verify upload suggestion visibility (hidden when noActionNeeded is true)
+        const uploadSuggestion = queryByText(
+          /if you have documents related to this request, uploading them/i,
+        );
+        if (testCase.dictionaryEntry?.noActionNeeded) {
+          expect(uploadSuggestion).to.not.exist;
+        } else {
+          expect(uploadSuggestion).to.exist;
+        }
+
+        // Verify AddFilesForm
+        const addFilesForm = $('.add-files-form', container);
+        if (testCase.showsAddFilesForm) {
+          expect(addFilesForm).to.exist;
+        } else {
+          expect(addFilesForm).to.not.exist;
+        }
       });
     });
   });
