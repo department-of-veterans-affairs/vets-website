@@ -222,6 +222,9 @@ describe('Actions', () => {
         .then(done, done);
     });
     it('dispatches SET_CLAIMS_UNAVAILABLE', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.reject(new Error('Network error')));
       const thunk = getClaim(1);
       const dispatch = sinon.spy();
       thunk(dispatch)
@@ -229,6 +232,7 @@ describe('Actions', () => {
           const action = dispatch.secondCall.args[0];
           expect(action.type).to.equal(SET_CLAIMS_UNAVAILABLE);
         })
+        .then(() => apiStub.restore())
         .then(done, done);
     });
     it('navigates to `/your-claims` when errors on 404 ', done => {

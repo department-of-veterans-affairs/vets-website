@@ -33,11 +33,30 @@ const COMMAND_LINE_OPTIONS = [
 
 // Get command line options
 const options = commandLineArgs(COMMAND_LINE_OPTIONS);
-// log this out to determing if we still need this
+
+// Helper function to check if a custom path pattern was provided
+function hasCustomPathPattern() {
+  // Check if the path was explicitly provided (not the default)
+  return (
+    options.path &&
+    options.path.length > 0 &&
+    !(options.path.length === 1 && options.path[0] === DEFAULT_SPEC_PATTERN)
+  );
+}
 
 // Helper function to get test patterns (returns glob patterns, not expanded file paths)
 // This avoids E2BIG errors when there are too many test files
 function getTestPatterns() {
+  // If a custom path pattern was provided, use it directly
+  if (hasCustomPathPattern()) {
+    return options.path;
+  }
+
+  // If app-folder is specified, use it to generate the pattern
+  if (options['app-folder']) {
+    return [`src/applications/${options['app-folder']}/**/*.unit.spec.js?(x)`];
+  }
+
   if (options['full-suite']) {
     return [DEFAULT_SPEC_PATTERN];
   }
@@ -130,6 +149,17 @@ function buildTestCommand(testPatterns) {
   } ${quotedPatterns}`;
 }
 
+// Helper function to describe which pattern source is being used
+function getPatternSource() {
+  if (hasCustomPathPattern()) {
+    return options.path.join(', ');
+  }
+  if (options['app-folder']) {
+    return `src/applications/${options['app-folder']}/**/*.unit.spec.js?(x)`;
+  }
+  return 'auto-detected';
+}
+
 // Main execution
 async function main() {
   try {
@@ -141,7 +171,7 @@ async function main() {
       return;
     }
 
-    console.log(`Running tests matching patterns: ${testPatterns.join(', ')}`);
+    console.log(`Running tests matching patterns: ${getPatternSource()}`);
     const command = buildTestCommand(testPatterns);
     await runCommand(command);
     core.exportVariable('tests_ran', 'true');
