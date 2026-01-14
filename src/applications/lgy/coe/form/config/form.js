@@ -74,27 +74,27 @@ const formConfig = {
   useCustomScrollAndFocus: true,
   defaultDefinitions: definitions,
   chapters: {
-    // applicantInformationChapter: {
-    //   title: data => {
-    //     return data.formData['view:coeFormRebuildCveteam']
-    //       ? 'Your information'
-    //       : 'Your personal information on file';
-    //   },
-    //   pages: {
-    //     applicantInformationSummary: {
-    //       path: 'applicant-information',
-    //       // There seems to be a bug where the depends clause is ignored for the first item in the form
-    //       // depends: formData => {
-    //       //   console.log('the value 2:', formData);
-    //       //   return !formData['view:coeFormRebuildCveteam'];
-    //       // },
-    //       title: 'Your personal information on file',
-    //       uiSchema: applicantInformation.uiSchema,
-    //       schema: applicantInformation.schema,
-    //     },
-    //     yourInformation: personalInformation,
-    //   },
-    // },
+    applicantInformationChapter: {
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Your information'
+          : 'Your personal information on file';
+      },
+      pages: {
+        // applicantInformationSummary: {
+        //   path: 'applicant-information',
+        //   // There seems to be a bug where the depends clause is ignored for the first item in the form
+        //   // depends: formData => {
+        //   //   console.log('the value 2:', formData);
+        //   //   return !formData['view:coeFormRebuildCveteam'];
+        //   // },
+        //   title: 'Your personal information on file',
+        //   uiSchema: applicantInformation.uiSchema,
+        //   schema: applicantInformation.schema,
+        // },
+        yourInformation: personalInformation,
+      },
+    },
     // contactInformationChapter: {
     //   title: 'Your contact information',
     //   pages: {
@@ -120,15 +120,15 @@ const formConfig = {
           : 'Your service history';
       },
       pages: {
-        // serviceStatus: {
-        //   path: 'service-status',
-        //   title: 'Service status',
-        //   depends: formData => {
-        //     return !formData['view:coeFormRebuildCveteam'];
-        //   },
-        //   uiSchema: serviceStatus.uiSchema,
-        //   schema: serviceStatus.schema,
-        // },
+        serviceStatus: {
+          path: 'service-status',
+          title: 'Service status',
+          // depends: formData => {
+          //   return !formData['view:coeFormRebuildCveteam'];
+          // },
+          uiSchema: serviceStatus.uiSchema,
+          schema: serviceStatus.schema,
+        },
         serviceStatus2: {
           path: 'service-status-2',
           title: 'Service status',

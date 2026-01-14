@@ -57,12 +57,12 @@ export const getUiSchema = () => ({
 });
 
 export default {
-  uiSchema: {
-    ...titleUI(
-      'Upload your documents',
-      'You’ll need to upload these documents:',
-    ),
-  },
+  // uiSchema: {
+  //   ...titleUI(
+  //     'Upload your documents',
+  //     'You’ll need to upload these documents:',
+  //   ),
+  // },
   schema: {
     type: 'object',
     properties: {},
