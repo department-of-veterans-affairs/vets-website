@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       run_full_unit_test_suite:
-        description: 'Run the full unit test suite'
+        description: '[REQUIRED - select at least one] Run the full unit test suite'
         required: false
         type: boolean
         default: false
       run_full_e2e_suite:
-        description: 'Run the full E2E test suite'
+        description: '[REQUIRED - select at least one] Run the full E2E test suite'
         required: false
         type: boolean
         default: false
       unit_test_app_list:
-        description: 'Comma-separated list of app folder names to test (e.g., claims-status,hca). Leave empty to test all apps. Platform tests always run.'
+        description: 'Unit tests only: comma-separated app folders (e.g., auth,hca). Empty = all apps. Platform always runs.'
         required: false
         type: string
         default: ''
@@ -222,7 +222,7 @@ jobs:
         id: unit-test-matrix
         run: |
           APP_LIST_INPUT="${{ inputs.unit_test_app_list }}"
-          
+
           if [[ -n "$APP_LIST_INPUT" ]]; then
             # Use the provided list of apps
             APP_FOLDERS=$(echo "$APP_LIST_INPUT" | tr ',' '\n' | jq -R -s -c 'split("\n") | map(select(length > 0)) | map({folder: ., type: "application"})')
