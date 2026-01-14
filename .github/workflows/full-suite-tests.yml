@@ -216,14 +216,14 @@ jobs:
         if: ${{ inputs.run_full_unit_test_suite }}
         id: unit-test-matrix
         run: |
-          # Get all application folders
+          # Get all application folders as JSON array
           APP_FOLDERS=$(ls -d src/applications/*/ 2>/dev/null | xargs -n1 basename | jq -R -s -c 'split("\n") | map(select(length > 0)) | map({folder: ., type: "application"})')
 
           # Add platform as a separate entry
           PLATFORM_ENTRY='[{"folder": "platform", "type": "platform"}]'
 
-          # Combine into a single matrix
-          MATRIX=$(echo "$APP_FOLDERS" "$PLATFORM_ENTRY" | jq -s 'add')
+          # Combine into a single matrix (compact, single-line output)
+          MATRIX=$(echo "$APP_FOLDERS $PLATFORM_ENTRY" | jq -c -s 'add')
 
           echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
 
