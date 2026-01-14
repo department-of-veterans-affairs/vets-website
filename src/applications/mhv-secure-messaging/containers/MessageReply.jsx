@@ -75,7 +75,6 @@ const MessageReply = () => {
     return (
       <ReplyForm
         draft={draft}
-        drafts={[draft] || []}
         replyMessage={replyMessage}
         recipients={recipients}
         messages={messages}

@@ -146,7 +146,6 @@ const ThreadDetails = props => {
             <ReplyForm
               cannotReply={cannotReply}
               draft={draft}
-              drafts={[draft] || []}
               header={header}
               messages={messages}
               recipients={recipients}
