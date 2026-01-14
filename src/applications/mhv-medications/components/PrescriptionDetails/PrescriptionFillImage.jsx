@@ -5,7 +5,7 @@ import { getImageUri } from '../../util/helpers';
 const PrescriptionFillImage = ({ isFirstFill, prescriptionFill }) => {
   const { cmopNdcNumber, prescriptionName } = prescriptionFill || {};
   return (
-    <div className="no-print">
+    <>
       <h5
         className={`${
           isFirstFill ? 'vads-u-margin-top--2 ' : ''
@@ -14,21 +14,23 @@ const PrescriptionFillImage = ({ isFirstFill, prescriptionFill }) => {
       >
         Image
       </h5>
-      {cmopNdcNumber ? (
-        <img
-          alt={`Example of ${prescriptionName}`}
-          className="vads-u-margin-top--1"
-          data-testid="rx-image"
-          src={getImageUri(cmopNdcNumber)}
-          width="350"
-          height="350"
-        />
-      ) : (
-        <p className="vads-u-margin--0" data-testid="no-image">
-          Image not available
-        </p>
-      )}
-    </div>
+      <div className="no-print">
+        {cmopNdcNumber ? (
+          <img
+            alt={`Example of ${prescriptionName}`}
+            className="vads-u-margin-top--1"
+            data-testid="rx-image"
+            src={getImageUri(cmopNdcNumber)}
+            width="350"
+            height="350"
+          />
+        ) : (
+          <p className="vads-u-margin--0" data-testid="no-image">
+            Image not available
+          </p>
+        )}
+      </div>
+    </>
   );
 };
 

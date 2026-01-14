@@ -522,7 +522,7 @@ class MedicationsDetailsPage {
   };
 
   verifyImageFieldInAccordionCardInfoOnDetailsPage = text => {
-    cy.get(':nth-child(1) > .no-print > [data-testid="med-image"]').should(
+    cy.get(':nth-child(1) > [data-testid="med-image"]').should(
       'have.text',
       text,
     );
