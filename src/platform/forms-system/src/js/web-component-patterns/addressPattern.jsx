@@ -844,7 +844,8 @@ export function addressUI(options = {}) {
           const militaryKey = keys.isMilitary;
           const isMilitary = data[militaryKey];
 
-          const addressSchema = _schema;
+          // Create a copy of the schema to avoid mutating the original
+          const addressSchema = { ..._schema };
           const addressUiSchema = _uiSchema;
 
           // country-specific error messages
