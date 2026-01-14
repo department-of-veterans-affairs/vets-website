@@ -3,6 +3,7 @@ import {
   flattenInquiry,
   categorizeByLOA,
   paginateArray,
+  filterAndSort,
 } from '../../utils/dashboard';
 import { mockInquiries } from './mock-inquiries';
 
@@ -68,5 +69,86 @@ describe('paginateArray', () => {
     expect(pages[0].pageEnd).to.equal(3);
     expect(pages[1].pageStart).to.equal(4);
     expect(pages[1].pageEnd).to.equal(6);
+  });
+
+  it('returns an empty array if given an empty array', () => {
+    const pages = paginateArray([], 4);
+
+    expect(pages.length).to.equal(0);
+    expect(pages).to.eql([]);
+  });
+});
+
+describe('filterAndSort', () => {
+  const flatInquiries = mockInquiries.map(flattenInquiry);
+
+  it('returns all results if unfiltered', () => {
+    const results = filterAndSort({ inquiriesArray: flatInquiries });
+    expect(results.length).to.equal(flatInquiries.length);
+  });
+
+  it('filters by category', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      categoryFilter: 'Veteran ID Card (VIC)',
+    });
+    expect(results.length).to.equal(3);
+  });
+
+  it('filters by status', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      statusFilter: 'In progress',
+    });
+    expect(results.length).to.equal(6);
+  });
+
+  it('filters by both category and status', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      categoryFilter: 'Veteran ID Card (VIC)',
+      statusFilter: 'In progress',
+    });
+    expect(results.length).to.equal(1);
+  });
+
+  it('sorts by most recent lastUpdate', () => {
+    const firstDateBeforeSort = new Date(flatInquiries[0].lastUpdate);
+    expect(firstDateBeforeSort.getDate()).to.equal(12);
+
+    const results = filterAndSort({ inquiriesArray: flatInquiries });
+    const firstDateAfterSort = new Date(results[0].lastUpdate);
+    expect(firstDateAfterSort.getDate()).to.equal(19);
+  });
+
+  it('sorts by query: submitter question', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      query: 'Hemesh',
+    });
+
+    expect(results.length).to.equal(1);
+    const firstDateAfterSort = new Date(results[0].lastUpdate);
+    expect(firstDateAfterSort.getDate()).to.equal(17);
+  });
+
+  it('sorts by query: inquiry number', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      query: '617',
+    });
+
+    expect(results.length).to.equal(1);
+    expect(results[0].id).to.equal('678b6a15-d1b0-ef11-b8e9-001dd830a0af');
+  });
+
+  it('sorts by query: category name', () => {
+    const results = filterAndSort({
+      inquiriesArray: flatInquiries,
+      query: 'employment',
+    });
+
+    expect(results.length).to.equal(2);
+    expect(results[0].id).to.equal('37d37e1b-36b7-ef11-b8e9-001dd809b958');
   });
 });

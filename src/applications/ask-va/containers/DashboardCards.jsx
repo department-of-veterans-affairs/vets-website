@@ -5,14 +5,12 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { compareDesc, parse } from 'date-fns';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import Fuse from 'fuse.js';
 import { ServerErrorAlert } from '../config/helpers';
 import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
-import { categorizeByLOA } from '../utils/dashboard';
+import { categorizeByLOA, filterAndSort } from '../utils/dashboard';
 import InquiriesList from '../components/dashboard/InquiriesList';
 
 export default function DashboardCards() {
@@ -74,38 +72,6 @@ export default function DashboardCards() {
     },
     [statusFilter, categoryFilter],
   );
-
-  const filterAndSort = inquiriesArray => {
-    // Since Array.sort() sorts it in place, create a shallow copy first
-    const inquiriesCopy = [...inquiriesArray];
-    const filteredAndSorted = inquiriesCopy
-      .filter(inq => {
-        return (
-          [inq.categoryName, 'All'].includes(categoryFilter) &&
-          [inq.status, 'All'].includes(statusFilter)
-        );
-      })
-      .sort((a, b) => {
-        const dateA = parse(a.lastUpdate, 'MM/dd/yyyy hh:mm:ss a', new Date());
-        const dateB = parse(b.lastUpdate, 'MM/dd/yyyy hh:mm:ss a', new Date());
-        return compareDesc(dateA, dateB);
-      });
-
-    const searchable = new Fuse(filteredAndSorted, {
-      keys: [
-        'attributes.inquiryNumber',
-        'attributes.submitterQuestion',
-        'attributes.categoryName',
-      ],
-      ignoreLocation: true,
-      threshold: 0.1,
-    });
-
-    const results = searchable.search(query).map(res => res.item);
-
-    // An empty query returns no results, so use the full list as a backup
-    return query ? results : filteredAndSorted;
-  };
 
   if (error) {
     return (
@@ -214,14 +180,24 @@ export default function DashboardCards() {
                 </TabList>
                 <TabPanel>
                   <InquiriesList
-                    inquiries={filterAndSort(inquiries.business)}
+                    inquiries={filterAndSort({
+                      inquiriesArray: inquiries.business,
+                      categoryFilter,
+                      statusFilter,
+                      query,
+                    })}
                     tabName="Business"
                     {...{ categoryFilter, statusFilter }}
                   />
                 </TabPanel>
                 <TabPanel>
                   <InquiriesList
-                    inquiries={filterAndSort(inquiries.personal)}
+                    inquiries={filterAndSort({
+                      inquiriesArray: inquiries.personal,
+                      categoryFilter,
+                      statusFilter,
+                      query,
+                    })}
                     tabName="Personal"
                     {...{ categoryFilter, statusFilter }}
                   />
@@ -231,7 +207,12 @@ export default function DashboardCards() {
           ) : (
             <>
               <InquiriesList
-                inquiries={filterAndSort(inquiries.personal)}
+                inquiries={filterAndSort({
+                  inquiriesArray: inquiries.personal,
+                  categoryFilter,
+                  statusFilter,
+                  query,
+                })}
                 {...{ categoryFilter, statusFilter }}
               />
             </>

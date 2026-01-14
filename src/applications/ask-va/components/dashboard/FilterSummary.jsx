@@ -39,9 +39,9 @@ export default function FilterSummary({
 
 FilterSummary.propTypes = {
   categoryFilter: PropTypes.string.isRequired,
-  pageEnd: PropTypes.number.isRequired,
-  pageStart: PropTypes.number.isRequired,
   statusFilter: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
+  pageEnd: PropTypes.number,
+  pageStart: PropTypes.number,
   tabName: PropTypes.oneOf(['Business', 'Personal']),
 };

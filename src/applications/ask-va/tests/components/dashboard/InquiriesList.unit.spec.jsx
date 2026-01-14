@@ -17,7 +17,7 @@ describe('InquiriesList', () => {
       />,
     );
 
-    const cards = view.getAllByRole('listitem');
+    const cards = view.getAllByTestId('dashboard-card');
     expect(cards.length).to.equal(4);
   });
 
@@ -79,10 +79,16 @@ describe('InquiriesList', () => {
 
   it('renders an alert if no inquiries', () => {
     const view = render(
-      <InquiriesList inquiries={[]} categoryFilter="" statusFilter="" />,
+      <InquiriesList
+        inquiries={[]}
+        categoryFilter="All"
+        statusFilter="In progress"
+      />,
     );
 
-    const alertMsg = view.getByText(/no questions/i);
-    expect(alertMsg).to.exist;
+    const filterSummary = view.getByText(/results/i);
+    expect(filterSummary.textContent).to.equal(
+      'Showing no results for "In progress" status and "All" categories',
+    );
   });
 });

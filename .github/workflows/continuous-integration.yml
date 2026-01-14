@@ -1056,7 +1056,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
+      
       - name: Manual dependencies install (pre-merge)
         run: |
           yarn install \
@@ -1075,7 +1075,7 @@ jobs:
 
       - name: Fetch target branch
         run: git fetch origin ${{ github.head_ref }}
-
+      
       - name: Merge in feature branch
         run: git merge -X ours origin/${{ github.ref_name }} --no-edit
 

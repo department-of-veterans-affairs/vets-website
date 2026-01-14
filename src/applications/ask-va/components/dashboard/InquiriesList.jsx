@@ -16,45 +16,43 @@ export default function InquiriesList({
   const [currentPageNum, setCurrentPageNum] = useState(1);
   const itemsPerPage = 4;
 
-  if (!inquiries.length)
-    return (
-      <va-alert
-        close-btn-aria-label="Close notification"
-        slim
-        status="info"
-        visible
-      >
-        <p className="vads-u-margin-y--0">No questions match your filter</p>
-      </va-alert>
-    );
-
   const pages = paginateArray(inquiries, itemsPerPage);
 
   const displayPage = pages[currentPageNum - 1] || pages[0];
-  const { pageStart, pageEnd } = displayPage;
   const totalPages = pages.length;
 
   return (
     <div>
       <FilterSummary
         total={inquiries.length}
-        pageEnd={Math.min(pageEnd, inquiries.length)}
+        pageEnd={Math.min(displayPage?.pageEnd, inquiries.length)}
+        pageStart={displayPage?.pageStart}
         {...{
-          pageStart,
           categoryFilter,
           statusFilter,
           tabName,
         }}
       />
-      <ul
+      <div
         className={classNames('dashboard-grid', {
           'grid-tabs': !!tabName,
         })}
       >
-        {displayPage.items.map(inquiry => (
-          <InquiryCard key={inquiry.id} {...{ inquiry }} />
-        ))}
-      </ul>
+        {inquiries.length ? (
+          displayPage.items.map(inquiry => (
+            <InquiryCard key={inquiry.id} {...{ inquiry }} />
+          ))
+        ) : (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            slim
+            status="info"
+            visible
+          >
+            <p className="vads-u-margin-y--0">No questions match your filter</p>
+          </va-alert>
+        )}
+      </div>
 
       {totalPages > 1 && (
         <VaPagination
