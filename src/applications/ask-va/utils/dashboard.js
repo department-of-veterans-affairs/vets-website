@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js';
-import { compareDesc, parse } from 'date-fns';
+import { compareDesc } from 'date-fns';
 import { getVAStatusFromCRM } from '../config/helpers';
 
 export function flattenInquiry(inquiry) {
@@ -72,11 +72,9 @@ export function filterAndSort({
         [inq.status, 'All'].includes(statusFilter)
       );
     })
-    .sort((a, b) => {
-      const dateA = parse(a.lastUpdate, 'MM/dd/yyyy hh:mm:ss a', new Date());
-      const dateB = parse(b.lastUpdate, 'MM/dd/yyyy hh:mm:ss a', new Date());
-      return compareDesc(dateA, dateB);
-    });
+    .sort((a, b) =>
+      compareDesc(new Date(a.lastUpdate), new Date(b.lastUpdate)),
+    );
 
   const searchable = new Fuse(filteredAndSorted, {
     keys: ['inquiryNumber', 'submitterQuestion', 'categoryName'],

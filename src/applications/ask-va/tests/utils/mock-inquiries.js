@@ -96,7 +96,7 @@ export const mockInquiries = [
       inquiryTopic:
         'Veteran Health Identification Card (VHIC) for health appointments',
       levelOfAuthentication: 'Personal',
-      lastUpdate: '12/18/2024 12:00:00 AM',
+      lastUpdate: '12/18/2024 5:30:30 PM',
       queueId: '39552049-1717-ec11-b6e6-001dd804cf90',
       queueName: 'Veteran Identification Card (VIC)',
       status: 'New',
@@ -209,7 +209,7 @@ export const mockInquiries = [
       inquiryTopic:
         'Veteran Health Identification Card (VHIC) for health appointments',
       levelOfAuthentication: 'Personal',
-      lastUpdate: '12/18/2024 12:00:00 AM',
+      lastUpdate: '12/18/2024 7:00:00 PM',
       queueId: '39552049-1717-ec11-b6e6-001dd804cf90',
       queueName: 'Veteran Identification Card (VIC)',
       status: 'Solved',
