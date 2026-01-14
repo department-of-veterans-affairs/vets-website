@@ -93,23 +93,11 @@ const ContestableIssues = props => {
           approxDecisionDate,
           FORMAT_YMD_DATE_FNS,
         );
-        let blockingType = null;
-
-        const blockingCriteria = isTodayOrInFuture(decisionDate);
-        const isBlocked = Object?.values(blockingCriteria).some(value => value);
-
-        if (isBlocked) {
-          blockingType =
-            blockingCriteria.isTodayLocal || blockingCriteria.isFutureLocal
-              ? 'local'
-              : 'utc';
-        }
 
         return {
           ...issue?.attributes,
           [SELECTED]: issue?.[SELECTED],
-          isBlockedSameDay: isBlocked,
-          blockingType,
+          isBlocked: isTodayOrInFuture(decisionDate),
         };
       }),
     [loadedIssues],
@@ -215,8 +203,7 @@ const ContestableIssues = props => {
     },
   };
 
-  const blockedIssues = items.filter(item => item.isBlockedSameDay);
-
+  const blockedIssues = items.filter(item => item.isBlocked);
   const blockedMessage = getBlockedMessage(blockedIssues);
 
   // Use wrapper div with conditional classes to fix va-alert inconsistent CSS rendering
