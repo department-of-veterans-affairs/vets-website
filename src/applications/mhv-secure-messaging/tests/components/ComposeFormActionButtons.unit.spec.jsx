@@ -10,7 +10,6 @@ describe('ComposeFormActionButtons', () => {
     cannotReply: false,
     draftBody: '',
     draftId: null,
-    draftsCount: 0,
     navigationError: null,
     refreshThreadCallback: () => {},
     setNavigationError: () => {},

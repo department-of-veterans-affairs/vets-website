@@ -23,7 +23,7 @@ describe('ReplyDraftItem component', () => {
     sendReplySpy.restore();
     sandbox.restore();
   });
-  const draft = thread.threadDetails.drafts[0];
+  const { draft } = thread.threadDetails;
   const replyMessage = thread.threadDetails.messages[0];
   const { replyToName } = thread.threadDetails;
 

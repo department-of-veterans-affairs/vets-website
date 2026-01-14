@@ -105,12 +105,11 @@ describe('Compose form component', () => {
       threadDetails: {
         ...threadDetailsReducer.threadDetails,
         draftInProgress: {
-          recipientId: threadDetailsReducer.threadDetails.drafts[0].recipientId,
-          recipientName:
-            threadDetailsReducer.threadDetails.drafts[0].recipientName,
-          category: threadDetailsReducer.threadDetails.drafts[0].category,
-          subject: threadDetailsReducer.threadDetails.drafts[0].subject,
-          body: threadDetailsReducer.threadDetails.drafts[0].body,
+          recipientId: threadDetailsReducer.threadDetails.draft.recipientId,
+          recipientName: threadDetailsReducer.threadDetails.draft.recipientName,
+          category: threadDetailsReducer.threadDetails.draft.category,
+          subject: threadDetailsReducer.threadDetails.draft.subject,
+          body: threadDetailsReducer.threadDetails.draft.body,
         },
       },
       recipients: {
@@ -214,7 +213,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -251,7 +250,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -318,7 +317,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -356,7 +355,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -398,7 +397,7 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          drafts: [],
+          draft: null,
           draftInProgress: {},
         },
         preferences: signatureReducers.signatureEnabled,
@@ -448,7 +447,7 @@ describe('Compose form component', () => {
         categories: { categories },
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
         preferences: signatureReducers.signatureEnabled,
       },
@@ -484,13 +483,12 @@ describe('Compose form component', () => {
         ...initialState.sm,
         threadDetails: {
           draftInProgress: {
-            recipientId:
-              threadDetailsReducer.threadDetails.drafts[0].recipientId,
+            recipientId: threadDetailsReducer.threadDetails.draft.recipientId,
             recipientName:
-              threadDetailsReducer.threadDetails.drafts[0].recipientName,
-            category: threadDetailsReducer.threadDetails.drafts[0].category,
-            subject: threadDetailsReducer.threadDetails.drafts[0].subject,
-            body: threadDetailsReducer.threadDetails.drafts[0].body,
+              threadDetailsReducer.threadDetails.draft.recipientName,
+            category: threadDetailsReducer.threadDetails.draft.category,
+            subject: threadDetailsReducer.threadDetails.draft.subject,
+            body: threadDetailsReducer.threadDetails.draft.body,
           },
         },
       },
@@ -653,7 +651,7 @@ describe('Compose form component', () => {
         categories: { categories },
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -694,7 +692,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -735,13 +733,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customState.sm.threadDetails.drafts[0]}
+        draft={customState.sm.threadDetails.draft}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+        path: `/thread/${customState.sm.threadDetails.draft.id}`,
       },
     );
 
@@ -783,13 +781,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customState.sm.threadDetails.drafts[0]}
+        draft={customState.sm.threadDetails.draft}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+        path: `/thread/${customState.sm.threadDetails.draft.id}`,
       },
     );
 
@@ -827,13 +825,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customState.sm.threadDetails.drafts[0]}
+        draft={customState.sm.threadDetails.draft}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+        path: `/thread/${customState.sm.threadDetails.draft.id}`,
       },
     );
 
@@ -871,13 +869,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customState.sm.threadDetails.drafts[0]}
+        draft={customState.sm.threadDetails.draft}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+        path: `/thread/${customState.sm.threadDetails.draft.id}`,
       },
     );
 
@@ -902,12 +900,12 @@ describe('Compose form component', () => {
       }
       if (index === 1) {
         expect(draftSection.lastChild.textContent).to.equal(
-          customState.sm.threadDetails.drafts[0].subject,
+          customState.sm.threadDetails.draft.subject,
         );
       }
       if (index === 2) {
         expect(draftSection.lastChild.textContent).to.equal(
-          customState.sm.threadDetails.drafts[0].messageBody,
+          customState.sm.threadDetails.draft.messageBody,
         );
       }
     });
@@ -1025,13 +1023,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customState.sm.threadDetails.drafts[0]}
+        draft={customState.sm.threadDetails.draft}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+        path: `/thread/${customState.sm.threadDetails.draft.id}`,
       },
     );
 
@@ -1297,7 +1295,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
           draftInProgress: {},
         },
       },
@@ -1362,7 +1360,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
           draftInProgress: {},
         },
       },
@@ -1701,7 +1699,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -1743,7 +1741,7 @@ describe('Compose form component', () => {
         threadDetails: {
           ...draftState.sm.threadDetails,
           draftInProgress: {},
-          drafts: [customDraftMessage],
+          draft: customDraftMessage,
         },
       },
     };
@@ -2129,7 +2127,7 @@ describe('Compose form component', () => {
           },
           threadDetails: {
             ...draftState.sm.threadDetails,
-            drafts: [customDraftMessage],
+            draft: customDraftMessage,
           },
         },
       };
@@ -2193,7 +2191,7 @@ describe('Compose form component', () => {
           },
           threadDetails: {
             ...draftState.sm.threadDetails,
-            drafts: [customDraftMessage],
+            draft: customDraftMessage,
           },
         },
       };
@@ -2258,7 +2256,7 @@ describe('Compose form component', () => {
           },
           threadDetails: {
             ...draftState.sm.threadDetails,
-            drafts: [customDraftMessage],
+            draft: customDraftMessage,
           },
         },
       };
@@ -2317,7 +2315,7 @@ describe('Compose form component', () => {
           },
           threadDetails: {
             ...draftState.sm.threadDetails,
-            drafts: [customDraftMessage],
+            draft: customDraftMessage,
           },
         },
       };
@@ -2482,13 +2480,13 @@ describe('Compose form component', () => {
 
       const screen = renderWithStoreAndRouter(
         <ComposeForm
-          draft={customState.sm.threadDetails.drafts[0]}
+          draft={customState.sm.threadDetails.draft}
           recipients={blockedRecipients}
         />,
         {
           initialState: customState,
           reducers: reducer,
-          path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+          path: `/thread/${customState.sm.threadDetails.draft.id}`,
         },
       );
 

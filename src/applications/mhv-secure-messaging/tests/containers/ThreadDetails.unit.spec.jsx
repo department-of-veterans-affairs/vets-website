@@ -48,8 +48,8 @@ describe('Thread Details container', () => {
       path: `/thread/2713217`,
     });
   };
-  const { drafts, messages } = replyDraftThread.threadDetails;
-  const replyDraftMessage = drafts[0];
+  const { draft, messages } = replyDraftThread.threadDetails;
+  const replyDraftMessage = draft;
   const replyMessage = messages[0];
   const olderMessage = messages[1];
 
@@ -222,7 +222,6 @@ describe('Thread Details container', () => {
         },
         threadDetails: {
           draft: singleDraftThread.draftMessage,
-          drafts: [singleDraftThread.draftMessage],
           messages: [],
           isLoading: false,
           replyToName: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
@@ -287,12 +286,6 @@ describe('Thread Details container', () => {
         },
         threadDetails: {
           cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
-          drafts: [
-            {
-              ...replyDraftMessage,
-              draftDate: new Date(),
-            },
-          ],
           draft: {
             ...replyDraftMessage,
             draftDate: new Date(),
@@ -360,12 +353,6 @@ describe('Thread Details container', () => {
         },
         threadDetails: {
           cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
-          drafts: [
-            {
-              ...replyDraftMessage,
-              draftDate: new Date(),
-            },
-          ],
           draft: {
             ...replyDraftMessage,
             draftDate: new Date(),
@@ -451,12 +438,6 @@ describe('Thread Details container', () => {
             getLastSentMessage(draftMessageHistoryUpdated).sentDate,
             45,
           ),
-          drafts: [
-            {
-              ...replyDraftMessage,
-              draftDate: new Date(),
-            },
-          ],
           draft: {
             ...replyDraftMessage,
             draftDate: new Date(),
@@ -478,7 +459,7 @@ describe('Thread Details container', () => {
     };
     const screen = setup(state);
 
-    const { triageGroupName } = state.sm.threadDetails.drafts[0];
+    const { triageGroupName } = state.sm.threadDetails.draft;
 
     expect(await screen.queryByText('Continue to reply')).to.not.exist;
 
@@ -548,12 +529,6 @@ describe('Thread Details container', () => {
             getLastSentMessage(draftMessageHistoryUpdated).sentDate,
             45,
           ),
-          drafts: [
-            {
-              ...replyDraftMessage,
-              draftDate: new Date(),
-            },
-          ],
           draft: {
             ...replyDraftMessage,
             draftDate: new Date(),
@@ -594,7 +569,6 @@ describe('Thread Details container', () => {
           folder: inbox,
         },
         threadDetails: {
-          drafts: [replyDraftMessage],
           draft: replyDraftMessage,
           messages: [replyMessage],
         },
@@ -657,11 +631,6 @@ describe('Thread Details container', () => {
           folder: inbox,
         },
         threadDetails: {
-          drafts: [
-            {
-              ...replyDraftMessage,
-            },
-          ],
           draft: {
             ...replyDraftMessage,
           },
@@ -697,13 +666,6 @@ describe('Thread Details container', () => {
     const state = {
       sm: {
         threadDetails: {
-          drafts: [
-            {
-              ...replyDraftMessage,
-              threadFolderId: folderId,
-              replyToMessageId: 1234,
-            },
-          ],
           draft: {
             ...replyDraftMessage,
             threadFolderId: folderId,
@@ -751,13 +713,6 @@ describe('Thread Details container', () => {
     const state = {
       sm: {
         threadDetails: {
-          drafts: [
-            {
-              ...replyDraftMessage,
-              threadFolderId: folderId,
-              replyToMessageId: 1234,
-            },
-          ],
           draft: {
             ...replyDraftMessage,
             threadFolderId: folderId,
@@ -802,13 +757,6 @@ describe('Thread Details container', () => {
     const state = {
       sm: {
         threadDetails: {
-          drafts: [
-            {
-              ...replyDraftMessage,
-              threadFolderId: folderId,
-              replyToMessageId: 1234,
-            },
-          ],
           draft: {
             ...replyDraftMessage,
             threadFolderId: folderId,

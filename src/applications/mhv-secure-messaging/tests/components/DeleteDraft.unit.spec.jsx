@@ -7,7 +7,7 @@ import DeleteDraft, {
   _computeDraftDeleteRedirect,
 } from '../../components/Draft/DeleteDraft';
 import { drafts, inbox, sent } from '../fixtures/folder-inbox-response.json';
-import thread from '../fixtures/reducers/thread-with-multiple-drafts-reducer.json';
+import thread from '../fixtures/reducers/thread-with-one-draft-reducer.json';
 import reducer from '../../reducers';
 import { Prompts, Paths } from '../../util/constants';
 import { draft as mockDraft } from '../fixtures/saved-draft-mock-prop.json';
@@ -32,7 +32,7 @@ describe('Delete Draft component', () => {
   afterEach(() => cleanup());
 
   it('renders without errors', async () => {
-    const draft = thread.threadDetails.drafts[0];
+    const { draft } = thread.threadDetails;
     const initialState = {
       sm: {
         folders: {
@@ -67,7 +67,7 @@ describe('Delete Draft component', () => {
   });
 
   it('opens modal on delete button click', async () => {
-    const draft = thread.threadDetails.drafts[0];
+    const { draft } = thread.threadDetails;
     const pathname = `/thread/${draft.messageId}/`;
     const initialState = {
       sm: {
@@ -115,7 +115,6 @@ describe('Delete Draft component', () => {
 
     const props = {
       draftId: 123456,
-      draftsCount: 1,
       savedDraft: true,
       activeFolder: { folderId: '1' },
     };
@@ -192,7 +191,6 @@ describe('Delete Draft component', () => {
 
     const props = {
       draftId: undefined,
-      draftsCount: 0,
       draftBody: '',
       messageBody: '',
       savedDraft: false,
@@ -231,7 +229,7 @@ describe('Delete Draft component', () => {
     };
     const initialHistory = Paths.COMPOSE;
     const { getByTestId, history } = renderWithStoreAndRouter(
-      <DeleteDraft draftsCount={1} setNavigationError={() => {}} />,
+      <DeleteDraft setNavigationError={() => {}} />,
       {
         initialState,
         reducers: reducer,
@@ -380,7 +378,6 @@ describe('Delete Draft component', () => {
         draftBody={mockDraft.body}
         savedReplyDraft
         inProgressReplyDraft={false}
-        draftsCount={1}
         setNavigationError={setNavigationErrorSpy}
         setIsModalVisible={setIsModalVisibleSpy}
       />,
@@ -423,7 +420,6 @@ describe('Delete Draft component', () => {
       const { getByTestId } = renderWithStoreAndRouter(
         <DeleteDraft
           draftId={123456}
-          draftsCount={1}
           redirectPath={redirectPath}
           savedComposeDraft
         />,
