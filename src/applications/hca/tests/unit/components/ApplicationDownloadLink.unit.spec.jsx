@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
