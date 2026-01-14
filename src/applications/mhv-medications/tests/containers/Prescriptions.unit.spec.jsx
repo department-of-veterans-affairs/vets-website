@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { cleanup } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import reducer from '../../reducers';
@@ -33,6 +34,7 @@ describe('Medications Prescriptions container', () => {
   });
 
   afterEach(() => {
+    cleanup();
     if (sandbox) {
       sandbox.restore();
     }
@@ -82,10 +84,21 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should display loading message when loading prescriptions', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, isLoading: true, isFetching: true });
+    stubPrescriptionsListApi({
+      sandbox,
+      isLoading: true,
+      isFetching: true,
+      data: undefined,
+    });
     const screen = setup();
-    waitFor(() => {
-      expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading your medications...')).to.exist;
+    await waitFor(() => {
+      const indicator = screen.getByTestId('loading-indicator');
+      expect(indicator).to.exist;
+      expect(indicator.getAttribute('message')).to.equal(
+        'Loading your medications...',
+      );
     });
   });
 
@@ -187,7 +200,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
@@ -204,7 +217,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
         .exist;
     });
@@ -220,7 +233,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });

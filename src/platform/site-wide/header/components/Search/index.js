@@ -25,7 +25,7 @@ const Search = () => {
       [SEARCH_LOCATION]: 'Mobile Header Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [SEARCH_TYPEAHEAD_ENABLED]: false,
       [TYPEAHEAD_LIST]: validSuggestions,
     });
 
@@ -51,7 +51,7 @@ const Search = () => {
       [SEARCH_LOCATION]: 'Mobile Header Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [SEARCH_TYPEAHEAD_ENABLED]: false,
       [TYPEAHEAD_CLICKED]: true,
       [TYPEAHEAD_LIST]: validSuggestions,
     });

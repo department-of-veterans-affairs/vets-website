@@ -85,6 +85,10 @@
   "medicare--general-pharmacy-label": "Does the beneficiary’s Medicare plan provide pharmacy benefits?",
   "medicare--general-pharmacy-hint": "You can find this information on the front of the Medicare card.",
   "medicare--intro-title": "Report Medicare",
+  "medicare--mbi-title": "%s MBI",
+  "medicare--mbi-description": "Every Medicare recipient has an 11-character Medicare Beneficiary Identifier (MBI) code. You can find this code on the front of Medicare cards or on medicare.gov accounts.",
+  "medicare--mbi-label": "MBI",
+  "medicare--mbi-hint": "You can enter an HICN if that’s what’s shown on the Medicare card.",
   "medicare--parts-ab-card-title": "Upload Medicare card for Hospital and Medical insurance",
   "medicare--parts-ab-card-label--front": "Upload front of Original Medicare card",
   "medicare--parts-ab-card-label--back": "Upload back of Original Medicare card",
@@ -157,6 +161,7 @@
   "validation--date-range": "Termination date must be after the effective date",
   "validation--date-value--current": "Enter a valid current or past date",
   "validation--date-value--future": "Date may not be more than 1 year from today",
+  "validation--mbi-invalid": "Enter a valid 11-character MBI code (without dashes)",
   "validation--required": "You must provide a response",
   "validation--text-characters--singular": "You entered a character we can’t accept. Try removing this character",
   "validation--text-characters--plural": "You entered multiple characters we can’t accept. Try removing these characters"

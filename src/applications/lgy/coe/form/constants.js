@@ -60,3 +60,11 @@ export const LOAN_INTENT_SCHEMA = {
   enum: intents.map(intent => intent.value),
   enumNames: intents.map(intent => intent.label),
 };
+
+export const serviceStatuses = {
+  VETERAN: 'VETERAN', // Veteran or previously activated National Guard or Reserves
+  ADSM: 'ADSM', // Active Duty Service Member
+  NADNA: 'NADNA', // Current National Guard or Reserves, never activated
+  DNANA: 'DNANA', // Discharged from National Guard, never activated
+  DRNA: 'DRNA', // Discharged from Reserves, never activated
+};

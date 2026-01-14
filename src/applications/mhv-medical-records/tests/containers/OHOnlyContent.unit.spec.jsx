@@ -67,13 +67,11 @@ describe('OHOnlyContent', () => {
   });
 
   it('shows loading spinner when generatingCCD is true', () => {
-    const { container, queryByText } = renderComponent({ generatingCCD: true });
+    const { getByTestId, queryByText } = renderComponent({
+      generatingCCD: true,
+    });
 
-    const spinnerContainer = container.querySelector(
-      '#generating-ccd-OH-indicator',
-    );
-    expect(spinnerContainer).to.exist;
-    expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
+    expect(getByTestId('generating-ccd-OH-indicator')).to.exist;
 
     expect(queryByText('Download your Continuity of Care Document')).to.not
       .exist;
@@ -322,6 +320,18 @@ describe('OHOnlyContent', () => {
   });
 
   describe('CCD Download Success Alert', () => {
+    it('does not render CCD download success alert when only generatingCCD is true, but shows spinner', () => {
+      const { queryByText, getByTestId } = renderComponent({
+        generatingCCD: true,
+        ccdDownloadSuccess: false,
+        ccdError: false,
+        CCDRetryTimestamp: null,
+      });
+
+      expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
+      expect(getByTestId('generating-ccd-OH-indicator')).to.exist;
+    });
+
     it('renders CCD download success alert when ccdDownloadSuccess is true', () => {
       const { getByText } = renderComponent({
         ccdDownloadSuccess: true,

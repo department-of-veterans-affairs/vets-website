@@ -1,3 +1,6 @@
+/**
+ * E2E test for mock form prefill.
+ */
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
