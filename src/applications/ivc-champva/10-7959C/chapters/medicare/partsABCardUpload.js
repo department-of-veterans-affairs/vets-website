@@ -2,10 +2,10 @@ import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadBlurb } from '../../../shared/components/fileUploads/attachments';
 import {
-  fileUploadUi as fileUploadUI,
-  singleFileSchema,
-} from '../../../shared/components/fileUploads/upload';
-import { blankSchema } from '../../definitions';
+  attachmentUI,
+  blankSchema,
+  singleAttachmentSchema,
+} from '../../definitions';
 
 const PAGE_DESCRIPTION = (
   <>
@@ -29,21 +29,25 @@ export default {
       PAGE_DESCRIPTION,
     ),
     ...fileUploadBlurb,
-    applicantMedicarePartAPartBCardFront: fileUploadUI({
+    applicantMedicarePartAPartBCardFront: attachmentUI({
       label: 'Upload front of Medicare card',
       attachmentId: 'Front of Medicare Parts A or B card',
     }),
-    applicantMedicarePartAPartBCardBack: fileUploadUI({
+    applicantMedicarePartAPartBCardBack: attachmentUI({
       label: 'Upload back of Medicare card',
       attachmentId: 'Back of Medicare Parts A or B card',
     }),
   },
   schema: {
     type: 'object',
+    required: [
+      'applicantMedicarePartAPartBCardFront',
+      'applicantMedicarePartAPartBCardBack',
+    ],
     properties: {
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartAPartBCardFront: singleFileSchema,
-      applicantMedicarePartAPartBCardBack: singleFileSchema,
+      applicantMedicarePartAPartBCardFront: singleAttachmentSchema,
+      applicantMedicarePartAPartBCardBack: singleAttachmentSchema,
     },
   },
 };

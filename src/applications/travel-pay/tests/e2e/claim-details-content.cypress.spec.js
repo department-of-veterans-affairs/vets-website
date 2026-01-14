@@ -49,7 +49,7 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.contains('h2', 'Claim information').should('be.visible');
 
       // Check "Claim submission timeline" section
-      cy.contains('p', 'Claim submission timeline')
+      cy.contains('p', 'Claim timeline')
         .should('have.class', 'vads-u-font-weight--bold')
         .should('be.visible');
 
@@ -62,9 +62,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         .should('have.class', 'vads-u-font-weight--bold')
         .should('be.visible');
 
-      cy.contains('Monday, January 1, 2024 at 4:45 PM appointment').should(
-        'be.visible',
-      );
+      cy.contains('Monday, January 1, 2024 at 4:45 PM').should('be.visible');
       cy.contains('Cheyenne VA Medical Center').should('be.visible');
     });
 

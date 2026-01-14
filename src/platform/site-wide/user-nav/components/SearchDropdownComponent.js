@@ -4,10 +4,7 @@
 // non-web-component version of the Search app
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  fetchTypeaheadSuggestions,
-  isSearchTermValid,
-} from '~/platform/utilities/search-utilities';
+import { isSearchTermValid } from '~/platform/utilities/search-utilities';
 
 const Keycodes = {
   Backspace: 8,
@@ -26,119 +23,6 @@ const Keycodes = {
 };
 
 class SearchDropdownComponent extends React.Component {
-  static propTypes = {
-    /**
-     * A boolean value for whether the submit button should be rendered or not.
-     * */
-    showButton: PropTypes.bool,
-    /**
-     * A string value that should be displayed on the submit button
-     * */
-    buttonText: PropTypes.string,
-    /**
-     * A string value that will be prepended to the classnames for the button
-     * */
-    buttonClassName: PropTypes.string,
-    /**
-     * A boolean value for whether or not the component has "submit" functionality
-     * */
-    canSubmit: PropTypes.bool,
-    /**
-     * A string value that will be prepended on each id
-     * */
-    id: PropTypes.string,
-    /**
-     * A string value that will be prepended to the classnames for the base component
-     * */
-    componentClassName: PropTypes.string,
-    /**
-     * A string value that will be prepended to the classnames for the container
-     * */
-    containerClassName: PropTypes.string,
-    /**
-     * A string value that will be prepended to the classnames for the input field
-     * */
-    inputClassName: PropTypes.string,
-    /**
-     * A string value that will be prepended to the classnames for the suggestionsList
-     * */
-    suggestionsListClassName: PropTypes.string,
-    /**
-     * A string value that will be prepended to the classnames for the individual suggestions
-     * */
-    suggestionClassName: PropTypes.string,
-    /**
-     * the debounce rate at which to fetch suggestions
-     * */
-    debounceRate: PropTypes.number,
-    /**
-     * A boolean value for whether or not suggestions are formatted to have the suggested values highlighted
-     * */
-    formatSuggestions: PropTypes.bool,
-    /**
-     * A function that is called every time the input value changes, which is passed the current Input Value
-     * */
-    getInputValue: PropTypes.func,
-    /**
-     * A function that is passed the current state as a param,
-     * and is called whenever the input field's current value is submitted
-     * */
-    onInputSubmit: PropTypes.func,
-    /**
-     * A function that is passed the current state as a param,
-     * and is called whenever a suggested value is submitted
-     * */
-    onSuggestionSubmit: PropTypes.func,
-    /**
-     * A function that is passed to retrieve the input for the search app component
-     * */
-    fetchInputValue: PropTypes.func,
-    /**
-     * A boolean value for whether or not the search button shall move underneath the input field when viewed on a small screen
-     * */
-    mobileResponsive: PropTypes.bool,
-    /**
-     * A string value for the default value of the input field.
-     * */
-    startingValue: PropTypes.string,
-    /**
-     * A boolean value for whether clicking on a suggestion will "submit" it
-     * */
-    submitOnClick: PropTypes.bool,
-    /**
-     * A boolean value for whether pressing enter with a suggestion will "submit" it
-     * */
-    submitOnEnter: PropTypes.bool,
-    /**
-     * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
-     * */
-    fullWidthSuggestions: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    buttonText: '',
-    canSubmit: false,
-    id: '',
-    debounceRate: 200,
-    formatSuggestions: false,
-    fullWidthSuggestions: false,
-    mobileResponsive: false,
-    fetchInputValue: undefined,
-    getInputValue: undefined,
-    onInputSubmit: undefined,
-    onSuggestionSubmit: undefined,
-    showButton: true,
-    startingValue: '',
-    submitOnClick: false,
-    submitOnEnter: false,
-    buttonClassName: '',
-    componentClassName: '',
-    containerClassName: '',
-    inputClassName: '',
-    suggestionsListClassName: '',
-    suggestionClassName: '',
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -202,26 +86,6 @@ class SearchDropdownComponent extends React.Component {
     clearTimeout(this.updateA11yTimeout);
   }
 
-  // format suggestions so that the suggested text is BOLD
-  formatSuggestion = suggestion => {
-    const { inputValue } = this.state;
-
-    if (!suggestion || !inputValue) {
-      return suggestion;
-    }
-    const lowerSuggestion = suggestion?.toLowerCase();
-    const lowerQuery = inputValue?.toLowerCase();
-    if (lowerSuggestion.includes(lowerQuery)) {
-      return (
-        <>
-          <span aria-hidden>{inputValue}</span>
-          <strong aria-hidden>{lowerSuggestion.replace(lowerQuery, '')}</strong>
-        </>
-      );
-    }
-    return <strong aria-hidden>{lowerSuggestion}</strong>;
-  };
-
   handleInputChange = event => {
     // update the input value to the new value
     const inputValue = event.target.value;
@@ -244,10 +108,9 @@ class SearchDropdownComponent extends React.Component {
   };
 
   // call the fetchSuggestions prop and save the returned value into state
-  fetchSuggestions = async inputValue => {
-    this.setState({ fetchingSuggestions: true });
-    const suggestions = await fetchTypeaheadSuggestions(inputValue);
-    this.setState({ suggestions, fetchingSuggestions: false });
+  fetchSuggestions = async _inputValue => {
+    // Typeahead disabled - return empty suggestions
+    this.setState({ suggestions: [], fetchingSuggestions: false });
   };
 
   // handle blur logic
@@ -442,6 +305,26 @@ class SearchDropdownComponent extends React.Component {
       });
     }
   }
+
+  // format suggestions so that the suggested text is BOLD
+  formatSuggestion = suggestion => {
+    const { inputValue } = this.state;
+
+    if (!suggestion || !inputValue) {
+      return suggestion;
+    }
+    const lowerSuggestion = suggestion?.toLowerCase();
+    const lowerQuery = inputValue?.toLowerCase();
+    if (lowerSuggestion.includes(lowerQuery)) {
+      return (
+        <>
+          <span aria-hidden>{inputValue}</span>
+          <strong aria-hidden>{lowerSuggestion.replace(lowerQuery, '')}</strong>
+        </>
+      );
+    }
+    return <strong aria-hidden>{lowerSuggestion}</strong>;
+  };
 
   // select an option from the dropdown menu, updating the inputValue state
   selectOption(index) {
@@ -862,5 +745,118 @@ class SearchDropdownComponent extends React.Component {
     );
   }
 }
+
+SearchDropdownComponent.propTypes = {
+  /**
+   * A string value that will be prepended to the classnames for the button
+   * */
+  buttonClassName: PropTypes.string,
+  /**
+   * A string value that should be displayed on the submit button
+   * */
+  buttonText: PropTypes.string,
+  /**
+   * A boolean value for whether or not the component has "submit" functionality
+   * */
+  canSubmit: PropTypes.bool,
+  /**
+   * A string value that will be prepended to the classnames for the base component
+   * */
+  componentClassName: PropTypes.string,
+  /**
+   * A string value that will be prepended to the classnames for the container
+   * */
+  containerClassName: PropTypes.string,
+  /**
+   * the debounce rate at which to fetch suggestions
+   * */
+  debounceRate: PropTypes.number,
+  /**
+   * A boolean value for whether or not suggestions are formatted to have the suggested values highlighted
+   * */
+  formatSuggestions: PropTypes.bool,
+  /**
+   * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
+   * */
+  fullWidthSuggestions: PropTypes.bool,
+  /**
+   * A string value that will be prepended on each id
+   * */
+  id: PropTypes.string,
+  /**
+   * A string value that will be prepended to the classnames for the input field
+   * */
+  inputClassName: PropTypes.string,
+  /**
+   * A boolean value for whether or not the search button shall move underneath the input field when viewed on a small screen
+   * */
+  mobileResponsive: PropTypes.bool,
+  /**
+   * A boolean value for whether the submit button should be rendered or not.
+   * */
+  showButton: PropTypes.bool,
+  /**
+   * A string value that will be prepended to the classnames for the individual suggestions
+   * */
+  suggestionClassName: PropTypes.string,
+  /**
+   * A string value that will be prepended to the classnames for the suggestionsList
+   * */
+  suggestionsListClassName: PropTypes.string,
+  /**
+   * A string value for the default value of the input field.
+   * */
+  startingValue: PropTypes.string,
+  /**
+   * A boolean value for whether clicking on a suggestion will "submit" it
+   * */
+  submitOnClick: PropTypes.bool,
+  /**
+   * A boolean value for whether pressing enter with a suggestion will "submit" it
+   * */
+  submitOnEnter: PropTypes.bool,
+  /**
+   * A function that is passed to retrieve the input for the search app component
+   * */
+  fetchInputValue: PropTypes.func,
+  /**
+   * A function that is called every time the input value changes, which is passed the current Input Value
+   * */
+  getInputValue: PropTypes.func,
+  /**
+   * A function that is passed the current state as a param,
+   * and is called whenever the input field's current value is submitted
+   * */
+  onInputSubmit: PropTypes.func,
+  /**
+   * A function that is passed the current state as a param,
+   * and is called whenever a suggested value is submitted
+   * */
+  onSuggestionSubmit: PropTypes.func,
+};
+
+SearchDropdownComponent.defaultProps = {
+  buttonClassName: '',
+  buttonText: '',
+  canSubmit: false,
+  componentClassName: '',
+  containerClassName: '',
+  debounceRate: 200,
+  fetchInputValue: undefined,
+  formatSuggestions: false,
+  fullWidthSuggestions: false,
+  getInputValue: undefined,
+  id: '',
+  inputClassName: '',
+  mobileResponsive: false,
+  onInputSubmit: undefined,
+  onSuggestionSubmit: undefined,
+  showButton: true,
+  startingValue: '',
+  suggestionClassName: '',
+  suggestionsListClassName: '',
+  submitOnClick: false,
+  submitOnEnter: false,
+};
 
 export default SearchDropdownComponent;
