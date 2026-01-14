@@ -118,8 +118,11 @@ const DebtSelection = ({ formContext }) => {
       background
     >
       <div>
-        <h3 className="vads-u-margin-top--1">{debt.label}</h3>
-        <p>{debt.description}</p>
+        <h4 className="vads-u-margin-top--1">{debt.label}</h4>
+        <p>
+          Note: This debt has already been disputed on {debt.submissionDate} and
+          cannot be disputed again. It can take up to 60 days to process.
+        </p>
       </div>
     </va-card>
   );
