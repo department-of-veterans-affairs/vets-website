@@ -48,8 +48,9 @@ import { veteranMarriagesPages } from './chapters/04-household-information/veter
 import veteranChildren from './chapters/04-household-information/veteranChildren';
 import dependentsCount from './chapters/04-household-information/dependentsCount';
 import dependentsPages from './chapters/04-household-information/dependentsPages';
-import custodianAddress from './chapters/04-household-information/custodianAddress';
-import custodianName from './chapters/04-household-information/custodianName';
+import dependentsResidence from './chapters/04-household-information/dependentsResidence';
+import dependentsAddress from './chapters/04-household-information/dependentsAddress';
+import dependentsCustodian from './chapters/04-household-information/dependentsCustodian';
 import dicBenefits from './chapters/05-claim-information/dicBenefits';
 import nursingHome from './chapters/05-claim-information/nursingHome';
 import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
@@ -410,9 +411,9 @@ const formConfig = {
           schema: dependentsCount.schema,
         },
         ...dependentsPages,
-        custodianName: {
-          path: 'household/custodian-name',
-          title: "Custodian's name",
+        dependentsResidence: {
+          path: 'household/dependents-residence',
+          title: 'Dependent’s residence',
           depends: formData => {
             if (formData.veteranChildrenCount > 0) {
               const livesWith = formData?.veteransChildren?.findIndex(
@@ -422,23 +423,22 @@ const formConfig = {
             }
             return false;
           },
-          uiSchema: custodianName.uiSchema,
-          schema: custodianName.schema,
+          uiSchema: dependentsResidence.uiSchema,
+          schema: dependentsResidence.schema,
         },
-        custodianAddress: {
-          path: 'household/custodian-address',
-          title: "Custodian's mailing address",
-          depends: formData => {
-            if (formData.veteranChildrenCount > 0) {
-              const livesWith = formData?.veteransChildren?.findIndex(
-                element => element.livesWith === false,
-              );
-              return livesWith !== -1;
-            }
-            return false;
-          },
-          uiSchema: custodianAddress.uiSchema,
-          schema: custodianAddress.schema,
+        dependentsAddress: {
+          path: 'household/dependents-address',
+          title: 'Dependent’s mailing address',
+          depends: formData => formData?.dependentsResidence === true,
+          uiSchema: dependentsAddress.uiSchema,
+          schema: dependentsAddress.schema,
+        },
+        dependentsName: {
+          path: 'household/dependents-custodian',
+          title: 'Dependent’s custodian',
+          depends: formData => formData?.dependentsResidence === true,
+          uiSchema: dependentsCustodian.uiSchema,
+          schema: dependentsCustodian.schema,
         },
       },
     },

@@ -286,6 +286,7 @@
       "childSupport": 5000
     }
   ],
+  "dependentsResidence": true,
   "custodianFullName": {
     "first": "Custodianfirst",
     "last": "Custodianlast"

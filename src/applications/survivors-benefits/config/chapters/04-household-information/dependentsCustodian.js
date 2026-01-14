@@ -7,7 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI("Dependent's custodian"),
+    ...titleUI('Dependent’s custodian'),
     custodianFullName: fullNameUI(),
   },
   schema: {

@@ -14,7 +14,7 @@ updatedAddressSchema.properties.city.maxLength = 18;
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI("Custodian's mailing address"),
+    ...titleUI('Dependent’s mailing address'),
     custodianAddress: {
       ...addressUI({
         omit: ['isMilitary', 'street3'],
