@@ -1,9 +1,14 @@
-import { isAfter, isBefore, isValid } from 'date-fns';
+import { add, isAfter, isBefore, isValid } from 'date-fns';
 import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
-import { convertToDateField } from 'platform/forms-system/src/js/validation';
+import { minYear } from 'platform/forms-system/src/js/helpers';
+import {
+  convertToDateField,
+  validateDate,
+} from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
 import content from '../locales/en/content.json';
 
+const ERR_FUTURE_DATE = content['validation--date-range--future'];
 const ERR_SSN_UNIQUE = content['validation--ssn-unique'];
 const ERR_SSN_INVALID = content['validation--ssn-invalid'];
 
@@ -223,6 +228,13 @@ export const validateMedicarePlan = (item = {}) => {
   const medicarePartBEffectiveDate =
     item['view:medicarePartBEffectiveDate']?.medicarePartBEffectiveDate;
 
+  const isValidEffectiveDate = dateString => {
+    if (!dateString) return false;
+    const date = new Date(dateString);
+    const oneYearFromNow = add(new Date(), { years: 1 });
+    return isValid(date) && !isAfter(date, oneYearFromNow);
+  };
+
   const isValidPastDate = dateString => {
     if (!dateString) return false;
     const date = new Date(dateString);
@@ -234,8 +246,8 @@ export const validateMedicarePlan = (item = {}) => {
   const planValidations = {
     ab: () => {
       if (
-        !isValidPastDate(medicarePartAEffectiveDate) ||
-        !isValidPastDate(medicarePartBEffectiveDate)
+        !isValidEffectiveDate(medicarePartAEffectiveDate) ||
+        !isValidEffectiveDate(medicarePartBEffectiveDate)
       ) {
         return true;
       }
@@ -245,7 +257,7 @@ export const validateMedicarePlan = (item = {}) => {
       );
     },
     a: () => {
-      if (!isValidPastDate(medicarePartAEffectiveDate)) {
+      if (!isValidEffectiveDate(medicarePartAEffectiveDate)) {
         return true;
       }
       return (
@@ -254,7 +266,7 @@ export const validateMedicarePlan = (item = {}) => {
       );
     },
     b: () => {
-      if (!isValidPastDate(medicarePartBEffectiveDate)) {
+      if (!isValidEffectiveDate(medicarePartBEffectiveDate)) {
         return true;
       }
       return (
@@ -265,7 +277,7 @@ export const validateMedicarePlan = (item = {}) => {
     c: () => {
       if (
         !medicarePartCCarrier ||
-        !isValidPastDate(medicarePartCEffectiveDate)
+        !isValidEffectiveDate(medicarePartCEffectiveDate)
       ) {
         return true;
       }
@@ -281,7 +293,7 @@ export const validateMedicarePlan = (item = {}) => {
 
   const supportsPartD = ['ab', 'c'].includes(medicarePlanType);
   if (supportsPartD && hasMedicarePartD === true) {
-    if (!isValidPastDate(medicarePartDEffectiveDate)) return true;
+    if (!isValidEffectiveDate(medicarePartDEffectiveDate)) return true;
 
     if (
       medicarePartDTerminationDate &&
@@ -531,4 +543,44 @@ export const validateApplicant = (item = {}) => {
   }
 
   return false;
+};
+
+/**
+ * Validates that a date is not more than one year in the future.
+ *
+ * Ensures the date is valid, within the allowed year range (minYear to current year + 1),
+ * and not more than one calendar year from today. Used for dates that should be current or near-future.
+ *
+ * @param {Object} errors - The errors object to add validation errors to
+ * @param {string} dateString - The date string to validate (format: 'YYYY-MM-DD')
+ * @param {Object} formData - The complete form data object
+ * @param {Object} schema - The JSON schema for the date field
+ * @param {Object} [errorMessages={}] - Optional custom error messages to override defaults
+ */
+export const validateFutureDate = (
+  errors,
+  dateString,
+  formData,
+  schema,
+  errorMessages = {},
+) => {
+  const yearFromToday = add(new Date(), { years: 1 });
+  const maxYear = new Date().getFullYear() + 1;
+
+  validateDate(
+    errors,
+    dateString,
+    formData,
+    schema,
+    errorMessages,
+    undefined,
+    undefined,
+    minYear,
+    maxYear,
+  );
+
+  const date = dateString ? new Date(dateString) : null;
+  if (date && isValid(date) && isAfter(date, yearFromToday)) {
+    errors.addError(ERR_FUTURE_DATE);
+  }
 };

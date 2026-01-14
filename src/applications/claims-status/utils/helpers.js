@@ -503,7 +503,7 @@ export function stripHtml(text) {
 }
 
 export function scrubDescription(text) {
-  return stripEscapedChars(stripHtml(text));
+  return stripEscapedChars(stripHtml(text ? text.trim() : ''));
 }
 
 export function truncateDescription(text, maxLength = 120) {

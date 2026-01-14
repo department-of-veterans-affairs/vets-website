@@ -10,17 +10,18 @@ import { usePersistentSelections } from '../hooks/usePersistentSelections';
 import {
   setSelectedTopics,
   selectSelectedTopics,
+  selectUuid,
 } from '../redux/slices/formSlice';
 import { useGetTopicsQuery } from '../redux/api/vassApi';
-
-// TODO: remove this once we have a real UUID
-import { UUID } from '../services/mocks/utils/formData';
+import { useErrorFocus } from '../hooks/useErrorFocus';
 
 const TopicSelection = () => {
+  const { error, handleSetError } = useErrorFocus('va-checkbox-group');
   const dispatch = useDispatch();
   const selectedTopics = useSelector(selectSelectedTopics);
+  const uuid = useSelector(selectUuid);
   const navigate = useNavigate();
-  const { saveTopicsSelection } = usePersistentSelections(UUID);
+  const { saveTopicsSelection } = usePersistentSelections(uuid);
   const { data } = useGetTopicsQuery();
   const topics = useMemo(() => data?.topics || [], [data]);
 
@@ -33,6 +34,7 @@ const TopicSelection = () => {
   );
 
   const handleTopicChange = event => {
+    handleSetError('');
     const { checked } = event.detail;
     if (checked) {
       const newTopics = [
@@ -53,20 +55,24 @@ const TopicSelection = () => {
   };
 
   const handleContinue = () => {
-    // TODO: manage error handling
+    if (!selectedTopics?.length) {
+      handleSetError('Please choose a topic for your appointment.');
+      return;
+    }
     navigate('/review');
   };
 
   return (
     <Wrapper
-      pageTitle="What topic would you like to talk about?"
+      pageTitle="What do you want to learn more about?"
       showBackLink
       required
     >
       <va-checkbox-group
-        required
         data-testid="topic-checkbox-group"
         label="Check all that apply"
+        class="vass-checkbox-group"
+        error={error}
       >
         {topics.map(({ topicId, topicName }) => (
           <VaCheckbox
