@@ -582,7 +582,7 @@ export function submitFiles(
                     error.docType = 'Unknown';
                   }
                 }
-                // Always track errors for analytics regardless of feature flag
+
                 errorFiles.push(error);
 
                 hasError = error;
