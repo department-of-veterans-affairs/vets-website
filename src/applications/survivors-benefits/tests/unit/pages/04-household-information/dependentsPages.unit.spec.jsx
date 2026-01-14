@@ -65,7 +65,7 @@ describe('Dependents Pages', () => {
     // ssn set => show and required
   });
 
-  it('introPage ui:description displays expected text and DependentChildDescription', () => {
+  it('introPage ui:description displays expected text', () => {
     const { dependentsIntro } = dependentsPages;
 
     const form = render(
@@ -81,11 +81,6 @@ describe('Dependents Pages', () => {
       form.getByText(
         /Next we.?ll ask you about the Veteran.?s dependent children. You may add up to 3 dependents./i,
       ),
-    ).to.exist;
-
-    // DependentChildDescription paragraph inside additional-info
-    expect(
-      form.getByText(/In most circumstances, children over the age of 23/i),
     ).to.exist;
   });
 

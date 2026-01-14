@@ -29,10 +29,7 @@ import {
   COUNTRY_NAMES,
   COUNTRY_VALUES,
 } from '../../../utils/labels';
-import {
-  DependentChildDescription,
-  seriouslyDisabledDescription,
-} from '../../../utils/helpers';
+import { seriouslyDisabledDescription } from '../../../utils/helpers';
 import { VaForm214138Alert } from '../../../components/FormAlerts';
 
 /**
@@ -100,7 +97,6 @@ const introPage = {
           Next we’ll ask you about the Veteran’s dependent children. You may add
           up to 3 dependents.
         </p>
-        {DependentChildDescription}
       </div>
     ),
   },
