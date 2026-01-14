@@ -16,7 +16,7 @@ const PrescriptionFillImage = ({ isFirstFill, prescriptionFill }) => {
       </h5>
       {cmopNdcNumber ? (
         <img
-          alt={`Example of ${prescriptionName}.`}
+          alt={`Example of ${prescriptionName}`}
           className="vads-u-margin-top--1"
           data-testid="rx-image"
           src={getImageUri(cmopNdcNumber)}
