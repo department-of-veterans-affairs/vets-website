@@ -336,7 +336,7 @@
       }
     }
   ],
-  "veteranAdditionalMarriagesCount": "2",
+  "veteranHasAdditionalMarriages": false,
   "spouseMarriages": [
     {
       "reasonForSeparation": "OTHER",

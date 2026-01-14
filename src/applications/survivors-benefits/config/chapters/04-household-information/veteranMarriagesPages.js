@@ -16,6 +16,8 @@ import {
   checkboxSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from 'platform/utilities/data/get';
 import {
@@ -25,7 +27,7 @@ import {
   COUNTRY_VALUES,
   previousMarriageEndOptions,
 } from '../../../utils/labels';
-import { handleAlertMaxItems } from '../../../components/FormAlerts';
+import { handleVeteranMaxMarriagesAlert } from '../../../components/FormAlerts';
 
 /**
  * Pages for Veteran's previous marriages (array-builder)
@@ -47,7 +49,7 @@ const options = {
   arrayPath: 'veteranMarriages',
   nounSingular: 'previous marriage',
   nounPlural: 'previous marriages',
-  required: true,
+  required: false,
   maxItems: 2,
   isItemIncomplete: item => !item?.spouseFullName || !item?.dateOfMarriage,
   text: {
@@ -71,7 +73,7 @@ const options = {
     deleteNo: 'No, keep',
     deleteTitle: 'Delete this previous marriage?',
     deleteYes: 'Yes, delete',
-    alertMaxItems: handleAlertMaxItems,
+    alertMaxItems: handleVeteranMaxMarriagesAlert,
     getItemName: item => {
       const { first, middle, last, suffix } = get('spouseFullName', item) || {};
       const name = [first, middle, last, suffix].filter(Boolean).join(' ');
@@ -111,11 +113,21 @@ const summaryPage = {
         hint: '',
       },
     ),
+    veteranHasAdditionalMarriages: {
+      ...yesNoUI({
+        title: 'Are there any other previous marriages to add for the Veteran?',
+      }),
+      'ui:required': formData => formData?.veteranMarriages?.length === 2,
+      'ui:options': {
+        hideIf: formData => formData?.veteranMarriages?.length < 2,
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
       'view:wasMarriedBefore': arrayBuilderYesNoSchema,
+      veteranHasAdditionalMarriages: yesNoSchema,
     },
     required: ['view:wasMarriedBefore'],
   },

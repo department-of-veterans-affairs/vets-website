@@ -37,17 +37,14 @@ describe('Veteran Previous Marriages pages', () => {
     const showData = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNotSpouse = {
       claimantRelationship: 'CHILD',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNoPrevious = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
-      veteranAdditionalMarriagesCount: '1',
     };
     expect(veteranMarriagesIntro.depends(showData)).to.be.true;
     expect(veteranMarriagesIntro.depends(hideDataNotSpouse)).to.be.false;
@@ -74,17 +71,14 @@ describe('Veteran Previous Marriages pages', () => {
     const showData = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNotSpouse = {
       claimantRelationship: 'CHILD',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNoPrevious = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
-      veteranAdditionalMarriagesCount: '1',
     };
     expect(veteranMarriagesSummary.depends(showData)).to.be.true;
     expect(veteranMarriagesSummary.depends(hideDataNotSpouse)).to.be.false;
@@ -109,17 +103,14 @@ describe('Veteran Previous Marriages pages', () => {
     const showData = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNotSpouse = {
       claimantRelationship: 'CHILD',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNoPrevious = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
-      veteranAdditionalMarriagesCount: '1',
     };
     expect(veteranPreviousSpouseName.depends(showData)).to.be.true;
     expect(veteranPreviousSpouseName.depends(hideDataNotSpouse)).to.be.false;
@@ -190,17 +181,14 @@ describe('Veteran Previous Marriages pages', () => {
     const showData = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNotSpouse = {
       claimantRelationship: 'CHILD',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNoPrevious = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
-      veteranAdditionalMarriagesCount: '0',
     };
     expect(
       veteranMarriageDatePlace.depends(showData),
@@ -254,17 +242,14 @@ describe('Veteran Previous Marriages pages', () => {
     const showData = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNotSpouse = {
       claimantRelationship: 'CHILD',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNoPrevious = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
-      veteranAdditionalMarriagesCount: '0',
     };
     expect(
       veteranMarriageEnded.depends(showData),
@@ -329,17 +314,14 @@ describe('Veteran Previous Marriages pages', () => {
     const showData = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNotSpouse = {
       claimantRelationship: 'CHILD',
       hadPreviousMarriages: true,
-      veteranAdditionalMarriagesCount: '1',
     };
     const hideDataNoPrevious = {
       claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
-      veteranAdditionalMarriagesCount: '0',
     };
     expect(
       veteranMarriageEndDateLocation.depends(showData),

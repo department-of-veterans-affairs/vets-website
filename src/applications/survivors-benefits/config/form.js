@@ -44,7 +44,6 @@ import remarriageDetails from './chapters/04-household-information/remarriageDet
 import additionalMarriages from './chapters/04-household-information/additionalMarriages';
 import spouseMarriages from './chapters/04-household-information/spouseMarriages';
 import previousMarriagesCount from './chapters/04-household-information/previousMarriagesCount';
-import veteranMarriagesCount from './chapters/04-household-information/veteranMarriagesCount';
 import { previousMarriagesPages } from './chapters/04-household-information/previousMarriagesPages';
 import { veteranMarriagesPages } from './chapters/04-household-information/veteranMarriagesPages';
 import veteranChildren from './chapters/04-household-information/veteranChildren';
@@ -402,14 +401,6 @@ const formConfig = {
           schema: previousMarriagesCount.schema,
         },
         ...previousMarriagesPages,
-        veteranMarriagesCount: {
-          path: 'household/veteran-marriages-count',
-          title: 'Number of veteran marriages',
-          depends: formData =>
-            formData.claimantRelationship === 'SURVIVING_SPOUSE',
-          uiSchema: veteranMarriagesCount.uiSchema,
-          schema: veteranMarriagesCount.schema,
-        },
         ...veteranMarriagesPages,
         veteranChildren: {
           path: 'household/children-of-veteran',
