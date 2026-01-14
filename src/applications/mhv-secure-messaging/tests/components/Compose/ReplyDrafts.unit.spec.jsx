@@ -7,9 +7,9 @@ import threadWithOneDraft from '../../fixtures/reducers/thread-with-one-draft-re
 
 describe('ReplyDrafts component', () => {
   const replyMessage = threadWithOneDraft.threadDetails.messages[0];
-  const { drafts, cannotReply, replyToName } = threadWithOneDraft.threadDetails;
+  const { draft, cannotReply, replyToName } = threadWithOneDraft.threadDetails;
   const defaultProps = {
-    drafts,
+    draft,
     cannotReply,
     isSaving: false,
     replyToName,
@@ -23,9 +23,12 @@ describe('ReplyDrafts component', () => {
     sm: {
       folders: { folder: { folderId: 0 } },
       threadDetails: {
-        drafts: drafts.map(d => {
-          return { ...d, isSaving: false, saveError: null, lastSaveTime: null };
-        }),
+        draft: {
+          ...draft,
+          isSaving: false,
+          saveError: null,
+          lastSaveTime: null,
+        },
         isSaving: false,
       },
     },
@@ -43,7 +46,7 @@ describe('ReplyDrafts component', () => {
     );
 
     const messageBody = await findByTestId('message-body-field');
-    expect(messageBody).to.have.attribute('value', drafts[0].body);
+    expect(messageBody).to.have.attribute('value', draft.body);
     expect(getByText('Attachments')).to.exist;
     expect(getByText('Attachments input')).to.exist;
     expect(getByTestId('attach-file-input')).to.exist;
@@ -71,7 +74,7 @@ describe('ReplyDrafts component', () => {
       getByText(`To: ${replyToName} (Team: ${replyMessage.triageGroupName})`),
     );
     expect(getByText('Message body.', { selector: 'h3' })).to.exist;
-    expect(getByText(drafts[0].body, { selector: 'pre' }).textContent).to.exist;
+    expect(getByText(draft.body, { selector: 'pre' }).textContent).to.exist;
     expect(queryByText('1 draft')).to.not.exist;
     expect(queryByText('Draft 1')).to.not.exist;
     expect(document.querySelector('va-button[text="Edit draft 2"]')).to.not
