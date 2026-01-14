@@ -112,22 +112,35 @@ const DebtSelection = ({ formContext }) => {
     />
   );
 
-  const submittedDebtsCard = debt => (
-    <va-card
-      data-testid={`debt-submitt4ed-${debt.compositeDebtId}`}
-      key={debt.compositeDebtId}
-      background
-    >
-      <div>
-        <h4 className="vads-u-margin-top--1">{debt.label}</h4>
-        <p>
-          {i18nDebtApp.t('debt-selection.submitted-note', {
-            date: debt.submissionDate,
-          })}
-        </p>
-      </div>
-    </va-card>
-  );
+  const submittedDebtsCard = debt => {
+    const formattedDate = new Date(debt.submissionDate).toLocaleDateString(
+      'en-US',
+      {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      },
+    );
+
+    return (
+      <va-card
+        data-testid={`debt-submitt4ed-${debt.compositeDebtId}`}
+        key={debt.compositeDebtId}
+        background
+      >
+        <div>
+          <h4 className="vads-u-margin-top--0 vads-u-font-family--sans">
+            {debt.label}
+          </h4>
+          <p className="vads-u-margin-y--0">
+            {i18nDebtApp.t('debt-selection.submitted-note', {
+              date: formattedDate,
+            })}
+          </p>
+        </div>
+      </va-card>
+    );
+  };
 
   return (
     <div data-testid="debt-selection-content">

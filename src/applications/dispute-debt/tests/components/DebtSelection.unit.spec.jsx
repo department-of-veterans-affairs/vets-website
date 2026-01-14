@@ -41,7 +41,7 @@ describe('DebtSelection Component', () => {
       label: 'Submitted Debt',
       description: 'Submitted debt description',
       submitted: true,
-      submissionDate: 'December 31, 2025',
+      submissionDate: '12/31/2025',
     },
   ];
 
