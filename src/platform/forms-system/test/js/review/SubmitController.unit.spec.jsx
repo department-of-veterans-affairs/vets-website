@@ -109,7 +109,7 @@ const createStore = (options = {}) => {
 };
 
 describe('Schemaform review: SubmitController', () => {
-  before(() => {
+  beforeEach(() => {
     testkit.reset();
   });
 
