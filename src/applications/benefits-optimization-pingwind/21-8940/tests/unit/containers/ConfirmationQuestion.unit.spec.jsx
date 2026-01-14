@@ -22,7 +22,6 @@ describe('21-8940 container/ConfirmationQuestion', () => {
   let user;
   let hadScrollTo;
   let originalScrollTo;
-  let bodyScrollStub;
 
   const defaultRoute = {
     pageList: [
@@ -70,7 +69,6 @@ describe('21-8940 container/ConfirmationQuestion', () => {
       document.body.scrollTo = () => {};
       originalScrollTo = document.body.scrollTo;
     }
-    bodyScrollStub = sandbox.stub(document.body, 'scrollTo');
   });
 
   afterEach(() => {
@@ -81,7 +79,7 @@ describe('21-8940 container/ConfirmationQuestion', () => {
       delete document.body.scrollTo;
     }
   });
-  
+
   it('navigates back to introduction when back button is clicked', async () => {
     const { getByRole, router } = renderPage();
     const routerPush = router.push;
