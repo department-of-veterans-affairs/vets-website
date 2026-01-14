@@ -662,7 +662,7 @@ export function getStemClaims() {
   };
 }
 
-export function cancelUpload({ cancelFileCount = 0, retryFileCount = 0 } = {}) {
+export function cancelUpload({ cancelFileCount, retryFileCount }) {
   return (dispatch, getState) => {
     const { uploader } = getState().disability.status.uploads;
     recordUploadCancelEvent({ cancelFileCount, retryFileCount });

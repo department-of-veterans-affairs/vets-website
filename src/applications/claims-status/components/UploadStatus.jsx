@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function UploadStatus({ files, onCancel, progress }) {
   const handleClick = evt => {
     evt.preventDefault();
-    onCancel({ cancelFileCount: files });
+    onCancel();
   };
 
   return (

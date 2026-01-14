@@ -391,7 +391,7 @@ export const recordUploadSuccessEvent = ({ fileCount, retryFileCount }) => {
  */
 export const recordUploadCancelEvent = ({
   cancelFileCount,
-  retryFileCount = 0,
+  retryFileCount,
 }) => {
   recordEvent(
     createUploadEvent('claims-upload-cancel', {
