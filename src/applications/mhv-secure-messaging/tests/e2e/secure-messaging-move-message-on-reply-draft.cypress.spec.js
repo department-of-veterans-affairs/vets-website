@@ -30,6 +30,7 @@ describe('SM DELETE REPLY DRAFT', () => {
     FolderManagementPage.confirmMovingMessageToFolder();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
+    cy.findByTestId('route-guard-primary-button').click();
     GeneralFunctionsPage.verifyPageHeader('Messages: Inbox');
     GeneralFunctionsPage.verifyUrl(`inbox`);
 
