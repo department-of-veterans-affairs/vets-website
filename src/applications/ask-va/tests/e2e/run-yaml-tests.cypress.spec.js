@@ -19,6 +19,8 @@ import STEPS from './actions';
 import formsTestsToRun from './fixtures/flows/forms/tests-to-run.json';
 import dashBoardTestsToRun from './fixtures/flows/dashboard/tests-to-run.json';
 
+const baseUrl = Cypress.config('baseUrl');
+
 const EMPTY_FLOW_YML = `
 flow:
   steps:
@@ -144,10 +146,10 @@ describe('YAML tests', () => {
           if (flow.runOnCI === true) {
             if (['13m.yml'].includes(file)) {
               cy.visit(
-                'http://localhost:3001/contact-us/ask-va/user/dashboard/A-20250409-2205184',
+                `${baseUrl}/contact-us/ask-va/user/dashboard/A-20250409-2205184`,
               );
             } else {
-              cy.visit('http://localhost:3001/contact-us/ask-va/');
+              cy.visit(`${baseUrl}/contact-us/ask-va/`);
             }
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
