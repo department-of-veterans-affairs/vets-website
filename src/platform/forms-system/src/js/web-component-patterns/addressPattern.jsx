@@ -729,7 +729,8 @@ export function addressUI(options = {}) {
 
         const addressPath = getAddressPath(path);
         if (addressPath) {
-          const { country } = get(addressPath, formData) ?? {};
+          const countryKey = keys.country;
+          const country = get(addressPath, formData)?.[countryKey] ?? {};
           const militaryKey = keys.isMilitary;
           const isMilitary = get(addressPath, formData)?.[militaryKey];
           return (
@@ -769,7 +770,8 @@ export function addressUI(options = {}) {
 
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const data = get(addressPath, formData) ?? {};
-          const { country } = data;
+          const countryKey = keys.country;
+          const country = data[countryKey];
           const militaryKey = keys.isMilitary;
           const isMilitary = data[militaryKey];
           const ui = _uiSchema;
@@ -840,7 +842,8 @@ export function addressUI(options = {}) {
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const data = get(addressPath, formData) ?? {};
-          const { country } = data;
+          const countryKey = keys.country;
+          const country = data[countryKey];
           const militaryKey = keys.isMilitary;
           const isMilitary = data[militaryKey];
 
@@ -895,21 +898,30 @@ export function addressUI(options = {}) {
  * }
  * ```
  * @param {Object} [options]
- * @param {Array<string>} [options.omit] - Field names to omit from schema
- * @param {Object} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Uses applyKeyMapping utility internally.
+ * @param {Array<AddressSchemaKey>} [options.omit] - Field names to omit from schema
+ * @param {Record<AddressSchemaKey, string>} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Uses applyKeyMapping utility internally.
  * @returns {SchemaOptions}
  */
 export const addressSchema = (options = {}) => {
   const { keys = {}, omit = [] } = options;
   const schema = commonDefinitions.profileAddress;
+
+  // Only modify properties if needed
+  const needsOmit = omit.length > 0;
+  const needsKeyMapping = Object.keys(keys).length > 0;
+
+  if (!needsOmit && !needsKeyMapping) {
+    return schema;
+  }
+
   let { properties } = schema;
 
-  if (omit.length > 0) {
+  if (needsOmit) {
     validateKeys(omit, 'omit', MAPPABLE_KEYS);
     properties = utilsOmit(omit, properties);
   }
 
-  if (Object.keys(keys).length > 0) {
+  if (needsKeyMapping) {
     properties = applyKeyMapping(properties, keys);
   }
 
