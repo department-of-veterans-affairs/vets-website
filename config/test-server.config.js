@@ -15,7 +15,7 @@
 
 // The hostname for the test server. Use '127.0.0.1' for Node 22+ compatibility
 // in CI environments, or 'localhost' for local development if preferred.
-const TEST_SERVER_HOST = 'localhost';
+const TEST_SERVER_HOST = '127.0.0.1';
 const TEST_SERVER_PORT = 3001;
 
 const TEST_SERVER_BASE_URL = `http://${TEST_SERVER_HOST}:${TEST_SERVER_PORT}`;
