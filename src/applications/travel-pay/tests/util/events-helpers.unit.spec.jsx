@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import * as recordEventModule from 'platform/monitoring/record-event';
 
 import {
-  recordPageview,
   recordButtonClick,
   recordLinkClick,
   recordCheckboxEvent,
@@ -28,29 +27,6 @@ describe('events-helpers', () => {
 
   afterEach(() => {
     recordEventStub.restore();
-  });
-
-  describe('recordPageview', () => {
-    it('should call recordEvent with correct pageview event structure', () => {
-      recordPageview('complex-claims', 'Test Page');
-
-      expect(recordEventSpy.calledOnce).to.be.true;
-      expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
-        event: 'complex-claims-pageview',
-        action: 'view',
-        heading_1: 'Test Page',
-      });
-    });
-
-    it('should handle different variants', () => {
-      recordPageview('smoc', 'Another Page');
-
-      expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
-        event: 'smoc-pageview',
-        action: 'view',
-        heading_1: 'Another Page',
-      });
-    });
   });
 
   describe('recordButtonClick', () => {
