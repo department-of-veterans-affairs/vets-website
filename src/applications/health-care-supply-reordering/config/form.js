@@ -1,3 +1,4 @@
+import { datadogRum } from '@datadog/browser-rum';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
@@ -14,6 +15,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import UIDefinitions from '../schemas/2346UI';
+import { dataDogActionNames, APP_NAME } from '../constants/dataDogConstants';
 
 import manifest from '../manifest.json';
 
@@ -82,6 +84,13 @@ const submit = form => {
         event: 'bam-2346a--submission-successful',
         'bam-quantityOrdered': itemQuantities,
       });
+      datadogRum.addAction(
+        dataDogActionNames.submission.SUBMISSION_SUCCESSFUL,
+        {
+          form: APP_NAME,
+          quantityOrdered: itemQuantities,
+        },
+      );
     }
 
     // For partially successful orders we want to send all of the productIds
@@ -92,6 +101,11 @@ const submit = form => {
         'product-ids-successful': successfulSubmissionProductIds.join(' '),
         'product-ids-failed': failedSubmissionProductIds.join(' '),
       });
+      datadogRum.addAction(dataDogActionNames.submission.SUBMISSION_PARTIAL, {
+        form: APP_NAME,
+        productIdsSuccessful: successfulSubmissionProductIds,
+        productIdsFailed: failedSubmissionProductIds,
+      });
     }
     // Failed submissions still return a 200 response so we need to ensure we
     // still submit a submission failed event if none of the items ordered were successful
@@ -100,6 +114,11 @@ const submit = form => {
         event: 'bam-2346a--submission-failed',
         'bam-quantityOrdered': itemQuantities,
         'product-ids-failed': failedSubmissionProductIds.join(' '),
+      });
+      datadogRum.addAction(dataDogActionNames.submission.SUBMISSION_FAILED, {
+        form: APP_NAME,
+        quantityOrdered: itemQuantities,
+        productIdsFailed: failedSubmissionProductIds,
       });
     }
 
@@ -111,6 +130,9 @@ const submit = form => {
       recordEvent({
         event: 'bam-2346a--submission-failed',
         'bam-quantityOrdered': itemQuantities,
+      });
+      datadogRum.addError(error, {
+        feature: `${APP_NAME} - form submission`,
       });
       return reject(error);
     });
