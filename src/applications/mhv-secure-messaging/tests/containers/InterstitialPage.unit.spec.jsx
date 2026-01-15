@@ -154,7 +154,7 @@ describe('Interstitial page', () => {
       });
       const startMessageLink = screen.getByTestId('start-message-link');
       userEvent.type(startMessageLink, '{enter}');
-      sinon.assert.calledWith(updateAcknowledgeSpy);
+      sandbox.assert.calledWith(updateAcknowledgeSpy);
     });
 
     it('"Start a new message" link responds on Space key', async () => {
@@ -169,7 +169,7 @@ describe('Interstitial page', () => {
       });
       const startMessageLink = screen.getByTestId('start-message-link');
       userEvent.type(startMessageLink, '{space}');
-      sinon.assert.calledWith(updateAcknowledgeSpy);
+      sandbox.assert.calledWith(updateAcknowledgeSpy);
     });
 
     it('"Start a new message" link does not respond on Tab key', async () => {
