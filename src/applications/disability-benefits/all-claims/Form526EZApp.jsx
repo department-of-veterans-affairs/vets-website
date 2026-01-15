@@ -173,7 +173,7 @@ export const Form526Entry = ({
   useFormFeatureToggleSync([
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
-    'disabilityCompensation0781SupportingDocumentsEnhancement',
+    'disability526SupportingEvidenceEnhancement',
     'disabilityCompNewConditionsWorkflow',
     'disability526ExtraBDDPagesEnabled',
   ]);
