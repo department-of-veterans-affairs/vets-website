@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
 
 // Components
 import Alert from '../components/Alert';
@@ -65,6 +66,12 @@ let lastZoom = 3;
 const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
+const getServiceDisplayName = serviceId => {
+  if (!serviceId) return null;
+  const service = vaHealthcareServices.data.find(item => item[3] === serviceId);
+  return service ? service[0] : null;
+};
+
 const FacilitiesMap = props => {
   const {
     mobileMapPinSelected,
@@ -103,10 +110,16 @@ const FacilitiesMap = props => {
     const { location } = props;
 
     if (!isEmpty(location.query)) {
+      const vamcServiceDisplay =
+        location.query.facilityType === 'health'
+          ? getServiceDisplayName(location.query.serviceType)
+          : null;
+
       props.updateSearchQuery({
         facilityType: location.query.facilityType,
         serviceType: location.query.serviceType,
         searchString: location.query.address,
+        vamcServiceDisplay,
       });
     }
 
