@@ -12,6 +12,7 @@ const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const fs = require('fs');
 const path = require('path');
+const { spawn } = require('child_process');
 const printUnitTestHelp = require('./run-unit-test-help');
 const { runCommand } = require('./utils');
 
@@ -47,6 +48,7 @@ const COMMAND_LINE_OPTIONS = [
   // GHA-specific options (can be used locally too)
   { name: 'full-suite', type: Boolean, defaultValue: false },
   { name: 'changed-only', type: Boolean, defaultValue: false },
+  { name: 'per-directory', type: Boolean, defaultValue: false },
   {
     name: 'path',
     type: String,
@@ -251,6 +253,81 @@ function getPatternSource() {
 }
 
 /**
+ * Get unique test directories from glob pattern
+ * @param {string} pattern - Glob pattern
+ * @returns {string[]} Array of unique directory patterns
+ */
+function getTestDirectories(pattern) {
+  const allTests = glob.sync(pattern);
+  const directories = new Set(
+    allTests.map(spec => {
+      const parts = path.dirname(spec).split('/');
+      // Get first 3 parts after splitting (e.g., src/applications/app-name)
+      return parts.slice(0, 3).join('/');
+    }),
+  );
+  return Array.from(directories).filter(dir => dir !== undefined);
+}
+
+/**
+ * Run a command and return a promise
+ * @param {string} command - Command to execute
+ * @returns {Promise<void>}
+ */
+function runCommandAsync(command) {
+  return new Promise((resolve, reject) => {
+    console.log(`Executing: ${command}`);
+    const child = spawn(command, [], { shell: true, stdio: 'inherit' });
+    child.on('close', code => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Command exited with code ${code}`));
+      }
+    });
+    child.on('error', reject);
+  });
+}
+
+/**
+ * Run tests per directory (legacy local behavior)
+ * @param {string[]} testPatterns - Array of glob patterns
+ */
+async function runTestsPerDirectory(testPatterns) {
+  // Collect all unique directories from all patterns
+  const allDirectories = new Set();
+  for (const pattern of testPatterns) {
+    const dirs = getTestDirectories(pattern);
+    dirs.forEach(dir => allDirectories.add(dir));
+  }
+
+  const directories = Array.from(allDirectories);
+  console.log(`Running tests in ${directories.length} directories...\n`);
+
+  let hasFailures = false;
+  for (const dir of directories) {
+    const dirPattern = `${dir}/**/*.unit.spec.js?(x)`;
+    if (hasMatchingTests([dirPattern])) {
+      const command = buildTestCommand([dirPattern]);
+      try {
+        /* eslint-disable-next-line no-await-in-loop */
+        await runCommandAsync(command);
+      } catch (error) {
+        console.error(`Tests failed in ${dir}:`, error.message);
+        hasFailures = true;
+        // Continue running other directories
+      }
+    }
+  }
+
+  if (hasFailures) {
+    console.log('\nSome test directories had failures.');
+  } else {
+    console.log('\nAll tests complete.');
+  }
+}
+
+/**
  * Main execution
  */
 async function main() {
@@ -266,6 +343,9 @@ async function main() {
     console.log(`Environment: ${isGitHubActions ? 'GitHub Actions' : 'Local'}`);
     console.log(`Pattern source: ${getPatternSource()}`);
     console.log(`Test patterns: ${testPatterns.join(', ')}`);
+    if (options['per-directory']) {
+      console.log('Mode: per-directory (separate mocha process per directory)');
+    }
 
     if (!hasMatchingTests(testPatterns)) {
       console.log('No tests to run');
@@ -273,10 +353,14 @@ async function main() {
       return;
     }
 
-    const command = buildTestCommand(testPatterns);
-    console.log(`\nExecuting: ${command}\n`);
+    if (options['per-directory']) {
+      await runTestsPerDirectory(testPatterns);
+    } else {
+      const command = buildTestCommand(testPatterns);
+      console.log(`\nExecuting: ${command}\n`);
+      await runCommand(command);
+    }
 
-    await runCommand(command);
     exportVariable('tests_ran', 'true');
   } catch (error) {
     console.error('Error running tests:', error);

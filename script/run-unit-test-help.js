@@ -95,6 +95,12 @@ const helpSections = [
           'Run only tests for changed files (auto-detected from CHANGED_FILES env var). This is the default behavior in GitHub Actions.',
       },
       {
+        name: 'per-directory',
+        typeLabel: '{underline boolean}',
+        description:
+          'Run tests in separate mocha processes per directory. Useful for isolating failures and reducing memory usage.',
+      },
+      {
         name: 'help',
         typeLabel: '{underline boolean}',
         description: 'Show this usage guide',
