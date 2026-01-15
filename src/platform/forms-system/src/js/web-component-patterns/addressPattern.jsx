@@ -730,7 +730,7 @@ export function addressUI(options = {}) {
         const addressPath = getAddressPath(path);
         if (addressPath) {
           const countryKey = keys.country;
-          const country = get(addressPath, formData)?.[countryKey] ?? {};
+          const country = get(addressPath, formData)?.[countryKey] ?? '';
           const militaryKey = keys.isMilitary;
           const isMilitary = get(addressPath, formData)?.[militaryKey];
           return (
