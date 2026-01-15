@@ -1,9 +1,8 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui/focus';
 import Wrapper from '../layout/Wrapper';
-import { usePersistentSelections } from '../hooks/usePersistentSelections';
 import {
   setSelectedDate,
   selectSelectedDate,
@@ -21,21 +20,13 @@ const DateTimeSelection = () => {
   const selectedDate = useSelector(selectSelectedDate);
   const uuid = useSelector(selectUuid);
   const navigate = useNavigate();
-  const { saveDateSelection } = usePersistentSelections(uuid);
   const {
     data: appointmentAvailability,
     isLoading: loading,
-  } = useGetAppointmentAvailabilityQuery();
+  } = useGetAppointmentAvailabilityQuery(uuid);
 
   // TODO: determine what timezone to use
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const saveDate = useCallback(
-    date => {
-      saveDateSelection(date);
-      dispatch(setSelectedDate(date));
-    },
-    [saveDateSelection, dispatch],
-  );
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
 
@@ -65,7 +56,7 @@ const DateTimeSelection = () => {
       return;
     }
     // Update selected dates and clear any previous error state
-    saveDate(selectedSlotTime);
+    dispatch(setSelectedDate(selectedSlotTime));
     setHasAttemptedSubmit(false);
   };
 

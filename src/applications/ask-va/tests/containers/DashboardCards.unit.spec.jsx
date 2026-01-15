@@ -8,8 +8,8 @@ import { expect } from 'chai';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import React from 'react';
 
 import { envUrl } from '../../constants';
@@ -18,22 +18,9 @@ import DashboardCards from '../../containers/DashboardCards';
 describe('<DashboardCards>', () => {
   const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries`;
 
-  function startServer(resObj = {}, status) {
-    const server = setupServer(
-      createGetHandler(`${apiRequestWithUrl}`, () => {
-        return jsonResponse(resObj, { status });
-      }),
-    );
-
-    server.listen();
-    return server;
-  }
-
   describe('when the api server succeeds', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -80,14 +67,6 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
-
-      server.listen();
-    });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
     });
 
     it('should render Your questions and filters', async () => {
@@ -384,22 +363,12 @@ describe('<DashboardCards>', () => {
   });
 
   describe('when the api server fails', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse({}, { status: 500 });
         }),
       );
-
-      server.listen();
-    });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
     });
 
     it('should show error alert when API request fails', async () => {
@@ -414,10 +383,8 @@ describe('<DashboardCards>', () => {
   });
 
   describe('pagination functionality', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -438,14 +405,6 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
-
-      server.listen();
-    });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
     });
 
     it('should display pagination when there are more than 4 items', async () => {
@@ -543,25 +502,31 @@ describe('<DashboardCards>', () => {
   });
 
   describe('loading state', () => {
-    const mockData = {
-      data: [
-        {
-          id: '1',
-          attributes: {
-            inquiryNumber: 'A-1',
-            status: 'In Progress',
-            categoryName: 'Benefits',
-            createdOn: '01/01/2024 12:00:00 PM',
-            lastUpdate: '01/01/2024 12:00:00 PM',
-            submitterQuestion: 'Test question',
-            levelOfAuthentication: 'Personal',
-          },
-        },
-      ],
-    };
-
     it('should show loading indicator and then content', async () => {
-      const server = startServer(mockData, 200);
+      server.use(
+        createGetHandler(`${apiRequestWithUrl}`, () => {
+          return jsonResponse(
+            {
+              data: [
+                {
+                  id: '1',
+                  attributes: {
+                    inquiryNumber: 'A-1',
+                    status: 'In Progress',
+                    categoryName: 'Benefits',
+                    createdOn: '01/01/2024 12:00:00 PM',
+                    lastUpdate: '01/01/2024 12:00:00 PM',
+                    submitterQuestion: 'Test question',
+                    levelOfAuthentication: 'Personal',
+                  },
+                },
+              ],
+            },
+            { status: 200 },
+          );
+        }),
+      );
+
       const view = render(<DashboardCards />);
 
       // Initially should show loading indicator
@@ -580,16 +545,12 @@ describe('<DashboardCards>', () => {
         expect(heading).to.exist;
         expect(view.getByText('Test question')).to.exist;
       });
-      server.resetHandlers();
-      server.close();
     });
   });
 
   describe('empty state', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -599,14 +560,6 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
-
-      server.listen();
-    });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
     });
 
     it('should show empty state message when no inquiries exist', async () => {
@@ -639,10 +592,8 @@ describe('<DashboardCards>', () => {
   });
 
   describe('business and personal view', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -677,14 +628,6 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
-
-      server.listen();
-    });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
     });
 
     it('should show tabs when both business and personal inquiries exist', async () => {

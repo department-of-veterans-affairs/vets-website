@@ -1,5 +1,10 @@
 {
   "processOption": true,
+  "bankAccount": {
+    "accountType": "checking",
+    "accountNumber": "001122334455",
+    "routingNumber": "123123123"
+  },
   "additionalEvidence": [
     {
       "name": "Screenshot from 2024-03-14 09-20-38.png",

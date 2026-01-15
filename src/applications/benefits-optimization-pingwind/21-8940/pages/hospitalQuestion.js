@@ -31,13 +31,16 @@ export default {
           title: 'Where were you treated?',
           options: hospitalTypeOptions,
           errorMessages: {
-            required: 'Please select where you were treated.',
+            required: 'Please select if this is a VA or Non-VA hospital',
           },
         }),
+        'ui:required': formData =>
+          formData?.[hospitalizationQuestionFields.parentObject]?.[
+            hospitalizationQuestionFields.hasBeenHospitalized
+          ] === true,
         'ui:options': {
           hideIf: formData =>
-            formData &&
-            !formData[hospitalizationQuestionFields.parentObject][
+            !formData?.[hospitalizationQuestionFields.parentObject]?.[
               hospitalizationQuestionFields.hasBeenHospitalized
             ],
         },
@@ -46,8 +49,9 @@ export default {
         'ui:description': () => (
           <div>
             <p>
-              <strong>Important:</strong> You must authorize the release of
-              non-VA medical information to VA using these forms:
+              <strong>Important:</strong> Use these forms to authorize the
+              release of information to VA. Select the links to complete these
+              forms in the online portal.
             </p>
             <ul>
               <li>

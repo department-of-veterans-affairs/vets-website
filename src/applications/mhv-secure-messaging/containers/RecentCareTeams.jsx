@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   VaRadio,
   VaRadioOption,
@@ -170,6 +171,13 @@ const RecentCareTeams = () => {
         }),
       );
       setError(null); // Clear error on selection
+      recordEvent({
+        event: 'int-select-box-option-click',
+        'select-label': RECENT_RECIPIENTS_LABEL,
+        'select-selectLabel':
+          value === OTHER_VALUE ? OTHER_VALUE : 'recent care team',
+        'select-required': true,
+      });
     },
     [recentRecipients, dispatch, ehrDataByVhaId],
   );

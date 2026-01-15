@@ -13,17 +13,32 @@ import {
 import { EmploymentHistoryView } from '../components/viewElements';
 import SafeArrayField from '../components/SafeArrayField';
 import { wrapDateUiWithDl } from '../helpers/reviewHelpers';
+import { HideDefaultDateHint } from '../helpers/dateHint';
 
-const addUseDlWrap = field =>
-  field
-    ? {
-        ...field,
-        'ui:options': {
-          ...field['ui:options'],
-          useDlWrap: true,
-        },
-      }
-    : field;
+const DEFAULT_DL_TITLES = {
+  city: 'City',
+  state: 'State',
+};
+
+const addUseDlWrap = (field, key) => {
+  if (!field) {
+    return field;
+  }
+
+  const updatedField = {
+    ...field,
+    'ui:options': {
+      ...field['ui:options'],
+      useDlWrap: true,
+    },
+  };
+
+  if (key && DEFAULT_DL_TITLES[key] && !updatedField['ui:title']) {
+    updatedField['ui:title'] = DEFAULT_DL_TITLES[key];
+  }
+
+  return updatedField;
+};
 
 const addressWithDlWrap = uiSchema =>
   Object.keys(uiSchema).reduce((acc, key) => {
@@ -33,7 +48,7 @@ const addressWithDlWrap = uiSchema =>
       return acc;
     }
 
-    acc[key] = addUseDlWrap(value);
+    acc[key] = addUseDlWrap(value, key);
     return acc;
   }, {});
 
@@ -42,7 +57,7 @@ export default {
   uiSchema: {
     ...inlineTitleUI(
       'Employment History Details',
-      `Your employment history - last 5 years. List all employment (including self-employment) for the last five years you have worked. Also be sure to include any military duty including inactive duty for training.`,
+      `Your employment history (5 years). List all employment (including self-employment) for the last five years in which you worked. If you haven't worked recently, provide your employment history starting from your most recent job and going back five years from that point. Also be sure to include any military duty including inactive duty for training.`,
     ),
     employersHistory: {
       'ui:field': SafeArrayField,
@@ -84,19 +99,31 @@ export default {
         hoursPerWeek: numberUI({
           title: 'Hours worked per week',
           useDlWrap: true,
+          max: 168,
+          errorMessages: {
+            max: 'Hours worked per week cannot exceed 168 hours',
+          },
         }),
-        startDate: wrapDateUiWithDl(
-          currentOrPastDateUI({
-            title: 'Start date',
-          }),
-        ),
-        endDate: wrapDateUiWithDl(
-          currentOrPastDateUI({
-            title: 'End date (if applicable)',
-          }),
-        ),
+        startDate: {
+          ...wrapDateUiWithDl(
+            currentOrPastDateUI({
+              title: 'Start date',
+              hint: 'For example: January 19 2022',
+            }),
+          ),
+          'ui:description': HideDefaultDateHint,
+        },
+        endDate: {
+          ...wrapDateUiWithDl(
+            currentOrPastDateUI({
+              title: 'End date (if applicable)',
+              hint: 'For example: January 19 2022',
+            }),
+          ),
+          'ui:description': HideDefaultDateHint,
+        },
         timeLost: numberUI({
-          title: 'Time Lost from Illness (number of days lost)',
+          title: 'Time lost from illness (number of days lost)',
           useDlWrap: true,
         }),
         earnings: numberUI({
@@ -111,7 +138,7 @@ export default {
     properties: {
       employersHistory: {
         type: 'array',
-        minItems: 0,
+        minItems: 1,
         maxItems: 4,
         items: {
           type: 'object',
@@ -128,7 +155,15 @@ export default {
             timeLost: numberSchema,
             earnings: numberSchema,
           },
-          required: ['employerName', 'typeOfWork', 'employerAddress'],
+          required: [
+            'employerName',
+            'employerAddress',
+            'typeOfWork',
+            'hoursPerWeek',
+            'startDate',
+            'timeLost',
+            'earnings',
+          ],
         },
       },
     },

@@ -10,15 +10,15 @@ export default {
   path: 'household/remarriage',
   uiSchema: {
     ...titleUI('Remarriage'),
-    remarried: yesNoUI({
+    remarriedAfterVeteralDeath: yesNoUI({
       title: 'Have you remarried since the death of the Veteran?',
     }),
   },
   schema: {
     type: 'object',
-    required: ['remarried'],
+    required: ['remarriedAfterVeteralDeath'],
     properties: {
-      remarried: yesNoSchema,
+      remarriedAfterVeteralDeath: yesNoSchema,
     },
   },
 };
