@@ -51,7 +51,7 @@ export const veteranInformationUiSchema = {
         'ui:options': {
           ...baseNameUI.last['ui:options'],
           hint:
-            'Maximum 15 characters. If your name is longer, enter the first 15 characters only.',
+            'Maximum 18 characters. If your name is longer, enter the first 18 characters only.',
         },
       },
     },
@@ -78,7 +78,7 @@ const customVeteranNameSchema = {
     },
     last: {
       ...fullNameNoSuffixSchema.properties.last,
-      maxLength: 15,
+      maxLength: 18,
     },
   },
 };
