@@ -184,20 +184,12 @@ function Form1995Entry({
     formKey = 'reroute';
   }
 
-  // Helper: Extract chapters excluding questionnaire for Rudisill flow
-  const getChaptersForFlow = (isRudisill, chapters) => {
-    if (!isRudisill) return chapters;
-
-    // Create a shallow copy without the questionnaire chapter
-    const filteredChapters = { ...chapters };
-    delete filteredChapters.questionnaire;
-    return filteredChapters;
-  };
-
-  // Helper: Get modified chapters based on flow
   const getModifiedChapters = () => {
     if (isRudisillFlow) {
-      return getChaptersForFlow(isRudisillFlow, formConfig.chapters);
+      // Destructure to exclude questionnaire chapter; eslint flags unused var
+      // eslint-disable-next-line no-unused-vars
+      const { questionnaire, ...filteredChapters } = formConfig.chapters;
+      return filteredChapters;
     }
 
     return {
