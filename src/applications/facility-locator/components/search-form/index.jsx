@@ -12,7 +12,9 @@ import { LocationType } from '../../constants';
 import {
   validateForm,
   createFormStateFromQuery,
+  INITIAL_FORM_FLAGS,
 } from '../../reducers/searchQuery';
+import vaHealthcareServices from '../../tests/hooks/test-va-healthcare-services.json';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
 
@@ -21,6 +23,12 @@ import BottomRow from './BottomRow';
 import FacilityType from './facility-type';
 import ServiceType from './service-type';
 import AddressAutosuggest from './location/AddressAutosuggest';
+
+const getServiceDisplayName = serviceId => {
+  if (!serviceId) return null;
+  const service = vaHealthcareServices.data.find(item => item[3] === serviceId);
+  return service ? service[0] : null;
+};
 
 export const SearchForm = props => {
   const {
@@ -203,14 +211,72 @@ export const SearchForm = props => {
 
   useEffect(
     () => {
-      if (props.location?.search) {
+      const hasUrlParams =
+        props.location?.search &&
+        Object.keys(props.location?.query || {}).length > 0;
+      const hasReduxData =
+        currentQuery.facilityType ||
+        currentQuery.serviceType ||
+        currentQuery.searchString;
+
+      if (hasUrlParams || hasReduxData) {
         setDraftFormState(prev => {
-          const newState = createFormStateFromQuery(currentQueryRef.current);
-          return { ...newState, ...validateForm(prev, newState) };
+          let stateFromUrl = null;
+          let stateFromRedux = null;
+
+          if (hasUrlParams) {
+            const serviceType = props.location.query.serviceType || null;
+            const vamcServiceDisplay =
+              props.location.query.vamcServiceDisplay ||
+              (serviceType ? getServiceDisplayName(serviceType) : null);
+
+            stateFromUrl = {
+              facilityType: props.location.query.facilityType || null,
+              serviceType,
+              searchString: props.location.query.address || '',
+              vamcServiceDisplay,
+              ...INITIAL_FORM_FLAGS,
+            };
+          }
+
+          if (hasReduxData) {
+            const { serviceType } = currentQuery;
+            const vamcServiceDisplay =
+              currentQuery.vamcServiceDisplay ||
+              (serviceType ? getServiceDisplayName(serviceType) : null);
+
+            stateFromRedux = {
+              facilityType: currentQuery.facilityType || null,
+              serviceType,
+              searchString: currentQuery.searchString || '',
+              vamcServiceDisplay,
+              ...INITIAL_FORM_FLAGS,
+            };
+          }
+
+          const finalState = stateFromUrl || stateFromRedux;
+          if (finalState) {
+            const shouldUpdateReduxFromUrl = stateFromUrl && onChange;
+            if (shouldUpdateReduxFromUrl) {
+              onChange({
+                facilityType: finalState.facilityType,
+                serviceType: finalState.serviceType,
+                searchString: finalState.searchString,
+                vamcServiceDisplay: finalState.vamcServiceDisplay,
+              });
+            }
+            return { ...finalState, ...validateForm(prev, finalState) };
+          }
+          return prev;
         });
       }
     },
-    [props.location?.search],
+    [
+      props.location?.search,
+      currentQuery.facilityType,
+      currentQuery.serviceType,
+      currentQuery.searchString,
+    ],
   );
 
   const handleGeolocationButtonClick = e => {
@@ -289,7 +355,9 @@ export const SearchForm = props => {
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        committedVamcServiceDisplay={currentQuery.vamcServiceDisplay}
+        committedVamcServiceDisplay={
+          draftFormState.vamcServiceDisplay || currentQuery.vamcServiceDisplay
+        }
         onVamcDraftChange={handleVamcDraftChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}

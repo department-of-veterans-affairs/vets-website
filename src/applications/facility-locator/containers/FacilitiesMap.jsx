@@ -106,24 +106,32 @@ const FacilitiesMap = props => {
       props.updateSearchQuery({
         facilityType: location.query.facilityType,
         serviceType: location.query.serviceType,
+        searchString: location.query.address,
       });
     }
 
-    if (location.query.address) {
-      const expandedRadius =
-        location.query.facilityType === 'benefits' &&
-        !location.query.serviceType;
+    if (location.query.address && location.query.facilityType) {
+      const needsServiceType = location.query.facilityType === 'provider';
+      const hasRequiredServiceType =
+        !needsServiceType || location.query.serviceType;
 
-      props.genBBoxFromAddress(
-        {
-          searchString: location.query.address,
-          context: location.query.context,
-          facilityType: location.query.facilityType,
-        },
-        expandedRadius,
-        props.useProgressiveDisclosure,
-      );
-      setIsSearching(true);
+      if (hasRequiredServiceType) {
+        const expandedRadius =
+          location.query.facilityType === 'benefits' &&
+          !location.query.serviceType;
+
+        props.genBBoxFromAddress(
+          {
+            searchString: location.query.address,
+            context: location.query.context,
+            facilityType: location.query.facilityType,
+            serviceType: location.query.serviceType,
+          },
+          expandedRadius,
+          props.useProgressiveDisclosure,
+        );
+        setIsSearching(true);
+      }
     }
   };
 
