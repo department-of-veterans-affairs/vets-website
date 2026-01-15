@@ -44,7 +44,6 @@ const AlertSection = ({
 }) => {
   const {
     activeAlert,
-    generatingCCD,
     ccdDownloadSuccess,
     ccdError,
     CCDRetryTimestamp,
@@ -59,7 +58,7 @@ const AlertSection = ({
     <>
       {/* 1. CCD download success alert (only if no CCD retry error and no ccdError) */}
       {showCcdAlerts &&
-        (generatingCCD || ccdDownloadSuccess) &&
+        ccdDownloadSuccess &&
         !ccdError &&
         !CCDRetryTimestamp && (
           <DownloadSuccessAlert

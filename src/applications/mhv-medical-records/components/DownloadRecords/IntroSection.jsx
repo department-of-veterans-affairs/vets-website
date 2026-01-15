@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { formatFacilityUnorderedList } from '../../util/facilityHelpers';
 import { dataSourceTypes } from '../../util/constants';
 import LastUpdatedCard from './LastUpdatedCard';
+import HoldTimeInfo from '../shared/HoldTimeInfo';
 
 const CONTENT = {
   [dataSourceTypes.OH_ONLY]: {
@@ -49,6 +50,7 @@ const IntroSection = ({
   lastSuccessfulUpdate = null,
   ohFacilityNames = [],
   vistaFacilityNames = [],
+  showHoldTimeMessaging = false,
 }) => {
   const content = CONTENT[dataSourceType];
   const description =
@@ -59,6 +61,9 @@ const IntroSection = ({
     <>
       <h1>{content.heading}</h1>
       {description}
+      {showHoldTimeMessaging && (
+        <HoldTimeInfo locationPhrase="in your reports" />
+      )}
       <LastUpdatedCard lastSuccessfulUpdate={lastSuccessfulUpdate} />
     </>
   );
@@ -68,6 +73,7 @@ IntroSection.propTypes = {
   dataSourceType: PropTypes.oneOf(Object.values(dataSourceTypes)),
   lastSuccessfulUpdate: PropTypes.object,
   ohFacilityNames: PropTypes.arrayOf(PropTypes.string),
+  showHoldTimeMessaging: PropTypes.bool,
   vistaFacilityNames: PropTypes.arrayOf(PropTypes.string),
 };
 

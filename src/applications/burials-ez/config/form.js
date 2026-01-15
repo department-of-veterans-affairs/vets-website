@@ -28,6 +28,7 @@ import serviceNumber from './chapters/03-military-history/serviceNumber';
 import servicePeriods from './chapters/03-military-history/servicePeriods';
 import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
 import previousNames from './chapters/03-military-history/previousNames';
+import { powPages } from './chapters/03-military-history/powPages';
 
 import benefitsSelection from './chapters/04-benefits-selection/benefitsSelection';
 import burialAllowancePartOne from './chapters/04-benefits-selection/burialAllowancePartOne';
@@ -41,6 +42,9 @@ import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocat
 import plotAllowancePartOne from './chapters/04-benefits-selection/plotAllowancePartOne';
 import plotAllowancePartTwo from './chapters/04-benefits-selection/plotAllowancePartTwo';
 import transportationExpenses from './chapters/04-benefits-selection/transportationExpenses';
+
+import createDirectDepositPage from '../components/DirectDeposit';
+
 import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
@@ -54,6 +58,7 @@ import {
   showDeathCertificateRequiredPage,
   showHomeHospiceCarePage,
   showHomeHospiceCareAfterDischargePage,
+  showPdfFormAlignment,
 } from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
@@ -336,6 +341,7 @@ const formConfig = {
           uiSchema: previousNames.uiSchema,
           schema: previousNames.schema,
         },
+        ...powPages,
       },
     },
     benefitsSelection: {
@@ -473,6 +479,7 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
+        directDeposit: createDirectDepositPage(),
         supportingDocuments: {
           title: 'Supporting Documents',
           reviewTitle: () => (
@@ -531,6 +538,7 @@ const formConfig = {
             </span>
           ),
           path: 'additional-information/fdc-program',
+          depends: () => !showPdfFormAlignment(),
           uiSchema: fasterClaimProcessing.uiSchema,
           schema: fasterClaimProcessing.schema,
         },

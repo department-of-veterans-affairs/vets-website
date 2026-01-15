@@ -17,6 +17,7 @@ import {
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectHoldTimeMessagingUpdate } from '../util/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import { getLastSuccessfulUpdate, sendDataDogAction } from '../util/helpers';
 import {
@@ -62,6 +63,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     ccdOHFlagEnabled:
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdOH],
   }));
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
 
   const [expandSelfEntered, setExpandSelfEntered] = useState(false);
 
@@ -83,25 +85,27 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
 
-  // Map facility IDs to facility names
+  // Map facility IDs to facility names, fallback to 'None recorded' if empty
   const vistaFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return [];
+      if (!ehrDataByVhaId) return ['None recorded'];
       const vistaFacilities = facilities.filter(f => !f.isCerner);
-      return vistaFacilities
+      const names = vistaFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
+      return names.length ? names : ['None recorded'];
     },
     [facilities, ehrDataByVhaId],
   );
 
   const ohFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return [];
+      if (!ehrDataByVhaId) return ['None recorded'];
       const ohFacilities = facilities.filter(f => f.isCerner);
-      return ohFacilities
+      const names = ohFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
+      return names.length ? names : ['None recorded'];
     },
     [facilities, ehrDataByVhaId],
   );
@@ -290,6 +294,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           lastSuccessfulUpdate={lastSuccessfulUpdate}
           ohFacilityNames={ohFacilityNames}
           vistaFacilityNames={vistaFacilityNames}
+          showHoldTimeMessaging={holdTimeMessagingUpdate}
         />
         {dataSourceType !== dataSourceTypes.OH_ONLY && (
           <BlueButtonSection

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { endOfDay } from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import set from 'platform/utilities/data/set';
@@ -155,3 +156,26 @@ export const DateReviewField = ({ children, title = '' }) => (
     </dd>
   </div>
 );
+
+DateReviewField.propTypes = {
+  children: PropTypes.shape({
+    props: PropTypes.shape({
+      formData: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+  title: PropTypes.string,
+};
+
+export const showPdfFormAlignment = () =>
+  window.sessionStorage.getItem('showPdfFormAlignment') === 'true';
+
+export const maskBankInformation = (string, unmaskedLength) => {
+  if (!string) {
+    return '';
+  }
+  const repeatCount =
+    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+  const maskedPart = '●'.repeat(repeatCount);
+  const unmaskedPart = string.slice(-unmaskedLength);
+  return `${maskedPart}${unmaskedPart}`;
+};

@@ -19,6 +19,7 @@ export default {
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   DISPUTE_DEBT_LINK: 'dispute-debt-link',
   EDUCATION_APP_STATUS: 'education-app-status',
+  EMPLOYMENT_QUESTIONNAIRE: 'employment-questionnaire',
   EVENTS: 'events',
   EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
@@ -49,6 +50,9 @@ export default {
   FORM_21P601_CTA: 'form21p-601',
   FORM_21P0847_CTA: 'form21p-0847',
   FORM_264555_CTA: 'form264555',
+  FORM_210779_CTA: 'form210779',
+  FORM_212680_CTA: 'form212680',
+  FORM_214192_CTA: 'form214192',
   FORM_400247_CTA: 'form400247',
   FORM_UPLOAD: 'form-upload',
   FORM_1010D_EXTENDED: 'form1010dExtended',

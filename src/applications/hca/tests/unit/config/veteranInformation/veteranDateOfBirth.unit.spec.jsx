@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca VeteranDateOfBirth config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca VeteranDateOfBirth config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 3;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,28 @@ describe('hca VeteranDateOfBirth config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        veteranDateOfBirth: {
+          type: 'string',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      veteranDateOfBirth: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+        'ui:validations': {},
+      },
+    },
+    expectedRequired: ['veteranDateOfBirth'],
+    pageName: pageTitle,
+  });
 });

@@ -17,7 +17,7 @@ const ITFClaimantInfoViewField = props => {
       return 'Pension';
     }
     if (benefitType === 'survivor') {
-      return 'Survivor’s Pension and/or Dependency Indemnity Compensation';
+      return 'Survivors pension and/or dependency and indemnity compensation (DIC)';
     }
     return null;
   };

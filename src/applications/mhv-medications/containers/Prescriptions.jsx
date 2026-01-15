@@ -8,6 +8,7 @@ import React, {
 import { Link, useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import PropTypes from 'prop-types';
@@ -107,6 +108,20 @@ const Prescriptions = () => {
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
+
+  // Track when user returns from Rx Renewal SM flow
+  useEffect(
+    () => {
+      if (rxRenewalMessageSuccess) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'Rx SM Renewal',
+          'api-status': 'successful',
+        });
+      }
+    },
+    [rxRenewalMessageSuccess],
+  );
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -244,12 +259,12 @@ const Prescriptions = () => {
       if (!isLoading) {
         if (prescriptionId) {
           goToPrevious();
-        } else {
+        } else if (!rxRenewalMessageSuccess && !deleteDraftSuccess) {
           focusElement(document.querySelector('h1'));
         }
       }
     },
-    [isLoading, prescriptionId],
+    [isLoading, prescriptionId, rxRenewalMessageSuccess, deleteDraftSuccess],
   );
 
   useEffect(

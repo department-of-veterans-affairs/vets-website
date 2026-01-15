@@ -117,4 +117,26 @@ describe('IntroSection', () => {
       expect(vaCard).to.not.exist;
     });
   });
+
+  describe('HoldTimeInfo rendering', () => {
+    it('renders HoldTimeInfo when showHoldTimeMessaging is true', () => {
+      const { getByText } = render(<IntroSection showHoldTimeMessaging />);
+
+      expect(getByText(/in your reports/i)).to.exist;
+    });
+
+    it('does not render HoldTimeInfo when showHoldTimeMessaging is false', () => {
+      const { queryByText } = render(
+        <IntroSection showHoldTimeMessaging={false} />,
+      );
+
+      expect(queryByText(/in your reports/i)).to.not.exist;
+    });
+
+    it('does not render HoldTimeInfo by default', () => {
+      const { queryByText } = render(<IntroSection />);
+
+      expect(queryByText(/in your reports/i)).to.not.exist;
+    });
+  });
 });

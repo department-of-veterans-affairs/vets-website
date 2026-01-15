@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,9 +18,11 @@ import { NoFormPage } from './components/NoFormPage';
  * @returns {React.Component} - Burials Application
  */
 export default function BurialsApp({ location, children }) {
-  const { loading: isLoadingFeatures, burialFormEnabled } = useSelector(
-    state => state?.featureToggles,
-  );
+  const {
+    loading: isLoadingFeatures,
+    burialFormEnabled,
+    burialPdfFormAlignment,
+  } = useSelector(state => state?.featureToggles);
   const isLoggedIn = useSelector(
     state => state?.user?.login?.currentlyLoggedIn,
   );
@@ -39,6 +41,18 @@ export default function BurialsApp({ location, children }) {
     sessionSampleRate: 100,
     sessionReplaySampleRate: 100,
   });
+
+  useEffect(
+    () => {
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showPdfFormAlignment',
+          burialPdfFormAlignment,
+        );
+      }
+    },
+    [isLoadingFeatures, burialPdfFormAlignment],
+  );
 
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;
