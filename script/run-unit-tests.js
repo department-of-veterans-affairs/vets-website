@@ -355,13 +355,16 @@ async function main() {
 
     if (options['per-directory']) {
       await runTestsPerDirectory(testPatterns);
+      exportVariable('tests_ran', 'true');
     } else {
       const command = buildTestCommand(testPatterns);
       console.log(`\nExecuting: ${command}\n`);
-      await runCommand(command);
+      // runCommand spawns a process and calls process.exit() on failure
+      // It doesn't return a Promise, so no await needed
+      // exportVariable is called before runCommand since runCommand may exit the process
+      exportVariable('tests_ran', 'true');
+      runCommand(command);
     }
-
-    exportVariable('tests_ran', 'true');
   } catch (error) {
     console.error('Error running tests:', error);
     process.exit(1);
