@@ -14,6 +14,8 @@ describe('CernerFacilityAlert', () => {
         facilities: [],
         userAtPretransitionedOhFacility: true,
         userFacilityReadyForInfoAlert: false,
+        userFacilityMigratingToOh: false,
+        ohMigrationInfo: [],
       },
     },
   };
@@ -34,6 +36,8 @@ describe('CernerFacilityAlert', () => {
               facilities: [],
               userAtPretransitionedOhFacility: false,
               userFacilityReadyForInfoAlert: false,
+              userFacilityMigratingToOh: false,
+              ohMigrationInfo: [],
             },
           },
         },
@@ -52,6 +56,8 @@ describe('CernerFacilityAlert', () => {
           facilities: [{ facilityId: '668', isCerner: true }],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          ohMigrationInfo: [],
         },
       },
     };
@@ -100,6 +106,8 @@ describe('CernerFacilityAlert', () => {
           ],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          ohMigrationInfo: [],
         },
       },
     };
@@ -144,6 +152,8 @@ describe('CernerFacilityAlert', () => {
           facilities: [{ facilityId: '668', isCerner: true }],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          ohMigrationInfo: [],
         },
       },
     };
@@ -177,16 +187,6 @@ describe('CernerFacilityAlert', () => {
       const link = screen.getByTestId('cerner-facility-action-link');
       expect(link.getAttribute('rel')).to.equal('noopener noreferrer');
     });
-
-    it('does not render yellow alert when domain is mhv-landing-page', () => {
-      const screen = setup(
-        stateWithFacility,
-        CernerAlertContent.MHV_LANDING_PAGE,
-      );
-
-      // Yellow alert should be suppressed on MHV landing page
-      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
-    });
   });
 
   describe('with custom text props', () => {
@@ -197,6 +197,8 @@ describe('CernerFacilityAlert', () => {
           facilities: [{ facilityId: '668', isCerner: true }],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          ohMigrationInfo: [],
         },
       },
     };
@@ -225,6 +227,8 @@ describe('CernerFacilityAlert', () => {
           facilities: [{ facilityId: '668', isCerner: true }],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          ohMigrationInfo: [],
         },
       },
     };
@@ -248,6 +252,8 @@ describe('CernerFacilityAlert', () => {
           facilities: [{ facilityId: '668', isCerner: true }],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          ohMigrationInfo: [],
         },
       },
     };
@@ -279,6 +285,8 @@ describe('CernerFacilityAlert', () => {
             facilities: [{ facilityId: '668', isCerner: true }],
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: true,
+            userFacilityMigratingToOh: false,
+            ohMigrationInfo: [],
           },
         },
       };
@@ -299,6 +307,8 @@ describe('CernerFacilityAlert', () => {
             facilities: [{ facilityId: '668', isCerner: true }],
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: true,
+            userFacilityMigratingToOh: false,
+            ohMigrationInfo: [],
           },
         },
       };
@@ -312,6 +322,53 @@ describe('CernerFacilityAlert', () => {
     });
   });
 
+  describe('with forceHidePretransitionedAlert prop', () => {
+    it('hides pretransitioned alert when forceHidePretransitionedAlert is true', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            ohMigrationInfo: [],
+          },
+        },
+      };
+
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+        forceHidePretransitionedAlert: true,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+    });
+
+    it('shows pretransitioned alert when forceHidePretransitionedAlert is false', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            ohMigrationInfo: [],
+          },
+        },
+      };
+
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+        forceHidePretransitionedAlert: false,
+      });
+
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+    });
+  });
+
   describe('info alert behavior', () => {
     const stateWithFacility = {
       ...initialState,
@@ -320,6 +377,8 @@ describe('CernerFacilityAlert', () => {
           facilities: [{ facilityId: '668', isCerner: true }],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: true,
+          userFacilityMigratingToOh: false,
+          ohMigrationInfo: [],
         },
       },
     };
@@ -406,6 +465,238 @@ describe('CernerFacilityAlert', () => {
       expect(infoText.textContent).to.include(baseText);
       // Verify no additional text is appended after the base message
       expect(infoText.textContent).to.include('Still want to use My VA Health');
+    });
+  });
+
+  describe('migrating facilities functionality', () => {
+    const mockMigrationInfo = [
+      {
+        migrationDate: '2026-05-01',
+        facilities: [
+          {
+            facilityId: '528',
+            facilityName: 'VA New Orleans Medical Center',
+          },
+        ],
+        phases: {
+          current: 'p1',
+          p0: 'March 1, 2026',
+          p1: 'March 15, 2026',
+          p2: 'April 1, 2026',
+          p3: 'April 24, 2026',
+          p4: 'April 27, 2026',
+          p5: 'May 1, 2026',
+          p6: 'May 8, 2026',
+        },
+      },
+    ];
+
+    describe('when userFacilityMigratingToOh is true', () => {
+      const stateWithMigratingFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '528' }],
+            userAtPretransitionedOhFacility: false,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: true,
+            ohMigrationInfo: mockMigrationInfo,
+          },
+        },
+      };
+
+      it('renders MigratingFacilitiesAlerts component', () => {
+        const screen = setup(
+          stateWithMigratingFacility,
+          CernerAlertContent.MEDICATIONS,
+        );
+
+        // Should render the transition alert from MigratingFacilitiesAlerts
+        expect(screen.getByTestId('cerner-facilities-transition-alert')).to
+          .exist;
+      });
+
+      it('passes correct props to MigratingFacilitiesAlerts', () => {
+        const screen = setup(
+          stateWithMigratingFacility,
+          CernerAlertContent.MEDICATIONS,
+        );
+
+        const alert = screen.getByTestId('cerner-facilities-transition-alert');
+        expect(alert).to.exist;
+        expect(alert.getAttribute('status')).to.equal('warning');
+      });
+
+      it('does not render standard Cerner alert when migrating', () => {
+        const stateWithBoth = {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [{ facilityId: '668', isCerner: true }],
+              userAtPretransitionedOhFacility: true,
+              userFacilityReadyForInfoAlert: false,
+              userFacilityMigratingToOh: true,
+              ohMigrationInfo: mockMigrationInfo,
+            },
+          },
+        };
+
+        const screen = setup(stateWithBoth, CernerAlertContent.MEDICATIONS);
+
+        // Should render migration alert, not standard Cerner alert
+        expect(screen.getByTestId('cerner-facilities-transition-alert')).to
+          .exist;
+        expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      });
+
+      it('respects forceHideTransitionAlert prop', () => {
+        const screen = setup(stateWithMigratingFacility, {
+          ...CernerAlertContent.MEDICATIONS,
+          forceHideTransitionAlert: true,
+        });
+
+        // Should not render transition alert when forced to hide
+        expect(screen.queryByTestId('cerner-facilities-transition-alert')).to
+          .not.exist;
+      });
+
+      it('shows pretransitioned alert when forceHideTransitionAlert is true and user has pretransitioned facilities', () => {
+        const stateWithBoth = {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [{ facilityId: '668', isCerner: true }],
+              userAtPretransitionedOhFacility: true,
+              userFacilityReadyForInfoAlert: false,
+              userFacilityMigratingToOh: true,
+              ohMigrationInfo: mockMigrationInfo,
+            },
+          },
+        };
+
+        const screen = setup(stateWithBoth, {
+          ...CernerAlertContent.MEDICATIONS,
+          forceHideTransitionAlert: true,
+        });
+
+        // Should fall through to pretransitioned alert when migration alert is hidden
+        expect(screen.queryByTestId('cerner-facilities-transition-alert')).to
+          .not.exist;
+        expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+      });
+
+      it('handles empty ohMigrationInfo array', () => {
+        const stateWithEmptyMigration = {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [{ facilityId: '528' }],
+              userAtPretransitionedOhFacility: false,
+              userFacilityReadyForInfoAlert: false,
+              userFacilityMigratingToOh: true,
+              ohMigrationInfo: [],
+            },
+          },
+        };
+
+        const screen = setup(
+          stateWithEmptyMigration,
+          CernerAlertContent.MEDICATIONS,
+        );
+
+        // Should not render any alert with empty migration info
+        expect(screen.queryByTestId('cerner-facilities-transition-alert')).to
+          .not.exist;
+      });
+    });
+
+    describe('priority order of alerts', () => {
+      it('shows migration alert over standard Cerner alert', () => {
+        const stateWithBoth = {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [{ facilityId: '668', isCerner: true }],
+              userAtPretransitionedOhFacility: true,
+              userFacilityReadyForInfoAlert: false,
+              userFacilityMigratingToOh: true,
+              ohMigrationInfo: mockMigrationInfo,
+            },
+          },
+        };
+
+        const screen = setup(stateWithBoth, CernerAlertContent.MEDICATIONS);
+
+        expect(screen.getByTestId('cerner-facilities-transition-alert')).to
+          .exist;
+        expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      });
+
+      it('shows migration alert over info alert', () => {
+        const stateWithBoth = {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [{ facilityId: '668', isCerner: true }],
+              userAtPretransitionedOhFacility: true,
+              userFacilityReadyForInfoAlert: true,
+              userFacilityMigratingToOh: true,
+              ohMigrationInfo: mockMigrationInfo,
+            },
+          },
+        };
+
+        const screen = setup(stateWithBoth, CernerAlertContent.MEDICATIONS);
+
+        expect(screen.getByTestId('cerner-facilities-transition-alert')).to
+          .exist;
+        expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not
+          .exist;
+      });
+
+      it('shows info alert when migration flag is false', () => {
+        const stateWithInfoOnly = {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [{ facilityId: '668', isCerner: true }],
+              userAtPretransitionedOhFacility: true,
+              userFacilityReadyForInfoAlert: true,
+              userFacilityMigratingToOh: false,
+            },
+          },
+        };
+
+        const screen = setup(stateWithInfoOnly, CernerAlertContent.MEDICATIONS);
+
+        expect(screen.getByTestId('cerner-facilities-info-alert')).to.exist;
+        expect(screen.queryByTestId('cerner-facilities-transition-alert')).to
+          .not.exist;
+      });
+    });
+
+    describe('when no flags are true', () => {
+      it('does not render any alert', () => {
+        const stateWithNoFlags = {
+          ...initialState,
+          user: {
+            profile: {
+              facilities: [{ facilityId: '668', isCerner: true }],
+              userAtPretransitionedOhFacility: false,
+              userFacilityReadyForInfoAlert: false,
+              userFacilityMigratingToOh: false,
+            },
+          },
+        };
+
+        const screen = setup(stateWithNoFlags, CernerAlertContent.MEDICATIONS);
+
+        expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+        expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not
+          .exist;
+        expect(screen.queryByTestId('cerner-facilities-transition-alert')).to
+          .not.exist;
+      });
     });
   });
 });

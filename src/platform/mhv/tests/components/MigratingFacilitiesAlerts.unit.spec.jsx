@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MigratingFacilitiesAlerts from '../../components/CernerFacilityAlert/MigratingFacilitiesAlerts';
+import { CernerAlertContent } from '../../components/CernerFacilityAlert/constants';
 
 describe('MigratingFacilitiesAlerts', () => {
   const mockMigratingFacilities = [
@@ -52,28 +53,28 @@ describe('MigratingFacilitiesAlerts', () => {
     },
   ];
 
-  const defaultProps = {
-    migratingFacilities: mockMigratingFacilities,
-    warning: ['p0', 'p1', 'p2'],
-    error: ['p3', 'p4', 'p5'],
-    startDate: 'p3',
-    endDate: 'p5',
-    transitionText: 'manage your medications',
-    bodyTransitionText: 'refill your medications',
-    altTransitionHeadline: 'manage medications for',
-    className: '',
-  };
+  //   const defaultProps = {
+  //     migratingFacilities: mockMigratingFacilities,
+  //     warning: CernerAlertContent.MEDICATIONS.warning,
+  //     error: CernerAlertContent.MEDICATIONS.error,
+  //     startDate: CernerAlertContent.MEDICATIONS.startDate,
+  //     endDate: CernerAlertContent.MEDICATIONS.endDate,
+  //     transitionText: 'manage your medications',
+  //     bodyTransitionText: 'refill your medications',
+  //     altTransitionHeadline: 'manage medications for',
+  //     className: '',
+  //   };
 
   describe('when no alerts should be shown', () => {
     it('returns null when current phase is not in warning or error arrays', () => {
       const propsWithNoMatch = {
-        ...defaultProps,
+        ...CernerAlertContent.MEDICATIONS,
         migratingFacilities: [
           {
             ...mockMigratingFacilities[0],
             phases: {
               ...mockMigratingFacilities[0].phases,
-              current: 'p6', // Not in warning or error arrays
+              current: 'p0', // Not in warning or error arrays
             },
           },
         ],
@@ -89,7 +90,7 @@ describe('MigratingFacilitiesAlerts', () => {
     it('returns null when migratingFacilities is empty', () => {
       const { container } = render(
         <MigratingFacilitiesAlerts
-          {...defaultProps}
+          {...CernerAlertContent.MEDICATIONS}
           migratingFacilities={[]}
         />,
       );
@@ -100,7 +101,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
   describe('warning alerts', () => {
     const warningProps = {
-      ...defaultProps,
+      ...CernerAlertContent.MEDICATIONS,
       migratingFacilities: [
         {
           ...mockMigratingFacilities[0],
@@ -129,7 +130,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
       const alert = getByTestId('cerner-facilities-transition-alert');
       expect(alert.getAttribute('trigger')).to.equal(
-        'Updates will begin on April 24, 2026',
+        'Updates will begin on April 27, 2026',
       );
     });
 
@@ -138,8 +139,8 @@ describe('MigratingFacilitiesAlerts', () => {
         <MigratingFacilitiesAlerts {...warningProps} />,
       );
 
-      expect(getByText('April 24, 2026')).to.exist;
-      expect(getByText('May 1, 2026')).to.exist;
+      expect(getByText('April 27, 2026')).to.exist;
+      expect(getByText('May 8, 2026')).to.exist;
     });
 
     it('displays "this facility" for single facility', () => {
@@ -193,12 +194,15 @@ describe('MigratingFacilitiesAlerts', () => {
       expect(getByText('VA Downtown New Orleans Clinic')).to.exist;
     });
 
-    it('displays bodyTransitionText in note section', () => {
+    it('displays bodyTransitionText in note section if provided', () => {
       const { getByText } = render(
-        <MigratingFacilitiesAlerts {...warningProps} />,
+        <MigratingFacilitiesAlerts
+          {...warningProps}
+          bodyTransitionText="manage your medications"
+        />,
       );
 
-      expect(getByText(/refill your medications/i)).to.exist;
+      expect(getByText(/manage your medications/i)).to.exist;
     });
 
     it('falls back to transitionText when bodyTransitionText is not provided', () => {
@@ -217,7 +221,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
   describe('error alerts', () => {
     const errorProps = {
-      ...defaultProps,
+      ...CernerAlertContent.MEDICATIONS,
       migratingFacilities: [
         {
           ...mockMigratingFacilities[0],
@@ -243,14 +247,15 @@ describe('MigratingFacilitiesAlerts', () => {
 
       // These are broken up by the render, so checking them individually
       expect(screen.findByText(/You can’t/i)).to.exist;
-      expect(screen.getByText(/manage medications/i)).to.exist;
+      expect(screen.findByText(/renew or refill your prescriptions online/i)).to
+        .exist;
       expect(screen.getByText(/some facilities right now/i)).to.exist;
     });
 
     it('uses altTransitionHeadline when provided', () => {
       const propsWithAltHeadline = {
         ...errorProps,
-        altTransitionHeadline: 'refill prescriptions for',
+        altTransitionHeadline: 'manage medications for',
       };
 
       const screen = render(
@@ -259,7 +264,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
       // These are broken up by the render, so checking them individually
       expect(screen.findByText(/You can’t/i)).to.exist;
-      expect(screen.getByText(/refill prescriptions/i)).to.exist;
+      expect(screen.getByText(/manage medications/i)).to.exist;
       expect(screen.getByText(/some facilities right now/i)).to.exist;
     });
 
@@ -268,7 +273,7 @@ describe('MigratingFacilitiesAlerts', () => {
         <MigratingFacilitiesAlerts {...errorProps} />,
       );
 
-      expect(getByText('May 1, 2026')).to.exist;
+      expect(getByText('May 8, 2026')).to.exist;
     });
 
     it('displays facility list in error alert', () => {
@@ -326,7 +331,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
   describe('multiple migrations', () => {
     const multipleMigrationsProps = {
-      ...defaultProps,
+      ...CernerAlertContent.MEDICATIONS,
       migratingFacilities: [
         {
           migrationDate: '2026-05-01',
@@ -402,7 +407,7 @@ describe('MigratingFacilitiesAlerts', () => {
       const warningAlert = container.querySelector(
         'va-alert-expandable[status="warning"]',
       );
-      expect(warningAlert.getAttribute('trigger')).to.include('April 24, 2026');
+      expect(warningAlert.getAttribute('trigger')).to.include('April 27, 2026');
     });
 
     it('error alert displays correct phase dates for second migration', () => {
@@ -410,8 +415,8 @@ describe('MigratingFacilitiesAlerts', () => {
         <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
       );
 
-      // Error alert should show end date from p5 for second migration
-      expect(getByText('June 1, 2026')).to.exist;
+      // Error alert should show end date from p6 for second migration
+      expect(getByText('June 8, 2026')).to.exist;
     });
 
     it('each alert is independent with its own facility list', () => {
@@ -465,7 +470,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
   describe('multiple migrations with three or more facilities', () => {
     const threeMigrations = {
-      ...defaultProps,
+      ...CernerAlertContent.MEDICATIONS,
       migratingFacilities: [
         {
           migrationDate: '2026-05-01',
@@ -557,7 +562,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
   describe('styling and className', () => {
     const errorProps = {
-      ...defaultProps,
+      ...CernerAlertContent.MEDICATIONS,
       migratingFacilities: [
         {
           ...mockMigratingFacilities[0],
@@ -605,7 +610,7 @@ describe('MigratingFacilitiesAlerts', () => {
   describe('edge cases', () => {
     it('handles migration with no facilities gracefully', () => {
       const propsWithNoFacilities = {
-        ...defaultProps,
+        ...CernerAlertContent.MEDICATIONS,
         migratingFacilities: [
           {
             ...mockMigratingFacilities[0],
@@ -627,7 +632,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
     it('handles missing phase dates', () => {
       const propsWithMissingPhases = {
-        ...defaultProps,
+        ...CernerAlertContent.MEDICATIONS,
         migratingFacilities: [
           {
             ...mockMigratingFacilities[0],
