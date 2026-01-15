@@ -31,7 +31,7 @@ const VAMCServiceAutosuggest = ({
     if (!services?.length) {
       setOptions([
         {
-          id: null,
+          id: 'no-items',
           isError: true,
           toDisplay: 'No matching services found.',
           disabled: true,
