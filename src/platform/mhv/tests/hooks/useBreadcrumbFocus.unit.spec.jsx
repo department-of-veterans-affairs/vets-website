@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { renderHook } from '@testing-library/react-hooks';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { renderHook, act } from '@testing-library/react-hooks';
+import { MemoryRouter, useLocation } from 'react-router-dom-v5-compat';
 
 import { useBreadcrumbFocus } from '../../hooks/useBreadcrumbFocus';
 
@@ -17,14 +17,20 @@ const setupH1 = () => {
   return document.querySelector('h1');
 };
 
+const LocationObserver = ({ onChange }) => {
+  const loc = useLocation();
+  useEffect(() => onChange(loc), [loc, onChange]);
+  return null;
+};
+
 describe('useBreadcrumbFocus', () => {
   let setTimeoutStub;
-  let pushSpy;
+  let latestLocation;
 
   beforeEach(() => {
     document.body.innerHTML = '';
+    latestLocation = null;
 
-    // Run timeouts immediately (hook uses setTimeout before focusing).
     setTimeoutStub = sinon.stub(window, 'setTimeout').callsFake((fn, _ms) => {
       fn();
       return 0;
@@ -32,7 +38,6 @@ describe('useBreadcrumbFocus', () => {
   });
 
   afterEach(() => {
-    if (pushSpy?.restore) pushSpy.restore();
     if (setTimeoutStub?.restore) setTimeoutStub.restore();
     document.body.innerHTML = '';
   });
@@ -40,28 +45,19 @@ describe('useBreadcrumbFocus', () => {
   const renderUseBreadcrumbFocus = (
     initialPath = '/my-health/secure-messages/inbox/',
   ) => {
-    let capturedHistory;
-
     const wrapper = ({ children }) => (
       <MemoryRouter initialEntries={[initialPath]}>
-        <Route
-          path="*"
-          render={({ history }) => {
-            capturedHistory = history;
-            return children;
+        <LocationObserver
+          onChange={loc => {
+            latestLocation = loc;
           }}
         />
+        {children}
       </MemoryRouter>
     );
 
     const { result } = renderHook(() => useBreadcrumbFocus(), { wrapper });
-
-    if (result?.error) {
-      throw result.error;
-    }
-
-    pushSpy = sinon.spy(capturedHistory, 'push');
-
+    if (result?.error) throw result.error;
     return result;
   };
 
@@ -73,15 +69,19 @@ describe('useBreadcrumbFocus', () => {
       '/my-health/secure-messages/inbox/',
     );
 
-    result.current.handleRouteChange(
-      makeRouteChangeEvent('/my-health/secure-messages/inbox/'),
-    );
+    act(() => {
+      result.current.handleRouteChange(
+        makeRouteChangeEvent('/my-health/secure-messages/inbox/'),
+      );
+    });
 
-    expect(pushSpy.called).to.equal(false);
+    expect(latestLocation.pathname).to.equal(
+      '/my-health/secure-messages/inbox/',
+    );
     expect(h1FocusSpy.called).to.equal(true);
   });
 
-  it('handleRouteChange: navigates (push) and focuses H1 when href differs', () => {
+  it('handleRouteChange: navigates and focuses H1 when href differs', () => {
     const h1 = setupH1();
     const h1FocusSpy = sinon.spy(h1, 'focus');
 
@@ -89,13 +89,14 @@ describe('useBreadcrumbFocus', () => {
       '/my-health/secure-messages/inbox/',
     );
 
-    result.current.handleRouteChange(
-      makeRouteChangeEvent('/my-health/secure-messages/sent/'),
-    );
+    act(() => {
+      result.current.handleRouteChange(
+        makeRouteChangeEvent('/my-health/secure-messages/sent/'),
+      );
+    });
 
-    expect(pushSpy.called).to.equal(true);
-    expect(pushSpy.calledWith('/my-health/secure-messages/sent/')).to.equal(
-      true,
+    expect(latestLocation.pathname).to.equal(
+      '/my-health/secure-messages/sent/',
     );
     expect(h1FocusSpy.called).to.equal(true);
   });

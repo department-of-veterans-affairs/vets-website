@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 
 const focusH1Soon = () => {
@@ -10,7 +9,6 @@ const focusH1Soon = () => {
 
 const normalizePath = value => {
   if (!value) return '';
-  // normalize trailing slash (except root)
   return value.length > 1 ? value.replace(/\/+$/, '') : value;
 };
 
@@ -26,20 +24,22 @@ const getHrefFromClickEvent = event => {
   return anchor?.href || null;
 };
 
+const getCurrentPath = () =>
+  normalizePath(
+    `${window.location.pathname}${window.location.search}${
+      window.location.hash
+    }`,
+  );
+
 /**
- * MHV breadcrumb focus + routing helper.
+ * MHV breadcrumb focus helper.
  *
  * - Always moves focus to the first <h1> after a breadcrumb is activated
  * - Optionally wraps an existing onRouteChange handler (for apps that already
  *   do custom routing or analytics)
  *
- * Usage:
- *   const { handleRouteChange } = useBreadcrumbFocus();
- *   <VaBreadcrumbs onRouteChange={handleRouteChange} ... />
- *
- *   // or, if you already have an onRouteChange handler:
- *   const { handleRouteChange } = useBreadcrumbFocus({ onRouteChange: myHandler });
- *   <VaBreadcrumbs onRouteChange={handleRouteChange} ... />
+ * NOTE: This hook is router-agnostic by design so it can be used in apps using
+ * react-router v5 and react-router-dom-v5-compat without violating hooks rules.
  */
 export const useBreadcrumbFocus = (optionsOrHandler = {}) => {
   const onRouteChange =
@@ -47,63 +47,60 @@ export const useBreadcrumbFocus = (optionsOrHandler = {}) => {
       ? optionsOrHandler
       : optionsOrHandler?.onRouteChange;
 
-  const history = useHistory();
-  const location = useLocation();
-
   const handleRouteChange = useCallback(
     event => {
       const href = event?.detail?.href;
 
-      // Some interactions (incl. current crumb) may not provide href; still focus.
+      // Even if there's no href (or it's the current crumb), we still want focus
       if (!href) {
         focusH1Soon();
         return;
       }
 
+      const url = new URL(href, window.location.origin);
+      const nextPath = normalizePath(`${url.pathname}${url.search}${url.hash}`);
+      const currentPath = getCurrentPath();
+
+      // If consumer supplies navigation, let them control SPA routing
       if (typeof onRouteChange === 'function') {
         onRouteChange(event);
-      } else {
-        const url = new URL(href, window.location.origin);
-        const nextPath = url.pathname + url.search + url.hash;
-        const currentPath = location.pathname + location.search + location.hash;
+        focusH1Soon();
+        return;
+      }
 
-        if (nextPath !== currentPath) {
-          history.push(nextPath);
-        }
+      // Default behavior: only navigate if path differs
+      if (nextPath !== currentPath) {
+        window.location.assign(nextPath);
       }
 
       focusH1Soon();
     },
-    [history, location.pathname, location.search, location.hash, onRouteChange],
+    [onRouteChange],
   );
 
-  // Fallback for "current page" breadcrumb: no route change event
-  const handleClick = useCallback(
-    event => {
-      const path = getComposedPath(event);
+  const handleClick = useCallback(event => {
+    const path = getComposedPath(event);
 
-      // If the click originated from the "current page" crumb, focus H1.
-      if (pathHasAriaCurrentPage(path)) {
-        window.setTimeout(() => focusElement('h1'), 0);
-        return;
-      }
+    // Clicking the current crumb doesn't navigate; still move focus to H1
+    if (pathHasAriaCurrentPage(path)) {
+      focusH1Soon();
+      return;
+    }
 
-      // Otherwise, only focus when the clicked link resolves to the current URL.
-      const href = getHrefFromClickEvent(event);
-      if (!href) return;
+    const href = getHrefFromClickEvent(event);
+    if (!href) return;
 
-      const url = new URL(href, window.location.origin);
-      const clickedPath = normalizePath(url.pathname + url.search + url.hash);
-      const currentPath = normalizePath(
-        location.pathname + location.search + location.hash,
-      );
+    const url = new URL(href, window.location.origin);
+    const clickedPath = normalizePath(
+      `${url.pathname}${url.search}${url.hash}`,
+    );
+    const currentPath = getCurrentPath();
 
-      if (clickedPath === currentPath) {
-        window.setTimeout(() => focusElement('h1'), 0);
-      }
-    },
-    [location.pathname, location.search, location.hash],
-  );
+    // If user clicks a crumb that resolves to the current page, focus H1
+    if (clickedPath === currentPath) {
+      focusH1Soon();
+    }
+  }, []);
 
   return { handleRouteChange, handleClick };
 };
