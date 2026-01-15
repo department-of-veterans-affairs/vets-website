@@ -21,12 +21,11 @@ describe('handle multiple drafts older than 45 days', () => {
       .should('be.visible')
       .and('contain', Alerts.OLD_MSG_HEAD);
 
-    // Drafts are now auto-expanded, no Edit draft button
+    // Drafts are now auto-expanded, no Edit draft button needed
 
-    PatientMessageDraftsPage.expandSingleDraft(1);
+    // Accordions are already expanded by default - verify buttons directly
     PatientMessageDraftsPage.verifyExpandedOldDraftButtons(1);
 
-    PatientMessageDraftsPage.expandSingleDraft(2);
     PatientMessageDraftsPage.verifyExpandedOldDraftButtons(2);
   });
 });

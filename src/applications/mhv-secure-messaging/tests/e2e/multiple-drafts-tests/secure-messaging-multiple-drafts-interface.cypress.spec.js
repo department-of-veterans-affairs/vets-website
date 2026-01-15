@@ -39,7 +39,7 @@ describe('handle multiple drafts in one thread', () => {
   });
 
   it('verify all drafts expanded', () => {
-    PatientMessageDraftsPage.expandSingleDraft(2);
+    // Drafts auto-expand by default - no need to manually expand
 
     PatientMessageDraftsPage.verifyExpandedDraftBody(
       updatedMultiDraftResponse,
@@ -48,8 +48,6 @@ describe('handle multiple drafts in one thread', () => {
     );
 
     PatientMessageDraftsPage.verifyExpandedDraftButtons(2);
-
-    PatientMessageDraftsPage.expandSingleDraft(1);
 
     PatientMessageDraftsPage.verifyExpandedDraftBody(
       updatedMultiDraftResponse,
