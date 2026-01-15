@@ -159,21 +159,21 @@ export const studentInformationPage = {
     'view:childIdTitle': {
       'ui:description': <h4>Child’s identification information</h4>,
     },
-    noSSN: checkboxUI({
+    noSsn: checkboxUI({
       title: 'Child doesn’t have a Social Security number',
       required: () => false,
-      hideIf: formData => !formData?.vaDependentsNoSSN, // check feature flag
+      hideIf: formData => !formData?.vaDependentsnoSsn, // check feature flag
     }),
-    noSSNReason: radioUI({
+    noSsnReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',
       labels: {
         NONRESIDENT_ALIEN: 'Nonresident alien',
         NONE_ASSIGNED: 'No SSN has been assigned or requested',
       },
       required: (_chapterData, _index, formData) =>
-        formData?.studentInformation[_index]?.noSSN === true,
+        formData?.studentInformation[_index]?.noSsn === true,
       hideIf: (formData, _index) =>
-        formData?.studentInformation[_index]?.noSSN !== true,
+        formData?.studentInformation[_index]?.noSsn !== true,
       errorMessages: {
         required: 'Tell us why the child doesn’t have a Social Security number',
       },
@@ -181,10 +181,10 @@ export const studentInformationPage = {
     ssn: {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': (_chapterData, _index, formData) =>
-        !formData?.studentInformation[_index]?.noSSN,
+        !formData?.studentInformation[_index]?.noSsn,
       'ui:options': {
         hideIf: (formData, _index) =>
-          formData?.studentInformation[_index]?.noSSN,
+          formData?.studentInformation[_index]?.noSsn,
       },
     },
   },
@@ -196,8 +196,8 @@ export const studentInformationPage = {
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,
       'view:childIdTitle': { type: 'object', properties: {} },
-      noSSN: checkboxSchema,
-      noSSNReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
+      noSsn: checkboxSchema,
+      noSsnReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
       ssn: ssnSchema,
     },
   },

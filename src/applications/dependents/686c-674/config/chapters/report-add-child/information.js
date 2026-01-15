@@ -36,7 +36,7 @@ export const information = {
     noSSN: checkboxUI({
       title: 'Child doesn’t have a Social Security number',
       required: () => false,
-      hideIf: formData => !formData?.vaDependentsNoSSN, // check feature flag
+      hideIf: formData => !formData?.vaDependentsNoSsn, // check feature flag
     }),
     noSSNReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',

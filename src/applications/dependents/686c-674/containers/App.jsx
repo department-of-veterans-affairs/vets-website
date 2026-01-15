@@ -147,7 +147,7 @@ function App({
     'vaDependentsNetWorthAndPension',
     'vaDependentsDuplicateModals',
     'vaDependentsV3',
-    'vaDependentsNoSSN',
+    'vaDependentsNoSsn',
   ]);
   const dependentsModuleEnabled = useToggleValue(
     TOGGLE_NAMES.dependentsModuleEnabled,
