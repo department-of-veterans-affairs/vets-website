@@ -37,10 +37,10 @@ export const information = {
       title: 'Child doesn’t have a Social Security number',
       required: () => false,
       hideIf: formData => !formData?.vaDependentsNoSsn, // check feature flag
-      // updateSchema: (formData, _uiSchema) =>
-      //   formData?.vaDependentsNoSsn
-      //     ? checkboxSchema
-      //     : { type: 'object', properties: {} },
+      updateSchema: (formData, _schema, _uiSchema, _index, _path, fullData) =>
+        fullData?.vaDependentsNoSsn
+          ? checkboxSchema
+          : { type: 'object', properties: {} },
     }),
     noSsnReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',
@@ -52,11 +52,11 @@ export const information = {
         formData?.childrenToAdd?.[index]?.noSsn === true,
       hideIf: (formData, index) =>
         formData?.childrenToAdd?.[index]?.noSsn !== true,
-      // updateSchema: (formData, _uiSchema, index) =>
-      //   formData.vaDependentsNoSsn &&
-      //   formData?.childrenToAdd?.[index]?.noSsn !== true
-      //     ? radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED'])
-      //     : { type: 'object', properties: {} },
+      updateSchema: (formData, _schema, _uiSchema, index, _path, fullData) =>
+        fullData?.vaDependentsNoSsn &&
+        fullData?.childrenToAdd?.[index]?.noSsn === true
+          ? radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED'])
+          : { type: 'object', properties: {} },
       errorMessages: {
         required: 'Tell us why the child doesn’t have a Social Security number',
       },
@@ -67,10 +67,10 @@ export const information = {
         !formData?.childrenToAdd?.[index]?.noSsn,
       'ui:options': {
         hideIf: (formData, index) => formData?.childrenToAdd?.[index]?.noSsn,
-        // updateSchema: (formData, _uiSchema, index) =>
-        //   formData?.childrenToAdd?.[index]?.noSsn === true
-        //     ? { type: 'object', properties: {} }
-        //     : ssnSchema,
+        updateSchema: (formData, _schema, _uiSchema, index, _path, fullData) =>
+          fullData?.childrenToAdd?.[index]?.noSsn === true
+            ? { type: 'object', properties: {} }
+            : ssnSchema,
       },
     },
   },
