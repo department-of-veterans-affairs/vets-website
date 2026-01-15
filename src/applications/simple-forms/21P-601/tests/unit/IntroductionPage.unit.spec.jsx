@@ -193,8 +193,8 @@ describe('21P-601 IntroductionPage', () => {
     const ombInfo = container.querySelector('va-omb-info');
     expect(ombInfo).to.exist;
     expect(ombInfo).to.have.attr('res-burden', '30');
-    expect(ombInfo).to.have.attr('omb-number', '2900-0016');
-    expect(ombInfo).to.have.attr('exp-date', '8/31/2025');
+    expect(ombInfo).to.have.attr('omb-number', '2900-0216');
+    expect(ombInfo).to.have.attr('exp-date', '9/30/2028');
   });
 
   it('displays non-veteran messaging', () => {
