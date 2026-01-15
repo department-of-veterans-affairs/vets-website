@@ -26,8 +26,8 @@ export const schema = {
         fullName: fullNameNoSuffixSchema,
         birthDate: dateOfBirthSchema,
         'view:spouseIdTitle': { type: 'object', properties: {} },
-        noSSN: checkboxSchema,
-        noSSNReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
+        noSsn: checkboxSchema,
+        noSsnReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
         ssn: ssnSchema,
       },
     },
@@ -52,20 +52,20 @@ export const uiSchema = {
     'view:spouseIdTitle': {
       'ui:description': <h4>Spouse’s identification information</h4>,
     },
-    noSSN: checkboxUI({
+    noSsn: checkboxUI({
       title: 'Spouse doesn’t have a Social Security number',
       required: () => false,
-      hideIf: formData => !formData?.vaDependentsNoSSN, // check feature flag
+      hideIf: formData => !formData?.vaDependentsnoSsn, // check feature flag
     }),
-    noSSNReason: radioUI({
+    noSsnReason: radioUI({
       title: 'Why doesn’t your spouse have a Social Security number?',
       labels: {
         NONRESIDENT_ALIEN: 'Nonresident alien',
         NONE_ASSIGNED: 'No SSN has been assigned or requested',
       },
       required: (_chapterData, _index, formData) =>
-        formData?.spouseInformation?.noSSN === true,
-      hideIf: formData => formData?.spouseInformation?.noSSN !== true,
+        formData?.spouseInformation?.noSsn === true,
+      hideIf: formData => formData?.spouseInformation?.noSsn !== true,
       errorMessages: {
         required:
           'Tell us why the spouse doesn’t have a Social Security number',
@@ -74,9 +74,9 @@ export const uiSchema = {
     ssn: {
       ...ssnUI('Spouse’s Social Security number'),
       'ui:required': (_chapterData, _index, formData) =>
-        !formData?.spouseInformation?.noSSN,
+        !formData?.spouseInformation?.noSsn,
       'ui:options': {
-        hideIf: formData => formData?.spouseInformation?.noSSN,
+        hideIf: formData => formData?.spouseInformation?.noSsn,
       },
     },
   },

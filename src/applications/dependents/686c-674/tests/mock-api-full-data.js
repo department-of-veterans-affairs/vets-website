@@ -246,6 +246,8 @@ const responses = {
         { name: 'va_dependents_verification', value: true },
         { name: 'vaDependentsBrowserMonitoringEnabled', value: true },
         { name: 'va_dependents_browser_monitoring_enabled', value: true },
+        { name: 'va_dependents_no_ssn', value: true },
+        { name: 'vaDependentsNoSsn', value: true },
       ],
     },
   },
