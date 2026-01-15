@@ -30,6 +30,14 @@ const getServiceDisplayName = serviceId => {
   return service ? service[0] : null;
 };
 
+/**
+ * SearchForm implements a dual-state pattern to prevent premature UI updates:
+ * - draftFormState (local React state): holds user input changes
+ * - currentQuery (Redux state): holds committed values that drive search results
+ *
+ * Form inputs update draft state only. On submit, draft state commits to Redux.
+ * This prevents search results from updating while user is still typing/editing.
+ */
 export const SearchForm = props => {
   const {
     currentQuery,
@@ -50,6 +58,7 @@ export const SearchForm = props => {
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
+  const synchronizingRef = useRef(false);
 
   const draftSearchStringRef = useRef(null);
   const currentQueryRef = useRef(currentQuery);
@@ -115,13 +124,7 @@ export const SearchForm = props => {
       return;
     }
 
-    const updateReduxState = propName => {
-      onChange({ [propName]: ' ' });
-      onChange({ [propName]: '' });
-    };
-
     if (!draftFormState.searchString) {
-      updateReduxState('searchString');
       setDraftFormState(prev => ({
         ...prev,
         locationChanged: true,
@@ -132,7 +135,6 @@ export const SearchForm = props => {
     }
 
     if (!draftFormState.facilityType) {
-      updateReduxState('facilityType');
       setDraftFormState(prev => ({
         ...prev,
         facilityTypeChanged: true,
@@ -146,7 +148,6 @@ export const SearchForm = props => {
       draftFormState.facilityType === LocationType.CC_PROVIDER &&
       (!draftFormState.serviceType || !selectedServiceType)
     ) {
-      updateReduxState('serviceType');
       setDraftFormState(prev => ({
         ...prev,
         serviceTypeChanged: true,
@@ -202,8 +203,9 @@ export const SearchForm = props => {
 
   useEffect(
     () => {
-      if (currentQuery.searchString !== draftSearchStringRef.current) {
-        updateDraftState({ searchString: currentQuery.searchString || '' });
+      const newSearchString = currentQuery.searchString || '';
+      if (newSearchString !== draftSearchStringRef.current) {
+        updateDraftState({ searchString: newSearchString });
       }
     },
     [currentQuery.searchString, updateDraftState],
@@ -211,6 +213,10 @@ export const SearchForm = props => {
 
   useEffect(
     () => {
+      if (synchronizingRef.current) {
+        return;
+      }
+
       const hasUrlParams =
         props.location?.search &&
         Object.keys(props.location?.query || {}).length > 0;
@@ -220,6 +226,7 @@ export const SearchForm = props => {
         currentQuery.searchString;
 
       if (hasUrlParams || hasReduxData) {
+        synchronizingRef.current = true;
         setDraftFormState(prev => {
           let stateFromUrl = null;
           let stateFromRedux = null;
@@ -269,6 +276,8 @@ export const SearchForm = props => {
           }
           return prev;
         });
+
+        synchronizingRef.current = false;
       }
     },
     [
