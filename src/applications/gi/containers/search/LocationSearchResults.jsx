@@ -326,10 +326,8 @@ function LocationSearchResults({
       .setPopup(popup)
       .addTo(map.current);
 
-    markerElement.innerHTML = `<span class="marker-span"><button class="marker-button" type="button">${index +
-      1}</button></span>`;
-    // eslint-disable-next-line no-console
-    console.log('markerElement', markerElement);
+    markerElement.innerHTML = `<span class="marker-span"><button class="marker-button" type="button" tabindex="0" aria-label="Location ${index +
+      1}: ${name}">${index + 1}</button></span>`;
 
     mapMarkers.push(markerElement);
   };
