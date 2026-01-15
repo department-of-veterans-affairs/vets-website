@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@assistant-ui/react": "^0.11.53",
+    "cors": "^2.8.5",
     "react-markdown": "^10.1.0"
   },
   "devDependencies": {
