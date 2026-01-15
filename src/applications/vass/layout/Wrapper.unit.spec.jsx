@@ -3,25 +3,9 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Wrapper from './Wrapper';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 
-const defaultRenderOptions = {
-  initialState: {
-    vassForm: {
-      hydrated: false,
-      selectedDate: null,
-      selectedTopics: [],
-      obfuscatedEmail: null,
-      token: null,
-      uuid: null,
-      lastname: null,
-      dob: null,
-    },
-  },
-  reducers,
-  additionalMiddlewares: [vassApi.middleware],
-};
+const defaultRenderOptions = getDefaultRenderOptions();
 
 describe('VASS Component: Wrapper', () => {
   it('should render children content', () => {
