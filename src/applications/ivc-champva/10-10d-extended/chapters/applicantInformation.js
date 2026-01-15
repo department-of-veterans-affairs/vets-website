@@ -55,7 +55,7 @@ import remarriageProof from './applicantInformation/remarriageProof';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
-import ApplicantCardDescription from '../components/FormDescriptions/ApplicantCardDescription';
+import ApplicantSummaryCard from '../components/FormDescriptions/ApplicantSummaryCard';
 
 /**
  * Wraps array builder function withEditTitle and calls the result
@@ -79,7 +79,7 @@ export const applicantOptions = {
   maxItems: APPLICANTS_MAX,
   text: {
     getItemName: item => applicantWording(item, false, true, false),
-    cardDescription: ApplicantCardDescription,
+    cardDescription: ApplicantSummaryCard,
   },
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { format, isValid, parseISO } from 'date-fns';
 
-const capitalize = (s = '') => (s ? s[0].toUpperCase() + s.slice(1) : '');
+const capitalize = (s = '') => s.charAt(0).toUpperCase() + s.slice(1);
 
 const formatDob = dob => {
   if (!dob) return '';
