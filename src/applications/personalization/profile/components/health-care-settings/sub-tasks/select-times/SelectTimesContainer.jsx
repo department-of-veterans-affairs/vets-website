@@ -114,6 +114,34 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     state => state.vaProfile.schedulingPreferences[fieldName] || [],
   );
 
+  useEffect(
+    () => {
+      // Initialize local pageData from redux fieldData only when redux has meaningful values
+      // or when pageData has an empty value and redux later supplies values. This avoids
+      // overwriting the field with an empty array when the component mounts before redux
+      // finishes populating the scheduling preferences (which happens when visiting the
+      // page directly).
+      const hasPageValue =
+        pageData &&
+        pageData.data &&
+        Object.prototype.hasOwnProperty.call(pageData.data, fieldName);
+
+      const pageValues = hasPageValue ? pageData.data[fieldName] : undefined;
+      const pageHasValues = Array.isArray(pageValues) && pageValues.length > 0;
+      const reduxHasValues = Array.isArray(fieldData) && fieldData.length > 0;
+
+      // Only initialize from redux when redux provides values and the page doesn't already have values.
+      if (reduxHasValues && !pageHasValues) {
+        const quickExit =
+          fieldData.length === 1 && fieldData[0] === noPreferenceValue;
+        setPageData({ data: { [fieldName]: fieldData }, quickExit });
+      }
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [fieldData, fieldName, noPreferenceValue, pageData],
+  );
+
   const editPageHeadingString = useMemo(
     () => {
       return `Edit ${FIELD_SECTION_HEADERS?.[
@@ -238,20 +266,25 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     value: String(value),
     label,
   }));
-  const yesNoPreference = [
-    { value: noPreferenceValue, label: 'No preference' },
-    { value: 'continue', label: 'Select days and time to be scheduled' },
-  ];
   const optionValues = options.map(option => option.value);
 
   const validate = data => {
-    if (isEqual(data?.[fieldName], [noPreferenceValue])) {
+    const values = data?.[fieldName] || [];
+
+    if (!values || values.length === 0) {
+      return false;
+    }
+
+    if (isEqual(values, [noPreferenceValue])) {
       return true;
     }
-    if (data?.[fieldName] === 'continue') {
+
+    if (values.includes('continue')) {
       return true;
     }
-    return optionValues.includes(data?.[fieldName]);
+
+    // If any selected value matches a known option value, it's valid
+    return values.some(v => optionValues.includes(String(v)));
   };
 
   const handlers = {
@@ -319,8 +352,9 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
       <PreferenceSelection
         data={fieldData}
         error={error}
-        options={yesNoPreference}
+        // options={yesNoPreference}
         setPageData={setPageData}
+        pageData={pageData}
         noPreferenceValue={noPreferenceValue}
       />
     ) : (
@@ -336,7 +370,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
       data-testid="continue-cancel-buttons"
     />
   );
-  if (pageData.quickExit) {
+  if (pageData.quickExit || step === 'choose-times') {
     buttons = (
       <VaButtonPair
         onPrimaryClick={handlers.save}
@@ -344,17 +378,6 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
         leftButtonText="Save to profile"
         rightButtonText="Cancel"
         data-testid="quick-exit-cancel-buttons"
-      />
-    );
-  }
-  if (step === 'confirm') {
-    buttons = (
-      <VaButtonPair
-        onPrimaryClick={handlers.save}
-        onSecondaryClick={handlers.updateContactInfo}
-        leftButtonText="Confirm information"
-        rightButtonText="Update information"
-        data-testid="confirm-update-buttons"
       />
     );
   }

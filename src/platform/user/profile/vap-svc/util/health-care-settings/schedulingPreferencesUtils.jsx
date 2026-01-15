@@ -163,8 +163,6 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   data,
   fieldName,
 ) => {
-  // console.log('data', data);
-  // console.log('fieldName', fieldName);
   const itemId = getSchedulingPreferenceItemId(fieldName);
   const isSingle = isSingleSchedulingPreference(fieldName);
   let optionIds;
@@ -175,28 +173,29 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   } else {
     // eslint-disable-next-line no-lonely-if
     if (typeof data[fieldName] === 'string') {
-      // console.log('data is a string');
       optionIds = [data[fieldName].replace('option-', '')];
     } else {
-      // console.log('data is NOT a string');
       optionIds = data[fieldName].map(value => {
         return value.replace('option-', '');
       });
     }
-    // console.log('optionIds', optionIds);
   }
   return { itemId, optionIds };
 };
 
 // inner loop of convertSchedulingPreferencesToReduxFormat
 export const convertSchedulingPreferenceToReduxFormat = (item, fieldName) => {
+  if (typeof item === 'string') {
+    return item;
+  }
   if (isSingleSchedulingPreference(fieldName)) {
     const [firstOptionId] = item.optionIds;
     return `option-${firstOptionId}`;
   }
-  return item.optionIds.length
-    ? item.optionIds.map(optionId => `option-${optionId}`)
-    : [];
+  if (item.optionIds?.length) {
+    return item.optionIds.map(optionId => `option-${optionId}`);
+  }
+  return item?.length ? item : [];
 };
 
 export const convertSchedulingPreferencesToReduxFormat = items => {
@@ -280,7 +279,12 @@ export const getSchedulingPreferencesTimesDisplay = optionIds => {
     ),
   );
 
+  if (displayNames.includes('No preference')) {
+    return displayNames;
+  }
+
   const days = {};
+  // debugger;
   displayNames.forEach(name => {
     const [day, timeOfDay] = name.split('_');
     const formattedDay =

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
@@ -17,18 +17,25 @@ import { useSelector } from 'react-redux';
  * Contact method selection page
  * @param {Boolean} error - page submitted & error state
  * @param {Function} setPageData - updates subtask data
+ * @param {Object} pageData - current subtask page data
  * @param {String} noPreferenceValue - value for no preference option
  * @returns {JSX}
  */
-const PreferenceSelection = ({ error, setPageData, noPreferenceValue }) => {
+const PreferenceSelection = ({
+  error,
+  setPageData,
+  pageData,
+  noPreferenceValue,
+  data,
+}) => {
   const fieldName = FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES;
 
   const isLoading = useSelector(
     state => state.vaProfile.schedulingPreferences.loading,
   );
-  const data = useSelector(
-    state => state.vaProfile.schedulingPreferences[fieldName] || '',
-  );
+
+  const [fieldData, setFieldData] = useState('');
+
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -42,12 +49,12 @@ const PreferenceSelection = ({ error, setPageData, noPreferenceValue }) => {
       ) {
         setPageData({
           quickExit: true,
-          data: { [fieldName]: value },
+          data: { [fieldName]: [value] },
         });
       } else {
         setPageData({
           quickExit: false,
-          data: { [fieldName]: value || null },
+          data: { [fieldName]: [value] || [] },
         });
       }
     },
@@ -56,11 +63,40 @@ const PreferenceSelection = ({ error, setPageData, noPreferenceValue }) => {
 
   useEffect(
     () => {
-      if (data) {
-        updatePageData(data);
+      // Prefer explicit edits in pageData when the field is present there.
+      // Otherwise fall back to redux `data` prop passed from the container.
+      const hasPageValue =
+        pageData &&
+        pageData.data &&
+        Object.prototype.hasOwnProperty.call(pageData.data, fieldName);
+      const source = hasPageValue ? pageData.data : data || {};
+      const values = (source && source[fieldName]) || source || [];
+
+      // Normalize values to an array
+      const vals = Array.isArray(values) ? values : [values];
+
+      // No value -> none selected
+      if (!vals || vals.length === 0) {
+        setFieldData('');
+        return;
       }
+
+      // Single value equals noPreferenceValue -> select noPreference
+      if (vals.length === 1 && vals[0] === noPreferenceValue) {
+        setFieldData(noPreferenceValue);
+        return;
+      }
+
+      // Any values (one or more) that don't include noPreferenceValue -> select continue
+      if (vals.length >= 1 && !vals.includes(noPreferenceValue)) {
+        setFieldData('continue');
+        return;
+      }
+
+      // Fallback
+      setFieldData(vals[0] || '');
     },
-    [data, updatePageData],
+    [pageData, fieldName, noPreferenceValue, data],
   );
 
   const content = {
@@ -70,6 +106,9 @@ const PreferenceSelection = ({ error, setPageData, noPreferenceValue }) => {
   const handlers = {
     setTimePreference: event => {
       const { value } = event.detail;
+      // update local selected state for immediate UI feedback
+      setFieldData(value);
+      // inform parent about updated selection
       updatePageData(value);
     },
   };
@@ -83,19 +122,22 @@ const PreferenceSelection = ({ error, setPageData, noPreferenceValue }) => {
       <VaRadio
         label={FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]}
         name={FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES}
-        defaultValue={data || ''}
-        value={data || ''}
+        value={fieldData}
         error={error ? content.errorMessage : null}
         onVaValueChange={handlers.setTimePreference}
         required
       >
         <VaRadioOption
+          checked={fieldData === noPreferenceValue}
           key={noPreferenceValue}
+          name={fieldName}
           value={noPreferenceValue}
           label="No preference"
         />
         <VaRadioOption
+          checked={fieldData === 'continue'}
           key="continue"
+          name={fieldName}
           value="continue"
           label="Select days and time to be scheduled"
         />
@@ -106,7 +148,7 @@ const PreferenceSelection = ({ error, setPageData, noPreferenceValue }) => {
 
 PreferenceSelection.propTypes = {
   noPreferenceValue: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
+  pageData: PropTypes.object.isRequired,
   setPageData: PropTypes.func.isRequired,
   data: PropTypes.array,
   error: PropTypes.bool,
