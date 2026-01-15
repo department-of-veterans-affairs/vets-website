@@ -1,5 +1,5 @@
-// @ts-check
-import { addDays, addMinutes, addMonths, format, subMinutes } from 'date-fns';
+import { addDays, addMinutes, addMonths, subMinutes } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
@@ -294,6 +294,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display layout correctly for single appointment - same month, different day', () => {
       // Arrange
+      const timezone = 'America/Denver';
       const today = new Date();
       const response = [];
 
@@ -322,19 +323,24 @@ describe('VAOS upcoming appointment flow', () => {
       // Constrain search within list group.
       const tomorrow = addDays(today, 1);
       const dayAfterTomorrow = addDays(today, 2);
-      cy.findByTestId(`appointment-list-${format(tomorrow, 'yyyy-MM')}`).within(
-        () => {
-          // Expect date and day to be dislayed
-          cy.findByText(format(tomorrow, 'EEE')).should('be.ok');
-          cy.findByText(format(dayAfterTomorrow, 'EEE')).should('be.ok');
-        },
-      );
+      cy.findByTestId(
+        `appointment-list-${formatInTimeZone(tomorrow, timezone, 'yyyy-MM')}`,
+      ).within(() => {
+        // Expect date and day to be dislayed
+        cy.findByText(formatInTimeZone(tomorrow, timezone, 'EEE')).should(
+          'be.ok',
+        );
+        cy.findByText(
+          formatInTimeZone(dayAfterTomorrow, timezone, 'EEE'),
+        ).should('be.ok');
+      });
 
       cy.axeCheckBestPractice();
     });
 
     it('should display layout correctly for multiply appointments - same month, different day', () => {
       // Arrange
+      const timezone = 'America/Denver';
       const today = new Date();
       const tomorrow = addDays(new Date(), 1);
       const response = [];
@@ -364,22 +370,27 @@ describe('VAOS upcoming appointment flow', () => {
       });
 
       // Constrain search within list group.
-      cy.findByTestId(`${format(today, 'yyyy-MM-dd')}-group`).within(() => {
-        cy.findAllByText(`${format(today, 'EEE')}`).should($span => {
-          // Expect 1st row to display date and day
-          expect($span.first()).to.be.visible;
+      cy.findByTestId(
+        `${formatInTimeZone(today, timezone, 'yyyy-MM-dd')}-group`,
+      ).within(() => {
+        cy.findAllByText(`${formatInTimeZone(today, timezone, 'EEE')}`).should(
+          $span => {
+            // Expect 1st row to display date and day
+            expect($span.first()).to.be.visible;
 
-          // Expect all other rows not to display date and day
-          expect($span.last()).to.be.hidden;
-        });
+            // Expect all other rows not to display date and day
+            expect($span.last()).to.be.hidden;
+          },
+        );
       });
 
       cy.axeCheckBestPractice();
     });
 
     // skipping because fails after 4pm PT
-    it.skip('should display layout correctly form multiply appointments - same month, same day', () => {
+    it('should display layout correctly form multiply appointments - same month, same day', () => {
       // Arrange
+      const timezone = 'America/Denver';
       const today = new Date();
       const response = [];
 
@@ -403,19 +414,24 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       // Constrain search within list group.
-      cy.findByTestId(`${format(today, 'yyyy-MM-dd')}-group`).within(() => {
-        cy.findAllByText(`${format(today, 'EEE')}`).should($day => {
-          expect($day).to.have.length(2);
-          expect($day.last()).to.be.hidden;
-        });
+      cy.findByTestId(
+        `${formatInTimeZone(today, timezone, 'yyyy-MM-dd')}-group`,
+      ).within(() => {
+        cy.findAllByText(`${formatInTimeZone(today, timezone, 'EEE')}`).should(
+          $day => {
+            expect($day).to.have.length(2);
+            expect($day.last()).to.be.hidden;
+          },
+        );
       });
 
       cy.axeCheckBestPractice();
     });
 
     // Skipping because fauls after 4pm PT
-    it.skip('should display layout correctly for multiply appointments - different months, same day', () => {
+    it('should display layout correctly for multiply appointments - different months, same day', () => {
       // Arrange
+      const timezone = 'America/Denver';
       const today = new Date();
       const response = [];
 
@@ -449,14 +465,16 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       // Constrain search within list group.
-      cy.findByTestId(`${format(today, 'yyyy-MM-dd')}-group`).within(() => {
+      cy.findByTestId(
+        `${formatInTimeZone(today, timezone, 'yyyy-MM-dd')}-group`,
+      ).within(() => {
         cy.findAllByTestId('appointment-list-item').should($list => {
           expect($list).to.have.length(2);
         });
       });
 
       cy.findByTestId(
-        `appointment-list-${format(nextMonth, 'yyyy-MM')}`,
+        `appointment-list-${formatInTimeZone(nextMonth, timezone, 'yyyy-MM')}`,
       ).within(() => {
         cy.findAllByTestId('appointment-list-item').should($list => {
           expect($list).to.have.length(1);
