@@ -302,7 +302,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
         setError(true);
         return;
       }
-      setStep('confirm');
+      setStep('choose-times');
     },
     save: () => {
       if (!validate(pageData.data)) {
@@ -358,7 +358,11 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
         noPreferenceValue={noPreferenceValue}
       />
     ) : (
-      <TimesSelection pageData={pageData} fieldName={fieldName} />
+      <TimesSelection
+        pageData={pageData}
+        fieldName={fieldName}
+        setPageData={setPageData}
+      />
     );
 
   let buttons = (
