@@ -5,8 +5,8 @@ import {
   createGetHandler,
   createPostHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import * as constants from '../../constants';
 
 import {
@@ -61,17 +61,9 @@ describe('Actions', () => {
     });
   });
   describe('submit5103', () => {
-    const server = setupServer();
-
-    before(() => {
-      server.listen();
-    });
-
     afterEach(() => {
       server.resetHandlers();
     });
-
-    after(() => server.close());
 
     // TODO: This test has been simplified due to Node 22 compatibility issues.
     // Original test expected 3 dispatches: SUBMIT_DECISION_REQUEST, SET_DECISION_REQUESTED, and SET_NOTIFICATION
@@ -407,17 +399,9 @@ describe('Actions', () => {
   });
 
   describe('getStemClaims', () => {
-    const server = setupServer();
-
-    before(() => {
-      server.listen({ onUnhandledRequest: 'bypass' });
-    });
-
     afterEach(() => {
       server.resetHandlers();
     });
-
-    after(() => server.close());
 
     it('should fetch stem claims when canUseMocks true', done => {
       const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
