@@ -1,5 +1,5 @@
 {
   "appName": "Homepage",
-  "entryFile": "./entry.js",
+  "entryFile": "./homepage-entry.js",
   "entryName": "homepage"
 }

@@ -77,7 +77,7 @@ import {
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 import createHomepageHeroRandomizer from './homepage-veteran-banner';
-import createHomepageSearch from './homepage/createHomepageSearch';
+import createHomepageSearch from '../homepage/createHomepageSearch';
 import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
