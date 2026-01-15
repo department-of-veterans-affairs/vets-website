@@ -284,7 +284,7 @@ function detectKeyCollisions(schema, keys = {}) {
  * Applies field key mapping to a schema object
  * @param {Object} schema - The original schema object
  * @param {Object} keys - Mapping of standard keys to custom keys
- * @returns {Object} - Mapped schema object with transformed keys and omitted fields
+ * @returns {Object} - Mapped schema object with transformed keys
  *
  * @throws {Error} If key mapping would cause field collisions (e.g., mapping 'street' to 'addressLine1'
  * when 'addressLine1' already exists in the original schema)
@@ -293,8 +293,7 @@ function detectKeyCollisions(schema, keys = {}) {
  * const originalSchema = { street: {}, postalCode: {} };
  * const mapped = applyKeyMapping(
  *   originalSchema,
- *   { street: 'addressLine1', postalCode: 'zipCode' },
- *   ['street2']
+ *   { street: 'addressLine1', postalCode: 'zipCode' }
  * );
  * // Returns: { addressLine1: {}, zipCode: {} }
  */
@@ -729,7 +728,8 @@ export function addressUI(options = {}) {
 
         const addressPath = getAddressPath(path);
         if (addressPath) {
-          const { country } = get(addressPath, formData) ?? {};
+          const countryKey = keys.country;
+          const country = get(addressPath, formData)?.[countryKey] ?? '';
           const militaryKey = keys.isMilitary;
           const isMilitary = get(addressPath, formData)?.[militaryKey];
           return (
@@ -769,7 +769,8 @@ export function addressUI(options = {}) {
 
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const data = get(addressPath, formData) ?? {};
-          const { country } = data;
+          const countryKey = keys.country;
+          const country = data[countryKey];
           const militaryKey = keys.isMilitary;
           const isMilitary = data[militaryKey];
           const ui = _uiSchema;
@@ -840,7 +841,8 @@ export function addressUI(options = {}) {
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const data = get(addressPath, formData) ?? {};
-          const { country } = data;
+          const countryKey = keys.country;
+          const country = data[countryKey];
           const militaryKey = keys.isMilitary;
           const isMilitary = data[militaryKey];
 
@@ -896,26 +898,30 @@ export function addressUI(options = {}) {
  * }
  * ```
  * @param {Object} [options]
- * @param {Array<string>} [options.omit] - Field names to omit from schema
- * @param {Object} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Uses applyKeyMapping utility internally.
+ * @param {Array<AddressSchemaKey>} [options.omit] - Field names to omit from schema
+ * @param {Record<AddressSchemaKey, string>} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Uses applyKeyMapping utility internally.
  * @returns {SchemaOptions}
  */
 export const addressSchema = (options = {}) => {
   const { keys = {}, omit = [] } = options;
   const schema = commonDefinitions.profileAddress;
-  let { properties } = schema;
 
-  // Only create a new object if we need to modify properties
-  if (omit.length === 0 && Object.keys(keys).length === 0) {
+  // Only modify properties if needed
+  const needsOmit = omit.length > 0;
+  const needsKeyMapping = Object.keys(keys).length > 0;
+
+  if (!needsOmit && !needsKeyMapping) {
     return schema;
   }
 
-  if (omit.length > 0) {
+  let { properties } = schema;
+
+  if (needsOmit) {
     validateKeys(omit, 'omit', MAPPABLE_KEYS);
     properties = utilsOmit(omit, properties);
   }
 
-  if (Object.keys(keys).length > 0) {
+  if (needsKeyMapping) {
     properties = applyKeyMapping(properties, keys);
   }
 
