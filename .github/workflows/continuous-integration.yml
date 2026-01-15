@@ -1102,7 +1102,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
-          ref: node-22-bug-bash-testing
+          ref: update-node-22
 
       - name: Get Node version
         id: get-node-version
