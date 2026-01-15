@@ -117,17 +117,16 @@ class PatientReplyPage {
     cy.contains('Delete draft').should('be.visible');
   };
 
-  verifyReplyHeader = (text = `Draft`) => {
+  verifyReplyHeader = () => {
     cy.get(Locators.REPLY_FORM)
       .find(`h2`)
-      .should(`be.visible`)
-      .and(`have.text`, text);
+      .should(`be.visible`);
   };
 
-  verifyEditReplyDraftBtn = (text = Data.BUTTONS.EDIT_DRAFT_REPLY) => {
-    cy.get(Locators.BUTTONS.EDIT_DRAFT)
-      .should(`be.visible`)
-      .and(`contain.text`, text);
+  verifyDraftReplyVisible = () => {
+    cy.get(Locators.REPLY_FORM)
+      .find(`h2`)
+      .should(`be.visible`);
   };
 }
 

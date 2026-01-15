@@ -289,12 +289,7 @@ class PatientMessageDraftsPage {
     cy.get(Locators.ALERTS.SAVE_DRAFT).should('include.text', text);
   };
 
-  expandAllDrafts = () => {
-    cy.get(Locators.BUTTONS.EDIT_DRAFTS).click({
-      force: true,
-      waitForAnimations: true,
-    });
-  };
+  // Note: expandAllDrafts removed - drafts now auto-expand by default
 
   verifyExpandedDraftBody = (response, number, index) => {
     cy.get(Locators.ACCORDION_ITEM_OPEN)

@@ -21,13 +21,12 @@ describe('handle multiple drafts in one thread', () => {
       'contain.text',
       `${updatedMultiDraftResponse.data[0].attributes.subject}`,
     );
-    cy.get(Locators.HEADERS.DRAFTS_HEADER).should('have.text', 'Drafts');
+    cy.get(Locators.HEADERS.DRAFTS_HEADER).should('have.text', 'Draft replies');
 
-    cy.get(Locators.BUTTONS.EDIT_DRAFTS)
-      .should('be.visible')
-      .and('have.text', 'Edit draft replies');
-
-    PatientMessageDraftsPage.expandAllDrafts();
+    // Verify accordion is expanded by default (button removed, auto-expand behavior)
+    cy.get(Locators.REPLY_FORM)
+      .find('h2')
+      .should('be.visible');
 
     cy.get(Locators.REPLY_FORM)
       .find('h3[slot="headline"]')

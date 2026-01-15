@@ -20,7 +20,7 @@ describe('SM REPLY MESSAGE DETAILS', () => {
     PatientInterstitialPage.getContinueButton().click({ force: true });
 
     PatientReplyPage.verifyReplyHeader();
-    PatientReplyPage.verifyEditReplyDraftBtn();
+    PatientReplyPage.verifyDraftReplyVisible();
 
     PatientMessageDraftsPage.verifyAttachFileBtn();
     PatientMessageDraftsPage.verifySendDraftBtn();

@@ -15,13 +15,13 @@ describe('handle multiple drafts older than 45 days', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get(Locators.HEADERS.DRAFTS_HEADER).should('have.text', 'Drafts');
+    cy.get(Locators.HEADERS.DRAFTS_HEADER).should('have.text', 'Draft replies');
 
     cy.get(Locators.ALERTS.EXPIRED_MESSAGE)
       .should('be.visible')
       .and('contain', Alerts.OLD_MSG_HEAD);
 
-    cy.get(Locators.BUTTONS.EDIT_DRAFTS).should('not.exist');
+    // Drafts are now auto-expanded, no Edit draft button
 
     PatientMessageDraftsPage.expandSingleDraft(1);
     PatientMessageDraftsPage.verifyExpandedOldDraftButtons(1);
