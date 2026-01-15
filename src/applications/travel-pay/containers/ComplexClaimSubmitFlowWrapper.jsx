@@ -29,7 +29,6 @@ import {
   hasUnassociatedDocuments,
   isClaimIncompleteOrSaved,
 } from '../util/complex-claims-helper';
-import { recordLinkClick } from '../util/events-helpers';
 
 const getBackRoute = ({
   isIntroductionPage,
@@ -110,7 +109,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const effectiveClaimId = claimId || claimFromAppointment?.id;
 
   const isIntroductionPage = location.pathname === `/file-new-claim/${apptId}`;
-  const backText = isIntroductionPage ? 'Back to appointment' : 'Back';
   const backHref = getBackRoute({
     isIntroductionPage,
     apptId,
@@ -151,12 +149,11 @@ const ComplexClaimSubmitFlowWrapper = () => {
   }
 
   const handleBackLinkClick = e => {
-    recordLinkClick('complex-claims', 'wrapper', backText, backHref);
+    // If no unsaved changes, let the default link behavior happen
     if (hasUnsavedChanges) {
       e.preventDefault();
       setIsUnsavedChangesModalVisible(true);
     }
-    // If no unsaved changes, let the default link behavior happen
   };
 
   const handleLeaveWithoutSaving = () => {
@@ -218,7 +215,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
             <va-link
               back
               data-testid="complex-claim-back-link"
-              disable-analytics
               href={
                 getBackRoute({
                   isIntroductionPage,

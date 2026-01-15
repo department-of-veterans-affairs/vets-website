@@ -8,10 +8,7 @@ import {
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import {
-  recordRadioOptionClick,
-  recordButtonClick,
-} from '../../../util/events-helpers';
+import { recordRadioOptionClick } from '../../../util/events-helpers';
 import {
   createExpense,
   updateExpense,
@@ -30,7 +27,6 @@ import {
   EXPENSE_TYPE_KEYS,
   EXPENSE_TYPES,
   TRIP_TYPES,
-  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
 } from '../../../constants';
 import CancelExpenseModal from './CancelExpenseModal';
 
@@ -161,12 +157,6 @@ const Mileage = () => {
       return;
     }
 
-    recordButtonClick(
-      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
-      title,
-      isEditMode ? 'Save and continue' : 'Continue',
-    );
-
     // Building the mileage expense request body
     const expenseData = {
       purchaseDate: appointment?.localStartTime
@@ -221,11 +211,6 @@ const Mileage = () => {
   };
 
   const handleBack = () => {
-    recordButtonClick(
-      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
-      title,
-      isEditMode ? 'Cancel' : 'Back',
-    );
     if (isEditMode) {
       setIsModalVisible(true);
     } else if (backDestination === 'review') {

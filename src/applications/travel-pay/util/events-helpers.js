@@ -1,6 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 
-export const recordPageview = (variant, page) => {
+const recordPageview = (variant, page) => {
   recordEvent({
     event: `${variant}-pageview`,
     action: 'view',

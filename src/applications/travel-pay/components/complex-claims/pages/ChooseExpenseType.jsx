@@ -7,15 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import {
-  recordRadioOptionClick,
-  recordButtonClick,
-} from '../../../util/events-helpers';
-import {
-  EXPENSE_TYPES,
-  EXPENSE_TYPE_KEYS,
-  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
-} from '../../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
   selectComplexClaim,
   selectExpenseBackDestination,
@@ -66,8 +58,6 @@ const ChooseExpenseType = () => {
       return;
     }
 
-    recordButtonClick(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title, 'Continue');
-
     setShowError(false);
     setMileageError(false);
     // Navigate to the route defined in the constant
@@ -81,7 +71,6 @@ const ChooseExpenseType = () => {
   };
 
   const handleBack = () => {
-    recordButtonClick(COMPLEX_CLAIMS_ANALYTICS_NAMESPACE, title, 'Back');
     if (backDestination === 'review') {
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
@@ -106,6 +95,7 @@ const ChooseExpenseType = () => {
       <VaRadio
         label="Select an expense type"
         required
+        enable-analytics
         class="vads-u-margin-top--2"
         error={showError || mileageError ? errorMessage : null}
         onVaValueChange={event => {
@@ -114,17 +104,6 @@ const ChooseExpenseType = () => {
           // Only process when value actually changes (prevents duplicate events)
           if (newValue && newValue !== selectedExpenseType) {
             setSelectedExpenseType(newValue);
-
-            // Find expense type title for analytics
-            const selectedOption = expenseOptions.find(
-              opt => opt.route === newValue,
-            );
-            if (selectedOption) {
-              recordRadioOptionClick(
-                'Select an expense type',
-                selectedOption.title,
-              );
-            }
 
             if (showError) setShowError(false);
             if (mileageError) setMileageError(false);
@@ -149,7 +128,6 @@ const ChooseExpenseType = () => {
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
-        disable-analytics
         onPrimaryClick={handleContinue}
         onSecondaryClick={handleBack}
       />
