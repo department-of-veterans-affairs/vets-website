@@ -1,0 +1,87 @@
+{
+    "pagination": {
+        "currentPage": 0,
+        "perPage": 0,
+        "totalPages": 0,
+        "totalEntries": 0
+    },
+    "failures": [
+        {
+            "system": "983",
+            "status": "500",
+            "code": 3003,
+            "message": "Could not retrieve appointment slots from VistA Scheduling Service (dd34523f-cd16-4b91-b343-4e869f099e86)",
+            "detail": "siteId=983, patientDfn=7216690, patientIcn=1012845943V900681, startDate=2022-10-24T00:00Z, endDate=2023-12-23T00: 00Z"
+        },
+        {
+            "system": "HSRM",
+            "status": "500",
+            "code": 9002,
+            "message": "Could not get CC request from HSRM Service. The request was invalid",
+            "detail": "siteId=983, patientDfn=7216690, patientIcn=1012845943V900681, startDate=2022-10-24T00:00Z, endDate=2023-12-23T00: 00Z"
+        },
+        {
+            "system": "HSRM",
+            "status": "500",
+            "code": 9003,
+            "message": "Could not get CC request from HSRM Service",
+            "detail": "siteId=983, patientDfn=7216690, patientIcn=1012845943V900681, startDate=2022-10-24T00:00Z, endDate=2023-12-23T00: 00Z"
+        },
+        {
+            "system": "HSRM",
+            "status": "500",
+            "code": 9006,
+            "message": "Could not get CC Appointments from HSRM Service. The request was invalid",
+            "detail": "siteId=983, patientDfn=7216690, patientIcn=1012845943V900681, startDate=2022-10-24T00:00Z, endDate=2023-12-23T00: 00Z"
+        },
+        {
+            "system": "HSRM",
+            "status": "500",
+            "code": 9007,
+            "message": "Could not get CC Appointments from HSRM Service.",
+            "detail": "siteId=983, patientDfn=7216690, patientIcn=1012845943V900681, startDate=2022-10-24T00:00Z, endDate=2023-12-23T00: 00Z"
+        },
+        {
+            "system": "HSRM",
+            "status": "500",
+            "code": 9008,
+            "message": "Could not get any CC appointment/request information from HSRM Service.",
+            "detail": "siteId=983, patientDfn=7216690, patientIcn=1012845943V900681, startDate=2022-10-24T00:00Z, endDate=2023-12-23T00: 00Z"
+        },
+        {
+            "system": "VSP",
+            "status": "500",
+            "code": 10000,
+            "message": "Could not fetch appointments from Vista Scheduling Provider",
+            "detail": "icn=500104V500104 startDate=2016-01-25T00:00Z endDate=2025-12-26T00:00Z"
+        },
+        {
+            "system": "VSP",
+            "status": "500",
+            "code": 10001,
+            "message": "Could not fetch requests from Vista Scheduling Provider",
+            "detail": "icn=1013120820V528557, startDate=2023-01-08T00:00Z, endDate=2024-03-08T00:00Z"
+        },
+        {
+            "system": "VSP",
+            "status": "500",
+            "code": 10005,
+            "message": "Could not fetch booked appointments from Vista Scheduling Provider",
+            "detail": "icn=500104V500104 startDate=2016-01-25T00:00Z endDate=2025-12-26T00:00Z"
+        },
+        {
+            "system": "VSP",
+            "status": "500",
+            "code": 10006,
+            "message": "Could not fetch appointment requests from Vista Scheduling Provider",
+            "detail": "icn=500104V500104 startDate=2016-01-25T00:00Z endDate=2025-12-26T00:00Z"
+        },
+        {
+            "system": "VSP",
+            "id": "80030aea-0c2c-44c8-a629-3483afb14ffe",
+            "status": "500",
+            "code": 6000,
+            "message": "There were errors fetching appointments from VSP: Resource types: [appointments/requests]: Failed to fetch appointments and/or requests"
+        }
+    ]
+}

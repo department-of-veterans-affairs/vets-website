@@ -1,0 +1,1549 @@
+{
+  "data": [
+    {
+      "id": "CERN01555000d5c7ce9b754",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN01555000d5c7ce9b754",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "4139383436333437"
+          }
+        ],
+        "kind": "phone",
+        "type": "VA",
+        "status": "booked",
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "patientIcn": "1013678363V916823",
+        "locationId": "668",
+        "reasonCode": {
+          "coding": [],
+          "text": "VEText Manually Created Appointment"
+        },
+        "patientComments": "",
+        "reasonForAppointment": "",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                "value": null
+              }
+            ],
+            "name": {
+              "family": "Provider",
+              "given": ["Some Oracle Health"]
+            }
+          }
+        ],
+        "start": "2025-11-19T18:00:00Z",
+        "end": "2025-11-19T18:15:00Z",
+        "minutesDuration": 15,
+        "slot": {
+          "id": "3230323331323035313830303A323032333132303531383135",
+          "start": "2025-11-19T18:00:00Z",
+          "end": "2025-11-19T18:15:00Z"
+        },
+        "created": "2024-11-28T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false
+        },
+        "localStartTime": "2025-11-19T13:00:00.000-05:00",
+        "serviceName": "",
+        "physicalLocation": "PHYSICAL LOCATIION TESTING",
+        "isCerner": true,
+        "location": {
+          "id": "668",
+          "type": "appointments",
+          "attributes": {
+            "id": "668",
+            "facilitiesApiId": "vha_668",
+            "vistaSite": "668",
+            "vastParent": "668",
+            "type": "va_health_facility",
+            "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 47.701927,
+            "long": -117.475624,
+            "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/",
+            "phone": {
+              "main": "509-434-7000",
+              "fax": "509-434-7100",
+              "pharmacy": "509-434-7011",
+              "afterHours": "509-434-7000",
+              "patientAdvocate": "509-434-7504",
+              "mentalHealthClinic": "1-509-434-7013",
+              "enrollmentCoordinator": "509-434-7506"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["4815 North Assembly Street", null, null],
+              "city": "Spokane",
+              "state": "WA",
+              "postalCode": "99205-6185"
+            },
+            "mobile": false,
+            "healthService": [
+              "Addiction",
+              "AdviceNurse",
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Chiropractic",
+              "ColonSurgery",
+              "ComplementaryHealth",
+              "Covid19Vaccine",
+              "CriticalCare",
+              "Dental",
+              "Dermatology",
+              "Diabetic",
+              "EmploymentPrograms",
+              "Gastroenterology",
+              "Geriatrics",
+              "Gynecology",
+              "Hematology",
+              "Homeless",
+              "Hospice",
+              "HospitalMedicine",
+              "Laboratory",
+              "Lgbtq",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "MyHealtheVetCoordinator",
+              "Neurology",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "OutpatientSurgery",
+              "PatientAdvocates",
+              "Pharmacy",
+              "PhysicalTherapy",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Ptsd",
+              "PulmonaryMedicine",
+              "Radiology",
+              "RegistryExams",
+              "Rehabilitation",
+              "Rheumatology",
+              "SleepMedicine",
+              "Smoking",
+              "SocialWork",
+              "SuicidePrevention",
+              "Surgery",
+              "Telehealth",
+              "ToxicExposureScreening",
+              "TransitionCounseling",
+              "TravelReimbursement",
+              "UrgentCare",
+              "Urology",
+              "Vision",
+              "WeightManagement",
+              "WholeHealth",
+              "WomensHealth",
+              "Wound"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "past": false,
+        "pending": false,
+        "modality": "vaPhone"
+      }
+    },
+    {
+      "id": "CERN9726bd1ca2a1cf349d6",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN9726bd1ca2a1cf349d6",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "413938333132333035"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:12305"
+          }
+        ],
+        "kind": "clinic",
+        "type": "VA",
+        "status": "booked",
+        "serviceType": "audiology",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "audiology"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "COMPENSATION & PENSION",
+                "display": "COMPENSATION & PENSION"
+              }
+            ],
+            "text": "COMPENSATION & PENSION"
+          }
+        ],
+        "patientIcn": "1013678363V916823",
+        "locationId": "668",
+        "clinic": null,
+        "start": "2025-12-22T15:40:00Z",
+        "end": "2025-12-22T16:40:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323431323139313534303A323032343132313931363430",
+          "start": "2025-12-22T15:40:00Z",
+          "end": "2025-12-22T16:40:00Z"
+        },
+        "created": "2025-01-08T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["FUTURE"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false
+        },
+        "localStartTime": "2025-12-22T08:40:00.000-07:00",
+        "serviceName": null,
+        "physicalLocation": "",
+        "isCerner": true,
+        "location": {
+          "id": "668",
+          "type": "appointments",
+          "attributes": {
+            "id": "668",
+            "facilitiesApiId": "vha_668",
+            "vistaSite": "668",
+            "vastParent": "668",
+            "type": "va_health_facility",
+            "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 47.701927,
+            "long": -117.475624,
+            "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/",
+            "phone": {
+              "main": "509-434-7000",
+              "fax": "509-434-7100",
+              "pharmacy": "509-434-7011",
+              "afterHours": "509-434-7000",
+              "patientAdvocate": "509-434-7504",
+              "mentalHealthClinic": "1-509-434-7013",
+              "enrollmentCoordinator": "509-434-7506"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["4815 North Assembly Street", null, null],
+              "city": "Spokane",
+              "state": "WA",
+              "postalCode": "99205-6185"
+            },
+            "mobile": false,
+            "healthService": [
+              "Addiction",
+              "AdviceNurse",
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Chiropractic",
+              "ColonSurgery",
+              "ComplementaryHealth",
+              "Covid19Vaccine",
+              "CriticalCare",
+              "Dental",
+              "Dermatology",
+              "Diabetic",
+              "EmploymentPrograms",
+              "Gastroenterology",
+              "Geriatrics",
+              "Gynecology",
+              "Hematology",
+              "Homeless",
+              "Hospice",
+              "HospitalMedicine",
+              "Laboratory",
+              "Lgbtq",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "MyHealtheVetCoordinator",
+              "Neurology",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "OutpatientSurgery",
+              "PatientAdvocates",
+              "Pharmacy",
+              "PhysicalTherapy",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Ptsd",
+              "PulmonaryMedicine",
+              "Radiology",
+              "RegistryExams",
+              "Rehabilitation",
+              "Rheumatology",
+              "SleepMedicine",
+              "Smoking",
+              "SocialWork",
+              "SuicidePrevention",
+              "Surgery",
+              "Telehealth",
+              "ToxicExposureScreening",
+              "TransitionCounseling",
+              "TravelReimbursement",
+              "UrgentCare",
+              "Urology",
+              "Vision",
+              "WeightManagement",
+              "WholeHealth",
+              "WomensHealth",
+              "Wound"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "past": false,
+        "pending": false,
+        "modality": "claimExamAppointment"
+      }
+    },
+    {
+      "id": "CERN04aa456vvs",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "comment": "",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming at home telehealth appointment with instructions",
+        "end": "2022-12-09T20:30:00Z",
+        "id": "CERN04aa456vvs",
+        "kind": "telehealth",
+        "type": "VA",
+        "modality": "vaVideoCareAtHome",
+        "locationId": "668",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "isCerner": true,
+        "patientInstruction": "Medication Review to prepare patient",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Smith",
+              "given": ["Oracle Megan"]
+            },
+            "practiceName": null
+          },
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Dali",
+              "given": ["Salvador"]
+            },
+            "practiceName": null
+          }
+        ],
+        "physicalLocation": "should not display",
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {},
+        "requestedPeriods": null,
+        "serviceType": "audiology",
+        "extension": {
+          "patientHasMobileGfe": true
+        },
+        "slot": null,
+        "start": "2025-12-09T20:30:00Z",
+        "localStartTime": "2025-12-13T09:00:00.000-06:00",
+        "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "MOBILE_ANY"
+        },
+        "past": false,
+        "pending": false
+      }
+    },
+    {
+      "id": "CERN53943099",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN53943099",
+        "kind": "clinic",
+        "type": "VA",
+        "modality": "vaInPerson",
+        "status": "booked",
+        "reasonCode": {
+          "coding": [],
+          "text": "VEText Manually Created Appointment"
+        },
+        "locationId": "668",
+        "start": "2025-11-21T17:00:00Z",
+        "end": "2025-08-21T17:30:00Z",
+        "requestedPeriods": [
+          {
+            "start": "2025-08-21T17:00:00Z",
+            "end": "2025-08-21T17:30:00Z"
+          }
+        ],
+        "cancellable": true,
+        "patientInstruction": "Preparations:\n- If you have any non-VA medical records, including radiology images, related to this appointment, please bring them with you.\r\nIf you have other health insurance, please bring your insurance card.\r\nYou can log into the patient portal, My VA Health to view or cancel your appointment.\r\nIf you need to cancel or reschedule your appointment, please call us at (509) 434-7026.\r\nOur clinic is located on the 1st floor, Bldg 27, Primary Care",
+        "localStartTime": "2025-08-21T10:00:00.000-07:00",
+        "station": null,
+        "ien": null,
+        "isCerner": true,
+        "avsPath": null,
+        "preferredDates": ["Wednesday, August 21, 2025 in the afternoon"],
+        "location": {
+          "id": "668",
+          "type": "appointments",
+          "attributes": {
+            "id": "668",
+            "facilitiesApiId": "vha_668",
+            "vistaSite": "668",
+            "vastParent": "668",
+            "type": "va_health_facility",
+            "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 47.701927,
+            "long": -117.475624,
+            "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/",
+            "phone": {
+              "main": "509-434-7000",
+              "fax": "509-434-7100",
+              "pharmacy": "509-434-7011",
+              "afterHours": "509-434-7000",
+              "patientAdvocate": "509-434-7504",
+              "mentalHealthClinic": "1-509-434-7013",
+              "enrollmentCoordinator": "509-434-7506"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["4815 North Assembly Street", null, null],
+              "city": "Spokane",
+              "state": "WA",
+              "postalCode": "99205-6185"
+            },
+            "mobile": false,
+            "healthService": [
+              "Addiction",
+              "AdviceNurse",
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Chiropractic",
+              "ColonSurgery",
+              "ComplementaryHealth",
+              "Covid19Vaccine",
+              "CriticalCare",
+              "Dental",
+              "Dermatology",
+              "Diabetic",
+              "EmploymentPrograms",
+              "Gastroenterology",
+              "Geriatrics",
+              "Gynecology",
+              "Hematology",
+              "Homeless",
+              "Hospice",
+              "HospitalMedicine",
+              "Laboratory",
+              "Lgbtq",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "MyHealtheVetCoordinator",
+              "Neurology",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "OutpatientSurgery",
+              "PatientAdvocates",
+              "Pharmacy",
+              "PhysicalTherapy",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Ptsd",
+              "PulmonaryMedicine",
+              "Radiology",
+              "RegistryExams",
+              "Rehabilitation",
+              "Rheumatology",
+              "SleepMedicine",
+              "Smoking",
+              "SocialWork",
+              "SuicidePrevention",
+              "Surgery",
+              "Telehealth",
+              "ToxicExposureScreening",
+              "TransitionCounseling",
+              "TravelReimbursement",
+              "UrgentCare",
+              "Urology",
+              "Vision",
+              "WeightManagement",
+              "WholeHealth",
+              "WomensHealth",
+              "Wound"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "past": false,
+        "pending": false
+      }
+    },
+    {
+      "id": "CERN53943037",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN53943037",
+        "kind": "clinic",
+        "type": "VA",
+        "modality": "vaInPerson",
+        "status": "booked",
+        "reasonCode": {
+          "coding": [],
+          "text": "VEText Manually Created Appointment"
+        },
+        "locationId": "668",
+        "start": "2024-11-21T17:00:00Z",
+        "end": "2024-08-21T17:30:00Z",
+        "requestedPeriods": [
+          {
+            "start": "2024-08-21T17:00:00Z",
+            "end": "2024-08-21T17:30:00Z"
+          }
+        ],
+        "cancellable": true,
+        "patientInstruction": "Preparations:\n- If you have any non-VA medical records, including radiology images, related to this appointment, please bring them with you.\r\nIf you have other health insurance, please bring your insurance card.\r\nYou can log into the patient portal, My VA Health to view or cancel your appointment.\r\nIf you need to cancel or reschedule your appointment, please call us at (509) 434-7026.\r\nOur clinic is located on the 1st floor, Bldg 27, Primary Care",
+        "localStartTime": "2024-08-21T10:00:00.000-07:00",
+        "station": null,
+        "ien": null,
+        "isCerner": true,
+        "avsPath": null,
+        "preferredDates": ["Wednesday, August 21, 2024 in the afternoon"],
+        "location": {
+          "id": "668",
+          "type": "appointments",
+          "attributes": {
+            "id": "668",
+            "facilitiesApiId": "vha_668",
+            "vistaSite": "668",
+            "vastParent": "668",
+            "type": "va_health_facility",
+            "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 47.701927,
+            "long": -117.475624,
+            "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/",
+            "phone": {
+              "main": "509-434-7000",
+              "fax": "509-434-7100",
+              "pharmacy": "509-434-7011",
+              "afterHours": "509-434-7000",
+              "patientAdvocate": "509-434-7504",
+              "mentalHealthClinic": "1-509-434-7013",
+              "enrollmentCoordinator": "509-434-7506"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["4815 North Assembly Street", null, null],
+              "city": "Spokane",
+              "state": "WA",
+              "postalCode": "99205-6185"
+            },
+            "mobile": false,
+            "healthService": [
+              "Addiction",
+              "AdviceNurse",
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Chiropractic",
+              "ColonSurgery",
+              "ComplementaryHealth",
+              "Covid19Vaccine",
+              "CriticalCare",
+              "Dental",
+              "Dermatology",
+              "Diabetic",
+              "EmploymentPrograms",
+              "Gastroenterology",
+              "Geriatrics",
+              "Gynecology",
+              "Hematology",
+              "Homeless",
+              "Hospice",
+              "HospitalMedicine",
+              "Laboratory",
+              "Lgbtq",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "MyHealtheVetCoordinator",
+              "Neurology",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "OutpatientSurgery",
+              "PatientAdvocates",
+              "Pharmacy",
+              "PhysicalTherapy",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Ptsd",
+              "PulmonaryMedicine",
+              "Radiology",
+              "RegistryExams",
+              "Rehabilitation",
+              "Rheumatology",
+              "SleepMedicine",
+              "Smoking",
+              "SocialWork",
+              "SuicidePrevention",
+              "Surgery",
+              "Telehealth",
+              "ToxicExposureScreening",
+              "TransitionCounseling",
+              "TravelReimbursement",
+              "UrgentCare",
+              "Urology",
+              "Vision",
+              "WeightManagement",
+              "WholeHealth",
+              "WomensHealth",
+              "Wound"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "past": true,
+        "pending": false
+      }
+    },
+    {
+      "id": "CERN53943099",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN53943099",
+        "kind": "clinic",
+        "type": "VA",
+        "modality": "vaInPerson",
+        "status": "booked",
+        "reasonCode": {
+          "coding": [],
+          "text": "VEText Manually Created Appointment"
+        },
+        "locationId": "668",
+        "start": "2025-12-21T17:00:00Z",
+        "end": "2025-12-21T17:30:00Z",
+        "requestedPeriods": [
+          {
+            "start": "2025-12-21T17:00:00Z",
+            "end": "2025-12-21T17:30:00Z"
+          }
+        ],
+        "cancellable": true,
+        "patientInstruction": "Preparations:\n- If you have any non-VA medical records, including radiology images, related to this appointment, please bring them with you.\r\nIf you have other health insurance, please bring your insurance card.\r\nYou can log into the patient portal, My VA Health to view or cancel your appointment.\r\nIf you need to cancel or reschedule your appointment, please call us at (509) 434-7026.\r\nOur clinic is located on the 1st floor, Bldg 27, Primary Care",
+        "localStartTime": "2025-12-21T10:00:00.000-07:00",
+        "station": null,
+        "ien": null,
+        "isCerner": true,
+        "avsPath": null,
+        "preferredDates": ["Wednesday, December 21, 2025 in the afternoon"],
+        "location": {
+          "id": "668",
+          "type": "appointments",
+          "attributes": {
+            "id": "668",
+            "facilitiesApiId": "vha_668",
+            "vistaSite": "668",
+            "vastParent": "668",
+            "type": "va_health_facility",
+            "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 47.701927,
+            "long": -117.475624,
+            "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/",
+            "phone": {
+              "main": "509-434-7000",
+              "fax": "509-434-7100",
+              "pharmacy": "509-434-7011",
+              "afterHours": "509-434-7000",
+              "patientAdvocate": "509-434-7504",
+              "mentalHealthClinic": "1-509-434-7013",
+              "enrollmentCoordinator": "509-434-7506"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["4815 North Assembly Street", null, null],
+              "city": "Spokane",
+              "state": "WA",
+              "postalCode": "99205-6185"
+            },
+            "mobile": false,
+            "healthService": [
+              "Addiction",
+              "AdviceNurse",
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Chiropractic",
+              "ColonSurgery",
+              "ComplementaryHealth",
+              "Covid19Vaccine",
+              "CriticalCare",
+              "Dental",
+              "Dermatology",
+              "Diabetic",
+              "EmploymentPrograms",
+              "Gastroenterology",
+              "Geriatrics",
+              "Gynecology",
+              "Hematology",
+              "Homeless",
+              "Hospice",
+              "HospitalMedicine",
+              "Laboratory",
+              "Lgbtq",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "MyHealtheVetCoordinator",
+              "Neurology",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "OutpatientSurgery",
+              "PatientAdvocates",
+              "Pharmacy",
+              "PhysicalTherapy",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Ptsd",
+              "PulmonaryMedicine",
+              "Radiology",
+              "RegistryExams",
+              "Rehabilitation",
+              "Rheumatology",
+              "SleepMedicine",
+              "Smoking",
+              "SocialWork",
+              "SuicidePrevention",
+              "Surgery",
+              "Telehealth",
+              "ToxicExposureScreening",
+              "TransitionCounseling",
+              "TravelReimbursement",
+              "UrgentCare",
+              "Urology",
+              "Vision",
+              "WeightManagement",
+              "WholeHealth",
+              "WomensHealth",
+              "Wound"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "past": false,
+        "pending": false
+      }
+    },
+    {
+      "id": "CERN129445973",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN129445973",
+        "identifier": [
+          {
+            "system": "urn:va.gov:cfa:cerner:appointment",
+            "value": "Appointment/129445973"
+          }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.cerner.com/d45741b3-8335-463d-ab16-8c5f0bcf78ed/codeSet/14249",
+                "code": "381426381",
+                "display": "Clinical Pharmacist TH Video Home"
+              }
+            ],
+            "text": "Clinical Pharmacist TH Video Home"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/appt-modality",
+                "code": "VIDEO",
+                "display": "VIDEO"
+              }
+            ]
+          }
+        ],
+        "reasonCode": {
+          "text": "MCN test for OCTO #3"
+        },
+        "description": "Clinical Pharmacist TH Video Home",
+        "patientIcn": "1012845331V153043",
+        "locationId": "668QD",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "Practitioner/10975557"
+              }
+            ],
+            "name": {
+              "family": "Adams",
+              "given": ["Brian J", "PhD"]
+            },
+            "firstName": "Brian J",
+            "lastName": "Adams"
+          }
+        ],
+        "start": "2025-12-25T19:00:00Z",
+        "end": "2025-12-25T19:30:00Z",
+        "minutesDuration": 30,
+        "slot": {
+          "id": "381426381-415968545-2322006979-240"
+        },
+        "requestedPeriods": null,
+        "cancellable": false,
+        "telehealth": {
+          "url": "https://dev.care.va.gov/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000071624@dev.care.va.gov&pin=394713&aid=CER129445973#",
+          "group": false,
+          "displayLink": false
+        },
+        "localStartTime": "2025-12-25T11:00:00.000-08:00",
+        "station": null,
+        "ien": null,
+        "isCerner": true,
+        "location": {
+          "id": "668QD",
+          "type": "appointments",
+          "attributes": {
+            "id": "668QD",
+            "facilitiesApiId": "vha_668QD",
+            "vistaSite": "668",
+            "vastParent": "668",
+            "type": "va_health_facility",
+            "name": "Bonner County VA Clinic",
+            "classification": "Other Outpatient Services (OOS)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 48.31163,
+            "long": -116.52453,
+            "website": "https://www.va.gov/spokane-health-care/locations/bonner-county-va-clinic/",
+            "phone": {
+              "main": "208-263-0450",
+              "fax": "208-255-5635",
+              "pharmacy": "509-434-7011",
+              "afterHours": "509-434-7000",
+              "patientAdvocate": "509-434-7504",
+              "mentalHealthClinic": "1-509-434-7013",
+              "enrollmentCoordinator": "509-434-7506"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "Closed",
+                "closingTime": "Closed"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "Closed",
+                "closingTime": "Closed"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["130 McGhee Road", null, "Suite 101"],
+              "city": "Kootenai",
+              "state": "ID",
+              "postalCode": "83840"
+            },
+            "mobile": false,
+            "healthService": ["PrimaryCare"],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "type": "VA",
+        "modality": "vaVideoCareAtHome",
+        "pending": false,
+        "past": false,
+        "future": true
+      }
+    },
+    {
+      "id": "CERN129240402",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN129240402",
+        "identifier": [
+          {
+            "system": "urn:va.gov:cfa:cerner:appointment",
+            "value": "Appointment/129240402"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "foodAndNutrition",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "foodAndNutrition"
+              }
+            ]
+          }
+        ],
+        "reasonCode": {
+          "text": "reasonCode:MEDICALISSUE|comments:testing"
+        },
+        "description": "Nutrition Follow Up (Portal)",
+        "patientIcn": "1012845331V153043",
+        "locationId": "692",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "Practitioner/57906957"
+              }
+            ],
+            "name": {
+              "family": "IVY",
+              "given": ["MICHELLE HUYNH", "MS RDN"]
+            },
+            "firstName": "MICHELLE HUYNH",
+            "lastName": "IVY"
+          }
+        ],
+        "start": "2025-05-09T16:30:00Z",
+        "end": "2025-05-09T17:00:00Z",
+        "minutesDuration": 30,
+        "slot": {
+          "id": "381638535-3300078539-2258367008-150"
+        },
+        "requestedPeriods": null,
+        "cancellable": false,
+        "localStartTime": "2025-05-09T09:30:00.000-07:00",
+        "station": null,
+        "ien": null,
+        "isCerner": true,
+        "patientComments": "testing",
+        "reasonForAppointment": "New medical issue",
+        "avsPath": null,
+        "location": {
+          "id": "692",
+          "type": "appointments",
+          "attributes": {
+            "id": "692",
+            "facilitiesApiId": "vha_692",
+            "vistaSite": "692",
+            "vastParent": "692",
+            "type": "va_health_facility",
+            "name": "White City VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 42.43995,
+            "long": -122.836296,
+            "website": "https://www.va.gov/southern-oregon-health-care/locations/white-city-va-medical-center/",
+            "phone": {
+              "main": "541-826-2111",
+              "fax": "541-830-7570",
+              "pharmacy": "541-826-2111",
+              "afterHours": "541-826-2111",
+              "patientAdvocate": "541-826-2111 x7504",
+              "mentalHealthClinic": "541-830-7440",
+              "enrollmentCoordinator": "541-826-2111 x3742"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "Closed",
+                "closingTime": "Closed"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "800AM",
+                "closingTime": "430PM"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "Closed",
+                "closingTime": "Closed"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["8495 Crater Lake Highway", null, null],
+              "city": "White City",
+              "state": "OR",
+              "postalCode": "97503-3011"
+            },
+            "mobile": false,
+            "healthService": [
+              "CaregiverSupport",
+              "Covid19Vaccine",
+              "Dental",
+              "EmploymentPrograms",
+              "Homeless",
+              "Laboratory",
+              "Lgbtq",
+              "MentalHealth",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "Nutrition",
+              "Optometry",
+              "Pharmacy",
+              "PhysicalMedicine",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Psychology",
+              "RecreationTherapy",
+              "Rehabilitation",
+              "SocialWork",
+              "SuicidePrevention",
+              "Telehealth",
+              "TransitionCounseling",
+              "Vision",
+              "WholeHealth",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "type": "VA",
+        "modality": "vaInPerson",
+        "pending": false,
+        "past": false,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 500,
+            "message": "message",
+            "success": false
+          }
+        }
+      }
+    },
+    {
+      "id": "CERN53943099123",
+      "type": "appointments",
+      "attributes": {
+        "id": "CERN53943099123",
+        "kind": "clinic",
+        "type": "VA",
+        "modality": "vaInPerson",
+        "status": "cancelled",
+        "reasonCode": {
+          "coding": [],
+          "text": "VEText Manually Created Appointment"
+        },
+        "locationId": "668",
+        "start": "2026-01-21T17:00:00Z",
+        "end": "2026-01-21T17:30:00Z",
+        "requestedPeriods": [
+          {
+            "start": "2026-01-21T17:00:00Z",
+            "end": "2026-01-21T17:30:00Z"
+          }
+        ],
+        "cancellable": true,
+        "patientInstruction": "Preparations:\n- If you have any non-VA medical records, including radiology images, related to this appointment, please bring them with you.\r\nIf you have other health insurance, please bring your insurance card.\r\nYou can log into the patient portal, My VA Health to view or cancel your appointment.\r\nIf you need to cancel or reschedule your appointment, please call us at (509) 434-7026.\r\nOur clinic is located on the 1st floor, Bldg 27, Primary Care",
+        "localStartTime": "2026-01-21T10:00:00.000-07:00",
+        "station": null,
+        "ien": null,
+        "isCerner": true,
+        "avsPath": null,
+        "preferredDates": ["Wednesday, August 21, 2025 in the afternoon"],
+        "location": {
+          "id": "668",
+          "type": "appointments",
+          "attributes": {
+            "id": "668",
+            "facilitiesApiId": "vha_668",
+            "vistaSite": "668",
+            "vastParent": "668",
+            "type": "va_health_facility",
+            "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Los_Angeles"
+            },
+            "lat": 47.701927,
+            "long": -117.475624,
+            "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/",
+            "phone": {
+              "main": "509-434-7000",
+              "fax": "509-434-7100",
+              "pharmacy": "509-434-7011",
+              "afterHours": "509-434-7000",
+              "patientAdvocate": "509-434-7504",
+              "mentalHealthClinic": "1-509-434-7013",
+              "enrollmentCoordinator": "509-434-7506"
+            },
+            "hoursOfOperation": [
+              {
+                "daysOfWeek": "sun",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "mon",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "tue",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "wed",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "thu",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "fri",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              },
+              {
+                "daysOfWeek": "sat",
+                "openingTime": "24/7",
+                "closingTime": "24/7"
+              }
+            ],
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["4815 North Assembly Street", null, null],
+              "city": "Spokane",
+              "state": "WA",
+              "postalCode": "99205-6185"
+            },
+            "mobile": false,
+            "healthService": [
+              "Addiction",
+              "AdviceNurse",
+              "Audiology",
+              "Cardiology",
+              "CaregiverSupport",
+              "Chiropractic",
+              "ColonSurgery",
+              "ComplementaryHealth",
+              "Covid19Vaccine",
+              "CriticalCare",
+              "Dental",
+              "Dermatology",
+              "Diabetic",
+              "EmploymentPrograms",
+              "Gastroenterology",
+              "Geriatrics",
+              "Gynecology",
+              "Hematology",
+              "Homeless",
+              "Hospice",
+              "HospitalMedicine",
+              "Laboratory",
+              "Lgbtq",
+              "MilitarySexualTrauma",
+              "MinorityCare",
+              "MyHealtheVetCoordinator",
+              "Neurology",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "OutpatientSurgery",
+              "PatientAdvocates",
+              "Pharmacy",
+              "PhysicalTherapy",
+              "Podiatry",
+              "PrimaryCare",
+              "Prosthetics",
+              "Psychiatry",
+              "Ptsd",
+              "PulmonaryMedicine",
+              "Radiology",
+              "RegistryExams",
+              "Rehabilitation",
+              "Rheumatology",
+              "SleepMedicine",
+              "Smoking",
+              "SocialWork",
+              "SuicidePrevention",
+              "Surgery",
+              "Telehealth",
+              "ToxicExposureScreening",
+              "TransitionCounseling",
+              "TravelReimbursement",
+              "UrgentCare",
+              "Urology",
+              "Vision",
+              "WeightManagement",
+              "WholeHealth",
+              "WomensHealth",
+              "Wound"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            },
+            "visn": "20",
+            "ehrSystem": "Oracle"
+          }
+        },
+        "past": false,
+        "pending": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "errors": [
+    {
+      "title": "Not Found",
+      "detail": "The resource could not be found",
+      "code": "VAOS_404",
+      "source": {
+        "vamfUrl": "https://fwdproxy-staging.vfs.va.gov:4463/vpg/v1/patients/<redacted>/appointments/e90d01823nonexistent",
+        "vamfBody": "{\"code\":404,\"status\":404,\"message\":\"Appointment not found for appointmentId: e90d01823nonexistent\",\"id\":\"<redacted>\",\"traceId\":\"<redacted>\"}",
+        "vamfStatus": 404
+      },
+      "status": "404"
+    }
+  ]
+}
