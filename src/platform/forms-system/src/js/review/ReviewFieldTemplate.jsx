@@ -24,7 +24,12 @@ export default function ReviewFieldTemplate(props) {
     return children;
   }
 
-  if (uiSchema?.['ui:options']?.hideEmptyValueInReview) {
+  const filterEmptyFields =
+    typeof formContext?.filterEmptyFields === 'boolean'
+      ? formContext.filterEmptyFields
+      : uiSchema?.['ui:options']?.hideEmptyValueInReview;
+
+  if (filterEmptyFields) {
     let value = children;
     if (typeof children !== 'undefined') {
       if ('props' in children) {
