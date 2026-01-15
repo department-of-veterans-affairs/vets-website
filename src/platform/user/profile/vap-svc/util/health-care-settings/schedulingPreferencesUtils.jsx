@@ -1,4 +1,5 @@
 import React from 'react';
+import { capitalize } from 'lodash';
 import {
   radioUI,
   radioSchema,
@@ -183,8 +184,12 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   return { itemId, optionIds };
 };
 
-// inner loop of convertSchedulingPreferencesToReduxFormat
+// This method takes in a lot of different possible data shapes and normalizes them
+// From API: { itemId: X, optionIds: [Y, Z] }
+// From Redux single value: 'option-Y'
+// From Redux multi value: ['option-Y', 'option-Z']
 export const convertSchedulingPreferenceToReduxFormat = (item, fieldName) => {
+  if (!item) return null;
   if (typeof item === 'string') {
     return item;
   }
@@ -287,8 +292,7 @@ export const getSchedulingPreferencesTimesDisplay = optionIds => {
   // debugger;
   displayNames.forEach(name => {
     const [day, timeOfDay] = name.split('_');
-    const formattedDay =
-      day.charAt(0).toUpperCase() + day.toLowerCase().slice(1);
+    const formattedDay = capitalize(day.toLowerCase());
     if (!days[formattedDay]) {
       days[formattedDay] = [];
     }

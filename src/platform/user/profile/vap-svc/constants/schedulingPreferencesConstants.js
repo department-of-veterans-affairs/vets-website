@@ -70,6 +70,13 @@ export const FIELD_OPTION_IDS = {
   },
 };
 
+export const FIELD_ADDITIONAL_CONTENT = {
+  [FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]:
+    'Select the days and times of day you want to go to your appointments.',
+  [FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES]:
+    'Select the days and times of day you want us to contact you.',
+};
+
 export const FIELD_OPTION_IDS_INVERTED = {
   [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {
     'option-6': 'No preference',
