@@ -9,7 +9,7 @@ const formatDob = dob => {
   return isValid(date) ? format(date, 'MM/dd/yyyy') : '';
 };
 
-const ApplicantCardDescription = item => {
+const ApplicantSummaryCard = item => {
   if (!item) return null;
 
   const {
@@ -50,4 +50,4 @@ const ApplicantCardDescription = item => {
   );
 };
 
-export default ApplicantCardDescription;
+export default ApplicantSummaryCard;

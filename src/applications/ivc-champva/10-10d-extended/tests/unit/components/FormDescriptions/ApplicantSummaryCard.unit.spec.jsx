@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ApplicantCardDescription from '../../../../components/FormDescriptions/ApplicantCardDescription';
+import ApplicantSummaryCard from '../../../../components/FormDescriptions/ApplicantSummaryCard';
 
 const DEFAULT_ITEM = {
   applicantDob: '1990-05-15',
@@ -16,7 +16,7 @@ const DEFAULT_ITEM = {
 };
 
 const subject = item => {
-  const result = ApplicantCardDescription(item);
+  const result = ApplicantSummaryCard(item);
   if (!result) return { listItems: [], textContent: '' };
 
   const { container } = render(result);
@@ -26,7 +26,7 @@ const subject = item => {
   };
 };
 
-describe('10-10d <ApplicantCardDescription>', () => {
+describe('10-10d <ApplicantSummaryCard>', () => {
   it('should render all fields when data is complete', () => {
     const { listItems, textContent } = subject(DEFAULT_ITEM);
     expect(listItems).to.have.lengthOf(4);
