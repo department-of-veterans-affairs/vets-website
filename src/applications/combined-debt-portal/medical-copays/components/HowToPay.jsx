@@ -4,17 +4,8 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import CopyButton from '../../combined/components/CopyButton';
 
 const splitAccountNumber = accountNumber => {
-  if (!accountNumber) return ['', '', '', '', ''];
-
-  const [
-    part1 = '',
-    part2 = '',
-    part3 = '',
-    part4 = '',
-    part5 = '',
-  ] = accountNumber.split(/\s+/);
-
-  return [part1, part2, part3, part4, part5];
+  const parts = accountNumber?.split(/\s+/) || [];
+  return Array.from({ length: 5 }, (_, i) => parts[i] || '');
 };
 
 export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => {
