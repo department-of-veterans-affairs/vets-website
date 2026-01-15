@@ -80,6 +80,7 @@ const formConfigKeys = [
   'chapters',
   'confirmation',
   'CustomReviewTopContent',
+  'customValidationErrors',
   'customText',
   'CustomTopContent',
   'customValidationErrors',

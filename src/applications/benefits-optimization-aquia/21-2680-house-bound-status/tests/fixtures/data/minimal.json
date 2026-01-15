@@ -20,6 +20,10 @@
     "claimantRelationship": {
       "relationship": "veteran"
     },
+    "claimantContact": {
+      "claimantPhoneNumber": "5205551138",
+      "claimantEmail": "luke@moisture-farm.net"
+    },
     "benefitType": {
       "benefitType": "SMC"
     },

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -39,6 +40,7 @@ import { getTimeFrame, getDisplayTimeFrame } from '../util/helpers';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const updatedRecordList = useSelector(
     state => state.mr.careSummariesAndNotes.updatedList,
   );
@@ -111,6 +113,7 @@ const CareSummariesAndNotes = () => {
     updateDateRangeAction: updateNotesDateRange,
     updateListStateActionType: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
     dataDogLabel: 'Notes date option',
+    history,
   });
 
   return (

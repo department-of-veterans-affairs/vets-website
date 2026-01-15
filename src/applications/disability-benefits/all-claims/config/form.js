@@ -607,14 +607,14 @@ const formConfig = {
           schema: serviceTreatmentRecordsAttachments.schema,
         },
         evidenceTypes: {
-          title: 'Supporting evidence types',
+          title: 'Types of supporting evidence',
           path: 'supporting-evidence/evidence-types',
           depends: formData => !isBDD(formData),
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
         },
         evidenceTypesBDD: {
-          title: 'Supporting evidence types for BDD',
+          title: 'Types of supporting evidence for BDD',
           path: 'supporting-evidence/evidence-types-bdd',
           depends: formData => isBDD(formData),
           uiSchema: evidenceTypesBDD.uiSchema,
@@ -628,7 +628,7 @@ const formConfig = {
           schema: vaMedicalRecords.schema,
         },
         privateMedicalRecords: {
-          title: 'Non-VA treatment records',
+          title: 'Options for providing non-VA treatment records',
           path: 'supporting-evidence/private-medical-records',
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
@@ -645,7 +645,7 @@ const formConfig = {
         },
         // 2024 authorization
         privateMedicalAuthorizeRelease: {
-          title: 'Non-VA treatment records',
+          title: 'Authorization to release non-VA treatment records to VA',
           path: 'supporting-evidence/private-medical-records-authorize-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
@@ -658,16 +658,23 @@ const formConfig = {
         },
         // PMR Facilities Page
         privateMedicalRecordsRelease: {
-          title: 'Non-VA treatment records',
+          title:
+            'Option to limit consent to retrieve information from treatment providers',
           path: 'supporting-evidence/private-medical-records-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&
             isNotUploadingPrivateMedical(formData),
-          uiSchema: privateMedicalRecordsRelease.uiSchema,
+          uiSchema: {
+            ...privateMedicalRecordsRelease.uiSchema,
+            providerFacility: {
+              ...privateMedicalRecordsRelease.uiSchema.providerFacility,
+              'ui:title': 'Non-VA treatment provider details',
+            },
+          },
           schema: privateMedicalRecordsRelease.schema,
         },
         additionalDocuments: {
-          title: 'Lay statements and other evidence',
+          title: 'Non-VA treatment records you uploaded',
           path: 'supporting-evidence/additional-evidence',
           depends: hasOtherEvidence,
           uiSchema: additionalDocuments.uiSchema,

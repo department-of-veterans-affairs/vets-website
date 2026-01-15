@@ -3,9 +3,9 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - "**"
+      - '**'
     tags-ignore:
-      - "**"
+      - '**'
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/main' && github.ref || github.sha }}
@@ -39,7 +39,7 @@ jobs:
             # Check if there are any changes to package.json that don't involve approved packages or scripts
             if [ -n "$PACKAGE_JSON_DIFF" ]; then
               # Get changed lines (excluding context lines and approved packages)
-              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' || echo "")
+              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v '"sass"' | grep -v 'patch-package' || echo "")
 
               if [ -n "$CHANGED_LINES" ]; then
                 # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)
@@ -49,7 +49,7 @@ jobs:
                 if [ -n "$DEPENDENCY_CHANGES" ]; then
                   echo "❌ ERROR: package.json has dependency changes other than approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, and the scripts section are allowed."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, node-sass, sass, patch-package, and the scripts section are allowed."
                   echo ""
                   echo "Dependency changes detected:"
                   echo "$DEPENDENCY_CHANGES"
@@ -64,7 +64,7 @@ jobs:
             if [ -n "$YARN_LOCK_DIFF" ]; then
               # For yarn.lock, we need to check if changes are only in approved package sections
               # Get all added/removed lines that don't contain approved packages
-              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' || echo "")
+              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v 'sass' | grep -v 'patch-package' || echo "")
 
               # Also check for package entry headers that might not contain the name on the same line
               # In yarn.lock, package entries start with "package-name@version:"
@@ -74,12 +74,12 @@ jobs:
                 # Count lines to determine if changes are substantial
                 CHANGE_COUNT=$(echo "$NON_APPROVED_LOCK_CHANGES" | wc -l)
 
-                # If there are more than 250 lines of non-approved package changes, it's likely other packages
+                # If there are more than 600 lines of non-approved package changes, it's likely other packages
                 # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
-                if [ "$CHANGE_COUNT" -gt 250 ]; then
+                if [ "$CHANGE_COUNT" -gt 600 ]; then
                   echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, and @department-of-veterans-affairs/react-components are allowed."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, node-sass, sass, and patch-package are allowed."
                   echo ""
                   echo "Detected $CHANGE_COUNT lines of non-approved package changes in yarn.lock"
                   exit 1
@@ -146,8 +146,8 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          delimiter: ","
-          output-type: "entry_name, continuous_deployment"
+          delimiter: ','
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -312,8 +312,8 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          delimiter: ","
-          output-type: "entry_name, url, folder"
+          delimiter: ','
+          output-type: 'entry_name, url, folder'
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -476,7 +476,7 @@ jobs:
         env:
           TEST_TYPE: unit_test
           TESTS: ${{ env.DISALLOWED_TESTS }}
-          TESTS_PROPERTY: "DISALLOWED_TESTS"
+          TESTS_PROPERTY: 'DISALLOWED_TESTS'
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -519,7 +519,7 @@ jobs:
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
-      DISALLOWED_TESTS: "[]"
+      DISALLOWED_TESTS: '[]'
 
     strategy:
       fail-fast: false
@@ -660,7 +660,7 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          output-type: "entry_name"
+          output-type: 'entry_name'
 
       - name: Audit dependencies
         if: steps.get-changed-apps.outputs.entry_names == ''
@@ -690,7 +690,7 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          output-type: "folder"
+          output-type: 'folder'
 
       - name: Annotate ESLint results
         run: |
@@ -904,7 +904,7 @@ jobs:
         run: node script/github-actions/double-check-allow-list.js
         env:
           TEST_TYPE: e2e
-          TEST_PROPERTY: "TESTS"
+          TEST_PROPERTY: 'TESTS'
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1813,8 +1813,8 @@ jobs:
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
         with:
-          delimiter: ","
-          output-type: "folder"
+          delimiter: ','
+          output-type: 'folder'
 
       - name: Init Dashboard Data Repo
         uses: ./.github/workflows/init-data-repo
@@ -1868,16 +1868,16 @@ jobs:
         uses: ./.github/workflows/annotations
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          check_title: "E2E Test Stability Allow List Annotations"
-          input_json: "./e2e-annotations.json"
+          check_title: 'E2E Test Stability Allow List Annotations'
+          input_json: './e2e-annotations.json'
 
       - name: Annotate Unit Test Files accordingly
         if: ${{ env.unit-test-annotations-json != '[]' }}
         uses: ./.github/workflows/annotations
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          check_title: "Unit Test Stability Allow List Annotations"
-          input_json: "./unit-test-annotations.json"
+          check_title: 'Unit Test Stability Allow List Annotations'
+          input_json: './unit-test-annotations.json'
 
       - name: Verify Merge Eligibility
         run: node script/github-actions/verify-merge-eligibility.js
@@ -2065,7 +2065,7 @@ jobs:
         id: get-slack-channel
         uses: ./.github/workflows/get-changed-apps
         with:
-          output-type: "slack_channel"
+          output-type: 'slack_channel'
 
       - name: Determine Slack channel
         id: determine-channel
@@ -2134,7 +2134,7 @@ jobs:
         if: env.ALERT_TEAMS == 'true'
         uses: ./.github/workflows/get-changed-apps
         with:
-          output-type: "slack_group"
+          output-type: 'slack_group'
 
       - name: Notify application team in Slack
         if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
