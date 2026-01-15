@@ -3,12 +3,16 @@ import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import IntentToFile from '../IntentToFile';
 import { activeItf, nonActiveItf, mockItfData } from './helpers';
 
 describe('IntentToFile', () => {
+  afterEach(() => {
+    resetFetch();
+    sessionStorage.clear();
+  });
   const getData = ({
     baseUrl = '/path-to-app',
     itfType = 'compensation',
