@@ -74,6 +74,7 @@
   "medicare--plan-type-option--b": "Medicare Part B only (Medical Insurance)",
   "medicare--plan-type-option--c": "Medicare Part C, also known as Medicare Advantage (includes previous enrollment in Part A and B)",
   "medicare--plan-type-option--d": "Medicare Part D (prescription drug coverage)",
+  "medicare--plan-type-option--na": "Medicare plan type not provided",
   "medicare--summary-title": "Review Medicare",
   "medicare--summary-title-no-items": "Report Medicare plans",
   "medicare--yes-no-title": "Do any applicants have Medicare plans?",

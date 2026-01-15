@@ -8,8 +8,9 @@ export const SCHEMA_LABELS = Object.freeze({
   b: content['medicare--plan-type-option--b'],
 });
 const PART_D_LABEL = content['medicare--plan-type-option--d'];
+const BASE_LABEL = content['medicare--plan-type-option--na'];
 
-const getPlanTypeLabel = planType => SCHEMA_LABELS[planType] ?? '';
+const getPlanTypeLabel = planType => SCHEMA_LABELS[planType] ?? BASE_LABEL;
 
 const MedicareSummaryCard = item => {
   const { medicarePlanType, hasMedicarePartD } = item ?? {};
