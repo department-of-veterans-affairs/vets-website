@@ -252,7 +252,7 @@ const ReplyDraftItem = props => {
   useEffect(
     () => {
       const draftBody = draft && draft.body;
-      const blankDraft = messageBody === '' && draftBody === undefined;
+      const blankDraft = messageBody === '' && draftBody === null;
       const savedEdits = messageBody === draftBody;
       if (savedEdits || blankDraft) {
         setNavigationError(null);
