@@ -20,7 +20,7 @@ describe('Medallions supportingDocumentsUpload page', () => {
         />
       </Provider>,
     );
-    expect(form.find('VaFileInputField').length).to.equal(1);
+    expect(form.find('va-file-input-multiple').length).to.equal(1);
     form.unmount();
   });
 });
