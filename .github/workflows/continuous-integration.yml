@@ -39,7 +39,7 @@ jobs:
             # Check if there are any changes to package.json that don't involve approved packages or scripts
             if [ -n "$PACKAGE_JSON_DIFF" ]; then
               # Get changed lines (excluding context lines and approved packages)
-              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'jsdom' | grep -v '"msw"' | grep -v 'husky' || echo "")
+              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v '"sass"' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v '"msw"'  || echo "")
 
               if [ -n "$CHANGED_LINES" ]; then
                 # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)

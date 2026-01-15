@@ -420,7 +420,8 @@
       "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
       "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
       "src/applications/benefits-optimization-aquia/21-4192-employment-information",
-      "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance"
+      "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance",
+      "src/applications/virtual-agent"
     ],
     "nohoist": [
       "**/applications-accredited-representative-portal/react-router-dom",
