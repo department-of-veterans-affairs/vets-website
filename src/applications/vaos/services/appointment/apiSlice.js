@@ -1,22 +1,13 @@
 /* eslint-disable no-console */
-import { createSelector } from '@reduxjs/toolkit';
 // NOTE: Using the react specific version for hooks functionality
 import { createApi } from '@reduxjs/toolkit/query/react';
 // NOTE: This is the core RTK functionality which is framework agnostic
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { addDays, format, isBefore, subDays } from 'date-fns';
+import { addDays, format, isAfter, isBefore, subDays } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 // NOTE: This map utiltiy allows for plucking out attributes.
-import { map } from 'lodash';
-import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { getVAAppointmentLocationId } from '.';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
-import locationSlice from '../location/apiSlice';
 import { apiRequestWithUrl } from '../utils';
-import {
-  transformVAOSAppointment,
-  transformVAOSAppointments,
-} from './transformers';
+import { transformVAOSAppointment } from './transformers';
 import transformResponses from './transformResponse';
 
 export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
@@ -133,58 +124,36 @@ const slice = createApi({
           : // an error occurred, but we still want to refetch this query when `{ type: 'Appointment', id: 'LIST' }` is invalidated
             [{ type: 'Appointment', id: 'LIST' }],
       transformResponse: transformResponses,
-      // transformResponse: (response, _meta, _arg) => {
-      //   if (response) {
-      //     // Pluck the 'attributes' data
-      //     const a = map(response, 'attributes').filter(appointment => {
-      //       // NOTE: Shouldn't need this check since it's implied that upcoming
-      //       // appointment are of type VA or CC.
-      //       if (
-      //         appointment.future &&
-      //         (appointment.type === 'COMMUNITY_CARE_APPOINTMENT' ||
-      //           appointment.type === 'VA')
-      //       ) {
-      //         return !FUTURE_APPOINTMENTS_HIDDEN_SET.has(
-      //           appointment.description,
-      //         );
-      //       }
-      //       return false;
-      //     });
-      //     return transformVAOSAppointments(a);
-      //   }
-
-      //   return [];
-      // },
-      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+      async onQueryStarted(body, { _dispatch, queryFulfilled }) {
         console.log('query started', queryFulfilled);
-        const { data } = await queryFulfilled;
-        console.log('data', data);
-        const locations = map(data, 'attributes.location')
-          .filter(Boolean)
-          .filter(value => value !== 'Error fetching facility details')
-          // Remove duplicates
-          .filter((obj, index, self) => {
-            return index === self.findIndex(o => o.id === obj.id);
-          });
-        console.log('locations', locations);
+        //   const { data } = await queryFulfilled;
+        //   console.log('data', data);
+        //   const locations = map(data, 'attributes.location')
+        //     .filter(Boolean)
+        //     .filter(value => value !== 'Error fetching facility details')
+        //     // Remove duplicates
+        //     .filter((obj, index, self) => {
+        //       return index === self.findIndex(o => o.id === obj.id);
+        //     });
+        //   console.log('locations', locations);
 
-        const results = dispatch(
-          locationSlice?.util.upsertQueryData(
-            'getFacilities',
-            undefined,
-            locations.map(location => ({
-              id: location.id,
-              type: 'location',
-              attributes: { ...location.attributes },
-            })),
-          ),
-        );
-        try {
-          await queryFulfilled;
-          console.log('results', await results);
-        } catch (e) {
-          console.log('Error:', e);
-        }
+        //   const results = dispatch(
+        //     locationSlice?.util.upsertQueryData(
+        //       'getFacilities',
+        //       undefined,
+        //       locations.map(location => ({
+        //         id: location.id,
+        //         type: 'location',
+        //         attributes: { ...location.attributes },
+        //       })),
+        //     ),
+        //   );
+        //   try {
+        //     await queryFulfilled;
+        //     console.log('results', await results);
+        //   } catch (e) {
+        //     console.log('Error:', e);
+        //   }
       },
     }),
     getAppointmentRequest: builder.query({
@@ -288,31 +257,17 @@ const slice = createApi({
 //   },
 // );
 
-export const selectAppointmentRequest = (state, id) => {
-  // A function that accepts a cache key argument, and generates a new memoized
-  // selector for reading cached data for this endpoint using the given cache
-  // key. The generated selector is memoized using Reselect's createSelector.
-  const f = slice.endpoints.getAppointmentRequest.select(id);
-  const appointment = f(state, id);
+// export const selectAppointmentRequest = (state, id) => {
+//   // A function that accepts a cache key argument, and generates a new memoized
+//   // selector for reading cached data for this endpoint using the given cache
+//   // key. The generated selector is memoized using Reselect's createSelector.
+//   const f = slice.endpoints.getAppointmentRequest.select(id);
+//   const appointment = f(state, id);
 
-  if (appointment.data)
-    return transformVAOSAppointment(appointment.data.attributes);
-  return null;
-};
-
-export const selectAppointmentRequests = createSelector(
-  state => {
-    const f = slice.endpoints.getAppointmentRequests.select();
-    return f(state);
-  },
-  appointments => {
-    if (appointments.data) {
-      const a = map(appointments.data.flat(), 'attributes');
-      return transformVAOSAppointments(a);
-    }
-    return [];
-  },
-);
+//   if (appointment.data)
+//     return transformVAOSAppointment(appointment.data.attributes);
+//   return null;
+// };
 
 export function groupAppointmentsByMonth(appointments) {
   if (!appointments || appointments.length === 0) {
@@ -332,72 +287,14 @@ export function sortByDateAscending(a, b) {
   return isBefore(a?.start, b?.start) ? -1 : 1;
 }
 
-export const selectAppointmentsGroupByMonth = createSelector(
-  // state => selectAppointments(state),
-  state => {
-    const f = slice.endpoints.getAppointments.select();
-    return f(state);
-  },
-  appointments => {
-    console.log(appointments.data);
-    if (appointments?.data) {
-      return [...appointments.data] // NOTE: Needed since appointments.data array is immutable. Will get error
-        .sort(sortByDateAscending)
-        .reduce((previous, current) => {
-          const key = formatInTimeZone(
-            current.start,
-            current.timezone,
-            'yyyy-MM',
-          );
-          // eslint-disable-next-line no-param-reassign
-          previous[key] = previous[key] || [];
-          previous[key].push(current);
-          return previous;
-        }, {});
-    }
-    return [];
-  },
-);
-
-export const selectCancelInfo = createSelector(
-  state => state.appointments,
-  state => selectCernerFacilityIds(state),
-  (appointments, cernerFacilityIds) => {
-    const {
-      appointmentToCancel,
-      cancelAppointmentStatus,
-      cancelAppointmentStatusVaos400,
-      facilityData,
-      showCancelModal,
-    } = appointments;
-
-    let facility = null;
-    if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked) {
-      // Confirmed in person VA and video appts
-      const locationId = getVAAppointmentLocationId(appointmentToCancel);
-      facility = facilityData[locationId];
-    } else if (appointmentToCancel?.facility) {
-      // Requests
-      facility = facilityData[appointmentToCancel.facility.facilityCode];
-    }
-    let isCerner = null;
-    if (appointmentToCancel) {
-      isCerner = cernerFacilityIds?.some(
-        cernerSite =>
-          appointmentToCancel.location.vistaId?.startsWith(cernerSite.vhaId),
-        // appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
-      );
-    }
-    return {
-      facility,
-      appointmentToCancel,
-      showCancelModal,
-      cancelAppointmentStatus,
-      cancelAppointmentStatusVaos400,
-      isCerner,
-    };
-  },
-);
+/**
+ * Sort method for past appointments
+ * @param {Appointment} a A FHIR appointment resource
+ * @param {Appointment} b A FHIR appointment resource
+ */
+export function sortByDateDescending(a, b) {
+  return isAfter(a.start, b.start) ? -1 : 1;
+}
 
 export const {
   useGetAppointmentQuery,

@@ -22,7 +22,7 @@ import { useGetAppointmentRequestsQuery } from '../../../services/appointment/ap
 import AppointmentListNavigation from '../../components/AppointmentListNavigation';
 import PageLayout from '../../components/PageLayout';
 import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
-import PastAppointmentsPage from '../PastAppointmentsPage';
+import PastAppointmentsPage from '../PastAppointmentsPageV2';
 import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage/indexV2';
 
 function renderWarningNotification() {
