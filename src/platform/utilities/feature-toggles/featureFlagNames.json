@@ -352,6 +352,7 @@
   "virtualAgentShowAiDisclaimer": "virtual_agent_show_ai_disclaimer",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentUseStsAuthentication": "virtual_agent_use_sts_authentication",
+  "virtualAgentUseV2Chatbot": "virtual_agent_use_v2_chatbot",
   "virtualAgentChatbotSessionPersistenceEnabled": "virtual_agent_chatbot_session_persistence_enabled",
   "virtualAgentShowChatbot": "virtual_agent_show_chatbot",
   "vreModularApi": "vre_modular_api",

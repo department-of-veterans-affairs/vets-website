@@ -130,10 +130,38 @@ yarn cy:open
 
 # Run Cypress tests from command line
 yarn cy:run --spec "src/applications/vaos/tests/e2e/**/*.cypress.spec.js"
+
+# Run only Community Care referral tests
+yarn cy:run --spec "src/applications/vaos/tests/e2e/**/referral*.cypress.spec.js"
 ```
 
 **Note:** Before running Cypress tests, ensure the dev server is running on port 3001 with `yarn watch --env entry=vaos` and that the mock service is not running. Cypress has its own intercepts.
 
+### Screenshots
+
+Screenshots are disabled by default during test runs to speed up regular e2e testing. To capture screenshots, pass the `--env screenshots=vaos` flag:
+
+```bash
+yarn cy:run --env screenshots=vaos --spec "src/applications/vaos/tests/e2e/**/referral*.cypress.spec.js"
+```
+
+After the command completes, screenshots are saved to the `cypress/screenshots` folder at the root of the project. Each Cypress test file gets its own subfolder containing all screenshots from that file:
+
+```
+cypress/screenshots/
+├── referral-appointments.cypress.spec.js/
+│   ├── referrals-and-requests-page-with-referrals.png
+│   ├── referral-detail-page.png
+│   ├── referral-selecting-slot-times-selected-slot.png
+│   ├── referral-review-page.png
+│   └── referral-complete-page.png
+├── referral-api-errors.cypress.spec.js/
+│   ├── referrals-list-api-error-500.png
+│   ├── referral-detail-api-error-500.png
+│   └── ...
+└── referral-details-api-errors.cypress.spec.js/
+    └── ...
+```
 
 ## Technical details
 
