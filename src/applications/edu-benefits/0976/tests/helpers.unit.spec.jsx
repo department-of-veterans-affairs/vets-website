@@ -6,6 +6,7 @@ import {
   validateInitialsMatch,
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
+  programInformationArrayOptions,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -193,6 +194,36 @@ describe('0839 Helpers', () => {
           'These are the extension campuses and additional locations officially associated with your institution.',
         );
       });
+    });
+  });
+
+  describe('program information options', () => {
+    const exampleItem = {
+      programName: 'MBA',
+      totalProgramLength: 'Semester',
+      weeksPerTerm: '16',
+      entryRequirements: 'Bachelors',
+      creditHours: '20',
+    };
+
+    const { isItemIncomplete, text } = programInformationArrayOptions;
+
+    it('has the right completeness check', () => {
+      expect(isItemIncomplete({ programName: null, totalProgramLength: null }))
+        .to.be.true;
+      expect(isItemIncomplete(exampleItem)).to.be.false;
+    });
+
+    it('has the right card description', () => {
+      const description = text.cardDescription(exampleItem);
+      const { container } = render(description);
+      expect(container.textContent).to.contain('Semester');
+      expect(container.textContent).to.contain('Bachelors');
+    });
+
+    it('has the right card title', () => {
+      const title = text.getItemName(exampleItem);
+      expect(title).to.eq('MBA');
     });
   });
 });
