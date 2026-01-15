@@ -103,11 +103,13 @@ describe('RecentCareTeams component', () => {
       ).to.exist;
 
       // Check for va-radio element with the label attribute
-      const radioGroup = document.querySelector('va-radio');
-      expect(radioGroup).to.exist;
-      expect(radioGroup.getAttribute('label')).to.include(
-        'Select a team you want to message',
-      );
+      await waitFor(() => {
+        const radioGroup = document.querySelector('va-radio');
+        expect(radioGroup).to.exist;
+        expect(radioGroup.getAttribute('label')).to.include(
+          'Select a team you want to message',
+        );
+      });
 
       // Check for va-radio-option elements with label attributes
       const radioOptions = document.querySelectorAll('va-radio-option');
@@ -138,6 +140,26 @@ describe('RecentCareTeams component', () => {
       expect(descriptions).to.include('VA Medical Center');
       expect(descriptions).to.include('VA Clinic');
       expect(descriptions).to.include('VA Hospital');
+    });
+
+    it('should have accessible radio group with label-header-level and hint', () => {
+      renderComponent();
+
+      const radioGroup = document.querySelector('va-radio');
+      expect(radioGroup).to.exist;
+
+      // Verify label is the heading text only (not combined with hint)
+      expect(radioGroup.getAttribute('label')).to.equal(
+        'Select a team you want to message',
+      );
+
+      // Verify hint contains the helper text
+      expect(radioGroup.getAttribute('hint')).to.include(
+        'This list only includes teams',
+      );
+
+      // Verify label-header-level is set for proper heading structure
+      expect(radioGroup.getAttribute('label-header-level')).to.equal('2');
     });
 
     it('should render loading indicator when recentRecipients is undefined', () => {
@@ -724,6 +746,44 @@ describe('RecentCareTeams component', () => {
       );
 
       expect(radioOptions.length).to.equal(mockRecentRecipients.length);
+    });
+  });
+
+  describe('Google Analytics (recordEvent)', () => {
+    beforeEach(() => {
+      window.dataLayer = [];
+    });
+
+    it('should push event when a recent care team is selected', async () => {
+      const screen = renderComponent();
+
+      selectVaRadio(screen.container, 1);
+
+      await waitFor(() => {
+        const hasEvent = window.dataLayer?.some(
+          e =>
+            e?.event === 'int-select-box-option-click' &&
+            e['select-selectLabel'] === 'recent care team' &&
+            e['select-required'] === true,
+        );
+        expect(hasEvent).to.be.true;
+      });
+    });
+
+    it('should push event when "A different care team" is selected', async () => {
+      const screen = renderComponent();
+
+      selectVaRadio(screen.container, 'other');
+
+      await waitFor(() => {
+        const hasEvent = window.dataLayer?.some(
+          e =>
+            e?.event === 'int-select-box-option-click' &&
+            e['select-selectLabel'] === 'other' &&
+            e['select-required'] === true,
+        );
+        expect(hasEvent).to.be.true;
+      });
     });
   });
 

@@ -132,7 +132,8 @@ describe('LicenseCertificationSearchForm', () => {
     wrapper
       .find('va-button')
       .first()
-      .prop('onClick')();
+      .getDOMNode()
+      .click();
 
     // Verify store actions
     const actions = store.getActions();
@@ -185,7 +186,8 @@ describe('LicenseCertificationSearchForm', () => {
     wrapper
       .find('va-button')
       .at(1)
-      .simulate('click');
+      .getDOMNode()
+      .click();
     wrapper.update();
 
     expect(
