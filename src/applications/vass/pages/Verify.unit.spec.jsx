@@ -15,8 +15,11 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import Verify from './Verify';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
+import {
+  getDefaultRenderOptions,
+  reducers,
+  vassApi,
+} from '../utils/test-utils';
 
 // Helper component to display current location for testing navigation
 const LocationDisplay = () => {
@@ -29,22 +32,7 @@ const LocationDisplay = () => {
   );
 };
 
-const defaultRenderOptions = {
-  initialState: {
-    vassForm: {
-      hydrated: false,
-      selectedDate: null,
-      obfuscatedEmail: null,
-      token: null,
-      selectedTopics: [],
-      uuid: null,
-      lastname: null,
-      dob: null,
-    },
-  },
-  reducers,
-  additionalMiddlewares: [vassApi.middleware],
-};
+const defaultRenderOptions = getDefaultRenderOptions();
 
 describe('VASS Component: Verify', () => {
   beforeEach(() => {
