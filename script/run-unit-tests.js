@@ -100,7 +100,7 @@ function getChangedTestPatterns() {
   }
 
   // For node compatibility verification, read from file
-  if (process.env.NODE_COMPATBILITY_VERIFICATION) {
+  if (process.env.NODE_COMPATIBILITY_VERIFICATION) {
     try {
       return JSON.parse(
         fs.readFileSync(path.resolve('changed_unit_tests.json')),

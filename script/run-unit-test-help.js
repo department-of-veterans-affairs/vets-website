@@ -52,13 +52,13 @@ const helpSections = [
         name: 'coverage',
         typeLabel: '{underline boolean}',
         description:
-          'Runs the unit tests with code coverage metrics, and outputs the results to a json report in coverage/',
+          'Runs the unit tests with code coverage metrics, and outputs the results to a JSON report in coverage/',
       },
       {
         name: 'coverage-html',
         typeLabel: '{underline boolean}',
         description:
-          'Used in conjunction with `--coverage`. Runs the unit tests with code coverage metrics, and outputs the results to an html report in coverage/ instead of json.',
+          'Used in conjunction with `--coverage`. Runs the unit tests with code coverage metrics, and outputs the results to an HTML report in coverage/ instead of JSON.',
       },
       {
         name: 'app-folder',
