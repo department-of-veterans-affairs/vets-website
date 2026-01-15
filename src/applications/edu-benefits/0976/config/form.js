@@ -20,8 +20,13 @@ import primaryInstitutionPhysicalAddress from '../pages/primaryInstitutionPhysic
 import primaryInstitutionReview from '../pages/primaryInstitutionReview';
 import additionalInstitutionsSummaryWithCode from '../pages/additionalInstitutionsSummaryWithCode';
 import additionalInstitutionsItemWithCode from '../pages/additionalInstitutionsItemWithCode';
+import additionalInstitutionsSummaryWithoutCode from '../pages/additionalInstitutionsSummaryWithoutCode';
+import additionalInstitutionsItemWithoutCode from '../pages/additionalInstitutionsItemWithoutCode';
 
-import { additionalInstitutionsArrayOptions } from '../helpers';
+import {
+  additionalInstitutionsWithCodeArrayOptions,
+  additionalInstitutionsWithoutCodeArrayOptions,
+} from '../helpers';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -152,7 +157,7 @@ const formConfig = {
           depends: formData => !formData?.hasVaFacilityCode,
         },
         ...arrayBuilderPages(
-          additionalInstitutionsArrayOptions,
+          additionalInstitutionsWithCodeArrayOptions,
           pageBuilder => ({
             additionalInstitutionsSummaryWithCode: pageBuilder.summaryPage({
               path: 'additional-institutions-facility-code',
@@ -170,6 +175,28 @@ const formConfig = {
               schema: additionalInstitutionsItemWithCode.schema,
               initialData: { additionalInstitutions: [] },
               depends: formData => !!formData?.hasVaFacilityCode,
+            }),
+          }),
+        ),
+        ...arrayBuilderPages(
+          additionalInstitutionsWithoutCodeArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionsSummaryWithoutCode: pageBuilder.summaryPage({
+              path: 'additional-institutions-without-code',
+              title: 'Additional institution details',
+              uiSchema: additionalInstitutionsSummaryWithoutCode.uiSchema,
+              schema: additionalInstitutionsSummaryWithoutCode.schema,
+              depends: formData => !formData?.hasVaFacilityCode,
+            }),
+            additionalInstitutionsItemWithoutCode: pageBuilder.itemPage({
+              path: 'additional-institution-without-code/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to add",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionsItemWithoutCode.uiSchema,
+              schema: additionalInstitutionsItemWithoutCode.schema,
+              initialData: { additionalInstitutions: [] },
+              depends: formData => !formData?.hasVaFacilityCode,
             }),
           }),
         ),

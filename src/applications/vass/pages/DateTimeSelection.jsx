@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui/focus';
 import Wrapper from '../layout/Wrapper';
 import { usePersistentSelections } from '../hooks/usePersistentSelections';
-import { setSelectedDate, selectSelectedDate } from '../redux/slices/formSlice';
+import {
+  setSelectedDate,
+  selectSelectedDate,
+  selectUuid,
+} from '../redux/slices/formSlice';
 import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
-// TODO: remove this once we have a real UUID
-import { UUID } from '../services/mocks/utils/formData';
 
 // TODO: make this component a shared component
 import CalendarWidget from '../components/calendar/CalendarWidget';
@@ -17,8 +19,9 @@ import { getTimezoneDescByTimeZoneString } from '../utils/timezone';
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
   const selectedDate = useSelector(selectSelectedDate);
+  const uuid = useSelector(selectUuid);
   const navigate = useNavigate();
-  const { saveDateSelection } = usePersistentSelections(UUID);
+  const { saveDateSelection } = usePersistentSelections(uuid);
   const {
     data: appointmentAvailability,
     isLoading: loading,
