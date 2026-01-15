@@ -125,6 +125,11 @@ const EnterOTC = () => {
         onInput={e => {
           setCode(e.target.value);
         }}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            handleSubmit();
+          }
+        }}
         required
         error={fieldError}
         data-testid="otc-input"

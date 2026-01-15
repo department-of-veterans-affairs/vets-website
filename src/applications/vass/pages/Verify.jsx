@@ -77,7 +77,7 @@ const Verify = () => {
       setFocusTrigger(prev => prev + 1);
       if (attemptCount === 3 || response.error.code === 'rate_limit_exceeded') {
         setVerificationError(
-          'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
+          "We're sorry. We couldn't match your information to your records. Please call us for help.",
         );
       }
       setAttemptCount(count => count + 1);
