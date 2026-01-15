@@ -170,8 +170,12 @@ describe('hca <ApplicationDownloadLink>', () => {
         });
       });
 
-      // createObjectURL is not stubbed so it throws error
+      // Stub createObjectURL to throw an error to simulate a failure in PDF handling
       it('should display `generic` error message when any other error occurs not in the request response', async () => {
+        const createObjectStub = sinon
+          .stub(URL, 'createObjectURL')
+          .throws(new Error('createObjectURL failed'));
+
         const { selectors } = subject();
         const { vaLink: link } = selectors();
 
@@ -190,6 +194,8 @@ describe('hca <ApplicationDownloadLink>', () => {
           const event = 'hca-pdf-download--failure';
           expect(recordEventStub.calledWith({ event })).to.be.true;
         });
+
+        createObjectStub.restore();
       });
     });
   });
