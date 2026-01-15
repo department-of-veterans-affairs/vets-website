@@ -31,13 +31,6 @@ const setupAvailableFormsResponse = (mswServer, status, responsePayload) => {
 
 describe('App component', () => {
   let store;
-  const server = setupServer();
-  before(() => {
-    server.listen();
-  });
-  after(() => {
-    server.close();
-  });
 
   const unauthenticatedState = {
     user: {
