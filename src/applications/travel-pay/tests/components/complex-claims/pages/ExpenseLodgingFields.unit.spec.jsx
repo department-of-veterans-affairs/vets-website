@@ -63,17 +63,17 @@ describe('ExpenseLodgingFields', () => {
   });
 
   it('calls onBlur when focusing out of vendor input', async () => {
-    const onChangeSpy = sinon.spy();
+    const onBlurSpy = sinon.spy();
     const { container } = render(
-      <ExpenseLodgingFields {...defaultProps} onChange={onChangeSpy} />,
+      <ExpenseLodgingFields {...defaultProps} onBlur={onBlurSpy} />,
     );
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
     simulateVaInputBlur(vendorInput, 'Hotel California');
 
     await waitFor(() => {
-      expect(onChangeSpy.called).to.be.true;
-      const eventArg = onChangeSpy.firstCall.args[0];
+      expect(onBlurSpy.called).to.be.true;
+      const eventArg = onBlurSpy.firstCall.args[0];
       const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('Hotel California');
     });

@@ -4,8 +4,7 @@ import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Confirmation from './Confirmation';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 
 const appointmentId = '123';
 const appointmentData = {
@@ -20,6 +19,27 @@ const appointmentData = {
   cohortEndUtc: '2025-12-31T23:59:59.999Z',
 };
 
+// Pre-populate the RTK Query cache with the appointment data
+const getVassApiState = () => ({
+  queries: {
+    [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
+      status: 'fulfilled',
+      endpointName: 'getAppointment',
+      requestId: 'test',
+      startedTimeStamp: 0,
+      data: appointmentData,
+    },
+  },
+  mutations: {},
+  provided: {},
+  subscriptions: {},
+  config: {
+    online: true,
+    focused: true,
+    middlewareRegistered: true,
+  },
+});
+
 describe('VASS Component: Confirmation', () => {
   it('should render all content', () => {
     const { getByTestId } = renderWithStoreAndRouter(
@@ -27,30 +47,8 @@ describe('VASS Component: Confirmation', () => {
         <Route path="/confirmation/:appointmentId" element={<Confirmation />} />
       </Routes>,
       {
+        ...getDefaultRenderOptions({}, { vassApi: getVassApiState() }),
         initialEntries: [`/confirmation/${appointmentId}`],
-        initialState: {
-          vassApi: {
-            queries: {
-              [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
-                status: 'fulfilled',
-                endpointName: 'getAppointment',
-                requestId: 'test',
-                startedTimeStamp: 0,
-                data: appointmentData,
-              },
-            },
-            mutations: {},
-            provided: {},
-            subscriptions: {},
-            config: {
-              online: true,
-              focused: true,
-              middlewareRegistered: true,
-            },
-          },
-        },
-        reducers,
-        additionalMiddlewares: [vassApi.middleware],
       },
     );
 
@@ -69,30 +67,8 @@ describe('VASS Component: Confirmation', () => {
           />
         </Routes>,
         {
+          ...getDefaultRenderOptions({}, { vassApi: getVassApiState() }),
           initialEntries: [`/confirmation/${appointmentId}?details=true`],
-          initialState: {
-            vassApi: {
-              queries: {
-                [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
-                  status: 'fulfilled',
-                  endpointName: 'getAppointment',
-                  requestId: 'test',
-                  startedTimeStamp: 0,
-                  data: appointmentData,
-                },
-              },
-              mutations: {},
-              provided: {},
-              subscriptions: {},
-              config: {
-                online: true,
-                focused: true,
-                middlewareRegistered: true,
-              },
-            },
-          },
-          reducers,
-          additionalMiddlewares: [vassApi.middleware],
         },
       );
       expect(getByTestId('confirmation-page')).to.exist;

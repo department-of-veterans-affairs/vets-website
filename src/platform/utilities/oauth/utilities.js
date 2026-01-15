@@ -226,15 +226,35 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
   return response;
 };
 
-export const refresh = async ({ type }) => {
-  const url = new URL(
-    API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH, type }),
-  );
+const activeRefreshRequests = new Map();
+const refreshTimeout = 10000; // 10 seconds
 
-  return fetch(url.href, {
-    method: 'POST',
-    credentials: 'include',
-  });
+export const refresh = async ({ type }) => {
+  if (activeRefreshRequests.has(type)) {
+    return activeRefreshRequests.get(type);
+  }
+
+  const requestPromise = (async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), refreshTimeout);
+    try {
+      const url = new URL(
+        API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH, type }),
+      );
+      return await fetch(url.href, {
+        method: 'POST',
+        credentials: 'include',
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeoutId);
+      activeRefreshRequests.delete(type);
+    }
+  })();
+
+  activeRefreshRequests.set(type, requestPromise);
+
+  return requestPromise;
 };
 
 export const infoTokenExists = () => {

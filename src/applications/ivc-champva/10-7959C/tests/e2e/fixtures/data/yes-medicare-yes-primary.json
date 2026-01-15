@@ -1,7 +1,7 @@
 {
   "description": "Has Medicare (ABD), one OHI (Medigap), US address (new), third party signer",
   "data": {
-    "champvaBenefitStatus": true,
+    "view:champvaBenefitStatus": true,
     "applicantSsn": "234234234",
     "applicantName": {
       "first": "Jimmy",
@@ -22,11 +22,15 @@
     "applicantMedicarePartBCarrier": "Test B Carrier",
     "applicantMedicarePartAEffectiveDate": "2010-01-01",
     "applicantMedicarePartBEffectiveDate": "2010-01-01",
+    "applicantMedicarePartAPartBCardFront": [],
+    "applicantMedicarePartAPartBCardBack": [],
     "applicantMedicarePharmacyBenefits": false,
     "applicantMedicareClass": "advantage",
     "applicantMedicareStatusD": true,
     "applicantMedicarePartDCarrier": "Test D Carrier",
     "applicantMedicarePartDEffectiveDate": "2010-01-01",
+    "medicarePartDCardFront": [],
+    "medicarePartDCardBack": [],
     "applicantHasPrimary": true,
     "applicantHasSecondary": false,
     "applicantPrimaryProvider": "Primary Provider",
@@ -38,7 +42,9 @@
     "applicantPrimaryInsuranceType": "medigap",
     "primaryMedigapPlan": "A",
     "primaryAdditionalComments": "Additional primary comment",
-    "consentToMailMissingRequiredFiles": true,
+    "primaryInsuranceScheduleOfBenefits": [],
+    "primaryInsuranceCardFront": [],
+    "primaryInsuranceCardBack": [],
     "certifierRole": "other",
     "certifierEmail": "certifier@email.gov",
     "signature": "Certifier Jones"
