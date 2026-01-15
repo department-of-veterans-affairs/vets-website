@@ -42,7 +42,9 @@ const vitals = require('./medical-records/vitals');
 const downloads = require('./medical-records/downloads');
 
 // medical records Blue Button
-const appointments = require('./medical-records/blue-button/appointments');
+// Now that VAOS is included, these conflict
+// If you only want MR, comment out the imported ...vaosResponses and use these
+// const appointments = require('./medical-records/blue-button/appointments');
 const demographics = require('./medical-records/blue-button/demographics');
 const militaryService = require('./medical-records/blue-button/military-service');
 const patient = require('./medical-records/blue-button/patient');
@@ -74,11 +76,15 @@ const {
   getMockTooltips,
 } = require('../../../../applications/mhv-medications/mocks/api/tooltips/index');
 
+const vaosResponses = require('./vaos');
+
 const responses = {
+  // VAOS is complicated, just import from the vaos directory
+  ...vaosResponses,
   // Note: Not using commonResponses to avoid conflicts with user/feature toggle mocks
   'OPTIONS /v0/maintenance_windows': 'OK',
 
-  'GET /v0/user': user.acceleratedCernerUser,
+  'GET /v0/user': user.transitioningUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
@@ -355,7 +361,9 @@ startxref
   'GET /my_health/v2/medical_records/vitals': acceleratedVitals.all,
 
   // medical records Blue Button
-  'GET /vaos/v2/appointments': appointments.appointments,
+  // If using the imported vaos responses this conflicts
+  // if you only want MR, comment out vaos and use this instead
+  // 'GET /vaos/v2/appointments': appointments.appointments,
   'GET /my_health/v1/medical_records/patient/demographic':
     demographics.demographics,
   'GET /my_health/v1/medical_records/military_service':
