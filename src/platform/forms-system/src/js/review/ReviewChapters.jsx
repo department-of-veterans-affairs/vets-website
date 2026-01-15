@@ -107,6 +107,7 @@ class ReviewChapters extends React.Component {
             uploadFile={this.props.uploadFile}
             viewedPages={viewedPages}
             formOptions={formConfig?.formOptions}
+            filterEmptyFields={this.props.filterEmptyFields}
           />
         ))}
       </VaAccordion>
@@ -166,7 +167,7 @@ export function mapStateToProps(state, ownProps) {
   };
 }
 
-const mapDispatchToProps = {
+export const mapDispatchToProps = {
   closeReviewChapter,
   openReviewChapter,
   toggleAllReviewChapters,
@@ -191,6 +192,7 @@ ReviewChapters.propTypes = {
   uploadFile: PropTypes.func.isRequired,
   viewedPages: PropTypes.object.isRequired,
   formContext: PropTypes.object,
+  filterEmptyFields: PropTypes.bool,
   onSetData: PropTypes.func,
 };
 
