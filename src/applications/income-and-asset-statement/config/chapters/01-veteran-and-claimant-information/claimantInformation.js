@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
@@ -5,6 +6,7 @@ import {
   ssnSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { SSNReviewField } from '../../../components/SSNReviewField';
 
 /** @type {PageSchema} */
 export default {
@@ -16,7 +18,16 @@ export default {
   uiSchema: {
     ...titleUI('Claimant information'),
     claimantFullName: fullNameNoSuffixUI(title => `Your ${title}`),
-    claimantSocialSecurityNumber: ssnUI('Your Social Security number'),
+    claimantSocialSecurityNumber: {
+      ...ssnUI('Your Social Security number'),
+      /* eslint-disable react/prop-types */
+      'ui:reviewField': ({ children }) => {
+        const value = children?.props?.formData;
+        const last4Digits = value ? value.slice(-4) : undefined;
+
+        return <SSNReviewField last4Digits={last4Digits} />;
+      },
+    },
   },
   schema: {
     type: 'object',

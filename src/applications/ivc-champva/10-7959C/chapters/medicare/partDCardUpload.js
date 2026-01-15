@@ -1,44 +1,39 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadBlurb } from '../../../shared/components/fileUploads/attachments';
 import {
-  fileUploadUi as fileUploadUI,
-  singleFileSchema,
-} from '../../../shared/components/fileUploads/upload';
-import { blankSchema } from '../../definitions';
+  descriptionUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import FileUploadDescription from '../../components/FormDescriptions/FileUploadDescription';
+import { attachmentUI, singleAttachmentSchema } from '../../definitions';
+import { ATTACHMENT_IDS } from '../../utils/constants';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Upload Medicare Part D card';
-const DESC_TEXT =
-  'You’ll need to submit a copy of the front and back of the beneficiary’s Medicare Part D card.';
+const TITLE_TEXT = content['medicare--part-d-card-title'];
+const DESC_TEXT = content['medicare--part-d-card-description'];
 
 const INPUT_LABELS = {
-  cardFront: 'Upload front of Medicare Part D card',
-  cardBack: 'Upload back of Medicare Part D card',
-};
-
-const ATTACHMENT_IDS = {
-  cardFront: 'Front of Medicare Part D card',
-  cardBack: 'Back of Medicare Part D card',
+  cardFront: content['medicare--part-d-card-label--front'],
+  cardBack: content['medicare--part-d-card-label--back'],
 };
 
 export default {
   uiSchema: {
     ...titleUI(TITLE_TEXT, DESC_TEXT),
-    ...fileUploadBlurb,
-    applicantMedicarePartDCardFront: fileUploadUI({
+    ...descriptionUI(FileUploadDescription),
+    medicarePartDCardFront: attachmentUI({
       label: INPUT_LABELS.cardFront,
-      attachmentId: ATTACHMENT_IDS.cardFront,
+      attachmentId: ATTACHMENT_IDS.medicareDCardFront,
     }),
-    applicantMedicarePartDCardBack: fileUploadUI({
+    medicarePartDCardBack: attachmentUI({
       label: INPUT_LABELS.cardBack,
-      attachmentId: ATTACHMENT_IDS.cardBack,
+      attachmentId: ATTACHMENT_IDS.medicareDCardBack,
     }),
   },
   schema: {
     type: 'object',
+    required: ['medicarePartDCardFront', 'medicarePartDCardBack'],
     properties: {
-      'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartDCardFront: singleFileSchema,
-      applicantMedicarePartDCardBack: singleFileSchema,
+      medicarePartDCardFront: singleAttachmentSchema,
+      medicarePartDCardBack: singleAttachmentSchema,
     },
   },
 };

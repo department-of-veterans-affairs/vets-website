@@ -2,7 +2,8 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayOptions } from './utils';
+import { arrayOptions, createNewConditionName } from './utils';
+import ConfirmationNewAndRatedConditions from '../../../components/confirmationFields/ConfirmationNewAndRatedConditions';
 
 const isOrphanSecondary = (item, fullData = {}) => {
   if (!item || item.cause !== 'SECONDARY') return false;
@@ -11,7 +12,13 @@ const isOrphanSecondary = (item, fullData = {}) => {
   if (!target) return true;
 
   const newNames = (fullData?.newDisabilities ?? [])
-    .map(it => norm(it?.condition ?? it?.newCondition ?? it?.name))
+    .map(it =>
+      norm(
+        it?.condition
+          ? createNewConditionName(it, true)
+          : it?.newCondition ?? it?.name,
+      ),
+    )
     .filter(Boolean);
 
   const ratedNames = (fullData?.ratedDisabilities ?? [])
@@ -39,6 +46,7 @@ const summaryPage = {
         },
       ],
     },
+    'ui:confirmationField': ConfirmationNewAndRatedConditions,
   },
   schema: {
     type: 'object',

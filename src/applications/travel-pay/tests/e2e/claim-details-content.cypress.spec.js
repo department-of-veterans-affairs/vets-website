@@ -20,6 +20,7 @@ describe(`${appName} -- Claim Details Content`, () => {
       ApiInitializer.initializeClaimDetails.happyPath();
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@details');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -48,7 +49,7 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.contains('h2', 'Claim information').should('be.visible');
 
       // Check "Claim submission timeline" section
-      cy.contains('p', 'Claim submission timeline')
+      cy.contains('p', 'Claim timeline')
         .should('have.class', 'vads-u-font-weight--bold')
         .should('be.visible');
 
@@ -61,9 +62,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         .should('have.class', 'vads-u-font-weight--bold')
         .should('be.visible');
 
-      cy.contains('Monday, January 1, 2024 at 4:45 PM appointment').should(
-        'be.visible',
-      );
+      cy.contains('Monday, January 1, 2024 at 4:45 PM').should('be.visible');
       cy.contains('Cheyenne VA Medical Center').should('be.visible');
     });
 
@@ -105,9 +104,13 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T16:45:34.465Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -132,9 +135,13 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T16:45:34.465Z',
+      );
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -177,7 +184,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [
           {
             documentId: 'doc123',
@@ -191,6 +198,8 @@ describe(`${appName} -- Claim Details Content`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -217,7 +226,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [
           {
             documentId: 'decision123',
@@ -227,6 +236,8 @@ describe(`${appName} -- Claim Details Content`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -247,7 +258,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [
           {
             documentId: 'partial123',
@@ -257,6 +268,8 @@ describe(`${appName} -- Claim Details Content`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -277,7 +290,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [
           {
             documentId: 'rejection123',
@@ -287,6 +300,8 @@ describe(`${appName} -- Claim Details Content`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -307,7 +322,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [
           {
             documentId: 'form123',
@@ -316,6 +331,8 @@ describe(`${appName} -- Claim Details Content`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -339,9 +356,11 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [], // No documents
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -364,7 +383,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [
           {
             documentId: 'note123',
@@ -378,6 +397,8 @@ describe(`${appName} -- Claim Details Content`, () => {
           },
         ],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -432,9 +453,11 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -459,9 +482,11 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -481,9 +506,11 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 20.0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: 'test-appointment-id' },
+        appointment: { appointmentDateTime: '2024-01-01T16:45:34.465Z' },
         documents: [],
       });
+
+      ApiInitializer.initializeAppointment.byDateTime();
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -503,6 +530,7 @@ describe(`${appName} -- Claim Details Content`, () => {
       ApiInitializer.initializeClaimDetails.happyPath();
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@details');
     });
 
     it('maintains proper heading hierarchy', () => {

@@ -9,7 +9,10 @@ import submitForm from './submitForm';
 
 import { urlMigration } from '../../config/migrations';
 
-import GetFormHelp from '../../components/GetFormHelp';
+// import GetFormHelp from '../../components/GetFormHelp';
+import GetFormHelp1995 from '../components/GetFormHelp1995';
+// import FormFooter from '../components/FormFooter';
+
 import ErrorText from '../../components/ErrorText';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -18,6 +21,7 @@ import { allChapters } from './chapters';
 import manifest from '../manifest.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import IntroductionRouter from '../containers/IntroductionRouter';
+import { isRerouteEnabled } from '../helperFunctions/isRerouteEnabled';
 
 const {
   preferredContactMethod,
@@ -34,6 +38,7 @@ const baseConfig = {
   submit: submitForm,
   trackingPrefix: 'edu-1995-',
   formId: VA_FORM_IDS.FORM_22_1995,
+  disableSave: isRerouteEnabled(),
   saveInProgress: {
     messages: {
       inProgress:
@@ -68,10 +73,11 @@ const baseConfig = {
     field: 'privacyAgreementAccepted',
   },
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: GetFormHelp1995,
   errorText: ErrorText,
   // Always render the wrapper; it decides which intro component to show once
   introduction: IntroductionRouter,
+  v3SegmentedProgressBar: true,
 };
 
 export default {

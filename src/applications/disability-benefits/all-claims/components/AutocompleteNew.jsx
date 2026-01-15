@@ -70,16 +70,19 @@ const Autocomplete = ({
 
   const handleInputChange = useCallback(
     inputValue => {
-      setValue(inputValue);
-      onChange(inputValue);
+      const trimmed =
+        typeof inputValue === 'string' ? inputValue.trim() : inputValue;
 
-      if (!inputValue) {
+      setValue(inputValue);
+      onChange(trimmed);
+
+      if (!trimmed) {
         closeList();
         setAriaLiveText('Input is empty. Please enter a condition.');
         return;
       }
 
-      debouncedSearch(inputValue);
+      debouncedSearch(trimmed);
     },
     [onChange, closeList, debouncedSearch],
   );
@@ -112,8 +115,11 @@ const Autocomplete = ({
 
   const selectResult = useCallback(
     result => {
-      const newValue = result === createFreeTextItem(value) ? value : result;
-      setValue(newValue);
+      const initValue = result === createFreeTextItem(value) ? value : result;
+      const newValue =
+        typeof initValue === 'string' ? initValue.trim() : initValue;
+
+      setValue(initValue);
       onChange(newValue);
       setAriaLiveText(`${newValue} is selected`);
       closeList();

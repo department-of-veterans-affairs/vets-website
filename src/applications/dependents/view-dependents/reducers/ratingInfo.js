@@ -1,4 +1,5 @@
 import {
+  FETCH_RATING_INFO_STARTED,
   FETCH_RATING_INFO_SUCCESS,
   FETCH_RATING_INFO_FAILED,
 } from '../actions/ratingInfo';
@@ -12,15 +13,31 @@ const initialState = {
 const minRating = 30;
 
 /**
+ * @typedef {object} RatingInfoState
+ * @property {boolean} loading - whether data is loading
+ * @property {object|null} error - error object
+ * @property {boolean|null} hasMinimumRating - whether user has minimum rating
  *
- * @param {*} state
- * @param {*} action
- * @returns
+ * @typedef {object} RatingInfoAction
+ * @property {string} type - action type
+ * @property {object} response - API response object
+ * @property {object} error - error object
+ *
+ * Sets hasMinimumRating state value
+ * @param {RatingInfoState} state - redux state
+ * @param {RatingInfoAction} action - redux action
+ * @returns {RatingInfoState} - updated redux state
  */
 function ratingValue(state = initialState, action) {
   switch (action.type) {
+    case FETCH_RATING_INFO_STARTED:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case FETCH_RATING_INFO_SUCCESS:
-      if (action.response.service_connected_combined_degree >= minRating) {
+      if (action.response.userPercentOfDisability >= minRating) {
         return {
           ...state,
           loading: false,

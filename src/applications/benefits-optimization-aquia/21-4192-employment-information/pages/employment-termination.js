@@ -6,9 +6,9 @@
 
 import {
   textareaUI,
-  currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { MemorableDateUI } from '../components/memorable-date-ui';
 
 /**
  * uiSchema for Employment Termination page
@@ -22,16 +22,14 @@ export const employmentTerminationUiSchema = {
       hint:
         'If they retired on disability, please specify the disability(ies).',
       charcount: true,
+      required: false,
       errorMessages: {
-        required: 'Reason for termination is required',
         maxLength: 'Termination reason must be less than 1000 characters',
       },
     }),
-    dateLastWorked: currentOrPastDateUI({
+    dateLastWorked: MemorableDateUI({
       title: 'Date last worked',
-      errorMessages: {
-        required: 'Date last worked is required',
-      },
+      required: false,
     }),
   },
 };
@@ -46,7 +44,6 @@ export const employmentTerminationSchema = {
   properties: {
     employmentTermination: {
       type: 'object',
-      required: ['terminationReason', 'dateLastWorked'],
       properties: {
         terminationReason: {
           type: 'string',

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../components/ConfirmationPageView';
+import { getFormContent } from '../helpers';
 
 const content = {
   headlineText: 'You’ve submitted your form',
@@ -13,17 +14,10 @@ const content = {
 const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  const { benefitType } = form.data;
-  const submitDate = new Date(submission.response.attributes.creationDate);
-  const expirationDate = new Date(
-    submission.response.attributes.expirationDate,
-  );
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
 
-  const { first, last } = form.data.veteranFullName;
-  const { city, state, postalCode } = form.data.address;
-
-  const address = { city, state, postalCode };
-  const name = { first, last };
+  const { formNumber } = getFormContent();
 
   useEffect(() => {
     sessionStorage.removeItem('formIncompleteARP');
@@ -31,12 +25,12 @@ const ConfirmationPage = () => {
 
   return (
     <ConfirmationPageView
+      formType="submission"
+      submitterHeader="Who submitted this form"
       submitDate={submitDate}
-      expirationDate={expirationDate}
-      benefitType={benefitType}
+      confirmationNumber={confirmationNumber}
       content={content}
-      address={address}
-      name={name}
+      formNumber={formNumber}
       childContent={<></>}
     />
   );
@@ -55,7 +49,7 @@ ConfirmationPage.propTypes = {
     }),
     submission: PropTypes.shape({
       response: PropTypes.shape({
-        creationDate: PropTypes.string,
+        confirmationNumber: PropTypes.string,
       }),
       timestamp: PropTypes.string,
     }),

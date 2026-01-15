@@ -369,10 +369,24 @@ Update this file when you:
     - Props: `href` (required), `text` (required), `label`, `reverse`
     - Example: `<RouterLinkAction href="/compose" text="Start a new message" />`
   - **Pattern Details**:
-    - Both use `withRouter` HOC to inject `router` object
-    - Both implement `preventDefault` + `router.push(href)` for client-side navigation
+    - Both use `useHistory` hook from `react-router-dom` for navigation
+    - Both implement `preventDefault` + `history.push(href)` for client-side navigation
+    - Includes safety fallback to `window.location.href` if used outside Router context
     - Located in `components/shared/`
     - See VADS docs: https://design.va.gov/components/link/
+  - **Testing Pattern for RouterLink/RouterLinkAction**:
+    - Validate actual navigation by checking `history.location.pathname` after click
+    - Don't just test `preventDefault` - verify redirect actually happens
+    - Example test:
+      ```javascript
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLink href="/inbox" text="Go to inbox" />,
+        { initialState, reducers: reducer, path: '/messages' }
+      );
+      const link = container.querySelector('va-link');
+      link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      expect(history.location.pathname).to.equal('/inbox');
+      ```
 - **Cross-App Links** (Different VA.gov SPAs): Use `VaLink`/`VaLinkAction` directly WITHOUT router wrapper
   - For links to other VA.gov applications (e.g., `/find-locations`, `/profile`)
   - These are different Webpack entry points/SPAs that require full browser navigation
@@ -412,6 +426,34 @@ Update this file when you:
   - Set `error` prop on web components for validation errors
   - Use `message-aria-describedby` for accessibility
   - Focus first error after validation using `focusOnErrorField()` from `util/formHelpers.js`
+- **VaRadio Accessibility (WCAG 1.3.1 - Info and Relationships)**:
+  - When VaRadio label contains both a heading and descriptive text, screen readers announce everything when focusing each radio option
+  - **Pattern**: Separate the heading from helper text using `label-header-level` and `hint` props
+  ```jsx
+  // ✅ CORRECT: Separate label and hint for proper screen reader behavior
+  const LABEL = 'Select a team you want to message';
+  const HINT = 'This list only includes teams that you\'ve sent messages to in the last 6 months.';
+
+  <VaRadio
+    label={LABEL}
+    hint={HINT}
+    label-header-level="2"
+    required
+    onVaValueChange={handleRadioChange}
+  >
+    {options.map(opt => <va-radio-option key={opt.id} label={opt.name} value={opt.id} />)}
+  </VaRadio>
+  ```
+  ```jsx
+  // ❌ WRONG: Combining heading and description in label causes verbosity
+  const LABEL = 'Select a team you want to message. This list only includes teams that you\'ve sent messages to in the last 6 months.';
+
+  <VaRadio label={LABEL} required onVaValueChange={handleRadioChange}>
+    {options.map(opt => <va-radio-option key={opt.id} label={opt.name} value={opt.id} />)}
+  </VaRadio>
+  ```
+  - **Why**: `label-header-level` renders the label as a semantic heading (e.g., h2) inside the legend, while `hint` is announced separately, reducing screen reader verbosity on radio option focus
+  - **Reference**: See VA Design System fieldsets/legends/labels pattern and `src/applications/appeals/995/subtask/pages/start.jsx`
 - **Shadow DOM**:
   - Web components use shadow DOM
   - Testing requires special handling (see Test Utilities section)

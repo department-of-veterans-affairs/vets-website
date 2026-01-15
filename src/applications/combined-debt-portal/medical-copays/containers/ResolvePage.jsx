@@ -61,7 +61,7 @@ const ResolvePage = ({ match }) => {
         label="Breadcrumb"
         wrapping
       />
-      <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
+      <div className="medium-screen:vads-l-col--12 small-desktop-screen:vads-l-col--8">
         <h1
           data-testid="resolve-page-title"
           className="vads-u-margin-bottom--2"
@@ -84,8 +84,8 @@ const ResolvePage = ({ match }) => {
           statementDate={selectedCopay?.pSStatementDate}
           fullName={fullName}
         />
-        <FinancialHelp showOneThingPerPage />
-        <DisputeCharges showOneThingPerPage />
+        <FinancialHelp />
+        <DisputeCharges />
         <NeedHelpCopay />
       </div>
     </>

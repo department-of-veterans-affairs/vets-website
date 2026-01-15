@@ -40,7 +40,6 @@ const defaultClaim = {
       expenseType: 'Parking',
       tripType: 'OneWay',
       costRequested: 50.0,
-      documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
     },
   ],
   documents: [
@@ -49,6 +48,7 @@ const defaultClaim = {
       filename: 'test.pdf',
       mimetype: 'application/pdf',
       createdon: '2025-10-01T18:14:37Z',
+      expenseId: 'expense2', // Doc is associated with expense
     },
   ],
 };
@@ -322,7 +322,7 @@ describe('Complex Claims ConfirmationPage', () => {
 
     expect(screen.getByText('What happens next')).to.exist;
     expect($('va-process-list')).to.exist;
-    expect($('va-process-list-item[header="VA will review your claim"]')).to
+    expect($('va-process-list-item[header="We’ll review your claim"]')).to
       .exist;
     // Check for the second process list item by counting them
     const processListItems = document.querySelectorAll('va-process-list-item');
@@ -331,7 +331,7 @@ describe('Complex Claims ConfirmationPage', () => {
     // Links in process list
     expect(
       $(
-        'va-link[href="/my-health/travel-pay/claims/"][text="Check your travel reimbursement claim status"]',
+        'va-link[href="/my-health/travel-pay/claims/"][text="Review your travel reimbursement claim status"]',
       ),
     ).to.exist;
     expect(

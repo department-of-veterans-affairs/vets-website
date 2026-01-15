@@ -43,6 +43,30 @@ const testConfig = createTestConfig(
       //     });
       //   });
       // },
+      'employers/:index/employment-dates': ({ afterHook, index }) => {
+        afterHook(() => {
+          cy.get('@testData').then(formData => {
+            const employmentDates =
+              formData?.employers?.[index]?.employmentDates;
+
+            if (employmentDates?.from) {
+              cy.fillVaMemorableDate(
+                'root_employmentDates_from',
+                employmentDates.from,
+              );
+            }
+
+            if (employmentDates?.to) {
+              cy.fillVaMemorableDate(
+                'root_employmentDates_to',
+                employmentDates.to,
+              );
+            }
+
+            cy.clickFormContinue();
+          });
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', user);

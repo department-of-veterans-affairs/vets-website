@@ -16,8 +16,6 @@ import {
 } from '../data/calculate-benefits-data';
 
 const getData = ({
-  showNod = true,
-  part3 = true,
   isLoading = false,
   loggedIn = true,
   formData = {},
@@ -26,7 +24,6 @@ const getData = ({
 } = {}) => ({
   props: {
     loggedIn,
-    showNod,
     location: { pathname: '/introduction', search: '' },
     children: <h1>Intro</h1>,
     // formData,
@@ -41,10 +38,6 @@ const getData = ({
     constants: CONSTANTS,
     featureToggles: {
       loading: isLoading,
-      /* eslint-disable camelcase */
-      form10182_nod: showNod,
-      nod_part3_update: part3,
-      /* eslint-enable camelcase */
     },
     user: {
       login: {
