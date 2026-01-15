@@ -33,6 +33,12 @@ const transitionalFacilityIds = ['757'];
  * - ELSE → Show CernerFacilityAlert (which handles OH/acceleration logic in vets-api)
  */
 const DisplayCernerFacilityAlert = ({ className = '' }) => {
+  // TODO:
+  // These checks are causing the shared CernerFacilityAlert to not work properly
+  // since they are using different logic
+  // Probably we should remove this component
+  // For now I'm just not using it for migratiom alert testing
+
   const showNewFacilityAlert = useSelector(selectNewCernerFacilityAlertFlag);
 
   const userFacilities = useSelector(selectUserFacility);

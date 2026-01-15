@@ -137,8 +137,9 @@ const FolderHeader = props => {
       )
         return <OracleHealthMessagingIssuesAlert />;
       if (
-        folder.folderId === Folders.INBOX.id &&
-        cernerFacilities?.length > 0
+        folder.folderId === Folders.INBOX.id
+        // &&
+        // cernerFacilities?.length > 0
       ) {
         return (
           <CernerFacilityAlert

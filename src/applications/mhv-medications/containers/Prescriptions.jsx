@@ -16,6 +16,8 @@ import {
   updatePageTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from '~/platform/mhv/components/CernerFacilityAlert/constants';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
@@ -48,7 +50,7 @@ import { getFilterOptions } from '../util/helpers/getRxStatus';
 import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
-import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
+// import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import RxRenewalMessageSuccessAlert from '../components/shared/RxRenewalMessageSuccessAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
@@ -719,11 +721,16 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <DisplayCernerFacilityAlert />
+            <CernerFacilityAlert
+              {...CernerAlertContent.MEDICATIONS}
+              apiError={prescriptionsApiError}
+            />
+            {/* <DisplayCernerFacilityAlert /> */}
           </>
         ) : (
           <>
-            <DisplayCernerFacilityAlert />
+            <CernerFacilityAlert {...CernerAlertContent.MEDICATIONS} />
+            {/* <DisplayCernerFacilityAlert /> */}
             {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>

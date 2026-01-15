@@ -45,16 +45,17 @@ const HeaderLayout = ({
             {ledeContent}
           </p>
         </div>
+
+        <CernerFacilityAlert
+          {...CernerAlertContent.MHV_LANDING_PAGE}
+          forceHidePretransitionedAlert
+        />
         {showCernerInfoAlert && (
-          <>
-            <CernerFacilityAlert {...CernerAlertContent.MHV_LANDING_PAGE} />
-            <div>
-              <p className="vads-u-margin-y--2">
-                Want to learn more about what’s new?{' '}
-                <VaLink {...learnMoreLink} />
-              </p>
-            </div>
-          </>
+          <div>
+            <p className="vads-u-margin-y--2">
+              Want to learn more about what’s new? <VaLink {...learnMoreLink} />
+            </p>
+          </div>
         )}
       </div>
       <div
