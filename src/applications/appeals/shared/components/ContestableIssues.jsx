@@ -97,7 +97,7 @@ const ContestableIssues = props => {
         return {
           ...issue?.attributes,
           [SELECTED]: issue?.[SELECTED],
-          isBlocked: isTodayOrInFuture(decisionDate),
+          isBlocked: isTodayOrInFuture(new Date(decisionDate)),
         };
       }),
     [loadedIssues],
@@ -215,13 +215,13 @@ const ContestableIssues = props => {
   const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+
     // If the previous issue was blocked and the current one is not, `showSeparator` is true
     const showSeparator =
-      index > 0 && !item.isBlockedSameDay && items[index - 1]?.isBlockedSameDay;
+      index > 0 && !item.isBlocked && items[index - 1]?.isBlocked;
 
     const showCheckbox =
-      !item?.isBlockedSameDay &&
-      (!onReviewPage || (onReviewPage && !inReviewMode));
+      !item?.isBlocked && (!onReviewPage || (onReviewPage && !inReviewMode));
 
     const cardProps = {
       id,

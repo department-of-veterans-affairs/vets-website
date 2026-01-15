@@ -39,27 +39,11 @@ export const getContestableIssues = props => {
           id: null,
           type: 'contestableIssue',
           attributes: {
-            ratingIssueReferenceId: '142894',
-            ratingIssueProfileDate: '2026-01-12', // Today's date
-            ratingIssueDiagnosticCode: '5260',
             ratingIssueSubjectText: 'Tinnitus',
             ratingIssuePercentNumber: '10',
             description:
               'Ringing in ears. Decision made today - should be blocked from appeal.',
-            isRating: true,
-            latestIssuesInChain: [
-              {
-                id: null,
-                approxDecisionDate: '2026-01-12', // TODAY - triggers blocking
-              },
-            ],
-            decisionIssueId: 1001,
-            ratingDecisionReferenceId: 'REF123',
-            approxDecisionDate: '2026-01-12', // TODAY - triggers blocking
-            rampClaimId: null,
-            titleOfActiveReview: null,
-            sourceReviewType: null,
-            timely: true,
+            approxDecisionDate: '2026-01-15', // TODAY - triggers blocking
           },
         },
 
@@ -68,27 +52,11 @@ export const getContestableIssues = props => {
           id: null,
           type: 'contestableIssue',
           attributes: {
-            ratingIssueReferenceId: '142895',
-            ratingIssueProfileDate: '2026-01-12', // Today's date
-            ratingIssueDiagnosticCode: '8045',
             ratingIssueSubjectText: 'Back condition',
             ratingIssuePercentNumber: '20',
             description:
               'Lower back pain. Decision made today - should also be blocked.',
-            isRating: true,
-            latestIssuesInChain: [
-              {
-                id: null,
-                approxDecisionDate: '2026-01-12', // TODAY - triggers blocking
-              },
-            ],
-            decisionIssueId: 1002,
-            ratingDecisionReferenceId: 'REF124',
-            approxDecisionDate: '2026-01-12', // TODAY - triggers blocking
-            rampClaimId: null,
-            titleOfActiveReview: null,
-            sourceReviewType: null,
-            timely: true,
+            approxDecisionDate: '2026-01-15', // TODAY - triggers blocking
           },
         },
 
@@ -97,27 +65,11 @@ export const getContestableIssues = props => {
           id: null,
           type: 'contestableIssue',
           attributes: {
-            ratingIssueReferenceId: '142896',
-            ratingIssueProfileDate: '2024-08-15',
-            ratingIssueDiagnosticCode: '7101',
             ratingIssueSubjectText: 'Hypertension',
             ratingIssuePercentNumber: '30',
             description:
               'High blood pressure. Past decision - can be appealed.',
-            isRating: true,
-            latestIssuesInChain: [
-              {
-                id: null,
-                approxDecisionDate: '2024-08-15', // PAST DATE - selectable
-              },
-            ],
-            decisionIssueId: 1003,
-            ratingDecisionReferenceId: 'REF125',
             approxDecisionDate: '2024-08-15', // PAST DATE - selectable
-            rampClaimId: null,
-            titleOfActiveReview: null,
-            sourceReviewType: null,
-            timely: true,
           },
         },
 
@@ -126,27 +78,11 @@ export const getContestableIssues = props => {
           id: null,
           type: 'contestableIssue',
           attributes: {
-            ratingIssueReferenceId: '142897',
-            ratingIssueProfileDate: '2026-01-11',
-            ratingIssueDiagnosticCode: '6260',
             ratingIssueSubjectText: 'Hearing loss',
             ratingIssuePercentNumber: '40',
             description:
               "Bilateral hearing loss. Yesterday's decision - can be appealed.",
-            isRating: true,
-            latestIssuesInChain: [
-              {
-                id: null,
-                approxDecisionDate: '2026-01-11', // YESTERDAY - selectable
-              },
-            ],
-            decisionIssueId: 1004,
-            ratingDecisionReferenceId: 'REF126',
             approxDecisionDate: '2026-01-11', // YESTERDAY - selectable
-            rampClaimId: null,
-            titleOfActiveReview: null,
-            sourceReviewType: null,
-            timely: true,
           },
         },
       ],
