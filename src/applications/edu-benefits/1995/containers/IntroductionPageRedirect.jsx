@@ -24,24 +24,19 @@ export const IntroductionPageRedirect = ({ route, router }) => {
   }, []);
 
   // Update sign-in alert copy only for unauthenticated users
-  useEffect(
-    () => {
-      // Skip if user is logged in - sign-in alert won't exist
-      if (user?.login?.currentlyLoggedIn) return;
+  useEffect(() => {
+    const updateSignInAlertCopy = async () => {
+      const signInAlert = document.querySelector('va-alert-sign-in');
+      if (!signInAlert) return;
 
-      const updateSignInAlertCopy = async () => {
-        // Check if sign-in alert exists before querying shadow DOM
-        const signInAlert = document.querySelector('va-alert-sign-in');
-        if (!signInAlert) return;
+      try {
+        const alertContent = await querySelectorWithShadowRoot(
+          '.va-alert-sign-in__body',
+          'va-alert-sign-in',
+        );
 
-        try {
-          const alertContent = await querySelectorWithShadowRoot(
-            '.va-alert-sign-in__body',
-            'va-alert-sign-in',
-          );
-
-          if (!alertContent) return;
-          alertContent.innerHTML = `
+        if (!alertContent) return;
+        alertContent.innerHTML = `
           <h2 class="headline">Sign in with a verified account</h2>
           <p>
             Here's how signing in with an identity-verified account helps you:
@@ -68,15 +63,13 @@ export const IntroductionPageRedirect = ({ route, router }) => {
             <slot name="SignInButton"></slot>
           </p>
         `;
-        } catch (error) {
-          // Ignore errors - sign-in alert may not be fully rendered yet
-        }
-      };
+      } catch (error) {
+        // Ignore errors - sign-in alert may not be fully rendered yet
+      }
+    };
 
-      updateSignInAlertCopy();
-    },
-    [user?.login?.currentlyLoggedIn],
-  );
+    updateSignInAlertCopy();
+  }, []);
 
   const handleStartQuestionnaire = useCallback(
     () => {
