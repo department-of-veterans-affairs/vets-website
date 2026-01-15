@@ -6,6 +6,11 @@ export const CernerAlertContent = {
     domain: 'appointments',
     infoAlertActionPhrase: 'manage most of your appointments',
     infoAlertText: 'You can manage most of your appointments here.',
+    transitionText: 'schedule or cancel appointments online',
+    warning: ['p0', 'p1'],
+    error: ['p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+    startDate: 'p2',
+    endDate: 'p7',
   },
   MHV_LANDING_PAGE: {
     // linkPath and infoAlertActionPhrase are used by the blue info alert
@@ -15,6 +20,13 @@ export const CernerAlertContent = {
     headline: 'mhv-landing-page',
     domain: 'mhv-landing-page',
     infoAlertActionPhrase: 'manage your health care',
+    transitionText:
+      'manage appointments, messages, prescriptions, or medical records',
+    bodyTransitionText: 'manage your health care',
+    warning: ['p0', 'p1'],
+    error: ['p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+    startDate: 'p2',
+    endDate: 'p7',
   },
   MEDICAL_RECORDS: {
     linkPath: '/pages/health_record/comprehensive_record/health_summaries',
@@ -24,6 +36,11 @@ export const CernerAlertContent = {
     infoAlertActionPhrase: 'manage most of your medical records',
     infoAlertText:
       'You can review and download most of your medical records here.',
+    transitionText: 'download and share your medical information',
+    warning: ['p1', 'p2', 'p3'],
+    error: ['p4', 'p5', 'p6'],
+    startDate: 'p4',
+    endDate: 'p6',
   },
   MEDICATIONS: {
     linkPath: '/pages/medications/current',
@@ -33,6 +50,11 @@ export const CernerAlertContent = {
     infoAlertActionPhrase: 'manage your medications',
     infoAlertText:
       'You no longer need to go to My VA Health to manage your prescriptions for any VA facilities.',
+    transitionText: 'renew or refill your prescriptions online',
+    warning: ['p1', 'p2', 'p3'],
+    error: ['p4', 'p5', 'p6'],
+    startDate: 'p4',
+    endDate: 'p6',
   },
   SECURE_MESSAGING: {
     linkPath: '/pages/messaging/inbox',
@@ -46,5 +68,12 @@ export const CernerAlertContent = {
     bodyActionSingle: 'To send a secure message to a provider at',
     bodyActionMultiple: 'To view or manage secure messages at these facilities',
     bodyIntro: 'Some of your secure messages may be in a different portal.',
+    transitionText: 'send or receive new messages or reply to conversations',
+    bodyTransitionText: 'contact your provider',
+    altTransitionHeadline: 'use messages to contact',
+    warning: ['p1', 'p2'],
+    error: ['p3', 'p4', 'p5', 'p6'],
+    startDate: 'p3',
+    endDate: 'p6',
   },
 };

@@ -5,6 +5,7 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import MigratingFacilitiesAlerts from './MigratingFacilitiesAlerts';
 
 /**
  * Shared Cerner Facility Alert component for MHV applications
@@ -53,10 +54,19 @@ const CernerFacilityAlert = ({
   bodyIntro, // Optional custom intro text (overrides default "Some of your {domain} may be in a different portal.")
   bodyActionSingle, // Optional custom action text for single facility (overrides default "To get your {pageName} from")
   bodyActionMultiple, // Optional custom action text for multiple facilities (overrides default "To get your {pageName} from these facilities")
+  forceHidePretransitionedAlert = false,
   forceHideInfoAlert = false,
+  forceHideTransitionAlert = false,
   infoAlertActionPhrase = 'manage your health care',
   infoAlertHeadline,
   infoAlertText = '',
+  warning,
+  error,
+  startDate,
+  endDate,
+  transitionText,
+  bodyTransitionText,
+  altTransitionHeadline,
 }) => {
   const userProfile = useSelector(state => state.user.profile);
 
@@ -95,9 +105,32 @@ const CernerFacilityAlert = ({
     }
   };
 
-  // Don't render anything if flag is false
-  if (!userProfile.userAtPretransitionedOhFacility) {
+  // Don't render anything if flags are false
+  if (
+    !userProfile.userAtPretransitionedOhFacility &&
+    !userProfile.userFacilityMigratingToOh
+  ) {
     return null;
+  }
+
+  if (userProfile.userFacilityMigratingToOh && !forceHideTransitionAlert) {
+    const migratingFacilities =
+      userProfile.ohMigrationInfo.length > 0 ? userProfile.ohMigrationInfo : [];
+
+    return (
+      <MigratingFacilitiesAlerts
+        migratingFacilities={migratingFacilities}
+        warning={warning}
+        error={error}
+        startDate={startDate}
+        endDate={endDate}
+        transitionText={transitionText}
+        bodyTransitionText={bodyTransitionText}
+        altTransitionHeadline={altTransitionHeadline}
+        className={className}
+        domain={domain}
+      />
+    );
   }
 
   // Render blue info alert if flag is true and it's not overridden
@@ -133,80 +166,82 @@ const CernerFacilityAlert = ({
     );
   }
 
-  // Do not render the yellow alert on the MHV Landing Page
-  if (domain === 'mhv-landing-page') {
-    return null;
+  if (
+    userProfile.userAtPretransitionedOhFacility &&
+    !forceHidePretransitionedAlert
+  ) {
+    const isMultipleFacilities = cernerFacilitiesNames.length > 1;
+    const isOneFacility = cernerFacilitiesNames.length === 1;
+
+    // Generate default headline
+    const defaultHeadline = `${headline} ${
+      isMultipleFacilities ? ' these facilities' : ' this facility'
+    }, go to My VA Health`;
+
+    // Generate default body intro
+    const defaultBodyIntro = `Some of your ${domain} may be in a different portal.`;
+
+    // Generate default action text
+    const defaultBodyActionSingle = bodyActionSingle || `${headline} from`;
+    const defaultBodyActionMultiple =
+      bodyActionMultiple || `${headline} from these facilities`;
+
+    return (
+      <va-alert
+        // Some usages might need extra top margin if there's an API error message above
+        class={`vads-u-margin-bottom--2p5 ${className} ${
+          apiError ? 'vads-u-margin-top--2' : ''
+        }`}
+        status="warning"
+        background-only
+        close-btn-aria-label="Close notification"
+        visible
+        data-testid="cerner-facilities-alert"
+      >
+        <h2 className="vads-u-font-size--md" slot="headline">
+          {defaultHeadline}
+        </h2>
+        <div>
+          {isMultipleFacilities && (
+            <>
+              <p>
+                {bodyIntro || defaultBodyIntro} {defaultBodyActionMultiple}, go
+                to My VA Health:
+              </p>
+              <ul>
+                {cernerFacilitiesNames.map((facilityName, i) => (
+                  <li data-testid="cerner-facility" key={i}>
+                    {facilityName}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {isOneFacility && (
+            <p data-testid="single-cerner-facility-text">
+              {bodyIntro || defaultBodyIntro} {defaultBodyActionSingle}{' '}
+              <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
+            </p>
+          )}
+          <VaLinkAction
+            data-testid="cerner-facility-action-link"
+            href={getCernerURL(linkPath, true)}
+            type="secondary"
+            onClick={handleLinkClick}
+            text="Go to My VA Health"
+            rel="noopener noreferrer"
+          />
+          <p>
+            <strong>Note:</strong> Having trouble opening up My VA Health? Try
+            disabling your browser’s pop-up blocker or signing in to My VA
+            Health with the same account you used to sign in to VA.gov.
+          </p>
+        </div>
+      </va-alert>
+    );
   }
 
-  const isMultipleFacilities = cernerFacilitiesNames.length > 1;
-  const isOneFacility = cernerFacilitiesNames.length === 1;
-
-  // Generate default headline
-  const defaultHeadline = `${headline} ${
-    isMultipleFacilities ? ' these facilities' : ' this facility'
-  }, go to My VA Health`;
-
-  // Generate default body intro
-  const defaultBodyIntro = `Some of your ${domain} may be in a different portal.`;
-
-  // Generate default action text
-  const defaultBodyActionSingle = bodyActionSingle || `${headline} from`;
-  const defaultBodyActionMultiple =
-    bodyActionMultiple || `${headline} from these facilities`;
-
-  return (
-    <va-alert
-      // Some usages might need extra top margin if there's an API error message above
-      class={`vads-u-margin-bottom--2p5 ${className} ${
-        apiError ? 'vads-u-margin-top--2' : ''
-      }`}
-      status="warning"
-      background-only
-      close-btn-aria-label="Close notification"
-      visible
-      data-testid="cerner-facilities-alert"
-    >
-      <h2 className="vads-u-font-size--md" slot="headline">
-        {defaultHeadline}
-      </h2>
-      <div>
-        {isMultipleFacilities && (
-          <>
-            <p>
-              {bodyIntro || defaultBodyIntro} {defaultBodyActionMultiple}, go to
-              My VA Health:
-            </p>
-            <ul>
-              {cernerFacilitiesNames.map((facilityName, i) => (
-                <li data-testid="cerner-facility" key={i}>
-                  {facilityName}
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-        {isOneFacility && (
-          <p data-testid="single-cerner-facility-text">
-            {bodyIntro || defaultBodyIntro} {defaultBodyActionSingle}{' '}
-            <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
-          </p>
-        )}
-        <VaLinkAction
-          data-testid="cerner-facility-action-link"
-          href={getCernerURL(linkPath, true)}
-          type="secondary"
-          onClick={handleLinkClick}
-          text="Go to My VA Health"
-          rel="noopener noreferrer"
-        />
-        <p>
-          <strong>Note:</strong> Having trouble opening up My VA Health? Try
-          disabling your browser’s pop-up blocker or signing in to My VA Health
-          with the same account you used to sign in to VA.gov.
-        </p>
-      </div>
-    </va-alert>
-  );
+  return null;
 };
 
 CernerFacilityAlert.propTypes = {
@@ -218,10 +253,19 @@ CernerFacilityAlert.propTypes = {
   bodyActionSingle: PropTypes.string,
   bodyIntro: PropTypes.string,
   className: PropTypes.string,
+  forceHidePretransitionedAlert: PropTypes.bool,
   forceHideInfoAlert: PropTypes.bool,
+  forceHideTransitionAlert: PropTypes.bool,
   infoAlertActionPhrase: PropTypes.string,
   infoAlertHeadline: PropTypes.string,
   infoAlertText: PropTypes.string,
+  warning: PropTypes.arrayOf(PropTypes.string),
+  error: PropTypes.arrayOf(PropTypes.string),
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
+  transitionText: PropTypes.string,
+  bodyTransitionText: PropTypes.string,
+  altTransitionHeadline: PropTypes.string,
   onLinkClick: PropTypes.func,
 };
 
