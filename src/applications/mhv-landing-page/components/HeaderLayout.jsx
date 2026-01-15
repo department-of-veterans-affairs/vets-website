@@ -49,6 +49,7 @@ const HeaderLayout = ({
         <CernerFacilityAlert
           {...CernerAlertContent.MHV_LANDING_PAGE}
           forceHidePretransitionedAlert
+          forceHideTransitionAlert
         />
         {showCernerInfoAlert && (
           <div>

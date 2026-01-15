@@ -128,7 +128,6 @@ const CernerFacilityAlert = ({
         bodyTransitionText={bodyTransitionText}
         altTransitionHeadline={altTransitionHeadline}
         className={className}
-        domain={domain}
       />
     );
   }

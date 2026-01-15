@@ -20,13 +20,6 @@ export const CernerAlertContent = {
     headline: 'mhv-landing-page',
     domain: 'mhv-landing-page',
     infoAlertActionPhrase: 'manage your health care',
-    transitionText:
-      'manage appointments, messages, prescriptions, or medical records',
-    bodyTransitionText: 'manage your health care',
-    warning: ['p0', 'p1'],
-    error: ['p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
-    startDate: 'p2',
-    endDate: 'p7',
   },
   MEDICAL_RECORDS: {
     linkPath: '/pages/health_record/comprehensive_record/health_summaries',

@@ -15,7 +15,6 @@ const MigratingFacilitiesAlerts = ({
   bodyTransitionText,
   altTransitionHeadline,
   className,
-  domain,
 }) => {
   // Map over migrating facilities to create alerts
   const alerts = migratingFacilities.map((migration, index) => {
@@ -33,41 +32,7 @@ const MigratingFacilitiesAlerts = ({
 
     // Render error alert if in error phase
     if (isInErrorPhase) {
-      return domain === 'mhv-landing-page' ? (
-        <va-alert
-          key={index}
-          class={`vads-u-margin-bottom--2p5 ${className} ${
-            migratingFacilities.length > 0 ? 'vads-u-margin-top--2' : ''
-          }`}
-          status="error"
-          background-only
-        >
-          <h2 className="vads-u-font-size--md" slot="headline">
-            Health tools for some facilities aren’t available online right now
-          </h2>
-          <div>
-            <p>
-              You can’t {transitionText} for {facilityText} right now. You’ll be
-              able to use these tools again on{' '}
-              <strong>{migration.phases[endDate]}</strong>:
-            </p>
-            <ul>
-              {migration.facilities.map((facility, i) => (
-                <li key={i}>{facility.facilityName}</li>
-              ))}
-            </ul>
-            <p>
-              If you need to {bodyTransitionText} now, call the facility
-              directly.
-            </p>
-            <va-link
-              data-testid="find-facility-link"
-              href="https://www.va.gov/find-locations/"
-              text="Find your facility's contact information"
-            />
-          </div>
-        </va-alert>
-      ) : (
+      return (
         <va-alert
           key={index}
           class={`vads-u-margin-bottom--2p5 ${className} ${
@@ -104,42 +69,7 @@ const MigratingFacilitiesAlerts = ({
       );
     }
     // Else warning alert
-    return domain === 'mhv-landing-page' ? (
-      <va-alert-expandable
-        key={index}
-        class={`vads-u-margin-bottom--2p5 ${className} ${
-          migratingFacilities.length > 0 ? 'vads-u-margin-top--2' : ''
-        }`}
-        data-testid="cerner-facilities-transition-alert"
-        status="warning"
-        trigger={`Upcoming site maintenance will begin on ${
-          migration.phases[startDate]
-        }`}
-      >
-        <div>
-          <p>
-            For a period of time, you won’t be able to {transitionText} for{' '}
-            {facilityText} online:
-          </p>
-          <ul>
-            {migration.facilities.map((facility, i) => (
-              <li key={i}>{facility.facilityName}</li>
-            ))}
-          </ul>
-          <p>
-            <strong>Start:</strong> {migration.phases[startDate]}
-          </p>
-          <p>
-            <strong>End:</strong> {migration.phases[endDate]}
-          </p>
-
-          <p>
-            <strong>Note:</strong> During this time, you can still call{' '}
-            {facilityText} to {bodyTransitionText}.
-          </p>
-        </div>
-      </va-alert-expandable>
-    ) : (
+    return (
       <va-alert-expandable
         key={index}
         class={`vads-u-margin-bottom--2p5 ${className} ${
@@ -204,7 +134,6 @@ MigratingFacilitiesAlerts.propTypes = {
   bodyTransitionText: PropTypes.string,
   altTransitionHeadline: PropTypes.string,
   className: PropTypes.string,
-  domain: PropTypes.string,
 };
 
 export default MigratingFacilitiesAlerts;
