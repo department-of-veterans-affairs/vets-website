@@ -31,6 +31,7 @@ const defaultRumSettings = {
 const initializeRealUserMonitoring = customRumSettings => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
   if (
+    process.env.NODE_ENV !== 'test' &&
     !environment.BASE_URL.includes('localhost') &&
     !window.DD_RUM?.getInitConfiguration()
   ) {
@@ -65,6 +66,7 @@ const defaultLogSettings = {
 
 const initializeBrowserLogging = customLogSettings => {
   if (
+    process.env.NODE_ENV !== 'test' &&
     !environment.BASE_URL.includes('localhost') &&
     !window.DD_LOGS?.getInitConfiguration()
   ) {
