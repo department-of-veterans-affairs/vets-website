@@ -4,12 +4,12 @@ import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 import { FORMAT_YMD_DATE_FNS } from '../constants';
 import {
+  fixDateFormat,
   parseDateToDateObj,
   isLocalToday,
   isUTCTodayOrFuture,
   formatDateToReadableString,
 } from '../utils/dates';
-import { fixDateFormat } from '../utils/replace';
 
 /**
  * Main validation method: Check if a date should be blocked from appeal submission
