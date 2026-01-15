@@ -53,9 +53,13 @@ function allDependents(state = initialState, action) {
           notOnAwardDependents: allPeople.notOnAward,
         };
       }
+      // API succeeded but no dependents - set empty arrays instead of null
+      // This allows the UI to distinguish between "no data yet" (null) vs "no dependents" ([])
       return {
         ...state,
         loading: false,
+        onAwardDependents: [],
+        notOnAwardDependents: [],
       };
 
     case FETCH_ALL_DEPENDENTS_FAILED:

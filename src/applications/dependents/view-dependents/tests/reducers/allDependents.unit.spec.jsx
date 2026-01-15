@@ -83,8 +83,8 @@ describe('allDependents reducer', () => {
     });
 
     expect(newState.loading).to.be.false;
-    expect(newState.onAwardDependents).to.be.null;
-    expect(newState.notOnAwardDependents).to.be.null;
+    expect(newState.onAwardDependents).to.deep.equal([]);
+    expect(newState.notOnAwardDependents).to.deep.equal([]);
   });
 
   it('should handle FETCH_ALL_DEPENDENTS_FAILED', () => {
