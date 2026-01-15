@@ -37,6 +37,10 @@ export const information = {
       title: 'Child doesn’t have a Social Security number',
       required: () => false,
       hideIf: formData => !formData?.vaDependentsNoSsn, // check feature flag
+      // updateSchema: (formData, _uiSchema) =>
+      //   formData?.vaDependentsNoSsn
+      //     ? checkboxSchema
+      //     : { type: 'object', properties: {} },
     }),
     noSsnReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',
@@ -45,9 +49,14 @@ export const information = {
         NONE_ASSIGNED: 'No SSN has been assigned or requested',
       },
       required: (_chapterData, index, formData) =>
-        formData?.childrenToAdd[index]?.noSsn === true,
+        formData?.childrenToAdd?.[index]?.noSsn === true,
       hideIf: (formData, index) =>
-        formData?.childrenToAdd[index]?.noSsn !== true,
+        formData?.childrenToAdd?.[index]?.noSsn !== true,
+      // updateSchema: (formData, _uiSchema, index) =>
+      //   formData.vaDependentsNoSsn &&
+      //   formData?.childrenToAdd?.[index]?.noSsn !== true
+      //     ? radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED'])
+      //     : { type: 'object', properties: {} },
       errorMessages: {
         required: 'Tell us why the child doesn’t have a Social Security number',
       },
@@ -55,9 +64,13 @@ export const information = {
     ssn: {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': (_chapterData, index, formData) =>
-        !formData?.childrenToAdd[index]?.noSsn,
+        !formData?.childrenToAdd?.[index]?.noSsn,
       'ui:options': {
-        hideIf: (formData, index) => formData?.childrenToAdd[index]?.noSsn,
+        hideIf: (formData, index) => formData?.childrenToAdd?.[index]?.noSsn,
+        // updateSchema: (formData, _uiSchema, index) =>
+        //   formData?.childrenToAdd?.[index]?.noSsn === true
+        //     ? { type: 'object', properties: {} }
+        //     : ssnSchema,
       },
     },
   },
