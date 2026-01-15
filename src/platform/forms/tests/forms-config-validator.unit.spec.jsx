@@ -88,6 +88,7 @@ const formConfigKeys = [
   'dev',
   'disableSave',
   'downtime',
+  'dynamicPaths',
   'errorText',
   'footerContent',
   'formId',
