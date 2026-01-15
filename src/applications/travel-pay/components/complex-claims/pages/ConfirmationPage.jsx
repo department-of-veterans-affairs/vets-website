@@ -122,7 +122,11 @@ const ConfirmationPage = () => {
                 class="vads-u-margin-bottom--2"
                 uswds
               />
-              <ExpensesAccordion expenses={expenses} documents={documents} />
+              <ExpensesAccordion
+                expenses={expenses}
+                documents={documents}
+                headerLevel={2}
+              />
             </>
           )}
           <WhatHappensNextSection isError={!!submitError} />

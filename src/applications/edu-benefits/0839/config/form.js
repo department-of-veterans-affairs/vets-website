@@ -80,6 +80,7 @@ const formConfig = {
     reviewPageTitle: 'Review form',
     submitButtonText: 'Continue',
   },
+  useCustomScrollAndFocus: true,
   transformForSubmit: transform,
   chapters: {
     personalInformationChapter: {
@@ -228,8 +229,9 @@ const formConfig = {
             path: 'yellow-ribbon-program-request/:index',
             uiSchema: eligibleIndividualsSupported.uiSchema,
             schema: eligibleIndividualsSupported.schema,
-            depends: formData =>
-              formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
+            depends: (formData, index) =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+              index < 1,
           }),
           contributionLimitsAndDegreeLevel: pageBuilder.itemPage({
             title: 'Contribution limits and degree level',

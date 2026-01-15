@@ -1,18 +1,22 @@
 {
   "description": "Has Medicare (ABD), no OHI, US address (new), third party signer",
   "data": {
-    "champvaBenefitStatus": true,
+    "view:champvaBenefitStatus": true,
     "applicantHasPrimary": false,
     "applicantMedicareStatus": true,
     "applicantMedicarePartACarrier": "Test A Carrier",
     "applicantMedicarePartBCarrier": "Test B Carrier",
     "applicantMedicarePartAEffectiveDate": "2010-01-01",
     "applicantMedicarePartBEffectiveDate": "2010-01-01",
+    "applicantMedicarePartAPartBCardFront": [],
+    "applicantMedicarePartAPartBCardBack": [],
     "applicantMedicarePharmacyBenefits": false,
     "applicantMedicareClass": "advantage",
     "applicantMedicareStatusD": true,
     "applicantMedicarePartDCarrier": "Test D Carrier",
     "applicantMedicarePartDEffectiveDate": "2010-01-01",
+    "medicarePartDCardFront": [],
+    "medicarePartDCardBack": [],
     "applicantPhone": "7771231234",
     "applicantGender": "male",
     "applicantAddress": {
@@ -29,7 +33,6 @@
       "last": "Jones",
       "suffix": "II"
     },
-    "consentToMailMissingRequiredFiles": true,
     "certifierRole": "other",
     "certifierEmail": "certifier@email.gov",
     "signature": "Certifier Jones"

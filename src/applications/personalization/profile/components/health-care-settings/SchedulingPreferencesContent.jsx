@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FIELD_IDS, FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
-import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
+import { RoutedProfileInformationFieldController } from '@@vap-svc/components/ProfileInformationFieldController';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import LoadFail from '../alerts/LoadFail';
 
@@ -12,7 +12,7 @@ const SchedulingPreferencesContent = props => {
       title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
       id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
       value: (
-        <ProfileInformationFieldController
+        <RoutedProfileInformationFieldController
           fieldName={FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD}
         />
       ),
@@ -21,7 +21,7 @@ const SchedulingPreferencesContent = props => {
       title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES],
       id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES],
       value: (
-        <ProfileInformationFieldController
+        <RoutedProfileInformationFieldController
           fieldName={FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES}
         />
       ),
@@ -33,7 +33,7 @@ const SchedulingPreferencesContent = props => {
       title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
       id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
       value: (
-        <ProfileInformationFieldController
+        <RoutedProfileInformationFieldController
           fieldName={FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING}
         />
       ),
@@ -42,7 +42,7 @@ const SchedulingPreferencesContent = props => {
       title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES],
       id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES],
       value: (
-        <ProfileInformationFieldController
+        <RoutedProfileInformationFieldController
           fieldName={FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES}
         />
       ),
@@ -54,7 +54,7 @@ const SchedulingPreferencesContent = props => {
       title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER],
       id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER],
       value: (
-        <ProfileInformationFieldController
+        <RoutedProfileInformationFieldController
           fieldName={FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER}
         />
       ),
@@ -63,7 +63,7 @@ const SchedulingPreferencesContent = props => {
       title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING],
       id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING],
       value: (
-        <ProfileInformationFieldController
+        <RoutedProfileInformationFieldController
           fieldName={FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING}
         />
       ),
