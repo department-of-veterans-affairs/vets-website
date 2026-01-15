@@ -4,3 +4,7 @@
  */
 
 export { GetHelp } from './get-help';
+export {
+  PreSubmitSignature,
+  preSubmitSignatureConfig,
+} from './pre-submit-signature';

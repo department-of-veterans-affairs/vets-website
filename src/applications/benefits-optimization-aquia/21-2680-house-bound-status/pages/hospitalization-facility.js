@@ -24,7 +24,11 @@ export const hospitalizationFacilityUiSchema = {
       title: 'Name of hospital',
     }),
     facilityAddress: {
-      ...addressNoMilitaryUI(),
+      ...addressNoMilitaryUI({
+        labels: {
+          street2: 'Apt./Unit Number',
+        },
+      }),
       'ui:description': () => (
         <h4 className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--base vads-u-line-height--3 vads-u-margin-top--2 vads-u-margin-bottom--1">
           Address of hospital
@@ -42,7 +46,9 @@ export const hospitalizationFacilityUiSchema = {
 const customHospitalAddressSchema = {
   ...addressNoMilitarySchema(),
   properties: {
-    ...addressNoMilitarySchema().properties,
+    ...addressNoMilitarySchema({
+      omit: ['street3'],
+    }).properties,
     street: {
       type: 'string',
       maxLength: 30,
