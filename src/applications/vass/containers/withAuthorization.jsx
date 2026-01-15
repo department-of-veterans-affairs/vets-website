@@ -93,7 +93,6 @@ const withAuthorization = (Component, authLevel = AUTH_LEVELS.TOKEN) => {
       return null;
     }
 
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component {...props} />;
   };
 };

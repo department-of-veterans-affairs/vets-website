@@ -77,7 +77,6 @@ const withFormData = (Component, requiredFields = []) => {
       return null;
     }
 
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component {...props} />;
   };
 };
