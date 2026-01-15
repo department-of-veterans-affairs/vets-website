@@ -394,6 +394,12 @@
       "rootUrl": "/health-care/order-hearing-aid-or-CPAP-supplies-form"
     },
     {
+      "directoryPath": "src/applications/homepage",
+      "appName": "Homepage",
+      "entryName": "homepage",
+      "rootUrl": "N/A"
+    },
+    {
       "directoryPath": "src/applications/income-and-asset-statement",
       "appName": "21P-0969 Income and Asset Statement Form",
       "entryName": "income-and-asset-statement",
@@ -802,21 +808,15 @@
       "rootUrl": "/mock-form-patterns"
     },
     {
+      "directoryPath": "src/applications/sitewide-minimal",
+      "appName": "Sitewide Minimal",
+      "entryName": "sitewide-minimal",
+      "rootUrl": "N/A"
+    },
+    {
       "directoryPath": "src/applications/static-pages",
       "appName": "Static pages",
       "entryName": "static-pages",
-      "rootUrl": "N/A"
-    },
-    {
-      "directoryPath": "src/applications/static-pages/homepage",
-      "appName": "Homepage",
-      "entryName": "homepage",
-      "rootUrl": "N/A"
-    },
-    {
-      "directoryPath": "src/applications/static-pages/sitewide-minimal",
-      "appName": "Sitewide Minimal",
-      "entryName": "sitewide-minimal",
       "rootUrl": "N/A"
     },
     {
