@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { renderHook, act } from '@testing-library/react-hooks';
-import { MemoryRouter, useLocation } from 'react-router-dom-v5-compat';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { useBreadcrumbFocus } from '../../hooks/useBreadcrumbFocus';
 
@@ -17,19 +15,14 @@ const setupH1 = () => {
   return document.querySelector('h1');
 };
 
-const LocationObserver = ({ onChange }) => {
-  const loc = useLocation();
-  useEffect(() => onChange(loc), [loc, onChange]);
-  return null;
-};
-
 describe('useBreadcrumbFocus', () => {
   let setTimeoutStub;
-  let latestLocation;
 
   beforeEach(() => {
     document.body.innerHTML = '';
-    latestLocation = null;
+
+    // Align "current URL" with tests
+    window.history.pushState({}, '', '/my-health/secure-messages/inbox/');
 
     setTimeoutStub = sinon.stub(window, 'setTimeout').callsFake((fn, _ms) => {
       fn();
@@ -42,32 +35,12 @@ describe('useBreadcrumbFocus', () => {
     document.body.innerHTML = '';
   });
 
-  const renderUseBreadcrumbFocus = (
-    initialPath = '/my-health/secure-messages/inbox/',
-  ) => {
-    const wrapper = ({ children }) => (
-      <MemoryRouter initialEntries={[initialPath]}>
-        <LocationObserver
-          onChange={loc => {
-            latestLocation = loc;
-          }}
-        />
-        {children}
-      </MemoryRouter>
-    );
-
-    const { result } = renderHook(() => useBreadcrumbFocus(), { wrapper });
-    if (result?.error) throw result.error;
-    return result;
-  };
-
   it('handleRouteChange: focuses H1 when href matches current URL (no navigation)', () => {
     const h1 = setupH1();
     const h1FocusSpy = sinon.spy(h1, 'focus');
+    const onRouteChange = sinon.spy();
 
-    const result = renderUseBreadcrumbFocus(
-      '/my-health/secure-messages/inbox/',
-    );
+    const { result } = renderHook(() => useBreadcrumbFocus({ onRouteChange }));
 
     act(() => {
       result.current.handleRouteChange(
@@ -75,19 +48,16 @@ describe('useBreadcrumbFocus', () => {
       );
     });
 
-    expect(latestLocation.pathname).to.equal(
-      '/my-health/secure-messages/inbox/',
-    );
+    expect(onRouteChange.called).to.equal(false);
     expect(h1FocusSpy.called).to.equal(true);
   });
 
-  it('handleRouteChange: navigates and focuses H1 when href differs', () => {
+  it('handleRouteChange: calls onRouteChange and focuses H1 when href differs', () => {
     const h1 = setupH1();
     const h1FocusSpy = sinon.spy(h1, 'focus');
+    const onRouteChange = sinon.spy();
 
-    const result = renderUseBreadcrumbFocus(
-      '/my-health/secure-messages/inbox/',
-    );
+    const { result } = renderHook(() => useBreadcrumbFocus({ onRouteChange }));
 
     act(() => {
       result.current.handleRouteChange(
@@ -95,9 +65,7 @@ describe('useBreadcrumbFocus', () => {
       );
     });
 
-    expect(latestLocation.pathname).to.equal(
-      '/my-health/secure-messages/sent/',
-    );
+    expect(onRouteChange.calledOnce).to.equal(true);
     expect(h1FocusSpy.called).to.equal(true);
   });
 
@@ -105,15 +73,17 @@ describe('useBreadcrumbFocus', () => {
     const h1 = setupH1();
     const h1FocusSpy = sinon.spy(h1, 'focus');
 
-    const result = renderUseBreadcrumbFocus();
+    const { result } = renderHook(() => useBreadcrumbFocus());
 
     const currentCrumbNode = {
       getAttribute: name => (name === 'aria-current' ? 'page' : null),
     };
 
-    result.current.handleClick(
-      makeClickEventWithComposedPath([currentCrumbNode]),
-    );
+    act(() => {
+      result.current.handleClick(
+        makeClickEventWithComposedPath([currentCrumbNode]),
+      );
+    });
 
     expect(h1FocusSpy.called).to.equal(true);
   });
@@ -122,13 +92,15 @@ describe('useBreadcrumbFocus', () => {
     const h1 = setupH1();
     const h1FocusSpy = sinon.spy(h1, 'focus');
 
-    const result = renderUseBreadcrumbFocus();
+    const { result } = renderHook(() => useBreadcrumbFocus());
 
     const nonCurrentNode = { getAttribute: () => null };
 
-    result.current.handleClick(
-      makeClickEventWithComposedPath([nonCurrentNode]),
-    );
+    act(() => {
+      result.current.handleClick(
+        makeClickEventWithComposedPath([nonCurrentNode]),
+      );
+    });
 
     expect(h1FocusSpy.called).to.equal(false);
   });

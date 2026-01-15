@@ -51,7 +51,6 @@ export const useBreadcrumbFocus = (optionsOrHandler = {}) => {
     event => {
       const href = event?.detail?.href;
 
-      // Even if there's no href (or it's the current crumb), we still want focus
       if (!href) {
         focusH1Soon();
         return;
@@ -61,15 +60,15 @@ export const useBreadcrumbFocus = (optionsOrHandler = {}) => {
       const nextPath = normalizePath(`${url.pathname}${url.search}${url.hash}`);
       const currentPath = getCurrentPath();
 
-      // If consumer supplies navigation, let them control SPA routing
-      if (typeof onRouteChange === 'function') {
-        onRouteChange(event);
+      // If the "navigation" points at the current URL, don't navigate—just focus.
+      if (nextPath === currentPath) {
         focusH1Soon();
         return;
       }
 
-      // Default behavior: only navigate if path differs
-      if (nextPath !== currentPath) {
+      if (typeof onRouteChange === 'function') {
+        onRouteChange(event);
+      } else {
         window.location.assign(nextPath);
       }
 
