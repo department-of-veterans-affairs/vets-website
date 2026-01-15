@@ -76,7 +76,7 @@ function AddressAutosuggest({
             if (!features?.length) {
               setOptions([
                 {
-                  id: 'null',
+                  id: 'no-items',
                   isError: true,
                   toDisplay: 'No results found',
                   disabled: true,
