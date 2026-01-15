@@ -351,6 +351,71 @@ try {
   // Component library not installed or path changed - silently ignore
 }
 
+// Track pending timers for cleanup
+const pendingTimers = {
+  timeouts: new Set(),
+  intervals: new Set(),
+};
+
+// Wrap native timer functions to track pending timers
+function wrapTimers() {
+  const originalSetTimeout = global.setTimeout;
+  const originalSetInterval = global.setInterval;
+  const originalClearTimeout = global.clearTimeout;
+  const originalClearInterval = global.clearInterval;
+
+  global.setTimeout = function wrappedSetTimeout(fn, delay, ...args) {
+    const id = originalSetTimeout(
+      (...callArgs) => {
+        pendingTimers.timeouts.delete(id);
+        fn(...callArgs);
+      },
+      delay,
+      ...args,
+    );
+    pendingTimers.timeouts.add(id);
+    return id;
+  };
+
+  global.setInterval = function wrappedSetInterval(fn, delay, ...args) {
+    const id = originalSetInterval(fn, delay, ...args);
+    pendingTimers.intervals.add(id);
+    return id;
+  };
+
+  global.clearTimeout = function wrappedClearTimeout(id) {
+    pendingTimers.timeouts.delete(id);
+    return originalClearTimeout(id);
+  };
+
+  global.clearInterval = function wrappedClearInterval(id) {
+    pendingTimers.intervals.delete(id);
+    return originalClearInterval(id);
+  };
+
+  // Store originals for cleanup
+  global._originalTimers = {
+    setTimeout: originalSetTimeout,
+    setInterval: originalSetInterval,
+    clearTimeout: originalClearTimeout,
+    clearInterval: originalClearInterval,
+  };
+}
+
+function clearPendingTimers() {
+  const { clearTimeout: origClearTimeout, clearInterval: origClearInterval } =
+    global._originalTimers || {
+      clearTimeout: global.clearTimeout,
+      clearInterval: global.clearInterval,
+    };
+  pendingTimers.timeouts.forEach(id => origClearTimeout(id));
+  pendingTimers.intervals.forEach(id => origClearInterval(id));
+  pendingTimers.timeouts.clear();
+  pendingTimers.intervals.clear();
+}
+
+wrapTimers();
+
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
@@ -407,6 +472,9 @@ export const mochaHooks = {
   afterEach() {
     cleanupStorage();
     flushPromises();
+    // Clear any pending timers to prevent async callbacks from running after test cleanup.
+    // This catches setInterval/setTimeout leaks from components that don't clean up properly.
+    clearPendingTimers();
   },
 
   afterAll() {
