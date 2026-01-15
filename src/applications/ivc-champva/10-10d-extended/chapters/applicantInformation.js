@@ -1,7 +1,6 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { capitalize } from 'lodash';
 import {
   addressUI,
   addressSchema,
@@ -32,7 +31,6 @@ import {
   applicantWording,
   nameWording,
   getAgeInYears,
-  fmtDate,
 } from '../../shared/utilities';
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
@@ -57,6 +55,7 @@ import remarriageProof from './applicantInformation/remarriageProof';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
+import ApplicantCardDescription from '../components/FormDescriptions/ApplicantCardDescription';
 
 /**
  * Wraps array builder function withEditTitle and calls the result
@@ -80,31 +79,7 @@ export const applicantOptions = {
   maxItems: APPLICANTS_MAX,
   text: {
     getItemName: item => applicantWording(item, false, true, false),
-    cardDescription: item => (
-      <ul className="no-bullets">
-        <li>
-          <b>Date of birth:</b>{' '}
-          {item?.applicantDob ? fmtDate(item?.applicantDob) : ''}
-        </li>
-        <li>
-          <b>Address:</b> {item?.applicantAddress?.street}{' '}
-          {item?.applicantAddress?.city}, {item?.applicantAddress?.state}
-        </li>
-        <li>
-          <b>Phone number:</b> {item?.applicantPhone}
-        </li>
-        <li>
-          <b>Relationship to Veteran:</b>{' '}
-          {capitalize(
-            item?.applicantRelationshipToSponsor?.relationshipToVeteran !==
-            'other'
-              ? item?.applicantRelationshipToSponsor?.relationshipToVeteran
-              : item?.applicantRelationshipToSponsor
-                  ?.otherRelationshipToVeteran,
-          )}
-        </li>
-      </ul>
-    ),
+    cardDescription: ApplicantCardDescription,
   },
 };
 
