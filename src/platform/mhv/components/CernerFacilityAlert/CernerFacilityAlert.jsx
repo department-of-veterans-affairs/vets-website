@@ -115,7 +115,9 @@ const CernerFacilityAlert = ({
 
   if (userProfile.userFacilityMigratingToOh && !forceHideTransitionAlert) {
     const migratingFacilities =
-      userProfile.ohMigrationInfo.length > 0 ? userProfile.ohMigrationInfo : [];
+      userProfile.migrationSchedules.length > 0
+        ? userProfile.migrationSchedules
+        : [];
 
     return (
       <MigratingFacilitiesAlerts

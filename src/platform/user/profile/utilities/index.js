@@ -87,10 +87,13 @@ export function mapRawUserDataToState(json) {
     vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
-    userAtPretransitionedOhFacility: vaProfile?.userAtPretransitionedOhFacility,
-    userFacilityReadyForInfoAlert: vaProfile?.userFacilityReadyForInfoAlert,
-    userFacilityMigratingToOh: vaProfile?.userFacilityMigratingToOh,
-    ohMigrationInfo: vaProfile?.ohMigrationInfo,
+    userAtPretransitionedOhFacility:
+      vaProfile?.ohMigrationInfo?.userAtPretransitionedOhFacility,
+    userFacilityReadyForInfoAlert:
+      vaProfile?.ohMigrationInfo?.userFacilityReadyForInfoAlert,
+    userFacilityMigratingToOh:
+      vaProfile?.ohMigrationInfo?.userFacilityMigratingToOh,
+    migrationSchedules: vaProfile?.ohMigrationInfo?.migrationSchedules,
   };
 
   if (meta && veteranStatus === null) {

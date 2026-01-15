@@ -15,7 +15,7 @@ describe('CernerFacilityAlert', () => {
         userAtPretransitionedOhFacility: true,
         userFacilityReadyForInfoAlert: false,
         userFacilityMigratingToOh: false,
-        ohMigrationInfo: [],
+        migrationSchedules: [],
       },
     },
   };
@@ -37,7 +37,7 @@ describe('CernerFacilityAlert', () => {
               userAtPretransitionedOhFacility: false,
               userFacilityReadyForInfoAlert: false,
               userFacilityMigratingToOh: false,
-              ohMigrationInfo: [],
+              migrationSchedules: [],
             },
           },
         },
@@ -57,7 +57,7 @@ describe('CernerFacilityAlert', () => {
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
           userFacilityMigratingToOh: false,
-          ohMigrationInfo: [],
+          migrationSchedules: [],
         },
       },
     };
@@ -107,7 +107,7 @@ describe('CernerFacilityAlert', () => {
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
           userFacilityMigratingToOh: false,
-          ohMigrationInfo: [],
+          migrationSchedules: [],
         },
       },
     };
@@ -153,7 +153,7 @@ describe('CernerFacilityAlert', () => {
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
           userFacilityMigratingToOh: false,
-          ohMigrationInfo: [],
+          migrationSchedules: [],
         },
       },
     };
@@ -198,7 +198,7 @@ describe('CernerFacilityAlert', () => {
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
           userFacilityMigratingToOh: false,
-          ohMigrationInfo: [],
+          migrationSchedules: [],
         },
       },
     };
@@ -228,7 +228,7 @@ describe('CernerFacilityAlert', () => {
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
           userFacilityMigratingToOh: false,
-          ohMigrationInfo: [],
+          migrationSchedules: [],
         },
       },
     };
@@ -253,7 +253,7 @@ describe('CernerFacilityAlert', () => {
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
           userFacilityMigratingToOh: false,
-          ohMigrationInfo: [],
+          migrationSchedules: [],
         },
       },
     };
@@ -286,7 +286,7 @@ describe('CernerFacilityAlert', () => {
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: true,
             userFacilityMigratingToOh: false,
-            ohMigrationInfo: [],
+            migrationSchedules: [],
           },
         },
       };
@@ -308,7 +308,7 @@ describe('CernerFacilityAlert', () => {
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: true,
             userFacilityMigratingToOh: false,
-            ohMigrationInfo: [],
+            migrationSchedules: [],
           },
         },
       };
@@ -332,7 +332,7 @@ describe('CernerFacilityAlert', () => {
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: false,
             userFacilityMigratingToOh: false,
-            ohMigrationInfo: [],
+            migrationSchedules: [],
           },
         },
       };
@@ -355,7 +355,7 @@ describe('CernerFacilityAlert', () => {
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: false,
             userFacilityMigratingToOh: false,
-            ohMigrationInfo: [],
+            migrationSchedules: [],
           },
         },
       };
@@ -378,7 +378,7 @@ describe('CernerFacilityAlert', () => {
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: true,
           userFacilityMigratingToOh: false,
-          ohMigrationInfo: [],
+          migrationSchedules: [],
         },
       },
     };
@@ -500,7 +500,7 @@ describe('CernerFacilityAlert', () => {
             userAtPretransitionedOhFacility: false,
             userFacilityReadyForInfoAlert: false,
             userFacilityMigratingToOh: true,
-            ohMigrationInfo: mockMigrationInfo,
+            migrationSchedules: mockMigrationInfo,
           },
         },
       };
@@ -536,7 +536,7 @@ describe('CernerFacilityAlert', () => {
               userAtPretransitionedOhFacility: true,
               userFacilityReadyForInfoAlert: false,
               userFacilityMigratingToOh: true,
-              ohMigrationInfo: mockMigrationInfo,
+              migrationSchedules: mockMigrationInfo,
             },
           },
         };
@@ -569,7 +569,7 @@ describe('CernerFacilityAlert', () => {
               userAtPretransitionedOhFacility: true,
               userFacilityReadyForInfoAlert: false,
               userFacilityMigratingToOh: true,
-              ohMigrationInfo: mockMigrationInfo,
+              migrationSchedules: mockMigrationInfo,
             },
           },
         };
@@ -585,7 +585,7 @@ describe('CernerFacilityAlert', () => {
         expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
       });
 
-      it('handles empty ohMigrationInfo array', () => {
+      it('handles empty migrationSchedules array', () => {
         const stateWithEmptyMigration = {
           ...initialState,
           user: {
@@ -594,7 +594,7 @@ describe('CernerFacilityAlert', () => {
               userAtPretransitionedOhFacility: false,
               userFacilityReadyForInfoAlert: false,
               userFacilityMigratingToOh: true,
-              ohMigrationInfo: [],
+              migrationSchedules: [],
             },
           },
         };
@@ -620,7 +620,7 @@ describe('CernerFacilityAlert', () => {
               userAtPretransitionedOhFacility: true,
               userFacilityReadyForInfoAlert: false,
               userFacilityMigratingToOh: true,
-              ohMigrationInfo: mockMigrationInfo,
+              migrationSchedules: mockMigrationInfo,
             },
           },
         };
@@ -641,7 +641,7 @@ describe('CernerFacilityAlert', () => {
               userAtPretransitionedOhFacility: true,
               userFacilityReadyForInfoAlert: true,
               userFacilityMigratingToOh: true,
-              ohMigrationInfo: mockMigrationInfo,
+              migrationSchedules: mockMigrationInfo,
             },
           },
         };

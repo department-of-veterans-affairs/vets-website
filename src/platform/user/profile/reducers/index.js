@@ -53,7 +53,7 @@ const initialState = {
   userAtPretransitionedOhFacility: false,
   userFacilityReadyForInfoAlert: false,
   userFacilityMigratingToOh: false,
-  ohMigrationInfo: {},
+  migrationSchedules: [],
   errors: false,
 };
 
