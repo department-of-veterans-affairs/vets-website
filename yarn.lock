@@ -30,6 +30,13 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
+"@assistant-ui/react-devtools@^0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@assistant-ui/react-devtools/-/react-devtools-0.1.12.tgz#3a9a606003eb2bbe13730c46d3d86899b98bb9ca"
+  integrity sha512-epM9hHdR5DvbXYEHf3AzvHdNWCLRp/qWOLcIyYeh8VQitWe/T1whJ/F1VjmZkDHbnsHNuQ02B2awgRcJqirhyA==
+  dependencies:
+    zod "^4.2.1"
+
 "@assistant-ui/react@^0.11.53":
   version "0.11.53"
   resolved "https://registry.yarnpkg.com/@assistant-ui/react/-/react-0.11.53.tgz#e548c47c40bcb6f21a84de76585055cd2fd2e89f"

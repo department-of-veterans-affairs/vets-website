@@ -9,6 +9,7 @@ import {
   useAssistantState,
   useAssistantTransportRuntime,
 } from '@assistant-ui/react';
+import { DevToolsModal } from '@assistant-ui/react-devtools';
 import React from 'react';
 
 import Disclaimer from '../../shared/components/Disclaimer/Disclaimer';
@@ -42,29 +43,6 @@ const coercePart = part => {
 
   if (part.type === 'text' && typeof part.text === 'string') {
     return { type: 'text', text: part.text };
-  }
-
-  if (part.type === 'image' && part.image) {
-    return { type: 'image', image: part.image };
-  }
-
-  if (part.type === 'image_url' && part.image_url?.url) {
-    return { type: 'image', image: part.image_url.url };
-  }
-
-  if (part.type === 'tool-call') {
-    return {
-      type: 'tool-call',
-      toolName: part.toolName || part.name || 'tool',
-      toolCallId: part.toolCallId || part.id,
-      args: part.args || part.arguments,
-      argsText: part.argsText || part.arguments,
-      result: part.result,
-      artifact: part.artifact,
-      isError: part.isError,
-      parentId: part.parentId,
-      messages: part.messages,
-    };
   }
 
   if (typeof part.text === 'string') {
@@ -256,6 +234,7 @@ export const Chatbot = () => {
             </div>
             <div className="vads-u-background-color--white vads-u-border--1px vads-u-border-color--gray-lighter vads-u-padding--2">
               <AssistantRuntimeProvider runtime={runtime}>
+                <DevToolsModal />
                 <ThreadPrimitive.Root className="vads-u-display--flex vads-u-flex-direction--column">
                   <ThreadPrimitive.Viewport className="vads-u-overflow-y--auto vads-u-padding-bottom--1">
                     <ThreadPrimitive.Empty>
