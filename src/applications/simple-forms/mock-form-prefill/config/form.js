@@ -81,13 +81,10 @@ const formConfig = {
     contactInfo: {
       title: 'Veteran information',
       pages: {
-        ...profilePersonalInfoPage({
-          prefillTransformer,
-        }),
+        ...profilePersonalInfoPage(),
         ...profileContactInfoPages({
           contactPath: 'veteran-information',
           contactInfoRequiredKeys: ['mailingAddress'],
-          prefillTransformer,
         }),
       },
     },

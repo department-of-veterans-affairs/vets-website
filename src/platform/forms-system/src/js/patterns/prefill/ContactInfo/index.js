@@ -57,7 +57,6 @@ const profileContactInfoPages = ({
   contactSectionHeadingLevel = null,
   editContactInfoHeadingLevel = null,
   prefillPatternEnabled = true,
-  prefillTransformer = null,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -177,7 +176,6 @@ const profileContactInfoPages = ({
       contactSectionHeadingLevel={contactSectionHeadingLevel}
       editContactInfoHeadingLevel={editContactInfoHeadingLevel}
       prefillPatternEnabled={prefillPatternEnabled}
-      prefillTransformer={prefillTransformer}
     />
   );
 

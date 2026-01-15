@@ -43,7 +43,6 @@ const profilePersonalInfoPage = ({
   hideOnReview = false,
   depends = () => true,
   background = false,
-  prefillTransformer = null,
 } = {}) => {
   const config = {
     ...defaultConfig,
@@ -60,7 +59,6 @@ const profilePersonalInfoPage = ({
       background={background}
       contentBeforeButtons={contentBeforeButtons || props.contentBeforeButtons}
       contentAfterButtons={contentAfterButtons || props.contentAfterButtons}
-      prefillTransformer={prefillTransformer}
     >
       {header && (
         <PersonalInformationHeader>{header}</PersonalInformationHeader>

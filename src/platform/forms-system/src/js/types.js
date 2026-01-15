@@ -640,7 +640,6 @@
  * @property {PersonalInformationConfig} [personalInfoConfig] - Configuration object for the PersonalInformation component
  * @property {boolean} [prefillPatternEnabled] - enable prefill pattern for
  *  personal info
- * @property {Function} [prefillTransformer] - transforms form data for fetchInProgressForm hook
  * @property {string} [title] - The title of the page
  */
 
@@ -684,7 +683,6 @@
  *  country code, area code, phone number & extension values
  * @property {boolean} [prefillPatternEnabled] - enable prefill pattern for
  *  contact info
- * @property {Function} [prefillTransformer] - transforms form data for fetchInProgressForm hook
  * @property {String} [wrapperKey] - wrapper key value set in
  *  ContactInfoKeys
  */

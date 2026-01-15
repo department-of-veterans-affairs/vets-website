@@ -20,7 +20,6 @@ import {
 import { adaptFormData } from './adapter';
 import { DefaultHeader } from './DefaultHeader';
 import { DefaultCardHeader } from './DefaultCardHeader';
-import { useFetchInProgressForm } from '../hooks/useFetchInProgressForm';
 
 /**
  * @typedef {Object} FieldConfig
@@ -88,7 +87,6 @@ export const PersonalInformation = ({
   errorMessage,
   formOptions = {},
   background = false,
-  prefillTransformer,
 }) => {
   const finalConfig = { ...defaultConfig, ...config };
 
@@ -106,9 +104,6 @@ export const PersonalInformation = ({
   );
 
   const { note, header, footer, cardHeader } = getChildrenByType(children);
-
-  // Fetch in-progress form data with prefill
-  useFetchInProgressForm(prefillTransformer);
 
   // Helper function to render SSN based on configuration
   const renderSSN = () => {
@@ -323,7 +318,6 @@ PersonalInformation.propTypes = {
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  prefillTransformer: PropTypes.func,
 };
 
 // the following are the allowed child components for the PersonalInformation component
