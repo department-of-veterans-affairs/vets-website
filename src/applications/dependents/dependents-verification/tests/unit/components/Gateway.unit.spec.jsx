@@ -3,7 +3,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../config/form';
@@ -12,6 +12,10 @@ import reducers from '../../../reducers';
 import mockDependents from '../../e2e/fixtures/mocks/mock-dependents.json';
 
 describe('Gateway', () => {
+  afterEach(() => {
+    resetFetch();
+  });
+
   const mockStore = ({
     loggedIn = true,
     isVerified = true,
