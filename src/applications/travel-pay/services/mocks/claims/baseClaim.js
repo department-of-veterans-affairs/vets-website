@@ -17,13 +17,14 @@ function buildClaim({
 } = {}) {
   const claimId = uuidv4();
   const claimNumber = `TC${randomInt(1_000_000_000_000, 10_000_000_000_000)}`; // Mock claim number
+  const isMileageExpense = exp => exp.expenseType?.toLowerCase() === 'mileage';
 
   // Decide which expenses to include
   let selectedExpenses = [];
   if (expenseTypeOptions === EXPENSE_TYPE_OPTIONS.ALL) {
     selectedExpenses = Object.values(expenseByType).map(exp => ({
       ...exp,
-      documentId: uuidv4(),
+      ...(isMileageExpense(exp) ? {} : { documentId: uuidv4() }),
       costSubmitted: claimStatus === 'Saved' ? exp.costRequested : 0,
     }));
   } else if (expenseTypeOptions === EXPENSE_TYPE_OPTIONS.MILEAGE_ONLY) {
@@ -37,8 +38,8 @@ function buildClaim({
     ];
   }
 
-  // Create documents for each expense
-  let documents = selectedExpenses.map(exp => ({
+  // Create documents for each expense (except mileage)
+  let documents = selectedExpenses.filter(exp => exp.documentId).map(exp => ({
     documentId: exp.documentId,
     filename: `${exp.expenseType}.txt`,
     mimetype: 'text/plain',
@@ -92,6 +93,20 @@ function buildClaim({
     );
   }
 
+  const now = new Date();
+
+  const appointmentDate = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      9,
+      30,
+      0,
+    ),
+  )
+    .toISOString()
+    .replace('.000Z', 'Z');
   // Build the claim
   return {
     claimId,
@@ -102,19 +117,19 @@ function buildClaim({
     claimantLastName: 'Doe',
     claimSource: 'VaGov',
     claimStatus,
-    appointmentDate: new Date().toISOString(),
+    appointmentDate,
     facilityName: 'Cheyenne VA Medical Center',
     totalCostRequested: selectedExpenses.reduce(
       (sum, e) => sum + e.costRequested,
       0,
     ),
     reimbursementAmount,
-    createdOn: new Date().toISOString(),
-    modifiedOn: new Date().toISOString(),
+    createdOn: appointmentDate,
+    modifiedOn: appointmentDate,
     appointment: {
       id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
       appointmentSource: 'API',
-      appointmentDateTime: new Date().toISOString(),
+      appointmentDateTime: appointmentDate,
       appointmentType: 'EnvironmentalHealth',
       facilityId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
       facilityName: 'Cheyenne VA Medical Center',

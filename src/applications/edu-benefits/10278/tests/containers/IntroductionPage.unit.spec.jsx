@@ -81,7 +81,7 @@ describe('22-10278 <IntroductionPage>', () => {
     expect(subTitle?.textContent).to.include('(VA Form 22-10278)');
   });
 
-  it('renders all section headers (4 h2s)', () => {
+  it('renders all section headers (1 h2)', () => {
     const { container } = renderWithStore(<IntroductionPage {...baseProps} />);
     const h2s = container.querySelectorAll('h2');
     expect(h2s.length).to.equal(1);
