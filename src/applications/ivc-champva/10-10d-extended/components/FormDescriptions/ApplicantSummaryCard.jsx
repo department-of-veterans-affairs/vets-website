@@ -10,8 +10,6 @@ const formatDob = dob => {
 };
 
 const ApplicantSummaryCard = item => {
-  if (!item) return null;
-
   const {
     applicantDob,
     applicantPhone = '',
@@ -20,7 +18,7 @@ const ApplicantSummaryCard = item => {
       relationshipToVeteran,
       otherRelationshipToVeteran,
     } = {},
-  } = item;
+  } = item ?? {};
 
   const relationship = capitalize(
     relationshipToVeteran === 'other'

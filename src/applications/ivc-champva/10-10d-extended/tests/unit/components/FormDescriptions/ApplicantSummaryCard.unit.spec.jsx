@@ -134,8 +134,8 @@ describe('10-10d <ApplicantSummaryCard>', () => {
     expect(textContent).to.include('Relationship to Veteran:');
   });
 
-  it('should not render when item is undefined', () => {
+  it('should handle when item is undefined', () => {
     const { listItems } = subject(undefined);
-    expect(listItems).to.have.lengthOf(0);
+    expect(listItems).to.have.lengthOf(4);
   });
 });
