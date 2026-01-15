@@ -11,9 +11,7 @@ const {
 
 const pageTitle = 'personal information 1';
 
-// Fields: full name (first, middle, last, suffix?) + date of birth => count underlying web component fields
-// Assuming patterns create 5 fields for name (first, middle, last, suffix) + date of birth (3 date parts) => adjust when helper counts differ
-// We'll set an expected count placeholder; update if test fails.
+// Name inputs (first, middle, last, suffix) plus a single va-date component
 const numberOfWebComponentFields = 5;
 
 testNumberOfWebComponentFields(
@@ -24,8 +22,8 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-// Required errors: fullName first + last + dateOfBirth => approximate number of error fields
-const numberOfWebComponentErrors = 4;
+// Required errors surface on first name, last name, and date of birth
+const numberOfWebComponentErrors = 3;
 
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,

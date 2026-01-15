@@ -19,13 +19,12 @@ const uiSchema = {
       <>
         <p className="vads-u-margin-top--2">
           The primary certifying official serves as the main point of contact at
-          the education or training facility and handles approvals and
-          compliance survey inquiries. They are also designated to sign VA
-          Enrollment Certifications, Certifications of Change in Student Status,
-          Certifications of Delivery of Advance Payments, Certifications of
-          Pursuit, Attendance, Flight Training, On-the-Job or Apprenticeship
-          Training (as applicable), School Portion of VA Form 22-1990t and other
-          Certifications of Enrollment.
+          the education or training facility and handles approval and compliance
+          survey inquiries. They are also designated to sign VA Enrollment
+          Certifications, Certifications of Change in Student Status,
+          Certifications of Pursuit, Attendance, Flight Training, On-the-Job or
+          Apprenticeship Training (as applicable), School Portion of VA Form
+          22-1990t and other Certifications of Enrollment.
         </p>
         {certifyingOfficialInfoAlert}
       </>

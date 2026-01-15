@@ -517,12 +517,12 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     return 'Number of refills left not available';
   };
 
-  const getDateValue = date => {
+  const getDateValue = (date, isDispensedDate = false) => {
     if (rxError) return '';
     if (date) {
       return dateFormat(date, 'MMMM D, YYYY');
     }
-    return 'Date not available';
+    return isDispensedDate ? 'Not filled yet' : 'Date not available';
   };
 
   return [
@@ -541,7 +541,17 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     `Reason for use: ${
       rxError ? '' : rx?.reason || 'Reason for use not available'
     }`,
-    `Last filled on: ${getDateValue(rx?.sortedDispensedDate)}`,
+    `Last filled on: ${getDateValue(rx?.sortedDispensedDate, true)}`,
     `Quantity: ${rxError ? '' : rx?.quantity || 'Quantity not available'}`,
   ].join('\n');
+};
+
+export const draftIsClean = draftInProgress => {
+  return (
+    !draftInProgress?.messageId &&
+    !draftInProgress?.category &&
+    !draftInProgress?.subject &&
+    !draftInProgress?.body &&
+    (!draftInProgress?.attachments || draftInProgress.attachments.length === 0)
+  );
 };

@@ -16,7 +16,7 @@ import {
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { CancelButton } from '../../helpers';
+import { CancelButton, incomeQuestionUpdateUiSchema } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
@@ -158,11 +158,7 @@ export const childIncomeQuestionPage = {
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
-      updateUiSchema: () => ({
-        'ui:options': {
-          hint: '',
-        },
-      }),
+      updateUiSchema: incomeQuestionUpdateUiSchema,
       updateSchema: (formData = {}, formSchema) => {
         const { vaDependentsNetWorthAndPension } = formData;
 

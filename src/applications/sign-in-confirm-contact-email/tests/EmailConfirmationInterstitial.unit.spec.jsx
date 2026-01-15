@@ -6,6 +6,20 @@ import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
 import EmailConfirmationInterstitial from '../containers/EmailConfirmationInterstitial';
 
+// Helper to build successful transaction response
+const buildSuccessResponse = () => ({
+  data: {
+    id: '',
+    type: 'async_transaction_va_profile_email_address_transactions',
+    attributes: {
+      transactionId: 'test_tx_id',
+      transactionStatus: 'COMPLETED_SUCCESS',
+      type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
+      metadata: [],
+    },
+  },
+});
+
 const generateStore = (email = 'test@test.com') => ({
   getState: () => ({
     user: {
@@ -73,12 +87,12 @@ describe('EmailConfirmationInterstitial', () => {
       .to.not.be.null;
     expect(
       getByText(
-        /We'll send notifications about your VA health care and benefits to this email\./i,
+        /We’ll send notifications about your VA health care and benefits to this email./i,
       ),
     ).to.not.be.null;
     expect(
       getByText(
-        /We'll send all VA notifications to the contact email address listed in your VA\.gov profile\. We won't send any more notifications to the email listed in the previous MyHealtheVet experience\. Make sure the contact email address listed in your VA\.gov profile is the one you want us to send notifications to\./i,
+        /We’ll send all VA notifications to the contact email address listed in your VA.gov profile. We won’t send any more notifications to the email listed in the previous MyHealtheVet experience. Make sure the contact email address listed in your VA.gov profile is the one you want us to send notifications to./i,
       ),
     ).to.not.be.null;
 
@@ -102,16 +116,16 @@ describe('EmailConfirmationInterstitial', () => {
 
   it('should show the success CTA link after a successful confirmation', async () => {
     localStorage.setItem('hasSession', 'true');
-    mockApiRequest();
+    mockApiRequest(buildSuccessResponse());
 
     const mockStore = generateStore();
-    const { container } = render(
+    const { container, getByTestId } = render(
       <Provider store={mockStore}>
         <EmailConfirmationInterstitial />
       </Provider>,
     );
 
-    const confirmButton = container.querySelector('.confirm-button');
+    const confirmButton = getByTestId('sign-in--confirm-email-button');
     expect(confirmButton).to.exist;
     fireEvent.click(confirmButton);
 
@@ -126,13 +140,13 @@ describe('EmailConfirmationInterstitial', () => {
     mockApiRequest(null, false);
 
     const mockStore = generateStore();
-    const { container } = render(
+    const { container, getByTestId } = render(
       <Provider store={mockStore}>
         <EmailConfirmationInterstitial />
       </Provider>,
     );
 
-    const confirmButton = container.querySelector('.confirm-button');
+    const confirmButton = getByTestId('sign-in--confirm-email-button');
     expect(confirmButton).to.exist;
 
     fireEvent.click(confirmButton);
