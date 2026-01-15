@@ -77,11 +77,6 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.DRAFT_SAVE_STARTED:
       return {
         ...state,
-        draft: {
-          ...state.draft,
-          isSaving: true,
-          saveError: null,
-        },
         isSaving: true,
         saveError: null,
       };
