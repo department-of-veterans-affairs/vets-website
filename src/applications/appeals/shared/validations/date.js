@@ -1,5 +1,4 @@
 import {
-  add,
   isFuture,
   isToday,
   isValid,
@@ -101,14 +100,19 @@ export const createDateObject = rawDateString => {
  */
 export const getAvailableDateTimeForBlockedIssue = decisionDate => {
   const aheadOfUtc = new Date().getTimezoneOffset() < 0;
-  const dayAfterDecisionDate = add(decisionDate, { days: 1 });
+
+  // Use UTC methods to get the actual decision date (not local display date)
+  const decisionYear = decisionDate.getUTCFullYear();
+  const decisionMonth = decisionDate.getUTCMonth();
+  const decisionDay = decisionDate.getUTCDate();
+
   let availableDateTime;
 
   if (!aheadOfUtc) {
     availableDateTime = new Date(
-      dayAfterDecisionDate.getFullYear(),
-      dayAfterDecisionDate.getMonth(),
-      dayAfterDecisionDate.getDate(),
+      decisionYear,
+      decisionMonth,
+      decisionDay + 1,
       0,
       0,
       0,
@@ -116,15 +120,7 @@ export const getAvailableDateTimeForBlockedIssue = decisionDate => {
     );
   } else {
     availableDateTime = new Date(
-      Date.UTC(
-        dayAfterDecisionDate.getFullYear(),
-        dayAfterDecisionDate.getMonth(),
-        dayAfterDecisionDate.getDate(),
-        0,
-        0,
-        0,
-        0,
-      ),
+      Date.UTC(decisionYear, decisionMonth, decisionDay + 1, 0, 0, 0, 0),
     );
   }
 

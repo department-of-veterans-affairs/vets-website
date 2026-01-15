@@ -59,7 +59,9 @@ export const getBlockedMessage = blockedIssues => {
   const issueNames = extractIssueNames(blockedIssues);
   const isSingle = issueNames.length === 1;
   const decisionDate = getDecisionDate(blockedIssues[0]);
-  const availableDateTime = getAvailableDateTimeForBlockedIssue(decisionDate);
+  const availableDateTime = getAvailableDateTimeForBlockedIssue(
+    new Date(decisionDate),
+  );
 
   return `We're sorry. Your ${formatIssueList(issueNames)} ${
     isSingle ? 'issue' : 'issues'
