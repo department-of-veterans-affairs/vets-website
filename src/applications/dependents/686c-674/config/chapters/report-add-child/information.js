@@ -33,31 +33,31 @@ export const information = {
     'view:childIdTitle': {
       'ui:description': <h4>Child’s identification information</h4>,
     },
-    noSSN: checkboxUI({
+    noSsn: checkboxUI({
       title: 'Child doesn’t have a Social Security number',
       required: () => false,
       hideIf: formData => !formData?.vaDependentsNoSsn, // check feature flag
     }),
-    noSSNReason: radioUI({
+    noSsnReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',
       labels: {
         NONRESIDENT_ALIEN: 'Nonresident alien',
         NONE_ASSIGNED: 'No SSN has been assigned or requested',
       },
-      required: (_chapterData, _index, formData) =>
-        formData?.childrenToAdd[_index]?.noSSN === true,
-      hideIf: (formData, _index) =>
-        formData?.childrenToAdd[_index]?.noSSN !== true,
+      required: (_chapterData, index, formData) =>
+        formData?.childrenToAdd[index]?.noSsn === true,
+      hideIf: (formData, index) =>
+        formData?.childrenToAdd[index]?.noSsn !== true,
       errorMessages: {
         required: 'Tell us why the child doesn’t have a Social Security number',
       },
     }),
     ssn: {
       ...ssnUI('Child’s Social Security number'),
-      'ui:required': (_chapterData, _index, formData) =>
-        !formData?.childrenToAdd[_index]?.noSSN,
+      'ui:required': (_chapterData, index, formData) =>
+        !formData?.childrenToAdd[index]?.noSsn,
       'ui:options': {
-        hideIf: (formData, _index) => formData?.childrenToAdd[_index]?.noSSN,
+        hideIf: (formData, index) => formData?.childrenToAdd[index]?.noSsn,
       },
     },
   },
@@ -69,8 +69,8 @@ export const information = {
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,
       'view:childIdTitle': { type: 'object', properties: {} },
-      noSSN: checkboxSchema,
-      noSSNReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
+      noSsn: checkboxSchema,
+      noSsnReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
       ssn: ssnSchema,
     },
   },
