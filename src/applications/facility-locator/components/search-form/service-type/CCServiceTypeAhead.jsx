@@ -210,7 +210,7 @@ class CCServiceTypeAhead extends Component {
               Service type{' '}
               <span className="form-required-span">(*Required)</span>
               {this.props.useProgressiveDisclosure && (
-                <span className="service-hint-text-label">
+                <span className="usa-hint">
                   Start typing to search for a service, like Chiropractor or
                   Optometrist.
                 </span>
