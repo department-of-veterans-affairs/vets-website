@@ -89,6 +89,8 @@ export function mapRawUserDataToState(json) {
     veteranStatus: {},
     userAtPretransitionedOhFacility: vaProfile?.userAtPretransitionedOhFacility,
     userFacilityReadyForInfoAlert: vaProfile?.userFacilityReadyForInfoAlert,
+    userFacilityMigratingToOh: vaProfile?.userFacilityMigratingToOh,
+    ohMigrationInfo: vaProfile?.ohMigrationInfo,
   };
 
   if (meta && veteranStatus === null) {
