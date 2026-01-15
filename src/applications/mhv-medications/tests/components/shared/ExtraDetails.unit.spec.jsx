@@ -116,7 +116,7 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
     });
   });
@@ -247,7 +247,7 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
     });
   });

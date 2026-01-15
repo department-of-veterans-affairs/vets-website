@@ -49,24 +49,26 @@ describe('SendRxRenewalMessage Component', () => {
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
 
-    it('renders renewal link when prescription is Active: Refill in Process with 0 refills', () => {
+    it('does not render renewal link when prescription is Active: Refill in Process with 0 refills', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active: Refill in Process',
         refillRemaining: 0,
       };
       const screen = setup(rx);
-      expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
     });
 
-    it('renders renewal link when prescription is Active: Submitted with 0 refills', () => {
+    it('does not render renewal link when prescription is Active: Submitted with 0 refills', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active: Submitted',
         refillRemaining: 0,
       };
       const screen = setup(rx);
-      expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
     });
 
     it('renders renewal link when prescription is Expired within 120 days', () => {
