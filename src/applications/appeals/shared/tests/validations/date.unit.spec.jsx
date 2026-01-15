@@ -38,6 +38,7 @@ describe('isTodayOrInFuture - Dual Validation Logic', () => {
         0,
         0,
       );
+
       const result = isTodayOrInFuture(today);
       expect(result).to.be.true;
     });
@@ -179,6 +180,7 @@ describe('getAvailableDateTimeForBlockedIssue', () => {
         now.getMonth(),
         now.getDate() + 1,
       );
+
       const monthFormatted = formatMonth(tomorrow);
       const day = tomorrow.getDate();
       const year = tomorrow.getFullYear();
@@ -233,6 +235,7 @@ describe('getAvailableDateTimeForBlockedIssue', () => {
         now.getMonth(),
         now.getDate() + 1,
       );
+
       const monthFormatted = formatMonth(tomorrow);
       const day = tomorrow.getDate();
       const year = tomorrow.getFullYear();

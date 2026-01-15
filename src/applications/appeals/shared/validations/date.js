@@ -41,7 +41,7 @@ export const isTodayOrInFuture = date => {
     isFutureUtc: isUTCFuture(date), // Decision date after current UTC day
   };
 
-  return Object.values(blockingCriteria).some(value => value)?.length > 0;
+  return Object.values(blockingCriteria).some(value => value);
 };
 
 const buildDatePartErrors = (month, day, year) => {
