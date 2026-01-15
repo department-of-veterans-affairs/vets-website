@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
@@ -16,6 +16,7 @@ import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicat
 import ITF403Error from '../components/ITF403Error';
 import ITF500Error from '../components/ITF500Error';
 import ITFExistingClaim from '../components/ITFExistingClaim';
+import RedirectPageReview from '../components/RedirectPageReview';
 
 const form210966 = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
@@ -83,7 +84,7 @@ const form210966 = (pathname = null) => {
     },
     chapters: {
       isVeteranChapter: {
-        title: 'Claimant background ',
+        title: 'Claimant background',
         pages: {
           isVeteranPage: {
             path: 'claimant-background',
@@ -91,6 +92,7 @@ const form210966 = (pathname = null) => {
             uiSchema: isVeteranPage.uiSchema,
             schema: isVeteranPage.schema,
             CustomPage: IsVeteranPage,
+            CustomPageReview: RedirectPageReview,
             scrollAndFocusTarget,
           },
         },
@@ -102,6 +104,7 @@ const form210966 = (pathname = null) => {
             path: 'veteran-information',
             title: 'Claimant information',
             uiSchema: itfVeteranInformationPage.uiSchema,
+            CustomPageReview: RedirectPageReview,
             depends: formData => {
               return formData.isVeteran === 'yes';
             },
@@ -123,16 +126,17 @@ const form210966 = (pathname = null) => {
       },
       claimantInformationChapter: {
         title: 'Claimant and Veteran information',
-        reviewDescription: () => (
-          <div className="itf-review-heading">
-            Claimant and Veteran information
-          </div>
-        ),
+        // reviewDescription: () => (
+        //   <div className="itf-review-heading">
+        //     Claimant and Veteran information
+        //   </div>
+        // ),
         pages: {
           claimantInformation: {
             path: 'claimant-information',
             title: 'Claimant and Veteran information',
             uiSchema: itfClaimantInformationPage.uiSchema,
+            CustomPageReview: RedirectPageReview,
             depends: formData => {
               return (
                 formData.isVeteran === undefined || formData.isVeteran === 'no'
