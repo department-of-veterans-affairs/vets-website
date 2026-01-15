@@ -284,7 +284,7 @@ function detectKeyCollisions(schema, keys = {}) {
  * Applies field key mapping to a schema object
  * @param {Object} schema - The original schema object
  * @param {Object} keys - Mapping of standard keys to custom keys
- * @returns {Object} - Mapped schema object with transformed keys and omitted fields
+ * @returns {Object} - Mapped schema object with transformed keys
  *
  * @throws {Error} If key mapping would cause field collisions (e.g., mapping 'street' to 'addressLine1'
  * when 'addressLine1' already exists in the original schema)
@@ -293,8 +293,7 @@ function detectKeyCollisions(schema, keys = {}) {
  * const originalSchema = { street: {}, postalCode: {} };
  * const mapped = applyKeyMapping(
  *   originalSchema,
- *   { street: 'addressLine1', postalCode: 'zipCode' },
- *   ['street2']
+ *   { street: 'addressLine1', postalCode: 'zipCode' }
  * );
  * // Returns: { addressLine1: {}, zipCode: {} }
  */
