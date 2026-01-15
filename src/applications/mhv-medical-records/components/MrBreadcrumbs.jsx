@@ -1,7 +1,8 @@
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import { useBreadcrumbFocus } from 'platform/mhv/hooks/useBreadcrumbFocus';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
@@ -11,6 +12,19 @@ const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+
+  const onRouteChange = useCallback(
+    ({ detail }) => {
+      const href = detail?.href;
+      if (href) history.push(href);
+    },
+    [history],
+  );
+
+  const {
+    handleRouteChange: handleRouteChangeWithFocus,
+    handleClick,
+  } = useBreadcrumbFocus({ onRouteChange });
 
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
@@ -86,9 +100,8 @@ const MrBreadcrumbs = () => {
     ],
   );
 
-  const handleRouteChange = ({ detail }) => {
-    const { href } = detail;
-    history.push(href);
+  const handleRouteChange = event => {
+    handleRouteChangeWithFocus(event);
     handleDataDogAction({ locationBasePath, locationChildPath });
   };
 
@@ -169,6 +182,7 @@ const MrBreadcrumbs = () => {
       label="Breadcrumb"
       home-veterans-affairs
       onRouteChange={handleRouteChange}
+      onClick={handleClick}
       className="mobile-lg:vads-u-margin-y--2 no-print"
       dataTestid="breadcrumbs"
       uswds
