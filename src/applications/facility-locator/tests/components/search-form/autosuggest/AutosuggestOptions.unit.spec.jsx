@@ -15,7 +15,6 @@ import { itemToString } from '../../../../components/search-form/autosuggest/hel
   itemToString,
   getMenuProps,
   noItemsMessage,
-  shouldShowNoResults,
   AutosuggestOptionComponent,
  */
 const emptyObj = () => ({});
@@ -33,7 +32,6 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
         noItemsMessage="No items found"
         itemToString={item => item.toDisplay}
         options={[{ id: '1', toDisplay: 'one' }]}
-        shouldShowNoResults={false}
         AutosuggestOptionComponent={AutosuggestOption}
       />,
     );
@@ -55,7 +53,6 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
         noItemsMessage="No items found"
         itemToString={item => item.toDisplay}
         options={[]}
-        shouldShowNoResults={false}
         AutosuggestOptionComponent={AutosuggestOption}
       />,
     );
@@ -76,7 +73,6 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
         noItemsMessage="No items found"
         itemToString={item => item.toDisplay}
         options={[]}
-        shouldShowNoResults
         AutosuggestOptionComponent={AutosuggestOption}
       />,
     );
@@ -97,7 +93,6 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
         noItemsMessage="No items found"
         itemToString={item => item.toDisplay}
         options={[]}
-        shouldShowNoResults={false}
         AutosuggestOptionComponent={AutosuggestOption}
       />,
     );
@@ -117,7 +112,6 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
         noItemsMessage="No items found"
         itemToString={item => item.toDisplay}
         options={[{ id: '1', toDisplay: 'one' }]} // but will be overridden by isShown
-        shouldShowNoResults={false}
         AutosuggestOptionComponent={AutosuggestOption}
       />,
     );
@@ -137,7 +131,6 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
         noItemsMessage="No items found"
         itemToString={itemToString}
         options={['a', 'b', 'c']}
-        shouldShowNoResults={false}
         AutosuggestOptionComponent={AutosuggestOption}
       />,
     );
