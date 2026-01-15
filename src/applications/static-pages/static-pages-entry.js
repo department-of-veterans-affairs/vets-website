@@ -242,8 +242,8 @@ createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 // Second instance is for another widget type on the same page
 createManageVADebtCTA(store, widgetTypes.DISPUTE_DEBT_LINK);
-createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
-createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
+createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER); // And this
+createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH); // And this
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
 createEnrollmentVerificationLoginWidget(
   store,
@@ -285,7 +285,7 @@ create21P534ezAccess(store, widgetTypes.SURVIVORS_BENEFITS);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
-  createMyVALoginWidget(store);
+  createMyVALoginWidget(store); // We might only need this one for the homepage
 }
 
 /* eslint-disable no-unused-vars,camelcase */

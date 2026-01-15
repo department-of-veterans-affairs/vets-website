@@ -808,6 +808,18 @@
       "rootUrl": "N/A"
     },
     {
+      "directoryPath": "src/applications/static-pages/homepage",
+      "appName": "Homepage",
+      "entryName": "homepage",
+      "rootUrl": "N/A"
+    },
+    {
+      "directoryPath": "src/applications/static-pages/sitewide-minimal",
+      "appName": "Sitewide Minimal",
+      "entryName": "sitewide-minimal",
+      "rootUrl": "N/A"
+    },
+    {
       "directoryPath": "src/applications/survivor-dependent-education-benefit/22-5490",
       "appName": "Survivor and Dependent Benefits 22-5490",
       "entryName": "survivor-dependent-education-benefit-22-5490",
