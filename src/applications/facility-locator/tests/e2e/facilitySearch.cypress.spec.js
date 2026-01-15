@@ -165,10 +165,12 @@ describe('Facility VA search', () => {
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000);
 
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.focused().contains(
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
     cy.get('#other-tools').should('exist');
+    cy.axeCheck();
   });
 
   it('finds va benefits facility and views its page', () => {
@@ -223,6 +225,7 @@ describe('Facility VA search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/find-locations');
+    cy.axeCheck();
 
     cy.get('#street-city-state-zip').type('27606{enter}');
     // Wait for Use My Location to be triggered (it should not be)

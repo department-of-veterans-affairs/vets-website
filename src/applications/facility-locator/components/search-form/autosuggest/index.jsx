@@ -11,6 +11,7 @@ import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
 
 function Autosuggest({
   // downshift props
+  defaultHighlightedIndex = undefined,
   handleOnSelect,
   inputValue,
   itemToString = toDisplay,
@@ -30,13 +31,12 @@ function Autosuggest({
   // options for the autosuggest to show
   options,
   noItemsMessage = 'No results found',
-  shouldShowNoResults = true,
   // showError - use the usa-input-error class to show the error
   showError = false,
   // behavior check - should the input clear on escape - default is true
   keepDataOnBlur = false,
   isItemDisabled = (item, _index) => {
-    return !!item.disabled; // can choose a different method to say which items are disabled
+    return !!item?.disabled; // can choose a different method to say which items are disabled
   },
   stateReducer = srClearOnBlur,
   isLoading = false,
@@ -60,8 +60,10 @@ function Autosuggest({
     inputId,
     onSelectedItemChange: handleOnSelect,
     onInputValueChange,
+    selectedItem: null,
     inputValue,
     isItemDisabled,
+    defaultHighlightedIndex,
     stateReducer: keepDataOnBlur ? srKeepOnBlur : stateReducer,
   });
 
@@ -117,7 +119,6 @@ function Autosuggest({
           itemToString={itemToString}
           noItemsMessage={noItemsMessage} // to display when no items are found - disabled item
           getMenuProps={getMenuProps}
-          shouldShowNoResults={shouldShowNoResults}
           isLoading={isLoading}
           loadingMessage={loadingMessage}
           AutosuggestOptionComponent={AutosuggestOptionComponent}

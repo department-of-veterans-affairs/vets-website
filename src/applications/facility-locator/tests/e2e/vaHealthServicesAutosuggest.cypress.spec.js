@@ -90,11 +90,12 @@ describe('VA health services autosuggest', () => {
 
       // Erase part of the full service name in the input to verify
       // that the filter runs again and returns no results
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
       cy.get(h.AUTOSUGGEST_INPUT)
         .focus()
         .type('{backspace}{backspace}{backspace}');
 
-      h.scrollToThenVerifyElementByText('No results found.');
+      h.scrollToThenVerifyElementByText('No matching results.');
 
       h.clickElement(h.AUTOSUGGEST_CLEAR);
 

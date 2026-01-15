@@ -15,7 +15,10 @@ function AutosuggestOption({
   const role = item.isError ? 'alert' : 'option';
   const itemInfo = {
     item,
-    className: optionClasses(index === highlightedIndex),
+    className: `${optionClasses(index === highlightedIndex)} ${
+      item.isError ? 'autosuggest-dropdown-item-error' : ''
+    }`,
+    index,
     role,
   };
 

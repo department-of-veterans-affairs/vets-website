@@ -11,7 +11,6 @@ function AutosuggestOptions({
   itemToString,
   getMenuProps,
   noItemsMessage,
-  shouldShowNoResults,
   AutosuggestOptionComponent,
 }) {
   // All an option is required to have is an id, toDisplay, and optionally disabled
@@ -23,20 +22,11 @@ function AutosuggestOptions({
         setOptionsToShow([
           { id: 'loading', disabled: true, toDisplay: loadingMessage },
         ]);
-      } else if (!options?.length && shouldShowNoResults) {
-        setOptionsToShow([
-          {
-            id: 'no-items',
-            disabled: true,
-            toDisplay: noItemsMessage,
-            isError: true,
-          },
-        ]);
       } else {
         setOptionsToShow(options);
       }
     },
-    [options, noItemsMessage, shouldShowNoResults, isLoading, loadingMessage],
+    [options, noItemsMessage, isLoading, loadingMessage],
   );
 
   return (
@@ -67,7 +57,6 @@ AutosuggestOptions.propTypes = {
   itemToString: PropTypes.func.isRequired,
   noItemsMessage: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
-  shouldShowNoResults: PropTypes.bool.isRequired,
   AutosuggestOptionComponent: PropTypes.elementType,
   highlightedIndex: PropTypes.number, // something may not be higlighted - optional from Downshift
   isLoading: PropTypes.bool,

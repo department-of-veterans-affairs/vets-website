@@ -18,6 +18,8 @@ const VAMCServiceAutosuggest = ({
   const [inputValue, setInputValue] = useState(null);
   const [options, setOptions] = useState([]);
   const [allVAMCServices, setAllVAMCServices] = useState([]);
+  const [defaultHighlightedIndex, setDefaultHighlightedIndex] = useState(0);
+
   const inputRef = useRef(null);
 
   const getServices = input => {
@@ -27,7 +29,15 @@ const VAMCServiceAutosuggest = ({
     );
 
     if (!services?.length) {
-      setOptions([]);
+      setOptions([
+        {
+          id: null,
+          isError: true,
+          toDisplay: 'No matching services found.',
+          disabled: true,
+        },
+        allVAMCServices?.[0],
+      ]);
     }
 
     const serviceOptions = services.map(service => {
@@ -96,6 +106,21 @@ const VAMCServiceAutosuggest = ({
     [options, searchInitiated],
   );
 
+  useEffect(
+    () => {
+      if (options?.[0]?.disabled && inputValue) {
+        setDefaultHighlightedIndex(1);
+      } else {
+        setDefaultHighlightedIndex(
+          options?.length
+            ? options.findIndex(o => o.toDisplay === inputValue)
+            : 0,
+        );
+      }
+    },
+    [options, inputValue],
+  );
+
   const handleClearClick = () => {
     onChange({ serviceType: null, vamcServiceDisplay: null });
     setInputValue(null);
@@ -121,6 +146,10 @@ const VAMCServiceAutosuggest = ({
         getServices(
           selectedItemDisplay === e.inputValue ? selectedItemId : e.inputValue,
         );
+      } else if (userInput.length === 0) {
+        handleClearClick();
+        setDefaultHighlightedIndex(0);
+        setOptions(allVAMCServices);
       } else {
         setOptions(allVAMCServices);
       }
@@ -128,12 +157,21 @@ const VAMCServiceAutosuggest = ({
       if (!userInput) {
         handleClearClick();
       }
+    } else if (
+      e.type === useCombobox.stateChangeTypes.ItemClick &&
+      e.selectedItem === undefined
+    ) {
+      setOptions(allVAMCServices);
+      setInputValue(allVAMCServices?.[0]?.toDisplay);
+      onChange({
+        serviceType: allVAMCServices?.[0]?.serviceId,
+        vamcServiceDisplay: allVAMCServices?.[0]?.toDisplay,
+      });
     }
   };
 
   const handleDropdownSelection = event => {
     const { selectedItem } = event;
-
     if (selectedItem?.toDisplay) {
       setInputValue(selectedItem.toDisplay);
 
@@ -146,6 +184,7 @@ const VAMCServiceAutosuggest = ({
 
   return (
     <Autosuggest
+      defaultHighlightedIndex={defaultHighlightedIndex}
       downshiftInputProps={{
         autoCorrect: 'off',
         disabled: false,
@@ -153,19 +192,18 @@ const VAMCServiceAutosuggest = ({
       }}
       handleOnSelect={handleDropdownSelection}
       hintText="Begin typing to search for a service, like vision or dental"
-      initialSelectedItem={options?.[0]}
+      initialSelectedItem={options?.[defaultHighlightedIndex]}
       inputId="vamc-services"
       inputRef={inputRef}
       inputValue={inputValue || ''}
       keepDataOnBlur
       label={<span>Service type</span>}
-      noItemsMessage="No results found."
+      noItemsMessage="No matching services found."
       onClearClick={handleClearClick}
       onInputValueChange={handleInputValueChange}
       options={options}
       showDownCaret
       showError={false}
-      shouldShowNoResults
     />
   );
 };

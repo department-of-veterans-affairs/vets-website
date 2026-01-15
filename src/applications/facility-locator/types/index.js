@@ -267,7 +267,6 @@ export const ServiceTypeInputTypes = {
  * showDownCaret: optional flag to show the down caret/arrow
  * showError: optional flag to show the error state
  * stateReducer: optional function to modify the state of Downshift - e.g. handle escape to not clear
- * shouldShowNoResults: optional to hide show no results under input - shown with aria error role
  */
 export const AutosuggestProps = {
   AutosuggestOptionComponent: PropTypes.elementType,
@@ -291,7 +290,6 @@ export const AutosuggestProps = {
   onClearClick: PropTypes.func.isRequired,
   onInputValueChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  shouldShowNoResults: PropTypes.bool,
   showDownCaret: PropTypes.bool,
   showError: PropTypes.bool,
   stateReducer: PropTypes.func,
