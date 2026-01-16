@@ -109,12 +109,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const effectiveClaimId = claimId || claimFromAppointment?.id;
 
   const isIntroductionPage = location.pathname === `/file-new-claim/${apptId}`;
-  const backHref = getBackRoute({
-    isIntroductionPage,
-    apptId,
-    entryPoint,
-    effectiveClaimId,
-  }).href;
 
   const needsClaimData = effectiveClaimId && !claimData && !claimError;
   const needsApptData = apptId && !apptData && !apptError;
@@ -149,11 +143,11 @@ const ComplexClaimSubmitFlowWrapper = () => {
   }
 
   const handleBackLinkClick = e => {
-    // If no unsaved changes, let the default link behavior happen
     if (hasUnsavedChanges) {
       e.preventDefault();
       setIsUnsavedChangesModalVisible(true);
     }
+    // If no unsaved changes, let the default link behavior happen
   };
 
   const handleLeaveWithoutSaving = () => {
@@ -161,6 +155,13 @@ const ComplexClaimSubmitFlowWrapper = () => {
     setIsUnsavedChangesModalVisible(false);
 
     // Navigate to the appropriate back location
+    const backHref = getBackRoute({
+      isIntroductionPage,
+      apptId,
+      entryPoint,
+      effectiveClaimId,
+    });
+
     if (backHref.interAppRoute) {
       window.location.assign(backHref.href);
     } else {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
@@ -114,7 +115,7 @@ const ConfirmationPage = () => {
                 you can print it now.
               </p>
 
-              <va-button
+              <VaButton
                 text="Print this page for your records"
                 onClick={() => window.print()}
                 class="vads-u-margin-bottom--2"

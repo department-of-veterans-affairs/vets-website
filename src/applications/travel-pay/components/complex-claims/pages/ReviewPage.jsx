@@ -99,11 +99,6 @@ const ReviewPage = () => {
   };
 
   const addMoreExpenses = () => {
-    recordButtonClick(
-      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
-      title,
-      numGroupedExpenses === 0 ? 'Add expenses' : 'Add more expenses',
-    );
     dispatch(setExpenseBackDestination('review'));
     navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };

@@ -95,19 +95,13 @@ const ChooseExpenseType = () => {
       <VaRadio
         label="Select an expense type"
         required
-        enable-analytics
+        enableAnalytics
         class="vads-u-margin-top--2"
         error={showError || mileageError ? errorMessage : null}
         onVaValueChange={event => {
-          const newValue = event.detail.value;
-
-          // Only process when value actually changes (prevents duplicate events)
-          if (newValue && newValue !== selectedExpenseType) {
-            setSelectedExpenseType(newValue);
-
-            if (showError) setShowError(false);
-            if (mileageError) setMileageError(false);
-          }
+          setSelectedExpenseType(event.detail.value);
+          if (showError) setShowError(false);
+          if (mileageError) setMileageError(false);
         }}
       >
         {expenseOptions.map(option => (
