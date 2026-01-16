@@ -553,12 +553,6 @@ export const downtimeNotificationParams = {
   appTitle: 'this messaging tool',
 };
 
-export const CernerTransitioningFacilities = {
-  NORTH_CHICAGO: {
-    facilityId: '556',
-  },
-};
-
 export const filterDescription = {
   noMsgId: 'Enter information from one of these fields: to, from, or subject',
   withMsgId:
