@@ -17,6 +17,9 @@ const goPathAfterGettingITF = (
 
   if (!isEmpty(formDataToSet?.['view:activeITF'])) {
     goPath(`${urlPrefix}existing-itf`);
+    setTimeout(() => {
+      focusElement('.itf-status va-alert h2');
+    }, 50);
   } else {
     goNextPath();
   }
