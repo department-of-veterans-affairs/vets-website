@@ -482,13 +482,14 @@ function transformChildDeath(item) {
 
 /**
  * Validates that SSN is exactly 9 digits
- * @param {string} ssn - SSN to validate
+ * @param {string} _ssn - SSN to validate
  * @returns {boolean} true if SSN is exactly 9 digits
  */
-function isValidSSN(ssn) {
-  if (!ssn) return false;
-  const digitsOnly = String(ssn).replace(/\D/g, '');
-  return digitsOnly.length === 9;
+function isValidSSN(_ssn) {
+  // TODO: Temporarily disabled - re-enable when backend is ready
+  return false;
+  // const digitsOnly = String(ssn).replace(/\D/g, '');
+  // return digitsOnly.length === 9;
 }
 
 /**

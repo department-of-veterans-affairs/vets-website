@@ -398,7 +398,6 @@ export default {
   householdIncome: true,
   reportDivorce: {
     spouseIncome: 'N',
-    ssn: '333322222',
     date: '2025-01-01',
     divorceLocation: {
       outsideUsa: true,

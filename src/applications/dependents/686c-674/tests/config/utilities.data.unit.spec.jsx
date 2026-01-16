@@ -1292,7 +1292,6 @@ describe('transformPicklistToV2', () => {
     expect(result.reportDivorce).to.be.an('object');
     expect(result.reportDivorce).to.deep.equal({
       fullName: { first: 'SUMMER', last: 'SMITH' },
-      ssn: '123456790',
       birthDate: '1990-08-01',
       date: '2000-02-02',
       reasonMarriageEnded: 'Divorce',
@@ -1370,7 +1369,8 @@ describe('transformPicklistToV2', () => {
     });
   });
 
-  it('should include SSN in reportDivorce if SSN is exactly 9 digits', () => {
+  // TODO: Re-enable when SSN sending is re-enabled
+  it.skip('should include SSN in reportDivorce if SSN is exactly 9 digits', () => {
     const data = {
       [PICKLIST_DATA]: [
         {
@@ -1393,7 +1393,8 @@ describe('transformPicklistToV2', () => {
     expect(result.reportDivorce.ssn).to.equal('123456789');
   });
 
-  it('should normalize SSN in reportDivorce by removing dashes', () => {
+  // TODO: Re-enable when SSN sending is re-enabled
+  it.skip('should normalize SSN in reportDivorce by removing dashes', () => {
     const data = {
       [PICKLIST_DATA]: [
         {
@@ -1856,7 +1857,8 @@ describe('transformPicklistToV2', () => {
 });
 
 describe('enrichDivorceWithSSN', () => {
-  it('should add SSN to reportDivorce when matching spouse is found', () => {
+  // TODO: Re-enable when SSN sending is re-enabled
+  it.skip('should add SSN to reportDivorce when matching spouse is found', () => {
     const data = {
       reportDivorce: {
         fullName: { first: 'Jane', last: 'Doe' },
@@ -1884,7 +1886,8 @@ describe('enrichDivorceWithSSN', () => {
     });
   });
 
-  it('should match spouse with middle name', () => {
+  // TODO: Re-enable when SSN sending is re-enabled
+  it.skip('should match spouse with middle name', () => {
     const data = {
       reportDivorce: {
         fullName: { first: 'Jane', middle: 'Marie', last: 'Doe' },
@@ -1907,7 +1910,8 @@ describe('enrichDivorceWithSSN', () => {
     expect(result.reportDivorce.ssn).to.equal('987654321');
   });
 
-  it('should match spouse with case-insensitive name comparison', () => {
+  // TODO: Re-enable when SSN sending is re-enabled
+  it.skip('should match spouse with case-insensitive name comparison', () => {
     const data = {
       reportDivorce: {
         fullName: { first: 'jane', middle: 'MARIE', last: 'DoE' },
@@ -1930,7 +1934,8 @@ describe('enrichDivorceWithSSN', () => {
     expect(result.reportDivorce.ssn).to.equal('555666777');
   });
 
-  it('should match spouse without middle name when both are undefined', () => {
+  // TODO: Re-enable when SSN sending is re-enabled
+  it.skip('should match spouse without middle name when both are undefined', () => {
     const data = {
       reportDivorce: {
         fullName: { first: 'Jane', last: 'Doe' },
@@ -1953,7 +1958,8 @@ describe('enrichDivorceWithSSN', () => {
     expect(result.reportDivorce.ssn).to.equal('111222333');
   });
 
-  it('should not modify data if SSN already exists', () => {
+  // TODO: Re-enable when SSN sending is re-enabled
+  it.skip('should not modify data if SSN already exists', () => {
     const data = {
       reportDivorce: {
         fullName: { first: 'Jane', last: 'Doe' },
@@ -2170,7 +2176,8 @@ describe('enrichDivorceWithSSN', () => {
     expect(result.reportDivorce.ssn).to.be.undefined;
   });
 
-  it('should normalize SSN by removing dashes and formatting', () => {
+  // TODO: Re-enable when SSN sending is re-enabled
+  it.skip('should normalize SSN by removing dashes and formatting', () => {
     const data = {
       reportDivorce: {
         fullName: { first: 'Jane', last: 'Doe' },
