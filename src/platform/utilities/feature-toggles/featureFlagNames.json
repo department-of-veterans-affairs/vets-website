@@ -227,6 +227,7 @@
   "pensionMultiplePageResponse": "pension_multiple_page_response",
   "pensionPdfFormAlignment": "pension_pdf_form_alignment",
   "pensionsBrowserMonitoringEnabled": "pension_browser_monitoring_enabled",
+  "pensionRatingAlertLoggingEnabled": "pension_rating_alert_logging_enabled",
   "pbbFormsRequireLoa3": "pbb_forms_require_loa3",
   "preEntryCovid19Screener": "pre_entry_covid19_screener",
   "profileDoNotRequireInternationalZipCode": "profile_do_not_require_international_zip_code",
