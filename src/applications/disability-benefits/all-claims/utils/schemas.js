@@ -19,6 +19,7 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
+  NEW_CONDITION_OPTION,
   STATE_LABELS,
   STATE_VALUES,
   MAX_FILE_SIZE_BYTES,
@@ -165,7 +166,7 @@ export const makeSchemaForTreatedDisabilityNames = createSelector(
         if (
           ratedDisability &&
           condition === 'Rated Disability' &&
-          ratedDisability !== "A condition I haven't claimed before"
+          ratedDisability !== NEW_CONDITION_OPTION
         ) {
           return ratedDisability;
         }
