@@ -96,20 +96,14 @@ export const getReadableDate = dateString =>
   parseDate(dateString, FORMAT_READABLE_DATE_FNS, FORMAT_YMD_DATE_FNS);
 
 /**
- * Return any given date as a UTC date
- * @param {Date} date - The date to convert
+ * Return any given date as a UTC date, preserving the calendar date
+ * Takes the LOCAL calendar date components and creates a UTC date at midnight
+ * @param {Date} date - The date to convert (uses local calendar date components)
+ * @returns {Date} - UTC date at midnight with the same calendar date
  */
 export const getUTCDateFromDate = date => {
   return new Date(
-    Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      0,
-      0,
-      0,
-      0,
-    ),
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
   );
 };
 
@@ -147,7 +141,7 @@ export const isUTCFuture = date => {
 
 /**
  * Check if a date is today in UTC timezone
- * @param {Date} date - Date to check
+ * @param {Date} date - Date to check (local calendar date)
  * @returns {boolean} - True if date is today in UTC
  */
 export const isUTCToday = date => {
