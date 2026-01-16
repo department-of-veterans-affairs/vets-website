@@ -243,4 +243,30 @@ describe('makeSchemaForAllDisabilities', () => {
       },
     });
   });
+
+  it('should return schema for all (selected) disabilities when rated disabilities are in the newDisabilities array', () => {
+    const formData = {
+      newDisabilities: [
+        {
+          condition: 'A new Condition.',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Diabetes mellitus',
+        },
+      ],
+    };
+    expect(makeSchemaForAllDisabilities(formData)).to.eql({
+      properties: {
+        diabetesmellitus: {
+          title: 'Diabetes Mellitus',
+          type: 'boolean',
+        },
+        anewcondition: {
+          title: 'A New Condition.',
+          type: 'boolean',
+        },
+      },
+    });
+  });
 });
