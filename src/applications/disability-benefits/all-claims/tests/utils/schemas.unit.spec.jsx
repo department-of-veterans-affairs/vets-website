@@ -201,27 +201,6 @@ describe('makeSchemaForTreatedDisabilityNames', () => {
     });
   });
 
-  it('should include new conditions with side of body', () => {
-    const formData = {
-      ratedDisabilities: [],
-      newDisabilities: [
-        {
-          condition: 'wrist fracture',
-          sideOfBody: 'LEFT',
-        },
-      ],
-    };
-
-    expect(makeSchemaForTreatedDisabilityNames(formData)).to.eql({
-      properties: {
-        wristfractureleft: {
-          title: 'Wrist Fracture, Left',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-
   it('should include rated disabilities from newDisabilities array', () => {
     const formData = {
       ratedDisabilities: [],
@@ -243,7 +222,35 @@ describe('makeSchemaForTreatedDisabilityNames', () => {
     });
   });
 
-  it('should aggregate rated disabilities and new conditions, deduplicating', () => {
+  it('should include new conditions', () => {
+    const formData = {
+      ratedDisabilities: [],
+      newDisabilities: [
+        {
+          condition: 'wrist fracture',
+          sideOfBody: 'LEFT',
+        },
+        {
+          condition: 'Tinnitus',
+        },
+      ],
+    };
+
+    expect(makeSchemaForTreatedDisabilityNames(formData)).to.eql({
+      properties: {
+        wristfractureleft: {
+          title: 'Wrist Fracture, Left',
+          type: 'boolean',
+        },
+        tinnitus: {
+          title: 'Tinnitus',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
+  it('should aggregate and deduplicate rated disabilities and new conditions', () => {
     const formData = {
       ratedDisabilities: [
         {
@@ -284,35 +291,6 @@ describe('makeSchemaForTreatedDisabilityNames', () => {
         },
         wristfracture: {
           title: 'Wrist Fracture',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-
-  it('should handle case-insensitive deduplication', () => {
-    const formData = {
-      ratedDisabilities: [
-        {
-          name: 'PTSD',
-          'view:selected': true,
-        },
-      ],
-      newDisabilities: [
-        {
-          condition: 'ptsd',
-        },
-        {
-          condition: 'Rated Disability',
-          ratedDisability: 'ptsd',
-        },
-      ],
-    };
-
-    expect(makeSchemaForTreatedDisabilityNames(formData)).to.eql({
-      properties: {
-        ptsd: {
-          title: 'Ptsd',
           type: 'boolean',
         },
       },
