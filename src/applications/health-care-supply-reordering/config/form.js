@@ -1,4 +1,3 @@
-import { datadogRum } from '@datadog/browser-rum';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
@@ -8,6 +7,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import { countryValueToName } from '../utils/addresses';
+import { addDatadogAction, addDatadogError } from '../utils/datadog';
 import addressPage from '../pages/addressPage';
 import FooterInfo from '../components/FooterInfo';
 import prefillTransformer from './prefill-transformer';
@@ -84,13 +84,10 @@ const submit = form => {
         event: 'bam-2346a--submission-successful',
         'bam-quantityOrdered': itemQuantities,
       });
-      datadogRum.addAction(
-        dataDogActionNames.submission.SUBMISSION_SUCCESSFUL,
-        {
-          form: APP_NAME,
-          quantityOrdered: itemQuantities,
-        },
-      );
+      addDatadogAction(dataDogActionNames.submission.SUBMISSION_SUCCESSFUL, {
+        form: APP_NAME,
+        quantityOrdered: itemQuantities,
+      });
     }
 
     // For partially successful orders we want to send all of the productIds
@@ -101,7 +98,7 @@ const submit = form => {
         'product-ids-successful': successfulSubmissionProductIds.join(' '),
         'product-ids-failed': failedSubmissionProductIds.join(' '),
       });
-      datadogRum.addAction(dataDogActionNames.submission.SUBMISSION_PARTIAL, {
+      addDatadogAction(dataDogActionNames.submission.SUBMISSION_PARTIAL, {
         form: APP_NAME,
         productIdsSuccessful: successfulSubmissionProductIds,
         productIdsFailed: failedSubmissionProductIds,
@@ -115,7 +112,7 @@ const submit = form => {
         'bam-quantityOrdered': itemQuantities,
         'product-ids-failed': failedSubmissionProductIds.join(' '),
       });
-      datadogRum.addAction(dataDogActionNames.submission.SUBMISSION_FAILED, {
+      addDatadogAction(dataDogActionNames.submission.SUBMISSION_FAILED, {
         form: APP_NAME,
         quantityOrdered: itemQuantities,
         productIdsFailed: failedSubmissionProductIds,
@@ -131,7 +128,7 @@ const submit = form => {
         event: 'bam-2346a--submission-failed',
         'bam-quantityOrdered': itemQuantities,
       });
-      datadogRum.addError(error, {
+      addDatadogError(error, {
         feature: `${APP_NAME} - form submission`,
       });
       return reject(error);

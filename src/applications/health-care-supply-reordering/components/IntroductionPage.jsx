@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { datadogRum } from '@datadog/browser-rum';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -9,12 +8,13 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 import DlcTelephoneLink from './DlcTelephoneLink';
 import { dataDogActionNames, APP_NAME } from '../constants/dataDogConstants';
+import { addDatadogAction } from '../utils/datadog';
 
 const IntroductionPage = ({ route }) => {
   const supplyDescription = 'hearing aid or CPAP supplies';
 
   useEffect(() => {
-    datadogRum.addAction(dataDogActionNames.introductionPage.FORM_START, {
+    addDatadogAction(dataDogActionNames.introductionPage.FORM_START, {
       form: APP_NAME,
     });
   }, []);
