@@ -12,8 +12,11 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import EnterOTC from './EnterOTC';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
+import {
+  getDefaultRenderOptions,
+  reducers,
+  vassApi,
+} from '../utils/test-utils';
 
 // Helper component to display current location for testing navigation
 const LocationDisplay = () => {
@@ -21,17 +24,12 @@ const LocationDisplay = () => {
   return <div data-testid="location-display">{location.pathname}</div>;
 };
 
-const defaultRenderOptions = {
-  initialState: {
-    vassForm: {
-      hydrated: false,
-      selectedDate: null,
-      selectedTopics: [],
-    },
-  },
-  reducers,
-  additionalMiddlewares: [vassApi.middleware],
-};
+const defaultRenderOptions = getDefaultRenderOptions({
+  obfuscatedEmail: 't***@test.com',
+  uuid: 'c0ffee-1234-beef-5678',
+  lastname: 'Smith',
+  dob: '1935-04-07',
+});
 
 const renderComponent = () =>
   renderWithStoreAndRouterV6(<EnterOTC />, defaultRenderOptions);
@@ -50,9 +48,9 @@ describe('VASS Component: EnterOTC', () => {
 
     expect(screen.getByTestId('header')).to.exist;
     expect(screen.getByTestId('enter-otc-success-alert')).to.exist;
-    expect(screen.getByTestId('enter-otc-success-alert').textContent).to.match(
-      /t\*\*\*@test.com/i,
-    );
+    expect(
+      screen.getByTestId('enter-otc-success-alert').textContent,
+    ).to.contain(defaultRenderOptions.initialState.vassForm.obfuscatedEmail);
     expect(screen.queryByTestId('enter-otc-error-alert')).to.not.exist;
     const otcInput = screen.getByTestId('otc-input');
     expect(otcInput).to.exist;

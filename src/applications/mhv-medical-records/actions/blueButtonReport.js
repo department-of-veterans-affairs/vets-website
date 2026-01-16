@@ -3,6 +3,7 @@ import {
   getLabsAndTests,
   getNotes,
   getVaccineList,
+  getAcceleratedImmunizations,
   getAllergies,
   getConditions,
   getVitalsList,
@@ -24,10 +25,18 @@ export const getBlueButtonReportData = (
   options = {},
   dateFilter,
 ) => async dispatch => {
+  const { isAcceleratingVaccines = false } = options;
+
+  const vaccinesActionType = isAcceleratingVaccines
+    ? Actions.Vaccines.GET_UNIFIED_LIST
+    : Actions.Vaccines.GET_LIST;
+
   const fetchMap = {
     labsAndTests: getLabsAndTests,
     notes: getNotes,
-    vaccines: getVaccineList,
+    vaccines: isAcceleratingVaccines
+      ? getAcceleratedImmunizations
+      : getVaccineList,
     allergies: getAllergies,
     conditions: getConditions,
     vitals: getVitalsList,
@@ -106,7 +115,7 @@ export const getBlueButtonReportData = (
           break;
         case 'vaccines':
           dispatch({
-            type: Actions.Vaccines.GET_LIST,
+            type: vaccinesActionType,
             response,
           });
           break;

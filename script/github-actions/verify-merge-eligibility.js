@@ -39,12 +39,6 @@ if (
   );
 }
 
-if (process.env.NODE_22_COMPATIBILITY_RESULT === 'failure') {
-  errorMessages.push(
-    'Your branch is unable to be merged due to unit test changes/additions that will not be compatible with Node 22.  Please review the Node 22 Compatibility Check steps for more information on what unit test changes are not compatible with Node 22.',
-  );
-}
-
 if (errorMessages.length > 0) {
   core.setFailed(`- ${errorMessages.join('\n - ')}`);
 }

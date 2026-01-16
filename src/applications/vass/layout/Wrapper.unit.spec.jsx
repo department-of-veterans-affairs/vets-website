@@ -3,20 +3,9 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Wrapper from './Wrapper';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 
-const defaultRenderOptions = {
-  initialState: {
-    vassForm: {
-      hydrated: false,
-      selectedDate: null,
-      selectedTopics: [],
-    },
-  },
-  reducers,
-  additionalMiddlewares: [vassApi.middleware],
-};
+const defaultRenderOptions = getDefaultRenderOptions();
 
 describe('VASS Component: Wrapper', () => {
   it('should render children content', () => {
@@ -147,6 +136,46 @@ describe('VASS Component: Wrapper', () => {
         defaultRenderOptions,
       );
       expect(queryByTestId('child-content')).to.not.exist;
+    });
+  });
+
+  describe('when loading prop is true', () => {
+    it('should render loading indicator', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(getByTestId('loading-indicator')).to.exist;
+      expect(getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading...',
+      );
+    });
+    it('should render loading message when provided', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading loadingMessage="Loading Message">
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(getByTestId('loading-indicator')).to.have.attribute(
+        'message',
+        'Loading Message',
+      );
+    });
+  });
+
+  describe('when loading prop is false', () => {
+    it('should not render loading indicator', () => {
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <Wrapper loading={false}>
+          <div>Content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+      expect(queryByTestId('loading-indicator')).to.not.exist;
     });
   });
 });

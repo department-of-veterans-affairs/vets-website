@@ -184,7 +184,7 @@ describe('10-7959c Medicare helpers', () => {
     it('should return "true" when beneficiary does not have Medicare but is age 65 or older', () => {
       const formData = {
         'view:hasMedicare': false,
-        'view:beneficiaryAgeOver65': true,
+        'view:applicantAgeOver65': true,
       };
       expect(needsPartADenialNotice(formData)).to.be.true;
     });
@@ -200,7 +200,7 @@ describe('10-7959c Medicare helpers', () => {
     it('should return "false" when beneficiary does not have Medicare but is not age 65 or older', () => {
       const formData = {
         'view:hasMedicare': false,
-        'view:beneficiaryAgeOver65': false,
+        'view:applicantAgeOver65': false,
       };
       expect(needsPartADenialNotice(formData)).to.be.false;
     });
@@ -211,8 +211,8 @@ describe('10-7959c Medicare helpers', () => {
       const formData = {
         'view:hasMedicare': true,
         medicarePlanType: 'b',
-        'view:hasPartADenial': {
-          hasPartADenial: true,
+        'view:partADenialNotice': {
+          'view:hasPartADenial': true,
         },
       };
       expect(hasPartADenialNotice(formData)).to.be.true;
@@ -222,8 +222,8 @@ describe('10-7959c Medicare helpers', () => {
       const formData = {
         'view:hasMedicare': true,
         medicarePlanType: 'b',
-        'view:hasPartADenial': {
-          hasPartADenial: false,
+        'view:partADenialNotice': {
+          'view:hasPartADenial': false,
         },
       };
       expect(hasPartADenialNotice(formData)).to.be.false;
@@ -233,8 +233,8 @@ describe('10-7959c Medicare helpers', () => {
       const formData = {
         'view:hasMedicare': true,
         medicarePlanType: 'a',
-        'view:hasPartADenial': {
-          hasPartADenial: true,
+        'view:partADenialNotice': {
+          'view:hasPartADenial': true,
         },
       };
       expect(hasPartADenialNotice(formData)).to.be.false;

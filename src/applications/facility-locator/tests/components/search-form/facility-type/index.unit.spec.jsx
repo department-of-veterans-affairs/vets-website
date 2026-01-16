@@ -19,6 +19,11 @@ describe('FacilityType', () => {
     );
   };
 
+  const expectHintAttribute = screen => {
+    const vaSelect = screen.container.querySelector('va-select');
+    expect(vaSelect.getAttribute('hint')).to.equal('Choose a facility type');
+  };
+
   const setSize = size => {
     return {
       isMobile: size === 'mobile',
@@ -46,7 +51,8 @@ describe('FacilityType', () => {
       const dropdown = screen.getByTestId('facility-type');
       expect(dropdown.classList.contains('facility-type-dropdown')).to.be.true;
 
-      expectOptions(screen, 9);
+      expectOptions(screen, 8);
+      expectHintAttribute(screen);
     });
 
     it('should render an error when one exists', () => {
@@ -67,7 +73,8 @@ describe('FacilityType', () => {
       const dropdown = screen.getByTestId('facility-type');
       expect(dropdown.classList.contains('facility-error')).to.be.true;
 
-      expectOptions(screen, 9);
+      expectOptions(screen, 8);
+      expectHintAttribute(screen);
     });
 
     it('should remove the pharmacy option when the PPMS service is down', () => {
@@ -85,7 +92,26 @@ describe('FacilityType', () => {
         />,
       );
 
-      expectOptions(screen, 5, true);
+      expectOptions(screen, 4, true);
+      expectHintAttribute(screen);
+    });
+
+    it('displays hint attribute to guide users', () => {
+      const screen = render(
+        <FacilityType
+          currentQuery={{
+            facilityType: null,
+            facilityTypeChanged: false,
+            isValid: true,
+          }}
+          handleFacilityTypeChange={() => {}}
+          {...setSize('tablet')}
+          suppressPPMS={false}
+          useProgressiveDisclosure={false}
+        />,
+      );
+
+      expectHintAttribute(screen);
     });
   });
 
@@ -109,7 +135,8 @@ describe('FacilityType', () => {
       expect(dropdown.classList.contains('facility-type-dropdown-tablet')).to.be
         .true;
 
-      expectOptions(screen, 9);
+      expectOptions(screen, 8);
+      expectHintAttribute(screen);
     });
 
     it('should correctly render the facility type dropdown for mobile', () => {
@@ -131,7 +158,8 @@ describe('FacilityType', () => {
       expect(dropdown.classList.contains('facility-type-dropdown-mobile')).to.be
         .true;
 
-      expectOptions(screen, 9);
+      expectOptions(screen, 8);
+      expectHintAttribute(screen);
     });
 
     it('should correctly render the facility type dropdown for desktop', () => {
@@ -153,7 +181,8 @@ describe('FacilityType', () => {
       expect(dropdown.classList.contains('facility-type-dropdown-desktop')).to
         .be.true;
 
-      expectOptions(screen, 9);
+      expectOptions(screen, 8);
+      expectHintAttribute(screen);
     });
   });
 });

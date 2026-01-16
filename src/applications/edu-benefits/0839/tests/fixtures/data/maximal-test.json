@@ -1,0 +1,85 @@
+{
+    "data": {
+        "institutionDetails": [
+            {
+                "facilityCode": "31904120",
+                "institutionName": "MARYLAND INSTITUTE COLLEGE OF ART",
+                "institutionAddress": {
+                    "street": "1300 WEST MOUNT ROYAL AVENUE",
+                    "street2": "",
+                    "street3": "",
+                    "city": "BALTIMORE",
+                    "state": "MD",
+                    "postalCode": "21217",
+                    "country": "USA"
+                },
+                "isForeignCountry": false
+            },
+            {
+                "facilityCode": "11801720",
+                "institutionName": "UNIVERSITY OF MARYLAND GLOBAL CAMPUS",
+                "institutionAddress": {
+                    "country": "USA",
+                    "street": "3501 UNIVERSITY BLVD EAST",
+                    "street2": "",
+                    "street3": "",
+                    "city": "ADELPHI",
+                    "state": "MD",
+                    "postalCode": "20783"
+                },
+                "isForeignCountry": false
+            }
+        ],
+        "agreementType": "startNewOpenEndedAgreement",
+        "authorizedOfficial": {
+            "fullName": {
+                "first": "Jane",
+                "last": "Doe"
+            },
+            "title": "Test Title",
+            "phoneNumber": "2341231234"
+        },
+        "isAuthenticated": false,
+        "statementOfTruthSignature": "Jane Doe",
+        "yellowRibbonProgramTerms": {
+            "firstAcknowledgement": "yes",
+            "secondAcknowledgement": "yes",
+            "thirdAcknowledgement": "yes",
+            "fourthAcknowledgement": "yes",
+            "agreeToProvideYellowRibbonProgramContributions": true
+        },
+        "yellowRibbonProgramAgreementRequest": [
+            {
+                "degreeLevel": "all",
+                "maximumContributionAmount": 99999,
+                "yearRange": {
+                    "from": "2026-XX-XX",
+                    "to": "2027-XX-XX"
+                },
+                "maximumNumberofStudents": 99999,
+                "currencyType": "USD",
+                "degreeProgram": "Test College",
+                "eligibleIndividuals": 1000000
+            }
+        ],
+        "pointOfContact": {
+            "fullName": {
+                "first": "Frank",
+                "last": "Smith"
+            },
+            "phoneNumber": "11111111111",
+            "emailAddress": "franksmit@gmail.com",
+            "role": "YellowRibbonProgramPOC"
+        },
+        "pointOfContactTwo": {
+            "fullName": {
+                "first": "Helen",
+                "last": "Ramirez"
+            },
+            "phoneNumber": "12222222222",
+            "emailAddress": "helen@gmail.com",
+            "role": "schoolCertifyingOfficial"
+        },
+        "dateSigned": "2026-01-13"
+    }
+}

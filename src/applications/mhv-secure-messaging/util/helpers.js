@@ -157,6 +157,25 @@ export const decodeHtmlEntities = str => {
 };
 
 /**
+ * Validates if a date string from VaDate is complete and valid.
+ * VaDate returns strings like "2026-01-04" for complete dates,
+ * or "--04", "2026--04", "-01-04" for partial dates.
+ * @param {string} dateValue - The date value from VaDate component
+ * @returns {boolean} - true if date is valid and complete, false otherwise
+ */
+export const isValidDateValue = dateValue => {
+  if (!dateValue) return false;
+  // Check for invalid date patterns (missing year, month, or day)
+  if (dateValue.includes('--') || dateValue.startsWith('-')) return false;
+  // Validate format: YYYY-MM-DD
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(dateValue)) return false;
+  // Parse and validate actual date
+  const date = moment(dateValue, 'YYYY-MM-DD', true);
+  return date.isValid();
+};
+
+/**
  * Comparing a timestamp to current date and time, if older than days return true
  * @param {*} timestamp
  * @param {*} days
@@ -517,12 +536,12 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     return 'Number of refills left not available';
   };
 
-  const getDateValue = date => {
+  const getDateValue = (date, isDispensedDate = false) => {
     if (rxError) return '';
     if (date) {
       return dateFormat(date, 'MMMM D, YYYY');
     }
-    return 'Date not available';
+    return isDispensedDate ? 'Not filled yet' : 'Date not available';
   };
 
   return [
@@ -541,7 +560,17 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     `Reason for use: ${
       rxError ? '' : rx?.reason || 'Reason for use not available'
     }`,
-    `Last filled on: ${getDateValue(rx?.sortedDispensedDate)}`,
+    `Last filled on: ${getDateValue(rx?.sortedDispensedDate, true)}`,
     `Quantity: ${rxError ? '' : rx?.quantity || 'Quantity not available'}`,
   ].join('\n');
+};
+
+export const draftIsClean = draftInProgress => {
+  return (
+    !draftInProgress?.messageId &&
+    !draftInProgress?.category &&
+    !draftInProgress?.subject &&
+    !draftInProgress?.body &&
+    (!draftInProgress?.attachments || draftInProgress.attachments.length === 0)
+  );
 };
