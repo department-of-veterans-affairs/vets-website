@@ -804,7 +804,6 @@ export const medicarePages = arrayBuilderPages(
     medicarePartDStatus: pageBuilder.itemPage({
       path: 'medicare-part-d-status/:index',
       title: 'Medicare Part D status',
-      depends: hasPartsABorC,
       ...medicarePartDStatusPage,
     }),
     medicarePartDCarrierEffectiveDate: pageBuilder.itemPage({
