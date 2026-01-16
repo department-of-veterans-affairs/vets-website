@@ -1,5 +1,6 @@
 import _ from 'platform/utilities/data';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { validateDate } from 'platform/forms-system/src/js/validation';
@@ -21,7 +22,7 @@ import PrivateProviderTreatmentView from '../components/PrivateProviderTreatment
 
 import { validateBooleanGroup, validateZIP } from '../validations';
 import PrivateMedicalProvidersConditions from '../components/confirmationFields/PrivateMedicalProvidersConditions';
-import TreatedDisabilityNamesField from '../components/TreatedDisabilityNamesField';
+import { makeSchemaForTreatedDisabilityNames } from '../utils/schemas';
 
 const { form4142 } = fullSchema.properties;
 
@@ -78,8 +79,9 @@ export const uiSchema = {
       },
       treatedDisabilityNames: {
         'ui:title': 'What conditions were you treated for?',
-        'ui:field': TreatedDisabilityNamesField,
+        'ui:webComponentField': VaCheckboxGroupField,
         'ui:options': {
+          updateSchema: makeSchemaForTreatedDisabilityNames,
           itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
           hideIf: formData => !isCompletingModern4142(formData),

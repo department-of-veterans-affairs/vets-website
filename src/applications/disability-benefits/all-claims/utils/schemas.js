@@ -124,6 +124,74 @@ export const makeSchemaForAllDisabilities = createSelector(
 );
 
 /**
+ * Dynamically creates the checkbox schema for new conditions and/or rated
+ * disabilities treated at VA or a private provier
+ */
+export const makeSchemaForTreatedDisabilityNames = createSelector(
+  formData => {
+    const ratedDisabilities = Array.isArray(formData.ratedDisabilities)
+      ? formData.ratedDisabilities
+      : [];
+
+    const newDisabilities = Array.isArray(formData.newDisabilities)
+      ? formData.newDisabilities
+      : [];
+
+    return { ratedDisabilities, newDisabilities };
+  },
+
+  ({ ratedDisabilities, newDisabilities }) => {
+    const normalize = val => (typeof val === 'string' ? val.trim() : '');
+
+    // rated disabilities from the current workflow (view:selected)
+    const fromRatedDisabilities = ratedDisabilities
+      .filter(d => d && d['view:selected'])
+      .map(d => normalize(d.name))
+      .filter(d => d.length > 0);
+
+    // conditions and rated disabilities found in newDisabilities
+    // (in the new workflow, rated disabilities are included in this array)
+    const fromNewDisabilities = newDisabilities
+      .filter(d => d && typeof d === 'object')
+      .map(d => {
+        const condition = normalize(d.condition).toLowerCase();
+        const side = normalize(d.sideOfBody);
+        const ratedDisability = normalize(d.ratedDisability);
+
+        if (!condition) {
+          return '';
+        }
+
+        if (ratedDisability) {
+          return ratedDisability;
+        }
+
+        if (side) {
+          return `${condition}, ${side.toLowerCase()}`;
+        }
+
+        return condition;
+      })
+      .filter(d => d.length > 0);
+
+    // combine and deduplicate
+    const combined = [...fromRatedDisabilities, ...fromNewDisabilities];
+    const unique = [...new Set(combined.map(d => d.toLowerCase()))];
+    const normalized = unique.map(d => capitalizeEachWord(d));
+
+    const properties = normalized.reduce((schema, name) => {
+      return _.set(
+        [sippableId(name)],
+        { title: name, type: 'boolean' },
+        schema,
+      );
+    }, {});
+
+    return { properties };
+  },
+);
+
+/**
  * Returns the uiSchema for addresses that use the non-common address schema as found
  *  in the 526EZ-all-claims schema.
  * @param {string} addressPath - The path to the address in the formData
