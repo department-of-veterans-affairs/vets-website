@@ -24,7 +24,6 @@ import {
   MAX_FILE_SIZE_BYTES,
   MAX_PDF_FILE_SIZE_BYTES,
   USA,
-  NULL_CONDITION_STRING,
 } from '../constants';
 
 import {
@@ -36,19 +35,6 @@ import {
   pathWithIndex,
   sippableId,
 } from './index';
-
-const createCheckboxSchema = (schema, disabilityName) => {
-  const capitalizedDisabilityName =
-    typeof disabilityName === 'string'
-      ? capitalizeEachWord(disabilityName)
-      : NULL_CONDITION_STRING;
-  return _.set(
-    // As an array like this to prevent periods in the name being interpreted as nested objects
-    [sippableId(disabilityName)],
-    { title: capitalizedDisabilityName, type: 'boolean' },
-    schema,
-  );
-};
 
 /**
  * Create the checkbox schema for new disabilities if user has selected
@@ -104,7 +90,7 @@ export const makeSchemaForNewDisabilities = createSelector(
  * Increase claim type
  */
 export const makeSchemaForRatedDisabilities = createSelector(
-  formData => isClaimingIncrease(formData) ? formData.ratedDisabilities : [],
+  formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
   formData =>
     Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
 
@@ -117,10 +103,19 @@ export const makeSchemaForRatedDisabilities = createSelector(
     // rated disabilities from the v2 workflow (stored in the newDisabilities array)
     const fromNewDisabilities = newDisabilities
       .map(d => {
-        const condition = typeof d?.condition === 'string' ? d.condition.trim() : '';
-        const ratedDisability = typeof d?.ratedDisability === 'string' ? d.ratedDisability.trim() : '';
+        const condition =
+          typeof d?.condition === 'string' ? d.condition.trim() : '';
+        const ratedDisability =
+          typeof d?.ratedDisability === 'string'
+            ? d.ratedDisability.trim()
+            : '';
 
-        if (condition && ratedDisability && isPlaceholderRated(condition) && !isNewConditionOption(ratedDisability)) {
+        if (
+          condition &&
+          ratedDisability &&
+          isPlaceholderRated(condition) &&
+          !isNewConditionOption(ratedDisability)
+        ) {
           return ratedDisability;
         }
         return '';

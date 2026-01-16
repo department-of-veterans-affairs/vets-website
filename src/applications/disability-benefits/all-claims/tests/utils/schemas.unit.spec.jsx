@@ -156,7 +156,6 @@ describe('makeSchemaForRatedDisabilities', () => {
     });
   });
 
-  
   it('should deduplicate rated disabilities across workflows', () => {
     const formData = {
       'view:claimType': {
@@ -181,7 +180,7 @@ describe('makeSchemaForRatedDisabilities', () => {
         {
           condition: 'Rated Disability',
           ratedDisability: 'Diabetes mellitus',
-        }, 
+        },
         {
           condition: 'Rated Disability',
           ratedDisability: 'Ptsd personal trauma',
