@@ -21,7 +21,6 @@ import { getVeteranName, getClaimantName } from '../utils/name-helpers';
 export const claimantContactUiSchema = {
   claimantContact: {
     claimantPhoneNumber: phoneUI('Home phone number'),
-    claimantMobilePhone: phoneUI('Mobile phone number'),
     claimantEmail: emailUI('Email address'),
   },
   'ui:options': {
@@ -45,10 +44,6 @@ export const claimantContactUiSchema = {
         ? `${fullName}'s home phone number`
         : `${fallback} home phone number`;
 
-      const mobilePhoneLabel = fullName
-        ? `${fullName}'s mobile phone number`
-        : `${fallback} mobile phone number`;
-
       const emailLabel = fullName
         ? `${fullName}'s email address`
         : `${fallback} email address`;
@@ -64,9 +59,6 @@ export const claimantContactUiSchema = {
         claimantContact: {
           claimantPhoneNumber: {
             'ui:title': homePhoneLabel,
-          },
-          claimantMobilePhone: {
-            'ui:title': mobilePhoneLabel,
           },
           claimantEmail: {
             'ui:title': emailLabel,
@@ -87,10 +79,9 @@ export const claimantContactSchema = {
   properties: {
     claimantContact: {
       type: 'object',
-      required: ['claimantPhoneNumber', 'claimantEmail'],
+      required: ['claimantEmail'],
       properties: {
         claimantPhoneNumber: phoneSchema,
-        claimantMobilePhone: phoneSchema,
         claimantEmail: emailSchema,
       },
     },
