@@ -34,20 +34,10 @@ const blobToArrayBuffer = blob => {
 
 describe('PDF generation API', () => {
   before(() => {
-    Object.defineProperty(navigator, 'platform', {
-      value: '',
-      writable: true,
-      configurable: true,
-    });
     fileSaverMock = sinon.stub(fileSaver, 'saveAs').returns('foo');
   });
   after(() => {
-    Object.defineProperty(navigator, 'platform', {
-      value: originalPlatform,
-      writable: true,
-      configurable: true,
-    });
-    fileSaverMock.restore();
+    navigator.platform = originalPlatform;
   });
 
   describe('Template selection', () => {
