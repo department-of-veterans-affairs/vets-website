@@ -1,6 +1,8 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsListPage from './pages/MedicationsListPage';
 import rxList from './fixtures/listOfPrescriptions.json';
+import oracleHealthRxList from './fixtures/oracle-health-prescriptions.json';
+import cernerUser from './fixtures/cerner-user.json';
 
 describe('Send Rx Renewal Message on List Page', () => {
   it('displays fallback message for Active prescription with 0 refills on list page', () => {
@@ -21,12 +23,13 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it.skip('displays renewal request link when clicking from list page card - requires Oracle Health data', () => {
+  it('displays renewal request link when clicking from list page card', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
-    site.login();
-    listPage.visitMedicationsListPageURL(rxList);
+    // Use Cerner user and Oracle Health prescriptions for renewal link
+    site.login(true, false, cernerUser);
+    listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
       .first()
@@ -91,12 +94,13 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it.skip('verifies modal has correct status and properties on list page - requires Oracle Health data', () => {
+  it('verifies modal has correct status and properties on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
-    site.login();
-    listPage.visitMedicationsListPageURL(rxList);
+    // Use Cerner user and Oracle Health prescriptions for renewal link
+    site.login(true, false, cernerUser);
+    listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
       .first()
