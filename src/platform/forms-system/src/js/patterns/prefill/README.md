@@ -122,3 +122,7 @@ const prefillTransformer = (pages, formData, metadata) => {
   };
 };
 ```
+
+## Additional Documentation
+
+- [VA Forms Library - How to work with Pre-fill](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-work-with-pre-fill#VAFormsLibrary-HowtoworkwithPre-Fill-Introduction) - Requirements for implementing prefill pattern, including vets-website and vets-api work.
