@@ -17,6 +17,10 @@ const TimesSelection = ({ error, fieldName, pageData, setPageData }) => {
     focusElement('h1');
   }, []);
 
+  const content = {
+    errorMessage: 'Please choose an option to continue.',
+  };
+
   const options = FIELD_OPTION_IDS_INVERTED[fieldName];
   const structuredOptions = {};
 
@@ -49,7 +53,7 @@ const TimesSelection = ({ error, fieldName, pageData, setPageData }) => {
     <VaCheckboxGroup
       label={FIELD_ADDITIONAL_CONTENT[fieldName]}
       onVaChange={onGroupChange}
-      error={error ? 'Please select at least one option' : null}
+      error={error ? content.errorMessage : null}
       required
     >
       {Object.entries(structuredOptions).map(([day, times]) => (
