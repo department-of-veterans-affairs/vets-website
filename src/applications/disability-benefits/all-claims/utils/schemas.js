@@ -154,7 +154,7 @@ export const makeSchemaForTreatedDisabilityNames = createSelector(
     const fromNewDisabilities = newDisabilities
       .filter(d => d && typeof d === 'object')
       .map(d => {
-        const condition = normalize(d.condition).toLowerCase();
+        const condition = normalize(d.condition);
         const side = normalize(d.sideOfBody);
         const ratedDisability = normalize(d.ratedDisability);
 
@@ -162,7 +162,11 @@ export const makeSchemaForTreatedDisabilityNames = createSelector(
           return '';
         }
 
-        if (ratedDisability) {
+        if (
+          ratedDisability &&
+          condition === 'Rated Disability' &&
+          ratedDisability !== "A condition I haven't claimed before"
+        ) {
           return ratedDisability;
         }
 
