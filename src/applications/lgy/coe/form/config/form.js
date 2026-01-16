@@ -106,19 +106,19 @@ const formConfig = {
           : 'Your personal information on file';
       },
       pages: {
-        // applicantInformationSummary: {
-        //   path: 'applicant-information',
-        //   // There seems to be a bug where the depends clause is ignored for the first item in the form
-        //   // depends: formData => {
-        //   //   console.log('the value 2:', formData);
-        //   //   return !formData['view:coeFormRebuildCveteam'];
-        //   // },
-        //   title: 'Your personal information on file',
-        //   uiSchema: applicantInformation.uiSchema,
-        //   schema: applicantInformation.schema,
-        // },
         yourInformation: personalInformation,
-        ...profileContactInfoPages(),
+        ...profileContactInfoPages({
+          depends: formData => formData['view:coeFormRebuildCveteam'],
+        }),
+        applicantInformationSummary: {
+          path: 'applicant-information',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
+          title: 'Your personal information on file',
+          uiSchema: applicantInformation.uiSchema,
+          schema: applicantInformation.schema,
+        },
       },
     },
     contactInformationChapter: {
@@ -137,8 +137,6 @@ const formConfig = {
         //   uiSchema: additionalInformation.uiSchema,
         //   schema: additionalInformation.schema,
         // },
-        
-        //...profileContactInfoPages(customConfig),
       },
     },
     serviceHistoryChapter: {
