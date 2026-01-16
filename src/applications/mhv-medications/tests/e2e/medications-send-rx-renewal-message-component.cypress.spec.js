@@ -16,7 +16,7 @@ describe('Send Rx Renewal Message Component', () => {
       .should('be.visible')
       .and(
         'contain',
-        "You can't refill this prescription. If you need more, send a secure message to your care team",
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
 
     cy.injectAxe();
@@ -134,7 +134,7 @@ describe('Send Rx Renewal Message Component', () => {
           .and('be.visible')
           .and(
             'contain',
-            "You can't refill this prescription. Contact your VA provider if you need more of this medication.",
+            'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
           );
       }
     });
@@ -182,7 +182,7 @@ describe('Send Rx Renewal Message Component', () => {
 
         const discontinuedText = $discontinued.text();
         expect(discontinuedText).to.include(
-          "You can't refill this prescription",
+          'You can’t refill this prescription',
         );
 
         cy.wrap($discontinued)
