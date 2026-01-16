@@ -53,18 +53,6 @@ describe('MigratingFacilitiesAlerts', () => {
     },
   ];
 
-  //   const defaultProps = {
-  //     migratingFacilities: mockMigratingFacilities,
-  //     warning: CernerAlertContent.MEDICATIONS.warning,
-  //     error: CernerAlertContent.MEDICATIONS.error,
-  //     startDate: CernerAlertContent.MEDICATIONS.startDate,
-  //     endDate: CernerAlertContent.MEDICATIONS.endDate,
-  //     transitionText: 'manage your medications',
-  //     bodyTransitionText: 'refill your medications',
-  //     altTransitionHeadline: 'manage medications for',
-  //     className: '',
-  //   };
-
   describe('when no alerts should be shown', () => {
     it('returns null when current phase is not in warning or error arrays', () => {
       const propsWithNoMatch = {
