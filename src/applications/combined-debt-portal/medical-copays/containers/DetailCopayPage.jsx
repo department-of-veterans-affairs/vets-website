@@ -6,7 +6,7 @@ import Modals from '../../combined/components/Modals';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import StatementCharges from '../components/StatementCharges';
-import HTMLStatementList from '../components/HTMLStatementList';
+// import HTMLStatementList from '../components/HTMLStatementList';
 import StatementAddresses from '../components/StatementAddresses';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import {
@@ -30,15 +30,24 @@ const DetailCopayPage = ({ match }) => {
   const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
-  const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
+  const selectedCopay = shouldShowVHAPaymentHistory
+    ? statements?.data
+    : statements?.find(({ id }) => id === selectedId);
 
   // Get selected copay statement data
-  const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
+  const title = `Copay bill for ${
+    shouldShowVHAPaymentHistory
+      ? selectedCopay?.attributes.facility
+      : selectedCopay?.station.facilityName
+  }`;
   const isCurrentBalance = verifyCurrentBalance(
-    selectedCopay?.pSStatementDateOutput,
+    shouldShowVHAPaymentHistory
+      ? selectedCopay?.attributes.invoiceDate
+      : selectedCopay?.pSStatementDateOutput,
   );
-  const acctNum =
-    selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
+  const acctNum = shouldShowVHAPaymentHistory
+    ? selectedCopay?.attributes.accountNumber
+    : selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
 
   // get veteran name
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
@@ -47,6 +56,10 @@ const DetailCopayPage = ({ match }) => {
     : `${userFullName.first} ${userFullName.last}`;
 
   const getPaymentDueDate = () => {
+    if (shouldShowVHAPaymentHistory) {
+      return selectedCopay.attributes.invoiceDate;
+    }
+
     if (!selectedCopay?.pSStatementDateOutput) return null;
 
     // Statement date is in MM/DD/YYYY format
@@ -62,9 +75,11 @@ const DetailCopayPage = ({ match }) => {
     )}-${String(date.getDate()).padStart(2, '0')}`;
   };
 
-  const charges = selectedCopay?.details?.filter(
-    charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
-  );
+  const charges = shouldShowVHAPaymentHistory
+    ? selectedCopay?.attributes?.lineItems ?? []
+    : selectedCopay?.details?.filter(
+        charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
+      ) ?? [];
 
   const formatCurrency = amount => {
     if (!amount) return '$0.00';
@@ -131,20 +146,30 @@ const DetailCopayPage = ({ match }) => {
             <div className="vads-u-display--flex vads-u-flex-direction--row">
               <dt>Current balance:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
-                {formatCurrency(selectedCopay?.pHNewBalance)}
+                {formatCurrency(
+                  shouldShowVHAPaymentHistory
+                    ? selectedCopay?.attributes?.principalBalance
+                    : selectedCopay?.pHNewBalance,
+                )}
               </dd>
             </div>
             <div className="vads-u-display--flex vads-u-flex-direction--row">
               <dt>Payment due:</dt>
               <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
-                {formatDate(getPaymentDueDate())}
+                {shouldShowVHAPaymentHistory
+                  ? selectedCopay?.attributes?.paymentDueDate
+                  : formatDate(getPaymentDueDate())}
               </dd>
             </div>
-            {selectedCopay.pHTotCharges ? null : (
+            {charges.length > 0 ? null : (
               <div className="vads-u-display--flex vads-u-flex-direction--row">
                 <dt>New charges:</dt>
                 <dd className="vads-u-margin-left--1 vads-u-font-weight--bold">
-                  {formatCurrency(selectedCopay.pHTotCharges)}
+                  {formatCurrency(
+                    shouldShowVHAPaymentHistory
+                      ? selectedCopay?.attributes?.principalPaid
+                      : selectedCopay.pHTotCharges,
+                  )}
                 </dd>
               </div>
             )}
@@ -171,11 +196,15 @@ const DetailCopayPage = ({ match }) => {
           <DownloadStatement
             key={selectedId}
             statementId={selectedId}
-            statementDate={selectedCopay?.pSStatementDate}
+            statementDate={
+              shouldShowVHAPaymentHistory
+                ? selectedCopay?.attributes.invoiceDate
+                : selectedCopay?.pSStatementDate
+            }
             fullName={fullName}
           />
         </div>
-        <HTMLStatementList selectedId={selectedId} />
+        {/* <HTMLStatementList selectedId={selectedId} /> */}
         <StatementAddresses
           data-testid="statement-addresses"
           copay={selectedCopay}
