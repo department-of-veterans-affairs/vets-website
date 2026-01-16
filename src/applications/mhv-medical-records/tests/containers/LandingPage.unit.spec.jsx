@@ -314,6 +314,8 @@ describe('Landing Page', () => {
           ],
           userAtPretransitionedOhFacility: true,
           userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
         },
       },
       drupalStaticData: {
@@ -447,6 +449,7 @@ describe('Landing Page', () => {
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
     });
 
+    // TODO: update this to test for migration alerts (should not show)
     it('does not display Cerner alert for non-Cerner users on landing page', () => {
       const nonCernerUserState = {
         user: {
@@ -459,6 +462,8 @@ describe('Landing Page', () => {
             ],
             userAtPretransitionedOhFacility: false,
             userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
           },
         },
         drupalStaticData: {

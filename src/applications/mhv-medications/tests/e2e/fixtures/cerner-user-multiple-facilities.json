@@ -74,8 +74,12 @@
         "vaPatient": true,
         "mhvAccountState": "MULTIPLE",
         "activeMHVIds": ["18486606", "18486606"],
-        "userAtPretransitionedOhFacility": true,
-        "userFacilityReadyForInfoAlert": false
+        "ohMigrationInfo": {
+          "userAtPretransitionedOhFacility": true,
+          "userFacilityReadyForInfoAlert": false,
+          "userFacilityMigratingToOh": false,
+          "migrationSchedules": []
+        }
       },
       "veteranStatus": {
         "status": "OK",

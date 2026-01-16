@@ -70,8 +70,12 @@
         ],
         "vaPatient": true,
         "mhvAccountState": "NONE",
-        "userAtPretransitionedOhFacility": true,
-        "userFacilityReadyForInfoAlert": false
+        "ohMigrationInfo": {
+          "userAtPretransitionedOhFacility": true,
+          "userFacilityReadyForInfoAlert": false,
+          "userFacilityMigratingToOh": false,
+          "migrationSchedules": []
+        }
       },
       "veteranStatus": null,
       "inProgressForms": [

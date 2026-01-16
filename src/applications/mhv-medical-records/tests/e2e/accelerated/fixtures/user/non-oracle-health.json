@@ -72,21 +72,20 @@
         "birthDate": "19681112",
         "familyName": "Morkel",
         "gender": "M",
-        "givenNames": [
-          "Andrew",
-          "J"
-        ],
+        "givenNames": ["Andrew", "J"],
         "isCernerPatient": false,
         "cernerId": "",
-        "cernerFacilityIds": [
-          "556"
-        ],
-        "facilities": [
-         
-        ],
+        "cernerFacilityIds": ["556"],
+        "facilities": [],
         "vaPatient": true,
         "mhvAccountState": "OK",
-        "activeMHVIds": []
+        "activeMHVIds": [],
+        "ohMigrationInfo": {
+          "userAtPretransitionedOhFacility": false,
+          "userFacilityReadyForInfoAlert": false,
+          "userFacilityMigratingToOh": false,
+          "migrationSchedules": []
+        }
       },
       "veteranStatus": {
         "status": "OK",
