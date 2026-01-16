@@ -79,7 +79,6 @@ const hasPartC = ({ medicare }, index) =>
 const hasPartsABorC = (formData, index) =>
   hasPartsAB(formData, index) || hasPartC(formData, index);
 const hasPartD = (formData, index) =>
-  hasPartsABorC(formData, index) &&
   formData.medicare?.[index]?.hasMedicarePartD;
 
 export const medicareOptions = {
