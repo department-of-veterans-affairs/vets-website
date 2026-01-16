@@ -33,6 +33,10 @@
       {
         "name": "disability_compensation_new_conditions_workflow",
         "value": false
+      },
+      {
+        "name": "disability_526_supporting_evidence_enhancement",
+        "value": false
       }
     ]
   }
