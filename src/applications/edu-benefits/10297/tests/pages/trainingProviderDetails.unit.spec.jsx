@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
+// import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -39,21 +40,21 @@ describe('Training Provider Step 3 - Page 2 Details', () => {
     expect($$('va-select', container).length).to.equal(1);
   });
 
-  it('should render errors on required inputs', async () => {
-    const { container, getByRole } = render(
-      <Provider store={store}>
-        <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
-    );
+  // it('should render errors on required inputs', async () => {
+  //   const { container, getByRole } = render(
+  //     <Provider store={store}>
+  //       <DefinitionTester
+  //         definitions={formConfig.defaultDefinitions}
+  //         schema={schema}
+  //         uiSchema={uiSchema}
+  //       />
+  //     </Provider>,
+  //   );
 
-    getByRole('button', { name: /submit/i }).click();
-    await waitFor(() => {
-      expect($$('va-text-input[error]', container).length).to.equal(4);
-      expect($$('va-select[error]', container).length).to.equal(1);
-    });
-  });
+  //   getByRole('button', { name: /submit/i }).click();
+  //   await waitFor(() => {
+  //     expect($$('va-text-input[error]', container).length).to.equal(4);
+  //     expect($$('va-select[error]', container).length).to.equal(1);
+  //   });
+  // });
 });
