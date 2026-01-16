@@ -10,8 +10,6 @@ import {
 } from '../../utils/claims-helpers';
 import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
-import CTALink from '../CTALink';
-
 const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
@@ -45,7 +43,9 @@ const Claim = ({ claim }) => {
   const content = (
     <>
       <h3 className="vads-u-margin-top--0 dd-privacy-mask">
-        {capitalizeFirstLetter(getClaimType(claim))} claim received {dateRecd}
+        {capitalizeFirstLetter(getClaimType(claim))} claim received:
+        <br />
+        {dateRecd}
       </h3>
       <div className="vads-u-display--flex">
         <va-icon
@@ -69,22 +69,21 @@ const Claim = ({ claim }) => {
           ) : null}
         </div>
       </div>
-      <CTALink
-        ariaLabel={`Review claim received ${dateRecd}`}
-        className="vads-u-margin-top--2 vads-u-font-weight--bold"
-        text="Review details"
-        href={`/track-claims/your-claims/${claim.id}/status`}
-        onClick={handleViewClaim}
-        showArrow
-      />
+      <div className="vads-u-margin-top--0p5 vads-u-padding-y--1">
+        <va-link
+          active
+          text="Review details"
+          label={`Review claim received ${dateRecd}`}
+          href={`/track-claims/your-claims/${claim.id}/status`}
+          onClick={handleViewClaim}
+        />
+      </div>
     </>
   );
 
   return (
-    <div className="vads-u-margin-bottom--2p5">
-      <va-card>
-        <div className="vads-u-padding--1">{content}</div>
-      </va-card>
+    <div className="vads-u-margin-bottom--2">
+      <va-card>{content}</va-card>
     </div>
   );
 };

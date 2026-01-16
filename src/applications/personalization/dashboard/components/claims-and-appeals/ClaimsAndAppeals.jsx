@@ -26,19 +26,24 @@ import DisabilityRatingCard from './DisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (
-    <p
-      className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
-      data-testid="no-outstanding-claims-or-appeals-text"
-    >
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-        <Toggler.Disabled>
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+      <Toggler.Disabled>
+        <p
+          className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
+          data-testid="no-outstanding-claims-or-appeals-text"
+        >
           You have no claims or appeals to show.
-        </Toggler.Disabled>
-        <Toggler.Enabled>
+        </p>
+      </Toggler.Disabled>
+      <Toggler.Enabled>
+        <p
+          className="vads-u-margin-bottom--1 vads-u-margin-top--neg1"
+          data-testid="no-outstanding-claims-or-appeals-text"
+        >
           You don’t have any open claims or appeals.
-        </Toggler.Enabled>
-      </Toggler>
-    </p>
+        </p>
+      </Toggler.Enabled>
+    </Toggler>
   );
 };
 
@@ -236,12 +241,12 @@ const ClaimsAndAppeals = ({
       </div>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <p className="vads-u-margin-top--0">
+          <div>
             <va-link
               href="/track-claims/your-claims"
               text="Check claims and appeals"
             />
-          </p>
+          </div>
           {!isLOA1 && (
             <DashboardWidgetWrapper>
               <DisabilityRatingCard />
