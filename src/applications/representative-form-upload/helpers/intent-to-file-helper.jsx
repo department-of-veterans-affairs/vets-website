@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash';
 import { apiRequest } from 'platform/utilities/api';
+import { focusElement } from 'platform/utilities/ui';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const goPathAfterGettingITF = (
@@ -55,12 +56,18 @@ const fetchIntentToFile = async (
       // handle no representation or cannot find ICN
     ) {
       goPath(`${urlPrefix}intent-to-file-no-representation`);
+      setTimeout(() => {
+        focusElement('.itf-status va-alert h2');
+      }, 50);
       // returns error if there is no ITF, 404 is the happy path
     } else if (status === '404') {
       goNextPath();
       // generic error catchall - unknown if itf exists
     } else {
       goPath(`${urlPrefix}intent-to-file-unknown`);
+      setTimeout(() => {
+        focusElement('.itf-status va-alert h2');
+      }, 50);
     }
     return null;
   }
