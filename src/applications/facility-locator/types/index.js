@@ -221,6 +221,9 @@ export const FacilitiesMapTypes = {
   suppressPPMS: PropTypes.bool,
   updateSearchQuery: PropTypes.func,
   usePredictiveGeolocation: PropTypes.bool,
+  vaHealthServicesData: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.array),
+  }),
 };
 
 export const FormValuesTypes = PropTypes.shape({
@@ -241,6 +244,9 @@ export const SearchFormTypes = {
   selectMobileMapPin: PropTypes.func,
   setSearchInitiated: PropTypes.func,
   suppressPPMS: PropTypes.bool,
+  vaHealthServicesData: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.array),
+  }),
   vamcServiceDisplay: PropTypes.string,
 };
 

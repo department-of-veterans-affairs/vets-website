@@ -12,9 +12,9 @@ import { LocationType } from '../../constants';
 import {
   validateForm,
   createFormStateFromQuery,
+  getServiceDisplayName,
   INITIAL_FORM_FLAGS,
 } from '../../reducers/searchQuery';
-import vaHealthcareServices from '../../tests/hooks/test-va-healthcare-services.json';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
 
@@ -23,12 +23,6 @@ import BottomRow from './BottomRow';
 import FacilityType from './facility-type';
 import ServiceType from './service-type';
 import AddressAutosuggest from './location/AddressAutosuggest';
-
-const getServiceDisplayName = serviceId => {
-  if (!serviceId) return null;
-  const service = vaHealthcareServices.data.find(item => item[3] === serviceId);
-  return service ? service[0] : null;
-};
 
 /**
  * SearchForm implements a dual-state pattern to prevent premature UI updates:
@@ -235,7 +229,9 @@ export const SearchForm = props => {
             const serviceType = props.location.query.serviceType || null;
             const vamcServiceDisplay =
               props.location.query.vamcServiceDisplay ||
-              (serviceType ? getServiceDisplayName(serviceType) : null);
+              (serviceType
+                ? getServiceDisplayName(serviceType, props.vaHealthServicesData)
+                : null);
 
             stateFromUrl = {
               facilityType: props.location.query.facilityType || null,
@@ -250,7 +246,9 @@ export const SearchForm = props => {
             const { serviceType } = currentQuery;
             const vamcServiceDisplay =
               currentQuery.vamcServiceDisplay ||
-              (serviceType ? getServiceDisplayName(serviceType) : null);
+              (serviceType
+                ? getServiceDisplayName(serviceType, props.vaHealthServicesData)
+                : null);
 
             stateFromRedux = {
               facilityType: currentQuery.facilityType || null,

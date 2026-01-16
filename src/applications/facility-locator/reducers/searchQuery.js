@@ -16,6 +16,19 @@ import {
   GEOLOCATE_USER,
 } from '../actions/actionTypes';
 
+/**
+ * Given a serviceId and the VA healthcare services data,
+ * return the display name for that service.
+ * @param {string} serviceId - e.g., "mentalHealth"
+ * @param {Object} vaHealthServicesData - from state.drupalStaticData.vaHealthServicesData
+ * @returns {string|null} - e.g., "Mental health care"
+ */
+export const getServiceDisplayName = (serviceId, vaHealthServicesData) => {
+  if (!serviceId || !vaHealthServicesData?.data) return null;
+  const service = vaHealthServicesData.data.find(item => item[3] === serviceId);
+  return service ? service[0] : null;
+};
+
 export const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
