@@ -68,7 +68,7 @@
   margin-top: 0.15rem;
 
   @media (min-width: $small-screen) {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
   }
 }
 
