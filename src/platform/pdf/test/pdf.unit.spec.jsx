@@ -12,10 +12,8 @@ const { expect } = chai;
 // Workaround for pdf.js incompatibility.
 // cf. https://github.com/mozilla/pdf.js/issues/15728
 const originalPlatform = navigator.platform;
-Object.defineProperty(navigator, 'platform', {
-  value: 'Linux',
-  configurable: true,
-});
+navigator.platform = '';
+
 const pdfjs = require('pdfjs-dist/legacy/build/pdf');
 
 let fileSaverMock = {};
@@ -41,7 +39,6 @@ describe('PDF generation API', () => {
       writable: true,
       configurable: true,
     });
-
     fileSaverMock = sinon.stub(fileSaver, 'saveAs').returns('foo');
   });
   after(() => {
@@ -50,7 +47,6 @@ describe('PDF generation API', () => {
       writable: true,
       configurable: true,
     });
-
     fileSaverMock.restore();
   });
 
