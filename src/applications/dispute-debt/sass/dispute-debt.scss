@@ -38,6 +38,7 @@
 
     // Match any padding/border that checkboxes have
     // You may need to inspect the checkbox's computed styles to match exactly
+
     &::part(body) {
       box-sizing: border-box;
     }
