@@ -9,7 +9,7 @@ const MoreVASearchTools = () => (
       />
     </li>
     <li>
-      <va-link href="/find-forms/" text="Find a VA form" />
+      <va-link href="/forms/" text="Find a VA form" />
     </li>
     <li>
       <va-link
