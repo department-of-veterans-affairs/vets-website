@@ -856,7 +856,7 @@ const FacilitiesMap = props => {
       const { inProgress, searchStarted } = props.currentQuery;
 
       if (searchResultTitleRef.current && !inProgress && searchStarted) {
-        setFocus(searchResultTitleRef.current);
+        setFocus(searchResultTitleRef.current, false);
       }
     },
     [
