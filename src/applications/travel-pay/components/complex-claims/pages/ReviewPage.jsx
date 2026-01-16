@@ -6,7 +6,6 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
-import { recordButtonClick } from '../../../util/events-helpers';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -16,10 +15,7 @@ import {
   selectReviewPageAlert,
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
-import {
-  EXPENSE_TYPES,
-  COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
-} from '../../../constants';
+import { EXPENSE_TYPES } from '../../../constants';
 import {
   clearReviewPageAlert,
   setExpenseBackDestination,
@@ -104,11 +100,6 @@ const ReviewPage = () => {
   };
 
   const signAgreement = () => {
-    recordButtonClick(
-      COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
-      title,
-      'Sign agreement',
-    );
     navigate(`/file-new-claim/${apptId}/${claimId}/travel-agreement`);
   };
 
