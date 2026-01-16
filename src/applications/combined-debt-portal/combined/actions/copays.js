@@ -96,3 +96,28 @@ export const getCopaySummaryPageData = async dispatch => {
       });
     });
 };
+
+export const getCopayDetailPageData = copayId => async dispatch => {
+  dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
+
+  const dataUrl = `${environment.API_URL}/v1/medical_copays/${copayId}`;
+
+  return apiRequest(dataUrl)
+    .then(responseData => {
+      return dispatch({
+        type: MCP_STATEMENTS_FETCH_SUCCESS,
+        response: responseData,
+      });
+    })
+    .catch(({ errors }) => {
+      const [error] = errors;
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        Sentry.captureMessage(`medical_copays failed: ${error.detail}`);
+      });
+      return dispatch({
+        type: MCP_STATEMENTS_FETCH_FAILURE,
+        error,
+      });
+    });
+};

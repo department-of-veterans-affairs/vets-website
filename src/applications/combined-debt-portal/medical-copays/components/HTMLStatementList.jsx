@@ -1,20 +1,34 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { sortStatementsByDate } from '../../combined/utils/helpers';
+import {
+  sortStatementsByDate,
+  showVHAPaymentHistory,
+} from '../../combined/utils/helpers';
 import HTMLStatementLink from './HTMLStatementLink';
 
 const HTMLStatementList = ({ selectedId }) => {
+  const shouldShowVHAPaymentHistory = state => {
+    showVHAPaymentHistory(state);
+  };
+
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
   // get selected statement
-  const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
-  // get facility  number on selected statement
-  const facilityNumber = selectedCopay.pSFacilityNum;
+  const selectedCopay = shouldShowVHAPaymentHistory
+    ? statements?.data
+    : statements?.find(({ id }) => id === selectedId); // get facility  number on selected statement
+  const facilityNumber = shouldShowVHAPaymentHistory
+    ? selectedCopay?.attributes?.facilityNumber
+    : selectedCopay?.pSFacilityNum;
   // filter out all statements that are not related to this facility
-  const facilityCopays = statements.filter(
-    ({ pSFacilityNum }) => pSFacilityNum === facilityNumber,
-  );
+  const facilityCopays = shouldShowVHAPaymentHistory
+    ? statements?.data.filter(
+        ({ attributes }) => attributes?.facilityNumber === facilityNumber,
+      )
+    : statements.filter(
+        ({ pSFacilityNum }) => pSFacilityNum === facilityNumber,
+      );
 
   const sortedFacilityCopays = sortStatementsByDate(facilityCopays);
 
