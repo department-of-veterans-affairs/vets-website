@@ -146,6 +146,7 @@ export const Locators = {
     TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
     MOVE_BUTTON_TEST_ID: 'move-button-text',
+    MOVE_MODAL_TEST_ID: 'move-to-modal',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
     SEND_TEST_ID: 'send-button',
