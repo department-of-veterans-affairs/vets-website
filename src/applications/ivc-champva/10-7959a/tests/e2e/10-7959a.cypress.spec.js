@@ -6,18 +6,18 @@ import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import environment from 'platform/utilities/environment';
 
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 
 import {
   verifyAllDataWasSubmitted,
   reviewAndSubmitPageFlow,
   selectRadioWebComponent,
   getAllPages,
-} from '../../shared/tests/helpers';
+} from '../../../shared/tests/helpers';
 
-import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
-import { goToNextPage, uploadDocumentAndGoToNext } from './e2e/utils';
+import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
+import { goToNextPage, uploadDocumentAndGoToNext } from './utils';
 
 const ALL_PAGES = getAllPages(formConfig);
 
