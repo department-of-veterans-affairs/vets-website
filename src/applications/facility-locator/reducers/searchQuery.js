@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
@@ -15,6 +16,23 @@ import {
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
 } from '../actions/actionTypes';
+// Test data fallback for localhost (same pattern as useServiceType hook)
+import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
+
+/**
+ * Selector that returns VA health services data, with localhost fallback.
+ * On localhost, the JSON endpoint returns 404, so we use test data.
+ * This centralizes the localhost handling in one place.
+ * @param {Object} vaHealthServicesData - from state.drupalStaticData.vaHealthServicesData
+ * @returns {Object} - data with .data array property
+ */
+export const getVaHealthServicesData = vaHealthServicesData => {
+  const localEnv = environment?.BUILDTYPE === 'localhost';
+  if (localEnv || !Array.isArray(vaHealthServicesData?.data)) {
+    return vaHealthcareServices;
+  }
+  return vaHealthServicesData;
+};
 
 /**
  * Given a serviceId and the VA healthcare services data,
@@ -24,8 +42,10 @@ import {
  * @returns {string|null} - e.g., "Mental health care"
  */
 export const getServiceDisplayName = (serviceId, vaHealthServicesData) => {
-  if (!serviceId || !vaHealthServicesData?.data) return null;
-  const service = vaHealthServicesData.data.find(item => item[3] === serviceId);
+  if (!serviceId) return null;
+  const data = getVaHealthServicesData(vaHealthServicesData);
+  if (!Array.isArray(data?.data)) return null;
+  const service = data.data.find(item => item[3] === serviceId);
   return service ? service[0] : null;
 };
 

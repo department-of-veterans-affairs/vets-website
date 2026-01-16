@@ -286,6 +286,23 @@ export const SearchForm = props => {
     ],
   );
 
+  // Update vamcServiceDisplay in draft state when Redux is updated
+  // (e.g., when vaHealthServicesData becomes available and FacilitiesMap resolves the display name)
+  useEffect(
+    () => {
+      if (
+        currentQuery.vamcServiceDisplay &&
+        !draftFormState.vamcServiceDisplay &&
+        draftFormState.facilityType === 'health'
+      ) {
+        updateDraftState({
+          vamcServiceDisplay: currentQuery.vamcServiceDisplay,
+        });
+      }
+    },
+    [currentQuery.vamcServiceDisplay],
+  );
+
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
     recordEvent({ event: 'fl-get-geolocation' });

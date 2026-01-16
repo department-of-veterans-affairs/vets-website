@@ -862,6 +862,33 @@ const FacilitiesMap = props => {
     [mapboxContainerRef, map],
   );
 
+  // Re-process URL params when vaHealthServicesData becomes available
+  // This handles the case where the page loads with URL params but the
+  // drupal static data hasn't loaded yet
+  useEffect(
+    () => {
+      const { location } = props;
+      if (
+        props.vaHealthServicesData?.data &&
+        !isEmpty(location.query) &&
+        location.query.facilityType === 'health' &&
+        location.query.serviceType &&
+        !props.currentQuery.vamcServiceDisplay
+      ) {
+        const vamcServiceDisplay = getServiceDisplayName(
+          location.query.serviceType,
+          props.vaHealthServicesData,
+        );
+        if (vamcServiceDisplay) {
+          props.updateSearchQuery({
+            vamcServiceDisplay,
+          });
+        }
+      }
+    },
+    [props.vaHealthServicesData],
+  );
+
   useEffect(
     () => {
       handleSearchOnQueryChange();
