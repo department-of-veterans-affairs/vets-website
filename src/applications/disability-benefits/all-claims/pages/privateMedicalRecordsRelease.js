@@ -15,6 +15,7 @@ import {
   limitedConsentDescription,
 } from '../content/privateMedicalRecordsRelease';
 import { isCompletingForm0781 } from '../utils/form0781';
+import { makeSchemaForTreatedDisabilityNames } from '../utils/schemas';
 import { standardTitle } from '../content/form0781';
 import { isCompletingModern4142 } from '../utils';
 
@@ -22,7 +23,6 @@ import PrivateProviderTreatmentView from '../components/PrivateProviderTreatment
 
 import { validateBooleanGroup, validateZIP } from '../validations';
 import PrivateMedicalProvidersConditions from '../components/confirmationFields/PrivateMedicalProvidersConditions';
-import { makeSchemaForTreatedDisabilityNames } from '../utils/schemas';
 
 const { form4142 } = fullSchema.properties;
 
