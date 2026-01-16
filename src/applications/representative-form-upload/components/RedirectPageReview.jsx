@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SSNWidget from 'platform/forms-system/src/js/review/SSNWidget';
+import VAFileNumberWidget from 'platform/forms-system/src/js/review/VAFileNumberWidget';
+import { format, parseISO } from 'date-fns';
 
+const dateFormat = 'MM-dd-yyyy';
 const veteranLabels = {
   yes: 'The claimant is the Veteran',
   no: 'The claimant is a survivor or dependent of the Veteran',
@@ -14,7 +18,7 @@ const itfTypes = {
 };
 
 const RedirectPageReview = props => {
-  const { data, goToPath } = props;
+  const { data, goToPath, title } = props;
 
   const renderIsVeteran = () => {
     return (
@@ -27,10 +31,14 @@ const RedirectPageReview = props => {
     );
   };
 
-  const renderVeteranInfo = () => {
+  const renderVeteranInfo = (showHeader = false) => {
     return (
       <>
-        <h5>Veteran information</h5>
+        {showHeader && (
+          <h5 className="vads-u-font-size--h4">
+            Veteran idententification information
+          </h5>
+        )}
         <dl className="review">
           <div className="review-row">
             <dt>First name</dt>
@@ -42,16 +50,23 @@ const RedirectPageReview = props => {
           </div>
           <div className="review-row">
             <dt>Social Security number</dt>
-            <dd>{data.veteranSsn}</dd> {/* todo need to obscure */}
+            <dd>
+              <SSNWidget value={data.veteranSsn} />
+            </dd>
           </div>
           <div className="review-row">
             <dt>Date of birth</dt>
-            <dd>{data.veteranDateOfBirth}</dd>{' '}
-            {/* todo need to format mm-dd-yyyy */}
+            <dd>{format(parseISO(data.veteranDateOfBirth), dateFormat)}</dd>
           </div>
           <div className="review-row">
             <dt>VA file number</dt>
-            <dd>{data.vaFileNumber}</dd> {/* todo need to obscure */}
+            <dd>
+              {data.vaFileNumber ? (
+                <VAFileNumberWidget value={data.vaFileNumber} />
+              ) : (
+                '-'
+              )}
+            </dd>
           </div>
           <div className="review-row">
             <dt>Select the benefit you intend to file a claim for</dt>
@@ -64,7 +79,7 @@ const RedirectPageReview = props => {
   const renderClaimantInfo = () => {
     return (
       <>
-        <h5>Claimant information</h5>
+        <h5 className="vads-u-font-size--h4">Claimant information</h5>
         <dl className="review">
           <div className="review-row">
             <dt>First name</dt>
@@ -76,22 +91,23 @@ const RedirectPageReview = props => {
           </div>
           <div className="review-row">
             <dt>Social Security number</dt>
-            <dd>{data.claimantSsn}</dd> {/* todo need to obscure */}
+            <dd>
+              <SSNWidget value={data.claimantSsn} />
+            </dd>
           </div>
           <div className="review-row">
             <dt>Date of birth</dt>
-            <dd>{data.claimantDateOfBirth}</dd>{' '}
-            {/* todo need to format mm-dd-yyyy */}
+            <dd>{format(parseISO(data.claimantDateOfBirth), dateFormat)}</dd>
           </div>
         </dl>
-        {renderVeteranInfo()}
+        {renderVeteranInfo(true)}
       </>
     );
   };
   let displayFunc;
   let toPath = '/submit-va-form-21-0966';
-  let sectionHeaderText = props.title;
-  switch (props.title) {
+  let sectionHeaderText = title;
+  switch (title) {
     case 'Claimant background':
       displayFunc = renderIsVeteran;
       toPath += '/claimant-background';
@@ -113,7 +129,9 @@ const RedirectPageReview = props => {
     <div className="form-review-panel-page">
       <form className="rjsf" noValidate="">
         <div className="form-review-panel-page-header-row  vads-u-justify-content--space-between">
-          <h4 className="vads-u-margin-top--1">{sectionHeaderText}</h4>
+          <h4 className="vads-u-margin-top--1 vads-u-font-size--h3">
+            {sectionHeaderText}
+          </h4>
           <va-button
             text="Edit"
             label={`Edit ${sectionHeaderText}`}
