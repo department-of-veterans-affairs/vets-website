@@ -33,7 +33,7 @@ const claimInfo = claim => {
   };
 };
 
-const Claim = ({ claim }) => {
+const ClaimLegacy = ({ claim }) => {
   if (!claim.attributes) {
     throw new TypeError(
       '`claim` prop is malformed; it should have an `attributes` property.',
@@ -89,8 +89,8 @@ const Claim = ({ claim }) => {
   );
 };
 
-Claim.propTypes = {
+ClaimLegacy.propTypes = {
   claim: PropTypes.object.isRequired,
 };
 
-export default Claim;
+export default ClaimLegacy;

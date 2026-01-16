@@ -27,7 +27,7 @@ const handleViewAppeal = () => {
   });
 };
 
-const Appeal = ({ appeal, name }) => {
+const AppealLegacy = ({ appeal, name }) => {
   if (!appeal.attributes) {
     throw new TypeError(
       '`appeal` prop is malformed; it should have an `attributes` property.',
@@ -133,9 +133,9 @@ const Appeal = ({ appeal, name }) => {
   );
 };
 
-Appeal.propTypes = {
+AppealLegacy.propTypes = {
   appeal: PropTypes.object.isRequired,
   name: PropTypes.string,
 };
 
-export default Appeal;
+export default AppealLegacy;

@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { appealTypes } from '../../utils/appeals-helpers';
 
-import Claim from './Claim';
-import Appeal from './Appeal';
+import ClaimLegacy from './ClaimLegacy';
+import AppealLegacy from './AppealLegacy';
 
 const HighlightedClaimAppeal = ({ claimOrAppeal, name }) => {
   if (!claimOrAppeal) {
     return <p>You have no claims or appeals updates in the last 30 days.</p>;
   }
   if (appealTypes.includes(claimOrAppeal.type)) {
-    return <Appeal appeal={claimOrAppeal} name={name} />;
+    return <AppealLegacy appeal={claimOrAppeal} name={name} />;
   }
-  return <Claim claim={claimOrAppeal} />;
+  return <ClaimLegacy claim={claimOrAppeal} />;
 };
 
 HighlightedClaimAppeal.propTypes = {
