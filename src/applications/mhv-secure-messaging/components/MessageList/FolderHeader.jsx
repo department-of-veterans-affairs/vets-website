@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   updatePageTitle,
   renderMHVDowntime,
@@ -25,7 +24,6 @@ import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
-import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 import InnerNavigation from '../InnerNavigation';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
@@ -33,11 +31,8 @@ import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIss
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
-  const userFacilities = useSelector(state => state?.user?.profile?.facilities);
   const showInnerNav =
     folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
-
-  const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
   const {
     noAssociations,
@@ -50,17 +45,6 @@ const FolderHeader = props => {
     mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
     isAalEnabled,
   } = useFeatureToggles();
-
-  const cernerFacilities = useMemo(
-    () => {
-      return userFacilities?.filter(facility =>
-        drupalCernerFacilities.some(
-          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-        ),
-      );
-    },
-    [userFacilities, drupalCernerFacilities],
-  );
 
   const folderDescription = useMemo(
     () => {
@@ -131,16 +115,14 @@ const FolderHeader = props => {
   };
   const OracleHealthMessagingAlert = useCallback(
     () => {
+      // The OracleHealthMessagingIssuesAlert was a temporary implementation
+      // Once removed, just move the CernerFacilityAlert into the main render
       if (
         cernerPilotSmFeatureFlag &&
         mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag
       )
         return <OracleHealthMessagingIssuesAlert />;
-      if (
-        folder.folderId === Folders.INBOX.id
-        // &&
-        // cernerFacilities?.length > 0
-      ) {
+      if (folder.folderId === Folders.INBOX.id) {
         return (
           <CernerFacilityAlert
             {...CernerAlertContent.SECURE_MESSAGING}
@@ -155,7 +137,6 @@ const FolderHeader = props => {
       cernerPilotSmFeatureFlag,
       mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
       folder.folderId,
-      cernerFacilities,
     ],
   );
 
@@ -178,9 +159,6 @@ const FolderHeader = props => {
         />
       )}
 
-      {folder.folderId === Folders.INBOX.id && (
-        <CernerTransitioningFacilityAlert />
-      )}
       <OracleHealthMessagingAlert />
 
       <>
