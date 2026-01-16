@@ -380,7 +380,7 @@ jobs:
           if [[ "${{ matrix.app.type }}" == "platform" ]]; then
             yarn test:unit:gha --coverage --log-level verbose "src/platform/**/*.unit.spec.js?(x)"
           else
-            yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose "src/applications/${{ matrix.app.folder }}/**/*.unit.spec.js?(x)"
+            yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose
           fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml
