@@ -1,4 +1,5 @@
 export * from './calculateSeparationDuration';
+export * from './chapter4Transform';
 export * from './combineTreatmentFacility';
 export * from './combineUnitNameAddress';
 export * from './splitSsn';
@@ -7,4 +8,3 @@ export * from './transformCareExpenses';
 export * from './truncateMiddleInitials';
 export * from './unnestOtherServiceNames';
 export * from './updateBankValues';
-export * from './updateChildOfVeteran';

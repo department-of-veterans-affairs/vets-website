@@ -154,6 +154,10 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_secure_messaging_recent_recipients',
           value: mhvSecureMessagingRecentRecipients,
         },
+        {
+          name: 'mhvSecureMessagingRecentRecipients',
+          value: mhvSecureMessagingRecentRecipients,
+        },
         // vaos
         { name: 'profile_show_profile_2.0', value: false },
         { name: 'vaOnlineScheduling', value: true },

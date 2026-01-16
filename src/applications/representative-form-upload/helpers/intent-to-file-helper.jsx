@@ -32,6 +32,12 @@ const fetchIntentToFile = async (
   params = `${params}&veteranLastName=${formData.veteranFullName.last}`;
   params = `${params}&veteranDateOfBirth=${formData.veteranDateOfBirth}`;
   params = `${params}&veteranSsn=${formData.veteranSsn}`;
+  if (benefitType === 'survivor') {
+    params = `${params}&claimantFirstName=${formData.claimantFullName.first}`;
+    params = `${params}&claimantLastName=${formData.claimantFullName.last}`;
+    params = `${params}&claimantDateOfBirth=${formData.claimantDateOfBirth}`;
+    params = `${params}&claimantSsn=${formData.claimantSsn}`;
+  }
   params = `${params}&benefitType=${benefitType}`;
   try {
     return await apiRequest(

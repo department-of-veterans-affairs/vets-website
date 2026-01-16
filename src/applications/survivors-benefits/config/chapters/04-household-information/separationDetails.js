@@ -14,9 +14,6 @@ import { CourtOrderSeparationAlert } from '../../../components/FormAlerts';
 export default {
   title: 'Separation details',
   path: 'household/separation-details',
-  depends: formData =>
-    formData.separationDueToAssignedReasons === 'RELATIONSHIP_DIFFERENCES' ||
-    formData.separationDueToAssignedReasons === 'OTHER',
   uiSchema: {
     ...titleUI('Separation details'),
     separationExplanation: textUI({

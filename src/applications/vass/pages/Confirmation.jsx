@@ -9,6 +9,7 @@ import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
 import { selectSelectedTopics } from '../redux/slices/formSlice';
+import { URLS } from '../utils/constants';
 
 const Confirmation = () => {
   const { appointmentId } = useParams();
@@ -21,7 +22,7 @@ const Confirmation = () => {
   });
 
   const handleCancelAppointment = () => {
-    navigate(`/cancel-appointment/${appointmentId}`);
+    navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`);
   };
 
   if (isLoading) {
