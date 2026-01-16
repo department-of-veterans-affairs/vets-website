@@ -1,5 +1,6 @@
 import React from 'react';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import {
   createTestStore,
@@ -63,7 +64,8 @@ describe('VAOS Page: UrgentCareInformationPage', () => {
     link.click();
 
     // Assert
-    expect(screen.history.push.lastCall?.args[0]).to.equal(
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
+    expect(screen.history.push.lastCall.args[0]).to.equal(
       '/schedule/type-of-care',
     );
   });

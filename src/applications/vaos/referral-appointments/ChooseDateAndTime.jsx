@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
@@ -8,24 +7,45 @@ import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/select
 import { setFormCurrentPage } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { useGetDraftReferralAppointmentQuery } from '../redux/api/vaosApi';
+import {
+  useGetDraftReferralAppointmentQuery,
+  useGetReferralByIdQuery,
+} from '../redux/api/vaosApi';
 import { FETCH_STATUS } from '../utils/constants';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
-export const ChooseDateAndTime = props => {
-  const { attributes: currentReferral } = props.currentReferral;
+export const ChooseDateAndTime = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+
+  const { search } = location;
+  const params = new URLSearchParams(search);
+  const id = params.get('id');
+
+  const {
+    data: referral,
+    error: referralError,
+    isLoading: isReferralLoading,
+  } = useGetReferralByIdQuery(id);
+
+  const currentReferral = referral?.attributes;
+
   const {
     data: draftAppointmentInfo,
     isLoading: isDraftLoading,
     isError: isDraftError,
     isSuccess: isDraftSuccess,
     isUninitialized: isDraftUninitialized,
-  } = useGetDraftReferralAppointmentQuery({
-    referralNumber: currentReferral.referralNumber,
-    referralConsultId: currentReferral.referralConsultId,
-  });
+  } = useGetDraftReferralAppointmentQuery(
+    {
+      referralNumber: currentReferral?.referralNumber,
+      referralConsultId: currentReferral?.referralConsultId,
+    },
+    {
+      skip:
+        !currentReferral?.referralNumber || !currentReferral?.referralConsultId,
+    },
+  );
 
   const { futureStatus, appointmentsByMonth } = useSelector(
     state => getUpcomingAppointmentListInfo(state),
@@ -55,7 +75,6 @@ export const ChooseDateAndTime = props => {
       }
     },
     [
-      currentReferral,
       dispatch,
       draftAppointmentInfo,
       futureStatus,
@@ -71,7 +90,7 @@ export const ChooseDateAndTime = props => {
     [location, dispatch],
   );
 
-  if (loading || isDraftLoading) {
+  if (loading || isDraftLoading || isReferralLoading) {
     return (
       <ReferralLayout
         data-testid="loading"
@@ -85,7 +104,7 @@ export const ChooseDateAndTime = props => {
   return (
     <ReferralLayout
       hasEyebrow
-      apiFailure={failed}
+      apiFailure={failed || referralError || !currentReferral}
       heading="Schedule an appointment with your provider"
     >
       <DateAndTimeContent
@@ -95,10 +114,6 @@ export const ChooseDateAndTime = props => {
       />
     </ReferralLayout>
   );
-};
-
-ChooseDateAndTime.propTypes = {
-  currentReferral: PropTypes.object.isRequired,
 };
 
 export default ChooseDateAndTime;

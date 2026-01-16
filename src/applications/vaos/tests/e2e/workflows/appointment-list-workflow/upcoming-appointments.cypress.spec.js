@@ -377,10 +377,11 @@ describe('VAOS upcoming appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    // skipping because fails after 4pm PT
-    it.skip('should display layout correctly form multiply appointments - same month, same day', () => {
+    it('should display layout correctly form multiply appointments - same month, same day', () => {
       // Arrange
       const today = new Date();
+      // Set time to 10am to avoid timezone rollover issues
+      today.setHours(10, 0, 0, 0);
       const response = [];
 
       for (let i = 1; i <= 2; i += 1) {
@@ -413,10 +414,11 @@ describe('VAOS upcoming appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    // Skipping because fauls after 4pm PT
-    it.skip('should display layout correctly for multiply appointments - different months, same day', () => {
+    it('should display layout correctly for multiply appointments - different months, same day', () => {
       // Arrange
       const today = new Date();
+      // Set time to 10am to avoid timezone rollover issues
+      today.setHours(10, 0, 0, 0);
       const response = [];
 
       for (let i = 1; i <= 2; i += 1) {
@@ -430,6 +432,8 @@ describe('VAOS upcoming appointment flow', () => {
       }
 
       const nextMonth = addMonths(new Date(), 1);
+      // Set time to 10am to avoid timezone rollover issues
+      nextMonth.setHours(10, 0, 0, 0);
       const appt = new MockAppointmentResponse({
         id: '3',
         localStartTime: nextMonth,

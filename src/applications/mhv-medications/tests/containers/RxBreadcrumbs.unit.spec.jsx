@@ -68,10 +68,10 @@ describe('Medications Breadcrumbs', () => {
     const screen = setup({}, [medicationsUrls.subdirectories.BASE]);
 
     await waitFor(() => {
-      const element = screen.container.querySelector('va-breadcrumbs');
+      const element = screen.getByTestId('rx-breadcrumb');
+      const links = element.querySelectorAll('a');
       expect(element).to.exist;
-      expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
-      expect(element.breadcrumbList).to.exist;
+      expect(links.length).to.be.greaterThan(0);
     });
   });
 
@@ -79,10 +79,10 @@ describe('Medications Breadcrumbs', () => {
     const screen = setup({}, [medicationsUrls.subdirectories.REFILL]);
 
     await waitFor(() => {
-      const element = screen.container.querySelector('va-breadcrumbs');
+      const element = screen.getByTestId('rx-breadcrumb');
+      const links = element.querySelectorAll('a');
       expect(element).to.exist;
-      expect(element).to.have.attribute('data-testid', 'rx-breadcrumb');
-      expect(element.breadcrumbList).to.exist;
+      expect(links.length).to.be.greaterThan(0);
     });
   });
 
