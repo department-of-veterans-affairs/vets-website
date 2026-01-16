@@ -45,11 +45,6 @@ const AgreementPage = () => {
     }
   };
 
-  const handleAgreementChange = () => {
-    const newValue = !isAgreementChecked;
-    setIsAgreementChecked(newValue);
-  };
-
   const onBack = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
@@ -82,7 +77,7 @@ const AgreementPage = () => {
         }
         hint={null}
         label="I confirm that the information is true and correct to the best of my knowledge and belief. I’ve read and I accept the beneficiary travel agreement."
-        onVaChange={handleAgreementChange}
+        onVaChange={() => setIsAgreementChecked(!isAgreementChecked)}
         enableAnalytics
         required
       />
