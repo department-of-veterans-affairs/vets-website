@@ -20,9 +20,6 @@
     "claimantRelationship": {
       "relationship": "veteran"
     },
-    "claimantContact": {
-      "claimantEmail": "luke@moisture-farm.net"
-    },
     "benefitType": {
       "benefitType": "SMC"
     },

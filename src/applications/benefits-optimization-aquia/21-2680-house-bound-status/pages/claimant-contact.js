@@ -41,8 +41,8 @@ export const claimantContactUiSchema = {
         : `${fallback} phone number and email address`;
 
       const homePhoneLabel = fullName
-        ? `${fullName}'s home phone number`
-        : `${fallback} home phone number`;
+        ? `${fullName}'s phone number`
+        : `${fallback} phone number`;
 
       const emailLabel = fullName
         ? `${fullName}'s email address`
@@ -75,11 +75,9 @@ export const claimantContactUiSchema = {
  */
 export const claimantContactSchema = {
   type: 'object',
-  required: ['claimantContact'],
   properties: {
     claimantContact: {
       type: 'object',
-      required: ['claimantEmail'],
       properties: {
         claimantPhoneNumber: phoneSchema,
         claimantEmail: emailSchema,
