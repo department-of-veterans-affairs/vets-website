@@ -150,9 +150,9 @@ const ProfileInformationView = props => {
           fieldName,
         );
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
-        return getSchedulingPreferencesTimesDisplay(data[fieldName]);
+        return getSchedulingPreferencesTimesDisplay(fieldName, data[fieldName]);
       case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
-        return getSchedulingPreferencesTimesDisplay(data[fieldName]);
+        return getSchedulingPreferencesTimesDisplay(fieldName, data[fieldName]);
       default:
         return displayTitle;
     }

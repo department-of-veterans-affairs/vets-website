@@ -176,9 +176,13 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
     if (typeof data[fieldName] === 'string') {
       optionIds = [data[fieldName].replace('option-', '')];
     } else {
-      optionIds = data[fieldName].map(value => {
-        return value.replace('option-', '');
-      });
+      optionIds = data[fieldName]
+        .filter(value => {
+          return value && value.startsWith('option-');
+        })
+        .map(value => {
+          return value.replace('option-', '');
+        });
     }
   }
   return { itemId, optionIds };
@@ -274,15 +278,15 @@ export const getSchedulingPreferencesContactMethodDisplay = optionId => {
   return display;
 };
 
-export const getSchedulingPreferencesTimesDisplay = optionIds => {
+export const getSchedulingPreferencesTimesDisplay = (fieldName, optionIds) => {
+  // debugger;
   if (!optionIds || optionIds.length === 0) return 'No preference';
 
-  const displayNames = optionIds.map(optionId =>
-    getSchedulingPreferencesOptionDisplayName(
-      FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES,
-      optionId,
-    ),
-  );
+  const displayNames = optionIds
+    .filter(optionId => optionId && optionId.startsWith('option-'))
+    .map(optionId =>
+      getSchedulingPreferencesOptionDisplayName(fieldName, optionId),
+    );
 
   if (displayNames.includes('No preference')) {
     return displayNames;

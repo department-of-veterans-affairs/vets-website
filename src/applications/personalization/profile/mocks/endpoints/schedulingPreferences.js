@@ -8,14 +8,15 @@ const all = {
           optionIds: ['4'], // mailingAddress
           // optionIds: ['39'], // workPhone
         },
-        // {
-        //   itemId: 2, // preferredContactTimes
-        //   optionIds: ['10', '14'], // tuesdayAfternoon, thursdayAfternoon
-        // },
+        {
+          itemId: 2, // preferredContactTimes
+          optionIds: ['17'], // noPreference
+          // optionIds: ['10', '14'], // tuesdayAfternoon, thursdayAfternoon
+        },
         {
           itemId: 3, // preferredAppointmentTimes
-          // optionIds: ['28'], // noPreference
-          optionIds: ['18', '20', '21', '23'], // Monday morning, Tuesday morning or afternoon, Wednesday afternoon
+          optionIds: ['28'], // noPreference
+          // optionIds: ['18', '20', '21', '23'], // Monday morning, Tuesday morning or afternoon, Wednesday afternoon
         },
         {
           itemId: 4, // needsHelpSchedulingAppointments

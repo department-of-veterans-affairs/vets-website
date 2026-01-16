@@ -15,10 +15,7 @@ import { FIELD_NAMES, FIELD_SECTION_HEADERS } from '@@vap-svc/constants';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
-import {
-  getSchedulingPreferencesContactMethodDisplay,
-  schedulingPreferenceOptions,
-} from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
+import { schedulingPreferenceOptions } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { createSchedulingPreferencesUpdate } from '@@vap-svc/actions/schedulingPreferences';
 // import { FIELD_OPTION_IDS } from '@@vap-svc/constants/schedulingPreferencesConstants';
 import { EditContext } from '../../../edit/EditContext';
@@ -326,25 +323,6 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
 
       handlers.cancel();
     },
-
-    updateContactInfo: () => {
-      if (!validate(pageData.data)) {
-        setError(true);
-        return;
-      }
-      // First save the contact method preference
-      saveTimePreferences();
-
-      // Then navigate to the profile sub task flow to edit the related contact info field
-      const relatedField = getSchedulingPreferencesContactMethodDisplay(
-        pageData.data[fieldName],
-      );
-      history.push(
-        `${PROFILE_PATHS.EDIT}?returnPath=${encodeURIComponent(
-          returnPath,
-        )}&fieldName=${encodeURIComponent(relatedField.field)}`,
-      );
-    },
   };
 
   const content =
@@ -352,7 +330,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
       <PreferenceSelection
         data={fieldData}
         error={error}
-        // options={yesNoPreference}
+        fieldName={fieldName}
         setPageData={setPageData}
         pageData={pageData}
         noPreferenceValue={noPreferenceValue}

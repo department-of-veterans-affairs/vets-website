@@ -10,7 +10,6 @@ import {
   FIELD_TITLES,
   FIELD_OPTION_IDS,
 } from '@@vap-svc/constants/schedulingPreferencesConstants';
-import { FIELD_NAMES } from 'platform/user/exportsFile';
 import { useSelector } from 'react-redux';
 
 /**
@@ -27,9 +26,8 @@ const PreferenceSelection = ({
   pageData,
   noPreferenceValue,
   data,
+  fieldName,
 }) => {
-  const fieldName = FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES;
-
   const isLoading = useSelector(
     state => state.vaProfile.schedulingPreferences.loading,
   );
@@ -42,11 +40,7 @@ const PreferenceSelection = ({
 
   const updatePageData = useCallback(
     value => {
-      if (
-        value ===
-        FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]
-          .NO_PREFERENCE
-      ) {
+      if (value === FIELD_OPTION_IDS[fieldName].NO_PREFERENCE) {
         setPageData({
           quickExit: true,
           data: { [fieldName]: [value] },
@@ -120,8 +114,8 @@ const PreferenceSelection = ({
   return (
     <>
       <VaRadio
-        label={FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES]}
-        name={FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES}
+        label={FIELD_TITLES[fieldName]}
+        name={fieldName}
         value={fieldData}
         error={error ? content.errorMessage : null}
         onVaValueChange={handlers.setTimePreference}
@@ -147,6 +141,7 @@ const PreferenceSelection = ({
 };
 
 PreferenceSelection.propTypes = {
+  fieldName: PropTypes.string.isRequired,
   noPreferenceValue: PropTypes.string.isRequired,
   pageData: PropTypes.object.isRequired,
   setPageData: PropTypes.func.isRequired,
