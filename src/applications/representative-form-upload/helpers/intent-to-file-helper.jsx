@@ -48,9 +48,11 @@ const fetchIntentToFile = async (
   } catch (error) {
     const { status } = error?.errors?.[0] ?? {};
     if (
-      error.errors &&
-      typeof error.errors[0] === 'string' &&
-      error.errors[0].match(/^not allowed/)
+      (error.errors &&
+        (typeof error.errors[0] === 'string' &&
+          error.errors[0].match(/^not allowed/))) ||
+      (typeof error.errors[0] === 'object' && error.errors[0].code === '400')
+      // handle no representation or cannot find ICN
     ) {
       goPath(`${urlPrefix}intent-to-file-no-representation`);
       // returns error if there is no ITF, 404 is the happy path

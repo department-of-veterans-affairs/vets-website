@@ -25,6 +25,47 @@ import { sentryTransport } from './sentry';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
+// Polyfill Request.prototype.arrayBuffer for MSW v1 compatibility with node-fetch
+// node-fetch v2 doesn't implement arrayBuffer() on Request
+// NOTE: Only apply polyfill if Request exists (from isomorphic-fetch)
+if (
+  typeof global.Request !== 'undefined' &&
+  global.Request.prototype &&
+  !global.Request.prototype.arrayBuffer
+) {
+  Object.defineProperty(global.Request.prototype, 'arrayBuffer', {
+    value: async function arrayBuffer() {
+      const body = this.body;
+      if (!body) return new ArrayBuffer(0);
+      // Handle string body
+      if (typeof body === 'string') {
+        const buffer = Buffer.from(body);
+        return buffer.buffer.slice(
+          buffer.byteOffset,
+          buffer.byteOffset + buffer.byteLength,
+        );
+      }
+      // Handle stream body - need to collect chunks
+      const chunks = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for await (const chunk of body) {
+        if (typeof chunk === 'string') {
+          chunks.push(Buffer.from(chunk));
+        } else {
+          chunks.push(chunk);
+        }
+      }
+      const buffer = Buffer.concat(chunks);
+      return buffer.buffer.slice(
+        buffer.byteOffset,
+        buffer.byteOffset + buffer.byteLength,
+      );
+    },
+    writable: true,
+    configurable: true,
+  });
+}
+
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 
@@ -315,6 +356,9 @@ const server = setupServer(
     return res(ctx.status(200), ctx.body(''));
   }),
 );
+
+// Export server and rest for tests that need to add custom handlers
+export { server, rest };
 
 export const mochaHooks = {
   beforeAll() {
