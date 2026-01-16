@@ -24,10 +24,7 @@ import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
-import {
-  fileUploadBlurbCustom,
-  fileWithMetadataSchema,
-} from '../../shared/components/fileUploads/attachments';
+import { fileUploadBlurbCustom } from '../../shared/components/fileUploads/attachments';
 import {
   applicantWording,
   nameWording,
@@ -42,9 +39,9 @@ import {
   validateApplicantSsn,
 } from '../helpers/validations';
 import { page15aDepends } from '../helpers/utilities';
+import { fileUploadSchema } from '../definitions';
 import { APPLICANTS_MAX } from '../constants';
 
-import { acceptableFiles } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
 import AddressSelectionPage, {
@@ -309,17 +306,7 @@ const applicantBirthCertUploadPage = {
     required: ['applicantBirthCertOrSocialSecCard'],
     properties: {
       'view:fileUploadBlurb': blankSchema,
-      applicantBirthCertOrSocialSecCard: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      applicantBirthCertOrSocialSecCard: fileUploadSchema,
     },
   },
 };
@@ -349,9 +336,7 @@ const applicantAdoptionUploadPage = {
     required: ['applicantAdoptionPapers'],
     properties: {
       'view:fileUploadBlurb': blankSchema,
-      applicantAdoptionPapers: fileWithMetadataSchema(
-        acceptableFiles.adoptionCert,
-      ),
+      applicantAdoptionPapers: fileUploadSchema,
     },
   },
 };
