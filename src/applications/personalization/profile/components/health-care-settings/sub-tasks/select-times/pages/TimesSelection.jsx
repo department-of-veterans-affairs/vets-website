@@ -12,7 +12,7 @@ import {
   FIELD_OPTION_IDS_INVERTED,
 } from '@@vap-svc/constants/schedulingPreferencesConstants';
 
-const TimesSelection = ({ fieldName, pageData, setPageData }) => {
+const TimesSelection = ({ error, fieldName, pageData, setPageData }) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -49,6 +49,7 @@ const TimesSelection = ({ fieldName, pageData, setPageData }) => {
     <VaCheckboxGroup
       label={FIELD_ADDITIONAL_CONTENT[fieldName]}
       onVaChange={onGroupChange}
+      error={error ? 'Please select at least one option' : null}
       required
     >
       {Object.entries(structuredOptions).map(([day, times]) => (
@@ -71,10 +72,10 @@ const TimesSelection = ({ fieldName, pageData, setPageData }) => {
 };
 
 TimesSelection.propTypes = {
+  error: PropTypes.bool.isRequired,
   fieldName: PropTypes.string.isRequired,
   pageData: PropTypes.object.isRequired,
   setPageData: PropTypes.func.isRequired,
-  error: PropTypes.bool,
 };
 
 export default TimesSelection;

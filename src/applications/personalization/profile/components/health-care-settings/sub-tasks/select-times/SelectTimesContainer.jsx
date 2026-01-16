@@ -362,6 +362,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
         pageData={pageData}
         fieldName={fieldName}
         setPageData={setPageData}
+        error={error}
       />
     );
 
