@@ -674,8 +674,24 @@ const ExpensePage = () => {
     }
   };
 
+  const handleDocumentError = errorMsg => {
+    setUploadError(errorMsg);
+    // Clear any previous validation errors from extraFieldErrors
+    setExtraFieldErrors(prevErrors =>
+      Object.fromEntries(
+        Object.entries(prevErrors).filter(([key]) => key !== 'receipt'),
+      ),
+    );
+  };
+
   const handleDocumentChange = async e => {
     setUploadError(''); // Clear any previous processing errors
+    // Clear any previous validation errors from extraFieldErrors
+    setExtraFieldErrors(prevErrors =>
+      Object.fromEntries(
+        Object.entries(prevErrors).filter(([key]) => key !== 'receipt'),
+      ),
+    );
 
     const files = e.detail?.files;
 
@@ -694,7 +710,6 @@ const ExpensePage = () => {
     } else {
       try {
         const file = files[0]; // Get the first (and only) file
-
         const base64File = await toBase64(file);
 
         // Change or add document
@@ -710,13 +725,6 @@ const ExpensePage = () => {
             fileData: base64File,
           },
         }));
-
-        // ✅ Clear any receipt error when a file is added using Object.fromEntries
-        setExtraFieldErrors(prevErrors =>
-          Object.fromEntries(
-            Object.entries(prevErrors).filter(([key]) => key !== 'receipt'),
-          ),
-        );
       } catch (err) {
         setUploadError(
           'There was a problem processing your document. Please try again later.',
@@ -789,6 +797,7 @@ const ExpensePage = () => {
             currentDocument={expenseDocument}
             handleDocumentChange={handleDocumentChange}
             uploadError={extraFieldErrors.receipt || uploadError || undefined}
+            handleDocumentError={handleDocumentError}
           />
           {isMeal && (
             <ExpenseMealFields

@@ -2132,3 +2132,212 @@ describe('ExpensePage - Scroll to Error on Validation Failure', () => {
     expect(scrollToFirstErrorSpy.callCount).to.equal(1);
   });
 });
+
+describe('ExpensePage - File Upload Validation Error Messages', () => {
+  const getData = () => ({
+    travelPay: {
+      claimSubmission: { isSubmitting: false, error: null, data: null },
+      complexClaim: {
+        claim: {
+          creation: { isLoading: false, error: null },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          fetch: { isLoading: false, error: null },
+          data: null,
+        },
+        expenses: {
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
+          data: [],
+        },
+        documentDelete: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
+      },
+    },
+  });
+
+  const renderPage = () =>
+    renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={['/file-new-claim/12345/43555/meal-expense']}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+  let restoreFileReader;
+
+  beforeEach(() => {
+    restoreFileReader = mockFileReader();
+  });
+
+  afterEach(() => {
+    restoreFileReader();
+  });
+
+  it('shows specific error when file is too large (over 5MB)', async () => {
+    const { container } = renderPage();
+
+    await waitFor(() => {
+      expect(container.querySelector('va-file-input')).to.exist;
+    });
+
+    const fileInput = container.querySelector('va-file-input');
+
+    // Simulate vaFileInputError event for file too large
+    await act(async () => {
+      fileInput.dispatchEvent(
+        new CustomEvent('vaFileInputError', {
+          detail: {
+            error:
+              "We can't upload your file because it's too big. Files must be less than 5.0 MB.",
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    });
+
+    await waitFor(() => {
+      const errorAttr = fileInput.getAttribute('error');
+      expect(errorAttr).to.equal(
+        "We can't upload your file because it's too big. Files must be less than 5.0 MB.",
+      );
+    });
+  });
+
+  it('shows specific error when file type is not supported', async () => {
+    const { container } = renderPage();
+
+    await waitFor(() => {
+      expect(container.querySelector('va-file-input')).to.exist;
+    });
+
+    const fileInput = container.querySelector('va-file-input');
+
+    // Simulate vaFileInputError event for unsupported file type
+    await act(async () => {
+      fileInput.dispatchEvent(
+        new CustomEvent('vaFileInputError', {
+          detail: {
+            error: 'We do not accept .mov files. Choose a new file.',
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    });
+
+    await waitFor(() => {
+      const errorAttr = fileInput.getAttribute('error');
+      expect(errorAttr).to.equal(
+        'We do not accept .mov files. Choose a new file.',
+      );
+    });
+  });
+
+  it('accepts a valid file without errors', async () => {
+    const { container } = renderPage();
+
+    await waitFor(() => {
+      expect(container.querySelector('va-file-input')).to.exist;
+    });
+
+    const fileInput = container.querySelector('va-file-input');
+
+    // Create a valid file (PDF, under 5MB)
+    const validFile = new File(['dummy content'], 'receipt.pdf', {
+      type: 'application/pdf',
+    });
+
+    await act(async () => {
+      fileInput.dispatchEvent(
+        new CustomEvent('vaChange', {
+          detail: { files: [validFile] },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    });
+
+    // Wait to ensure any error would have appeared
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    });
+
+    // Should NOT have an error attribute
+    const errorAttr = fileInput.getAttribute('error');
+    expect(errorAttr).to.be.null;
+  });
+
+  it('shows required error when no file is uploaded and continue is clicked', async () => {
+    const { container } = renderPage();
+
+    await waitFor(() => {
+      expect(container.querySelector('va-file-input')).to.exist;
+    });
+
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Continue');
+
+    fireEvent.click(continueButton);
+
+    await waitFor(() => {
+      const fileInput = container.querySelector('va-file-input');
+      expect(fileInput.getAttribute('error')).to.equal(
+        'Select an approved file type under 5MB',
+      );
+    });
+  });
+
+  it('shows file size error even if file type would also be invalid', async () => {
+    const { container } = renderPage();
+
+    await waitFor(() => {
+      expect(container.querySelector('va-file-input')).to.exist;
+    });
+
+    const fileInput = container.querySelector('va-file-input');
+
+    // File is both too large AND wrong type
+    await act(async () => {
+      fileInput.dispatchEvent(
+        new CustomEvent('vaFileInputError', {
+          detail: {
+            error:
+              "We can't upload your file because it's too big. Files must be less than 5.0 MB.",
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    });
+
+    await waitFor(() => {
+      const errorAttr = fileInput.getAttribute('error');
+      // Should show file size error
+      expect(errorAttr).to.equal(
+        "We can't upload your file because it's too big. Files must be less than 5.0 MB.",
+      );
+    });
+  });
+});

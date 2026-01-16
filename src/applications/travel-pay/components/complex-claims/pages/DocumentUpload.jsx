@@ -7,10 +7,21 @@ import { ACCEPTED_FILE_TYPES } from '../../../constants';
 const DocumentUpload = ({
   currentDocument,
   handleDocumentChange,
+  handleDocumentError,
   uploadError,
 }) => {
   // Only pass a string if there is an error, otherwise undefined
   const errorMessage = uploadError || undefined;
+
+  const handleFileInputError = e => {
+    const { detail } = e;
+
+    // The detail object contains the error message from the web component
+    if (detail && detail.error) {
+      // Just use the error message from va-file-input directly
+      handleDocumentError(detail.error);
+    }
+  };
 
   return (
     <>
@@ -25,6 +36,7 @@ const DocumentUpload = ({
         minFileSize={0}
         name="travel-pay-claim-document-upload"
         onVaChange={handleDocumentChange}
+        onVaFileInputError={handleFileInputError}
         required
         error={errorMessage}
         value={currentDocument}
@@ -43,6 +55,7 @@ const DocumentUpload = ({
 DocumentUpload.propTypes = {
   currentDocument: PropTypes.object,
   handleDocumentChange: PropTypes.func,
+  handleDocumentError: PropTypes.func,
   uploadError: PropTypes.string,
 };
 
