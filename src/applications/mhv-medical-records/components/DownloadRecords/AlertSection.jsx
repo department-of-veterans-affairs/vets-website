@@ -54,19 +54,29 @@ const AlertSection = ({
     (failedSeiDomains?.length ?? 0) === SEI_DOMAINS.length;
   const hasSeiAccessError = allSeiDomainsFailed || seiPdfGenerationError;
 
+  // Determine which alert should receive focus (priority order)
+  const showCcdSuccess =
+    showCcdAlerts && ccdDownloadSuccess && !ccdError && !CCDRetryTimestamp;
+  const showSeiSuccess =
+    showSeiAlerts &&
+    successfulSeiDownload === true &&
+    (failedSeiDomains?.length ?? 0) !== SEI_DOMAINS.length;
+
+  // Determine focusId based on priority - CCD success takes priority over SEI
+  const ccdFocusId = showCcdSuccess ? 'ccd-download-success' : undefined;
+  const seiFocusId =
+    showSeiSuccess && !showCcdSuccess ? 'sei-download-success' : undefined;
+
   return (
     <>
       {/* 1. CCD download success alert (only if no CCD retry error and no ccdError) */}
-      {showCcdAlerts &&
-        ccdDownloadSuccess &&
-        !ccdError &&
-        !CCDRetryTimestamp && (
-          <DownloadSuccessAlert
-            type="Continuity of Care Document download"
-            className="vads-u-margin-bottom--1"
-            focusId="ccd-download-success"
-          />
-        )}
+      {showCcdSuccess && (
+        <DownloadSuccessAlert
+          focusId={ccdFocusId}
+          type="Continuity of Care Document download"
+          className="vads-u-margin-bottom--1"
+        />
+      )}
 
       {/* 2. Access errors: CCD retry error takes priority over SEI access error (only one shows) */}
       {showCcdAlerts &&
@@ -119,6 +129,7 @@ const AlertSection = ({
               />
             )}
             <DownloadSuccessAlert
+              focusId={seiFocusId}
               type="Self-entered health information report download"
               className="vads-u-margin-bottom--1"
             />

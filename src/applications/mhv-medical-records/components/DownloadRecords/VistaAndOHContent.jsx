@@ -81,7 +81,7 @@ const VistaAndOHContent = () => {
         seiPdfGenerationError={seiPdfGenerationError}
         successfulSeiDownload={successfulSeiDownload}
       />
-      <p className="vads-u-margin--0">
+      <p>
         This report includes all the health information you entered yourself in
         the previous version of My HealtheVet.
       </p>

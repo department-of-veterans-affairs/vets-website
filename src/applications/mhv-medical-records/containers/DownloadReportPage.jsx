@@ -149,6 +149,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
       return () => {
         dispatch({ type: Actions.Downloads.BB_CLEAR_ALERT });
+        dispatch({ type: Actions.Downloads.CCD_CLEAR_ALERT });
       };
     },
     [dispatch],
