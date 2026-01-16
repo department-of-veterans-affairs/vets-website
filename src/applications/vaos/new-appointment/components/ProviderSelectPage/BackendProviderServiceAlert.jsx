@@ -65,8 +65,9 @@ function BackendProviderServiceAlert({
             className="vads-u-margin-top--3"
           >
             <p>
-              You can request your preferred date and time online. We'll contact
-              you to help you finish scheduling your appointment.
+              You can request your preferred date and time online. We’ll contact
+              you within 2 business days after we receive your request to help
+              you finish scheduling your appointment.
             </p>
 
             <RequestAppointmentLink pageKey={pageKey} />
