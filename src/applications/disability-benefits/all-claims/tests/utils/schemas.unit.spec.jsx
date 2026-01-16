@@ -4,7 +4,6 @@ import {
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
   makeSchemaForAllDisabilities,
-  makeSchemaForTreatedDisabilityNames,
 } from '../../utils/schemas';
 
 describe('makeSchemaForNewDisabilities', () => {
@@ -135,6 +134,78 @@ describe('makeSchemaForRatedDisabilities', () => {
       },
     });
   });
+
+  it('should include rated disabilities from newDisabilities array', () => {
+    const formData = {
+      ratedDisabilities: [],
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Tinnitus',
+        },
+      ],
+    };
+
+    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        tinnitus: {
+          title: 'Tinnitus',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
+  
+  it('should deduplicate rated disabilities across workflows', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes mellitus',
+          'view:selected': true,
+        },
+        {
+          name: 'Tachycardia',
+          'view:selected': true,
+        },
+      ],
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Diabetes mellitus',
+        }, 
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Ptsd personal trauma',
+        },
+      ],
+    };
+
+    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        diabetesmellitus: {
+          title: 'Diabetes Mellitus',
+          type: 'boolean',
+        },
+        ptsdpersonaltrauma: {
+          title: 'Ptsd Personal Trauma',
+          type: 'boolean',
+        },
+        tachycardia: {
+          title: 'Tachycardia',
+          type: 'boolean',
+        },
+      },
+    });
+  });
 });
 
 describe('makeSchemaForAllDisabilities', () => {
@@ -168,129 +239,6 @@ describe('makeSchemaForAllDisabilities', () => {
         },
         anewcondition: {
           title: 'A New Condition.',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-});
-
-describe('makeSchemaForTreatedDisabilityNames', () => {
-  it('should include rated disabilities with view:selected flag', () => {
-    const formData = {
-      ratedDisabilities: [
-        {
-          name: 'Ptsd personal trauma',
-          'view:selected': false,
-        },
-        {
-          name: 'Diabetes mellitus',
-          'view:selected': true,
-        },
-      ],
-      newDisabilities: [],
-    };
-
-    expect(makeSchemaForTreatedDisabilityNames(formData)).to.eql({
-      properties: {
-        diabetesmellitus: {
-          title: 'Diabetes Mellitus',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-
-  it('should include rated disabilities from newDisabilities array', () => {
-    const formData = {
-      ratedDisabilities: [],
-      newDisabilities: [
-        {
-          condition: 'Rated Disability',
-          ratedDisability: 'Tinnitus',
-        },
-      ],
-    };
-
-    expect(makeSchemaForTreatedDisabilityNames(formData)).to.eql({
-      properties: {
-        tinnitus: {
-          title: 'Tinnitus',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-
-  it('should include new conditions', () => {
-    const formData = {
-      ratedDisabilities: [],
-      newDisabilities: [
-        {
-          condition: 'wrist fracture',
-          sideOfBody: 'LEFT',
-        },
-        {
-          condition: 'Tinnitus',
-        },
-      ],
-    };
-
-    expect(makeSchemaForTreatedDisabilityNames(formData)).to.eql({
-      properties: {
-        wristfractureleft: {
-          title: 'Wrist Fracture, Left',
-          type: 'boolean',
-        },
-        tinnitus: {
-          title: 'Tinnitus',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-
-  it('should aggregate and deduplicate rated disabilities and new conditions', () => {
-    const formData = {
-      ratedDisabilities: [
-        {
-          name: 'Ptsd personal trauma',
-          'view:selected': false,
-        },
-        {
-          name: 'Diabetes mellitus',
-          'view:selected': true,
-        },
-      ],
-      newDisabilities: [
-        {
-          condition: 'diabetes mellitus',
-        },
-        {
-          condition: 'wrist fracture',
-        },
-        {
-          condition: 'Ptsd personal trauma',
-        },
-        {
-          condition: 'Rated Disability',
-          ratedDisability: 'Diabetes mellitus',
-        },
-      ],
-    };
-
-    expect(makeSchemaForTreatedDisabilityNames(formData)).to.eql({
-      properties: {
-        diabetesmellitus: {
-          title: 'Diabetes Mellitus',
-          type: 'boolean',
-        },
-        ptsdpersonaltrauma: {
-          title: 'Ptsd Personal Trauma',
-          type: 'boolean',
-        },
-        wristfracture: {
-          title: 'Wrist Fracture',
           type: 'boolean',
         },
       },

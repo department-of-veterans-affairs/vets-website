@@ -19,7 +19,6 @@ import {
   MILITARY_CITIES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_VALUES,
-  NEW_CONDITION_OPTION,
   STATE_LABELS,
   STATE_VALUES,
   MAX_FILE_SIZE_BYTES,
@@ -32,6 +31,7 @@ import {
   capitalizeEachWord,
   disabilityIsSelected,
   isClaimingIncrease,
+  isNewConditionOption,
   isPlaceholderRated,
   pathWithIndex,
   sippableId,
@@ -104,80 +104,28 @@ export const makeSchemaForNewDisabilities = createSelector(
  * Increase claim type
  */
 export const makeSchemaForRatedDisabilities = createSelector(
-  formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
-  (ratedDisabilities = []) => ({
-    properties: ratedDisabilities
-      .filter(disabilityIsSelected)
-      .map(disability => disability.name)
-      .reduce(createCheckboxSchema, {}),
-  }),
-);
+  formData => isClaimingIncrease(formData) ? formData.ratedDisabilities : [],
+  formData =>
+    Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
 
-/**
- * Dynamically creates the checkbox schema for new conditions and/or rated
- * disabilities, based on the claim type user has selected
- */
-export const makeSchemaForAllDisabilities = createSelector(
-  makeSchemaForNewDisabilities,
-  makeSchemaForRatedDisabilities,
-  (newDisabilitiesSchema, ratedDisabilitiesSchema) =>
-    merge({}, newDisabilitiesSchema, ratedDisabilitiesSchema),
-);
-
-/**
- * Dynamically creates the checkbox schema for new conditions and/or rated
- * disabilities treated at VA or a private provier
- */
-export const makeSchemaForTreatedDisabilityNames = createSelector(
-  formData => {
-    const ratedDisabilities = Array.isArray(formData.ratedDisabilities)
-      ? formData.ratedDisabilities
-      : [];
-
-    const newDisabilities = Array.isArray(formData.newDisabilities)
-      ? formData.newDisabilities
-      : [];
-
-    return { ratedDisabilities, newDisabilities };
-  },
-
-  ({ ratedDisabilities, newDisabilities }) => {
-    const normalize = val => (typeof val === 'string' ? val.trim() : '');
-
+  (ratedDisabilities = [], newDisabilities = []) => {
     // rated disabilities from the current workflow (view:selected)
     const fromRatedDisabilities = ratedDisabilities
-      .filter(d => d && d['view:selected'])
-      .map(d => normalize(d.name))
-      .filter(d => d.length > 0);
+      .filter(disabilityIsSelected)
+      .map(disability => disability.name);
 
-    // conditions and rated disabilities found in newDisabilities
-    // (in the new workflow, rated disabilities are included in this array)
+    // rated disabilities from the v2 workflow (stored in the newDisabilities array)
     const fromNewDisabilities = newDisabilities
-      .filter(d => d && typeof d === 'object')
       .map(d => {
-        const condition = normalize(d.condition);
-        const side = normalize(d.sideOfBody);
-        const ratedDisability = normalize(d.ratedDisability);
+        const condition = typeof d?.condition === 'string' ? d.condition.trim() : '';
+        const ratedDisability = typeof d?.ratedDisability === 'string' ? d.ratedDisability.trim() : '';
 
-        if (!condition) {
-          return '';
-        }
-
-        if (
-          ratedDisability &&
-          condition === 'Rated Disability' &&
-          ratedDisability !== NEW_CONDITION_OPTION
-        ) {
+        if (condition && ratedDisability && isPlaceholderRated(condition) && !isNewConditionOption(ratedDisability)) {
           return ratedDisability;
         }
-
-        if (side) {
-          return `${condition}, ${side.toLowerCase()}`;
-        }
-
-        return condition;
+        return '';
       })
-      .filter(d => d.length > 0);
+      .filter(s => s.length > 0);
 
     // combine and deduplicate
     const combined = [...fromRatedDisabilities, ...fromNewDisabilities];
@@ -194,6 +142,17 @@ export const makeSchemaForTreatedDisabilityNames = createSelector(
 
     return { properties };
   },
+);
+
+/**
+ * Dynamically creates the checkbox schema for new conditions and/or rated
+ * disabilities, based on the claim type user has selected
+ */
+export const makeSchemaForAllDisabilities = createSelector(
+  makeSchemaForNewDisabilities,
+  makeSchemaForRatedDisabilities,
+  (newDisabilitiesSchema, ratedDisabilitiesSchema) =>
+    merge({}, newDisabilitiesSchema, ratedDisabilitiesSchema),
 );
 
 /**
