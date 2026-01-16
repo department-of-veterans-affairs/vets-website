@@ -1,0 +1,55 @@
+.copy-button-container {
+  display: inline-flex;
+  color: var(--vads-color-primary) !important;
+  width: 113px; //Needed so that the button text updates (or error state) don't make the buttons shift
+
+  .copy-button {
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    outline-offset: 1px;
+    font-size: 1rem;
+    justify-content: normal;
+    background-color: transparent;
+    color: var(--vads-color-primary) !important;
+    max-width: fit-content;
+    max-height: fit-content;
+
+    &:hover, &:active {
+      background-color: var(--vads-color-primary-lighter);
+      color: var(--vads-color-primary-darklink);
+    }
+
+    &:focus, &:active {
+      outline: 2px solid var(--vads-color-action-focus-on-light);
+    }
+
+    span {
+      margin-left: 0.2rem;
+    }
+  }
+}
+
+.copy-error {
+  color: var(--vads-color-error);
+  font-size: 0.95rem;
+  padding: 0.145rem 0;
+  margin-left: .35rem;
+  display: flex;
+  align-items: center;
+}
+
+// Screen reader only class
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
