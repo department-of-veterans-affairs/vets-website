@@ -20,7 +20,7 @@ const SCHEMA_LABELS = {
 export default {
   uiSchema: {
     ...titleWithNameUI(TITLE_TEXT),
-    'view:beneficiaryAgeOver65': yesNoUI({
+    'view:applicantAgeOver65': yesNoUI({
       title: INPUT_LABEL,
       hint: HINT_TEXT,
       labels: SCHEMA_LABELS,
@@ -29,9 +29,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['view:beneficiaryAgeOver65'],
+    required: ['view:applicantAgeOver65'],
     properties: {
-      'view:beneficiaryAgeOver65': yesNoSchema,
+      'view:applicantAgeOver65': yesNoSchema,
       'view:addtlInfo': blankSchema,
     },
   },

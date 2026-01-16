@@ -53,7 +53,7 @@ const CategorySelectPage = props => {
           ...formData.requireSignInLogic,
           category: false,
         },
-        contactPreferences: null,
+        contactPreferences: [],
       });
       return;
     }
