@@ -72,6 +72,8 @@ describe('Account Number Validation', () => {
       mebBankInfoConfirmationField: true,
       'view:directDeposit': {
         bankAccount: {
+          routingNumber: '*****0021',
+          originalRoutingNumber: '*****0021',
           originalAccountNumber: '*****1234',
         },
       },
@@ -82,6 +84,28 @@ describe('Account Number Validation', () => {
     validateAccountNumber(
       errors,
       '*****5678',
+      formData,
+      directDeposit.schema.properties['view:directDeposit'].properties
+        .bankAccount.properties.accountNumber.pattern,
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
+        'ui:errorMessages'
+      ],
+    );
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Please enter a valid 5-17 digit bank account number',
+    );
+  });
+
+  // User must update both routing number and account number fully if they only update unmasked portion of either
+  it('should show error when routing number contains asterisks and does not match the original masked number', () => {
+    formData['view:directDeposit'].bankAccount.originalRoutingNumber =
+      '*****2456';
+
+    validateAccountNumber(
+      errors,
+      '*****1234',
       formData,
       directDeposit.schema.properties['view:directDeposit'].properties
         .bankAccount.properties.accountNumber.pattern,
@@ -138,7 +162,9 @@ describe('Routing Number Validation', () => {
       mebBankInfoConfirmationField: true,
       'view:directDeposit': {
         bankAccount: {
-          originalRoutingNumber: '*****1234',
+          accountNumber: '*****1234',
+          originalAccountNumber: '*****1234',
+          originalRoutingNumber: '*****0021',
         },
       },
     };
@@ -162,10 +188,32 @@ describe('Routing Number Validation', () => {
     );
   });
 
+  // User must update both routing number and account number fully if they only update unmasked portion of either
+  it('should show error when account number contains asterisks and does not match the original masked number', () => {
+    formData['view:directDeposit'].bankAccount.originalRoutingNumber =
+      '*****2456';
+
+    validateAccountNumber(
+      errors,
+      '*****1234',
+      formData,
+      directDeposit.schema.properties['view:directDeposit'].properties
+        .bankAccount.properties.accountNumber.pattern,
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
+        'ui:errorMessages'
+      ],
+    );
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Please enter a valid 5-17 digit bank account number',
+    );
+  });
+
   it('should not show error when routing number matches the original masked number', () => {
     validateRoutingNumber(
       errors,
-      '*****1234',
+      '*****0021',
       formData,
       directDeposit.schema.properties['view:directDeposit'].properties
         .bankAccount.properties.routingNumber.pattern,

@@ -62,8 +62,8 @@ const isValidAccountNumber = accountNumber => {
   return /^[a-z0-9]+$/.test(accountNumber);
 };
 
-// Returns an error if the user only updates the unobfuscated digits of their account number
-// In such a scenario, they should either enter the full account number or leave it unchanged
+// Returns an error if the user only updates the unobfuscated digits of their account number OR routing number
+// In such a scenario, they should either enter the full account number and routing number, or leave them unchanged
 export const validateAccountNumber = (
   errors,
   accountNumber,
@@ -79,16 +79,19 @@ export const validateAccountNumber = (
   const bankAccount = formData['view:directDeposit']?.bankAccount;
   const matchesOriginal =
     accountNumber.trim() === bankAccount.originalAccountNumber;
+  const routingNumberMatchesOriginal =
+    bankAccount.routingNumber === bankAccount.originalRoutingNumber;
+
   if (
     !isValidAccountNumber(accountNumber) &&
-    !(isValidObfuscated && matchesOriginal)
+    !(isValidObfuscated && matchesOriginal && routingNumberMatchesOriginal)
   ) {
     errors.addError(errorMessages.pattern);
   }
 };
 
-// Returns an error if the user only updates the unobfuscated digits of their routing number
-// In such a scenario, they should either enter the full routing number or leave it unchanged
+// Returns an error if the user only updates the unobfuscated digits of their routing number OR account number
+// In such a scenario, they should either enter the full routing number and account number, or leave them unchanged
 export const validateRoutingNumber = (
   errors,
   routingNumber,
@@ -104,9 +107,12 @@ export const validateRoutingNumber = (
   const bankAccount = formData['view:directDeposit']?.bankAccount;
   const matchesOriginal =
     routingNumber.trim() === bankAccount.originalRoutingNumber;
+  const accountNumberMatchesOriginal =
+    bankAccount.accountNumber === bankAccount.originalAccountNumber;
+
   if (
     !isValidRoutingNumber(routingNumber) &&
-    !(isValidObfuscated && matchesOriginal)
+    !(isValidObfuscated && matchesOriginal && accountNumberMatchesOriginal)
   ) {
     errors.addError(errorMessages.pattern);
   }
