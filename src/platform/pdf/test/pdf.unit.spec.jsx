@@ -12,6 +12,10 @@ const { expect } = chai;
 // Workaround for pdf.js incompatibility.
 // cf. https://github.com/mozilla/pdf.js/issues/15728
 const originalPlatform = navigator.platform;
+Object.defineProperty(navigator, 'platform', {
+  value: 'Linux',
+  configurable: true,
+});
 const pdfjs = require('pdfjs-dist/legacy/build/pdf');
 
 let fileSaverMock = {};
