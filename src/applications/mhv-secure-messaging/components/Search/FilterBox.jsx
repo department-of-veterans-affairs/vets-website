@@ -59,6 +59,10 @@ const FilterBox = forwardRef((props, ref) => {
     let formInvalid;
     const invalidInputs = [];
     if (dateRange === 'custom') {
+      // Clear error states first, then set only for invalid fields
+      setFromDateError('');
+      setToDateError('');
+
       if (!isValidDateValue(fromDate)) {
         formInvalid = true;
         setFromDateError(ErrorMessages.SearchForm.START_DATE_REQUIRED);
@@ -79,16 +83,7 @@ const FilterBox = forwardRef((props, ref) => {
         setToDateError(ErrorMessages.SearchForm.END_DATE_BEFORE_START_DATE);
         invalidInputs.push(fromDateRef);
       }
-      if (
-        isValidDateValue(fromDate) &&
-        isValidDateValue(toDate) &&
-        moment(fromDate).isBefore(toDate)
-      ) {
-        formInvalid = false;
-        setFromDateError('');
-        setToDateError('');
-      }
-      if (parseInt(toDate.substring(0, 4), 10) > today.getFullYear()) {
+      if (parseInt(toDate?.substring(0, 4), 10) > today.getFullYear()) {
         formInvalid = true;
         setToDateError(
           ErrorMessages.SearchForm.END_YEAR_GREATER_THAN_CURRENT_YEAR,
