@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { resetFetch } from '~/platform/testing/unit/helpers';
 import environment from '~/platform/utilities/environment';
@@ -332,19 +332,14 @@ const mocks = [
 ];
 
 describe('fetchConfirmedFutureAppointments', () => {
-  let server;
   before(() => {
     // before we can use msw, we need to make sure that global.fetch has been
     // restored and is no longer a sinon stub.
     resetFetch();
-    server = setupServer(...mocks);
-    server.listen();
+    server.use(...mocks);
   });
   afterEach(() => {
     server.resetHandlers();
-  });
-  after(() => {
-    server.close();
   });
   it('correctly adds a timezone offset to the start date/time of appointments and filters out past appointments', async () => {
     const dispatch = sinon.spy();

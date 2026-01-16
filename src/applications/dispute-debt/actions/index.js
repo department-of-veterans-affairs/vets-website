@@ -66,6 +66,7 @@ export const fetchDebts = async dispatch => {
       compositeDebtId: debt.compositeDebtId,
       label: getDebtLabel(debt),
       submitted: debt.submitted || false,
+      submissionDate: debt.submissionDate || '',
       description: getDebtDescription(debt),
       debtType: DEBT_TYPES.DEBT,
       deductionCode: debt.deductionCode,

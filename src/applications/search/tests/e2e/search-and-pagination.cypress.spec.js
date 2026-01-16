@@ -223,7 +223,7 @@ describe('Global search', () => {
         '/health-care/health-needs-conditions/military-sexual-trauma/',
       );
 
-      verifyResultsLink('About VA Form SF180', '/find-forms/about-form-sf180/');
+      verifyResultsLink('About VA Form SF180', '/forms/sf180/');
     });
 
     cy.axeCheck();

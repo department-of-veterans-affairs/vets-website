@@ -3,8 +3,8 @@ import {
   createGetHandler,
   jsonResponse,
   networkError,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import {
   isClientError,
   isServerError,
@@ -31,15 +31,6 @@ describe('Utilities', () => {
 });
 
 describe('getData', () => {
-  const server = setupServer();
-
-  before(() => {
-    server.listen();
-  });
-  after(() => {
-    server.close();
-  });
-
   it('should succeed', async () => {
     server.use(
       createGetHandler(`https://dev-api.va.gov/v0/some/api-route`, () =>
