@@ -4,7 +4,7 @@ import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fie
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { hasVAEvidence } from '../utils';
-import { makeSchemaForTreatedDisabilityNames } from '../utils/schemas';
+import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
 import { formatDate } from '../utils/dates';
@@ -57,7 +57,7 @@ export const uiSchema = {
           'Choose the conditions you got treatment for at this facility.',
         'ui:webComponentField': VaCheckboxGroupField,
         'ui:options': {
-          updateSchema: makeSchemaForTreatedDisabilityNames,
+          updateSchema: makeSchemaForAllDisabilities,
           itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
         },

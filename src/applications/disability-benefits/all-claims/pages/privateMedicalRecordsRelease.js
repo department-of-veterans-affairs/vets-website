@@ -15,7 +15,7 @@ import {
   limitedConsentDescription,
 } from '../content/privateMedicalRecordsRelease';
 import { isCompletingForm0781 } from '../utils/form0781';
-import { makeSchemaForTreatedDisabilityNames } from '../utils/schemas';
+import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { standardTitle } from '../content/form0781';
 import { isCompletingModern4142 } from '../utils';
 
@@ -81,7 +81,7 @@ export const uiSchema = {
         'ui:title': 'What conditions were you treated for?',
         'ui:webComponentField': VaCheckboxGroupField,
         'ui:options': {
-          updateSchema: makeSchemaForTreatedDisabilityNames,
+          updateSchema: makeSchemaForAllDisabilities,
           itemAriaLabel: data => data.treatmentCenterName,
           showFieldLabel: true,
           hideIf: formData => !isCompletingModern4142(formData),
