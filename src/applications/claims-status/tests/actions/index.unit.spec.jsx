@@ -5,8 +5,8 @@ import {
   createGetHandler,
   createPostHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import * as constants from '../../constants';
 
 import {
@@ -61,17 +61,9 @@ describe('Actions', () => {
     });
   });
   describe('submit5103', () => {
-    const server = setupServer();
-
-    before(() => {
-      server.listen();
-    });
-
     afterEach(() => {
       server.resetHandlers();
     });
-
-    after(() => server.close());
 
     // TODO: This test has been simplified due to Node 22 compatibility issues.
     // Original test expected 3 dispatches: SUBMIT_DECISION_REQUEST, SET_DECISION_REQUESTED, and SET_NOTIFICATION
@@ -230,6 +222,9 @@ describe('Actions', () => {
         .then(done, done);
     });
     it('dispatches SET_CLAIMS_UNAVAILABLE', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.reject(new Error('Network error')));
       const thunk = getClaim(1);
       const dispatch = sinon.spy();
       thunk(dispatch)
@@ -237,6 +232,7 @@ describe('Actions', () => {
           const action = dispatch.secondCall.args[0];
           expect(action.type).to.equal(SET_CLAIMS_UNAVAILABLE);
         })
+        .then(() => apiStub.restore())
         .then(done, done);
     });
     it('navigates to `/your-claims` when errors on 404 ', done => {
@@ -403,17 +399,9 @@ describe('Actions', () => {
   });
 
   describe('getStemClaims', () => {
-    const server = setupServer();
-
-    before(() => {
-      server.listen({ onUnhandledRequest: 'bypass' });
-    });
-
     afterEach(() => {
       server.resetHandlers();
     });
-
-    after(() => server.close());
 
     it('should fetch stem claims when canUseMocks true', done => {
       const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);

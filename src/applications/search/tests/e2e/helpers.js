@@ -10,7 +10,6 @@ export const SELECTORS = {
   TYPEAHEAD_DROPDOWN: '#va-search-listbox',
   TYPEAHEAD_OPTIONS: '#va-search-listbox li',
   ERROR_ALERT_BOX: '[data-e2e-id="alert-box"]',
-  MAINT_BOX: '[banner-id="search-gov-maintenance-banner"]',
   OUTAGE_BOX: 'va-banner',
   PAGINATION: 'va-pagination',
   HEADER_SEARCH_TRIGGER: 'button.sitewide-search-drop-down-panel-button',
