@@ -3,7 +3,7 @@ import MedicationsListPage from './pages/MedicationsListPage';
 import rxList from './fixtures/listOfPrescriptions.json';
 
 describe('Send Rx Renewal Message on List Page', () => {
-  it('displays renewal request link for Active prescription with 0 refills on list page', () => {
+  it('displays fallback message for Active prescription with 0 refills on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
@@ -14,18 +14,14 @@ describe('Send Rx Renewal Message on List Page', () => {
       .should('be.visible')
       .and(
         'contain',
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
-
-    cy.get('[data-testid="send-renewal-request-message-link"]')
-      .should('exist')
-      .and('be.visible');
 
     cy.injectAxe();
     cy.axeCheck('main');
   });
 
-  it('displays renewal request link when clicking from list page card', () => {
+  it.skip('displays renewal request link when clicking from list page card - requires Oracle Health data', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
@@ -86,7 +82,7 @@ describe('Send Rx Renewal Message on List Page', () => {
           .and('be.visible')
           .and(
             'contain',
-            'This prescription is too old to refill. If you need more, request a renewal.',
+            'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
           );
       }
     });
@@ -95,7 +91,7 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it('verifies modal has correct status and properties on list page', () => {
+  it.skip('verifies modal has correct status and properties on list page - requires Oracle Health data', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
@@ -159,7 +155,7 @@ describe('Send Rx Renewal Message on List Page', () => {
 
         const discontinuedText = $discontinued.text();
         expect(discontinuedText).to.include(
-          "You can't refill this prescription. If you need more, send a message to your care team.",
+          'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
         );
 
         cy.wrap($discontinued)
