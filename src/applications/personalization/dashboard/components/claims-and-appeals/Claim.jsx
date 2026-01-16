@@ -12,8 +12,6 @@ import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting
 
 import CTALink from '../CTALink';
 
-// This component file is for the current dashboard experience
-
 const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
@@ -35,7 +33,7 @@ const claimInfo = claim => {
   };
 };
 
-const ClaimLegacy = ({ claim }) => {
+const Claim = ({ claim }) => {
   if (!claim.attributes) {
     throw new TypeError(
       '`claim` prop is malformed; it should have an `attributes` property.',
@@ -91,8 +89,8 @@ const ClaimLegacy = ({ claim }) => {
   );
 };
 
-ClaimLegacy.propTypes = {
+Claim.propTypes = {
   claim: PropTypes.object.isRequired,
 };
 
-export default ClaimLegacy;
+export default Claim;

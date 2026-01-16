@@ -14,8 +14,6 @@ import { getStatusContents } from '../../utils/getStatusContents';
 
 import CTALink from '../CTALink';
 
-// This component file is for the current dashboard experience
-
 const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
@@ -29,7 +27,7 @@ const handleViewAppeal = () => {
   });
 };
 
-const AppealLegacy = ({ appeal, name }) => {
+const Appeal = ({ appeal, name }) => {
   if (!appeal.attributes) {
     throw new TypeError(
       '`appeal` prop is malformed; it should have an `attributes` property.',
@@ -135,9 +133,9 @@ const AppealLegacy = ({ appeal, name }) => {
   );
 };
 
-AppealLegacy.propTypes = {
+Appeal.propTypes = {
   appeal: PropTypes.object.isRequired,
   name: PropTypes.string,
 };
 
-export default AppealLegacy;
+export default Appeal;
