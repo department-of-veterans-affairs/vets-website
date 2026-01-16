@@ -12,7 +12,7 @@ const props = {
     formConfig,
   },
   userLoggedIn: false,
-  userIdVerified: true,
+  userIdVerified: false,
 };
 
 const mockStore = {
@@ -64,5 +64,16 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect(container).to.exist;
+  });
+  it('should not show link to start form if user is not logged in', () => {
+    const { queryByText, findByText } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect(findByText('Sign in to start your application')).to.exist;
+    expect(queryByText('Start your application without signing in')).to.not
+      .exist;
+    expect(findByText('Learn about creating an account')).to.exist;
   });
 });
