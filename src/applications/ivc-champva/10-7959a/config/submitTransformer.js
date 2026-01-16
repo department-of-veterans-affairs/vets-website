@@ -2,7 +2,6 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { adjustYearString, concatStreets } from '../../shared/utilities';
-import { isNewClaim } from '../utils/helpers';
 import { ID_NUMBER_OPTIONS } from '../chapters/resubmission';
 
 function getPrimaryContact(data) {
@@ -99,7 +98,7 @@ export default function transformForSubmit(
 
   if (!disableAnalytics) {
     const getEventName = () => {
-      if (isNewClaim(copyOfData)) return '10-7959a_new_claim';
+      if (copyOfData.claimStatus === 'new') return '10-7959a_new_claim';
       if (copyOfData.pdiOrClaimNumber === ID_NUMBER_OPTIONS[1]) {
         return '10-7959a_reopen_claim_control_number';
       }
