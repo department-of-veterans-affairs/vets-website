@@ -43,12 +43,12 @@ import {
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
-
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
@@ -71,6 +71,7 @@ class Profile extends Component {
       togglesLoaded,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
+
     if (isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
@@ -402,9 +403,14 @@ const mapDispatchToProps = {
     dispatchConnectDrupalSourceOfTruthCerner,
 };
 
+const ProfileWithMonitoring = props => {
+  useBrowserMonitoring();
+  return <Profile {...props} />;
+};
+
 export { Profile as ProfileUnconnected, mapStateToProps };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Profile);
+)(ProfileWithMonitoring);
