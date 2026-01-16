@@ -12,8 +12,8 @@ import {
 const initialState = {
   loading: true, // app starts in loading state
   error: null,
-  onAwardDependents: null,
-  notOnAwardDependents: null,
+  onAwardDependents: [],
+  notOnAwardDependents: [],
 };
 
 let allPeople = null;
@@ -53,6 +53,7 @@ function allDependents(state = initialState, action) {
           notOnAwardDependents: allPeople.notOnAward,
         };
       }
+      // API succeeded but no dependents
       return {
         ...state,
         loading: false,
