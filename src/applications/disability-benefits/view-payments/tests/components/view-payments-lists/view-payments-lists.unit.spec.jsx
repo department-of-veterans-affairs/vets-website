@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { waitFor } from '@testing-library/react';
@@ -21,7 +21,6 @@ import {
 } from '../../helpers';
 
 describe('View Payments Lists', () => {
-  let server;
   const overrideServerWithOptions = payload => {
     server.use(
       createGetHandler(
@@ -37,8 +36,8 @@ describe('View Payments Lists', () => {
     );
   };
 
-  before(() => {
-    server = setupServer(
+  beforeEach(() => {
+    server.use(
       createGetHandler(
         `${environment.API_URL}/v0/profile/payment_history`,
         () =>
@@ -50,10 +49,7 @@ describe('View Payments Lists', () => {
           }),
       ),
     );
-    server.listen();
   });
-  afterEach(() => server.resetHandlers());
-  after(() => server.close());
 
   it('renders View Payments Lists component with both tables', async () => {
     const initialState = {

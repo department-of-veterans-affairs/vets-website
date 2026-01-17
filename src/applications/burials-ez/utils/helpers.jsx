@@ -168,3 +168,14 @@ DateReviewField.propTypes = {
 
 export const showPdfFormAlignment = () =>
   window.sessionStorage.getItem('showPdfFormAlignment') === 'true';
+
+export const maskBankInformation = (string, unmaskedLength) => {
+  if (!string) {
+    return '';
+  }
+  const repeatCount =
+    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+  const maskedPart = '●'.repeat(repeatCount);
+  const unmaskedPart = string.slice(-unmaskedLength);
+  return `${maskedPart}${unmaskedPart}`;
+};

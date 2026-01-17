@@ -57,6 +57,10 @@ const ProcessList = () => {
             </ul>
           </li>
           <li>Are housebound (because of permanent disability)</li>
+          <li>
+            Are a Veteran, and your spouse is in need of regular aid and
+            attendance
+          </li>
         </ul>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
@@ -151,6 +155,7 @@ export const IntroductionPage = ({ route }) => {
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
+          verifiedPrefillAlert={<></>}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start your application"

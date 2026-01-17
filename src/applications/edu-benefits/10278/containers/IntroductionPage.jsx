@@ -51,18 +51,27 @@ export const IntroductionPage = props => {
           have already released based on your authorization.
         </li>
       </ul>
-
-      <SaveInProgressIntro
-        hideUnauthedStartLink={!userLoggedIn}
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        formConfig={route.formConfig}
-        pageList={pageList}
-        startText="Start your Authorization to disclose personal information"
-        unauthStartText="Sign in or create an account"
-      />
-      <p />
+      <div className="vads-u-margin-y--4">
+        {!userLoggedIn ? (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            formConfig={formConfig}
+            pageList={pageList}
+            startText="Start your Authorization to disclose personal information"
+            unauthStartText="Sign in or create an account"
+          />
+        ) : (
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            formConfig={formConfig}
+            pageList={pageList}
+            startText="Start your Authorization to disclose personal information"
+          />
+        )}
+      </div>
 
       <div
         className={userLoggedIn ? 'vads-u-margin-top--4' : ''}
@@ -86,6 +95,7 @@ IntroductionPage.propTypes = {
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  toggleLoginModal: PropTypes.func,
 };
 
 export default IntroductionPage;
