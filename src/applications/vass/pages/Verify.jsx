@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
+import { useDispatch } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 import { usePostAuthenticationMutation } from '../redux/api/vassApi';
+import { clearFormData } from '../redux/slices/formSlice';
+import { URLS } from '../utils/constants';
 
 const getPageTitle = (cancellationFlow, verificationError) => {
   if (verificationError) {
@@ -17,6 +20,7 @@ const getPageTitle = (cancellationFlow, verificationError) => {
 
 const Verify = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
 
   // Check for cancel=true URL parameter to initiate cancellation flow
@@ -25,6 +29,14 @@ const Verify = () => {
   if (!uuid) {
     // TODO: route to the "Something went wrong" page
   }
+
+  // Ensures a fresh start when landing on Verify page
+  useEffect(
+    () => {
+      dispatch(clearFormData());
+    },
+    [dispatch],
+  );
 
   const [lastname, setLastname] = useState('');
   const [dob, setDob] = useState('');
@@ -83,7 +95,7 @@ const Verify = () => {
       setAttemptCount(count => count + 1);
       return;
     }
-    let otcRoute = '/enter-otc';
+    let otcRoute = URLS.ENTER_OTC;
     if (cancellationFlow) {
       otcRoute += '?cancel=true';
     }

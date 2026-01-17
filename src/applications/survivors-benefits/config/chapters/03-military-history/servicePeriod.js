@@ -22,10 +22,7 @@ export default {
         required: 'Select a branch',
       },
       'ui:options': {
-        labels: Object.keys(servicesOptions).map(key => ({
-          value: key,
-          label: servicesOptions[key],
-        })),
+        labels: servicesOptions,
       },
     },
     activeServiceDateRange: currentOrPastDateRangeUI(
@@ -49,10 +46,7 @@ export default {
     properties: {
       serviceBranch: {
         type: 'string',
-        enum: Object.keys(servicesOptions),
-        enumNames: Object.keys(servicesOptions).map(
-          key => servicesOptions[key],
-        ),
+        enum: Object.entries(servicesOptions).map(key => key[0]),
       },
       activeServiceDateRange: {
         type: 'object',
