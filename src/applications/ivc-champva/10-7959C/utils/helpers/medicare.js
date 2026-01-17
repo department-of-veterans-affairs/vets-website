@@ -16,7 +16,7 @@ export const hasPartsABorC = formData =>
   (hasMedicare(formData) && hasPartsAB(formData)) || hasPartC(formData);
 
 export const hasPartD = formData =>
-  hasMedicare(formData) && hasPartsABorC(formData) && formData.hasMedicarePartD;
+  hasMedicare(formData) && formData.medicarePartDStatus;
 
 export const needsPartADenialNotice = formData =>
   hasPartB(formData) ||
