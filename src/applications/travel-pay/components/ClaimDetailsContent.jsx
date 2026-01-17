@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
+import { selectAppointment } from '../redux/selectors';
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK, BTSSS_PORTAL_URL } from '../constants';
@@ -23,7 +25,6 @@ export default function ClaimDetailsContent({
   claimStatus,
   claimNumber,
   claimId,
-  appointment,
   appointmentDate: appointmentDateTime,
   facilityName,
   modifiedOn,
@@ -35,7 +36,8 @@ export default function ClaimDetailsContent({
   claimSource,
 }) {
   useSetPageTitle('Travel Reimbursement Claim Details');
-  const { id: appointmentId } = appointment;
+  const appointment = useSelector(selectAppointment);
+  const appointmentId = appointment?.data?.id;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
@@ -57,9 +59,14 @@ export default function ClaimDetailsContent({
   const showDecisionReason =
     decisionLetterReason && claimsMgmtDecisionReasonToggle;
 
-  // Claim requires BTSSS if: 1) Started in BTSSS OR 2) Has unassociated docs
+  // Claim requires BTSSS if:
+  // 1) Started in BTSSS OR
+  // 2) Has unassociated docs OR
+  // 3) Has a problem getting the appointment ID from getAppointmentDataByDateTime
   const requiresBTSSS =
-    claimSource !== 'VaGov' || hasUnassociatedDocuments(documents);
+    claimSource !== 'VaGov' ||
+    hasUnassociatedDocuments(documents) ||
+    !appointmentId;
 
   // Condition for showing any claim action link (BTSSS or VA.gov)
   const shouldShowClaimAction =
@@ -236,7 +243,7 @@ export default function ClaimDetailsContent({
         </>
       )}
       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-        Claim submission timeline
+        Claim timeline
       </p>
       <p className="vads-u-margin-y--0">
         {complexClaimsToggle ? 'Created' : 'Submitted'} on {createDate} at{' '}
@@ -249,7 +256,7 @@ export default function ClaimDetailsContent({
         Appointment information
       </p>
       <p className="vads-u-margin-y--0">
-        {appointmentDate} at {appointmentTime} appointment
+        {appointmentDate} at {appointmentTime}
       </p>
       <p className="vads-u-margin-top--0">{facilityName}</p>
       {claimsMgmtToggle && (
@@ -257,7 +264,7 @@ export default function ClaimDetailsContent({
           {documentCategories.user.length > 0 && (
             <>
               <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-                Documents you submitted
+                Documents added to this claim
               </p>
               {getDocLinkList(documentCategories.user)}
             </>
@@ -320,7 +327,6 @@ export default function ClaimDetailsContent({
 }
 
 ClaimDetailsContent.propTypes = {
-  appointment: PropTypes.object.isRequired,
   appointmentDate: PropTypes.string.isRequired,
   claimId: PropTypes.string.isRequired,
   claimNumber: PropTypes.string.isRequired,

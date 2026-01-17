@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -33,7 +33,6 @@ const ui = (
   </MemoryRouter>
 );
 let view;
-let server;
 
 // helper function that returns the Edit va-button
 // since RTL doesn't support getByRole/getByText queries for web components
@@ -205,27 +204,18 @@ const testBase = async numberName => {
 };
 
 describe('Editing', () => {
-  before(() => {
-    server = setupServer(
+  beforeEach(() => {
+    server.use(
       ...mocks.editPhoneNumberSuccess(),
       ...mocks.apmTelemetry,
       ...mocks.rootTransactionStatus,
     );
-    server.listen();
-  });
-  beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-  });
-  afterEach(() => {
-    server.resetHandlers();
-  });
-  after(() => {
-    server.close();
   });
 
   testBase(FIELD_TITLES[FIELD_NAMES.HOME_PHONE]);

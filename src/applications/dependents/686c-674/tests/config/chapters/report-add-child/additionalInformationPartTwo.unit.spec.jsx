@@ -86,9 +86,26 @@ describe('686 add child additional information part two', () => {
       'ui:options'
     ];
 
-    it('should remove hint when called', () => {
-      const result = updateUiSchema();
+    it('should remove hint when vaDependentsNetWorthAndPension is true', () => {
+      const testData = {
+        vaDependentsNetWorthAndPension: true,
+      };
+      const result = updateUiSchema(testData);
       expect(result['ui:options'].hint).to.equal('');
+    });
+
+    it('should keep hint when vaDependentsNetWorthAndPension is false', () => {
+      const testData = {
+        vaDependentsNetWorthAndPension: false,
+      };
+      const result = updateUiSchema(testData);
+      expect(result).to.deep.equal({});
+    });
+
+    it('should keep hint when vaDependentsNetWorthAndPension is undefined', () => {
+      const testData = {};
+      const result = updateUiSchema(testData);
+      expect(result).to.deep.equal({});
     });
   });
 

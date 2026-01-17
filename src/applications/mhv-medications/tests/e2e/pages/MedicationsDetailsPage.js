@@ -183,10 +183,6 @@ class MedicationsDetailsPage {
     });
   };
 
-  verifyLoadingSpinnerForDownloadOnDetailsPage = () => {
-    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
-  };
-
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('have.text', 'Download a PDF of this page')
@@ -565,6 +561,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="rx-last-filled-date"]').should('contain', text);
   };
 
+  verifyLastFilledDateNotDisplayedOnDetailsPage = () => {
+    cy.get('[data-testid="rx-last-filled-date"]').should('not.exist');
+  };
+
   verifyRefillLinkTextOnDetailsPage = text => {
     cy.get('[data-testid="refill-nav-link"]').should('have.text', text);
   };
@@ -574,7 +574,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingRxWarningTextOnDetailsPage = alert => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', alert);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', alert);
   };
 
   verifyHeaderTextOnDetailsPage = text => {
@@ -586,7 +586,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPendingTextAlertForLessThanSevenDays = text => {
-    cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+    cy.get('[data-testid="pending-med-alert"]').should('contain', text);
   };
 
   verifyRefillDelayAlertBannerOnDetailsPage = text => {

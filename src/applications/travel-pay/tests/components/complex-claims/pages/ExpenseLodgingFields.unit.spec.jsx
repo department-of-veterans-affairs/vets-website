@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import ExpenseLodgingFields from '../../../../components/complex-claims/pages/ExpenseLodgingFields';
 import {
   simulateVaDateChange,
-  simulateVaInputChange,
+  simulateVaInputBlur,
 } from '../../../../util/testing-input-helpers';
 
 describe('ExpenseLodgingFields', () => {
@@ -62,18 +62,18 @@ describe('ExpenseLodgingFields', () => {
     expect(checkOut.getAttribute('value')).to.equal('2025-11-15');
   });
 
-  it('calls onChange when typing into vendor input', async () => {
-    const onChangeSpy = sinon.spy();
+  it('calls onBlur when focusing out of vendor input', async () => {
+    const onBlurSpy = sinon.spy();
     const { container } = render(
-      <ExpenseLodgingFields {...defaultProps} onChange={onChangeSpy} />,
+      <ExpenseLodgingFields {...defaultProps} onBlur={onBlurSpy} />,
     );
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
-    simulateVaInputChange(vendorInput, 'Hotel California');
+    simulateVaInputBlur(vendorInput, 'Hotel California');
 
     await waitFor(() => {
-      expect(onChangeSpy.called).to.be.true;
-      const eventArg = onChangeSpy.firstCall.args[0];
+      expect(onBlurSpy.called).to.be.true;
+      const eventArg = onBlurSpy.firstCall.args[0];
       const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('Hotel California');
     });
@@ -111,5 +111,41 @@ describe('ExpenseLodgingFields', () => {
       const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('2025-11-15');
     });
+  });
+
+  // --- New tests for error prop ---
+  it('renders errors for each field if provided', () => {
+    const errorProps = {
+      vendor: 'Vendor is required',
+      checkInDate: 'Check-in date is required',
+      checkOutDate: 'Check-out date is required',
+    };
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={errorProps} />,
+    );
+
+    const vendorInput = container.querySelector('va-text-input[name="vendor"]');
+    const checkIn = container.querySelector('va-date[name="checkInDate"]');
+    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+
+    expect(vendorInput.getAttribute('error')).to.equal('Vendor is required');
+    expect(checkIn.getAttribute('error')).to.equal('Check-in date is required');
+    expect(checkOut.getAttribute('error')).to.equal(
+      'Check-out date is required',
+    );
+  });
+
+  it('renders correctly with empty errors object', () => {
+    const { container } = render(
+      <ExpenseLodgingFields {...defaultProps} errors={{}} />,
+    );
+
+    const vendorInput = container.querySelector('va-text-input[name="vendor"]');
+    const checkIn = container.querySelector('va-date[name="checkInDate"]');
+    const checkOut = container.querySelector('va-date[name="checkOutDate"]');
+
+    expect(vendorInput.getAttribute('error')).to.be.null;
+    expect(checkIn.getAttribute('error')).to.be.null;
+    expect(checkOut.getAttribute('error')).to.be.null;
   });
 });

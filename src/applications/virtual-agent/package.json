@@ -1,0 +1,37 @@
+{
+    "name": "@department-of-veterans-affairs/virtual-agent",
+    "version": "1.0.0",
+    "licence": "MIT",
+    "scripts": {
+      "build": "echo Your build script goes here",
+      "test:unit": "yarn --cwd $( git rev-parse --show-toplevel ) test:unit --app-folder virtual-agent",
+      "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES",
+      "start": "yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=virtual-agent,auth,terms-of-use,static-pages"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "@babel/parser": "^7.26.2",
+      "@babel/traverse": "^7.25.9",
+      "@sentry/browser": "^6.13.2",
+      "@testing-library/dom": "^7.26.6",
+      "@testing-library/react": "^11.1.2",
+      "@testing-library/react-hooks": "^8.0.1",
+      "@testing-library/user-event": "^12.2.2",
+      "append-query": "^2.1.1",
+      "chai": "^4.3.4",
+      "glob": "^7.2.0",
+      "just-diff": "^3.1.1",
+      "mockdate": "^3.0.5",
+      "mocker-api": "^2.9.0",
+      "sinon": "^3.2.1"
+    },
+    "peerDependecies":{
+        "react": "*",
+        "react-redux": "*",
+        "react-router": "*" ,
+        "react-router-dom": "*",
+        "redux": "*",
+        "redux-thunk": "*"
+    },
+    "private": true
+  }

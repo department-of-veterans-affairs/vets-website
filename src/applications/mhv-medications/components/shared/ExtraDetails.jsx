@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
@@ -7,11 +8,16 @@ import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import {
   DATETIME_FORMATS,
   dispStatusObj,
+  dispStatusObjV2,
   DISPENSE_STATUS,
 } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { pageType, dataDogActionNames } from '../../util/dataDogConstants';
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
 
 const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const { dispStatus, refillRemaining, isRenewable } = rx;
@@ -19,16 +25,157 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const noRefillRemaining =
     refillRemaining === 0 && dispStatus === DISPENSE_STATUS.ACTIVE;
 
-  const renderContent = () => {
-    // Handle OH prescriptions with isRenewable first (may have dispStatus or null)
-    if (isRenewable && !rxSourceIsNonVA(rx)) {
-      return (
-        <div className="no-print">
-          <SendRxRenewalMessage rx={rx} />
-        </div>
-      );
-    }
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const useV2Status = isCernerPilot && isV2StatusMapping;
 
+  const renderV2Content = () => {
+    switch (dispStatus) {
+      case dispStatusObjV2.statusNotAvailable:
+        return (
+          <div className="statusIcon unknownIcon" data-testid="unknown">
+            <va-icon icon="warning" size={4} aria-hidden="true" />
+            <div className="vads-u-padding-left--2" data-testid="unknown-rx">
+              <p className="vads-u-margin-y--0">
+                We’re sorry. There’s a problem with our system. You can't manage
+                this prescription online right now.
+              </p>
+              <p className="vads-u-margin-y--0">
+                Call your VA pharmacy
+                <CallPharmacyPhone
+                  cmopDivisionPhone={pharmacyPhone}
+                  page={pageType.DETAILS}
+                />
+              </p>
+            </div>
+          </div>
+        );
+
+      case dispStatusObjV2.inprogress:
+        // Both map to "In progress" in V2
+        return (
+          <div
+            className="statusIcon refillProcessIcon"
+            data-testid="refill-in-process"
+          >
+            <SendRxRenewalMessage
+              rx={rx}
+              showFallBackContent={showRenewalLink}
+              fallbackContent={
+                <>
+                  <VaIcon size={3} icon="acute" aria-hidden="true" />
+                  <div
+                    className="vads-u-padding-left--2"
+                    data-testid="rx-process"
+                  >
+                    <p
+                      data-testid="rx-refillinprocess-info"
+                      className="vads-u-margin-y--0"
+                    >
+                      We expect to fill this prescription on{' '}
+                      {dateFormat(
+                        rx.refillDate,
+                        DATETIME_FORMATS.longMonthDate,
+                      )}
+                      . If you need it sooner, call your VA pharmacy
+                      <CallPharmacyPhone
+                        cmopDivisionPhone={pharmacyPhone}
+                        page={pageType.DETAILS}
+                      />
+                    </p>
+                  </div>
+                </>
+              }
+            />
+          </div>
+        );
+
+      case dispStatusObjV2.active:
+        // Both map to "Active" in V2
+        if (noRefillRemaining) {
+          return (
+            <div className="no-print">
+              <p
+                className="vads-u-margin-y--0"
+                data-testid="active-no-refill-left"
+              >
+                You have no refills left. If you need more, request a renewal.
+              </p>
+              <SendRxRenewalMessage
+                rx={rx}
+                showFallBackContent={showRenewalLink}
+                fallbackContent={
+                  <va-link
+                    href="/resources/how-to-renew-a-va-prescription"
+                    text="Learn how to renew prescriptions"
+                    data-testid="learn-to-renew-prescriptions-link"
+                  />
+                }
+              />
+            </div>
+          );
+        }
+        return (
+          <p className="vads-u-margin-y--0" data-testid="active">
+            You can request this prescription when you need it.
+          </p>
+        );
+
+      case dispStatusObjV2.inactive:
+        // All map to "Inactive" in V2
+        return (
+          <div>
+            <SendRxRenewalMessage
+              rx={rx}
+              showFallBackContent={showRenewalLink}
+              fallbackContent={
+                <>
+                  <p className="vads-u-margin-y--0" data-testid="inactive">
+                    This prescription is inactive. If you need more, contact
+                    your VA provider.
+                  </p>
+                  <va-link
+                    href="/resources/how-to-renew-a-va-prescription"
+                    text="Learn how to renew prescriptions"
+                    data-testid="learn-to-renew-precsriptions-link"
+                    data-dd-action-name={
+                      dataDogActionNames.detailsPage
+                        .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
+                    }
+                  />
+                </>
+              }
+            />
+          </div>
+        );
+
+      case dispStatusObjV2.transferred:
+        return (
+          <div>
+            <p className="vads-u-margin-y--0" data-testid="transferred">
+              To manage this prescription, go to our My VA Health portal.
+            </p>
+            <va-link
+              href="/"
+              text="Go to your prescription in My VA Health"
+              data-testid="prescription-VA-health-link"
+            />
+          </div>
+        );
+
+      case dispStatusObjV2.nonVA:
+        return (
+          <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
+            You can’t manage this medication in this online tool.
+          </p>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  const renderV1Content = () => {
     switch (dispStatus) {
       case dispStatusObj.unknown:
         return (
@@ -152,7 +299,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="discontinued">
-              You can’t refill this prescription. If you need more, send a
+              You can't refill this prescription. If you need more, send a
               message to your care team.
             </p>
             <va-link
@@ -182,7 +329,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           </div>
         );
 
-      case dispStatusObj.nonVA || rxSourceIsNonVA(rx):
+      case dispStatusObj.nonVA:
         return (
           <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
             You can’t manage this medication in this online tool.
@@ -231,16 +378,36 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         return null;
 
       default:
-        // Generic fallback for any unhandled dispStatus
-        if (rxSourceIsNonVA(rx)) {
-          return (
-            <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
-              You can’t manage this medication in this online tool.
-            </p>
-          );
-        }
         return null;
     }
+  };
+
+  const renderContent = () => {
+    // Handle Non-VA prescriptions first
+    if (rxSourceIsNonVA(rx)) {
+      return (
+        <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
+          You can’t manage this medication in this online tool.
+        </p>
+      );
+    }
+
+    // Handle OH prescriptions with isRenewable (may have dispStatus or null)
+    if (isRenewable) {
+      return (
+        <div className="no-print">
+          <SendRxRenewalMessage rx={rx} />
+        </div>
+      );
+    }
+
+    // V2 status handling when both flags are enabled
+    if (useV2Status) {
+      return renderV2Content();
+    }
+
+    // V1 (legacy) status handling
+    return renderV1Content();
   };
 
   return (

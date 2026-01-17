@@ -1,4 +1,3 @@
-import { addSeconds, format } from 'date-fns';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import acceleratedAllergies from '../fixtures/accelerated-allergies.json';
@@ -8,11 +7,7 @@ import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
-import {
-  DATETIME_FORMATS,
-  medicationsUrls,
-  RX_SOURCE,
-} from '../../../util/constants';
+import { medicationsUrls, RX_SOURCE } from '../../../util/constants';
 import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
 import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 import hidden from '../fixtures/tooltip-hidden.json';
@@ -260,15 +255,6 @@ class MedicationsListPage {
     });
   };
 
-  verifyLoadingSpinnerForDownloadOnListPage = () => {
-    cy.intercept(
-      'GET',
-      `/my_health/v1/prescriptions?&sort=alphabetical-status`,
-      prescriptions,
-    ).as('medicationsList');
-    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
-  };
-
   clickDownloadListAsTxtButtonOnListPage = () => {
     cy.intercept(
       'GET',
@@ -299,59 +285,6 @@ class MedicationsListPage {
 
   verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
     cy.get('[data-testid="download-success-banner"]').should('not.exist');
-  };
-
-  verifyDownloadTextFileHeadless = (
-    userFirstName = 'Safari',
-    userLastName = 'Mhvtp',
-    searchText = 'Date',
-  ) => {
-    const now = Date.now();
-
-    this.downloadTime1sec = format(
-      addSeconds(now, 1),
-      DATETIME_FORMATS.filename,
-    );
-
-    this.downloadTime2sec = format(
-      addSeconds(now, 2),
-      DATETIME_FORMATS.filename,
-    );
-
-    this.downloadTime3sec = format(
-      addSeconds(now, 3),
-      DATETIME_FORMATS.filename,
-    );
-
-    if (Cypress.browser.isHeadless) {
-      cy.log('browser is headless');
-      const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime1sec
-      }.txt`;
-      const txtPath2 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime2sec
-      }.txt`;
-      const txtPath3 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
-        this.downloadTime3sec
-      }.txt`;
-      this.internalReadFileMaybe(txtPath1, searchText);
-      this.internalReadFileMaybe(txtPath2, searchText);
-      this.internalReadFileMaybe(txtPath3, searchText);
-    } else {
-      cy.log('browser is not headless');
-    }
-  };
-
-  internalReadFileMaybe = (fileName, searchText) => {
-    cy.task('log', `attempting to find file = ${fileName}`);
-    cy.task('readFileMaybe', fileName).then(textOrNull => {
-      const taskFileName = fileName;
-      if (textOrNull != null) {
-        cy.task('log', `found the text in ${taskFileName}`);
-        cy.readFile(fileName).should('contain', `${searchText}`);
-      }
-    });
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
@@ -1032,17 +965,17 @@ class MedicationsListPage {
   };
 
   verifyNeedHelpSectionOnListPage = text => {
-    cy.get('[data-testid="rx-need-help-container"]')
+    cy.findByTestId('rx-need-help-container')
       .should('contain', text)
       .and('be.visible');
   };
 
   verifyGoToUseMedicationLinkOnListPage = () => {
-    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+    cy.findByTestId('go-to-use-medications-link').should('be.visible');
   };
 
   verifyStartANewMessageLinkOnListPage = () => {
-    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
+    cy.findByTestId('start-a-new-message-link').should('be.visible');
   };
 
   verifyTitleNotesOnListPage = text => {
@@ -1105,31 +1038,13 @@ class MedicationsListPage {
       });
   };
 
-  verifyErroMessageforFailedAPICallListPage = text => {
-    cy.get('[data-testid="no-medications-list"]').should('contain', text);
+  verifyErrorMessageforFailedAPICallListPage = text => {
+    cy.findByTestId('no-medications-list').should('contain', text);
   };
 
   loadListPageWithoutToolTip = () => {
     cy.intercept('GET', '/my_health/v1/tooltips', hidden).as('tooltips');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
-  };
-
-  verifyContentInListPageDownload = text => {
-    const downloadsFolder = Cypress.config('downloadsFolder');
-    const pad = n => n.toString().padStart(2, '0');
-    let hours = text.getHours();
-    const ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}${pad(text.getMinutes())}${pad(
-      text.getSeconds(),
-    )}${ampm}`;
-    const date = `${text.getMonth() +
-      1}-${text.getDate()}-${text.getFullYear()}_${formattedTime}`;
-    const fileName = `${downloadsFolder}/VA-medications-list-Safari-Mhvtp-${date}.txt`;
-    cy.readFile(fileName).then(fileContent => {
-      expect(fileContent).to.contain('not available');
-      expect(fileContent).to.not.contain('None noted');
-    });
   };
 
   verifyFilterAriaRegionText = text => {

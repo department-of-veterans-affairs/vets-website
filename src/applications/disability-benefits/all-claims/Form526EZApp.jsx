@@ -173,7 +173,9 @@ export const Form526Entry = ({
   useFormFeatureToggleSync([
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
+    'disability526SupportingEvidenceEnhancement',
     'disabilityCompNewConditionsWorkflow',
+    'disability526ExtraBDDPagesEnabled',
   ]);
 
   // including this helper to showLoading when feature toggles are loading

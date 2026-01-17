@@ -24,7 +24,7 @@ import ContactInfoReview from './ContactInfoReview';
 /**
  * Add this page with 3-4 edit pages to config/form
  * Spread the returned object into the app config/form
- * @type {ContactInformationPageSettings}
+ * @type {PrefillContactInfoPagesConfig}
  * @returns {Object} - form config pages for a chapter
  */
 const profileContactInfoPages = ({
@@ -53,7 +53,7 @@ const profileContactInfoPages = ({
   // depends callback for contact info page
   depends = null,
   contactInfoUiSchema = {},
-  disableMockContactInfo = false,
+  disableMockContactInfo = true,
   contactSectionHeadingLevel = null,
   editContactInfoHeadingLevel = null,
   prefillPatternEnabled = true,

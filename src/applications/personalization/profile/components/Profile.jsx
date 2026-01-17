@@ -168,6 +168,8 @@ class Profile extends Component {
       profile2Enabled: this.props.shouldShowProfile2,
       profileHealthCareSettingsPage: this.props
         .shouldShowHealthCareSettingsPage,
+      profileHideHealthCareContacts: this.props
+        .shouldHideHealthCareContactsPage,
     });
 
     // feature toggled route
@@ -282,6 +284,7 @@ Profile.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  shouldHideHealthCareContactsPage: PropTypes.bool,
   shouldShowAccreditedRepTab: PropTypes.bool,
   shouldShowHealthCareSettingsPage: PropTypes.bool,
   shouldShowProfile2: PropTypes.bool,
@@ -311,13 +314,15 @@ const mapStateToProps = state => {
   const shouldShowProfile2 = profileToggles?.profile2Enabled;
   const shouldShowHealthCareSettingsPage =
     profileToggles?.profileHealthCareSettingsPage;
+  const shouldHideHealthCareContactsPage =
+    profileToggles?.profileHideHealthCareContacts;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
     !profileToggles?.profileHideDirectDeposit;
 
   const shouldFetchSchedulingPreferences =
-    profileToggles?.profileSchedulingPreferences;
+    profileToggles?.profileSchedulingPreferences || false;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
@@ -369,6 +374,7 @@ const mapStateToProps = state => {
     isInMVI,
     isLOA3,
     shouldFetchDirectDeposit,
+    shouldHideHealthCareContactsPage,
     shouldShowAccreditedRepTab,
     shouldShowProfile2,
     shouldShowHealthCareSettingsPage,

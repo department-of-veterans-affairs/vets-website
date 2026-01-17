@@ -103,6 +103,8 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
+            coeAccess: true,
+            coeFormRebuildCveteam: true,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
             profileInternationalPhoneNumbers: false,
@@ -121,10 +123,12 @@ const responses = {
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
             profileSchedulingPreferences: true,
+            profileHideHealthCareContacts: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
             vreCutoverNotice: true,
+            vrePrefillName: true,
             mhvEmailConfirmation: true,
           }),
         ),

@@ -54,10 +54,6 @@ const WhatWeConsiderAsset = () => (
             law marriages)
           </li>
           <li>
-            A parent, if you’re directly caring for them and their income and
-            net worth are below a certain amount
-          </li>
-          <li>
             An unmarried child (including an adopted child or stepchild) who
             meets 1 of the eligibility requirements listed here
           </li>
@@ -95,7 +91,8 @@ const WhatWeConsiderAsset = () => (
         <p>
           This means that the child isn’t in the custody of a surviving spouse.
           You must report income and assets for yourself, your custodian, and
-          your custodian’s spouse.
+          your custodian’s spouse. If your custodian is an agency or facility,
+          you do not need to report their income.
         </p>
       </div>
     </va-accordion-item>
@@ -105,16 +102,16 @@ const WhatWeConsiderAsset = () => (
 const uiSchema = {
   ...titleUI('Income and assets', Description),
   'ui:description': WhatWeConsiderAsset,
-  hasAssetsOverThreshold: yesNoUI({
-    title: 'Do you and your dependents have over $75,000 in assets?',
+  totalNetWorth: yesNoUI({
+    title: 'Do you and your dependents have over $25,000 in assets?',
   }),
 };
 
 const schema = {
   type: 'object',
-  required: ['hasAssetsOverThreshold'],
+  required: ['totalNetWorth'],
   properties: {
-    hasAssetsOverThreshold: yesNoSchema,
+    totalNetWorth: yesNoSchema,
   },
 };
 

@@ -1,5 +1,14 @@
 {
   "form526": {
+    "disability526ExtraBDDPagesEnabled": true,
+    "homelessOrAtRisk": "homeless",
+    "homelessHousingSituation": "other",
+    "otherHomelessHousing": "Under a bridge",
+    "needToLeaveHousing": true,
+    "homelessnessContact": {
+      "name": "Name Here and invalid chars with email elmer fud com",
+      "phoneNumber": "1231231234"
+    },
     "isVaEmployee": true,
     "standardClaim": false,
     "bankAccountType": "Checking",

@@ -9,7 +9,7 @@ class FolderManagementPage {
 
   createANewFolderButton = () => {
     return cy
-      .get(Locators.ALERTS.CREAT_NEW_TEXT_FOLD)
+      .get(Locators.ALERTS.CREATE_NEW_FOLDER)
       .shadow()
       .find('[type="button"]');
   };
@@ -95,12 +95,20 @@ class FolderManagementPage {
   };
 
   selectFolderFromModal = (folderName = `Trash`) => {
-    cy.findByTestId('move-button-text')
+    // Wait for folders to load before interacting with the move button
+    cy.wait('@folders');
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
       .should('be.visible')
       .click();
-    cy.findByLabelText(folderName)
+    // Wait for the modal to fully render and radio options to be available
+    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID)
       .should('be.visible')
-      .click();
+      .within(() => {
+        cy.findByLabelText(folderName, { timeout: 10000 })
+          .should('exist')
+          .should('be.visible')
+          .click();
+      });
   };
 
   confirmMovingMessageToFolder = (

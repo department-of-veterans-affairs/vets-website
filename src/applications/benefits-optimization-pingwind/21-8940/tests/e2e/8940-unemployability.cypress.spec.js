@@ -63,17 +63,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          // cy.findAllByRole('link', {
-          //   name: /Start the veteran's application/i,
-          // }).then($buttons => {
-          //   if ($buttons.length) {
-          //     cy.wrap($buttons[0]).click({ force: true });
-          //   } else {
-          cy.findByRole('link', {
-            name: /Start the veteran's application/i,
-          }).click({ force: true });
-          //   }
-          // });
+          cy.clickStartForm();
         });
       },
       'important-information': ({ afterHook }) => {
@@ -197,10 +187,21 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
+            const { doctorCareQuestion = {} } = data;
+            const {
+              hasReceivedDoctorCare,
+              doctorCareType,
+            } = doctorCareQuestion;
             selectYesNoWebComponent(
               'doctorCareQuestion_hasReceivedDoctorCare',
-              data.doctorCareQuestion.hasReceivedDoctorCare,
+              hasReceivedDoctorCare,
             );
+            if (hasReceivedDoctorCare) {
+              selectRadioWebComponent(
+                'doctorCareQuestion_doctorCareType',
+                doctorCareType,
+              );
+            }
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -209,10 +210,21 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
+            const { hospitalizationQuestion = {} } = data;
+            const {
+              hasBeenHospitalized,
+              hospitalType,
+            } = hospitalizationQuestion;
             selectYesNoWebComponent(
               'hospitalizationQuestion_hasBeenHospitalized',
-              data.hospitalizationQuestion.hasBeenHospitalized,
+              hasBeenHospitalized,
             );
+            if (hasBeenHospitalized) {
+              selectRadioWebComponent(
+                'hospitalizationQuestion_hospitalType',
+                hospitalType,
+              );
+            }
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -249,6 +261,69 @@ const testConfig = createTestConfig(
             );
             fillNumberWebComponent('yearEarned', peakEarnings?.yearEarned);
             fillTextWebComponent('occupation', peakEarnings?.occupation);
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'section-3-employment': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const employers = data.employersHistory || [];
+
+            if (!employers.length) {
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+              return;
+            }
+
+            employers.forEach((entry, index) => {
+              if (index > 0) {
+                cy.findByRole('button', {
+                  name: /add another employer/i,
+                }).click();
+              }
+
+              fillTextWebComponent(
+                `employersHistory_${index}_employerName`,
+                entry.employerName,
+              );
+
+              cy.fillAddressWebComponentPattern(
+                `employersHistory_${index}_employerAddress`,
+                entry.employerAddress,
+              );
+
+              fillTextWebComponent(
+                `employersHistory_${index}_typeOfWork`,
+                entry.typeOfWork,
+              );
+
+              fillNumberWebComponent(
+                `employersHistory_${index}_hoursPerWeek`,
+                entry.hoursPerWeek,
+              );
+
+              fillDateWebComponentPattern(
+                `employersHistory_${index}_startDate`,
+                entry.startDate,
+              );
+
+              fillDateWebComponentPattern(
+                `employersHistory_${index}_endDate`,
+                entry.endDate,
+              );
+
+              fillNumberWebComponent(
+                `employersHistory_${index}_timeLost`,
+                entry.timeLost,
+              );
+
+              fillNumberWebComponent(
+                `employersHistory_${index}_earnings`,
+                entry.earnings,
+              );
+            });
+
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -343,8 +418,8 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             selectYesNoWebComponent(
-              'otherEducation',
-              data.beforeDisability.otherEducation,
+              'otherBeforeEducation',
+              data.beforeDisability.otherBeforeEducation,
             );
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -355,8 +430,8 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             selectYesNoWebComponent(
-              'otherEducation',
-              data.afterDisability.otherEducation,
+              'otherAfterEducation',
+              data.afterDisability.otherAfterEducation,
             );
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -367,6 +442,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           selectCheckboxWebComponent('authorizationRelease', true);
           selectCheckboxWebComponent('certificationStatements', true);
+          selectCheckboxWebComponent('serviceConnectedStatements', true);
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
@@ -386,7 +462,7 @@ const testConfig = createTestConfig(
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
       cy.login(user);
     },
-    skip: Cypress.env('CI'),
+    skip: false,
   },
   manifest,
   formConfig,

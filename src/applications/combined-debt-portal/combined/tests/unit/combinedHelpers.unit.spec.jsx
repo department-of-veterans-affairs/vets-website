@@ -2,6 +2,12 @@ import { expect } from 'chai';
 import { addMonths, subMonths, addDays } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { uniqBy } from 'lodash';
+import { render } from '@testing-library/react';
+import { createStore, combineReducers } from 'redux';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
   APP_TYPES,
   ALERT_TYPES,
@@ -19,9 +25,10 @@ import {
   combinedPortalAccess,
   debtLettersShowLettersVBMS,
   showPaymentHistory,
-  showOneThingPerPage,
   cdpAccessToggle,
+  showVHAPaymentHistory,
 } from '../../utils/helpers';
+import OverviewPage from '../../containers/OverviewPage';
 
 describe('Helper Functions', () => {
   describe('APP_TYPES', () => {
@@ -563,28 +570,6 @@ describe('Helper Functions', () => {
       expect(result).to.be.false;
     });
 
-    it('showOneThingPerPage should return feature flag value true', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.showCDPOneThingPerPage]: true,
-        },
-      };
-
-      const result = showOneThingPerPage(mockState);
-      expect(result).to.be.true;
-    });
-
-    it('showOneThingPerPage should return feature flag value false', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.showCDPOneThingPerPage]: false,
-        },
-      };
-
-      const result = showOneThingPerPage(mockState);
-      expect(result).to.be.false;
-    });
-
     it('cdpAccessToggle should return feature flag value true', () => {
       const mockState = {
         featureToggles: {
@@ -605,6 +590,338 @@ describe('Helper Functions', () => {
 
       const result = cdpAccessToggle(mockState);
       expect(result).to.be.false;
+    });
+  });
+
+  describe('OverviewPage sortedStatements and statementsByUniqueFacility', () => {
+    const renderWithStore = (component, initialState) => {
+      const store = createStore(
+        combineReducers({
+          combinedPortal: (state = initialState.combinedPortal || {}) => state,
+          user: (state = initialState.user || {}) => state,
+          featureToggles: (
+            state = initialState.featureToggles || { loading: false },
+          ) => state,
+        }),
+      );
+      return render(
+        <Provider store={store}>
+          <Router>{component}</Router>
+        </Provider>,
+      );
+    };
+
+    it('should pass mcp.statements.data to Balances when showVHAPaymentHistory is true', () => {
+      const mockState = {
+        user: {},
+        combinedPortal: {
+          debtLetters: {
+            isProfileUpdating: false,
+            isPending: false,
+            isPendingVBMS: false,
+            isError: false,
+            isVBMSError: false,
+            debts: [],
+            selectedDebt: {},
+            debtLinks: [],
+            errors: [],
+            hasDependentDebts: false,
+          },
+          mcp: {
+            pending: false,
+            error: null,
+            statements: {
+              data: [
+                {
+                  id: '4-1abZUKu7xIvIw6',
+                  type: 'medicalCopays',
+                  attributes: {
+                    url: null,
+                    facility: 'TEST VAMC',
+                    facilityId: '4-O3d8XK44ejMS',
+                    city: 'LYONS',
+                    externalId: '4-1abZUKu7xIvIw6',
+                    latestBillingRef: '4-6c9ZE23XQm5VawK',
+                    currentBalance: 150.25,
+                    previousBalance: 65.71,
+                    previousUnpaidBalance: 0,
+                    lastUpdatedAt: '2025-08-29T12:00:00Z',
+                  },
+                },
+              ],
+              meta: {
+                total: 10,
+                page: 1,
+                perPage: 3,
+                copaySummary: {
+                  totalCurrentBalance: 150.25,
+                  copayBillCount: 1,
+                  lastUpdatedOn: '2025-08-29T12:00:00Z',
+                },
+              },
+              links: {
+                self:
+                  'http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=1',
+                first:
+                  'http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=1',
+                next:
+                  'http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=2',
+                last:
+                  'http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=4',
+              },
+            },
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+          loading: false,
+        },
+      };
+
+      const { container } = renderWithStore(<OverviewPage />, mockState);
+
+      expect(container).to.exist;
+
+      // Verify component rendered - OverviewPage should pass the data to Balances
+      const balanceCards = container.querySelectorAll('va-card');
+      expect(balanceCards.length).to.be.greaterThan(0);
+      expect(balanceCards[0].textContent).to.include('$150.25');
+    });
+
+    it('should pass sorted statements to Balances when showVHAPaymentHistory is false', () => {
+      const mockState = {
+        user: {},
+        combinedPortal: {
+          debtLetters: {
+            debts: [],
+            errors: [],
+            isPending: false,
+            isProfileUpdating: false,
+          },
+          mcp: {
+            pending: false,
+            error: null,
+            statements: [
+              {
+                id: '1',
+                pSStatementDateOutput: '2023-01-01',
+                pSFacilityNum: '789',
+                pHAmtDue: 100,
+              },
+              {
+                id: '2',
+                pSStatementDateOutput: '2023-03-01',
+                pSFacilityNum: '456',
+                pHAmtDue: 200,
+              },
+            ],
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+          loading: false,
+        },
+      };
+
+      const { container } = renderWithStore(<OverviewPage />, mockState);
+
+      expect(container).to.exist;
+      // Verify component rendered - OverviewPage should pass sorted statements to Balances
+      const balanceCards = container.querySelectorAll('va-card');
+      expect(balanceCards.length).to.be.greaterThan(0);
+      expect(balanceCards[0].textContent).to.include('$300');
+    });
+  });
+
+  it('showVHAPaymentHistory should return feature flag value true', () => {
+    const mockState = {
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+      },
+    };
+
+    const result = showVHAPaymentHistory(mockState);
+    expect(result).to.be.true;
+  });
+
+  it('showVHAPaymentHistory should return feature flag value false', () => {
+    const mockState = {
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+      },
+    };
+
+    const result = showVHAPaymentHistory(mockState);
+    expect(result).to.be.false;
+  });
+
+  describe('sortedStatements logic', () => {
+    it('should use mcp.statements.data when showVHAPaymentHistory is true', () => {
+      const shouldShowVHAPaymentHistory = true;
+      const statements = [
+        { pSStatementDateOutput: '2023-01-01' },
+        { pSStatementDateOutput: '2023-03-01' },
+      ];
+      const mcp = {
+        statements: {
+          data: [
+            { id: '1', attributes: { lastUpdatedAt: '2023-05-01' } },
+            { id: '2', attributes: { lastUpdatedAt: '2023-06-01' } },
+          ],
+        },
+      };
+
+      const sortedStatements = shouldShowVHAPaymentHistory
+        ? mcp.statements.data ?? []
+        : sortStatementsByDate(statements || []);
+
+      expect(sortedStatements).to.deep.equal(mcp.statements.data);
+      expect(sortedStatements.length).to.equal(2);
+      expect(sortedStatements[0].id).to.equal('1');
+    });
+
+    it('should use sortStatementsByDate when showVHAPaymentHistory is false', () => {
+      const shouldShowVHAPaymentHistory = false;
+      const statements = [
+        { pSStatementDateOutput: '2023-01-01' },
+        { pSStatementDateOutput: '2023-03-01' },
+        { pSStatementDateOutput: '2023-02-01' },
+      ];
+      const mcp = {
+        statements: {
+          data: [{ id: '1' }, { id: '2' }],
+        },
+      };
+
+      const sortedStatements = shouldShowVHAPaymentHistory
+        ? mcp.statements.data ?? []
+        : sortStatementsByDate(statements || []);
+
+      expect(sortedStatements.length).to.equal(3);
+      expect(sortedStatements[0].pSStatementDateOutput).to.equal('2023-03-01');
+      expect(sortedStatements[2].pSStatementDateOutput).to.equal('2023-01-01');
+    });
+
+    it('should handle null statements when showVHAPaymentHistory is false', () => {
+      const shouldShowVHAPaymentHistory = false;
+      const statements = null;
+      const mcp = {
+        statements: {
+          data: [],
+        },
+      };
+
+      const sortedStatements = shouldShowVHAPaymentHistory
+        ? mcp.statements.data ?? []
+        : sortStatementsByDate(statements || []);
+
+      expect(sortedStatements).to.deep.equal([]);
+    });
+
+    it('should use empty array fallback when mcp.statements.data is null and flag is true', () => {
+      const shouldShowVHAPaymentHistory = true;
+      const statements = [{ pSStatementDateOutput: '2023-01-01' }];
+      const mcp = {
+        statements: {
+          data: null,
+        },
+      };
+
+      const sortedStatements = shouldShowVHAPaymentHistory
+        ? mcp.statements.data ?? []
+        : sortStatementsByDate(statements || []);
+
+      expect(sortedStatements).to.deep.equal([]);
+    });
+  });
+
+  describe('statementsByUniqueFacility logic', () => {
+    it('should use facilityId with uniqBy when showVHAPaymentHistory is true', () => {
+      const shouldShowVHAPaymentHistory = true;
+      const mcpStatements = [
+        { id: '1', facilityId: 'FAC123', name: 'First' },
+        { id: '2', facilityId: 'FAC123', name: 'Duplicate' },
+        { id: '3', facilityId: 'FAC456', name: 'Second' },
+      ];
+      const sortedStatements = [
+        { id: '1', pSFacilityNum: '789' },
+        { id: '2', pSFacilityNum: '789' },
+      ];
+
+      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
+        ? uniqBy(mcpStatements, 'facilityId')
+        : uniqBy(sortedStatements, 'pSFacilityNum');
+
+      expect(statementsByUniqueFacility.length).to.equal(2);
+      expect(statementsByUniqueFacility[0].facilityId).to.equal('FAC123');
+      expect(statementsByUniqueFacility[1].facilityId).to.equal('FAC456');
+      expect(statementsByUniqueFacility[0].name).to.equal('First');
+    });
+
+    it('should use pSFacilityNum with uniqBy when showVHAPaymentHistory is false', () => {
+      const shouldShowVHAPaymentHistory = false;
+      const mcpStatements = [
+        { id: '1', facilityId: 'FAC123' },
+        { id: '2', facilityId: 'FAC456' },
+      ];
+      const sortedStatements = [
+        { id: '1', pSFacilityNum: '789', city: 'New York' },
+        { id: '2', pSFacilityNum: '789', city: 'New York' },
+        { id: '3', pSFacilityNum: '456', city: 'Boston' },
+      ];
+
+      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
+        ? uniqBy(mcpStatements, 'facilityId')
+        : uniqBy(sortedStatements, 'pSFacilityNum');
+
+      expect(statementsByUniqueFacility.length).to.equal(2);
+      expect(statementsByUniqueFacility[0].pSFacilityNum).to.equal('789');
+      expect(statementsByUniqueFacility[1].pSFacilityNum).to.equal('456');
+      expect(statementsByUniqueFacility[0].city).to.equal('New York');
+    });
+
+    it('should handle empty arrays', () => {
+      const shouldShowVHAPaymentHistory = true;
+      const mcpStatements = [];
+      const sortedStatements = [];
+
+      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
+        ? uniqBy(mcpStatements, 'facilityId')
+        : uniqBy(sortedStatements, 'pSFacilityNum');
+
+      expect(statementsByUniqueFacility).to.deep.equal([]);
+    });
+
+    it('should handle all unique facilities when flag is true', () => {
+      const shouldShowVHAPaymentHistory = true;
+      const mcpStatements = [
+        { id: '1', facilityId: 'FAC111' },
+        { id: '2', facilityId: 'FAC222' },
+        { id: '3', facilityId: 'FAC333' },
+      ];
+      const sortedStatements = [];
+
+      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
+        ? uniqBy(mcpStatements, 'facilityId')
+        : uniqBy(sortedStatements, 'pSFacilityNum');
+
+      expect(statementsByUniqueFacility.length).to.equal(3);
+    });
+
+    it('should handle all unique facilities when flag is false', () => {
+      const shouldShowVHAPaymentHistory = false;
+      const mcpStatements = [];
+      const sortedStatements = [
+        { id: '1', pSFacilityNum: '111' },
+        { id: '2', pSFacilityNum: '222' },
+        { id: '3', pSFacilityNum: '333' },
+      ];
+
+      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
+        ? uniqBy(mcpStatements, 'facilityId')
+        : uniqBy(sortedStatements, 'pSFacilityNum');
+
+      expect(statementsByUniqueFacility.length).to.equal(3);
     });
   });
 });

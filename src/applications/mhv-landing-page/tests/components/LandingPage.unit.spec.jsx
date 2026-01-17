@@ -154,33 +154,7 @@ describe('LandingPage component', () => {
     });
   });
 
-  describe('isCerner prop', () => {
-    it('does not render Cerner portal link when isCerner is false', () => {
-      const initialState = stateFn({
-        loa: 3,
-        vaPatient: true,
-        facilities: [{ facilityId: '123', isCerner: false }],
-      });
-      const { queryByRole } = setup({ initialState });
-
-      // Cerner portal link should not be present
-      expect(queryByRole('link', { name: /Go to the My VA Health portal/ })).to
-        .not.exist;
-    });
-
-    it('renders Cerner portal link when isCerner is true', () => {
-      const initialState = stateFn({
-        loa: 3,
-        vaPatient: true,
-        facilities: [{ facilityId: '123', isCerner: true }],
-      });
-      const { getByRole } = setup({ initialState });
-
-      // Cerner portal link should be present
-      expect(getByRole('link', { name: /Go to the My VA Health portal/ })).to
-        .exist;
-    });
-  });
+  // Note: showCernerInfoAlert prop behavior is tested in HeaderLayout.unit.spec.jsx
 
   describe('empty data arrays', () => {
     it('handles empty cards array', () => {

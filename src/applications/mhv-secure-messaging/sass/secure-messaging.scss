@@ -4,7 +4,10 @@
 @import "./folders-list";
 @import "./folder-thread-list-view";
 @import "src/platform/mhv/secondary-nav/sass/mhv-sec-nav";
-@forward "usa-button-group";
+
+.secure-messaging-container {
+  font-size: 1rem;
+}
 
 .bottom-container {
   background-color: var(--vads-color-white);
@@ -35,6 +38,12 @@ va-alert button {
 va-modal va-radio {
   margin-left: 0px;
   margin-bottom: 24px;
+}
+
+// Fix for WCAG 1.4.10 Reflow - prevents va-radio-option text from overflowing at high zoom levels
+// See: https://github.com/department-of-veterans-affairs/va.gov-team/issues/119851
+va-radio {
+  word-break: break-word;
 }
 
 .message-box {
