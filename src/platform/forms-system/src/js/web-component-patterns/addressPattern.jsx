@@ -6,7 +6,6 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import utilsOmit from 'platform/utilities/data/omit';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 import VaSelectField from '../web-component-fields/VaSelectField';
@@ -149,16 +148,102 @@ const CAN_STATE_NAMES = constants.states.CAN.map(state => state.label);
 const MEX_STATE_VALUES = constants.states.MEX.map(state => state.value);
 const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
 
-const schemaCrossXRef = {
-  isMilitary: 'isMilitary',
-  'view:militaryBaseDescription': 'view:militaryBaseDescription',
-  country: 'country',
-  street: 'street',
-  street2: 'street2',
-  street3: 'street3',
-  city: 'city',
-  state: 'state',
-  postalCode: 'postalCode',
+/**
+ * `SchemaKeys` encapsulates the implementation for customizing this address
+ * component's schema property names for callers. This is useful when a form
+ * wants address component functionality, but its schema has different property
+ * names.
+ *
+ * By asking the caller to pass both `omit` and `newSchemaKeys`, and then
+ * failing to validate them, this component's public API accepts invalid state.
+ * This would be resolved simply if the caller passed its full key mapping
+ * explicitly.
+ *
+ * For now, `normalizeMapping` bridges the current API to the ideal one. If the
+ * public API improves, it becomes unnecessary. But either way, `SchemaKeys`
+ * as a whole remains the right encapsulation for key mapping across the
+ * implementations of this module's exports.
+ *
+ * Validation rejects these ambiguous and nonsensical inputs:
+ * - `'Blank schema key omitted'`
+ * - `'Ambiguous schema key omitted'`
+ * - `'Duplicate schema key output'`
+ * - `'Blank schema key output'`
+ *
+ * Current API:
+ *   SchemaKeys.validateMapping(SchemaKeys.normalizeMapping({ omit, newSchemaKeys }))
+ *   SchemaKeys.map(obj, SchemaKeys.normalizeMapping({ omit, newSchemaKeys }))
+ *
+ * Future API:
+ *   SchemaKeys.validateMapping(mapping)
+ *   SchemaKeys.map(obj, mapping)
+ */
+const SchemaKeys = {
+  STANDARD: Object.freeze({
+    isMilitary: 'isMilitary',
+    'view:militaryBaseDescription': 'view:militaryBaseDescription',
+    country: 'country',
+    street: 'street',
+    street2: 'street2',
+    street3: 'street3',
+    city: 'city',
+    state: 'state',
+    postalCode: 'postalCode',
+  }),
+
+  map(object, mapping = this.STANDARD) {
+    if (mapping === this.STANDARD) return object;
+    const validated = this.validateMapping(mapping);
+
+    const mapped = {};
+
+    Object.entries(object).forEach(([key, value]) => {
+      if (!(key in validated)) return;
+      if (!validated[key]) throw new Error('Blank schema key output');
+
+      mapped[validated[key]] = value;
+    });
+
+    return mapped;
+  },
+
+  validateMapping(mapping) {
+    const validated = { ...mapping };
+    if (!('isMilitary' in validated)) {
+      delete validated['view:militaryBaseDescription'];
+    }
+
+    const values = Object.values(validated);
+    const uniqueValues = new Set(values);
+    if (values.length > uniqueValues.size)
+      throw new Error('Duplicate schema key output');
+
+    return validated;
+  },
+
+  /**
+   * @deprecated Once callers provide their full key mapping directly, this
+   * wrapper becomes unnecessary and will be removed.
+   */
+  normalizeMapping({ newSchemaKeys = {}, omit = [] }) {
+    const emptyMapping = Object.keys(newSchemaKeys).length === 0;
+    const emptyOmit = omit.length === 0;
+
+    if (emptyMapping && emptyOmit) {
+      return this.STANDARD;
+    }
+
+    const mapping = { ...this.STANDARD };
+
+    omit.forEach(o => {
+      if (!o) throw new Error('Blank schema key omitted');
+      if (o in newSchemaKeys) throw new Error('Ambiguous schema key omitted');
+      delete mapping[o];
+    });
+
+    Object.assign(mapping, newSchemaKeys);
+    return mapping;
+  },
 };
 
 /**
@@ -235,7 +320,10 @@ export const updateFormDataAddress = (
   newSchemaKeys = {},
 ) => {
   let updatedData = formData;
-  const schemaKeys = { ...schemaCrossXRef, ...newSchemaKeys };
+
+  const schemaKeys = SchemaKeys.validateMapping(
+    SchemaKeys.normalizeMapping({ newSchemaKeys }),
+  );
 
   /*
    * formData and oldFormData are not guaranteed to have the same shape; formData
@@ -312,26 +400,21 @@ export const updateFormDataAddress = (
  * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
  * you will need to include in your `submitTransformer` the `allowPartialAddress` option
  * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
+ * @param {Record<AddressSchemaKey, string>} [options.newSchemaKeys] - Partial map of schema key remappings to merge with defaults
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
-  const omit = key => options.omit?.includes(key);
   let customRequired = key => options.required?.[key];
   if (options.required === false) {
     customRequired = () => () => false;
   }
 
-  /** @type {UISchemaOptions} */
-  const uiSchema = {
-    'ui:validations': [],
-    'ui:options': {
-      classNames:
-        'vads-web-component-pattern vads-web-component-pattern-address',
-    },
-  };
+  const isMilitaryTitle =
+    options.labels?.militaryCheckbox ??
+    'I live on a U.S. military base outside of the United States.';
 
   function validateMilitaryBaseZipCode(errors, addr) {
     if (!(addr.isMilitary && addr.state)) return;
@@ -342,9 +425,7 @@ export function addressUI(options = {}) {
       const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(addr.postalCode);
       if (!(isAA || isAE || isAP)) {
         errors.postalCode.addError(
-          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
-            uiSchema.isMilitary['ui:title']
-          }". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
+          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${isMilitaryTitle}". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
         );
       }
     }
@@ -360,31 +441,22 @@ export function addressUI(options = {}) {
     };
   }
 
-  if (!omit('isMilitary')) {
-    uiSchema.isMilitary = {
+  /** @type {UISchemaOptions} */
+  const fields = {
+    isMilitary: {
       'ui:required': requiredFunc('isMilitary', false),
-      'ui:title':
-        options.labels?.militaryCheckbox ??
-        'I live on a U.S. military base outside of the United States.',
+      'ui:title': isMilitaryTitle,
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         hideEmptyValueInReview: true,
       },
-    };
-
-    uiSchema['ui:validations'].push(validateMilitaryBaseZipCode);
-  }
-
-  if (!omit('isMilitary') && !omit('view:militaryBaseDescription')) {
-    uiSchema['view:militaryBaseDescription'] = {
+    },
+    'view:militaryBaseDescription': {
       'ui:description': MilitaryBaseInfo,
-    };
-  }
-
-  if (!omit('country')) {
-    uiSchema.country = {
+    },
+    country: {
       'ui:required': (formData, index, fullData, path) => {
         if (customRequired('country')) {
           return customRequired('country')(formData, index, fullData, path);
@@ -436,11 +508,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('street')) {
-    uiSchema.street = {
+    },
+    street: {
       'ui:required': requiredFunc('street', true),
       'ui:title': options.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
@@ -459,11 +528,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('street2')) {
-    uiSchema.street2 = {
+    },
+    street2: {
       'ui:autocomplete': 'address-line2',
       'ui:required': requiredFunc('street2', false),
       'ui:webComponentField': VaTextInputField,
@@ -487,11 +553,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('street3')) {
-    uiSchema.street3 = {
+    },
+    street3: {
       'ui:autocomplete': 'address-line3',
       'ui:required': requiredFunc('street3', false),
       'ui:options': {
@@ -515,11 +578,8 @@ export function addressUI(options = {}) {
         },
       },
       'ui:webComponentField': VaTextInputField,
-    };
-  }
-
-  if (!omit('city')) {
-    uiSchema.city = {
+    },
+    city: {
       'ui:required': requiredFunc('city', true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': CITY_ERROR_MESSAGES_DEFAULT,
@@ -563,11 +623,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('state')) {
-    uiSchema.state = {
+    },
+    state: {
       'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index, fullData, path) => {
         if (customRequired('state')) {
@@ -668,11 +725,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('postalCode')) {
-    uiSchema.postalCode = {
+    },
+    postalCode: {
       'ui:required': requiredFunc('postalCode', true),
       'ui:title': options.labels?.postalCode ?? 'Postal code',
       'ui:autocomplete': 'postal-code',
@@ -719,39 +773,51 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
+    },
+  };
+
+  const uiSchema = SchemaKeys.map(fields, SchemaKeys.normalizeMapping(options));
+
+  uiSchema['ui:validations'] = [];
+  if (!options.omit?.includes('isMilitary')) {
+    uiSchema['ui:validations'].push(validateMilitaryBaseZipCode);
   }
+
+  uiSchema['ui:options'] = {
+    classNames: 'vads-web-component-pattern vads-web-component-pattern-address',
+  };
 
   return uiSchema;
 }
 
 /**
- * Schema for addressUI. Fields may be omitted.
+ * Schema for addressUI. Fields may be omitted or remapped.
  *
  * ```js
  * schema: {
  *   address: addressSchema()
  *   simpleAddress: addressSchema({ omit: ['street2', 'street3'] })
+ *   remappedAddress: addressSchema({ newSchemaKeys: { street: 'address1' } })
  * }
  * ```
- * @param {{
- *  omit: string[]
- * }} [options]
+ * @param {Object} [options]
+ * @param {Array<AddressSchemaKey>} [options.omit]
+ * @param {Record<AddressSchemaKey, string>} [options.newSchemaKeys] - Partial map of schema key remappings to merge with defaults
  * @returns {SchemaOptions}
  */
 export const addressSchema = options => {
-  let schema = commonDefinitions.profileAddress;
+  const schema = commonDefinitions.profileAddress;
+  if (!options) return schema;
 
-  if (options?.omit) {
-    schema = {
-      ...schema,
-      properties: {
-        ...utilsOmit(options.omit, schema.properties),
-      },
-    };
-  }
+  const properties = SchemaKeys.map(
+    schema.properties,
+    SchemaKeys.normalizeMapping(options),
+  );
 
-  return schema;
+  return {
+    ...schema,
+    properties,
+  };
 };
 
 /**
