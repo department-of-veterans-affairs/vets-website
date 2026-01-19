@@ -29,6 +29,7 @@ import {
   fhirResourceTypes,
   loincCodes,
   labTypes,
+  DATA_UNAVAILABLE,
 } from '../../util/constants';
 
 describe('extractLabLocation', () => {
@@ -963,6 +964,15 @@ describe('formatDateTime', () => {
       formattedTime: '',
     });
   });
+
+  it('should handle null datetime strings gracefully', () => {
+    const datetimeString = null;
+    const result = formatDateTime(datetimeString);
+    expect(result).to.deep.equal({
+      formattedDate: '',
+      formattedTime: '',
+    });
+  });
 });
 
 describe('convertUnifiedLabsAndTestRecord', () => {
@@ -1017,7 +1027,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     expect(result).to.deep.equal({
       id: 'test-id',
-      date: '',
+      date: DATA_UNAVAILABLE,
       name: undefined,
       location: undefined,
       observations: undefined,
@@ -1048,7 +1058,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     expect(result).to.deep.equal({
       id: 'test-id',
-      date: '',
+      date: DATA_UNAVAILABLE,
       name: undefined,
       location: undefined,
       observations: undefined,

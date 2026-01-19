@@ -162,6 +162,7 @@ export const NO_INFO_REPORTED = 'No information reported';
 export const NO_INFO_PROVIDED = 'No information provided';
 export const NA = 'N/A';
 export const UNKNOWN = 'Unknown';
+export const DATA_UNAVAILABLE = 'Data unavailable';
 
 export const IS_TESTING = false;
 
