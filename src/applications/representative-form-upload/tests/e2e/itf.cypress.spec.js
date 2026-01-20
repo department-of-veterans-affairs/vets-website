@@ -257,6 +257,10 @@ describe('Intent to file submission', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit`,
         );
+        cy.get("button[data-testid='expand-all-accordions']").click();
+
+        // hide the edit button that could cause issues with submission
+        cy.get("va-button[text='Edit']").should('be.hidden');
 
         cy.get("va-button[text='Submit form']").click();
         cy.axeCheck();
@@ -318,6 +322,9 @@ describe('Intent to file submission', () => {
           'eq',
           '/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit',
         );
+
+        // hide the edit button that could cause issues with submission
+        cy.get("va-button[text='Edit']").should('be.hidden');
 
         cy.get("va-button[text='Submit form']").click();
         cy.location('pathname').should(
