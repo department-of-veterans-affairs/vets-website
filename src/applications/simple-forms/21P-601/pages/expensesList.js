@@ -48,7 +48,10 @@ const yesNoOptions = {
 const summaryPage = {
   uiSchema: {
     ...titleUI('Expenses you paid'),
-    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
+...titleUI('Expenses you paid'),
+'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions, {
+  labelHeaderLevel: '3',
+}),
     'view:expenseInfo': {
       'ui:description': (
         <va-alert status="info" uswds>
