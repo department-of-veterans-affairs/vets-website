@@ -8,13 +8,14 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { clearSearchText } from '../../actions/search';
 import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
 import { getProviderSpecialties } from '../../actions/locations';
-import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
 
 // Hooks
 import useSearchFormState from '../../hooks/useSearchFormState';
 import useSearchFormSync from '../../hooks/useSearchFormSync';
+import useGeolocationAnalytics from '../../hooks/useGeolocationAnalytics';
+import useSearchSubmit from '../../hooks/useSearchSubmit';
 
 // Components
 import BottomRow from './BottomRow';
@@ -70,101 +71,24 @@ export const SearchForm = props => {
     vaHealthServicesData: props.vaHealthServicesData,
   });
 
+  // Track geolocation errors for analytics
+  useGeolocationAnalytics(currentQuery.geocodeError);
+
+  // Form submission handling
+  const { handleSubmit } = useSearchSubmit({
+    draftFormState,
+    setDraftFormState,
+    selectedServiceType,
+    currentQuery,
+    onChange,
+    onSubmit,
+    isMobile,
+    mobileMapUpdateEnabled,
+    selectMobileMapPin,
+    setSearchInitiated,
+  });
+
   const locationInputFieldRef = useRef(null);
-  const lastQueryRef = useRef(null);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    const isSameQuery =
-      lastQueryRef.current &&
-      draftFormState.facilityType === lastQueryRef.current.facilityType &&
-      draftFormState.serviceType === lastQueryRef.current.serviceType &&
-      draftFormState.searchString === lastQueryRef.current.searchString &&
-      currentQuery.zoomLevel === lastQueryRef.current.zoomLevel;
-
-    if (isSameQuery) {
-      return;
-    }
-
-    if (!draftFormState.searchString) {
-      setDraftFormState(prev => ({
-        ...prev,
-        locationChanged: true,
-        isValid: false,
-      }));
-      setTimeout(() => focusElement('#street-city-state-zip'), 0);
-      return;
-    }
-
-    if (!draftFormState.facilityType) {
-      setDraftFormState(prev => ({
-        ...prev,
-        facilityTypeChanged: true,
-        isValid: false,
-      }));
-      setTimeout(() => focusElement('#facility-type-dropdown'), 0);
-      return;
-    }
-
-    if (
-      draftFormState.facilityType === LocationType.CC_PROVIDER &&
-      (!draftFormState.serviceType || !selectedServiceType)
-    ) {
-      setDraftFormState(prev => ({
-        ...prev,
-        serviceTypeChanged: true,
-        isValid: false,
-      }));
-      setTimeout(() => focusElement('#service-type-ahead-input'), 0);
-      return;
-    }
-
-    lastQueryRef.current = {
-      facilityType: draftFormState.facilityType,
-      serviceType: draftFormState.serviceType,
-      searchString: draftFormState.searchString,
-      zoomLevel: currentQuery.zoomLevel,
-    };
-
-    onChange({
-      facilityType: draftFormState.facilityType,
-      serviceType: draftFormState.serviceType,
-      searchString: draftFormState.searchString,
-      vamcServiceDisplay: draftFormState.vamcServiceDisplay,
-    });
-
-    let analyticsServiceType = draftFormState.serviceType;
-    const specialtyDisplayName =
-      currentQuery.specialties?.[draftFormState.serviceType];
-
-    if (
-      draftFormState.facilityType === LocationType.CC_PROVIDER &&
-      currentQuery.specialties &&
-      specialtyDisplayName
-    ) {
-      analyticsServiceType = specialtyDisplayName;
-    }
-
-    recordEvent({
-      event: 'fl-search',
-      'fl-search-fac-type': draftFormState.facilityType,
-      'fl-search-svc-type': analyticsServiceType,
-      'fl-current-zoom-depth': currentQuery.zoomLevel,
-    });
-
-    if (isMobile && mobileMapUpdateEnabled) {
-      selectMobileMapPin(null);
-    }
-
-    setSearchInitiated(true);
-    onSubmit({
-      facilityType: draftFormState.facilityType,
-      serviceType: draftFormState.serviceType,
-      searchString: draftFormState.searchString,
-      vamcServiceDisplay: draftFormState.vamcServiceDisplay,
-    });
-  };
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
@@ -192,36 +116,6 @@ export const SearchForm = props => {
       }
     },
     [currentQuery.geolocationInProgress],
-  );
-
-  // Track geocode errors
-  useEffect(
-    () => {
-      if (currentQuery?.geocodeError) {
-        switch (currentQuery.geocodeError) {
-          case 0:
-            break;
-          case 1:
-            recordEvent({
-              event: 'fl-get-geolocation-permission-error',
-              'error-key': '1_PERMISSION_DENIED',
-            });
-            break;
-          case 2:
-            recordEvent({
-              event: 'fl-get-geolocation-other-error',
-              'error-key': '2_POSITION_UNAVAILABLE',
-            });
-            break;
-          default:
-            recordEvent({
-              event: 'fl-get-geolocation-other-error',
-              'error-key': '3_TIMEOUT',
-            });
-        }
-      }
-    },
-    [currentQuery.geocodeError],
   );
 
   const facilityAndServiceTypeInputs = (
