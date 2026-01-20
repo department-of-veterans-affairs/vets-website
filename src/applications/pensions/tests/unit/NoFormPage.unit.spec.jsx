@@ -4,8 +4,8 @@ import { render, waitFor } from '@testing-library/react';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import { expect } from 'chai';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -65,15 +65,8 @@ const mockFormData = {
 };
 
 describe('NoFormPage', () => {
-  const server = setupServer();
-  before(() => {
-    server.listen();
-  });
   afterEach(() => {
     server.resetHandlers();
-  });
-  after(() => {
-    server.close();
   });
 
   it('should render if NOT logged in', async () => {
