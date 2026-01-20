@@ -24,6 +24,7 @@ import {
   MAX_FILE_SIZE_BYTES,
   MAX_PDF_FILE_SIZE_BYTES,
   USA,
+  NULL_CONDITION_STRING,
 } from '../constants';
 
 import {
@@ -35,6 +36,19 @@ import {
   pathWithIndex,
   sippableId,
 } from './index';
+
+const createCheckboxSchema = (schema, disabilityName) => {
+  const capitalizedDisabilityName =
+    typeof disabilityName === 'string'
+      ? capitalizeEachWord(disabilityName)
+      : NULL_CONDITION_STRING;
+  return _.set(
+    // As an array like this to prevent periods in the name being interpreted as nested objects
+    [sippableId(disabilityName)],
+    { title: capitalizedDisabilityName, type: 'boolean' },
+    schema,
+  );
+};
 
 /**
  * Create the checkbox schema for new disabilities if user has selected
@@ -124,15 +138,17 @@ export const makeSchemaForRatedDisabilities = createSelector(
 
     // combine and deduplicate
     const combined = [...fromRatedDisabilities, ...fromNewDisabilities];
-    const unique = [...new Set(combined.map(d => d.toLowerCase()))];
-    const normalized = unique.map(d => capitalizeEachWord(d));
+    const unique = [
+      ...new Set(
+        combined.map(
+          d =>
+            typeof d === 'string' ? d.toLowerCase() : NULL_CONDITION_STRING,
+        ),
+      ),
+    ];
 
-    const properties = normalized.reduce((schema, name) => {
-      return _.set(
-        [sippableId(name)],
-        { title: name, type: 'boolean' },
-        schema,
-      );
+    const properties = unique.reduce((schema, name) => {
+      return createCheckboxSchema(schema, name);
     }, {});
 
     return { properties };
