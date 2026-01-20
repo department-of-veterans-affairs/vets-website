@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -9,14 +9,12 @@ import { clearSearchText } from '../../actions/search';
 import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
 import { getProviderSpecialties } from '../../actions/locations';
 import { LocationType } from '../../constants';
-import {
-  validateForm,
-  createFormStateFromQuery,
-  getServiceDisplayName,
-  INITIAL_FORM_FLAGS,
-} from '../../reducers/searchQuery';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
+
+// Hooks
+import useSearchFormState from '../../hooks/useSearchFormState';
+import useSearchFormSync from '../../hooks/useSearchFormSync';
 
 // Components
 import BottomRow from './BottomRow';
@@ -49,60 +47,31 @@ export const SearchForm = props => {
     vamcAutoSuggestEnabled,
   } = props;
 
-  const [selectedServiceType, setSelectedServiceType] = useState(null);
+  // Form state management via custom hook
+  const {
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    handleFacilityTypeChange,
+    handleServiceTypeChange,
+    handleLocationSelection,
+    handleVamcDraftChange,
+    selectedServiceType,
+  } = useSearchFormState(currentQuery);
+
+  // Synchronize URL params, Redux, and draft state
+  useSearchFormSync({
+    currentQuery,
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    location: props.location,
+    onChange,
+    vaHealthServicesData: props.vaHealthServicesData,
+  });
+
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
-  const synchronizingRef = useRef(false);
-
-  const draftSearchStringRef = useRef(null);
-  const currentQueryRef = useRef(currentQuery);
-
-  const [draftFormState, setDraftFormState] = useState(() =>
-    createFormStateFromQuery(currentQuery),
-  );
-
-  draftSearchStringRef.current = draftFormState.searchString;
-  currentQueryRef.current = currentQuery;
-
-  const updateDraftState = useCallback(updater => {
-    setDraftFormState(prev => {
-      const updates =
-        typeof updater === 'function' ? updater(prev) : { ...prev, ...updater };
-      return { ...updates, ...validateForm(prev, updates) };
-    });
-  }, []);
-
-  const handleVamcDraftChange = useCallback(
-    updates => updateDraftState(updates),
-    [updateDraftState],
-  );
-
-  const handleLocationSelection = useCallback(
-    updates => updateDraftState(updates),
-    [updateDraftState],
-  );
-
-  const handleFacilityTypeChange = useCallback(
-    e => {
-      updateDraftState(prev => ({
-        ...prev,
-        facilityType: e.target.value,
-        serviceType: null,
-        vamcServiceDisplay: null,
-      }));
-    },
-    [updateDraftState],
-  );
-
-  const handleServiceTypeChange = useCallback(
-    ({ target, selectedItem }) => {
-      setSelectedServiceType(selectedItem);
-      const option = target.value.trim();
-      const serviceType = option === 'All' ? null : option;
-      updateDraftState({ serviceType });
-    },
-    [updateDraftState],
-  );
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -196,114 +165,6 @@ export const SearchForm = props => {
       vamcServiceDisplay: draftFormState.vamcServiceDisplay,
     });
   };
-
-  useEffect(
-    () => {
-      const newSearchString = currentQuery.searchString || '';
-      if (newSearchString !== draftSearchStringRef.current) {
-        updateDraftState({ searchString: newSearchString });
-      }
-    },
-    [currentQuery.searchString, updateDraftState],
-  );
-
-  useEffect(
-    () => {
-      if (synchronizingRef.current) {
-        return;
-      }
-
-      const hasUrlParams =
-        props.location?.search &&
-        Object.keys(props.location?.query || {}).length > 0;
-      const hasReduxData =
-        currentQuery.facilityType ||
-        currentQuery.serviceType ||
-        currentQuery.searchString;
-
-      if (hasUrlParams || hasReduxData) {
-        synchronizingRef.current = true;
-        setDraftFormState(prev => {
-          let stateFromUrl = null;
-          let stateFromRedux = null;
-
-          if (hasUrlParams) {
-            const serviceType = props.location.query.serviceType || null;
-            const vamcServiceDisplay =
-              props.location.query.vamcServiceDisplay ||
-              (serviceType
-                ? getServiceDisplayName(serviceType, props.vaHealthServicesData)
-                : null);
-
-            stateFromUrl = {
-              facilityType: props.location.query.facilityType || null,
-              serviceType,
-              searchString: props.location.query.address || '',
-              vamcServiceDisplay,
-              ...INITIAL_FORM_FLAGS,
-            };
-          }
-
-          if (hasReduxData) {
-            const { serviceType } = currentQuery;
-            const vamcServiceDisplay =
-              currentQuery.vamcServiceDisplay ||
-              (serviceType
-                ? getServiceDisplayName(serviceType, props.vaHealthServicesData)
-                : null);
-
-            stateFromRedux = {
-              facilityType: currentQuery.facilityType || null,
-              serviceType,
-              searchString: currentQuery.searchString || '',
-              vamcServiceDisplay,
-              ...INITIAL_FORM_FLAGS,
-            };
-          }
-
-          const finalState = stateFromUrl || stateFromRedux;
-          if (finalState) {
-            const shouldUpdateReduxFromUrl = stateFromUrl && onChange;
-            if (shouldUpdateReduxFromUrl) {
-              onChange({
-                facilityType: finalState.facilityType,
-                serviceType: finalState.serviceType,
-                searchString: finalState.searchString,
-                vamcServiceDisplay: finalState.vamcServiceDisplay,
-              });
-            }
-            return { ...finalState, ...validateForm(prev, finalState) };
-          }
-          return prev;
-        });
-
-        synchronizingRef.current = false;
-      }
-    },
-    [
-      props.location?.search,
-      currentQuery.facilityType,
-      currentQuery.serviceType,
-      currentQuery.searchString,
-    ],
-  );
-
-  // Update vamcServiceDisplay in draft state when Redux is updated
-  // (e.g., when vaHealthServicesData becomes available and FacilitiesMap resolves the display name)
-  useEffect(
-    () => {
-      if (
-        currentQuery.vamcServiceDisplay &&
-        !draftFormState.vamcServiceDisplay &&
-        draftFormState.facilityType === 'health'
-      ) {
-        updateDraftState({
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay,
-        });
-      }
-    },
-    [currentQuery.vamcServiceDisplay],
-  );
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
