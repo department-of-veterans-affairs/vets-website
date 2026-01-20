@@ -20,6 +20,7 @@ export default {
     ),
     claimantAddress: addressUI({
       labels: {
+        street2: 'Apartment or unit number',
         militaryCheckbox:
           'I receive mail outside of the United States on a U.S. military base',
       },
