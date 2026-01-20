@@ -64,14 +64,10 @@ const ClaimsAndAppealsError = ({ hasAppealsError, hasClaimsError }) => {
   }
 
   const content = useRedesignContent ? (
-    <h3
-      slot="headline"
-      className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
-      data-testId="benefit-application-error-redesign"
-    >
+    <span data-testId="benefit-application-error-redesign">
       We can’t show some of your {errorType} right now. Refresh this page or try
       again later.
-    </h3>
+    </span>
   ) : (
     <>
       <h3
