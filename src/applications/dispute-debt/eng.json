@@ -1,4 +1,7 @@
 {
+  "debt-selection": {
+    "submitted-note": "Note: This debt has already been disputed on {{ date }} and cannot be disputed again. It can take up to 60 days to process."
+  },
   "dispute-submission-alert": {
     "title": "Your dispute submission is in progress",
     "description": "We sent a confirmation email to <bold>{{ email }}</bold>. We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.<br/><br/> We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
@@ -15,8 +18,10 @@
       "description": "We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
     }
   },
-  "debt-selection": {
-    "submitted-note": "Note: This debt has already been disputed on {{ date }} and cannot be disputed again. It can take up to 60 days to process."
+  "downtime-notification-app-title": "dispute debt system",
+  "loading-indicator": {
+    "label": "Loading",
+    "message": "Loading application..."
   },
   "shared": {
     "contact": {

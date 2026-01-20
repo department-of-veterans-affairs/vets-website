@@ -5,6 +5,7 @@ import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { TITLE } from '../constants';
+import i18nDebtApp from '../i18n';
 import ShowAlertOrSip from '../components/ShowAlertOrSip';
 
 export const IntroductionPage = props => {
@@ -50,8 +51,8 @@ export const IntroductionPage = props => {
   if (isLoadingFeatures) {
     return (
       <va-loading-indicator
-        label="Loading"
-        message="Loading application..."
+        label={i18nDebtApp.t('loading-indicator.label')}
+        message={i18nDebtApp.t('loading-indicator.message')}
         set-focus
       />
     );
