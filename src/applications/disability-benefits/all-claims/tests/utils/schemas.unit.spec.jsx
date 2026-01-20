@@ -135,6 +135,33 @@ describe('makeSchemaForRatedDisabilities', () => {
     });
   });
 
+  it('should return the null condition string if disability name is not a string', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd personal trauma',
+          'view:selected': false,
+        },
+        {
+          name: null,
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        unknowncondition: {
+          title: 'Unknown Condition',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
   it('should include rated disabilities from newDisabilities array', () => {
     const formData = {
       ratedDisabilities: [],
