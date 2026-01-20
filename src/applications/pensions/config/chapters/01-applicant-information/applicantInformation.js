@@ -66,7 +66,7 @@ export default {
         hint: 'Enter your VA file number if it doesn’t match your SSN',
       },
     },
-    veteranDateOfBirth: dateOfBirthUI(),
+    veteranDateOfBirth: dateOfBirthUI({ dataDogHidden: true }),
   },
   schema: {
     type: 'object',
