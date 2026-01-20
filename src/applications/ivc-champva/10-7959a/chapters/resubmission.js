@@ -21,7 +21,7 @@ import ClaimIdentificationInfo from '../components/FormDescriptions/ClaimIdentif
 import { blankSchema, fileUploadSchema } from '../definitions';
 import content from '../locales/en/content.json';
 
-const ID_NUMBER_OPTIONS = [
+export const ID_NUMBER_OPTIONS = [
   content['resubmission-id-number--pdi-option'],
   content['resubmission-id-number--control-option'],
 ];

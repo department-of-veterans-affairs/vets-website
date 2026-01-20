@@ -147,12 +147,14 @@ export default function CalendarOptions({
 }
 CalendarOptions.propTypes = {
   availableSlots: PropTypes.array,
+  buttonRef: PropTypes.object,
   currentlySelectedDate: PropTypes.string,
   handleSelectOption: PropTypes.func,
   hasError: PropTypes.bool,
   id: PropTypes.string,
   maxSelections: PropTypes.number,
   optionsHeight: PropTypes.number,
+  optionsHeightRef: PropTypes.object,
   renderOptions: PropTypes.func,
   selectedCellIndex: PropTypes.number,
   selectedDates: PropTypes.array,
