@@ -9,6 +9,7 @@ export default function FindAPathSection() {
             <va-link
               href="https://www.youtube.com/watch?v=49eWvGitLPw"
               text="Orientation Video"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -20,6 +21,7 @@ export default function FindAPathSection() {
             <va-link
               href="https://www.careeronestop.org/ExploreCareers/Learn/self-employment.aspx?secondaryNavPanels=Ag%3D%3D"
               text="Employment Options"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -32,6 +34,7 @@ export default function FindAPathSection() {
             <va-link
               href="https://www.careeronestop.org/Toolkit/Training/find-local-training.aspx"
               text="Location Training Finder"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -44,6 +47,7 @@ export default function FindAPathSection() {
             <va-link
               href="https://www.careeronestop.org/Toolkit/Training/find-certifications.aspx"
               text="Certification Finder"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">

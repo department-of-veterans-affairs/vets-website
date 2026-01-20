@@ -9,6 +9,7 @@ export default function AssessYourInterestsSection() {
             <va-link
               href="https://www.careeronestop.org/Toolkit/Skills/skills-matcher.aspx"
               text="Skills Matcher"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -21,6 +22,7 @@ export default function AssessYourInterestsSection() {
             <va-link
               href="https://www.careeronestop.org/Toolkit/Careers/interest-assessment.aspx"
               text="Interest Assessment"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -34,6 +36,7 @@ export default function AssessYourInterestsSection() {
             <va-link
               href="https://www.careeronestop.org/Toolkit/Careers/Occupations/occupation-profile.aspx"
               text="Occupation Profile"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -47,6 +50,7 @@ export default function AssessYourInterestsSection() {
             <va-link
               href="https://www.bls.gov"
               text="Labor Market Information"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -60,6 +64,7 @@ export default function AssessYourInterestsSection() {
             <va-link
               href="https://www.careeronestop.org/JobSearch/Resumes/ResumeGuide/introduction.aspx?secondaryNavPanels=CA%3D%3D"
               text="Resume Builder"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">

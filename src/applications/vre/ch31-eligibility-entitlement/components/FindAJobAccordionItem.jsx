@@ -9,6 +9,7 @@ export default function FindAJobSection() {
             <va-link
               href="https://www.careeronestop.org/Toolkit/Wages/cost-of-living.aspx"
               text="Compare Costs of Living"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -22,6 +23,7 @@ export default function FindAJobSection() {
             <va-link
               href="https://www.careeronestop.org/Toolkit/Wages/find-salary.aspx"
               text="Salary Finder"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
@@ -34,6 +36,7 @@ export default function FindAJobSection() {
             <va-link
               href="https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx"
               text="Job Finder"
+              external
             />
           </h3>
           <p className="va-nav-linkslist-description">
