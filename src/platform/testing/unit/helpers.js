@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
