@@ -125,9 +125,14 @@ const useSearchFormSync = ({
     },
     [
       location?.search,
+      location?.query,
       currentQuery.facilityType,
       currentQuery.serviceType,
       currentQuery.searchString,
+      currentQuery.vamcServiceDisplay,
+      setDraftFormState,
+      onChange,
+      vaHealthServicesData,
     ],
   );
 
@@ -145,7 +150,12 @@ const useSearchFormSync = ({
         });
       }
     },
-    [currentQuery.vamcServiceDisplay],
+    [
+      currentQuery.vamcServiceDisplay,
+      draftFormState.vamcServiceDisplay,
+      draftFormState.facilityType,
+      updateDraftState,
+    ],
   );
 };
 
