@@ -55,7 +55,7 @@ const Claim = ({ claim }) => {
           class="vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
         />
         <div>
-          <p className="vads-u-margin-y--0">{status}</p>
+          <p className="vads-u-margin-y--0">Status: {status}</p>
           {inProgress && claim.attributes.developmentLetterSent ? (
             <p className="vads-u-margin-y--0">
               We sent you a development letter
