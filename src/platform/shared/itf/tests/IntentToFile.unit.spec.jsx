@@ -1,17 +1,36 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { server, rest } from 'platform/testing/unit/mocha-setup';
 import IntentToFile from '../IntentToFile';
 import { activeItf, nonActiveItf, mockItfData } from './helpers';
 
 describe('IntentToFile', () => {
   afterEach(() => {
-    resetFetch();
+    cleanup();
+    server.resetHandlers();
   });
+
+  // Helper to set up MSW handler for ITF API
+  const mockItfApi = (responseData, shouldSucceed = true) => {
+    server.use(
+      rest.get(/\/v0\/intent_to_file\//, (req, res, ctx) => {
+        if (shouldSucceed) {
+          return res(ctx.status(200), ctx.json(responseData));
+        }
+        return res(ctx.status(500), ctx.json({ errors: ['Server error'] }));
+      }),
+      rest.post(/\/v0\/intent_to_file\//, (req, res, ctx) => {
+        if (shouldSucceed) {
+          return res(ctx.status(200), ctx.json(responseData));
+        }
+        return res(ctx.status(500), ctx.json({ errors: ['Server error'] }));
+      }),
+    );
+  };
 
   const getData = ({
     baseUrl = '/path-to-app',
@@ -59,7 +78,7 @@ describe('IntentToFile', () => {
     );
 
   it('should render searching for ITF loading indicator', async () => {
-    mockApiRequest({});
+    mockItfApi({});
     const { container } = renderPage(getData());
 
     await waitFor(() => {
@@ -71,7 +90,7 @@ describe('IntentToFile', () => {
   });
 
   it('should render ITF found alert', async () => {
-    mockApiRequest(mockItfData(activeItf));
+    mockItfApi(mockItfData(activeItf));
     const { container } = renderPage(getData());
 
     await waitFor(() => {
@@ -83,7 +102,7 @@ describe('IntentToFile', () => {
   });
 
   it('should render ITF created alert', async () => {
-    mockApiRequest(mockItfData(nonActiveItf));
+    mockItfApi(mockItfData(nonActiveItf));
     const { container } = renderPage(getData());
 
     await waitFor(() => {
@@ -95,7 +114,7 @@ describe('IntentToFile', () => {
   });
 
   it('should render ITF failed alert', async () => {
-    mockApiRequest(mockItfData(), false);
+    mockItfApi(mockItfData(), false);
     const { container } = renderPage(getData());
 
     await waitFor(() => {
@@ -107,21 +126,21 @@ describe('IntentToFile', () => {
   });
 
   it('should not render if not logged in', () => {
-    mockApiRequest({});
+    mockItfApi({});
     const { container } = renderPage(getData({ loggedIn: false }));
     expect($('.itf-wrapper', container)).to.not.exist;
     expect($('#test').innerHTML).to.equal('');
   });
 
   it('should not render if missing itfType', () => {
-    mockApiRequest({});
+    mockItfApi({});
     const { container } = renderPage(getData({ itfType: '' }));
     expect($('.itf-wrapper', container)).to.not.exist;
     expect($('#test').innerHTML).to.equal('');
   });
 
   it('should not render if unsupported itfType & throw an error', () => {
-    mockApiRequest({});
+    mockItfApi({});
     let page;
     try {
       page = renderPage(getData({ itfType: 'test' }));
@@ -136,7 +155,7 @@ describe('IntentToFile', () => {
   });
 
   it('should render full ITF page with navigation buttons and restore page when navigation is clicked', async () => {
-    mockApiRequest(mockItfData(activeItf));
+    mockItfApi(mockItfData(activeItf));
     const { props, mockStore } = getData();
     const { container } = await render(
       <Provider store={mockStore}>
@@ -160,7 +179,7 @@ describe('IntentToFile', () => {
   });
 
   it('should not autofocus success alert when disableAutoFocus is true and ITF exists', async () => {
-    mockApiRequest(mockItfData(activeItf));
+    mockItfApi(mockItfData(activeItf));
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -177,7 +196,7 @@ describe('IntentToFile', () => {
   });
 
   it('should not autofocus ITF created alert when disableAutoFocus is true and new ITF is created', async () => {
-    mockApiRequest(mockItfData(nonActiveItf));
+    mockItfApi(mockItfData(nonActiveItf));
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -194,7 +213,7 @@ describe('IntentToFile', () => {
   });
 
   it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', async () => {
-    mockApiRequest(mockItfData(), false);
+    mockItfApi(mockItfData(), false);
     const { container } = renderPage(getData());
 
     await waitFor(() => {
