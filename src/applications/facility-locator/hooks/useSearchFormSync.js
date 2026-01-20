@@ -123,6 +123,9 @@ const useSearchFormSync = ({
         synchronizingRef.current = false;
       }
     },
+    // Using individual currentQuery properties instead of the full object
+    // to avoid re-running on every Redux state change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       location?.search,
       location?.query,
