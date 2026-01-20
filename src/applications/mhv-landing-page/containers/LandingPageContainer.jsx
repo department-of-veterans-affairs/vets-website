@@ -18,7 +18,6 @@ import {
   isLOA3,
   isVAPatient,
   selectProfile,
-  // signInServiceEnabled,
   hasMessagingAccess,
   mhvAccountStatusLoading,
 } from '../selectors';
@@ -29,7 +28,6 @@ const LandingPageContainer = () => {
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  // const useSiS = useSelector(signInServiceEnabled);
   const registered = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,

@@ -6,14 +6,12 @@ import 'url-search-params-polyfill';
 
 import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 import { isLoggedIn } from 'platform/user/selectors';
-// import { signInServiceEnabled } from 'platform/user/authentication/selectors';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import { OAuthEnabledApplications } from 'platform/user/authentication/config/constants';
 import { signInAppCSS } from '../constants';
 
 export function UnifiedSigninPage({ router, location }) {
   const isAuthenticated = useSelector(state => isLoggedIn(state));
-  // const isSiSEnabled = useSelector(state => signInServiceEnabled(state));
   const { query } = location;
   const externalApplication = query.application;
 
