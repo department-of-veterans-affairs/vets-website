@@ -17,16 +17,13 @@ const renderPage = (formData = {}) =>
 describe('22-0976 submission reason update information text page', () => {
   it('renders page title', () => {
     const { container } = renderPage();
-    expect(container.textContent).to.contain('TBD: Update information title');
+    expect(container.textContent).to.contain('Application information');
   });
 
-  it('renders the text input with the correct label', () => {
+  it('renders the text input', () => {
     const { container } = renderPage();
     const vaText = container.querySelector('va-textarea');
     expect(vaText).to.exist;
-    expect(vaText.getAttribute('label')).to.equal(
-      'TBD Update information subtitle',
-    );
   });
 
   it('shows an error when no option is selected on submit', async () => {

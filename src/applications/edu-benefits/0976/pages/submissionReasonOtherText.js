@@ -6,10 +6,11 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('TBD: Other title'),
+    ...titleUI('Application information'),
     otherText: {
       ...textareaUI({
-        title: 'TBD Other subtitle',
+        title:
+          'Since you selected “other” on the previous page, you’ll need to provide more details about the purpose of your application',
         charcount: true,
       }),
     },

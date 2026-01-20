@@ -6,10 +6,13 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('TBD: Update information title'),
+    ...titleUI('Application information'),
     updateInformationText: {
       ...textareaUI({
-        title: 'TBD Update information subtitle',
+        title:
+          'Since you selected “update information” on the previous page, you’ll need to list at least one reason for your application',
+        hint:
+          'This may include issues such as change of address, banking information, etc.',
         charcount: true,
       }),
     },
