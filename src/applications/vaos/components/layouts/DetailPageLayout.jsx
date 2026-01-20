@@ -227,7 +227,8 @@ export default function DetailPageLayout({
             <AppointmentTasksSection appointment={appointment} />
           )}
         {isPastAppointment &&
-          APPOINTMENT_STATUS.booked === appointment.status && (
+          (APPOINTMENT_STATUS.booked === appointment.status ||
+            APPOINTMENT_STATUS.fulfilled === appointment.status) && (
             <AfterVisitSummary data={appointment} />
           )}
         {children}
