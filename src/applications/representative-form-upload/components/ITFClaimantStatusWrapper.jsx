@@ -6,7 +6,9 @@ import { getFormContent } from '../helpers';
 
 const ITFClaimantStatusWrapper = ({ children }) => {
   useEffect(() => {
-    focusElement('va-segmented-progress-bar');
+    setTimeout(() => {
+      focusElement('.itf-status va-alert h2');
+    }, 50);
   }, []);
   const { subTitle, formNumber } = getFormContent();
   return (
