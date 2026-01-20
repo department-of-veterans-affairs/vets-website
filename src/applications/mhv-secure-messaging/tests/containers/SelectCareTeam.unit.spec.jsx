@@ -1087,7 +1087,7 @@ describe('SelectCareTeam', () => {
           'api-name': 'SM VA Health Systems Displayed',
           'api-status': 'successful',
           'health-systems-count': 3,
-          'display-type': 'radio',
+          version: 'radio',
         });
       });
     });
@@ -1128,7 +1128,7 @@ describe('SelectCareTeam', () => {
           'api-name': 'SM VA Health Systems Displayed',
           'api-status': 'successful',
           'health-systems-count': 6,
-          'display-type': 'dropdown',
+          version: 'dropdown',
         });
       });
     });
