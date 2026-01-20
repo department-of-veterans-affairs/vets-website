@@ -23,7 +23,7 @@ import {
   handleNext,
   handlePrev,
   getCalendarWeeks,
-} from './utils';
+} from './utils/utils';
 
 /**
  * Calendar widget
