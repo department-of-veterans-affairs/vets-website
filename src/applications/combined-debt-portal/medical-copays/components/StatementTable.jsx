@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   formatDate,
+  formatISODateToMMDDYYYY,
   setPageFocus,
   showVHAPaymentHistory,
 } from '../../combined/utils/helpers';
@@ -135,7 +136,13 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   );
 
   const getDate = charge => {
-    if (charge.date) return formatDate(charge.date);
+    if (shouldShowVHAPaymentHistory) {
+      return formatISODateToMMDDYYYY(charge.date);
+    }
+
+    if (charge.date) {
+      return formatDate(charge.date);
+    }
 
     if (charge.description?.toLowerCase().includes('interest/adm')) {
       return selectedCopay?.pSStatementDateOutput;
