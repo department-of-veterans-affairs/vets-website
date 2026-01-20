@@ -28,6 +28,13 @@ export default {
           expandUnder: 'isIHL',
           expandUnderCondition: false,
         },
+        'ui:validations': [
+          (errors, fieldData, _formData) => {
+            if (fieldData && !/^[\w\s]*$/.test(fieldData)) {
+              errors.addError('No special characters allowed');
+            }
+          },
+        ],
       },
     },
   },

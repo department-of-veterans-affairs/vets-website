@@ -23,5 +23,6 @@ export default {
     properties: {
       website: textSchema,
     },
+    required: ['website'],
   },
 };

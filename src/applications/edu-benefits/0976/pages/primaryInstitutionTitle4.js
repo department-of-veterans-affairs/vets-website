@@ -13,8 +13,13 @@ export default {
     ...titleUI('Institution details'),
     institutionProfile: {
       participatesInTitleIV: yesNoUI({
+        yesNoReverse: true,
         title:
           'Does the facility participate in a program under Title IV with the U.S. Department of Education?',
+        labels: {
+          N: 'Yes',
+          Y: 'No',
+        },
       }),
       opeidNumber: {
         ...textUI({
@@ -23,11 +28,11 @@ export default {
             required: 'You must enter your institution’s OPEID number below',
           },
           required: formData =>
-            formData.institutionProfile?.participatesInTitleIV === false,
+            formData.institutionProfile?.participatesInTitleIV === true,
         }),
         'ui:options': {
           expandUnder: 'participatesInTitleIV',
-          expandUnderCondition: false,
+          expandUnderCondition: true,
         },
       },
     },
