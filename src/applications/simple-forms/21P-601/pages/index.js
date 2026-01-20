@@ -38,10 +38,10 @@ export {
   waiverOfSubstitution,
   relativesOverview,
   relativesPages,
-  supportingDocuments,
   expensesClaim,
   expensesPages,
   otherDebts,
   otherDebtsPages,
   remarks,
+  supportingDocuments,
 };
