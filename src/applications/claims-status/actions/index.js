@@ -22,8 +22,9 @@ import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 import { canUseMocks, ANCHOR_LINKS } from '../constants';
 import {
-  recordUploadStartEvent,
+  recordUploadCancelEvent,
   recordUploadFailureEvent,
+  recordUploadStartEvent,
   recordUploadSuccessEvent,
 } from '../utils/analytics';
 import {
@@ -580,9 +581,9 @@ export function submitFiles(
                   } else {
                     error.docType = 'Unknown';
                   }
-
-                  errorFiles.push(error);
                 }
+
+                errorFiles.push(error);
 
                 hasError = error;
               }
@@ -661,12 +662,10 @@ export function getStemClaims() {
   };
 }
 
-export function cancelUpload() {
+export function cancelUpload({ cancelFileCount, retryFileCount }) {
   return (dispatch, getState) => {
     const { uploader } = getState().disability.status.uploads;
-    recordEvent({
-      event: 'claims-upload-cancel',
-    });
+    recordUploadCancelEvent({ cancelFileCount, retryFileCount });
 
     if (uploader) {
       uploader.cancelAll();
