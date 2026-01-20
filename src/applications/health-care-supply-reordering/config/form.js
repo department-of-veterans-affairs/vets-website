@@ -129,7 +129,7 @@ const submit = form => {
         'bam-quantityOrdered': itemQuantities,
       });
       addDatadogError(error, {
-        feature: `${APP_NAME} - form submission`,
+        feature: `${APP_NAME} - form submission failed`,
       });
       return reject(error);
     });
