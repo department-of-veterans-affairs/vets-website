@@ -1,18 +1,163 @@
 # Prefill Pattern
 
-The prefill pattern provides reusable components for VA.gov forms to display and validate user information that is prefilled from VA Profile data and the `in_progress_forms` endpoint.
+## Overview
+
+The prefill pattern provides reusable components for VA.gov forms to display cards prefilled with user information.
+
+Prefill data comes from two backend sources:
+- **`/v0/user`** - User profile data from VA Profile (name, date of birth, contact info, etc.)
+- **`/v0/in_progress_forms/{form-id}`** - Form-specific prefill data that cannot be obtained from the user profile, such as SSN and VA file number
+
+## Implementation Checklist
+
+- [ ] Complete vets-api backend configuration (form profile, YAML file, and Settings)
+- [ ] Enable prefill in form config (`prefillEnabled: true`)
+- [ ] Create prefill transformer to map backend data to form structure
+- [ ] Add submit transformer (including `transformEmailForSubmit` if using contact info)
+- [ ] Add route protection
+- [ ] Import and configure prefill components (`profilePersonalInfoPage`, `profileContactInfoPages`)
+- [ ] Set up local mock responses for testing
+
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Additional Steps](#additional-steps)
+  - [Add Submit Transformer](#add-submit-transformer)
+  - [Add Route Protection](#add-route-protection)
+  - [Set Up Local Testing](#set-up-local-testing)
+  - [Import and Add Prefill Pages](#import-and-add-prefill-pages)
+- [Components](#components)
+  - [Personal Information](#personal-information)
+  - [Contact Information](#contact-information)
 
 ## Quick Start
 
-### Import and Use
+Follow [VA Forms Library - How to work with Pre-fill](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-work-with-pre-fill#VAFormsLibrary-HowtoworkwithPre-Fill-Introduction) to complete the initial vets-website configuration (enabling prefill and adding the prefill transformer) and the vets-api backend work. Then proceed with the additional steps below.
+
+Note that your `prefillTransformer` should structure the data so that `ssn` and `vaFileNumber` are direct children of `formData` (not nested). If you need to nest these properties for your form's structure, you must provide a `dataAdapter` to the personal information component. For more details, refer to the [Personal Information](#personal-information) section below.
+
+## Additional Steps
+
+### Add Submit Transformer
+
+Chain transformers to prepare data before submission. The `transformEmailForSubmit` helper is provided by the prefill pattern and converts the email object (used by the contact info component) into a simple string (required for submission).
+
+```js
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { transformEmailForSubmit } from 'platform/forms-system/src/js/patterns/prefill';
+
+const formConfig = {
+  transformForSubmit: (formConfig, form, options) => {
+    let formData = form;
+    // Transform email object to string (required if using profileContactInfoPages)
+    formData = transformEmailForSubmit(formData);
+    // Add other custom transformers here if needed
+    return transformForSubmit(formConfig, formData, options);
+  },
+};
+```
+
+### Add Route Protection
+
+Configure route protection to ensure veterans follow the intended form flow and cannot manually navigate to future steps via URL. This also handles page refreshes by redirecting to the beginning of the form.
+
+Without route protection, users can:
+- Navigate to future form steps via URL manipulation
+- Lose prefilled data on page refresh (Redux state is cleared)
+- Bypass required authentication checks
+
+The example below is from the mock-form-prefill's [App.jsx](../../../../../applications/simple-forms/mock-form-prefill/containers/App.jsx):
+
+```js
+import React from 'react';
+import { connect } from 'react-redux';
+import environment from 'platform/utilities/environment';
+import manifest from '../manifest.json';
+
+function App({ location, children, isLoggedIn, formData }) {
+  const isIntroPage = location.pathname === '/introduction';
+  const noSaveInProgressData = !formData?.ssn;
+
+  // Redirect to introduction page if not logged in or no ssn on higher envs
+  if (
+    !environment.isLocalhost() &&
+    !isIntroPage &&
+    (!isLoggedIn || (isLoggedIn && noSaveInProgressData))
+  ) {
+    document.location.replace(manifest.rootUrl);
+    return (
+      <va-loading-indicator message="Redirecting to introduction page..." />
+    );
+  }
+  return (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
+  );
+}
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user?.login?.currentlyLoggedIn,
+    formData: state.form?.data || {},
+  };
+};
+
+export default connect(mapStateToProps)(App);
+```
+
+### Set Up Local Testing
+
+To test prefill locally, create a `local-mock-responses.js` file to mock the in-progress forms endpoint:
+
+```js
+// tests/fixtures/mocks/local-mock-responses.js
+const mockSipGet = require('./sip-get.json');
+
+const responses = {
+  'GET /v0/in_progress_forms/{YOUR_FORM_ID}': mockSipGet,
+  // ... other endpoints
+};
+
+module.exports = responses;
+```
+
+Create a corresponding `sip-get.json` file with your form's prefill data structure:
+
+```json
+{
+  "formData": {
+    "data": {
+      "attributes": {
+        "veteran": {
+          "ssn": "123456789",
+          "vaFileNumber": "987654321"
+        }
+      }
+    }
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/personal-information"
+  }
+}
+```
+
+Run the mock API server:
+```bash
+yarn mock-api --responses src/applications/your-app/tests/fixtures/mocks/local-mock-responses.js
+```
+
+See the [mock-form-prefill example](../../../../../applications/simple-forms/mock-form-prefill/tests/fixtures/mocks/) for a complete reference implementation.
+
+### Import and Add Prefill Pages
 
 ```js
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
-  transformEmailForSubmit,
 } from 'platform/forms-system/src/js/patterns/prefill';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 const formConfig = {
   chapters: {
@@ -27,19 +172,13 @@ const formConfig = {
       },
     },
   },
-  // Optional: Chain transform functions before submit
-  transformForSubmit: (formConfig, form, options) => {
-    let formData = form;
-    formData = transformEmailForSubmit(formData);
-    return transformForSubmit(formConfig, formData, options);
-  },
 };
 ```
 
 ## Components
 
 ### Personal Information
-Displays user's personal information (name, SSN, VA file number, date of birth, sex) in a read-only card format.
+Displays user's personal information (name, SSN, VA file number, date of birth, sex) in a read-only card format. Expects `ssn` and `vaFileNumber` at the root of `formData`, which should be handled by your `prefillTransformer` or `dataAdapter`.
 
 **Basic usage:**
 ```js
@@ -56,12 +195,20 @@ Displays user's personal information (name, SSN, VA file number, date of birth, 
     dateOfBirth: { show: true, required: true },
     sex: { show: false, required: false },
   },
+})
+```
+
+**With data adapter (for nested data structures):**
+If your prefill transformer places data in a nested structure (e.g., `formData.veteran.ssn`), use a `dataAdapter`:
+```js
+...profilePersonalInfoPage({
   dataAdapter: {
     ssnPath: 'veteran.ssn',
     vaFileNumberPath: 'veteran.vaFileNumber',
   },
 })
 ```
+Do not include `formData` in the path. Paths are relative to the `formData` object.
 
 ### Contact Information
 Displays and allows inline editing of contact information (email, phones, mailing address) with VA Profile synchronization.
@@ -79,50 +226,3 @@ Displays and allows inline editing of contact information (email, phones, mailin
   wrapperKey: 'veteran',
 })
 ```
-
-## Customization Options
-
-### Data Adapter
-The `dataAdapter` tells the personal information component where to find data in your form's structure. This is useful when your form's prefill endpoint returns data in a non-standard format.
-
-**Example:** If your prefill transformer returns `veteran.ssn` instead of just `ssn`:
-```js
-dataAdapter: {
-  ssnPath: 'veteran.ssn',
-  vaFileNumberPath: 'veteran.vaFileNumber',
-}
-```
-
-### Transform for Submit
-Chain multiple transform functions to prepare your form data before submission. Common transformers include `transformEmailForSubmit` which converts the email object to a simple string.
-
-**Example:**
-```js
-transformForSubmit: (formConfig, form, options) => {
-  let formData = form;
-  // Add custom transformers here
-  formData = transformEmailForSubmit(formData);
-  formData = myCustomTransformer(formData);
-  // Always call the base transformer last
-  return transformForSubmit(formConfig, formData, options);
-}
-```
-
-### Prefill Transformer
-Configure how data from the prefill API is mapped into your form's initial state:
-
-**Example:**
-```js
-const prefillTransformer = (pages, formData, metadata) => {
-  const { ssn, vaFileNumber } = formData?.data?.attributes?.veteran || {};
-  return {
-    metadata,
-    formData: { ssn, vaFileNumber },
-    pages,
-  };
-};
-```
-
-## Additional Documentation
-
-- [VA Forms Library - How to work with Pre-fill](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-work-with-pre-fill#VAFormsLibrary-HowtoworkwithPre-Fill-Introduction) - Requirements for implementing prefill pattern, including vets-website and vets-api work.
