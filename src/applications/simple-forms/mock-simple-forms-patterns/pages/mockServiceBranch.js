@@ -16,8 +16,7 @@ export default {
     }),
     wcv3ServiceBranchCustomBranches: serviceBranchUI({
       title: 'Service branches taken from multiple groups',
-      hint:
-        'This component includes branches taken from several different groups',
+      hint: 'This component includes branches from several different groups',
       branches: ['AAC', 'PA', 'MC', 'SF', 'PHS'],
     }),
   },
