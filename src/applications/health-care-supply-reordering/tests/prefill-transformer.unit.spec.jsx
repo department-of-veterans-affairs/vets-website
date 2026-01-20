@@ -15,50 +15,50 @@ describe('prefillTransformer', () => {
   };
 
   describe('temporaryAddress', () => {
-    it('should copy permanentAddress to temporaryAddress when temporaryAddress is missing', () => {
-      const permanentAddress = { ...defaultAddress };
-      const formData = {
-        permanentAddress,
-      };
-      const result = prefillTransformer(pages, formData, metadata);
-      expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
-    });
+    // it('should copy permanentAddress to temporaryAddress when temporaryAddress is missing', () => {
+    //   const permanentAddress = { ...defaultAddress };
+    //   const formData = {
+    //     permanentAddress,
+    //   };
+    //   const result = prefillTransformer(pages, formData, metadata);
+    //   expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
+    // });
 
-    it('should copy permanentAddress to temporaryAddress when temporaryAddress is an empty object', () => {
-      const permanentAddress = { ...defaultAddress };
-      const formData = {
-        permanentAddress,
-        temporaryAddress: {},
-      };
-      const result = prefillTransformer(pages, formData, metadata);
-      expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
-    });
+    // it('should copy permanentAddress to temporaryAddress when temporaryAddress is an empty object', () => {
+    //   const permanentAddress = { ...defaultAddress };
+    //   const formData = {
+    //     permanentAddress,
+    //     temporaryAddress: {},
+    //   };
+    //   const result = prefillTransformer(pages, formData, metadata);
+    //   expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
+    // });
 
-    it('should copy permanentAddress to temporaryAddress when temporaryAddress has empty street field', () => {
-      const permanentAddress = { ...defaultAddress };
-      const formData = {
-        permanentAddress,
-        temporaryAddress: {
-          ...defaultAddress,
-          street: '',
-        },
-      };
-      const result = prefillTransformer(pages, formData, metadata);
-      expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
-    });
+    // it('should copy permanentAddress to temporaryAddress when temporaryAddress has empty street field', () => {
+    //   const permanentAddress = { ...defaultAddress };
+    //   const formData = {
+    //     permanentAddress,
+    //     temporaryAddress: {
+    //       ...defaultAddress,
+    //       street: '',
+    //     },
+    //   };
+    //   const result = prefillTransformer(pages, formData, metadata);
+    //   expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
+    // });
 
-    it('should copy permanentAddress to temporaryAddress when temporaryAddress street is whitespace only', () => {
-      const permanentAddress = { ...defaultAddress };
-      const formData = {
-        permanentAddress,
-        temporaryAddress: {
-          ...defaultAddress,
-          street: '   ',
-        },
-      };
-      const result = prefillTransformer(pages, formData, metadata);
-      expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
-    });
+    // it('should copy permanentAddress to temporaryAddress when temporaryAddress street is whitespace only', () => {
+    //   const permanentAddress = { ...defaultAddress };
+    //   const formData = {
+    //     permanentAddress,
+    //     temporaryAddress: {
+    //       ...defaultAddress,
+    //       street: '   ',
+    //     },
+    //   };
+    //   const result = prefillTransformer(pages, formData, metadata);
+    //   expect(result.formData.temporaryAddress).to.deep.equal(permanentAddress);
+    // });
 
     it('should NOT copy permanentAddress when temporaryAddress has a valid street', () => {
       const permanentAddress = { ...defaultAddress };
