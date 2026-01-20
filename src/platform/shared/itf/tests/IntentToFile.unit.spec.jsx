@@ -3,7 +3,11 @@ import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import {
+  mockApiRequest,
+  mockMultipleApiRequests,
+  resetFetch,
+} from 'platform/testing/unit/helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import IntentToFile from '../IntentToFile';
 import { activeItf, nonActiveItf, mockItfData } from './helpers';
@@ -83,7 +87,11 @@ describe('IntentToFile', () => {
   });
 
   it('should render ITF created alert', async () => {
-    mockApiRequest(mockItfData(nonActiveItf));
+    // First call: fetch ITF returns non-active, Second call: create ITF succeeds
+    mockMultipleApiRequests([
+      { response: mockItfData(nonActiveItf), shouldResolve: true },
+      { response: mockItfData(activeItf), shouldResolve: true },
+    ]);
     const { container } = renderPage(getData());
 
     await waitFor(() => {
@@ -95,7 +103,11 @@ describe('IntentToFile', () => {
   });
 
   it('should render ITF failed alert', async () => {
-    mockApiRequest(mockItfData(), false);
+    // First call: fetch ITF fails, Second call: create ITF also fails
+    mockMultipleApiRequests([
+      { response: mockItfData(), shouldResolve: false },
+      { response: mockItfData(), shouldResolve: false },
+    ]);
     const { container } = renderPage(getData());
 
     await waitFor(() => {
@@ -177,7 +189,11 @@ describe('IntentToFile', () => {
   });
 
   it('should not autofocus ITF created alert when disableAutoFocus is true and new ITF is created', async () => {
-    mockApiRequest(mockItfData(nonActiveItf));
+    // First call: fetch ITF returns non-active, Second call: create ITF succeeds
+    mockMultipleApiRequests([
+      { response: mockItfData(nonActiveItf), shouldResolve: true },
+      { response: mockItfData(activeItf), shouldResolve: true },
+    ]);
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -193,12 +209,16 @@ describe('IntentToFile', () => {
     });
   });
 
-  it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', () => {
-    mockApiRequest(mockItfData(), false);
+  it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', async () => {
+    // First call: fetch ITF fails, Second call: create ITF also fails
+    mockMultipleApiRequests([
+      { response: mockItfData(), shouldResolve: false },
+      { response: mockItfData(), shouldResolve: false },
+    ]);
     const { container } = renderPage(getData());
 
-    waitFor(() => {
-      expect($('va-alert[status="success"]', container).textContent).to.include(
+    await waitFor(() => {
+      expect($('va-alert[status="warning"]', container).textContent).to.include(
         'We’re sorry. We can’t find a record of your intent to file',
       );
       expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');
