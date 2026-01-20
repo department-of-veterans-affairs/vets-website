@@ -4,8 +4,8 @@ import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fie
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { hasVAEvidence } from '../utils';
-import { isCompletingForm0781 } from '../utils/form0781';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
+import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
 import { formatDate } from '../utils/dates';
 

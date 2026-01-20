@@ -15,8 +15,8 @@ import {
   limitedConsentDescription,
 } from '../content/privateMedicalRecordsRelease';
 import { isCompletingForm0781 } from '../utils/form0781';
-import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { standardTitle } from '../content/form0781';
+import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { isCompletingModern4142 } from '../utils';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
