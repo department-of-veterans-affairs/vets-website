@@ -166,13 +166,15 @@ export const SearchForm = props => {
     });
 
     let analyticsServiceType = draftFormState.serviceType;
+    const specialtyDisplayName =
+      currentQuery.specialties?.[draftFormState.serviceType];
+
     if (
       draftFormState.facilityType === LocationType.CC_PROVIDER &&
       currentQuery.specialties &&
-      Object.keys(currentQuery.specialties).includes(draftFormState.serviceType)
+      specialtyDisplayName
     ) {
-      analyticsServiceType =
-        currentQuery.specialties[draftFormState.serviceType];
+      analyticsServiceType = specialtyDisplayName;
     }
 
     recordEvent({
