@@ -12,7 +12,7 @@ class PatientInterstitialPage {
         return cy
           .get('va-crisis-line-modal')
           .shadow()
-          .find('va-modal[visible]');
+          .find('va-modal');
       }
       return cy.get(`#modal-crisisline`);
     });
@@ -25,7 +25,7 @@ class PatientInterstitialPage {
         return cy
           .get('va-crisis-line-modal')
           .shadow()
-          .find('va-modal[visible]')
+          .find('va-modal')
           .shadow()
           .find(`.va-crisis-panel-list li`);
       }
@@ -40,7 +40,7 @@ class PatientInterstitialPage {
         return cy
           .get('va-crisis-line-modal')
           .shadow()
-          .find('va-modal[visible]')
+          .find('va-modal')
           .shadow()
           .find('.va-modal-close');
       }
