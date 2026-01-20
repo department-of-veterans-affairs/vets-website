@@ -17,10 +17,13 @@ export function useGetPatientRelationships() {
   const {
     patientProviderRelationships,
     patientProviderRelationshipsStatus,
+    backendServiceFailures,
   } = useSelector(
     state => selectPatientProviderRelationships(state),
     shallowEqual,
   );
+
+  const hasBackendServiceFailures = backendServiceFailures?.length > 0;
 
   useEffect(
     () => {
@@ -38,7 +41,10 @@ export function useGetPatientRelationships() {
         setLoading(false);
       }
 
-      if (patientProviderRelationshipsStatus === FETCH_STATUS.failed) {
+      if (
+        patientProviderRelationshipsStatus === FETCH_STATUS.failed ||
+        hasBackendServiceFailures
+      ) {
         setPatientRelationshipsError(true);
       }
     },
@@ -47,6 +53,7 @@ export function useGetPatientRelationships() {
       featureOHDirectSchedule,
       patientProviderRelationshipsStatus,
       patientProviderRelationships,
+      hasBackendServiceFailures,
     ],
   );
 

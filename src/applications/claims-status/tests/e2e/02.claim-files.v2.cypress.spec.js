@@ -862,6 +862,7 @@ describe('Google Analytics', () => {
       'api-name',
       'api-status',
       'error-key',
+      'upload-cancel-file-count',
       'upload-fail-alert-count',
       'upload-fail-file-count',
       'upload-file-count',
@@ -870,7 +871,7 @@ describe('Google Analytics', () => {
       'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should record claims-upload-success event on successful upload', () => {
@@ -900,6 +901,7 @@ describe('Google Analytics', () => {
       'api-name',
       'api-status',
       'error-key',
+      'upload-cancel-file-count',
       'upload-fail-alert-count',
       'upload-fail-file-count',
       'upload-file-count',
@@ -908,7 +910,7 @@ describe('Google Analytics', () => {
       'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should record claims-upload-failure event on Type 1 upload failure', () => {
@@ -927,6 +929,7 @@ describe('Google Analytics', () => {
       'api-name',
       'api-status',
       'error-key',
+      'upload-cancel-file-count',
       'upload-fail-alert-count',
       'upload-fail-file-count',
       'upload-file-count',
@@ -935,7 +938,7 @@ describe('Google Analytics', () => {
       'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should include retry count when uploading the same file multiple times', () => {
@@ -954,6 +957,7 @@ describe('Google Analytics', () => {
       'api-name',
       'api-status',
       'error-key',
+      'upload-cancel-file-count',
       'upload-fail-alert-count',
       'upload-fail-file-count',
       'upload-file-count',
@@ -985,6 +989,7 @@ describe('Google Analytics', () => {
       'api-name',
       'api-status',
       'error-key',
+      'upload-cancel-file-count',
       'upload-fail-alert-count',
       'upload-fail-file-count',
       'upload-file-count',
@@ -993,6 +998,6 @@ describe('Google Analytics', () => {
       'upload-success-file-count',
     ]);
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

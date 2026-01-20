@@ -1,4 +1,6 @@
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { TITLE, SUBTITLE } from '../constants';
+
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -16,6 +18,15 @@ import primaryInstitutionType from '../pages/primaryInstitutionType';
 import primaryInstitutionNameAndMailingAddress from '../pages/primaryInstitutionNameAndMailingAddress';
 import primaryInstitutionPhysicalAddress from '../pages/primaryInstitutionPhysicalAddress';
 import primaryInstitutionReview from '../pages/primaryInstitutionReview';
+import additionalInstitutionsSummaryWithCode from '../pages/additionalInstitutionsSummaryWithCode';
+import additionalInstitutionsItemWithCode from '../pages/additionalInstitutionsItemWithCode';
+import additionalInstitutionsSummaryWithoutCode from '../pages/additionalInstitutionsSummaryWithoutCode';
+import additionalInstitutionsItemWithoutCode from '../pages/additionalInstitutionsItemWithoutCode';
+
+import {
+  additionalInstitutionsWithCodeArrayOptions,
+  additionalInstitutionsWithoutCodeArrayOptions,
+} from '../helpers';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -145,6 +156,50 @@ const formConfig = {
           schema: primaryInstitutionReview.schema,
           depends: formData => !formData?.hasVaFacilityCode,
         },
+        ...arrayBuilderPages(
+          additionalInstitutionsWithCodeArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionsSummaryWithCode: pageBuilder.summaryPage({
+              path: 'additional-institutions-facility-code',
+              title: 'Additional institution details',
+              uiSchema: additionalInstitutionsSummaryWithCode.uiSchema,
+              schema: additionalInstitutionsSummaryWithCode.schema,
+              depends: formData => !!formData?.hasVaFacilityCode,
+            }),
+            additionalInstitutionsItemWithCode: pageBuilder.itemPage({
+              path: 'additional-institution-facility-code/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to add",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionsItemWithCode.uiSchema,
+              schema: additionalInstitutionsItemWithCode.schema,
+              initialData: { additionalInstitutions: [] },
+              depends: formData => !!formData?.hasVaFacilityCode,
+            }),
+          }),
+        ),
+        ...arrayBuilderPages(
+          additionalInstitutionsWithoutCodeArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionsSummaryWithoutCode: pageBuilder.summaryPage({
+              path: 'additional-institutions-without-code',
+              title: 'Additional institution details',
+              uiSchema: additionalInstitutionsSummaryWithoutCode.uiSchema,
+              schema: additionalInstitutionsSummaryWithoutCode.schema,
+              depends: formData => !formData?.hasVaFacilityCode,
+            }),
+            additionalInstitutionsItemWithoutCode: pageBuilder.itemPage({
+              path: 'additional-institution-without-code/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to add",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionsItemWithoutCode.uiSchema,
+              schema: additionalInstitutionsItemWithoutCode.schema,
+              initialData: { additionalInstitutions: [] },
+              depends: formData => !formData?.hasVaFacilityCode,
+            }),
+          }),
+        ),
       },
     },
   },

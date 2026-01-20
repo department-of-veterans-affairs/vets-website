@@ -9,6 +9,7 @@ import {
   hasPartsABorC,
   needsPartADenialNotice,
 } from '../../utils/helpers';
+import mbiNumber from './mbiNumber';
 import overview from './overview';
 import partACardUpload from './partACardUpload';
 import partADenialNotice from './partADenialNotice';
@@ -47,6 +48,12 @@ export const medicarePagesRev2025 = {
     title: 'Medicare plan type',
     depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
     ...planTypes,
+  },
+  medicareBeneficiaryIdentifier: {
+    path: 'medicare-beneficiary-identifier',
+    title: 'Medicare beneficiary identifier',
+    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
+    ...mbiNumber,
   },
   medicarePartAEffectiveDate: {
     path: 'medicare-part-a-effective-date',
@@ -121,8 +128,7 @@ export const medicarePagesRev2025 = {
   medicarePartDStatus: {
     path: 'medicare-part-d-status',
     title: 'Medicare Part D status',
-    depends: formData =>
-      formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
+    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
     ...partDStatus,
   },
   medicarePartDCarrierEffectiveDate: {

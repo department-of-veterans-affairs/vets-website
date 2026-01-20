@@ -28,6 +28,7 @@ const ArrayBuilderSummaryReviewPage = ({
               data-title-for-noun-singular={`${
                 arrayBuilderOptions.nounSingular
               }`}
+              data-array-path={arrayBuilderOptions.arrayPath}
             >
               {arrayBuilderOptions.getText(
                 'summaryTitle',

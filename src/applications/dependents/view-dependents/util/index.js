@@ -6,6 +6,12 @@ const CLIENT_ERROR_REGEX = /^4\d{2}$/;
 export const PAGE_TITLE = 'Your VA dependents';
 export const TITLE_SUFFIX = ' | Veteran Affairs';
 
+/**
+ * Get data from API
+ * @param {string} apiRoute - API URL
+ * @param {object} options - fetch options
+ * @returns {Promise<object|Error>} - API response data or error
+ */
 export async function getData(apiRoute, options) {
   try {
     const response = await apiRequest(apiRoute, options);
@@ -15,6 +21,18 @@ export async function getData(apiRoute, options) {
   }
 }
 
+/**
+ * @typedef {object} AllDependents
+ * @property {Array} onAward - dependents on award
+ * @property {Array} notOnAward - dependents not on award
+ *
+ * @typedef {object} AllDependentsResult
+ * @property {Array} dependentsOnAward - list of awarded dependents
+ * @property {Array} dependentsNotOnAward - list of non-awarded dependents
+ *
+ * @param {AllDependents} persons - list of all dependents
+ * @returns {AllDependentsResult}  - separated dependents
+ */
 export function splitPersons(persons) {
   const dependentsOnAward = [];
   const dependentsNotOnAward = [];
