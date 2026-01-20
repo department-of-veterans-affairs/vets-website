@@ -25,6 +25,8 @@ import { serviceStatus, serviceHistory } from './chapters/service';
 import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
+
+import serviceStatus2 from '../pages/serviceStatus2';
 // import disabilitySeparation from '../pages/disabilitySeparation';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
@@ -68,11 +70,12 @@ const formConfig = {
   },
   title: 'Request a VA home loan Certificate of Eligibility (COE)',
   subTitle: 'VA Form 26-1880',
+  useCustomScrollAndFocus: true,
   defaultDefinitions: definitions,
   chapters: {
     applicantInformationChapter: {
       title: data => {
-        return data.formData.coeFormRebuildCveteam
+        return data.formData['view:coeFormRebuildCveteam']
           ? 'Your information'
           : 'Your personal information on file';
       },
@@ -110,13 +113,29 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Your service history',
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Military history'
+          : 'Your service history';
+      },
       pages: {
         serviceStatus: {
           path: 'service-status',
           title: 'Service status',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
+        },
+        serviceStatus2: {
+          path: 'service-status-2',
+          title: 'Service status',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: serviceStatus2.uiSchema,
+          schema: serviceStatus2.schema,
         },
         // disabilitySeparationPage: {
         //   path: 'separation',

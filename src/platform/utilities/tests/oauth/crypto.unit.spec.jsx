@@ -4,22 +4,11 @@ import {
   base64UrlEncode,
   generateRandomString,
 } from '../../oauth/crypto';
-import { mockCrypto } from '../../oauth/mockCrypto';
+import { setupMockCrypto } from '../../oauth/mockCrypto';
 
 describe('OAuth - Crypto', () => {
   beforeEach(() => {
-    let hasNodeCrypto = false;
-    try {
-      // eslint-disable-next-line import/no-unresolved
-      require('node:crypto');
-      hasNodeCrypto = true;
-    } catch {
-      hasNodeCrypto = false;
-    }
-
-    if (!hasNodeCrypto) {
-      window.crypto = mockCrypto;
-    }
+    setupMockCrypto();
   });
 
   describe('sha256', async () => {

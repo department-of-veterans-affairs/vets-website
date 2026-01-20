@@ -115,7 +115,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                       EXPENSE_TYPES[expenseType]?.route
                     }/${expenseId}`}
                   >
-                    EDIT
+                    Edit
                     <va-icon
                       active
                       icon="navigate_next"

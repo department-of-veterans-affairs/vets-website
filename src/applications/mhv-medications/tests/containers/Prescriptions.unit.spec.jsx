@@ -84,10 +84,21 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should display loading message when loading prescriptions', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox, isLoading: true, isFetching: true });
+    stubPrescriptionsListApi({
+      sandbox,
+      isLoading: true,
+      isFetching: true,
+      data: undefined,
+    });
     const screen = setup();
-    waitFor(() => {
-      expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading your medications...')).to.exist;
+    await waitFor(() => {
+      const indicator = screen.getByTestId('loading-indicator');
+      expect(indicator).to.exist;
+      expect(indicator.getAttribute('message')).to.equal(
+        'Loading your medications...',
+      );
     });
   });
 
@@ -189,7 +200,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
@@ -206,7 +217,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
         .exist;
     });
@@ -222,7 +233,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
@@ -408,6 +419,47 @@ describe('Medications Prescriptions container', () => {
 
       expect(screen.getByText('Medications')).to.exist;
       expect(screen.getByTestId('med-list')).to.exist;
+    });
+  });
+
+  describe('Rx Renewal Message Success Analytics', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    afterEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    it('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
+      setup(initialState, '/?rxRenewalMessageSuccess=true');
+
+      await waitFor(() => {
+        const event = global.window.dataLayer?.find(
+          e => e['api-name'] === 'Rx SM Renewal',
+        );
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'api_call',
+          'api-name': 'Rx SM Renewal',
+          'api-status': 'successful',
+        });
+      });
+    });
+
+    it('should not call recordEvent when rxRenewalMessageSuccess query param is not present', async () => {
+      const screen = setup(initialState, '/');
+
+      // Wait for component to render
+      await waitFor(() => {
+        expect(screen.getByTestId('list-page-title')).to.exist;
+      });
+
+      // Check that the event was NOT recorded
+      const event = global.window.dataLayer?.find(
+        e => e['api-name'] === 'Rx SM Renewal',
+      );
+      expect(event).to.be.undefined;
     });
   });
 });

@@ -59,6 +59,9 @@ const veteranSubPageUI = {
   vaFileNumber: {
     ...vaFileNumberUI,
     'ui:title': 'VA file number',
+    'ui:errorMessages': {
+      pattern: 'Your VA file number must be 8 or 9 digits',
+    },
   },
   selectBenefits: checkboxGroupUI({
     title: 'Select the benefit you intend to file a claim for',
@@ -115,6 +118,7 @@ export const itfClaimantInformationPage = {
       'veteranSsn',
       'address',
       'veteranFullName',
+      'veteranDateOfBirth',
     ],
   },
 };

@@ -23,8 +23,10 @@ export default {
       title: INPUT_LABEL,
       labels: SCHEMA_LABELS,
       updateSchema: formData => {
-        if (formData['view:beneficiaryAgeOver65']) return {};
-        return { enum: SCHEMA_ENUM.slice(0, -1) };
+        const schemaEnum = formData['view:applicantAgeOver65']
+          ? SCHEMA_ENUM
+          : SCHEMA_ENUM.slice(0, -1);
+        return { enum: schemaEnum };
       },
     }),
   },

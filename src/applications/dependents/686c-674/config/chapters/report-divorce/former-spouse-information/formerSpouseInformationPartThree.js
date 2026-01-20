@@ -3,6 +3,7 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { incomeQuestionUpdateUiSchema } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -30,11 +31,7 @@ export const uiSchema = {
       },
       required: (_chapterData, _index, formData) =>
         formData?.vaDependentsNetWorthAndPension,
-      updateUiSchema: () => ({
-        'ui:options': {
-          hint: '',
-        },
-      }),
+      updateUiSchema: incomeQuestionUpdateUiSchema,
       updateSchema: (formData = {}, formSchema) => {
         const { vaDependentsNetWorthAndPension } = formData;
 
