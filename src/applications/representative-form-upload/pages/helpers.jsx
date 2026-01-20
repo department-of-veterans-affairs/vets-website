@@ -53,7 +53,11 @@ export const claimantTitleAndDescription = {
 
 export const ITFClaimantTitleAndDescription = {
   'view:claimantTitle': {
-    'ui:title': 'Claimant information',
+    'ui:title': Object.freeze(
+      <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+        Claimant information
+      </h3>,
+    ),
   },
 };
 
@@ -108,7 +112,11 @@ export const ITFBenefitTypes = Object.freeze({
 
 export const ITFVeteranTitleAndDescription = {
   'view:veteranTitle': {
-    'ui:title': 'Veteran identification information',
+    'ui:title': Object.freeze(
+      <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+        Veteran identification information
+      </h3>,
+    ),
   },
 };
 
