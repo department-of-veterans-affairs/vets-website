@@ -409,7 +409,45 @@ export const evidenceDictionary = {
       <>
         <p>
           Use Statement in Support of Claim (VA Form 21-4138) to answer the
-          questions listed under "what we need from you."
+          questions listed under <strong>What we need from you</strong>.
+        </p>
+        <p>
+          After completing and signing the form, you can upload or mail it.
+          <br />
+          <va-link
+            active
+            data-testid="VA Form 21-4138"
+            text="VA Form 21-4138"
+            href="/find-forms/about-form-21-4138/"
+          />
+        </p>
+      </>
+    ),
+    isSensitive: true,
+  },
+  'ASB-tell us specific disability fm asbestos exposure': {
+    longDescription: (
+      <>
+        <p>
+          To process your disability claim for asbestos exposure, we need
+          information about your asbestos-related disease or disability:
+        </p>
+        <ol>
+          <li>
+            The specific disease or disability caused by asbestos exposure
+          </li>
+          <li>Why you believe asbestos caused your disease or disability</li>
+          <li>
+            Evidence of this connection, like a medical opinion from your doctor
+          </li>
+        </ol>
+      </>
+    ),
+    nextSteps: (
+      <>
+        <p>
+          Use Statement in Support of Claim (VA Form 21-4138) to answer the
+          questions listed under <strong>What we need from you</strong>.
         </p>
         <p>
           After completing and signing the form, you can upload or mail it.

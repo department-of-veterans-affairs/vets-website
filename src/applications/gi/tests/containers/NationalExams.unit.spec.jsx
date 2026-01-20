@@ -239,7 +239,7 @@ describe('NationalExamsList', () => {
       .find('va-card')
       .find('va-link')
       .at(0);
-    firstExamLink.simulate('click', { preventDefault() {} });
+    firstExamLink.getDOMNode().click();
     const memoryRouter = wrapper.find(MemoryRouter).instance();
     expect(
       memoryRouter.history.location.pathname +
