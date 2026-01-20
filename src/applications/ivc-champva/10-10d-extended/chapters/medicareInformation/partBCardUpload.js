@@ -2,11 +2,10 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
 import MedicareCardDescription from '../../components/FormDescriptions/MedicareCardDescription';
 import { MedicarePartBDescription } from '../../components/FormDescriptions/MedicarePlanDescriptions';
 import { ATTACHMENT_IDS } from '../../constants';
-import { fileUploadSchema } from '../../definitions';
+import { attachmentUI, singleAttachmentSchema } from '../../definitions';
 import content from '../../locales/en/content.json';
 
 const TITLE_TEXT = content['medicare--part-b-card-title'];
@@ -22,11 +21,11 @@ export default {
       MedicarePartBDescription,
     ),
     ...descriptionUI(MedicareCardDescription({ variant: 'partB' })),
-    medicarePartBFrontCard: fileUploadUI({
+    medicarePartBFrontCard: attachmentUI({
       label: INPUT_LABELS.cardFront,
       attachmentId: ATTACHMENT_IDS.medicareAbCardFront,
     }),
-    medicarePartBBackCard: fileUploadUI({
+    medicarePartBBackCard: attachmentUI({
       label: INPUT_LABELS.cardBack,
       attachmentId: ATTACHMENT_IDS.medicareAbCardBack,
     }),
@@ -35,8 +34,8 @@ export default {
     type: 'object',
     required: ['medicarePartBFrontCard', 'medicarePartBBackCard'],
     properties: {
-      medicarePartBFrontCard: fileUploadSchema,
-      medicarePartBBackCard: fileUploadSchema,
+      medicarePartBFrontCard: singleAttachmentSchema,
+      medicarePartBBackCard: singleAttachmentSchema,
     },
   },
 };
