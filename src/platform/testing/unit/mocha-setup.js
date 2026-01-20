@@ -109,6 +109,32 @@ function resetFetch() {
   }
 }
 
+// Store original timer functions at module load time to restore if fake timers
+// are left installed by a test that fails to clean up properly.
+// This prevents test pollution where one test's fake timers break subsequent tests.
+const originalTimers = {
+  setTimeout: global.setTimeout,
+  setInterval: global.setInterval,
+  clearTimeout: global.clearTimeout,
+  clearInterval: global.clearInterval,
+  setImmediate: global.setImmediate,
+  clearImmediate: global.clearImmediate,
+  Date: global.Date,
+};
+
+function restoreTimersIfFaked() {
+  // Check if setTimeout has been replaced (fake timers typically change it)
+  if (global.setTimeout !== originalTimers.setTimeout) {
+    global.setTimeout = originalTimers.setTimeout;
+    global.setInterval = originalTimers.setInterval;
+    global.clearTimeout = originalTimers.clearTimeout;
+    global.clearInterval = originalTimers.clearInterval;
+    global.setImmediate = originalTimers.setImmediate;
+    global.clearImmediate = originalTimers.clearImmediate;
+    global.Date = originalTimers.Date;
+  }
+}
+
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
@@ -183,7 +209,10 @@ function setupJSDom() {
               )
             ) {
               try {
-                const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
+                const descriptor = Object.getOwnPropertyDescriptor(
+                  newWindow,
+                  prop,
+                );
                 if (descriptor) {
                   Object.defineProperty(currentRealWindow, prop, descriptor);
                 }
@@ -366,6 +395,7 @@ export const mochaHooks = {
   },
 
   beforeEach() {
+    restoreTimersIfFaked();
     setupJSDom();
     resetFetch();
     cleanupStorage();
@@ -388,6 +418,5 @@ export const mochaHooks = {
 
   afterAll() {
     server.close();
-  }
-
+  },
 };

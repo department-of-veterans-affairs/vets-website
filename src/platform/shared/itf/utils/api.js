@@ -29,18 +29,9 @@ export const fetchItf = async ({ apiUrl = ITF_API }) => {
   let data = [];
   try {
     const response = await apiRequest(apiUrl);
-    // DEBUG: trace ITF fetch
-    console.log(
-      'DEBUG fetchItf - apiRequest response:',
-      JSON.stringify(response, null, 2),
-    );
     if (response?.data) {
       type = ITF_FETCH_SUCCEEDED;
       data = response.data.attributes?.intentToFile || [];
-      console.log(
-        'DEBUG fetchItf - extracted data:',
-        JSON.stringify(data, null, 2),
-      );
     }
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -103,11 +94,6 @@ createItf.propTypes = {
 export const getAndProcessItf = async (props = {}) => {
   const { itfType } = props;
   const { type, data } = await fetchItf(props);
-  console.log('DEBUG getAndProcessItf - fetchItf returned:', {
-    type,
-    dataLength: data?.length,
-    itfType,
-  });
   if (type === ITF_FETCH_SUCCEEDED && data.length > 0) {
     const processedItfList = (data || []).filter(itf => itf.type === itfType);
     const currentITF =
@@ -116,32 +102,16 @@ export const getAndProcessItf = async (props = {}) => {
 
     // Pulled the active ITF out like this in case it's not technically the
     // latest (not sure that's possible, though)
-    console.log(
-      'DEBUG getAndProcessItf - currentITF:',
-      JSON.stringify(currentITF, null, 2),
-    );
-    console.log(
-      'DEBUG getAndProcessItf - isNotExpired(currentITF.expirationDate):',
-      currentITF?.expirationDate,
-      isNotExpired(currentITF?.expirationDate),
-    );
     if (currentITF?.expirationDate && isNotExpired(currentITF.expirationDate)) {
-      console.log(
-        'DEBUG getAndProcessItf - returning with currentITF (active)',
-      );
       return { type, previousITF, currentITF };
     }
     if (
       previousITF?.expirationDate &&
       isNotExpired(previousITF.expirationDate)
     ) {
-      console.log(
-        'DEBUG getAndProcessItf - returning with previousITF as currentITF',
-      );
       return { type, previousITF: {}, currentITF: previousITF };
     }
   }
-  console.log('DEBUG getAndProcessItf - returning type only (no valid ITF)');
   return { type };
 };
 
