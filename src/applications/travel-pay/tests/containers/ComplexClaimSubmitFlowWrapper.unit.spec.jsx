@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -1237,10 +1237,11 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
 
     it('redirects to get-claim-error when getComplexClaimDetails rejects', async () => {
-      // Stub the thunk correctly
-      getComplexClaimDetailsStub.callsFake(() => () =>
-        Promise.reject(new Error('Failed')),
-      );
+      // Stub the thunk to return an async function that throws
+      // Using async/await pattern is more reliable than Promise.reject()
+      getComplexClaimDetailsStub.callsFake(() => async () => {
+        throw new Error('Failed');
+      });
 
       const initialState = getData({
         complexClaimsEnabled: true,
@@ -1248,7 +1249,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         claimError: null,
       });
 
-      const { getByText } = renderWithStoreAndRouter(
+      const { findByText } = renderWithStoreAndRouter(
         <MemoryRouter
           initialEntries={[`/file-new-claim/${appointmentId}/${claimId}`]}
         >
@@ -1267,9 +1268,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       );
 
       // Wait for the redirect to happen and the error page to appear
-      await waitFor(() => {
-        expect(getByText('Get Claim Error Page')).to.exist;
-      });
+      expect(await findByText('Get Claim Error Page')).to.exist;
     });
 
     it('does not redirect if isErrorRoute is already true', async () => {
