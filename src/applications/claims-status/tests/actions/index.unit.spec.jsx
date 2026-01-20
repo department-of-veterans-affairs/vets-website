@@ -5,8 +5,8 @@ import {
   createGetHandler,
   createPostHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { server } from 'platform/testing/unit/mocha-setup';
 import * as constants from '../../constants';
 
 import {
@@ -61,9 +61,17 @@ describe('Actions', () => {
     });
   });
   describe('submit5103', () => {
+    const server = setupServer();
+
+    before(() => {
+      server.listen();
+    });
+
     afterEach(() => {
       server.resetHandlers();
     });
+
+    after(() => server.close());
 
     // TODO: This test has been simplified due to Node 22 compatibility issues.
     // Original test expected 3 dispatches: SUBMIT_DECISION_REQUEST, SET_DECISION_REQUESTED, and SET_NOTIFICATION
@@ -372,55 +380,44 @@ describe('Actions', () => {
     });
   });
   describe('cancelUpload', () => {
-    let oldDataLayer;
-    let dispatchSpy;
-
-    const createGetState = (uploader = null) => () => ({
-      disability: {
-        status: {
-          uploads: { uploader },
-        },
-      },
-    });
-
-    beforeEach(() => {
-      oldDataLayer = global.window.dataLayer;
-      global.window.dataLayer = [];
-      dispatchSpy = sinon.spy();
-    });
-
-    afterEach(() => {
-      global.window.dataLayer = oldDataLayer;
-    });
-
     it('should call cancel on uploader', () => {
+      const oldDataLayer = global.window.dataLayer;
+      global.window.dataLayer = [];
+      const thunk = cancelUpload();
       const uploaderSpy = sinon.spy();
-      const thunk = cancelUpload({ cancelFileCount: 3, retryFileCount: 0 });
+      const dispatchSpy = sinon.spy();
+      const getState = () => ({
+        disability: {
+          status: {
+            uploads: {
+              uploader: {
+                cancelAll: uploaderSpy,
+              },
+            },
+          },
+        },
+      });
 
-      thunk(dispatchSpy, createGetState({ cancelAll: uploaderSpy }));
+      thunk(dispatchSpy, getState);
 
       expect(uploaderSpy.called).to.be.true;
       expect(dispatchSpy.firstCall.args[0].type).to.equal(CANCEL_UPLOAD);
-    });
-
-    it('should record cancel analytics event with file count', () => {
-      const thunk = cancelUpload({ cancelFileCount: 5, retryFileCount: 2 });
-
-      thunk(dispatchSpy, createGetState());
-
-      expect(global.window.dataLayer.length).to.equal(1);
-      expect(global.window.dataLayer[0].event).to.equal('claims-upload-cancel');
-      expect(global.window.dataLayer[0]['upload-cancel-file-count']).to.equal(
-        5,
-      );
-      expect(global.window.dataLayer[0]['upload-retry-file-count']).to.equal(2);
+      global.window.dataLayer = oldDataLayer;
     });
   });
 
   describe('getStemClaims', () => {
+    const server = setupServer();
+
+    before(() => {
+      server.listen({ onUnhandledRequest: 'bypass' });
+    });
+
     afterEach(() => {
       server.resetHandlers();
     });
+
+    after(() => server.close());
 
     it('should fetch stem claims when canUseMocks true', done => {
       const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);

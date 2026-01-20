@@ -76,8 +76,6 @@ function Autosuggest({
     shouldBeShown = isOpen && showOptionsRestriction;
   }
 
-  const { id } = getMenuProps();
-
   return (
     <div
       id={`${inputId}-autosuggest-container`}
@@ -100,7 +98,6 @@ function Autosuggest({
       {inputError}
       <div className="autosuggest-input-container">
         <InputWithClear
-          dropdownIsOpen={shouldBeShown}
           getInputProps={getInputProps}
           getToggleButtonProps={getToggleButtonProps}
           className={inputContainerClassName}
@@ -111,7 +108,6 @@ function Autosuggest({
           showClearButton={!!inputValue}
           onClearClick={inputClearClick}
           downshiftInputProps={downshiftInputProps}
-          dropdownId={id}
         />
         <AutosuggestOptions
           getItemProps={getItemProps}

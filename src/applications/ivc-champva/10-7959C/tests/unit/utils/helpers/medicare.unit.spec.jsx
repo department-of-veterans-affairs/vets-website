@@ -144,24 +144,30 @@ describe('10-7959c Medicare helpers', () => {
   });
 
   describe('hasPartD', () => {
-    it('should return "true" when beneficiary has Medicare and medicarePartDStatus is "true"', () => {
+    it('should return "true" when beneficiary has Medicare, the plan type is "ab" or "c" and hasMedicarePartD is "true"', () => {
       const formData = {
         'view:hasMedicare': true,
-        medicarePartDStatus: true,
+        medicarePlanType: 'ab',
+        hasMedicarePartD: true,
       };
       expect(hasPartD(formData)).to.be.true;
     });
 
-    it('should return "false" when beneficiary has Medicare and medicarePartDStatus is "false"', () => {
+    it('should return "false" when beneficiary has Medicare, the plan type is "ab" or "c" hasMedicarePartD is "false"', () => {
       const formData = {
         'view:hasMedicare': true,
-        medicarePartDStatus: false,
+        medicarePlanType: 'ab',
+        hasMedicarePartD: false,
       };
       expect(hasPartD(formData)).to.be.false;
     });
 
-    it('should return "false" when beneficiary does not have Medicare', () => {
-      const formData = { 'view:hasMedicare': false };
+    it('should return "false" when the plan type is not "ab" or "c"', () => {
+      const formData = {
+        'view:hasMedicare': true,
+        medicarePlanType: 'a',
+        hasMedicarePartD: true,
+      };
       expect(hasPartD(formData)).to.be.false;
     });
   });

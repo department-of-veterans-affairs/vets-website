@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
+/* eslint-disable @department-of-veterans-affairs/prefer-web-component-library */
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 

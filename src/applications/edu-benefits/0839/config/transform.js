@@ -167,26 +167,23 @@ export default function transform(formConfig, form) {
       clonedData.pointOfContact.emailAddress = clonedData.pointsOfContact.email;
 
       if (
-        pointOfContactRole.includes('YellowRibbonProgramPOC') ||
-        pointOfContactRole.includes('schoolFinancialRepresentative')
+        pointOfContactRole.includes('YellowRibbonProgramPOC') &&
+        pointOfContactRole.includes('schoolCertifyingOfficial')
       ) {
+        clonedData.pointOfContactTwo = clonedData.pointsOfContact;
+
         clonedData.pointOfContact.role = 'YellowRibbonProgramPOC';
+        clonedData.pointOfContactTwo.role = 'schoolCertifyingOfficial';
 
-        if (pointOfContactRole.includes('schoolCertifyingOfficial')) {
-          clonedData.pointOfContactTwo = clonedData.pointsOfContact;
+        clonedData.pointOfContactTwo.phoneNumber =
+          clonedData.pointsOfContact.phoneNumber.callingCode +
+          clonedData.pointsOfContact.phoneNumber.contact;
 
-          clonedData.pointOfContactTwo.role = 'schoolCertifyingOfficial';
+        clonedData.pointOfContactTwo.emailAddress =
+          clonedData.pointsOfContact.email;
 
-          clonedData.pointOfContactTwo.phoneNumber =
-            clonedData.pointsOfContact.phoneNumber.callingCode +
-            clonedData.pointsOfContact.phoneNumber.contact;
-
-          clonedData.pointOfContactTwo.emailAddress =
-            clonedData.pointsOfContact.email;
-
-          delete clonedData.pointOfContactTwo.email;
-          delete clonedData.pointOfContactTwo.roles;
-        }
+        delete clonedData.pointOfContactTwo.email;
+        delete clonedData.pointOfContactTwo.roles;
       }
 
       delete clonedData.pointOfContact.email;

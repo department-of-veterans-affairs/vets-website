@@ -38,7 +38,7 @@ export const buildMarker = (
 ) => {
   if (type === 'location') {
     const { loc, attrs } = values;
-    const markerElement = document.createElement('button');
+    const markerElement = document.createElement('span');
 
     markerElement.style.cursor = 'pointer';
     markerElement.textContent = attrs.letter;

@@ -16,11 +16,8 @@ export const fetchDrupalStaticDataFile = async ({
   useLocalOverride = true,
 }) => {
   // Use API_URL for localhost, BASE_URL otherwise
-  // Note: 127.0.0.1 is included for Node 22+ compatibility where DNS resolution may prefer IPv6
   const isLocal = useLocalOverride
-    ? environment.isLocalhost?.() ||
-      window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1'
+    ? environment.isLocalhost?.() || window.location.hostname === 'localhost'
     : false;
 
   // Set the base URL based on the environment or custom server

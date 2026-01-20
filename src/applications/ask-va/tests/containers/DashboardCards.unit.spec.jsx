@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { server } from 'platform/testing/unit/mocha-setup';
 import React from 'react';
 import { Provider } from 'react-redux';
 
@@ -15,8 +15,10 @@ describe('<DashboardCards>', () => {
   const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries`;
 
   describe('when the api server succeeds', () => {
-    beforeEach(() => {
-      server.use(
+    let server = null;
+
+    before(() => {
+      server = setupServer(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -63,6 +65,14 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
+
+      server.listen();
+    });
+
+    afterEach(() => server.resetHandlers());
+
+    after(() => {
+      server.close();
     });
 
     it('should render Your questions and filters', async () => {
@@ -481,12 +491,22 @@ describe('<DashboardCards>', () => {
   });
 
   describe('when the api server fails', () => {
-    beforeEach(() => {
-      server.use(
+    let server = null;
+
+    before(() => {
+      server = setupServer(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse({}, { status: 500 });
         }),
       );
+
+      server.listen();
+    });
+
+    afterEach(() => server.resetHandlers());
+
+    after(() => {
+      server.close();
     });
 
     it('should show error alert when API request fails', async () => {
@@ -527,8 +547,10 @@ describe('<DashboardCards>', () => {
   });
 
   describe('pagination functionality', () => {
-    beforeEach(() => {
-      server.use(
+    let server = null;
+
+    before(() => {
+      server = setupServer(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -549,6 +571,14 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
+
+      server.listen();
+    });
+
+    afterEach(() => server.resetHandlers());
+
+    after(() => {
+      server.close();
     });
 
     const mockStore = {
@@ -684,8 +714,10 @@ describe('<DashboardCards>', () => {
   });
 
   describe('loading state', () => {
-    beforeEach(() => {
-      server.use(
+    let server = null;
+
+    before(() => {
+      server = setupServer(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           // Use the adapter's jsonResponse helper instead of manual Promise
           return jsonResponse(
@@ -709,6 +741,14 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
+
+      server.listen();
+    });
+
+    afterEach(() => server.resetHandlers());
+
+    after(() => {
+      server.close();
     });
 
     const mockStore = {
@@ -761,8 +801,10 @@ describe('<DashboardCards>', () => {
   });
 
   describe('empty state', () => {
-    beforeEach(() => {
-      server.use(
+    let server = null;
+
+    before(() => {
+      server = setupServer(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -772,6 +814,14 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
+
+      server.listen();
+    });
+
+    afterEach(() => server.resetHandlers());
+
+    after(() => {
+      server.close();
     });
 
     const mockStore = {
@@ -830,8 +880,10 @@ describe('<DashboardCards>', () => {
   });
 
   describe('business and personal view', () => {
-    beforeEach(() => {
-      server.use(
+    let server = null;
+
+    before(() => {
+      server = setupServer(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -866,6 +918,14 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
+
+      server.listen();
+    });
+
+    afterEach(() => server.resetHandlers());
+
+    after(() => {
+      server.close();
     });
 
     const mockStore = {

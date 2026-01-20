@@ -1,23 +1,16 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-// import identificationInformation from '../pages/identificationInformation';
+import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
-import prefillTransform from './prefillTransform';
-
-import {
-  thirdPartyPersonName,
-  thirdPartyPersonAddress,
-  discloseInformation,
-} from '../pages';
+import * as discloseInformation from '../pages/discloseInformation';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -32,7 +25,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_10278,
-  useCustomScrollAndFocus: true,
   saveInProgress: {
     messages: {
       inProgress: 'Your form (22-10278) is in progress.',
@@ -43,7 +35,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer: prefillTransform,
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
@@ -51,7 +42,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   customText: {
-    appType: 'application',
+    appType: 'form',
     continueAppButtonText: 'Continue your form',
     startNewAppButtonText: 'Start a new form',
     finishAppLaterMessage: 'Finish this form later',
@@ -69,38 +60,28 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        ...personalInformationPage({
-          personalInfoConfig: {
-            name: { show: true, required: true },
-            ssn: { show: true, required: true },
-            dateOfBirth: { show: true, required: false },
-          },
-          dataAdapter: {
-            ssnPath: 'ssn',
-          },
-        }),
-        // nameAndDateOfBirth: {
-        //   path: 'name-and-date-of-birth',
-        //   uiSchema: nameAndDateOfBirth.uiSchema,
-        //   schema: nameAndDateOfBirth.schema,
-        // },
-        // identificationInformation: {
-        //   path: 'identification-information',
-        //   title: 'Identification information',
-        //   uiSchema: identificationInformation.uiSchema,
-        //   schema: identificationInformation.schema,
-        // },
+        nameAndDateOfBirth: {
+          path: 'name-and-date-of-birth',
+          title: 'Name and date of birth',
+          uiSchema: nameAndDateOfBirth.uiSchema,
+          schema: nameAndDateOfBirth.schema,
+        },
+        identificationInformation: {
+          path: 'identification-information',
+          title: 'Identification information',
+          uiSchema: identificationInformation.uiSchema,
+          schema: identificationInformation.schema,
+        },
+      },
+    },
+    mailingAddressChapter: {
+      title: 'Mailing address',
+      pages: {
         mailingAddress: {
           path: 'mailing-address',
           title: 'Mailing address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
-        },
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
         },
       },
     },
@@ -121,29 +102,19 @@ const formConfig = {
             }
 
             // person flow (use your actual person page path)
-            goPath('/third-party-person-details');
+            goPath('/third-party-person-name');
           },
         },
       },
     },
-    thirdPartyContactInformation: {
-      title: 'Third party contact information',
+    contactInformationChapter: {
+      title: 'Contact information',
       pages: {
-        thirdPartyPersonName: {
-          path: 'third-party-person-details',
-          title: 'Name of person',
-          uiSchema: thirdPartyPersonName.uiSchema,
-          schema: thirdPartyPersonName.schema,
-          depends: formData =>
-            formData?.discloseInformation?.authorize === 'person',
-        },
-        thirdPartyPersonAddress: {
-          path: 'third-party-person-details-1',
-          title: 'Address of person',
-          uiSchema: thirdPartyPersonAddress.uiSchema,
-          schema: thirdPartyPersonAddress.schema,
-          depends: formData =>
-            formData?.discloseInformation?.authorize === 'person',
+        phoneAndEmailAddress: {
+          path: 'phone-and-email-address',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmailAddress.uiSchema,
+          schema: phoneAndEmailAddress.schema,
         },
       },
     },

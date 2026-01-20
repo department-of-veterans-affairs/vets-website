@@ -95,13 +95,11 @@ class FolderManagementPage {
   };
 
   selectFolderFromModal = (folderName = `Trash`) => {
-    // Wait for folders to load before interacting with the move button
-    cy.wait('@folders');
-    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
+    cy.findByTestId('move-button-text')
       .should('be.visible')
       .click();
     // Wait for the modal to fully render and radio options to be available
-    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID)
+    cy.get(Locators.ALERTS.MOVE_MODAL)
       .should('be.visible')
       .within(() => {
         cy.findByLabelText(folderName, { timeout: 10000 })

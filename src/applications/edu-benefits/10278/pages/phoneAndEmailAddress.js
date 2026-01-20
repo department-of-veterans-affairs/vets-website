@@ -1,41 +1,27 @@
+// @ts-check
 import {
   emailSchema,
   emailUI,
-  internationalPhoneSchema,
-  internationalPhoneUI,
+  phoneSchema,
+  phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your phone and email address'),
-    claimantContactInformation: {
-      phoneNumber: internationalPhoneUI({
-        title: 'Phone number',
-        hint: null,
-        errorMessages: {
-          required: 'Please enter your phone number',
-        },
-      }),
-      emailAddress: emailUI({
-        title: 'Email',
-        hint:
-          "We'll use this email address to send you notifications in regards to your claim",
-      }),
-    },
+    ...titleUI('Phone and email address'),
+    homePhone: phoneUI('Home phone number'),
+    mobilePhone: phoneUI('Mobile phone number'),
+    emailAddress: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      claimantContactInformation: {
-        type: 'object',
-        properties: {
-          phoneNumber: internationalPhoneSchema(),
-          emailAddress: emailSchema,
-        },
-        required: ['phoneNumber'],
-      },
+      homePhone: phoneSchema,
+      mobilePhone: phoneSchema,
+      emailAddress: emailSchema,
     },
+    required: ['homePhone'],
   },
 };

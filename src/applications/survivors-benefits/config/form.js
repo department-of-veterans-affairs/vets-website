@@ -390,6 +390,8 @@ const formConfig = {
         dependentsCount: {
           path: 'household/dependents-count',
           title: 'Number of dependents',
+          depends: formData =>
+            formData.claimantRelationship === 'SURVIVING_SPOUSE',
           uiSchema: dependentsCount.uiSchema,
           schema: dependentsCount.schema,
         },

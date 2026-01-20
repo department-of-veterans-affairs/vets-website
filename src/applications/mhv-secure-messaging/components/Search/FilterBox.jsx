@@ -16,7 +16,6 @@ import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { DateRangeOptions, SelectCategories } from '../../util/inputContants';
 import { ErrorMessages } from '../../util/constants';
-import { isValidDateValue } from '../../util/helpers';
 
 const FilterBox = forwardRef((props, ref) => {
   const {
@@ -56,34 +55,32 @@ const FilterBox = forwardRef((props, ref) => {
 
   const checkFormValidity = () => {
     const today = new Date();
+    // TODO: add validation for ALL blank fields
     let formInvalid;
     const invalidInputs = [];
     if (dateRange === 'custom') {
-      // Clear error states first, then set only for invalid fields
-      setFromDateError('');
-      setToDateError('');
-
-      if (!isValidDateValue(fromDate)) {
+      if (!fromDate) {
         formInvalid = true;
         setFromDateError(ErrorMessages.SearchForm.START_DATE_REQUIRED);
         invalidInputs.push(fromDateRef);
       }
-      if (!isValidDateValue(toDate)) {
+      if (!toDate) {
         formInvalid = true;
         setToDateError(ErrorMessages.SearchForm.END_DATE_REQUIRED);
         invalidInputs.push(toDateRef);
       }
-      if (
-        isValidDateValue(fromDate) &&
-        isValidDateValue(toDate) &&
-        moment(toDate).isBefore(fromDate)
-      ) {
+      if (fromDate && toDate && moment(toDate).isBefore(fromDate)) {
         formInvalid = true;
         setFromDateError(ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE);
         setToDateError(ErrorMessages.SearchForm.END_DATE_BEFORE_START_DATE);
         invalidInputs.push(fromDateRef);
       }
-      if (parseInt(toDate?.substring(0, 4), 10) > today.getFullYear()) {
+      if (fromDate && toDate && moment(fromDate).isBefore(toDate)) {
+        formInvalid = false;
+        setFromDateError('');
+        setToDateError('');
+      }
+      if (parseInt(toDate.substring(0, 4), 10) > today.getFullYear()) {
         formInvalid = true;
         setToDateError(
           ErrorMessages.SearchForm.END_YEAR_GREATER_THAN_CURRENT_YEAR,

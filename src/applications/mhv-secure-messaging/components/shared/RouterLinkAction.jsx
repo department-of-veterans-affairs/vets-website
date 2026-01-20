@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import manifest from '../../manifest.json';
 
 /**
  * A wrapper component for VaLinkAction that integrates with React Router
@@ -38,15 +37,9 @@ const RouterLinkAction = ({ href, text, reverse, label, ...rest }) => {
       window.location.href = href;
     }
   };
-  // Construct full URL for href attribute (accessibility/hover)
-  // but still navigate to relative path for client-side routing
-  // Only prepend rootUrl if href doesn't already include it
-  const fullUrl = href.startsWith(manifest.rootUrl)
-    ? href
-    : manifest.rootUrl + href;
 
   const linkProps = {
-    href: fullUrl,
+    href,
     onClick: handleClick,
     text,
     ...rest,
@@ -66,7 +59,7 @@ const RouterLinkAction = ({ href, text, reverse, label, ...rest }) => {
 };
 
 RouterLinkAction.propTypes = {
-  /** The destination path for React Router navigation (e.g., Paths.SENT or '/sent'). The component will prepend manifest.rootUrl for the href attribute while using the path for navigation. */
+  /** The destination path for React Router navigation */
   href: PropTypes.string.isRequired,
   /** The link text to display */
   text: PropTypes.string.isRequired,

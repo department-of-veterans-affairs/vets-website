@@ -125,69 +125,38 @@ function mockFetch(returnVal, shouldResolve = true) {
 }
 
 export function setFetchJSONResponse(stub, data = null) {
-  // Use status 200 to make ok = true (read-only in Node 22)
-  const response = new Response(null, {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
-
-  // Define url as a writable property (read-only in native Response)
-  Object.defineProperty(response, 'url', {
-    value: environment.API_URL,
-    writable: true,
-    configurable: true,
-  });
-
+  const response = new Response();
+  response.ok = true;
+  response.url = environment.API_URL;
   if (data) {
+    response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
   }
   stub.resolves(response);
 }
 
 export function setFetchJSONFailure(stub, data) {
-  // Use status 400 to make ok = false (read-only in Node 22)
   const response = new Response(null, {
-    status: 400,
     headers: { 'content-type': ['application/json'] },
   });
-
-  // Define url as a writable property (read-only in native Response)
-  Object.defineProperty(response, 'url', {
-    value: environment.API_URL,
-    writable: true,
-    configurable: true,
-  });
-
+  response.ok = false;
+  response.url = environment.API_URL;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobResponse(stub, data) {
-  // Use status 200 to make ok = true (read-only in Node 22)
-  const response = new Response(null, { status: 200 });
-
-  // Define url as a writable property (read-only in native Response)
-  Object.defineProperty(response, 'url', {
-    value: environment.API_URL,
-    writable: true,
-    configurable: true,
-  });
-
+  const response = new Response();
+  response.ok = true;
+  response.url = environment.API_URL;
   response.blob = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobFailure(stub, error) {
-  // Use status 400 to make ok = false (read-only in Node 22)
-  const response = new Response(null, { status: 400 });
-
-  // Define url as a writable property (read-only in native Response)
-  Object.defineProperty(response, 'url', {
-    value: environment.API_URL,
-    writable: true,
-    configurable: true,
-  });
-
+  const response = new Response();
+  response.ok = false;
+  response.url = environment.API_URL;
   response.blob = () => Promise.reject(new Error(error));
   stub.resolves(response);
 }

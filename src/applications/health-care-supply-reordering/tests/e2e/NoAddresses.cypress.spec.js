@@ -157,7 +157,7 @@ describe(`${appName} -- Veteran w/o address`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 2,
-      name: /^Success Alert Your order has been submitted$/,
+      name: /^Your order has been submitted$/,
     };
     cy.findByRole('heading', heading); // .should('have.focus'); // it _should_ have focus, but does not
   });

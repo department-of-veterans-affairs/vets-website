@@ -6,8 +6,8 @@ import {
   createPostHandler,
   createPatchHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { server } from 'platform/testing/unit/mocha-setup';
 
 import environment from '~/platform/utilities/environment';
 
@@ -36,14 +36,24 @@ const createState = initialState => actions =>
 const apiURL = `${environment.API_URL}/v0${endpoint}`;
 
 describe('fetching communication preferences', () => {
+  let server;
   let store;
-  beforeEach(() => {
-    server.use(
+  before(() => {
+    server = setupServer(
       createGetHandler(apiURL, () =>
         jsonResponse(getMaximalCommunicationGroupsSuccess),
       ),
     );
+    server.listen();
+  });
+  beforeEach(() => {
     store = mockStore(createState({}));
+  });
+  afterEach(() => {
+    server.resetHandlers();
+  });
+  after(() => {
+    server.close();
   });
   context(
     "when a user's only facility is one that supports Rx tracking",
@@ -237,12 +247,16 @@ describe('fetching communication preferences', () => {
 });
 
 describe('saveCommunicationPreferenceChannel', () => {
+  let server;
   let store;
-  beforeEach(() => {
-    server.use(
+  before(() => {
+    server = setupServer(
       createPostHandler(apiURL, () => jsonResponse(postSuccess)),
       createPatchHandler(`${apiURL}/*`, () => jsonResponse(patchSuccess)),
     );
+    server.listen();
+  });
+  beforeEach(() => {
     store = mockStore(
       createState({
         loadingStatus: 'loaded',
@@ -326,6 +340,9 @@ describe('saveCommunicationPreferenceChannel', () => {
   afterEach(() => {
     server.resetHandlers();
   });
+  after(() => {
+    server.close();
+  });
   context(
     'it first fails to save a permission via POST due to a 401 error and then succeeds on the second attempt',
     () => {
@@ -364,8 +381,7 @@ describe('saveCommunicationPreferenceChannel', () => {
           );
         });
         // now make the API work correctly and try to update the pref again
-        // Re-add success handlers (resetHandlers would clear all handlers)
-        server.use(createPostHandler(apiURL, () => jsonResponse(postSuccess)));
+        server.resetHandlers();
         promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'POST',
@@ -429,10 +445,7 @@ describe('saveCommunicationPreferenceChannel', () => {
           );
         });
         // now make the API work correctly and try to update the pref again
-        // Re-add success handlers (resetHandlers would clear all handlers)
-        server.use(
-          createPatchHandler(`${apiURL}/*`, () => jsonResponse(patchSuccess)),
-        );
+        server.resetHandlers();
         promise = store.dispatch(
           saveCommunicationPreferenceChannel(channelId, {
             method: 'PATCH',

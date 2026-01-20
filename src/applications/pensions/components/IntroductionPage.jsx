@@ -9,7 +9,6 @@ import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 
 import { FormReactivationAlert } from './FormAlerts';
-import DisabilityRatingAlert from './DisabilityRatingAlert';
 
 const IntroductionPage = props => {
   const { route } = props;
@@ -17,9 +16,6 @@ const IntroductionPage = props => {
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
-  const pensionRatingAlertLoggingEnabled = useToggleValue(
-    TOGGLE_NAMES.pensionRatingAlertLoggingEnabled,
-  );
 
   const loggedIn = useSelector(isLoggedIn);
   // LOA3 Verified?
@@ -38,8 +34,6 @@ const IntroductionPage = props => {
         title="Apply for Veterans Pension benefits"
         subTitle="Application for Veterans Pension (VA Form 21P-527EZ)"
       />
-      {loggedIn &&
-        pensionRatingAlertLoggingEnabled && <DisabilityRatingAlert />}
       <p className="va-introtext">
         Use our online tool to fill out and submit your application for Veterans
         Pension benefits. If you’re a wartime Veteran and you’re at least 65

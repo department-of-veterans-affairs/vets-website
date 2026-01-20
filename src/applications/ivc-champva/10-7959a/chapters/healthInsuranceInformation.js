@@ -19,11 +19,7 @@ import {
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { privWrapper } from '../../shared/utilities';
 import { validFieldCharsOnly } from '../../shared/validations';
-import {
-  hasOhi,
-  personalizeTitleByName,
-  replaceStrValues,
-} from '../utils/helpers';
+import { personalizeTitleByName, replaceStrValues } from '../utils/helpers';
 import content from '../locales/en/content.json';
 
 const INSURANCE_TYPE_LABELS = {
@@ -234,7 +230,9 @@ export const insurancePages = arrayBuilderPages(
     insuranceIntro: pageBuilder.introPage({
       path: 'insurance-intro',
       title: '[noun plural]',
-      depends: hasOhi,
+      depends: formData =>
+        get('hasOhi', formData) &&
+        get('claimStatus', formData) !== 'resubmission',
       uiSchema: {
         ...titleUI(content['health-insurance--intro-title']),
         ...descriptionUI(content['health-insurance--intro-desc']),
@@ -247,19 +245,25 @@ export const insurancePages = arrayBuilderPages(
     insuranceSummary: pageBuilder.summaryPage({
       title: 'Review your [noun plural]',
       path: 'insurance-review',
-      depends: hasOhi,
+      depends: formData =>
+        get('hasOhi', formData) &&
+        get('claimStatus', formData) !== 'resubmission',
       ...summaryPage,
     }),
     insurancePolicy: pageBuilder.itemPage({
       title: 'Policy information',
       path: 'policy-info/:index',
-      depends: hasOhi,
+      depends: formData =>
+        get('hasOhi', formData) &&
+        get('claimStatus', formData) !== 'resubmission',
       ...policyPage,
     }),
     insuranceType: pageBuilder.itemPage({
       title: 'Type',
       path: 'insurance-type/:index',
-      depends: hasOhi,
+      depends: formData =>
+        get('hasOhi', formData) &&
+        get('claimStatus', formData) !== 'resubmission',
       ...insuranceProviderPage,
     }),
   }),

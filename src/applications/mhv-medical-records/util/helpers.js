@@ -325,17 +325,11 @@ export const formatDate = str => {
  * Returns a date formatted into three parts -- a date portion, a time portion, and a time zone.
  *
  * @param {Date | string} date
- * @returns {{ date: string, time: string, timeZone: string } | null} Returns null if the date is invalid.
  */
 export const formatDateAndTime = rawDate => {
   let date = rawDate;
   if (typeof rawDate === 'string') {
     date = new Date(rawDate);
-  }
-
-  // Validate the date before formatting to prevent RangeError in formatToParts
-  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
-    return null;
   }
 
   const hours = date.getHours();
@@ -575,15 +569,9 @@ export const getLastSuccessfulUpdate = (
     matchingDates?.length &&
     matchingDates.length === extractTypeList.length
   ) {
-    // Filter out any invalid dates
-    const timestamps = matchingDates
-      .map(date => date.getTime())
-      .filter(t => !Number.isNaN(t));
-    if (timestamps.length === 0) {
-      return null;
-    }
-    // Get the earliest date (minimum timestamp)
-    const minDate = new Date(Math.min(...timestamps));
+    const minDate = new Date(
+      Math.min(...matchingDates.map(date => date.getTime())),
+    );
     return formatDateAndTime(minDate);
   }
   return null;

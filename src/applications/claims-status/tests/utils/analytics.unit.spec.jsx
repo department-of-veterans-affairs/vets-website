@@ -9,7 +9,6 @@ import {
   recordUploadStartEvent,
   recordUploadFailureEvent,
   recordUploadSuccessEvent,
-  recordUploadCancelEvent,
 } from '../../utils/analytics';
 
 describe('analytics helpers', () => {
@@ -297,7 +296,6 @@ describe('analytics helpers', () => {
         'api-name': 'Claims and Appeals Upload Fail Type 2 Alert',
         'api-status': undefined,
         'error-key': undefined,
-        'upload-cancel-file-count': undefined,
         'upload-fail-alert-count': 3,
         'upload-fail-file-count': undefined,
         'upload-file-count': undefined,
@@ -329,7 +327,6 @@ describe('analytics helpers', () => {
         'api-name': 'Claims and Appeals Upload',
         'api-status': 'started',
         'error-key': undefined,
-        'upload-cancel-file-count': undefined,
         'upload-fail-alert-count': undefined,
         'upload-fail-file-count': undefined,
         'upload-file-count': 2,
@@ -378,34 +375,25 @@ describe('analytics helpers', () => {
 
   describe('recordUploadFailureEvent', () => {
     it('should record event', () => {
-      const file1 = createTestFile('test1.pdf', TEST_TIMESTAMP_1);
-      const file2 = createTestFile('test2.pdf', TEST_TIMESTAMP_2);
+      const file = createTestFile();
       const errorFiles = [
         {
-          fileName: 'test1.pdf',
+          fileName: 'test.pdf',
           docType: 'Other document type',
-          errors: [{ detail: 'DOC_UPLOAD_DUPLICATE' }],
-        },
-        {
-          fileName: 'test2.pdf',
-          docType: 'Medical Records',
           errors: [{ detail: 'DOC_UPLOAD_DUPLICATE' }],
         },
       ];
       const files = [
-        { file: file1, docType: { value: TEST_DOC_TYPE } },
-        { file: file2, docType: { value: TEST_DOC_TYPE_2 } },
+        {
+          file,
+          docType: { value: TEST_DOC_TYPE },
+        },
       ];
       const filesWithRetryInfo = [
         {
           docInstanceId: TEST_DOC_INSTANCE_ID,
-          retryInfo: { isRetry: true, retryCount: 1 },
-          docType: TEST_DOC_TYPE,
-        },
-        {
-          docInstanceId: TEST_DOC_INSTANCE_ID_2,
           retryInfo: { isRetry: false, retryCount: 0 },
-          docType: TEST_DOC_TYPE_2,
+          docType: TEST_DOC_TYPE,
         },
       ];
 
@@ -414,7 +402,7 @@ describe('analytics helpers', () => {
         files,
         filesWithRetryInfo,
         claimId: TEST_CLAIM_ID,
-        retryFileCount: 1,
+        retryFileCount: 0,
       });
 
       expect(window.dataLayer.length).to.equal(1);
@@ -423,12 +411,11 @@ describe('analytics helpers', () => {
         'api-name': 'Claims and Appeals Upload',
         'api-status': 'failed',
         'error-key': 'DOC_UPLOAD_DUPLICATE',
-        'upload-cancel-file-count': undefined,
         'upload-fail-alert-count': undefined,
-        'upload-fail-file-count': 2,
+        'upload-fail-file-count': 1,
         'upload-file-count': undefined,
-        'upload-retry': true,
-        'upload-retry-file-count': 1,
+        'upload-retry': false,
+        'upload-retry-file-count': undefined,
         'upload-success-file-count': undefined,
       });
     });
@@ -533,34 +520,12 @@ describe('analytics helpers', () => {
         'api-name': 'Claims and Appeals Upload',
         'api-status': 'successful',
         'error-key': undefined,
-        'upload-cancel-file-count': undefined,
         'upload-fail-alert-count': undefined,
         'upload-fail-file-count': undefined,
         'upload-file-count': undefined,
         'upload-retry': true,
-        'upload-retry-file-count': 1,
+        'upload-retry-file-count': undefined,
         'upload-success-file-count': 2,
-      });
-    });
-  });
-
-  describe('recordUploadCancelEvent', () => {
-    it('should record event', () => {
-      recordUploadCancelEvent({ cancelFileCount: 3, retryFileCount: 2 });
-
-      expect(window.dataLayer.length).to.equal(1);
-      expect(window.dataLayer[0]).to.deep.equal({
-        event: 'claims-upload-cancel',
-        'api-name': 'Claims and Appeals Upload',
-        'api-status': 'cancel',
-        'error-key': undefined,
-        'upload-cancel-file-count': 3,
-        'upload-fail-alert-count': undefined,
-        'upload-fail-file-count': undefined,
-        'upload-file-count': undefined,
-        'upload-retry': true,
-        'upload-retry-file-count': 2,
-        'upload-success-file-count': undefined,
       });
     });
   });

@@ -4,11 +4,11 @@ import environment from 'platform/utilities/environment';
 
 const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';
 
-export function getRemainingEntitlement(enableForm10203ClaimantService) {
+export function getRemainingEntitlement(enableSobClaimantService) {
   return dispatch => {
     const sobUrl = `${environment.API_URL}/sob/v0/ch33_status`;
 
-    const request = enableForm10203ClaimantService
+    const request = enableSobClaimantService
       ? apiRequest(sobUrl)
       : apiRequest('/post911_gi_bill_status', { apiVersion: 'v1' });
 

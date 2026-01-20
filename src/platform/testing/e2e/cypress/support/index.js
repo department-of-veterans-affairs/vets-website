@@ -6,15 +6,6 @@ import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
 
-// Re-export URL utilities for easy access in tests
-// Usage: import { getBaseUrl, getTestUrl } from 'support/index';
-export {
-  getBaseUrl,
-  getTestUrl,
-  normalizeTestUrl,
-  urlsAreEquivalent,
-} from './url-utils';
-
 beforeEach(() => {
   cy.intercept('GET', '/feature_toggles', {
     statusCode: 200,

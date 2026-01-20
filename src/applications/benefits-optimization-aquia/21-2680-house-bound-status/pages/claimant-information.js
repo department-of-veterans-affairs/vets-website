@@ -31,34 +31,13 @@ const formatFullNameTitles = name => {
   }
 };
 
-// Generate base name UI configuration
-const baseNameUI = fullNameNoSuffixUI(formatFullNameTitles);
-
 /**
  * uiSchema for Claimant Information page
  * Collects claimant's full name and date of birth
  */
 export const claimantInformationUiSchema = {
   claimantInformation: {
-    claimantFullName: {
-      ...baseNameUI,
-      first: {
-        ...baseNameUI.first,
-        'ui:options': {
-          ...baseNameUI.first['ui:options'],
-          hint:
-            'Maximum 12 characters. If your name is longer, enter the first 12 characters only.',
-        },
-      },
-      last: {
-        ...baseNameUI.last,
-        'ui:options': {
-          ...baseNameUI.last['ui:options'],
-          hint:
-            'Maximum 18 characters. If your name is longer, enter the first 18 characters only.',
-        },
-      },
-    },
+    claimantFullName: fullNameNoSuffixUI(formatFullNameTitles),
     claimantDob: dateOfBirthUI(),
   },
   'ui:options': {
@@ -84,17 +63,9 @@ const customNameSchema = {
   ...fullNameNoSuffixSchema,
   properties: {
     ...fullNameNoSuffixSchema.properties,
-    first: {
-      type: 'string',
-      maxLength: 12,
-    },
     middle: {
       type: 'string',
       maxLength: 1,
-    },
-    last: {
-      type: 'string',
-      maxLength: 18,
     },
   },
 };

@@ -102,8 +102,7 @@ describe('DirectDeposit createDirectDepositPage', () => {
     expect(routing['ui:validations']).to.be.an('array');
     expect(routing['ui:validations']).to.have.length(1);
     expect(routing['ui:errorMessages']).to.deep.equal({
-      pattern: 'Enter a valid 9-digit routing number',
-      required: 'Enter a 9-digit routing number',
+      pattern: 'Please enter a valid 9 digit routing number',
     });
   });
 
@@ -118,7 +117,7 @@ describe('DirectDeposit createDirectDepositPage', () => {
     validate(errors, '123');
     expect(addError.calledOnce).to.be.true;
     expect(addError.args[0][0]).to.equal(
-      'Enter a valid 9-digit routing number',
+      'Please enter a valid 9 digit routing number',
     );
   });
 

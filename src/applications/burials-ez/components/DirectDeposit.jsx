@@ -11,7 +11,7 @@ const validateRoutingNumber = (errors, routingNumber) => {
   if (!routingNumber) return;
   const cleanValue = routingNumber.toString().replace(/[^\d]/g, '');
   if (!isValidRoutingNumber(cleanValue)) {
-    errors.addError('Enter a valid 9-digit routing number');
+    errors.addError('Please enter a valid 9 digit routing number');
   }
 };
 
@@ -115,9 +115,6 @@ export default function createDirectDepositPage() {
 
       accountType: {
         ...baseBankAccountUI.accountType,
-        'ui:errorMessages': {
-          required: 'Select your account type',
-        },
       },
 
       'view:checkGuideDetails': {
@@ -131,17 +128,13 @@ export default function createDirectDepositPage() {
         'ui:validations': [validateRoutingNumber],
         'ui:webComponentField': MaskedBankAccountInfo,
         'ui:errorMessages': {
-          pattern: 'Enter a valid 9-digit routing number',
-          required: 'Enter a 9-digit routing number',
+          pattern: 'Please enter a valid 9 digit routing number',
         },
       },
 
       accountNumber: {
         ...baseBankAccountUI.accountNumber,
         'ui:webComponentField': MaskedBankAccountInfo,
-        'ui:errorMessages': {
-          required: 'Enter a bank account number',
-        },
       },
 
       'view:bankInfoHelpText': {

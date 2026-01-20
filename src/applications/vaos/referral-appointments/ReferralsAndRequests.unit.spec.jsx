@@ -2,8 +2,8 @@ import React from 'react';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { server } from 'platform/testing/unit/mocha-setup';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
@@ -27,14 +27,22 @@ const referralsAPIEndpoint = 'https://dev-api.va.gov/vaos/v2/referrals';
 const appointmentsAPIEndpoint = 'https://dev-api.va.gov/vaos/v2/appointments';
 
 describe('VAOS Component: Referrals and Requests', () => {
-  // Global server is managed by mocha-setup.js (listen/close)
+  const mswServer = setupServer();
+  before(() => {
+    mswServer.listen();
+  });
+
   beforeEach(() => {
     MockDate.set(getTestDate());
   });
 
   afterEach(() => {
     MockDate.reset();
-    server.resetHandlers();
+    mswServer.resetHandlers();
+  });
+
+  after(() => {
+    mswServer.close();
   });
 
   it('should display referrals if there are referrals', async () => {
@@ -45,13 +53,13 @@ describe('VAOS Component: Referrals and Requests', () => {
     const referralsResponse = new MockReferralListResponse({
       numberOfReferrals: 3,
     });
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse(referralsResponse, { status: 200 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () => {
         return jsonResponse({ data: [appointment] }, { status: 200 });
       }),
@@ -70,13 +78,13 @@ describe('VAOS Component: Referrals and Requests', () => {
   });
 
   it('should display error message if both calls fail if failed action is called', async () => {
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse(null, { status: 500 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse(null, { status: 500 }),
       ),
@@ -101,13 +109,13 @@ describe('VAOS Component: Referrals and Requests', () => {
     const referralsResponse = new MockReferralListResponse({
       numberOfReferrals: 3,
     });
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse(referralsResponse, { status: 500 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse({ data: [appointment] }, { status: 200 }),
       ),
@@ -122,13 +130,13 @@ describe('VAOS Component: Referrals and Requests', () => {
   });
 
   it('should display referral error message if referrals fail', async () => {
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse(null, { status: 500 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
@@ -149,13 +157,13 @@ describe('VAOS Component: Referrals and Requests', () => {
   });
 
   it('should display requests error message if requests fail', async () => {
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse(null, { status: 500 }),
       ),
@@ -177,13 +185,13 @@ describe('VAOS Component: Referrals and Requests', () => {
   });
 
   it('should display no referrals message if there are no referrals', async () => {
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
@@ -214,13 +222,13 @@ describe('VAOS Component: Referrals and Requests', () => {
       },
     };
 
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse(
           { data: [appointment, canceledAppointment] },
@@ -253,13 +261,13 @@ describe('VAOS Component: Referrals and Requests', () => {
       pending: true,
       status: APPOINTMENT_STATUS.proposed,
     }).setLocation(new MockFacilityResponse());
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse({ data: [appointment] }, { status: 200 }),
       ),
@@ -293,13 +301,13 @@ describe('VAOS Component: Referrals and Requests', () => {
 
   it('should dispaly no appointments alert when there are no pending or cancelled appointments', async () => {
     // And a veteran has no pending or canceled appointment request
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
@@ -333,13 +341,13 @@ describe('VAOS Component: Referrals and Requests', () => {
       .setRequestedPeriods([startDate])
       .setLocation(new MockFacilityResponse());
     // And a veteran has VA appointment request
-    server.use(
+    mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse({ data: [] }, { status: 200 }),
       ),
     );
 
-    server.use(
+    mswServer.use(
       createGetHandler(appointmentsAPIEndpoint, () =>
         jsonResponse({ data: [cancelledAppointment] }, { status: 200 }),
       ),

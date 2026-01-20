@@ -6,8 +6,8 @@ import configureStore from 'redux-mock-store';
 import {
   createGetHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { server } from 'platform/testing/unit/mocha-setup';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import App from './index';
 
@@ -20,8 +20,8 @@ const emptyAvailableFormsResponse = {
   availableForms: [],
 };
 
-const setupAvailableFormsResponse = (mswServer, status, responsePayload) => {
-  mswServer.use(
+const setupAvailableFormsResponse = (server, status, responsePayload) => {
+  server.use(
     createGetHandler(
       'https://dev-api.va.gov/v0/form1095_bs/available_forms',
       () => jsonResponse(responsePayload || {}, { status }),
@@ -31,6 +31,13 @@ const setupAvailableFormsResponse = (mswServer, status, responsePayload) => {
 
 describe('App component', () => {
   let store;
+  const server = setupServer();
+  before(() => {
+    server.listen();
+  });
+  after(() => {
+    server.close();
+  });
 
   const unauthenticatedState = {
     user: {

@@ -23,7 +23,6 @@ const AlertConfirmAddContactEmailError = ({
       role="alert"
       dataTestid="mhv-alert--confirm-error"
       className="vads-u-margin-y--2"
-      tabIndex={-1}
     >
       <h2 slot="headline">
         <span className="usa-sr-only">error</span>

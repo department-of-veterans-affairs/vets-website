@@ -8,23 +8,32 @@ import {
   createPutHandler,
   createPostHandler,
   jsonResponse,
+  setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { server } from 'platform/testing/unit/mocha-setup';
 import { handleTokenRequest, emailNeedsConfirmation } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
 
 describe('AuthApp', () => {
-  // Global server is managed by mocha-setup.js (listen/close)
+  const server = setupServer();
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
     getState: () => ({}),
   };
 
+  before(() => {
+    server.listen();
+  });
+
   afterEach(() => {
     localStorage.clear();
     sessionStorage.clear();
+    server.resetHandlers();
+  });
+
+  after(() => {
+    server.close();
   });
 
   it('should display an error page', () => {
@@ -523,11 +532,16 @@ describe('AuthApp', () => {
 });
 
 describe('handleTokenRequest', () => {
-  // Global server is managed by mocha-setup.js (listen/close)
+  const server = setupServer();
+
+  before(() => server.listen());
 
   afterEach(() => {
+    server.resetHandlers();
     localStorage.clear();
   });
+
+  after(() => server.close());
 
   it('should call generateOAuthError when no `state` localStorage', async () => {
     const handleTokenSpy = sinon.spy();

@@ -9,7 +9,6 @@ import {
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { scrollToFirstError } from 'platform/utilities/scroll';
-import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -20,6 +19,7 @@ import {
   getUpcomingAppointmentListInfo,
   selectUpcomingAppointments,
 } from '../../../appointment-list/redux/selectors';
+import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import FormButtons from '../../../components/FormButtons';
 import InfoAlert from '../../../components/InfoAlert';
 import NewTabAnchor from '../../../components/NewTabAnchor';

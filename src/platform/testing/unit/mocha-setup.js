@@ -25,47 +25,6 @@ import { sentryTransport } from './sentry';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
-// Polyfill Request.prototype.arrayBuffer for MSW v1 compatibility with node-fetch
-// node-fetch v2 doesn't implement arrayBuffer() on Request
-// NOTE: Only apply polyfill if Request exists (from isomorphic-fetch)
-if (
-  typeof global.Request !== 'undefined' &&
-  global.Request.prototype &&
-  !global.Request.prototype.arrayBuffer
-) {
-  Object.defineProperty(global.Request.prototype, 'arrayBuffer', {
-    value: async function arrayBuffer() {
-      const body = this.body;
-      if (!body) return new ArrayBuffer(0);
-      // Handle string body
-      if (typeof body === 'string') {
-        const buffer = Buffer.from(body);
-        return buffer.buffer.slice(
-          buffer.byteOffset,
-          buffer.byteOffset + buffer.byteLength,
-        );
-      }
-      // Handle stream body - need to collect chunks
-      const chunks = [];
-      // eslint-disable-next-line no-restricted-syntax
-      for await (const chunk of body) {
-        if (typeof chunk === 'string') {
-          chunks.push(Buffer.from(chunk));
-        } else {
-          chunks.push(chunk);
-        }
-      }
-      const buffer = Buffer.concat(chunks);
-      return buffer.buffer.slice(
-        buffer.byteOffset,
-        buffer.byteOffset + buffer.byteLength,
-      );
-    },
-    writable: true,
-    configurable: true,
-  });
-}
-
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 
@@ -152,15 +111,7 @@ function setupJSDom() {
   // Note: global.document is defined as a getter below to ensure modules
   // like axe-core always use the current window's document after beforeEach
   // creates a new JSDOM. See the Object.defineProperty for 'document' below.
-  
-  // Use defineProperty for navigator since it's read-only in Node 22+
-  Object.defineProperty(global, 'navigator', {
-    value: { userAgent: 'node.js' },
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
-  
+  global.navigator = { userAgent: 'node.js' };
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
@@ -168,21 +119,6 @@ function setupJSDom() {
     clearTimeout(id);
   };
   global.Blob = window.Blob;
-
-  // Polyfill URL.createObjectURL and revokeObjectURL for tests that stub them
-  if (!URL.createObjectURL) {
-    URL.createObjectURL = () => '';
-  }
-  if (!URL.revokeObjectURL) {
-    URL.revokeObjectURL = () => {};
-  }
-
-  // Override global Event constructors to use jsdom's implementations
-  // In Node 22, native Event constructors create objects incompatible with jsdom
-  global.Event = window.Event;
-  global.CustomEvent = window.CustomEvent;
-  global.MouseEvent = window.MouseEvent;
-  global.KeyboardEvent = window.KeyboardEvent;
 
   /* Overwrites JSDOM global defaults from read-only to configurable */
   // Define the window getter/setter only once (first call).
@@ -351,71 +287,6 @@ try {
   // Component library not installed or path changed - silently ignore
 }
 
-// Track pending timers for cleanup
-const pendingTimers = {
-  timeouts: new Set(),
-  intervals: new Set(),
-};
-
-// Wrap native timer functions to track pending timers
-function wrapTimers() {
-  const originalSetTimeout = global.setTimeout;
-  const originalSetInterval = global.setInterval;
-  const originalClearTimeout = global.clearTimeout;
-  const originalClearInterval = global.clearInterval;
-
-  global.setTimeout = function wrappedSetTimeout(fn, delay, ...args) {
-    const id = originalSetTimeout(
-      (...callArgs) => {
-        pendingTimers.timeouts.delete(id);
-        fn(...callArgs);
-      },
-      delay,
-      ...args,
-    );
-    pendingTimers.timeouts.add(id);
-    return id;
-  };
-
-  global.setInterval = function wrappedSetInterval(fn, delay, ...args) {
-    const id = originalSetInterval(fn, delay, ...args);
-    pendingTimers.intervals.add(id);
-    return id;
-  };
-
-  global.clearTimeout = function wrappedClearTimeout(id) {
-    pendingTimers.timeouts.delete(id);
-    return originalClearTimeout(id);
-  };
-
-  global.clearInterval = function wrappedClearInterval(id) {
-    pendingTimers.intervals.delete(id);
-    return originalClearInterval(id);
-  };
-
-  // Store originals for cleanup
-  global._originalTimers = {
-    setTimeout: originalSetTimeout,
-    setInterval: originalSetInterval,
-    clearTimeout: originalClearTimeout,
-    clearInterval: originalClearInterval,
-  };
-}
-
-function clearPendingTimers() {
-  const { clearTimeout: origClearTimeout, clearInterval: origClearInterval } =
-    global._originalTimers || {
-      clearTimeout: global.clearTimeout,
-      clearInterval: global.clearInterval,
-    };
-  pendingTimers.timeouts.forEach(id => origClearTimeout(id));
-  pendingTimers.intervals.forEach(id => origClearInterval(id));
-  pendingTimers.timeouts.clear();
-  pendingTimers.intervals.clear();
-}
-
-wrapTimers();
-
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
@@ -445,9 +316,6 @@ const server = setupServer(
   }),
 );
 
-// Export server and rest for tests that need to add custom handlers
-export { server, rest };
-
 export const mochaHooks = {
   beforeAll() {
     server.listen({ onUnhandledRequest: 'bypass' });
@@ -472,17 +340,10 @@ export const mochaHooks = {
   afterEach() {
     cleanupStorage();
     flushPromises();
-    // Clear any pending timers to prevent async callbacks from running after test cleanup.
-    // This catches setInterval/setTimeout leaks from components that don't clean up properly.
-    clearPendingTimers();
   },
 
   afterAll() {
     server.close();
-    // Clean up jsdom to prevent hanging in Node 22
-    if (global.dom && global.dom.window) {
-      global.dom.window.close();
-    }
   }
 
 };

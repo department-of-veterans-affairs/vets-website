@@ -3,7 +3,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../config/form';
@@ -12,10 +12,6 @@ import reducers from '../../../reducers';
 import mockDependents from '../../e2e/fixtures/mocks/mock-dependents.json';
 
 describe('Gateway', () => {
-  afterEach(() => {
-    resetFetch();
-  });
-
   const mockStore = ({
     loggedIn = true,
     isVerified = true,
@@ -84,16 +80,14 @@ describe('Gateway', () => {
       reducers,
     });
 
-    // Wait for loading to complete
     await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.not.exist;
+      expect(global.fetch.args[0][0]).to.contain('/show');
+      const alert = $('va-alert[status="info"]', container);
+      expect(alert).to.exist;
+      expect($('h2', alert).textContent).to.eq(
+        'We don’t have any dependents information on file for you',
+      );
     });
-
-    const alert = $('va-alert[status="info"]', container);
-    expect(alert).to.exist;
-    expect($('h2', alert).textContent).to.eq(
-      'We don’t have any dependents information on file for you',
-    );
   });
 
   it('should render an API error alert', async () => {
@@ -103,13 +97,11 @@ describe('Gateway', () => {
       reducers,
     });
 
-    // Wait for loading to complete
     await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.not.exist;
+      expect(global.fetch.args[0][0]).to.contain('/show');
+      const alert = $('va-alert[status="error"]', container);
+      expect(alert).to.exist;
+      expect($('h2', alert).textContent).to.eq('Error Loading Dependents');
     });
-
-    const alert = $('va-alert[status="error"]', container);
-    expect(alert).to.exist;
-    expect($('h2', alert).textContent).to.eq('Error Loading Dependents');
   });
 });

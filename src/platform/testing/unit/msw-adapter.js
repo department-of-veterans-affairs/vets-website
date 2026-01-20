@@ -8,18 +8,18 @@
  * MSW v2 uses the http.* API with HttpResponse factory pattern
  */
 
-let mswVersion = 1;
+let mswVersion = 2;
 let mswModule;
 
 try {
-  // Try to import MSW modules
+  // Try to import MSW v2 modules
   mswModule = require('msw');
-  // Check for v2 by looking for http namespace AND HttpResponse
-  if (mswModule.http && mswModule.HttpResponse) {
-    mswVersion = 2;
+  // Verify it's v2 by checking for HttpResponse
+  if (!mswModule.HttpResponse) {
+    mswVersion = 1;
   }
 } catch (e) {
-  // Fallback to v1
+  // If HttpResponse import fails, fall back to v1
   mswVersion = 1;
   mswModule = require('msw');
 }

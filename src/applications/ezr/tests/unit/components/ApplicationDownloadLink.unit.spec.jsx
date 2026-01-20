@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon-v20';
+import sinon from 'sinon';
 import * as api from 'platform/utilities/api';
 import * as recordEventModule from 'platform/monitoring/record-event';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
@@ -173,12 +173,8 @@ describe('ezr <ApplicationDownloadLink>', () => {
         });
       });
 
-      // Stub createObjectURL to throw an error to simulate a failure in PDF handling
+      // createObjectURL is not stubbed so it throws error
       it('should display `generic` error message when any other error occurs not in the request response', async () => {
-        const createObjectStub = sinon
-          .stub(URL, 'createObjectURL')
-          .throws(new Error('createObjectURL failed'));
-
         const { selectors } = subject();
         const { vaLink: link } = selectors();
 
@@ -197,8 +193,6 @@ describe('ezr <ApplicationDownloadLink>', () => {
           const event = 'ezr-pdf-download--failure';
           expect(recordEventStub.calledWith({ event })).to.be.true;
         });
-
-        createObjectStub.restore();
       });
     });
   });

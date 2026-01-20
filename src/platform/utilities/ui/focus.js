@@ -126,14 +126,7 @@ export function waitForRenderThenFocus(
     focusByOrder([selector, defaultFocusSelector]);
   } else {
     let interval = setInterval(() => {
-      const effectiveRoot = root || document;
-      // Guard against root becoming undefined after component unmount
-      if (!effectiveRoot || typeof effectiveRoot.querySelector !== 'function') {
-        clearInterval(interval);
-        interval = null;
-        return;
-      }
-      const el = effectiveRoot.querySelector(selector);
+      const el = (root || document).querySelector(selector);
       if (el) {
         clearInterval(interval);
         interval = null;

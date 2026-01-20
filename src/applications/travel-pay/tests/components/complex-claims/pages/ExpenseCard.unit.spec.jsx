@@ -104,7 +104,7 @@ describe('ExpenseCard', () => {
     // Edit button
     const editLink = queryByTestId('expense1-edit-expense-link');
     expect(editLink).to.exist;
-    expect(editLink.textContent).to.include('Edit');
+    expect(editLink.textContent).to.include('EDIT');
 
     // Delete button exists
     const deleteButton = queryByTestId('expense1-delete-expense-button');

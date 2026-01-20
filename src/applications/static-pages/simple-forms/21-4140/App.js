@@ -38,7 +38,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = store => ({
-  formEnabled: toggleValues(store)[FEATURE_FLAG_NAMES.form214140],
+  formEnabled: toggleValues(store)[FEATURE_FLAG_NAMES.form214142],
 });
 
 export default connect(mapStateToProps)(App);
