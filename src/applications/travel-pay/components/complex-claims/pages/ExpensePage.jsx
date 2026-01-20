@@ -674,14 +674,14 @@ const ExpensePage = () => {
     }
   };
 
-  const handleDocumentError = errorMsg => {
-    setUploadError(errorMsg);
-    // Clear any previous validation errors from extraFieldErrors
-    setExtraFieldErrors(prevErrors =>
-      Object.fromEntries(
-        Object.entries(prevErrors).filter(([key]) => key !== 'receipt'),
-      ),
-    );
+  const handleFileInputError = e => {
+    const { detail } = e;
+    if (detail && detail.error) {
+      setExtraFieldErrors(prevErrors => ({
+        ...prevErrors,
+        receipt: detail.error,
+      }));
+    }
   };
 
   const handleDocumentChange = async e => {
@@ -797,7 +797,7 @@ const ExpensePage = () => {
             currentDocument={expenseDocument}
             handleDocumentChange={handleDocumentChange}
             uploadError={extraFieldErrors.receipt || uploadError || undefined}
-            handleDocumentError={handleDocumentError}
+            onVaFileInputError={handleFileInputError}
           />
           {isMeal && (
             <ExpenseMealFields
