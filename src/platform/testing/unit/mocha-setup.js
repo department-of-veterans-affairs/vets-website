@@ -183,7 +183,10 @@ function setupJSDom() {
               )
             ) {
               try {
-                const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
+                const descriptor = Object.getOwnPropertyDescriptor(
+                  newWindow,
+                  prop,
+                );
                 if (descriptor) {
                   Object.defineProperty(currentRealWindow, prop, descriptor);
                 }
@@ -348,7 +351,10 @@ const cleanupStorage = () => {
 };
 
 function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
+  // Use Promise.resolve() instead of setImmediate because sinon.useFakeTimers()
+  // mocks setImmediate, which would cause afterEach to hang if a test doesn't
+  // restore timers. Promise.resolve() uses the microtask queue which sinon doesn't mock.
+  return Promise.resolve();
 }
 
 const server = setupServer(
@@ -388,6 +394,5 @@ export const mochaHooks = {
 
   afterAll() {
     server.close();
-  }
-
+  },
 };
