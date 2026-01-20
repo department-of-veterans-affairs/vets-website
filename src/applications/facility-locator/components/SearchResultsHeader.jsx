@@ -136,7 +136,7 @@ export const SearchResultsHeader = ({
     return (
       <>
         {`${resultsPrefix}`}
-        <b>{`"${facilityTypes[facilityType]}" `}</b>
+        <b>{`"${facilityTypes[facilityType]}"`}</b>
         <FormattedServiceTypeText />
         <FormattedLocationText />
       </>
