@@ -59,7 +59,6 @@ const VAMCServiceAutosuggest = ({
   );
 
   // Initialize services when selector data becomes available
-  // Also set default "All VA health services" if no service is committed
   useEffect(
     () => {
       if (selector?.data && !allVAMCServices.length) {
@@ -67,31 +66,6 @@ const VAMCServiceAutosuggest = ({
       }
     },
     [selector, allVAMCServices.length, getServices],
-  );
-
-  // Set default service type when services are loaded and no service is selected
-  // This ensures the form state has a valid serviceType before submission
-  useEffect(
-    () => {
-      if (
-        allVAMCServices.length > 0 &&
-        !committedServiceDisplay &&
-        !inputValueRef.current
-      ) {
-        const allServicesOption = allVAMCServices.find(
-          service => service.id === 'All VA health services',
-        );
-
-        if (allServicesOption && onDraftChange) {
-          setInputValue(allServicesOption.toDisplay);
-          onDraftChange({
-            serviceType: allServicesOption.serviceId,
-            vamcServiceDisplay: allServicesOption.toDisplay,
-          });
-        }
-      }
-    },
-    [allVAMCServices, committedServiceDisplay, onDraftChange],
   );
 
   // Handles edge cases where the form might be re-rendered between
