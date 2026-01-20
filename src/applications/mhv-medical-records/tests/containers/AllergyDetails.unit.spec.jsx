@@ -232,8 +232,15 @@ describe('AllergyDetails with unified data', () => {
     },
   };
 
+  const cernerUser = {
+    profile: {
+      ...user.profile,
+      facilities: [{ facilityId: '757' }],
+    },
+  };
+
   const initialState = {
-    user,
+    user: cernerUser,
     mr: {
       allergies: {
         allergyDetails: {
@@ -243,10 +250,26 @@ describe('AllergyDetails with unified data', () => {
       },
     },
     featureToggles: {
+      loading: false,
       // eslint-disable-next-line camelcase
       mhv_accelerated_delivery_enabled: true,
       // eslint-disable-next-line camelcase
       mhv_accelerated_delivery_allergies_enabled: true,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          cernerFacilities: [
+            {
+              vhaId: '757',
+              vamcFacilityName: 'Chalmers P. Wylie Veterans Outpatient Clinic',
+              vamcSystemName: 'VA Central Ohio health care',
+              ehr: 'cerner',
+            },
+          ],
+        },
+      },
     },
   };
 

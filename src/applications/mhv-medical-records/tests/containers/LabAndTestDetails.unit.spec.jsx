@@ -171,8 +171,15 @@ describe('LabAndTestDetails radiology', () => {
 });
 
 describe('Accelerated LabAndTestDetails', () => {
+  const cernerUser = {
+    profile: {
+      ...user.profile,
+      facilities: [{ facilityId: '757' }],
+    },
+  };
+
   const buildInitialState = () => ({
-    user,
+    user: cernerUser,
     mr: {
       labsAndTests: {
         labsAndTestsDetails: convertLabsAndTestsRecord(radiologyMhv),
@@ -183,6 +190,21 @@ describe('Accelerated LabAndTestDetails', () => {
       loading: false,
       [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryEnabled]: true,
       [FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled]: true,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          cernerFacilities: [
+            {
+              vhaId: '757',
+              vamcFacilityName: 'Chalmers P. Wylie Veterans Outpatient Clinic',
+              vamcSystemName: 'VA Central Ohio health care',
+              ehr: 'cerner',
+            },
+          ],
+        },
+      },
     },
   });
 
