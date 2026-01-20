@@ -86,7 +86,7 @@ const DateTimeSelection = () => {
 
   return (
     <Wrapper
-      pageTitle="What date and time do you want for this appointment?"
+      pageTitle="When do you want to schedule your appointment?"
       classNames="vads-u-margin-top--4"
       testID="date-time-selection"
       required
@@ -99,8 +99,8 @@ const DateTimeSelection = () => {
           times are displayed in {getTimezoneDescByTimeZoneString(timezone)}.
         </p>
         <p>
-          <strong>Note:</strong> Available dates are shown for the next 2 weeks,
-          and weekends are unavailable.
+          <strong>Note:</strong> You can schedule a appointment on a week day
+          within the next 2 weeks.
         </p>
       </div>
 
