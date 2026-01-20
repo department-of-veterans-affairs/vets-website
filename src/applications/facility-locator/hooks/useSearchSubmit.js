@@ -3,25 +3,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { LocationType } from '../constants';
 
-/**
- * Custom hook for handling search form submission.
- *
- * Manages form validation, duplicate query prevention, analytics recording,
- * and coordinating the submission flow between Redux and the search action.
- *
- * @param {Object} options - Hook options
- * @param {Object} options.draftFormState - Current draft form state
- * @param {Function} options.setDraftFormState - Setter for draft form state
- * @param {Object} options.selectedServiceType - Selected service type object (for CC_PROVIDER validation)
- * @param {Object} options.currentQuery - Current Redux query state
- * @param {Function} options.onChange - Callback to update Redux state
- * @param {Function} options.onSubmit - Callback to trigger search
- * @param {boolean} options.isMobile - Whether in mobile view
- * @param {boolean} options.mobileMapUpdateEnabled - Whether mobile map updates are enabled
- * @param {Function} options.selectMobileMapPin - Callback to clear mobile map pin
- * @param {Function} options.setSearchInitiated - Callback to set search initiated flag
- * @returns {Object} Object containing handleSubmit function
- */
+/** Handles form validation and submission. */
 const useSearchSubmit = ({
   draftFormState,
   setDraftFormState,

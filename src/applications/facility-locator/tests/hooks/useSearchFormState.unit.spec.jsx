@@ -227,42 +227,6 @@ describe('useSearchFormState hook', () => {
     });
   });
 
-  describe('handleLocationSelection', () => {
-    it('should pass updates to updateDraftState', () => {
-      const { result } = renderHook(() =>
-        useSearchFormState(getDefaultQuery()),
-      );
-
-      act(() => {
-        result.current.handleLocationSelection({ searchString: 'Boston, MA' });
-      });
-
-      expect(result.current.draftFormState.searchString).to.equal('Boston, MA');
-    });
-  });
-
-  describe('handleVamcDraftChange', () => {
-    it('should pass updates to updateDraftState', () => {
-      const { result } = renderHook(() =>
-        useSearchFormState(getDefaultQuery()),
-      );
-
-      act(() => {
-        result.current.handleVamcDraftChange({
-          serviceType: 'mentalHealth',
-          vamcServiceDisplay: 'Mental health care',
-        });
-      });
-
-      expect(result.current.draftFormState.serviceType).to.equal(
-        'mentalHealth',
-      );
-      expect(result.current.draftFormState.vamcServiceDisplay).to.equal(
-        'Mental health care',
-      );
-    });
-  });
-
   describe('setDraftFormState', () => {
     it('should be exposed for direct state manipulation', () => {
       const { result } = renderHook(() =>

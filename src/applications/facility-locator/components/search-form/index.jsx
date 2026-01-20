@@ -14,7 +14,6 @@ import { SearchFormTypes } from '../../types';
 // Hooks
 import useSearchFormState from '../../hooks/useSearchFormState';
 import useSearchFormSync from '../../hooks/useSearchFormSync';
-import useGeolocationAnalytics from '../../hooks/useGeolocationAnalytics';
 import useSearchSubmit from '../../hooks/useSearchSubmit';
 
 // Components
@@ -23,14 +22,7 @@ import FacilityType from './facility-type';
 import ServiceType from './service-type';
 import AddressAutosuggest from './location/AddressAutosuggest';
 
-/**
- * SearchForm implements a dual-state pattern to prevent premature UI updates:
- * - draftFormState (local React state): holds user input changes
- * - currentQuery (Redux state): holds committed values that drive search results
- *
- * Form inputs update draft state only. On submit, draft state commits to Redux.
- * This prevents search results from updating while user is still typing/editing.
- */
+/** Draft state pattern: inputs update local state, commit to Redux on submit. */
 export const SearchForm = props => {
   const {
     currentQuery,
@@ -55,8 +47,6 @@ export const SearchForm = props => {
     updateDraftState,
     handleFacilityTypeChange,
     handleServiceTypeChange,
-    handleLocationSelection,
-    handleVamcDraftChange,
     selectedServiceType,
   } = useSearchFormState(currentQuery);
 
@@ -72,7 +62,27 @@ export const SearchForm = props => {
   });
 
   // Track geolocation errors for analytics
-  useGeolocationAnalytics(currentQuery.geocodeError);
+  useEffect(
+    () => {
+      if (currentQuery?.geocodeError) {
+        if (currentQuery.geocodeError === 1) {
+          recordEvent({
+            event: 'fl-get-geolocation-permission-error',
+            'error-key': '1_PERMISSION_DENIED',
+          });
+        } else {
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key':
+              currentQuery.geocodeError === 2
+                ? '2_POSITION_UNAVAILABLE'
+                : '3_TIMEOUT',
+          });
+        }
+      }
+    },
+    [currentQuery.geocodeError],
+  );
 
   // Form submission handling
   const { handleSubmit } = useSearchSubmit({
@@ -140,7 +150,7 @@ export const SearchForm = props => {
           draftFormState.vamcServiceDisplay ||
           (draftFormState.serviceType && currentQuery.vamcServiceDisplay)
         }
-        onVamcDraftChange={handleVamcDraftChange}
+        onVamcDraftChange={updateDraftState}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
@@ -187,7 +197,7 @@ export const SearchForm = props => {
           isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
-          onLocationSelection={handleLocationSelection}
+          onLocationSelection={updateDraftState}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
         {useProgressiveDisclosure ? (
