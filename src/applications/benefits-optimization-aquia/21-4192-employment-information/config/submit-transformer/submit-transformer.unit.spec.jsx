@@ -590,6 +590,28 @@ describe('Submit Transformer', () => {
         .be.false;
     });
 
+    it('should include remarks when benefitEntitlement is no', () => {
+      const form = {
+        data: {
+          benefitsInformation: {
+            benefitEntitlement: 'no',
+          },
+          remarks: {
+            remarks: 'Additional information here',
+          },
+        },
+      };
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, form));
+
+      expect(result.benefitEntitlementPayments).to.exist;
+      expect(result.benefitEntitlementPayments.sickRetirementOtherBenefits).to
+        .be.false;
+      expect(result.benefitEntitlementPayments.remarks).to.equal(
+        'Additional information here',
+      );
+    });
+
     it('should include benefitEntitlementPayments when benefitEntitlement is true', () => {
       const form = {
         data: {

@@ -5,8 +5,8 @@ import { render } from '@testing-library/react';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import * as scrollUtils from 'platform/utilities/scroll/scroll';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as page from '../../utils/page';
@@ -830,10 +830,8 @@ describe('Disability benefits helpers: ', () => {
 
   describe('makeAuthRequest', () => {
     let expectedUrl;
-    const server = setupServer();
 
     before(() => {
-      server.listen();
       server.events.on('request:start', req => {
         // TODO: After Node 14 support is dropped, simplify to: expectedUrl = req.url.href;
         // The || req.url fallback is only needed for Node 14 compatibility
@@ -845,8 +843,6 @@ describe('Disability benefits helpers: ', () => {
       server.resetHandlers();
       expectedUrl = undefined;
     });
-
-    after(() => server.close());
 
     it('should make an apiRequest request', done => {
       server.use(

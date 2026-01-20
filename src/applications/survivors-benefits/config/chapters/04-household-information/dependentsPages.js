@@ -21,8 +21,6 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   selectUI,
-  addressUI,
-  addressSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -31,10 +29,7 @@ import {
   COUNTRY_NAMES,
   COUNTRY_VALUES,
 } from '../../../utils/labels';
-import {
-  DependentChildDescription,
-  seriouslyDisabledDescription,
-} from '../../../utils/helpers';
+import { seriouslyDisabledDescription } from '../../../utils/helpers';
 import { VaForm214138Alert } from '../../../components/FormAlerts';
 
 /**
@@ -45,7 +40,7 @@ export const options = {
   arrayPath: 'veteransChildren',
   nounSingular: 'dependent child',
   nounPlural: 'dependent children',
-  required: false,
+  required: true,
   maxItems: 3,
   isItemIncomplete: item => !item?.childFullName || !item?.childDateOfBirth,
   text: {
@@ -102,7 +97,6 @@ const introPage = {
           Next we’ll ask you about the Veteran’s dependent children. You may add
           up to 3 dependents.
         </p>
-        {DependentChildDescription}
       </div>
     ),
   },
@@ -356,42 +350,6 @@ const householdPage = {
   },
 };
 
-const mailingAddressPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI("Dependent's mailing address"),
-    mailingAddress: {
-      ...addressUI({
-        omit: ['isMilitary', 'street3'],
-      }),
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      mailingAddress: {
-        type: 'object',
-        properties: {
-          ...addressSchema({ omit: ['isMilitary', 'street3'] }).properties,
-        },
-      },
-    },
-  },
-};
-
-const custodianPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI("Dependent's custodian"),
-    custodianFullName: fullNameUI(),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      custodianFullName: fullNameSchema,
-    },
-    required: ['custodianFullName'],
-  },
-};
-
 const childSupportPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Child support payment'),
@@ -413,60 +371,51 @@ export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
   dependentsIntro: pageBuilder.introPage({
     title: 'Dependents',
     path: 'household/dependents',
+    depends: formData => formData.veteranChildrenCount > 0,
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
   dependentsSummary: pageBuilder.summaryPage({
     title: 'Do you have a dependent child of the Veteran to add?',
     path: 'household/dependents/add',
+    depends: formData => formData.veteranChildrenCount > 0,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   dependentName: pageBuilder.itemPage({
     title: "Dependent's name and information",
     path: 'household/dependents/:index/name-and-information',
+    depends: formData => formData.veteranChildrenCount > 0,
     uiSchema: namePage.uiSchema,
     schema: namePage.schema,
   }),
   dependentDobPlace: pageBuilder.itemPage({
     title: "Dependent's date and place of birth",
     path: 'household/dependents/:index/date-and-place-of-birth',
+    depends: formData => formData.veteranChildrenCount > 0,
     uiSchema: dobPlacePage.uiSchema,
     schema: dobPlacePage.schema,
   }),
   dependentRelationship: pageBuilder.itemPage({
     title: 'Relationship to dependent',
     path: 'household/dependents/:index/relationship-to-dependent',
+    depends: formData => formData.veteranChildrenCount > 0,
     uiSchema: relationshipPage.uiSchema,
     schema: relationshipPage.schema,
   }),
   dependentInfo: pageBuilder.itemPage({
     title: "Dependent's information",
     path: 'household/dependents/:index/information',
+    depends: formData => formData.veteranChildrenCount > 0,
     uiSchema: dependentInfoPage.uiSchema,
     schema: dependentInfoPage.schema,
   }),
   dependentHousehold: pageBuilder.itemPage({
     title: "Dependent's household",
     path: 'household/dependents/:index/household',
+    depends: formData => formData.veteranChildrenCount > 0,
     uiSchema: householdPage.uiSchema,
     schema: householdPage.schema,
-  }),
-  dependentMailingAddress: pageBuilder.itemPage({
-    title: "Dependent's mailing address",
-    path: 'household/dependents/:index/mailing-address',
-    uiSchema: mailingAddressPage.uiSchema,
-    schema: mailingAddressPage.schema,
-    depends: (formData, index) =>
-      formData?.veteransChildren?.[index]?.livesWith === false,
-  }),
-  dependentCustodian: pageBuilder.itemPage({
-    title: "Dependent's custodian",
-    path: 'household/dependents/:index/custodian',
-    uiSchema: custodianPage.uiSchema,
-    schema: custodianPage.schema,
-    depends: (formData, index) =>
-      formData?.veteransChildren?.[index]?.livesWith === false,
   }),
   dependentChildSupport: pageBuilder.itemPage({
     title: 'Child support payment',
@@ -474,7 +423,8 @@ export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: childSupportPage.uiSchema,
     schema: childSupportPage.schema,
     depends: (formData, index) =>
-      formData?.veteransChildren?.[index]?.livesWith === false,
+      formData?.veteransChildren?.[index]?.livesWith === false &&
+      formData.veteranChildrenCount > 0,
   }),
 }));
 

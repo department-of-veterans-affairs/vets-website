@@ -113,6 +113,7 @@ const generateUser = ({
         },
         vet360_contact_information: {
           email: {
+            id: 12345,
             confirmation_date: null,
             updated_at: '2024-01-01T12:00:00.000+00:00',
             email_address: 'vet@va.gov',
