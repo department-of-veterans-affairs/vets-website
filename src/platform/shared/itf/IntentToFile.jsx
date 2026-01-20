@@ -131,15 +131,40 @@ const IntentToFile = ({
 
   useEffect(
     () => {
+      console.log(
+        'DEBUG useEffect - canCheckItf:',
+        canCheckItf,
+        'messageDismissed:',
+        messageDismissed,
+        'message:',
+        message,
+        'localItf?.type:',
+        localItf?.type,
+      );
       if (canCheckItf && !messageDismissed) {
         if (!message) {
+          console.log(
+            'DEBUG useEffect - setting message to fetch-itf, calling getAndProcessItf',
+          );
           setMessage('fetch-itf');
           getAndProcessItf({ apiUrl, itfType }).then(resultingItf => {
+            console.log(
+              'DEBUG useEffect - getAndProcessItf resolved:',
+              JSON.stringify(resultingItf, null, 2),
+            );
             const itf = { ...localItf, ...resultingItf };
+            console.log(
+              'DEBUG useEffect - merged itf:',
+              JSON.stringify(itf, null, 2),
+            );
             dispatch(setItf(itf));
             setLocalItf(itf);
           });
         } else if (localItf?.type && message === 'fetch-itf') {
+          console.log(
+            'DEBUG useEffect - transitioning from fetch-itf, currentITF status:',
+            localItf?.currentITF?.status,
+          );
           if (localItf?.currentITF?.status === ITF_STATUSES.active) {
             setMessage('itf-found');
             focusAlertHeader();

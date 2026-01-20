@@ -189,12 +189,12 @@ describe('IntentToFile', () => {
     });
   });
 
-  it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', () => {
+  it('should not autofocus ITF failed alert when disableAutoFocus is true and ITF lookup fails', async () => {
     mockApiRequest(mockItfData(), false);
     const { container } = renderPage(getData());
 
-    waitFor(() => {
-      expect($('va-alert[status="success"]', container).textContent).to.include(
+    await waitFor(() => {
+      expect($('va-alert[status="warning"]', container).textContent).to.include(
         'We’re sorry. We can’t find a record of your intent to file',
       );
       expect(document.activeElement?.tagName).to.not.equal('VA-ALERT');
