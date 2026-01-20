@@ -436,7 +436,9 @@ const cleanupStorage = () => {
 };
 
 function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
+  // Use Promise.resolve() to push work to the microtask queue.
+  // This is synchronous and not affected by sinon's fake timers.
+  return Promise.resolve();
 }
 
 const server = setupServer(
