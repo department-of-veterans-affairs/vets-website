@@ -149,7 +149,7 @@ Run the mock API server:
 yarn mock-api --responses src/applications/your-app/tests/fixtures/mocks/local-mock-responses.js
 ```
 
-See the [mock-form-prefill example](../../../../../applications/simple-forms/mock-form-prefill/tests/fixtures/mocks/) for a complete reference implementation.
+See the [mock-form-prefill example](../../../../../../applications/simple-forms/mock-form-prefill/tests/fixtures/mocks/local-mock-responses.js) for a complete reference implementation.
 
 ### Import and Add Prefill Pages
 
