@@ -22,11 +22,13 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <p>
-      Use this form, in some cases, to apply for unpaid benefits that we owed to
-      a VA beneficiary when they died. Be sure to read all the information on
-      this page first to make sure this is the right form for you.
-    </p>
+    <div className="va-introtext">
+      <p>
+        Use this form, in some cases, to apply for unpaid benefits that we owed
+        to a VA beneficiary when they died. Be sure to read all the information
+        on this page first to make sure this is the right form for you.
+      </p>
+    </div>
     <h2>What to know before you fill out this application</h2>
     <h3>Who should use this form</h3>
     <ul className="vads-u-margin-bottom--4">
@@ -60,7 +62,6 @@ const childContent = (
         don’t submit this form. You can check the status of your current claim
         instead.
         <br />
-        <br />
         <va-link href="/track-claims/" text="Check the status of your claim" />
       </li>
       <li>
@@ -71,7 +72,6 @@ const childContent = (
         you’ll need to use the PDF version of this form. You’ll apply as an
         unpaid creditor. This will allow you to collect signatures from other
         creditors. You’ll apply as an unpaid creditor.
-        <br />
         <br />
         <va-link
           href="https://www.vba.va.gov/pubs/forms/VBA-21P-601-ARE.pdf"
