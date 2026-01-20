@@ -196,6 +196,7 @@ describe('useSearchFormSync hook', () => {
       props.draftFormState = {
         ...getDefaultDraftFormState(),
         facilityType: 'health',
+        serviceType: 'primaryCare', // serviceType must be set for sync to occur
         vamcServiceDisplay: null,
       };
 
@@ -206,6 +207,28 @@ describe('useSearchFormSync hook', () => {
           vamcServiceDisplay: 'Primary care',
         }),
       ).to.be.true;
+    });
+
+    it('should not sync vamcServiceDisplay when serviceType is null (cleared by facility change)', () => {
+      const props = getDefaultProps();
+      props.currentQuery = {
+        ...getDefaultCurrentQuery(),
+        vamcServiceDisplay: 'Primary care',
+      };
+      props.draftFormState = {
+        ...getDefaultDraftFormState(),
+        facilityType: 'health',
+        serviceType: null, // serviceType is null means user cleared it
+        vamcServiceDisplay: null,
+      };
+
+      renderHook(() => useSearchFormSync(props));
+
+      // Should not call updateDraftState with vamcServiceDisplay
+      const vamcCalls = props.updateDraftState
+        .getCalls()
+        .filter(call => call.args[0]?.vamcServiceDisplay !== undefined);
+      expect(vamcCalls.length).to.equal(0);
     });
 
     it('should not sync vamcServiceDisplay if draft already has it', () => {

@@ -36,6 +36,8 @@ const ServiceType = ({
   if (shouldUseVamcAutosuggest) {
     return (
       <VAMCServiceAutosuggest
+        // Key forces complete remount when facility type changes, ensuring fresh internal state
+        key={`vamc-autosuggest-${facilityType}`}
         committedServiceDisplay={committedVamcServiceDisplay}
         onDraftChange={onVamcDraftChange}
         searchInitiated={searchInitiated}

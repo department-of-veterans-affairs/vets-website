@@ -69,14 +69,23 @@ const VAMCServiceAutosuggest = ({
   );
 
   // Handles edge cases where the form might be re-rendered between
-  // viewpoints or for any other reason and the autosuggest input is lost
+  // viewpoints or for any other reason and the autosuggest input is lost.
+  // Also clears input when committedServiceDisplay becomes null (e.g., facility type change)
   useEffect(
     () => {
-      if (!inputValueRef.current && committedServiceDisplay) {
-        setInputValue(committedServiceDisplay);
+      if (committedServiceDisplay) {
+        // Only set if input is currently empty to avoid overwriting user input
+        if (!inputValueRef.current) {
+          setInputValue(committedServiceDisplay);
+        }
+      } else if (inputValueRef.current && committedServiceDisplay === null) {
+        // Clear input when committedServiceDisplay is explicitly null
+        // This happens when user changes facility type
+        setInputValue(null);
+        setOptions(allVAMCServices);
       }
     },
-    [committedServiceDisplay],
+    [committedServiceDisplay, allVAMCServices],
   );
 
   // If the user has not typed a service at all, or types something that does not
