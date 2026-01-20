@@ -59,6 +59,8 @@ const ClaimsAndAppealsError = ({ hasAppealsError, hasClaimsError }) => {
     errorType = 'appeals';
   } else if (hasClaimsError && !hasAppealsError) {
     errorType = 'claims';
+  } else if (hasAppealsError && hasClaimsError) {
+    errorType = 'claims and appeals';
   }
 
   const content = useRedesignContent ? (
@@ -67,8 +69,8 @@ const ClaimsAndAppealsError = ({ hasAppealsError, hasClaimsError }) => {
       className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
       data-testId="benefit-application-error-redesign"
     >
-      We can’t show your claims or appeals information right now. Refresh this
-      page or try again later.
+      We can’t show some of your {errorType} right now. Refresh this page or try
+      again later.
     </h3>
   ) : (
     <>
@@ -223,7 +225,7 @@ const ClaimsAndAppeals = ({
               })()}
             </Toggler.Disabled>
             <Toggler.Enabled>
-              {highlightedClaimOrAppeal && !hasAPIError && !isLOA1 ? (
+              {highlightedClaimOrAppeal && !isLOA1 ? (
                 <HighlightedClaimAppeal
                   claimOrAppeal={highlightedClaimOrAppeal}
                 />
