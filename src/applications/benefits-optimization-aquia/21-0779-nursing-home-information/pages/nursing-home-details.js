@@ -32,18 +32,15 @@ export const nursingHomeDetailsUiSchema = {
  */
 const addressSchemaWithDefault = addressSchema({
   omit: ['isMilitary', 'street3'],
+  extend: {
+    country: { default: 'USA', maxLength: 3 },
+    street: { maxLength: 30 },
+    street2: { maxLength: 5 },
+    city: { maxLength: 18 },
+    state: { maxLength: 2 },
+    postalCode: { maxLength: 9 },
+  },
 });
-
-// Set default country to USA
-addressSchemaWithDefault.properties.country.default = 'USA';
-
-// Apply backend schema maxLength constraints
-addressSchemaWithDefault.properties.street.maxLength = 30;
-addressSchemaWithDefault.properties.street2.maxLength = 5;
-addressSchemaWithDefault.properties.city.maxLength = 18;
-addressSchemaWithDefault.properties.state.maxLength = 2;
-addressSchemaWithDefault.properties.postalCode.maxLength = 9;
-addressSchemaWithDefault.properties.country.maxLength = 3;
 
 export const nursingHomeDetailsSchema = {
   type: 'object',

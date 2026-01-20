@@ -4,6 +4,7 @@ import {
   addressUI,
   addressSchema,
   applyKeyMapping,
+  extendFieldProperties,
   updateFormDataAddress,
   getFieldValue,
 } from '../../../src/js/web-component-patterns/addressPattern';
@@ -1450,6 +1451,286 @@ describe('addressPattern mapping functions', () => {
       expect(mockErrors.zipCode.addError.calledOnce).to.be.true;
       const errorMessage = mockErrors.zipCode.addError.getCall(0).args[0];
       expect(errorMessage).to.include(customLabel);
+    });
+  });
+
+  describe('extendFieldProperties utility', () => {
+    it('should extend field properties with additional schema properties', () => {
+      const properties = {
+        street: { type: 'string', minLength: 1, maxLength: 100 },
+        city: { type: 'string', minLength: 1, maxLength: 100 },
+        postalCode: { type: 'string', pattern: '^[0-9]+$' },
+      };
+
+      const extend = {
+        street: { maxLength: 30 },
+        city: { maxLength: 18 },
+        postalCode: { maxLength: 9 },
+      };
+
+      const result = extendFieldProperties(properties, extend);
+
+      // Should preserve original properties and merge extensions
+      expect(result.street).to.deep.equal({
+        type: 'string',
+        minLength: 1,
+        maxLength: 30, // Extended value
+      });
+
+      expect(result.city).to.deep.equal({
+        type: 'string',
+        minLength: 1,
+        maxLength: 18, // Extended value
+      });
+
+      expect(result.postalCode).to.deep.equal({
+        type: 'string',
+        pattern: '^[0-9]+$',
+        maxLength: 9, // New property added
+      });
+    });
+
+    it('should handle partial field extensions', () => {
+      const properties = {
+        street: { type: 'string', minLength: 1 },
+        city: { type: 'string', minLength: 1 },
+        state: { type: 'string' },
+      };
+
+      const extend = {
+        street: { maxLength: 30 },
+        // city not extended
+        // state not extended
+      };
+
+      const result = extendFieldProperties(properties, extend);
+
+      // Street should be extended
+      expect(result.street).to.deep.equal({
+        type: 'string',
+        minLength: 1,
+        maxLength: 30,
+      });
+
+      // City and state should remain unchanged
+      expect(result.city).to.deep.equal({
+        type: 'string',
+        minLength: 1,
+      });
+
+      expect(result.state).to.deep.equal({
+        type: 'string',
+      });
+    });
+
+    it('should allow adding new properties to fields', () => {
+      const properties = {
+        street: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const extend = {
+        street: { maxLength: 30, minLength: 5, pattern: '^[A-Za-z0-9 ]+$' },
+        postalCode: { default: '00000' },
+      };
+
+      const result = extendFieldProperties(properties, extend);
+
+      expect(result.street).to.deep.equal({
+        type: 'string',
+        maxLength: 30,
+        minLength: 5,
+        pattern: '^[A-Za-z0-9 ]+$',
+      });
+
+      expect(result.postalCode).to.deep.equal({
+        type: 'string',
+        default: '00000',
+      });
+    });
+
+    it('should override existing properties when extended', () => {
+      const properties = {
+        street: { type: 'string', maxLength: 100 },
+        city: { type: 'string', minLength: 1 },
+      };
+
+      const extend = {
+        street: { maxLength: 30 }, // Override existing maxLength
+        city: { minLength: 2 }, // Override existing minLength
+      };
+
+      const result = extendFieldProperties(properties, extend);
+
+      expect(result.street.maxLength).to.equal(30);
+      expect(result.city.minLength).to.equal(2);
+    });
+
+    it('should return original properties when no extensions provided', () => {
+      const properties = {
+        street: { type: 'string' },
+        city: { type: 'string' },
+      };
+
+      const result = extendFieldProperties(properties, {});
+
+      expect(result).to.deep.equal(properties);
+    });
+
+    it('should handle undefined extend parameter', () => {
+      const properties = {
+        street: { type: 'string' },
+        city: { type: 'string' },
+      };
+
+      const result = extendFieldProperties(properties);
+
+      expect(result).to.deep.equal(properties);
+    });
+
+    it('should throw error for invalid field names in extend', () => {
+      const properties = {
+        street: { type: 'string' },
+        city: { type: 'string' },
+      };
+
+      const extend = {
+        street: { maxLength: 30 },
+        invalidField: { maxLength: 20 },
+      };
+
+      expect(() => extendFieldProperties(properties, extend)).to.throw(
+        /extend: Invalid key mappings: invalidField. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
+      );
+    });
+  });
+
+  describe('addressSchema with extend option', () => {
+    it('should extend field properties in schema', () => {
+      const result = addressSchema({
+        extend: {
+          street: { maxLength: 30 },
+          city: { maxLength: 18 },
+          postalCode: { maxLength: 9 },
+        },
+      });
+
+      expect(result.properties.street.maxLength).to.equal(30);
+      expect(result.properties.city.maxLength).to.equal(18);
+      expect(result.properties.postalCode.maxLength).to.equal(9);
+    });
+
+    it('should work with extend and omit together', () => {
+      const result = addressSchema({
+        omit: ['street3', 'isMilitary'],
+        extend: {
+          street: { maxLength: 30 },
+          city: { maxLength: 18 },
+        },
+      });
+
+      // Extended fields should have new values
+      expect(result.properties.street.maxLength).to.equal(30);
+      expect(result.properties.city.maxLength).to.equal(18);
+
+      // Omitted fields should not exist
+      expect(result.properties).to.not.have.property('street3');
+      expect(result.properties).to.not.have.property('isMilitary');
+    });
+
+    it('should work with extend and keys together', () => {
+      const result = addressSchema({
+        keys: {
+          street: 'addressLine1',
+          postalCode: 'zipCode',
+        },
+        extend: {
+          street: { maxLength: 30 }, // Using original key name
+          postalCode: { maxLength: 9 }, // Using original key name
+        },
+      });
+
+      // Should have mapped keys with extended properties
+      expect(result.properties).to.have.property('addressLine1');
+      expect(result.properties.addressLine1.maxLength).to.equal(30);
+
+      expect(result.properties).to.have.property('zipCode');
+      expect(result.properties.zipCode.maxLength).to.equal(9);
+
+      // Should not have original keys
+      expect(result.properties).to.not.have.property('street');
+      expect(result.properties).to.not.have.property('postalCode');
+    });
+
+    it('should work with all options together (omit, extend, keys)', () => {
+      const result = addressSchema({
+        omit: ['street3', 'isMilitary'],
+        extend: {
+          street: { maxLength: 30 },
+          street2: { maxLength: 5 },
+          city: { maxLength: 18 },
+          state: { maxLength: 2 },
+          postalCode: { maxLength: 9 },
+          country: { default: 'USA', maxLength: 3 },
+        },
+        keys: {
+          street: 'addressLine1',
+          street2: 'addressLine2',
+        },
+      });
+
+      // Should have mapped keys with extensions
+      expect(result.properties.addressLine1.maxLength).to.equal(30);
+      expect(result.properties.addressLine2.maxLength).to.equal(5);
+
+      // Should have extended unmapped fields
+      expect(result.properties.city.maxLength).to.equal(18);
+      expect(result.properties.state.maxLength).to.equal(2);
+      expect(result.properties.postalCode.maxLength).to.equal(9);
+      expect(result.properties.country.default).to.equal('USA');
+      expect(result.properties.country.maxLength).to.equal(3);
+
+      // Should not have omitted fields
+      expect(result.properties).to.not.have.property('street3');
+      expect(result.properties).to.not.have.property('isMilitary');
+    });
+
+    it('should apply extend before key mapping', () => {
+      // This ensures extensions use original field names
+      const result = addressSchema({
+        extend: {
+          street: { maxLength: 30, customProp: 'test' },
+        },
+        keys: {
+          street: 'addressLine1',
+        },
+      });
+
+      // The extended properties should be on the mapped key
+      expect(result.properties.addressLine1.maxLength).to.equal(30);
+      expect(result.properties.addressLine1.customProp).to.equal('test');
+    });
+
+    it('should validate extend field names', () => {
+      expect(() =>
+        addressSchema({
+          extend: {
+            street: { maxLength: 30 },
+            invalidField: { maxLength: 20 },
+          },
+        }),
+      ).to.throw(
+        /extend: Invalid key mappings: invalidField. Valid mappable fields are/,
+      );
+    });
+
+    it('should handle empty extend object', () => {
+      const result = addressSchema({ extend: {} });
+
+      // Should return schema without modifications (besides normal defaults)
+      expect(result.properties).to.have.property('street');
+      expect(result.properties).to.have.property('city');
+      expect(result.properties).to.have.property('postalCode');
     });
   });
 });
