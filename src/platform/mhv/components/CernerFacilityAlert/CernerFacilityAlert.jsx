@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
-import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import MigratingFacilitiesAlerts from './MigratingFacilitiesAlerts';
+import { PretransitionedFacilitiesByVhaId } from './constants';
 
 /**
  * Shared Cerner Facility Alert component for MHV applications
@@ -70,33 +69,20 @@ const CernerFacilityAlert = ({
 }) => {
   const userProfile = useSelector(state => state.user.profile);
 
-  const ehrDataByVhaId = useSelector(
-    state => state?.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
-  );
   const userFacilities = useSelector(state => state?.user?.profile?.facilities);
 
-  const drupalCernerFacilities = useSelector(selectCernerFacilities);
-
-  const cernerFacilities = useMemo(
-    () => {
-      return userFacilities?.filter(facility =>
-        drupalCernerFacilities?.some(
-          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-        ),
-      );
-    },
-    [userFacilities, drupalCernerFacilities],
-  );
+  //  This is only used for the yellow "Go to My VA Health" alert
   const cernerFacilitiesNames = useMemo(
     () => {
-      if (ehrDataByVhaId) {
-        return cernerFacilities?.map(facility =>
-          getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
-        );
-      }
-      return [];
+      return userFacilities
+        ?.map(facility => {
+          const facilityData =
+            PretransitionedFacilitiesByVhaId[facility.facilityId];
+          return facilityData?.vamcSystemName;
+        })
+        .filter(Boolean);
     },
-    [cernerFacilities, ehrDataByVhaId],
+    [userFacilities],
   );
 
   const handleLinkClick = () => {

@@ -70,3 +70,44 @@ export const CernerAlertContent = {
     endDate: 'p6',
   },
 };
+
+export const PretransitionedFacilitiesByVhaId = {
+  '692': {
+    vhaId: '692',
+    vamcFacilityName: 'White City VA Medical Center',
+    vamcSystemName: 'VA Southern Oregon health care',
+    ehr: 'cerner',
+  },
+  '687': {
+    vhaId: '687',
+    vamcFacilityName: 'Jonathan M. Wainwright Memorial VA Medical Center',
+    vamcSystemName: 'VA Walla Walla health care',
+    ehr: 'cerner',
+  },
+  '653': {
+    vhaId: '653',
+    vamcFacilityName: 'Roseburg VA Medical Center',
+    vamcSystemName: 'VA Roseburg health care',
+    ehr: 'cerner',
+  },
+  '757': {
+    vhaId: '757',
+    vamcFacilityName: 'Chalmers P. Wylie Veterans Outpatient Clinic',
+    vamcSystemName: 'VA Central Ohio health care',
+    ehr: 'cerner',
+  },
+  '556': {
+    vhaId: '556',
+    vamcFacilityName: 'Captain James A. Lovell Federal Health Care Center',
+    vamcSystemName: 'Lovell Federal health care - VA',
+    ehr: 'cerner',
+  },
+
+  '668': {
+    vhaId: '668',
+    vamcFacilityName:
+      'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+    vamcSystemName: 'VA Spokane health care',
+    ehr: 'cerner',
+  },
+};
