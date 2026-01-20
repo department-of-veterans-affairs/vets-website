@@ -112,6 +112,8 @@ export function mapRawUserDataToState(json) {
     }
     userState.vaPatient = vaProfile.vaPatient;
     userState.mhvAccountState = vaProfile.mhvAccountState;
+    userState.schedulingPreferencesPilotEligible =
+      vaProfile.schedulingPreferencesPilotEligible;
   }
 
   // This one is checking userState because there's no extra mapping and it's
