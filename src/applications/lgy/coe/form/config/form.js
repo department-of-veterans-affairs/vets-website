@@ -109,6 +109,8 @@ const formConfig = {
         yourInformation: personalInformation,
         ...profileContactInfoPages({
           depends: formData => formData['view:coeFormRebuildCveteam'],
+          included: ['mailingAddress', 'email', 'homePhone'],
+          contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
         }),
         applicantInformationSummary: {
           path: 'applicant-information',
