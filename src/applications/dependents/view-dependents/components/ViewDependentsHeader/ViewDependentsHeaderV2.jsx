@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -45,6 +46,18 @@ function ViewDependentsHeader(props) {
     scrollToTop();
   }, []);
 
+  useEffect(
+    () => {
+      const state = showAlert && !warningHidden ? 'visible' : 'hidden';
+      // Alert may start hidden if still in the same session
+      dataDogLogger({
+        message: `View dependents 0538 warning alert ${state}`,
+        attributes: { state },
+      });
+    },
+    [showAlert, warningHidden],
+  );
+
   /**
    * Handler function for close of the alert
    * @returns {null} triggers calls to other functions
@@ -52,6 +65,10 @@ function ViewDependentsHeader(props) {
   function handleWarningClose() {
     setWarningHidden(true);
     hideDependentsWarning();
+    dataDogLogger({
+      message: 'View dependents 0538 warning alert hidden',
+      attributes: { state: 'hidden' },
+    });
     scrollToTop();
     focusElement('.view-deps-header');
   }
