@@ -276,7 +276,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
       return true;
     }
 
-    if (values.includes('continue')) {
+    if (values.includes('continue') && step === 'select') {
       return true;
     }
 
@@ -360,7 +360,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
         onSecondaryClick={handlers.cancel}
         leftButtonText="Save to profile"
         rightButtonText="Cancel"
-        data-testid="quick-exit-cancel-buttons"
+        data-testid="save-to-profile-cancel-buttons"
       />
     );
   }
