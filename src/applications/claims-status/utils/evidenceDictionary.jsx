@@ -409,7 +409,7 @@ export const evidenceDictionary = {
       <>
         <p>
           Use Statement in Support of Claim (VA Form 21-4138) to answer the
-          questions listed under "what we need from you."
+          questions listed under <strong>What we need from you</strong>.
         </p>
         <p>
           After completing and signing the form, you can upload or mail it.
@@ -447,7 +447,7 @@ export const evidenceDictionary = {
       <>
         <p>
           Use Statement in Support of Claim (VA Form 21-4138) to answer the
-          questions listed under "what we need from you."
+          questions listed under <strong>What we need from you</strong>.
         </p>
         <p>
           After completing and signing the form, you can upload or mail it.

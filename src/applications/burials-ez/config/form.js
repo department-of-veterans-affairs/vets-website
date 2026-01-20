@@ -42,6 +42,9 @@ import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocat
 import plotAllowancePartOne from './chapters/04-benefits-selection/plotAllowancePartOne';
 import plotAllowancePartTwo from './chapters/04-benefits-selection/plotAllowancePartTwo';
 import transportationExpenses from './chapters/04-benefits-selection/transportationExpenses';
+
+import createDirectDepositPage from '../components/DirectDeposit';
+
 import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
@@ -476,6 +479,7 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
+        directDeposit: createDirectDepositPage(),
         supportingDocuments: {
           title: 'Supporting Documents',
           reviewTitle: () => (

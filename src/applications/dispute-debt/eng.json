@@ -15,6 +15,9 @@
       "description": "We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
     }
   },
+  "debt-selection": {
+    "submitted-note": "Note: This debt has already been disputed on {{ date }} and cannot be disputed again. It can take up to 60 days to process."
+  },
   "shared": {
     "contact": {
       "title": "How to contact us if you have questions",

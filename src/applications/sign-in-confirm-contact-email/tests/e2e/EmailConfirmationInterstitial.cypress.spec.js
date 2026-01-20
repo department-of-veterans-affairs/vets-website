@@ -1,6 +1,10 @@
-describe('Email Confirmation Interstitial', () => {
-  const MOCK_CONFIRMATION_DATE = '2023-01-01T12:00:00.000Z';
+import {
+  DEFAULT_TRANSACTION_ID,
+  buildUpdateEmailResponse,
+  buildTransactionStatusResponse,
+} from '~/platform/mhv/tests/fixtures/confirm-email-transactions';
 
+describe('Email Confirmation Interstitial', () => {
   const mockUser = (
     emailData = {
       id: 123,
@@ -97,20 +101,19 @@ describe('Email Confirmation Interstitial', () => {
   });
 
   it('Confirm your contact email', () => {
-    // Mock successful API response for email confirmation
-    cy.intercept('PUT', '**/profile/email_addresses', {
-      statusCode: 200,
-      body: {
-        data: {
-          id: 123,
-          type: 'email_addresses',
-          attributes: {
-            emailAddress: 'test@example.com',
-            confirmationDate: MOCK_CONFIRMATION_DATE,
-          },
-        },
-      },
-    }).as('confirmEmail');
+    // Mock successful API response for email confirmation (returns pending transaction)
+    cy.intercept(
+      'PUT',
+      '**/profile/email_addresses',
+      buildUpdateEmailResponse('RECEIVED'),
+    ).as('confirmEmail');
+
+    // Mock the polling endpoint to return success
+    cy.intercept(
+      'GET',
+      `/v0/profile/status/${DEFAULT_TRANSACTION_ID}`,
+      buildTransactionStatusResponse('COMPLETED_SUCCESS'),
+    ).as('pollStatus');
 
     cy.visit('/sign-in-confirm-contact-email', {
       onBeforeLoad(win) {
@@ -133,7 +136,7 @@ describe('Email Confirmation Interstitial', () => {
       cy.contains('test@example.com');
     });
 
-    cy.get('.confirm-button')
+    cy.findByTestId('sign-in--confirm-email-button')
       .should('exist')
       .should('have.attr', 'text', 'Confirm');
 
@@ -145,9 +148,9 @@ describe('Email Confirmation Interstitial', () => {
       .should('have.attr', 'text', 'Skip for now and go to VA.gov')
       .should('have.attr', 'href', '/my-va');
 
-    cy.get('.confirm-button').click();
+    cy.findByTestId('sign-in--confirm-email-button').click();
 
-    // Wait for API call
+    // Wait for API call and polling
     cy.wait('@confirmEmail')
       .its('request.body')
       .should('deep.include', {
@@ -155,6 +158,7 @@ describe('Email Confirmation Interstitial', () => {
         // eslint-disable-next-line camelcase
         email_address: 'test@example.com',
       });
+    cy.wait('@pollStatus');
 
     // Verify success message
     cy.contains('Thank you for confirming your contact email address').should(
@@ -167,7 +171,7 @@ describe('Email Confirmation Interstitial', () => {
       .should('have.attr', 'href', '/my-va');
 
     // Verify Confirm button is no longer visible after success
-    cy.get('.confirm-button').should('not.exist');
+    cy.findByTestId('sign-in--confirm-email-button').should('not.exist');
   });
 
   it('displays error when confirmation fails', () => {
@@ -195,7 +199,7 @@ describe('Email Confirmation Interstitial', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    cy.get('.confirm-button').click();
+    cy.findByTestId('sign-in--confirm-email-button').click();
 
     // Wait for API call
     cy.wait('@confirmEmailError');
@@ -205,7 +209,7 @@ describe('Email Confirmation Interstitial', () => {
     cy.injectAxeThenAxeCheck();
 
     // Verify Confirm button is visible
-    cy.get('.confirm-button').should('exist');
+    cy.findByTestId('sign-in--confirm-email-button').should('exist');
   });
 
   it('redirects to home when no session exists', () => {
@@ -242,7 +246,7 @@ describe('Email Confirmation Interstitial', () => {
       .should('have.attr', 'href', '/profile/contact-information');
 
     // Verify Confirm button is not present
-    cy.get('.confirm-button').should('not.exist');
+    cy.findByTestId('sign-in--confirm-email-button').should('not.exist');
   });
 
   it('navigates to profile when "Update email in profile" is clicked', () => {

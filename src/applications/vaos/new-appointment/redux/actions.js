@@ -264,7 +264,7 @@ export function startRequestAppointmentFlow(isCommunityCare) {
 }
 
 export function getPatientRelationships() {
-  let patientProviderRelationships;
+  let relationships;
 
   return async (dispatch, getState) => {
     const initialState = getState();
@@ -279,20 +279,20 @@ export function getPatientRelationships() {
     });
 
     try {
-      patientProviderRelationships = await fetchPatientRelationships(
+      relationships = await fetchPatientRelationships(
         facilityId,
         typeOfCareId,
         hasAvailabilityBefore,
       );
     } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
-      patientProviderRelationships = null;
       captureError(error);
+      return;
     }
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
-      patientProviderRelationships,
+      relationships,
     });
   };
 }

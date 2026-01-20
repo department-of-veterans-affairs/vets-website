@@ -1,5 +1,3 @@
-// @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -24,45 +22,30 @@ const formConfig = {
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/education',
-        label: 'Education',
-      },
-      {
-        href: '/education/other-va-education-benefits',
-        label: 'Other va education benefits',
-      },
-      {
-        href: '/education/other-va-education-benefits/reimbursements',
-        label: 'Reimbursements',
-      },
-      {
-        href: '/forms/22-10272/request-prep-course-reimbursement-online',
-        label: 'Test reimbursement 22 10272',
-      },
-    ],
-  }),
   formId: VA_FORM_IDS.FORM_22_10272,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your 22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees application (22-10272) is in progress.',
-    //   expired: 'Your saved 22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees application (22-10272) has expired. If you want to apply for 22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees, please start a new application.',
-    //   saved: 'Your 22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your request (22-10272) is in progress.',
+      expired:
+        'Your saved request (22-10272) has expired. Please start a new request.',
+      saved: 'Your request has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound:
-      'Please start over to apply for 22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees.',
-    noAuth:
-      'Please sign in again to continue your application for 22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your request.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  customText: {
+    appType: 'request',
+    continueAppButtonText: 'Continue your request',
+    startNewAppButtonText: 'Start a new request',
+    finishAppLaterMessage: 'Finish this request later',
+    appSavedSuccessfullyMessage: 'We’ve saved your request.',
+  },
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
   chapters: {
