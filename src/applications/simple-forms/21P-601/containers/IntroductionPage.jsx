@@ -22,11 +22,13 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <p>
-      Use this form, in some cases, to apply for unpaid benefits that we owed to
-      a VA beneficiary when they died. Be sure to read all the information on
-      this page first to make sure this is the right form for you.
-    </p>
+    <div className="va-introtext">
+      <p>
+        Use this form, in some cases, to apply for unpaid benefits that we owed
+        to a VA beneficiary when they died. Be sure to read all the information
+        on this page first to make sure this is the right form for you.
+      </p>
+    </div>
     <h2>What to know before you fill out this application</h2>
     <h3>Who should use this form</h3>
     <ul className="vads-u-margin-bottom--4">
