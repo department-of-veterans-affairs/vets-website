@@ -21,10 +21,12 @@ const ombInfo = {
 
 const childContent = (
   <>
-    <p>
-      Use this form to verify your marital status and maintain your eligibility
-      for Dependency and Indemnity Compensation (DIC) benefits.
-    </p>
+    <div className="va-introtext">
+      <p>
+        Use this form to verify your marital status and maintain your
+        eligibility for Dependency and Indemnity Compensation (DIC) benefits.
+      </p>
+    </div>
     <h2>What to know before you fill out this form</h2>
     <ul>
       <li>
