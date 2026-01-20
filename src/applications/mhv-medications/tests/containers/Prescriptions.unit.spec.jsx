@@ -374,7 +374,7 @@ describe('Medications Prescriptions container', () => {
           expect(screen.queryByTestId('loading-indicator')).not.to.exist;
         });
 
-        expect(screen.getByText('Medications')).to.exist;
+        expect(screen.getAllByText('Medications')).to.exist;
       });
     });
 
@@ -396,7 +396,7 @@ describe('Medications Prescriptions container', () => {
         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
       });
 
-      expect(screen.getByText('Medications')).to.exist;
+      expect(screen.getAllByText('Medications')).to.exist;
     });
 
     it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and V2StatusMapping flags enabled', async () => {
@@ -417,7 +417,7 @@ describe('Medications Prescriptions container', () => {
         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
       });
 
-      expect(screen.getByText('Medications')).to.exist;
+      expect(screen.getAllByText('Medications')).to.exist;
       expect(screen.getByTestId('med-list')).to.exist;
     });
   });
