@@ -108,6 +108,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
 
   const fieldData = useSelector(
     state => state.vaProfile.schedulingPreferences[fieldName] || [],
+    isEqual,
   );
 
   useEffect(
@@ -173,38 +174,46 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     [fieldInfo, hasVAPServiceError],
   );
 
-  useEffect(() => {
-    if (fieldInfo?.fieldName && !hasVAPServiceError) {
-      const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
-        fieldInfo.fieldName,
-        { allowInternationalPhones: internationalPhonesToggleValue },
-      );
-
-      const initialFormData = getInitialFormValues({
-        fieldName: fieldInfo.fieldName,
-        data: fieldData,
-        modalData: null,
-      });
-
-      // update modal state with initial form data for the field being edited
-      // this needs to be done before the form data is updated
-      // so that initialFormFields are looked up correctly
-      dispatch(openModal(fieldInfo.fieldName, initialFormData));
-
-      // update form state with initial form data for the field being edited, so that
-      // the form is pre-populated with the current value for the field
-      // and changes to the form are tracked
-      dispatch(
-        updateFormFieldWithSchema(
+  useEffect(
+    () => {
+      if (fieldInfo?.fieldName && !hasVAPServiceError) {
+        const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
           fieldInfo.fieldName,
-          initialFormData,
-          formSchema,
-          uiSchema,
-        ),
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+          { allowInternationalPhones: internationalPhonesToggleValue },
+        );
+
+        const initialFormData = getInitialFormValues({
+          fieldName: fieldInfo.fieldName,
+          data: fieldData,
+          modalData: null,
+        });
+
+        // update modal state with initial form data for the field being edited
+        // this needs to be done before the form data is updated
+        // so that initialFormFields are looked up correctly
+        dispatch(openModal(fieldInfo.fieldName, initialFormData));
+
+        // update form state with initial form data for the field being edited, so that
+        // the form is pre-populated with the current value for the field
+        // and changes to the form are tracked
+        dispatch(
+          updateFormFieldWithSchema(
+            fieldInfo.fieldName,
+            initialFormData,
+            formSchema,
+            uiSchema,
+          ),
+        );
+      }
+    },
+    [
+      fieldInfo?.fieldName,
+      hasVAPServiceError,
+      internationalPhonesToggleValue,
+      dispatch,
+      fieldData,
+    ],
+  );
 
   useEffect(
     () => {

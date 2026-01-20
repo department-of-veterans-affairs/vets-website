@@ -171,19 +171,16 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
     optionIds = Object.values(data).map(value => {
       return value.replace('option-', '');
     });
+  } else if (typeof data[fieldName] === 'string') {
+    optionIds = [data[fieldName].replace('option-', '')];
   } else {
-    // eslint-disable-next-line no-lonely-if
-    if (typeof data[fieldName] === 'string') {
-      optionIds = [data[fieldName].replace('option-', '')];
-    } else {
-      optionIds = data[fieldName]
-        .filter(value => {
-          return value && value.startsWith('option-');
-        })
-        .map(value => {
-          return value.replace('option-', '');
-        });
-    }
+    optionIds = data[fieldName]
+      .filter(value => {
+        return value && value.startsWith('option-');
+      })
+      .map(value => {
+        return value.replace('option-', '');
+      });
   }
   return { itemId, optionIds };
 };
