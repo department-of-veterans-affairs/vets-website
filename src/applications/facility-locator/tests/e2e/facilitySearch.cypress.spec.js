@@ -153,6 +153,8 @@ describe('Facility VA search', () => {
       meta: { pagination: { totalEntries: 0 } },
     }).as('searchFacilities');
 
+    cy.injectAxeThenAxeCheck();
+
     cy.get('#street-city-state-zip').type('27606');
     cy.get('#facility-type-dropdown')
       .shadow()
@@ -223,6 +225,8 @@ describe('Facility VA search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/find-locations');
+
+    cy.injectAxeThenAxeCheck();
 
     cy.get('#street-city-state-zip').type('27606{enter}');
     // Wait for Use My Location to be triggered (it should not be)
