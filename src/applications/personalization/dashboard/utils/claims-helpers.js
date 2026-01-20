@@ -18,7 +18,7 @@ const claimStatusMap = {
   EVIDENCE_GATHERING_REVIEW_DECISION:
     'Evidence gathering, review, and decision',
   PREPARATION_FOR_NOTIFICATION: 'Preparation for notification',
-  COMPLETE: 'Complete',
+  COMPLETE: 'Closed',
 };
 
 export function getClaimStatusDescription(status) {
