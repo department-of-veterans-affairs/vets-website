@@ -283,6 +283,15 @@ const createTestHistory = (path = '/') => {
   sinon.spy(history, 'replace');
   sinon.spy(history, 'push');
 
+  // Add backwards-compatible .reset() method for sinon-v20
+  // In sinon v20, .reset() was renamed to .resetHistory()
+  if (!history.replace.reset) {
+    history.replace.reset = history.replace.resetHistory;
+  }
+  if (!history.push.reset) {
+    history.push.reset = history.push.resetHistory;
+  }
+
   return history;
 };
 
