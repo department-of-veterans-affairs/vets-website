@@ -333,16 +333,12 @@ export const benefitSwitchPage = () => ({
           const currentBenefit = mapCurrentToSelection(
             formData?.currentBenefitType,
           );
-          const exclude = [currentBenefit];
-          if (['dea', 'fry'].includes(currentBenefit)) {
-            exclude.push('dea', 'fry');
-          }
 
-          if (exclude.length > 0) {
+          if (currentBenefit) {
             const newEnum = [];
             const newEnumNames = [];
             schema.enum.forEach((val, idx) => {
-              if (!exclude.includes(val)) {
+              if (val !== currentBenefit) {
                 newEnum.push(val);
                 newEnumNames.push(schema.enumNames[idx]);
               }
