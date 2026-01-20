@@ -6,45 +6,45 @@ class PatientInterstitialPage {
   };
 
   getCrisisLineModal = () => {
-    // Try new component first, fall back to old selector
+    // Check for old modal first, then fall back to new component
     return cy.get('body').then($body => {
-      if ($body.find('va-crisis-line-modal').length > 0) {
-        return cy
-          .get('va-crisis-line-modal')
-          .shadow()
-          .find('va-modal');
+      if ($body.find('#modal-crisisline').length > 0) {
+        return cy.get(`#modal-crisisline`);
       }
-      return cy.get(`#modal-crisisline`);
+      return cy
+        .get('va-crisis-line-modal')
+        .shadow()
+        .find('va-modal');
     });
   };
 
   getCrisisLineModalLink = () => {
-    // Try new component first, fall back to old selector
+    // Check for old modal first, then fall back to new component
     return cy.get('body').then($body => {
-      if ($body.find('va-crisis-line-modal').length > 0) {
-        return cy
-          .get('va-crisis-line-modal')
-          .shadow()
-          .find('va-modal')
-          .shadow()
-          .find(`.va-crisis-panel-list li`);
+      if ($body.find('#modal-crisisline').length > 0) {
+        return cy.get(`.va-crisis-panel-list`).find(`li`);
       }
-      return cy.get(`.va-crisis-panel-list`).find(`li`);
+      return cy
+        .get('va-crisis-line-modal')
+        .shadow()
+        .find('va-modal')
+        .shadow()
+        .find(`.va-crisis-panel-list li`);
     });
   };
 
   getCrisisLineCloseButton = () => {
-    // Try new component first, fall back to old selector
+    // Check for old modal first, then fall back to new component
     return cy.get('body').then($body => {
-      if ($body.find('va-crisis-line-modal').length > 0) {
-        return cy
-          .get('va-crisis-line-modal')
-          .shadow()
-          .find('va-modal')
-          .shadow()
-          .find('.va-modal-close');
+      if ($body.find('#modal-crisisline').length > 0) {
+        return cy.get('.va-modal-close');
       }
-      return cy.get('.va-modal-close');
+      return cy
+        .get('va-crisis-line-modal')
+        .shadow()
+        .find('va-modal')
+        .shadow()
+        .find('.va-modal-close');
     });
   };
 
