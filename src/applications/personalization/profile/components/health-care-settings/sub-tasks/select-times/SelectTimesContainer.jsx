@@ -17,7 +17,6 @@ import { getInitialFormValues } from '@@vap-svc/util/contact-information/formVal
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
 import { schedulingPreferenceOptions } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { createSchedulingPreferencesUpdate } from '@@vap-svc/actions/schedulingPreferences';
-// import { FIELD_OPTION_IDS } from '@@vap-svc/constants/schedulingPreferencesConstants';
 import { EditContext } from '../../../edit/EditContext';
 import { EditConfirmCancelModal } from '../../../edit/EditConfirmCancelModal';
 import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
@@ -133,8 +132,6 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
           fieldData.length === 1 && fieldData[0] === noPreferenceValue;
         setPageData({ data: { [fieldName]: fieldData }, quickExit });
       }
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [fieldData, fieldName, noPreferenceValue, pageData],
   );
@@ -177,7 +174,6 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
   );
 
   useEffect(() => {
-    // console.log('useEffect fieldInfo', fieldInfo);
     if (fieldInfo?.fieldName && !hasVAPServiceError) {
       const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
         fieldInfo.fieldName,
@@ -212,7 +208,6 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
 
   useEffect(
     () => {
-      // console.log('hasUnsavedEdits', hasUnsavedEdits);
       // this is where we track the state of the beforeunload listener
       // and add/remove it as needed when the form has unsaved edits
       if (hasUnsavedEdits && !hasBeforeUnloadListener) {

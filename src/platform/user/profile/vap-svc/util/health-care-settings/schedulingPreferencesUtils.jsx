@@ -279,7 +279,6 @@ export const getSchedulingPreferencesContactMethodDisplay = optionId => {
 };
 
 export const getSchedulingPreferencesTimesDisplay = (fieldName, optionIds) => {
-  // debugger;
   if (!optionIds || optionIds.length === 0) return 'No preference';
 
   const displayNames = optionIds
@@ -293,7 +292,6 @@ export const getSchedulingPreferencesTimesDisplay = (fieldName, optionIds) => {
   }
 
   const days = {};
-  // debugger;
   displayNames.forEach(name => {
     const [day, timeOfDay] = name.split('_');
     const formattedDay = capitalize(day.toLowerCase());
