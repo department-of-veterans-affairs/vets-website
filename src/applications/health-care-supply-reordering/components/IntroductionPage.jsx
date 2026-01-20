@@ -7,14 +7,14 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 import DlcTelephoneLink from './DlcTelephoneLink';
-import { dataDogActionNames, APP_NAME } from '../constants/dataDogConstants';
+import { datadogActionNames, APP_NAME } from '../constants/datadogConstants';
 import { addDatadogAction } from '../utils/datadog';
 
 const IntroductionPage = ({ route }) => {
   const supplyDescription = 'hearing aid or CPAP supplies';
 
   useEffect(() => {
-    addDatadogAction(dataDogActionNames.introductionPage.FORM_START, {
+    addDatadogAction(datadogActionNames.introductionPage.FORM_START, {
       form: APP_NAME,
     });
   }, []);

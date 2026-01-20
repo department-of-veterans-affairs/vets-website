@@ -15,7 +15,7 @@ import IntroductionPage from '../components/IntroductionPage';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import UIDefinitions from '../schemas/2346UI';
-import { dataDogActionNames, APP_NAME } from '../constants/dataDogConstants';
+import { datadogActionNames, APP_NAME } from '../constants/datadogConstants';
 
 import manifest from '../manifest.json';
 
@@ -84,7 +84,7 @@ const submit = form => {
         event: 'bam-2346a--submission-successful',
         'bam-quantityOrdered': itemQuantities,
       });
-      addDatadogAction(dataDogActionNames.submission.SUBMISSION_SUCCESSFUL, {
+      addDatadogAction(datadogActionNames.submission.SUBMISSION_SUCCESSFUL, {
         form: APP_NAME,
         quantityOrdered: itemQuantities,
       });
@@ -98,7 +98,7 @@ const submit = form => {
         'product-ids-successful': successfulSubmissionProductIds.join(' '),
         'product-ids-failed': failedSubmissionProductIds.join(' '),
       });
-      addDatadogAction(dataDogActionNames.submission.SUBMISSION_PARTIAL, {
+      addDatadogAction(datadogActionNames.submission.SUBMISSION_PARTIAL, {
         form: APP_NAME,
         productIdsSuccessful: successfulSubmissionProductIds,
         productIdsFailed: failedSubmissionProductIds,
@@ -112,7 +112,7 @@ const submit = form => {
         'bam-quantityOrdered': itemQuantities,
         'product-ids-failed': failedSubmissionProductIds.join(' '),
       });
-      addDatadogAction(dataDogActionNames.submission.SUBMISSION_FAILED, {
+      addDatadogAction(datadogActionNames.submission.SUBMISSION_FAILED, {
         form: APP_NAME,
         quantityOrdered: itemQuantities,
         productIdsFailed: failedSubmissionProductIds,

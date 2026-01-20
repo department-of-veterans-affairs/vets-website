@@ -1,6 +1,6 @@
 export const APP_NAME = 'health-care-supply-reordering';
 
-export const dataDogActionNames = {
+export const datadogActionNames = {
   introductionPage: {
     FORM_START: 'form-start',
   },
