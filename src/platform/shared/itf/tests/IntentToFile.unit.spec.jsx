@@ -4,7 +4,13 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { server, rest } from 'platform/testing/unit/mocha-setup';
+import { server } from 'platform/testing/unit/mocha-setup';
+import {
+  createGetHandler,
+  createPostHandler,
+  jsonResponse,
+} from 'platform/testing/unit/msw-adapter';
+import environment from 'platform/utilities/environment';
 import IntentToFile from '../IntentToFile';
 import { activeItf, nonActiveItf, mockItfData } from './helpers';
 
@@ -14,21 +20,24 @@ describe('IntentToFile', () => {
     server.resetHandlers();
   });
 
-  // Helper to set up MSW handler for ITF API
+  // Helper to set up MSW handler for ITF API using the adapter
   const mockItfApi = (responseData, shouldSucceed = true) => {
+    const url = `${environment.API_URL}/v0/intent_to_file/*`;
     server.use(
-      rest.get(/\/v0\/intent_to_file\//, (req, res, ctx) => {
-        if (shouldSucceed) {
-          return res(ctx.status(200), ctx.json(responseData));
-        }
-        return res(ctx.status(500), ctx.json({ errors: ['Server error'] }));
-      }),
-      rest.post(/\/v0\/intent_to_file\//, (req, res, ctx) => {
-        if (shouldSucceed) {
-          return res(ctx.status(200), ctx.json(responseData));
-        }
-        return res(ctx.status(500), ctx.json({ errors: ['Server error'] }));
-      }),
+      createGetHandler(
+        url,
+        () =>
+          shouldSucceed
+            ? jsonResponse(responseData)
+            : jsonResponse({ errors: ['Server error'] }, { status: 500 }),
+      ),
+      createPostHandler(
+        url,
+        () =>
+          shouldSucceed
+            ? jsonResponse(responseData)
+            : jsonResponse({ errors: ['Server error'] }, { status: 500 }),
+      ),
     );
   };
 
