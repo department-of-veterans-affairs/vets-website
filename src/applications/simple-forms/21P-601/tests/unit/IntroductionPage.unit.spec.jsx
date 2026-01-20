@@ -144,7 +144,7 @@ describe('21P-601 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/If you already submitted VA Form 21P-534EZ or VA Form 21P-535/i);
+    getByText(/If you already submitted an application for VA DIC/i);
   });
 
   it('renders who can use this form section', () => {
