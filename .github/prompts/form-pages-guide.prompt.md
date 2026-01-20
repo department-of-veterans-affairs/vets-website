@@ -1004,7 +1004,8 @@ Need selection field?
 ├─ Multiple checkboxes? → checkboxGroupUI + checkboxGroupSchema
 ├─ Service branch selection?
 │  ├─ All service branches? → serviceBranchUI() + serviceBranchSchema()
-│  └─ Specific branches only? → serviceBranchUI({ groups: ['army', 'navy'] }) + serviceBranchSchema(['army', 'navy'])
+│  ├─ Specific groups only? → serviceBranchUI({ groups: ['army', 'navy'] }) + serviceBranchSchema(['army', 'navy'])
+│  └─ Specific branches across groups? → serviceBranchUI({ branches: ['AF', 'SF', 'PHS'] }) + serviceBranchSchema(['AF', 'SF', 'PHS'])
 └─ Relationship to veteran?
    ├─ All relationships? → relationshipToVeteranUI + relationshipToVeteranSchema
    └─ Just spouse/child? → relationshipToVeteranSpouseOrChildUI + relationshipToVeteranSpouseOrChildSchema
@@ -1630,20 +1631,31 @@ export default {
     ...titleUI('Military service'),
     // All service branches
     serviceBranchDefault: serviceBranchUI(),
-
+    // disable optgroups
+    serviceBranchNoOptGroups: serviceBranchUI({
+      optGroups: false
+    }),
     // Or with specific branches only
-    serviceBranchSubset: serviceBranchUI({
+    serviceBranchGroupSubset: serviceBranchUI({
       title: 'Select your service branch',
       hint: 'Choose the branch you served in',
       required: true,
       groups: ['army', 'navy', 'air force'],
     }),
+    serviceBranchWithBranchSubset: serviceBranchUI({
+      title: 'Select a service branch',
+      hint: 'Choose your branch',
+      required: true,
+      branches: ['AF', 'SF', 'ARMY', 'PHS']
+    })
   },
   schema: {
     type: 'object',
     properties: {
       serviceBranchDefault: serviceBranchSchema(),
+      serviceBranchNoOptGroups: serviceBranchSchema(),
       serviceBranchSubset: serviceBranchSchema(['army', 'navy', 'air force']),
+      serviceBranchWithBranchSubset: serviceBranchSchema(['AF', 'SF', 'ARMY', 'PHS'])
     },
     required: ['serviceBranch'],
   },
