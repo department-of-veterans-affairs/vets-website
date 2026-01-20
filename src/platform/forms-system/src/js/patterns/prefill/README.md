@@ -180,14 +180,20 @@ const formConfig = {
 ### Personal Information
 Displays user's personal information (name, SSN, VA file number, date of birth, sex) in a read-only card format. Expects `ssn` and `vaFileNumber` at the root of `formData`, which should be handled by your `prefillTransformer` or `dataAdapter`.
 
-**Basic usage:**
+**Basic usage example:**
 ```js
 ...profilePersonalInfoPage()
 ```
 
-**With customization:**
+**With customization example:**
 ```js
 ...profilePersonalInfoPage({
+  // Page configuration
+  key: 'personalInfoPage',
+  title: 'Personal Information',
+  path: 'personal-information',
+  
+  // Field visibility and validation
   personalInfoConfig: {
     name: { show: true, required: true },
     ssn: { show: true, required: false },
@@ -195,6 +201,22 @@ Displays user's personal information (name, SSN, VA file number, date of birth, 
     dateOfBirth: { show: true, required: true },
     sex: { show: false, required: false },
   },
+  
+  // Custom content
+  header: <h3>Review your personal information</h3>,
+  cardHeader: <h4>Personal details</h4>,
+  note: <p>If you need to update your information, call us at 800-827-1000.</p>,
+  footer: <p>We'll use this information to process your application.</p>,
+  
+  // Error handling
+  errorMessage: "We're missing some of your personal information.",
+  
+  // Display options
+  background: true,  // Show card with background color
+  hideOnReview: false,  // Show on review page
+  
+  // Conditional display
+  depends: formData => formData.applicantType === 'veteran',
 })
 ```
 
@@ -213,16 +235,58 @@ Do not include `formData` in the path. Paths are relative to the `formData` obje
 ### Contact Information
 Displays and allows inline editing of contact information (email, phones, mailing address) with VA Profile synchronization.
 
-**Basic usage:**
+**Basic usage example:**
 ```js
 ...profileContactInfoPages()
 ```
 
-**With customization:**
+**With customization example:**
 ```js
 ...profileContactInfoPages({
+  // Page configuration
+  contactInfoPageKey: 'confirmContactInfo',
   contactPath: 'veteran-information',
+  
+  // Field configuration - which contact fields to include
+  included: ['mailingAddress', 'email', 'homePhone', 'mobilePhone'],
+  
+  // Data structure keys
+  wrapperKey: 'veteran',  // Top-level wrapper in formData
+  addressKey: 'mailingAddress',
+  homePhoneKey: 'homePhone',
+  mobilePhoneKey: 'mobilePhone',
+  emailKey: 'email',
+  
+  // Required fields (for validation)
   contactInfoRequiredKeys: ['mailingAddress', 'email'],
-  wrapperKey: 'veteran',
+  
+  // Custom schemas (optional - defaults are usually sufficient)
+  addressSchema: {
+    type: 'object',
+    properties: {
+      street: { type: 'string' },
+      city: { type: 'string' },
+      state: { type: 'string' },
+      postalCode: { type: 'string' },
+    },
+  },
+  
+  // Content customization
+  content: {
+    title: 'Contact information',
+    editMailingAddress: 'Edit mailing address',
+    editHomePhone: 'Edit home phone',
+    editMobilePhone: 'Edit mobile phone',
+    editEmail: 'Edit email address',
+  },
+  
+  // Display options
+  contactSectionHeadingLevel: '3',  // Heading level for section titles
+  editContactInfoHeadingLevel: '2',  // Heading level for edit pages
+  prefillPatternEnabled: true,  // Enable prefill pattern styling
+  disableMockContactInfo: true,  // Disable mock data in tests
+  
+  // Conditional display
+  depends: formData => formData.applicantType === 'veteran',
 })
 ```
