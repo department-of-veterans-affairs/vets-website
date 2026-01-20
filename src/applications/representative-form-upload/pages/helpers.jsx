@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { getAlert, getFormNumber, onClickContinue } from '../helpers';
@@ -53,11 +54,7 @@ export const claimantTitleAndDescription = {
 
 export const ITFClaimantTitleAndDescription = {
   'view:claimantTitle': {
-    'ui:title': Object.freeze(
-      <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-        Claimant information
-      </h3>,
-    ),
+    ...titleUI(' Claimant information'),
   },
 };
 
@@ -112,11 +109,7 @@ export const ITFBenefitTypes = Object.freeze({
 
 export const ITFVeteranTitleAndDescription = {
   'view:veteranTitle': {
-    'ui:title': Object.freeze(
-      <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-        Veteran identification information
-      </h3>,
-    ),
+    ...titleUI(' Veteran identification information'),
   },
 };
 
