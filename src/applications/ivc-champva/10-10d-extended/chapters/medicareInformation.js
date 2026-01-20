@@ -39,6 +39,7 @@ import medicarePartsAPartBCardUpload from './medicareInformation/partAPartBCardU
 import medicarePartBCardUpload from './medicareInformation/partBCardUpload';
 import MedicarePartCAddtlInfo from '../components/FormDescriptions/MedicarePartCAddtlInfo';
 import ProofOfMedicareAlert from '../components/FormAlerts/ProofOfMedicareAlert';
+import MedicareSummaryCard from '../components/FormDescriptions/MedicareSummaryCard';
 import content from '../locales/en/content.json';
 
 // declare static content constants
@@ -88,16 +89,7 @@ export const medicareOptions = {
   maxItems: formData => formData?.applicants?.length,
   text: {
     getItemName: generateParticipantName,
-    cardDescription: item => (
-      <ul className="no-bullets">
-        <li>
-          <b>Type:</b> {MEDICARE_TYPE_LABELS[(item?.medicarePlanType)]}
-          {item?.hasMedicarePartD
-            ? ', Medicare Part D (prescription drug coverage)'
-            : null}
-        </li>
-      </ul>
-    ),
+    cardDescription: MedicareSummaryCard,
     cancelAddTitle: () => content['medicare--cancel-add-title'],
     cancelAddDescription: () => content['medicare--cancel-add-description'],
     cancelAddNo: () => content['arraybuilder--button-cancel-no'],
