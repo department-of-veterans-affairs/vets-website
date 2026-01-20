@@ -160,6 +160,6 @@
   {
     "appName": "Submit Employment Questionnaire",
     "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140 ", 
-    "widgetType": "employment-questionnaire-21-4140"
+    "widgetType": "employment-questionnaire"
   }
 ]

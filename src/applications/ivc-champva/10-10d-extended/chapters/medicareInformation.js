@@ -42,6 +42,7 @@ import medicarePartBCardUpload from './medicareInformation/partBCardUpload';
 import MedicarePartCAddtlInfo from '../components/FormDescriptions/MedicarePartCAddtlInfo';
 import ProofOfMedicareAlert from '../components/FormAlerts/ProofOfMedicareAlert';
 import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
+import MedicareSummaryCard from '../components/FormDescriptions/MedicareSummaryCard';
 import content from '../locales/en/content.json';
 
 // declare static content constants
@@ -79,7 +80,6 @@ const hasPartC = ({ medicare }, index) =>
 const hasPartsABorC = (formData, index) =>
   hasPartsAB(formData, index) || hasPartC(formData, index);
 const hasPartD = (formData, index) =>
-  hasPartsABorC(formData, index) &&
   formData.medicare?.[index]?.hasMedicarePartD;
 
 export const medicareOptions = {
@@ -91,16 +91,7 @@ export const medicareOptions = {
   maxItems: formData => formData?.applicants?.length,
   text: {
     getItemName: generateParticipantName,
-    cardDescription: item => (
-      <ul className="no-bullets">
-        <li>
-          <b>Type:</b> {MEDICARE_TYPE_LABELS[(item?.medicarePlanType)]}
-          {item?.hasMedicarePartD
-            ? ', Medicare Part D (prescription drug coverage)'
-            : null}
-        </li>
-      </ul>
-    ),
+    cardDescription: MedicareSummaryCard,
     cancelAddTitle: () => content['medicare--cancel-add-title'],
     cancelAddDescription: () => content['medicare--cancel-add-description'],
     cancelAddNo: () => content['arraybuilder--button-cancel-no'],
@@ -653,7 +644,6 @@ export const medicarePages = arrayBuilderPages(
     medicarePartDStatus: pageBuilder.itemPage({
       path: 'medicare-part-d-status/:index',
       title: 'Medicare Part D status',
-      depends: hasPartsABorC,
       ...medicarePartDStatusPage,
     }),
     medicarePartDCarrierEffectiveDate: pageBuilder.itemPage({
