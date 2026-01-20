@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import environment from '~/platform/utilities/environment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -58,20 +58,6 @@ const generateMockResponse = (
     : generateSingleStatus(serviceDown, serviceId);
 
 describe('DowntimeBanner', () => {
-  const server = setupServer();
-
-  before(() => {
-    server.listen();
-  });
-
-  afterEach(() => {
-    server.resetHandlers();
-  });
-
-  after(() => {
-    server.close();
-  });
-
   const downtimeBannersWithoutMultipleOrMaint = Object.keys(
     DOWNTIME_BANNER_CONFIG,
   ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));

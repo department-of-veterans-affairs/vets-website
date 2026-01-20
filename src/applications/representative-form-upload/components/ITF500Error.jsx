@@ -6,6 +6,7 @@ import ITFClaimantStatusWrapper from './ITFClaimantStatusWrapper';
 
 const ITF500Error = ({ location, route, router }) => {
   const { data: formData } = useSelector(state => state.form);
+  const type = formData.benefitType;
   const prevUrl =
     formData.isVeteran === 'yes'
       ? '/submit-va-form-21-0966/veteran-information'
@@ -16,6 +17,23 @@ const ITF500Error = ({ location, route, router }) => {
     route.pageList,
     router,
   ]);
+
+  const benefitCopy = ITFType => {
+    switch (ITFType) {
+      case 'compensation':
+        return <span>disability compensation</span>;
+      case 'pension':
+        return <span>pension</span>;
+      case 'survivor':
+        return (
+          <span>
+            Survivors pension and/or dependency and indemnity compensation (DIC)
+          </span>
+        );
+      default:
+        return null;
+    }
+  };
   return (
     <ITFClaimantStatusWrapper>
       <va-alert
@@ -28,7 +46,7 @@ const ITF500Error = ({ location, route, router }) => {
         </h2>
         <p>
           We’re sorry. Our system currently can’t confirm whether this claimant
-          already has an intent to file for {formData.benefitType}.
+          already has an intent to file for {type && benefitCopy(type)}.
         </p>
         <p>
           Call us at <va-telephone contact="8552250709" /> to confirm an intent

@@ -50,6 +50,18 @@ export function transform(formConfig, form) {
     ? _.cloneDeep(separationLocation)
     : undefined;
 
+  // Save toxicExposure before filterEmptyObjects strips empty objects
+  // This prevents false positives in backend monitoring by keeping
+  // InProgressForm and Submitted data identical when no TE selections made
+  const { toxicExposure } = form.data;
+  const savedToxicExposure = toxicExposure
+    ? _.cloneDeep(toxicExposure)
+    : undefined;
+
+  // Save feature flag before transformForSubmit strips it (not in schema)
+  const savedToxicExposurePurgeFlag =
+    form.data.disability526ToxicExposureOptOutDataPurge;
+
   // Define the transformations
   const filterEmptyObjects = formData =>
     removeDeeplyEmptyObjects(
@@ -66,6 +78,34 @@ export function transform(formConfig, form) {
     savedRatedDisabilities?.length
       ? _.set('ratedDisabilities', savedRatedDisabilities, formData)
       : formData;
+
+  /**
+   * Restores and purges toxicExposure data after filterEmptyObjects.
+   *
+   * 1. Restores the original toxicExposure so empty objects match InProgressForm.
+   * 2. Restores the feature flag (stripped by transformForSubmit since not in schema).
+   * 3. Purges only explicit user opt-outs (not empty form scaffolding).
+   * 4. Removes the feature flag from output (not user data).
+   */
+  const transformToxicExposure = formData => {
+    let restoredData = savedToxicExposure
+      ? _.set('toxicExposure', savedToxicExposure, formData)
+      : formData;
+
+    // Restore feature flag for purgeToxicExposureData to check
+    if (savedToxicExposurePurgeFlag !== undefined) {
+      restoredData = _.set(
+        'disability526ToxicExposureOptOutDataPurge',
+        savedToxicExposurePurgeFlag,
+        restoredData,
+      );
+    }
+
+    const purgedData = purgeToxicExposureData(restoredData);
+
+    // Remove feature flag from output (not user data, only needed for purge logic)
+    return _.unset('disability526ToxicExposureOptOutDataPurge', purgedData);
+  };
 
   const addBackAndTransformSeparationLocation = formData =>
     formData.serviceInformation?.separationLocation
@@ -271,6 +311,7 @@ export function transform(formConfig, form) {
     filterEmptyObjects,
     addBackRatedDisabilities, // Must run after filterEmptyObjects
     addBackAndTransformSeparationLocation, // Must run after filterEmptyObjects
+    transformToxicExposure, // Restore + purge toxic exposure (must run after filterEmptyObjects)
     normalizeIncreases,
     sanitizeNewDisabilities,
     setActionTypes, // Must run after addBackRatedDisabilities
@@ -278,7 +319,6 @@ export function transform(formConfig, form) {
     filterServicePeriods,
     removeExtraData, // Removed data EVSS doesn't want
     cleanUpMailingAddress,
-    purgeToxicExposureData,
     addPOWSpecialIssues,
     addPTSDCause,
     addRequiredDescriptionsToDisabilitiesBDD,

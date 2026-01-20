@@ -14,6 +14,7 @@ import {
 } from '../../../shared/tests/helpers';
 
 import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
+import { fillStatementOfTruthAndSubmit, goToNextPage } from './utils';
 
 // Put all page objects into an object where pagename maps to page data
 // E.g., {page1: {path: '/blah'}}
@@ -78,19 +79,7 @@ const testConfig = createTestConfig(
               data.applicantNewAddress,
             );
             cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [ALL_PAGES.missingFileConsent.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.selectVaCheckbox(
-              `consent-checkbox`,
-              data.consentToMailMissingRequiredFiles,
-            );
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            goToNextPage();
           });
         });
       },
@@ -102,7 +91,7 @@ const testConfig = createTestConfig(
               .get('#input-type-textarea')
               .type(data.primaryAdditionalComments, { force: true });
             cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            goToNextPage();
           });
         });
       },
@@ -114,30 +103,33 @@ const testConfig = createTestConfig(
               .get('#input-type-textarea')
               .type(data.secondaryAdditionalComments, { force: true });
             cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            goToNextPage();
           });
         });
       },
       'review-and-submit': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get('va-text-input')
-              .shadow()
-              .get('#inputField')
-              .type(data.signature, { force: true });
-            cy.get(`va-checkbox`)
-              .shadow()
-              .find('input')
-              .click({ force: true });
-            cy.findByText('Submit form', {
-              selector: 'button',
-            }).click();
-          });
-        });
+        afterHook(() => fillStatementOfTruthAndSubmit());
       },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+
+      cy.intercept(
+        'POST',
+        '/ivc_champva/v1/forms/submit_supporting_documents*',
+        {
+          statusCode: 200,
+          body: {
+            data: {
+              attributes: {
+                confirmationCode: '1b39d28c-5d38-4467-808b-9da252b6e95a',
+                name: 'example_upload.png',
+                size: 123,
+              },
+            },
+          },
+        },
+      );
 
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
