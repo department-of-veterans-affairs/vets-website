@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
@@ -13,7 +13,14 @@ import IntentToFile from '../IntentToFile';
 import { activeItf, nonActiveItf, mockItfData } from './helpers';
 
 describe('IntentToFile', () => {
+  beforeEach(() => {
+    // Ensure clean state before each test
+    resetFetch();
+    sessionStorage.clear();
+  });
+
   afterEach(() => {
+    cleanup();
     resetFetch();
     sessionStorage.clear();
   });
@@ -150,7 +157,7 @@ describe('IntentToFile', () => {
   it('should render full ITF page with navigation buttons and restore page when navigation is clicked', async () => {
     mockApiRequest(mockItfData(activeItf));
     const { props, mockStore } = getData();
-    const { container } = await render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntentToFile {...props}>
           <div id="test">
@@ -161,11 +168,16 @@ describe('IntentToFile', () => {
       </Provider>,
     );
 
+    // Wait for ITF wrapper to appear
     await waitFor(() => {
       expect($('.itf-wrapper', container)).to.exist;
       expect($('#test', container)).to.not.exist;
-      $('va-button', container).click();
-    }).then(() => {
+    });
+
+    // Click the button and wait for the page to be restored
+    $('va-button', container).click();
+
+    await waitFor(() => {
       expect($('.itf-wrapper', container)).to.not.exist;
       expect($('#test', container)).to.exist;
     });
@@ -215,7 +227,12 @@ describe('IntentToFile', () => {
       { response: mockItfData(), shouldResolve: false },
       { response: mockItfData(), shouldResolve: false },
     ]);
-    const { container } = renderPage(getData());
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntentToFile {...props} disableAutoFocus />
+      </Provider>,
+    );
 
     await waitFor(() => {
       expect($('va-alert[status="warning"]', container).textContent).to.include(
