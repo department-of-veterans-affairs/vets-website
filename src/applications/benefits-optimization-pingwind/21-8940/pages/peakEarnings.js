@@ -7,11 +7,7 @@ import {
   numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const AdditionalInformation = () => (
-  <va-additional-info trigger="Additional Information" uswds>
-    <p>Numeric characters only</p>
-  </va-additional-info>
-);
+import { yearUI } from '../helpers/year';
 
 /** @type {PageSchema} */
 export default {
@@ -24,11 +20,11 @@ export default {
     'ui:description': 'Your highest earnings',
     maxYearlyEarnings: numberUI({
       title: 'What is the most you ever earned in one year? (Gross Income)',
-      description: <AdditionalInformation />,
+      hint: 'numeric characters only',
     }),
-    yearEarned: numberUI({
+    yearEarned: yearUI({
       title: 'What year did you make your peak earnings?',
-      description: <AdditionalInformation />,
+      hint: 'numeric characters only',
     }),
     occupation: textUI('Your job(s) during that year'),
   },
@@ -36,7 +32,10 @@ export default {
     type: 'object',
     properties: {
       maxYearlyEarnings: numberSchema,
-      yearEarned: numberSchema,
+      yearEarned: {
+        type: 'string',
+        pattern: '^\\d{4}$',
+      },
       occupation: textSchema,
     },
     required: ['maxYearlyEarnings', 'yearEarned', 'occupation'],

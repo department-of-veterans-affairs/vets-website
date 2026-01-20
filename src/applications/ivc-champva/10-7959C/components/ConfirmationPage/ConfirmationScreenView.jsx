@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 
-const ConfirmationScreenView = ({
-  alertContent,
-  beneficiary,
-  signee,
-  submitDate,
-}) => {
+const ConfirmationScreenView = ({ beneficiary, signee, submitDate }) => {
   useEffect(() => focusElement('h2', {}, 'va-alert'), []);
 
   return (
     <>
-      {alertContent}
+      <va-alert status="success" class="vads-u-margin-bottom--4">
+        <h2 slot="headline" className="vads-u-font-size--h3">
+          You’ve submitted your CHAMPVA Other Health Insurance Certification
+          form
+        </h2>
+      </va-alert>
 
       <va-summary-box class="vads-u-margin-bottom--4">
         <h3 slot="headline">Your submission information</h3>
@@ -51,7 +51,6 @@ const ConfirmationScreenView = ({
 };
 
 ConfirmationScreenView.propTypes = {
-  alertContent: PropTypes.node,
   beneficiary: PropTypes.string,
   signee: PropTypes.string,
   submitDate: PropTypes.string,

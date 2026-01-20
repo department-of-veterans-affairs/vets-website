@@ -140,17 +140,52 @@ UnauthenticatedWarningAlert.propTypes = {
 };
 
 export const handleAlertMaxItems = () => (
+  <>
+    <ul>
+      <li>
+        <span className="vads-u-display--block">
+          Statement in Support of Claim (VA Form 21-4138)
+        </span>
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21-4138/"
+          external
+          text="Get VA Form 21-4138 to download"
+        />
+      </li>
+      <li>
+        <span className="vads-u-display--block">
+          Application Request to Add and/or Remove Dependents (VA Form 21-686c)
+        </span>
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21-686c/"
+          external
+          text="Get VA Form 21-686c to download"
+        />
+      </li>
+    </ul>
+    <p>We’ll ask you to upload this form at the end of this application.</p>
+  </>
+);
+
+export const handleVeteranMaxMarriagesAlert = () => (
+  <div>
+    <p className="vads-u-margin-top--0">
+      You have added the maximum number of allowed Veteran’s previous marriages
+      for this application. Additional marriages can be added using one of these
+      supporting documents.
+    </p>
+    {handleAlertMaxItems()}
+  </div>
+);
+
+export const handleSpouseMaxMarriagesAlert = () => (
   <div>
     <p className="vads-u-margin-top--0">
       You have added the maximum number of allowed previous marriages for this
-      application. Additional marriages can be added using VA Form 21-4138 and
-      uploaded at the end of this application.
+      application. Additional marriages can be added using one of these
+      supporting documents.
     </p>
-    <va-link
-      href="https://www.va.gov/find-forms/about-form-21-4138/"
-      external
-      text="Get VA Form 21-4138 to download"
-    />
+    {handleAlertMaxItems()}
   </div>
 );
 
