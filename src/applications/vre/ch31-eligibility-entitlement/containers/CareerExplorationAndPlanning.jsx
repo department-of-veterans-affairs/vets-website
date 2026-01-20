@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import AssessYourInterestsSection from '../components/AssessYourInterestsSection';
-import FindAPathSection from '../components/FindAPathSection';
-import FindAJobSection from '../components/FindAJobSection';
+import AssessYourInterestsAccordionItem from '../components/AssessYourInterestsAccordionItem';
+import FindAPathAccordionItem from '../components/FindAPathAccordionItem';
+import FindAJobAccordionItem from '../components/FindAJobAccordionItem';
 import NeedHelp from '../components/NeedHelp';
 
 export default function CareerExplorationAndPlanning() {
@@ -40,11 +40,11 @@ export default function CareerExplorationAndPlanning() {
           your career goals.
         </p>
 
-        <va-card background class="vads-u-padding-top--0">
-          <AssessYourInterestsSection />
-          <FindAPathSection />
-          <FindAJobSection />
-        </va-card>
+        <va-accordion>
+          <AssessYourInterestsAccordionItem />
+          <FindAPathAccordionItem />
+          <FindAJobAccordionItem />
+        </va-accordion>
 
         <NeedHelp />
 
