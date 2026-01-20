@@ -8,7 +8,7 @@ const updatedAddressSchema = addressSchema({
   omit: ['street3'],
 });
 updatedAddressSchema.properties.street.maxLength = 30;
-updatedAddressSchema.properties.street2.maxLength = 5;
+updatedAddressSchema.properties.street2.maxLength = 13;
 updatedAddressSchema.properties.city.maxLength = 18;
 
 /** @type {PageSchema} */
