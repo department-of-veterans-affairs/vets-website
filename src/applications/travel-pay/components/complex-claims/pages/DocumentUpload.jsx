@@ -6,13 +6,10 @@ import { ACCEPTED_FILE_TYPES } from '../../../constants';
 
 const DocumentUpload = ({
   currentDocument,
+  error,
   handleDocumentChange,
   onVaFileInputError,
-  uploadError,
 }) => {
-  // Only pass a string if there is an error, otherwise undefined
-  const errorMessage = uploadError || undefined;
-
   return (
     <>
       <VaFileInput
@@ -28,7 +25,7 @@ const DocumentUpload = ({
         onVaChange={handleDocumentChange}
         onVaFileInputError={onVaFileInputError}
         required
-        error={errorMessage}
+        error={error}
         value={currentDocument}
       />
 
@@ -44,8 +41,8 @@ const DocumentUpload = ({
 
 DocumentUpload.propTypes = {
   currentDocument: PropTypes.object,
+  error: PropTypes.string,
   handleDocumentChange: PropTypes.func,
-  uploadError: PropTypes.string,
   onVaFileInputError: PropTypes.func,
 };
 
