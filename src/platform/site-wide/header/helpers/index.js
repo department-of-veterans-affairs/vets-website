@@ -138,7 +138,7 @@ export const createShouldShowMinimal = ({ enabled, excludePaths }) => {
         const isDynamicPath = DYNAMIC_PATH_REGEX.test(path);
         isExcludedPath =
           isDynamicPath && hasDynamicExcludePaths
-            ? excludePaths.some(p => path.endsWith(p.replace('*', '')))
+            ? excludePaths.some(p => path.endsWith(p.replace(/\*/g, '')))
             : excludePaths.includes(path);
       }
 
