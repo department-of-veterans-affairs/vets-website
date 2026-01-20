@@ -13,7 +13,6 @@
       "veteranAddress": {
         "street": "1313 Millennium Falcon Way",
         "street2": "Dock",
-        "street3": "",
         "city": "Mos Eisley",
         "state": "AZ",
         "country": "USA",
@@ -25,7 +24,6 @@
     },
     "claimantContact": {
       "claimantPhoneNumber": "5205551313",
-      "claimantMobilePhone": "5205551314",
       "claimantEmail": "hsolo@smuggler.net"
     },
     "benefitType": {
@@ -42,7 +40,6 @@
       "facilityAddress": {
         "street": "9000 Spaceport Boulevard",
         "street2": "ICU",
-        "street3": "",
         "city": "Mos Eisley",
         "state": "AZ",
         "country": "USA",
