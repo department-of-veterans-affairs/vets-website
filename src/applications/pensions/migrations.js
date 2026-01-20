@@ -360,4 +360,28 @@ export default [
     }
     return { formData: newFormData, metadata };
   },
+  // 10 > 11. remove spouse entries that are outside of the marriages array
+  // See https://dsva.slack.com/archives/C090CFCVATW/p1768162996687189
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    if (formData.spouseFullName) {
+      delete newFormData.spouseFullName;
+    }
+    if (formData.reasonForSeparation) {
+      delete newFormData.reasonForSeparation;
+    }
+    if (formData.dateOfMarriage) {
+      delete newFormData.dateOfMarriage;
+    }
+    if (formData.dateOfSeparation) {
+      delete newFormData.dateOfSeparation;
+    }
+    if (formData.locationOfMarriage) {
+      delete newFormData.locationOfMarriage;
+    }
+    if (formData.locationOfSeparation) {
+      delete newFormData.locationOfSeparation;
+    }
+    return { formData: newFormData, metadata };
+  },
 ];
