@@ -180,6 +180,10 @@ class Profile extends Component {
       );
     }
 
+    if (!this.props.isSchedulingPreferencesPilotEligible) {
+      routes = routes.filter(item => !item.requiresSchedulingPreferencesPilot);
+    }
+
     return (
       <BrowserRouter>
         <LastLocationProvider>
@@ -204,19 +208,6 @@ class Profile extends Component {
                           ? PROFILE_PATHS.SIGNIN_INFORMATION
                           : PROFILE_PATHS.ACCOUNT_SECURITY
                       }
-                      key={route.path}
-                    />
-                  );
-                }
-
-                if (
-                  route.requiresSchedulingPreferencesPilot &&
-                  !this.props.isSchedulingPreferencesPilotEligible
-                ) {
-                  return (
-                    <Redirect
-                      from={route.path}
-                      to={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
                       key={route.path}
                     />
                   );
