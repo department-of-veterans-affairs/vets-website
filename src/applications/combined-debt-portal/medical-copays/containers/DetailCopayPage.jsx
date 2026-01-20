@@ -6,7 +6,7 @@ import Modals from '../../combined/components/Modals';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import StatementCharges from '../components/StatementCharges';
-// import HTMLStatementList from '../components/HTMLStatementList';
+import HTMLStatementList from '../components/HTMLStatementList';
 import StatementAddresses from '../components/StatementAddresses';
 import NeedHelpCopay from '../components/NeedHelpCopay';
 import {
@@ -14,6 +14,7 @@ import {
   formatDate,
   verifyCurrentBalance,
   setPageFocus,
+  formatISODateToMMDDYYYY,
 } from '../../combined/utils/helpers';
 
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
@@ -198,13 +199,13 @@ const DetailCopayPage = ({ match }) => {
             statementId={selectedId}
             statementDate={
               shouldShowVHAPaymentHistory
-                ? selectedCopay?.attributes.invoiceDate
+                ? formatISODateToMMDDYYYY(selectedCopay?.attributes.invoiceDate)
                 : selectedCopay?.pSStatementDate
             }
             fullName={fullName}
           />
         </div>
-        {/* <HTMLStatementList selectedId={selectedId} /> */}
+        <HTMLStatementList selectedId={selectedId} />
         <StatementAddresses
           data-testid="statement-addresses"
           copay={selectedCopay}

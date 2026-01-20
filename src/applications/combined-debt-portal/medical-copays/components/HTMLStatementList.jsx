@@ -13,22 +13,25 @@ const HTMLStatementList = ({ selectedId }) => {
   };
 
   const combinedPortalData = useSelector(state => state.combinedPortal);
-  const statements = combinedPortalData.mcp.statements ?? [];
-  // get selected statement
+  const statements = combinedPortalData.mcp.statements ?? {};
+
+  // normalize to array
+  let statementArray = [];
+  if (Array.isArray(statements.data)) {
+    statementArray = statements.data;
+  } else if (statements.data) {
+    statementArray = [statements.data];
+  }
+
   const selectedCopay = shouldShowVHAPaymentHistory
-    ? statements?.data
-    : statements?.find(({ id }) => id === selectedId); // get facility  number on selected statement
-  const facilityNumber = shouldShowVHAPaymentHistory
-    ? selectedCopay?.attributes?.facilityNumber
-    : selectedCopay?.pSFacilityNum;
-  // filter out all statements that are not related to this facility
-  const facilityCopays = shouldShowVHAPaymentHistory
-    ? statements?.data.filter(
-        ({ attributes }) => attributes?.facilityNumber === facilityNumber,
-      )
-    : statements.filter(
-        ({ pSFacilityNum }) => pSFacilityNum === facilityNumber,
-      );
+    ? statementArray.find(({ id }) => id === selectedId)
+    : statements.find(({ id }) => id === selectedId);
+
+  const facilityNumber = selectedCopay?.attributes?.facilityNumber;
+
+  const facilityCopays = statementArray.filter(
+    ({ attributes }) => attributes?.facilityNumber === facilityNumber,
+  );
 
   const sortedFacilityCopays = sortStatementsByDate(facilityCopays);
 
@@ -50,7 +53,11 @@ const HTMLStatementList = ({ selectedId }) => {
         {previousSortedFacilityCopays.map(statement => (
           <HTMLStatementLink
             id={statement.id}
-            statementDate={statement.pSStatementDateOutput}
+            statementDate={
+              shouldShowVHAPaymentHistory
+                ? statement?.attributes?.invoiceDate
+                : statement.pSStatementDateOutput
+            }
             key={statement.id}
           />
         ))}
