@@ -1,39 +1,29 @@
 import path from 'path';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import environment from 'platform/utilities/environment';
 
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 
 import {
   verifyAllDataWasSubmitted,
   reviewAndSubmitPageFlow,
   selectRadioWebComponent,
   getAllPages,
-} from '../../shared/tests/helpers';
+} from '../../../shared/tests/helpers';
 
-import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
-import { goToNextPage, uploadDocumentAndGoToNext } from './e2e/utils';
+import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
+import { goToNextPage } from './utils';
 
 const ALL_PAGES = getAllPages(formConfig);
-
-const UPLOAD_URL = `${
-  environment.API_URL
-}/ivc_champva/v1/forms/submit_supporting_documents`;
-
-const SAMPLE_FILE = path.join(
-  __dirname,
-  'e2e/fixtures/data/example_upload.png',
-);
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'e2e', 'fixtures', 'data'),
+    dataDir: path.join(__dirname, 'fixtures', 'data'),
 
     // Rename and modify the test data as needed.
     dataSets: [
@@ -56,7 +46,7 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const sig = _.get(
+            const sig = get(
               data,
               formConfig.preSubmitInfo.statementOfTruth.fullNamePath(data),
             );
@@ -93,12 +83,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.page1e2.path]: ({ afterHook }) => {
-        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
-      },
-      [ALL_PAGES.page1e3.path]: ({ afterHook }) => {
-        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
-      },
       [ALL_PAGES.page2d.path]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -115,31 +99,25 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.page7.path]: ({ afterHook }) => {
-        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
-      },
-      [ALL_PAGES.page8.path]: ({ afterHook }) => {
-        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
-      },
-      [ALL_PAGES.page9.path]: ({ afterHook }) => {
-        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
-      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
-      cy.intercept('POST', `${UPLOAD_URL}*`, {
-        statusCode: 200,
-        body: {
-          data: {
-            attributes: {
-              confirmationCode: '1b39d28c-5d38-4467-808b-9da252b6e95a',
-              isEncrypted: 'false',
-              name: 'example_upload.png',
-              size: '123',
+      cy.intercept(
+        'POST',
+        '/ivc_champva/v1/forms/submit_supporting_documents*',
+        {
+          statusCode: 200,
+          body: {
+            data: {
+              attributes: {
+                confirmationCode: '1b39d28c-5d38-4467-808b-9da252b6e95a',
+                name: 'example_upload.png',
+                size: 123,
+              },
             },
           },
         },
-      });
+      );
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
           const withoutViewFields = filterViewFields(data);
