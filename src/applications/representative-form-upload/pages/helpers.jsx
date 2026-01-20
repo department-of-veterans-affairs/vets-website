@@ -54,7 +54,7 @@ export const claimantTitleAndDescription = {
 
 export const ITFClaimantTitleAndDescription = {
   'view:claimantTitle': {
-    ...titleUI(' Claimant information'),
+    ...titleUI('Claimant information'),
   },
 };
 
@@ -109,7 +109,7 @@ export const ITFBenefitTypes = Object.freeze({
 
 export const ITFVeteranTitleAndDescription = {
   'view:veteranTitle': {
-    ...titleUI(' Veteran identification information'),
+    ...titleUI('Veteran identification information'),
   },
 };
 
