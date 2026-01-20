@@ -469,12 +469,14 @@ export const mochaHooks = {
     server.resetHandlers();
   },
 
-  afterEach() {
+  async afterEach() {
     cleanupStorage();
-    flushPromises();
+    await flushPromises();
     // Clear any pending timers to prevent async callbacks from running after test cleanup.
     // This catches setInterval/setTimeout leaks from components that don't clean up properly.
     clearPendingTimers();
+    // Reset fetch stub to prevent state pollution between tests
+    resetFetch();
   },
 
   afterAll() {
