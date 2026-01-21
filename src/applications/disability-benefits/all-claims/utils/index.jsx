@@ -1016,3 +1016,13 @@ export const onFormLoaded = props => {
     router.push(returnUrl);
   }
 };
+
+/**
+ * Checks if
+ * Veteran has additional evidence to upload within the 0781 flow
+ * @param {object} formData
+ * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
+ */
+export const hasEvidenceChoice = formData => {
+  return formData?.['view:hasEvidenceChoice'] === true;
+};
