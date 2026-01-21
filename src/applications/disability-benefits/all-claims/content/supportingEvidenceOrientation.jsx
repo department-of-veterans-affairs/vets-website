@@ -124,14 +124,14 @@ export const additionalSupportAccordion = (
         <li>Local precincts</li>
       </ul>
       <h3 className="vads-u-font-size--h5 vads-u-margin-y--0">
-        Personal Accounts
+        Personal accounts and other correspondence
       </h3>
       <ul>
-        <li>Journal or diary entries</li>
-        <li>E-mails, letters, or messages</li>
+        <li>Personal journal or diary entries</li>
+        <li>E-Emails, messages, or letters</li>
       </ul>
       <h3 className="vads-u-font-size--h5 vads-u-margin-y--0">
-        Additional forms you may need to fill out
+        Additional forms
       </h3>
       <ul>
         <li>Requests for increased compensation if you can’t work</li>
