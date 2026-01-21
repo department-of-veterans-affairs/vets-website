@@ -77,6 +77,7 @@
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
+ * @property {boolean} [dynamicPaths] do the form pages have dynamic paths, e.g. form-upload
  */
 
 /**
@@ -87,6 +88,7 @@
  * @property {string} [reviewPageTitle]
  * @property {string} [startNewAppButtonText]
  * @property {string} [submitButtonText]
+ * @property {string} [reviewPageFormTitle]
  */
 
 /**
