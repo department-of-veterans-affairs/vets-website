@@ -6,7 +6,7 @@
  * ['A', 'B'] -> 'A and B'
  * ['A', 'B', 'C'] -> 'A, B, and C'
  */
-export default function oxfordCommaList(items = []) {
+export function oxfordCommaList(items = []) {
   if (!Array.isArray(items) || items.length < 2) {
     return items.toString();
   }

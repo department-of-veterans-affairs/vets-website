@@ -3,24 +3,21 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isSchedulingPreferencesPilotEligible as selectIsSchedulingPreferencesPilotEligible } from 'platform/user/selectors';
-import { capitalize } from 'lodash';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
-import oxfordCommaList from '../../utils/oxfordCommaList';
 import Tier2PageContent from '../Tier2PageContent';
 import { ProfileHubItem } from './ProfileHubItem';
 import NameTag from './NameTag';
+import { getHealthCareSettingsHubDescription } from '../../util';
 
 const ProfileHub = ({ isSchedulingPreferencesPilotEligible }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const healthCareSettingsItems = [];
-  if (!useToggleValue(TOGGLE_NAMES.profileHideHealthCareContacts)) {
-    healthCareSettingsItems.push('health care contacts');
-  }
-  healthCareSettingsItems.push('messages signature');
-  if (isSchedulingPreferencesPilotEligible) {
-    healthCareSettingsItems.push('scheduling preferences');
-  }
-  const healthCareSettingsContent = oxfordCommaList(healthCareSettingsItems);
+  const hideHealthCareContacts = useToggleValue(
+    TOGGLE_NAMES.profileHideHealthCareContacts,
+  );
+  const healthCareSettingsContent = getHealthCareSettingsHubDescription({
+    hideHealthCareContacts,
+    isSchedulingPreferencesPilotEligible,
+  });
   return (
     <Tier2PageContent pageHeader="Profile">
       <NameTag />
@@ -50,7 +47,7 @@ const ProfileHub = ({ isSchedulingPreferencesPilotEligible }) => {
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
-        content={capitalize(healthCareSettingsContent)}
+        content={healthCareSettingsContent}
         href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
         reactLink
       />
