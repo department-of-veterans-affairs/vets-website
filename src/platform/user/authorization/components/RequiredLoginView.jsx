@@ -3,7 +3,6 @@ import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 import { intersection } from 'lodash';
 
-import { connect } from 'react-redux';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
@@ -199,10 +198,6 @@ RequiredLoginView.propTypes = {
   verify: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return { useSiS: state.featureToggles.signInServiceEnabled || true };
-};
-
-export default connect(mapStateToProps)(RequiredLoginView);
+export default RequiredLoginView;
 
 export { RequiredLoginLoader };
