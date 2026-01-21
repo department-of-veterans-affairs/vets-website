@@ -392,7 +392,9 @@ const formConfig = {
               'burialAllowanceRequested.unclaimed',
               form,
             );
-            return burialsSelected && unclaimedSelected;
+            const isFuneralDirector =
+              get('relationshipToVeteran', form) === 'funeralDirector';
+            return burialsSelected && unclaimedSelected && isFuneralDirector;
           },
           uiSchema: burialAllowanceConfirmation.uiSchema,
           schema: burialAllowanceConfirmation.schema,
