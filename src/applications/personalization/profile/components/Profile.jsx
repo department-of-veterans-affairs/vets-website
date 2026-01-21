@@ -331,9 +331,7 @@ const mapStateToProps = state => {
     !profileToggles?.profileHideDirectDeposit;
 
   const shouldFetchSchedulingPreferences =
-    (isSchedulingPreferencesPilotEligible &&
-      profileToggles?.profileSchedulingPreferences) ||
-    false;
+    isSchedulingPreferencesPilotEligible || false;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);

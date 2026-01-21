@@ -2,7 +2,7 @@ import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isSchedulingPreferencesPilotEligible as selectIsSchedulingPreferencesPilotEligible } from 'platform/user/selectors';
+import { isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector } from 'platform/user/selectors';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import Tier2PageContent from '../Tier2PageContent';
 import { ProfileHubItem } from './ProfileHubItem';
@@ -84,7 +84,7 @@ ProfileHub.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isSchedulingPreferencesPilotEligible: selectIsSchedulingPreferencesPilotEligible(
+  isSchedulingPreferencesPilotEligible: isSchedulingPreferencesPilotEligibleSelector(
     state,
   ),
 });

@@ -14,6 +14,7 @@ import {
   selectVAPWorkPhone,
   selectVAPEmailAddress,
   selectVAPMailingAddress,
+  isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector,
 } from 'platform/user/selectors';
 
 import { FIELD_NAMES, FIELD_SECTION_HEADERS } from '@@vap-svc/constants';
@@ -82,14 +83,15 @@ export const ContactMethodContainer = () => {
   const profileHealthCareSettingsPageToggle = useToggleValue(
     TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
-  const profileSchedulingPreferencesToggle = useToggleValue(
-    TOGGLE_NAMES.profileSchedulingPreferences,
+
+  const isSchedulingPreferencesPilotEligible = useSelector(state =>
+    isSchedulingPreferencesPilotEligibleSelector(state),
   );
 
   const routesForNav = getRoutesForNav({
     profile2Enabled: profile2Toggle,
     profileHealthCareSettingsPage: profileHealthCareSettingsPageToggle,
-    profileSchedulingPreferencesEnabled: profileSchedulingPreferencesToggle,
+    profileSchedulingPreferencesEnabled: isSchedulingPreferencesPilotEligible,
   });
 
   const fieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
