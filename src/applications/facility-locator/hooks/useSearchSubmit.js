@@ -16,12 +16,14 @@ const useSearchSubmit = ({
   selectMobileMapPin,
   setSearchInitiated,
 }) => {
+  // Track last submitted query to prevent duplicate submissions
   const lastQueryRef = useRef(null);
 
   const handleSubmit = useCallback(
     e => {
       e.preventDefault();
 
+      // Check if this is a duplicate query
       const isSameQuery =
         lastQueryRef.current &&
         draftFormState.facilityType === lastQueryRef.current.facilityType &&
@@ -33,7 +35,7 @@ const useSearchSubmit = ({
         return;
       }
 
-      // CC_PROVIDER serviceType validation first (matches E2E test expectations)
+      // Validate serviceType for Community Care providers (must precede other checks)
       if (
         draftFormState.facilityType === LocationType.CC_PROVIDER &&
         (!draftFormState.serviceType || !selectedServiceType)
@@ -47,6 +49,7 @@ const useSearchSubmit = ({
         return;
       }
 
+      // Validate searchString (location) is provided
       if (!draftFormState.searchString) {
         setDraftFormState(prev => ({
           ...prev,
@@ -57,6 +60,7 @@ const useSearchSubmit = ({
         return;
       }
 
+      // Validate facilityType is selected
       if (!draftFormState.facilityType) {
         setDraftFormState(prev => ({
           ...prev,
@@ -74,6 +78,7 @@ const useSearchSubmit = ({
         zoomLevel: currentQuery.zoomLevel,
       };
 
+      // Update Redux state
       onChange({
         facilityType: draftFormState.facilityType,
         serviceType: draftFormState.serviceType,
@@ -81,6 +86,7 @@ const useSearchSubmit = ({
         vamcServiceDisplay: draftFormState.vamcServiceDisplay,
       });
 
+      // Record analytics with specialty display name for CC providers
       let analyticsServiceType = draftFormState.serviceType;
       const specialtyDisplayName =
         currentQuery.specialties?.[draftFormState.serviceType];
@@ -100,10 +106,12 @@ const useSearchSubmit = ({
         'fl-current-zoom-depth': currentQuery.zoomLevel,
       });
 
+      // Clear mobile map pin if needed
       if (isMobile && mobileMapUpdateEnabled) {
         selectMobileMapPin(null);
       }
 
+      // Trigger the search
       setSearchInitiated(true);
       onSubmit({
         facilityType: draftFormState.facilityType,
