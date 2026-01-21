@@ -380,7 +380,7 @@ const formConfig = {
           schema: burialAllowancePartOne.schema,
         },
         burialAllowanceConfirmation: {
-          title: 'Burial allowance',
+          title: 'Statement of truth',
           reviewTitle: ' ',
           path: 'benefits/burial-allowance/statement-of-truth',
           depends: form => {
