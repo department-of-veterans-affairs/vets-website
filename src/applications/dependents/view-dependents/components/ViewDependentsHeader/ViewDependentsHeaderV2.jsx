@@ -73,6 +73,16 @@ function ViewDependentsHeader(props) {
     focusElement('.view-deps-header');
   }
 
+  /**
+   * Handler function for clicking the verification link
+   * @returns {null} triggers datadog logging
+   */
+  function jumpToForm0538() {
+    dataDogLogger({
+      message: 'View dependents 0538 verification link clicked',
+    });
+  }
+
   let alertProps = null;
 
   switch (updateDiariesStatus) {
@@ -163,6 +173,7 @@ function ViewDependentsHeader(props) {
                   <va-link-action
                     text="Verify your VA disability benefits dependents"
                     href={dependentsVerificationUrl}
+                    onClick={jumpToForm0538}
                   />
                 </p>
               </>

@@ -39,6 +39,13 @@ describe('<ViewDependentsHeader />', () => {
     const { container } = renderWithStore({ showAlert: true });
     expect($('h1', container).textContent).to.equal(PAGE_TITLE);
     expect($('#update-warning-alert', container)).to.exist;
+    expect(
+      $(
+        'va-link-action[text="Verify your VA disability benefits dependents"]',
+        container,
+      ),
+    ).to.exist;
+
     expect(logSpy.args[0][0]).to.eq(
       'View dependents 0538 warning alert visible',
     );
@@ -87,6 +94,20 @@ describe('<ViewDependentsHeader />', () => {
     );
     expect(logSpy.args[1][0]).to.eq(
       'View dependents 0538 warning alert hidden',
+    );
+  });
+
+  it('should log click on verification link', () => {
+    const logSpy = sinon.spy();
+    window.DD_LOGS = { logger: { log: logSpy } };
+    const { container } = renderWithStore({ showAlert: true });
+
+    const link = $('va-link-action', container);
+    expect(link).to.exist;
+
+    link.click();
+    expect(logSpy.args[1][0]).to.eq(
+      'View dependents 0538 verification link clicked',
     );
   });
 });
