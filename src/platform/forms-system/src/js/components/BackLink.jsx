@@ -25,6 +25,7 @@ export const BackLinkImpl = ({
   location, // from withRouter
   form, // from connect
   setData, // from connect
+  dynamicPaths = false,
 }) => {
   const [href, setHref] = useState(null);
 
@@ -35,7 +36,7 @@ export const BackLinkImpl = ({
       }
       try {
         let newHref;
-        const route = getRoute(routes, location);
+        const route = getRoute(routes, location, dynamicPaths);
 
         if (typeof route.pageConfig?.onNavBack === 'function') {
           // if onNavBack is defined, then the consumer is doing
@@ -62,7 +63,7 @@ export const BackLinkImpl = ({
   function onClick(e) {
     e.preventDefault();
 
-    const route = getRoute(routes, location);
+    const route = getRoute(routes, location, dynamicPaths);
 
     goBack({
       formData: form.data,
@@ -106,6 +107,7 @@ BackLinkImpl.propTypes = {
   routes: PropTypes.array, // from withRouter
   setData: PropTypes.func, // from connect
   text: PropTypes.string,
+  dynamicPaths: PropTypes.bool,
 };
 
 const BackLink = withRouter(

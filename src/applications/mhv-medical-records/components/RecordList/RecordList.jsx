@@ -109,7 +109,7 @@ const RecordList = props => {
       <ul className="record-list-items no-print vads-u-margin--0 vads-u-padding--0">
         {currentRecords?.length > 0 &&
           currentRecords.map((record, idx) => (
-            <li key={idx} className="vads-u-list-style--none">
+            <li key={idx}>
               <RecordListItem
                 record={record}
                 type={type}
@@ -121,7 +121,7 @@ const RecordList = props => {
       <ul className="record-list-items print-only vads-u-margin--0 vads-u-padding--0">
         {records?.length > 0 &&
           records.map((record, idx) => (
-            <li key={idx} className="vads-u-list-style--none">
+            <li key={idx}>
               <RecordListItem record={record} type={type} />
             </li>
           ))}
