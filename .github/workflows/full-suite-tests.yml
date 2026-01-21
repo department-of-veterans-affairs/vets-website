@@ -561,6 +561,7 @@ jobs:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+          APP_URLS: 'http://localhost:3001'
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
