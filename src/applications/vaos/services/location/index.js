@@ -334,10 +334,15 @@ export function isTypeOfCareSupported(
   cernerSiteIds = [],
   removeFacilityConfigCheck = false,
 ) {
+  const setting = location.legacyVAR.settings[typeOfCareId];
   return (
     removeFacilityConfigCheck ||
-    location.legacyVAR.settings[typeOfCareId]?.direct?.enabled ||
-    location.legacyVAR.settings[typeOfCareId]?.request?.enabled ||
+    // Check old format (direct.enabled / request.enabled)
+    setting?.direct?.enabled ||
+    setting?.request?.enabled ||
+    // Check VPG format (bookedAppointments / apptRequests)
+    setting?.bookedAppointments ||
+    setting?.apptRequests ||
     isCernerLocation(location.id, cernerSiteIds)
   );
 }
