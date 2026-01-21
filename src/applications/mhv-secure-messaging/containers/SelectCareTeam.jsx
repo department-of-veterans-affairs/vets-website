@@ -8,6 +8,7 @@ import React, {
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropType from 'prop-types';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   VaRadio,
   VaRadioOption,
@@ -277,6 +278,48 @@ const SelectCareTeam = () => {
     [vistaFacilities],
   );
 
+  // Track when VA Health Systems are displayed
+  useEffect(
+    () => {
+      if (allFacilities?.length > 1) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'successful',
+          'health-systems-count': allFacilities.length,
+          version:
+            allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
+        });
+      } else if (allFacilities?.length === 0) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'fail',
+          'health-systems-count': 0,
+          'error-key': 'no-health-systems',
+        });
+      }
+    },
+    [allFacilities],
+  );
+
+  // Track when user types in the care team search box (debounced)
+  useEffect(
+    () => {
+      if (careTeamComboInputValue?.length > 0) {
+        const debounceTimer = setTimeout(() => {
+          recordEvent({
+            event: 'int-text-input-search',
+            'text-input-label': 'Select a care team',
+          });
+        }, 500);
+        return () => clearTimeout(debounceTimer);
+      }
+      return undefined;
+    },
+    [careTeamComboInputValue],
+  );
+
   // updates the available teams in the Care Team combo box
   // if a care system is selected, filter for only that care system
   // if no care system is selected, show all allowed teams
@@ -417,6 +460,7 @@ const SelectCareTeam = () => {
     ) {
       return (
         <VaRadio
+          enableAnalytics
           label="Select a VA health care system"
           name="va-health-care-system"
           onVaValueChange={onRadioChangeHandler}
@@ -448,7 +492,7 @@ const SelectCareTeam = () => {
     if (allFacilities?.length >= MAX_RADIO_OPTIONS) {
       return (
         <VaSelect
-          enable-analytics
+          enableAnalytics
           id="care-system-dropdown"
           label="Select a VA health care system"
           name="to-care-system"

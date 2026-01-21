@@ -14,9 +14,7 @@ const MockArrayBuilderSummaryPage = () => {
 };
 const ArrayBuilderSummaryPageModule = require('platform/forms-system/src/js/patterns/array-builder/ArrayBuilderSummaryPage');
 
-sinon.stub(ArrayBuilderSummaryPageModule, 'default').callsFake(() => {
-  return MockArrayBuilderSummaryPage;
-});
+let arrayBuilderSummaryPageStub;
 
 const createMockStore = (formData = {}) => {
   return configureStore({
@@ -38,11 +36,19 @@ describe('YellowRibbonProgramRequestSummaryReview', () => {
   beforeEach(() => {
     addMaxContributionsStub = sinon.stub(helpers, 'addMaxContributions');
     addMaxContributionsStub.returns(10);
+    arrayBuilderSummaryPageStub = sinon
+      .stub(ArrayBuilderSummaryPageModule, 'default')
+      .callsFake(() => {
+        return MockArrayBuilderSummaryPage;
+      });
   });
 
   afterEach(() => {
     if (addMaxContributionsStub) {
       addMaxContributionsStub.restore();
+    }
+    if (arrayBuilderSummaryPageStub) {
+      arrayBuilderSummaryPageStub.restore();
     }
   });
 

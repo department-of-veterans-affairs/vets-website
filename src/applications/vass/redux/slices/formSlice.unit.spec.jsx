@@ -7,6 +7,7 @@ import formReducer, {
   setLowAuthFormData,
   clearFormData,
   hydrateFormData,
+  loadFormDataFromStorage,
   selectSelectedDate,
   selectSelectedTopics,
   selectHydrated,
@@ -249,9 +250,9 @@ describe('formSlice', () => {
     });
 
     describe('clearFormData', () => {
-      it('should clear all form data', () => {
+      it('should clear all form data including hydrated flag', () => {
         const initialState = {
-          hydrated: false,
+          hydrated: true,
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1', 'topic-2'],
           obfuscatedEmail: 't***@example.com',
@@ -262,6 +263,7 @@ describe('formSlice', () => {
         };
         const actual = formReducer(initialState, clearFormData());
 
+        expect(actual.hydrated).to.be.false;
         expect(actual.selectedDate).to.be.null;
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.obfuscatedEmail).to.be.null;
@@ -284,6 +286,7 @@ describe('formSlice', () => {
         };
         const actual = formReducer(initialState, clearFormData());
 
+        expect(actual.hydrated).to.be.false;
         expect(actual.selectedDate).to.be.null;
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.obfuscatedEmail).to.be.null;
@@ -297,7 +300,7 @@ describe('formSlice', () => {
     describe('hydrateFormData', () => {
       it('should set hydrated to true and merge payload', () => {
         const payload = {
-          selectedSlotTime: '2025-03-01T10:00:00.000Z',
+          selectedDate: '2025-03-01T10:00:00.000Z',
           selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
           token: null,
           uuid: null,
@@ -305,9 +308,31 @@ describe('formSlice', () => {
         const actual = formReducer(undefined, hydrateFormData(payload));
 
         expect(actual.hydrated).to.be.true;
-        expect(actual.selectedDate).to.equal(payload.selectedSlotTime);
+        expect(actual.selectedDate).to.equal(payload.selectedDate);
         expect(actual.selectedTopics).to.deep.equal(payload.selectedTopics);
         expect(actual.uuid).to.be.null;
+      });
+
+      it('should hydrate all form fields from payload', () => {
+        const payload = {
+          uuid: 'test-uuid',
+          lastname: 'Smith',
+          dob: '1985-05-15',
+          obfuscatedEmail: 's***@example.com',
+          token: 'test-token',
+          selectedDate: '2025-04-01T14:00:00.000Z',
+          selectedTopics: [{ topicId: '2', topicName: 'Topic 2' }],
+        };
+        const actual = formReducer(undefined, hydrateFormData(payload));
+
+        expect(actual.hydrated).to.be.true;
+        expect(actual.uuid).to.equal(payload.uuid);
+        expect(actual.lastname).to.equal(payload.lastname);
+        expect(actual.dob).to.equal(payload.dob);
+        expect(actual.obfuscatedEmail).to.equal(payload.obfuscatedEmail);
+        expect(actual.token).to.equal(payload.token);
+        expect(actual.selectedDate).to.equal(payload.selectedDate);
+        expect(actual.selectedTopics).to.deep.equal(payload.selectedTopics);
       });
 
       it('should only flip hydrated when payload is empty', () => {
@@ -574,6 +599,40 @@ describe('formSlice', () => {
         const result = selectDob(state);
         expect(result).to.be.null;
       });
+    });
+  });
+
+  describe('loadFormDataFromStorage', () => {
+    beforeEach(() => {
+      sessionStorage.clear();
+    });
+
+    afterEach(() => {
+      sessionStorage.clear();
+    });
+
+    it('should return null when no UUID is stored', () => {
+      const result = loadFormDataFromStorage();
+      expect(result).to.be.null;
+    });
+
+    it('should return null when UUID exists but no form data is stored', () => {
+      sessionStorage.setItem('vass_current_uuid', JSON.stringify('test-uuid'));
+      const result = loadFormDataFromStorage();
+      expect(result).to.be.null;
+    });
+
+    it('should return form data when UUID and form data are stored', () => {
+      const formData = {
+        selectedDate: '2025-01-15T10:00:00.000Z',
+        selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
+        uuid: 'test-uuid',
+      };
+      sessionStorage.setItem('vass_current_uuid', JSON.stringify('test-uuid'));
+      sessionStorage.setItem('vass_form', JSON.stringify(formData));
+
+      const result = loadFormDataFromStorage();
+      expect(result).to.deep.equal(formData);
     });
   });
 });

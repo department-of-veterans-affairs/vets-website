@@ -128,8 +128,7 @@ export const medicarePagesRev2025 = {
   medicarePartDStatus: {
     path: 'medicare-part-d-status',
     title: 'Medicare Part D status',
-    depends: formData =>
-      formData[REV2025_TOGGLE_KEY] && hasPartsABorC(formData),
+    depends: formData => formData[REV2025_TOGGLE_KEY] && hasMedicare(formData),
     ...partDStatus,
   },
   medicarePartDCarrierEffectiveDate: {
