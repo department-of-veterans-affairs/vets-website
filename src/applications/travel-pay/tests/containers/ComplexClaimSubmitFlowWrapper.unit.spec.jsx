@@ -9,7 +9,10 @@ import {
   useLocation,
 } from 'react-router-dom-v5-compat';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  renderWithStoreAndRouter,
+  renderInReduxProvider,
+} from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
 import reducer from '../../redux/reducer';
@@ -1249,7 +1252,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         claimError: null,
       });
 
-      const { findByText } = renderWithStoreAndRouter(
+      const { findByText } = renderInReduxProvider(
         <MemoryRouter
           initialEntries={[`/file-new-claim/${appointmentId}/${claimId}`]}
         >
