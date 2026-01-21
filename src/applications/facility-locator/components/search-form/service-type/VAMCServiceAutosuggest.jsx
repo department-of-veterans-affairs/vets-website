@@ -132,9 +132,7 @@ const VAMCServiceAutosuggest = ({
     setInputValue(null);
     setOptions(allVAMCServices);
 
-    if (onDraftChange) {
-      onDraftChange({ serviceType: null, vamcServiceDisplay: null });
-    }
+    onDraftChange?.({ serviceType: null, vamcServiceDisplay: null });
 
     if (inputRef?.current) {
       focusElement(inputRef.current);
@@ -172,12 +170,10 @@ const VAMCServiceAutosuggest = ({
     if (selectedItem?.toDisplay) {
       setInputValue(selectedItem.toDisplay);
 
-      if (onDraftChange) {
-        onDraftChange({
-          serviceType: selectedItem.serviceId,
-          vamcServiceDisplay: selectedItem.toDisplay,
-        });
-      }
+      onDraftChange?.({
+        serviceType: selectedItem.serviceId,
+        vamcServiceDisplay: selectedItem.toDisplay,
+      });
     }
   };
 

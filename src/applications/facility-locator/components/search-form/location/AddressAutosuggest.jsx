@@ -50,13 +50,11 @@ function AddressAutosuggest({
     }
     setSelectedItem(item);
 
-    if (onLocationSelection) {
-      onLocationSelection({
-        searchString: onlySpaces(item.toDisplay)
-          ? item.toDisplay.trim()
-          : item.toDisplay,
-      });
-    }
+    onLocationSelection?.({
+      searchString: onlySpaces(item.toDisplay)
+        ? item.toDisplay.trim()
+        : item.toDisplay,
+    });
   };
 
   /**
@@ -104,9 +102,7 @@ function AddressAutosuggest({
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
 
-    if (onLocationSelection) {
-      onLocationSelection({ searchString: value });
-    }
+    onLocationSelection?.({ searchString: value });
   };
 
   const handleInputChange = e => {

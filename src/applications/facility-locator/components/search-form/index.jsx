@@ -184,6 +184,7 @@ export const SearchForm = props => {
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
+
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
           currentQuery={{
