@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
@@ -45,6 +45,11 @@ import {
   fetchBranches,
   getBranches,
 } from './utils/serviceBranches';
+import {
+  normalizeNewDisabilities,
+  syncNewConditionsToRatedDisabilities,
+  syncRatedDisabilitiesToNewConditions,
+} from './utils/sync-conditions';
 import { Missing526Identifiers } from './containers/Missing526Identifiers';
 import {
   MissingDob,
@@ -90,6 +95,9 @@ const listMissingIdentifiers = profile => {
 
 export const isIntroPage = ({ pathname = '' } = {}) =>
   pathname.endsWith('/introduction');
+
+const isIntroOrStart = pathname =>
+  pathname?.endsWith('/introduction') || pathname?.endsWith('/start');
 
 export const Form526Entry = ({
   children,
@@ -183,6 +191,45 @@ export const Form526Entry = ({
   // We don't really need this feature toggle in formData since it's only used here
   const sideNavFeatureEnabled = useToggleValue(
     TOGGLE_NAMES.disability526SidenavEnabled,
+  );
+
+  const newConditionsFlowEnabled = useToggleValue(
+    TOGGLE_NAMES.disabilityCompNewConditionsWorkflow,
+  );
+
+  const didInitRef = useRef(false);
+
+  useEffect(
+    () => {
+      if (!loggedIn) return;
+      if (togglesLoading) return;
+      if (!form?.data) return;
+      if (typeof newConditionsFlowEnabled !== 'boolean') return;
+      if (didInitRef.current) return;
+
+      const pathname = location?.pathname || '';
+      if (isIntroOrStart(pathname)) return;
+
+      let nextData = newConditionsFlowEnabled
+        ? syncRatedDisabilitiesToNewConditions(form.data)
+        : syncNewConditionsToRatedDisabilities(form.data);
+
+      nextData = normalizeNewDisabilities(nextData);
+
+      if (nextData !== form.data) {
+        setFormData(nextData);
+      }
+
+      didInitRef.current = true;
+    },
+    [
+      loggedIn,
+      togglesLoading,
+      form?.data,
+      location?.pathname,
+      newConditionsFlowEnabled,
+      setFormData,
+    ],
   );
 
   useBrowserMonitoring({

@@ -26,10 +26,12 @@ import {
 } from 'date-fns';
 import {
   CHAR_LIMITS,
+  CURRENT_WORKFLOW_URLS,
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
   FORM_STATUS_BDD,
   HOMELESSNESS_TYPES,
+  NEW_WORKFLOW_URLS,
   NINE_ELEVEN,
   PAGE_TITLES,
   PTSD_MATCHES,
@@ -48,6 +50,7 @@ import {
   parseDate,
   getToday,
 } from './dates/formatting';
+import { includesAny, normalizePath } from './validations';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -985,6 +988,38 @@ export const isNewConditionsOn = formData =>
 
 export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
 
+// export const onFormLoaded = props => {
+//   const { returnUrl, formData, router } = props;
+//   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
+//   const shouldRevertWhenFlipperOff = redirectWhenFlipperOff(props);
+//   const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
+//   const redirectUrl = legacy4142AuthURL;
+
+//   if (shouldRedirectToModern4142Choice === true) {
+//     // if we should redirect to the modern 4142 choice page, we set the shared variable
+//     // and redirect to the redirectUrl (the modern 4142 choice page)
+//     setSharedVariable('alertNeedsShown4142', shouldRedirectToModern4142Choice);
+//     router.push(redirectUrl);
+//   } else if (
+//     // if the returnUrl is the modern 4142 choice page and the flipper is not enabled,
+//     // then we toggled flipper on, the user got to this page, then we turned the flipper off
+//     // this happens a lot in development and testing but would only happen if we do a rollback in production
+//     // if the user is set to redirect to a page that is set to be hidden they get stuck in a loop so we must place them on the previous page
+//     shouldRedirectToModern4142Choice === false &&
+//     shouldRevertWhenFlipperOff === true
+//   ) {
+//     router.push(redirectUrl);
+//   } else if (
+//     shouldRedirectToModern4142Choice === false &&
+//     shouldRevertWhenNoEvidence === true
+//   ) {
+//     router.push('/supporting-evidence/evidence-types');
+//   } else {
+//     // otherwise, we just redirect to the returnUrl as usual when resuming a form
+//     router.push(returnUrl);
+//   }
+// };
+
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
@@ -1012,7 +1047,29 @@ export const onFormLoaded = props => {
   ) {
     router.push('/supporting-evidence/evidence-types');
   } else {
-    // otherwise, we just redirect to the returnUrl as usual when resuming a form
+    const path = normalizePath(returnUrl || '');
+    const here = normalizePath(window.location.pathname || '');
+
+    if (
+      isNewConditionsOn(formData) &&
+      includesAny(path, CURRENT_WORKFLOW_URLS)
+    ) {
+      const target = '/conditions/orientation';
+      if (normalizePath(target) !== here) router.push(target);
+      return;
+    }
+
+    if (isNewConditionsOff(formData) && includesAny(path, NEW_WORKFLOW_URLS)) {
+      const target = '/veteran-information';
+      if (normalizePath(target) !== here) router.push(target);
+      return;
+    }
+    // if (isNewConditionsOff(formData)) {
+    //   const target = '/veteran-information';
+    //   if (normalizePath(target) !== here) router.push(target);
+    //   return;
+    // }
+
     router.push(returnUrl);
   }
 };

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ConfirmationDisCondNewDisabilities from './ConfirmationDisCondNewDisabilities';
-import ConfirmationDisCondRatedDisabilities from './ConfirmationDisCondRatedDisabilities';
+import ConfirmationNewDisabilities from './ConfirmationNewDisabilities';
+import ConfirmationRatedDisabilities from './ConfirmationRatedDisabilities';
 
 const ConfirmationNewAndRatedConditions = ({ formData }) => {
   return (
     <>
-      <ConfirmationDisCondRatedDisabilities formData={formData} />
-      <ConfirmationDisCondNewDisabilities formData={formData} />
+      <ConfirmationRatedDisabilities formData={formData} />
+      <ConfirmationNewDisabilities formData={formData} />
     </>
   );
 };
