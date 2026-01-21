@@ -74,7 +74,7 @@ const deriveRatedIncreaseSelections = (formData = {}) => {
   return [...deduped.values()];
 };
 
-const ConfirmationDisCondRatedDisabilities = ({ formData }) => {
+const ConfirmationRatedDisabilities = ({ formData }) => {
   const selectedRated = deriveRatedIncreaseSelections(formData);
 
   return (
@@ -114,11 +114,11 @@ const ConfirmationDisCondRatedDisabilities = ({ formData }) => {
   );
 };
 
-ConfirmationDisCondRatedDisabilities.propTypes = {
+ConfirmationRatedDisabilities.propTypes = {
   formData: PropTypes.shape({
     ratedDisabilities: PropTypes.array,
     newDisabilities: PropTypes.array,
   }),
 };
 
-export default ConfirmationDisCondRatedDisabilities;
+export default ConfirmationRatedDisabilities;
