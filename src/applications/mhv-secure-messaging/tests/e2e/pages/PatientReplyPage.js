@@ -122,12 +122,6 @@ class PatientReplyPage {
       .find(`h2`)
       .should(`be.visible`);
   };
-
-  verifyDraftReplyVisible = () => {
-    cy.get(Locators.REPLY_FORM)
-      .find(`h2`)
-      .should(`be.visible`);
-  };
 }
 
 export default new PatientReplyPage();
