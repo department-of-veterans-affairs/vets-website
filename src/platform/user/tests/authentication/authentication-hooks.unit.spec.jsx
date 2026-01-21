@@ -71,13 +71,15 @@ describe('authentication - hooks', () => {
 
         await waitForNextUpdate();
 
-        expect(result.current?.href).to.include(
-          'https://dev-api.va.gov/v0/sign_in/authorize',
+        const href = decodeURIComponent(result.current?.href);
+
+        expect(href).to.include('https://dev-api.va.gov/v0/sign_in/authorize');
+        expect(href).to.include(
+          'acr=urn:acr.va.gov:verified-facial-match-required',
         );
-        expect(result.current?.href).to.include('acr=ial2');
-        expect(result.current?.href).to.include('type=logingov');
-        expect(result.current?.href).to.include('state=');
-        expect(result.current?.href).to.include('code_challenge=');
+        expect(href).to.include('type=logingov');
+        expect(href).to.include('state=');
+        expect(href).to.include('code_challenge=');
       });
     });
   });
