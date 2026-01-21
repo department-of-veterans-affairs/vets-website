@@ -680,13 +680,15 @@ const formConfig = {
             'Supporting documents and additional forms for your disability claim',
           depends: formData =>
             formData.disability526SupportingEvidenceEnhancement,
+          // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
           path: 'supporting-evidence/additional-evidence-intro',
           uiSchema: evidenceChoiceIntro.uiSchema,
           schema: evidenceChoiceIntro.schema,
         },
         evidenceChoiceAdditionalDocuments: {
           title: 'Non-VA treatment records you uploaded',
-          path: 'supporting-evidence/additional-evidence-enhancement', // NOTE: a temporary copy of `additionalDocuments` for testing purposes
+          // NOTE: a temporary copy of `additionalDocuments` for testing purposes
+          path: 'supporting-evidence/additional-evidence-enhancement',
           depends: formData =>
             hasEvidenceChoice(formData) &&
             formData.disability526SupportingEvidenceEnhancement,

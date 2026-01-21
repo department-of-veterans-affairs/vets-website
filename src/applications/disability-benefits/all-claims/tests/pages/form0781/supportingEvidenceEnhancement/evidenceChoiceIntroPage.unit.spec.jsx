@@ -1,0 +1,62 @@
+import React from 'react';
+import { expect } from 'chai';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { render } from '@testing-library/react';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import formConfig from '../../../../config/form';
+
+describe('evidenceChoiceIntroPage', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceIntro;
+  //   TODO update the variable name once evidence-choice-upload page is created
+  const {
+    depends: tempEvidenceChoiceAdditionalDocuments,
+  } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceAdditionalDocuments;
+  const summaryOfEvidencePage =
+    formConfig.chapters.supportingEvidence.pages.summaryOfEvidence;
+  it('should render', () => {
+    const { container } = render(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+      />,
+    );
+
+    expect($$('va-radio-option').length).to.equal(2);
+
+    const question = container.querySelector('va-radio');
+    expect(question).to.have.attribute(
+      'label',
+      'Are there any supporting documents or additional forms that you want us to review with your claim?',
+    );
+
+    expect(container.querySelector('va-radio-option[label="Yes"', container)).to
+      .exist;
+    expect(container.querySelector('va-radio-option[label="No"', container)).to
+      .exist;
+  });
+  // TODO update test when new evidence-choice-upload page is created
+  it('should show evidence-choice-upload(eventually) page when veteran selects "Yes" and feature flag is enabled', () => {
+    const formData = {
+      'view:hasEvidenceChoice': true, // Veteran selected YES
+      //   TODO remove feature toggle when enhancement is fully launched
+      disability526SupportingEvidenceEnhancement: true, // feature toggle ON
+    };
+    expect(tempEvidenceChoiceAdditionalDocuments(formData)).to.be.true;
+  });
+  it('should not show evidence-choice-upload page when veteran selects "No" and show the summary of evidence page', () => {
+    const formData = {
+      'view:hasEvidenceChoice': false, // Veteran selected NO
+      //   TODO remove feature toggle when enhancement is fully launched
+      disability526SupportingEvidenceEnhancement: true, // feature toggle ON
+    };
+    expect(tempEvidenceChoiceAdditionalDocuments(formData)).to.be.false;
+    expect(summaryOfEvidencePage).to.exist;
+    expect(summaryOfEvidencePage.path).to.equal('supporting-evidence/summary');
+  });
+});

@@ -13,7 +13,7 @@ export const uiSchema = {
   'ui:description': evidenceChoiceIntroDescriptionContent,
   'view:hasEvidenceChoice': yesNoUI({
     title:
-      'Are there any supporting documents or additional forms that you want us to review with your claim? ',
+      'Are there any supporting documents or additional forms that you want us to review with your claim?',
   }),
 };
 
