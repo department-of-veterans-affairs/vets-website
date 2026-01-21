@@ -109,17 +109,18 @@ describe('addressPattern mapping functions', () => {
       expect(result).to.have.property('country');
       expect(result).to.have.property('isMilitary');
     });
-    it('should omit using mapped field names in omit array', () => {
+
+    it('should omit mapped field when standard key is in omit array', () => {
       const keys = {
         street: 'addressLine1',
       };
 
       const result = addressUI({
         keys,
-        omit: ['street'], // Omit using the mapped name
+        omit: ['street'], // Omit using the standard name; mapped field should also be omitted
       });
 
-      // Should NOT have the mapped field (omitted by mapped name)
+      // Should NOT have the mapped field (omitted by standard key)
       expect(result).to.not.have.property('addressLine1');
       expect(result).to.not.have.property('street');
     });
@@ -129,18 +130,11 @@ describe('addressPattern mapping functions', () => {
         street: 'addressLine1',
       };
 
-      try {
-        addressUI({
-          keys,
-          omit: ['addressLine1'], // Omit using the mapped name
-        });
-        expect.fail('Expected error was not thrown');
-      } catch (e) {
-        // expect error: omit: Invalid key mappings: addressLine1. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary
-        expect(e.message).to.match(
-          /omit: Invalid key mappings: addressLine1. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
-        );
-      }
+      expect(
+        () => addressUI({ keys, omit: ['addressLine1'] }), // Omit using mapped name
+      ).to.throw(
+        /omit: Invalid key mappings: addressLine1. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
+      );
     });
 
     it('should pass through other options to base addressUI', () => {
@@ -289,16 +283,14 @@ describe('addressPattern mapping functions', () => {
           postalCode: 'zipCode',
         };
 
-        try {
+        expect(() =>
           addressSchema({
             keys,
             omit: ['addressLine1', 'zipCode'], // Using mapped names in omit
-          });
-        } catch (e) {
-          expect(e.message).to.match(
-            /omit: Invalid key mappings: addressLine1, zipCode. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
-          );
-        }
+          }),
+        ).to.throw(
+          /omit: Invalid key mappings: addressLine1, zipCode. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
+        );
       });
 
       it('should handle partial key mapping correctly', () => {
@@ -350,13 +342,9 @@ describe('addressPattern mapping functions', () => {
           nonExistentField: 'mappedNonExistent',
         };
 
-        try {
-          addressSchema({ keys });
-        } catch (e) {
-          expect(e.message).to.match(
-            /keys: Invalid key mappings: nonExistentField. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary/,
-          );
-        }
+        expect(() => addressSchema({ keys })).to.throw(
+          /keys: Invalid key mappings: nonExistentField. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary./,
+        );
       });
     });
   });
@@ -1093,13 +1081,9 @@ describe('addressPattern mapping functions', () => {
         unsafeField: 'customField',
       };
 
-      try {
-        applyKeyMapping(schema, keys);
-      } catch (e) {
-        expect(e.message).to.match(
-          /keys: Invalid key mappings: unsafeField. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary./,
-        );
-      }
+      expect(() => applyKeyMapping(schema, keys)).to.throw(
+        /keys: Invalid key mappings: unsafeField. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary./,
+      );
     });
 
     it('should handle multiple separate unsafe field mappings', () => {
@@ -1114,13 +1098,9 @@ describe('addressPattern mapping functions', () => {
         unsafeField2: 'customField2',
       };
 
-      try {
-        applyKeyMapping(schema, keys);
-      } catch (e) {
-        expect(e.message).to.match(
-          /keys: Invalid key mappings: unsafeField1, unsafeField2. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary./,
-        );
-      }
+      expect(() => applyKeyMapping(schema, keys)).to.throw(
+        /keys: Invalid key mappings: unsafeField1, unsafeField2. Valid mappable fields are: country, city, state, street, street2, street3, postalCode, isMilitary./,
+      );
     });
 
     it('should not log warnings when no mapping keys are provided', () => {

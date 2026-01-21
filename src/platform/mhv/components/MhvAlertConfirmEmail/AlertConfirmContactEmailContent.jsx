@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaButton,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const AlertConfirmContactEmailContent = ({
   emailAddress,
+  isConfirming = false,
   onConfirmClick,
 }) => (
   <React.Fragment key=".1">
@@ -20,7 +18,13 @@ export const AlertConfirmContactEmailContent = ({
     </p>
 
     <p>
-      <VaButton onClick={onConfirmClick} text="Confirm" />
+      <va-button
+        data-testid="mhv-alert--confirm-email-button"
+        text={isConfirming ? 'Confirming' : 'Confirm'}
+        onClick={onConfirmClick}
+        loading={isConfirming}
+        class="vads-u-width--full mobile-lg:vads-u-width--auto vads-u-margin-top--1 vads-u-margin-bottom--1 hydrated"
+      />
     </p>
 
     <p>
@@ -35,6 +39,7 @@ export const AlertConfirmContactEmailContent = ({
 AlertConfirmContactEmailContent.propTypes = {
   emailAddress: PropTypes.string.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
+  isConfirming: PropTypes.bool,
 };
 
 export default AlertConfirmContactEmailContent;

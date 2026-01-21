@@ -99,18 +99,12 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You have no refills left. If you need more, request a renewal.
+                You can’t refill this prescription. If you need more, send a
+                secure message to your care team
               </p>
               <SendRxRenewalMessage
                 rx={rx}
                 showFallBackContent={showRenewalLink}
-                fallbackContent={
-                  <va-link
-                    href="/resources/how-to-renew-a-va-prescription"
-                    text="Learn how to renew prescriptions"
-                    data-testid="learn-to-renew-prescriptions-link"
-                  />
-                }
               />
             </div>
           );
@@ -131,18 +125,9 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="inactive">
-                    This prescription is inactive. If you need more, contact
-                    your VA provider.
+                    You can’t refill this prescription. Contact your VA provider
+                    if you need more of this medication.
                   </p>
-                  <va-link
-                    href="/resources/how-to-renew-a-va-prescription"
-                    text="Learn how to renew prescriptions"
-                    data-testid="learn-to-renew-precsriptions-link"
-                    data-dd-action-name={
-                      dataDogActionNames.detailsPage
-                        .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
-                    }
-                  />
                 </>
               }
             />
@@ -277,18 +262,9 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="expired">
-                    This prescription is too old to refill. If you need more,
-                    request a renewal.
+                    You can’t refill this prescription. Contact your VA provider
+                    if you need more of this medication.
                   </p>
-                  <va-link
-                    href="/resources/how-to-renew-a-va-prescription"
-                    text="Learn how to renew prescriptions"
-                    data-testid="learn-to-renew-precsriptions-link"
-                    data-dd-action-name={
-                      dataDogActionNames.detailsPage
-                        .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
-                    }
-                  />
                 </>
               }
             />
@@ -299,8 +275,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="discontinued">
-              You can’t refill this prescription. If you need more, send a
-              message to your care team.
+              You can’t refill this prescription. Contact your VA provider if
+              you need more of this medication.
             </p>
             <va-link
               href={`${
@@ -342,8 +318,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             className="vads-u-margin-y--0 no-print"
             data-testid="active-onHold"
           >
-            You can’t refill this prescription online right now. If you need a
-            refill, call your VA pharmacy
+            You can’t refill this prescription. Contact your VA provider if you
+            need more of this medication.
             <CallPharmacyPhone
               cmopDivisionPhone={pharmacyPhone}
               page={pageType.DETAILS}
@@ -359,18 +335,12 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You have no refills left. If you need more, request a renewal.
+                You can’t refill this prescription. If you need more, send a
+                secure message to your care team.
               </p>
               <SendRxRenewalMessage
                 rx={rx}
                 showFallBackContent={showRenewalLink}
-                fallbackContent={
-                  <va-link
-                    href="/resources/how-to-renew-a-va-prescription"
-                    text="Learn how to renew prescriptions"
-                    data-testid="learn-to-renew-prescriptions-link"
-                  />
-                }
               />
             </div>
           );
