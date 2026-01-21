@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import { formatDate } from '../../config/helpers';
 import { getConversationLink } from '../../utils/links';
 
@@ -46,17 +47,19 @@ export default function InquiryCard({ inquiry }) {
       </div>
       <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter" />
       <p className="submitter-question">{inquiry.submitterQuestion}</p>
-      <div className="conversation-link">
+      <Link
+        to={getConversationLink(inquiry.inquiryNumber)}
+        className="conversation-link"
+      >
         <va-link
           active
-          href={getConversationLink(inquiry.inquiryNumber)}
           text="Review conversation"
           label={`Review conversation for question submitted on ${formatDate(
             inquiry.createdOn,
             'long',
           )}`}
         />
-      </div>
+      </Link>
     </va-card>
   );
 }

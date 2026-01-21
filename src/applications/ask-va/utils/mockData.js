@@ -1278,7 +1278,7 @@ export const mockInquiries = {
         correspondences: null,
         hasBeenSplit: false,
         inquiryTopic: 'Work study',
-        levelOfAuthentication: 'Business',
+        levelOfAuthentication: 'Personal',
         lastUpdate: '12/12/2024 12:00:00 AM',
         queueId: '4e7de9d5-1b6b-eb11-b0b0-001dd8309f34',
         queueName: 'Muskogee Work Study',
