@@ -170,7 +170,9 @@ const Prescriptions = () => {
     [prescriptionsData],
   );
 
-  const filteredList = prescriptionsData?.prescriptions || [];
+  const filteredList = useMemo(() => prescriptionsData?.prescriptions || [], [
+    prescriptionsData?.prescriptions,
+  ]);
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
@@ -756,7 +758,11 @@ const Prescriptions = () => {
         hasError={
           hasExportListDownloadError || isAlertVisible || !!allergiesError
         }
-        isFullList={printedList.length > 0 ? printedList.length === prescriptionsExportList.length : true}
+        isFullList={
+          printedList.length > 0
+            ? printedList.length === prescriptionsExportList.length
+            : true
+        }
       />
     </div>
   );
