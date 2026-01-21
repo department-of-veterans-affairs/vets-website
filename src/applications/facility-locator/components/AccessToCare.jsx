@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { isEmpty, compact } from 'lodash';
 import moment from 'moment';
@@ -105,3 +106,21 @@ export default function AccessToCare({ location }) {
     </div>
   );
 }
+
+AccessToCare.propTypes = {
+  location: PropTypes.shape({
+    attributes: PropTypes.shape({
+      facilityType: PropTypes.string,
+      feedback: PropTypes.shape({
+        effectiveDate: PropTypes.string,
+        health: PropTypes.shape({
+          effectiveDate: PropTypes.string,
+          primaryCareRoutine: PropTypes.number,
+          primaryCareUrgent: PropTypes.number,
+          specialtyCareRoutine: PropTypes.number,
+          specialtyCareUrgent: PropTypes.number,
+        }),
+      }),
+    }),
+  }),
+};

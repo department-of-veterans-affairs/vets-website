@@ -69,11 +69,10 @@ InputWithClear.propTypes = {
   showDownCaret: PropTypes.bool.isRequired,
   onClearClick: PropTypes.func.isRequired,
   className: PropTypes.string,
-  dropdownIsOpen: PropTypes.bool,
-  dropdownId: PropTypes.string,
   downshiftInputProps: PropTypes.object,
+  dropdownId: PropTypes.string,
+  dropdownIsOpen: PropTypes.bool,
   inputRef: PropTypes.any,
-  // others not specified, may be passed from function
 };
 
 export default InputWithClear;

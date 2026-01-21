@@ -128,9 +128,10 @@ export const resolveParamsWithUrl = ({
       if (!('bbox' in postLocationParams)) {
         postLocationParams.bbox = [];
       }
-      postLocationParams.bbox.push(param.split('=')[1]);
+      const [, value] = param.split('=');
+      postLocationParams.bbox.push(value);
     } else {
-      postLocationParams[arr[0]] = arr[1];
+      [, postLocationParams[arr[0]]] = arr;
     }
   });
 

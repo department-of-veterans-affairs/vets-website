@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'platform/utilities/data/get';
 
@@ -47,6 +48,21 @@ const ProviderServiceDescription = ({ provider, details = false }) => {
       )}
     </div>
   );
+};
+
+ProviderServiceDescription.propTypes = {
+  details: PropTypes.bool,
+  provider: PropTypes.shape({
+    attributes: PropTypes.shape({
+      relationships: PropTypes.object,
+      specialty: PropTypes.arrayOf(
+        PropTypes.shape({
+          desc: PropTypes.string,
+          name: PropTypes.string,
+        }),
+      ),
+    }),
+  }),
 };
 
 export default ProviderServiceDescription;

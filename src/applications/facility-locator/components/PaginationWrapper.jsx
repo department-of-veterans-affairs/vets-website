@@ -1,4 +1,5 @@
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { LocationType } from '../constants';
@@ -36,6 +37,15 @@ export class PaginationWrapper extends Component {
     return null;
   }
 }
+
+PaginationWrapper.propTypes = {
+  currentPage: PropTypes.number,
+  handlePageSelect: PropTypes.func,
+  inProgress: PropTypes.bool,
+  results: PropTypes.array,
+  shouldRender: PropTypes.bool,
+  totalPages: PropTypes.number,
+};
 
 const mapStateToProps = state => {
   let shouldHidePagination = false;
