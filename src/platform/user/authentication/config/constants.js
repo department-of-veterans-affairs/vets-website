@@ -27,7 +27,10 @@ export const defaultWebOAuthOptions = {
   clientId: CLIENT_IDS.VAWEB,
   acr: { idme: 'min', dslogon: 'min', logingov: 'min' },
   acrSignup: { idme_signup: 'min', logingov_signup: 'min' },
-  acrVerify: { idme: 'loa3', logingov: 'ial2' },
+  acrVerify: {
+    idme: 'loa3',
+    logingov: 'urn:acr.va.gov:verified-facial-match-required',
+  },
 };
 
 export const arpWebOAuthOptions = {

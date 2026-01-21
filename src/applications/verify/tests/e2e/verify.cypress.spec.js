@@ -67,9 +67,11 @@ describe('Verify App', () => {
     cy.get('.idme-verify-button').should('not.exist');
   });
 
-  it('should have an acr value of "ial2" when the Login.gov verify button is clicked', () => {
+  it('should have an acr value of "urn:acr.va.gov:verified-facial-match-required" when the Login.gov verify button is clicked', () => {
     cy.intercept('GET', '/v0/sign_in/authorize*', req => {
-      expect(req.query.acr).to.equal('ial2');
+      expect(req.query.acr).to.equal(
+        'urn:acr.va.gov:verified-facial-match-required',
+      );
     }).as('verifyRequest');
 
     cy.visit(manifest.rootUrl);
