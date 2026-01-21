@@ -710,10 +710,7 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get(
           'va-radio-option[name="root_mailingAddress_city"][checked="true"]',
         ).should('have.value', city);
-        cy.get('va-radio[label="Military post office"]').should(
-          'contain',
-          /military post office/i,
-        );
+        cy.contains('legend', /military post office/i).should('exist');
         cy.get(
           'va-radio-option[name="root_mailingAddress_state"][checked="true"]',
         ).should('have.value', state);
