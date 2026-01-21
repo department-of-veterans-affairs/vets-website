@@ -17,6 +17,11 @@ import {
   reducers,
   vassApi,
 } from '../utils/test-utils';
+import {
+  otcInvalidError,
+  otcAccountLockedError,
+  otcSuccess,
+} from '../tests/fixtures';
 
 // Helper component to display current location for testing navigation
 const LocationDisplay = () => {
@@ -82,16 +87,7 @@ describe('VASS Component: EnterOTC', () => {
 
   describe('API error handling', () => {
     it('should display error alert for invalid_otc with multiple attempts remaining', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'invalid_otc',
-            detail: 'Invalid or expired OTC',
-            attemptsRemaining: 2,
-            status: 401,
-          },
-        ],
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), otcInvalidError());
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -105,16 +101,10 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
     it('should display specific error message when only 1 attempt remaining', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'invalid_otc',
-            detail: 'Invalid or expired OTC',
-            attemptsRemaining: 1,
-            status: 401,
-          },
-        ],
-      });
+      setFetchJSONFailure(
+        global.fetch.onCall(0),
+        otcInvalidError({ attemptsRemaining: 1 }),
+      );
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -128,16 +118,7 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
     it('should display account locked error message', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'account_locked',
-            detail: 'Too many failed attempts',
-            status: 401,
-            retryAfter: 900,
-          },
-        ],
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), otcAccountLockedError());
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -151,16 +132,7 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
     it('should hide success alert when error is displayed', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'invalid_otc',
-            detail: 'Invalid or expired OTC',
-            attemptsRemaining: 2,
-            status: 401,
-          },
-        ],
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), otcInvalidError());
       const { container, getByTestId, queryByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -171,16 +143,7 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
     it('should clear the OTC input after an error', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'invalid_otc',
-            detail: 'Invalid or expired OTC',
-            attemptsRemaining: 2,
-            status: 401,
-          },
-        ],
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), otcInvalidError());
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -194,13 +157,7 @@ describe('VASS Component: EnterOTC', () => {
 
   describe('successful OTC verification', () => {
     it('should navigate to date-time page on successful verification', async () => {
-      setFetchJSONResponse(global.fetch.onCall(0), {
-        data: {
-          token: 'jwt-token',
-          expiresIn: 3600,
-          tokenType: 'Bearer',
-        },
-      });
+      setFetchJSONResponse(global.fetch.onCall(0), otcSuccess());
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
@@ -248,13 +205,7 @@ describe('VASS Component: EnterOTC', () => {
     });
 
     it('should navigate to cancel appointment page on successful verification', async () => {
-      setFetchJSONResponse(global.fetch.onCall(0), {
-        data: {
-          token: 'jwt-token',
-          expiresIn: 3600,
-          tokenType: 'Bearer',
-        },
-      });
+      setFetchJSONResponse(global.fetch.onCall(0), otcSuccess());
 
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
