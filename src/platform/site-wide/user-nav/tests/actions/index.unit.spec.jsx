@@ -16,9 +16,6 @@ describe('User Nav Actions', () => {
   describe('toggleLoginModal', () => {
     let store;
     const oldLocation = global.window.location;
-    const featureToggleNotEnabled = {
-      featureToggles: { cernerNonEligibleSisEnabled: false },
-    };
 
     beforeEach(() => {
       store = createStore(reducers, applyMiddleware(thunk));
@@ -34,10 +31,7 @@ describe('User Nav Actions', () => {
       } the loginModal`, async () => {
         const options = { isOpen, trigger: 'header' };
 
-        await toggleLoginModal(options.isOpen, options.trigger)(
-          store.dispatch,
-          () => ({ ...featureToggleNotEnabled }),
-        );
+        await toggleLoginModal(options.isOpen, options.trigger)(store.dispatch);
 
         const state = store.getState();
         expect(state.showLoginModal).to.eql(isOpen);
@@ -49,9 +43,8 @@ describe('User Nav Actions', () => {
 
     it('should append `verification=required` when dispatched as such', async () => {
       expect(global.window.location.href.includes('localhost')).to.be.true;
-      await toggleLoginModal(true, '', true)(store.dispatch, () => ({
-        ...featureToggleNotEnabled,
-      }));
+
+      await toggleLoginModal(true, '', true)(store.dispatch);
 
       expect(global.window.location.href.includes('verification=required')).to
         .be.true;
@@ -59,9 +52,8 @@ describe('User Nav Actions', () => {
 
     it('should append `?next=loginModal` query parameter when opened', async () => {
       expect(global.window.location.href.includes('localhost')).to.be.true;
-      await toggleLoginModal(true)(store.dispatch, () => ({
-        ...featureToggleNotEnabled,
-      }));
+
+      await toggleLoginModal(true)(store.dispatch);
 
       expect(global.window.location.href.includes('?next=loginModal')).to.be
         .true;
@@ -71,9 +63,7 @@ describe('User Nav Actions', () => {
       const expectedNextParam = '?next=disabilityBenefits';
       global.window.location = new URL(`http://localhost/${expectedNextParam}`);
 
-      await toggleLoginModal(true)(store.dispatch, () => ({
-        ...featureToggleNotEnabled,
-      }));
+      await toggleLoginModal(true)(store.dispatch);
 
       expect(global.window.location.href.includes('?next=disabilityBenefits'))
         .to.be.true;
@@ -82,9 +72,7 @@ describe('User Nav Actions', () => {
     it('should remove all query parameters when closing the modal', async () => {
       global.window.location.search = '?next=loginModal&oauth=false';
 
-      await toggleLoginModal(false)(store.dispatch, () => ({
-        ...featureToggleNotEnabled,
-      }));
+      await toggleLoginModal(false)(store.dispatch);
 
       expect(global.window.location.href).to.eql('http://localhost/');
     });

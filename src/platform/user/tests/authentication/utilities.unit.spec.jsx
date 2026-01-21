@@ -750,9 +750,8 @@ describe('Authentication Utilities', () => {
       document.cookie = '';
     });
 
-    it('should return false by default', () => {
-      expect(authUtilities.determineAuthBroker()).to.be.false;
-      expect(authUtilities.determineAuthBroker(false, false)).to.be.false;
+    it('should return true by default', () => {
+      expect(authUtilities.determineAuthBroker()).to.be.true;
     });
 
     it('should return `true` when no cookie is found', () => {
