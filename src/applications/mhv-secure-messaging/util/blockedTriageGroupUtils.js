@@ -109,13 +109,26 @@ export const buildBlockedItemsList = (
   blockedRecipients,
   blockedFacilityObjects,
 ) => {
+  // If neither has items, return empty
   if (!blockedRecipients?.length && !blockedFacilityObjects?.length) return [];
 
-  if (blockedRecipients?.length <= 1 || !blockedFacilityObjects?.length) {
+  // If only blocked facilities (no individual blocked recipients)
+  if (!blockedRecipients?.length && blockedFacilityObjects?.length) {
+    return sortTriageList(blockedFacilityObjects);
+  }
+
+  // If only blocked recipients (no blocked facilities)
+  if (!blockedFacilityObjects?.length && blockedRecipients?.length) {
+    return sortTriageList(blockedRecipients);
+  }
+
+  // If 1 or fewer blocked recipients, just return them (don't combine with facilities)
+  // This handles the case where we want to show just the blocked recipient
+  if (blockedRecipients?.length <= 1) {
     return sortTriageList(blockedRecipients || []);
   }
 
-  // Exclude individual teams that belong to fully blocked facilities
+  // Both have items - exclude individual teams that belong to fully blocked facilities
   const teamsNotInBlockedFacilities = blockedRecipients.filter(
     team =>
       !blockedFacilityObjects.some(
