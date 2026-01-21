@@ -110,6 +110,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`resolve-link-${id}`}
             onClick={event => {
               event.preventDefault();
+              dispatch(getCopayDetailPageData('4-2vKmP9xQr3nTw'));
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}/resolve`);
             }}
