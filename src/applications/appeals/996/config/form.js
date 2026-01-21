@@ -1,39 +1,48 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
-
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 
-import migrations from '../migrations';
-import prefillTransformer from './prefill-transformer';
-import { transform } from './submit-transformer';
-import submitForm from './submitForm';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+// Components
 import AddContestableIssue from '../components/AddContestableIssue';
-import SubTaskContainer from '../subtask/SubTaskContainer';
+import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
+import ConfirmationPage from '../containers/ConfirmationPage';
 import InformalConference from '../components/InformalConference';
 import InformalConferenceContact from '../components/InformalConferenceContact';
+import InformalConferenceReview from '../components/InformalConferenceReview';
+import IntroductionPage from '../containers/IntroductionPage';
+import SubTaskContainer from '../subtask/SubTaskContainer';
 
 // Pages
-import veteranInformation from '../pages/veteranInformation';
-import homeless from '../pages/homeless';
-import contactInfo from '../pages/contactInformation';
-import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
-import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import authorization from '../pages/authorization';
-import issueSummary from '../pages/issueSummary';
+import contactInfo from '../pages/contactInformation';
+import contestableIssuesPage from '../pages/contestableIssues';
+import homeless from '../pages/homeless';
 import informalConference from '../pages/informalConferenceChoice';
-import InformalConferenceReview from '../components/InformalConferenceReview';
 import informalConferenceContact from '../pages/informalConference';
 import InformalConferenceContactReview from '../components/InformalConferenceContactReview';
 import informalConferenceRepV2 from '../pages/informalConferenceRep';
 import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
+import issueSummary from '../pages/issueSummary';
+import veteranInformation from '../pages/veteranInformation';
 
+// Content
+import { homelessPageTitle } from '../content/homeless';
+import { formTitle, subTitle } from '../content/title';
+import GetFormHelp from '../../shared/content/GetFormHelp';
+import submissionError from '../../shared/content/submissionError';
+import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
+import reviewErrors from '../../shared/content/reviewErrors';
+
+// Utils
+import manifest from '../manifest.json';
+import migrations from '../migrations';
+import prefillTransformer from './prefill-transformer';
+import { transform } from './submit-transformer';
+import submitForm from './submitForm';
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
 import {
@@ -42,20 +51,10 @@ import {
   showConferenceVeteranPage,
   showConferenceRepPages,
 } from '../utils/helpers';
-import { homelessPageTitle } from '../content/homeless';
-import { formTitle, subTitle } from '../content/title';
-
-import GetFormHelp from '../../shared/content/GetFormHelp';
-import submissionError from '../../shared/content/submissionError';
-import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
-import reviewErrors from '../../shared/content/reviewErrors';
 import { focusH3, focusOnAlert, focusIssue } from '../../shared/utils/focus';
-
 // import initialData from '../tests/initialData';
-
-import manifest from '../manifest.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,

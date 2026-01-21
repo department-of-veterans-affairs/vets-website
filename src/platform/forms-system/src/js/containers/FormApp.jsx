@@ -133,7 +133,12 @@ const FormApp = props => {
           {CustomTopContent && (
             <CustomTopContent currentLocation={currentLocation} />
           )}
-          {useTopBackLink && <BackLink text={formConfig?.backLinkText} />}
+          {useTopBackLink && (
+            <BackLink
+              text={formConfig?.backLinkText}
+              dynamicPaths={formConfig.dynamicPaths}
+            />
+          )}
           {notProd && noTitle ? null : formTitle}
           {notProd && noTopNav ? null : formNav}
           <Element name="topContentElement" />

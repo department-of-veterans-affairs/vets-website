@@ -19,7 +19,6 @@ import {
   extractSpecimen,
   labsAndTestsReducer,
   mergeRadiologyLists,
-  formatDateTime,
   convertUnifiedLabsAndTestRecord,
   convertPathologyRecord,
 } from '../../reducers/labsAndTests';
@@ -939,32 +938,6 @@ describe('labsAndTestsReducer', () => {
   });
 });
 
-describe('formatDateTime', () => {
-  it('should format a valid datetime string correctly', () => {
-    const datetimeString = '2025-04-22T14:30:00Z';
-    const result = formatDateTime(datetimeString);
-    expect(result.formattedDate).to.equal('April 22, 2025');
-  });
-
-  it('should handle invalid datetime strings gracefully', () => {
-    const datetimeString = 'invalid-date';
-    const result = formatDateTime(datetimeString);
-    expect(result).to.deep.equal({
-      formattedDate: '',
-      formattedTime: '',
-    });
-  });
-
-  it('should handle empty datetime strings gracefully', () => {
-    const datetimeString = '';
-    const result = formatDateTime(datetimeString);
-    expect(result).to.deep.equal({
-      formattedDate: '',
-      formattedTime: '',
-    });
-  });
-});
-
 describe('convertUnifiedLabsAndTestRecord', () => {
   let clock;
   beforeEach(() => {
@@ -1017,7 +990,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     expect(result).to.deep.equal({
       id: 'test-id',
-      date: '',
+      date: EMPTY_FIELD,
       name: undefined,
       location: undefined,
       observations: undefined,
@@ -1048,7 +1021,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
 
     expect(result).to.deep.equal({
       id: 'test-id',
-      date: '',
+      date: EMPTY_FIELD,
       name: undefined,
       location: undefined,
       observations: undefined,
