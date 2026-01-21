@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { act, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -1243,11 +1243,15 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
 
     it('redirects to get-claim-error when getComplexClaimDetails rejects', async () => {
-      // Stub the thunk to throw an error, which should trigger the component's
-      // .catch() handler and set shouldRedirect to true
-      getComplexClaimDetailsStub.callsFake(() => () =>
-        Promise.reject(new Error('Failed')),
-      );
+      // Stub the thunk to dispatch the failure action and then throw
+      // This mimics the real action behavior which updates Redux state
+      getComplexClaimDetailsStub.callsFake(() => async dispatch => {
+        dispatch({
+          type: 'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE',
+          error: 'Failed to fetch claim',
+        });
+        throw new Error('Failed');
+      });
 
       const initialState = getData({
         complexClaimsEnabled: true,
@@ -1255,32 +1259,34 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         claimError: null,
       });
 
-      const { findByText } = renderWithStoreAndRouter(
-        <MemoryRouter
-          initialEntries={[`/file-new-claim/${appointmentId}/${claimId}`]}
-        >
-          <Routes>
-            <Route
-              path="/file-new-claim/:apptId/:claimId"
-              element={<ComplexClaimSubmitFlowWrapper />}
-            />
-            <Route
-              path="/file-new-claim/:apptId/get-claim-error"
-              element={<div>Get Claim Error Page</div>}
-            />
-          </Routes>
-        </MemoryRouter>,
-        { initialState, reducers: reducer },
-      );
+      let findByText;
+      // Wrap render in act() with a small delay to ensure async state updates complete
+      // This addresses timing issues where React's internal scheduling of state updates
+      // from async operations (fetch → setState) may not complete before assertions
+      await act(async () => {
+        const result = renderWithStoreAndRouter(
+          <MemoryRouter
+            initialEntries={[`/file-new-claim/${appointmentId}/${claimId}`]}
+          >
+            <Routes>
+              <Route
+                path="/file-new-claim/:apptId/:claimId"
+                element={<ComplexClaimSubmitFlowWrapper />}
+              />
+              <Route
+                path="/file-new-claim/:apptId/get-claim-error"
+                element={<div>Get Claim Error Page</div>}
+              />
+            </Routes>
+          </MemoryRouter>,
+          { initialState, reducers: reducer },
+        );
+        findByText = result.findByText;
+        await new Promise(resolve => setTimeout(resolve, 100));
+      });
 
       // Wait for the redirect to happen and the error page to appear
-      // Using findByText which automatically waits up to 1000ms by default
-      const errorPage = await findByText(
-        'Get Claim Error Page',
-        {},
-        { timeout: 5000 },
-      );
-      expect(errorPage).to.exist;
+      expect(await findByText('Get Claim Error Page')).to.exist;
     });
 
     it('does not redirect if isErrorRoute is already true', async () => {
