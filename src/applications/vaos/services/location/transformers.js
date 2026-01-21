@@ -70,11 +70,7 @@ export function transformFacilityV2(facility) {
  * @param {Array<Object>} params.settings An array of settings objects for a given location
  * @returns {Location} A Location resource
  */
-export function setSupportedSchedulingMethods({
-  location,
-  settings,
-  useVpg = false,
-} = {}) {
+export function setSupportedSchedulingMethods({ location, settings } = {}) {
   const { id } = location;
 
   const facilitySettings = settings.find(f => f.id === id);
@@ -95,9 +91,7 @@ export function setSupportedSchedulingMethods({
     identifier,
     legacyVAR: {
       ...location.legacyVAR,
-      settings: useVpg
-        ? arrayToObject(facilitySettings?.vaServices)
-        : arrayToObject(facilitySettings?.services),
+      settings: arrayToObject(facilitySettings?.services),
     },
   };
 }

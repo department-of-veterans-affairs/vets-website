@@ -136,21 +136,17 @@ describe('vaos/services/location/transformers', () => {
     const settingsMock = [
       {
         id: '983',
-        vaServices: [
+        services: [
           {
             id: TYPE_OF_CARE_IDS.PRIMARY_CARE,
-            clinicalServiceId: 'primaryCare',
+            direct: { enabled: true },
             bookedAppointments: true,
           },
           {
             id: TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
-            clinicalServiceId: 'audiology',
+            direct: { enabled: false },
             bookedAppointments: false,
           },
-        ],
-        services: [
-          { id: TYPE_OF_CARE_IDS.PRIMARY_CARE, direct: { enabled: true } },
-          { id: TYPE_OF_CARE_IDS.AUDIOLOGY_ID, direct: { enabled: false } },
         ],
       },
     ];
@@ -166,11 +162,10 @@ describe('vaos/services/location/transformers', () => {
       name: 'Test Location',
     };
 
-    it('should use services when useVpg is false', () => {
+    it('should use services array to populate legacyVAR.settings', () => {
       const result = setSupportedSchedulingMethods({
         location: { ...locationMock },
         settings: settingsMock,
-        useVpg: false,
       });
 
       expect(result.legacyVAR.settings).to.have.property(
@@ -184,18 +179,14 @@ describe('vaos/services/location/transformers', () => {
       ).to.equal(true);
     });
 
-    it('should use vaServices when useVpg is true', () => {
+    it('should include VPG format fields when present in services', () => {
       const result = setSupportedSchedulingMethods({
         location: { ...locationMock },
         settings: settingsMock,
-        useVpg: true,
       });
 
       expect(result.legacyVAR.settings).to.have.property(
         TYPE_OF_CARE_IDS.PRIMARY_CARE,
-      );
-      expect(result.legacyVAR.settings).to.have.property(
-        TYPE_OF_CARE_IDS.AUDIOLOGY_ID,
       );
       expect(
         result.legacyVAR.settings[TYPE_OF_CARE_IDS.PRIMARY_CARE]
@@ -213,7 +204,6 @@ describe('vaos/services/location/transformers', () => {
       const result = setSupportedSchedulingMethods({
         location: locationWithoutVHA,
         settings: settingsMock,
-        useVpg: false,
       });
 
       expect(result.identifier).to.have.lengthOf(1);
@@ -221,15 +211,13 @@ describe('vaos/services/location/transformers', () => {
       expect(result.identifier[0].value).to.equal('983');
     });
 
-    it('should default useVpg to false', () => {
+    it('should return empty settings when facility not found in settings', () => {
       const result = setSupportedSchedulingMethods({
-        location: { ...locationMock },
+        location: { ...locationMock, id: '999' },
         settings: settingsMock,
       });
 
-      expect(result.legacyVAR.settings).to.have.property(
-        TYPE_OF_CARE_IDS.PRIMARY_CARE,
-      );
+      expect(result.legacyVAR.settings).to.deep.equal({});
     });
   });
 
