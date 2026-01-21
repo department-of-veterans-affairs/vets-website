@@ -12,6 +12,7 @@ import recordEvent from 'platform/monitoring/record-event';
  * @property {string} api-name - Human-readable API identifier
  * @property {string|undefined} api-status - 'started' | 'successful' | 'failed'
  * @property {string|undefined} error-key - Error code/identifier when applicable
+ * @property {number|undefined} upload-cancel-file-count - Number of files being canceled
  * @property {number|undefined} upload-fail-alert-count - Count of Type 2 failure alerts visible
  * @property {number|undefined} upload-fail-file-count - Number of files that failed upload
  * @property {number|undefined} upload-file-count - Total files in upload batch
@@ -29,6 +30,7 @@ const BASE_UPLOAD_EVENT_KEYS = {
   'api-name': undefined,
   'api-status': undefined,
   'error-key': undefined,
+  'upload-cancel-file-count': undefined,
   'upload-fail-alert-count': undefined,
   'upload-fail-file-count': undefined,
   'upload-file-count': undefined,
@@ -358,6 +360,7 @@ export const recordUploadFailureEvent = ({
       'error-key': errorFiles[0]?.errors?.[0]?.detail || UNKNOWN_DOC_TYPE,
       'upload-fail-file-count': errorFiles.length,
       'upload-retry': retryFileCount > 0,
+      'upload-retry-file-count': retryFileCount,
     }),
   );
 };
@@ -374,7 +377,29 @@ export const recordUploadSuccessEvent = ({ fileCount, retryFileCount }) => {
       'api-name': 'Claims and Appeals Upload',
       'api-status': 'successful',
       'upload-retry': retryFileCount > 0,
+      'upload-retry-file-count': retryFileCount,
       'upload-success-file-count': fileCount,
+    }),
+  );
+};
+
+/**
+ * Records an upload cancel event to Google Analytics
+ * @param {Object} params - Event parameters
+ * @param {number} params.cancelFileCount - Number of files being canceled
+ * @param {number} params.retryFileCount - Number of canceled files that were retries
+ */
+export const recordUploadCancelEvent = ({
+  cancelFileCount,
+  retryFileCount,
+}) => {
+  recordEvent(
+    createUploadEvent('claims-upload-cancel', {
+      'api-name': 'Claims and Appeals Upload',
+      'api-status': 'cancel',
+      'upload-cancel-file-count': cancelFileCount,
+      'upload-retry': retryFileCount > 0,
+      'upload-retry-file-count': retryFileCount,
     }),
   );
 };

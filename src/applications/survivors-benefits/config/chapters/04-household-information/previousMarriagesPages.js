@@ -149,10 +149,10 @@ const summaryPage = {
         title:
           'Are there any other marriages to add that were before your marriage to the Veteran?',
       }),
-      'ui:required': formData =>
-        formData?.spouseHasAdditionalMarriages?.length === 2,
+      'ui:required': formData => formData?.spouseMarriages?.length === 2,
       'ui:options': {
-        hideIf: formData => formData?.spouseHasAdditionalMarriages?.length < 2,
+        hideIf: formData =>
+          !formData?.spouseMarriages || formData?.spouseMarriages?.length < 2,
       },
     },
   },

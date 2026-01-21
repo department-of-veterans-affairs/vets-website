@@ -6,8 +6,8 @@ import configureMockStore from 'redux-mock-store';
 import {
   createPutHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import {
   DIRECT_DEPOSIT_API_ENDPOINT,
@@ -72,23 +72,15 @@ const baseState = {
 describe('useDirectDeposit hook', () => {
   const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
   let store;
-  let server;
 
-  before(() => {
-    server = setupServer(
+  beforeEach(() => {
+    server.use(
       createPutHandler(endpointUrl, () =>
         jsonResponse(directDeposits.updates.success, { status: 200 }),
       ),
     );
-
-    server.listen();
-  });
-
-  beforeEach(() => {
     store = mockStore(baseState);
   });
-
-  after(() => server.close());
 
   it('returns direct deposit information for account and ui state', () => {
     const { result } = renderHook(() => useDirectDeposit(), {

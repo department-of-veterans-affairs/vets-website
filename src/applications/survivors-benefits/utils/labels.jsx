@@ -10,14 +10,30 @@ export const dicOptions = {
 };
 
 export const servicesOptions = {
-  army: 'Army',
-  navy: 'Navy',
-  airForce: 'Air Force',
-  coastGuard: 'Coast Guard',
-  marineCorps: 'Marine Corps',
-  spaceForce: 'Space Force',
-  usphs: 'USPHS',
-  noaa: 'NOAA',
+  army: {
+    label: 'Army',
+  },
+  navy: {
+    label: 'Navy',
+  },
+  airForce: {
+    label: 'Air Force',
+  },
+  coastGuard: {
+    label: 'Coast Guard',
+  },
+  marineCorps: {
+    label: 'Marine Corps',
+  },
+  spaceForce: {
+    label: 'Space Force',
+  },
+  usphs: {
+    label: 'USPHS',
+  },
+  noaa: {
+    label: 'NOAA',
+  },
 };
 
 export const claimantRelationshipOptions = {
