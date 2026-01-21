@@ -76,16 +76,13 @@ import passwordErrorState from '../utilities/file/passwordErrorState';
  * @param {WebComponentFieldProps} props */
 const VaFileInputField = props => {
   const { uiOptions = {}, childrenProps } = props;
-  const { formNumber } = uiOptions;
   const mappedProps = vaFileInputFieldMapping(props);
-  const { accept, fileUploadUrl } = mappedProps;
   const dispatch = useDispatch();
   const [error, setError] = useState(mappedProps.error);
   const [fileWithPassword, setFileWithPassword] = useState(null);
   const { percentUploaded, handleUpload } = useFileUpload(
-    fileUploadUrl,
-    accept,
-    formNumber,
+    uiOptions,
+    mappedProps.accept,
     dispatch,
   );
   const [encrypted, setEncrypted] = useState(false);
