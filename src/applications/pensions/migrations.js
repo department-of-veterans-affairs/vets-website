@@ -164,6 +164,16 @@ export default [
   },
   // 4 > 5, transform fields to new values
   ({ formData, metadata }) => {
+    /**
+     * @typedef {object} MarriageProps
+     * @property {object} view:pastMarriage - Past marriage details
+     * @property {string} view:pastMarriage.reasonForSeparation - Reason for separation
+     * @property {object} view:currentMarriage - Current marriage details
+     * @property {string} view:currentMarriage.marriageType - Type of marriage
+     *
+     * @param {MarriageProps} marriage - The marriage object to transform
+     * @returns {MarriageProps} - transformed marriage object
+     */
     function transformMarriage(marriage) {
       const transformedMarriage = { ...marriage };
       if (
@@ -207,6 +217,13 @@ export default [
       return transformedMarriage;
     }
 
+    /**
+     * @typedef {object} DependentProps
+     * @property {string} childRelationship - Relationship of the child
+     *
+     * @param {DependentProps} dependent - The dependent object to transform
+     * @returns {DependentProps} - transformed dependent object
+     */
     function transformDependent(dependent) {
       const transformedDependent = { ...dependent };
       if (transformedDependent.childRelationship) {
@@ -227,6 +244,14 @@ export default [
       return transformedDependent;
     }
 
+    /**
+     * @typedef {object} ExpenseProps
+     * @property {string} recipients - Recipients of the expense
+     * @property {number|string} hoursPerWeek - Hours per week for the expense
+     *
+     * @param {ExpenseProps} expense - The expense object to transform
+     * @returns {ExpenseProps} - transformed expense object
+     */
     function transformExpense(expense) {
       const transformedExpense = { ...expense };
       if (transformedExpense.recipients === 'CHILD') {
@@ -357,6 +382,30 @@ export default [
         },
         {},
       );
+    }
+    return { formData: newFormData, metadata };
+  },
+  // 10 > 11. remove spouse entries that are outside of the marriages array
+  // See https://dsva.slack.com/archives/C090CFCVATW/p1768162996687189
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    if (formData.spouseFullName) {
+      delete newFormData.spouseFullName;
+    }
+    if (formData.reasonForSeparation) {
+      delete newFormData.reasonForSeparation;
+    }
+    if (formData.dateOfMarriage) {
+      delete newFormData.dateOfMarriage;
+    }
+    if (formData.dateOfSeparation) {
+      delete newFormData.dateOfSeparation;
+    }
+    if (formData.locationOfMarriage) {
+      delete newFormData.locationOfMarriage;
+    }
+    if (formData.locationOfSeparation) {
+      delete newFormData.locationOfSeparation;
     }
     return { formData: newFormData, metadata };
   },
