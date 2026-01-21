@@ -16,7 +16,7 @@ import FloatingBot from '../../webchat/components/FloatingBot';
 import StickyBot from '../../webchat/components/StickyBot';
 
 // v2 chatbot components
-import { Chatbot } from '../../v2-chatbot/components/Chatbot';
+import { Chatbot } from '../../chatbot/components/Chatbot';
 
 function Page() {
   const togglesLoading = useToggleLoadingValue();
