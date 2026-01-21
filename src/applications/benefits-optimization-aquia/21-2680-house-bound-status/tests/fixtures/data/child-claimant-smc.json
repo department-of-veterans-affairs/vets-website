@@ -44,7 +44,11 @@
       }
     },
     "claimantContact": {
-      "claimantPhoneNumber": "7205551937",
+      "claimantPhoneNumber": {
+        "callingCode": 880,
+        "countryCode": "BD",
+        "contact": "212345678"
+      },
       "claimantEmail": "lando.jr@cloudcity.com"
     },
     "benefitType": {

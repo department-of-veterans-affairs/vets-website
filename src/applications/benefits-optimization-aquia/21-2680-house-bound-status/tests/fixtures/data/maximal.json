@@ -45,8 +45,11 @@
       }
     },
     "claimantContact": {
-      "claimantPhoneNumber": "5055551977",
-      "claimantEmail": "senator.amidala@galacticsenate.gov"
+      "claimantPhoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(505) 555-1977"
+      }
     },
     "benefitType": {
       "benefitType": "SMP"
