@@ -2,24 +2,46 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import DownloadStatement from '../components/DownloadStatement';
 import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-import { setPageFocus } from '../../combined/utils/helpers';
+import {
+  setPageFocus,
+  showVHAPaymentHistory,
+  formatISODateToMMDDYYYY,
+} from '../../combined/utils/helpers';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const ResolvePage = ({ match }) => {
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
+  );
+
   const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
-  const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
+  // get selected statement
+  const selectedCopay = shouldShowVHAPaymentHistory
+    ? statements?.data
+    : statements?.find(({ id }) => id === selectedId); // get facility  number on selected statement
   const title = `Resolve your copay bill`;
 
-  const acctNum =
-    selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
-  const amtDue = selectedCopay?.pHAmtDueOutput.replace(/&nbsp;/g, '');
+  const facilityName = shouldShowVHAPaymentHistory
+    ? selectedCopay.attributes.facility ||
+      getMedicalCenterNameByID(selectedCopay.attributes.facility)
+    : selectedCopay.station.facilityName ||
+      getMedicalCenterNameByID(selectedCopay.station.facilityNum);
+
+  const acctNum = shouldShowVHAPaymentHistory
+    ? selectedCopay?.attributes.accountNumber
+    : selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
+
+  const amtDue = shouldShowVHAPaymentHistory
+    ? selectedCopay?.attributes.principalBalance
+    : selectedCopay?.pHAmtDueOutput.replace(/&nbsp;/g, '');
 
   // get veteran name
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
@@ -51,7 +73,7 @@ const ResolvePage = ({ match }) => {
           },
           {
             href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
-            label: `Copay bill for ${selectedCopay?.station.facilityName}`,
+            label: `Copay bill for ${facilityName}`,
           },
           {
             href: `/manage-va-debt/summary/copay-balances/${selectedId}/resolve`,
@@ -70,7 +92,7 @@ const ResolvePage = ({ match }) => {
         </h1>
         <p className="va-introtext">
           You can pay your balance, request financial help, or dispute this bill
-          for {selectedCopay?.station.facilityName}.
+          for {facilityName}.
         </p>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowToPay
@@ -81,7 +103,11 @@ const ResolvePage = ({ match }) => {
         <DownloadStatement
           key={selectedId}
           statementId={selectedId}
-          statementDate={selectedCopay?.pSStatementDate}
+          statementDate={
+            shouldShowVHAPaymentHistory
+              ? formatISODateToMMDDYYYY(selectedCopay.attributes.lastUpdatedAt)
+              : selectedCopay.pSStatementDateOutput
+          }
           fullName={fullName}
         />
         <FinancialHelp />
