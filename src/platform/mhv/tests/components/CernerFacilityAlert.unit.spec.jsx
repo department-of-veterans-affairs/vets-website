@@ -3,7 +3,10 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import sinon from 'sinon';
 import CernerFacilityAlert from '../../components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from '../../components/CernerFacilityAlert/constants';
+import {
+  CernerAlertContent,
+  PretransitionedFacilitiesByVhaId,
+} from '../../components/CernerFacilityAlert/constants';
 import mockData from '../fixtures/cerner-facility-mock-data.json';
 
 describe('CernerFacilityAlert', () => {
@@ -70,8 +73,13 @@ describe('CernerFacilityAlert', () => {
 
       expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
       expect(screen.getByTestId('single-cerner-facility-text')).to.exist;
-      expect(screen.getByText('VA Spokane health care', { exact: false })).to
-        .exist;
+
+      // Verify facility is in PretransitionedFacilitiesByVhaId constant
+      const facilityId = '668';
+      expect(PretransitionedFacilitiesByVhaId[facilityId]).to.exist;
+      const expectedName =
+        PretransitionedFacilitiesByVhaId[facilityId].vamcSystemName;
+      expect(screen.getByText(expectedName, { exact: false })).to.exist;
     });
 
     it('displays correct domain text in body', () => {
@@ -90,7 +98,13 @@ describe('CernerFacilityAlert', () => {
         CernerAlertContent.MEDICATIONS,
       );
 
-      const facilityElement = screen.getByText('VA Spokane health care');
+      // Verify facility is in PretransitionedFacilitiesByVhaId constant
+      const facilityId = '668';
+      expect(PretransitionedFacilitiesByVhaId[facilityId]).to.exist;
+      const expectedName =
+        PretransitionedFacilitiesByVhaId[facilityId].vamcSystemName;
+
+      const facilityElement = screen.getByText(expectedName);
       expect(facilityElement.tagName).to.equal('STRONG');
     });
   });
@@ -129,8 +143,19 @@ describe('CernerFacilityAlert', () => {
         CernerAlertContent.MEDICATIONS,
       );
 
-      expect(screen.getByText('VA Spokane health care')).to.exist;
-      expect(screen.getByText('VA Southern Oregon health care')).to.exist;
+      // Verify both facilities are in PretransitionedFacilitiesByVhaId constant
+      const facility1Id = '668';
+      const facility2Id = '692';
+      expect(PretransitionedFacilitiesByVhaId[facility1Id]).to.exist;
+      expect(PretransitionedFacilitiesByVhaId[facility2Id]).to.exist;
+
+      const facility1Name =
+        PretransitionedFacilitiesByVhaId[facility1Id].vamcSystemName;
+      const facility2Name =
+        PretransitionedFacilitiesByVhaId[facility2Id].vamcSystemName;
+
+      expect(screen.getByText(facility1Name)).to.exist;
+      expect(screen.getByText(facility2Name)).to.exist;
     });
 
     it('displays correct plural text for multiple facilities', () => {

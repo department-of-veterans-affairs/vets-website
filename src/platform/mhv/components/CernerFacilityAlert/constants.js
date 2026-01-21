@@ -6,7 +6,15 @@ export const CernerAlertContent = {
     domain: 'appointments',
     infoAlertActionPhrase: 'manage most of your appointments',
     infoAlertText: 'You can manage most of your appointments here.',
-    transitionText: 'schedule or cancel appointments online',
+    warningBody:
+      "you won't be able to schedule or cancel appointments online for",
+    warningAction: 'call',
+    warningAddlInfo: 'to schedule or cancel appointments',
+    errorHeadline:
+      "You can't manage appointments online for some facilities right now",
+    errorBody: "You can't schedule or cancel appointments online for",
+    errorAddlInfo:
+      'If you need to schedule or cancel appointments now, call the facility directly.',
     warning: ['p0', 'p1'],
     error: ['p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
     startDate: 'p2',
@@ -29,7 +37,10 @@ export const CernerAlertContent = {
     infoAlertActionPhrase: 'manage most of your medical records',
     infoAlertText:
       'You can review and download most of your medical records here.',
-    transitionText: 'download and share your medical information',
+    warningBody: 'there may be a delay in updating medical records for',
+    errorHeadline: 'New medical records maybe not be updated',
+    errorIntro: 'Medical records',
+    errorBody: 'may not be updated for',
     warning: ['p1', 'p2', 'p3'],
     error: ['p4', 'p5', 'p6'],
     startDate: 'p4',
@@ -43,7 +54,14 @@ export const CernerAlertContent = {
     infoAlertActionPhrase: 'manage your medications',
     infoAlertText:
       'You no longer need to go to My VA Health to manage your prescriptions for any VA facilities.',
-    transitionText: 'renew or refill your prescriptions online',
+    warningBody: "you won't be able to refill your medications online for",
+    warningAddlInfo:
+      "call your VA pharmacy's automated refill line to refill a medication",
+    errorHeadline:
+      "You can't refill medications online for some facilities right now",
+    errorBody: "You can't refill your medications online for",
+    errorAddlInfo:
+      "If you need to refill a medication now, call your VA pharmacy's automated refill line. the phone number is on your prescription label or in your medications details page.",
     warning: ['p1', 'p2', 'p3'],
     error: ['p4', 'p5', 'p6'],
     startDate: 'p4',
@@ -61,9 +79,16 @@ export const CernerAlertContent = {
     bodyActionSingle: 'To send a secure message to a provider at',
     bodyActionMultiple: 'To view or manage secure messages at these facilities',
     bodyIntro: 'Some of your secure messages may be in a different portal.',
-    transitionText: 'send or receive new messages or reply to conversations',
-    bodyTransitionText: 'contact your provider',
-    altTransitionHeadline: 'use messages to contact',
+    warningBody:
+      "you won't be able to send or receive new messages or reply to conversations with providers at",
+    warningAction: 'call',
+    warningAddlInfo: 'to contact your provider',
+    errorHeadline:
+      "You can't use messages to contact providers at some facilities right now",
+    errorBody:
+      "You can't send or receive new messages or reply to conversations with providers at",
+    errorAddlInfo:
+      'If you need to contact your provider now, call the facility directly.',
     warning: ['p1', 'p2'],
     error: ['p3', 'p4', 'p5', 'p6'],
     startDate: 'p3',

@@ -32,6 +32,13 @@ import { PretransitionedFacilitiesByVhaId } from './constants';
  *   className="vads-u-margin-bottom--3 vads-u-margin-top--2"
  * />
  *
+ * // Display only migration alerts (hide pretransitioned and info alerts):
+ * <CernerFacilityAlert
+ *   {...CernerAlertContent.MEDICATIONS}
+ *   forceHidePretransitionedAlert={true}
+ *   forceHideInfoAlert={true}
+ * />
+ *
  * // Custom implementation (not using constants):
  * <CernerFacilityAlert
  *   domain="medical records"
@@ -63,9 +70,13 @@ const CernerFacilityAlert = ({
   error,
   startDate,
   endDate,
-  transitionText,
-  bodyTransitionText,
-  altTransitionHeadline,
+  warningBody,
+  warningAction,
+  warningAddlInfo,
+  errorHeadline,
+  errorIntro,
+  errorBody,
+  errorAddlInfo,
 }) => {
   const userProfile = useSelector(state => state.user.profile);
 
@@ -112,9 +123,13 @@ const CernerFacilityAlert = ({
         error={error}
         startDate={startDate}
         endDate={endDate}
-        transitionText={transitionText}
-        bodyTransitionText={bodyTransitionText}
-        altTransitionHeadline={altTransitionHeadline}
+        warningBody={warningBody}
+        warningAction={warningAction}
+        warningAddlInfo={warningAddlInfo}
+        errorHeadline={errorHeadline}
+        errorIntro={errorIntro}
+        errorBody={errorBody}
+        errorAddlInfo={errorAddlInfo}
         className={className}
       />
     );
@@ -250,9 +265,13 @@ CernerFacilityAlert.propTypes = {
   error: PropTypes.arrayOf(PropTypes.string),
   startDate: PropTypes.string,
   endDate: PropTypes.string,
-  transitionText: PropTypes.string,
-  bodyTransitionText: PropTypes.string,
-  altTransitionHeadline: PropTypes.string,
+  warningAction: PropTypes.string,
+  warningAddlInfo: PropTypes.string,
+  warningBody: PropTypes.string,
+  errorHeadline: PropTypes.string,
+  errorIntro: PropTypes.string,
+  errorBody: PropTypes.string,
+  errorAddlInfo: PropTypes.string,
   onLinkClick: PropTypes.func,
 };
 

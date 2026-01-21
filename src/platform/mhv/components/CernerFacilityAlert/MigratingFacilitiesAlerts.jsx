@@ -11,9 +11,13 @@ const MigratingFacilitiesAlerts = ({
   error,
   startDate,
   endDate,
-  transitionText,
-  bodyTransitionText,
-  altTransitionHeadline,
+  warningBody,
+  warningAction,
+  warningAddlInfo,
+  errorHeadline,
+  errorIntro,
+  errorBody,
+  errorAddlInfo,
   className,
 }) => {
   // Map over migrating facilities to create alerts
@@ -42,12 +46,16 @@ const MigratingFacilitiesAlerts = ({
           background-only
         >
           <h2 className="vads-u-font-size--md" slot="headline">
-            You can’t {altTransitionHeadline || `${transitionText} for`} some
-            facilities right now
+            {errorHeadline}
           </h2>
           <div>
             <p>
-              You can’t {transitionText} for {facilityText} until{' '}
+              {errorIntro
+                ? `${errorIntro} from ${migration.phases[startDate]} to ${
+                    migration.phases[endDate]
+                  } `
+                : ''}
+              {errorBody} {facilityText} until{' '}
               <strong>{migration.phases[endDate]}</strong>:
             </p>
             <ul>
@@ -55,15 +63,16 @@ const MigratingFacilitiesAlerts = ({
                 <li key={i}>{facility.facilityName}</li>
               ))}
             </ul>
-            <p>
-              If you need to {bodyTransitionText || transitionText} now, call
-              the facility directly.
-            </p>
-            <va-link
-              data-testid="find-facility-link"
-              href="https://www.va.gov/find-locations/"
-              text="Find your facility's contact information"
-            />
+            {errorAddlInfo && (
+              <>
+                <p>{errorAddlInfo}</p>
+                <va-link
+                  data-testid="find-facility-link"
+                  href="https://www.va.gov/find-locations/"
+                  text="Find your facility's contact information"
+                />
+              </>
+            )}
           </div>
         </va-alert>
       );
@@ -82,18 +91,21 @@ const MigratingFacilitiesAlerts = ({
         <div>
           <p>
             From <strong>{migration.phases[startDate]}</strong> to{' '}
-            <strong>{migration.phases[endDate]}</strong>, you won’t be able to{' '}
-            {transitionText} at {facilityText}:
+            <strong>{migration.phases[endDate]}</strong>, {warningBody}
+            {facilityText}:
           </p>
           <ul>
             {migration.facilities.map((facility, i) => (
               <li key={i}>{facility.facilityName}</li>
             ))}
           </ul>
-          <p>
-            <strong>Note:</strong> During this time, you can still call{' '}
-            {facilityText} to {bodyTransitionText || transitionText}.
-          </p>
+          {warningAddlInfo && (
+            <p>
+              <strong>Note:</strong> During this time, you can still{' '}
+              {warningAction ? `${warningAction} ${facilityText} ` : ''}
+              {warningAddlInfo}.
+            </p>
+          )}
         </div>
       </va-alert-expandable>
     );
@@ -130,9 +142,13 @@ MigratingFacilitiesAlerts.propTypes = {
   error: PropTypes.arrayOf(PropTypes.string).isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
-  transitionText: PropTypes.string.isRequired,
-  bodyTransitionText: PropTypes.string,
-  altTransitionHeadline: PropTypes.string,
+  warningAction: PropTypes.string,
+  warningAddlInfo: PropTypes.string,
+  warningBody: PropTypes.string,
+  errorHeadline: PropTypes.string,
+  errorIntro: PropTypes.string,
+  errorBody: PropTypes.string,
+  errorAddlInfo: PropTypes.string,
   className: PropTypes.string,
 };
 
