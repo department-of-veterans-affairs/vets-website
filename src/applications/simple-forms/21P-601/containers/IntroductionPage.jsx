@@ -16,8 +16,8 @@ const content = {
 
 const ombInfo = {
   resBurden: '30',
-  ombNumber: '2900-0016',
-  expDate: '8/31/2025',
+  ombNumber: '2900-0216',
+  expDate: '9/30/2028',
 };
 
 const childContent = (
@@ -56,8 +56,9 @@ const childContent = (
       </li>
       <li>
         <strong>
-          If you already submitted VA Form 21P-534EZ or VA Form 21P-535 to apply
-          for survivor benefits,
+          If you already submitted an application for VA DIC, Survivors Pension,
+          and Accrued Benefits (VA Form 21P-534EZ) or VA DIC by Parent(s) (VA
+          Form 21P-535) to apply for survivor benefits,
         </strong>{' '}
         don’t submit this form. You can check the status of your current claim
         instead.
