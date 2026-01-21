@@ -17,9 +17,7 @@ const initialState = {
     data: testData.data,
     submission: {
       response: {
-        attributes: {
-          confirmationNumber: '1234567890',
-        },
+        confirmationNumber: '1234567890',
       },
       timestamp: submitDate,
     },

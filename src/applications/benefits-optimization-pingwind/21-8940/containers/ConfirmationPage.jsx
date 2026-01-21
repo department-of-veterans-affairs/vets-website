@@ -27,9 +27,8 @@ export const ConfirmationPage = props => {
     ? preparerFullName
     : veteran.fullName;
   const submitDate = submission.timestamp;
-  const confirmationNumber =
-    submission.response?.attributes?.confirmationNumber;
-  const pdfUrl = submission.response?.attributes?.pdfUrl;
+  const confirmationNumber = submission.response?.attributes.confirmationNumber;
+  const pdfUrl = submission.response?.attributes.pdfUrl;
 
   return (
     <ConfirmationView
