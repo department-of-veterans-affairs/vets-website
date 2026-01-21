@@ -182,28 +182,30 @@ describe('MigratingFacilitiesAlerts', () => {
       expect(getByText('VA Downtown New Orleans Clinic')).to.exist;
     });
 
-    it('displays bodyTransitionText in note section if provided', () => {
+    it('displays warningAddlInfo in note section', () => {
       const { getByText } = render(
-        <MigratingFacilitiesAlerts
-          {...warningProps}
-          bodyTransitionText="manage your medications"
-        />,
+        <MigratingFacilitiesAlerts {...warningProps} />,
       );
 
-      expect(getByText(/manage your medications/i)).to.exist;
+      // MEDICATIONS has warningAddlInfo
+      expect(
+        getByText(
+          /call your VA pharmacy's automated refill line to refill a medication/i,
+        ),
+      ).to.exist;
     });
 
-    it('falls back to transitionText when bodyTransitionText is not provided', () => {
-      const propsWithoutBody = {
+    it('displays warningAction when provided', () => {
+      const propsWithAction = {
         ...warningProps,
-        bodyTransitionText: undefined,
+        warningAction: 'call',
       };
 
-      const { findByText } = render(
-        <MigratingFacilitiesAlerts {...propsWithoutBody} />,
+      const { getByText } = render(
+        <MigratingFacilitiesAlerts {...propsWithAction} />,
       );
 
-      expect(findByText(/manage your medications/i)).to.exist;
+      expect(getByText(/you can still call this facility/i)).to.exist;
     });
   });
 
@@ -233,27 +235,31 @@ describe('MigratingFacilitiesAlerts', () => {
     it('displays standard headline', () => {
       const screen = render(<MigratingFacilitiesAlerts {...errorProps} />);
 
-      // These are broken up by the render, so checking them individually
-      expect(screen.findByText(/You can’t/i)).to.exist;
-      expect(screen.findByText(/renew or refill your prescriptions online/i)).to
-        .exist;
-      expect(screen.getByText(/some facilities right now/i)).to.exist;
+      // MEDICATIONS has errorHeadline
+      expect(
+        screen.getByText(
+          /You can't refill medications online for some facilities right now/i,
+        ),
+      ).to.exist;
     });
 
-    it('uses altTransitionHeadline when provided', () => {
-      const propsWithAltHeadline = {
-        ...errorProps,
-        altTransitionHeadline: 'manage medications for',
-      };
+    it('displays errorBody in content', () => {
+      const screen = render(<MigratingFacilitiesAlerts {...errorProps} />);
 
-      const screen = render(
-        <MigratingFacilitiesAlerts {...propsWithAltHeadline} />,
-      );
+      // MEDICATIONS has errorBody
+      expect(screen.getByText(/You can't refill your medications online for/i))
+        .to.exist;
+    });
 
-      // These are broken up by the render, so checking them individually
-      expect(screen.findByText(/You can’t/i)).to.exist;
-      expect(screen.getByText(/manage medications/i)).to.exist;
-      expect(screen.getByText(/some facilities right now/i)).to.exist;
+    it('displays errorAddlInfo when provided', () => {
+      const screen = render(<MigratingFacilitiesAlerts {...errorProps} />);
+
+      // MEDICATIONS has errorAddlInfo
+      expect(
+        screen.getByText(
+          /If you need to refill a medication now, call your VA pharmacy's automated refill line/i,
+        ),
+      ).to.exist;
     });
 
     it('displays end date in error message', () => {
