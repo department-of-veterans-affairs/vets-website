@@ -66,10 +66,7 @@ export class ConnectedApps extends Component {
   };
 
   ConnectedAppsAdditionalInfo = () => (
-    <va-additional-info
-      trigger="What other third-party apps can I connect to my profile?"
-      uswds
-    >
+    <va-additional-info trigger="What other third-party apps can I connect to my profile?">
       <p>
         The app directory lists all third-party apps that you can connect to
         your profile.

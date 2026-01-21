@@ -28,10 +28,7 @@ export class ConnectedApp extends Component {
     const { logo, title, grants } = this.props.attributes;
 
     return (
-      <div
-        className="connected-app border-box vads-l-grid-container vads-u-align-items--flex-start vads-u-padding--3 vads-u-border-color--gray-lighter vads-u-border--1px
-        vads-u-margin-y--2 vads-u-display--block mobile-lg:vads-u-display--flex"
-      >
+      <va-card class="connected-app border-box vads-l-grid-container vads-u-align-items--flex-start vads-u-display--block mobile-lg:vads-u-display--flex vads-u-margin-y--2">
         <div className="small-screen:vads-l-col--2 mobile-lg:vads-u-text-align--center vads-u-text-align--left">
           <img
             className="va-connected-app-account-logo vads-u-margin-right--2p5 vads-u-margin-bottom--1"
@@ -85,7 +82,7 @@ export class ConnectedApp extends Component {
             </div>
           </va-additional-info>
         </div>
-      </div>
+      </va-card>
     );
   }
 }
