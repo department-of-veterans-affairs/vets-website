@@ -87,6 +87,7 @@ export async function getLocation({ facilityId }) {
  * @async
  * @param {Object} params
  * @param {Array<string>} params.siteIds The vista site ids of the facilities we want to fetch
+ * @param {boolean} params.useVpg Whether to use VPG-specific scheduling configuration
  * @returns {Array<FacilitySettings>} An array of facility settings
  */
 export async function getLocationSettings({ siteIds, useVpg }) {
