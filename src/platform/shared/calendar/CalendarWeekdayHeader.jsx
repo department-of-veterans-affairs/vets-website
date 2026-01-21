@@ -1,10 +1,11 @@
 import React from 'react';
-import { DEFAULT_WEEK_DAYS } from '../../utils/constants';
+import PropTypes from 'prop-types';
+import { DEFAULT_WEEK_DAYS } from './constants';
 
 /**
  * Calendar widget weekday header
  *
- * @param [showFullWeek=false] Whether to show weekend days or not
+ * @param {boolean} [showFullWeek=false] Whether to show weekend days or not
  * @returns {JSX.Element} Returns a row of calendar widget week days
  */
 export default function CalendarWeekdayHeader({ showFullWeek = false }) {
@@ -41,3 +42,7 @@ export default function CalendarWeekdayHeader({ showFullWeek = false }) {
     </div>
   );
 }
+
+CalendarWeekdayHeader.propTypes = {
+  showFullWeek: PropTypes.bool,
+};
