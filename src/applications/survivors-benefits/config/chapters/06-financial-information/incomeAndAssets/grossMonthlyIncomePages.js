@@ -34,9 +34,8 @@ export const incomeRecipients = {
 const grossDescription = () => (
   <div>
     <p>
-      Next we’ll ask you the gross monthly income you, your spouse, and your
-      dependents receive. You’ll need to add at least 1 income source and can
-      add up to 4.
+      Next we’ll ask you the gross monthly income you and your dependents
+      receive. You’ll need to add at least 1 income source and can add up to 4.
     </p>
 
     <p>
@@ -53,8 +52,8 @@ const whatWeConsiderIncome = () => (
   <va-additional-info trigger="What we consider income">
     <p>
       Your income is how much you earn. It includes your Social Security
-      benefits, investment and retirement payments, and any income your spouse
-      and dependents receive.
+      benefits, investment and retirement payments, and any income your
+      dependents receive.
     </p>
   </va-additional-info>
 );

@@ -605,6 +605,8 @@ export const claimingRated = formData =>
 
 export const isPlaceholderRated = v => v === 'Rated Disability';
 
+export const isNewConditionOption = v => v === NEW_CONDITION_OPTION;
+
 // TE/POW should only show when there’s at least one *real* condition
 export const hasRealNewOrSecondaryConditions = formData =>
   Array.isArray(formData?.newDisabilities) &&
