@@ -152,6 +152,8 @@ const responses = {
       type: 'appointments',
       attributes: {
         ...baseClaim.appointment,
+        // Convert it to proper localStartTime format with timezone offset
+        // Example: "2025-03-20T16:30:00Z" (claim) -> "2025-03-20T16:30:00.000-08:00" (localStartTime)
         localStartTime: new Date(baseClaim.appointment.appointmentDateTime)
           .toISOString()
           .replace('Z', '.000-08:00'),
@@ -170,7 +172,7 @@ const responses = {
             claimId: baseClaim.claimId,
             claimNumber: baseClaim.claimNumber,
             claimStatus: baseClaim.claimStatus,
-            appointmentDateTime: baseClaim.appointment.appointmentDateTime,
+            appointmentDate: baseClaim.appointment.appointmentDate,
             facilityName: baseClaim.appointment.facilityName,
             createdOn: baseClaim.createdOn,
             modifiedOn: baseClaim.modifiedOn,

@@ -17,7 +17,7 @@ export default {
         labelHeaderLevel: 3,
       }),
     },
-    howMarriageEndedExplanation: {
+    marriageEndedExplanation: {
       ...textUI({
         title: 'Tell us how the marriage ended',
         required: formData => formData?.howMarriageEnded === 'other',
@@ -33,7 +33,7 @@ export default {
     required: [],
     properties: {
       howMarriageEnded: radioSchema(Object.keys(marriageEndOptions)),
-      howMarriageEndedExplanation: textSchema,
+      marriageEndedExplanation: textSchema,
     },
   },
 };
