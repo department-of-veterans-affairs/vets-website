@@ -752,11 +752,11 @@ const Prescriptions = () => {
     <div>
       {content()}
       <PrescriptionsPrintOnly
-        list={printedList}
+        list={printedList.length > 0 ? printedList : filteredList}
         hasError={
           hasExportListDownloadError || isAlertVisible || !!allergiesError
         }
-        isFullList={printedList.length === prescriptionsExportList.length}
+        isFullList={printedList.length > 0 ? printedList.length === prescriptionsExportList.length : true}
       />
     </div>
   );

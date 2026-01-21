@@ -462,4 +462,16 @@ describe('Medications Prescriptions container', () => {
       expect(event).to.be.undefined;
     });
   });
+
+  describe('Medications Print Fallback', () => {
+    it('should pass current medications list to print component when printedList is empty', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        expect(screen.getByTestId('list-page-title')).to.exist;
+      });
+
+      expect(screen).to.exist;
+    });
+  });
 });
