@@ -29,7 +29,6 @@ import { getValidationErrors } from 'platform/forms-system/src/js/utilities/vali
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
-import { useFetchInProgressForm } from '../hooks/useFetchInProgressForm';
 
 /**
  * Render contact info page
@@ -146,7 +145,7 @@ export const ContactInfoBase = ({
         goForward(data);
       }
     },
-    updatePage: () => {
+    onUpdatePage: () => {
       setSubmitted(true);
       if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
@@ -254,9 +253,6 @@ export const ContactInfoBase = ({
     [missingInfo, hasInitialized, testContinueAlert],
   );
 
-  // Fetch in-progress form data with prefill
-  useFetchInProgressForm();
-
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
   const headerClassNames = [
@@ -264,6 +260,12 @@ export const ContactInfoBase = ({
     'vads-u-width--auto',
     'vads-u-margin-top--0',
   ].join(' ');
+
+  const requiredLabel = (
+    <span className="vads-u-font-weight--normal vads-u-color--secondary-dark vads-u-margin-left--0p5">
+      (*Required)
+    </span>
+  );
 
   // Extract alert rendering functions
   const showSuccessAlertInField = (id, text) => (
@@ -321,8 +323,8 @@ export const ContactInfoBase = ({
         >
           <Headers name="header-address" className={headerClassNames}>
             {content.mailingAddress}
-            {!requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
-              ' (optional)'}
+            {requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
+              requiredLabel}
           </Headers>
           {hasFormOnlyUpdate
             ? showFormOnlyAlert('address')
@@ -374,7 +376,7 @@ export const ContactInfoBase = ({
             className={`${headerClassNames} vads-u-margin-top--0p5`}
           >
             {content.homePhone}
-            {!requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && ' (optional)'}
+            {requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && requiredLabel}
           </Headers>
           {hasFormOnlyUpdate
             ? showFormOnlyAlert('home-phone')
@@ -424,7 +426,7 @@ export const ContactInfoBase = ({
             className={`${headerClassNames} vads-u-margin-top--0p5`}
           >
             {content.mobilePhone}
-            {!requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && ' (optional)'}
+            {requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && requiredLabel}
           </Headers>
           {hasFormOnlyUpdate
             ? showFormOnlyAlert('mobile-phone')
@@ -474,7 +476,7 @@ export const ContactInfoBase = ({
         >
           <Headers name="header-email" className={headerClassNames}>
             {content.email}
-            {!requiredKeys.includes(FIELD_NAMES.EMAIL) && ' (optional)'}
+            {requiredKeys.includes(FIELD_NAMES.EMAIL) && requiredLabel}
           </Headers>
           {hasFormOnlyUpdate
             ? showFormOnlyAlert('email')
@@ -573,7 +575,7 @@ export const ContactInfoBase = ({
   );
 
   const navButtons = onReviewPage ? (
-    <va-button text={content.update} onClick={handlers.updatePage} />
+    <va-button text={content.update} onClick={handlers.onUpdatePage} />
   ) : (
     <>
       {contentBeforeButtons}
