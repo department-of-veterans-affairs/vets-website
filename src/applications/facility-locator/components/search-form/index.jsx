@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -8,9 +8,13 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { clearSearchText } from '../../actions/search';
 import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
 import { getProviderSpecialties } from '../../actions/locations';
-import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
+
+// Hooks
+import useSearchFormState from '../../hooks/useSearchFormState';
+import useSearchFormSync from '../../hooks/useSearchFormSync';
+import useSearchSubmit from '../../hooks/useSearchSubmit';
 
 // Components
 import BottomRow from './BottomRow';
@@ -18,6 +22,7 @@ import FacilityType from './facility-type';
 import ServiceType from './service-type';
 import AddressAutosuggest from './location/AddressAutosuggest';
 
+/** Draft state pattern: inputs update local state, commit to Redux on submit. */
 export const SearchForm = props => {
   const {
     currentQuery,
@@ -35,116 +40,75 @@ export const SearchForm = props => {
     vamcAutoSuggestEnabled,
   } = props;
 
-  const [selectedServiceType, setSelectedServiceType] = useState(null);
+  // Form state management via custom hook
+  const {
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    handleFacilityTypeChange,
+    handleServiceTypeChange,
+    selectedServiceType,
+  } = useSearchFormState(currentQuery);
+
+  // Synchronize URL params, Redux, and draft state
+  useSearchFormSync({
+    currentQuery,
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    location: props.location,
+    onChange,
+    vaHealthServicesData: props.vaHealthServicesData,
+  });
+
+  // Track geolocation errors for analytics
+  useEffect(
+    () => {
+      if (currentQuery?.geocodeError) {
+        if (currentQuery.geocodeError === 1) {
+          recordEvent({
+            event: 'fl-get-geolocation-permission-error',
+            'error-key': '1_PERMISSION_DENIED',
+          });
+        } else {
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key':
+              currentQuery.geocodeError === 2
+                ? '2_POSITION_UNAVAILABLE'
+                : '3_TIMEOUT',
+          });
+        }
+      }
+    },
+    [currentQuery.geocodeError],
+  );
+
+  // Form submission handling
+  const { handleSubmit } = useSearchSubmit({
+    draftFormState,
+    setDraftFormState,
+    selectedServiceType,
+    currentQuery,
+    onChange,
+    onSubmit,
+    isMobile,
+    mobileMapUpdateEnabled,
+    selectMobileMapPin,
+    setSearchInitiated,
+  });
+
   const locationInputFieldRef = useRef(null);
-  const lastQueryRef = useRef(null);
-
-  const handleFacilityTypeChange = e => {
-    onChange({
-      facilityType: e.target.value,
-      serviceType: null,
-      // Since the facility type may cause an error (PPMS), reset it if the type is changed
-      fetchSvcsError: null,
-      error: null,
-    });
-  };
-
-  const handleServiceTypeChange = ({ target, selectedItem }) => {
-    setSelectedServiceType(selectedItem);
-
-    const option = target.value.trim();
-    const serviceType = option === 'All' ? null : option;
-    onChange({ serviceType });
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    const isSameQuery =
-      lastQueryRef.current &&
-      currentQuery.facilityType === lastQueryRef.current.facilityType &&
-      currentQuery.serviceType === lastQueryRef.current.serviceType &&
-      currentQuery.searchString === lastQueryRef.current.searchString &&
-      currentQuery.zoomLevel === lastQueryRef.current.zoomLevel;
-
-    if (isSameQuery) {
-      return;
-    }
-
-    lastQueryRef.current = currentQuery;
-
-    const {
-      facilityType,
-      serviceType,
-      zoomLevel,
-      isValid,
-      searchString,
-      specialties,
-    } = currentQuery;
-
-    let analyticsServiceType = serviceType;
-
-    const updateReduxState = propName => {
-      onChange({ [propName]: ' ' });
-      onChange({ [propName]: '' });
-    };
-
-    if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType || !selectedServiceType) {
-        updateReduxState('serviceType');
-        focusElement('#service-type-ahead-input');
-        return;
-      }
-
-      if (specialties && Object.keys(specialties).includes(serviceType)) {
-        analyticsServiceType = specialties[serviceType];
-      }
-    }
-
-    if (!searchString) {
-      updateReduxState('searchString');
-      focusElement('#street-city-state-zip');
-      return;
-    }
-
-    if (!facilityType) {
-      updateReduxState('facilityType');
-      focusElement('#facility-type-dropdown');
-      return;
-    }
-
-    if (!isValid) {
-      return;
-    }
-
-    // Report event here to only send analytics event when a user clicks on the button
-    recordEvent({
-      event: 'fl-search',
-      'fl-search-fac-type': facilityType,
-      'fl-search-svc-type': analyticsServiceType,
-      'fl-current-zoom-depth': zoomLevel,
-    });
-
-    if (isMobile && mobileMapUpdateEnabled) {
-      selectMobileMapPin(null);
-    }
-
-    setSearchInitiated(true);
-    onSubmit();
-  };
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
-    recordEvent({
-      event: 'fl-get-geolocation',
-    });
-
+    recordEvent({ event: 'fl-get-geolocation' });
     props.geolocateUser();
   };
 
   const handleClearInput = () => {
     props.clearSearchText();
-    // optional chaining not allowed
+    updateDraftState({ searchString: '' });
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
     }
@@ -164,40 +128,10 @@ export const SearchForm = props => {
     [currentQuery.geolocationInProgress],
   );
 
-  // Track geocode errors
-  useEffect(
-    () => {
-      if (currentQuery?.geocodeError) {
-        switch (currentQuery.geocodeError) {
-          case 0:
-            break;
-          case 1:
-            recordEvent({
-              event: 'fl-get-geolocation-permission-error',
-              'error-key': '1_PERMISSION_DENIED',
-            });
-            break;
-          case 2:
-            recordEvent({
-              event: 'fl-get-geolocation-other-error',
-              'error-key': '2_POSITION_UNAVAILABLE',
-            });
-            break;
-          default:
-            recordEvent({
-              event: 'fl-get-geolocation-other-error',
-              'error-key': '3_TIMEOUT',
-            });
-        }
-      }
-    },
-    [currentQuery.geocodeError],
-  );
-
   const facilityAndServiceTypeInputs = (
     <>
       <FacilityType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         handleFacilityTypeChange={handleFacilityTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
@@ -206,13 +140,17 @@ export const SearchForm = props => {
         useProgressiveDisclosure={useProgressiveDisclosure}
       />
       <ServiceType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         getProviderSpecialties={props.getProviderSpecialties}
         handleServiceTypeChange={handleServiceTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        onChange={onChange}
+        committedVamcServiceDisplay={
+          draftFormState.vamcServiceDisplay ||
+          (draftFormState.serviceType && currentQuery.vamcServiceDisplay)
+        }
+        onVamcDraftChange={updateDraftState}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
@@ -248,7 +186,10 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={currentQuery}
+          currentQuery={{
+            ...draftFormState,
+            geolocationInProgress: currentQuery.geolocationInProgress,
+          }}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
@@ -256,6 +197,7 @@ export const SearchForm = props => {
           isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
+          onLocationSelection={updateDraftState}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
         {useProgressiveDisclosure ? (
@@ -263,7 +205,7 @@ export const SearchForm = props => {
             {facilityAndServiceTypeInputs}
             <va-button
               id="facility-search"
-              submit="prevent"
+              onClick={handleSubmit}
               text="Search"
               full-width
             />

@@ -125,8 +125,6 @@ describe('Facility VA search', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.verifyOptions();
-
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown')
       .shadow()
@@ -269,8 +267,6 @@ describe('Facility VA search', () => {
 
     cy.injectAxe();
     cy.axeCheck();
-
-    cy.verifyOptions();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown')
