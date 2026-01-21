@@ -278,7 +278,7 @@ describe('ClaimFormSideNav', () => {
     const items = tree.find('VaSidenavItem');
     const reviewItem = items.last();
 
-    expect(reviewItem.prop('label')).to.contain('Review and submit');
+    expect(reviewItem.prop('label')).to.contain('Review application');
     tree.unmount();
   });
 
