@@ -9,6 +9,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
+    mhvMedicationsManagementImprovements = false,
 
     // OH integration work
     mhvMedicalRecordsCcdExtendedFileTypes = true,
