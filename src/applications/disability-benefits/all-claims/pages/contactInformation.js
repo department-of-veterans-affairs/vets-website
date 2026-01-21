@@ -42,17 +42,30 @@ const defaultAddressUI = {
   }),
 };
 
-// Use country list directly from schema to ensure validation compatibility
+// Use the 21-526EZ schema countries and map them to 3-letter codes
+// Ensure USA is used instead of "United States" for consistency
 const schemaCountries = fullSchema.definitions.country.enum;
 
-// Filter countries from constants to only include schema-valid ones
-const filteredCountries = constants.countries.filter(country =>
-  schemaCountries.includes(country.label),
-);
-const COUNTRY_VALUES = filteredCountries.map(country => country.value);
-const COUNTRY_NAMES = filteredCountries.map(
-  country => (country.label === 'United States' ? 'USA' : country.label),
-);
+// Create mapping from schema country names to 3-letter codes
+// Add USA explicitly since "United States" is not in the 21-526EZ schema
+const countryMapping = {};
+constants.countries.forEach(country => {
+  if (country.label === 'United States') {
+    countryMapping.USA = 'USA'; // Map USA to itself
+  } else if (schemaCountries.includes(country.label)) {
+    countryMapping[country.label] = country.value;
+  }
+});
+
+// Add USA as the first option, then add other countries from schema
+const COUNTRY_VALUES = [
+  'USA',
+  ...schemaCountries.filter(country => country !== 'USA'),
+];
+const COUNTRY_NAMES = COUNTRY_VALUES.map(value => {
+  if (value === 'USA') return 'USA';
+  return value; // For other countries, use the schema name directly
+});
 
 // Filter out military states from regular state options
 const filteredStates = constants.states.USA.filter(

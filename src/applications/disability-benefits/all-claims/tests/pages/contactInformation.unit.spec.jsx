@@ -492,6 +492,7 @@ describe('Disability benefits 526EZ contact information', () => {
                   emailAddress: 'a@b.co',
                 },
                 mailingAddress: {
+                  'view:livesOnMilitaryBase': false,
                   country: 'USA',
                   addressLine1: '123 Any Street',
                   city: 'Anytown',
@@ -511,8 +512,13 @@ describe('Disability benefits 526EZ contact information', () => {
         const selectErrors = form.find('VaSelectField[error]');
         const textInputErrors = form.find('VaTextInputField[error]');
         const radioErrors = form.find('VaRadioField[error]');
+        const checkboxErrors = form.find('VaCheckboxField[error]');
         const totalErrors =
-          selectErrors.length + textInputErrors.length + radioErrors.length;
+          selectErrors.length +
+          textInputErrors.length +
+          radioErrors.length +
+          checkboxErrors.length;
+
         expect(totalErrors).to.equal(0);
         expect(onSubmit.called).to.be.true;
         form.unmount();
