@@ -54,21 +54,8 @@ module.exports = {
     'deprecate/import': [
       'warn',
       {
-        name: '@department-of-veterans-affairs/component-library/TextInput',
-        use: '<va-text-input>',
-      },
-      {
-        name:
-          '@department-of-veterans-affairs/component-library/ExpandingGroup',
-        use: 'a custom solution',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Modal',
         use: '<va-modal>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/FileInput',
-        use: '<va-file-input>',
       },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2

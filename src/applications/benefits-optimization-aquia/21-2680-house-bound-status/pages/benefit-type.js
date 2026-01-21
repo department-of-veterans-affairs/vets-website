@@ -66,8 +66,8 @@ export const benefitTypeUiSchema = {
         </va-accordion-item>
         <va-accordion-item header="Special Monthly Pension (SMP)" id="smp">
           <p>
-            SMP is an increased monthly amount paid to a veteran or survivor who
-            is eligible for Veterans Pension or Survivors benefits. Apply for
+            SMP is an increased monthly amount paid to a Veteran or survivor who
+            is eligible for Veterans Pension or Survivors pension. Apply for
             Special Monthly Pension (SMP) if you:
           </p>
           <ul>
@@ -76,7 +76,7 @@ export const benefitTypeUiSchema = {
             <li>Are housebound (because of permanent disability)</li>
             <li>
               Currently receive, or are eligible for, Veteran’s Pension and/or
-              Survivors benefits
+              Survivors pension
             </li>
           </ul>
         </va-accordion-item>
@@ -92,9 +92,9 @@ export const benefitTypeUiSchema = {
       },
       descriptions: {
         SMC:
-          'is paid in addition to compensation or Dependency Indemnity Compensation (DIC) for a service-related disability.',
+          'is paid in addition to compensation or Dependency Indemnity Compensation (DIC)',
         SMP:
-          'is an increased monthly amount paid to a Veteran or survivor who is eligible for Veterans Pension or Survivors benefits.',
+          'is an increased monthly amount paid to a Veteran or survivor who is eligible for Veterans Pension or Survivors pension',
       },
       tile: true,
       labelHeaderLevel: 3,
