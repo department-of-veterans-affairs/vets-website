@@ -184,9 +184,10 @@ src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @d
 src/applications/sco @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/edu-benefits/1995
 src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-vye-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/post-911-gib-status @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/edu-benefits/1995
+src/applications/edu-benefits/10297
 
 # CTO Health Products
 
@@ -204,6 +205,7 @@ src/applications/static-pages/view-enrollment-verification-login @department-of-
 src/applications/static-pages/view-education-letters-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/survivor-dependent-education-benefit @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits/1995 @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/edu-benefits/10297 @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My HealtheVet on VA.gov
 
