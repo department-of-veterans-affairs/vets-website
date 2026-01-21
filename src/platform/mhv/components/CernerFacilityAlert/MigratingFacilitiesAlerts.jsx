@@ -91,7 +91,7 @@ const MigratingFacilitiesAlerts = ({
         <div>
           <p>
             From <strong>{migration.phases[startDate]}</strong> to{' '}
-            <strong>{migration.phases[endDate]}</strong>, {warningBody}
+            <strong>{migration.phases[endDate]}</strong>, {warningBody}{' '}
             {facilityText}:
           </p>
           <ul>
