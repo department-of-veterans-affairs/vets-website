@@ -19,7 +19,6 @@ describe('<Main>', () => {
     showFormSignInModal: false,
     showLoginModal: false,
     userGreeting: null,
-    useSignInService: false,
     utilitiesMenuIsOpen: { search: false, help: false, account: false },
     getBackendStatuses: sinon.spy(),
     initializeProfile: sinon.spy(),
@@ -244,9 +243,6 @@ describe('mapStateToProps', () => {
       },
     },
     form: {},
-    featureToggles: {
-      signInServiceEnabled: false,
-    },
   };
 
   it('should return an object with appopriate keys', () => {
@@ -256,7 +252,6 @@ describe('mapStateToProps', () => {
       'isProfileLoading',
       'shouldConfirmLeavingForm',
       'user',
-      'useSignInService',
       'userGreeting',
     );
   });

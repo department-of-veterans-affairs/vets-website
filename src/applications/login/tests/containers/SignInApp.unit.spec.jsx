@@ -16,11 +16,7 @@ const generateProps = ({ push = sinon.spy(), query = {} } = {}) => ({
   },
 });
 
-const defaultMockStore = ({
-  isLoggedIn = false,
-  sisEnabled = true,
-  authBroker = 'sis',
-} = {}) => ({
+const defaultMockStore = ({ isLoggedIn = false, authBroker = 'sis' } = {}) => ({
   user: {
     profile: {
       loading: false,
@@ -36,7 +32,6 @@ const defaultMockStore = ({
     },
   },
   featureToggles: {
-    signInServiceEnabled: sisEnabled,
     profileHideDirectDepositCompAndPen: false,
   },
 });
@@ -78,19 +73,6 @@ describe('SignInApp', () => {
     expect(defaultProps.router.push.args[0][0].includes('oauth=true'));
   });
 
-  it('should check if the `oauth=false` query is present and not change it', () => {
-    const defaultProps = generateProps({
-      query: {
-        oauth: 'false',
-      },
-    });
-    const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
-      initialState: defaultMockStore(),
-    });
-    expect(wrapper.getByText(/Sign in/)).to.not.be.null;
-    expect(defaultProps.router.push.called).to.be.false;
-  });
-
   ['ebenefits', 'mhv', 'vaoccmobile'].forEach(app => {
     it(`should change 'oauth=true' to 'oauth=false' if the 'application=${app}' is not OAuth authorized`, () => {
       const defaultProps = generateProps({
@@ -112,24 +94,6 @@ describe('SignInApp', () => {
   });
 
   ['vamobile'].forEach(app => {
-    it(`should keep 'oauth=false' if 'application=${app}' specified it`, () => {
-      const defaultProps = generateProps({
-        query: {
-          oauth: false,
-          application: app,
-        },
-      });
-      const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
-        initialState: defaultMockStore(),
-      });
-      expect(wrapper.getByText(/Sign in/)).to.not.be.null;
-      expect(
-        defaultProps.router.push.args[0][0].includes(
-          `?oauth=false&application=${app}`,
-        ),
-      );
-    });
-
     it(`should default to 'oauth=true' if not specified for 'application=${app}'`, () => {
       const defaultProps = generateProps({
         query: {

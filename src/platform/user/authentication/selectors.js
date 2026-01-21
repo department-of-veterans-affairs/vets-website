@@ -1,5 +1,3 @@
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectProfile, selectUser } from 'platform/user/selectors';
 import { infoTokenExists } from 'platform/utilities/oauth/utilities';
 
@@ -64,11 +62,3 @@ export const isVerifiedUser = state => selectProfile(state)?.verified;
  */
 export const ssoeTransactionId = state =>
   selectProfile(state)?.session?.transactionid;
-
-/**
- * Checks if the Sign In Service feature flag is enabled.
- * @param {Object} state - The application state.
- * @returns {boolean} - True if the feature is enabled.
- */
-export const signInServiceEnabled = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.signInServiceEnabled];
