@@ -10,7 +10,7 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { getAddOrEditMode, getSelectedIssues } from '../../utils/evidence';
+import { getAddOrEditMode } from '../../utils/evidence';
 import {
   dateDetailsContent,
   datePromptContent,
@@ -28,7 +28,6 @@ import {
 } from '../../constants';
 import { redesignActive } from '../../utils';
 import { hasTreatmentBefore2005 } from '../../utils/form-data-retrieval';
-import { issuesPage } from './common';
 
 /**
  * This is how we determine whether all of the info for one
@@ -39,18 +38,13 @@ import { issuesPage } from './common';
  */
 const itemIsComplete = item => {
   let treatmentDateRequirement = item[VA_TREATMENT_BEFORE_2005_KEY];
-  const issuesComplete = getSelectedIssues(item)?.length > 0;
 
   if (item[VA_TREATMENT_BEFORE_2005_KEY] === 'Y') {
     treatmentDateRequirement =
       item[VA_TREATMENT_BEFORE_2005_KEY] && item[VA_TREATMENT_MONTH_YEAR_KEY];
   }
 
-  return (
-    issuesComplete &&
-    item[VA_TREATMENT_LOCATION_KEY] &&
-    treatmentDateRequirement
-  );
+  return item[VA_TREATMENT_LOCATION_KEY] && treatmentDateRequirement;
 };
 
 /**
@@ -71,7 +65,6 @@ const options = {
       summaryContent.alertItemUpdatedText(itemData),
     cardDescription: item => summaryContent.cardDescription(item),
     getItemName: item => item?.[VA_TREATMENT_LOCATION_KEY],
-    summaryDescription: summaryContent.descriptionWithItems,
     summaryTitle: summaryContent.titleWithItems,
   },
 };
@@ -88,9 +81,9 @@ const summaryPage = {
       options,
       {
         useFormsPattern: true,
-        formHeading: promptContent.question,
+        formHeading: promptContent.topQuestion,
         formDescription: promptContent.description,
-        title: null,
+        title: promptContent.aboveRadioQuestion,
         labels: promptContent.options,
         formHeadingLevel: '3',
         labelHeaderLevel: null,
@@ -224,13 +217,6 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.vaLocation,
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
-    depends: formData => redesignActive(formData),
-  }),
-  issuesVa: pageBuilder.itemPage({
-    title: '',
-    path: EVIDENCE_URLS.vaIssues,
-    uiSchema: issuesPage('va', 'issuesVa').uiSchema,
-    schema: issuesPage('va', 'issuesVa').schema,
     depends: formData => redesignActive(formData),
   }),
   treatmentDatePrompt: pageBuilder.itemPage({

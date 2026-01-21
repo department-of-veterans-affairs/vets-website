@@ -17,8 +17,8 @@ export const content = {
 };
 
 const LimitedConsent = ({
-  addOrEditMode = 'add',
-  currentEvidenceData,
+  lcDetails,
+  lcPrompt,
   onChange,
   radioError,
   setRadioError,
@@ -26,7 +26,6 @@ const LimitedConsent = ({
   textAreaError,
 }) => {
   const [showInputField, setShowInputField] = useState(false);
-  const { lcDetails, lcPrompt } = currentEvidenceData || {};
 
   useEffect(
     () => {
@@ -71,30 +70,34 @@ const LimitedConsent = ({
       setShowInputField(true);
     }
 
-    onChange({
-      ...(currentEvidenceData || {}),
+    return onChange({
       lcPrompt: value,
     });
-
-    return true;
   };
 
   const onInputChange = value => {
-    onChange({
-      ...(currentEvidenceData || {}),
+    if (!value) {
+      return null;
+    }
+
+    setTextAreaError(false);
+
+    return onChange({
       lcDetails: value,
     });
   };
 
-  const radioLabel =
-    addOrEditMode === 'add' ? content.prompt : content.editPrompt;
+  // TODO come back to this to determine how to tell if we're editing
+  // from the review page
+  // const radioLabel =
+  //   addOrEditMode === 'add' ? content.prompt : content.editPrompt;
 
   return (
     <>
       <VaRadio
         data-testid="limited-consent"
         error={radioError ? content.radioError : null}
-        label={radioLabel}
+        label={content.prompt}
         label-header-level="3"
         name="root_limitedConsent"
         onVaValueChange={e => onRadioChange(e.detail.value)}
@@ -139,10 +142,8 @@ const LimitedConsent = ({
 
 LimitedConsent.propTypes = {
   addOrEditMode: PropTypes.string,
-  currentEvidenceData: PropTypes.shape({
-    lcDetails: PropTypes.string,
-    lcPrompt: PropTypes.string,
-  }),
+  lcDetails: PropTypes.string,
+  lcPrompt: PropTypes.string,
   radioError: PropTypes.bool,
   setRadioError: PropTypes.func,
   setTextAreaError: PropTypes.func,

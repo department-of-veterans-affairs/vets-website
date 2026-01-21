@@ -182,7 +182,7 @@ export const PrivateDetailsDisplayNew = ({
             privateTreatmentLocation,
             treatmentEnd,
             treatmentStart,
-            issuesPrivate,
+            issues,
           } = facility || {};
 
           const path = `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index}`;
@@ -195,8 +195,8 @@ export const PrivateDetailsDisplayNew = ({
             new Date(`${treatmentEnd}T12:00:00`),
           );
 
-          const selectedIssues = Object.keys(issuesPrivate).filter(
-            issue => issuesPrivate[issue],
+          const selectedIssues = Object.keys(issues).filter(
+            issue => issues[issue],
           );
 
           const errors = {

@@ -10,7 +10,6 @@ import {
   promptContent,
   summaryContent,
 } from '../../../content/evidence/va';
-import { issuesContent } from '../../../pages/evidence/common';
 
 const issues = mockData.data.contestedIssues;
 
@@ -67,21 +66,6 @@ describe('Array Builder evidence flow', () => {
       );
       h.addVaLocation('South Texas VA Hospital');
 
-      // Contestable Issues
-      h.verifyH3(
-        'What conditions were you treated for at South Texas VA Hospital?',
-      );
-      h.checkErrorHandlingWithClass(
-        '[name="root_issuesVa"]',
-        issuesContent.requiredError,
-      );
-      cy.selectVaCheckbox('root_issuesVa_Headaches', true);
-      cy.selectVaCheckbox('root_issuesVa_Hypertension', true);
-      cy.selectVaCheckbox('root_issuesVa_Tendonitis, left ankle', true);
-      cy.selectVaCheckbox('root_issuesVa_Sleep apnea', true);
-
-      h.clickContinue();
-
       // Treatment Before 2005
       h.verifyH3('Did treatment at South Texas VA Hospital start before 2005?');
       h.checkErrorHandlingWithClass(
@@ -113,8 +97,6 @@ describe('Array Builder evidence flow', () => {
       h.verifyArrayBuilderReviewVACard(
         0,
         'South Texas VA Hospital',
-        3,
-        'Headaches; Hypertension; Tendonitis, left ankle; and Sleep apnea',
         'April 2002',
       );
 
@@ -131,13 +113,6 @@ describe('Array Builder evidence flow', () => {
       );
       h.addVaLocation('Midwest Alabama VA Clinic');
 
-      // Contestable Issues
-      h.verifyH3(
-        'What conditions were you treated for at Midwest Alabama VA Clinic?',
-      );
-      cy.selectVaCheckbox('root_issuesVa_Hypertension', true);
-      cy.selectVaCheckbox('root_issuesVa_Tendonitis, left ankle', true);
-
       h.clickContinue();
 
       // Treatment After 2005
@@ -146,12 +121,7 @@ describe('Array Builder evidence flow', () => {
       );
       h.addVaTreatmentAfter2005();
 
-      h.verifyArrayBuilderReviewVACard(
-        1,
-        'Midwest Alabama VA Clinic',
-        2,
-        'Hypertension; and Tendonitis, left ankle',
-      );
+      h.verifyArrayBuilderReviewVACard(1, 'Midwest Alabama VA Clinic');
 
       // ---------------------------------------- THIRD ITEM
       h.selectVaPromptResponse('Y');
@@ -161,15 +131,6 @@ describe('Array Builder evidence flow', () => {
         'What third VA or military treatment location should we request records from?',
       );
       h.addVaLocation('Northern California VA Urgent Care');
-
-      // Contestable Issues
-      h.verifyH3(
-        'What conditions were you treated for at Northern California VA Urgent Care?',
-      );
-      cy.selectVaCheckbox('root_issuesVa_Headaches', true);
-      cy.selectVaCheckbox('root_issuesVa_Sleep apnea', true);
-
-      h.clickContinue();
 
       // Treatment Before 2005
       h.verifyH3(
@@ -187,8 +148,6 @@ describe('Array Builder evidence flow', () => {
       h.verifyArrayBuilderReviewVACard(
         2,
         'Northern California VA Urgent Care',
-        2,
-        'Headaches and Sleep apnea',
         'Nov. 1998',
       );
 
@@ -200,15 +159,6 @@ describe('Array Builder evidence flow', () => {
         'What fourth VA or military treatment location should we request records from?',
       );
       h.addVaLocation('Central Mississippi VA Medical Complex');
-
-      // Contestable Issues
-      h.verifyH3(
-        'What conditions were you treated for at Central Mississippi VA Medical Complex?',
-      );
-      cy.selectVaCheckbox('root_issuesVa_Hypertension', true);
-      cy.selectVaCheckbox('root_issuesVa_Tendonitis, left ankle', true);
-
-      h.clickContinue();
 
       // Treatment Before 2005
       h.verifyH3(
@@ -226,8 +176,6 @@ describe('Array Builder evidence flow', () => {
       h.verifyArrayBuilderReviewVACard(
         3,
         'Central Mississippi VA Medical Complex',
-        2,
-        'Hypertension; and Tendonitis, left ankle',
         'Sept. 2012',
       );
 
@@ -248,19 +196,6 @@ describe('Array Builder evidence flow', () => {
       );
       h.clickContinue();
 
-      // Issues
-      h.verifyH3(
-        'Edit the conditions you were treated for at South Texas VA Medical Center',
-      );
-      h.confirmCheckboxesChecked('Va', [
-        'Headaches',
-        'Hypertension',
-        'Tendonitis, left ankle',
-        'Sleep apnea',
-      ]);
-      cy.selectVaCheckbox('root_issuesVa_Hypertension', false);
-      h.clickContinue();
-
       // Treatment Before 2005
       h.verifyH3(
         'Edit if treatment at South Texas VA Medical Center started before 2005',
@@ -269,12 +204,7 @@ describe('Array Builder evidence flow', () => {
       h.addVaTreatmentAfter2005();
 
       // Summary
-      h.verifyArrayBuilderReviewVACard(
-        0,
-        'South Texas VA Medical Center',
-        3,
-        'Headaches; Tendonitis, left ankle; and Sleep apnea',
-      );
+      h.verifyArrayBuilderReviewVACard(0, 'South Texas VA Medical Center');
       h.checkAlertText(
         'record_0',
         'South Texas VA Medical Center information has been updated.',
@@ -285,27 +215,15 @@ describe('Array Builder evidence flow', () => {
       h.clickArrayBuilderDeleteModalYesButton();
 
       // Same first card
-      h.verifyArrayBuilderReviewVACard(
-        0,
-        'South Texas VA Medical Center',
-        3,
-        'Headaches; Tendonitis, left ankle; and Sleep apnea',
-      );
+      h.verifyArrayBuilderReviewVACard(0, 'South Texas VA Medical Center');
 
       // Same second card
-      h.verifyArrayBuilderReviewVACard(
-        1,
-        'Midwest Alabama VA Clinic',
-        2,
-        'Hypertension; and Tendonitis, left ankle',
-      );
+      h.verifyArrayBuilderReviewVACard(1, 'Midwest Alabama VA Clinic');
 
       // New third card
       h.verifyArrayBuilderReviewVACard(
         2,
         'Central Mississippi VA Medical Complex',
-        2,
-        'Hypertension; and Tendonitis, left ankle',
         'Sept. 2012',
       );
     });

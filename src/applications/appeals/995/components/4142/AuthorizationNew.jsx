@@ -23,14 +23,12 @@ export const content = {
 };
 
 const Authorization = ({
-  addOrEditMode,
   contentAfterButtons,
   contentBeforeButtons,
-  fullData,
+  data = {},
   goBack,
   goForward,
-  pagePerItemIndex = null,
-  onChange = () => {},
+  setFormData,
 }) => {
   const [checkboxError, setCheckboxError] = useState(false);
   const [radioError, setRadioError] = useState(false);
@@ -112,13 +110,11 @@ const Authorization = ({
     waitForRenderThenFocus('va-alert h3');
   };
 
-  const currentEvidenceData =
-    fullData?.privateEvidence?.[pagePerItemIndex] || {};
-  const { authorization, lcPrompt, lcDetails } = currentEvidenceData || {};
+  const { auth4142, lcPrompt, lcDetails } = data || {};
 
   const allDataIsPresent = () => {
     const lcDetailsRequirement = lcPrompt === 'Y' && !!lcDetails;
-    return authorization && (lcPrompt === 'N' || lcDetailsRequirement);
+    return auth4142 && (lcPrompt === 'N' || lcDetailsRequirement);
   };
 
   const handlers = {
@@ -139,20 +135,14 @@ const Authorization = ({
         setCheckboxError(false);
       }
 
-      const newData = {
-        ...currentEvidenceData,
-        authorization: checked,
-        lcDetails,
-        lcPrompt,
-      };
-
-      // Only pass the authorization field - array builder's onChange
-      // will merge it with existing data from previous pages
-      onChange(newData);
+      setFormData({ ...data, auth4142: checked });
+    },
+    onLcChange: lcData => {
+      setFormData({ ...data, ...lcData });
     },
     onGoForward: () => {
       if (!allDataIsPresent()) {
-        if (!authorization) {
+        if (!auth4142) {
           // Show error and move focus ONLY when Continue is clicked
           setCheckboxError(true);
           focusOnAlert();
@@ -166,15 +156,8 @@ const Authorization = ({
           setTextAreaError(true);
         }
       } else {
-        const newData = {
-          ...currentEvidenceData,
-          authorization: true,
-          lcPrompt,
-          lcDetails,
-        };
-
         setCheckboxError(false);
-        goForward({ formData: newData });
+        goForward(data);
       }
     },
   };
@@ -205,6 +188,9 @@ const Authorization = ({
   const privacyModalButton2 = createPrivacyModalButton(
     'privacy-modal-button-2',
   );
+
+  const nextQuestionText =
+    'In the next question, you can limit your authorization to specific sources and types of information.';
 
   return (
     <>
@@ -289,10 +275,7 @@ const Authorization = ({
                 friends, public officials)
               </li>
             </ul>
-            <p>
-              You’ll have the option on the next page to limit your
-              authorization of types of sources and/or types of information.
-            </p>
+            <p>{nextQuestionText}</p>
           </va-accordion-item>
           <va-accordion-item header="3. Costs for records" level="4" open>
             <p className="vads-u-margin-top--0">
@@ -516,25 +499,22 @@ const Authorization = ({
               the types of sources listed.
             </li>
           </ul>
-          <p className="vads-u-margin-bottom--0">
-            You’ll have the option on the next page to limit your authorization
-            to types of sources and/or types of information.
-          </p>
+          <p className="vads-u-margin-bottom--0">{nextQuestionText}</p>
           <VaCheckbox
             className="vads-u-font-weight--bold vads-u-margin-top--3"
             id="privacy-agreement"
             name="privacy-agreement"
             label={AUTHORIZATION_LABEL}
-            checked={authorization}
+            checked={auth4142}
             onVaChange={handlers.onCheckboxChange}
             required
             enable-analytics
           />
         </div>
         <LimitedConsent
-          addOrEditMode={addOrEditMode}
-          currentEvidenceData={currentEvidenceData}
-          onChange={onChange}
+          lcDetails={data.lcDetails}
+          lcPrompt={data.lcPrompt}
+          onChange={handlers.onLcChange}
           radioError={radioError}
           setRadioError={setRadioError}
           textAreaError={textAreaError}
@@ -563,14 +543,12 @@ const Authorization = ({
 };
 
 Authorization.propTypes = {
-  addOrEditMode: PropTypes.string,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
-  fullData: PropTypes.object,
+  data: PropTypes.shape(),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
-  onChange: PropTypes.func,
+  setFormData: PropTypes.func,
 };
 
 export default Authorization;
