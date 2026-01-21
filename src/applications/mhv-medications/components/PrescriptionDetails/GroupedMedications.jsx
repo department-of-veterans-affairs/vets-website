@@ -113,7 +113,7 @@ const GroupedMedications = props => {
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
             max-page-list-length={MAX_PAGE_LIST_LENGTH}
-            className="pagination vads-u-justify-content--center no-print vads-u-margin-y--neg3"
+            className="pagination vads-u-justify-content--center no-print vads-u-margin-y--neg1"
             page={currentPage}
             pages={Math.ceil(totalListCount / MAX_PAGE_LIST_LENGTH)}
             uswds
