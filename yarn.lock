@@ -3673,7 +3673,7 @@
 
 "@department-of-veterans-affairs/component-library@54.5.2":
   version "54.5.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-54.5.2.tgz#f64e8e00d8bc0df019d664aa520abc769eddad2d"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-54.5.2.tgz#f64e8e00d8bc0df019d664aa520abc769eddad2d"
   integrity sha512-W847qHJTJMmkNmb222rmSu8JgxuVZsiSDvxrx1Ht49XEghXyGH0lBLw11nNJ7xRb7S3J/6KhS3TVnnv6AB3s3A==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.2.2"
@@ -3685,7 +3685,7 @@
 
 "@department-of-veterans-affairs/css-library@^0.29.0":
   version "0.29.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.29.0.tgz#224e04165bb7c13f93c389d8c6b399ee895f5b7a"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.29.0.tgz#224e04165bb7c13f93c389d8c6b399ee895f5b7a"
   integrity sha512-ZCq0Bbm9ghS8pgq+OuOvqoq4QrynKPLjvhDM0m1PlENtSyMRKlucuqWtJRzJst/wr//ceMENpxB4XAHQvD4Y4w==
   dependencies:
     "@divriots/style-dictionary-to-figma" "0.4.0"
@@ -3711,7 +3711,7 @@
 
 "@department-of-veterans-affairs/react-components@28.2.2":
   version "28.2.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-28.2.2.tgz#88b7be2ecceaebd0719ddfe9a80ddd2699bee199"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-28.2.2.tgz#88b7be2ecceaebd0719ddfe9a80ddd2699bee199"
   integrity sha512-zH9ACUaTJIRaFh37gUAWZrWANqP0YkK9/coqvC4sMpiJVJrU2X1gZSsj7cZCXWRv8broqto3tDZo/JSKEW1SoQ==
   dependencies:
     classnames "2.2.6"
@@ -3753,7 +3753,7 @@
 
 "@department-of-veterans-affairs/web-components@22.5.1":
   version "22.5.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-22.5.1.tgz#63d81677631eaf8e54a45dd492601f6050a9b6c5"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-22.5.1.tgz#63d81677631eaf8e54a45dd492601f6050a9b6c5"
   integrity sha512-xIwSE8eNBK2lfKdE5MdWauG0gOBUfGPwTesxOuo6lwlGUnGdtU7zqQW1QMEdi/4ffzgF4KD9PwJeGRKlHjUwFg==
   dependencies:
     "@stencil/core" "4.20.0"
@@ -3776,7 +3776,7 @@
 
 "@divriots/style-dictionary-to-figma@0.4.0":
   version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@divriots/style-dictionary-to-figma/-/style-dictionary-to-figma-0.4.0.tgz#c518116620887eb71d2750c30201f9ffceb3dac9"
+  resolved "https://registry.npmjs.org/@divriots/style-dictionary-to-figma/-/style-dictionary-to-figma-0.4.0.tgz#c518116620887eb71d2750c30201f9ffceb3dac9"
   integrity sha512-vSC3u1xBi9ShYpGEP+atS+L0vnNnSFmjtvB976+yNUT25nvgpUYCb1ZsSpKBe8+Uk1Qww+4ZIK+/91k3msfs2Q==
 
 "@emotion/babel-plugin@^11.0.0", "@emotion/babel-plugin@^11.10.6", "@emotion/babel-plugin@^11.11.0":
@@ -6219,7 +6219,7 @@
 
 "@uswds/uswds@3.9.0":
   version "3.9.0"
-  resolved "https://registry.yarnpkg.com/@uswds/uswds/-/uswds-3.9.0.tgz#e98b52995a001ff091a9c61baeb487064c98bc6a"
+  resolved "https://registry.npmjs.org/@uswds/uswds/-/uswds-3.9.0.tgz#e98b52995a001ff091a9c61baeb487064c98bc6a"
   integrity sha512-8THm36j7iLjrDiI1D0C6b3hHsmM/Sy5Iiz+IjE+i/gYzVUMG9XVthxAZYonhU97Q1b079n6nYwlUmDSYowJecQ==
   dependencies:
     object-assign "4.1.1"
@@ -8942,7 +8942,7 @@ classlist-polyfill@^1.0.3, classlist-polyfill@^1.2.0:
 
 classnames@2.2.6:
   version "2.2.6"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  resolved "https://registry.npmjs.org/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
 classnames@2.3.1, classnames@^2.3.1:
@@ -13671,7 +13671,7 @@ glob@7.2.0, glob@^7.0.0, glob@^7.0.3, glob@^7.1.1, glob@^7.2.0:
 
 glob@^13.0.0:
   version "13.0.0"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-13.0.0.tgz#9d9233a4a274fc28ef7adce5508b7ef6237a1be3"
+  resolved "https://registry.npmjs.org/glob/-/glob-13.0.0.tgz#9d9233a4a274fc28ef7adce5508b7ef6237a1be3"
   integrity sha512-tvZgpqk6fz4BaNZ66ZsRaZnbHvP/jG3uKJvAZOwEVUL4RTA5nJeeLYfyN9/VA8NX/V3IBG+hkeuGpKjvELkVhA==
   dependencies:
     minimatch "^10.1.1"
@@ -16903,7 +16903,7 @@ lowercase-keys@^2.0.0:
 
 lru-cache@^11.0.0:
   version "11.2.4"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-11.2.4.tgz#ecb523ebb0e6f4d837c807ad1abaea8e0619770d"
+  resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-11.2.4.tgz#ecb523ebb0e6f4d837c807ad1abaea8e0619770d"
   integrity sha512-B5Y16Jr9LB9dHVkh6ZevG+vAbOsNOYCX+sXvFWFu7B3Iz5mijW3zdbMyhsh8ANd2mSWBYdJgnqi+mL7/LrOPYg==
 
 lru-cache@^5.1.1:
@@ -17800,7 +17800,7 @@ minipass@^3.0.0, minipass@^3.1.0, minipass@^3.1.1, minipass@^3.1.3, minipass@^3.
 
 minipass@^7.1.2:
   version "7.1.2"
-  resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.2.tgz#93a9626ce5e5e66bd4db86849e7515e92340a707"
+  resolved "https://registry.npmjs.org/minipass/-/minipass-7.1.2.tgz#93a9626ce5e5e66bd4db86849e7515e92340a707"
   integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
 
 minizlib@^1.3.3:
@@ -19262,7 +19262,7 @@ package-hash@^4.0.0:
 
 package-json-from-dist@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/package-json-from-dist/-/package-json-from-dist-1.0.1.tgz#4f1471a010827a86f94cfd9b0727e36d267de505"
+  resolved "https://registry.npmjs.org/package-json-from-dist/-/package-json-from-dist-1.0.1.tgz#4f1471a010827a86f94cfd9b0727e36d267de505"
   integrity sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==
 
 package-json@^4.0.0:
@@ -19543,7 +19543,7 @@ path-platform@~0.11.15:
 
 path-scurry@^2.0.0:
   version "2.0.1"
-  resolved "https://registry.yarnpkg.com/path-scurry/-/path-scurry-2.0.1.tgz#4b6572376cfd8b811fca9cd1f5c24b3cbac0fe10"
+  resolved "https://registry.npmjs.org/path-scurry/-/path-scurry-2.0.1.tgz#4b6572376cfd8b811fca9cd1f5c24b3cbac0fe10"
   integrity sha512-oWyT4gICAu+kaA7QWk/jvCHWarMKNs6pXOGWKDTr7cw4IGcUbW+PeTfbaQiLGheFRpjo6O9J0PmyMfQPjH71oA==
   dependencies:
     lru-cache "^11.0.0"
@@ -20286,7 +20286,7 @@ promise@^7.1.1:
 
 prop-types@15.6.2:
   version "15.6.2"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
+  resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
   dependencies:
     loose-envify "^1.3.1"
@@ -21137,7 +21137,7 @@ readline2@^1.0.1:
 
 recast@0.14.7:
   version "0.14.7"
-  resolved "https://registry.yarnpkg.com/recast/-/recast-0.14.7.tgz#4f1497c2b5826d42a66e8e3c9d80c512983ff61d"
+  resolved "https://registry.npmjs.org/recast/-/recast-0.14.7.tgz#4f1497c2b5826d42a66e8e3c9d80c512983ff61d"
   integrity sha512-/nwm9pkrcWagN40JeJhkPaRxiHXBRkXyRh/hgU088Z/v+qCy+zIHHY6bC6o7NaKAxPqtE6nD8zBH1LfU0/Wx6A==
   dependencies:
     ast-types "0.11.3"
@@ -21863,7 +21863,7 @@ rfdc@^1.3.0:
 
 rimraf@6.1.2:
   version "6.1.2"
-  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-6.1.2.tgz#9a0f3cea2ab853e81291127422116ecf2a86ae89"
+  resolved "https://registry.npmjs.org/rimraf/-/rimraf-6.1.2.tgz#9a0f3cea2ab853e81291127422116ecf2a86ae89"
   integrity sha512-cFCkPslJv7BAXJsYlK1dZsbP8/ZNLkCAQ0bi1hf5EKX2QHegmDFEFA6QhuYJlk7UDdc+02JjO80YSOrWPpw06g==
   dependencies:
     glob "^13.0.0"
@@ -24917,7 +24917,7 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
 
 util@0.12.5, util@^0.12.3, util@^0.12.5:
   version "0.12.5"
-  resolved "https://registry.yarnpkg.com/util/-/util-0.12.5.tgz#5f17a6059b73db61a875668781a1c2b136bd6fbc"
+  resolved "https://registry.npmjs.org/util/-/util-0.12.5.tgz#5f17a6059b73db61a875668781a1c2b136bd6fbc"
   integrity sha512-kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA==
   dependencies:
     inherits "^2.0.3"
