@@ -251,19 +251,20 @@ export const SearchFormTypes = {
 };
 
 export const ServiceTypeInputTypes = {
+  committedVamcServiceDisplay: PropTypes.string,
   currentQuery: CurrentQueryTypes,
   getProviderSpecialties: PropTypes.func,
   handleServiceTypeChange: PropTypes.func,
   isMobile: PropTypes.bool,
   isSmallDesktop: PropTypes.bool,
   isTablet: PropTypes.bool,
+  onVamcDraftChange: PropTypes.func,
   results: ResultsTypes,
   searchInitiated: PropTypes.bool,
   selectedServiceType: PropTypes.string,
   setSearchInitiated: PropTypes.func,
   useProgressiveDisclosure: PropTypes.bool,
   vamcAutoSuggestEnabled: PropTypes.bool,
-  onChange: PropTypes.func,
 };
 
 /**

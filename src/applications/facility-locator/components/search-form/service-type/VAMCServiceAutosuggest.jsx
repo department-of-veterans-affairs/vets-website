@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { useCombobox } from 'downshift-v9';
 import useServiceType, {
@@ -9,11 +8,11 @@ import useServiceType, {
 import Autosuggest from '../autosuggest';
 
 const VAMCServiceAutosuggest = ({
-  onChange,
+  committedServiceDisplay,
+  isMobile,
+  onDraftChange,
   searchInitiated,
   setSearchInitiated,
-  vamcServiceDisplay,
-  isMobile,
 }) => {
   const { selector, serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
@@ -64,8 +63,8 @@ const VAMCServiceAutosuggest = ({
 
       // Handles edge cases where the form might be re-rendered between
       // viewpoints or for any other reason and the autosuggest input is lost
-      if (!inputValue && vamcServiceDisplay) {
-        setInputValue(vamcServiceDisplay);
+      if (!inputValue && committedServiceDisplay) {
+        setInputValue(committedServiceDisplay);
       }
     },
     [selector],
@@ -98,7 +97,7 @@ const VAMCServiceAutosuggest = ({
   );
 
   const handleClearClick = () => {
-    onChange({ serviceType: null, vamcServiceDisplay: null });
+    onDraftChange?.({ serviceType: null, vamcServiceDisplay: null });
     setInputValue(null);
     setOptions(allVAMCServices);
 
@@ -138,8 +137,8 @@ const VAMCServiceAutosuggest = ({
     if (selectedItem?.toDisplay) {
       setInputValue(selectedItem.toDisplay);
 
-      onChange({
-        serviceType: selectedItem?.serviceId,
+      onDraftChange?.({
+        serviceType: selectedItem.serviceId,
         vamcServiceDisplay: selectedItem.toDisplay,
       });
     }
@@ -197,15 +196,11 @@ const VAMCServiceAutosuggest = ({
 };
 
 VAMCServiceAutosuggest.propTypes = {
+  committedServiceDisplay: PropTypes.string,
   isMobile: PropTypes.bool,
+  onDraftChange: PropTypes.func,
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
-  vamcServiceDisplay: PropTypes.string,
-  onChange: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  vamcServiceDisplay: state.searchQuery.vamcServiceDisplay,
-});
-
-export default connect(mapStateToProps)(VAMCServiceAutosuggest);
+export default VAMCServiceAutosuggest;
