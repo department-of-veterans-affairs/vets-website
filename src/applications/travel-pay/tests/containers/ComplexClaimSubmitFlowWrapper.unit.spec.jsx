@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -9,10 +9,7 @@ import {
   useLocation,
 } from 'react-router-dom-v5-compat';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import {
-  renderWithStoreAndRouter,
-  renderInReduxProvider,
-} from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
 import reducer from '../../redux/reducer';
@@ -468,7 +465,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       getComplexClaimDetailsStub.restore();
     });
 
-    it('dispatches getComplexClaimDetails when claimId exists in URL and no claim data', () => {
+    it('dispatches getComplexClaimDetails when claimId exists in URL and no claim data', async () => {
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: null,
@@ -489,7 +486,10 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         { initialState, reducers: reducer },
       );
 
-      expect(getComplexClaimDetailsStub.calledWith(claimId)).to.be.true;
+      // Wait for async rendering to complete before checking stub
+      await waitFor(() => {
+        expect(getComplexClaimDetailsStub.calledWith(claimId)).to.be.true;
+      });
     });
 
     it('does not dispatch getComplexClaimDetails when claim data already exists', () => {
@@ -515,7 +515,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       expect(getComplexClaimDetailsStub.called).to.be.false;
     });
 
-    it('dispatches getComplexClaimDetails with claim ID from appointment', () => {
+    it('dispatches getComplexClaimDetails with claim ID from appointment', async () => {
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: null,
@@ -550,8 +550,11 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       );
 
-      expect(getComplexClaimDetailsStub.calledWith('claim-from-appointment')).to
-        .be.true;
+      // Wait for async rendering to complete before checking stub
+      await waitFor(() => {
+        expect(getComplexClaimDetailsStub.calledWith('claim-from-appointment'))
+          .to.be.true;
+      });
     });
   });
 
@@ -795,7 +798,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
   });
 
   describe('Redirect for non-editable claims', () => {
-    it('redirects to claim details when claim status is "Claim submitted"', () => {
+    it('redirects to claim details when claim status is "Claim submitted"', async () => {
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: { claimId: 'claim-456' },
@@ -808,7 +811,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       });
 
-      const { getByText } = renderWithStoreAndRouter(
+      const { findByText } = renderWithStoreAndRouter(
         <MemoryRouter initialEntries={['/file-new-claim/12345']}>
           <Routes>
             <Route
@@ -826,7 +829,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       );
 
-      expect(getByText('Claim Details')).to.exist;
+      expect(await findByText('Claim Details')).to.exist;
     });
 
     it('does NOT redirect when claim status is "Incomplete"', () => {
@@ -933,7 +936,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       expect(getByText('Intro')).to.exist;
     });
 
-    it('redirects to claim details when claim source is not VaGov', () => {
+    it('redirects to claim details when claim source is not VaGov', async () => {
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: {
@@ -949,7 +952,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       });
 
-      const { getByText } = renderWithStoreAndRouter(
+      const { findByText } = renderWithStoreAndRouter(
         <MemoryRouter initialEntries={['/file-new-claim/12345']}>
           <Routes>
             <Route
@@ -967,7 +970,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       );
 
-      expect(getByText('Claim Details')).to.exist;
+      expect(await findByText('Claim Details')).to.exist;
     });
 
     it('does NOT redirect when claim source is VaGov and status is Incomplete', () => {
@@ -1007,7 +1010,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       expect(getByText('Intro')).to.exist;
     });
 
-    it('redirects to claim details when there are unassociated documents', () => {
+    it('redirects to claim details when there are unassociated documents', async () => {
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: {
@@ -1031,7 +1034,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       });
 
-      const { getByText } = renderWithStoreAndRouter(
+      const { findByText } = renderWithStoreAndRouter(
         <MemoryRouter initialEntries={['/file-new-claim/12345']}>
           <Routes>
             <Route
@@ -1049,7 +1052,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       );
 
-      expect(getByText('Claim Details')).to.exist;
+      expect(await findByText('Claim Details')).to.exist;
     });
 
     it('does NOT redirect when all documents are associated', () => {
@@ -1097,7 +1100,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       expect(getByText('Intro')).to.exist;
     });
 
-    it('redirects when multiple redirect conditions are met', () => {
+    it('redirects when multiple redirect conditions are met', async () => {
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: {
@@ -1121,7 +1124,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       });
 
-      const { getByText } = renderWithStoreAndRouter(
+      const { findByText } = renderWithStoreAndRouter(
         <MemoryRouter initialEntries={['/file-new-claim/12345']}>
           <Routes>
             <Route
@@ -1139,7 +1142,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         },
       );
 
-      expect(getByText('Claim Details')).to.exist;
+      expect(await findByText('Claim Details')).to.exist;
     });
 
     it('does NOT redirect when documents array is empty', () => {
@@ -1240,15 +1243,11 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
 
     it('redirects to get-claim-error when getComplexClaimDetails rejects', async () => {
-      // Stub the thunk to dispatch the failure action and then throw
-      // This mimics the real action behavior which updates Redux state
-      getComplexClaimDetailsStub.callsFake(() => async dispatch => {
-        dispatch({
-          type: 'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE',
-          error: 'Failed to fetch claim',
-        });
-        throw new Error('Failed');
-      });
+      // Stub the thunk to throw an error, which should trigger the component's
+      // .catch() handler and set shouldRedirect to true
+      getComplexClaimDetailsStub.callsFake(() => () =>
+        Promise.reject(new Error('Failed')),
+      );
 
       const initialState = getData({
         complexClaimsEnabled: true,
@@ -1256,7 +1255,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         claimError: null,
       });
 
-      const { findByText } = renderInReduxProvider(
+      const { findByText } = renderWithStoreAndRouter(
         <MemoryRouter
           initialEntries={[`/file-new-claim/${appointmentId}/${claimId}`]}
         >
@@ -1275,7 +1274,13 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       );
 
       // Wait for the redirect to happen and the error page to appear
-      expect(await findByText('Get Claim Error Page')).to.exist;
+      // Using findByText which automatically waits up to 1000ms by default
+      const errorPage = await findByText(
+        'Get Claim Error Page',
+        {},
+        { timeout: 5000 },
+      );
+      expect(errorPage).to.exist;
     });
 
     it('does not redirect if isErrorRoute is already true', async () => {

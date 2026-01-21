@@ -258,12 +258,12 @@ describe('childReasonToRemove', () => {
       ).to.equal('stepchild-financial-support');
     });
 
-    it('should return "child-disability" on goForward', () => {
+    it('should return "child-left-school" on goForward', () => {
       expect(
         childReasonToRemove.handlers.goForward({
           itemData: { removalReason: 'childNotInSchool' },
         }),
-      ).to.equal('child-disability');
+      ).to.equal('child-left-school');
     });
 
     it('should return "child-adopted" on goForward', () => {
