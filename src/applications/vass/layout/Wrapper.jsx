@@ -48,7 +48,7 @@ const Wrapper = props => {
 
   return (
     <div
-      className={classNames(`vads-l-grid-container`, {
+      className={classNames(`vads-l-grid-container vads-u-padding-x--2p5`, {
         'vads-u-padding-y--3': !showBackLink,
         'vads-u-padding-top--2 vads-u-padding-bottom--3': showBackLink, // Make the spacing consistent when showBackLink is true
         [className]: className,
