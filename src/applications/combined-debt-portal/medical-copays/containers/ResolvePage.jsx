@@ -99,6 +99,7 @@ const ResolvePage = ({ match }) => {
           acctNum={acctNum}
           facility={selectedCopay?.station}
           amtDue={amtDue}
+          lightHouseFacilityName={facilityName}
         />
         <DownloadStatement
           key={selectedId}

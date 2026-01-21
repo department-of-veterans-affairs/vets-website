@@ -8,7 +8,13 @@ const splitAccountNumber = accountNumber => {
   return Array.from({ length: 5 }, (_, i) => parts[i] || '');
 };
 
-export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => {
+export const HowToPay = ({
+  isOverview,
+  acctNum,
+  facility,
+  amtDue,
+  lightHouseFacilityName,
+}) => {
   const accountParts = splitAccountNumber(acctNum);
 
   return (
@@ -65,10 +71,13 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => {
       </p>
       <h3>Pay in person</h3>
       <p>
-        Visit {isOverview ? 'the facility' : facility?.facilityName} and ask for
-        the agent cashier’s office. Bring your payment stub, along with a check
-        or money order made payable to "VA". Be sure to include your account
-        number on the check or money order.
+        Visit{' '}
+        {isOverview
+          ? 'the facility'
+          : lightHouseFacilityName || facility?.facilityName}{' '}
+        and ask for the agent cashier’s office. Bring your payment stub, along
+        with a check or money order made payable to "VA". Be sure to include
+        your account number on the check or money order.
       </p>
       <h3>Pay by mail</h3>
       <p>
@@ -114,10 +123,6 @@ HowToPay.propTypes = {
   amtDue: PropTypes.string,
   facility: PropTypes.shape({
     facilityName: PropTypes.string,
-    staTAddress1: PropTypes.string,
-    city: PropTypes.string,
-    state: PropTypes.string,
-    ziPCde: PropTypes.string,
   }),
   isOverview: PropTypes.bool,
 };
