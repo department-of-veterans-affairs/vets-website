@@ -63,7 +63,7 @@ const RecordListNew = ({
       {/* The list itself */}
       <ul className="record-list-items no-print vads-u-margin--0 vads-u-padding--0">
         {records.map((record, idx) => (
-          <li key={idx} className="vads-u-list-style--none">
+          <li key={idx}>
             <RecordListItem
               record={record}
               type={type}
@@ -74,7 +74,7 @@ const RecordListNew = ({
       </ul>
       <ul className="record-list-items print-only vads-u-margin--0 vads-u-padding--0">
         {records.map((record, idx) => (
-          <li key={idx} className="vads-u-list-style--none">
+          <li key={idx}>
             <RecordListItem record={record} type={type} />
           </li>
         ))}
