@@ -57,7 +57,7 @@ const ReplyForm = props => {
   const [hideDraft, setHideDraft] = useState(false);
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
-  const showEditDraftButton = useMemo(
+  const hasDraftReplyActive = useMemo(
     () => !cannotReply && !showBlockedTriageGroupAlert && !hideDraft,
     [cannotReply, showBlockedTriageGroupAlert, hideDraft],
   );
@@ -164,7 +164,7 @@ const ReplyForm = props => {
         )}
 
         {customFoldersRedesignEnabled &&
-          !showEditDraftButton && (
+          !hasDraftReplyActive && (
             <ReplyButton
               key="replyButton"
               visible={!cannotReply && !showBlockedTriageGroupAlert}
