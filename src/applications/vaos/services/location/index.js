@@ -89,10 +89,10 @@ export async function getLocation({ facilityId }) {
  * @param {Array<string>} params.siteIds The vista site ids of the facilities we want to fetch
  * @returns {Array<FacilitySettings>} An array of facility settings
  */
-export async function getLocationSettings({ siteIds }) {
+export async function getLocationSettings({ siteIds, useVpg }) {
   try {
     const settings = await getSchedulingConfigurations(siteIds);
-    return transformSettingsV2(settings);
+    return transformSettingsV2(settings, useVpg);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -118,6 +118,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
   siteIds,
   sortByRecentLocations = false,
   removeFacilityConfigCheck = false,
+  useVpg = false,
 }) {
   try {
     let locations = [];
@@ -131,7 +132,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
 
     if (!removeFacilityConfigCheck) {
       const uniqueIds = locations.map(location => location.id);
-      settings = await getLocationSettings({ siteIds: uniqueIds });
+      settings = await getLocationSettings({ siteIds: uniqueIds, useVpg });
     }
 
     locations = locations?.map(location =>
@@ -140,7 +141,6 @@ export async function getLocationsByTypeOfCareAndSiteIds({
         settings,
       }),
     );
-
     if (sortByRecentLocations) {
       return locations;
     }

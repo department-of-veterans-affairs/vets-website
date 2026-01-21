@@ -70,7 +70,11 @@ export function transformFacilityV2(facility) {
  * @param {Array<Object>} params.settings An array of settings objects for a given location
  * @returns {Location} A Location resource
  */
-export function setSupportedSchedulingMethods({ location, settings } = {}) {
+export function setSupportedSchedulingMethods({
+  location,
+  settings,
+  useVpg = false,
+} = {}) {
   const { id } = location;
 
   const facilitySettings = settings.find(f => f.id === id);
@@ -91,7 +95,9 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
     identifier,
     legacyVAR: {
       ...location.legacyVAR,
-      settings: arrayToObject(facilitySettings?.services),
+      settings: useVpg
+        ? arrayToObject(facilitySettings?.vaServices)
+        : arrayToObject(facilitySettings?.services),
     },
   };
 }
@@ -178,12 +184,17 @@ function getTypeOfCareIdFromV2(id) {
   return allTypesOfCare.find(care => care.idV2 === id)?.id;
 }
 
-export function transformSettingsV2(settings) {
+export function transformSettingsV2(settings, useVpg = false) {
   return settings.map(setting => ({
     ...setting,
-    services: setting.services.map(service => ({
-      ...service,
-      id: getTypeOfCareIdFromV2(service.id),
-    })),
+    services: useVpg
+      ? setting.vaServices.map(service => ({
+          ...service,
+          id: getTypeOfCareIdFromV2(service.clinicalServiceId),
+        }))
+      : setting.services.map(service => ({
+          ...service,
+          id: getTypeOfCareIdFromV2(service.id),
+        })),
   }));
 }
