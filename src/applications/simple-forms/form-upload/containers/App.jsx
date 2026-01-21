@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import formConfig from '../config/form';
 import { getFormContent } from '../helpers';
 
@@ -18,7 +21,12 @@ const App = ({ location, children }) => {
 
   return (
     <RoutedSavableApp formConfig={config} currentLocation={location}>
-      {children}
+      <DowntimeNotification
+        appTitle="Upload VA forms"
+        dependencies={[externalServices.formUploadBenefitsIntake]}
+      >
+        {children}
+      </DowntimeNotification>
     </RoutedSavableApp>
   );
 };

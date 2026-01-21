@@ -23,6 +23,7 @@ import {
 import { PICKLIST_DATA } from '../../config/constants';
 import transformedV3RemoveOnlyData from '../e2e/fixtures/transformed-remove-only-v3';
 import v3RemoveOnlyData from '../e2e/fixtures/removal-only-v3.json';
+import { formConfig } from '../../config/form';
 
 const dataOptions = 'view:removeDependentOptions';
 
@@ -884,6 +885,66 @@ describe('customTransformForSubmit - integration tests', () => {
     expect(submittedData.deaths).to.be.an('array');
     expect(submittedData.deaths).to.have.lengthOf(1);
   });
+
+  it('should preserve wizard view: fields in add flow with no awarded dependents (regression test)', () => {
+    // This test verifies that wizard fields are preserved even when their pages
+    // are marked inactive due to depends functions checking for awarded dependents.
+    // This was causing a cascade where all view: fields and data were removed.
+    //
+    // CRITICAL: This test MUST use the real formConfig (not mockFormConfig) to
+    // properly exercise the inactive page filtering logic with real depends functions.
+    const form = {
+      data: {
+        vaDependentsV3: true,
+        'view:addOrRemoveDependents': { add: true },
+        'view:addDependentOptions': { addSpouse: true },
+        'view:selectable686Options': { addSpouse: true },
+        currentMarriageInformation: {
+          typeOfMarriage: 'CIVIL',
+          location: { city: 'Test', state: 'AL' },
+          date: '1990-01-01',
+        },
+        doesLiveWithSpouse: {
+          spouseDoesLiveWithVeteran: true,
+        },
+        spouseInformation: {
+          isVeteran: false,
+          fullName: { first: 'Test', last: 'User' },
+          birthDate: '1990-01-01',
+          ssn: '123123123',
+        },
+        dependents: {
+          hasError: false,
+          hasDependents: false,
+          awarded: [], // No awarded dependents - triggers the cascade bug
+        },
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    // Use REAL formConfig to exercise actual page filtering and depends logic
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    // Critical assertions: wizard fields should be preserved
+    expect(submittedData['view:addOrRemoveDependents']).to.not.be.undefined;
+    expect(submittedData['view:addOrRemoveDependents'].add).to.be.true;
+
+    expect(submittedData['view:addDependentOptions']).to.not.be.undefined;
+    expect(submittedData['view:addDependentOptions'].addSpouse).to.be.true;
+
+    expect(submittedData['view:selectable686Options']).to.not.be.undefined;
+    expect(submittedData['view:selectable686Options'].addSpouse).to.be.true;
+
+    // Data fields should also be present
+    expect(submittedData.currentMarriageInformation).to.not.be.undefined;
+    expect(submittedData.doesLiveWithSpouse).to.not.be.undefined;
+    expect(submittedData.spouseInformation).to.not.be.undefined;
+  });
 });
 
 describe('showDupeModalIfEnabled', () => {
@@ -1215,7 +1276,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'SUMMER', last: 'SMITH' },
           dateOfBirth: '1990-08-01',
-          ssn: '6790',
+          ssn: '123456790',
           selected: true,
           removalReason: 'marriageEnded',
           endType: 'divorce',
@@ -1231,7 +1292,7 @@ describe('transformPicklistToV2', () => {
     expect(result.reportDivorce).to.be.an('object');
     expect(result.reportDivorce).to.deep.equal({
       fullName: { first: 'SUMMER', last: 'SMITH' },
-      ssn: '6790',
+      ssn: '123456790',
       birthDate: '1990-08-01',
       date: '2000-02-02',
       reasonMarriageEnded: 'Divorce',
@@ -1280,6 +1341,80 @@ describe('transformPicklistToV2', () => {
         country: 'FRA',
       },
     });
+  });
+
+  it('should not include SSN in reportDivorce if SSN is not exactly 9 digits', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '1234', // Only 4 digits
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2020-01-01',
+          endCity: 'test',
+          endState: 'AS',
+          endOutsideUs: false,
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.reportDivorce).to.be.an('object');
+    expect(result.reportDivorce.ssn).to.be.undefined;
+    expect(result.reportDivorce.fullName).to.deep.equal({
+      first: 'SPOUSE',
+      last: 'DOE',
+    });
+  });
+
+  it('should include SSN in reportDivorce if SSN is exactly 9 digits', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '123456789', // Exactly 9 digits
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2020-01-01',
+          endCity: 'test',
+          endState: 'AS',
+          endOutsideUs: false,
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.reportDivorce).to.be.an('object');
+    expect(result.reportDivorce.ssn).to.equal('123456789');
+  });
+
+  it('should normalize SSN in reportDivorce by removing dashes', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '123-45-6789', // 9 digits with dashes
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2020-01-01',
+          endCity: 'test',
+          endState: 'AS',
+          endOutsideUs: false,
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.reportDivorce).to.be.an('object');
+    // Should strip dashes and send digits only
+    expect(result.reportDivorce.ssn).to.equal('123456789');
   });
 
   it('should transform spouse death to deaths array', () => {
@@ -1985,5 +2120,77 @@ describe('enrichDivorceWithSSN', () => {
     const result = enrichDivorceWithSSN(data);
 
     expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should not add SSN if it is not exactly 9 digits', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '12345', // Only 5 digits
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    // Should not add invalid SSN
+    expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should not add SSN if it has more than 9 digits', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '12345678901', // 11 digits
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    // Should not add invalid SSN
+    expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should normalize SSN by removing dashes and formatting', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '123-45-6789', // 9 digits with formatting
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    // Should normalize SSN to digits only (remove dashes)
+    expect(result.reportDivorce.ssn).to.equal('123456789');
   });
 });
