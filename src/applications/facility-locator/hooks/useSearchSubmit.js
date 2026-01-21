@@ -3,6 +3,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { LocationType } from '../constants';
 
+/** Handles form validation and submission. */
 const useSearchSubmit = ({
   draftFormState,
   setDraftFormState,
