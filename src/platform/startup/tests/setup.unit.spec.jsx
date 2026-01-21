@@ -25,7 +25,14 @@ describe('setUpCommonFunctionality', () => {
     sandbox.stub(sitewideComponents, 'default');
     storeModuleStub = sandbox.stub(storeModule, 'default').returns(storeStub);
     sandbox.stub(Sentry, 'setTag');
-    sandbox.stub(Sentry, 'withScope');
+    // Must call the callback to preserve Sentry behavior for other tests using testkit
+    sandbox.stub(Sentry, 'withScope').callsFake(callback => {
+      callback({
+        setFingerprint: sinon.stub(),
+        setExtra: sinon.stub(),
+        setTag: sinon.stub(),
+      });
+    });
   });
 
   afterEach(() => {

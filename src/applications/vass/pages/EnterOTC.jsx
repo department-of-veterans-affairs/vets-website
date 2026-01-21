@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
 import { selectObfuscatedEmail } from '../redux/slices/formSlice';
+import { URLS } from '../utils/constants';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
@@ -74,11 +75,11 @@ const EnterOTC = () => {
       setFocusTrigger(prev => prev + 1);
       return;
     }
-    // TODO: handle otc verification success
     if (cancellationFlow) {
-      navigate('/cancel-appointment/abcdef123456');
+      // TODO: handle cancellation flow
+      navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
     } else {
-      navigate('/date-time');
+      navigate(URLS.DATE_TIME, { replace: true });
     }
   };
 

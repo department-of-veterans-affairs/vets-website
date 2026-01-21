@@ -380,7 +380,7 @@ jobs:
           if [[ "${{ matrix.app.type }}" == "platform" ]]; then
             yarn test:unit:gha --coverage --log-level verbose "src/platform/**/*.unit.spec.js?(x)"
           else
-            yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose "src/applications/${{ matrix.app.folder }}/**/*.unit.spec.js?(x)"
+            yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose
           fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml
@@ -561,6 +561,7 @@ jobs:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+          APP_URLS: 'http://localhost:3001'
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
