@@ -219,6 +219,78 @@ declare module 'some-untyped-package' {
 - **DON'T**: For rarely used components
 - **DON'T**: When types would be complex/unmaintainable
 
+### Adding VA Web Components
+When using a new VA Design System web component (custom elements like `va-*`), add its type definition to `config/globalTypes/web-components.d.ts`. This file is shared across all applications.
+
+**Pattern**:
+```typescript
+// config/globalTypes/web-components.d.ts
+
+type WebComponent<T = {}> = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLElement> & T,
+  HTMLElement
+>;
+
+type WebComponentInput<T = {}> = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement> & T,
+  HTMLInputElement
+>;
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    // Use WebComponentInput for input-based components
+    'va-text-input': WebComponentInput<{
+      label?: string;
+      'error-message'?: string;
+      'required'?: boolean;
+    }>;
+
+    // Use WebComponent for all other components
+    'va-new-component': WebComponent<{
+      prop1?: string;
+      prop2?: number;
+      'kebab-case-prop'?: boolean;
+    }>;
+
+    // For components with no custom props
+    'va-simple-component': WebComponent;
+  }
+}
+```
+
+**Guidelines**:
+- ✅ Use `WebComponentInput<T>` for components that extend `HTMLInputElement` (like `va-text-input`, `va-checkbox`, `va-radio-option`)
+- ✅ Use `WebComponent<T>` for all other components (most VA web components)
+- ✅ Use `WebComponent` (no type parameter) for components with no custom props
+- ✅ Use kebab-case for prop names that match the HTML attribute (e.g., `'set-focus'`, `'error-message'`)
+- ✅ Group related components with comments (e.g., `// VA Form Input Components`)
+- ✅ Add components in alphabetical order within their group
+- ✅ Make all props optional unless you're certain they're required
+
+**Example - Adding a new component**:
+```typescript
+// If you're using <va-number-input> with props: label, value, min, max
+// Add to config/globalTypes/web-components.d.ts:
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    // ... existing components ...
+
+    // VA Form Input Components
+    'va-number-input': WebComponentInput<{
+      label?: string;
+      value?: number;
+      min?: number;
+      max?: number;
+      'error-message'?: string;
+      'required'?: boolean;
+    }>;
+  }
+}
+```
+
+**Note**: After adding a component, it will be available in all TypeScript files across the monorepo without any imports needed.
+
 ## Common Issues
 
 ### "Cannot find module" errors

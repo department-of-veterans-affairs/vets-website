@@ -6,165 +6,121 @@
  * to all applications that extend the base TypeScript configuration.
  */
 
+type WebComponent<T = {}> = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLElement> & T,
+  HTMLElement
+>;
+
+type WebComponentInput<T = {}> = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement> & T,
+  HTMLInputElement
+>;
+
 declare namespace JSX {
   interface IntrinsicElements {
-    // VA Loading Components
-    'va-loading-indicator': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        label?: string;
-        message?: string;
-        'set-focus'?: boolean;
-      },
-      HTMLElement
-    >;
+    'va-loading-indicator': WebComponent<{
+      label?: string;
+      message?: string;
+      'set-focus'?: boolean;
+    }>;
 
-    // VA Alert Components
-    'va-alert': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        status?: 'info' | 'warning' | 'error' | 'success';
-        'background-only'?: boolean;
-        visible?: boolean;
-        'closeable'?: boolean;
-        'close-btn-aria-label'?: string;
-        headline?: string;
-      },
-      HTMLElement
-    >;
+    'va-alert': WebComponent<{
+      status?: 'info' | 'warning' | 'error' | 'success';
+      'background-only'?: boolean;
+      visible?: boolean;
+      'closeable'?: boolean;
+      'close-btn-aria-label'?: string;
+      headline?: string;
+    }>;
 
-    // VA Button Components
-    'va-button': React.DetailedHTMLProps<
-      React.ButtonHTMLAttributes<HTMLButtonElement> & {
-        text?: string;
-        secondary?: boolean;
-        'uswds'?: boolean;
-        'analytics'?: string;
-      },
-      HTMLButtonElement
-    >;
+    'va-button': WebComponent<{
+      text?: string;
+      secondary?: boolean;
+      'uswds'?: boolean;
+      'analytics'?: string;
+    }>;
 
-    // VA Form Input Components
-    'va-text-input': React.DetailedHTMLProps<
-      React.InputHTMLAttributes<HTMLInputElement> & {
-        label?: string;
-        'error-message'?: string;
-        'required'?: boolean;
-        'uswds'?: boolean;
-      },
-      HTMLInputElement
-    >;
+    'va-text-input': WebComponentInput<{
+      label?: string;
+      'error-message'?: string;
+      'required'?: boolean;
+      'uswds'?: boolean;
+    }>;
 
-    'va-textarea': React.DetailedHTMLProps<
-      React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
-        label?: string;
-        'error-message'?: string;
-        'required'?: boolean;
-        'uswds'?: boolean;
-      },
-      HTMLTextAreaElement
-    >;
+    'va-textarea': WebComponent<{
+      label?: string;
+      'error-message'?: string;
+      'required'?: boolean;
+      'uswds'?: boolean;
+    }>;
 
-    'va-select': React.DetailedHTMLProps<
-      React.SelectHTMLAttributes<HTMLSelectElement> & {
-        label?: string;
-        'error-message'?: string;
-        'required'?: boolean;
-        'uswds'?: boolean;
-      },
-      HTMLSelectElement
-    >;
+    'va-select': WebComponent<{
+      label?: string;
+      'error-message'?: string;
+      'required'?: boolean;
+      'uswds'?: boolean;
+    }>;
 
-    'va-checkbox': React.DetailedHTMLProps<
-      React.InputHTMLAttributes<HTMLInputElement> & {
-        label?: string;
-        'error-message'?: string;
-        'required'?: boolean;
-        'uswds'?: boolean;
-      },
-      HTMLInputElement
-    >;
+    'va-checkbox': WebComponentInput<{
+      label?: string;
+      'error-message'?: string;
+      'required'?: boolean;
+      'uswds'?: boolean;
+    }>;
 
-    'va-radio': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        label?: string;
-        'error-message'?: string;
-        'required'?: boolean;
-        'uswds'?: boolean;
-      },
-      HTMLElement
-    >;
+    'va-radio': WebComponent<{
+      label?: string;
+      'error-message'?: string;
+      'required'?: boolean;
+      'uswds'?: boolean;
+    }>;
 
-    'va-radio-option': React.DetailedHTMLProps<
-      React.InputHTMLAttributes<HTMLInputElement> & {
-        label?: string;
-        'error-message'?: string;
-        'uswds'?: boolean;
-      },
-      HTMLInputElement
-    >;
+    'va-radio-option': WebComponentInput<{
+      label?: string;
+      'error-message'?: string;
+      'uswds'?: boolean;
+    }>;
 
-    // VA Date Components
-    'va-date': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        label?: string;
-        'error-message'?: string;
-        'required'?: boolean;
-        'uswds'?: boolean;
-        name?: string;
-      },
-      HTMLElement
-    >;
+    'va-date': WebComponent<{
+      label?: string;
+      'error-message'?: string;
+      'required'?: boolean;
+      'uswds'?: boolean;
+      name?: string;
+    }>;
 
-    'va-memorable-date': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        label?: string;
-        'error-message'?: string;
-        'required'?: boolean;
-        'uswds'?: boolean;
-        name?: string;
-      },
-      HTMLElement
-    >;
+    'va-memorable-date': WebComponent<{
+      label?: string;
+      'error-message'?: string;
+      'required'?: boolean;
+      'uswds'?: boolean;
+      name?: string;
+    }>;
 
-    // VA Additional Components
-    'va-additional-info': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        trigger?: string;
-        'uswds'?: boolean;
-      },
-      HTMLElement
-    >;
+    'va-additional-info': WebComponent<{
+      trigger?: string;
+      'uswds'?: boolean;
+    }>;
 
-    'va-modal': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        visible?: boolean;
-        'modal-title'?: string;
-        'primary-button-text'?: string;
-        'secondary-button-text'?: string;
-        'uswds'?: boolean;
-      },
-      HTMLElement
-    >;
+    'va-modal': WebComponent<{
+      visible?: boolean;
+      'modal-title'?: string;
+      'primary-button-text'?: string;
+      'secondary-button-text'?: string;
+      'uswds'?: boolean;
+    }>;
 
-    'va-breadcrumbs': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        'uswds'?: boolean;
-      },
-      HTMLElement
-    >;
+    'va-breadcrumbs': WebComponent<{
+      'uswds'?: boolean;
+    }>;
 
-    'va-pagination': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
-        page?: number;
-        pages?: number;
-        'max-page-list-length'?: number;
-        'uswds'?: boolean;
-      },
-      HTMLElement
-    >;
+    'va-pagination': WebComponent<{
+      page?: number;
+      pages?: number;
+      'max-page-list-length'?: number;
+      'uswds'?: boolean;
+    }>;
 
-    'va-back-to-top': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement>,
-      HTMLElement
-    >;
+    'va-back-to-top': WebComponent;
   }
 }

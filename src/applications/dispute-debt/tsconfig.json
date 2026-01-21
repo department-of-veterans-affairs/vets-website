@@ -10,7 +10,6 @@
     "skipLibCheck": true,
     "strict": true,
     "noImplicitAny": true,
-    "types": ["mocha", "chai"],
     "typeRoots": ["./types", "../../../node_modules/@types"],
     "baseUrl": "../../../src",
     "paths": {
