@@ -8,16 +8,6 @@ Prefill data comes from two backend sources:
 - **`/v0/user`** - User profile data from VA Profile (name, date of birth, contact info, etc.)
 - **`/v0/in_progress_forms/{form-id}`** - Form-specific prefill data that cannot be obtained from the user profile, such as SSN and VA file number
 
-## Implementation Checklist
-
-- [ ] Complete vets-api backend configuration (form profile, YAML file, and Settings)
-- [ ] Enable prefill in form config (`prefillEnabled: true`)
-- [ ] Create prefill transformer to map backend data to form structure
-- [ ] Add submit transformer (including `transformEmailForSubmit` if using contact info)
-- [ ] Add route protection
-- [ ] Import and configure prefill components (`profilePersonalInfoPage`, `profileContactInfoPages`)
-- [ ] Set up local mock responses for testing
-
 ## Table of Contents
 
 - [Quick Start](#quick-start)
