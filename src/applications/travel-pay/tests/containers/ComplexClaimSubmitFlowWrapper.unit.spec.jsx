@@ -9,7 +9,10 @@ import {
   useLocation,
 } from 'react-router-dom-v5-compat';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  renderWithStoreAndRouter,
+  renderInReduxProvider,
+} from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
 import reducer from '../../redux/reducer';
@@ -1237,9 +1240,13 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
 
     it('redirects to get-claim-error when getComplexClaimDetails rejects', async () => {
-      // Stub the thunk to return an async function that throws
-      // Using async/await pattern is more reliable than Promise.reject()
-      getComplexClaimDetailsStub.callsFake(() => async () => {
+      // Stub the thunk to dispatch the failure action and then throw
+      // This mimics the real action behavior which updates Redux state
+      getComplexClaimDetailsStub.callsFake(() => async dispatch => {
+        dispatch({
+          type: 'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE',
+          error: 'Failed to fetch claim',
+        });
         throw new Error('Failed');
       });
 
@@ -1249,7 +1256,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         claimError: null,
       });
 
-      const { findByText } = renderWithStoreAndRouter(
+      const { findByText } = renderInReduxProvider(
         <MemoryRouter
           initialEntries={[`/file-new-claim/${appointmentId}/${claimId}`]}
         >
