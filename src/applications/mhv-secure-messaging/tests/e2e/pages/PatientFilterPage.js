@@ -19,11 +19,19 @@ class PatientFilterSortPage {
   };
 
   openAdditionalFilter = () => {
-    cy.findByText('Show filters', { selector: 'h3' }).click();
+    cy.get('va-accordion-item')
+      .shadow()
+      .find('h3')
+      .contains('Show filters')
+      .click();
   };
 
   closeAdditionalFilter = () => {
-    cy.findByText('Hide filters', { selector: 'h3' }).click();
+    cy.get('va-accordion-item')
+      .shadow()
+      .find('h3')
+      .contains('Hide filters')
+      .click();
   };
 
   // This method will access the input field and enters the text that will be used for search.

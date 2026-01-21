@@ -121,7 +121,7 @@ describe(`${appName} -- editing test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 2,
-      name: /^You’ve submitted your medical supplies order$/,
+      name: /You’ve submitted your medical supplies order/,
     };
     cy.findByRole('heading', heading); // .should('have.focus'); // it _should_ have focus, but does not
   });
