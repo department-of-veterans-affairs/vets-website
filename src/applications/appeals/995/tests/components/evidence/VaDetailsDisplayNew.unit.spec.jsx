@@ -218,16 +218,6 @@ describe('VaDetailsDisplayNew', () => {
       });
     });
 
-    describe('when the issues are missing', () => {
-      it('should render the proper errors', () => {
-        const partialData = { ...fullData, issuesVa: {} };
-        getContainer(partialData);
-
-        const error = $$('.usa-input-error-message')[0];
-        expect(error.textContent).to.contain('Missing condition');
-      });
-    });
-
     describe('when the treatmentMonthYear is missing', () => {
       it('should render the proper errors', () => {
         const partialData = {

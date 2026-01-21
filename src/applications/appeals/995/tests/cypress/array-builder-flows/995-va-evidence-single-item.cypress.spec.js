@@ -53,15 +53,6 @@ describe('Array Builder evidence flow', () => {
       );
       h.addVaLocation('Central Boston VA Hospital');
 
-      // Contestable Issues
-      h.verifyH3(
-        'What conditions were you treated for at Central Boston VA Hospital?',
-      );
-      cy.selectVaCheckbox('root_issuesVa_Headaches', true);
-      cy.selectVaCheckbox('root_issuesVa_Sleep apnea', true);
-
-      h.clickContinue();
-
       // Treatment Before 2005
       h.verifyH3(
         'Did treatment at Central Boston VA Hospital start before 2005?',
@@ -87,8 +78,6 @@ describe('Array Builder evidence flow', () => {
       h.verifyArrayBuilderReviewVACard(
         0,
         'Central Boston VA Hospital',
-        2,
-        'Headaches and Sleep apnea',
         'Aug. 1997',
       );
 
@@ -109,14 +98,6 @@ describe('Array Builder evidence flow', () => {
       );
       h.clickContinue();
 
-      // Issues
-      h.verifyH3(
-        'Edit the conditions you were treated for at Presbyterian Hospital (North Side)',
-      );
-      h.confirmCheckboxesChecked('Va', ['Headaches', 'Sleep apnea']);
-      cy.selectVaCheckbox('root_issuesVa_Headaches', false);
-      h.clickContinue();
-
       // Treatment Before 2005
       h.verifyH3(
         'Edit if treatment at Presbyterian Hospital (North Side) started before 2005',
@@ -125,12 +106,7 @@ describe('Array Builder evidence flow', () => {
       h.addVaTreatmentAfter2005();
 
       // Summary
-      h.verifyArrayBuilderReviewVACard(
-        0,
-        'Presbyterian Hospital (North Side)',
-        1,
-        'Sleep apnea',
-      );
+      h.verifyArrayBuilderReviewVACard(0, 'Presbyterian Hospital (North Side)');
       h.checkAlertText(
         'record_0',
         'Presbyterian Hospital (North Side) information has been updated.',

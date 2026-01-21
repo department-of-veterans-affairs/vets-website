@@ -97,10 +97,10 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'What conditions were you treated for at Rainier Urgent Care?',
       );
-      cy.get('[name="root_issuesPrivate_Hypertension"]')
+      cy.get('[name="root_issues_Hypertension"]')
         .eq(0)
         .click();
-      cy.get('[name="root_issuesPrivate_Tendonitis, left ankle"]')
+      cy.get('[name="root_issues_Tendonitis, left ankle"]')
         .eq(0)
         .click();
 
@@ -143,7 +143,7 @@ describe('Array Builder evidence flow', () => {
 
       h.checkAlertText(
         'record_0',
-        `Rainier Urgent Care’s information has been deleted`,
+        `Success Alert Rainier Urgent Care’s information has been deleted`,
       );
     });
   });

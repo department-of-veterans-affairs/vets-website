@@ -543,24 +543,23 @@ export const clickArrayBuilderCardEditLink = locationName => {
 };
 
 export const clickArrayBuilderDeleteCardButton = locationName => {
-  cy.get(`va-button-icon[label="Delete ${locationName}"]`).click({
-    force: true,
-  });
+  cy.contains('va-card h4', locationName)
+    .parents('va-card')
+    .find('va-button-icon[data-action="remove"]')
+    .click();
 };
 
 export const clickArrayBuilderDeleteModalYesButton = () => {
-  cy.get('.usa-button-group__item')
-    .eq(0)
-    .find('va-button')
-    .eq(0)
+  cy.get('va-modal[status="warning"]')
     .shadow()
-    .find('button')
-    .click({ force: true });
+    .find('.va-modal-alert-body va-button')
+    .first()
+    .click();
 };
 
-export const confirmCheckboxesChecked = (evidenceType, issues) => {
+export const confirmCheckboxesChecked = issues => {
   issues.forEach(issue => {
-    cy.get(`[name="root_issues${evidenceType}_${issue}"]`).should('be.checked');
+    cy.get(`[name="root_issues_${issue}"]`).should('be.checked');
   });
 };
 
@@ -622,8 +621,6 @@ export const addVaTreatmentDate = (monthIndex, year) => {
 export const verifyArrayBuilderReviewVACard = (
   index,
   location,
-  conditionsCount,
-  conditions,
   treatmentDate,
 ) => {
   cy.get('va-card')
@@ -633,12 +630,6 @@ export const verifyArrayBuilderReviewVACard = (
         .should('exist')
         .and('be.visible')
         .and('have.text', location);
-
-      if (conditionsCount > 1) {
-        verifyParagraph(`Conditions: ${conditions}`, 0);
-      } else {
-        verifyParagraph(`Condition: ${conditions}`, 0);
-      }
 
       if (treatmentDate) {
         cy.get('p')

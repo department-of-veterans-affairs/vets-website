@@ -77,6 +77,7 @@ import {
   EVIDENCE_PRIVATE_DETAILS_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
   EVIDENCE_UPLOAD_URL,
   EVIDENCE_URLS,
 } from '../constants';
@@ -268,7 +269,6 @@ const formConfig = {
           scrollAndFocusTarget: focusRadioH3,
         },
         ...vaEvidence,
-        ...privateEvidence,
         vaPrompt: {
           title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
@@ -299,11 +299,20 @@ const formConfig = {
           uiSchema: privatePrompt.uiSchema,
           schema: privatePrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
-          depends: formData => !redesignActive(formData),
         },
+        authorization: {
+          title: 'Non-VA medical record authorization',
+          path: EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+          uiSchema: privateAuthorization.uiSchema,
+          schema: privateAuthorization.schema,
+          CustomPage: AuthorizationNew,
+          CustomPageReview: null,
+          depends: formData => redesignActive(formData),
+        },
+        ...privateEvidence,
         privateAuthorization: {
           title: 'Non-VA medical record authorization',
-          path: 'supporting-evidence/private-medical-records-authorization',
+          path: EVIDENCE_PRIVATE_AUTHORIZATION_URL,
           depends: formData =>
             !redesignActive(formData) && hasPrivateEvidence(formData),
           CustomPage: PrivateRecordsAuthorization,

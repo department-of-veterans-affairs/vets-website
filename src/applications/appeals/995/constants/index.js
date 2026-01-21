@@ -22,7 +22,7 @@ export const EVIDENCE_VA_PROMPT_URL =
   'supporting-evidence/request-va-medical-records';
 export const EVIDENCE_VA_DETAILS_URL = 'supporting-evidence/va-medical-records';
 export const EVIDENCE_PRIVATE_PROMPT_URL =
-  'supporting-evidence/request-private-medical-records';
+  'supporting-evidence/private-medical-records';
 export const EVIDENCE_PRIVATE_AUTHORIZATION_URL =
   'supporting-evidence/private-medical-records-authorization';
 export const EVIDENCE_PRIVATE_DETAILS_URL =
@@ -42,14 +42,12 @@ export const EVIDENCE_URLS = {
   vaTreatmentDateDetails:
     'supporting-evidence/:index/va-medical-before-2005-date',
   vaSummary: 'supporting-evidence/va-medical-summary',
-  privatePrompt: 'supporting-evidence/request-private-medical-records',
-  privateAuthorization:
-    'supporting-evidence/:index/private-medical-records-authorization',
   privateDetails: 'supporting-evidence/:index/private-medical-records-location',
+  privateIntro: 'supporting-evidence/private-medical-records-add',
   privateIssues: 'supporting-evidence/:index/private-medical-records/condition',
+  privateSummary: 'supporting-evidence/private-medical-summary',
   privateTreatmentDate:
     'supporting-evidence/:index/private-medical-records-dates',
-  privateSummary: 'supporting-evidence/private-medical-summary',
   uploadPrompt: 'supporting-evidence/add-supporting-evidence',
 };
 

@@ -300,7 +300,7 @@ describe('PrivateDetailsDisplayNew', () => {
 
     describe('when the issues are missing', () => {
       it('should render the proper errors', () => {
-        const partialData = { ...fullData, issuesPrivate: {} };
+        const partialData = { ...fullData, issues: {} };
         getContainer(partialData);
 
         const error = $$('.usa-input-error-message')[0];

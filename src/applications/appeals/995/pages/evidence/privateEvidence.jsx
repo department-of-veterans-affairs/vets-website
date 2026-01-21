@@ -6,14 +6,18 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  checkboxGroupSchema,
   currentOrPastDateDigitsSchema,
   currentOrPastDateDigitsUI,
+  descriptionUI,
   textUI,
   textSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { getAddOrEditMode, getSelectedIssues } from '../../utils/evidence';
-import Authorization from '../../components/4142/AuthorizationNew';
 import {
   EVIDENCE_URLS,
   PRIVATE_EVIDENCE_KEY,
@@ -27,7 +31,7 @@ import {
   treatmentDateContent,
 } from '../../content/evidence/private';
 import { redesignActive } from '../../utils';
-import { issuesPage } from './common';
+import { getSelected } from '../../../shared/utils/issues';
 
 /**
  * This is how we determine whether all of the info for one
@@ -67,7 +71,7 @@ const options = {
   arrayPath: PRIVATE_EVIDENCE_KEY,
   nounSingular: 'record',
   nounPlural: 'records',
-  required: false,
+  required: true,
   isItemIncomplete: item => !itemIsComplete(item),
   maxItems: 100,
   text: {
@@ -75,71 +79,48 @@ const options = {
       summaryContent.alertItemUpdatedText(itemData),
     cardDescription: item => summaryContent.cardDescription(item),
     getItemName: item => item?.[PRIVATE_TREATMENT_LOCATION_KEY],
-    summaryDescription: summaryContent.descriptionWithItems,
-    summaryTitle: summaryContent.titleWithItems,
+    summaryTitle: summaryContent.title,
   },
 };
 
-/**
- * In the optional list & loop flow, the summary page can be configured
- * with both intro page and summary page options (the 2nd and 3rd param
- * passed to arrayBuilderYesNoUI).
- */
 /** @returns {PageSchema} */
-const summaryPage = {
+const introPage = {
   uiSchema: {
-    [PRIVATE_EVIDENCE_PROMPT_KEY]: arrayBuilderYesNoUI(
-      options,
-      {
-        useFormsPattern: true,
-        formHeading: promptContent.question,
-        formDescription: promptContent.description,
-        title: null,
-        labels: promptContent.labels,
-        descriptions: promptContent.descriptions,
-        formHeadingLevel: '3',
-        labelHeaderLevel: null,
-        hint: null,
-        errorMessages: {
-          required: promptContent.requiredError,
-        },
-      },
-      {
-        title: summaryContent.question,
-        labels: summaryContent.options,
-        labelHeaderLevel: '4',
-        hint: null,
-        errorMessages: {
-          required: summaryContent.requiredError,
-        },
-      },
+    ...titleUI('Add your private provider or VA Vet Center details'),
+    ...descriptionUI(
+      <>
+        <p>
+          We can collect your private provider or VA Vet Center medical records
+          from any of these sources to support your claim:
+        </p>
+        <ul>
+          <li>Private provider</li>
+          <li>Veterans Choice Program provider</li>
+          <li>VA Vet Center (this is different from VA-paid community care)</li>
+        </ul>
+        <p>
+          We’ll ask you where you were treated, what you were treated for, and
+          when.
+        </p>
+      </>,
     ),
   },
   schema: {
     type: 'object',
-    properties: {
-      [PRIVATE_EVIDENCE_PROMPT_KEY]: arrayBuilderYesNoSchema,
-    },
-    required: [PRIVATE_EVIDENCE_PROMPT_KEY],
+    properties: {},
   },
 };
 
-// This is the original schema that will be dynamically overruled as soon
-// as the user lands on this page. We need this for array builder, but since
-// we're using a custom component, it will be overwritten anyway
-/** @returns {PageSchema} */
-const privateAuthorizationPage = {
+const summaryPage = {
   uiSchema: {
-    authorization: {},
+    'view:hasPrivateEvidence': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',
-    required: ['authorization'],
     properties: {
-      authorization: {
-        type: 'boolean',
-      },
+      'view:hasPrivateEvidence': arrayBuilderYesNoSchema,
     },
+    required: ['view:hasPrivateEvidence'],
   },
 };
 
@@ -176,6 +157,98 @@ const locationPage = {
       address: addressNoMilitarySchema({
         omit: ['street3'],
       }),
+    },
+  },
+};
+
+const getConditionQuestion = (data, key) =>
+  data?.[key]
+    ? `What conditions were you treated for at ${data[key]}?`
+    : 'What conditions were you treated for?';
+
+const getEditConditionQuestion = (data, key) =>
+  data?.[key]
+    ? `the conditions you were treated for at ${data[key]}`
+    : 'the conditions you were treated for';
+
+export const issuesContent = {
+  question: (formData, addOrEdit) => {
+    if (addOrEdit === 'add') {
+      return getConditionQuestion(formData, PRIVATE_TREATMENT_LOCATION_KEY);
+    }
+
+    return getEditConditionQuestion(formData, PRIVATE_TREATMENT_LOCATION_KEY);
+  },
+  label: 'Select all the service-connected conditions you were treated for',
+  requiredError: 'Select a condition',
+};
+
+// Wrapper component to fix index prop type warning
+const VaCheckboxGroupFieldWrapper = props => {
+  const index =
+    // eslint-disable-next-line react/prop-types
+    typeof props.index === 'string' ? parseInt(props.index, 10) : props.index;
+  return <VaCheckboxGroupField {...props} index={index} />;
+};
+
+// Create base UI with minimal config - labels will be dynamically added
+const baseIssuesCheckboxUI = {
+  'ui:title': issuesContent.label,
+  'ui:webComponentField': VaCheckboxGroupFieldWrapper,
+  'ui:errorMessages': {
+    atLeastOne: issuesContent.requiredError,
+  },
+  'ui:required': () => true,
+  'ui:validations': [validateBooleanGroup],
+};
+
+const issuesPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      issuesContent.question(formData, getAddOrEditMode()),
+    ),
+    issues: {
+      ...baseIssuesCheckboxUI,
+      'ui:options': {
+        updateSchema: (...args) => {
+          // eslint-disable-next-line no-unused-vars
+          const [_itemData, schema, _uiSchema, index, _path, fullData] = args;
+
+          const selectedIssues = getSelected(fullData).map(issue => {
+            if (issue?.attributes) {
+              return issue?.attributes?.ratingIssueSubjectText;
+            }
+
+            return issue.issue;
+          });
+
+          const properties = {};
+          const issueUiSchemas = {};
+
+          selectedIssues.forEach(issue => {
+            properties[issue] = {
+              type: 'boolean',
+              title: issue,
+            };
+            issueUiSchemas[issue] = {
+              'ui:title': issue,
+            };
+          });
+
+          return {
+            type: 'object',
+            properties,
+            issueUiSchemas,
+          };
+        },
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['issues'],
+    properties: {
+      issues: checkboxGroupSchema(['na']),
     },
   },
 };
@@ -220,28 +293,20 @@ const treatmentDatePage = {
  * which override the ones here
  */
 export default arrayBuilderPages(options, pageBuilder => ({
+  privateIntro: pageBuilder.introPage({
+    title: 'Add your private provider or VA Vet Center details',
+    path: EVIDENCE_URLS.privateIntro,
+    uiSchema: introPage.uiSchema,
+    schema: introPage.schema,
+    depends: formData => redesignActive(formData),
+  }),
   privateSummary: pageBuilder.summaryPage({
-    title: '',
+    title:
+      'Review the private providers or VA Vet Centers we’ll request your records from',
     path: EVIDENCE_URLS.privateSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
     depends: formData => redesignActive(formData),
-  }),
-  authorization: pageBuilder.itemPage({
-    title: '',
-    path: EVIDENCE_URLS.privateAuthorization,
-    uiSchema: privateAuthorizationPage.uiSchema,
-    schema: privateAuthorizationPage.schema,
-    CustomPage: props =>
-      Authorization({
-        ...props,
-        addOrEditMode: getAddOrEditMode(),
-        // resolve prop warning that the index is a string rather than a number
-        pagePerItemIndex: +props.pagePerItemIndex,
-      }),
-    depends: (formData, index) => {
-      return redesignActive(formData) && index === 0;
-    },
   }),
   privateLocation: pageBuilder.itemPage({
     title: '',
@@ -250,11 +315,11 @@ export default arrayBuilderPages(options, pageBuilder => ({
     schema: locationPage.schema,
     depends: formData => redesignActive(formData),
   }),
-  issuesPrivate: pageBuilder.itemPage({
+  issues: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateIssues,
-    uiSchema: issuesPage('private', 'issuesPrivate').uiSchema,
-    schema: issuesPage('private', 'issuesPrivate').schema,
+    uiSchema: issuesPage.uiSchema,
+    schema: issuesPage.schema,
     depends: formData => redesignActive(formData),
   }),
   treatmentDatePrivate: pageBuilder.itemPage({

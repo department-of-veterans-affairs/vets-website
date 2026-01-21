@@ -10,7 +10,7 @@ import {
   summaryContent,
   treatmentDateContent,
 } from '../../../content/evidence/private';
-import { issuesContent } from '../../../pages/evidence/common';
+import { issuesContent } from '../../../pages/evidence/privateEvidence';
 import { content as limitedConsentContent } from '../../../components/4142/LimitedConsent';
 import { content as authContent } from '../../../components/4142/AuthorizationNew';
 
@@ -70,7 +70,7 @@ describe('Array Builder evidence flow', () => {
 
       h.checkAlertText(
         null,
-        'We need your authorization to request your medical records',
+        'Error Alert We need your authorization to request your medical records',
         'error',
       );
 
@@ -141,13 +141,13 @@ describe('Array Builder evidence flow', () => {
         'What conditions were you treated for at Johns Hopkins Hospital?',
       );
       h.checkErrorHandlingWithClass(
-        '[name="root_issuesPrivate"]',
+        '[name="root_issues"]',
         issuesContent.requiredError,
       );
-      cy.get('[name="root_issuesPrivate_Hypertension"]')
+      cy.get('[name="root_issues_Hypertension"]')
         .eq(0)
         .click();
-      cy.get('[name="root_issuesPrivate_Tendonitis, left ankle"]')
+      cy.get('[name="root_issues_Tendonitis, left ankle"]')
         .eq(0)
         .click();
 
@@ -212,10 +212,10 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'What conditions were you treated for at Methodist Stone Oak Hospital?',
       );
-      cy.get('[name="root_issuesPrivate_Sleep apnea"]')
+      cy.get('[name="root_issues_Sleep apnea"]')
         .eq(0)
         .click();
-      cy.get('[name="root_issuesPrivate_Headaches"]')
+      cy.get('[name="root_issues_Headaches"]')
         .eq(0)
         .click();
 
@@ -251,17 +251,17 @@ describe('Array Builder evidence flow', () => {
 
       // Contestable Issues
       h.verifyH3('What conditions were you treated for at Uptown Urgent Care?');
-      cy.get('[name="root_issuesPrivate_Sleep apnea"]')
+      cy.get('[name="root_issues_Sleep apnea"]')
         .eq(0)
         .click();
-      cy.get('[name="root_issuesPrivate_Headaches"]')
+      cy.get('[name="root_issues_Headaches"]')
         .eq(0)
         .click();
 
-      cy.get('[name="root_issuesPrivate_Hypertension"]')
+      cy.get('[name="root_issues_Hypertension"]')
         .eq(0)
         .click();
-      cy.get('[name="root_issuesPrivate_Tendonitis, left ankle"]')
+      cy.get('[name="root_issues_Tendonitis, left ankle"]')
         .eq(0)
         .click();
 
@@ -317,8 +317,8 @@ describe('Array Builder evidence flow', () => {
       h.verifyH3(
         'Edit the conditions you were treated for at Baltimore Methodist General Hospital',
       );
-      h.confirmCheckboxesChecked('Private', ['Headaches', 'Sleep apnea']);
-      cy.selectVaCheckbox('root_issuesPrivate_Hypertension', true);
+      h.confirmCheckboxesChecked(['Headaches', 'Sleep apnea']);
+      cy.selectVaCheckbox('root_issues_Hypertension', true);
       h.clickContinue();
 
       // Treatment Dates

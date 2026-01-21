@@ -7,43 +7,9 @@ import { PRIVATE_TREATMENT_LOCATION_KEY } from '../../constants';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 import { formatDateToReadableString } from '../../../shared/utils/dates';
 
-export const promptContent = {
-  question:
-    'Do you want us to get your private (non-VA) provider or VA Vet Center medical records?',
-  labels: {
-    Y: 'Yes',
-    N: 'No',
-  },
-  descriptions: {
-    Y: `We'll ask you to provide details for your private providers to authorize the release of your medical records to VA.`,
-    N: `You can upload your private provider records later in this form, or you can authorize us to get them after you submit this application.`,
-  },
-  description: (
-    <>
-      <p>
-        You have private provider or VA Vet Center medical records if you were
-        treated by a:
-      </p>
-      <ul>
-        <li>Private provider</li>
-        <li>Veterans Choice Program provider</li>
-        <li>VA Vet Center (this is different from VA-paid community care)</li>
-      </ul>
-      <p>
-        <strong>Note:</strong> A Disability Benefits Questionnaire (DBQ) is an
-        example of a private medical record.
-      </p>
-    </>
-  ),
-  requiredError:
-    'Select if we should get your private (non-VA) medical records',
-};
-
 export const summaryContent = {
-  titleWithItems: 'Review the evidence you’re submitting',
-  descriptionWithItems: (
-    <h4>Private providers or VA Vet Centers we’ll request your records from</h4>
-  ),
+  title:
+    'Review the private providers or VA Vet Centers we’ll request your records from',
   question:
     'Do you want us to request records from another private provider or VA Vet Center?',
   options: {
@@ -53,7 +19,7 @@ export const summaryContent = {
   alertItemUpdatedText: itemData =>
     `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
-    const selectedIssues = getSelectedIssues(item?.issuesPrivate);
+    const selectedIssues = getSelectedIssues(item?.issues);
 
     return (
       <>

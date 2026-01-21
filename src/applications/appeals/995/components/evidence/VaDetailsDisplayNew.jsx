@@ -22,14 +22,12 @@ export const getFormattedTreatmentDate = treatmentDate => {
 };
 
 export const getLocationErrors = (
-  issues,
   treatmentBefore2005,
   treatmentMonthYear,
   vaTreatmentLocation,
 ) => {
   const errors = {
     name: vaTreatmentLocation ? '' : content.missing.location,
-    issues: issues.length ? '' : content.missing.condition,
     treatmentMonthYear:
       treatmentBefore2005 === 'Y' && !treatmentMonthYear
         ? content.missing.date
@@ -81,7 +79,6 @@ export const VaDetailsDisplayNew = ({
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((location, index) => {
           const {
-            issuesVa = [],
             treatmentBefore2005,
             treatmentMonthYear = '',
             vaTreatmentLocation,
@@ -92,12 +89,7 @@ export const VaDetailsDisplayNew = ({
             treatmentMonthYear,
           );
 
-          const selectedIssues = Object.keys(issuesVa).filter(
-            issue => issuesVa[issue],
-          );
-
           const { errors, hasErrors } = getLocationErrors(
-            selectedIssues,
             treatmentBefore2005,
             vaTreatmentLocation,
             treatmentMonthYear,
@@ -119,12 +111,6 @@ export const VaDetailsDisplayNew = ({
                     {vaTreatmentLocation}
                   </SubHeader>
                 )}
-                <p
-                  className="dd-privacy-hidden vads-u-margin-bottom--1 overflow-wrap-word"
-                  data-dd-action-name="VA location treated issues"
-                >
-                  {errors.issues || formatIssueList(selectedIssues)}
-                </p>
                 {errors.treatmentMonthYear || (
                   <p
                     className="dd-privacy-hidden vads-u-margin-y--0"

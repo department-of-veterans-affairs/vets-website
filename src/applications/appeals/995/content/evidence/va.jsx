@@ -1,19 +1,16 @@
 import React from 'react';
-import {
-  getProviderDetailsTitle,
-  getSelectedIssues,
-} from '../../utils/evidence';
+import { getProviderDetailsTitle } from '../../utils/evidence';
 import {
   VA_TREATMENT_BEFORE_2005_KEY,
   VA_TREATMENT_LOCATION_KEY,
   VA_TREATMENT_MONTH_YEAR_KEY,
 } from '../../constants';
-import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 import { formatMonthYearToReadableString } from '../../../shared/utils/dates';
 
 export const promptContent = {
-  question:
+  topQuestion:
     'Do you want us to get your VA medical records or military health records?',
+  aboveRadioQuestion: 'Do you want us to get your records?',
   options: {
     Y:
       'Yes, get my VA medical records or military health records to support my claim',
@@ -43,10 +40,8 @@ export const promptContent = {
 };
 
 export const summaryContent = {
-  titleWithItems: 'Review the evidence you’re submitting',
-  descriptionWithItems: (
-    <h4>VA or military treatment locations we’ll request your records from</h4>
-  ),
+  titleWithItems:
+    'Review the VA or military treatment locations we’ll request your records from',
   question: 'Do you want us to request records from another VA provider?',
   options: {
     Y: 'Yes',
@@ -55,31 +50,26 @@ export const summaryContent = {
   alertItemUpdatedText: itemData =>
     `${itemData?.[VA_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
-    const selectedIssues = getSelectedIssues(item?.issuesVa);
-
     return (
       <>
-        {selectedIssues?.length === 1 && (
-          <p>
-            <strong>Condition:</strong> {selectedIssues[0]}
-          </p>
-        )}
-        {selectedIssues?.length > 1 && (
-          <p>
-            <strong>Conditions:</strong> {formatIssueList(selectedIssues)}
-          </p>
-        )}
         {item?.[VA_TREATMENT_BEFORE_2005_KEY] === 'N' && (
           <p>
-            <strong>Treatment start date:</strong> 2005 or later
+            <strong>Start of treatment:</strong> 2005 or later
           </p>
         )}
         {item?.[VA_TREATMENT_MONTH_YEAR_KEY] && (
-          <p>
-            <strong>Treatment start date:</strong>
-            &nbsp;
-            {formatMonthYearToReadableString(item[VA_TREATMENT_MONTH_YEAR_KEY])}
-          </p>
+          <>
+            <p>
+              <strong>Start of treatment:</strong> Before 2005
+            </p>
+            <p>
+              <strong>Date:</strong>
+              &nbsp;
+              {formatMonthYearToReadableString(
+                item[VA_TREATMENT_MONTH_YEAR_KEY],
+              )}
+            </p>
+          </>
         )}
       </>
     );
@@ -100,7 +90,7 @@ export const locationContent = {
       true,
     ).replace('Edit', '');
   },
-  label: 'Enter the name of facility or provider that treated you',
+  label: 'Enter the name of the facility or provider that treated you',
   hint: 'You can add the names of more locations later',
   requiredError: 'Enter a treatment location',
   maxLengthError: 'You can enter a maximum of 255 characters',

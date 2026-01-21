@@ -2,27 +2,14 @@ export const vaEvidence = [
   {
     treatmentMonthYear: '2000-01',
     treatmentBefore2005: 'Y',
-    issuesVa: {
-      Hypertension: true,
-      Impotence: true,
-      'Left Knee Instability': true,
-    },
     vaTreatmentLocation: 'Midwest Alabama VA Facility',
   },
   {
     treatmentBefore2005: 'N',
-    issuesVa: {
-      Impotence: true,
-      'Left Knee Instability': true,
-    },
     vaTreatmentLocation: 'South Texas VA Facility',
   },
   {
     treatmentBefore2005: 'N',
-    issuesVa: {
-      Hypertension: true,
-      'Sleep apnea': true,
-    },
     vaTreatmentLocation: 'Northeast Kentucky VA Medical Center',
   },
 ];
@@ -31,7 +18,7 @@ export const privateEvidence = [
   {
     treatmentStart: '2019-10-10',
     treatmentEnd: '2019-10-11',
-    issuesPrivate: {
+    issues: {
       Hypertension: true,
       Impotence: true,
     },
@@ -52,7 +39,7 @@ export const privateEvidence = [
   {
     treatmentStart: '2025-05-05',
     treatmentEnd: '2025-05-06',
-    issuesPrivate: {
+    issues: {
       Hypertension: true,
       Impotence: true,
     },
@@ -69,7 +56,7 @@ export const privateEvidence = [
   {
     treatmentStart: '1997-08-01',
     treatmentEnd: '2025-05-06',
-    issuesPrivate: {
+    issues: {
       Hypertension: true,
       'Tendonitis, left ankle': true,
       Impotence: false,
