@@ -50,6 +50,20 @@ describe('Complex Claims Mileage - Add', () => {
           submission: { id: '', isSubmitting: false, error: null, data: null },
           fetch: { isLoading: false, error: null },
           data: {
+            claimId: TEST_CLAIM_ID,
+            appointment: {
+              id: TEST_APPT_ID,
+              facilityName: 'Test VA Medical Center',
+              facilityAddress: {
+                addressLine1: '123 Medical Center Drive',
+                city: 'Test City',
+                stateCode: 'TX',
+                zipCode: '12345',
+              },
+              appointmentDate: '2024-01-15',
+              appointmentTime: '10:00 AM',
+              localStartTime: '2024-01-15T10:00:00.000-08:00',
+            },
             documents: [],
           },
         },
@@ -549,6 +563,20 @@ describe('Complex Claims Mileage - Edit', () => {
           submission: { id: '', isSubmitting: false, error: null, data: null },
           fetch: { isLoading: false, error: null },
           data: {
+            claimId: TEST_CLAIM_ID,
+            appointment: {
+              id: TEST_APPT_ID,
+              facilityName: 'Test VA Medical Center',
+              facilityAddress: {
+                addressLine1: '123 Medical Center Drive',
+                city: 'Test City',
+                stateCode: 'TX',
+                zipCode: '12345',
+              },
+              appointmentDate: '2024-01-15',
+              appointmentTime: '10:00 AM',
+              localStartTime: '2024-01-15T10:00:00.000-08:00',
+            },
             documents: [],
           },
         },
