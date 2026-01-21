@@ -84,13 +84,12 @@ describe('Gateway', () => {
       reducers,
     });
 
-    // Wait for loading to complete
+    // Wait for API call and alert to render
     await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.not.exist;
+      expect($('va-alert[status="info"]', container)).to.exist;
     });
 
     const alert = $('va-alert[status="info"]', container);
-    expect(alert).to.exist;
     expect($('h2', alert).textContent).to.eq(
       'We don’t have any dependents information on file for you',
     );
@@ -103,13 +102,12 @@ describe('Gateway', () => {
       reducers,
     });
 
-    // Wait for loading to complete
+    // Wait for API call and error alert to render
     await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.not.exist;
+      expect($('va-alert[status="error"]', container)).to.exist;
     });
 
     const alert = $('va-alert[status="error"]', container);
-    expect(alert).to.exist;
     expect($('h2', alert).textContent).to.eq('Error Loading Dependents');
   });
 });
