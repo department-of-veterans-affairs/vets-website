@@ -1,19 +1,10 @@
-import { validateDate } from './date';
-
-import errorMessages from '../../shared/content/errorMessages';
-import { MAX_LENGTH } from '../../shared/constants';
 import {
   getIssueDate,
   getIssueName,
   getSelected,
 } from '../../shared/utils/issues';
 import { missingIssueName } from '../../shared/validations/issues';
-
-export const maxNameLength = (errors, data) => {
-  if (data.length > MAX_LENGTH.ISSUE_NAME) {
-    errors.addError(errorMessages.maxLength(MAX_LENGTH.ISSUE_NAME));
-  }
-};
+import { validateDecisionDate } from '../../shared/validations/date';
 
 export const checkIssues = (
   errors,
@@ -28,6 +19,6 @@ export const checkIssues = (
   // Only use selected in case an API loaded issues includes an invalid date
   getSelected(data).forEach(issue => {
     missingIssueName(errors, getIssueName(issue));
-    validateDate(errors, getIssueDate(issue));
+    validateDecisionDate(errors, getIssueDate(issue));
   });
 };

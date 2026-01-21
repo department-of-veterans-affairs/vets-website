@@ -6,7 +6,7 @@ import {
 } from '../evidence';
 import { getFacilityType } from './facilities';
 import '../../../shared/definitions';
-import { fixDateFormat } from '../../../shared/utils/replace';
+import { fixDateFormat } from '../../../shared/utils/dates';
 import { HAS_PRIVATE_LIMITATION } from '../../constants';
 
 /**
