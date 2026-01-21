@@ -100,6 +100,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDontIncrementIpeCount,
         },
         {
+          name: 'mhv_medications_management_improvements',
+          value: mhvMedicationsManagementImprovements,
+        },
+        {
           name: 'mhv_medications_display_new_cerner_facility_alert',
           value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
