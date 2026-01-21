@@ -29,7 +29,7 @@ const treatmentDateSchema = {
     startDate: currentOrPastMonthYearDateSchema,
     endDate: currentOrPastMonthYearDateSchema,
   },
-  required: ['startDate', 'endDate'],
+  required: ['startDate'],
 };
 
 const hospitalItemSchema = {
@@ -259,10 +259,9 @@ export default {
             },
             endDate: {
               ...currentOrPastMonthYearDateUI({
-                title: 'End date of treatment',
+                title: 'End date of treatment (if applicable)',
                 hint: 'For example: January 19 2022',
               }),
-              'ui:required': () => true,
             },
           },
         },

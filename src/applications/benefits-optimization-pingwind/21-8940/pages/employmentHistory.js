@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   inlineTitleUI,
   textUI,
@@ -9,11 +11,17 @@ import {
   numberSchema,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 import { EmploymentHistoryView } from '../components/viewElements';
 import SafeArrayField from '../components/SafeArrayField';
 import { wrapDateUiWithDl } from '../helpers/reviewHelpers';
-import { HideDefaultDateHint } from '../helpers/dateHint';
+
+import { changeDefaultDateHint } from '../helpers/hintChanger';
+
+
+
+
 
 const DEFAULT_DL_TITLES = {
   city: 'City',
@@ -104,31 +112,39 @@ export default {
             max: 'Hours worked per week cannot exceed 168 hours',
           },
         }),
-        startDate: {
-          ...wrapDateUiWithDl(
-            currentOrPastDateUI({
-              title: 'Start date',
-              hint: 'For example: January 19 2022',
-            }),
-          ),
-          'ui:description': HideDefaultDateHint,
-        },
-        endDate: {
-          ...wrapDateUiWithDl(
-            currentOrPastDateUI({
-              title: 'End date (if applicable)',
-              hint: 'For example: January 19 2022',
-            }),
-          ),
-          'ui:description': HideDefaultDateHint,
-        },
+        startDate: wrapDateUiWithDl({
+          ...currentOrPastDateUI({
+            title: 'Start date',
+          }),
+          'ui:description': changeDefaultDateHint,
+        }),
+        endDate: wrapDateUiWithDl({
+          ...currentOrPastDateUI({
+            title: 'End date (if applicable)',
+          }),
+          'ui:description': changeDefaultDateHint,
+        }),
         timeLost: numberUI({
           title: 'Time lost from illness (number of days lost)',
           useDlWrap: true,
+          hint: 'Numeric characters only',
+          errorMessages: {
+            required:
+              'Enter the total number of days you lost from illness. Enter whole numbers only.',
+            pattern:
+              'Enter the total number of days you lost from illness. Enter whole numbers only.',
+          },
         }),
         earnings: numberUI({
           title: 'Highest gross earnings per month',
+          hint: 'Numeric characters only',
           useDlWrap: true,
+          errorMessages: {
+            required:
+              'Enter the most you earned per month at this employer. Enter whole numbers only.',
+            pattern:
+              'Enter the most you earned per month at this employer. Enter whole numbers only.',
+          },
         }),
       },
     },

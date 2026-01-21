@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   textUI,
   currentOrPastDateUI,
@@ -12,7 +14,8 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 import { employmentAppliedFields } from '../definitions/constants';
-import { HideDefaultDateHint } from '../helpers/dateHint';
+
+import { changeDefaultDateHint } from '../helpers/hintChanger';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -59,6 +62,10 @@ const summaryPage = {
         'Have you tried to obtain employment since you became too disabled to work?',
       hint:
         'If you have tried to get a job since you became too disabled to work, you’ll need to add at least one employment application record. You can add up to three.',
+      errorMessages: {
+        required:
+          'Please select "Yes" if you have at least one employment application record to add.',
+      },
     }),
   },
   schema: {
@@ -88,9 +95,8 @@ const employmentInformationPage = {
     [employmentAppliedFields.dateApplied]: {
       ...currentOrPastDateUI({
         title: 'Date you applied for employment',
-        hint: 'For example: January 19 2022',
       }),
-      'ui:description': HideDefaultDateHint,
+      'ui:description': changeDefaultDateHint,
     },
   },
   schema: {

@@ -11,29 +11,9 @@ import {
   currentOrPastDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
 
-import { HideDefaultDateHint } from '../helpers/dateHint';
+
 import { wrapDateRangeUiWithDl } from '../helpers/reviewHelpers';
-
-const trainingDateRangeUI = (() => {
-  const dateRange = wrapDateRangeUiWithDl(
-    currentOrPastDateRangeUI(
-      { title: 'Start date of training', hint: 'For example: January 19 2022' },
-      { title: 'End date of training', hint: 'For example: January 19 2022' },
-    ),
-  );
-
-  return {
-    ...dateRange,
-    from: {
-      ...dateRange.from,
-      'ui:description': HideDefaultDateHint,
-    },
-    to: {
-      ...dateRange.to,
-      'ui:description': HideDefaultDateHint,
-    },
-  };
-})();
+import { changeDefaultDateHint } from '../helpers/hintChanger';
 
 /** @type {PageSchema} */
 export default {
@@ -75,15 +55,33 @@ export default {
         required: formData => formData.otherBeforeEducation === true,
       }),
       datesOfTraining: {
-        ...trainingDateRangeUI,
+        ...wrapDateRangeUiWithDl(
+          currentOrPastDateRangeUI(
+            { title: 'Start date of training' },
+            { title: 'End date of training' },
+          ),
+          { 'ui:description': changeDefaultDateHint },
+        ),
 
         from: {
-          ...trainingDateRangeUI.from,
+          ...wrapDateRangeUiWithDl(
+            currentOrPastDateRangeUI(
+              { title: 'Start date of training' },
+              { title: 'End date of training' },
+            ),
+          ).from,
           'ui:required': formData => formData.otherBeforeEducation === true,
+          'ui:description': changeDefaultDateHint,
         },
         to: {
-          ...trainingDateRangeUI.to,
+          ...wrapDateRangeUiWithDl(
+            currentOrPastDateRangeUI(
+              { title: 'Start date of training' },
+              { title: 'End date of training' },
+            ),
+          ).to,
           'ui:required': formData => formData.otherBeforeEducation === true,
+            'ui:description': changeDefaultDateHint,
         },
       },
     },

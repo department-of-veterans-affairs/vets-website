@@ -1,4 +1,5 @@
 import React from 'react';
+import { cloneDeep } from 'lodash';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -11,6 +12,14 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import VaDateField from '~/platform/forms-system/src/js/web-component-fields/VaDateField';
 import { veteranFields } from '../definitions/constants';
+
+const veteranFullNameUI = cloneDeep(fullNameUI());
+veteranFullNameUI.middle['ui:title'] = 'Middle initial';
+
+const veteranFullNameSchema = cloneDeep(fullNameSchema);
+if (veteranFullNameSchema?.properties?.middle) {
+  veteranFullNameSchema.properties.middle.maxLength = 1;
+}
 
 /** @type {PageSchema} */
 export default {
@@ -48,7 +57,7 @@ export default {
         </div>
       ),
       //
-      [veteranFields.fullName]: fullNameUI(),
+      [veteranFields.fullName]: veteranFullNameUI,
       [veteranFields.dateOfBirth]: {
         ...dateOfBirthUI({
           hint: 'For example: January 19 2022',
@@ -64,7 +73,7 @@ export default {
       [veteranFields.parentObject]: {
         type: 'object',
         properties: {
-          [veteranFields.fullName]: fullNameSchema,
+          [veteranFields.fullName]: veteranFullNameSchema,
           [veteranFields.dateOfBirth]: dateOfBirthSchema,
           [veteranFields.ssn]: ssnSchema,
         },

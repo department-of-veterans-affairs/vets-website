@@ -13,7 +13,7 @@ export default {
         Leaving Your Last Position
       </h3>
     ),
-    'ui:description': 'Tell us more about why you left your last position.',
+    'ui:description': 'Tell us more about your last position',
     leftDueToDisability: yesNoUI({
       title:
         'Did you leave your last job or self-employment because of your disability?',
