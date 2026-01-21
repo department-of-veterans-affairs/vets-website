@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import InputControlsContainer from './InputControlsContainer';
 
 /**
@@ -17,7 +17,7 @@ import InputControlsContainer from './InputControlsContainer';
  */
 
 function InputWithClear({
-  downshiftInputProps = {},
+  downshiftInputProps,
   getInputProps,
   getToggleButtonProps,
   inputId,
@@ -30,6 +30,13 @@ function InputWithClear({
   dropdownIsOpen,
   dropdownId,
 }) {
+  useEffect(() => {
+    const input = document.getElementById(inputId);
+    if (input.hasAttribute('aria-labelledby')) {
+      input.removeAttribute('aria-labelledby');
+    }
+  }, []);
+
   return (
     <div className={className}>
       <div className="input-with-clear-container vads-u-width--full">
@@ -41,6 +48,7 @@ function InputWithClear({
         <input
           className="input-with-clear vads-u-width--full"
           {...getInputProps({ ref: inputRef, ...downshiftInputProps })}
+          // {...getInputProps({ ref: inputRef,  ...downshiftInputProps })}
           data-testid={`${inputId}-input-with-clear`}
           aria-expanded={dropdownIsOpen}
           role="combobox"
