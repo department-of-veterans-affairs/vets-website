@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { waitFor } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
@@ -79,12 +79,16 @@ describe('Gateway', () => {
 
   it('should render the no dependents alert', async () => {
     mockApiRequest({ data: { attributes: { persons: [] } } });
-    const { container } = renderInReduxProvider(<Gateway top route={route} />, {
-      initialState: mockStore({ loggedIn: true }),
-      reducers,
+    let container;
+    await act(async () => {
+      const rendered = renderInReduxProvider(<Gateway top route={route} />, {
+        initialState: mockStore({ loggedIn: true }),
+        reducers,
+      });
+      container = rendered.container;
+      await new Promise(resolve => setTimeout(resolve, 100));
     });
 
-    // Wait for API call and alert to render
     await waitFor(() => {
       expect($('va-alert[status="info"]', container)).to.exist;
     });
@@ -97,12 +101,16 @@ describe('Gateway', () => {
 
   it('should render an API error alert', async () => {
     mockApiRequest(null, false);
-    const { container } = renderInReduxProvider(<Gateway top route={route} />, {
-      initialState: mockStore({ loggedIn: true }),
-      reducers,
+    let container;
+    await act(async () => {
+      const rendered = renderInReduxProvider(<Gateway top route={route} />, {
+        initialState: mockStore({ loggedIn: true }),
+        reducers,
+      });
+      container = rendered.container;
+      await new Promise(resolve => setTimeout(resolve, 100));
     });
 
-    // Wait for API call and error alert to render
     await waitFor(() => {
       expect($('va-alert[status="error"]', container)).to.exist;
     });

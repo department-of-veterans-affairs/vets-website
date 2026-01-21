@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, cleanup } from '@testing-library/react';
+import { render, waitFor, cleanup, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
@@ -69,6 +69,23 @@ describe('IntentToFile', () => {
       </div>,
     );
 
+  // Helper for tests that need async fetch to complete before assertions
+  const renderPageAsync = async ({ props, mockStore } = {}) => {
+    let result;
+    await act(async () => {
+      result = render(
+        <div id="test">
+          <Provider store={mockStore}>
+            <IntentToFile {...props} />
+          </Provider>
+        </div>,
+      );
+      // Give the fetch time to complete and state to update
+      await new Promise(r => setTimeout(r, 100));
+    });
+    return result;
+  };
+
   it('should render searching for ITF loading indicator', async () => {
     mockApiRequest({});
     const { container } = renderPage(getData());
@@ -83,7 +100,7 @@ describe('IntentToFile', () => {
 
   it('should render ITF found alert', async () => {
     mockApiRequest(mockItfData(activeItf));
-    const { container } = renderPage(getData());
+    const { container } = await renderPageAsync(getData());
 
     await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
@@ -99,7 +116,7 @@ describe('IntentToFile', () => {
       { response: mockItfData(nonActiveItf), shouldResolve: true },
       { response: mockItfData(activeItf), shouldResolve: true },
     ]);
-    const { container } = renderPage(getData());
+    const { container } = await renderPageAsync(getData());
 
     await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
@@ -115,7 +132,7 @@ describe('IntentToFile', () => {
       { response: mockItfData(), shouldResolve: false },
       { response: mockItfData(), shouldResolve: false },
     ]);
-    const { container } = renderPage(getData());
+    const { container } = await renderPageAsync(getData());
 
     await waitFor(() => {
       expect($('va-alert[status="warning"]', container).textContent).to.include(
@@ -186,11 +203,17 @@ describe('IntentToFile', () => {
   it('should not autofocus success alert when disableAutoFocus is true and ITF exists', async () => {
     mockApiRequest(mockItfData(activeItf));
     const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntentToFile {...props} disableAutoFocus />
-      </Provider>,
-    );
+    let container;
+
+    await act(async () => {
+      const result = render(
+        <Provider store={mockStore}>
+          <IntentToFile {...props} disableAutoFocus />
+        </Provider>,
+      );
+      container = result.container;
+      await new Promise(r => setTimeout(r, 100));
+    });
 
     await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
@@ -207,11 +230,17 @@ describe('IntentToFile', () => {
       { response: mockItfData(activeItf), shouldResolve: true },
     ]);
     const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntentToFile {...props} disableAutoFocus />
-      </Provider>,
-    );
+    let container;
+
+    await act(async () => {
+      const result = render(
+        <Provider store={mockStore}>
+          <IntentToFile {...props} disableAutoFocus />
+        </Provider>,
+      );
+      container = result.container;
+      await new Promise(r => setTimeout(r, 100));
+    });
 
     await waitFor(() => {
       expect($('va-alert[status="success"]', container).textContent).to.include(
@@ -228,11 +257,17 @@ describe('IntentToFile', () => {
       { response: mockItfData(), shouldResolve: false },
     ]);
     const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntentToFile {...props} disableAutoFocus />
-      </Provider>,
-    );
+    let container;
+
+    await act(async () => {
+      const result = render(
+        <Provider store={mockStore}>
+          <IntentToFile {...props} disableAutoFocus />
+        </Provider>,
+      );
+      container = result.container;
+      await new Promise(r => setTimeout(r, 100));
+    });
 
     await waitFor(() => {
       expect($('va-alert[status="warning"]', container).textContent).to.include(
