@@ -13,8 +13,13 @@ export default {
       'ui:options': {},
     },
     dateOfBirth: {
-      ...dateOfBirthUI(),
-      'ui:options': {},
+      ...dateOfBirthUI({
+        hint: 'For example, January 19, 2000',
+        removeDateHint: true,
+      }),
+      'ui:errorMessages': {
+        required: 'Enter a date of birth',
+      },
     },
   },
   schema: {

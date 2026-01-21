@@ -82,6 +82,7 @@ const formConfig = {
         }),
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
+          title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
           depends: formData => formData?.userLoggedIn !== true,
