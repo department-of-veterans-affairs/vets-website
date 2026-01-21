@@ -177,15 +177,8 @@ const SearchResult = ({
                 disable-border
                 uswds
               >
-                {associatedOrgs?.map((org, index) => {
-                  return (
-                    <>
-                      <p>{org}</p>
-                      {index < associatedOrgs.length - 1 ? (
-                        <br style={{ lineHeight: '0.625rem' }} />
-                      ) : null}
-                    </>
-                  );
+                {associatedOrgs?.map(org => {
+                  return <p style={{ margin: 0 }}>{org}</p>;
                 })}
               </va-additional-info>
             </div>
