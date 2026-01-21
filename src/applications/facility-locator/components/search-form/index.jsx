@@ -14,6 +14,7 @@ import { SearchFormTypes } from '../../types';
 
 // Hooks
 import useSearchFormState from '../../hooks/useSearchFormState';
+import useSearchFormSync from '../../hooks/useSearchFormSync';
 
 // Components
 import BottomRow from './BottomRow';
@@ -46,6 +47,16 @@ export const SearchForm = props => {
     handleServiceTypeChange,
     selectedServiceType,
   } = useSearchFormState(currentQuery);
+
+  useSearchFormSync({
+    currentQuery,
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    location: props.location,
+    onChange,
+    vaHealthServicesData: props.vaHealthServicesData,
+  });
 
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
@@ -135,34 +146,6 @@ export const SearchForm = props => {
     setSearchInitiated(true);
     onSubmit();
   };
-
-  // Sync draft state when Redux searchString updates from geolocation
-  useEffect(
-    () => {
-      if (currentQuery.searchString !== draftFormState.searchString) {
-        updateDraftState({ searchString: currentQuery.searchString || '' });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentQuery.searchString],
-  );
-
-  // Sync all fields on URL parameter changes (browser back/forward)
-  useEffect(
-    () => {
-      if (props.location?.search) {
-        setDraftFormState(prev => ({
-          ...prev,
-          facilityType: currentQuery.facilityType || null,
-          serviceType: currentQuery.serviceType || null,
-          searchString: currentQuery.searchString || '',
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-        }));
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.location?.search],
-  );
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
