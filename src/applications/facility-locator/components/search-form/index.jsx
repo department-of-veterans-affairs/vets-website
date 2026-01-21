@@ -148,7 +148,6 @@ export const SearchForm = props => {
       analyticsServiceType =
         currentQuery.specialties[draftFormState.serviceType];
     }
-
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': draftFormState.facilityType,
