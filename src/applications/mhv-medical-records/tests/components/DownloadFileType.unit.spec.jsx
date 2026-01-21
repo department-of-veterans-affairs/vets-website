@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import * as mhvExports from '@department-of-veterans-affairs/mhv/exports';
 import React from 'react';
@@ -212,7 +213,7 @@ describe('DownloadFileType — AAL logging', () => {
 
   const clickDownload = async screen => {
     const btn = await screen.findByTestId('download-report-button');
-    fireEvent.click(btn);
+    await userEvent.click(btn);
   };
 
   // This test is flaky when run in the full test suite due to module caching
@@ -279,5 +280,21 @@ describe('DownloadFileType — AAL logging', () => {
       expect(postCreateAALStub.calledOnce).to.be.true;
     });
     expect(postCreateAALStub.calledWithMatch({ status: 0 })).to.be.true;
+  });
+
+  it('disables download button during PDF generation', async () => {
+    const screen = renderWithFormat('pdf');
+    const btn = await screen.findByTestId('download-report-button');
+
+    // Button should be enabled initially
+    expect(btn).to.not.have.attr('disabled');
+
+    // Click the button
+    await userEvent.click(btn);
+
+    // Button should now be disabled
+    await waitFor(() => {
+      expect(btn).to.have.attr('disabled');
+    });
   });
 });
