@@ -310,6 +310,21 @@ export function applyKeyMapping(schema, keys = {}) {
   return mappedSchema;
 }
 
+export function extendFieldProperties(properties, extend = {}) {
+  validateKeys(Object.keys(extend), 'extend', MAPPABLE_KEYS);
+
+  const extendedProperties = {};
+  Object.entries(properties).forEach(([key, fieldConfig]) => {
+    const extensions = extend[key] || {};
+    extendedProperties[key] = {
+      ...fieldConfig,
+      ...extensions,
+    };
+  });
+
+  return extendedProperties;
+}
+
 /**
  * Update form data to remove selected military city & state and restore any
  * previously set city & state when the "I live on a U.S. military base"
@@ -885,7 +900,7 @@ export function addressUI(options = {}) {
 }
 
 /**
- * Schema for addressUI. Fields may be omitted or mapped to alternative key names.
+ * Schema for addressUI. Fields may be omitted, remapped, or extended.
  *
  * ```js
  * schema: {
@@ -894,22 +909,31 @@ export function addressUI(options = {}) {
  *   mappedAddress: addressSchema({
  *     keys: { street: 'addressLine1', postalCode: 'zipCode' }
  *   })
+ *   pdfAddress: addressSchema({
+ *     omit: ['street3'],
+ *     extend: {
+ *       street: { maxLength: 30 },
+ *       city: { maxLength: 18 }
+ *     }
+ *   })
  * }
  * ```
  * @param {Object} [options]
  * @param {Array<AddressSchemaKey>} [options.omit] - Field names to omit from schema
  * @param {Record<AddressSchemaKey, string>} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Uses applyKeyMapping utility internally.
+ * @param {Record<string, object>} [options.extend] - Additional schema properties to extend default schema fields (e.g., {street: {maxLength: 30}, city: {maxLength: 18}})
  * @returns {SchemaOptions}
  */
 export const addressSchema = (options = {}) => {
-  const { keys = {}, omit = [] } = options;
+  const { keys = {}, omit = [], extend = {} } = options;
   const schema = commonDefinitions.profileAddress;
 
   // Only modify properties if needed
   const needsOmit = omit.length > 0;
   const needsKeyMapping = Object.keys(keys).length > 0;
+  const needsExtend = Object.keys(extend).length > 0;
 
-  if (!needsOmit && !needsKeyMapping) {
+  if (!needsOmit && !needsKeyMapping && !needsExtend) {
     return schema;
   }
 
@@ -918,6 +942,10 @@ export const addressSchema = (options = {}) => {
   if (needsOmit) {
     validateKeys(omit, 'omit', MAPPABLE_KEYS);
     properties = utilsOmit(omit, properties);
+  }
+
+  if (needsExtend) {
+    properties = extendFieldProperties(properties, extend);
   }
 
   if (needsKeyMapping) {
@@ -967,14 +995,31 @@ export const addressNoMilitaryUI = options =>
   });
 
 /**
- * Schema for addressNoMilitaryUI. Fields may be omitted.
+ * Schema for addressNoMilitaryUI. Fields may be omitted, remapped, or extended.
  *
  * ```js
  * schema: {
  *   address: addressNoMilitarySchema()
  *   simpleAddress: addressNoMilitarySchema({ omit: ['street2', 'street3'] })
+ *   mappedAddress: addressNoMilitarySchema({
+ *    keys: { street: 'addressLine1', postalCode: 'zipCode' }
+ *   })
+ *   pdfAddress: addressNoMilitarySchema({
+ *    omit: ['street3'],
+ *    extend: {
+ *      street: { maxLength: 30 },
+ *     city: { maxLength: 18 }
+ *   }
+ *   })
  * }
  * ```
+ *
+ * @param {{
+ *  omit: string[],
+ *  keys: Record<string, string>,
+ *  extend: Record<string, object>
+ * }} [options]
+ * @returns {SchemaOptions}
  */
 export const addressNoMilitarySchema = options =>
   addressSchema({

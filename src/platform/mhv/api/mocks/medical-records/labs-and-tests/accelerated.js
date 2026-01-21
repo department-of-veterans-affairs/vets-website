@@ -751,6 +751,80 @@ const staging = [
       ],
     },
   },
+  // EKG with valid date
+  {
+    id: 'EKG-001-VALID-DATE',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'EKG (ELECTROCARDIOGRAM)',
+      testCode: 'EKG',
+      dateCompleted: '2025-06-15T10:30:00Z',
+      sampleTested: null,
+      bodySite: null,
+      location: 'CARDIOLOGY CLINIC - VA MEDICAL CENTER',
+      orderedBy: 'Dr. Jane Smith',
+      comments: 'Normal sinus rhythm. No acute ST-T wave changes.',
+      source: 'oracle-health',
+      observations: [
+        {
+          testCode: 'HEART_RATE',
+          value: { text: '72 bpm', type: 'Quantity' },
+          referenceRange: '60 - 100 bpm',
+          status: 'final',
+          comments: '',
+        },
+        {
+          testCode: 'PR_INTERVAL',
+          value: { text: '160 ms', type: 'Quantity' },
+          referenceRange: '120 - 200 ms',
+          status: 'final',
+          comments: '',
+        },
+      ],
+    },
+  },
+  // EKG with NULL date - should display "None recorded" instead of epoch date
+  {
+    id: 'EKG-002-NULL-DATE',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'EKG (ELECTROCARDIOGRAM) - NULL DATE',
+      testCode: 'EKG',
+      dateCompleted: null,
+      sampleTested: null,
+      bodySite: null,
+      location: 'CARDIOLOGY CLINIC - VA MEDICAL CENTER',
+      orderedBy: 'Dr. John Doe',
+      comments: 'Sinus bradycardia. Otherwise normal EKG.',
+      source: 'oracle-health',
+      observations: [
+        {
+          testCode: 'HEART_RATE',
+          value: { text: '55 bpm', type: 'Quantity' },
+          referenceRange: '60 - 100 bpm',
+          status: 'final',
+          comments: 'Mild bradycardia',
+        },
+      ],
+    },
+  },
+  // EKG with empty string date - should also display "None recorded"
+  {
+    id: 'EKG-003-EMPTY-DATE',
+    type: 'DiagnosticReport',
+    attributes: {
+      display: 'EKG (ELECTROCARDIOGRAM) - EMPTY DATE',
+      testCode: 'EKG',
+      dateCompleted: '',
+      sampleTested: null,
+      bodySite: null,
+      location: 'PRIMARY CARE CLINIC',
+      orderedBy: 'Dr. Robert Wilson',
+      comments: 'Normal EKG. No changes from previous.',
+      source: 'oracle-health',
+      observations: [],
+    },
+  },
 ];
 
 const empty = [];
