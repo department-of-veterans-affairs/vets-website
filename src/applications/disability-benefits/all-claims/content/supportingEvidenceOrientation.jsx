@@ -1,7 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import { isClaimingNew, isClaimingIncrease } from '../utils';
 
@@ -158,16 +155,10 @@ export const supportingEvidenceOrientationEnhanced = ({ formData }) => (
   </>
 );
 
-export const SupportingEvidenceOrientation = props => {
-  // Feature toggles come from Redux in this app; formContext does not include them.
-  // Treat undefined (still loading) as false to avoid flicker.
-  const toggles = useSelector(state => toggleValues(state));
-  const isEnhanced =
-    toggles?.[FEATURE_FLAG_NAMES.disability526SupportingEvidenceEnhancement];
-
-  return isEnhanced
-    ? supportingEvidenceOrientationEnhanced(props)
-    : supportingEvidenceOrientationLegacy(props);
+export const SupportingEvidenceOrientation = ({ formData }) => {
+  return formData?.disability526SupportingEvidenceEnhancement
+    ? supportingEvidenceOrientationEnhanced({ formData })
+    : supportingEvidenceOrientationLegacy({ formData });
 };
 
 // Backwards-compatible alias used by form config imports.

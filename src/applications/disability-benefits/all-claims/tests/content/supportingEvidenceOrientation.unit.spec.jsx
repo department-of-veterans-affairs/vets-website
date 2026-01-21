@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { render } from '@testing-library/react';
 import { supportingEvidenceOrientation } from '../../content/supportingEvidenceOrientation';
 
 describe('supportingEvidenceOrientation', () => {
@@ -11,17 +10,11 @@ describe('supportingEvidenceOrientation', () => {
         'view:claimingNew': false,
         'view:claimingIncrease': true,
       },
+      disability526SupportingEvidenceEnhancement: true,
     };
 
-    const { queryByText } = renderInReduxProvider(
+    const { queryByText } = render(
       React.createElement(supportingEvidenceOrientation, { formData }),
-      {
-        initialState: {
-          featureToggles: {
-            [FEATURE_FLAG_NAMES.disability526SupportingEvidenceEnhancement]: true,
-          },
-        },
-      },
     );
     expect(queryByText('Notice of evidence needed')).to.exist;
   });
@@ -32,17 +25,11 @@ describe('supportingEvidenceOrientation', () => {
         'view:claimingNew': false,
         'view:claimingIncrease': true,
       },
+      disability526SupportingEvidenceEnhancement: false,
     };
 
-    const result = renderInReduxProvider(
+    const result = render(
       React.createElement(supportingEvidenceOrientation, { formData }),
-      {
-        initialState: {
-          featureToggles: {
-            [FEATURE_FLAG_NAMES.disability526SupportingEvidenceEnhancement]: false,
-          },
-        },
-      },
     );
     const expectedString =
       'Rated service-connected conditions that have gotten worse';
@@ -57,17 +44,11 @@ describe('supportingEvidenceOrientation', () => {
         'view:claimingNew': true,
         'view:claimingIncrease': false,
       },
+      disability526SupportingEvidenceEnhancement: false,
     };
 
-    const result = renderInReduxProvider(
+    const result = render(
       React.createElement(supportingEvidenceOrientation, { formData }),
-      {
-        initialState: {
-          featureToggles: {
-            [FEATURE_FLAG_NAMES.disability526SupportingEvidenceEnhancement]: false,
-          },
-        },
-      },
     );
 
     result.getByText(
@@ -82,17 +63,11 @@ describe('supportingEvidenceOrientation', () => {
         'view:claimingNew': true,
         'view:claimingIncrease': false,
       },
+      disability526SupportingEvidenceEnhancement: true,
     };
 
-    const { container, getByText, queryByText } = renderInReduxProvider(
+    const { container, getByText, queryByText } = render(
       React.createElement(supportingEvidenceOrientation, { formData }),
-      {
-        initialState: {
-          featureToggles: {
-            [FEATURE_FLAG_NAMES.disability526SupportingEvidenceEnhancement]: true,
-          },
-        },
-      },
     );
 
     expect(queryByText(/section 5103 notice/i)).to.not.exist;
