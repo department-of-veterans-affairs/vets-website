@@ -84,6 +84,10 @@ export const supportingEvidenceOrientationAlert = ({ formData }) => (
         </>
       )}
     </ul>
+    <p>
+      <strong>Note: </strong>
+      You only need to submit new evidence that we don’t already have.
+    </p>
   </>
 );
 
