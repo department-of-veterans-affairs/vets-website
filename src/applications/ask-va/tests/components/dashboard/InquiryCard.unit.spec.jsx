@@ -6,7 +6,7 @@ import InquiryCard from '../../../components/dashboard/InquiryCard';
 describe('InquiryCard', () => {
   it('renders inquiry details accurately', () => {
     const exampleInquiry = {
-      status: 'inprogress',
+      status: 'In Progress',
       createdOn: '12/19/2024 5:30:28 PM',
       lastUpdate: '12/22/2024 12:00:00 AM',
       inquiryNumber: 'A-1234',

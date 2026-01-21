@@ -91,7 +91,7 @@ export default function DashboardCards() {
   }
 
   return (
-    <div className="vads-u-width--full vads-u-margin-bottom--5">
+    <div id="inbox">
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
         Your questions
       </h2>
@@ -174,11 +174,11 @@ export default function DashboardCards() {
           </div>
 
           {inquiries.business?.length ? (
-            <div className="columns small-12 tabs">
-              <Tabs>
-                <TabList>
-                  <Tab className="small-6 tab">Business</Tab>
-                  <Tab className="small-6 tab">Personal</Tab>
+            <div className="tabs">
+              <Tabs className="inbox-tab-container">
+                <TabList className="inbox-tab-list">
+                  <Tab className="inbox-tab">Business</Tab>
+                  <Tab className="inbox-tab">Personal</Tab>
                 </TabList>
                 <TabPanel>
                   <InquiriesList

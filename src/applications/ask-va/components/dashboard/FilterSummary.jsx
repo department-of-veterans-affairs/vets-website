@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import classNames from 'classnames';
 
 export default function FilterSummary({
   categoryFilter,
@@ -23,11 +22,7 @@ export default function FilterSummary({
   return (
     <h3
       id="filter-summary"
-      className={classNames(
-        'vads-u-margin-top--2 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-font-weight--normal vads-u-font-size--md',
-        { 'vads-u-padding-x--0': !tabName },
-        { 'vads-u-padding-x--2p5': !!tabName },
-      )}
+      className="vads-u-font-family--sans vads-u-font-size--md"
     >
       Showing {displayCount} results for {queryPart}"{statusFilter}"{' '}
       {statusAmount} and "{categoryFilter}" {categoryAmount}

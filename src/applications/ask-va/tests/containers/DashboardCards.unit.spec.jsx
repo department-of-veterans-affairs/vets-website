@@ -163,7 +163,7 @@ describe('<DashboardCards>', () => {
 
         // Verify unauthenticated inquiry is not displayed
         const questions = view.container.querySelectorAll(
-          '.vacardSubmitterQuestion',
+          '.submitter-question',
         );
         expect(questions).to.have.lengthOf(2);
         expect(questions[0].textContent).to.equal('Test question 1');
@@ -304,22 +304,22 @@ describe('<DashboardCards>', () => {
           .exist;
 
         // Initially should show Business tab content
-        const filterInfo = view.container.querySelector(
-          '.vads-u-padding-x--2p5',
-        );
+        const filterInfo = view.getByRole('heading', {
+          level: 3,
+          name: /showing .+ results/i,
+        });
         expect(filterInfo.textContent).to.include('in "Business"');
       });
 
       // Switch to Personal tab
-      const personalTab = view.container.querySelector(
-        '.react-tabs__tab-list li:last-child',
-      );
+      const personalTab = view.getByRole('tab', { name: /personal/i });
       fireEvent.click(personalTab);
 
       await waitFor(() => {
-        const filterInfo = view.container.querySelector(
-          '.vads-u-padding-x--2p5',
-        );
+        const filterInfo = view.getByRole('heading', {
+          level: 3,
+          name: /showing .+ results/i,
+        });
         expect(filterInfo.textContent).to.include('in "Personal"');
       });
     });
@@ -335,9 +335,7 @@ describe('<DashboardCards>', () => {
       const filterSummary = await view.findByText(/showing/i);
       expect(filterSummary.textContent).to.include('categories in "Personal"');
 
-      const resultsBefore = await view.container.querySelectorAll(
-        '.dashboard-card-list',
-      );
+      const resultsBefore = view.getAllByTestId('dashboard-card');
       expect(resultsBefore.length).to.equal(2);
       expect(resultsBefore[0].textContent).to.include('Reference number: A-2');
 
@@ -354,9 +352,7 @@ describe('<DashboardCards>', () => {
       filterButtons.__events.primaryClick();
 
       // Confirrm the list is now just one desired result
-      const resultsAfter = await view.container.querySelectorAll(
-        '.dashboard-card-list',
-      );
+      const resultsAfter = view.getAllByTestId('dashboard-card');
       expect(resultsAfter.length).to.equal(1);
       expect(resultsAfter[0].textContent).to.include('Reference number: A-3');
     });
@@ -450,10 +446,10 @@ describe('<DashboardCards>', () => {
       const view = render(<DashboardCards />);
 
       await waitFor(() => {
-        const resultsInfo = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
-        expect(resultsInfo.textContent).to.include('Showing 1-4 of 6');
+        const filterSummary = view.getByRole('heading', {
+          name: /showing .+ results/i,
+        });
+        expect(filterSummary.textContent).to.include('Showing 1-4 of 6');
       });
 
       // Change to page 2
@@ -466,10 +462,10 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        const resultsInfo = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
-        expect(resultsInfo.textContent).to.include('Showing 5-6 of 6');
+        const filterSummary = view.getByRole('heading', {
+          name: /showing .+ results/i,
+        });
+        expect(filterSummary.textContent).to.include('Showing 5-6 of 6');
       });
     });
 
@@ -477,10 +473,11 @@ describe('<DashboardCards>', () => {
       const view = render(<DashboardCards />);
 
       await waitFor(() => {
-        const resultsInfo = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
-        expect(resultsInfo).to.exist;
+        const filterSummary = view.getByRole('heading', {
+          level: 3,
+          name: /showing 1-4 of 6 results/i,
+        });
+        expect(filterSummary).to.exist;
       });
 
       // Change to page 2
@@ -493,9 +490,10 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        const filterSummary = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
+        const filterSummary = view.getByRole('heading', {
+          level: 3,
+          name: /showing 5-6 of 6 results/i,
+        });
         expect(document.activeElement).to.equal(filterSummary);
       });
     });
@@ -717,16 +715,14 @@ describe('<DashboardCards>', () => {
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
           .exist;
-        const businessTab = view.container.querySelector(
-          '.react-tabs__tab-list li:first-child',
-        );
+        const businessTab = view.getByRole('tab', {
+          name: /business/i,
+        });
         expect(businessTab.textContent).to.equal('Business');
       });
 
       // Switch to personal tab
-      const personalTab = view.container.querySelector(
-        '.react-tabs__tab-list li:last-child',
-      );
+      const personalTab = view.getByRole('tab', { name: /personal/i });
       fireEvent.click(personalTab);
 
       // Wait for personal content

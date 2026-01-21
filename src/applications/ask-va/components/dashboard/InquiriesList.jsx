@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import InquiryCard from './InquiryCard';
@@ -35,11 +34,7 @@ export default function InquiriesList({
           query,
         }}
       />
-      <div
-        className={classNames('dashboard-grid', {
-          'grid-tabs': !!tabName,
-        })}
-      >
+      <div className="inquiries-list">
         {inquiries.length ? (
           displayPage.items.map(inquiry => (
             <InquiryCard key={inquiry.id} {...{ inquiry }} />
