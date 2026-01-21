@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -65,6 +65,16 @@ export const SearchForm = props => {
       serviceType,
     }));
   };
+
+  const handleLocationSelection = useCallback(
+    updates => setDraftFormState(prev => ({ ...prev, ...updates })),
+    [],
+  );
+
+  const handleVamcDraftChange = useCallback(
+    updates => setDraftFormState(prev => ({ ...prev, ...updates })),
+    [],
+  );
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -244,7 +254,7 @@ export const SearchForm = props => {
   const facilityAndServiceTypeInputs = (
     <>
       <FacilityType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         handleFacilityTypeChange={handleFacilityTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
@@ -253,13 +263,14 @@ export const SearchForm = props => {
         useProgressiveDisclosure={useProgressiveDisclosure}
       />
       <ServiceType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         getProviderSpecialties={props.getProviderSpecialties}
         handleServiceTypeChange={handleServiceTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        onChange={onChange}
+        committedVamcServiceDisplay={currentQuery.vamcServiceDisplay}
+        onVamcDraftChange={handleVamcDraftChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
@@ -295,7 +306,7 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={currentQuery}
+          currentQuery={draftFormState}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
@@ -303,6 +314,7 @@ export const SearchForm = props => {
           isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
+          onLocationSelection={handleLocationSelection}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
         {useProgressiveDisclosure ? (
