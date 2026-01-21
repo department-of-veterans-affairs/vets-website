@@ -164,8 +164,7 @@ describe('Facility VA search', () => {
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
+    cy.wait('@searchFacilities');
 
     cy.focused().should(
       'contain.text',
@@ -290,7 +289,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-type-dropdown')
       .shadow()
       .find('select')
-      .select('VA health');
+      .select('VA health', { force: true });
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#facility-search').click({ waitForAnimations: true });
