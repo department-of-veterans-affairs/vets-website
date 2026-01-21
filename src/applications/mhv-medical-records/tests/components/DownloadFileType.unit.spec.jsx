@@ -288,13 +288,17 @@ describe('DownloadFileType — AAL logging', () => {
 
     // Button should be enabled initially
     expect(btn).to.not.have.attr('disabled');
+    expect(btn).to.not.have.attr('aria-disabled');
+    expect(btn).to.not.have.attr('aria-busy');
 
     // Click the button
     await userEvent.click(btn);
 
-    // Button should now be disabled
+    // Button should now be disabled with aria attributes
     await waitFor(() => {
       expect(btn).to.have.attr('disabled');
+      expect(btn).to.have.attr('aria-disabled', 'true');
+      expect(btn).to.have.attr('aria-busy', 'true');
     });
   });
 });

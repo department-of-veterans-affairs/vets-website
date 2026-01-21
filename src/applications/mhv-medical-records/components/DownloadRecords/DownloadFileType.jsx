@@ -604,6 +604,8 @@ const DownloadFileType = props => {
                 className="vads-u-margin-y--0p5 vads-u-width--auto"
                 data-testid="download-report-button"
                 disabled={isGenerating}
+                aria-disabled={isGenerating || undefined}
+                aria-busy={isGenerating || undefined}
               >
                 Download report
               </button>
