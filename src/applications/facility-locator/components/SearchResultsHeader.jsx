@@ -121,7 +121,7 @@ export const SearchResultsHeader = ({
     return null;
   }
   function FormattedLocationText() {
-    if (formattedServiceType) {
+    if (location) {
       return (
         <>
           {` near `}
