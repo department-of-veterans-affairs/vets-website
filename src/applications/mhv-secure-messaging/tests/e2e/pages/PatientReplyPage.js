@@ -117,10 +117,11 @@ class PatientReplyPage {
     cy.contains('Delete draft').should('be.visible');
   };
 
-  verifyReplyHeader = () => {
+  verifyReplyHeader = (text = 'Draft reply') => {
     cy.get(Locators.REPLY_FORM)
       .find(`h2`)
-      .should(`be.visible`);
+      .should(`be.visible`)
+      .and(`have.text`, text);
   };
 }
 
