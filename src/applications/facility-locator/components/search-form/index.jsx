@@ -14,6 +14,7 @@ import { SearchFormTypes } from '../../types';
 
 // Hooks
 import useSearchFormState from '../../hooks/useSearchFormState';
+import useSearchFormSync from '../../hooks/useSearchFormSync';
 
 // Components
 import BottomRow from './BottomRow';
@@ -47,6 +48,16 @@ export const SearchForm = props => {
     selectedServiceType,
   } = useSearchFormState(currentQuery);
 
+  useSearchFormSync({
+    currentQuery,
+    draftFormState,
+    setDraftFormState,
+    updateDraftState,
+    location: props.location,
+    onChange,
+    vaHealthServicesData: props.vaHealthServicesData,
+  });
+
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
 
@@ -71,20 +82,6 @@ export const SearchForm = props => {
       zoomLevel: currentQuery.zoomLevel,
     };
 
-    // CC_PROVIDER serviceType validation first (matches E2E test expectations)
-    if (
-      draftFormState.facilityType === LocationType.CC_PROVIDER &&
-      (!draftFormState.serviceType || !selectedServiceType)
-    ) {
-      setDraftFormState(prev => ({
-        ...prev,
-        serviceTypeChanged: true,
-        isValid: false,
-      }));
-      focusElement('#service-type-ahead-input');
-      return;
-    }
-
     if (!draftFormState.searchString) {
       setDraftFormState(prev => ({
         ...prev,
@@ -102,6 +99,19 @@ export const SearchForm = props => {
         isValid: false,
       }));
       focusElement('#facility-type-dropdown');
+      return;
+    }
+
+    if (
+      draftFormState.facilityType === LocationType.CC_PROVIDER &&
+      (!draftFormState.serviceType || !selectedServiceType)
+    ) {
+      setDraftFormState(prev => ({
+        ...prev,
+        serviceTypeChanged: true,
+        isValid: false,
+      }));
+      focusElement('#service-type-ahead-input');
       return;
     }
 
@@ -134,54 +144,8 @@ export const SearchForm = props => {
     }
 
     setSearchInitiated(true);
-    onSubmit(draftFormState);
+    onSubmit();
   };
-
-  // Sync draft state when Redux searchString updates from geolocation
-  useEffect(
-    () => {
-      if (currentQuery.searchString !== draftFormState.searchString) {
-        updateDraftState({ searchString: currentQuery.searchString || '' });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentQuery.searchString],
-  );
-
-  // Sync draft state when VAMC autosuggest updates Redux serviceType/vamcServiceDisplay
-  useEffect(
-    () => {
-      if (
-        currentQuery.serviceType !== draftFormState.serviceType ||
-        currentQuery.vamcServiceDisplay !== draftFormState.vamcServiceDisplay
-      ) {
-        setDraftFormState(prev => ({
-          ...prev,
-          serviceType: currentQuery.serviceType || null,
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-        }));
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentQuery.serviceType, currentQuery.vamcServiceDisplay],
-  );
-
-  // Sync all fields on URL parameter changes (browser back/forward)
-  useEffect(
-    () => {
-      if (props.location?.search) {
-        setDraftFormState(prev => ({
-          ...prev,
-          facilityType: currentQuery.facilityType || null,
-          serviceType: currentQuery.serviceType || null,
-          searchString: currentQuery.searchString || '',
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-        }));
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.location?.search],
-  );
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
@@ -287,10 +251,7 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={{
-            ...draftFormState,
-            geolocationInProgress: currentQuery.geolocationInProgress,
-          }}
+          currentQuery={draftFormState}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
