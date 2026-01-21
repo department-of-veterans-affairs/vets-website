@@ -13,7 +13,6 @@ const { placeOfSeparation } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
-  path: 'military/history',
   uiSchema: {
     'ui:title': generateTitle('Service period'),
     serviceBranch: selectUI({
