@@ -109,39 +109,21 @@ export const SearchResultsHeader = ({
     ? `${messagePrefix} for `
     : `${handleNumberOfResults()} for `;
 
-  function FormattedServiceTypeText() {
-    if (formattedServiceType) {
-      return (
-        <>
-          {`, `}
-          <b>{`"${formattedServiceType}"`}</b>
-        </>
-      );
-    }
-    return null;
-  }
-  function FormattedLocationText() {
-    if (location) {
-      return (
-        <>
-          {` near `}
-          <b>{`"${location}"`}</b>
-        </>
-      );
-    }
-    return null;
-  }
-
-  function MessageResults() {
-    return (
+  const FormattedServiceTypeText = () =>
+    formattedServiceType ? (
       <>
-        {`${resultsPrefix}`}
-        <b>{`"${facilityTypes[facilityType]}"`}</b>
-        <FormattedServiceTypeText />
-        <FormattedLocationText />
+        {`, `}
+        <b>{`"${formattedServiceType}"`}</b>
       </>
-    );
-  }
+    ) : null;
+
+  const FormattedLocationText = () =>
+    location ? (
+      <>
+        {` near `}
+        <b>{`"${location}"`}</b>
+      </>
+    ) : null;
 
   return (
     <div>
@@ -150,7 +132,10 @@ export const SearchResultsHeader = ({
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        <MessageResults />
+        {`${resultsPrefix}`}
+        <b>{`"${facilityTypes[facilityType] || ''}"`}</b>
+        {FormattedServiceTypeText()}
+        {FormattedLocationText()}
       </h2>
     </div>
   );
