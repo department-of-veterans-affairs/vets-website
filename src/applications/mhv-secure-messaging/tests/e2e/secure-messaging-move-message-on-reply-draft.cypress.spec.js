@@ -17,6 +17,10 @@ describe('SM DELETE REPLY DRAFT', () => {
       name: 'mhv_secure_messaging_custom_folders_redesign',
       value: false,
     },
+    {
+      name: 'mhv_secure_messaging_curated_list_flow',
+      value: false,
+    },
   ]);
   it('verify user can delete draft on reply', () => {
     SecureMessagingSite.login(updatedFeatureToggles);

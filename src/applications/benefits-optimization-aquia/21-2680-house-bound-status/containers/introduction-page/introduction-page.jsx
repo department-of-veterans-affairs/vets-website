@@ -38,11 +38,30 @@ const ProcessList = () => {
           you to apply.
         </p>
         <p>
-          <a href="https://www.va.gov/pension/aid-attendance-housebound/">
-            Find out if you’re eligible for Aid and Attendance benefits and
-            Housebound allowance
-          </a>
+          You may be eligible for either Special Monthly Compensation (SMC) or
+          Special Monthly Pension (SMP) benefits if you:
         </p>
+        <ul>
+          <li>Are a Veteran or the surviving spouse or parent of a Veteran</li>
+          <li>
+            Require help with everyday tasks, such as:
+            <ul>
+              <li>Bathing</li>
+              <li>Feeding</li>
+              <li>Dressing</li>
+              <li>Using the restroom</li>
+              <li>Adjusting prosthetic devices</li>
+              <li>
+                Protecting yourself from the hazards of the daily environment
+              </li>
+            </ul>
+          </li>
+          <li>Are housebound (because of permanent disability)</li>
+          <li>
+            Are a Veteran, and your spouse is in need of regular aid and
+            attendance
+          </li>
+        </ul>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
         <p>You’ll need this information about the person applying:</p>
@@ -80,7 +99,7 @@ const ProcessList = () => {
       <va-process-list-item header="Upload your fully completed form.">
         <p>
           <va-link-action
-            href="/find-forms/upload/21-2680/introduction"
+            href="/forms/upload/21-2680/introduction"
             text="Upload your completed VA form 21-2680"
           />
         </p>
@@ -136,6 +155,7 @@ export const IntroductionPage = ({ route }) => {
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
+          verifiedPrefillAlert={<></>}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start your application"

@@ -7,7 +7,8 @@ export function switchToInternationalPhone(formData) {
   if (parsedFormData?.claimantPhone?.countryCode !== 'US') {
     const callingCode = parsedFormData.claimantPhone?.callingCode || '';
     const contact = parsedFormData.claimantPhone?.contact || '';
-    transformedValue.claimantPhone.contact = `+${callingCode}-${contact}`;
+    delete transformedValue.claimantPhone;
+    transformedValue.claimantInternationalPhone = `+${callingCode}-${contact}`;
   }
   return JSON.stringify(transformedValue);
 }

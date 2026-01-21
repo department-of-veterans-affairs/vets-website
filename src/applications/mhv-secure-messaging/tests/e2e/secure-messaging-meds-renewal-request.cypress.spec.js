@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
-import { AXE_CONTEXT, Paths } from './utils/constants';
+import { AXE_CONTEXT, Paths, Alerts } from './utils/constants';
 import { MessageHintText } from '../../util/constants';
 import PatientComposePage from './pages/PatientComposePage';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
@@ -218,6 +218,11 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
+      cy.findByText(`Select a different care team`).click();
+      cy.findByTestId(`continue-button`).click();
+
+      PatientComposePage.validateAddYourMedicationWarningBanner(true);
+
       const expectedMessageBodyText = [
         `Medication name, strength, and form: `,
         `Prescription number: `,
@@ -317,7 +322,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
-      cy.findByText('Message Sent.').should('be.visible');
+      cy.findByText(Alerts.SEND_MESSAGE_SUCCESS).should('be.visible');
       cy.url().should('include', '/my-health/secure-messages/inbox/');
     });
 
@@ -562,7 +567,7 @@ describe('SM Medications Renewal Request', () => {
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
         });
-      cy.findByText('Message Sent.').should('be.visible');
+      cy.findByText(Alerts.SEND_MESSAGE_SUCCESS).should('be.visible');
       cy.url().should('include', '/my-health/secure-messages/inbox/');
     });
   });

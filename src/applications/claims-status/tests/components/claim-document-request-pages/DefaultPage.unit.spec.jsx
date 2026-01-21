@@ -537,6 +537,29 @@ describe('<DefaultPage>', () => {
         showsThirdPartyNotice: false,
       },
       {
+        id: 15,
+        name: 'ASB - tell us specific disability (isSensitive: true)',
+        item: {
+          id: 15,
+          displayName: 'ASB-tell us specific disability fm asbestos exposure',
+          status: 'NEEDED_FROM_YOU',
+          requestedDate: '2025-10-23',
+          suspenseDate: futureSuspenseDate,
+          friendlyName: 'asbestos exposure information',
+          canUploadFile: true,
+        },
+        dictionaryEntry: getDictEntry(
+          'ASB-tell us specific disability fm asbestos exposure',
+        ),
+        expectedHeader: 'Request for evidence',
+        expectedSubheaderPattern: /Respond by .* for: asbestos exposure information/i,
+        expectedDescriptionText:
+          'To process your disability claim for asbestos exposure, we need information about your asbestos-related disease or disability:',
+        showsAddFilesForm: true,
+        showsPastDueAlert: false,
+        showsThirdPartyNotice: false,
+      },
+      {
         id: 4,
         name: 'Frontend override with longDescription but NO nextSteps',
         item: {

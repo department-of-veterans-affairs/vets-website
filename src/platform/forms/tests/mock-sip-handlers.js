@@ -1,12 +1,8 @@
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+// Re-export server and rest from mocha-setup for backward compatibility
+// The global server is already started by mocha-setup.js
+const { server, rest } = require('platform/testing/unit/mocha-setup');
 
-const defaultHandlers = [
-  rest.get('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
-  rest.post('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
-  rest.patch('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
-  rest.put('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
-  rest.delete('*', (req, res, ctx) => res(ctx.status(200), ctx.json({}))),
-];
-
-export const server = setupServer(...defaultHandlers);
+module.exports = {
+  server,
+  rest,
+};
