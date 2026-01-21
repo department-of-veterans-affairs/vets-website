@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 
 const VaLink = () => (
   <va-link
@@ -50,6 +51,14 @@ const DisabilityRatingAlert = () => {
   }
 
   if (error) {
+    dataDogLogger({
+      message: 'Pension disability rating fetch error',
+      attributes: {
+        error: error?.message || 'unknown error',
+        state: 'visible',
+        alertType: 'info',
+      },
+    });
     return (
       <va-alert visible>
         <h2 slot="headline">
@@ -69,8 +78,26 @@ const DisabilityRatingAlert = () => {
   }
 
   if (rating !== 100) {
+    dataDogLogger({
+      message:
+        'Pension disability rating alert hidden for ratings less than 100',
+      attributes: {
+        error: null,
+        state: 'hidden',
+        alertType: null,
+      },
+    });
     return null;
   }
+
+  dataDogLogger({
+    message: 'Pension disability rating alert visible for 100 rating',
+    attributes: {
+      error: null,
+      state: 'visible',
+      alertType: 'warning',
+    },
+  });
 
   return (
     <va-alert status="warning" visible>

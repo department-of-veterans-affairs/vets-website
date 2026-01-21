@@ -1,0 +1,14 @@
+{
+  "data": [],
+  "meta": {
+    "failures": [
+      {
+        "system": "VPG",
+        "status": "500",
+        "code": 10000,
+        "message": "Officia esse excepteur consequat qui nulla id anim sit esse officia ullamco.",
+        "detail": "icn=500104V500104 startDate=2016-01-25T00:00Z endDate=2025-12-26T00:00Z"
+      }
+    ]
+  }
+}

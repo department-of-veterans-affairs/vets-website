@@ -61,6 +61,8 @@ const appointmentSlotsV2 = getMockSlots({
 const clinics983V2 = require('./v2/clinics_983.json');
 const clinics984V2 = require('./v2/clinics_984.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
+// Comment out line above and uncomment line below to test relationship endpoint error states
+// const patientProviderRelationships = require('./v2/patient_provider_relationships_errors.json');
 const recentLocations = require('./v2/recent_locations.json');
 const vamcEhr = require('./v2/vamc_ehr.json');
 
@@ -73,9 +75,6 @@ const requestsV2 = require('./v2/requests.json');
 // Oracle Health appointment requests
 const requestsOh = require('./v2/requests_oh.json');
 // const schedulingConfigurationsVPG = require('./v2/scheduling_configurations_vpg.json');
-
-// Uncomment to produce backend service errors
-// const meta = require('./v2/meta_failures.json');
 
 const appointmentRequests = {
   data: requestsV2.data.concat(requestsOh.data),
@@ -90,6 +89,9 @@ const MockReferralSubmitAppointmentResponse = require('../../tests/fixtures/Mock
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
+// Uncomment to produce backend service errors
+// const meta = require('./v2/meta_failures.json');
+
 const features = require('./featureFlags');
 const {
   // defaultUser,
