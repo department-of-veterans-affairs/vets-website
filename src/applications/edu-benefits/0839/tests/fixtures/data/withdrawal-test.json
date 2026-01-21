@@ -1,0 +1,57 @@
+{
+  "data": {
+    "authorizedOfficial": {
+      "fullName": { "first": "John", "last": "Doe" },
+      "title": "Title",
+      "phoneNumber": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(222) 333-4444"
+      }
+    },
+    "agreementType": "withdrawFromYellowRibbonProgram",
+    "institutionDetails": {
+      "view:additionalInstructions": {},
+      "facilityCode": "11100520",
+      "institutionName": "ST MARY'S COLLEGE OF MARYLAND",
+      "institutionAddress": {
+        "street": "18952 EAST FISHER ROAD",
+        "street2": "",
+        "street3": "",
+        "city": "ST MARYS CITY",
+        "state": "MD",
+        "postalCode": "20686",
+        "country": "USA"
+      },
+      "view:warningBanner": {},
+      "yrEligible": true,
+      "isLoading": false,
+      "isUsaSchool": true,
+      "isForeignCountry": false
+    },
+    "hasAdditionalInstitutionDetails": false,
+    "additionalInstitutionDetails": [
+      {
+        "view:additionalInstructions": {},
+        "facilityCode": "31800132",
+        "institutionName": "NEW YORK UNIVERSITY",
+        "institutionAddress": {
+          "country": "USA",
+          "street": "PO BOX 910",
+          "street2": "OFFICE OF THE REGISTRAR",
+          "street3": "",
+          "city": "NEW YORK",
+          "state": "NY",
+          "postalCode": "10276"
+        },
+        "view:warningBanner": {},
+        "yrEligible": true,
+        "isLoading": false,
+        "isForeignCountry": false
+      }
+    ],
+    "isAuthenticated": false,
+    "statementOfTruthSignature": "John Doe",
+    "statementOfTruthCertified": true
+  }
+}
