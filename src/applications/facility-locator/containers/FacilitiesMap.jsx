@@ -837,6 +837,9 @@ const FacilitiesMap = props => {
         setMapEventHandlers();
       }
     },
+    // We intentionally omit setMapEventHandlers from deps - we only want to
+    // set up event handlers when map is created or searchCoords changes,
+    // not on every render when the function reference changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [map, props.currentQuery.searchCoords],
   );
@@ -845,6 +848,9 @@ const FacilitiesMap = props => {
     () => {
       searchCurrentArea();
     },
+    // searchCurrentArea is intentionally omitted - we only want this to run
+    // when searchArea changes, not when the function reference changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.searchArea],
   );
 
@@ -855,11 +861,16 @@ const FacilitiesMap = props => {
         setUpResizeEventListener();
       }
     },
+    // We intentionally omit setupMap and setUpResizeEventListener from deps -
+    // this effect should only run once when the container ref is available
+    // and the map hasn't been initialized yet
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [mapboxContainerRef, map],
   );
 
   // Re-process URL params when vaHealthServicesData becomes available
+  // This handles the case where the page loads with URL params but the
+  // drupal static data hasn't loaded yet
   useEffect(
     () => {
       const { location } = props;
@@ -881,6 +892,8 @@ const FacilitiesMap = props => {
         }
       }
     },
+    // We intentionally only trigger on vaHealthServicesData changes -
+    // this is for re-processing URL params when drupal data loads
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.vaHealthServicesData],
   );
@@ -889,6 +902,8 @@ const FacilitiesMap = props => {
     () => {
       handleSearchOnQueryChange();
     },
+    // handleSearchOnQueryChange is intentionally omitted - we only want this
+    // to run when currentQuery.id changes (indicating a new search)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.id],
   );
@@ -898,6 +913,9 @@ const FacilitiesMap = props => {
       if (!map) return;
       renderMarkers(props.results);
     },
+    // renderMarkers is intentionally omitted - it's a useCallback that depends
+    // on map and props, and we only want to re-render markers when results change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.results, map],
   );
 
@@ -909,17 +927,19 @@ const FacilitiesMap = props => {
         setFocus(searchResultTitleRef.current);
       }
     },
-    [
-      searchResultTitleRef.current,
-      props.currentQuery.inProgress,
-      props.currentQuery.searchStarted,
-    ],
+    // Ref values (searchResultTitleRef) shouldn't be in deps - they don't
+    // trigger re-renders. We trigger on inProgress/searchStarted state changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.currentQuery.inProgress, props.currentQuery.searchStarted],
   );
 
   useEffect(
     () => {
       handleMapOnNoResultsFound();
     },
+    // handleMapOnNoResultsFound is intentionally omitted - we only want this
+    // to run when searchCoords or results change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.searchCoords, props.results],
   );
 
