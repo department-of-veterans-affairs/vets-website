@@ -79,10 +79,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       .resolves({ data: draftAppointmentInfo });
     const selectedSlotKey = getReferralSlotKey('UUID');
 
-    sessionStorage.setItem(
-      selectedSlotKey,
-      '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
-    );
+    // Store the slot start time - this should match the slot.start format used by getSlotByDate
+    sessionStorage.setItem(selectedSlotKey, slotDate);
 
     const noSelectState = {
       ...initialFullState,
@@ -100,13 +98,13 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('referral-layout-heading')).to.exist;
       expect(screen.getByTestId('slot-day-time')).to.contain.text(
         'Monday, September 9, 2024',
       );
       expect(screen.getByTestId('slot-day-time')).to.contain.text(
-        '12:00 p.m. Eastern time (ET)',
+        '12:00 p.m. ET',
       );
     });
   });
@@ -131,7 +129,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         path: '/schedule-referral/date-time',
       },
     );
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
         .true;
     });
@@ -155,15 +153,17 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     );
     await screen.findByTestId('continue-button');
-    waitFor(() => {
-      userEvent.click(screen.queryByTestId('continue-button'));
+    await userEvent.click(screen.getByTestId('continue-button'));
+    await waitFor(() => {
+      sandbox.assert.calledOnce(
+        requestStub.withArgs('/vaos/v2/appointments/draft'),
+      );
     });
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/draft'),
-    );
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/submit'),
-    );
+    await waitFor(() => {
+      sandbox.assert.calledOnce(
+        requestStub.withArgs('/vaos/v2/appointments/submit'),
+      );
+    });
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
     const store = createTestStore(initialEmptyState);

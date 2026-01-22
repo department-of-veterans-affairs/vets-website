@@ -776,7 +776,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
     await userEvent.click(chooseProviderButton10);
     await waitFor(() =>
-      expect(screen.getAllByRole('radio').length).to.equal(5),
+      expect(screen.queryAllByRole('radio').length).to.equal(5),
     );
 
     const providersSelect = await screen.findByTestId('providersSelect');
@@ -824,7 +824,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // should eventually be one provder
     await waitFor(() =>
-      expect(screen.getAllByRole('radio').length).to.equal(1),
+      expect(screen.queryAllByRole('radio').length).to.equal(1),
     );
   });
 
