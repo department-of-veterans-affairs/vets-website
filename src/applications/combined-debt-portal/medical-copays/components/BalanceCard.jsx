@@ -94,7 +94,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`detail-link-${id}`}
             onClick={event => {
               event.preventDefault();
-              dispatch(getCopayDetailPageData('4-2vKmP9xQr3nTw'));
+              dispatch(getCopayDetailPageData(`${id}`));
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}`);
             }}
@@ -110,7 +110,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`resolve-link-${id}`}
             onClick={event => {
               event.preventDefault();
-              dispatch(getCopayDetailPageData('4-2vKmP9xQr3nTw'));
+              dispatch(getCopayDetailPageData(`${id}`));
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}/resolve`);
             }}
