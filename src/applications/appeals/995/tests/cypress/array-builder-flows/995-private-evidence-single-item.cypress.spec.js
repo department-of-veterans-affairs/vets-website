@@ -1,10 +1,12 @@
 import manifest from '../../../manifest.json';
 import cypressSetup from '../../../../shared/tests/cypress.setup';
 import * as h from '../995.cypress.helpers';
-import { EVIDENCE_URLS } from '../../../constants';
 import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
 import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
-import { promptContent } from '../../../content/evidence/private';
+import {
+  introContent,
+  summaryContent,
+} from '../../../content/evidence/private';
 import * as sh from '../../../../shared/tests/cypress.helpers';
 import { content as limitedConsentContent } from '../../../components/4142/LimitedConsent';
 import { content as authContent } from '../../../components/4142/AuthorizationNew';
@@ -53,10 +55,9 @@ describe('Array Builder evidence flow', () => {
         'You have private provider or VA Vet Center medical records if you were treated by a:',
       );
 
-      h.selectPrivatePromptResponse('Y');
+      h.selectPrivatePromptResponse('y');
 
       // 4142 Auth
-
       cy.get('#privacy-agreement')
         .shadow()
         .find('div input')
@@ -78,6 +79,10 @@ describe('Array Builder evidence flow', () => {
         limitedConsentContent.textareaLabel,
       );
 
+      h.clickContinue();
+
+      // Intro page
+      h.verifyH3(introContent.title);
       h.clickContinue();
 
       // Location
@@ -113,16 +118,7 @@ describe('Array Builder evidence flow', () => {
       h.addPrivateTreatmentDates('2019-11-03', '2020-02-29');
 
       // Summary
-      h.verifyH3(`Review the evidence you’re submitting`, 0);
-
-      cy.get('span h4')
-        .eq(0)
-        .should('exist')
-        .and('be.visible')
-        .and(
-          'have.text',
-          `Private providers or VA Vet Centers we’ll request your records from`,
-        );
+      h.verifyH3(summaryContent.title, 0);
 
       h.verifyArrayBuilderReviewPrivateCard(
         0,
@@ -138,12 +134,18 @@ describe('Array Builder evidence flow', () => {
 
       // Verify we're back to the beginning of the flow
       // Location
-      sh.verifyCorrectUrl(manifest.rootUrl, EVIDENCE_URLS.privateSummary);
-      h.verifyFPSH3(promptContent.question);
+      sh.verifyCorrectUrl(
+        manifest.rootUrl,
+        `/supporting-evidence/0/private-medical-records-location`,
+      );
+      h.verifyH3(
+        'What location should we request your private provider or VA Vet Center records from?',
+      );
 
       h.checkAlertText(
-        'record_0',
-        `Success Alert Rainier Urgent Care’s information has been deleted`,
+        null,
+        `Warning Alert You must add at least one record for us to process this form.`,
+        'warning',
       );
     });
   });

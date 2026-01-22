@@ -45,7 +45,7 @@ describe('Array Builder evidence flow', () => {
 
       // ---------------------------------------- FIRST ITEM
       // Prompt
-      h.verifyFPSH3(promptContent.question);
+      h.verifyFPSH3(promptContent.topQuestion);
       h.verifyFPSDesc(
         'We can collect your VA medical records or military health records',
       );
@@ -83,16 +83,7 @@ describe('Array Builder evidence flow', () => {
       h.addVaTreatmentDate('4', '2002');
 
       // Summary
-      h.verifyH3(`Review the evidence you’re submitting`, 0);
-
-      cy.get('span h4')
-        .eq(0)
-        .should('exist')
-        .and('be.visible')
-        .and(
-          'have.text',
-          `VA or military treatment locations we’ll request your records from`,
-        );
+      h.verifyH3(summaryContent.titleWithItems, 0);
 
       h.verifyArrayBuilderReviewVACard(
         0,
