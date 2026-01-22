@@ -451,6 +451,7 @@ describe('Edit Contact List container', async () => {
       'contact-list-select-team-1013155',
     );
 
+    // Checkbox starts checked (in allowedRecipients), uncheck it to trigger a change
     checkVaCheckbox(checkbox, false);
 
     await waitFor(() => {
@@ -485,6 +486,7 @@ describe('Edit Contact List container', async () => {
       'contact-list-select-team-1013155',
     );
 
+    // Checkbox starts checked (in allowedRecipients), uncheck it to trigger a change
     checkVaCheckbox(checkbox, false);
 
     await waitFor(() => {
@@ -494,6 +496,7 @@ describe('Edit Contact List container', async () => {
       expect(newAddCount).to.be.greaterThan(initialAddCount);
     });
 
+    // Re-check to revert the change and remove the listener
     checkVaCheckbox(checkbox, true);
 
     await waitFor(() => {
