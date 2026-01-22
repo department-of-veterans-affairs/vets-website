@@ -146,7 +146,6 @@ describe('convertMedication', () => {
 
     const result = convertMedication(med);
     expect(result).to.be.an('object');
-    // 'Not filled yet' is the fallback when sortedDispensedDate is invalid
     expect(result.lastFilledOn).to.equal('Not filled yet');
     expect(result.prescribedOn).to.equal(UNKNOWN);
     expect(result.expirationDate).to.equal(NONE_RECORDED);
