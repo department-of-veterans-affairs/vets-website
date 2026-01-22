@@ -33,6 +33,11 @@ import {
   limitNewDisabilities,
   requireSeparationLocation,
 } from '../validations';
+import {
+  validateToxicExposureGulfWar1990Dates,
+  validateToxicExposureGulfWar2001Dates,
+  validateToxicExposureDates,
+} from '../utils/validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
@@ -1685,6 +1690,435 @@ describe('526 All Claims validations', () => {
 
         const result = findEarliestServiceDate(servicePeriods);
         expect(result.format(DATE_TEMPLATE)).to.equal('2003-03-12');
+      });
+    });
+  });
+
+  describe('toxic exposure date validations', () => {
+    describe('validateToxicExposureGulfWar1990Dates', () => {
+      it('should not add error for valid date range (month/year format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09',
+          endDate: '1991-03',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error for valid date range (year-only format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-XX',
+          endDate: '1991-XX',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should add error when end date is before start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1991-09',
+          endDate: '1990-08',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date month/year is before start date month/year', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09',
+          endDate: '1990-08',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: `${futureYear}-01`,
+          endDate: `${futureYear}-02`,
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future end date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09',
+          endDate: `${futureYear}-01`,
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date is before August 1990', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1989-09',
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should not add error when end date is August 1990 (accepted due to month/year granularity)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1990-08',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is year-only 1990', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1990-XX',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is September 1990', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1988-09',
+          endDate: '1990-09',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when only start date is provided', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09',
+          endDate: null,
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when only end date is provided', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: null,
+          endDate: '1990-09',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar1990Dates(errors, {
+          startDate: '1990-09-15',
+          endDate: '1991-03-20',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+    });
+
+    describe('validateToxicExposureGulfWar2001Dates', () => {
+      it('should not add error for valid date range (month/year format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-10',
+          endDate: '2002-03',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error for valid date range (year-only format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-XX',
+          endDate: '2002-XX',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should add error when end date is before start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2002-10',
+          endDate: '2001-09',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date month/year is before start date month/year', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-10',
+          endDate: '2001-09',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: `${futureYear}-01`,
+          endDate: `${futureYear}-02`,
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future end date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-10',
+          endDate: `${futureYear}-01`,
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date is before September 2001', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-08',
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should not add error when end date is September 2001 (accepted due to month/year granularity)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-09',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is year-only 2001', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-XX',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when end date is October 2001', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2000-10',
+          endDate: '2001-10',
+        });
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureGulfWar2001Dates(errors, {
+          startDate: '2001-10-15',
+          endDate: '2002-03-20',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+    });
+
+    describe('validateToxicExposureDates', () => {
+      it('should not add error for valid date range (month/year format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-06',
+          endDate: '1997-08',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error for valid date range (year-only format)', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-XX',
+          endDate: '1997-XX',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should add error when end date is before start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1997-06',
+          endDate: '1995-08',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error when end date month/year is before start date month/year', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-08',
+          endDate: '1995-06',
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future start date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureDates(errors, {
+          startDate: `${futureYear}-01`,
+          endDate: `${futureYear}-02`,
+        });
+        expect(errors.startDate.addError.called).to.be.true;
+      });
+
+      it('should add error for future end date', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        const currentYear = new Date().getFullYear();
+        const futureYear = currentYear + 1;
+        validateToxicExposureDates(errors, {
+          startDate: '1995-06',
+          endDate: `${futureYear}-01`,
+        });
+        expect(errors.endDate.addError.called).to.be.true;
+      });
+
+      it('should not add error when only start date is provided', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-06',
+          endDate: null,
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should not add error when only end date is provided', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: null,
+          endDate: '1997-08',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
+      });
+
+      it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+        const errors = {
+          startDate: { addError: sinon.spy() },
+          endDate: { addError: sinon.spy() },
+        };
+        validateToxicExposureDates(errors, {
+          startDate: '1995-06-15',
+          endDate: '1997-08-20',
+        });
+        expect(errors.startDate.addError.called).to.be.false;
+        expect(errors.endDate.addError.called).to.be.false;
       });
     });
   });

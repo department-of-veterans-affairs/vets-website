@@ -70,6 +70,8 @@ const isSupportedVaElement = element => {
     'va-checkbox-group',
     'va-checkbox',
     'va-combo-box',
+    'va-file-input',
+    'va-file-input-multiple',
     'va-radio',
     'va-radio-option',
     'va-select',
