@@ -49,7 +49,16 @@ const MigratingFacilitiesAlerts = ({
             {errorHeadline}
           </h2>
           <div>
-            <p>{config.errorGetMessage(startDate, endDate, facilityText)}</p>
+            <p>
+              {config.errorIntro && (
+                <>
+                  {config.errorIntro} from <strong>{startDate}</strong> to{' '}
+                  <strong>{endDate}</strong>{' '}
+                </>
+              )}
+              {config.errorMessage} {facilityText} until{' '}
+              <strong>{endDate}</strong>:
+            </p>
             <ul>
               {migration.facilities.map((facility, i) => (
                 <li key={i}>{facility.facilityName}</li>
@@ -82,15 +91,19 @@ const MigratingFacilitiesAlerts = ({
         trigger={`${config.warningHeadline} will begin on ${startDate}`}
       >
         <div>
-          <p>{config.warningGetMessage(startDate, endDate, facilityText)}</p>
+          <p>
+            From <strong>{startDate}</strong> to <strong>{endDate}</strong>,{' '}
+            {config.warningMessage} {facilityText}:
+          </p>
           <ul>
             {migration.facilities.map((facility, i) => (
               <li key={i}>{facility.facilityName}</li>
             ))}
           </ul>
-          {config.warningGetNote && (
+          {(config.warningGetNote || config.warningNote) && (
             <p>
-              <strong>Note:</strong> {config.warningGetNote(facilityText)}
+              <strong>Note:</strong>{' '}
+              {config.warningNote || config.warningGetNote(facilityText)}
             </p>
           )}
         </div>
@@ -105,7 +118,6 @@ const MigratingFacilitiesAlerts = ({
 
 MigratingFacilitiesAlerts.propTypes = {
   healthTool: PropTypes.string.isRequired,
-  className: PropTypes.string,
   migratingFacilities: PropTypes.arrayOf(
     PropTypes.shape({
       migrationDate: PropTypes.string,
@@ -127,6 +139,7 @@ MigratingFacilitiesAlerts.propTypes = {
       }),
     }),
   ).isRequired,
+  className: PropTypes.string,
 };
 
 export default MigratingFacilitiesAlerts;

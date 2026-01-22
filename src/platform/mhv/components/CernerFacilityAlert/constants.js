@@ -8,14 +8,12 @@ export const CernerAlertContent = {
     // Migration alert configuration
     warningPhases: ['p0', 'p1'],
     warningHeadline: 'Updates',
-    warningGetMessage: (startDate, endDate, facilityText) =>
-      `From ${startDate} to ${endDate}, you won’t be able to schedule or cancel appointments online for ${facilityText}.`,
+    warningMessage: `you won’t be able to schedule or cancel appointments online for`,
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to schedule or cancel appointments.`,
     errorPhases: ['p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
     errorHeadline: `You can’t manage appointments online for some facilities right now`,
-    errorGetMessage: (startDate, endDate, facilityText) =>
-      `You can’t schedule or cancel appointments online for ${facilityText} until ${endDate}.`,
+    errorMessage: `You can’t schedule or cancel appointments online for`,
     errorNote:
       'If you need to schedule or cancel appointments now, call the facility directly.',
     errorStartDate: 'p2',
@@ -37,13 +35,12 @@ export const CernerAlertContent = {
     // Migration alert configuration
     warningPhases: ['p1', 'p2', 'p3'],
     warningHeadline: 'Site updates',
-    warningGetMessage: (startDate, endDate, facilityText) =>
-      `From ${startDate} to ${endDate}, there may be a delay in updating medical records for ${facilityText}.`,
+    warningMessage: `there may be a delay in updating medical records for`,
     errorPhases: ['p4', 'p5', 'p6'],
     errorGetHeadline: endDate =>
       `New medical records may not appear here until ${endDate}`,
-    errorGetMessage: (startDate, endDate, facilityText) =>
-      `Medical records from ${startDate} to ${endDate} may not be updated for ${facilityText}.`,
+    errorIntro: 'Medical records',
+    errorMessage: `may not be updated for`,
     errorStartDate: 'p4',
     errorEndDate: 'p6',
   },
@@ -57,14 +54,11 @@ export const CernerAlertContent = {
     // Migration alert configuration
     warningPhases: ['p1', 'p2', 'p3'],
     warningHeadline: 'Updates',
-    warningGetMessage: (startDate, endDate, facilityText) =>
-      `From ${startDate} to ${endDate}, you won’t be able to refill your medications online for ${facilityText}.`,
-    warningGetNote: facilityText =>
-      `During this time, you can still call ${facilityText} call your VA pharmacy’s automated refill line to refill a medication.`,
+    warningMessage: `you won’t be able to refill your medications online for`,
+    warningNote: `During this time, you can still call your VA pharmacy’s automated refill line to refill a medication.`,
     errorPhases: ['p4', 'p5', 'p6'],
     errorHeadline: `You can’t refill medications online for some facilities right now`,
-    errorGetMessage: (startDate, endDate, facilityText) =>
-      `You can’t refill your medications online for ${facilityText} until ${endDate}.`,
+    errorMessage: `You can’t refill your medications online for`,
     errorNote: `If you need to refill a medication now, call your VA pharmacy’s automated refill line. The phone number is on your prescription label or in your medications details page.`,
     errorStartDate: 'p4',
     errorEndDate: 'p6',
@@ -83,14 +77,12 @@ export const CernerAlertContent = {
     // Migration alert configuration
     warningPhases: ['p1', 'p2'],
     warningHeadline: 'Updates',
-    warningGetMessage: (startDate, endDate, facilityText) =>
-      `From ${startDate} to ${endDate}, you won’t be able to send or receive new messages or reply to conversations with providers at ${facilityText}.`,
+    warningMessage: `you won’t be able to send or receive new messages or reply to conversations with providers at`,
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to contact your provider.`,
     errorPhases: ['p3', 'p4', 'p5', 'p6'],
     errorHeadline: `You can’t use messages to contact providers at some facilities right now`,
-    errorGetMessage: (startDate, endDate, facilityText) =>
-      `You can’t send or receive new messages or reply to conversations with providers at ${facilityText} until ${endDate}.`,
+    errorMessage: `You can’t send or receive new messages or reply to conversations with providers at`,
     errorNote:
       'If you need to contact your provider now, call the facility directly.',
     errorStartDate: 'p3',
