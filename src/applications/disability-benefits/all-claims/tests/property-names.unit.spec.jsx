@@ -56,10 +56,12 @@ describe('Root property names', () => {
     const duplicatedProperties = {};
 
     // these properties are used on the original claim and BDD evidence type pages
+    // (except _forceFieldBlur which is used across multiple toxic exposure pages)
     const duplicatedPropertiesToIgnore = [
       'view:hasEvidence',
       'view:selectableEvidenceTypes',
       'view:evidenceTypeHelp',
+      '_forceFieldBlur',
     ];
 
     Object.keys(pages).forEach(pageName => {
