@@ -32,17 +32,25 @@ describe('22-10278 identification information page', () => {
   it('renders SSN and VA file number fields', () => {
     const { container } = renderPage();
     expect(
-      $$('va-text-input[name="root_veteranId_ssn"]', container).length,
+      $$(
+        'va-text-input[name="root_claimantPersonalInformation_veteranId_ssn"]',
+        container,
+      ).length,
     ).to.equal(1);
     expect(
-      $$('va-text-input[name="root_veteranId_vaFileNumber"]', container).length,
+      $$(
+        'va-text-input[name="root_claimantPersonalInformation_veteranId_vaFileNumber"]',
+        container,
+      ).length,
     ).to.equal(1);
   });
 
   it('renders without errors when veteran ID is provided', () => {
     const { container } = renderPage({
-      veteranId: {
-        ssn: '123456789',
+      claimantPersonalInformation: {
+        veteranId: {
+          ssn: '123456789',
+        },
       },
     });
     expect(container.querySelectorAll('[error]')).to.have.length(0);

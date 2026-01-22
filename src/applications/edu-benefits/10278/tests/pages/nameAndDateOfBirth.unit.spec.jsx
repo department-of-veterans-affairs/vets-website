@@ -20,7 +20,10 @@ describe('22-10278 name and date of birth page', () => {
   it('renders full name field', () => {
     const { container } = renderPage();
     expect(
-      $$('va-text-input[name^="root_fullName"]', container).length,
+      $$(
+        'va-text-input[name^="root_claimantPersonalInformation_fullName"]',
+        container,
+      ).length,
     ).to.be.greaterThan(0);
   });
 
@@ -30,17 +33,22 @@ describe('22-10278 name and date of birth page', () => {
   });
 
   it('has required fields in schema', () => {
-    expect(page.schema.required).to.include('fullName');
-    expect(page.schema.required).to.include('dateOfBirth');
+    expect(page.schema.required).to.include('claimantPersonalInformation');
+    const claimantRequired =
+      page.schema.properties.claimantPersonalInformation.required;
+    expect(claimantRequired).to.include('fullName');
+    expect(claimantRequired).to.include('dateOfBirth');
   });
 
   it('renders without errors when form data is provided', () => {
     const { container } = renderPage({
-      fullName: {
-        first: 'John',
-        last: 'Doe',
+      claimantPersonalInformation: {
+        fullName: {
+          first: 'John',
+          last: 'Doe',
+        },
+        dateOfBirth: '1990-01-01',
       },
-      dateOfBirth: '1990-01-01',
     });
     expect(container.querySelectorAll('[error]')).to.have.length(0);
   });
