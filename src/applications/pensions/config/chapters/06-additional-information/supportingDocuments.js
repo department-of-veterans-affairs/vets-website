@@ -68,6 +68,13 @@ const SpecialMonthlyPensionAccordionItems = () => (
   </>
 );
 
+/**
+ * @typedef {object} DocumentsProps
+ * @property {object} formData - The form data
+ *
+ * @param {DocumentsProps} props - The component props
+ * @returns {React.Element} The Documents component
+ */
 function Documents({ formData }) {
   const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
   const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);

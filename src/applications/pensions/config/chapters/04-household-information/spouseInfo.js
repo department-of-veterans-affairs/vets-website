@@ -23,7 +23,7 @@ export default {
   depends: requiresSpouseInfo,
   uiSchema: {
     ...titleUI(createHouseholdMemberTitle('spouseFullName', 'information')),
-    spouseDateOfBirth: merge({}, dateOfBirthUI(), {
+    spouseDateOfBirth: merge({}, dateOfBirthUI({ dataDogHidden: true }), {
       'ui:title': '',
       'ui:options': {
         updateSchema: createSpouseLabelSelector(

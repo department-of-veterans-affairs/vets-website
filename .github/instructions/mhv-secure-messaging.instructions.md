@@ -1161,6 +1161,24 @@ state.sm = {
 - Use descriptive, kebab-case names: `data-testid="send-message-button"`
 - Locators stored in `tests/e2e/utils/constants.js`
 
+### Sticky Header Click Issues in Cypress
+- **Problem**: VA.gov has a sticky header that can cover elements when Cypress tries to click them
+- **Symptom**: `CypressError: cy.click() failed because the center of this element is hidden from view`
+- **Solution**: Use `{ force: true }` option for clicks on elements that may be covered by the header
+- **Example**:
+  ```javascript
+  // ✅ CORRECT: Force click when element may be covered by sticky header
+  cy.contains(mockMessages.data[0].attributes.subject).click({
+    force: true,
+    waitForAnimations: true,
+  });
+
+  // ❌ WRONG: May fail intermittently due to sticky header overlay
+  cy.contains(mockMessages.data[0].attributes.subject).click();
+  ```
+- **Common locations**: Message list links, accordion items near top of page, buttons after page scroll
+- **Note**: Only use `force: true` when you've confirmed the element is legitimately covered by the header, not as a workaround for actual visibility issues
+
 ## Import Patterns & Module Resolution
 
 ### Platform Utilities (Always Import from Platform)

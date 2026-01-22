@@ -13,22 +13,49 @@ import ListItemView from '../../../components/ListItemView';
 import { getJobTitleOrType } from '../../../helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
 
+/**
+ * Determines if the applicant has federal treatment history
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant has federal treatment history, false
+ * otherwise
+ */
 export function hasFederalTreatmentHistory(formData) {
   return formData.federalTreatmentHistory === true;
 }
 
+/**
+ * Determines if the applicant does not have social security disability
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant does not have social security disability, false otherwise
+ */
 export function hasNoSocialSecurityDisability(formData) {
   return formData.socialSecurityDisability === false;
 }
 
+/**
+ * Determines if the applicant has VA treatment history
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant has VA treatment history, false otherwise
+ */
 export function hasVaTreatmentHistory(formData) {
   return formData.vaTreatmentHistory === true;
 }
 
+/**
+ * Determines if the applicant is in a nursing home
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant is in a nursing home, false otherwise
+ */
 export function isInNursingHome(formData) {
   return formData.nursingHome === true;
 }
 
+/**
+ * Determines if the applicant is under 65 years old
+ * @param {object} formData - full form data
+ * @param {Date} currentDate - current date
+ * @returns {boolean} True if the applicant is under 65, false otherwise
+ */
 export function isUnder65(formData, currentDate) {
   const today = currentDate || new Date();
   const dateToCompare = startOfDay(subYears(today, 65));
@@ -39,23 +66,48 @@ export function isUnder65(formData, currentDate) {
   );
 }
 
+/**
+ * Determines if employment history is required
+ * @param {object} formData - full form data
+ * @returns {boolean} True if employment history is required, false otherwise
+ */
 export function requiresEmploymentHistory(formData) {
   return isUnder65(formData) && hasNoSocialSecurityDisability(formData);
 }
 
+/**
+ * Determines if the applicant is employed and under 65 years old
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant is employed and under 65, false otherwise
+ */
 export function isEmployedUnder65(formData) {
   return formData.currentEmployment === true && isUnder65(formData);
 }
 
+/**
+ * Determines if the applicant is unemployed and under 65 years old
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant is unemployed and under 65, false otherwise
+ */
 export function isUnemployedUnder65(formData) {
   return formData.currentEmployment === false && isUnder65(formData);
 }
 
+/**
+ * Determines if the applicant does not have current employers
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant does not have current employers, false otherwise
+ */
 export function doesNotHaveCurrentEmployers(formData) {
   const currentEmployers = formData?.currentEmployers;
   return !currentEmployers || currentEmployers.length === 0;
 }
 
+/**
+ * Determines if Medicaid does not cover nursing home
+ * @param {object} formData - full form data
+ * @returns {boolean} True if Medicaid does not cover nursing home, false otherwise
+ */
 export function medicaidDoesNotCoverNursingHome(formData) {
   return formData.nursingHome === true && formData.medicaidCoverage === false;
 }
@@ -275,6 +327,10 @@ export const generateEmployersSchemas = ({
   };
 };
 
+/**
+ * Medical condition description component
+ * @returns {React.Element} Medical condition description
+ */
 export function MedicalConditionDescription() {
   return (
     <div>
@@ -307,6 +363,10 @@ export function MedicalConditionDescription() {
   );
 }
 
+/**
+ * Medical evidence notice component
+ * @returns {React.Element} Medical evidence notice
+ */
 export function MedicalEvidenceNotice() {
   return (
     <div>
