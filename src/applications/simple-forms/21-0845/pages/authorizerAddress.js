@@ -5,10 +5,12 @@ import {
 
 const addressSchema = addressNoMilitarySchema({
   omit: ['isMilitary', 'street3'],
+  extend: {
+    street: { maxLength: 30 },
+    street2: { maxLength: 5 },
+    city: { maxLength: 18 },
+  },
 });
-addressSchema.properties.street.maxLength = 30;
-addressSchema.properties.street2.maxLength = 5;
-addressSchema.properties.city.maxLength = 18;
 
 /** @type {PageSchema} */
 export default {
