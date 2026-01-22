@@ -21713,7 +21713,7 @@ resolve-from@^5.0.0:
 
 resolve-id-refs@0.1.0, resolve-id-refs@^0.1.0:
   version "0.1.0"
-  resolved "https://registry.yarnpkg.com/resolve-id-refs/-/resolve-id-refs-0.1.0.tgz#3126624b887489da8fc0ae889632f8413ac6c3ec"
+  resolved "https://registry.npmjs.org/resolve-id-refs/-/resolve-id-refs-0.1.0.tgz#3126624b887489da8fc0ae889632f8413ac6c3ec"
   integrity sha512-hNS03NEmVpJheF7yfyagNh57XuKc0z+NkSO0oBbeO67o6IJKoqlDfnNIxhjp7aTWwjmSWZQhtiGrOgZXVyM90w==
 
 resolve-pathname@^2.2.0:
