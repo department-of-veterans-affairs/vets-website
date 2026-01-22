@@ -187,15 +187,28 @@ describe('Folder Thread List View container', () => {
       ],
     };
     mockFetch(res, false);
-    // NODE 22 FIX: Provide minimal initial state structure so reducers initialize
-    // properly. With just { sm: {} }, alertList is undefined causing render issues.
-    // The alerts reducer needs to initialize with its default state (alertList: []).
+    // NODE 22 FIX: Provide complete initial state structure so reducers and component
+    // can properly handle the error flow. The component needs threads state for rendering
+    // and alerts state for displaying errors.
     const screen = setup({
       sm: {
-        alerts: { alertList: [] },
-        folders: {},
-        threads: { threadList: [], isLoading: false, threadSort: {} },
-        recipients: {},
+        alerts: { alertList: [], alertVisible: false },
+        folders: { folder: inbox },
+        threads: {
+          threadList: [],
+          isLoading: false,
+          threadSort: {
+            value: threadSortingOptions.SENT_DATE_DESCENDING.value,
+            folderId: 0,
+            page: 1,
+          },
+        },
+        recipients: { noAssociations: false, allTriageGroupsBlocked: false },
+        search: {
+          searchResults: undefined,
+          awaitingResults: false,
+          keyword: '',
+        },
       },
     });
 

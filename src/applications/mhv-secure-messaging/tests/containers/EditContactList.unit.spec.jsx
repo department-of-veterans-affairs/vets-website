@@ -435,18 +435,17 @@ describe('Edit Contact List container', async () => {
   });
 
   it('adds eventListener if path is /contact-list', async () => {
-    // NODE 22 FIX: Create spy BEFORE setup() so we capture event listeners
-    // added during initial render. In Node 22, the component may add listeners
-    // during mount before the spy was created, causing calledWith to return false.
-    // Reset spy history after setup to only track calls from user interactions.
+    // NODE 22 FIX: Create spy BEFORE setup() so we capture all event listener calls.
+    // Use a count-based approach to verify the checkbox interaction adds the listener,
+    // since we can't reliably reset spy history across Node versions.
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
 
     const screen = setup();
 
-    // Reset call history after setup to isolate user interactions from mount behavior
-    addEventListenerSpy.reset();
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    // Count beforeunload calls before interaction
+    const initialBeforeUnloadCount = addEventListenerSpy
+      .getCalls()
+      .filter(call => call.args[0] === 'beforeunload').length;
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
@@ -455,7 +454,10 @@ describe('Edit Contact List container', async () => {
     checkVaCheckbox(checkbox, false);
 
     await waitFor(() => {
-      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+      const newBeforeUnloadCount = addEventListenerSpy
+        .getCalls()
+        .filter(call => call.args[0] === 'beforeunload').length;
+      expect(newBeforeUnloadCount).to.be.greaterThan(initialBeforeUnloadCount);
     });
 
     // NODE 22 FIX: Restore spy to prevent pollution between tests
@@ -464,18 +466,20 @@ describe('Edit Contact List container', async () => {
 
   it('removes eventListener if contact list changes are reverted', async () => {
     // NODE 22 FIX: Create spies BEFORE setup() to capture all event listener calls.
-    // Also restore spies at end of test to prevent pollution between tests.
-    // Reset spy history after setup to only track calls from user interactions.
+    // Use a count-based approach to verify interactions, since we can't reliably
+    // reset spy history across Node versions.
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
 
     const screen = setup();
 
-    // Reset call history after setup to isolate user interactions from mount behavior
-    addEventListenerSpy.reset();
-    removeEventListenerSpy.reset();
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    // Count beforeunload calls before interaction
+    const initialAddCount = addEventListenerSpy
+      .getCalls()
+      .filter(call => call.args[0] === 'beforeunload').length;
+    const initialRemoveCount = removeEventListenerSpy
+      .getCalls()
+      .filter(call => call.args[0] === 'beforeunload').length;
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
@@ -484,13 +488,19 @@ describe('Edit Contact List container', async () => {
     checkVaCheckbox(checkbox, false);
 
     await waitFor(() => {
-      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+      const newAddCount = addEventListenerSpy
+        .getCalls()
+        .filter(call => call.args[0] === 'beforeunload').length;
+      expect(newAddCount).to.be.greaterThan(initialAddCount);
     });
 
     checkVaCheckbox(checkbox, true);
 
     await waitFor(() => {
-      expect(removeEventListenerSpy.calledWith('beforeunload')).to.be.true;
+      const newRemoveCount = removeEventListenerSpy
+        .getCalls()
+        .filter(call => call.args[0] === 'beforeunload').length;
+      expect(newRemoveCount).to.be.greaterThan(initialRemoveCount);
     });
 
     // NODE 22 FIX: Restore spies to prevent pollution between tests
