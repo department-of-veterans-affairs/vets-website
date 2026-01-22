@@ -12,6 +12,10 @@ import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting
 
 import { getStatusContents } from '../../utils/getStatusContents';
 
+import CTALink from '../CTALink';
+
+// This component file is for the current dashboard experience
+
 const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
@@ -25,7 +29,7 @@ const handleViewAppeal = () => {
   });
 };
 
-const Appeal = ({ appeal, name }) => {
+const AppealLegacy = ({ appeal, name }) => {
   if (!appeal.attributes) {
     throw new TypeError(
       '`appeal` prop is malformed; it should have an `attributes` property.',
@@ -74,20 +78,16 @@ const Appeal = ({ appeal, name }) => {
       appealTitle += ` for ${programArea}`;
     }
   }
-  appealTitle = capitalizeFirstLetter(appealTitle);
 
-  const appealDate = format(
+  appealTitle += ` updated on ${format(
     new Date(replace(updatedEventDateString)),
     'MMMM d, yyyy',
-  );
+  )}`;
+  appealTitle = capitalizeFirstLetter(appealTitle);
 
   const content = (
     <>
-      <h3 className="vads-u-margin-top--0">
-        {appealTitle} updated:
-        <br />
-        {appealDate}
-      </h3>
+      <h3 className="vads-u-margin-top--0">{appealTitle}</h3>
       <div className="vads-u-display--flex">
         <va-icon
           icon="check_circle"
@@ -117,28 +117,27 @@ const Appeal = ({ appeal, name }) => {
           )}
         </div>
       </div>
-      <div className="vads-u-margin-top--0p5 vads-u-padding-y--1">
-        <va-link
-          active
-          text="Review details"
-          label={`Review details of ${appealTitle} `}
-          href={`/track-claims/appeals/${appeal.id}/status`}
-          onClick={handleViewAppeal}
-        />
-      </div>
+      <CTALink
+        ariaLabel={`Review details of ${appealTitle} `}
+        className="vads-u-margin-top--2 vads-u-font-weight--bold"
+        text="Review details"
+        href={`/track-claims/appeals/${appeal.id}/status`}
+        onClick={handleViewAppeal}
+        showArrow
+      />
     </>
   );
 
   return (
-    <div className="vads-u-margin-bottom--2">
-      <va-card>{content}</va-card>
-    </div>
+    <va-card>
+      <div className="vads-u-padding--1">{content}</div>
+    </va-card>
   );
 };
 
-Appeal.propTypes = {
+AppealLegacy.propTypes = {
   appeal: PropTypes.object.isRequired,
   name: PropTypes.string,
 };
 
-export default Appeal;
+export default AppealLegacy;
