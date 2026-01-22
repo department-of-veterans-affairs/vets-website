@@ -149,7 +149,7 @@ const PrescriptionPrintOnly = props => {
                 <>
                   <p>
                     <strong>Prescription number:</strong>{' '}
-                    {rx.prescriptionNumber}
+                    {rx.prescriptionNumber || 'Not available'}
                   </p>
                 </>
               )}

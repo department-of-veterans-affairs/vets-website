@@ -48,7 +48,7 @@ const getLastFilledAndRxNumberBlock = rx => {
           DATETIME_FORMATS.longMonthDate,
           'Date not available',
         )}`,
-        `Prescription number: ${rx.prescriptionNumber} || 'Not available'}`,
+        `Prescription number: ${rx.prescriptionNumber || 'Not available'}`,
       );
 };
 const getAttributes = (rx, isCernerPilot, isV2StatusMapping = false) =>
