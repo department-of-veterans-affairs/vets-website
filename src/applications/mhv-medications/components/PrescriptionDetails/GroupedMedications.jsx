@@ -74,10 +74,7 @@ const GroupedMedications = props => {
         {currentGroupedList &&
           currentGroupedList.map(rx => {
             return (
-              <dl
-                className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3"
-                key={rx.prescriptionId}
-              >
+              <dl key={rx.prescriptionId}>
                 <dt className="vads-u-margin-top--3" data-dd-privacy="mask">
                   <h3
                     className="vads-u-font-size--md vads-u-font-family--sans"
@@ -118,7 +115,7 @@ const GroupedMedications = props => {
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
             max-page-list-length={MAX_PAGE_LIST_LENGTH}
-            className="vads-u-justify-content--center no-print vads-u-margin-top--3"
+            className="pagination vads-u-justify-content--center no-print vads-u-margin-y--neg1"
             page={currentPage}
             pages={Math.ceil(totalListCount / MAX_PAGE_LIST_LENGTH)}
             uswds

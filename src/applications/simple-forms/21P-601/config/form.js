@@ -26,12 +26,12 @@ import {
   waiverOfSubstitution,
   relativesOverview,
   relativesPages,
-  supportingDocuments,
   expensesClaim,
   expensesPages,
   otherDebts,
   otherDebtsPages,
   remarks,
+  supportingDocuments,
 } from '../pages';
 import { personalInfoConfig } from '../helpers/personalInformationConfig';
 
