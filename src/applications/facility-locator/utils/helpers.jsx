@@ -86,6 +86,12 @@ export const buildMarker = (
         locationElement.classList.add('active');
         recordMarkerEvents(loc);
 
+        // Focus on the title (h3) within the location element for accessibility
+        const titleElement = locationElement.querySelector('h3');
+        if (titleElement) {
+          setFocus(titleElement, false);
+        }
+
         const searchResultsContainer = document.getElementById(
           'searchResultsContainer',
         );
