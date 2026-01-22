@@ -189,6 +189,16 @@ describe('Folder Thread List View container', () => {
     mockFetch(res, false);
     const screen = setup({ sm: {} });
 
+    // NODE 22 FIX: Wait for alert to exist first before checking attributes.
+    // In Node 22, the component may not have rendered the alert yet when
+    // waitFor first runs, causing document.querySelector to return null.
+    // Splitting into separate waitFor calls ensures we don't access properties
+    // on null. This doesn't change test behavior - same assertions, just safer ordering.
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert).to.exist;
+    });
+
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
       const ariaLabel = document.querySelector('span');
