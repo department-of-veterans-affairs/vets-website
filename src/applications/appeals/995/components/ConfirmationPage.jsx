@@ -219,11 +219,7 @@ export const ConfirmationPage = () => {
 <<<<<<< HEAD
 =======
       {isScRedesign && privateEvidence.length ? (
-        <PrivateDetailsDisplayNew
-          list={privateEvidence}
-          reviewMode
-          showListOnly
-        />
+        <PrivateDetailsDisplayNew data={data} reviewMode showListOnly />
       ) : null}
 >>>>>>> 034c79ffd0 (Wrapping up changes to data display on confirmation page)
       {otherEvidence.length ? (

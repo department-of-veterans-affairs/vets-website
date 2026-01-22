@@ -304,7 +304,8 @@ const formConfig = {
           schema: privateAuthorization.schema,
           CustomPage: AuthorizationNew,
           CustomPageReview: null,
-          depends: formData => redesignActive(formData),
+          depends: formData =>
+            redesignActive(formData) && hasPrivateEvidence(formData),
         },
         ...privateEvidence,
         privateAuthorization: {

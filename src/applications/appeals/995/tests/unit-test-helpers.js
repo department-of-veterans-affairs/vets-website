@@ -58,9 +58,18 @@ export const verifyLink = (selector, expectedPath) => {
   expect(link.href).to.eq(expectedPath);
 };
 
-export const verifyProvider = (headers, listItems, listIndex, data) => {
+export const verifyProvider = (
+  headers,
+  listItems,
+  listIndex,
+  data,
+  shouldCheckIssues = true,
+) => {
   verifyHeader(headers, listIndex, data.providerName);
-  verifyResponse(listItems, listIndex, data.issues);
+
+  if (shouldCheckIssues) {
+    verifyResponse(listItems, listIndex, data.issues);
+  }
 
   if (data.dates) {
     verifyResponse(listItems, listIndex, data.dates);
@@ -81,7 +90,7 @@ export const verifyProviderVA = (
   providerIndex,
   reviewMode,
 ) => {
-  verifyProvider(headers, listItems, listIndex, data);
+  verifyProvider(headers, listItems, listIndex, data, false);
 
   if (!reviewMode) {
     verifyLink(

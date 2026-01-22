@@ -10,7 +10,6 @@ import {
   removeButtonClass,
 } from '../../utils/evidence-classnames';
 import { formatDateToReadableString } from '../../../shared/utils/dates';
-import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 
 // treatment date only includes YYYY-MM; include '-01' to fit parser
 export const getFormattedTreatmentDate = treatmentDate => {
@@ -91,8 +90,8 @@ export const VaDetailsDisplayNew = ({
 
           const { errors, hasErrors } = getLocationErrors(
             treatmentBefore2005,
-            vaTreatmentLocation,
             treatmentMonthYear,
+            vaTreatmentLocation,
           );
 
           return (
