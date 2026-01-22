@@ -74,9 +74,7 @@ describe('authentication - hooks', () => {
         const href = decodeURIComponent(result.current?.href);
 
         expect(href).to.include('https://dev-api.va.gov/v0/sign_in/authorize');
-        expect(href).to.include(
-          'acr=urn:acr.va.gov:verified-facial-match-required',
-        );
+        expect(href).to.include('ial2');
         expect(href).to.include('type=logingov');
         expect(href).to.include('state=');
         expect(href).to.include('code_challenge=');

@@ -7,11 +7,22 @@ import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-export const verifyHandler = ({ policy, queryParams, useOAuth }) => {
+export const verifyHandler = ({
+  policy,
+  queryParams,
+  useOAuth,
+  ial2Enforcement = false,
+}) => {
+  const needsIal2Enforcement =
+    ial2Enforcement && policy === SERVICE_PROVIDERS.logingov.policy;
+
   verify({
     policy,
-    acr: defaultWebOAuthOptions.acrVerify[policy],
+    acr: needsIal2Enforcement
+      ? 'urn:acr.va.gov:verified-facial-match-required'
+      : defaultWebOAuthOptions.acrVerify[policy],
     queryParams,
     useOAuth,
   });
@@ -63,13 +74,22 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
 export const VerifyLogingovButton = ({ queryParams, useOAuth = false }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2Enforcement,
+  );
 
   return (
     <button
       type="button"
       className="usa-button logingov-verify-button"
       onClick={() =>
-        verifyHandler({ policy, queryParams, useOAuth: forceOAuth })
+        verifyHandler({
+          policy,
+          ial2Enforcement,
+          queryParams,
+          useOAuth: forceOAuth,
+        })
       }
     >
       <div>Verify with {image}</div>
@@ -92,13 +112,19 @@ export const VerifyButton = ({
 }) => {
   const { image } = SERVICE_PROVIDERS[csp];
   const className = `usa-button ${csp}-verify-buttons`;
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2Enforcement,
+  );
 
   return (
     <button
       key={csp}
       type="button"
       className={className}
-      onClick={() => onClick({ policy: csp, queryParams, useOAuth })}
+      onClick={() =>
+        onClick({ policy: csp, ial2Enforcement, queryParams, useOAuth })
+      }
     >
       <span className="sr-only">Verify with</span>
       {image}
