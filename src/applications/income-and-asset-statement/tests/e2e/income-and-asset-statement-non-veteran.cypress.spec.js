@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: '21P-0969 Income and Asset Statement Form',
     dataPrefix: 'data',
-    dataSets: ['test-data-bug'],
+    dataSets: ['test-data'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
