@@ -170,26 +170,50 @@ const ConfirmationPage = props => {
         item1Header="We’ll send your application to the Veteran’s cemetery"
         item1Content={
           <>
-            We’ll ask the representative from the Veteran’s cemetery to review
-            and sign your application. They’ll also need to provide a delivery
-            address for the medallion.
-            <br />
-            They must sign it before your application expires on{' '}
-            {new Date(
-              new Date(submitDate).setDate(new Date(submitDate).getDate() + 30),
-            ).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
-            .
+            <p>
+              We’ll ask the representative from the Veteran’s cemetery to review
+              and sign your application. They’ll also need to provide a delivery
+              address for the medallion.
+            </p>
+            <p>
+              They must sign it before your application expires on{' '}
+              {new Date(
+                new Date(submitDate).setDate(
+                  new Date(submitDate).getDate() + 30,
+                ),
+              ).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+              .
+            </p>
           </>
         }
         item1Actions={null}
         item2Header="We’ll review your application"
-        item2Content="If we need more information about your application, we’ll contact you. If we don’t approve your application, we’ll mail you a letter with our decision. This can take up to 30 days."
+        item2Content={
+          <p>
+            If we need more information about your application, we’ll contact
+            you.
+            <p>
+              If we don’t approve your application, we’ll mail you a letter with
+              our decision.
+            </p>
+            <p>This can take up to 30 days.</p>
+          </p>
+        }
         item3Header="We’ll mail the medallion"
-        item3Content="If we approve your application, we’ll send the medallion to the delivery address provided by the representative from the Veteran’s cemetery. This can take up to 60 days."
+        item3Content={
+          <>
+            <p>
+              If we approve your application, we’ll send the medallion to the
+              delivery address provided by the representative from the Veteran’s
+              cemetery.
+            </p>
+            <p>This can take up to 60 days.</p>
+          </>
+        }
       />
       <h2>If you need to submit supporting documents</h2>
       <p className="mail-or-fax-message">
@@ -225,7 +249,7 @@ const ConfirmationPage = props => {
       <p>
         <va-link
           external
-          href="https://ask.va.gov/"
+          href="https://www.va.gov/resources/"
           text="Go to resources and support section on VA.gov"
         />
       </p>
