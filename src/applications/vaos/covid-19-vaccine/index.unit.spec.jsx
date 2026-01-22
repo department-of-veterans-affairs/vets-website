@@ -1,7 +1,8 @@
 import {
-  mockFetch,
-  setFetchJSONResponse,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+  createGetHandler,
+  jsonResponse,
+} from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import MockDate from 'mockdate';
 import { waitFor } from '@testing-library/dom';
@@ -13,10 +14,6 @@ import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
 import MockSchedulingConfigurationResponse, {
   MockServiceConfiguration,
 } from '../tests/fixtures/MockSchedulingConfigurationResponse';
-import {
-  mockFacilitiesApi,
-  mockSchedulingConfigurationsApi,
-} from '../tests/mocks/mockApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -37,9 +34,73 @@ const initialState = {
   },
 };
 
+const buildFacilitiesUrl = ({ ids, children = true }) => {
+  return `${
+    environment.API_URL
+  }/vaos/v2/facilities?children=${children}&${ids
+    .map(id => `ids[]=${id}`)
+    .join('&')}`;
+};
+
+const buildSchedulingConfigurationsUrl = ({
+  facilityIds,
+  response,
+  isCCEnabled = false,
+}) => {
+  const ids = facilityIds || response.map(config => config.id);
+  const ccEnabledParam = isCCEnabled ? `&cc_enabled=${isCCEnabled}` : '';
+  return `${environment.API_URL}/vaos/v2/scheduling/configurations?${ids
+    .map(id => `facility_ids[]=${id}`)
+    .join('&')}${ccEnabledParam}`;
+};
+
+const mockFacilitiesApi = ({
+  ids,
+  children = true,
+  response = [],
+  responseCode = 200,
+}) => {
+  let idList = ids;
+  if (!idList || idList.length === 0) {
+    idList = response.map(facility => facility.id);
+  }
+  const url = buildFacilitiesUrl({ ids: idList, children });
+  server.use(
+    createGetHandler(
+      url,
+      () =>
+        responseCode === 200
+          ? jsonResponse({ data: response })
+          : jsonResponse({ errors: [] }, { status: responseCode }),
+    ),
+  );
+};
+
+const mockSchedulingConfigurationsApi = ({
+  facilityIds,
+  response,
+  responseCode = 200,
+  isCCEnabled = false,
+}) => {
+  const url = buildSchedulingConfigurationsUrl({
+    facilityIds,
+    response,
+    isCCEnabled,
+  });
+  server.use(
+    createGetHandler(
+      url,
+      () =>
+        responseCode === 200
+          ? jsonResponse({ data: response })
+          : jsonResponse({ errors: [] }, { status: responseCode }),
+    ),
+  );
+};
+
 describe('VAOS vaccine flow: NewBookingSection', () => {
   beforeEach(() => {
-    mockFetch();
+    server.resetHandlers();
   });
   before(() => {
     MockDate.set('2024-12-05T00:00:00Z');
@@ -168,28 +229,29 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
       ],
       responseCode: 404,
     });
-    setFetchJSONResponse(
-      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
-      {
-        data: [
-          {
-            id: '139',
-            type: 'maintenance_windows',
-            attributes: {
-              externalService: 'vaoswarning',
-              description: 'My description',
-              startTime: format(
-                subDays(new Date(), '1'),
-                DATE_FORMATS.ISODateTime,
-              ),
-              endTime: format(
-                addDays(new Date(), '1'),
-                DATE_FORMATS.ISODateTime,
-              ),
+    server.use(
+      createGetHandler(`${environment.API_URL}/v0/maintenance_windows/`, () =>
+        jsonResponse({
+          data: [
+            {
+              id: '139',
+              type: 'maintenance_windows',
+              attributes: {
+                externalService: 'vaoswarning',
+                description: 'My description',
+                startTime: format(
+                  subDays(new Date(), '1'),
+                  DATE_FORMATS.ISODateTime,
+                ),
+                endTime: format(
+                  addDays(new Date(), '1'),
+                  DATE_FORMATS.ISODateTime,
+                ),
+              },
             },
-          },
-        ],
-      },
+          ],
+        }),
+      ),
     );
 
     // Act
