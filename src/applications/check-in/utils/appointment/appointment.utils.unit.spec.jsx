@@ -503,18 +503,28 @@ describe('check in', () => {
     });
     describe('preCheckinExpired', () => {
       it('identifies an expired pre-check-in appointment list', () => {
+        // Set a fixed time at noon to avoid flakiness near midnight UTC
+        const today = new Date();
+        today.setUTCHours(12, 0, 0, 0);
+        MockDate.set(today);
         const appointments = [
           createAppointment({ preCheckInValid: false }),
           createAppointment({ preCheckInValid: false }),
         ];
         expect(preCheckinExpired(appointments)).to.be.true;
+        MockDate.reset();
       });
       it('identifies a valid pre-check-in appointment list', () => {
+        // Set a fixed time at noon to avoid flakiness near midnight UTC
+        const today = new Date();
+        today.setUTCHours(12, 0, 0, 0);
+        MockDate.set(today);
         const appointments = [
           createAppointment({ preCheckInValid: true }),
           createAppointment({ preCheckInValid: true }),
         ];
         expect(preCheckinExpired(appointments)).to.be.false;
+        MockDate.reset();
       });
     });
     describe('hasPhoneAppointments', () => {

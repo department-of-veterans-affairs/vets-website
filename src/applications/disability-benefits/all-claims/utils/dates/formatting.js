@@ -128,12 +128,49 @@ export const formatDateRange = (dateRange = {}, formatStr = DATE_FORMAT) => {
 
 /**
  * Format a date as month and year only
+ * Handles full dates (YYYY-MM-DD), month/year (YYYY-MM), and year-only (YYYY-XX)
  * @param {string} rawDate - Date string to format
- * @returns {string} Formatted as "Month YYYY" or empty string
+ * @returns {string} Formatted as "Month YYYY", "YYYY", or empty string
  */
 export const formatMonthYearDate = (rawDate = '') => {
   if (!rawDate) return '';
 
+  // Handle year-only format (YYYY-XX)
+  if (/^\d{4}-XX$/.test(rawDate)) {
+    return rawDate.split('-')[0];
+  }
+
+  // Handle month/year format (YYYY-MM where MM is 01-12)
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(rawDate)) {
+    const [year, month] = rawDate.split('-');
+    // Use parse with explicit format to avoid date-fns month offset issues
+    // Parse as YYYY-MM-01 to create a valid date, then format as month/year
+    const date = parse(`${year}-${month}-01`, 'yyyy-MM-dd', new Date());
+    if (isValid(date)) {
+      return format(date, 'MMMM yyyy');
+    }
+    return '';
+  }
+
+  // Handle legacy formats that might still exist (YYYY-MM-XX or YYYY-XX-XX)
+  // These shouldn't occur with monthYearOnly, but handle for backward compatibility
+  if (/^\d{4}-XX-XX$/.test(rawDate)) {
+    return rawDate.split('-')[0];
+  }
+
+  if (/^\d{4}-\d{2}-XX$/.test(rawDate)) {
+    const [year, month] = rawDate.split('-');
+    const monthNum = parseInt(month, 10);
+    if (monthNum >= 1 && monthNum <= 12) {
+      const date = parse(`${year}-${month}-01`, 'yyyy-MM-dd', new Date());
+      if (isValid(date)) {
+        return format(date, 'MMMM yyyy');
+      }
+    }
+    return '';
+  }
+
+  // Handle full date format (YYYY-MM-DD) - fallback for any other format
   const date = safeFnsDate(rawDate);
   if (!date) return '';
   return format(date, 'MMMM yyyy');
