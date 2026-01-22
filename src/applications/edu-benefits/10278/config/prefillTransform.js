@@ -4,7 +4,6 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   const userFullName = profile?.userFullName || {};
   const dob = profile?.dob || '';
 
-  // Build transformed form data
   const transformedFormData = {
     ...formData,
     userLoggedIn: isLoggedIn,
