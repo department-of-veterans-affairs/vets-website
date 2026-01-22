@@ -4,7 +4,7 @@ import { getFormatedDate, calculateAge } from './dates';
 
 export { getFormatedDate, calculateAge };
 
-const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
+export const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
 
 /**
  * Return formatted full name from name object
