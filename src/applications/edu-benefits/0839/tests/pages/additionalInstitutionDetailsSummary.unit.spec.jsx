@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
+import { additionalInstitutionDetailsArrayOptions } from '../../helpers';
+
 import {
   uiSchema,
   schema,
@@ -50,14 +52,22 @@ describe('additionalInstitutionDetailsSummary page', () => {
     form.unmount();
   });
 
-  it('renders the question correctly', () => {
+  it('renders the question when there is at least 1 item', () => {
+    const data = {
+      [additionalInstitutionDetailsArrayOptions.arrayPath]: [
+        { facilityCode: '12345678' },
+      ],
+    };
+
+    store = mockStore({ form: { data } });
+
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
-          data={{}}
+          data={data}
         />
       </Provider>,
     );
@@ -69,14 +79,22 @@ describe('additionalInstitutionDetailsSummary page', () => {
     form.unmount();
   });
 
-  it('renders Yes option with correct label', () => {
+  it('renders Yes option with correct label when there is at least 1 item', () => {
+    const data = {
+      [additionalInstitutionDetailsArrayOptions.arrayPath]: [
+        { facilityCode: '12345678' },
+      ],
+    };
+
+    store = mockStore({ form: { data } });
+
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
-          data={{}}
+          data={data}
         />
       </Provider>,
     );
