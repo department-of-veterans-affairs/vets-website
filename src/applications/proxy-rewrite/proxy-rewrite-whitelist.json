@@ -51,16 +51,6 @@
       "cookieOnly": false
     },
     {
-      "hostname": "caregiver.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": false
-    },
-    {
-      "hostname": "www.caregiver.va.gov",
-      "pathnameBeginning": "/",
-      "cookieOnly": false
-    },
-    {
       "hostname": "cem.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": false

@@ -48,6 +48,8 @@ const SUPPORTED_ELEMENTS = [
   'va-textarea',
   'va-select',
   'va-combo-box',
+  'va-file-input',
+  'va-file-input-multiple',
   // Category 2: Child component error wrappers
   'va-statement-of-truth',
   // Category 3: Group components and their options

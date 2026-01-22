@@ -6,9 +6,9 @@ import {
   profilePersonalInfoPage,
   profileContactInfoPages,
   transformEmailForSubmit,
-  prefillTransformer,
 } from 'platform/forms-system/src/js/patterns/prefill';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { prefillTransformer } from './prefill-transformer';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -26,11 +26,10 @@ const formConfig = {
   confirmation: ConfirmationPage,
   // eslint-disable-next-line no-shadow
   transformForSubmit: (formConfig, form, options) => {
-    return transformForSubmit(
-      formConfig,
-      transformEmailForSubmit(form),
-      options,
-    );
+    let formData = form;
+    // transformers can be chained here
+    formData = transformEmailForSubmit(formData);
+    return transformForSubmit(formConfig, formData, options);
   },
   preSubmitInfo: {
     statementOfTruth: {

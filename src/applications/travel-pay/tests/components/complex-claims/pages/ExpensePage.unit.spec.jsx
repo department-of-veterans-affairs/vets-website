@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom-v5-compat';
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import sinon from 'sinon';
+import * as scrollUtils from 'platform/utilities/scroll/scroll';
 
 import ExpensePage, {
   toBase64,
@@ -1972,5 +1973,162 @@ describe('toBase64 helper function', () => {
     } catch (error) {
       expect(error.message).to.equal('Read failed');
     }
+  });
+});
+
+describe('ExpensePage - Scroll to Error on Validation Failure', () => {
+  let scrollToFirstErrorSpy;
+  let restoreFileReader;
+  let apiRequestStub;
+
+  const getData = () => ({
+    travelPay: {
+      claimSubmission: { isSubmitting: false, error: null, data: null },
+      complexClaim: {
+        claim: {
+          creation: { isLoading: false, error: null },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          fetch: { isLoading: false, error: null },
+          data: null,
+        },
+        expenses: {
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
+          data: [],
+        },
+        documentDelete: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
+      },
+    },
+  });
+
+  beforeEach(() => {
+    scrollToFirstErrorSpy = sinon.spy(scrollUtils, 'scrollToFirstError');
+    restoreFileReader = mockFileReader();
+    // Mock API request for successful form submission
+    apiRequestStub = sinon.stub(api, 'apiRequest').resolves({
+      data: { id: '123', status: 'success' },
+    });
+  });
+
+  afterEach(() => {
+    if (scrollToFirstErrorSpy) {
+      scrollToFirstErrorSpy.restore();
+    }
+    restoreFileReader();
+    apiRequestStub.restore();
+  });
+
+  it('should call scrollToFirstError after validation fails on continue click', async () => {
+    const screen = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={['/file-new-claim/12345/43555/meal-expense']}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: /meal expense/i })).to.exist;
+    });
+
+    // Click continue without filling required fields
+    const root = screen.baseElement;
+    const buttonGroup = root.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Continue');
+
+    await act(async () => {
+      fireEvent.click(continueButton);
+      // Give time for all state updates and effects to complete
+      await new Promise(resolve => setTimeout(resolve, 150));
+    });
+
+    // Verify errors appeared in the DOM
+    const purchaseDateInput = root.querySelector(
+      'va-date[name="purchaseDate"]',
+    );
+    expect(purchaseDateInput.getAttribute('error')).to.exist;
+
+    // Verify scroll was called after the useEffect ran
+    expect(scrollToFirstErrorSpy.called).to.be.true;
+    expect(scrollToFirstErrorSpy.calledWith({ focusOnAlertRole: true })).to.be
+      .true;
+  });
+
+  it('should only call scrollToFirstError once per validation failure', async () => {
+    const screen = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={['/file-new-claim/12345/43555/meal-expense']}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: /meal expense/i })).to.exist;
+    });
+
+    // Click continue without filling required fields - first time
+    const root = screen.baseElement;
+    const buttonGroup = root.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Continue');
+    fireEvent.click(continueButton);
+
+    await waitFor(
+      () => {
+        expect(scrollToFirstErrorSpy.callCount).to.equal(1);
+      },
+      { timeout: 2000 },
+    );
+
+    // Now add a field to trigger state change but keep form invalid
+    const vendorName = root.querySelector('va-text-input[name="vendorName"]');
+    if (vendorName) {
+      vendorName.value = 'Test Restaurant';
+      const inputEvent = new Event('input', { bubbles: true });
+      Object.defineProperty(inputEvent, 'target', {
+        writable: false,
+        value: { value: 'Test Restaurant', name: 'vendorName' },
+      });
+      vendorName.dispatchEvent(inputEvent);
+    }
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    });
+
+    // scrollToFirstError should still only be called once (from the continue click)
+    expect(scrollToFirstErrorSpy.callCount).to.equal(1);
   });
 });

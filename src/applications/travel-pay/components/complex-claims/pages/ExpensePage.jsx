@@ -106,6 +106,7 @@ const ExpensePage = () => {
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [extraFieldErrors, setExtraFieldErrors] = useState({});
+  const [shouldScrollToError, setShouldScrollToError] = useState(false);
 
   // Derived state and memoized values
   const isLoadingExpense = isEditMode
@@ -258,6 +259,18 @@ const ExpensePage = () => {
       }
     },
     [formState, dispatch],
+  );
+
+  // Effect 4: Scroll to first error after validation and DOM update
+  // Using scrollToFirstError on its own fails to find the errors before they have rendered
+  useEffect(
+    () => {
+      if (shouldScrollToError && Object.keys(extraFieldErrors).length > 0) {
+        scrollToFirstError({ focusOnAlertRole: true });
+        setShouldScrollToError(false);
+      }
+    },
+    [shouldScrollToError, extraFieldErrors],
   );
 
   const handleFormChange = (event, explicitName) => {
@@ -552,11 +565,14 @@ const ExpensePage = () => {
 
     setExtraFieldErrors(finalErrors);
 
+    const hasBlockingErrors = Object.values(errors).some(Boolean);
+
     return (
       emptyFields.length === 0 &&
       dateValidation.isValid &&
       descriptionValidation.isValid &&
-      amountValidation.isValid
+      amountValidation.isValid &&
+      !hasBlockingErrors
     );
   };
 
@@ -568,7 +584,7 @@ const ExpensePage = () => {
     const isValid = validatePage();
 
     if (!isValid) {
-      scrollToFirstError({ focusOnAlertRole: true });
+      setShouldScrollToError(true);
       return;
     }
     const expenseConfig = EXPENSE_TYPES[expenseType];

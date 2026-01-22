@@ -33,6 +33,7 @@ export default {
   form21p0537: 'form21p0537',
   form21p601: 'form21p601',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
+  formUploadBenefitsIntake: 'form_upload_benefits_intake',
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
   icmhs: 'icmhs',
@@ -70,6 +71,8 @@ export default {
   tims: 'tims',
   // Travel Pay API
   travelPay: 'travel_pay',
+  // VA Solid Start
+  vass: 'vass',
   // Online appointment scheduling
   vaos: 'vaos',
   // Online appointment scheduling warning message

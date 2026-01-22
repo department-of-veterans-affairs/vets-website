@@ -222,14 +222,14 @@ const ConnectedDisabilitiesFieldDebug = props => {
 };
 
 ConnectedDisabilitiesFieldDebug.propTypes = {
+  onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  errorSchema: PropTypes.object,
   error: PropTypes.string,
+  errorSchema: PropTypes.object,
   formContext: PropTypes.object,
   formData: PropTypes.any,
   idSchema: PropTypes.object,
   rawErrors: PropTypes.array,
-  onChange: PropTypes.func.isRequired,
   readonly: PropTypes.bool,
   required: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   schema: PropTypes.object,

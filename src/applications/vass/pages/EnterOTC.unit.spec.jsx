@@ -12,8 +12,12 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import EnterOTC from './EnterOTC';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
+import {
+  getDefaultRenderOptions,
+  reducers,
+  vassApi,
+  defaultScheduledDowntimeState,
+} from '../utils/test-utils';
 
 // Helper component to display current location for testing navigation
 const LocationDisplay = () => {
@@ -21,22 +25,12 @@ const LocationDisplay = () => {
   return <div data-testid="location-display">{location.pathname}</div>;
 };
 
-const defaultRenderOptions = {
-  initialState: {
-    vassForm: {
-      hydrated: false,
-      selectedDate: null,
-      selectedTopics: [],
-      obfuscatedEmail: 't***@test.com',
-      uuid: 'c0ffee-1234-beef-5678',
-      token: null,
-      lastname: 'Smith',
-      dob: '1935-04-07',
-    },
-  },
-  reducers,
-  additionalMiddlewares: [vassApi.middleware],
-};
+const defaultRenderOptions = getDefaultRenderOptions({
+  obfuscatedEmail: 't***@test.com',
+  uuid: 'c0ffee-1234-beef-5678',
+  lastname: 'Smith',
+  dob: '1935-04-07',
+});
 
 const renderComponent = () =>
   renderWithStoreAndRouterV6(<EnterOTC />, defaultRenderOptions);
@@ -218,7 +212,9 @@ describe('VASS Component: EnterOTC', () => {
           <LocationDisplay />
         </>,
         {
-          initialState: {},
+          initialState: {
+            scheduledDowntime: defaultScheduledDowntimeState,
+          },
           reducers,
           initialEntries: ['/enter-otc'],
           additionalMiddlewares: [vassApi.middleware],

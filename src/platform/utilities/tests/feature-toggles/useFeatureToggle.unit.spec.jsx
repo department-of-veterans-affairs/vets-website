@@ -210,13 +210,10 @@ describe('useFormFeatureToggleSync hook', () => {
 
   it('should sync multiple toggles with mixed configuration types', async () => {
     const form = createSchemaFormReducer({}, {});
-    const hlrKey = 'hlrBrowserMonitoringEnabled';
-    const hlrFeatureName = Toggler.TOGGLE_NAMES[hlrKey];
+    const hcaKey = 'hcaRegOnlyEnabled';
+    const hcaFeatureName = Toggler.TOGGLE_NAMES[hcaKey];
 
-    const configs = [
-      testToggleKey,
-      { toggleName: hlrKey, formKey: 'hlrMonitoring' },
-    ];
+    const configs = [testToggleKey, { toggleName: hcaKey, formKey: 'hcaReg' }];
 
     renderInReduxProvider(
       <TestSyncComponent
@@ -227,7 +224,7 @@ describe('useFormFeatureToggleSync hook', () => {
         initialState: {
           featureToggles: {
             [testToggleName]: false,
-            [hlrFeatureName]: true,
+            [hcaFeatureName]: true,
           },
         },
         reducers: {
@@ -243,12 +240,12 @@ describe('useFormFeatureToggleSync hook', () => {
           type: 'SET_DATA',
           data: {
             [testToggleKey]: false,
-            hlrMonitoring: true,
+            hcaReg: true,
           },
         }),
       ).to.be.true;
       expect(sessionStorageSpy.calledWith(testToggleKey, 'false')).to.be.true;
-      expect(sessionStorageSpy.calledWith('hlrMonitoring', 'true')).to.be.true;
+      expect(sessionStorageSpy.calledWith('hcaReg', 'true')).to.be.true;
     });
   });
 
