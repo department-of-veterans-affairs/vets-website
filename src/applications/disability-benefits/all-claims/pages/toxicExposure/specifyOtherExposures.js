@@ -78,6 +78,9 @@ export const uiSchema = {
   },
   _forceFieldBlur: {
     'ui:field': ForceFieldBlur,
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 

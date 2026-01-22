@@ -81,6 +81,9 @@ function makeUiSchema(itemId) {
     },
     _forceFieldBlur: {
       'ui:field': ForceFieldBlur,
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   };
 }

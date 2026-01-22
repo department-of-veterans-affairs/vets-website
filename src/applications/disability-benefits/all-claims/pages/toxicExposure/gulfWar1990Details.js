@@ -79,6 +79,9 @@ function makeUiSchema(locationId) {
     },
     _forceFieldBlur: {
       'ui:field': ForceFieldBlur,
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   };
 }
