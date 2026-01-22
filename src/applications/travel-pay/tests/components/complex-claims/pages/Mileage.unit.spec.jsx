@@ -19,15 +19,6 @@ describe('Complex Claims Mileage - Add', () => {
       appointment: {
         data: {
           id: TEST_APPT_ID,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-          },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
           localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
@@ -54,15 +45,7 @@ describe('Complex Claims Mileage - Add', () => {
             appointment: {
               id: TEST_APPT_ID,
               facilityName: 'Test VA Medical Center',
-              facilityAddress: {
-                addressLine1: '123 Medical Center Drive',
-                city: 'Test City',
-                stateCode: 'TX',
-                zipCode: '12345',
-              },
-              appointmentDate: '2024-01-15',
-              appointmentTime: '10:00 AM',
-              localStartTime: '2024-01-15T10:00:00.000-08:00',
+              appointmentDateTime: '2024-01-15T18:00:00Z',
             },
             documents: [],
           },
@@ -572,15 +555,6 @@ describe('Complex Claims Mileage - Edit', () => {
       appointment: {
         data: {
           id: TEST_APPT_ID,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-          },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
           localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
@@ -607,15 +581,7 @@ describe('Complex Claims Mileage - Edit', () => {
             appointment: {
               id: TEST_APPT_ID,
               facilityName: 'Test VA Medical Center',
-              facilityAddress: {
-                addressLine1: '123 Medical Center Drive',
-                city: 'Test City',
-                stateCode: 'TX',
-                zipCode: '12345',
-              },
-              appointmentDate: '2024-01-15',
-              appointmentTime: '10:00 AM',
-              localStartTime: '2024-01-15T10:00:00.000-08:00',
+              appointmentDateTime: '2024-01-15T18:00:00Z',
             },
             documents: [],
           },
