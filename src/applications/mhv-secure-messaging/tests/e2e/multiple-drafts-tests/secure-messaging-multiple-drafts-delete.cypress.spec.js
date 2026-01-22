@@ -23,7 +23,7 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     );
     reducedMultiDraftResponse.data.splice(0, 1);
 
-    PatientMessageDraftsPage.expandSingleDraft(2);
+    // Drafts auto-expand by default - no need to manually expand
     PatientMessageDraftsPage.clickMultipleDeleteButton(2);
     PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
@@ -41,7 +41,7 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     );
     reducedMultiDraftResponse.data.splice(1, 1);
 
-    PatientMessageDraftsPage.expandSingleDraft(1);
+    // Drafts auto-expand by default - no need to manually expand
     PatientMessageDraftsPage.clickMultipleDeleteButton(1);
     PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
@@ -64,7 +64,7 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     const noDraftsResponse = Cypress._.cloneDeep(updatedMultiDraftResponse);
     noDraftsResponse.data.splice(0, 2);
 
-    PatientMessageDraftsPage.expandSingleDraft(2);
+    // Drafts auto-expand by default - no need to manually expand
     PatientMessageDraftsPage.clickMultipleDeleteButton(2);
     PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
@@ -72,7 +72,7 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     );
     PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
 
-    PatientMessageDraftsPage.expandSingleDraft(1);
+    // After deleting first draft, remaining draft is still expanded
     PatientMessageDraftsPage.clickMultipleDeleteButton(1);
     PatientMessageDraftsPage.deleteMultipleDraft(
       reducedMultiDraftResponse,
