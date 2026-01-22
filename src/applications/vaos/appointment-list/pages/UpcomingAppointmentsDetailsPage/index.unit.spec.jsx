@@ -567,15 +567,16 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       });
 
       // Assert
+      // CI-FIX: Wait for the error heading to be present first, then verify focus.
+      // On CI, async state updates may resolve faster. Waiting for the heading to
+      // exist before checking focus ensures consistent behavior regardless of timing.
+      const errorHeading = await screen.findByRole('heading', {
+        level: 1,
+        name: /We can.t access your appointment details right now/,
+      });
+      expect(errorHeading).to.be.ok;
       await waitFor(() => {
         expect(document.activeElement).to.have.tagName('h1');
-
-        expect(
-          screen.getByRole('heading', {
-            level: 1,
-            name: 'We can’t access your appointment details right now',
-          }),
-        ).to.be.ok;
       });
     });
   });
