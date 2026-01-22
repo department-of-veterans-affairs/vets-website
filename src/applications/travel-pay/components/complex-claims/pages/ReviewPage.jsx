@@ -103,7 +103,7 @@ const ReviewPage = () => {
   };
 
   const numGroupedExpenses = Object.keys(groupedExpenses).length;
-  const isAlertVisible = !!alertMessage && numGroupedExpenses > 0;
+  const isAlertVisible = !!alertMessage;
 
   return (
     <div data-testid="review-page">

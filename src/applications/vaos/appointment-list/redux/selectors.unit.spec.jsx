@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { cloneDeep } from 'lodash';
-import { selectTypeOfCareName } from './selectors';
+import { selectTypeOfCareName, selectCanUseVaccineFlow } from './selectors';
+import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 
 describe('appointment-list / redux / selectors', () => {
   const OhAppointment = {
@@ -169,5 +170,112 @@ describe('appointment-list / redux / selectors', () => {
     appointment.vaos.apiData.description = undefined;
     const typeOfCareName = selectTypeOfCareName(appointment);
     expect(typeOfCareName).to.equal(undefined);
+  });
+
+  describe('selectCanUseVaccineFlow', () => {
+    const createState = (facilitySettings, useVpg = false) => ({
+      appointments: {
+        facilitySettings,
+      },
+      featureToggles: {
+        vaOnlineSchedulingUseVpg: useVpg,
+      },
+    });
+
+    it('should return true when useVpg is false and direct.enabled is true for COVID vaccine', () => {
+      const state = createState(
+        [
+          {
+            services: [
+              {
+                id: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                direct: { enabled: true },
+              },
+            ],
+          },
+        ],
+        false,
+      );
+
+      expect(selectCanUseVaccineFlow(state)).to.be.true;
+    });
+
+    it('should return false when useVpg is false and direct.enabled is false for COVID vaccine', () => {
+      const state = createState(
+        [
+          {
+            services: [
+              {
+                id: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                direct: { enabled: false },
+              },
+            ],
+          },
+        ],
+        false,
+      );
+
+      expect(selectCanUseVaccineFlow(state)).to.be.false;
+    });
+
+    it('should return true when useVpg is true and bookedAppointments is true for COVID vaccine', () => {
+      const state = createState(
+        [
+          {
+            services: [
+              {
+                id: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                bookedAppointments: true,
+              },
+            ],
+          },
+        ],
+        true,
+      );
+
+      expect(selectCanUseVaccineFlow(state)).to.be.true;
+    });
+
+    it('should return false when useVpg is true and bookedAppointments is false for COVID vaccine', () => {
+      const state = createState(
+        [
+          {
+            services: [
+              {
+                id: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+                bookedAppointments: false,
+              },
+            ],
+          },
+        ],
+        true,
+      );
+
+      expect(selectCanUseVaccineFlow(state)).to.be.false;
+    });
+
+    it('should return undefined when facilitySettings is null', () => {
+      const state = createState(null, false);
+
+      expect(selectCanUseVaccineFlow(state)).to.be.undefined;
+    });
+
+    it('should return false when COVID vaccine service is not found', () => {
+      const state = createState(
+        [
+          {
+            services: [
+              {
+                id: 'primaryCare',
+                direct: { enabled: true },
+              },
+            ],
+          },
+        ],
+        false,
+      );
+
+      expect(selectCanUseVaccineFlow(state)).to.be.false;
+    });
   });
 });
