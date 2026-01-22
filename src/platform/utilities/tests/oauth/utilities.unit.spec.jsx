@@ -20,7 +20,7 @@ import {
   COOKIES,
   CLIENT_IDS,
 } from '../../oauth/constants';
-import { mockCrypto } from '../../oauth/mockCrypto';
+import { setupMockCrypto } from '../../oauth/mockCrypto';
 import * as oAuthUtils from '../../oauth/utilities';
 import { infoTokenExists, getInfoToken } from '../../oauth/utilities';
 import * as oauthCrypto from '../../oauth/crypto';
@@ -41,18 +41,7 @@ describe('OAuth - Utilities', () => {
   let validCookie;
 
   beforeEach(() => {
-    let hasNodeCrypto = false;
-    try {
-      // eslint-disable-next-line import/no-unresolved
-      require('node:crypto');
-      hasNodeCrypto = true;
-    } catch {
-      hasNodeCrypto = false;
-    }
-
-    if (!hasNodeCrypto) {
-      window.crypto = mockCrypto;
-    }
+    setupMockCrypto();
 
     document.cookie.split(';').forEach(cookie => {
       document.cookie = cookie
