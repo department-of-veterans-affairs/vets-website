@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
  * Shows warning or error alerts based on the current migration phase
  */
 const MigratingFacilitiesAlerts = ({
+  domain,
   migratingFacilities,
   warning,
   error,
@@ -14,7 +15,7 @@ const MigratingFacilitiesAlerts = ({
   warningBody,
   warningAction,
   warningAddlInfo,
-  errorHeadline,
+  errorAction,
   errorIntro,
   errorBody,
   errorAddlInfo,
@@ -28,6 +29,16 @@ const MigratingFacilitiesAlerts = ({
     const isInErrorPhase = error.includes(currentPhase);
     const facilityText =
       migration.facilities.length > 1 ? 'these facilities' : 'this facility';
+
+    const errorHeadline =
+      domain === 'medical records'
+        ? `New medical records may not appear here until ${
+            migration.phases[endDate]
+          }`
+        : `You can’t ${errorAction} some facilities right now`;
+
+    const warningHeadline =
+      domain === 'medical records' ? 'Site updates ' : 'Updates ';
 
     // If current phase is in neither warning nor error array, do not render an alert
     if (!isInWarningPhase && !isInErrorPhase) {
@@ -86,7 +97,9 @@ const MigratingFacilitiesAlerts = ({
         }`}
         data-testid="cerner-facilities-transition-alert"
         status="warning"
-        trigger={`Updates will begin on ${migration.phases[startDate]}`}
+        trigger={`${warningHeadline} will begin on ${
+          migration.phases[startDate]
+        }`}
       >
         <div>
           <p>
@@ -117,6 +130,7 @@ const MigratingFacilitiesAlerts = ({
 };
 
 MigratingFacilitiesAlerts.propTypes = {
+  domain: PropTypes.string.isRequired,
   migratingFacilities: PropTypes.arrayOf(
     PropTypes.shape({
       migrationDate: PropTypes.string,
@@ -145,7 +159,7 @@ MigratingFacilitiesAlerts.propTypes = {
   warningAction: PropTypes.string,
   warningAddlInfo: PropTypes.string,
   warningBody: PropTypes.string,
-  errorHeadline: PropTypes.string,
+  errorAction: PropTypes.string,
   errorIntro: PropTypes.string,
   errorBody: PropTypes.string,
   errorAddlInfo: PropTypes.string,

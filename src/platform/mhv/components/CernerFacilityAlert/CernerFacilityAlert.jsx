@@ -73,7 +73,7 @@ const CernerFacilityAlert = ({
   warningBody,
   warningAction,
   warningAddlInfo,
-  errorHeadline,
+  errorAction,
   errorIntro,
   errorBody,
   errorAddlInfo,
@@ -118,6 +118,7 @@ const CernerFacilityAlert = ({
 
     return (
       <MigratingFacilitiesAlerts
+        domain={domain}
         migratingFacilities={migratingFacilities}
         warning={warning}
         error={error}
@@ -126,7 +127,7 @@ const CernerFacilityAlert = ({
         warningBody={warningBody}
         warningAction={warningAction}
         warningAddlInfo={warningAddlInfo}
-        errorHeadline={errorHeadline}
+        errorAction={errorAction}
         errorIntro={errorIntro}
         errorBody={errorBody}
         errorAddlInfo={errorAddlInfo}
