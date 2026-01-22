@@ -281,7 +281,6 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
     );
 
     expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
 
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {

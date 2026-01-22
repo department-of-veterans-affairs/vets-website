@@ -42,7 +42,7 @@ const uiSchema = {
       },
       descriptions: {
         [TYPES_OF_EYE_CARE[0].id]:
-          'This includes routine eye exams, preventive vision testing and ' +
+          'This includes routine eye exams, preventive vision testing, and ' +
           'treatment for conditions like glaucoma. Optometrists also can ' +
           'provide prescriptions for eyeglasses and other assistive devices.',
         [TYPES_OF_EYE_CARE[1].id]:

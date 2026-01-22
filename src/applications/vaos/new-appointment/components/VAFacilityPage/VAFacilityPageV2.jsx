@@ -105,7 +105,7 @@ export default function VAFacilityPageV2() {
 
   const uiSchema = {
     vaFacility: {
-      'ui:title': `These facilities you're registered at offer ${lowerCase(
+      'ui:title': `These are the facilities you’re registered at that offer ${lowerCase(
         typeOfCare?.name,
       )}.`,
       'ui:widget': FacilitiesRadioWidget,

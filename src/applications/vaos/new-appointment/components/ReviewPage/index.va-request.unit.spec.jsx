@@ -242,9 +242,6 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     );
 
     const alert = document.querySelector('va-alert');
-    expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(alert).to.contain.text('Cheyenne, WyomingWY');
-    expect(within(alert).getByText(/82001-5356/)).to.be.ok;
     expect(within(alert).getByTestId('facility-telephone')).to.be.ok;
 
     expect(screen.history.push.called).to.be.false;

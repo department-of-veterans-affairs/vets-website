@@ -372,7 +372,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -446,7 +446,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -515,7 +515,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -582,7 +582,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -635,7 +635,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       // Assert
       await screen.findAllByText(
-        /These facilities you're registered at offer/i,
+        /These are the facilities you’re registered at that offer/i,
       );
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -822,7 +822,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         // Assert
         await screen.findAllByText(
-          /These facilities you're registered at offer/i,
+          /These are the facilities you’re registered at that offer/i,
         );
 
         fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
@@ -1025,7 +1025,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         // Assert
         await screen.findAllByText(
-          /These facilities you're registered at offer/i,
+          /These are the facilities you’re registered at that offer/i,
         );
 
         fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
