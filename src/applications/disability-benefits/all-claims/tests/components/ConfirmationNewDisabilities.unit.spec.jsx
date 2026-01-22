@@ -231,13 +231,40 @@ describe('ConfirmationNewDisabilities', () => {
         ],
       };
 
-      const { getByText } = render(
+      const { getByText, queryByText } = render(
         <ConfirmationNewDisabilities formData={formData} />,
       );
 
       expect(getByText('Va With Date')).to.exist;
+      expect(queryByText('Date')).to.be.null;
+      expect(queryByText('March 15, 2019')).to.be.null;
+      expect(getByText('VA mistreatment date')).to.exist;
+      expect(getByText('A while ago')).to.exist;
+    });
+
+    it('should render VA conditionDate when vaMistreatmentDate is not present', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'va condition only',
+            cause: 'VA',
+            conditionDate: '2019-03-15',
+            'view:vaFollowUp': {
+              vaMistreatmentDescription: 'Description of incident',
+              vaMistreatmentLocation: 'VA Medical Center',
+            },
+          },
+        ],
+      };
+
+      const { getByText, queryByText } = render(
+        <ConfirmationNewDisabilities formData={formData} />,
+      );
+
+      expect(getByText('Va Condition Only')).to.exist;
       expect(getByText('Date')).to.exist;
       expect(getByText('March 15, 2019')).to.exist;
+      expect(queryByText('VA mistreatment date')).to.be.null;
     });
 
     it('should render VA condition with only vaMistreatmentDescription', () => {

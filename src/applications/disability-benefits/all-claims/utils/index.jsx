@@ -991,6 +991,23 @@ export const isNewConditionsOn = formData =>
 
 export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
 
+export const getWorkflowRedirect = ({ returnUrl, pathname, formData }) => {
+  const path = normalizePath(returnUrl || '');
+  const here = normalizePath(pathname || '');
+
+  if (isNewConditionsOn(formData) && includesAny(path, CURRENT_WORKFLOW_URLS)) {
+    const target = '/conditions/orientation';
+    return normalizePath(target) !== here ? target : null;
+  }
+
+  if (isNewConditionsOff(formData) && includesAny(path, NEW_WORKFLOW_URLS)) {
+    const target = '/veteran-information';
+    return normalizePath(target) !== here ? target : null;
+  }
+
+  return returnUrl;
+};
+
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
@@ -1018,24 +1035,13 @@ export const onFormLoaded = props => {
   ) {
     router.push('/supporting-evidence/evidence-types');
   } else {
-    const path = normalizePath(returnUrl || '');
-    const here = normalizePath(window.location.pathname || '');
+    const target = getWorkflowRedirect({
+      returnUrl,
+      pathname: window.location.pathname,
+      formData,
+    });
 
-    if (
-      isNewConditionsOn(formData) &&
-      includesAny(path, CURRENT_WORKFLOW_URLS)
-    ) {
-      const target = '/conditions/orientation';
-      if (normalizePath(target) !== here) router.push(target);
-      return;
-    }
-
-    if (isNewConditionsOff(formData) && includesAny(path, NEW_WORKFLOW_URLS)) {
-      const target = '/veteran-information';
-      if (normalizePath(target) !== here) router.push(target);
-      return;
-    }
-
-    router.push(returnUrl);
+    if (target === null) return;
+    router.push(target);
   }
 };
