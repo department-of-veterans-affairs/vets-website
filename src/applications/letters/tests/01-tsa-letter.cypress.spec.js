@@ -37,7 +37,7 @@ describe('TSA Safe Travel Letter', () => {
 
   it('allows downloading TSA letter', () => {
     cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
-    cy.intercept('GET', '/v0/tsa_letter/*', '@tsaLetterPdf');
+    cy.intercept('GET', '/v0/tsa_letter/*/version/*/download', '@tsaLetterPdf');
     cy.visit(lettersPage);
     cy.injectAxeThenAxeCheck();
     cy.get('[data-testid="tsa-letter-accordion"]')
@@ -75,7 +75,7 @@ describe('TSA Safe Travel Letter', () => {
 
   it('displays alert if downloading TSA letter fails', () => {
     cy.intercept('GET', '/v0/tsa_letter', tsaLetter);
-    cy.intercept('GET', '/v0/tsa_letter/*', {
+    cy.intercept('GET', '/v0/tsa_letter/*/version/*/download', {
       statusCode: 500,
     });
     cy.visit(lettersPage);
@@ -96,7 +96,7 @@ describe('TSA Safe Travel Letter', () => {
       .find('h4')
       .should(
         'have.text',
-        `Warning Alert Your ${tsaLetterTitle} is currently unavailable`,
+        `Error Alert Your ${tsaLetterTitle} is currently unavailable`,
       );
   });
 

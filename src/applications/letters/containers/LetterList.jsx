@@ -127,6 +127,9 @@ export class LetterList extends React.Component {
             {hasTsaLetter && (
               <DownloadTsaLetter
                 documentId={this.props.tsaLetterEligibility?.documentId}
+                documentVersion={
+                  this.props.tsaLetterEligibility?.documentVersion
+                }
               />
             )}
           </va-accordion>
@@ -203,6 +206,7 @@ LetterList.propTypes = {
   optionsAvailable: PropTypes.bool,
   tsaLetterEligibility: PropTypes.shape({
     documentId: PropTypes.string,
+    documentVersion: PropTypes.string,
     error: PropTypes.bool,
     loading: PropTypes.bool,
   }),
