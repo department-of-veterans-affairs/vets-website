@@ -11,7 +11,9 @@ import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors
 export const verifyHandler = ({ policy, queryParams, useOAuth }) => {
   verify({
     policy,
-    acr: defaultWebOAuthOptions.acrVerify[policy],
+    acr: `${
+      policy === 'logingov' ? 'ial2' : defaultWebOAuthOptions.acrVerify[policy]
+    }`,
     queryParams,
     useOAuth,
   });

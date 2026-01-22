@@ -368,7 +368,10 @@ export function createOktaOAuthRequest({
 }) {
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
-    [OAUTH_KEYS.ACR]: CSP_IDS.LOGIN_GOV === loginType ? 'ial2' : 'loa3',
+    [OAUTH_KEYS.ACR]:
+      !environment.isProduction() || CSP_IDS.LOGIN_GOV === loginType
+        ? 'ial2'
+        : 'loa3',
     [OAUTH_KEYS.STATE]: state,
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
