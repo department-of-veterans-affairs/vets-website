@@ -151,7 +151,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('h3').should(
             'have.text',
-            'You can skip questions on this formWe’re here anytime, day or night – 24/7',
+            'Information Alert You can skip questions on this formWe’re here anytime, day or night – 24/7',
           );
           cy.clickFormContinue();
         });
