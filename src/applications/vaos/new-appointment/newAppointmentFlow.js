@@ -101,30 +101,6 @@ async function vaFacilityNext(state, dispatch) {
   const ehr = isCerner ? 'cerner' : 'vista';
   dispatch(updateFacilityEhr(ehr));
 
-  if (isCerner) {
-    if ((featureOHDirectSchedule || featureOHRequest) && typeOfCareEnabled) {
-      // Fetch eligibility if we haven't already
-      if (!eligibility) {
-        const siteId = getSiteIdFromFacilityId(location.id);
-
-        eligibility = await dispatch(
-          checkEligibility({
-            location,
-            siteId,
-            showModal: false,
-            isCerner: true,
-          }),
-        );
-      }
-
-      if (featureRemoveFacilityConfigCheck) {
-        if (eligibility.direct === true || eligibility.request === true)
-          return 'selectProvider';
-      } else return 'selectProvider';
-    }
-    return 'scheduleCerner';
-  }
-
   // Fetch eligibility if we haven't already
   if (!eligibility) {
     const siteId = getSiteIdFromFacilityId(location.id);
@@ -133,10 +109,22 @@ async function vaFacilityNext(state, dispatch) {
       checkEligibility({
         location,
         siteId,
-        showModal: true,
-        isCerner: false,
+        showModal: !isCerner,
+        isCerner,
       }),
     );
+  }
+
+  if (isCerner) {
+    if ((featureOHDirectSchedule || featureOHRequest) && typeOfCareEnabled) {
+      if (featureRemoveFacilityConfigCheck) {
+        if (eligibility.direct === true || eligibility.request === true)
+          return 'selectProvider';
+      } else if (eligibility.direct === true || eligibility.request === true)
+        return 'selectProvider';
+    }
+
+    return 'scheduleCerner';
   }
 
   if (eligibility.direct) {
@@ -149,6 +137,7 @@ async function vaFacilityNext(state, dispatch) {
     return 'requestDateTime';
   }
 
+  if (featureRemoveFacilityConfigCheck) return 'scheduleCerner';
   dispatch(showEligibilityModal());
   return VA_FACILITY_V2_KEY;
 }
