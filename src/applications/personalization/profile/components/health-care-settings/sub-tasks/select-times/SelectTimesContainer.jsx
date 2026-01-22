@@ -58,6 +58,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
   const defaultReturnPath = PROFILE_PATHS.SCHEDULING_PREFERENCES;
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  const [hasLocalUnsavedEdits, setHasLocalUnsavedEdits] = useState(false);
   const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);
   const [pageData, setPageData] = useState({
     data: {},
@@ -106,6 +107,8 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     state => state.vapService.hasUnsavedEdits,
   );
 
+  const hasAnyUnsavedEdits = hasUnsavedEdits || hasLocalUnsavedEdits;
+
   const fieldData = useSelector(
     state => state.vaProfile.schedulingPreferences[fieldName] || [],
     isEqual,
@@ -146,6 +149,13 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     [fieldInfo],
   );
 
+  const pageSection = useMemo(
+    () => {
+      return FIELD_SECTION_HEADERS?.[fieldInfo.fieldName];
+    },
+    [fieldInfo],
+  );
+
   const internationalPhonesToggleValue = useToggleValue(
     TOGGLE_NAMES.profileInternationalPhoneNumbers,
   );
@@ -155,6 +165,16 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
       document.title = `${editPageHeadingString} | Veterans Affairs`;
     },
     [editPageHeadingString],
+  );
+
+  useEffect(
+    () => {
+      const hasChanges =
+        pageData.data[fieldName] &&
+        !isEqual(pageData.data[fieldName], fieldData);
+      setHasLocalUnsavedEdits(hasChanges);
+    },
+    [pageData, fieldData, fieldName],
   );
 
   useEffect(
@@ -219,18 +239,18 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     () => {
       // this is where we track the state of the beforeunload listener
       // and add/remove it as needed when the form has unsaved edits
-      if (hasUnsavedEdits && !hasBeforeUnloadListener) {
+      if (hasAnyUnsavedEdits && !hasBeforeUnloadListener) {
         window.addEventListener('beforeunload', beforeUnloadHandler);
         setHasBeforeUnloadListener(true);
         return;
       }
 
-      if (!hasUnsavedEdits && hasBeforeUnloadListener) {
+      if (!hasAnyUnsavedEdits && hasBeforeUnloadListener) {
         setHasBeforeUnloadListener(false);
         clearBeforeUnloadListener();
       }
     },
-    [hasUnsavedEdits, hasBeforeUnloadListener],
+    [hasAnyUnsavedEdits, hasBeforeUnloadListener],
   );
 
   const saveTimePreferences = useCallback(
@@ -320,7 +340,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     breadCrumbClick: e => {
       e.preventDefault();
 
-      if (hasUnsavedEdits) {
+      if (hasAnyUnsavedEdits) {
         setShowConfirmCancelModal(true);
         return;
       }
@@ -376,7 +396,7 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
           {/* this modal is triggered by breadcrumb being clicked with unsaved edits */}
           <EditConfirmCancelModal
             isVisible={showConfirmCancelModal}
-            activeSection={fieldInfo.fieldName.toLowerCase()}
+            activeSection={pageSection.toLowerCase()}
             onHide={() => setShowConfirmCancelModal(false)}
           />
           <div className="vads-u-display--block medium-screen:vads-u-display--block">

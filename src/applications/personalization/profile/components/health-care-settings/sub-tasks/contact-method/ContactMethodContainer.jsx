@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, connect } from 'react-redux';
+import { isEqual } from 'lodash';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -69,6 +70,7 @@ export const ContactMethodContainer = () => {
   const defaultReturnPath = PROFILE_PATHS.SCHEDULING_PREFERENCES;
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  const [hasLocalUnsavedEdits, setHasLocalUnsavedEdits] = useState(false);
   const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);
   const [pageData, setPageData] = useState({
     data: {},
@@ -117,6 +119,7 @@ export const ContactMethodContainer = () => {
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
+  const hasAnyUnsavedEdits = hasUnsavedEdits || hasLocalUnsavedEdits;
 
   const fieldData = useSelector(
     state => state.vaProfile.schedulingPreferences[fieldName] || '',
@@ -142,6 +145,13 @@ export const ContactMethodContainer = () => {
       return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
     },
     [fieldData, fieldInfo],
+  );
+
+  const pageSection = useMemo(
+    () => {
+      return FIELD_SECTION_HEADERS?.[fieldInfo.fieldName];
+    },
+    [fieldInfo],
   );
 
   const internationalPhonesToggleValue = useToggleValue(
@@ -312,6 +322,16 @@ export const ContactMethodContainer = () => {
     ],
   );
 
+  useEffect(
+    () => {
+      const hasChanges =
+        pageData.data[fieldName] &&
+        !isEqual(pageData.data[fieldName], fieldData);
+      setHasLocalUnsavedEdits(hasChanges);
+    },
+    [pageData, fieldData, fieldName],
+  );
+
   const optionsMap = schedulingPreferenceOptions(fieldName);
   const options = Object.entries(optionsMap).map(([value, label]) => ({
     value: String(value),
@@ -353,7 +373,7 @@ export const ContactMethodContainer = () => {
     breadCrumbClick: e => {
       e.preventDefault();
 
-      if (hasUnsavedEdits) {
+      if (hasAnyUnsavedEdits) {
         setShowConfirmCancelModal(true);
         return;
       }
@@ -432,7 +452,7 @@ export const ContactMethodContainer = () => {
           {/* this modal is triggered by breadcrumb being clicked with unsaved edits */}
           <EditConfirmCancelModal
             isVisible={showConfirmCancelModal}
-            activeSection={fieldInfo.fieldName.toLowerCase()}
+            activeSection={pageSection.toLowerCase()}
             onHide={() => setShowConfirmCancelModal(false)}
           />
           <div className="vads-u-display--block medium-screen:vads-u-display--block">
