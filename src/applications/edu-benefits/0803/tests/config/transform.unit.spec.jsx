@@ -21,19 +21,6 @@ describe('transform function', () => {
         },
         testName: 'Fake test',
         testDate: '2022-11-13',
-        homePhone: {
-          callingCode: '1',
-          countryCode: '',
-          contact: '5555551234',
-        },
-        emailAddress: 'example@example.com',
-        mailingAddress: {
-          country: 'USA',
-          street: '123 Maple Ln',
-          city: 'Hamilton',
-          state: 'IA',
-          postalCode: '12345',
-        },
         payeeNumber: 'AB',
         ssn: '123456789',
         vaBenefitProgram: 'chapter35',
@@ -41,6 +28,29 @@ describe('transform function', () => {
         statementOfTruthSignature: 'Jackie Doe',
         dateSigned: '2025-01-01',
         statementOfTruthCertified: true,
+        veteran: {
+          mailingAddress: {
+            addressLine1: '123 Mailing Address St.',
+            addressLine2: 'Apt 1',
+            addressLine3: '',
+            addressType: 'DOMESTIC',
+            city: 'Fulton',
+            countryName: 'United States',
+            countryCodeIso2: 'US',
+            countryCodeIso3: 'USA',
+            stateCode: 'NY',
+            zipCode: '97063',
+          },
+          homePhone: {
+            areaCode: '989',
+            countryCode: '22',
+            isInternational: true,
+            phoneNumber: '8981233',
+          },
+          email: {
+            emailAddress: 'example@example.com',
+          },
+        },
       },
     };
 
@@ -48,6 +58,7 @@ describe('transform function', () => {
     const parsedData = JSON.parse(
       JSON.parse(result).educationBenefitsClaim.form,
     );
+
     expect(parsedData).to.deep.equal({
       applicantName: {
         first: 'John',
@@ -64,14 +75,17 @@ describe('transform function', () => {
       },
       testName: 'Fake test',
       testDate: '2022-11-13',
-      homePhone: '+1 5555551234',
+      homePhone: '+22 9898981233',
       emailAddress: 'example@example.com',
       mailingAddress: {
+        isMilitary: false,
         country: 'USA',
-        street: '123 Maple Ln',
-        city: 'Hamilton',
-        state: 'IA',
-        postalCode: '12345',
+        street: '123 Mailing Address St.',
+        street2: 'Apt 1',
+        street3: '',
+        city: 'Fulton',
+        state: 'NY',
+        postalCode: '97063',
       },
       payeeNumber: 'AB',
       ssn: '123456789',

@@ -119,6 +119,27 @@ Cypress.Commands.add('mockMissingPoaItfCheck', () => {
   ).as('itfCheck');
 });
 
+Cypress.Commands.add('mockMissingVeteranItfCheck', () => {
+  // Mock missing veteran. Delay 500ms so that loading screen can be checked.
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '/accredited_representative_portal/v0/intent_to_file**',
+    },
+    req => {
+      req.reply({
+        body: {
+          errors: [
+            { title: 'Bad request', detail: 'Record not found', code: '400' },
+          ],
+        },
+        statusCode: 400,
+        delay: 500,
+      });
+    },
+  ).as('itfCheck');
+});
+
 Cypress.Commands.add('mockFailedItfCheck', () => {
   // Mock itf check failure. Delay 500ms so that loading screen can be checked.
   cy.intercept(
@@ -236,6 +257,10 @@ describe('Intent to file submission', () => {
           'eq',
           `/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit`,
         );
+        cy.get("button[data-testid='expand-all-accordions']").click();
+
+        // hide the edit button that could cause issues with submission
+        cy.get("va-button[text='Edit']").should('be.hidden');
 
         cy.get("va-button[text='Submit form']").click();
         cy.axeCheck();
@@ -280,7 +305,7 @@ describe('Intent to file submission', () => {
         );
 
         cy.fillClaimantDetail();
-        cy.fillVeteranDetail(false);
+        cy.fillVeteranDetail();
         cy.get('input[name="root_selectBenefits_SURVIVOR"]').click();
         cy.axeCheck();
         cy.findByRole('button', { name: /^Continue$/ }).click();
@@ -297,6 +322,9 @@ describe('Intent to file submission', () => {
           'eq',
           '/representative/representative-form-upload/submit-va-form-21-0966/review-and-submit',
         );
+
+        // hide the edit button that could cause issues with submission
+        cy.get("va-button[text='Edit']").should('be.hidden');
 
         cy.get("va-button[text='Submit form']").click();
         cy.location('pathname').should(
@@ -447,6 +475,67 @@ describe('Intent to file submission', () => {
     describe('veteran does not have representation established', () => {
       beforeEach(() => {
         cy.mockMissingPoaItfCheck();
+      });
+
+      it('shows the appropriate error message', () => {
+        cy.visit(
+          `/representative/representative-form-upload/submit-va-form-21-0966`,
+        );
+
+        cy.injectAxe();
+        cy.axeCheck();
+
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/introduction',
+        );
+
+        cy.get('a[href="#start"]')
+          .contains('Start the submission')
+          .click();
+
+        cy.injectAxe();
+        cy.axeCheck();
+
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/claimant-background`,
+        );
+
+        cy.findByLabelText(/^The claimant is the Veteran$/).click();
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/veteran-information`,
+        );
+
+        cy.axeCheck();
+
+        cy.fillVeteranDetail();
+        cy.get('input[name="root_benefitType"][value="compensation"]').click();
+
+        cy.findByRole('button', { name: /^Continue$/ }).click();
+
+        cy.location('pathname').should(
+          'eq',
+          '/representative/representative-form-upload/submit-va-form-21-0966/get-itf-status',
+        );
+
+        cy.wait('@itfCheck');
+
+        cy.location('pathname').should(
+          'eq',
+          `/representative/representative-form-upload/submit-va-form-21-0966/intent-to-file-no-representation`,
+        );
+        cy.get('va-alert')
+          .find('h2')
+          .should('have.text', 'You don’t represent this claimant');
+      });
+    });
+
+    describe('veteran does not exist in the system', () => {
+      beforeEach(() => {
+        cy.mockMissingVeteranItfCheck();
       });
 
       it('shows the appropriate error message', () => {

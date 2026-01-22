@@ -43,7 +43,8 @@ export default function ProcessList() {
             The name and address of organization issuing the license or
             certification
           </li>
-          <li>A receipt and a copy of your test results</li>
+          <li>A receipt showing that you have paid in full</li>
+          <li>A copy of your test results</li>
         </ul>
         <p>You must also have paid in full receipt.</p>
       </va-process-list-item>

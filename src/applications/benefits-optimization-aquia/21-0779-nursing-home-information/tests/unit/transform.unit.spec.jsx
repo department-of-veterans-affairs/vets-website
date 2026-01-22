@@ -143,6 +143,25 @@ describe('Transform Function', () => {
     );
   });
 
+  it('should strip dashes from phone numbers', () => {
+    const mockForm = createMockFormData({
+      nursingOfficialInformation: {
+        fullName: {
+          first: 'Beru',
+          last: 'Lars',
+        },
+        jobTitle: 'Nursing Home Administrator',
+        phoneNumber: '505-555-1977',
+      },
+    });
+    const result = transform({}, mockForm);
+    const parsedResult = parseResult(result);
+
+    expect(parsedResult.generalInformation.nursingOfficialPhoneNumber).to.equal(
+      '5055551977',
+    );
+  });
+
   it('should handle boolean conversions correctly', () => {
     const mockForm = createMockFormData({
       medicaidFacility: { isMedicaidApprovedFacility: false },

@@ -5,8 +5,10 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
+  transformEmailForSubmit,
 } from 'platform/forms-system/src/js/patterns/prefill';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { prefillTransformer } from './prefill-transformer';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -24,20 +26,10 @@ const formConfig = {
   confirmation: ConfirmationPage,
   // eslint-disable-next-line no-shadow
   transformForSubmit: (formConfig, form, options) => {
-    let newForm = form;
-    if (form.data?.veteran?.email) {
-      newForm = {
-        ...form,
-        data: {
-          ...form.data,
-          veteran: {
-            ...form.data.veteran,
-            email: form.data.veteran.email?.emailAddress,
-          },
-        },
-      };
-    }
-    return transformForSubmit(formConfig, newForm, options);
+    let formData = form;
+    // transformers can be chained here
+    formData = transformEmailForSubmit(formData);
+    return transformForSubmit(formConfig, formData, options);
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -75,19 +67,7 @@ const formConfig = {
   version: 0,
   // or prefill-transformer from PR
   // https://github.com/department-of-veterans-affairs/vets-website/commit/7f49c3bdc4d1aeda2a81f74cd2735e93ff9a55fa#diff-3af1e5e44b3300d11a660f138dcdc67d2a15d1317c96c392139ba2801929fd87R1-R46
-  prefillTransformer(pages, formData, metadata) {
-    const transformedData = {
-      fullName: formData?.veteranFullName || null,
-      dateOfBirth: formData?.veteranDateOfBirth || null,
-      ssn: formData?.veteranSocialSecurityNumber || null,
-      vaFileNumber: formData?.veteranVAFileNumber || null,
-    };
-    return {
-      metadata,
-      formData: transformedData,
-      pages,
-    };
-  },
+  prefillTransformer,
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for mock prefill testing.',

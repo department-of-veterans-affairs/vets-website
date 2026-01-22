@@ -103,7 +103,7 @@ const ReviewPage = () => {
   };
 
   const numGroupedExpenses = Object.keys(groupedExpenses).length;
-  const isAlertVisible = !!alertMessage && numGroupedExpenses > 0;
+  const isAlertVisible = !!alertMessage;
 
   return (
     <div data-testid="review-page">
@@ -146,10 +146,11 @@ const ReviewPage = () => {
             expenses={expenses}
             documents={documents}
             groupAccordionItemsByType
+            headerLevel={3}
           />
           <div className="vads-u-margin-top--1">
             <va-card data-testid="summary-box" background>
-              <h3 className="vads-u-margin-top--1">Estimated reimbursement</h3>
+              <h2 className="vads-u-margin-top--1">Estimated reimbursement</h2>
               <ul>
                 {Object.entries(totalByExpenseType)
                   .filter(([_, total]) => total > 0) // only show if total > 0

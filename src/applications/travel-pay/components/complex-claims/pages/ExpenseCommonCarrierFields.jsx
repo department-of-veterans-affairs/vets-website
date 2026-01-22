@@ -23,6 +23,7 @@ const ExpenseCommonCarrierFields = ({ errors = {}, formState, onChange }) => (
           label={option}
           value={option}
           checked={formState.carrierType === option}
+          name="common-carrier-type-radio"
         />
       ))}
     </VaRadio>
@@ -40,6 +41,7 @@ const ExpenseCommonCarrierFields = ({ errors = {}, formState, onChange }) => (
           label={TRANSPORTATION_REASONS[key].label}
           value={key}
           checked={formState.reasonNotUsingPOV === key}
+          name="common-carrier-pov-reason-radio"
         />
       ))}
     </VaRadio>

@@ -65,9 +65,15 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
  * @returns { formattedDate: string, formattedTime: string } formatted datestamp, formatted timestamp
  */
 export const formatDateTime = datetimeString => {
+  // Guard against null, undefined, empty string, or falsy values
+  // Without this check, new Date(null) returns epoch date (1970-01-01)
+  if (!datetimeString) {
+    return { formattedDate: null, formattedTime: null };
+  }
+
   const dateTime = new Date(datetimeString);
   if (Number.isNaN(dateTime.getTime())) {
-    return { formattedDate: '', formattedTime: '' };
+    return { formattedDate: null, formattedTime: null };
   }
   const formattedDate = dateFnsFormat(dateTime, 'MMMM d, yyyy');
   const formattedTime = dateFnsFormat(dateTime, 'h:mm a');
@@ -325,11 +331,17 @@ export const formatDate = str => {
  * Returns a date formatted into three parts -- a date portion, a time portion, and a time zone.
  *
  * @param {Date | string} date
+ * @returns {{ date: string, time: string, timeZone: string } | null} Returns null if the date is invalid.
  */
 export const formatDateAndTime = rawDate => {
   let date = rawDate;
   if (typeof rawDate === 'string') {
     date = new Date(rawDate);
+  }
+
+  // Validate the date before formatting to prevent RangeError in formatToParts
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+    return null;
   }
 
   const hours = date.getHours();
@@ -569,9 +581,15 @@ export const getLastSuccessfulUpdate = (
     matchingDates?.length &&
     matchingDates.length === extractTypeList.length
   ) {
-    const minDate = new Date(
-      Math.min(...matchingDates.map(date => date.getTime())),
-    );
+    // Filter out any invalid dates
+    const timestamps = matchingDates
+      .map(date => date.getTime())
+      .filter(t => !Number.isNaN(t));
+    if (timestamps.length === 0) {
+      return null;
+    }
+    // Get the earliest date (minimum timestamp)
+    const minDate = new Date(Math.min(...timestamps));
     return formatDateAndTime(minDate);
   }
   return null;

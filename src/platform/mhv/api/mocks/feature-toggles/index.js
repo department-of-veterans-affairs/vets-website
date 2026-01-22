@@ -9,10 +9,12 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
+    mhvMedicationsManagementImprovements = false,
 
     // OH integration work
     mhvMedicalRecordsCcdExtendedFileTypes = true,
     mhvMedicalRecordsCcdOH = true,
+    mhvMedicalRecordsHoldTimeMessagingUpdate = true,
     mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
@@ -98,6 +100,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDontIncrementIpeCount,
         },
         {
+          name: 'mhv_medications_management_improvements',
+          value: mhvMedicationsManagementImprovements,
+        },
+        {
           name: 'mhv_medications_display_new_cerner_facility_alert',
           value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
@@ -114,6 +120,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_ccd_oh',
           value: mhvMedicalRecordsCcdOH,
+        },
+        {
+          name: 'mhv_medical_records_hold_time_messaging_update',
+          value: mhvMedicalRecordsHoldTimeMessagingUpdate,
         },
         {
           name: 'mhv_medical_records_merge_cvix_into_scdf',
@@ -147,6 +157,10 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         {
           name: 'mhv_secure_messaging_recent_recipients',
+          value: mhvSecureMessagingRecentRecipients,
+        },
+        {
+          name: 'mhvSecureMessagingRecentRecipients',
           value: mhvSecureMessagingRecentRecipients,
         },
       ],

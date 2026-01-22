@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom-v5-compat';
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import sinon from 'sinon';
+import * as scrollUtils from 'platform/utilities/scroll/scroll';
 
 import ExpensePage, {
   toBase64,
@@ -361,7 +362,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           if (key === 'AirTravel') {
             expect(
               getByText(
-                `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`,
+                `Upload a receipt or proof of the expense here. If you’re adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`,
               ),
             ).to.exist;
           } else {
@@ -1120,6 +1121,96 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
           restoreFileReader();
         });
+
+        it('does not require return date when AirTravel tripType is One Way', async () => {
+          if (key !== 'AirTravel') return;
+
+          const restoreFileReader = mockFileReader();
+          const { container, getByTestId } = renderPage(
+            EXPENSE_TYPES.AirTravel,
+          );
+
+          const tripTypeRadio = container.querySelector(
+            'va-radio[name="tripType"]',
+          );
+
+          // Select One Way
+          tripTypeRadio.dispatchEvent(
+            new CustomEvent('vaValueChange', {
+              detail: { value: TRIP_TYPES.ONE_WAY.value },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+
+          // Intentionally leave returnDate empty
+
+          // Fill required fields except returnDate
+          const purchaseDate = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          const costRequested = container.querySelector(
+            'va-text-input[name="costRequested"]',
+          );
+          const description = container.querySelector(
+            'va-textarea[name="description"]',
+          );
+          const vendorName = container.querySelector(
+            'va-text-input[name="vendorName"]',
+          );
+          const departureDate = container.querySelector(
+            'va-date[name="departureDate"]',
+          );
+          const departedFrom = container.querySelector(
+            'va-text-input[name="departedFrom"]',
+          );
+          const arrivedTo = container.querySelector(
+            'va-text-input[name="arrivedTo"]',
+          );
+
+          purchaseDate.value = '2025-10-31';
+          purchaseDate.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-31' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+          costRequested.value = '100';
+          costRequested.dispatchEvent(new Event('blur', { bubbles: true }));
+          description.value = 'Test one way';
+          description.dispatchEvent(new Event('blur', { bubbles: true }));
+          vendorName.value = 'Test Airline';
+          vendorName.dispatchEvent(new Event('input', { bubbles: true }));
+          departureDate.value = '2025-10-31';
+          departureDate.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-31' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+          departedFrom.value = 'SFO';
+          departedFrom.dispatchEvent(new Event('input', { bubbles: true }));
+          arrivedTo.value = 'LAX';
+          arrivedTo.dispatchEvent(new Event('input', { bubbles: true }));
+
+          // Click Continue
+          const continueButton = Array.from(
+            container.querySelectorAll('.travel-pay-button-group va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+
+          fireEvent.click(continueButton);
+
+          // Wait and assert that navigation occurs, meaning validation passed
+          await waitFor(() => {
+            expect(getByTestId('location-display').textContent).to.equal(
+              `/file-new-claim/12345/43555/${EXPENSE_TYPES.AirTravel.route}`,
+            );
+          });
+
+          restoreFileReader();
+        });
       });
 
       describe('DocumentUpload behavior', () => {
@@ -1651,6 +1742,167 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       { timeout: 3000 },
     );
   });
+
+  describe('Cancel modal navigation with backDestination', () => {
+    it('navigates to review page when confirming cancel in add mode with backDestination="review"', async () => {
+      const baseState = getEditState([]);
+      const stateWithBackDestination = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenseBackDestination: 'review',
+          },
+        },
+      };
+
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/meal']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<div data-testid="review-page" />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithBackDestination, reducers: reducer },
+      );
+
+      // Wait for page to load
+      await waitFor(() => {
+        expect(container.querySelector('h1')).to.exist;
+      });
+
+      // Open the cancel modal
+      const cancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+      expect(cancelButton).to.exist;
+      fireEvent.click(cancelButton);
+
+      // Wait for modal to be visible
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+      });
+
+      // Confirm cancellation by triggering the modal's primary button click event
+      const modal = container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to review page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/review',
+        );
+      });
+    });
+
+    it('navigates to choose-expense page when confirming cancel in add mode without backDestination', async () => {
+      const baseState = getEditState([]);
+      const stateWithoutBackDestination = {
+        ...baseState,
+        travelPay: {
+          ...baseState.travelPay,
+          complexClaim: {
+            ...baseState.travelPay.complexClaim,
+            expenseBackDestination: undefined,
+          },
+        },
+      };
+
+      const { container, getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/43555/meal']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+              element={<ExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<div data-testid="choose-expense-page" />}
+            />
+          </Routes>
+          <LocationDisplay />
+        </MemoryRouter>,
+        { initialState: stateWithoutBackDestination, reducers: reducer },
+      );
+
+      // Wait for page to load
+      await waitFor(() => {
+        expect(container.querySelector('h1')).to.exist;
+      });
+
+      // Open the cancel modal
+      const cancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+      expect(cancelButton).to.exist;
+      fireEvent.click(cancelButton);
+
+      // Wait for modal to be visible
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+      });
+
+      // Confirm cancellation by triggering the modal's primary button click event
+      const modal = container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to choose-expense page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/choose-expense',
+        );
+      });
+    });
+
+    it('navigates to review page when confirming cancel in edit mode', async () => {
+      const { container, getByTestId } = renderEditPage();
+
+      // Wait for data to load
+      await waitFor(() => {
+        const vendorField = container.querySelector(
+          'va-text-input[name="vendorName"]',
+        );
+        expect(vendorField?.getAttribute('value')).to.equal('Saved Vendor');
+      });
+
+      // Click Cancel button to open modal
+      const cancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel');
+      expect(cancelButton).to.exist;
+      fireEvent.click(cancelButton);
+
+      // Wait for modal to be visible
+      await waitFor(() => {
+        const modal = container.querySelector('va-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+      });
+
+      // Confirm cancellation by triggering the modal's primary button click event
+      const modal = container.querySelector('va-modal');
+      modal.__events.primaryButtonClick();
+
+      // Verify navigation to review page
+      await waitFor(() => {
+        const location = getByTestId('location-display');
+        expect(location.textContent).to.equal(
+          '/file-new-claim/12345/43555/review',
+        );
+      });
+    });
+  });
 });
 
 describe('toBase64 helper function', () => {
@@ -1721,5 +1973,162 @@ describe('toBase64 helper function', () => {
     } catch (error) {
       expect(error.message).to.equal('Read failed');
     }
+  });
+});
+
+describe('ExpensePage - Scroll to Error on Validation Failure', () => {
+  let scrollToFirstErrorSpy;
+  let restoreFileReader;
+  let apiRequestStub;
+
+  const getData = () => ({
+    travelPay: {
+      claimSubmission: { isSubmitting: false, error: null, data: null },
+      complexClaim: {
+        claim: {
+          creation: { isLoading: false, error: null },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          fetch: { isLoading: false, error: null },
+          data: null,
+        },
+        expenses: {
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
+          data: [],
+        },
+        documentDelete: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
+      },
+    },
+  });
+
+  beforeEach(() => {
+    scrollToFirstErrorSpy = sinon.spy(scrollUtils, 'scrollToFirstError');
+    restoreFileReader = mockFileReader();
+    // Mock API request for successful form submission
+    apiRequestStub = sinon.stub(api, 'apiRequest').resolves({
+      data: { id: '123', status: 'success' },
+    });
+  });
+
+  afterEach(() => {
+    if (scrollToFirstErrorSpy) {
+      scrollToFirstErrorSpy.restore();
+    }
+    restoreFileReader();
+    apiRequestStub.restore();
+  });
+
+  it('should call scrollToFirstError after validation fails on continue click', async () => {
+    const screen = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={['/file-new-claim/12345/43555/meal-expense']}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: /meal expense/i })).to.exist;
+    });
+
+    // Click continue without filling required fields
+    const root = screen.baseElement;
+    const buttonGroup = root.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Continue');
+
+    await act(async () => {
+      fireEvent.click(continueButton);
+      // Give time for all state updates and effects to complete
+      await new Promise(resolve => setTimeout(resolve, 150));
+    });
+
+    // Verify errors appeared in the DOM
+    const purchaseDateInput = root.querySelector(
+      'va-date[name="purchaseDate"]',
+    );
+    expect(purchaseDateInput.getAttribute('error')).to.exist;
+
+    // Verify scroll was called after the useEffect ran
+    expect(scrollToFirstErrorSpy.called).to.be.true;
+    expect(scrollToFirstErrorSpy.calledWith({ focusOnAlertRole: true })).to.be
+      .true;
+  });
+
+  it('should only call scrollToFirstError once per validation failure', async () => {
+    const screen = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={['/file-new-claim/12345/43555/meal-expense']}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: /meal expense/i })).to.exist;
+    });
+
+    // Click continue without filling required fields - first time
+    const root = screen.baseElement;
+    const buttonGroup = root.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Continue');
+    fireEvent.click(continueButton);
+
+    await waitFor(
+      () => {
+        expect(scrollToFirstErrorSpy.callCount).to.equal(1);
+      },
+      { timeout: 2000 },
+    );
+
+    // Now add a field to trigger state change but keep form invalid
+    const vendorName = root.querySelector('va-text-input[name="vendorName"]');
+    if (vendorName) {
+      vendorName.value = 'Test Restaurant';
+      const inputEvent = new Event('input', { bubbles: true });
+      Object.defineProperty(inputEvent, 'target', {
+        writable: false,
+        value: { value: 'Test Restaurant', name: 'vendorName' },
+      });
+      vendorName.dispatchEvent(inputEvent);
+    }
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    });
+
+    // scrollToFirstError should still only be called once (from the continue click)
+    expect(scrollToFirstErrorSpy.callCount).to.equal(1);
   });
 });

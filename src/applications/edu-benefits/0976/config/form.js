@@ -1,4 +1,6 @@
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { TITLE, SUBTITLE } from '../constants';
+
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -16,6 +18,26 @@ import primaryInstitutionType from '../pages/primaryInstitutionType';
 import primaryInstitutionNameAndMailingAddress from '../pages/primaryInstitutionNameAndMailingAddress';
 import primaryInstitutionPhysicalAddress from '../pages/primaryInstitutionPhysicalAddress';
 import primaryInstitutionReview from '../pages/primaryInstitutionReview';
+import additionalInstitutionsSummaryWithCode from '../pages/additionalInstitutionsSummaryWithCode';
+import additionalInstitutionsItemWithCode from '../pages/additionalInstitutionsItemWithCode';
+import additionalInstitutionsSummaryWithoutCode from '../pages/additionalInstitutionsSummaryWithoutCode';
+import additionalInstitutionsItemWithoutCode from '../pages/additionalInstitutionsItemWithoutCode';
+import primaryInstitutionWebsite from '../pages/primaryInstitutionWebsite';
+import submissionReasons from '../pages/submissionReasons';
+import submissionReasonUpdateInformationText from '../pages/submissionReasonUpdateInformationText';
+import submissionReasonOtherText from '../pages/submissionReasonOtherText';
+import primaryInstitutionIHL from '../pages/primaryInstitutionIHL';
+import primaryInstitutionTitle4 from '../pages/primaryInstitutionTitle4';
+
+import programInformationIntro from '../pages/programInformationIntro';
+import programInformationSummary from '../pages/programInformationSummary';
+import programInformationDetails from '../pages/programInformationDetails';
+
+import {
+  additionalInstitutionsWithCodeArrayOptions,
+  additionalInstitutionsWithoutCodeArrayOptions,
+  programInformationArrayOptions,
+} from '../helpers';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -145,6 +167,115 @@ const formConfig = {
           schema: primaryInstitutionReview.schema,
           depends: formData => !formData?.hasVaFacilityCode,
         },
+        ...arrayBuilderPages(
+          additionalInstitutionsWithCodeArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionsSummaryWithCode: pageBuilder.summaryPage({
+              path: 'additional-institutions-facility-code',
+              title: 'Additional institution details',
+              uiSchema: additionalInstitutionsSummaryWithCode.uiSchema,
+              schema: additionalInstitutionsSummaryWithCode.schema,
+              depends: formData => !!formData?.hasVaFacilityCode,
+            }),
+            additionalInstitutionsItemWithCode: pageBuilder.itemPage({
+              path: 'additional-institution-facility-code/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to add",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionsItemWithCode.uiSchema,
+              schema: additionalInstitutionsItemWithCode.schema,
+              initialData: { additionalInstitutions: [] },
+              depends: formData => !!formData?.hasVaFacilityCode,
+            }),
+          }),
+        ),
+        ...arrayBuilderPages(
+          additionalInstitutionsWithoutCodeArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionsSummaryWithoutCode: pageBuilder.summaryPage({
+              path: 'additional-institutions-without-code',
+              title: 'Additional institution details',
+              uiSchema: additionalInstitutionsSummaryWithoutCode.uiSchema,
+              schema: additionalInstitutionsSummaryWithoutCode.schema,
+              depends: formData => !formData?.hasVaFacilityCode,
+            }),
+            additionalInstitutionsItemWithoutCode: pageBuilder.itemPage({
+              path: 'additional-institution-without-code/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to add",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionsItemWithoutCode.uiSchema,
+              schema: additionalInstitutionsItemWithoutCode.schema,
+              initialData: { additionalInstitutions: [] },
+              depends: formData => !formData?.hasVaFacilityCode,
+            }),
+          }),
+        ),
+        primaryInstitutionWebsite: {
+          path: 'primary-institution-website',
+          title: 'Primary institution website',
+          uiSchema: primaryInstitutionWebsite.uiSchema,
+          schema: primaryInstitutionWebsite.schema,
+        },
+        submissionReasons: {
+          path: 'submission-reasons',
+          title: 'Submission reasons',
+          uiSchema: submissionReasons.uiSchema,
+          schema: submissionReasons.schema,
+        },
+        submissionReasonUpdateInformationText: {
+          path: 'submission-reason-update-text',
+          title: 'Submission reason update text',
+          uiSchema: submissionReasonUpdateInformationText.uiSchema,
+          schema: submissionReasonUpdateInformationText.schema,
+          depends: formData =>
+            formData?.submissionReasons?.updateInformation === true,
+        },
+        submissionReasonOtherText: {
+          path: 'submission-reasons-other text',
+          title: 'Submission reason other text',
+          uiSchema: submissionReasonOtherText.uiSchema,
+          schema: submissionReasonOtherText.schema,
+          depends: formData => formData?.submissionReasons?.other === true,
+        },
+        primaryInstitutionIHL: {
+          path: 'primary-institution-ihl',
+          title: 'Primary institution IHL',
+          uiSchema: primaryInstitutionIHL.uiSchema,
+          schema: primaryInstitutionIHL.schema,
+        },
+        primaryInstitutionTitle4: {
+          path: 'primary-institution-title-4',
+          title: 'Primary institution title 4',
+          uiSchema: primaryInstitutionTitle4.uiSchema,
+          schema: primaryInstitutionTitle4.schema,
+        },
+      },
+    },
+    programInformation: {
+      title: 'Program Information',
+      pages: {
+        ...arrayBuilderPages(programInformationArrayOptions, pageBuilder => ({
+          programInformationIntro: pageBuilder.introPage({
+            path: 'program-information',
+            title: 'Program information',
+            uiSchema: programInformationIntro.uiSchema,
+            schema: programInformationIntro.schema,
+          }),
+          programInformationSummary: pageBuilder.summaryPage({
+            path: 'program-information-summary',
+            title: 'Program information summary',
+            uiSchema: programInformationSummary.uiSchema,
+            schema: programInformationSummary.schema,
+          }),
+          programInformationDetails: pageBuilder.itemPage({
+            path: 'program-information-details/:index',
+            title: 'Program information details',
+            showPagePerItem: true,
+            uiSchema: programInformationDetails.uiSchema,
+            schema: programInformationDetails.schema,
+          }),
+        })),
       },
     },
   },
