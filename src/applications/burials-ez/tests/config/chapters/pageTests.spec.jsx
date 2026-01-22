@@ -117,6 +117,35 @@ export const testNumberOfFieldsByType = (
   });
 };
 
+export const testNumberOfWebComponentFields = (
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFields,
+  pageTitle,
+  data = {},
+) => {
+  describe(`${pageTitle} page`, () => {
+    it('should have appropriate number of web components', () => {
+      const { container } = render(
+        <FakeProvider>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={data}
+            formData={{}}
+          />
+        </FakeProvider>,
+      );
+
+      expect(
+        container.querySelectorAll(expectedFieldTypesWebComponents),
+      ).to.have.lengthOf(expectedNumberOfFields);
+    });
+  });
+};
+
 export const testComponentFieldsMarkedAsRequired = (
   formConfig,
   schema,
