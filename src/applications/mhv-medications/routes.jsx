@@ -1,9 +1,10 @@
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import { lazyWithRetry } from '@department-of-veterans-affairs/platform-utilities/lazy-load-with-retry';
 import manifest from './manifest.json';
 import AppProviders from './containers/AppProviders';
 import App from './containers/App';
@@ -13,14 +14,14 @@ import RxBreadcrumbs from './containers/RxBreadcrumbs';
 // TODO: When the pilot is complete, re-enable loaders
 // import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
-const Prescriptions = lazy(() => import('./containers/Prescriptions'));
-const RefillPrescriptions = lazy(() =>
+const Prescriptions = lazyWithRetry(() => import('./containers/Prescriptions'));
+const RefillPrescriptions = lazyWithRetry(() =>
   import('./containers/RefillPrescriptions'),
 );
-const PrescriptionDetails = lazy(() =>
+const PrescriptionDetails = lazyWithRetry(() =>
   import('./containers/PrescriptionDetails'),
 );
-const PrescriptionDetailsDocumentation = lazy(() =>
+const PrescriptionDetailsDocumentation = lazyWithRetry(() =>
   import('./containers/PrescriptionDetailsDocumentation'),
 );
 
