@@ -14,10 +14,10 @@ const ConfirmationNewDisabilities = ({ formData }) => {
         .map((dis, index) => {
           // Guard is necessary for legacy 0781 conditions that do not have a cause
           const cause = dis?.cause || 'Claimed';
-          const capitalizedConditionType =
-            cause === 'VA'
-              ? 'VA'
-              : cause.charAt(0).toUpperCase() + cause.slice(1).toLowerCase();
+          const isVaCause = cause === 'VA';
+          const capitalizedConditionType = isVaCause
+            ? 'VA'
+            : cause.charAt(0).toUpperCase() + cause.slice(1).toLowerCase();
           const causeLabel = getCauseLabel(cause);
           const conditionDate = formatDateString(dis?.conditionDate);
           const condition = dis?.condition?.trim();
@@ -53,6 +53,10 @@ const ConfirmationNewDisabilities = ({ formData }) => {
             dis?.vaMistreatmentDate ??
             dis?.['view:vaFollowUp']?.vaMistreatmentDate;
 
+          const shouldShowVaTreatmentDate = isVaCause && !!vaMistreatmentDate;
+          const shouldShowConditionDate =
+            !!conditionDate && !shouldShowVaTreatmentDate;
+
           return (
             <li key={key}>
               <h4>{capitalizeEachWord(condition)}</h4>
@@ -82,7 +86,7 @@ const ConfirmationNewDisabilities = ({ formData }) => {
                 </>
               )}
 
-              {conditionDate && (
+              {shouldShowConditionDate && (
                 <>
                   <div className="vads-u-color--gray">Date</div>
                   <div className="vads-u-margin-bottom--2">{conditionDate}</div>
@@ -158,7 +162,7 @@ const ConfirmationNewDisabilities = ({ formData }) => {
                         </div>
                       </>
                     )}
-                    {vaMistreatmentDate && (
+                    {shouldShowVaTreatmentDate && (
                       <>
                         <div className="vads-u-color--gray">
                           VA mistreatment date

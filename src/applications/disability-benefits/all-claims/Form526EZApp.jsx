@@ -50,6 +50,7 @@ import {
   syncNewConditionsToRatedDisabilities,
   syncRatedDisabilitiesToNewConditions,
 } from './utils/sync-conditions';
+import { shouldSkipSync, computeSynchronizedFormData } from './utils/formSync';
 import { Missing526Identifiers } from './containers/Missing526Identifiers';
 import {
   MissingDob,
@@ -202,22 +203,31 @@ export const Form526Entry = ({
 
   useEffect(
     () => {
-      if (!loggedIn) return;
-      if (togglesLoading) return;
-      if (!form?.data) return;
-      if (typeof newConditionsFlowEnabled !== 'boolean') return;
-      if (didInitRef.current) return;
-
       const pathname = location?.pathname || '';
-      if (isIntroOrStart(pathname)) return;
 
-      let nextData = newConditionsFlowEnabled
-        ? syncRatedDisabilitiesToNewConditions(form.data)
-        : syncNewConditionsToRatedDisabilities(form.data);
+      if (
+        shouldSkipSync({
+          loggedIn,
+          togglesLoading,
+          formData: form?.data,
+          flagValue: newConditionsFlowEnabled,
+          pathname,
+          didInit: didInitRef.current,
+          isIntroOrStart,
+        })
+      ) {
+        return;
+      }
 
-      nextData = normalizeNewDisabilities(nextData);
+      const nextData = computeSynchronizedFormData({
+        formData: form.data,
+        newConditionsFlowEnabled,
+        syncRatedDisabilitiesToNewConditions,
+        syncNewConditionsToRatedDisabilities,
+        normalizeNewDisabilities,
+      });
 
-      if (nextData !== form.data) {
+      if (nextData) {
         setFormData(nextData);
       }
 
