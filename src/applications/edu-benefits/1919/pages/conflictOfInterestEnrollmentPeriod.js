@@ -1,11 +1,11 @@
 import React from 'react';
-
 import {
   arrayBuilderItemSubsequentPageTitleUI,
   descriptionUI,
   currentOrPastDateSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
+import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation';
 import {
   conflictOfInterestPolicy,
   validateConflictOfInterestStartDate,
@@ -42,7 +42,10 @@ const uiSchema = {
       required: () => true,
       errorMessages: { pattern: 'Enter a valid date' },
     }),
-    'ui:validations': [validateConflictOfInterestStartDate],
+    'ui:validations': [
+      validateCurrentOrPastMemorableDate,
+      validateConflictOfInterestStartDate,
+    ],
   },
 
   enrollmentPeriodEnd: {
