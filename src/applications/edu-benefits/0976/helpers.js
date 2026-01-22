@@ -86,11 +86,15 @@ export function institutionResponseToObject(responseData) {
   };
 }
 
-export const additionalInstitutionsArrayOptions = {
+const baseAdditionalInstitutionsOptions = {
   arrayPath: 'additionalInstitutions',
   nounSingular: 'location',
   nounPlural: 'locations',
   required: false,
+};
+
+export const additionalInstitutionsWithCodeArrayOptions = {
+  ...baseAdditionalInstitutionsOptions,
   isItemIncomplete: item => {
     return ![item?.name, item?.type, item?.mailingAddress].every(Boolean);
   },
@@ -133,6 +137,90 @@ export const additionalInstitutionsArrayOptions = {
             If you have any more campuses or additional locations to add to this
             agreement, you can do so now. You will need a facility code for each
             location you would like to add.
+          </p>
+        </div>
+      );
+    },
+  },
+};
+
+export const additionalInstitutionsWithoutCodeArrayOptions = {
+  ...baseAdditionalInstitutionsOptions,
+  isItemIncomplete: item => {
+    return ![item?.name, item?.mailingAddress].every(Boolean);
+  },
+  text: {
+    cancelAddButtonText: props =>
+      `Cancel adding this additional ${props.nounSingular}`,
+    summaryTitle: props => `Review your additional ${props.nounPlural}`,
+    cardDescription: item => {
+      if (!item) return <></>;
+      return (
+        <>
+          <p>
+            <strong>Mailing address: </strong>
+            {[
+              item.mailingAddress?.street,
+              item.mailingAddress?.street2,
+              item.mailingAddress?.street3,
+              item.mailingAddress?.city,
+              item.mailingAddress?.state,
+            ]
+              .filter(Boolean)
+              .join(', ')}{' '}
+            {item.mailingAddress?.postalCode}
+          </p>
+        </>
+      );
+    },
+    summaryDescriptionWithoutItems: _props => {
+      return (
+        <div>
+          <h3>
+            You will need to list all additional locations associated with your
+            institution.
+          </h3>
+          <p>
+            These are the extension campuses and additional locations officially
+            associated with your institution. Any additional locations must be
+            in the same country as the institution applying for the approval of
+            foreign programs resides in.
+          </p>
+        </div>
+      );
+    },
+  },
+};
+
+export const programInformationArrayOptions = {
+  arrayPath: 'programs',
+  nounSingular: 'program',
+  nounPlural: 'programs',
+  required: true,
+  isItemIncomplete: item => {
+    return ![
+      item?.programName,
+      item?.totalProgramLength,
+      item?.weeksPerTerm,
+      item?.entryRequirements,
+      item?.creditHours,
+    ].every(Boolean);
+  },
+  text: {
+    getItemName: (item, _index, _fullData) => item.programName,
+    cardDescription: item => {
+      if (!item) return <></>;
+      return (
+        <div>
+          <p>{item.totalProgramLength}</p>
+          <p>
+            {item.weeksPerTerm} week
+            {parseFloat(item.weeksPerTerm) !== 1 ? 's' : ''}
+          </p>
+          <p>{item.entryRequirements}</p>
+          <p>
+            {item.creditHours} hour
+            {parseFloat(item.creditHours) !== 1 ? 's' : ''}
           </p>
         </div>
       );

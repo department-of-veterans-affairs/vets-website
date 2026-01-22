@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import {
@@ -6,33 +6,21 @@ import {
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
-import { usePersistentSelections } from '../hooks/usePersistentSelections';
 import {
   setSelectedTopics,
   selectSelectedTopics,
 } from '../redux/slices/formSlice';
 import { useGetTopicsQuery } from '../redux/api/vassApi';
 import { useErrorFocus } from '../hooks/useErrorFocus';
-
-// TODO: remove this once we have a real UUID
-import { UUID } from '../services/mocks/utils/formData';
+import { URLS } from '../utils/constants';
 
 const TopicSelection = () => {
   const { error, handleSetError } = useErrorFocus('va-checkbox-group');
   const dispatch = useDispatch();
   const selectedTopics = useSelector(selectSelectedTopics);
   const navigate = useNavigate();
-  const { saveTopicsSelection } = usePersistentSelections(UUID);
-  const { data } = useGetTopicsQuery();
+  const { data, isLoading: loading } = useGetTopicsQuery();
   const topics = useMemo(() => data?.topics || [], [data]);
-
-  const saveTopics = useCallback(
-    newTopics => {
-      saveTopicsSelection(newTopics);
-      dispatch(setSelectedTopics(newTopics));
-    },
-    [saveTopicsSelection, dispatch],
-  );
 
   const handleTopicChange = event => {
     handleSetError('');
@@ -42,12 +30,12 @@ const TopicSelection = () => {
         ...selectedTopics,
         topics.find(topic => topic.topicId === event.target.value),
       ];
-      saveTopics(newTopics);
+      dispatch(setSelectedTopics(newTopics));
     } else {
       const newTopics = selectedTopics.filter(
         topic => topic.topicId !== event.target.value,
       );
-      saveTopics(newTopics);
+      dispatch(setSelectedTopics(newTopics));
     }
   };
 
@@ -60,7 +48,7 @@ const TopicSelection = () => {
       handleSetError('Please choose a topic for your appointment.');
       return;
     }
-    navigate('/review');
+    navigate(URLS.REVIEW);
   };
 
   return (
@@ -68,6 +56,7 @@ const TopicSelection = () => {
       pageTitle="What do you want to learn more about?"
       showBackLink
       required
+      loading={loading}
     >
       <va-checkbox-group
         data-testid="topic-checkbox-group"

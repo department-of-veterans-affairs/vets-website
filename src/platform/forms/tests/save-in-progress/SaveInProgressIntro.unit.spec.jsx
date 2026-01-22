@@ -415,14 +415,21 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   });
 
   it('should render expired message if signed in with an expired form', () => {
+    // Mock time to ensure consistent test behavior
+    const now = new Date('2025-01-15T12:00:00Z');
+    const nowUnix = Math.floor(now.getTime() / 1000);
+    const clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
+
     const user = {
       profile: {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000),
+              // Last updated 60 days ago
+              lastUpdated: nowUnix - 60 * 86400,
+              // Expired 1 day ago
+              expiresAt: nowUnix - 86400,
             },
           },
         ],
@@ -454,6 +461,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
+    clock.restore();
   });
 
   it('should render downtime notification', () => {

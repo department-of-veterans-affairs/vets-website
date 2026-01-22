@@ -107,9 +107,12 @@ HelpTextOptions.propTypes = {
   trigger: PropTypes.string,
 };
 
-export const ComplexClaimsHelpSection = () => {
+export const ComplexClaimsHelpSection = ({ className }) => {
   return (
-    <div className="complex-claim-help-section vads-u-margin--2">
+    <div
+      className={`complex-claim-help-section ${className ||
+        'vads-u-margin--2'}`}
+    >
       <h2 className="complex-claim-help-heading">Need help?</h2>
       <p className="vads-u-margin-top--0">
         You can call the Beneficiary Travel Self Service System (BTSSS) call
@@ -125,4 +128,8 @@ export const ComplexClaimsHelpSection = () => {
       />
     </div>
   );
+};
+
+ComplexClaimsHelpSection.propTypes = {
+  className: PropTypes.string,
 };

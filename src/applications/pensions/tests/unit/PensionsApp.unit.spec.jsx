@@ -61,6 +61,9 @@ describe('PensionsApp', () => {
   });
 
   it('should render the ITF wrapper on first page', async () => {
+    const oldLocation = global.window.location;
+    global.window.location = { href: '' };
+
     const mockStore = store({ loading: false, pensionFormEnabled: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -72,5 +75,7 @@ describe('PensionsApp', () => {
     await waitFor(() => {
       expect($('.itf-wrapper', container)).to.not.exist;
     });
+
+    global.window.location = oldLocation;
   });
 });

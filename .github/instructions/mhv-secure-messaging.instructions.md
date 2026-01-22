@@ -426,6 +426,34 @@ Update this file when you:
   - Set `error` prop on web components for validation errors
   - Use `message-aria-describedby` for accessibility
   - Focus first error after validation using `focusOnErrorField()` from `util/formHelpers.js`
+- **VaRadio Accessibility (WCAG 1.3.1 - Info and Relationships)**:
+  - When VaRadio label contains both a heading and descriptive text, screen readers announce everything when focusing each radio option
+  - **Pattern**: Separate the heading from helper text using `label-header-level` and `hint` props
+  ```jsx
+  // ✅ CORRECT: Separate label and hint for proper screen reader behavior
+  const LABEL = 'Select a team you want to message';
+  const HINT = 'This list only includes teams that you\'ve sent messages to in the last 6 months.';
+
+  <VaRadio
+    label={LABEL}
+    hint={HINT}
+    label-header-level="2"
+    required
+    onVaValueChange={handleRadioChange}
+  >
+    {options.map(opt => <va-radio-option key={opt.id} label={opt.name} value={opt.id} />)}
+  </VaRadio>
+  ```
+  ```jsx
+  // ❌ WRONG: Combining heading and description in label causes verbosity
+  const LABEL = 'Select a team you want to message. This list only includes teams that you\'ve sent messages to in the last 6 months.';
+
+  <VaRadio label={LABEL} required onVaValueChange={handleRadioChange}>
+    {options.map(opt => <va-radio-option key={opt.id} label={opt.name} value={opt.id} />)}
+  </VaRadio>
+  ```
+  - **Why**: `label-header-level` renders the label as a semantic heading (e.g., h2) inside the legend, while `hint` is announced separately, reducing screen reader verbosity on radio option focus
+  - **Reference**: See VA Design System fieldsets/legends/labels pattern and `src/applications/appeals/995/subtask/pages/start.jsx`
 - **Shadow DOM**:
   - Web components use shadow DOM
   - Testing requires special handling (see Test Utilities section)
@@ -1132,6 +1160,24 @@ state.sm = {
 - Add `data-testid` attributes to interactive elements for E2E testing
 - Use descriptive, kebab-case names: `data-testid="send-message-button"`
 - Locators stored in `tests/e2e/utils/constants.js`
+
+### Sticky Header Click Issues in Cypress
+- **Problem**: VA.gov has a sticky header that can cover elements when Cypress tries to click them
+- **Symptom**: `CypressError: cy.click() failed because the center of this element is hidden from view`
+- **Solution**: Use `{ force: true }` option for clicks on elements that may be covered by the header
+- **Example**:
+  ```javascript
+  // ✅ CORRECT: Force click when element may be covered by sticky header
+  cy.contains(mockMessages.data[0].attributes.subject).click({
+    force: true,
+    waitForAnimations: true,
+  });
+
+  // ❌ WRONG: May fail intermittently due to sticky header overlay
+  cy.contains(mockMessages.data[0].attributes.subject).click();
+  ```
+- **Common locations**: Message list links, accordion items near top of page, buttons after page scroll
+- **Note**: Only use `force: true` when you've confirmed the element is legitimately covered by the header, not as a workaround for actual visibility issues
 
 ## Import Patterns & Module Resolution
 

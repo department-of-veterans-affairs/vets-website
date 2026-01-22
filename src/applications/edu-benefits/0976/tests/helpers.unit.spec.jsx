@@ -1,5 +1,13 @@
 import { expect } from 'chai';
-import { getAtPath, setAtPath, validateInitialsMatch } from '../helpers';
+import { render } from '@testing-library/react';
+import {
+  getAtPath,
+  setAtPath,
+  validateInitialsMatch,
+  additionalInstitutionsWithCodeArrayOptions,
+  additionalInstitutionsWithoutCodeArrayOptions,
+  programInformationArrayOptions,
+} from '../helpers';
 
 describe('0839 Helpers', () => {
   describe('validateInitialsMatch', () => {
@@ -98,6 +106,126 @@ describe('0839 Helpers', () => {
 
       setAtPath(original, 'b.c.1.d', 'goodbye');
       expect(original.b.c[1].d).to.eq('goodbye');
+    });
+  });
+
+  describe('additional institution options', () => {
+    const exampleItem = {
+      name: 'Test Institution',
+      facilityCode: '12345678',
+      type: 'PUBLIC',
+      mailingAddress: {
+        street: '123 Maple',
+        city: 'Tulsa',
+        state: 'OK',
+        postalCode: '12345',
+        country: 'USA',
+      },
+    };
+    describe('additionalInstitutionsWithCodeArrayOptions', () => {
+      const {
+        isItemIncomplete,
+        text,
+      } = additionalInstitutionsWithCodeArrayOptions;
+
+      it('has the right completeness check', () => {
+        expect(isItemIncomplete({ name: null, mailingAddress: null })).to.be
+          .true;
+        expect(isItemIncomplete(exampleItem)).to.be.false;
+      });
+
+      it('has the right text', () => {
+        expect(text.cancelAddButtonText({ nounSingular: 'location' })).to.eq(
+          'Cancel adding this additional location',
+        );
+        expect(text.summaryTitle({ nounPlural: 'locations' })).to.eq(
+          'Review your additional locations',
+        );
+      });
+
+      it('has the right card description', () => {
+        const description = text.cardDescription(exampleItem);
+        const { container } = render(description);
+        expect(container.textContent).to.contain('123 Maple');
+      });
+
+      it('has the right summary without items', () => {
+        const summary = text.summaryDescriptionWithoutItems();
+        const { container } = render(summary);
+        expect(container.textContent).to.contain(
+          'You will need to list all additional locations associated with your institution',
+        );
+      });
+    });
+    describe('additionalInstitutionsWithoutCodeArrayOptions', () => {
+      const {
+        isItemIncomplete,
+        text,
+      } = additionalInstitutionsWithoutCodeArrayOptions;
+
+      it('has the right completeness check', () => {
+        expect(isItemIncomplete({ name: null, mailingAddress: null })).to.be
+          .true;
+        expect(isItemIncomplete(exampleItem)).to.be.false;
+      });
+
+      it('has the right text', () => {
+        expect(text.cancelAddButtonText({ nounSingular: 'location' })).to.eq(
+          'Cancel adding this additional location',
+        );
+        expect(text.summaryTitle({ nounPlural: 'locations' })).to.eq(
+          'Review your additional locations',
+        );
+      });
+
+      it('has the right card description', () => {
+        const description = text.cardDescription(exampleItem);
+        const { container } = render(description);
+        expect(container.textContent).to.contain('123 Maple');
+      });
+
+      it('has the right summary without items', () => {
+        const summary = text.summaryDescriptionWithoutItems();
+        const { container } = render(summary);
+        expect(container.textContent).to.contain(
+          'You will need to list all additional locations associated with your institution',
+        );
+        expect(container.textContent).to.contain(
+          'These are the extension campuses and additional locations officially associated with your institution.',
+        );
+      });
+    });
+  });
+
+  describe('program information options', () => {
+    const exampleItem = {
+      programName: 'MBA',
+      totalProgramLength: 'Semester',
+      weeksPerTerm: '16',
+      entryRequirements: 'Bachelors',
+      creditHours: '1',
+    };
+
+    const { isItemIncomplete, text } = programInformationArrayOptions;
+
+    it('has the right completeness check', () => {
+      expect(isItemIncomplete({ programName: null, totalProgramLength: null }))
+        .to.be.true;
+      expect(isItemIncomplete(exampleItem)).to.be.false;
+    });
+
+    it('has the right card description', () => {
+      const description = text.cardDescription(exampleItem);
+      const { container } = render(description);
+      expect(container.textContent).to.contain('Semester');
+      expect(container.textContent).to.contain('Bachelors');
+      expect(container.textContent).to.contain('16 weeks');
+      expect(container.textContent).to.contain('1 hour');
+    });
+
+    it('has the right card title', () => {
+      const title = text.getItemName(exampleItem);
+      expect(title).to.eq('MBA');
     });
   });
 });

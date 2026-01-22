@@ -4,8 +4,8 @@ import {
   createGetHandler,
   createPutHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import {
   fetchDirectDeposit,
@@ -31,7 +31,6 @@ import error500 from '../fixtures/500.json';
 describe('directDeposit actions', () => {
   const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
 
-  let server = null;
   let captureErrorStub = null;
   let getDataStub = null;
 
@@ -47,18 +46,12 @@ describe('directDeposit actions', () => {
     }
   });
 
-  after(() => {
-    server.close();
-  });
-
   it('should dispatch DIRECT_DEPOSIT_FETCH_SUCCEEDED with response on success', async () => {
-    server = setupServer(
+    server.use(
       createGetHandler(`${endpointUrl}`, () => {
         return jsonResponse(base, { status: 200 });
       }),
     );
-
-    server.listen();
 
     const actionCreator = fetchDirectDeposit();
 
@@ -84,17 +77,14 @@ describe('directDeposit actions', () => {
     ).to.be.true;
 
     expect(dispatchSpy.callCount).to.eql(4);
-    server.close();
   });
 
   it('should dispatch DIRECT_DEPOSIT_FETCH_FAILED with response on error', async () => {
-    server = setupServer(
+    server.use(
       createGetHandler(`${endpointUrl}`, () => {
         return jsonResponse(error500, { status: 500 });
       }),
     );
-
-    server.listen();
 
     const actionCreator = fetchDirectDeposit();
 
@@ -121,7 +111,6 @@ describe('directDeposit actions', () => {
     ).to.be.true;
 
     expect(captureErrorStub.calledOnce).to.be.true;
-    server.close();
   });
 
   describe('toggleDirectDepositInformationEdit', () => {
@@ -137,13 +126,11 @@ describe('directDeposit actions', () => {
 
   describe('saveDirect deposit action creator', () => {
     it('should dispatch the SUCCESS state', async () => {
-      server = setupServer(
+      server.use(
         createPutHandler(`${endpointUrl}`, () => {
           return jsonResponse(base, { status: 200 });
         }),
       );
-
-      server.listen();
 
       const actionCreator = saveDirectDeposit({});
 
@@ -161,16 +148,13 @@ describe('directDeposit actions', () => {
         type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
         response: base.data.attributes,
       });
-      server.close();
     });
     it('should dispatch the FAILURE state', async () => {
-      server = setupServer(
+      server.use(
         createPutHandler(`${endpointUrl}`, () => {
           return jsonResponse(error500, { status: 400 });
         }),
       );
-
-      server.listen();
 
       const actionCreator = saveDirectDeposit({});
 
@@ -186,17 +170,14 @@ describe('directDeposit actions', () => {
         type: DIRECT_DEPOSIT_SAVE_FAILED,
         response: error500,
       });
-      server.close();
     });
 
     it('should dispatch the FAILURE state when the response is an instance of Error', async () => {
-      server = setupServer(
+      server.use(
         createPutHandler(`${endpointUrl}`, () => {
           return jsonResponse(error500, { status: 400 });
         }),
       );
-
-      server.listen();
 
       getDataStub = sinon
         .stub(fetchDirectDepositArgs, 'getData')
@@ -216,7 +197,6 @@ describe('directDeposit actions', () => {
         .true;
 
       expect(captureErrorStub.calledOnce).to.be.true;
-      server.close();
     });
   });
 });

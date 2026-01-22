@@ -61,21 +61,24 @@ const RecordListNew = ({
       </p>
 
       {/* The list itself */}
-      <div className="no-print">
+      <ul className="record-list-items no-print vads-u-margin--0 vads-u-padding--0">
         {records.map((record, idx) => (
-          <RecordListItem
-            key={idx}
-            record={record}
-            type={type}
-            domainOptions={domainOptions}
-          />
+          <li key={idx}>
+            <RecordListItem
+              record={record}
+              type={type}
+              domainOptions={domainOptions}
+            />
+          </li>
         ))}
-      </div>
-      <div className="print-only">
+      </ul>
+      <ul className="record-list-items print-only vads-u-margin--0 vads-u-padding--0">
         {records.map((record, idx) => (
-          <RecordListItem key={idx} record={record} type={type} />
+          <li key={idx}>
+            <RecordListItem record={record} type={type} />
+          </li>
         ))}
-      </div>
+      </ul>
 
       {/* Pagination footer */}
       {totalPages > 1 ? (

@@ -228,6 +228,13 @@ export const validateMedicarePlan = (item = {}) => {
   const medicarePartBEffectiveDate =
     item['view:medicarePartBEffectiveDate']?.medicarePartBEffectiveDate;
 
+  const isValidEffectiveDate = dateString => {
+    if (!dateString) return false;
+    const date = new Date(dateString);
+    const oneYearFromNow = add(new Date(), { years: 1 });
+    return isValid(date) && !isAfter(date, oneYearFromNow);
+  };
+
   const isValidPastDate = dateString => {
     if (!dateString) return false;
     const date = new Date(dateString);
@@ -239,8 +246,8 @@ export const validateMedicarePlan = (item = {}) => {
   const planValidations = {
     ab: () => {
       if (
-        !isValidPastDate(medicarePartAEffectiveDate) ||
-        !isValidPastDate(medicarePartBEffectiveDate)
+        !isValidEffectiveDate(medicarePartAEffectiveDate) ||
+        !isValidEffectiveDate(medicarePartBEffectiveDate)
       ) {
         return true;
       }
@@ -250,7 +257,7 @@ export const validateMedicarePlan = (item = {}) => {
       );
     },
     a: () => {
-      if (!isValidPastDate(medicarePartAEffectiveDate)) {
+      if (!isValidEffectiveDate(medicarePartAEffectiveDate)) {
         return true;
       }
       return (
@@ -259,7 +266,7 @@ export const validateMedicarePlan = (item = {}) => {
       );
     },
     b: () => {
-      if (!isValidPastDate(medicarePartBEffectiveDate)) {
+      if (!isValidEffectiveDate(medicarePartBEffectiveDate)) {
         return true;
       }
       return (
@@ -270,7 +277,7 @@ export const validateMedicarePlan = (item = {}) => {
     c: () => {
       if (
         !medicarePartCCarrier ||
-        !isValidPastDate(medicarePartCEffectiveDate)
+        !isValidEffectiveDate(medicarePartCEffectiveDate)
       ) {
         return true;
       }
@@ -286,7 +293,7 @@ export const validateMedicarePlan = (item = {}) => {
 
   const supportsPartD = ['ab', 'c'].includes(medicarePlanType);
   if (supportsPartD && hasMedicarePartD === true) {
-    if (!isValidPastDate(medicarePartDEffectiveDate)) return true;
+    if (!isValidEffectiveDate(medicarePartDEffectiveDate)) return true;
 
     if (
       medicarePartDTerminationDate &&

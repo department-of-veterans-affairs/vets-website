@@ -5,8 +5,8 @@
  */
 
 import {
-  firstNameLastNameNoSuffixUI,
-  firstNameLastNameNoSuffixSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -18,13 +18,47 @@ const relationshipLabels = {
   parent: "Veteran's parent's",
 };
 
+const formatFullNameTitles = name => {
+  switch (name) {
+    case 'first or given name':
+      return 'First or given name';
+    case 'middle name':
+      return 'Middle initial';
+    case 'last or family name':
+      return 'Last or family name';
+    default:
+      return name;
+  }
+};
+
+// Generate base name UI configuration
+const baseNameUI = fullNameNoSuffixUI(formatFullNameTitles);
+
 /**
  * uiSchema for Claimant Information page
  * Collects claimant's full name and date of birth
  */
 export const claimantInformationUiSchema = {
   claimantInformation: {
-    claimantFullName: firstNameLastNameNoSuffixUI(),
+    claimantFullName: {
+      ...baseNameUI,
+      first: {
+        ...baseNameUI.first,
+        'ui:options': {
+          ...baseNameUI.first['ui:options'],
+          hint:
+            'Maximum 12 characters. If your name is longer, enter the first 12 characters only.',
+        },
+      },
+      last: {
+        ...baseNameUI.last,
+        'ui:options': {
+          ...baseNameUI.last['ui:options'],
+          hint:
+            'Maximum 18 characters. If your name is longer, enter the first 18 characters only.',
+        },
+      },
+    },
     claimantDob: dateOfBirthUI(),
   },
   'ui:options': {
@@ -47,12 +81,20 @@ export const claimantInformationUiSchema = {
  */
 // Customize the name schema to add maxLength constraint for middle name
 const customNameSchema = {
-  ...firstNameLastNameNoSuffixSchema,
+  ...fullNameNoSuffixSchema,
   properties: {
-    ...firstNameLastNameNoSuffixSchema.properties,
+    ...fullNameNoSuffixSchema.properties,
+    first: {
+      type: 'string',
+      maxLength: 12,
+    },
     middle: {
       type: 'string',
       maxLength: 1,
+    },
+    last: {
+      type: 'string',
+      maxLength: 18,
     },
   },
 };

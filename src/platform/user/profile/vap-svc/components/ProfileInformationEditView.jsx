@@ -201,7 +201,6 @@ export class ProfileInformationEditView extends Component {
       apiRoute,
       field,
     } = this.props;
-
     const isAddressField = fieldName.toLowerCase().includes('address');
     if (!isAddressField) {
       this.captureEvent('update-button');
