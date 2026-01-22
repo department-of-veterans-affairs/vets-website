@@ -315,6 +315,22 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // 113 - Personal Information Mismatch
+    case AUTH_ERRORS.PII_MISMATCH.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          There is an issue with your stored personal information that is
+          preventing you from signing in to your account.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>To fix this issue:</h2>
+          <ContactCenterInformation startSentence />
+        </>
+      );
+      break;
+
     // 202 - OAuth State mismatch (SiS-specific)
     case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
       alertContent = (
