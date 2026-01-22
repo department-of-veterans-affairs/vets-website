@@ -89,7 +89,9 @@ export const buildMarker = (
         // Focus on the title (h3) within the location element for accessibility
         const titleElement = locationElement.querySelector('h3');
         if (titleElement) {
-          setFocus(titleElement, false);
+          // eslint-disable-next-line no-console
+          console.log('Focusing on title element', titleElement);
+          setFocus(titleElement);
         }
 
         const searchResultsContainer = document.getElementById(
