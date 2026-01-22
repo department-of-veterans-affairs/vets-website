@@ -81,9 +81,15 @@ const VAMCServiceAutosuggest = ({
         if (!inputValueRef.current) {
           setInputValue(committedServiceDisplay);
         }
-      } else if (inputValueRef.current && committedServiceDisplay === null) {
+      } else if (
+        inputValueRef.current &&
+        committedServiceDisplay === null &&
+        inputRef.current &&
+        document.activeElement !== inputRef.current
+      ) {
         // Clear input when committedServiceDisplay is explicitly null
         // This happens when user changes facility type
+        // Only clear if the input field is not currently focused (prevents clearing mid-typing)
         setInputValue(null);
         setOptions(allVAMCServices);
       }
