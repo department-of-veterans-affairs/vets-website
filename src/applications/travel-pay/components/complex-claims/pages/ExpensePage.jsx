@@ -16,7 +16,6 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import useSetFocus from '../../../hooks/useSetFocus';
-import useRecordPageview from '../../../hooks/useRecordPageview';
 import DocumentUpload from './DocumentUpload';
 import {
   EXPENSE_TYPES,
@@ -133,7 +132,6 @@ const ExpensePage = () => {
   const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
 
   useSetFocus();
-  useRecordPageview('complex-claims', expenseTypeFields?.label || 'Expense');
 
   // Effects
   // Effect 1: Reset loaded flag when expenseId changes

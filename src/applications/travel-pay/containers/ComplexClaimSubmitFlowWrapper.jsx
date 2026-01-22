@@ -216,7 +216,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
             <va-link
               back
               data-testid="complex-claim-back-link"
-              disable-analytics
               href={
                 getBackRoute({
                   isIntroductionPage,

@@ -130,7 +130,7 @@ export default function ClaimDetailsContent({
         className="vads-u-font-size--h2 vads-u-font-weight--bold"
         data-testid="claim-details-claim-number"
       >
-        Claim number: {claimNumber}
+        Claim number: <span data-dd-privacy="mask">{claimNumber}</span>
       </span>
 
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
