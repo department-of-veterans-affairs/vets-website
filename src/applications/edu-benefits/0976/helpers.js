@@ -215,12 +215,12 @@ export const programInformationArrayOptions = {
           <p>{item.totalProgramLength}</p>
           <p>
             {item.weeksPerTerm} week
-            {item.weekPerTerm !== 1 ? 's' : ''}
+            {parseFloat(item.weeksPerTerm) !== 1 ? 's' : ''}
           </p>
           <p>{item.entryRequirements}</p>
           <p>
             {item.creditHours} hour
-            {item.creditHours !== 1 ? 's' : ''}
+            {parseFloat(item.creditHours) !== 1 ? 's' : ''}
           </p>
         </div>
       );
