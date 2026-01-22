@@ -438,11 +438,13 @@ describe('Edit Contact List container', async () => {
     // NODE 22 FIX: Create spy BEFORE setup() so we capture event listeners
     // added during initial render. In Node 22, the component may add listeners
     // during mount before the spy was created, causing calledWith to return false.
-    // The test behavior is unchanged - we're still verifying that changing a checkbox
-    // triggers the beforeunload listener to be added.
+    // Reset spy history after setup to only track calls from user interactions.
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
 
     const screen = setup();
+
+    // Reset call history after setup to isolate user interactions from mount behavior
+    addEventListenerSpy.reset();
 
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
 
@@ -463,12 +465,15 @@ describe('Edit Contact List container', async () => {
   it('removes eventListener if contact list changes are reverted', async () => {
     // NODE 22 FIX: Create spies BEFORE setup() to capture all event listener calls.
     // Also restore spies at end of test to prevent pollution between tests.
-    // The test behavior is unchanged - we're still verifying that reverting changes
-    // removes the beforeunload listener.
+    // Reset spy history after setup to only track calls from user interactions.
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
 
     const screen = setup();
+
+    // Reset call history after setup to isolate user interactions from mount behavior
+    addEventListenerSpy.reset();
+    removeEventListenerSpy.reset();
 
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
 
