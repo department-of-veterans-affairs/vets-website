@@ -282,11 +282,20 @@ describe('DownloadFileType — AAL logging', () => {
     expect(postCreateAALStub.calledWithMatch({ status: 0 })).to.be.true;
   });
 
-  it('disables download button during PDF generation', async () => {
+  // This test verifies the double-click prevention mechanism by checking that:
+  // 1. The button gets disabled immediately after clicking
+  // 2. The aria-busy attribute is set for screen readers
+  // Note: Testing that makePdf is only called once is flaky due to module caching
+  // issues with stubbing (same issue affects the AAL logging tests above).
+  // The early return guard `if (isGenerating) return;` in generatePdf and generateTxt
+  // provides the actual double-click prevention, and the disabled button state
+  // tested here ensures the UI properly indicates this to users.
+  it('disables download button during PDF generation to prevent double-clicks (PDF)', async () => {
     const screen = renderWithFormat('pdf');
     const btn = await screen.findByTestId('download-report-button');
 
     // Button should be enabled initially
+    expect(btn.textContent).to.contain('Download report');
     expect(btn).to.not.have.attr('disabled');
     expect(btn).to.not.have.attr('aria-disabled');
     expect(btn).to.not.have.attr('aria-busy');
@@ -301,4 +310,11 @@ describe('DownloadFileType — AAL logging', () => {
       expect(btn).to.have.attr('aria-busy', 'true');
     });
   });
+
+  // Note: TXT generation uses generateTextFile which is synchronous and completes
+  // instantly, making it impossible to observe the intermediate disabled state.
+  // The double-click prevention for TXT still works via the early return guard
+  // `if (isGenerating) return;` in generateTxt, but the state change completes
+  // too quickly to be observed in a unit test. The PDF test above verifies the
+  // shared isGenerating mechanism works correctly.
 });
