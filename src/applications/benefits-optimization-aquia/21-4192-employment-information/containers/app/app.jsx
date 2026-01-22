@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { useTokenRefreshOnLoad } from '@bio-aquia/shared/hooks';
 
 import formConfig from '@bio-aquia/21-4192-employment-information/config/form';
 
@@ -28,9 +27,6 @@ export const App = ({ location, children }) => {
 
   const isLoadingFeatures = useToggleLoadingValue();
   const formEnabled = useToggleValue(TOGGLE_NAMES.form4192Enabled);
-
-  // Refresh OAuth token when loading saved form to prevent 403 errors
-  useTokenRefreshOnLoad(location);
 
   // Show loading indicator while feature flags are being fetched
   if (isLoadingFeatures) {

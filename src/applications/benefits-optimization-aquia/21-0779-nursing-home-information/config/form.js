@@ -12,6 +12,7 @@ import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json'
 import { transform } from '@bio-aquia/21-0779-nursing-home-information/config/transform';
 import { GetHelp } from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
 import { preSubmitSignatureConfig } from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-signature';
+import { createOnFormLoadedWithTokenRefresh } from '@bio-aquia/shared/utils';
 import {
   nursingOfficialInformationUiSchema,
   nursingOfficialInformationSchema,
@@ -57,6 +58,7 @@ const formConfig = {
   footerContent,
   getHelp: GetHelp,
   preSubmitInfo: preSubmitSignatureConfig,
+  onFormLoaded: createOnFormLoadedWithTokenRefresh('21-0779'),
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,

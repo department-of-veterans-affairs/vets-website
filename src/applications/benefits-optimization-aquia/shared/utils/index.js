@@ -28,3 +28,6 @@ export { debugValidation } from './debug-utils';
 
 /** Validation functions (platform + custom validators) */
 export * from '@bio-aquia/shared/utils/validators';
+
+/** OAuth token refresh for save-in-progress */
+export { createOnFormLoadedWithTokenRefresh } from './token-refresh';

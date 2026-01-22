@@ -20,6 +20,7 @@ import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containe
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
+import { createOnFormLoadedWithTokenRefresh } from '@bio-aquia/shared/utils';
 
 // Import page configurations (uiSchema and schema)
 import {
@@ -92,6 +93,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   footerContent,
   getHelp: GetHelp,
+  onFormLoaded: createOnFormLoadedWithTokenRefresh('21-2680'),
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,

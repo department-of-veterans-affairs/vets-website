@@ -18,6 +18,7 @@ import { GetHelp } from '@bio-aquia/21-4192-employment-information/components/ge
 import { transformForSubmit } from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 import { PreSubmitInfo } from '@bio-aquia/21-4192-employment-information/components/pre-submit-info';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
+import { createOnFormLoadedWithTokenRefresh } from '@bio-aquia/shared/utils';
 
 // Import page configurations (uiSchema and schema)
 import {
@@ -90,6 +91,7 @@ const formConfig = {
     required: true,
     CustomComponent: PreSubmitInfo,
   },
+  onFormLoaded: createOnFormLoadedWithTokenRefresh('21-4192'),
   chapters: {
     veteranInformationChapter: {
       title: 'Veteran Information',

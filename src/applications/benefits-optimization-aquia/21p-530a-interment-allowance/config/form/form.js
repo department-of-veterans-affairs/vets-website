@@ -15,6 +15,7 @@ import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/compon
 import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/components/introduction-page';
 import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
+import { createOnFormLoadedWithTokenRefresh } from '@bio-aquia/shared/utils';
 
 import {
   additionalRemarksPage,
@@ -44,6 +45,7 @@ const formConfig = {
   footerContent,
   getHelp: GetHelpFooter,
   preSubmitInfo: PreSubmitInfo,
+  onFormLoaded: createOnFormLoadedWithTokenRefresh('21p-530a'),
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,

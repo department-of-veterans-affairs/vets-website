@@ -33,14 +33,3 @@ export { useFormValidation } from './use-form-validation';
  * @see {@link module:use-field-validation~useFieldValidation}
  */
 export { useFieldValidation } from './use-field-validation';
-
-/**
- * Authentication and session management hooks
- */
-
-/**
- * Hook for proactively refreshing OAuth tokens when loading saved forms.
- * Prevents 403 errors when users resume applications after token expiration.
- * @see {@link module:use-token-refresh-on-load~useTokenRefreshOnLoad}
- */
-export { useTokenRefreshOnLoad } from './use-token-refresh-on-load';
