@@ -1,3 +1,6 @@
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import {
   addressSchema,
   addressUI,
@@ -36,9 +39,56 @@ const optionalAddressRequired = {
   country: () => false,
 };
 
+// Clean fields that are empty strings and set to undefined so it does not flag addressPattern
+const cleanEmptyAddressFields = address => {
+  const fieldsToClean = [
+    'street',
+    'street2',
+    'city',
+    'state',
+    'postalCode',
+    'country',
+  ];
+
+  const cleanedAddress = { ...address };
+
+  fieldsToClean.forEach(fieldName => {
+    if (cleanedAddress[fieldName] === '') {
+      // eslint-disable-next-line no-console
+      console.log(`Cleaning ${fieldName} from empty string to undefined`);
+      cleanedAddress[fieldName] = undefined;
+    }
+  });
+
+  return cleanedAddress;
+};
+
+const AddressPageCleanupWrapper = ({ children }) => {
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.form?.data);
+
+  useEffect(() => {
+    const temporaryAddress = formData?.temporaryAddress;
+    if (temporaryAddress && typeof temporaryAddress === 'object') {
+      const cleanedAddress = cleanEmptyAddressFields(temporaryAddress);
+      if (cleanedAddress !== temporaryAddress) {
+        dispatch(
+          setData({
+            ...formData,
+            temporaryAddress: cleanedAddress,
+          }),
+        );
+      }
+    }
+  }, []);
+
+  return <>{children}</>;
+};
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    'ui:description': AddressPageCleanupWrapper,
     [permanentAddressField]: {
       ...addressUiWithDlWrappedFields(),
       'ui:title': 'Permanent address',
