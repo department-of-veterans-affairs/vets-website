@@ -2,14 +2,17 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { mentalHealthSupportAlert } from '../../../content/form0781';
+import {
+  standardTitle,
+  mentalHealthSupportAlert,
+} from '../../../content/form0781';
 import {
   evidenceChoiceIntroTitle,
   evidenceChoiceIntroDescriptionContent,
 } from '../../../content/form0781/supportingEvidenceEnhancement/evidenceChoiceIntroPage';
 
 export const uiSchema = {
-  'ui:title': evidenceChoiceIntroTitle,
+  'ui:title': standardTitle(evidenceChoiceIntroTitle),
   'ui:description': evidenceChoiceIntroDescriptionContent,
   'view:hasEvidenceChoice': yesNoUI({
     title:
