@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
@@ -435,78 +435,64 @@ describe('Edit Contact List container', async () => {
   });
 
   it('adds eventListener if path is /contact-list', async () => {
-    // NODE 22 FIX: Create spy BEFORE setup() so we capture all event listener calls.
-    // Use a count-based approach to verify the checkbox interaction adds the listener,
-    // since we can't reliably reset spy history across Node versions.
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
-
     const screen = setup();
 
-    // Count beforeunload calls before interaction
-    const initialBeforeUnloadCount = addEventListenerSpy
-      .getCalls()
-      .filter(call => call.args[0] === 'beforeunload').length;
+    // Create spy after setup - on initial render, no changes have been made
+    // so no beforeunload listener should be added yet
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
     );
 
-    // Checkbox starts checked (in allowedRecipients), uncheck it to trigger a change
-    checkVaCheckbox(checkbox, false);
+    // Verify no beforeunload listener has been added yet
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
 
-    await waitFor(() => {
-      const newBeforeUnloadCount = addEventListenerSpy
-        .getCalls()
-        .filter(call => call.args[0] === 'beforeunload').length;
-      expect(newBeforeUnloadCount).to.be.greaterThan(initialBeforeUnloadCount);
+    // Click checkbox to trigger a contact list change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, false);
     });
 
-    // NODE 22 FIX: Restore spy to prevent pollution between tests
+    // Verify beforeunload listener was added after the change
+    await waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
+
     addEventListenerSpy.restore();
   });
 
   it('removes eventListener if contact list changes are reverted', async () => {
-    // NODE 22 FIX: Create spies BEFORE setup() to capture all event listener calls.
-    // Use a count-based approach to verify interactions, since we can't reliably
-    // reset spy history across Node versions.
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
-    const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
-
     const screen = setup();
 
-    // Count beforeunload calls before interaction
-    const initialAddCount = addEventListenerSpy
-      .getCalls()
-      .filter(call => call.args[0] === 'beforeunload').length;
-    const initialRemoveCount = removeEventListenerSpy
-      .getCalls()
-      .filter(call => call.args[0] === 'beforeunload').length;
+    // Create spies after setup
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
     );
 
-    // Checkbox starts checked (in allowedRecipients), uncheck it to trigger a change
-    checkVaCheckbox(checkbox, false);
+    // Verify no beforeunload listener has been added yet
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
 
-    await waitFor(() => {
-      const newAddCount = addEventListenerSpy
-        .getCalls()
-        .filter(call => call.args[0] === 'beforeunload').length;
-      expect(newAddCount).to.be.greaterThan(initialAddCount);
+    // Click checkbox to trigger a contact list change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, false);
     });
 
-    // Re-check to revert the change and remove the listener
-    checkVaCheckbox(checkbox, true);
-
     await waitFor(() => {
-      const newRemoveCount = removeEventListenerSpy
-        .getCalls()
-        .filter(call => call.args[0] === 'beforeunload').length;
-      expect(newRemoveCount).to.be.greaterThan(initialRemoveCount);
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
     });
 
-    // NODE 22 FIX: Restore spies to prevent pollution between tests
+    // Click checkbox again to revert the change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, true);
+    });
+
+    await waitFor(() => {
+      expect(removeEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
+
     addEventListenerSpy.restore();
     removeEventListenerSpy.restore();
   });
