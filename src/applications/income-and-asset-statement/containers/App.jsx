@@ -76,6 +76,7 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
 
   useEffect(
     () => {
+      // Use assetsChecked flag to prevent infinite loop
       if (!assetsChecked && location.pathname === '/review-and-submit') {
         const assetTypes = getAssetTypes(assets);
         setAssetsChecked(true);
