@@ -73,7 +73,7 @@ const formConfig = {
           personalInfoConfig: {
             name: { show: true, required: true },
             ssn: { show: true, required: true },
-            dateOfBirth: { show: true, required: false },
+            dateOfBirth: { show: true, required: true },
           },
           dataAdapter: {
             ssnPath: 'ssn',
