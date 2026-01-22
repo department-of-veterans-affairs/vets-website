@@ -96,47 +96,6 @@ function base64UrlEncode(data) {
 }
 
 /**
- * Base64 URL decode a string
- * @param {string} data - The base64url encoded string to decode
- * @returns {string} Decoded string
- */
-function base64UrlDecode(data) {
-  if (!data) return null;
-
-  // Convert base64url to base64
-  let base64 = data.replace(/-/g, '+').replace(/_/g, '/');
-
-  // Add padding if needed
-  const padding = base64.length % 4;
-  if (padding) {
-    base64 += '='.repeat(4 - padding);
-  }
-
-  return Buffer.from(base64, 'base64').toString('utf8');
-}
-
-/**
- * Decodes a JWT token and extracts the uuid from the payload.
- * Note: This does NOT verify the signature - for mock/testing purposes only.
- *
- * @param {string} token - The JWT token to decode
- * @returns {string|null} The uuid from the token payload, or null if not found
- */
-function decodeJwtUuid(token) {
-  if (!token) return null;
-
-  try {
-    const parts = token.split('.');
-    if (parts.length !== 3) return null;
-
-    const payload = JSON.parse(base64UrlDecode(parts[1]));
-    return payload.uuid || null;
-  } catch {
-    return null;
-  }
-}
-
-/**
  * Creates a mock JWT token for testing purposes.
  *
  * @param {string} uuid - The UUID of the start schedule url param
@@ -144,13 +103,14 @@ function decodeJwtUuid(token) {
  * @returns {string} The mock JWT token
  */
 function createMockJwt(uuid, expiresIn = 3600) {
+  const now = Math.floor(Date.now() / 1000);
   const header = { alg: 'HS256', typ: 'JWT' };
   // TODO: confirm the payload structure
   const defaultPayload = {
-    sub: '1234567890',
-    iat: Math.floor(Date.now() / 1000),
-    exp: Math.floor(Date.now() / 1000) + expiresIn,
-    uuid,
+    sub: uuid,
+    jti: 'mock-jti',
+    iat: now,
+    exp: now + expiresIn,
   };
 
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
@@ -160,4 +120,4 @@ function createMockJwt(uuid, expiresIn = 3600) {
   return `${encodedHeader}.${encodedPayload}.${mockSignature}`;
 }
 
-module.exports = { generateSlots, createMockJwt, decodeJwtUuid };
+module.exports = { generateSlots, createMockJwt };

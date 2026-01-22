@@ -25,3 +25,5 @@ export const AUTH_LEVELS = {
   /** Requires a valid authentication token */
   TOKEN: 'token',
 };
+
+export const VASS_TOKEN_COOKIE_NAME = 'VASS_TOKEN';

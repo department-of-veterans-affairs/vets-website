@@ -2,11 +2,8 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const mockTopics = require('./utils/topic');
-const {
-  generateSlots,
-  createMockJwt,
-  decodeJwtUuid,
-} = require('../../utils/mock-helpers');
+const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
+const { decodeJwt } = require('../../utils/auth');
 
 const mockUUIDs = Object.freeze({
   'c0ffee-1234-beef-5678': {
@@ -176,10 +173,9 @@ const responses = {
         errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
       });
     }
-    const uuid = decodeJwtUuid(token);
+    const uuid = decodeJwt(token).sub;
     return res.json({
       data: {
-        // TODO: extract this from the token
         appointmentId: uuid,
         availableTimeSlots: generateSlots(),
       },

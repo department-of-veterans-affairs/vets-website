@@ -1,11 +1,9 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from 'platform/utilities/environment';
+import Cookies from 'js-cookie';
 import { apiRequest } from 'platform/utilities/api';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import {
-  setObfuscatedEmail,
-  setToken,
-  setLowAuthFormData,
-} from '../slices/formSlice';
+import { setObfuscatedEmail, setLowAuthFormData } from '../slices/formSlice';
+import { VASS_TOKEN_COOKIE_NAME } from '../../utils/constants';
 
 const api = async (url, options, ...rest) => {
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
@@ -68,11 +66,14 @@ export const vassApi = createApi({
           };
         }
       },
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(arg, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           if (data?.token) {
-            dispatch(setToken(data.token));
+            Cookies.set(VASS_TOKEN_COOKIE_NAME, data.token, {
+              secure: true,
+              sameSite: 'Strict',
+            });
           }
         } catch {
           // Error is handled by the queryFn
