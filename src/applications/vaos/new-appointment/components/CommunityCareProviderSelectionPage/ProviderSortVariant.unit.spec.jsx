@@ -1,6 +1,6 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
-import { within } from '@testing-library/react';
+import { cleanup, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import React from 'react';
@@ -88,6 +88,10 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         }),
       ],
     });
+  });
+
+  afterEach(async () => {
+    await cleanup();
   });
 
   it('should display list of providers when choose a provider clicked', async () => {

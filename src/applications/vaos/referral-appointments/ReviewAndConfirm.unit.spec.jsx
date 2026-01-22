@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as utils from 'applications/vaos/services/utils';
 import ReviewAndConfirm from './ReviewAndConfirm';
@@ -69,7 +70,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   beforeEach(() => {
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
   });
-  afterEach(() => {
+  afterEach(async () => {
+    await cleanup();
     sandbox.restore();
     sessionStorage.clear();
   });

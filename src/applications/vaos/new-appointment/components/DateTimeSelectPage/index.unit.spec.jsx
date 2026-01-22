@@ -139,7 +139,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     MockDate.set(getTestDate());
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    await cleanup();
     MockDate.reset();
   });
 

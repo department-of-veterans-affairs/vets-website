@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitForElementToBeRemoved } from '@testing-library/dom';
+import { cleanup } from '@testing-library/react';
 import {
   renderWithStoreAndRouter,
   createTestStore,
@@ -160,7 +161,8 @@ describe('VAOS ChooseDateAndTime component', () => {
       .stub(flow, 'getReferralUrlLabel')
       .returns('Schedule an appointment with your provider');
   });
-  afterEach(() => {
+  afterEach(async () => {
+    await cleanup();
     sandbox.restore();
   });
   it('should fetch provider or appointments from store if it exists and not call API', async () => {

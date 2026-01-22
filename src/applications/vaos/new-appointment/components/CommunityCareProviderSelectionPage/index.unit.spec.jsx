@@ -96,6 +96,11 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ],
     });
   });
+
+  afterEach(async () => {
+    await cleanup();
+  });
+
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
