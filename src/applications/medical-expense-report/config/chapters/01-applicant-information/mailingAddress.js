@@ -6,10 +6,12 @@ import {
 
 const updatedAddressSchema = addressSchema({
   omit: ['street3'],
+  extend: {
+    street: { maxLength: 74 },
+    street2: { maxLength: 13 },
+    city: { maxLength: 22 },
+  },
 });
-updatedAddressSchema.properties.street.maxLength = 30;
-updatedAddressSchema.properties.street2.maxLength = 13;
-updatedAddressSchema.properties.city.maxLength = 18;
 
 /** @type {PageSchema} */
 export default {
