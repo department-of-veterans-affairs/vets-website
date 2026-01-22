@@ -25,6 +25,7 @@ export const ResultsList = ({
 }) => {
   const [resultsData, setResultsData] = useState(null);
   const currentPage = pagination ? pagination.currentPage : 1;
+
   useEffect(
     () => {
       setResultsData(

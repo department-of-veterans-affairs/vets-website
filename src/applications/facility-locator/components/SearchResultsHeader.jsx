@@ -97,14 +97,11 @@ export const SearchResultsHeader = ({
     return 'Results';
   };
 
-  // Determine if facility type is Urgent Care or Emergency Care
-  // to adjust message format accordingly
   const isSpecialCategory = [
     LocationType.URGENT_CARE,
     LocationType.EMERGENCY_CARE,
   ].includes(facilityType);
 
-  // Set results prefix based on facility type
   const resultsPrefix = isSpecialCategory
     ? `${messagePrefix} for `
     : `${handleNumberOfResults()} for `;
