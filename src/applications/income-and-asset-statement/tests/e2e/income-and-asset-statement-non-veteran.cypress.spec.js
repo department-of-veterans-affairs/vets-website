@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: '21P-0969 Income and Asset Statement Form',
     dataPrefix: 'data',
-    dataSets: ['test-data'],
+    dataSets: ['test-data-bug'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -73,10 +73,34 @@ const testConfig = createTestConfig(
               name: 'income_and_assets_browser_monitoring_enabled',
               value: true,
             },
+            {
+              name: 'income_and_assets_content_updates',
+              value: true,
+            },
           ],
         },
       });
       cy.intercept('GET', '/v0/user', mockUser);
+      cy.intercept('GET', '/v0/maintenance_windows*', 'OK');
+      cy.intercept('GET', '/v0/maintenance_windows', { data: [] });
+      cy.intercept('PUT', '/v0/in_progress_forms/21P-0969', {
+        data: {
+          id: '1234',
+          type: 'in_progress_forms',
+          attributes: {
+            formId: '21P-0969',
+            createdAt: '2021-06-03T00:00:00.000Z',
+            updatedAt: '2021-06-03T00:00:00.000Z',
+            metadata: {
+              version: 1,
+              returnUrl: '',
+              savedAt: 1593500000000,
+              lastUpdated: 1593500000000,
+              expiresAt: 99999999999,
+            },
+          },
+        },
+      });
       cy.intercept('POST', `income_and_assets/v0/${formConfig.submitUrl}`, {
         data: {
           id: 'mock-id',
