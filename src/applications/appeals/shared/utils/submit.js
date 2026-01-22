@@ -6,7 +6,8 @@ import {
   hasMobilePhone,
 } from './contactInfo';
 import { MAX_LENGTH, SELECTED, SUBMITTED_DISAGREEMENTS } from '../constants';
-import { fixDateFormat, replaceSubmittedData } from './replace';
+import { fixDateFormat } from './dates';
+import { replaceSubmittedData } from './replace';
 import { returnUniqueIssues } from './issues';
 
 /**

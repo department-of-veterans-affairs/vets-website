@@ -1,10 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
 import ITFClaimantStatusWrapper from './ITFClaimantStatusWrapper';
 
 const ITF500Error = ({ location, route, router }) => {
+  const alertRef = useRef(null);
   const { data: formData } = useSelector(state => state.form);
   const type = formData.benefitType;
   const prevUrl =
@@ -17,6 +20,16 @@ const ITF500Error = ({ location, route, router }) => {
     route.pageList,
     router,
   ]);
+
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo(alertRef.current);
+        focusElement('h2', {}, alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   const benefitCopy = ITFType => {
     switch (ITFType) {
@@ -37,6 +50,7 @@ const ITF500Error = ({ location, route, router }) => {
   return (
     <ITFClaimantStatusWrapper>
       <va-alert
+        ref={alertRef}
         close-btn-aria-label="Close notification"
         status="warning"
         visible
