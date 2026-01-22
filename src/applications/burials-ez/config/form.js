@@ -96,7 +96,7 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 3, // Change to 4 when PDF alignment feature toggle is enabled
   migrations,
   prefillEnabled: true,
   dev: {
