@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MigratingFacilitiesAlerts from '../../components/CernerFacilityAlert/MigratingFacilitiesAlerts';
-import { CernerAlertContent } from '../../components/CernerFacilityAlert/constants';
 
 describe('MigratingFacilitiesAlerts', () => {
   const mockMigratingFacilities = [
@@ -48,7 +47,8 @@ describe('MigratingFacilitiesAlerts', () => {
         p3: 'April 24, 2026',
         p4: 'April 27, 2026',
         p5: 'May 1, 2026',
-        p6: 'May 8, 2026',
+        p6: 'May 3, 2026',
+        p7: 'May 8, 2026',
       },
     },
   ];
@@ -56,13 +56,13 @@ describe('MigratingFacilitiesAlerts', () => {
   describe('when no alerts should be shown', () => {
     it('returns null when current phase is not in warning or error arrays', () => {
       const propsWithNoMatch = {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         migratingFacilities: [
           {
             ...mockMigratingFacilities[0],
             phases: {
               ...mockMigratingFacilities[0].phases,
-              current: 'p0', // Not in warning or error arrays
+              current: 'p0', // Not in warning or error arrays for MEDICATIONS
             },
           },
         ],
@@ -78,7 +78,7 @@ describe('MigratingFacilitiesAlerts', () => {
     it('returns null when migratingFacilities is empty', () => {
       const { container } = render(
         <MigratingFacilitiesAlerts
-          {...CernerAlertContent.MEDICATIONS}
+          healthTool="MEDICATIONS"
           migratingFacilities={[]}
         />,
       );
@@ -89,7 +89,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
   describe('warning alerts', () => {
     const warningProps = {
-      ...CernerAlertContent.MEDICATIONS,
+      healthTool: 'MEDICATIONS',
       migratingFacilities: [
         {
           ...mockMigratingFacilities[0],
@@ -127,8 +127,8 @@ describe('MigratingFacilitiesAlerts', () => {
         <MigratingFacilitiesAlerts {...warningProps} />,
       );
 
-      expect(getByText('April 27, 2026')).to.exist;
-      expect(getByText('May 8, 2026')).to.exist;
+      expect(getByText(/April 27, 2026/)).to.exist;
+      expect(getByText(/May 8, 2026/)).to.exist;
     });
 
     it('displays "this facility" for single facility', () => {
@@ -190,28 +190,39 @@ describe('MigratingFacilitiesAlerts', () => {
       // MEDICATIONS has warningAddlInfo
       expect(
         getByText(
-          /call your VA pharmacy's automated refill line to refill a medication/i,
+          /call your VA pharmacy’s automated refill line to refill a medication/i,
         ),
       ).to.exist;
     });
+  });
 
-    it('displays warningAction when provided', () => {
-      const propsWithAction = {
-        ...warningProps,
-        warningAction: 'call',
-      };
+  describe('warning alerts with warningAction (APPOINTMENTS)', () => {
+    const appointmentsWarningProps = {
+      healthTool: 'APPOINTMENTS',
+      migratingFacilities: [
+        {
+          ...mockMigratingFacilities[0],
+          phases: {
+            ...mockMigratingFacilities[0].phases,
+            current: 'p0', // In warning array for APPOINTMENTS
+          },
+        },
+      ],
+    };
 
+    it('displays warningAction when defined in constant', () => {
       const { getByText } = render(
-        <MigratingFacilitiesAlerts {...propsWithAction} />,
+        <MigratingFacilitiesAlerts {...appointmentsWarningProps} />,
       );
 
+      // APPOINTMENTS has warningAction: 'call'
       expect(getByText(/you can still call this facility/i)).to.exist;
     });
   });
 
   describe('error alerts', () => {
     const errorProps = {
-      ...CernerAlertContent.MEDICATIONS,
+      healthTool: 'MEDICATIONS',
       migratingFacilities: [
         {
           ...mockMigratingFacilities[0],
@@ -232,13 +243,14 @@ describe('MigratingFacilitiesAlerts', () => {
       expect(alert).to.exist;
     });
 
-    it('displays standard headline', () => {
+    it('displays standard headline for MEDICATIONS', () => {
       const screen = render(<MigratingFacilitiesAlerts {...errorProps} />);
 
-      // MEDICATIONS has errorHeadline
+      // Component generates: "You can't ${errorAction} some facilities right now"
+      // MEDICATIONS has errorAction: 'refill medications online for'
       expect(
         screen.getByText(
-          /You can't refill medications online for some facilities right now/i,
+          /You can’t refill medications online for some facilities right now/i,
         ),
       ).to.exist;
     });
@@ -247,7 +259,7 @@ describe('MigratingFacilitiesAlerts', () => {
       const screen = render(<MigratingFacilitiesAlerts {...errorProps} />);
 
       // MEDICATIONS has errorBody
-      expect(screen.getByText(/You can't refill your medications online for/i))
+      expect(screen.getByText(/You can’t refill your medications online for/i))
         .to.exist;
     });
 
@@ -257,7 +269,7 @@ describe('MigratingFacilitiesAlerts', () => {
       // MEDICATIONS has errorAddlInfo
       expect(
         screen.getByText(
-          /If you need to refill a medication now, call your VA pharmacy's automated refill line/i,
+          /If you need to refill a medication now, call your VA pharmacy’s automated refill line/i,
         ),
       ).to.exist;
     });
@@ -267,7 +279,7 @@ describe('MigratingFacilitiesAlerts', () => {
         <MigratingFacilitiesAlerts {...errorProps} />,
       );
 
-      expect(getByText('May 8, 2026')).to.exist;
+      expect(getByText(/May 8, 2026/)).to.exist;
     });
 
     it('displays facility list in error alert', () => {
@@ -292,6 +304,50 @@ describe('MigratingFacilitiesAlerts', () => {
         "Find your facility's contact information",
       );
     });
+  });
+
+  describe('error alerts for MEDICAL_RECORDS', () => {
+    const medicalRecordsErrorProps = {
+      healthTool: 'MEDICAL_RECORDS',
+      migratingFacilities: [
+        {
+          ...mockMigratingFacilities[0],
+          phases: {
+            ...mockMigratingFacilities[0].phases,
+            current: 'p4', // In error array for MEDICAL_RECORDS
+          },
+        },
+      ],
+    };
+
+    it('displays special headline for MEDICAL_RECORDS', () => {
+      const screen = render(
+        <MigratingFacilitiesAlerts {...medicalRecordsErrorProps} />,
+      );
+
+      // Component generates special headline for MEDICAL_RECORDS:
+      // "New medical records may not appear here until ${endDate}"
+      expect(
+        screen.getByText(
+          /New medical records may not appear here until May 8, 2026/i,
+        ),
+      ).to.exist;
+    });
+  });
+
+  describe('multiple facilities', () => {
+    const errorProps = {
+      healthTool: 'MEDICATIONS',
+      migratingFacilities: [
+        {
+          ...mockMigratingFacilities[0],
+          phases: {
+            ...mockMigratingFacilities[0].phases,
+            current: 'p4', // In error array
+          },
+        },
+      ],
+    };
 
     it('displays "this facility" for single facility in error', () => {
       const { getByText } = render(
@@ -325,7 +381,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
   describe('multiple migrations', () => {
     const multipleMigrationsProps = {
-      ...CernerAlertContent.MEDICATIONS,
+      healthTool: 'MEDICATIONS',
       migratingFacilities: [
         {
           migrationDate: '2026-05-01',
@@ -343,7 +399,8 @@ describe('MigratingFacilitiesAlerts', () => {
             p3: 'April 24, 2026',
             p4: 'April 27, 2026',
             p5: 'May 1, 2026',
-            p6: 'May 8, 2026',
+            p6: 'May 3, 2026',
+            p7: 'May 8, 2026',
           },
         },
         {
@@ -362,14 +419,15 @@ describe('MigratingFacilitiesAlerts', () => {
             p3: 'May 24, 2026',
             p4: 'May 27, 2026',
             p5: 'June 1, 2026',
-            p6: 'June 8, 2026',
+            p6: 'June 3, 2026',
+            p7: 'June 8, 2026',
           },
         },
       ],
     };
 
     it('renders multiple alerts for different migrations', () => {
-      const { container } = render(
+      const { container, getByText } = render(
         <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
       );
 
@@ -382,89 +440,30 @@ describe('MigratingFacilitiesAlerts', () => {
 
       expect(warningAlerts.length).to.equal(1);
       expect(errorAlerts.length).to.equal(1);
-    });
-
-    it('displays correct facility names in each alert', () => {
-      const { getByText } = render(
-        <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
+      expect(warningAlerts[0].getAttribute('trigger')).to.include(
+        'April 27, 2026',
       );
 
+      // Displays correct facility names
       expect(getByText('VA Uptown New Orleans Medical Center')).to.exist;
       expect(getByText('VA Downtown New Orleans Clinic')).to.exist;
-    });
-
-    it('warning alert displays correct phase dates for first migration', () => {
-      const { container } = render(
-        <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
-      );
-
-      const warningAlert = container.querySelector(
-        'va-alert-expandable[status="warning"]',
-      );
-      expect(warningAlert.getAttribute('trigger')).to.include('April 27, 2026');
-    });
-
-    it('error alert displays correct phase dates for second migration', () => {
-      const { getByText } = render(
-        <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
-      );
-
-      // Error alert should show end date from p6 for second migration
-      expect(getByText('June 8, 2026')).to.exist;
-    });
-
-    it('each alert is independent with its own facility list', () => {
-      const { container } = render(
-        <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
-      );
 
       // Get all list items from both alerts
       const allListItems = container.querySelectorAll('ul li');
-
       // Should have 2 facilities total (one in each alert)
       expect(allListItems.length).to.equal(2);
-    });
-
-    it('renders both alerts even when they have different statuses', () => {
-      const { container } = render(
-        <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
-      );
-
-      // Both alerts should be present in the DOM
-      expect(container.querySelector('va-alert-expandable[status="warning"]'))
-        .to.exist;
-      expect(container.querySelector('va-alert[status="error"]')).to.exist;
-    });
-
-    it('applies correct keys to each alert', () => {
-      const { container } = render(
-        <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
-      );
-
-      const warningAlert = container.querySelector(
-        'va-alert-expandable[status="warning"]',
-      );
-      const errorAlert = container.querySelector('va-alert[status="error"]');
-
-      // Both should have key attribute (index-based)
-      expect(warningAlert).to.exist;
-      expect(errorAlert).to.exist;
-    });
-
-    it('renders correct facility text for each alert type', () => {
-      const { container } = render(
-        <MigratingFacilitiesAlerts {...multipleMigrationsProps} />,
-      );
-
       // Both alerts should use "this facility" since each migration has one facility
       const bodyText = container.textContent;
       expect(bodyText).to.include('this facility');
+
+      // Error alert should show end date from p6 for second migration
+      expect(getByText(/June 3, 2026/)).to.exist;
     });
   });
 
   describe('multiple migrations with three or more facilities', () => {
     const threeMigrations = {
-      ...CernerAlertContent.MEDICATIONS,
+      healthTool: 'MEDICATIONS',
       migratingFacilities: [
         {
           migrationDate: '2026-05-01',
@@ -482,7 +481,8 @@ describe('MigratingFacilitiesAlerts', () => {
             p3: 'April 24, 2026',
             p4: 'April 27, 2026',
             p5: 'May 1, 2026',
-            p6: 'May 8, 2026',
+            p6: 'May 3, 2026',
+            p7: 'May 8, 2026',
           },
         },
         {
@@ -501,7 +501,8 @@ describe('MigratingFacilitiesAlerts', () => {
             p3: 'May 24, 2026',
             p4: 'May 27, 2026',
             p5: 'June 1, 2026',
-            p6: 'June 8, 2026',
+            p6: 'June 3, 2026',
+            p7: 'June 8, 2026',
           },
         },
         {
@@ -520,7 +521,8 @@ describe('MigratingFacilitiesAlerts', () => {
             p3: 'June 24, 2026',
             p4: 'June 27, 2026',
             p5: 'July 1, 2026',
-            p6: 'July 8, 2026',
+            p6: 'July 3, 2026',
+            p7: 'July 8, 2026',
           },
         },
       ],
@@ -556,7 +558,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
   describe('styling and className', () => {
     const errorProps = {
-      ...CernerAlertContent.MEDICATIONS,
+      healthTool: 'MEDICATIONS',
       migratingFacilities: [
         {
           ...mockMigratingFacilities[0],
@@ -604,7 +606,7 @@ describe('MigratingFacilitiesAlerts', () => {
   describe('edge cases', () => {
     it('handles migration with no facilities gracefully', () => {
       const propsWithNoFacilities = {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         migratingFacilities: [
           {
             ...mockMigratingFacilities[0],
@@ -626,7 +628,7 @@ describe('MigratingFacilitiesAlerts', () => {
 
     it('handles missing phase dates', () => {
       const propsWithMissingPhases = {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         migratingFacilities: [
           {
             ...mockMigratingFacilities[0],

@@ -18,7 +18,6 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from '~/platform/mhv/components/CernerFacilityAlert/constants';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
@@ -736,13 +735,13 @@ const Prescriptions = () => {
           <>
             <ApiErrorNotification errorType="access" content="medications" />
             <CernerFacilityAlert
-              {...CernerAlertContent.MEDICATIONS}
+              healthTool="MEDICATIONS"
               apiError={prescriptionsApiError}
             />
           </>
         ) : (
           <>
-            <CernerFacilityAlert {...CernerAlertContent.MEDICATIONS} />
+            <CernerFacilityAlert healthTool="MEDICATIONS" />
             {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>

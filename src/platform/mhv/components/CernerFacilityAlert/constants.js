@@ -1,74 +1,78 @@
 export const CernerAlertContent = {
   APPOINTMENTS: {
     linkPath: '/pages/scheduling/upcoming',
-    pageName: 'appointments',
     headline: 'To manage your appointments at',
-    domain: 'appointments',
+    pageName: 'appointments',
     infoAlertActionPhrase: 'manage most of your appointments',
     infoAlertText: 'You can manage most of your appointments here.',
-    warningBody:
-      'you won’t be able to schedule or cancel appointments online for',
-    warningAction: 'call',
-    warningAddlInfo: 'to schedule or cancel appointments',
-    errorAction: 'manage appointments online for',
-    errorBody: 'You can’t schedule or cancel appointments online for',
-    errorAddlInfo:
+    // Migration alert configuration
+    warningPhases: ['p0', 'p1'],
+    warningHeadline: 'Updates',
+    warningGetMessage: (startDate, endDate, facilityText) =>
+      `From ${startDate} to ${endDate}, you won’t be able to schedule or cancel appointments online for ${facilityText}.`,
+    warningGetNote: facilityText =>
+      `During this time, you can still call ${facilityText} to schedule or cancel appointments.`,
+    errorPhases: ['p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+    errorHeadline: `You can’t manage appointments online for some facilities right now`,
+    errorGetMessage: (startDate, endDate, facilityText) =>
+      `You can’t schedule or cancel appointments online for ${facilityText} until ${endDate}.`,
+    errorNote:
       'If you need to schedule or cancel appointments now, call the facility directly.',
-    warning: ['p0', 'p1'],
-    error: ['p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
-    startDate: 'p2',
-    endDate: 'p7',
+    errorStartDate: 'p2',
+    errorEndDate: 'p7',
   },
   MHV_LANDING_PAGE: {
-    // linkPath and infoAlertActionPhrase are used by the blue info alert
     linkPath: '/pages/home',
-    // pageName and headline are unused because the yellow alert is suppressed when domain is 'mhv-landing-page'
-    pageName: 'mhv-landing-page',
-    headline: 'mhv-landing-page',
-    domain: 'mhv-landing-page',
+    headline: '',
+    pageName: 'MHV landing page',
     infoAlertActionPhrase: 'manage your health care',
   },
   MEDICAL_RECORDS: {
     linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    headline: 'To manage your medical records at',
     pageName: 'medical records',
-    headline: 'Manage your medical records at',
-    domain: 'medical records',
     infoAlertActionPhrase: 'manage most of your medical records',
     infoAlertText:
       'You can review and download most of your medical records here.',
-    warningBody: 'there may be a delay in updating medical records for',
-    errorIntro: 'Medical records',
-    errorBody: 'may not be updated for',
-    warning: ['p1', 'p2', 'p3'],
-    error: ['p4', 'p5', 'p6'],
-    startDate: 'p4',
-    endDate: 'p6',
+    // Migration alert configuration
+    warningPhases: ['p1', 'p2', 'p3'],
+    warningHeadline: 'Site updates',
+    warningGetMessage: (startDate, endDate, facilityText) =>
+      `From ${startDate} to ${endDate}, there may be a delay in updating medical records for ${facilityText}.`,
+    errorPhases: ['p4', 'p5', 'p6'],
+    errorGetHeadline: endDate =>
+      `New medical records may not appear here until ${endDate}`,
+    errorGetMessage: (startDate, endDate, facilityText) =>
+      `Medical records from ${startDate} to ${endDate} may not be updated for ${facilityText}.`,
+    errorStartDate: 'p4',
+    errorEndDate: 'p6',
   },
   MEDICATIONS: {
     linkPath: '/pages/medications/current',
-    pageName: 'medications',
     headline: 'To view or manage your medications at',
-    domain: 'medications',
+    pageName: 'medications',
     infoAlertActionPhrase: 'manage your medications',
     infoAlertText:
       'You no longer need to go to My VA Health to manage your prescriptions for any VA facilities.',
-    warningBody: 'you won’t be able to refill your medications online for',
-    warningAddlInfo:
-      'call your VA pharmacy’s automated refill line to refill a medication.',
-    errorAction: 'refill medications online for',
-    errorBody: 'You can’t refill your medications online for',
-    errorAddlInfo:
-      'If you need to refill a medication now, call your VA pharmacy’s automated refill line. the phone number is on your prescription label or in your medications details page.',
-    warning: ['p1', 'p2', 'p3'],
-    error: ['p4', 'p5', 'p6'],
-    startDate: 'p4',
-    endDate: 'p6',
+    // Migration alert configuration
+    warningPhases: ['p1', 'p2', 'p3'],
+    warningHeadline: 'Updates',
+    warningGetMessage: (startDate, endDate, facilityText) =>
+      `From ${startDate} to ${endDate}, you won’t be able to refill your medications online for ${facilityText}.`,
+    warningGetNote: facilityText =>
+      `During this time, you can still call ${facilityText} call your VA pharmacy’s automated refill line to refill a medication.`,
+    errorPhases: ['p4', 'p5', 'p6'],
+    errorHeadline: `You can’t refill medications online for some facilities right now`,
+    errorGetMessage: (startDate, endDate, facilityText) =>
+      `You can’t refill your medications online for ${facilityText} until ${endDate}.`,
+    errorNote: `If you need to refill a medication now, call your VA pharmacy’s automated refill line. The phone number is on your prescription label or in your medications details page.`,
+    errorStartDate: 'p4',
+    errorEndDate: 'p6',
   },
   SECURE_MESSAGING: {
     linkPath: '/pages/messaging/inbox',
-    pageName: 'secure messages',
     headline: 'To send a secure message to a provider at',
-    domain: 'secure messages',
+    pageName: 'secure messages',
     infoAlertHeadline:
       'You can now manage messages for all VA health care teams here',
     infoAlertText:
@@ -76,19 +80,21 @@ export const CernerAlertContent = {
     bodyActionSingle: 'To send a secure message to a provider at',
     bodyActionMultiple: 'To view or manage secure messages at these facilities',
     bodyIntro: 'Some of your secure messages may be in a different portal.',
-    warningBody:
-      'you won’t be able to send or receive new messages or reply to conversations with providers at',
-    warningAction: 'call',
-    warningAddlInfo: 'to contact your provider',
-    errorAction: 'use messages to contact providers at',
-    errorBody:
-      'You can’t send or receive new messages or reply to conversations with providers at',
-    errorAddlInfo:
+    // Migration alert configuration
+    warningPhases: ['p1', 'p2'],
+    warningHeadline: 'Updates',
+    warningGetMessage: (startDate, endDate, facilityText) =>
+      `From ${startDate} to ${endDate}, you won’t be able to send or receive new messages or reply to conversations with providers at ${facilityText}.`,
+    warningGetNote: facilityText =>
+      `During this time, you can still call ${facilityText} to contact your provider.`,
+    errorPhases: ['p3', 'p4', 'p5', 'p6'],
+    errorHeadline: `You can’t use messages to contact providers at some facilities right now`,
+    errorGetMessage: (startDate, endDate, facilityText) =>
+      `You can’t send or receive new messages or reply to conversations with providers at ${facilityText} until ${endDate}.`,
+    errorNote:
       'If you need to contact your provider now, call the facility directly.',
-    warning: ['p1', 'p2'],
-    error: ['p3', 'p4', 'p5', 'p6'],
-    startDate: 'p3',
-    endDate: 'p6',
+    errorStartDate: 'p3',
+    errorEndDate: 'p6',
   },
 };
 

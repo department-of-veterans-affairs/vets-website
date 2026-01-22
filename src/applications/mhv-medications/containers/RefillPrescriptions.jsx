@@ -13,7 +13,6 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from '~/platform/mhv/components/CernerFacilityAlert/constants';
 import {
   useGetRefillablePrescriptionsQuery,
   useBulkRefillPrescriptionsMutation,
@@ -304,7 +303,7 @@ const RefillPrescriptions = () => {
           <>
             <ApiErrorNotification errorType="access" content="medications" />
             <CernerFacilityAlert
-              {...CernerAlertContent.MEDICATIONS}
+              healthTool="MEDICATIONS"
               apiError={prescriptionsApiError}
             />
           </>
@@ -317,7 +316,7 @@ const RefillPrescriptions = () => {
             />
             {fullRefillList?.length > 0 ? (
               <div>
-                <CernerFacilityAlert {...CernerAlertContent.MEDICATIONS} />
+                <CernerFacilityAlert healthTool="MEDICATIONS" />
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
@@ -410,7 +409,7 @@ const RefillPrescriptions = () => {
                   you need a prescription, contact your care team.
                 </p>
                 <CernerFacilityAlert
-                  {...CernerAlertContent.MEDICATIONS}
+                  healthTool="MEDICATIONS"
                   className="vads-u-margin-top--2"
                 />
               </>

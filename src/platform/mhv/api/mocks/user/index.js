@@ -606,7 +606,7 @@ const transitioningUser = {
                 },
               ],
               phases: {
-                current: 'p0',
+                current: 'p1', // All tools in warning alert phase
                 p0: 'March 1, 2026',
                 p1: 'March 15, 2026',
                 p2: 'April 1, 2026',
@@ -626,7 +626,7 @@ const transitioningUser = {
                 },
               ],
               phases: {
-                current: 'p5',
+                current: 'p5', // All tools in error alert phase
                 p0: 'January 1, 2026',
                 p1: 'January 15, 2026',
                 p2: 'February 1, 2026',

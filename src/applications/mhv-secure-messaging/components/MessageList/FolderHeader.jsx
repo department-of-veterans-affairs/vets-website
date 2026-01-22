@@ -11,7 +11,6 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
@@ -125,7 +124,7 @@ const FolderHeader = props => {
       if (folder.folderId === Folders.INBOX.id) {
         return (
           <CernerFacilityAlert
-            {...CernerAlertContent.SECURE_MESSAGING}
+            healthTool="SECURE_MESSAGING"
             className="vads-u-margin-bottom--3 vads-u-margin-top--2"
             onLinkClick={handleMyVaHealthLinkClick}
           />

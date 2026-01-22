@@ -4,80 +4,66 @@ import { useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import MigratingFacilitiesAlerts from './MigratingFacilitiesAlerts';
-import { PretransitionedFacilitiesByVhaId } from './constants';
+import {
+  CernerAlertContent,
+  PretransitionedFacilitiesByVhaId,
+} from './constants';
 
 /**
  * Shared Cerner Facility Alert component for MHV applications
  *
  * Usage Examples:
  *
- * // Medical Records (using constants - recommended):
- * import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
+ * import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
  *
+ * // Medical Records:
  * <CernerFacilityAlert
- *   {...CernerAlertContent.LABS_AND_TESTS}
+ *   healthTool={"MEDICAL_RECORDS"}
  * />
  *
- * // Medications (using constants with additional props):
+ * // Medications (with additional props):
  * <CernerFacilityAlert
- *   {...CernerAlertContent.MEDICATIONS}
+ *   healthTool="MEDICATIONS"
  *   apiError={prescriptionsApiError}
  *   className="custom-class"
  * />
  *
- * // Secure Messaging (using constants with AAL tracking):
+ * // Secure Messaging (with AAL tracking):
  * <CernerFacilityAlert
- *   {...CernerAlertContent.SECURE_MESSAGING}
+ *   healthTool="SECURE_MESSAGING"
  *   onLinkClick={() => submitLaunchMyVaHealthAal()}
  *   className="vads-u-margin-bottom--3 vads-u-margin-top--2"
  * />
  *
  * // Display only migration alerts (hide pretransitioned and info alerts):
  * <CernerFacilityAlert
- *   {...CernerAlertContent.MEDICATIONS}
+ *   healthTool="MEDICATIONS"
  *   forceHidePretransitionedAlert={true}
  *   forceHideInfoAlert={true}
  * />
  *
- * // Custom implementation (not using constants):
- * <CernerFacilityAlert
- *   domain="medical records"
- *   pageName="custom page name"
- *   linkPath="/pages/custom/path"
- *   headlineAction="manage"
- *   bodyIntro="Custom intro text."
- * />
  */
 const CernerFacilityAlert = ({
-  domain,
-  linkPath,
   apiError,
-  className = '',
-  // Optional callback for when user clicks the link (e.g., for AAL tracking in secure messaging)
+  healthTool,
   onLinkClick,
-  // Optional text customization props for different contexts
-  headline, // e.g. 'To get your medical records reports from' or 'To send a secure message to a provider at'
-  bodyIntro, // Optional custom intro text (overrides default "Some of your {domain} may be in a different portal.")
-  bodyActionSingle, // Optional custom action text for single facility (overrides default "To get your {pageName} from")
-  bodyActionMultiple, // Optional custom action text for multiple facilities (overrides default "To get your {pageName} from these facilities")
+  className = '',
   forceHidePretransitionedAlert = false,
   forceHideInfoAlert = false,
   forceHideTransitionAlert = false,
-  infoAlertActionPhrase = 'manage your health care',
-  infoAlertHeadline,
-  infoAlertText = '',
-  warning,
-  error,
-  startDate,
-  endDate,
-  warningBody,
-  warningAction,
-  warningAddlInfo,
-  errorAction,
-  errorIntro,
-  errorBody,
-  errorAddlInfo,
 }) => {
+  const {
+    pageName,
+    linkPath,
+    headline,
+    bodyIntro,
+    bodyActionSingle,
+    bodyActionMultiple,
+    infoAlertActionPhrase = 'manage your health care',
+    infoAlertHeadline,
+    infoAlertText = '',
+  } = CernerAlertContent[healthTool] || {};
+
   const userProfile = useSelector(state => state.user.profile);
 
   const userFacilities = useSelector(state => state?.user?.profile?.facilities);
@@ -118,19 +104,8 @@ const CernerFacilityAlert = ({
 
     return (
       <MigratingFacilitiesAlerts
-        domain={domain}
+        healthTool={healthTool}
         migratingFacilities={migratingFacilities}
-        warning={warning}
-        error={error}
-        startDate={startDate}
-        endDate={endDate}
-        warningBody={warningBody}
-        warningAction={warningAction}
-        warningAddlInfo={warningAddlInfo}
-        errorAction={errorAction}
-        errorIntro={errorIntro}
-        errorBody={errorBody}
-        errorAddlInfo={errorAddlInfo}
         className={className}
       />
     );
@@ -182,7 +157,7 @@ const CernerFacilityAlert = ({
     }, go to My VA Health`;
 
     // Generate default body intro
-    const defaultBodyIntro = `Some of your ${domain} may be in a different portal.`;
+    const defaultBodyIntro = `Some of your ${pageName} may be in a different portal.`;
 
     // Generate default action text
     const defaultBodyActionSingle = bodyActionSingle || `${headline} from`;
@@ -248,31 +223,12 @@ const CernerFacilityAlert = ({
 };
 
 CernerFacilityAlert.propTypes = {
-  domain: PropTypes.string.isRequired,
-  headline: PropTypes.string.isRequired,
-  linkPath: PropTypes.string.isRequired,
   apiError: PropTypes.bool,
-  bodyActionMultiple: PropTypes.string,
-  bodyActionSingle: PropTypes.string,
-  bodyIntro: PropTypes.string,
   className: PropTypes.string,
+  healthTool: PropTypes.string,
   forceHidePretransitionedAlert: PropTypes.bool,
   forceHideInfoAlert: PropTypes.bool,
   forceHideTransitionAlert: PropTypes.bool,
-  infoAlertActionPhrase: PropTypes.string,
-  infoAlertHeadline: PropTypes.string,
-  infoAlertText: PropTypes.string,
-  warning: PropTypes.arrayOf(PropTypes.string),
-  error: PropTypes.arrayOf(PropTypes.string),
-  startDate: PropTypes.string,
-  endDate: PropTypes.string,
-  warningAction: PropTypes.string,
-  warningAddlInfo: PropTypes.string,
-  warningBody: PropTypes.string,
-  errorHeadline: PropTypes.string,
-  errorIntro: PropTypes.string,
-  errorBody: PropTypes.string,
-  errorAddlInfo: PropTypes.string,
   onLinkClick: PropTypes.func,
 };
 

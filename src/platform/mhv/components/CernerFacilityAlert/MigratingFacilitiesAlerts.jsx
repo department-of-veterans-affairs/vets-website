@@ -1,52 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CernerAlertContent } from './constants';
 
 /**
  * Component to render alerts for facilities migrating to Oracle Health
  * Shows warning or error alerts based on the current migration phase
  */
 const MigratingFacilitiesAlerts = ({
-  domain,
-  migratingFacilities,
-  warning,
-  error,
-  startDate,
-  endDate,
-  warningBody,
-  warningAction,
-  warningAddlInfo,
-  errorAction,
-  errorIntro,
-  errorBody,
-  errorAddlInfo,
+  healthTool,
   className,
+  migratingFacilities,
 }) => {
+  const config = CernerAlertContent[healthTool];
+  if (!config) return null;
+
   // Map over migrating facilities to create alerts
   const alerts = migratingFacilities.map((migration, index) => {
-    // Check if current phase matches warning or error phases
     const currentPhase = migration.phases.current;
-    const isInWarningPhase = warning.includes(currentPhase);
-    const isInErrorPhase = error.includes(currentPhase);
-    const facilityText =
-      migration.facilities.length > 1 ? 'these facilities' : 'this facility';
-
-    const errorHeadline =
-      domain === 'medical records'
-        ? `New medical records may not appear here until ${
-            migration.phases[endDate]
-          }`
-        : `You can’t ${errorAction} some facilities right now`;
-
-    const warningHeadline =
-      domain === 'medical records' ? 'Site updates ' : 'Updates ';
+    const isInWarningPhase = config.warningPhases?.includes(currentPhase);
+    const isInErrorPhase = config.errorPhases?.includes(currentPhase);
 
     // If current phase is in neither warning nor error array, do not render an alert
     if (!isInWarningPhase && !isInErrorPhase) {
       return null;
     }
 
+    const facilityText =
+      migration.facilities.length > 1 ? 'these facilities' : 'this facility';
+    const startDate = migration.phases[config.errorStartDate];
+    const endDate = migration.phases[config.errorEndDate];
+
     // Render error alert if in error phase
     if (isInErrorPhase) {
+      const errorHeadline = config.errorGetHeadline
+        ? config.errorGetHeadline(endDate)
+        : config.errorHeadline;
+
       return (
         <va-alert
           key={index}
@@ -60,23 +49,15 @@ const MigratingFacilitiesAlerts = ({
             {errorHeadline}
           </h2>
           <div>
-            <p>
-              {errorIntro
-                ? `${errorIntro} from ${migration.phases[startDate]} to ${
-                    migration.phases[endDate]
-                  } `
-                : ''}
-              {errorBody} {facilityText} until{' '}
-              <strong>{migration.phases[endDate]}</strong>:
-            </p>
+            <p>{config.errorGetMessage(startDate, endDate, facilityText)}</p>
             <ul>
               {migration.facilities.map((facility, i) => (
                 <li key={i}>{facility.facilityName}</li>
               ))}
             </ul>
-            {errorAddlInfo && (
+            {config.errorNote && (
               <>
-                <p>{errorAddlInfo}</p>
+                <p>{config.errorNote}</p>
                 <va-link
                   data-testid="find-facility-link"
                   href="https://www.va.gov/find-locations/"
@@ -88,7 +69,8 @@ const MigratingFacilitiesAlerts = ({
         </va-alert>
       );
     }
-    // Else warning alert
+
+    // Render warning alert
     return (
       <va-alert-expandable
         key={index}
@@ -97,26 +79,18 @@ const MigratingFacilitiesAlerts = ({
         }`}
         data-testid="cerner-facilities-transition-alert"
         status="warning"
-        trigger={`${warningHeadline} will begin on ${
-          migration.phases[startDate]
-        }`}
+        trigger={`${config.warningHeadline} will begin on ${startDate}`}
       >
         <div>
-          <p>
-            From <strong>{migration.phases[startDate]}</strong> to{' '}
-            <strong>{migration.phases[endDate]}</strong>, {warningBody}{' '}
-            {facilityText}:
-          </p>
+          <p>{config.warningGetMessage(startDate, endDate, facilityText)}</p>
           <ul>
             {migration.facilities.map((facility, i) => (
               <li key={i}>{facility.facilityName}</li>
             ))}
           </ul>
-          {warningAddlInfo && (
+          {config.warningGetNote && (
             <p>
-              <strong>Note:</strong> During this time, you can still{' '}
-              {warningAction ? `${warningAction} ${facilityText} ` : ''}
-              {warningAddlInfo}.
+              <strong>Note:</strong> {config.warningGetNote(facilityText)}
             </p>
           )}
         </div>
@@ -130,7 +104,8 @@ const MigratingFacilitiesAlerts = ({
 };
 
 MigratingFacilitiesAlerts.propTypes = {
-  domain: PropTypes.string.isRequired,
+  healthTool: PropTypes.string.isRequired,
+  className: PropTypes.string,
   migratingFacilities: PropTypes.arrayOf(
     PropTypes.shape({
       migrationDate: PropTypes.string,
@@ -152,18 +127,6 @@ MigratingFacilitiesAlerts.propTypes = {
       }),
     }),
   ).isRequired,
-  warning: PropTypes.arrayOf(PropTypes.string).isRequired,
-  error: PropTypes.arrayOf(PropTypes.string).isRequired,
-  startDate: PropTypes.string.isRequired,
-  endDate: PropTypes.string.isRequired,
-  warningAction: PropTypes.string,
-  warningAddlInfo: PropTypes.string,
-  warningBody: PropTypes.string,
-  errorAction: PropTypes.string,
-  errorIntro: PropTypes.string,
-  errorBody: PropTypes.string,
-  errorAddlInfo: PropTypes.string,
-  className: PropTypes.string,
 };
 
 export default MigratingFacilitiesAlerts;

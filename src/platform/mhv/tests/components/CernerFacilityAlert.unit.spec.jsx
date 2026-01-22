@@ -44,7 +44,7 @@ describe('CernerFacilityAlert', () => {
             },
           },
         },
-        CernerAlertContent.MEDICATIONS,
+        { healthTool: 'MEDICATIONS' },
       );
 
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
@@ -66,10 +66,7 @@ describe('CernerFacilityAlert', () => {
     };
 
     it('renders alert with single facility text', () => {
-      const screen = setup(
-        stateWithOneFacility,
-        CernerAlertContent.MEDICATIONS,
-      );
+      const screen = setup(stateWithOneFacility, { healthTool: 'MEDICATIONS' });
 
       expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
       expect(screen.getByTestId('single-cerner-facility-text')).to.exist;
@@ -84,7 +81,7 @@ describe('CernerFacilityAlert', () => {
 
     it('displays correct domain text in body', () => {
       const screen = setup(stateWithOneFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
       });
 
       const bodyText = screen.getByTestId('single-cerner-facility-text')
@@ -93,10 +90,7 @@ describe('CernerFacilityAlert', () => {
     });
 
     it('displays facility name in bold', () => {
-      const screen = setup(
-        stateWithOneFacility,
-        CernerAlertContent.MEDICATIONS,
-      );
+      const screen = setup(stateWithOneFacility, { healthTool: 'MEDICATIONS' });
 
       // Verify facility is in PretransitionedFacilitiesByVhaId constant
       const facilityId = '668';
@@ -127,10 +121,9 @@ describe('CernerFacilityAlert', () => {
     };
 
     it('renders alert with list of facilities', () => {
-      const screen = setup(
-        stateWithMultipleFacilities,
-        CernerAlertContent.MEDICATIONS,
-      );
+      const screen = setup(stateWithMultipleFacilities, {
+        healthTool: 'MEDICATIONS',
+      });
 
       expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
       const facilityList = screen.getAllByTestId('cerner-facility');
@@ -138,10 +131,9 @@ describe('CernerFacilityAlert', () => {
     });
 
     it('displays all facility names', () => {
-      const screen = setup(
-        stateWithMultipleFacilities,
-        CernerAlertContent.MEDICATIONS,
-      );
+      const screen = setup(stateWithMultipleFacilities, {
+        healthTool: 'MEDICATIONS',
+      });
 
       // Verify both facilities are in PretransitionedFacilitiesByVhaId constant
       const facility1Id = '668';
@@ -159,10 +151,9 @@ describe('CernerFacilityAlert', () => {
     });
 
     it('displays correct plural text for multiple facilities', () => {
-      const screen = setup(
-        stateWithMultipleFacilities,
-        CernerAlertContent.MEDICATIONS,
-      );
+      const screen = setup(stateWithMultipleFacilities, {
+        healthTool: 'MEDICATIONS',
+      });
 
       const headingText = screen.getAllByText(/these facilities/i);
       expect(headingText).to.exist;
@@ -184,7 +175,7 @@ describe('CernerFacilityAlert', () => {
     };
 
     it('renders My VA Health link with correct href', () => {
-      const screen = setup(stateWithFacility, CernerAlertContent.MEDICATIONS);
+      const screen = setup(stateWithFacility, { healthTool: 'MEDICATIONS' });
 
       const link = screen.getByTestId('cerner-facility-action-link');
       expect(link).to.exist;
@@ -196,7 +187,7 @@ describe('CernerFacilityAlert', () => {
     it('calls onLinkClick callback when provided', () => {
       const onLinkClick = sinon.spy();
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.SECURE_MESSAGING,
+        healthTool: 'SECURE_MESSAGING',
         onLinkClick,
       });
 
@@ -207,40 +198,10 @@ describe('CernerFacilityAlert', () => {
     });
 
     it('has proper security attributes', () => {
-      const screen = setup(stateWithFacility, CernerAlertContent.MEDICATIONS);
+      const screen = setup(stateWithFacility, { healthTool: 'MEDICATIONS' });
 
       const link = screen.getByTestId('cerner-facility-action-link');
       expect(link.getAttribute('rel')).to.equal('noopener noreferrer');
-    });
-  });
-
-  describe('with custom text props', () => {
-    const stateWithFacility = {
-      ...initialState,
-      user: {
-        profile: {
-          facilities: [{ facilityId: '668', isCerner: true }],
-          userAtPretransitionedOhFacility: true,
-          userFacilityReadyForInfoAlert: false,
-          userFacilityMigratingToOh: false,
-          migrationSchedules: [],
-        },
-      },
-    };
-
-    it('respects custom props', () => {
-      const screen = setup(stateWithFacility, {
-        linkPath: '/custom/path',
-        domain: 'tests',
-        headline: 'To manage test page from',
-        bodyIntro: 'Custom intro text.',
-        bodyActionSingle: 'Custom single action',
-      });
-
-      expect(screen.getAllByText(/To manage test page from this facility/i)).to
-        .exist;
-      expect(screen.getByText(/Custom intro text/i)).to.exist;
-      expect(screen.getByText(/Custom single action/i)).to.exist;
     });
   });
 
@@ -260,7 +221,7 @@ describe('CernerFacilityAlert', () => {
 
     it('adds extra margin when apiError is true', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         apiError: true,
       });
 
@@ -284,7 +245,7 @@ describe('CernerFacilityAlert', () => {
     };
 
     it('has warning status', () => {
-      const screen = setup(stateWithFacility, CernerAlertContent.MEDICATIONS);
+      const screen = setup(stateWithFacility, { healthTool: 'MEDICATIONS' });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
       expect(alert.getAttribute('status')).to.equal('warning');
@@ -292,7 +253,7 @@ describe('CernerFacilityAlert', () => {
 
     it('applies custom className', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         className: 'custom-test-class',
       });
 
@@ -317,7 +278,7 @@ describe('CernerFacilityAlert', () => {
       };
 
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         forceHideInfoAlert: true,
       });
 
@@ -339,7 +300,7 @@ describe('CernerFacilityAlert', () => {
       };
 
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         forceHideInfoAlert: false,
       });
 
@@ -363,7 +324,7 @@ describe('CernerFacilityAlert', () => {
       };
 
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         forceHidePretransitionedAlert: true,
       });
 
@@ -386,7 +347,7 @@ describe('CernerFacilityAlert', () => {
       };
 
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         forceHidePretransitionedAlert: false,
       });
 
@@ -410,7 +371,7 @@ describe('CernerFacilityAlert', () => {
 
     it('renders the info alert when userFacilityReadyForInfoAlert flag is true', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
       });
 
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
@@ -428,7 +389,7 @@ describe('CernerFacilityAlert', () => {
 
     it('adds margin class when apiError is true on info alert', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
         apiError: true,
       });
 
@@ -440,7 +401,7 @@ describe('CernerFacilityAlert', () => {
 
     it('uses infoAlertHeadline when provided (Secure Messaging)', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.SECURE_MESSAGING,
+        healthTool: 'SECURE_MESSAGING',
       });
 
       const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
@@ -453,7 +414,7 @@ describe('CernerFacilityAlert', () => {
 
     it('displays composed text with infoAlertText when provided (Medications)', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MEDICATIONS,
+        healthTool: 'MEDICATIONS',
       });
 
       const infoText = screen.getByTestId('cerner-facility-info-text');
@@ -467,7 +428,7 @@ describe('CernerFacilityAlert', () => {
 
     it('displays composed text with infoAlertText when provided (Secure Messaging)', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.SECURE_MESSAGING,
+        healthTool: 'SECURE_MESSAGING',
       });
 
       const infoText = screen.getByTestId('cerner-facility-info-text');
@@ -481,8 +442,7 @@ describe('CernerFacilityAlert', () => {
 
     it('displays only base text when infoAlertText is not provided', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.MHV_LANDING_PAGE,
-        domain: 'test-domain', // Override domain to allow alert to render
+        healthTool: 'MHV_LANDING_PAGE',
       });
 
       const infoText = screen.getByTestId('cerner-facility-info-text');
@@ -531,10 +491,9 @@ describe('CernerFacilityAlert', () => {
       };
 
       it('renders MigratingFacilitiesAlerts component', () => {
-        const screen = setup(
-          stateWithMigratingFacility,
-          CernerAlertContent.MEDICATIONS,
-        );
+        const screen = setup(stateWithMigratingFacility, {
+          healthTool: 'MEDICATIONS',
+        });
 
         // Should render the transition alert from MigratingFacilitiesAlerts
         expect(screen.getByTestId('cerner-facilities-transition-alert')).to
@@ -542,10 +501,9 @@ describe('CernerFacilityAlert', () => {
       });
 
       it('passes correct props to MigratingFacilitiesAlerts', () => {
-        const screen = setup(
-          stateWithMigratingFacility,
-          CernerAlertContent.MEDICATIONS,
-        );
+        const screen = setup(stateWithMigratingFacility, {
+          healthTool: 'MEDICATIONS',
+        });
 
         const alert = screen.getByTestId('cerner-facilities-transition-alert');
         expect(alert).to.exist;
@@ -566,7 +524,7 @@ describe('CernerFacilityAlert', () => {
           },
         };
 
-        const screen = setup(stateWithBoth, CernerAlertContent.MEDICATIONS);
+        const screen = setup(stateWithBoth, { healthTool: 'MEDICATIONS' });
 
         // Should render migration alert, not standard Cerner alert
         expect(screen.getByTestId('cerner-facilities-transition-alert')).to
@@ -576,7 +534,7 @@ describe('CernerFacilityAlert', () => {
 
       it('respects forceHideTransitionAlert prop', () => {
         const screen = setup(stateWithMigratingFacility, {
-          ...CernerAlertContent.MEDICATIONS,
+          healthTool: 'MEDICATIONS',
           forceHideTransitionAlert: true,
         });
 
@@ -600,7 +558,7 @@ describe('CernerFacilityAlert', () => {
         };
 
         const screen = setup(stateWithBoth, {
-          ...CernerAlertContent.MEDICATIONS,
+          healthTool: 'MEDICATIONS',
           forceHideTransitionAlert: true,
         });
 
@@ -624,10 +582,9 @@ describe('CernerFacilityAlert', () => {
           },
         };
 
-        const screen = setup(
-          stateWithEmptyMigration,
-          CernerAlertContent.MEDICATIONS,
-        );
+        const screen = setup(stateWithEmptyMigration, {
+          healthTool: 'MEDICATIONS',
+        });
 
         // Should not render any alert with empty migration info
         expect(screen.queryByTestId('cerner-facilities-transition-alert')).to
@@ -650,7 +607,7 @@ describe('CernerFacilityAlert', () => {
           },
         };
 
-        const screen = setup(stateWithBoth, CernerAlertContent.MEDICATIONS);
+        const screen = setup(stateWithBoth, { healthTool: 'MEDICATIONS' });
 
         expect(screen.getByTestId('cerner-facilities-transition-alert')).to
           .exist;
@@ -671,7 +628,7 @@ describe('CernerFacilityAlert', () => {
           },
         };
 
-        const screen = setup(stateWithBoth, CernerAlertContent.MEDICATIONS);
+        const screen = setup(stateWithBoth, { healthTool: 'MEDICATIONS' });
 
         expect(screen.getByTestId('cerner-facilities-transition-alert')).to
           .exist;
@@ -692,7 +649,7 @@ describe('CernerFacilityAlert', () => {
           },
         };
 
-        const screen = setup(stateWithInfoOnly, CernerAlertContent.MEDICATIONS);
+        const screen = setup(stateWithInfoOnly, { healthTool: 'MEDICATIONS' });
 
         expect(screen.getByTestId('cerner-facilities-info-alert')).to.exist;
         expect(screen.queryByTestId('cerner-facilities-transition-alert')).to
@@ -714,7 +671,7 @@ describe('CernerFacilityAlert', () => {
           },
         };
 
-        const screen = setup(stateWithNoFlags, CernerAlertContent.MEDICATIONS);
+        const screen = setup(stateWithNoFlags, { healthTool: 'MEDICATIONS' });
 
         expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
         expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not
