@@ -115,7 +115,11 @@ describe('10-7959a form-config helpers', () => {
     });
 
     it('hasOhi should return false when resubmission has OHI', () => {
-      const formData = { claimStatus: 'resubmission', hasOhi: true };
+      const formData = {
+        claimStatus: 'resubmission',
+        hasOhi: true,
+        'view:champvaEnableClaimResubmitQuestion': true,
+      };
       expect(hasOhi(formData)).to.be.false;
     });
 

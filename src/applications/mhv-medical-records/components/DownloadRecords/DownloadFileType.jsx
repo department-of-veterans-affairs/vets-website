@@ -95,6 +95,7 @@ const DownloadFileType = props => {
   const refreshStatus = useSelector(state => state.mr.refresh.status);
   const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
@@ -354,6 +355,8 @@ const DownloadFileType = props => {
 
   const generatePdf = useCallback(
     async () => {
+      if (isGenerating) return; // Prevent double-clicks
+      setIsGenerating(true);
       try {
         setDownloadStarted(true);
         dispatch(clearAlerts());
@@ -397,9 +400,12 @@ const DownloadFileType = props => {
         logAal(0);
         sendDatadogError(error, 'Blue Button report - download_report_pdf');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+      } finally {
+        setIsGenerating(false);
       }
     },
     [
+      isGenerating,
       dispatch,
       isDataFetched,
       user,
@@ -417,6 +423,8 @@ const DownloadFileType = props => {
 
   const generateTxt = useCallback(
     async () => {
+      if (isGenerating) return; // Prevent double-clicks
+      setIsGenerating(true);
       try {
         setDownloadStarted(true);
         dispatch(clearAlerts());
@@ -449,9 +457,12 @@ const DownloadFileType = props => {
         logAal(0);
         sendDatadogError(error, 'Blue Button report - download_report_txt');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
+      } finally {
+        setIsGenerating(false);
       }
     },
     [
+      isGenerating,
       dispatch,
       failedDomains,
       formatDateRange,
@@ -592,6 +603,9 @@ const DownloadFileType = props => {
                 type="submit"
                 className="vads-u-margin-y--0p5 vads-u-width--auto"
                 data-testid="download-report-button"
+                disabled={isGenerating}
+                aria-disabled={isGenerating || undefined}
+                aria-busy={isGenerating || undefined}
               >
                 Download report
               </button>

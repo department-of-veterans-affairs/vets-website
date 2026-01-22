@@ -3,8 +3,11 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { additionalInstitutionDetailsArrayOptions } from '../helpers';
+
 const uiSchema = {
   hasAdditionalInstitutionDetails: arrayBuilderYesNoUI(
+    additionalInstitutionDetailsArrayOptions,
     {
       title:
         "Do you have any additional locations you'd like to add to this agreement?",
