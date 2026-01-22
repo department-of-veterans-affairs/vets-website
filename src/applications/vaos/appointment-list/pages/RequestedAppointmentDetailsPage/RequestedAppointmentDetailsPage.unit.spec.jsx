@@ -112,23 +112,22 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     mockAppointmentApi({ response });
 
     // Act
-    renderWithStoreAndRouter(<AppointmentList />, {
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/pending/${response.id}`,
     });
 
     // Assert
-    // CI-FIX: Wait for the page content to load before checking document.title.
-    // On CI, the title may not be set until the component fully renders.
-    // Test behavior unchanged: still verifies the correct document title is set.
-    await waitFor(
-      () => {
-        expect(global.document.title).to.equal(
-          'Pending Request For Appointment | Veterans Affairs',
-        );
-      },
-      { timeout: 3000 },
-    );
+    // CI-FIX: Wait for the h1 heading to be present first, indicating the page has loaded.
+    // Only then check document.title. On CI, the title may not be set until the
+    // component fully renders. Test behavior unchanged: still verifies the correct
+    // document title is set.
+    await screen.findByRole('heading', { level: 1 });
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        'Pending Request For Appointment | Veterans Affairs',
+      );
+    });
   });
 
   it('should display CC document title', async () => {
@@ -143,23 +142,22 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     mockAppointmentApi({ response });
 
     // Act
-    renderWithStoreAndRouter(<AppointmentList />, {
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/pending/${response.id}`,
     });
 
     // Assert
-    // CI-FIX: Wait for the page content to load before checking document.title.
-    // On CI, the title may not be set until the component fully renders.
-    // Test behavior unchanged: still verifies the correct document title is set.
-    await waitFor(
-      () => {
-        expect(global.document.title).to.equal(
-          `Pending Request For Community Care Appointment | Veterans Affairs`,
-        );
-      },
-      { timeout: 3000 },
-    );
+    // CI-FIX: Wait for the h1 heading to be present first, indicating the page has loaded.
+    // Only then check document.title. On CI, the title may not be set until the
+    // component fully renders. Test behavior unchanged: still verifies the correct
+    // document title is set.
+    await screen.findByRole('heading', { level: 1 });
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending Request For Community Care Appointment | Veterans Affairs`,
+      );
+    });
   });
 
   it('should display cancel document title', async () => {
@@ -173,23 +171,22 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     mockAppointmentApi({ response });
 
     // Act
-    renderWithStoreAndRouter(<AppointmentList />, {
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/pending/${response.id}`,
     });
 
     // Assert
-    // CI-FIX: Wait for the page content to load before checking document.title.
-    // On CI, the title may not be set until the component fully renders.
-    // Test behavior unchanged: still verifies the correct document title is set.
-    await waitFor(
-      () => {
-        expect(global.document.title).to.equal(
-          'Canceled Request For Appointment | Veterans Affairs',
-        );
-      },
-      { timeout: 3000 },
-    );
+    // CI-FIX: Wait for the h1 heading to be present first, indicating the page has loaded.
+    // Only then check document.title. On CI, the title may not be set until the
+    // component fully renders. Test behavior unchanged: still verifies the correct
+    // document title is set.
+    await screen.findByRole('heading', { level: 1 });
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        'Canceled Request For Appointment | Veterans Affairs',
+      );
+    });
   });
 
   it('should display cancel warning page', async () => {
