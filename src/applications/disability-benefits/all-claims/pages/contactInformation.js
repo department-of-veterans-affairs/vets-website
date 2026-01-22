@@ -1,7 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaRadioField from 'platform/forms-system/src/js/web-component-fields/VaRadioField';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -121,19 +120,13 @@ export const uiSchema = {
     },
     // Override country field to display 'USA' instead of 'United States'
     country: {
-      'ui:title': 'Country',
-      'ui:autocomplete': 'country',
-      'ui:webComponentField': VaSelectField,
-      'ui:errorMessages': {
-        required: 'Please select a country',
-      },
+      ...defaultAddressUI.country,
       'ui:required': formData => {
         const addressData = formData.mailingAddress || {};
         return !addressData['view:livesOnMilitaryBase'];
       },
       'ui:options': {
-        classNames:
-          'vads-web-component-pattern-field vads-web-component-pattern-address',
+        ...defaultAddressUI.country['ui:options'],
         updateSchema: (formData, schema, _uiSchema) => {
           const countryUI = _uiSchema;
           const addressFormData = formData.mailingAddress || {};
@@ -201,9 +194,7 @@ export const uiSchema = {
         formData.mailingAddress.country === 'USA',
     },
     zipCode: {
-      'ui:title': 'Postal code',
-      'ui:autocomplete': 'postal-code',
-      'ui:webComponentField': VaTextInputField,
+      ...defaultAddressUI.zipCode,
       'ui:required': shouldShowZipCode,
       'ui:validations': [validateZIP],
       'ui:errorMessages': {
