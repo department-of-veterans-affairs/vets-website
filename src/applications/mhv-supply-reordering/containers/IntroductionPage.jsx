@@ -37,7 +37,14 @@ export const IntroductionPage = ({ route }) => {
   const supplies = useSelector(selectSupplies);
   const unavailableSupplies = useSelector(selectUnavailableSupplies);
 
-  useEffect(() => focusElement('h1'), [loading]);
+  useEffect(
+    () => {
+      if (!loading) {
+        focusElement('h1');
+      }
+    },
+    [loading],
+  );
 
   useEffect(() => dispatch(getMdotInProgressForm()), [dispatch]);
 
