@@ -1,14 +1,28 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
 import manifest from '../../manifest.json';
+
 import formConfig from '../../config/form';
 import testData from '../fixtures/data/test-data.json';
 import { SUBMIT_URL } from '../../config/constants';
-import { daysAgoYyyyMmDd } from '../../helpers';
+import { daysAgoYyyyMmDd } from '../../../utils/helpers';
 
 describe('22-10215 Edu Benefits Form', () => {
-  beforeEach(function() {
-    if (Cypress.env('CI')) this.skip();
-  });
   it('should be keyboard-only navigable', () => {
+    cy.intercept('GET', '/v0/gi/institutions/*', {
+      data: {
+        attributes: {
+          name: 'INSTITUTE OF TESTING',
+          facilityCode: '10002000',
+          type: 'FOR PROFIT',
+          city: 'SAN FRANCISCO',
+          state: 'CA',
+          zip: '13579',
+          country: 'USA',
+          address1: '123 STREET WAY',
+        },
+      },
+    });
+
     const testDataShallowCopy = { ...testData };
     testDataShallowCopy.data.institutionDetails.termStartDate = daysAgoYyyyMmDd(
       14,
@@ -16,7 +30,9 @@ describe('22-10215 Edu Benefits Form', () => {
     testDataShallowCopy.data.institutionDetails.dateOfCalculations = daysAgoYyyyMmDd(
       10,
     );
+
     cy.intercept('POST', SUBMIT_URL, testDataShallowCopy);
+
     const institutionOfficial = {
       first: 'Jane',
       last: 'Doe',
@@ -42,16 +58,18 @@ describe('22-10215 Edu Benefits Form', () => {
       doYouHaveAnotherProgramToAddYES: 'Y',
       doYouHaveAnotherProgramToAddNo: 'N',
     };
+
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [],
       },
     });
+
     // Go to application intro page
     cy.visit(`${manifest.rootUrl}/introduction`);
     cy.injectAxeThenAxeCheck();
     cy.focused().should('contain.text', 'Report 85/15 rule enrollment ratios');
-    cy.repeatKey('Tab', 6);
+    cy.repeatKey('Tab', 7);
     cy.focused().should(
       'contain.text',
       'What are the due dates for submitting my 85/15 rule enrollment ratios?',
@@ -100,8 +118,6 @@ describe('22-10215 Edu Benefits Form', () => {
       'root_institutionDetails_facilityCode',
       institutionDetail.facilityCode,
     );
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(200);
 
     cy.realPress('Tab');
     cy.fillVaMemorableDate(

@@ -170,7 +170,9 @@ const IntroductionPage = ({ route }) => {
             beneficiary students" field divided by the "total number of
             students" field.
           </p>
-          <h4 className="vads-u-margin-y--3">35% calculation example</h4>
+          <h3 className="vads-u-font-size--h4 vads-u-margin-y--3">
+            35% calculation example
+          </h3>
           <ul>
             <li>Total number of students enrolled at your school: 1,000</li>
             <li>

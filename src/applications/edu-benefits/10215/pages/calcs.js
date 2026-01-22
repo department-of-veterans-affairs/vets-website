@@ -87,6 +87,7 @@ const Calcs = ({ data }) => {
           data-testid="nonSupported"
           tabIndex={0}
           aria-label={totalLabelText}
+          role="math"
         >
           <span aria-hidden="true">
             {programData?.supported || programData?.nonSupported
@@ -116,6 +117,7 @@ const Calcs = ({ data }) => {
           data-testid="supportedFTEPercent"
           tabIndex={0}
           aria-label={pctLabelText}
+          role="math"
         >
           <span aria-hidden="true">
             {programData?.supportedFTEPercent || '--%'}
