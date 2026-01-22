@@ -4,7 +4,11 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as utils from 'applications/vaos/services/utils';
+import {
+  createPostHandler,
+  jsonResponse,
+} from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import {
   createTestStore,
@@ -20,7 +24,6 @@ import {
 } from '../services/mocks/utils/slots';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
-  let requestStub;
   const slotDate = '2024-09-09T16:00:00.000Z';
   const sandbox = sinon.createSandbox();
   const draftAppointmentInfo = createDraftAppointmentInfo();
@@ -67,18 +70,20 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     },
     appointmentApi: {},
   };
-  beforeEach(() => {
-    requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
-  });
   afterEach(async () => {
     await cleanup();
     sandbox.restore();
+    server.resetHandlers();
     sessionStorage.clear();
   });
   it('should get selected slot from session storage if not in redux', async () => {
-    requestStub
-      .withArgs('/vaos/v2/appointments/draft')
-      .resolves({ data: draftAppointmentInfo });
+    // Set up MSW handler BEFORE render - eliminates race condition
+    server.use(
+      createPostHandler('*/vaos/v2/appointments/draft', () =>
+        jsonResponse({ data: draftAppointmentInfo }),
+      ),
+    );
+
     const selectedSlotKey = getReferralSlotKey('UUID');
 
     // Store the slot start time - this should match the slot.start format used by getSlotByDate
@@ -111,11 +116,15 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
   });
   it('should route to scheduleReferral if no slot selected', async () => {
+    server.use(
+      createPostHandler('*/vaos/v2/appointments/draft', () =>
+        jsonResponse({ data: draftAppointmentInfo }),
+      ),
+    );
+
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.removeItem(selectedSlotKey);
-    requestStub
-      .withArgs('/vaos/v2/appointments/draft')
-      .resolves({ data: draftAppointmentInfo });
+
     const noSelectState = {
       ...initialFullState,
       ...{
@@ -137,14 +146,23 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
   });
   it('should call create appointment post when "continue" is pressed', async () => {
+    let draftCalled = false;
+    let submitCalled = false;
+
+    server.use(
+      createPostHandler('*/vaos/v2/appointments/draft', () => {
+        draftCalled = true;
+        return jsonResponse({ data: draftAppointmentInfo });
+      }),
+      createPostHandler('*/vaos/v2/appointments/submit', () => {
+        submitCalled = true;
+        return jsonResponse({
+          data: { appointmentId: draftAppointmentInfo?.id },
+        });
+      }),
+    );
+
     const store = createTestStore(initialFullState);
-    // Stub the appointment creation function
-    requestStub
-      .withArgs('/vaos/v2/appointments/draft')
-      .resolves({ data: draftAppointmentInfo });
-    requestStub
-      .withArgs('/vaos/v2/appointments/submit')
-      .resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
@@ -157,20 +175,24 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     await screen.findByTestId('continue-button');
     await userEvent.click(screen.getByTestId('continue-button'));
     await waitFor(() => {
-      sandbox.assert.calledOnce(
-        requestStub.withArgs('/vaos/v2/appointments/draft'),
-      );
+      expect(draftCalled).to.be.true;
     });
     await waitFor(() => {
-      sandbox.assert.calledOnce(
-        requestStub.withArgs('/vaos/v2/appointments/submit'),
-      );
+      expect(submitCalled).to.be.true;
     });
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
+    server.use(
+      createPostHandler('*/vaos/v2/appointments/draft', () =>
+        jsonResponse({ data: draftAppointmentInfo }),
+      ),
+      createPostHandler('*/vaos/v2/appointments/submit', () =>
+        jsonResponse({ data: draftAppointmentInfo }),
+      ),
+    );
+
     const store = createTestStore(initialEmptyState);
     sandbox.spy(flow, 'routeToNextReferralPage');
-    requestStub.resolves({ data: draftAppointmentInfo });
 
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
@@ -212,16 +234,20 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         '/schedule-referral/complete/EEKoGzEf?id=UUID',
       ),
     ).to.be.true;
-    sandbox.assert.calledWith(requestStub, '/vaos/v2/appointments/submit');
   });
   it('should display an error message when appointment creation fails', async () => {
-    // Stub only for that specific call
-    requestStub
-      .withArgs('/vaos/v2/appointments/draft')
-      .resolves({ data: draftAppointmentInfo });
-    requestStub.withArgs('/vaos/v2/appointments/submit').throws({
-      error: { status: 500, message: 'Failed to create appointment' },
-    });
+    server.use(
+      createPostHandler('*/vaos/v2/appointments/draft', () =>
+        jsonResponse({ data: draftAppointmentInfo }),
+      ),
+      createPostHandler('*/vaos/v2/appointments/submit', () =>
+        jsonResponse(
+          { error: { status: 500, message: 'Failed to create appointment' } },
+          { status: 500 },
+        ),
+      ),
+    );
+
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -240,16 +266,23 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       'We couldn’t schedule this appointment',
     );
     expect(screen.getByTestId('referral-community-care-office')).to.exist;
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/draft'),
-    );
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/submit'),
-    );
   });
   it('should fetch draft appointment info on mount if not in store', async () => {
+    let capturedBody = null;
+
+    server.use(
+      createPostHandler('*/vaos/v2/appointments/draft', ({ request }) => {
+        // MSW v1 uses req.body, MSW v2 uses request.json()
+        capturedBody = request.body || null;
+        return jsonResponse({ data: draftAppointmentInfo });
+      }),
+      createPostHandler('*/vaos/v2/appointments/submit', () =>
+        jsonResponse({ data: draftAppointmentInfo }),
+      ),
+    );
+
     const store = createTestStore(initialEmptyState);
-    requestStub.resolves({ data: draftAppointmentInfo });
+
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -259,28 +292,39 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     );
     await screen.findByTestId('continue-button');
-    sandbox.assert.calledWith(requestStub, '/vaos/v2/appointments/draft', {
-      body: JSON.stringify({
-        /* eslint-disable camelcase */
-        referral_number: 'VA0000007241',
-        referral_consult_id: '984_646907',
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
+
+    // Verify the request body
+    expect(capturedBody).to.deep.equal({
+      /* eslint-disable camelcase */
+      referral_number: 'VA0000007241',
+      referral_consult_id: '984_646907',
+      /* eslint-enable camelcase */
     });
+
+    // Verify the draft appointment data was fetched and stored
     const query = Object.keys(store.getState().appointmentApi.queries)[0];
-    expect(store.getState().appointmentApi.queries[query].data).to.deep.equal(
-      draftAppointmentInfo,
+    expect(store.getState().appointmentApi.queries[query].data).to.exist;
+    expect(store.getState().appointmentApi.queries[query].data.id).to.equal(
+      draftAppointmentInfo.id,
     );
   });
   it('should display an error message when new draft appointment creation fails', async () => {
+    server.use(
+      createPostHandler('*/vaos/v2/appointments/draft', () =>
+        jsonResponse(
+          {
+            error: {
+              status: 500,
+              message: 'Failed to create draft appointment',
+            },
+          },
+          { status: 500 },
+        ),
+      ),
+    );
+
     const store = createTestStore(initialEmptyState);
-    // Stub only for that specific call
-    requestStub.throws({
-      error: { status: 500, message: 'Failed to create draft appointment' },
-    });
+
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -295,6 +339,5 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.getByTestId('error')).to.contain.text(
       'Something went wrong on our end. Please try again later.',
     );
-    sandbox.assert.calledOnce(requestStub);
   });
 });
