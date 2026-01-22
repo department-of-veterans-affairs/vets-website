@@ -2,34 +2,77 @@ import React from 'react';
 import get from 'platform/utilities/data/get';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 
+/**
+ * Determines if the applicant has care expenses
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant has care expenses, false otherwise
+ */
 export function doesHaveCareExpenses(formData) {
   return formData.hasCareExpenses === true;
 }
 
+/**
+ * Determines if the applicant has medical expenses
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant has medical expenses, false otherwise
+ */
 export function doesHaveMedicalExpenses(formData) {
   return formData.hasMedicalExpenses === true;
 }
 
+/**
+ * Determines if the applicant owns their home
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant owns their home, false otherwise
+ */
 export function ownsHome(formData) {
   return formData.homeOwnership === true;
 }
 
+/**
+ * Determines if the applicant receives income
+ * @param {object} formData - full form data
+ * @returns {boolean} True if the applicant receives income, false otherwise
+ */
 export function doesReceiveIncome(formData) {
   return formData.receivesIncome === true;
 }
 
+/**
+ * Determines if the income source requires other explanation
+ * @param {object} formData - full form data
+ * @param {number} index - index of the income source
+ * @returns {boolean} True if the income source requires other explanation, false otherwise
+ */
 export function otherExplanationRequired(formData, index) {
   return get(['incomeSources', index, 'typeOfIncome'], formData) === 'OTHER';
 }
 
+/**
+ * Determines if the dependent name is required for the income source
+ * @param {object} formData - full form data
+ * @param {number} index - index of the income source
+ * @returns {boolean} True if the dependent name is required, false otherwise
+ */
 export function dependentNameRequired(formData, index) {
   return get(['incomeSources', index, 'receiver'], formData) === 'DEPENDENT';
 }
 
+/**
+ * Determines if the child name is required for the income source
+ * @param {string} key - key to access the recipients
+ * @param {object} formData - full form data
+ * @param {number} index - index of the income source
+ * @returns {boolean} True if the child name is required, false otherwise
+ */
 export function childNameRequired(key, formData, index) {
   return get([key, index, 'recipients'], formData) === 'DEPENDENT';
 }
 
+/**
+ * Income source description component
+ * @returns {React.Element} Income source description
+ */
 export function IncomeSourceDescription() {
   return (
     <>
@@ -42,6 +85,10 @@ export function IncomeSourceDescription() {
   );
 }
 
+/**
+ * Medical expense description component
+ * @returns {React.Element} Medical expense description
+ */
 export function MedicalExpenseDescription() {
   return (
     <>
@@ -76,6 +123,10 @@ export function MedicalExpenseDescription() {
   );
 }
 
+/**
+ * Supporting documents notice component
+ * @returns {React.Element} Supporting documents notice
+ */
 export function SupportingDocumentsNotice() {
   return (
     <div>

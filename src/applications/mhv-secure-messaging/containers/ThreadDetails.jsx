@@ -40,7 +40,7 @@ const ThreadDetails = props => {
   const threadId = message?.threadId;
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const [isSending, setIsSending] = useState(false);
 
   const header = useRef();
