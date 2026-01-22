@@ -8,8 +8,7 @@ import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
 
 import debounce from '../../utilities/data/debounce';
 
-import SaveFormLink from './SaveFormLink';
-import SaveStatus from './SaveStatus';
+// import SaveStatus from './SaveStatus';
 import {
   saveErrors,
   autoSaveForm,
@@ -17,7 +16,6 @@ import {
 } from './actions';
 import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../forms-system/src/js/constants';
 
 class RoutedSavablePage extends React.Component {
   constructor(props) {
@@ -41,34 +39,18 @@ class RoutedSavablePage extends React.Component {
   }
 
   render() {
-    const { user, form, formConfig, route } = this.props;
-    const finishAppLaterMessage =
-      formConfig?.customText?.finishAppLaterMessage ||
-      FINISH_APP_LATER_DEFAULT_MESSAGE;
-    const contentBeforeButtons = (
-      <SaveFormLink
-        locationPathname={this.props.location.pathname}
-        form={form}
-        formConfig={formConfig}
-        route={route}
-        pageList={route.pageList}
-        user={user}
-        showLoginModal={this.props.showLoginModal}
-        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={this.props.toggleLoginModal}
-      >
-        {finishAppLaterMessage}
-      </SaveFormLink>
-    );
-    const contentAfterButtons = (
-      <SaveStatus
-        isLoggedIn={user.login.currentlyLoggedIn}
-        showLoginModal={this.props.showLoginModal}
-        toggleLoginModal={this.props.toggleLoginModal}
-        form={form}
-        formConfig={formConfig}
-      />
-    );
+    const { user, form } = this.props;
+
+    const contentBeforeButtons = null;
+    // const contentAfterButtons = (
+    //   <SaveStatus
+    //     isLoggedIn={user.login.currentlyLoggedIn}
+    //     showLoginModal={this.props.showLoginModal}
+    //     toggleLoginModal={this.props.toggleLoginModal}
+    //     form={form}
+    //     formConfig={formConfig}
+    //   />
+    // );
 
     return (
       <FormPage
@@ -77,7 +59,7 @@ class RoutedSavablePage extends React.Component {
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
         contentBeforeButtons={contentBeforeButtons}
-        contentAfterButtons={contentAfterButtons}
+        contentAfterButtons={null}
       />
     );
   }
