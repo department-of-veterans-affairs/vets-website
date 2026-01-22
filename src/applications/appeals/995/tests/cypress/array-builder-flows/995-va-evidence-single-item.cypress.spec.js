@@ -3,7 +3,7 @@ import cypressSetup from '../../../../shared/tests/cypress.setup';
 import * as h from '../995.cypress.helpers';
 import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
 import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
-import { promptContent } from '../../../content/evidence/va';
+import { promptContent, summaryContent } from '../../../content/evidence/va';
 import * as sh from '../../../../shared/tests/cypress.helpers';
 import { EVIDENCE_URLS } from '../../../constants';
 
@@ -40,7 +40,7 @@ describe('Array Builder evidence flow', () => {
       h.clickContinue();
 
       // Prompt
-      h.verifyFPSH3(promptContent.question);
+      h.verifyFPSH3(promptContent.topQuestion);
       h.verifyFPSDesc(
         'We can collect your VA medical records or military health records',
       );
@@ -64,16 +64,7 @@ describe('Array Builder evidence flow', () => {
       h.addVaTreatmentDate('8', '1997');
 
       // Summary
-      h.verifyH3(`Review the evidence you’re submitting`, 0);
-
-      cy.get('span h4')
-        .eq(0)
-        .should('exist')
-        .and('be.visible')
-        .and(
-          'have.text',
-          `VA or military treatment locations we’ll request your records from`,
-        );
+      h.verifyH3(summaryContent.titleWithItems, 0);
 
       h.verifyArrayBuilderReviewVACard(
         0,
@@ -109,7 +100,7 @@ describe('Array Builder evidence flow', () => {
       h.verifyArrayBuilderReviewVACard(0, 'Presbyterian Hospital (North Side)');
       h.checkAlertText(
         'record_0',
-        'Presbyterian Hospital (North Side) information has been updated.',
+        'Success Alert Presbyterian Hospital (North Side) information has been updated.',
       );
 
       // ---------------------------------------- DELETING ONLY ITEM
@@ -119,7 +110,7 @@ describe('Array Builder evidence flow', () => {
       // Verify we're back to the beginning of the flow
       // Location
       sh.verifyCorrectUrl(manifest.rootUrl, EVIDENCE_URLS.vaSummary);
-      h.verifyFPSH3(promptContent.question);
+      h.verifyFPSH3(promptContent.topQuestion);
 
       h.checkAlertText(
         'record_0',

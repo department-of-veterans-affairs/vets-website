@@ -25,6 +25,7 @@ import {
 } from '../../constants';
 import {
   detailsEntryContent,
+  introContent,
   summaryContent,
   treatmentDateContent,
 } from '../../content/evidence/private';
@@ -305,7 +306,7 @@ const treatmentDatePage = {
  */
 export default arrayBuilderPages(options, pageBuilder => ({
   privateIntro: pageBuilder.introPage({
-    title: 'Add your private provider or VA Vet Center details',
+    title: introContent.title,
     path: EVIDENCE_URLS.privateIntro,
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
@@ -313,8 +314,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
       redesignActive(formData) && hasPrivateEvidence(formData),
   }),
   privateSummary: pageBuilder.summaryPage({
-    title:
-      'Review the private providers or VA Vet Centers we’ll request your records from',
+    title: summaryContent.title,
     path: EVIDENCE_URLS.privateSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,

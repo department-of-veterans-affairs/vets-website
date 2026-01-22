@@ -568,6 +568,15 @@ export const checkValueOfInput = (selector, value) => {
 };
 
 export const checkAlertText = (name, text, status = null) => {
+  if (status === 'warning') {
+    cy.get(`va-alert[status="warning"]`)
+      .eq(0)
+      .find('p')
+      .should('have.text', text);
+
+    return;
+  }
+
   if (name) {
     cy.get(`va-alert[name="${name}"]`).should('have.text', text);
   } else {
@@ -633,17 +642,24 @@ export const verifyArrayBuilderReviewVACard = (
 
       if (treatmentDate) {
         cy.get('p')
-          .eq(1)
+          .eq(0)
           .should('exist')
           .and('be.visible')
-          .and('contain.text', 'Treatment start date')
-          .and('contain.text', treatmentDate);
-      } else {
+          .and('contain.text', 'Start of treatment')
+          .and('contain.text', 'Before 2005');
+
         cy.get('p')
           .eq(1)
           .should('exist')
           .and('be.visible')
-          .and('contain.text', 'Treatment start date')
+          .and('contain.text', 'Date')
+          .and('contain.text', treatmentDate);
+      } else {
+        cy.get('p')
+          .eq(0)
+          .should('exist')
+          .and('be.visible')
+          .and('contain.text', 'Start of treatment')
           .and('contain.text', '2005 or later');
       }
     });
@@ -668,7 +684,14 @@ export const checkValueOfTreatmentDateInput = (index, value) => {
     .should('have.value', value);
 };
 
+// Used specifically for the private prompt page (not the summary in the L&L flow)
 export const selectPrivatePromptResponse = response => {
+  cy.selectRadio('private', response);
+  clickContinue();
+};
+
+// Used specifically for the summary page for private evidence
+export const selectPrivatePromptRepeaterResponse = response => {
   cy.selectRadio('root_hasPrivateEvidence', response);
   clickContinue();
 };

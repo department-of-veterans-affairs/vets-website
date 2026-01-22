@@ -6,10 +6,11 @@ import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
 import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
 import {
   detailsEntryContent,
-  promptContent,
+  introContent,
   summaryContent,
   treatmentDateContent,
 } from '../../../content/evidence/private';
+import { privateRecordsPromptError } from '../../../components/evidence/PrivatePrompt';
 import { issuesContent } from '../../../pages/evidence/privateEvidence';
 import { content as limitedConsentContent } from '../../../components/4142/LimitedConsent';
 import { content as authContent } from '../../../components/4142/AuthorizationNew';
@@ -59,10 +60,10 @@ describe('Array Builder evidence flow', () => {
       );
       h.checkErrorHandlingWithClass(
         '[name="root_hasPrivateEvidence"]',
-        promptContent.requiredError,
+        privateRecordsPromptError,
       );
 
-      h.selectPrivatePromptResponse('Y');
+      h.selectPrivatePromptResponse('y');
 
       // 4142 Auth
       // Check error handling
@@ -108,6 +109,10 @@ describe('Array Builder evidence flow', () => {
         limitedConsentContent.textareaLabel,
       );
 
+      h.clickContinue();
+
+      // Intro page
+      h.verifyH3(introContent.title);
       h.clickContinue();
 
       // Location
@@ -169,16 +174,7 @@ describe('Array Builder evidence flow', () => {
       h.addPrivateTreatmentDates('2020-03-01', '2020-11-18');
 
       // Summary
-      h.verifyH3(`Review the evidence you’re submitting`, 0);
-
-      cy.get('span h4')
-        .eq(0)
-        .should('exist')
-        .and('be.visible')
-        .and(
-          'have.text',
-          `Private providers or VA Vet Centers we’ll request your records from`,
-        );
+      h.verifyH3(summaryContent.title, 0);
 
       h.verifyArrayBuilderReviewPrivateCard(
         0,
@@ -193,7 +189,8 @@ describe('Array Builder evidence flow', () => {
         '[name="root_hasPrivateEvidence"]',
         summaryContent.requiredError,
       );
-      h.selectPrivatePromptResponse('Y');
+
+      h.selectPrivatePromptRepeaterResponse('Y');
 
       // Location
       h.verifyH3(
@@ -235,7 +232,7 @@ describe('Array Builder evidence flow', () => {
       );
 
       // ---------------------------------------- THIRD ITEM
-      h.selectPrivatePromptResponse('Y');
+      h.selectPrivatePromptRepeaterResponse('Y');
 
       // Location
       h.verifyH3(
@@ -280,7 +277,7 @@ describe('Array Builder evidence flow', () => {
         'Oct. 4, 1999 to Oct. 4, 1999',
       );
 
-      h.selectPrivatePromptResponse('N');
+      h.selectPrivatePromptRepeaterResponse('N');
       cy.url().should(
         'contain',
         `${manifest.rootUrl}/${EVIDENCE_URLS.uploadPrompt}`,

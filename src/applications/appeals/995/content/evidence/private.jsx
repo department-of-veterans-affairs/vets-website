@@ -7,6 +7,10 @@ import { PRIVATE_TREATMENT_LOCATION_KEY } from '../../constants';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 import { formatDateToReadableString } from '../../../shared/utils/dates';
 
+export const introContent = {
+  title: 'Add your private provider or VA Vet Center details',
+};
+
 export const summaryContent = {
   title:
     'Review the private providers or VA Vet Centers we’ll request your records from',
