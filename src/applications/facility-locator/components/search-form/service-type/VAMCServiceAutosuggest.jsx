@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { useCombobox } from 'downshift-v9';
 import useServiceType, {
@@ -9,27 +8,31 @@ import useServiceType, {
 import Autosuggest from '../autosuggest';
 
 const VAMCServiceAutosuggest = ({
-  onChange,
+  committedServiceDisplay,
   searchInitiated,
   setSearchInitiated,
-  vamcServiceDisplay,
+  onChange,
 }) => {
   const { selector, serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
   const [options, setOptions] = useState([]);
   const [allVAMCServices, setAllVAMCServices] = useState([]);
-  const [defaultHighlightedIndex, setDefaultHighlightedIndex] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const inputRef = useRef(null);
 
-  const getServices = input => {
-    const services = serviceTypeFilter(
-      input || null,
-      FACILITY_TYPE_FILTERS.VAMC,
-    );
+  // Use a ref to track inputValue without triggering effect re-runs
+  const inputValueRef = useRef(inputValue);
+  inputValueRef.current = inputValue;
 
-    if (!services?.length) {
-      setOptions([
+  const getServices = useCallback(
+    input => {
+      const services = serviceTypeFilter(
+        input || null,
+        FACILITY_TYPE_FILTERS.VAMC,
+      );
+
+      const noOptions = [
         {
           id: 'no-items',
           isError: true,
@@ -37,47 +40,131 @@ const VAMCServiceAutosuggest = ({
           disabled: true,
         },
         allVAMCServices?.[0],
-      ]);
-    }
+      ];
 
-    const serviceOptions = services.map(service => {
-      let displayName = service?.[0];
-
-      if (displayName && service?.[1]) {
-        displayName = `${displayName} (${service?.[1]})`;
-      } else if (!displayName) {
-        return null;
+      if (!services?.length) {
+        setOptions(noOptions);
+        setSelectedItem(noOptions?.[1]);
+        return;
       }
 
-      return {
-        id: service[0],
-        serviceId: service[3],
-        toDisplay: displayName,
-      };
-    });
+      const serviceOptions = services.map(service => {
+        let displayName = service?.[0];
 
-    if (serviceOptions?.length) {
-      setOptions(serviceOptions);
+        if (displayName && service?.[1]) {
+          displayName = `${displayName} (${service?.[1]})`;
+        } else if (!displayName) {
+          return null;
+        }
 
-      if (!allVAMCServices?.length) {
-        setAllVAMCServices(serviceOptions);
-      }
-    }
-  };
+        return {
+          id: service[0],
+          serviceId: service[3],
+          toDisplay: displayName,
+        };
+      });
 
-  useEffect(
-    () => {
-      if (selector?.data) {
-        getServices();
-      }
-
-      // Handles edge cases where the form might be re-rendered between
-      // viewpoints or for any other reason and the autosuggest input is lost
-      if (!inputValue && vamcServiceDisplay) {
-        setInputValue(vamcServiceDisplay);
+      if (serviceOptions?.length) {
+        setOptions(serviceOptions);
+        setAllVAMCServices(prev => (prev.length ? prev : serviceOptions));
+      } else {
+        setOptions(noOptions);
+        setSelectedItem(noOptions?.[1]);
       }
     },
-    [selector],
+    [serviceTypeFilter, allVAMCServices],
+  );
+
+  const handleClearClick = useCallback(
+    () => {
+      setInputValue('');
+      setSelectedItem(null);
+      setOptions(allVAMCServices);
+
+      onChange?.({
+        serviceType: null,
+        vamcServiceDisplay: null,
+      });
+
+      if (inputRef?.current) {
+        focusElement(inputRef.current);
+      }
+    },
+    [allVAMCServices, onChange],
+  );
+
+  const handleInputValueChange = useCallback(
+    e => {
+      // The autosuggest component runs both handleOnSelect and onInputValueChange
+      // when a dropdown value is selected. This creates problems for this component,
+      // so we limit this function's purpose to only handle typing and not selection
+      if (
+        e.type === useCombobox.stateChangeTypes.InputChange ||
+        e.type ===
+          useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem
+      ) {
+        const userInput = e.inputValue?.trimStart();
+        setInputValue(userInput);
+
+        const selectedItemId = e?.selectedItem?.id;
+        const selectedItemDisplay = e?.selectedItem?.toDisplay;
+        if (userInput.length >= 2) {
+          getServices(
+            selectedItemDisplay === e.inputValue
+              ? selectedItemId
+              : e.inputValue,
+          );
+        } else if (userInput.length === 0) {
+          handleClearClick();
+          setOptions(allVAMCServices);
+          return;
+        } else {
+          setOptions(allVAMCServices);
+          return;
+        }
+
+        if (!userInput) {
+          handleClearClick();
+        }
+        return;
+      }
+      if (e?.selectedItem?.toDisplay) {
+        setInputValue(e?.selectedItem?.toDisplay || '');
+        setSelectedItem(e?.selectedItem || null);
+        onChange?.({
+          serviceType: e?.selectedItem?.serviceId || null,
+          vamcServiceDisplay: e?.selectedItem?.toDisplay || null,
+        });
+        return;
+      }
+      handleClearClick();
+    },
+    [allVAMCServices, getServices, handleClearClick, onChange],
+  );
+
+  // Initialize services when selector data becomes available
+  useEffect(
+    () => {
+      if (selector?.data && !allVAMCServices.length) {
+        getServices();
+      }
+    },
+    [selector, allVAMCServices.length, getServices],
+  );
+
+  // Handles edge cases where the form might be re-rendered between
+  // viewpoints or for any other reason and the autosuggest input is lost
+  useEffect(
+    () => {
+      if (!inputValueRef.current && committedServiceDisplay) {
+        setInputValue(
+          allVAMCServices.find(
+            service => service.serviceId === committedServiceDisplay,
+          )?.toDisplay || '',
+        );
+      }
+    },
+    [committedServiceDisplay, allVAMCServices],
   );
 
   // If the user has not typed a service at all, or types something that does not
@@ -88,111 +175,34 @@ const VAMCServiceAutosuggest = ({
   useEffect(
     () => {
       if (searchInitiated) {
+        const currentInputValue = inputValueRef.current;
         const selectedValueFromDropdown = options?.filter(
-          service => service.toDisplay === inputValue,
+          service => service.toDisplay === currentInputValue,
         )?.[0];
 
         const typedValueHasNoMatch =
-          inputValue?.length &&
-          inputValue !== selectedValueFromDropdown?.toDisplay;
+          currentInputValue?.length &&
+          currentInputValue !== selectedValueFromDropdown?.toDisplay;
 
-        if (typedValueHasNoMatch || !inputValue) {
+        if (typedValueHasNoMatch || !currentInputValue) {
           setInputValue('All VA health services');
         }
       }
 
       setSearchInitiated(false);
     },
-    [options, searchInitiated],
+    [options, searchInitiated, setSearchInitiated],
   );
-
-  useEffect(
-    () => {
-      if (options?.[0]?.disabled && inputValue) {
-        setDefaultHighlightedIndex(1);
-      } else {
-        setDefaultHighlightedIndex(
-          options?.length
-            ? options.findIndex(o => o.toDisplay === inputValue)
-            : 0,
-        );
-      }
-    },
-    [options, inputValue],
-  );
-
-  const handleClearClick = () => {
-    onChange({ serviceType: null, vamcServiceDisplay: null });
-    setInputValue(null);
-    setOptions(allVAMCServices);
-
-    if (inputRef?.current) {
-      focusElement(inputRef.current);
-    }
-  };
-
-  const handleInputValueChange = e => {
-    // The autosuggest component runs both handleOnSelect and onInputValueChange
-    // when a dropdown value is selected. This creates problems for this component,
-    // so we limit this function's purpose to only handle typing and not selection
-    if (e.type === useCombobox.stateChangeTypes.InputChange) {
-      const userInput = e.inputValue?.trimStart();
-      setInputValue(userInput);
-
-      const selectedItemId = e?.selectedItem?.id;
-      const selectedItemDisplay = e?.selectedItem?.toDisplay;
-
-      if (userInput.length >= 2) {
-        getServices(
-          selectedItemDisplay === e.inputValue ? selectedItemId : e.inputValue,
-        );
-      } else if (userInput.length === 0) {
-        handleClearClick();
-        setDefaultHighlightedIndex(0);
-        setOptions(allVAMCServices);
-      } else {
-        setOptions(allVAMCServices);
-      }
-
-      if (!userInput) {
-        handleClearClick();
-      }
-    } else if (
-      e.type === useCombobox.stateChangeTypes.ItemClick &&
-      e.selectedItem === undefined
-    ) {
-      setOptions(allVAMCServices);
-      setInputValue(allVAMCServices?.[0]?.toDisplay);
-      onChange({
-        serviceType: allVAMCServices?.[0]?.serviceId,
-        vamcServiceDisplay: allVAMCServices?.[0]?.toDisplay,
-      });
-    }
-  };
-
-  const handleDropdownSelection = event => {
-    const { selectedItem } = event;
-    if (selectedItem?.toDisplay) {
-      setInputValue(selectedItem.toDisplay);
-
-      onChange({
-        serviceType: selectedItem?.serviceId,
-        vamcServiceDisplay: selectedItem.toDisplay,
-      });
-    }
-  };
 
   return (
     <Autosuggest
-      defaultHighlightedIndex={defaultHighlightedIndex}
       downshiftInputProps={{
         autoCorrect: 'off',
         disabled: false,
         spellCheck: 'false',
       }}
-      handleOnSelect={handleDropdownSelection}
       hintText="Begin typing to search for a service, like vision or dental"
-      initialSelectedItem={options?.[defaultHighlightedIndex]}
+      selectedItem={selectedItem}
       inputId="vamc-services"
       inputRef={inputRef}
       inputValue={inputValue || ''}
@@ -209,14 +219,11 @@ const VAMCServiceAutosuggest = ({
 };
 
 VAMCServiceAutosuggest.propTypes = {
+  committedServiceDisplay: PropTypes.string,
+  initialInputValue: PropTypes.string,
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
-  vamcServiceDisplay: PropTypes.string,
   onChange: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  vamcServiceDisplay: state.searchQuery.vamcServiceDisplay,
-});
-
-export default connect(mapStateToProps)(VAMCServiceAutosuggest);
+export default VAMCServiceAutosuggest;

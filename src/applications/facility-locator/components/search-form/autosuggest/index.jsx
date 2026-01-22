@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { useCombobox } from 'downshift-v9';
 import { itemToString as toDisplay } from './helpers';
@@ -11,7 +11,7 @@ import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
 
 function Autosuggest({
   // downshift props
-  defaultHighlightedIndex = undefined,
+  selectedItem,
   handleOnSelect,
   inputValue,
   itemToString = toDisplay,
@@ -54,18 +54,35 @@ function Autosuggest({
     highlightedIndex,
     getItemProps,
     selectItem,
+    setHighlightedIndex,
   } = useCombobox({
     items: options,
     itemToString,
     inputId,
     onSelectedItemChange: handleOnSelect,
     onInputValueChange,
-    selectedItem: null,
     inputValue,
     isItemDisabled,
-    defaultHighlightedIndex,
+    selectedItem,
     stateReducer: keepDataOnBlur ? srKeepOnBlur : stateReducer,
   });
+
+  // Update highlighted index when selectedItem changes
+  useEffect(
+    () => {
+      if (selectedItem && options?.length) {
+        const newHighlightedIndex = options.findIndex(
+          o => o.id === selectedItem?.id,
+        );
+        if (newHighlightedIndex >= 0) {
+          setHighlightedIndex(newHighlightedIndex);
+        }
+      } else if (!selectedItem && isOpen) {
+        setHighlightedIndex(0);
+      }
+    },
+    [selectedItem, options, isOpen, setHighlightedIndex],
+  );
 
   const inputClearClick = () => {
     onClearClick();

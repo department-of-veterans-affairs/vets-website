@@ -34,6 +34,7 @@ function AddressAutosuggest({
       onClearClick(); // clears searchString in redux
       onChange({ searchString: '' });
       setInputValue('');
+      setSelectedItem(null);
       // setting to null causes the the searchString to be used, because of a useEffect below
       // so we set it to a non-existent object
       setSelectedItem(null);
@@ -117,17 +118,26 @@ function AddressAutosuggest({
 
   const handleInputChange = e => {
     const { inputValue: value } = e;
-    setInputValue(value?.trimStart());
     setIsTouched(true);
     if (
-      e.type === useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem
+      (e.type ===
+        useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem ||
+        e.type === useCombobox.stateChangeTypes.InputKeyDownEnter ||
+        e.type === useCombobox.stateChangeTypes.ItemClick) &&
+      e.selectedItem.toDisplay
     ) {
-      setInputValue(options?.[0]?.toDisplay);
+      setInputValue(e.selectedItem.toDisplay);
+      setSelectedItem(e.selectedItem);
       // Don't serch again
       return;
     }
-    if (!value?.trimStart()) {
-      onClearClick();
+    const trimmedValue = value?.trimStart() || '';
+    if (e.type === useCombobox.stateChangeTypes.InputChange && trimmedValue) {
+      setInputValue(trimmedValue);
+      // on blur, if the input value does not match a known option, clear it
+    }
+    if (!trimmedValue) {
+      inputClearClick();
       return;
     }
 

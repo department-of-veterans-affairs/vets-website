@@ -34,6 +34,7 @@ const ServiceType = ({
         onChange={onChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
+        committedServiceDisplay={serviceType || ''}
       />
     );
   }
