@@ -101,13 +101,8 @@ function AddressAutosuggest({
 
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
-    onLocationSelection?.({ searchString: value });
 
-    // not expected to search when user leaves the field
-    if (value !== '') {
-      onChange({ searchString: ' ' });
-      onChange({ searchString: value });
-    }
+    onLocationSelection?.({ searchString: value });
   };
 
   const handleInputChange = e => {

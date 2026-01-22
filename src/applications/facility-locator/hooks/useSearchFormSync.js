@@ -5,6 +5,7 @@ import {
   INITIAL_FORM_FLAGS,
 } from '../reducers/searchQuery';
 
+/** Syncs URL params ↔ Redux ↔ draft state. */
 const useSearchFormSync = ({
   currentQuery,
   draftFormState,
