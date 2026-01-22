@@ -88,7 +88,7 @@ const MigratingFacilitiesAlerts = ({
         }`}
         data-testid="cerner-facilities-transition-alert"
         status="warning"
-        trigger={`${config.warningHeadline} will begin on ${startDate}`}
+        trigger={`Updates will begin on ${startDate}`}
       >
         <div>
           <p>

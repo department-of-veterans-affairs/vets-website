@@ -7,7 +7,6 @@ export const CernerAlertContent = {
     infoAlertText: 'You can manage most of your appointments here.',
     // Migration alert configuration
     warningPhases: ['p0', 'p1'],
-    warningHeadline: 'Updates',
     warningMessage: `you won’t be able to schedule or cancel appointments online for`,
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to schedule or cancel appointments.`,
@@ -34,7 +33,6 @@ export const CernerAlertContent = {
       'You can review and download most of your medical records here.',
     // Migration alert configuration
     warningPhases: ['p1', 'p2', 'p3'],
-    warningHeadline: 'Site updates',
     warningMessage: `there may be a delay in updating medical records for`,
     errorPhases: ['p4', 'p5', 'p6'],
     errorGetHeadline: endDate =>
@@ -53,7 +51,6 @@ export const CernerAlertContent = {
       'You no longer need to go to My VA Health to manage your prescriptions for any VA facilities.',
     // Migration alert configuration
     warningPhases: ['p1', 'p2', 'p3'],
-    warningHeadline: 'Updates',
     warningMessage: `you won’t be able to refill your medications online for`,
     warningNote: `During this time, you can still call your VA pharmacy’s automated refill line to refill a medication.`,
     errorPhases: ['p4', 'p5', 'p6'],
@@ -76,7 +73,6 @@ export const CernerAlertContent = {
     bodyIntro: 'Some of your secure messages may be in a different portal.',
     // Migration alert configuration
     warningPhases: ['p1', 'p2'],
-    warningHeadline: 'Updates',
     warningMessage: `you won’t be able to send or receive new messages or reply to conversations with providers at`,
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to contact your provider.`,
