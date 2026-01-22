@@ -15,7 +15,6 @@ import { setDefaultIsOver65 } from './helpers';
 
 const updatedFullNameSchema = fullNameSchema;
 updatedFullNameSchema.properties.first.maxLength = 40;
-updatedFullNameSchema.properties.middle.maxLength = 3;
 updatedFullNameSchema.properties.last.maxLength = 50;
 
 /** @type {PageSchema} */
