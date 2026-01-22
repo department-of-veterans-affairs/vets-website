@@ -125,12 +125,13 @@ export default function ReviewPage() {
                   <p>If you need to schedule now, call your VA facility.</p>
                 </>
               )}
-              {!!facilityDetails && (
-                <h3 className="vads-u-display--inline">
-                  {facilityDetails.name}
-                </h3>
+              {!!facilityDetails && <strong>{facilityDetails.name}</strong>}
+              {!!phone && (
+                <p className="vads-u-margin-y--0">
+                  <strong>Main phone: </strong>
+                  <FacilityPhone contact={phone} icon={false} />
+                </p>
               )}
-              {!!phone && <FacilityPhone contact={phone} level={4} />}
             </>
           </InfoAlert>
         </div>

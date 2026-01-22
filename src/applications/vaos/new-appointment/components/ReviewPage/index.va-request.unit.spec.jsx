@@ -234,12 +234,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       'If you need to schedule now, call your VA facility.',
     );
 
-    expect(
-      screen.getByRole('heading', {
-        level: 3,
-        name: /Cheyenne VA Medical Center/i,
-      }),
-    );
+    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
 
     const alert = document.querySelector('va-alert');
     expect(within(alert).getByTestId('facility-telephone')).to.be.ok;
