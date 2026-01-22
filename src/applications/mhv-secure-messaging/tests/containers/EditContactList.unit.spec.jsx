@@ -435,6 +435,8 @@ describe('Edit Contact List container', async () => {
   });
 
   it('adds eventListener if path is /contact-list', async () => {
+    const screen = setup();
+
     // Create spy BEFORE setup to capture all addEventListener calls
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
 
