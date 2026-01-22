@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function FindAPathSection() {
+export default function FindAPathAccordionItem() {
   return (
-    <va-accordion-item header="2. Find a path" open bordered>
+    <va-accordion-item header="2. Find a Path" open bordered>
       <ul className="va-nav-linkslist-list vads-u-margin-bottom--3">
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">

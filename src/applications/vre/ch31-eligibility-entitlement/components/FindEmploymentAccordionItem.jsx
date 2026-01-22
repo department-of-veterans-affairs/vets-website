@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function FindAJobSection() {
+export default function FindEmploymentAccordionItem() {
   return (
-    <va-accordion-item header="3. Find a job" open bordered>
+    <va-accordion-item header="3. Find Employment" open bordered>
       <ul className="va-nav-linkslist-list vads-u-margin-bottom--3">
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
@@ -35,7 +35,7 @@ export default function FindAJobSection() {
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
             <va-link
               href="https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx"
-              text="Job Finder"
+              text="Employment Finder"
               external
             />
           </h3>

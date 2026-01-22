@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function AssessYourInterestsSection() {
+export default function AssessYourInterestsAccordionItem() {
   return (
     <va-accordion-item header="1. Assess your interests" open bordered>
       <ul className="va-nav-linkslist-list vads-u-margin-bottom--3">
