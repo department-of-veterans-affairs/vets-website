@@ -71,7 +71,7 @@ describe('evidenceChoiceIntroPage', () => {
     });
   });
 
-  it('should error when user makes no selection', async () => {
+  it('should error when veteran makes no selection', async () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
       <DefinitionTester
@@ -92,7 +92,7 @@ describe('evidenceChoiceIntroPage', () => {
     });
   });
 
-  it('should submit when user selects "yes" to add additional forms/supporting documents', () => {
+  it('should submit when veteran selects "yes" to add additional forms/supporting documents', () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
       <DefinitionTester
