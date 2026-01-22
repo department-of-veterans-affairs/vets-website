@@ -60,13 +60,13 @@ const form210966 = (pathname = null) => {
         path: 'intent-to-file-no-representation',
         pageKey: 'intent-to-file-no-representation',
         component: ITF403Error,
-        depends: formData => formData,
+        depends: () => false,
       },
       {
         path: 'intent-to-file-unknown',
         pageKey: 'intent-to-file-unknown',
         component: ITF500Error,
-        depends: formData => formData,
+        depends: () => false,
       },
       {
         path: 'existing-itf',

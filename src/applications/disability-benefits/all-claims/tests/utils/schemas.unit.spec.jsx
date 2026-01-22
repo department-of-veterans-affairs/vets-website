@@ -134,6 +134,104 @@ describe('makeSchemaForRatedDisabilities', () => {
       },
     });
   });
+
+  it('should return the null condition string if disability name is not a string', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd personal trauma',
+          'view:selected': false,
+        },
+        {
+          name: null,
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        unknowncondition: {
+          title: 'Unknown Condition',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
+  it('should include rated disabilities from newDisabilities array', () => {
+    const formData = {
+      ratedDisabilities: [],
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Tinnitus',
+        },
+      ],
+    };
+
+    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        tinnitus: {
+          title: 'Tinnitus',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
+  it('should deduplicate rated disabilities across workflows', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes mellitus',
+          'view:selected': true,
+        },
+        {
+          name: 'Tachycardia',
+          'view:selected': true,
+        },
+      ],
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Diabetes mellitus',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Ptsd personal trauma',
+        },
+      ],
+    };
+
+    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        diabetesmellitus: {
+          title: 'Diabetes Mellitus',
+          type: 'boolean',
+        },
+        ptsdpersonaltrauma: {
+          title: 'Ptsd Personal Trauma',
+          type: 'boolean',
+        },
+        tachycardia: {
+          title: 'Tachycardia',
+          type: 'boolean',
+        },
+      },
+    });
+  });
 });
 
 describe('makeSchemaForAllDisabilities', () => {
@@ -156,6 +254,32 @@ describe('makeSchemaForAllDisabilities', () => {
       newDisabilities: [
         {
           condition: 'A new Condition.',
+        },
+      ],
+    };
+    expect(makeSchemaForAllDisabilities(formData)).to.eql({
+      properties: {
+        diabetesmellitus: {
+          title: 'Diabetes Mellitus',
+          type: 'boolean',
+        },
+        anewcondition: {
+          title: 'A New Condition.',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
+  it('should return schema for all (selected) disabilities when rated disabilities are in the newDisabilities array', () => {
+    const formData = {
+      newDisabilities: [
+        {
+          condition: 'A new Condition.',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Diabetes mellitus',
         },
       ],
     };
