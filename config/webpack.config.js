@@ -335,11 +335,10 @@ module.exports = async (env = {}) => {
             {
               loader: 'ts-loader',
               options: {
-                // Use transpileOnly to skip type checking during webpack build
-                // Type checking should be done separately (e.g., via tsc or IDE)
                 // This prevents ts-loader from checking .tsx files in node_modules
+                // DO NOT REMOVE without consulting the dispute debt team.
                 transpileOnly: true,
-                // Still pass skipLibCheck in case it helps with .d.ts files
+                // DO NOT REMOVE without consulting the dispute debt team.
                 compilerOptions: {
                   skipLibCheck: true,
                 },
@@ -348,8 +347,8 @@ module.exports = async (env = {}) => {
           ],
           exclude: [
             /node_modules/,
-            // Explicitly exclude the problematic component library .tsx file
-            // This prevents webpack/ts-loader from processing it
+            // DO NOT REMOVE without consulting the dispute debt team.
+            // See TYPESCRIPT_MIGRATION.md for full details.
             /@department-of-veterans-affairs\/component-library\/dist\/react-bindings\/react-component-lib\/createOverlayComponent\.tsx$/,
           ],
         },
