@@ -24,7 +24,7 @@ import { formatIssueList } from '../../../shared/utils/contestableIssueMessages'
 
 /**
  * Build private evidence list
- * @param {Object[]} list - Private medical evidence array
+ * @param {Object[]} data - Private medical evidence array
  * @param {String} limitedConsentContent - Private evidence limitation
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
  * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
@@ -34,19 +34,18 @@ import { formatIssueList } from '../../../shared/utils/contestableIssueMessages'
  * @returns {JSX}
  */
 export const PrivateDetailsDisplayNew = ({
-  list = [],
+  data,
   isOnReviewPage,
   reviewMode = false,
   handlers = {},
   testing,
   showListOnly = false,
 }) => {
-  if (!list?.length) {
+  if (!data) {
     return null;
   }
 
-  const firstEntry = list?.[0];
-  const { authorization, lcDetails, lcPrompt } = firstEntry;
+  const { auth4142, lcDetails, lcPrompt, privateEvidence } = data;
 
   const Header = isOnReviewPage ? 'h5' : 'h4';
   const SubHeader = isOnReviewPage ? 'h6' : 'h5';
@@ -101,7 +100,7 @@ export const PrivateDetailsDisplayNew = ({
             {authContent.title}
           </SubHeader>
           <p>
-            {authorization ? (
+            {auth4142 ? (
               AUTHORIZATION_LABEL
             ) : (
               // including non-empty error attribute for focus management
@@ -176,7 +175,7 @@ export const PrivateDetailsDisplayNew = ({
               )}
             </li>
           )}
-        {list.map((facility, index) => {
+        {privateEvidence.map((facility, index) => {
           const {
             address,
             privateTreatmentLocation,
@@ -285,9 +284,30 @@ export const PrivateDetailsDisplayNew = ({
 };
 
 PrivateDetailsDisplayNew.propTypes = {
+  data: PropTypes.shape({
+    auth4142: PropTypes.bool,
+    lcDetails: PropTypes.string,
+    lcPrompt: PropTypes.string,
+    privateEvidence: PropTypes.arrayOf(
+      PropTypes.shape({
+        address: {
+          'view:militaryBaseDescription': PropTypes.string,
+          city: PropTypes.string,
+          country: PropTypes.string,
+          postalCode: PropTypes.string,
+          state: PropTypes.string,
+          street: PropTypes.string,
+          street2: PropTypes.string,
+        },
+        issues: PropTypes.arrayOf(PropTypes.string),
+        privateTreatmentLocation: PropTypes.string,
+        treatmentEnd: PropTypes.string,
+        treatmentStart: PropTypes.string,
+      }),
+    ),
+  }),
   handlers: PropTypes.shape({}),
   isOnReviewPage: PropTypes.bool,
-  list: PropTypes.array,
   reviewMode: PropTypes.bool,
   showListOnly: PropTypes.bool,
   testing: PropTypes.bool,

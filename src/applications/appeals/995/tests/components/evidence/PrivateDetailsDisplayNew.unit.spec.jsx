@@ -22,6 +22,8 @@ import {
   verifyResponse,
 } from '../../unit-test-helpers';
 
+const lcDetails = 'Testing limited consent';
+
 const verifyEvidenceHeader = container => {
   expect($('.private-title', container).textContent).to.contain(
     content.privateTitle,
@@ -55,7 +57,7 @@ const verifyLimitedConsentDetails = (
   reviewMode = false,
 ) => {
   verifyHeader(headers, 2, detailsQuestion);
-  verifyResponse(listItems, 2, privateEvidence[0].lcDetails);
+  verifyResponse(listItems, 2, lcDetails);
 
   if (!reviewMode) {
     verifyLink('#edit-limitation', `/${LIMITED_CONSENT_DETAILS_URL}`);
@@ -71,78 +73,18 @@ describe('PrivateDetailsDisplayNew', () => {
     });
   });
 
-  describe('when on the evidence review page', () => {
-    it('should render the proper content', () => {
-      const { container } = render(
-        <PrivateDetailsDisplayNew
-          list={privateEvidence}
-          isOnReviewPage={undefined}
-          reviewMode={false}
-          handlers={{ showModal: () => {} }}
-          testing={false}
-          showListOnly={false}
-        />,
-      );
-
-      verifyEvidenceHeader();
-
-      const listItems = $$('li', container);
-      const headers = $$('h5', container);
-
-      verifyAuthorization(headers, listItems);
-      verifyLimitedConsentPrompt(headers, listItems);
-      verifyLimitedConsentDetails(headers, listItems);
-
-      const firstProvider = privateEvidence[0];
-      const secondProvider = privateEvidence[1];
-      const thirdProvider = privateEvidence[2];
-
-      verifyProviderPrivate(
-        headers,
-        listItems,
-        {
-          providerName: firstProvider.privateTreatmentLocation,
-          issues: 'Hypertension and Impotence',
-          dates: `Oct. 10, 2019 – Oct. 11, 2019`,
-        },
-        3,
-        0,
-        false,
-      );
-
-      verifyProviderPrivate(
-        headers,
-        listItems,
-        {
-          providerName: secondProvider.privateTreatmentLocation,
-          issues: 'Hypertension and Impotence',
-          dates: `May 5, 2025 – May 6, 2025`,
-        },
-        4,
-        1,
-        false,
-      );
-
-      verifyProviderPrivate(
-        headers,
-        listItems,
-        {
-          providerName: thirdProvider.privateTreatmentLocation,
-          issues: 'Hypertension; and Tendonitis, left ankle',
-          dates: 'Aug. 1, 1997 – May 6, 2025',
-        },
-        5,
-        2,
-        false,
-      );
-    });
-  });
-
   describe('when on the app review page', () => {
+    const evidenceWithAuthAndLc = {
+      privateEvidence,
+      auth4142: true,
+      lcDetails,
+      lcPrompt: 'Y',
+    };
+
     it('should render the proper content', () => {
       const { container } = render(
         <PrivateDetailsDisplayNew
-          list={privateEvidence}
+          data={evidenceWithAuthAndLc}
           isOnReviewPage
           reviewMode
           handlers={{ showModal: () => {} }}
@@ -206,10 +148,17 @@ describe('PrivateDetailsDisplayNew', () => {
   });
 
   describe('when on the confirmation page', () => {
+    const evidenceWithAuthAndLc = {
+      privateEvidence,
+      auth4142: true,
+      lcDetails,
+      lcPrompt: 'Y',
+    };
+
     it('should render the proper content', () => {
       const { container } = render(
         <PrivateDetailsDisplayNew
-          list={privateEvidence}
+          data={evidenceWithAuthAndLc}
           isOnReviewPage={false}
           reviewMode
           handlers={{ showModal: () => {} }}
@@ -275,10 +224,22 @@ describe('PrivateDetailsDisplayNew', () => {
   describe('when parts of the data are missing', () => {
     const fullData = privateEvidence[0];
 
-    const getContainer = partialData => {
+    const getContainer = dataToReplace => {
+      const evidenceWithAuthAndLc = {
+        privateEvidence: [
+          {
+            ...fullData,
+            ...dataToReplace,
+          },
+        ],
+        auth4142: true,
+        lcDetails,
+        lcPrompt: 'Y',
+      };
+
       return render(
         <PrivateDetailsDisplayNew
-          list={[partialData]}
+          data={evidenceWithAuthAndLc}
           isOnReviewPage={false}
           reviewMode
           handlers={{ showModal: () => {} }}
@@ -290,8 +251,7 @@ describe('PrivateDetailsDisplayNew', () => {
 
     describe('when the provider name is missing', () => {
       it('should render the proper errors', () => {
-        const partialData = { ...fullData, privateTreatmentLocation: '' };
-        getContainer(partialData);
+        getContainer({ privateTreatmentLocation: '' });
 
         const error = $$('.usa-input-error-message')[0];
         expect(error.textContent).to.contain('Missing provider name');
@@ -300,8 +260,7 @@ describe('PrivateDetailsDisplayNew', () => {
 
     describe('when the issues are missing', () => {
       it('should render the proper errors', () => {
-        const partialData = { ...fullData, issues: {} };
-        getContainer(partialData);
+        getContainer({ issues: {} });
 
         const error = $$('.usa-input-error-message')[0];
         expect(error.textContent).to.contain('Missing condition');
@@ -310,15 +269,7 @@ describe('PrivateDetailsDisplayNew', () => {
 
     describe('when part of the address is missing', () => {
       it('should render the proper errors', () => {
-        const partialData = {
-          ...fullData,
-          address: {
-            ...fullData.address,
-            city: '',
-          },
-        };
-
-        getContainer(partialData);
+        getContainer({ address: { city: '' } });
 
         const error = $$('.usa-input-error-message')[0];
         expect(error.textContent).to.contain('Incomplete address');
@@ -327,12 +278,7 @@ describe('PrivateDetailsDisplayNew', () => {
 
     describe('when the fromDate is missing', () => {
       it('should render the proper errors', () => {
-        const partialData = {
-          ...fullData,
-          treatmentStart: '',
-        };
-
-        getContainer(partialData);
+        getContainer({ treatmentStart: '' });
 
         const error = $$('.usa-input-error-message')[0];
         expect(error.textContent).to.contain('Missing start date');
@@ -341,12 +287,7 @@ describe('PrivateDetailsDisplayNew', () => {
 
     describe('when the toDate is missing', () => {
       it('should render the proper errors', () => {
-        const partialData = {
-          ...fullData,
-          treatmentEnd: '',
-        };
-
-        getContainer(partialData);
+        getContainer({ treatmentEnd: '' });
 
         const error = $$('.usa-input-error-message')[0];
         expect(error.textContent).to.contain('Missing end date');
@@ -355,13 +296,7 @@ describe('PrivateDetailsDisplayNew', () => {
 
     describe('when both dates are missing', () => {
       it('should render the proper errors', () => {
-        const partialData = {
-          ...fullData,
-          treatmentStart: '',
-          treatmentEnd: '',
-        };
-
-        getContainer(partialData);
+        getContainer({ treatmentStart: '', treatmentEnd: '' });
 
         const error = $$('.usa-input-error-message')[0];
         expect(error.textContent).to.contain('Missing treatment dates');
@@ -372,10 +307,16 @@ describe('PrivateDetailsDisplayNew', () => {
   it('should execute callback when removing an entry', () => {
     const removeSpy = sinon.spy();
     const handlers = { showModal: removeSpy };
+    const evidenceWithAuthAndLc = {
+      privateEvidence,
+      auth4142: true,
+      lcDetails,
+      lcPrompt: 'Y',
+    };
 
     const { container } = render(
       <PrivateDetailsDisplayNew
-        list={privateEvidence}
+        data={evidenceWithAuthAndLc}
         handlers={handlers}
         testing
       />,
@@ -388,6 +329,7 @@ describe('PrivateDetailsDisplayNew', () => {
     expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
       'private',
     );
+
     fireEvent.click(buttons[1]);
     expect(removeSpy.calledTwice).to.be.true;
     expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');

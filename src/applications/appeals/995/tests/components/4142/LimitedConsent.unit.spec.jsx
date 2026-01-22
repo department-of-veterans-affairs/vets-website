@@ -63,10 +63,7 @@ describe('LimitedConsent', () => {
 
     it('should show textarea when the answer to the prompt is "Yes"', () => {
       const { container } = render(
-        <LimitedConsent
-          {...defaultProps}
-          currentEvidenceData={{ lcPrompt: 'Y' }}
-        />,
+        <LimitedConsent {...defaultProps} lcPrompt="Y" />,
       );
 
       const textarea = container.querySelector('va-textarea');
@@ -76,10 +73,7 @@ describe('LimitedConsent', () => {
 
     it('should not show textarea when the answer to the prompt is "No"', () => {
       const { container } = render(
-        <LimitedConsent
-          {...defaultProps}
-          currentEvidenceData={{ lcPrompt: 'N' }}
-        />,
+        <LimitedConsent {...defaultProps} lcPrompt="N" />,
       );
 
       const textarea = container.querySelector('va-textarea');
@@ -91,11 +85,9 @@ describe('LimitedConsent', () => {
   describe('textarea content', () => {
     it('should render textarea correctly', () => {
       const { container } = render(
-        <LimitedConsent
-          {...defaultProps}
-          currentEvidenceData={{ lcPrompt: 'Y' }}
-        />,
+        <LimitedConsent {...defaultProps} lcPrompt="Y" />,
       );
+
       const textarea = container.querySelector('va-textarea');
       const hint = textarea.getAttribute('hint');
 
@@ -110,10 +102,8 @@ describe('LimitedConsent', () => {
       const { container } = render(
         <LimitedConsent
           {...defaultProps}
-          currentEvidenceData={{
-            lcPrompt: 'Y',
-            lcDetails: 'Only records from 2020-2023',
-          }}
+          lcPrompt="Y"
+          lcDetails="Only records from 2020-2023"
         />,
       );
 
@@ -126,11 +116,7 @@ describe('LimitedConsent', () => {
 
     it('should render textarea error when textAreaError is true', () => {
       const { container } = render(
-        <LimitedConsent
-          {...defaultProps}
-          currentEvidenceData={{ lcPrompt: 'Y' }}
-          textAreaError
-        />,
+        <LimitedConsent {...defaultProps} lcPrompt="Y" textAreaError />,
       );
       const textarea = container.querySelector('va-textarea');
 
@@ -145,14 +131,12 @@ describe('LimitedConsent', () => {
         ...defaultProps,
         setRadioError,
         radioError: true,
-        currentEvidenceData: { lcPrompt: 'Y' },
+        lcPrompt: 'Y',
       };
 
       render(<LimitedConsent {...props} />);
 
-      await waitFor(() => {
-        expect(setRadioError.calledWith(false)).to.be.true;
-      });
+      expect(setRadioError.calledWith(false)).to.be.true;
     });
   });
 
@@ -163,7 +147,7 @@ describe('LimitedConsent', () => {
         ...defaultProps,
         setTextAreaError,
         textAreaError: true,
-        currentEvidenceData: { lcDetails: 'Some details' },
+        lcDetails: 'Some details',
       };
 
       render(<LimitedConsent {...props} />);
@@ -237,11 +221,7 @@ describe('LimitedConsent', () => {
     it('should call onChange with lcDetails value', () => {
       const onChange = sinon.spy();
       const { container } = render(
-        <LimitedConsent
-          {...defaultProps}
-          onChange={onChange}
-          currentEvidenceData={{ lcPrompt: 'Y' }}
-        />,
+        <LimitedConsent {...defaultProps} onChange={onChange} lcPrompt="Y" />,
       );
 
       const textarea = container.querySelector('va-textarea');

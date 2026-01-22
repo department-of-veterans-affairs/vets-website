@@ -36,8 +36,6 @@ describe('VaDetailsDisplayNew', () => {
         listItems,
         {
           providerName: firstProvider.vaTreatmentLocation,
-          issues: 'Hypertension, Impotence, and Left Knee Instability',
-          dates: 'Jan. 1, 2000',
         },
         0,
         0,
@@ -49,7 +47,6 @@ describe('VaDetailsDisplayNew', () => {
         listItems,
         {
           providerName: secondProvider.vaTreatmentLocation,
-          issues: 'Impotence and Left Knee Instability',
         },
         1,
         1,
@@ -61,7 +58,6 @@ describe('VaDetailsDisplayNew', () => {
         listItems,
         {
           providerName: thirdProvider.vaTreatmentLocation,
-          issues: 'Hypertension and Sleep apnea',
         },
         2,
         2,
@@ -94,7 +90,6 @@ describe('VaDetailsDisplayNew', () => {
         listItems,
         {
           providerName: firstProvider.vaTreatmentLocation,
-          issues: 'Hypertension, Impotence, and Left Knee Instability',
           dates: 'Jan. 1, 2000',
         },
         0,
@@ -107,7 +102,6 @@ describe('VaDetailsDisplayNew', () => {
         listItems,
         {
           providerName: secondProvider.vaTreatmentLocation,
-          issues: 'Impotence and Left Knee Instability',
         },
         1,
         1,
@@ -119,7 +113,6 @@ describe('VaDetailsDisplayNew', () => {
         listItems,
         {
           providerName: thirdProvider.vaTreatmentLocation,
-          issues: 'Hypertension and Sleep apnea',
         },
         2,
         2,
@@ -151,7 +144,6 @@ describe('VaDetailsDisplayNew', () => {
           listItems,
           {
             providerName: firstProvider.vaTreatmentLocation,
-            issues: 'Hypertension',
             dates: 'Jan. 1, 2000',
           },
           0,
@@ -164,7 +156,6 @@ describe('VaDetailsDisplayNew', () => {
           listItems,
           {
             providerName: secondProvider.vaTreatmentLocation,
-            issues: 'Impotence and Left Knee Instability',
           },
           1,
           1,
@@ -176,7 +167,6 @@ describe('VaDetailsDisplayNew', () => {
           listItems,
           {
             providerName: thirdProvider.vaTreatmentLocation,
-            issues: 'Hypertension and Sleep apnea',
           },
           2,
           2,

@@ -32,9 +32,6 @@ export const privateEvidence = [
       state: 'TX',
       postalCode: '78258',
     },
-    authorization: true,
-    lcDetails: 'Testing limited consent',
-    lcPrompt: 'Y',
   },
   {
     treatmentStart: '2025-05-05',

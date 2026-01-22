@@ -21,7 +21,10 @@ export function transform(form) {
   const mainTransform = formData => {
     const {
       additionalDocuments,
+      auth4142,
       benefitType,
+      lcDetails,
+      lcPrompt,
       privateEvidence,
       scRedesign,
       vaEvidence,
@@ -67,7 +70,18 @@ export function transform(form) {
       };
 
       if (privateEvidence && privateEvidence?.length) {
-        dataToSend.form4142 = privateEvidence;
+        dataToSend.form4142 = {
+          evidenceEntries: privateEvidence,
+          auth4142,
+          lcPrompt,
+        };
+      }
+
+      if (lcPrompt && lcPrompt === 'Y') {
+        dataToSend.form4142 = {
+          ...dataToSend.form4142,
+          lcDetails,
+        };
       }
 
       return dataToSend;

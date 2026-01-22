@@ -8,12 +8,10 @@ import AuthorizationNew, {
 
 describe('AuthorizationNew', () => {
   const defaultProps = {
-    addOrEditMode: 'add',
+    data: {},
     goBack: sinon.spy(),
     goForward: sinon.spy(),
-    onChange: sinon.spy(),
-    fullData: {},
-    pagePerItemIndex: 0,
+    setFormData: sinon.spy(),
   };
 
   afterEach(() => {
@@ -79,8 +77,8 @@ describe('AuthorizationNew', () => {
     it('should render checkbox as checked when authorization is true', () => {
       const props = {
         ...defaultProps,
-        fullData: {
-          privateEvidence: [{ authorization: true }],
+        data: {
+          auth4142: true,
         },
       };
 
@@ -90,10 +88,10 @@ describe('AuthorizationNew', () => {
       expect(checkbox.hasAttribute('checked')).to.be.true;
     });
 
-    it('should call onChange when the checkbox is used', () => {
-      const onChange = sinon.spy();
+    it('should call setFormData when the checkbox is used', () => {
+      const setFormData = sinon.spy();
       const { container } = render(
-        <AuthorizationNew {...defaultProps} onChange={onChange} />,
+        <AuthorizationNew {...defaultProps} setFormData={setFormData} />,
       );
 
       const checkbox = container.querySelector('va-checkbox');
@@ -106,21 +104,21 @@ describe('AuthorizationNew', () => {
         }),
       );
 
-      expect(onChange.called).to.be.true;
-      expect(onChange.firstCall.args[0].authorization).to.be.true;
+      expect(setFormData.called).to.be.true;
+      expect(setFormData.firstCall.args[0].auth4142).to.be.true;
     });
 
     it('should preserve existing currentEvidenceData when checkbox changes', () => {
-      const onChange = sinon.spy();
+      const setFormData = sinon.spy();
       const props = {
         ...defaultProps,
-        onChange,
-        fullData: {
+        setFormData,
+        data: {
+          lcPrompt: 'Y',
+          lcDetails: 'Some details',
           privateEvidence: [
             {
               providerName: 'Test Provider',
-              lcPrompt: 'Y',
-              lcDetails: 'Some details',
             },
           ],
         },
@@ -137,12 +135,15 @@ describe('AuthorizationNew', () => {
         }),
       );
 
-      expect(onChange.called).to.be.true;
-      const callArgs = onChange.firstCall.args[0];
-      expect(callArgs.providerName).to.equal('Test Provider');
+      const callArgs = setFormData.firstCall.args[0];
+
+      expect(setFormData.called).to.be.true;
+      expect(callArgs.privateEvidence[0].providerName).to.equal(
+        'Test Provider',
+      );
       expect(callArgs.lcPrompt).to.equal('Y');
       expect(callArgs.lcDetails).to.equal('Some details');
-      expect(callArgs.authorization).to.be.true;
+      expect(callArgs.auth4142).to.be.true;
     });
   });
 
@@ -170,13 +171,9 @@ describe('AuthorizationNew', () => {
         const props = {
           ...defaultProps,
           goForward,
-          fullData: {
-            privateEvidence: [
-              {
-                authorization: true,
-                lcPrompt: 'N',
-              },
-            ],
+          data: {
+            lcPrompt: 'N',
+            auth4142: true,
           },
         };
 
@@ -197,14 +194,10 @@ describe('AuthorizationNew', () => {
         const props = {
           ...defaultProps,
           goForward,
-          fullData: {
-            privateEvidence: [
-              {
-                authorization: true,
-                lcPrompt: 'Y',
-                lcDetails: 'Some details',
-              },
-            ],
+          data: {
+            auth4142: true,
+            lcPrompt: 'Y',
+            lcDetails: 'Some details',
           },
         };
 
@@ -223,13 +216,9 @@ describe('AuthorizationNew', () => {
         const props = {
           ...defaultProps,
           goForward,
-          fullData: {
-            privateEvidence: [
-              {
-                authorization: true,
-                lcPrompt: 'Y',
-              },
-            ],
+          data: {
+            auth4142: true,
+            lcPrompt: 'Y',
           },
         };
 
@@ -248,14 +237,10 @@ describe('AuthorizationNew', () => {
         const props = {
           ...defaultProps,
           goForward,
-          fullData: {
-            privateEvidence: [
-              {
-                authorization: true,
-                lcPrompt: 'Y',
-                lcDetails: 'Some limitation details',
-              },
-            ],
+          data: {
+            auth4142: true,
+            lcPrompt: 'Y',
+            lcDetails: 'Some limitation details',
           },
         };
 
@@ -271,23 +256,11 @@ describe('AuthorizationNew', () => {
     });
   });
 
-  describe('currentEvidenceData handling', () => {
-    it('should handle undefined fullData', () => {
+  describe('data handling', () => {
+    it('should handle undefined data', () => {
       const props = {
         ...defaultProps,
-        fullData: undefined,
-      };
-
-      const { container } = render(<AuthorizationNew {...props} />);
-      const checkbox = container.querySelector('va-checkbox');
-
-      expect(checkbox).to.exist;
-    });
-
-    it('should handle null fullData', () => {
-      const props = {
-        ...defaultProps,
-        fullData: null,
+        data: undefined,
       };
 
       const { container } = render(<AuthorizationNew {...props} />);
@@ -326,7 +299,7 @@ describe('AuthorizationNew', () => {
       rerender(
         <AuthorizationNew
           {...defaultProps}
-          fullData={{ privateEvidence: [{ authorization: true }] }}
+          data={{ privateEvidence: [{ authorization: true }] }}
         />,
       );
 
