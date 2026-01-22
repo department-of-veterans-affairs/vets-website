@@ -440,7 +440,6 @@ describe('Edit Contact List container', async () => {
     // Create spy BEFORE setup to capture all addEventListener calls
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
 
-    const screen = setup();
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
