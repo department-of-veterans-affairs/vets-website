@@ -7,6 +7,8 @@ import useServiceType, {
 } from '../../../hooks/useServiceType';
 import Autosuggest from '../autosuggest';
 
+const ALL_VA_HEALTH_SERVICES = 'All VA health services';
+
 const VAMCServiceAutosuggest = ({
   committedServiceDisplay,
   searchInitiated,
@@ -19,7 +21,8 @@ const VAMCServiceAutosuggest = ({
   const [allVAMCServices, setAllVAMCServices] = useState([]);
   const inputRef = useRef(null);
 
-  // Use a ref to track inputValue without triggering effect re-runs
+  // Track inputValue via ref for the committedServiceDisplay effect,
+  // which needs to check inputValue without re-running when it changes
   const inputValueRef = useRef(inputValue);
   inputValueRef.current = inputValue;
 
@@ -92,40 +95,32 @@ const VAMCServiceAutosuggest = ({
   // match any of the services, we'll search for "All VA health services" when the
   // search button is clicked. This prefills the input and updates the form state
   // so the URL params reflect the actual service type being searched.
-  // The searchInitiated variable is only used for this purpose so we reset it at the bottom
   useEffect(
     () => {
-      if (searchInitiated) {
-        const currentInputValue = inputValueRef.current;
-        const selectedValueFromDropdown = options?.filter(
-          service => service.toDisplay === currentInputValue,
-        )?.[0];
+      if (!searchInitiated) return;
 
-        const typedValueHasNoMatch =
-          currentInputValue?.length &&
-          currentInputValue !== selectedValueFromDropdown?.toDisplay;
+      const matchedService = options.find(
+        service => service.toDisplay === inputValue,
+      );
 
-        if (typedValueHasNoMatch || !currentInputValue) {
-          // Find the "All VA health services" option to get its serviceId
-          const allServicesOption = options?.find(
-            service => service.id === 'All VA health services',
-          );
+      if (!matchedService) {
+        const allServicesOption = options.find(
+          service => service.id === ALL_VA_HEALTH_SERVICES,
+        );
 
-          setInputValue('All VA health services');
+        setInputValue(ALL_VA_HEALTH_SERVICES);
 
-          // Update form state so URL params include the service type
-          if (onDraftChange && allServicesOption) {
-            onDraftChange({
-              serviceType: allServicesOption.serviceId,
-              vamcServiceDisplay: allServicesOption.toDisplay,
-            });
-          }
+        if (onDraftChange && allServicesOption) {
+          onDraftChange({
+            serviceType: allServicesOption.serviceId,
+            vamcServiceDisplay: allServicesOption.toDisplay,
+          });
         }
       }
 
       setSearchInitiated(false);
     },
-    [options, searchInitiated, setSearchInitiated, onDraftChange],
+    [options, searchInitiated, inputValue, onDraftChange, setSearchInitiated],
   );
 
   const handleClearClick = () => {
