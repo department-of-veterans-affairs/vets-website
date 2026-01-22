@@ -34,10 +34,10 @@ const getLabels = featureFlagOn => {
     [HOUSEHOLD_INCOME_NO]: 'No',
   };
 
-  // Only show "doesn't apply" option when feature flag is OFF
+  // Only show "doesn’t apply" option when feature flag is OFF
   if (!featureFlagOn) {
     baseLabels[HOUSEHOLD_INCOME_NOT_APPLICABLE] =
-      "This question doesn't apply to me";
+      'This question doesn’t apply to me';
   }
 
   return baseLabels;
@@ -114,6 +114,7 @@ export const uiSchema = {
     },
   },
   'view:householdIncome': radioUI({
+    tile: true,
     title: netWorthTitle(),
     labels: getLabels(false),
     descriptions: getDescriptions(false),

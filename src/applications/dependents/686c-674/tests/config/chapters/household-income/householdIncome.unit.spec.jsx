@@ -192,7 +192,7 @@ describe('686 household income: rendering', () => {
     expect($$('va-radio-option', container).length).to.equal(2);
   });
 
-  it('should show "This question doesn\'t apply to me" option when feature flag is OFF', () => {
+  it('should show "This question doesn’t apply to me" option when feature flag is OFF', () => {
     const { schema: pageSchema, uiSchema: pageUiSchema } = getPage();
 
     const { container } = render(
@@ -208,10 +208,10 @@ describe('686 household income: rendering', () => {
 
     const options = $$('va-radio-option', container);
     const labels = options.map(opt => opt.getAttribute('label'));
-    expect(labels).to.include("This question doesn't apply to me");
+    expect(labels).to.include('This question doesn’t apply to me');
   });
 
-  it('should NOT show "This question doesn\'t apply to me" option when feature flag is ON', () => {
+  it('should NOT show "This question doesn’t apply to me" option when feature flag is ON', () => {
     const { schema: pageSchema, uiSchema: pageUiSchema } = getPage();
 
     const { container } = render(
@@ -227,6 +227,6 @@ describe('686 household income: rendering', () => {
 
     const options = $$('va-radio-option', container);
     const labels = options.map(opt => opt.getAttribute('label'));
-    expect(labels).to.not.include("This question doesn't apply to me");
+    expect(labels).to.not.include('This question doesn’t apply to me');
   });
 });
