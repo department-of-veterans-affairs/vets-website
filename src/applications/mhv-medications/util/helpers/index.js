@@ -19,12 +19,12 @@ export { generateTimestampForFilename } from './generateTimestampForFilename';
 export { getErrorTypeFromFormat } from './getErrorTypeFromFormat';
 export { getImageUri } from './getImageUri';
 export { getMostRecentRxRefill } from './getMostRecentRxRefill';
-export { getReactions } from './getReactions';
 export { getRefillHistory } from './getRefillHistory';
 export { getRxStatus } from './getRxStatus';
 export { getShowRefillHistory } from './getShowRefillHistory';
 export { hasCmopNdcNumber } from './hasCmopNdcNumber';
 export { isArrayAndHasItems } from './isArrayAndHasItems';
+export { isOracleHealthPrescription } from './isOracleHealthPrescription';
 export {
   isRefillTakingLongerThanExpected,
 } from './isRefillTakingLongerThanExpected';

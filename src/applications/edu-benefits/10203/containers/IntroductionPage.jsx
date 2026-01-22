@@ -2,7 +2,8 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
@@ -12,7 +13,9 @@ export class IntroductionPage extends React.Component {
   componentDidMount() {
     if (this.props.isLoggedIn) {
       focusElement('.va-nav-breadcrumbs-list');
-      this.props.getRemainingEntitlement();
+      this.props.getRemainingEntitlement(
+        this.props.enableForm10203ClaimantService,
+      );
     }
   }
 
@@ -258,12 +261,18 @@ IntroductionPage.propTypes = {
   isLoggedIn: PropTypes.bool,
   remainingEntitlement: PropTypes.object,
   route: PropTypes.object,
+  enableForm10203ClaimantService: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
+  const toggles = toggleValues(state);
+  const enableForm10203ClaimantService =
+    toggles?.[FEATURE_FLAG_NAMES.form10203ClaimantService] ?? false;
+
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
+    enableForm10203ClaimantService,
   };
 };
 

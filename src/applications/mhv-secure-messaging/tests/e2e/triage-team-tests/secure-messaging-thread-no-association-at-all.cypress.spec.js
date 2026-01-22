@@ -32,18 +32,18 @@ describe('Verify thread - No association at all', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('h2')
-      .should('have.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
+      .should('contain', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
-      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+      .should('contain', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
-      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+      .find('va-link-action')
+      .should('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
   });
 
@@ -86,15 +86,15 @@ describe('Verify thread - No association at all', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
-      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+      .should('contain', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .first()
-      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+      .should('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');

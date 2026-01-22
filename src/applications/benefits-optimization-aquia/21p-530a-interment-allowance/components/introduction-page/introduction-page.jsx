@@ -34,10 +34,12 @@ const ProcessList = () => {
       <va-process-list-item header="Check your eligibility">
         <p>Make sure you meet our eligibility requirements before you apply.</p>
         <p>
-          <a href="/burials-memorials/veterans-burial-allowance/">
-            Find out if you’re eligible for a Veterans burial allowance and
-            transportation benefits
-          </a>
+          In order to apply for this benefit, you should be a State Plot or
+          Tribal organization. If you are applying for the VA interment
+          allowance and applying as an individual, use form&nbsp;
+          <span>
+            <va-link href="/forms/21p-530ez/" text="21P-530EZ" />
+          </span>
         </p>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
@@ -48,10 +50,10 @@ const ProcessList = () => {
         </p>
         <ul>
           <li>Social Security number or VA file number</li>
-          <li>Date and place of birth</li>
+          <li>Date of birth</li>
           <li>Date of death</li>
           <li>Military service history</li>
-          <li>Date of burial</li>
+          <li>Date of interment</li>
           <li>Final resting place</li>
         </ul>
         <p>
@@ -112,18 +114,18 @@ export const IntroductionPage = ({ router }) => {
         cemetery.
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow these steps to apply for a burial allowance
+        Follow these steps to apply for an interment allowance
       </h2>
       <ProcessList />
 
       <VaLinkAction
         data-testid="start-burial-allowance-link"
-        href="/relationship-to-veteran"
+        href="/organization-information"
         onClick={e => {
           e.preventDefault();
-          router.push('/relationship-to-veteran');
+          router.push('/organization-information');
         }}
-        text="Start the state and tribal organization burial allowance benefits application"
+        text="Start the state and tribal organization interment allowance benefits application"
       />
       <p />
       <va-omb-info

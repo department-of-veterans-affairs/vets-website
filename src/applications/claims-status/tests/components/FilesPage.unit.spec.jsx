@@ -113,14 +113,13 @@ describe('<FilesPage>', () => {
     getByText('We encountered a problem');
 
     const alertHeading = $('va-alert h2', container);
-    expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+    expect(alertHeading.textContent).to.equal(
+      "We can't access your claim right now",
+    );
 
     const alertBody = $('va-alert p', container);
     expect(alertBody.textContent).to.include(
-      'VA.gov is having trouble loading claims information',
-    );
-    expect(alertBody.textContent).to.include(
-      'Note: You are still able to review appeals information.',
+      "We're sorry. There's a problem with our system.",
     );
   });
 
@@ -139,14 +138,13 @@ describe('<FilesPage>', () => {
     getByText('We encountered a problem');
 
     const alertHeading = $('va-alert h2', container);
-    expect(alertHeading.textContent).to.equal('Claim status is unavailable');
+    expect(alertHeading.textContent).to.equal(
+      "We can't access your claim right now",
+    );
 
     const alertBody = $('va-alert p', container);
     expect(alertBody.textContent).to.include(
-      'VA.gov is having trouble loading claims information',
-    );
-    expect(alertBody.textContent).to.include(
-      'Note: You are still able to review appeals information.',
+      "We're sorry. There's a problem with our system.",
     );
   });
 
@@ -194,10 +192,11 @@ describe('<FilesPage>', () => {
         </Provider>,
       );
 
-      const selector = container.querySelector('va-alert');
-      expect(selector).to.exist;
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.exist;
+      const headline = alert.querySelector('h2');
       await waitFor(() => {
-        expect(document.activeElement).to.equal(selector);
+        expect(document.activeElement).to.equal(headline);
       });
     });
   });

@@ -76,6 +76,11 @@ export const SERVICE_PROVIDERS = {
   },
 };
 
+export const ACTIVE_SERVICE_PROVIDERS = {
+  [CSP_IDS.ID_ME]: SERVICE_PROVIDERS[CSP_IDS.ID_ME],
+  [CSP_IDS.LOGIN_GOV]: SERVICE_PROVIDERS[CSP_IDS.LOGIN_GOV],
+};
+
 export const AUTHN_SETTINGS = {
   RETURN_URL: 'authReturnUrl',
   REDIRECT_EVENT: 'login-auth-redirect',
@@ -95,9 +100,11 @@ export const ARP_APPS = {
   FORM21A: 'form21a',
 };
 
-export const TEST_APPS = {
-  OKTA: ['okta_test', 'okta_stg'],
-};
+export const OKTA_APPS = [
+  'okta_test',
+  'okta_stg',
+  '861fbfbf1b4cd2594e0f7a4a367a9a87',
+];
 
 export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]

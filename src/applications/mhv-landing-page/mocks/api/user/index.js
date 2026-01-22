@@ -66,6 +66,8 @@ const defaultUser = {
         ],
         va_patient: true,
         mhv_account_state: 'OK',
+        userAtPretransitionedOhFacility: false,
+        userFacilityReadyForInfoAlert: false,
       },
     },
   },
@@ -96,6 +98,8 @@ const generateUser = ({
           mhv_account_state: mhvAccountState,
           va_patient: vaPatient,
           facilities,
+          userAtPretransitionedOhFacility: oracleHealth,
+          userFacilityReadyForInfoAlert: oracleHealth,
         },
         profile: {
           ...defaultUser.data.attributes.profile,
@@ -109,6 +113,7 @@ const generateUser = ({
         },
         vet360_contact_information: {
           email: {
+            id: 12345,
             confirmation_date: null,
             updated_at: '2024-01-01T12:00:00.000+00:00',
             email_address: 'vet@va.gov',

@@ -37,7 +37,7 @@ describe('VAOS schedule flow', () => {
       })
       .assertCrisisModal()
       .clickButton({ ariaLabel: 'Close this modal' })
-      .clickLink(/Start scheduling/i);
+      .clickLink({ name: /Start scheduling an appointment/i });
 
     TypeOfCarePageObject.assertUrl();
 

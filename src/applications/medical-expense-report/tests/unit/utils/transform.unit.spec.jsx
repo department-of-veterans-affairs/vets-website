@@ -43,7 +43,6 @@ describe('submit transformer', () => {
     expect(parsedResult.medicalExpenseReportsClaim).to.have.property('form');
     expect(parsedForm).to.deep.equal({
       claimantNotVeteran: false,
-      claimantFullName: {},
       veteranFullName: {
         first: 'John',
         middle: 'A',

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { Element } from 'platform/utilities/scroll';
+import { Element, watchErrorUpdates } from 'platform/utilities/scroll';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import BackLink from '../components/BackLink';
@@ -31,6 +31,16 @@ const FormApp = props => {
     if (window.History) {
       window.History.scrollRestoration = 'manual';
     }
+
+    // Start watching for error attribute changes to update screen reader annotations
+    // when scaffoldAndFocusFormErrors is true
+    const stopWatchingErrors = watchErrorUpdates(
+      formConfig?.formOptions?.scaffoldAndFocusFormErrors,
+    );
+
+    return () => {
+      stopWatchingErrors();
+    };
   }, []);
 
   useEffect(
@@ -123,7 +133,12 @@ const FormApp = props => {
           {CustomTopContent && (
             <CustomTopContent currentLocation={currentLocation} />
           )}
-          {useTopBackLink && <BackLink text={formConfig?.backLinkText} />}
+          {useTopBackLink && (
+            <BackLink
+              text={formConfig?.backLinkText}
+              dynamicPaths={formConfig.dynamicPaths}
+            />
+          )}
           {notProd && noTitle ? null : formTitle}
           {notProd && noTopNav ? null : formNav}
           <Element name="topContentElement" />
@@ -150,7 +165,9 @@ FormApp.propTypes = {
     additionalRoutes: PropTypes.array,
     backLinkText: PropTypes.string,
     footerContent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-    formOptions: PropTypes.shape({}),
+    formOptions: PropTypes.shape({
+      scaffoldAndFocusFormErrors: PropTypes.bool,
+    }),
     subTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     useTopBackLink: PropTypes.bool,

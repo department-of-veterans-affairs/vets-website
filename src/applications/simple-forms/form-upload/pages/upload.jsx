@@ -8,11 +8,7 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import PropTypes from 'prop-types';
-import {
-  UPLOAD_FORM_DESCRIPTION,
-  MAX_FILE_SIZE,
-  UPLOAD_TITLE,
-} from '../config/constants';
+import { UPLOAD_FORM_DESCRIPTION, MAX_FILE_SIZE } from '../config/constants';
 import { getAlert, getFormContent } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
@@ -24,6 +20,7 @@ const UploadAlert = ({ uploadedFile }) => {
   const props = {
     name: 'uploadPage',
     data: { uploadedFile },
+    formNumber,
   };
   const alert = getAlert(props, false);
 
@@ -33,7 +30,7 @@ const UploadAlert = ({ uploadedFile }) => {
 export const uploadPage = {
   uiSchema: {
     ...titleUI({
-      title: UPLOAD_TITLE,
+      title: `Upload VA Form ${formNumber}`,
       description: ({ formData: { uploadedFile } }) => (
         <UploadAlert uploadedFile={uploadedFile} />
       ),

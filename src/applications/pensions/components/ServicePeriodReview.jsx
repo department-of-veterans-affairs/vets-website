@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDateShort } from 'platform/utilities/date';
+import { formatDateLong } from 'platform/utilities/date';
 import { serviceBranchLabels } from '../labels';
 
 const ServicePeriodReview = ({ data, editPage }) => {
@@ -36,32 +36,57 @@ const ServicePeriodReview = ({ data, editPage }) => {
       <dl className="review">
         <div className="review-row">
           <dt>Branch of service</dt>
-          <dd>{branchesString}</dd>
+          <dd
+            className="dd-privacy-hidden"
+            data-dd-action-name="branch of service"
+          >
+            {branchesString}
+          </dd>
         </div>
         {activeServiceDateRange &&
           activeServiceDateRange.from && (
             <div className="review-row">
               <dt>Date initially entered active duty</dt>
-              <dd>{formatDateShort(activeServiceDateRange.from)}</dd>
+              <dd
+                className="dd-privacy-hidden"
+                data-dd-action-name="start active service date"
+              >
+                {formatDateLong(activeServiceDateRange.from)}
+              </dd>
             </div>
           )}
         {activeServiceDateRange &&
           activeServiceDateRange.to && (
             <div className="review-row">
               <dt>Final release date from active duty</dt>
-              <dd>{formatDateShort(activeServiceDateRange.to)}</dd>
+              <dd
+                className="dd-privacy-hidden"
+                data-dd-action-name="end active service date"
+              >
+                {formatDateLong(activeServiceDateRange.to)}
+              </dd>
             </div>
           )}
         {serviceNumber && (
           <div className="review-row">
             <dt>Military Service number</dt>
-            <dd>{serviceNumber}</dd>
+            <dd
+              className="dd-privacy-hidden"
+              data-dd-action-name="military service number"
+            >
+              {serviceNumber}
+            </dd>
           </div>
         )}
         {placeOfSeparation && (
           <div className="review-row">
             <dt>Place of your last separation</dt>
-            <dd>{placeOfSeparation}</dd>
+            <dd
+              className="dd-privacy-hidden"
+              data-dd-action-name="place of last separation"
+            >
+              {placeOfSeparation}
+            </dd>
           </div>
         )}
       </dl>

@@ -60,7 +60,7 @@ describe('location', () => {
   it('should format location for outside US', () => {
     const item = {
       endCity: 'Test City',
-      endOutsideUS: true,
+      endOutsideUs: true,
       endProvince: 'Test Province',
       endCountry: 'TST',
     };
@@ -70,7 +70,7 @@ describe('location', () => {
   it('should format location for outside US with no province', () => {
     const item = {
       endCity: 'Test City',
-      endOutsideUS: true,
+      endOutsideUs: true,
       endCountry: 'TST',
     };
     expect(location(item)).to.equal('Test City, TST');
@@ -79,7 +79,7 @@ describe('location', () => {
   it('should format location for inside US', () => {
     const item = {
       endCity: 'Test City',
-      endOutsideUS: false,
+      endOutsideUs: false,
       endState: 'TS',
     };
     expect(location(item)).to.equal('Test City, TS');
@@ -94,7 +94,7 @@ describe('pageDetails', () => {
         removalReason: 'marriageEnded',
         endType: 'divorce',
         endDate: '2020-01-01',
-        endOutsideUS: true,
+        endOutsideUs: true,
         endCity: 'Test City',
         endProvince: 'Test Province',
         endCountry: 'TST',
@@ -131,7 +131,7 @@ describe('pageDetails', () => {
         endType: 'annulmentOrVoid',
         endAnnulmentOrVoidDescription: 'Test description',
         endDate: '2024-01-01',
-        endOutsideUS: false,
+        endOutsideUs: false,
         endCity: 'Test City',
         endState: 'TX',
       });
@@ -168,7 +168,7 @@ describe('pageDetails', () => {
         fullName: { first: 'SPOUSY' },
         removalReason: 'spouseDied',
         endDate: '2025-01-01',
-        endOutsideUS: false,
+        endOutsideUs: false,
         endCity: 'Test City',
         endState: 'TX',
       });
@@ -208,7 +208,7 @@ describe('pageDetails', () => {
         fullName: { first: 'PETER' },
         removalReason: 'parentDied',
         endDate: '2020-01-01',
-        endOutsideUS: false,
+        endOutsideUs: false,
         endCity: 'Test City',
         endState: 'TX',
       });
@@ -255,7 +255,7 @@ describe('pageDetails', () => {
         isStepchild: 'Y',
         removalReason: 'childMarried',
         endDate: '2025-01-01',
-        endOutsideUS: true,
+        endOutsideUs: true,
         endCity: 'Test City',
         endProvince: 'Test Province',
         endCountry: 'Text Country',
@@ -388,7 +388,7 @@ describe('pageDetails', () => {
         isStepchild: 'N',
         removalReason: 'childDied',
         endDate: '2020-01-01',
-        endOutsideUS: false,
+        endOutsideUs: false,
         endCity: 'Test City',
         endState: 'TX',
       });

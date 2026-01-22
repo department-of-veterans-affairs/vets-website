@@ -1,9 +1,8 @@
 import React from 'react';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
-import { generateTitle } from '../../../utils/helpers';
+import { fileInputMultipleSchema } from '~/platform/forms-system/src/js/web-component-patterns';
 import { burialUploadUI } from '../../../utils/upload';
-
-const { files } = fullSchemaBurials.definitions;
+import { validateFileUploads } from '../../../utils/validation';
+import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
@@ -103,17 +102,18 @@ export default {
         </ul>
       </>
     ),
-    additionalEvidence: burialUploadUI(
-      'Upload additional supporting documents',
-    ),
+    additionalEvidence: {
+      ...burialUploadUI({
+        title: 'Upload additional supporting documents',
+        required: false,
+      }),
+      'ui:validations': [validateFileUploads({ required: false })],
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      additionalEvidence: {
-        ...files,
-        min: 1,
-      },
+      additionalEvidence: fileInputMultipleSchema(),
     },
   },
 };

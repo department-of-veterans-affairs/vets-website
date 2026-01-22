@@ -4,16 +4,21 @@ import {
   VaBreadcrumbs,
   VaLinkAction,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
-import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
 import {
-  calculateTotalDebts,
+  ALERT_TYPES,
+  setPageFocus,
+  healthResourceCenterPhoneContent,
+  dmcPhoneContent,
+  showVHAPaymentHistory,
+} from '../utils/helpers';
+import {
   calculateTotalBills,
+  calculateTotalDebts,
 } from '../utils/balance-helpers';
 import { GenericDisasterAlert } from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
@@ -35,14 +40,6 @@ const OverviewPage = () => {
   const debtError = debtLetters.errors?.length > 0;
   const bothError = billError && debtError;
 
-  // get totals
-  const { debts } = debtLetters;
-  const totalDebts = calculateTotalDebts(debts);
-  const bills = mcp.statements;
-  const totalBills = calculateTotalBills(bills);
-  const bothZero =
-    totalDebts === 0 && totalBills === 0 && !billError && !debtError;
-
   // feature toggle stuff for One VA Debt Letter flag
   const {
     useToggleValue,
@@ -55,6 +52,18 @@ const OverviewPage = () => {
   const showOneVADebtLetterLink = useToggleValue(
     TOGGLE_NAMES.showOneVADebtLetter,
   );
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
+  );
+
+  // get totals
+  const { debts } = debtLetters;
+  const totalDebts = calculateTotalDebts(debts);
+  const totalBills = shouldShowVHAPaymentHistory
+    ? mcp.statements.meta.total
+    : calculateTotalBills(mcp.statements);
+  const bothZero =
+    totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
   // give features a chance to fully load before we conditionally render
   if (togglesLoading) {
@@ -109,21 +118,25 @@ const OverviewPage = () => {
                   <strong>Questions about overpayments</strong>
                 </p>
                 <p>
-                  Call the Debt Management Center (DMC) at{' '}
-                  <va-telephone contact={CONTACTS.DMC} /> (
-                  <va-telephone tty contact="711" />
-                  ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
-                  ET.
+                  Contact us online through{' '}
+                  <va-link
+                    text="AskVA"
+                    href="/contact-us/ask-va/introduction"
+                  />{' '}
+                  or call the Debt Management Center (DMC) at{' '}
+                  {dmcPhoneContent()}
                 </p>
                 <p>
                   <strong>Questions about copay bills</strong>
                 </p>
                 <p>
-                  Call the VA Health Resource Center at{' '}
-                  <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-                  <va-telephone tty contact="711" />
-                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                  ET.
+                  Contact us online through{' '}
+                  <va-link
+                    text="AskVA"
+                    href="/contact-us/ask-va/introduction"
+                  />{' '}
+                  or call the VA Health Resource Center at{' '}
+                  {healthResourceCenterPhoneContent()}
                 </p>
               </div>
             </va-need-help>

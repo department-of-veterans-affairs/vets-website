@@ -27,3 +27,11 @@ export const selectSecureMessagingMedicationsRenewalRequestFlag = state =>
 
 export const selectCernerPilotFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot];
+
+export const selectV2StatusMappingFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping];
+
+export const selectEnableKramesHtmlSanitizationFlag = state =>
+  state.featureToggles[
+    FEATURE_FLAG_NAMES.mhvMedicationsEnableKramesHtmlSanitization
+  ];

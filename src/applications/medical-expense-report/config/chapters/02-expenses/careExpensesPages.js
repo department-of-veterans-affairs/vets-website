@@ -3,10 +3,8 @@ import {
   currencyUI,
   currencySchema,
   radioUI,
-  checkboxUI,
   radioSchema,
   numberSchema,
-  checkboxSchema,
   numberUI,
   textUI,
   textSchema,
@@ -127,8 +125,8 @@ export const options = {
   text: {
     getItemName: item => item?.provider || 'Provider',
     cardDescription: item => {
-      const fromDate = transformDate(item?.careDateRange?.from);
-      const toDate = transformDate(item?.careDateRange?.to);
+      const fromDate = transformDate(item?.careDate?.from);
+      const toDate = transformDate(item?.careDate?.to);
       if (fromDate && toDate) {
         return `${fromDate} - ${toDate}`;
       }
@@ -256,14 +254,18 @@ const datePage = {
     careDate: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
+        hint:
+          'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+        removeDateHint: true,
         monthSelect: false,
       },
       {
         title: 'Care end date',
+        hint: 'Leave blank if care is ongoing.',
+        removeDateHint: true,
         monthSelect: false,
       },
     ),
-    noEndDate: checkboxUI('No end date'),
   },
   schema: {
     type: 'object',
@@ -273,7 +275,6 @@ const datePage = {
         ...currentOrPastDateRangeSchema,
         required: ['from'],
       },
-      noEndDate: checkboxSchema,
     },
     required: ['typeOfCare', 'provider'],
   },
@@ -286,12 +287,16 @@ const costPage = {
       const provider = formData?.provider ?? '';
       return provider ? `Cost of care for ${provider}` : 'Cost of care';
     }),
-    monthlyAmount: currencyUI('What’s the monthly cost of this care?'),
+    monthlyAmount: currencyUI({
+      title: 'What’s the monthly cost of this care?',
+      max: 999999.99,
+    }),
     hourlyRate: {
       ...currencyUI({
         title: 'What is the care provider’s hourly rate?',
         hideIf: (formData, index, fullData) =>
           hideIfInHomeCare(formData, index, fullData),
+        max: 999,
       }),
       'ui:required': (formData, index, fullData) =>
         requiredIfInHomeCare(formData, index, fullData),
@@ -301,6 +306,7 @@ const costPage = {
         title: 'How many hours per week does the care provider work?',
         hideIf: (formData, index, fullData) =>
           hideIfInHomeCare(formData, index, fullData),
+        max: 999,
       }),
       'ui:required': (formData, index, fullData) =>
         requiredIfInHomeCare(formData, index, fullData),

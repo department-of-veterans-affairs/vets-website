@@ -12,7 +12,9 @@ import trackMemoryUsage from '../../testing/unit/unit-test-track-memory-usage';
 const validatedConfigs = new Map();
 
 const formConfigFnParams = {
-  'form-upload': '/find-forms/upload/21-0779',
+  'form-upload': '/forms/upload/21-0779',
+  'representative-form-upload':
+    '/representative/representative-form-upload/submit-va-form-21-686c',
 };
 
 const missingFromVetsJsonSchema = [
@@ -29,7 +31,6 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_20_10207,
   VA_FORM_IDS.FORM_21_0779_UPLOAD,
   VA_FORM_IDS.FORM_21_0845,
-  VA_FORM_IDS.FORM_21_0966,
   VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_10210,
   VA_FORM_IDS.FORM_21_4138,
@@ -64,7 +65,6 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21P_530A,
   VA_FORM_IDS.FORM_21P_0537,
   VA_FORM_IDS.FORM_21P_601,
-  VA_FORM_IDS.FORM_22_10278,
   VA_FORM_IDS.FORM_MOCK_PREFILL,
 ];
 
@@ -80,12 +80,15 @@ const formConfigKeys = [
   'chapters',
   'confirmation',
   'CustomReviewTopContent',
+  'customValidationErrors',
   'customText',
   'CustomTopContent',
+  'customValidationErrors',
   'defaultDefinitions',
   'dev',
   'disableSave',
   'downtime',
+  'dynamicPaths',
   'errorText',
   'footerContent',
   'formId',
@@ -270,10 +273,6 @@ const validateForm = async (formSlug, formConfigParam) => {
     const key = formSlug.split('/')[0] || 'unknown';
     const options = formConfigFnParams[key];
     config = options ? config(options) : config();
-  }
-
-  if (formSlug === 'representative-form-upload/config') {
-    config.formId = '21-686C-UPLOAD';
   }
 
   const coreValidations = [

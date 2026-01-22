@@ -33,63 +33,66 @@ function allTests() {
 
 function selectTests(pathsOfChangedFiles) {
   const tests = [];
+
+  // When RUN_FULL_SUITE is true, select all tests regardless of changed files
+  if (RUN_FULL_SUITE) {
+    tests.push(...allTests());
+    return tests;
+  }
+
   const filteredChangedFiles = pathsOfChangedFiles.filter(
     filePath =>
       !filePath.endsWith('.md') && !filePath.startsWith('.github/workflows'),
   );
   if (filteredChangedFiles.length > 0) {
-    if (RUN_FULL_SUITE) {
-      tests.push(allTests());
-    } else {
-      const applicationNames = filteredChangedFiles.map(
-        filePath => filePath.split('/')[2],
+    const applicationNames = filteredChangedFiles.map(
+      filePath => filePath.split('/')[2],
+    );
+    [...new Set(applicationNames)].forEach(app => {
+      const selectedTestsPattern = path.join(
+        __dirname,
+        '../..',
+        'src/applications',
+        `${app}/**/tests/**/*.cypress.spec.js?(x)`,
       );
-      [...new Set(applicationNames)].forEach(app => {
-        const selectedTestsPattern = path.join(
-          __dirname,
-          '../..',
-          'src/applications',
-          `${app}/**/tests/**/*.cypress.spec.js?(x)`,
-        );
-        console.log('selectedTestsPattern: ', selectedTestsPattern);
+      console.log('selectedTestsPattern: ', selectedTestsPattern);
 
-        tests.push(...glob.sync(selectedTestsPattern));
-      });
+      tests.push(...glob.sync(selectedTestsPattern));
+    });
 
-      // Custom logic needed to ensure that changes to the array builder inside the
-      // platform directory trigger the e2e specs that live in the simple forms app
-      const ARRAY_BUILDER =
-        'src/platform/forms-system/src/js/patterns/array-builder';
-      if (filteredChangedFiles.some(p => p.includes(ARRAY_BUILDER))) {
-        const neededSimpleFormsPattern = path.join(
-          __dirname,
-          '../..',
-          'src/applications/simple-forms/mock-simple-forms-patterns',
-          '**/tests/**/*.cypress.spec.js?(x)',
-        );
-        tests.push(...glob.sync(neededSimpleFormsPattern));
-      }
+    // Custom logic needed to ensure that changes to the array builder inside the
+    // platform directory trigger the e2e specs that live in the simple forms app
+    const ARRAY_BUILDER =
+      'src/platform/forms-system/src/js/patterns/array-builder';
+    if (filteredChangedFiles.some(p => p.includes(ARRAY_BUILDER))) {
+      const neededSimpleFormsPattern = path.join(
+        __dirname,
+        '../..',
+        'src/applications/simple-forms/mock-simple-forms-patterns',
+        '**/tests/**/*.cypress.spec.js?(x)',
+      );
+      tests.push(...glob.sync(neededSimpleFormsPattern));
+    }
 
-      if (IS_CHANGED_APPS_BUILD) {
-        const megaMenuTestPath = path.join(
-          __dirname,
-          '../..',
-          'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
-        );
+    if (IS_CHANGED_APPS_BUILD) {
+      const megaMenuTestPath = path.join(
+        __dirname,
+        '../..',
+        'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
+      );
 
-        // Ensure changed apps have URLs to run header test on
-        if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
-          tests.push(megaMenuTestPath);
-      } else {
-        const defaultTestsPattern = path.join(
-          __dirname,
-          '../..',
-          'src/platform',
-          '**/tests/**/*.cypress.spec.js?(x)',
-        );
+      // Ensure changed apps have URLs to run header test on
+      if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
+        tests.push(megaMenuTestPath);
+    } else {
+      const defaultTestsPattern = path.join(
+        __dirname,
+        '../..',
+        'src/platform',
+        '**/tests/**/*.cypress.spec.js?(x)',
+      );
 
-        tests.push(...glob.sync(defaultTestsPattern));
-      }
+      tests.push(...glob.sync(defaultTestsPattern));
     }
   }
   return tests;

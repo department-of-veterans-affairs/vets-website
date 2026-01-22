@@ -7,15 +7,17 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   TITLE,
   SUBTITLE,
 } from '@bio-aquia/21-4192-employment-information/constants';
-import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containers/confirmation-page';
-import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21-4192-employment-information/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
+import { GetHelp } from '@bio-aquia/21-4192-employment-information/components/get-help';
+import { transformForSubmit } from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
+import { PreSubmitInfo } from '@bio-aquia/21-4192-employment-information/components/pre-submit-info';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
-import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
-import transformForSubmit from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 
 // Import page configurations (uiSchema and schema)
 import {
@@ -58,7 +60,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent,
-  getHelp: GetHelpFooter,
+  getHelp: GetHelp,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -81,14 +83,12 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  // Custom PreSubmitInfo component disables signature name matching validation
+  // Validates basic name format (letters including accented/international characters,
+  // spaces, hyphens, apostrophes, periods) but does NOT require exact match to veteran's name
   preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranInformation.veteranFullName',
-    },
+    required: true,
+    CustomComponent: PreSubmitInfo,
   },
   chapters: {
     veteranInformationChapter: {
@@ -109,11 +109,11 @@ const formConfig = {
       },
     },
     employerInformationChapter: {
-      title: 'Employers Information',
+      title: "Employer's Information",
       pages: {
         employerInformation: {
           path: 'employer-information',
-          title: 'Employers Information',
+          title: "Employer's Information",
           uiSchema: employerInformationUiSchema,
           schema: employerInformationSchema,
         },
@@ -145,18 +145,14 @@ const formConfig = {
           title: 'Employment Termination',
           uiSchema: employmentTerminationUiSchema,
           schema: employmentTerminationSchema,
-          depends: formData =>
-            !!formData?.employmentDates?.endingDate &&
-            !formData?.employmentDates?.currentlyEmployed,
+          depends: formData => !!formData?.employmentDates?.endingDate,
         },
         employmentLastPayment: {
           path: 'employment-last-payment',
           title: 'Employment Last Payment',
           uiSchema: employmentLastPaymentUiSchema,
           schema: employmentLastPaymentSchema,
-          depends: formData =>
-            !!formData?.employmentDates?.endingDate &&
-            !formData?.employmentDates?.currentlyEmployed,
+          depends: formData => !!formData?.employmentDates?.endingDate,
         },
       },
     },

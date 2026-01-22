@@ -25,6 +25,7 @@ export default function UpcomingAppointmentsPage() {
     appointmentsByMonth,
     futureStatus,
     hasTypeChanged,
+    hasBackendServiceFailures,
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
 
   useEffect(() => {
@@ -60,7 +61,10 @@ export default function UpcomingAppointmentsPage() {
     );
   }
 
-  if (futureStatus === FETCH_STATUS.failed) {
+  if (
+    futureStatus === FETCH_STATUS.failed ||
+    (hasBackendServiceFailures && appointmentsByMonth.length === 0)
+  ) {
     return (
       <InfoAlert
         status="error"

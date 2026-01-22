@@ -123,7 +123,7 @@ describe('Form Configuration', () => {
       const page = chapter.pages.employerInformation;
       expect(page).to.exist;
       expect(page.path).to.equal('employer-information');
-      expect(page.title).to.equal('Employers Information');
+      expect(page.title).to.equal("Employer's Information");
       expect(page.uiSchema).to.exist;
       expect(page.schema).to.exist;
     });
@@ -177,39 +177,19 @@ describe('Form Configuration', () => {
         expect(page.depends).to.be.a('function');
       });
 
-      it('should show page when employment ended (has ending date, not currently employed)', () => {
-        const formData = {
-          employmentDates: {
-            endingDate: '2024-01-15',
-            currentlyEmployed: false,
-          },
-        };
-        expect(page.depends(formData)).to.be.true;
-      });
-
-      it('should show page when has ending date and currentlyEmployed is undefined', () => {
+      it('should show page when employment has ending date', () => {
         const formData = {
           employmentDates: {
             endingDate: '2024-01-15',
           },
         };
         expect(page.depends(formData)).to.be.true;
-      });
-
-      it('should hide page when currently employed (even with ending date)', () => {
-        const formData = {
-          employmentDates: {
-            endingDate: '2024-01-15',
-            currentlyEmployed: true,
-          },
-        };
-        expect(page.depends(formData)).to.be.false;
       });
 
       it('should hide page when no ending date provided', () => {
         const formData = {
           employmentDates: {
-            currentlyEmployed: false,
+            beginningDate: '2020-01-15',
           },
         };
         expect(page.depends(formData)).to.be.false;
@@ -228,39 +208,19 @@ describe('Form Configuration', () => {
         expect(page.depends).to.be.a('function');
       });
 
-      it('should show page when employment ended (has ending date, not currently employed)', () => {
-        const formData = {
-          employmentDates: {
-            endingDate: '2024-01-15',
-            currentlyEmployed: false,
-          },
-        };
-        expect(page.depends(formData)).to.be.true;
-      });
-
-      it('should show page when has ending date and currentlyEmployed is undefined', () => {
+      it('should show page when employment has ending date', () => {
         const formData = {
           employmentDates: {
             endingDate: '2024-01-15',
           },
         };
         expect(page.depends(formData)).to.be.true;
-      });
-
-      it('should hide page when currently employed (even with ending date)', () => {
-        const formData = {
-          employmentDates: {
-            endingDate: '2024-01-15',
-            currentlyEmployed: true,
-          },
-        };
-        expect(page.depends(formData)).to.be.false;
       });
 
       it('should hide page when no ending date provided', () => {
         const formData = {
           employmentDates: {
-            currentlyEmployed: false,
+            beginningDate: '2020-01-15',
           },
         };
         expect(page.depends(formData)).to.be.false;
@@ -478,28 +438,25 @@ describe('Form Configuration', () => {
       expect(formConfig.preSubmitInfo).to.exist;
     });
 
-    it('should have statementOfTruth configuration', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth).to.exist;
+    it('should use CustomComponent for signature validation', () => {
+      expect(formConfig.preSubmitInfo.CustomComponent).to.exist;
     });
 
-    it('should have statementOfTruth body text', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.body).to.equal(
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      );
+    it('should use PreSubmitInfo component (function or connected component)', () => {
+      const component = formConfig.preSubmitInfo.CustomComponent;
+      // Component can be a function (Node 14) or object (Node 22 with React element)
+      const isValid =
+        typeof component === 'function' ||
+        (typeof component === 'object' && component !== null);
+      expect(isValid).to.be.true;
     });
 
-    it('should have statementOfTruth messageAriaDescribedby', () => {
-      expect(
-        formConfig.preSubmitInfo.statementOfTruth.messageAriaDescribedby,
-      ).to.equal(
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      );
+    it('should not have statementOfTruth configuration (uses CustomComponent instead)', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth).to.not.exist;
     });
 
-    it('should have fullNamePath set to veteranInformation.veteranFullName', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
-        'veteranInformation.veteranFullName',
-      );
+    it('should have required flag set to true to enforce certification', () => {
+      expect(formConfig.preSubmitInfo.required).to.be.true;
     });
   });
 

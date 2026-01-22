@@ -13,6 +13,7 @@ const { RESULTS_2_IS_1C } = RESULTS_NAME_MAP;
 // 2.0 - Claim for Increase
 // 2.IS.1A - No
 // 2.IS.1B - No
+// 2.IS.1B.2 - No
 const path = {
   Q_1_1_CLAIM_DECISION: 0,
   Q_1_2_CLAIM_DECISION: 0,
@@ -21,6 +22,7 @@ const path = {
   Q_2_0_CLAIM_TYPE: 1,
   Q_2_IS_1A_LAW_POLICY_CHANGE: 1,
   Q_2_IS_1B_NEW_EVIDENCE: 1,
+  Q_2_IS_1B_2_JUDGE_HEARING: 1,
 };
 
 describe('Decision Reviews Onramp', () => {

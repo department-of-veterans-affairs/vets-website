@@ -20,6 +20,18 @@ const setupMinimalHeader = () => {
     if (headerMinimal.dataset?.excludePaths) {
       excludePathsString = headerMinimal.dataset.excludePaths;
       excludePaths = JSON.parse(excludePathsString);
+
+      // never show minimal header on /form-saved page
+      if (
+        Array.isArray(excludePaths) &&
+        !excludePaths.some(path => path.endsWith('/form-saved'))
+      ) {
+        // check if this form-saved page is part of an app with dynamic routes
+        const prefix = excludePaths.some(path => path.startsWith('*'))
+          ? '*'
+          : '';
+        excludePaths.push(`${prefix}/form-saved`);
+      }
     }
   }
 

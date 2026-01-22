@@ -151,3 +151,81 @@ describe('CareSummariesAndNotes list container with errors', () => {
     });
   });
 });
+
+describe('CareSummariesAndNotes does not flash NoRecordsMessage before data loads', () => {
+  it('does not show NoRecordsMessage when careSummariesAndNotesList is undefined', () => {
+    const initialState = {
+      user,
+      mr: {
+        careSummariesAndNotes: {
+          careSummariesAndNotesList: undefined, // Data not yet fetched
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+
+    // Should NOT show the no records message when data is undefined
+    expect(
+      screen.queryByText(
+        'There are no care summaries and notes in your VA medical records',
+        { exact: false },
+      ),
+    ).to.not.exist;
+  });
+});
+
+describe('CareSummariesAndNotes global isLoading states', () => {
+  const baseState = {
+    user,
+    mr: {
+      careSummariesAndNotes: {
+        careSummariesAndNotesList: [],
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
+      },
+      alerts: { alertList: [] },
+    },
+  };
+
+  it('renders TrackedSpinner when feature toggles are loading', () => {
+    const initialState = {
+      ...baseState,
+      featureToggles: { loading: true },
+      drupalStaticData: { vamcEhrData: { loading: false } },
+    };
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+    expect(screen.queryByTestId('loading-indicator')).to.exist;
+  });
+
+  it('renders TrackedSpinner when Drupal EHR data is loading', () => {
+    const initialState = {
+      ...baseState,
+      featureToggles: { loading: false },
+      drupalStaticData: { vamcEhrData: { loading: true } },
+    };
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+    expect(screen.queryByTestId('loading-indicator')).to.exist;
+  });
+});

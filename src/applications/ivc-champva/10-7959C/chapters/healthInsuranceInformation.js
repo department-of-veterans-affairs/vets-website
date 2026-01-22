@@ -1,7 +1,5 @@
-import React from 'react';
 import {
   titleUI,
-  titleSchema,
   textUI,
   textSchema,
   textareaUI,
@@ -12,20 +10,13 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  nameWording,
-  privWrapper,
-  PrivWrappedReview,
-} from '../../shared/utilities';
-import { nameWordingExt } from '../helpers/utilities';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
+import { validateChars } from '../utils/validation';
 import {
-  fileUploadUi as fileUploadUI,
-  singleFileSchema,
-} from '../../shared/components/fileUploads/upload';
-import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
-import { blankSchema } from './applicantInformation';
-import { validFieldCharsOnly } from '../../shared/validations';
+  attachmentUI,
+  blankSchema,
+  singleAttachmentSchema,
+} from '../definitions';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -49,38 +40,16 @@ schemas
 */
 export function applicantHasInsuranceSchema(isPrimary) {
   const keyname = isPrimary ? 'applicantHasPrimary' : 'applicantHasSecondary';
+  const pageTitle = `Report ${
+    !isPrimary ? 'additional ' : ''
+  }other health insurance`;
+  const inputLabel = `Do you have ${
+    isPrimary ? 'any' : 'additional'
+  } other health insurance information to report?`;
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
-          `${nameWording(formData, undefined, undefined, true)} ${
-            isPrimary ? '' : 'additional'
-          } health insurance`,
-        ),
-      ),
-      [keyname]: {
-        ...yesNoUI({
-          updateUiSchema: formData => {
-            return {
-              'ui:title': `${
-                formData.certifierRole === 'applicant' ? 'Do' : 'Does'
-              } ${nameWording(formData, false, false, true)} have ${
-                isPrimary ? '' : 'any other'
-              } medical health insurance information to provide or update at this time?`,
-              'ui:options': {
-                hint: ADDITIONAL_FILES_HINT,
-              },
-            };
-          },
-        }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'health insurance',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
+      ...titleUI(pageTitle),
+      [keyname]: yesNoUI(inputLabel),
     },
     schema: {
       type: 'object',
@@ -104,39 +73,24 @@ export function applicantProviderSchema(isPrimary) {
     : 'applicantSecondaryExpirationDate';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
-          `${nameWording(
-            formData,
-            undefined,
-            undefined,
-            true,
-          )} health insurance information`,
-        ),
-      ),
-      [keyname1]: textUI('Name of insurance provider'),
+      ...titleUI('Health insurance information'),
+      [keyname1]: textUI({
+        title: 'Name of insurance provider',
+        validations: [validateChars],
+      }),
       [keyname2]: currentOrPastDateUI({
         title: 'Insurance start date',
-        hint:
-          'You may find the start date on the declarations page of your insurance policy.',
+        hint: 'This information is on the insurance policy declaration page.',
       }),
       [keyname3]: currentOrPastDateUI({
         title: 'Insurance termination date',
         hint: 'Only enter this date if the policy is inactive.',
       }),
-      'ui:validations': [
-        (errors, formData) =>
-          validFieldCharsOnly(errors, null, formData, keyname1),
-      ],
-      'ui:options': {
-        itemAriaLabel: () => 'health insurance information',
-      },
     },
     schema: {
       type: 'object',
       required: [keyname1, keyname2],
       properties: {
-        titleSchema,
         [keyname1]: textSchema,
         [keyname2]: currentOrPastDateSchema,
         [keyname3]: currentOrPastDateSchema,
@@ -154,43 +108,17 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
     : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
-          `${nameWording(
-            formData,
-            undefined,
-            undefined,
-            true,
-          )} type of insurance for ${formData[provider]}`,
-        ),
+      ...titleUI(
+        ({ formData }) => `Type of insurance for ${formData[provider]}`,
       ),
-      [keyname]: {
-        ...yesNoUI({
-          updateUiSchema: formData => {
-            return {
-              'ui:title': `Is this insurance through ${nameWording(
-                formData,
-                undefined,
-                false,
-                true,
-              )} employer?`,
-            };
-          },
-        }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'insurance type',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
+      [keyname]: yesNoUI(
+        'Is this insurance through the beneficiary’s employer?',
+      ),
     },
     schema: {
       type: 'object',
       required: [keyname],
       properties: {
-        titleSchema,
         [keyname]: yesNoSchema,
       },
     },
@@ -206,44 +134,19 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
     : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
-          `${nameWording(formData, undefined, undefined, true)} ${
-            formData[provider]
-          } prescription coverage`,
-        ),
+      ...titleUI(
+        ({ formData }) => `${formData[provider]} prescription coverage`,
       ),
-      [keyname]: {
-        ...yesNoUI({
-          updateUiSchema: formData => {
-            return {
-              'ui:title': `Does ${nameWording(
-                formData,
-                undefined,
-                false,
-                true,
-              )} health insurance cover prescriptions?`,
-              'ui:options': {
-                hint:
-                  'You may find this information on the front of your health insurance card. You can also contact the phone number listed on the back of the card.',
-              },
-            };
-          },
-        }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'prescription coverage',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
+      [keyname]: yesNoUI({
+        title: 'Does the beneficiary’s health insurance cover prescriptions?',
+        hint:
+          'You may find this information on the front of the health insurance card. You can also contact the phone number listed on the back of the card.',
+      }),
     },
     schema: {
       type: 'object',
       required: [keyname],
       properties: {
-        titleSchema,
         [keyname]: yesNoSchema,
       },
     },
@@ -257,44 +160,20 @@ export function applicantInsuranceEobSchema(isPrimary) {
     : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
-          `${nameWording(formData, undefined, undefined, true)} ${
-            formData[provider]
-          } explanation of benefits`,
-        ),
+      ...titleUI(
+        ({ formData }) => `${formData[provider]} explanation of benefits`,
       ),
-      [keyname]: {
-        ...yesNoUI({
-          updateUiSchema: formData => {
-            return {
-              'ui:title': `Does ${nameWording(
-                formData,
-                undefined,
-                false,
-                true,
-              )} health insurance have an explanation of benefits (EOB) for prescriptions?`,
-              'ui:options': {
-                hint:
-                  "If you're not sure, you can call the phone number listed on the back of your health insurance card.",
-                classNames: ['dd-privacy-hidden'],
-              },
-            };
-          },
-        }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'explanation of benefits',
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
+      [keyname]: yesNoUI({
+        title:
+          'Does the beneficiary’s health insurance have an explanation of benefits (EOB) for prescriptions?',
+        hint:
+          'If you’re not sure, you can call the phone number listed on the back of the health insurance card.',
+      }),
     },
     schema: {
       type: 'object',
       required: [keyname],
       properties: {
-        titleSchema,
         [keyname]: yesNoSchema,
       },
     },
@@ -305,45 +184,27 @@ export function applicantInsuranceSOBSchema(isPrimary) {
   const keyname = isPrimary
     ? 'primaryInsuranceScheduleOfBenefits'
     : 'secondaryInsuranceScheduleOfBenefits';
+  const provider = isPrimary
+    ? 'applicantPrimaryProvider'
+    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
       ...titleUI(
-        ({ formData }) =>
-          privWrapper(
-            `Upload ${
-              isPrimary
-                ? formData?.applicantPrimaryProvider
-                : formData?.applicantSecondaryProvider
-            } schedule of benefits`,
-          ),
-        () => {
-          return (
-            <>
-              You'll need to submit a copy of the card or document that shows
-              the schedule of benefits that lists your co-payments.
-              <br />
-              <br />
-              If you don't have a copy to upload now, you can send it by mail or
-              fax.
-            </>
-          );
-        },
+        ({ formData }) => `Upload ${formData[provider]} schedule of benefits`,
+        'You’ll need to submit a copy of the card or document that shows the schedule of benefits that lists the beneficiary’s co-payments.',
       ),
       ...fileUploadBlurb,
-      [keyname]: fileUploadUI({
+      [keyname]: attachmentUI({
         label: 'Upload schedule of benefits document',
         attachmentId: 'Schedule of benefits document',
       }),
-      'ui:options': {
-        itemAriaLabel: () => 'schedule of benefits',
-      },
     },
     schema: {
       type: 'object',
+      required: [keyname],
       properties: {
-        titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: singleFileSchema,
+        [keyname]: singleAttachmentSchema,
       },
     },
   };
@@ -355,53 +216,26 @@ export function applicantInsuranceTypeSchema(isPrimary) {
     : 'applicantSecondaryInsuranceType';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
-          `${nameWording(formData, undefined, undefined, true)} ${
-            isPrimary ? '' : 'additional'
-          } insurance plan`,
-        ),
-      ),
-      [keyname]: {
-        ...radioUI({
-          labels: {
-            hmo: 'Health Maintenance Organization (HMO) program',
-            ppo: 'Preferred Provider Organization (PPO) program',
-            medicaid: 'Medicaid or a State Assistance program',
-            rxDiscount: 'Prescription Discount program',
-            other:
-              'Other (specialty, limited coverage, or exclusively CHAMPVA supplemental) insurance',
-            medigap: 'Medigap program',
-          },
-          required: () => true,
-          updateUiSchema: formData => {
-            const wording = nameWordingExt(formData);
-            return {
-              'ui:title': `Select the type of insurance plan or program ${
-                wording.beingVerb
-              } enrolled in`,
-              'ui:options': {
-                hint: `You may find this information on the front of ${
-                  wording.posessive
-                } health insurance card.`,
-              },
-            };
-          },
-        }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'insurance plan',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
+      ...titleUI('Private or employer-sponsored insurance plan'),
+      [keyname]: radioUI({
+        title:
+          'Which type of insurance plan or program is the beneficiary enrolled in?',
+        hint: 'This information is on the front of the health insurance card',
+        labels: {
+          hmo: 'Health Maintenance Organization (HMO) program',
+          ppo: 'Preferred Provider Organization (PPO) program',
+          medicaid: 'Medicaid or a State Assistance program',
+          medigap: 'Medigap program',
+          rxDiscount: 'Prescription Discount program',
+          other:
+            'Other (specialty, limited coverage, or exclusively CHAMPVA supplemental) insurance',
+        },
+      }),
     },
     schema: {
       type: 'object',
       required: [keyname],
       properties: {
-        titleSchema,
         [keyname]: radioSchema([
           'hmo',
           'ppo',
@@ -419,43 +253,16 @@ export function applicantMedigapSchema(isPrimary) {
   const keyname = isPrimary ? 'primaryMedigapPlan' : 'secondaryMedigapPlan';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
-          `${nameWording(formData, undefined, undefined, true)} ${
-            isPrimary ? '' : 'additional'
-          } Medigap information`,
-        ),
-      ),
-      [keyname]: {
-        ...radioUI({
-          title: 'Which type of Medigap plan is the applicant enrolled in?',
-          required: () => true,
-          labels: MEDIGAP,
-          updateUiSchema: formData => {
-            const wording = nameWordingExt(formData);
-            return {
-              'ui:title': `Select the Medigap plan ${
-                wording.beingVerb
-              } enrolled in`,
-              'ui:options': {
-                classNames: ['dd-privacy-hidden'],
-              },
-            };
-          },
-        }),
-      },
-      'ui:options': {
-        itemAriaLabel: () => 'Medigap information',
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
+      ...titleUI('Medigap information'),
+      [keyname]: radioUI({
+        title: 'Select the Medigap policy the beneficiary is enrolled in.',
+        labels: MEDIGAP,
+      }),
     },
     schema: {
       type: 'object',
       required: [keyname],
       properties: {
-        titleSchema,
         [keyname]: radioSchema(Object.keys(MEDIGAP)),
       },
     },
@@ -466,46 +273,25 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
   const keyname = isPrimary
     ? 'primaryAdditionalComments'
     : 'secondaryAdditionalComments';
+  const provider = isPrimary
+    ? 'applicantPrimaryProvider'
+    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      ...titleUI(({ formData }) =>
-        privWrapper(
-          `${nameWording(formData, undefined, undefined, true)} ${
-            isPrimary
-              ? formData?.applicantPrimaryProvider
-              : formData?.applicantSecondaryProvider
-          } health insurance additional comments`,
-        ),
+      ...titleUI(
+        ({ formData }) =>
+          `${formData[provider]} health insurance additional comments`,
       ),
       [keyname]: textareaUI({
-        updateUiSchema: formData => {
-          return {
-            'ui:title': `Any additional comments about ${nameWording(
-              formData,
-              undefined,
-              false,
-              true,
-            )} health insurance?`,
-          };
-        },
+        title:
+          'Do you have any additional comments about the beneficiary’s health insurance?',
+        validations: [validateChars],
         charcount: true,
       }),
-      'ui:options': {
-        itemAriaLabel: () => 'health insurance additional comments',
-        classNames: ['dd-privacy-hidden'],
-      },
-      'ui:objectViewField': props => {
-        return PrivWrappedReview(props);
-      },
-      'ui:validations': [
-        (errors, formData) =>
-          validFieldCharsOnly(errors, null, formData, keyname),
-      ],
     },
     schema: {
       type: 'object',
       properties: {
-        titleSchema,
         [keyname]: { type: 'string', maxLength: 200 },
       },
     },
@@ -514,50 +300,32 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
 
 export function applicantInsuranceCardSchema(isPrimary) {
   const keyname = isPrimary ? 'primaryInsuranceCard' : 'secondaryInsuranceCard';
+  const provider = isPrimary
+    ? 'applicantPrimaryProvider'
+    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
       ...titleUI(
-        ({ formData }) =>
-          privWrapper(
-            `Upload ${
-              isPrimary
-                ? formData?.applicantPrimaryProvider
-                : formData?.applicantSecondaryProvider
-            } health insurance card`,
-          ),
-        () => {
-          return (
-            <>
-              You'll need to submit a copy of the front and back of this health
-              insurance card.
-              <br />
-              <br />
-              If you don't have a copy to upload now, you can send it by mail or
-              fax.
-            </>
-          );
-        },
+        ({ formData }) => `Upload ${formData[provider]} health insurance card`,
+        'You’ll need to submit a copy of the front and back of this health insurance card.',
       ),
       ...fileUploadBlurb,
-      [`${keyname}Front`]: fileUploadUI({
+      [`${keyname}Front`]: attachmentUI({
         label: 'Upload front of insurance card',
         attachmentId: 'Front of insurance card', // used behind the scenes
       }),
-      [`${keyname}Back`]: fileUploadUI({
+      [`${keyname}Back`]: attachmentUI({
         label: 'Upload back of insurance card',
         attachmentId: 'Back of insurance card', // used behind the scenes
       }),
-      'ui:options': {
-        itemAriaLabel: () => 'health insurance card uploads',
-      },
     },
     schema: {
       type: 'object',
+      required: [`${keyname}Front`, `${keyname}Back`],
       properties: {
-        titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [`${keyname}Front`]: singleFileSchema,
-        [`${keyname}Back`]: singleFileSchema,
+        [`${keyname}Front`]: singleAttachmentSchema,
+        [`${keyname}Back`]: singleAttachmentSchema,
       },
     },
   };

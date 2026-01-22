@@ -20,6 +20,35 @@ export function flattenRecipientName({ first, middle, last }) {
 }
 
 /**
+ * Collect all attachment objects from the form data, specifically from the trusts
+ * and ownedAssets arrays.
+ * @param {Object} data the form data object
+ * @returns {Array} an array of all attachment objects found in the data
+ */
+export function collectAttachmentFiles(data) {
+  const attachments = [];
+
+  const { trusts = [] } = data;
+
+  trusts.forEach(trust => {
+    if (trust.uploadedDocuments) {
+      // Spread to avoid nested arrays
+      attachments.push(...trust.uploadedDocuments);
+    }
+  });
+
+  const assets = data.ownedAssets || [];
+  assets.forEach(asset => {
+    if (asset.uploadedDocuments && !Array.isArray(asset.uploadedDocuments)) {
+      // Owned assets can only have one supporting document each
+      attachments.push(asset.uploadedDocuments);
+    }
+  });
+
+  return attachments;
+}
+
+/**
  * Applies conditional removal rules to an object.
  * @param {Object} obj - The object to transform (mutates clone, not original).
  * @param {Array} rules - Array of rule objects:
@@ -146,8 +175,10 @@ export function remapRecipientRelationshipFields(claimantType, itemData = {}) {
     return itemData;
   }
 
+  // Using a straight apostrophe (') instead of a typographic apostrophe (’)
+  // to avoid downstream PDF encoding issues where U+2019 is rendered as '?'.
   const label =
-    claimantType === 'CUSTODIAN' ? 'Custodian’s spouse' : 'Parent’s spouse';
+    claimantType === 'CUSTODIAN' ? "Custodian's spouse" : "Parent's spouse";
 
   return {
     ...itemData,

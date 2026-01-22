@@ -5,8 +5,8 @@ import { render } from '@testing-library/react';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import * as scrollUtils from 'platform/utilities/scroll/scroll';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as page from '../../utils/page';
@@ -55,6 +55,8 @@ import {
   getTimezoneDiscrepancyMessage,
   showTimezoneDiscrepancyMessage,
   formatUploadDateTime,
+  getTrackedItemDisplayFromSupportingDocument,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
 } from '../../utils/helpers';
 
 import {
@@ -828,10 +830,8 @@ describe('Disability benefits helpers: ', () => {
 
   describe('makeAuthRequest', () => {
     let expectedUrl;
-    const server = setupServer();
 
     before(() => {
-      server.listen();
       server.events.on('request:start', req => {
         // TODO: After Node 14 support is dropped, simplify to: expectedUrl = req.url.href;
         // The || req.url fallback is only needed for Node 14 compatibility
@@ -843,8 +843,6 @@ describe('Disability benefits helpers: ', () => {
       server.resetHandlers();
       expectedUrl = undefined;
     });
-
-    after(() => server.close());
 
     it('should make an apiRequest request', done => {
       server.use(
@@ -2383,6 +2381,104 @@ describe('Disability benefits helpers: ', () => {
       expect(() => formatUploadDateTime(undefined)).to.throw(
         /formatUploadDateTime: date parameter is required/,
       );
+    });
+  });
+
+  describe('getTrackedItemDisplayFromSupportingDocument', () => {
+    context('when the id is present', () => {
+      it('should return the friendlyName when it is present', () => {
+        const document = {
+          id: '123',
+          friendlyName: 'Medical Records',
+          displayName: 'Submit Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal('Medical Records');
+      });
+
+      it('should return the displayName when the friendlyName is not present', () => {
+        const document = {
+          id: '123',
+          displayName: 'Submit Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal('Submit Medical Records');
+      });
+
+      it("should return 'unknown' when neither friendlyName nor displayName are present", () => {
+        const document = {
+          id: '123',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal('unknown');
+      });
+    });
+
+    context('when the id is not present', () => {
+      it('should return null', () => {
+        const document = {
+          friendlyName: 'Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal(null);
+      });
+    });
+  });
+
+  describe('getTrackedItemDisplayNameFromEvidenceSubmission', () => {
+    context('when the trackedItemId is present', () => {
+      it('should return the trackedItemFriendlyName when it is present', () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
+          trackedItemDisplayName: '21-4142/21-4142a',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('Authorization to Disclose Information');
+      });
+
+      it('should return the trackedItemDisplayName when the trackedItemFriendlyName is not present', () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+          trackedItemDisplayName: '21-4142/21-4142a',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('21-4142/21-4142a');
+      });
+
+      it("should return 'unknown' when neither trackedItemFriendlyName nor trackedItemDisplayName are present", () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('unknown');
+      });
+    });
+
+    context('when the trackedItemId is not present', () => {
+      it('should return null', () => {
+        const evidenceSubmission = {
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal(null);
+      });
     });
   });
 });

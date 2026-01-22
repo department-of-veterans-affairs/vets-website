@@ -15,9 +15,9 @@ const exampleExpenses = [
   { id: 1, name: 'Hospital and office visits' },
   { id: 2, name: 'Nursing homes and home health services' },
   { id: 3, name: 'Medical supplies' },
-  { id: 4, name: 'Prescription and non-prescription drugs' },
-  { id: 5, name: 'Insurance premiums and Medicare deductions' },
-  { id: 6, name: 'Mileage and transportation to a medical facility' },
+  { id: 4, name: 'Prescription and over-the-counter drugs' },
+  { id: 5, name: 'Medical insurance premiums and Medicare deductions' },
+  { id: 6, name: 'Mileage and transportation for medical purposes' },
 ];
 
 const ProcessList = () => {
@@ -32,7 +32,8 @@ const ProcessList = () => {
         <ul className="vads-u-padding-top--1p5">
           <li>
             You can report expenses that you’ve paid for yourself or for a
-            family member living in your household.
+            dependent family member living in your household, such as a spouse,
+            child, grandchild, or parent.
           </li>
           <li>
             Don’t report expenses that were already reimbursed or will be
@@ -43,12 +44,19 @@ const ProcessList = () => {
             keep your receipts for your own records.
           </li>
         </ul>
+        <va-additional-info trigger="Why you should keep your receipts">
+          <p>
+            We recommend keeping all receipts or other documentation of payments
+            for at least 3 years after receiving a decision on your medical
+            expense claim. If we need to verify your expenses later and these
+            records aren’t available, your benefits may be retroactively reduced
+            or discontinued.
+          </p>
+        </va-additional-info>
       </va-process-list-item>
       <va-process-list-item header="Types of expenses you may report">
         <ul className="vads-u-padding-top--1p5">
-          {exampleExpenses.map(item => (
-            <li key={item.id}>{item.name}</li>
-          ))}
+          {exampleExpenses?.map(item => <li key={item.id}>{item.name}</li>)}
         </ul>
         <va-additional-info trigger="Additional documents we may ask for">
           <p>

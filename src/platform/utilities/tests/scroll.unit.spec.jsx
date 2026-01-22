@@ -182,7 +182,7 @@ describe('getElementPosition', () => {
 describe('scrollTo', () => {
   const setup = async (spy, scrollOptions) => {
     global.window.Forms = {};
-    Object.defineProperty(document.body, 'scrollTo', { value: spy });
+    Object.defineProperty(window, 'scrollTo', { value: spy });
     const { container } = render(
       <div>
         <div id="first" />
@@ -249,7 +249,7 @@ describe('scrollToElement', () => {
   // This function is an alias of scrollTo
   const setup = async (spy, scrollOptions) => {
     global.window.Forms = {};
-    Object.defineProperty(document.body, 'scrollTo', { value: spy });
+    Object.defineProperty(window, 'scrollTo', { value: spy });
     const { container } = render(
       <div>
         <div id="first" />
@@ -282,7 +282,7 @@ describe('scrollToElement', () => {
 describe('scrollToTop', () => {
   const setup = async (spy, selector, scrollOptions) => {
     global.window.Forms = {};
-    Object.defineProperty(document.body, 'scrollTo', { value: spy });
+    Object.defineProperty(window, 'scrollTo', { value: spy });
     const { container } = render(
       <div>
         <div id="first" />
@@ -346,7 +346,7 @@ describe('scrollToFirstError', () => {
     focusStub = sinon.stub(focusUtils, 'focusElement');
     consoleStub = sinon.stub(console, 'warn');
 
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
     Object.defineProperty(window, 'Forms', { value: {} });
   });
 
@@ -540,20 +540,42 @@ describe('scrollToFirstError', () => {
     sinon.assert.notCalled(focusStub);
   });
 
-  it('should call `focusElement` with element when `focusOnAlertRole` is false and element is a VA-* tag', async () => {
+  it('should focus the va-text-input internal input when `focusOnAlertRole` is false', async () => {
     const { container } = renderForm();
     const el = document.createElement('va-text-input');
     el.setAttribute('error', 'some error');
     el.id = 'va-input';
+
+    // Mock the shadow root and internal input element
+    const shadowRoot = el.attachShadow({ mode: 'open' });
+    const input = document.createElement('input');
+    const focusSpy = sinon.spy();
+    input.focus = focusSpy;
+    shadowRoot.appendChild(input);
+
     container.querySelector('form').appendChild(el);
 
     await scrollToFirstError();
-    sinon.assert.calledWithExactly(focusStub, el);
+
+    // focusElement from focusUtils should NOT be called for supported VA components
+    sinon.assert.notCalled(focusStub);
+    // Instead, native focus should be called on the internal input
+    await waitFor(() => {
+      sinon.assert.calledOnce(focusSpy);
+      sinon.assert.calledWithExactly(focusSpy, { preventScroll: true });
+    });
   });
 
   it('should log a warning to the console when no error element is found and timer expires ', async () => {
+    // Temporarily remove Mocha flag to test the warning behavior in non-test environments
+    const originalMocha = window.Mocha;
+    window.Mocha = undefined;
+
     renderForm();
     await scrollToFirstError();
+
+    // Restore Mocha flag
+    window.Mocha = originalMocha;
 
     sinon.assert.calledWithMatch(consoleStub, /Error element not found/);
     sinon.assert.notCalled(focusStub);
@@ -602,7 +624,7 @@ describe('scrollAndFocus', () => {
   it('should scroll to & focus element', async () => {
     const scrollSpy = sinon.spy();
     const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
     const { container } = render(
       <div>
         <div id="first" />
@@ -625,7 +647,7 @@ describe('scrollAndFocus', () => {
   it('should not scroll or focus when element is missing', async () => {
     const scrollSpy = sinon.spy();
     const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
     const { container } = render(
       <div>
         <div id="first" />
@@ -644,7 +666,7 @@ describe('customScrollAndFocus', () => {
   it('should focus on h3 when no param is passed', async () => {
     const scrollSpy = sinon.spy();
     const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
 
     render(
       <>
@@ -671,7 +693,7 @@ describe('customScrollAndFocus', () => {
   it('should focus when passed a string selector', async () => {
     const scrollSpy = sinon.spy();
     const focusSpy = sinon.stub(focusUtils, 'focusElement');
-    Object.defineProperty(document.body, 'scrollTo', { value: scrollSpy });
+    Object.defineProperty(window, 'scrollTo', { value: scrollSpy });
 
     render(
       <>
@@ -700,5 +722,538 @@ describe('customScrollAndFocus', () => {
     const spy = sinon.spy();
     await customScrollAndFocus(spy, 2);
     expect(spy.called).to.be.true;
+  });
+});
+
+describe('Error Scaffolding', () => {
+  const {
+    isSupportedVaElement,
+    findFocusTarget,
+    addErrorAnnotations,
+    cleanupErrorAnnotations,
+    collectAllErrorElements,
+    getErrorPropText,
+  } = require('../scroll/error-scaffolding');
+
+  describe('isSupportedVaElement', () => {
+    it('should return true for supported VA web components', () => {
+      const vaCheckbox = document.createElement('va-checkbox');
+      const vaCheckboxGroup = document.createElement('va-checkbox-group');
+      const vaComboBox = document.createElement('va-combo-box');
+      const vaRadio = document.createElement('va-radio');
+      const vaRadioOption = document.createElement('va-radio-option');
+      const vaSelect = document.createElement('va-select');
+      const vaStatementOfTruth = document.createElement(
+        'va-statement-of-truth',
+      );
+      const vaTextInput = document.createElement('va-text-input');
+      const vaTextarea = document.createElement('va-textarea');
+
+      expect(isSupportedVaElement(vaCheckbox)).to.be.true;
+      expect(isSupportedVaElement(vaCheckboxGroup)).to.be.true;
+      expect(isSupportedVaElement(vaComboBox)).to.be.true;
+      expect(isSupportedVaElement(vaRadio)).to.be.true;
+      expect(isSupportedVaElement(vaRadioOption)).to.be.true;
+      expect(isSupportedVaElement(vaSelect)).to.be.true;
+      expect(isSupportedVaElement(vaStatementOfTruth)).to.be.true;
+      expect(isSupportedVaElement(vaTextInput)).to.be.true;
+      expect(isSupportedVaElement(vaTextarea)).to.be.true;
+    });
+
+    it('should return false for regular HTML elements', () => {
+      const div = document.createElement('div');
+      const input = document.createElement('input');
+      const span = document.createElement('span');
+
+      expect(isSupportedVaElement(div)).to.be.false;
+      expect(isSupportedVaElement(input)).to.be.false;
+      expect(isSupportedVaElement(span)).to.be.false;
+    });
+
+    it('should return false for unsupported VA components', () => {
+      const vaModal = document.createElement('va-modal');
+      const vaAlert = document.createElement('va-alert');
+
+      expect(isSupportedVaElement(vaModal)).to.be.false;
+      expect(isSupportedVaElement(vaAlert)).to.be.false;
+    });
+
+    it('should return false for null or undefined', () => {
+      expect(isSupportedVaElement(null)).to.be.false;
+      expect(isSupportedVaElement(undefined)).to.be.false;
+    });
+  });
+
+  describe('getErrorPropText', () => {
+    it('should extract error message from error attribute', () => {
+      const el = document.createElement('va-text-input');
+      el.setAttribute('error', 'This field is required');
+
+      expect(getErrorPropText(el)).to.equal('This field is required');
+    });
+
+    it('should extract error message from input-error attribute', () => {
+      const el = document.createElement('va-statement-of-truth');
+      el.setAttribute('input-error', 'Invalid input');
+
+      expect(getErrorPropText(el)).to.equal('Invalid input');
+    });
+
+    it('should extract error message from checkbox-error attribute', () => {
+      const el = document.createElement('va-statement-of-truth');
+      el.setAttribute('checkbox-error', 'Select at least one option');
+
+      expect(getErrorPropText(el)).to.equal('Select at least one option');
+    });
+
+    it('should return empty string when no error exists', () => {
+      const el = document.createElement('va-text-input');
+
+      expect(getErrorPropText(el)).to.equal('');
+    });
+
+    it('should prioritize error attribute over others', () => {
+      const el = document.createElement('div');
+      el.setAttribute('error', 'Error message');
+      el.setAttribute('input-error', 'Input error message');
+
+      expect(getErrorPropText(el)).to.equal('Error message');
+    });
+  });
+
+  describe('findFocusTarget', () => {
+    it('should return input element from shadow root for va-text-input', () => {
+      const vaTextInput = document.createElement('va-text-input');
+      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
+      const input = document.createElement('input');
+      input.id = 'test-input';
+      shadowRoot.appendChild(input);
+
+      const target = findFocusTarget(vaTextInput);
+      expect(target.id).to.equal('test-input');
+    });
+
+    it('should return textarea element from shadow root for va-textarea', () => {
+      const vaTextarea = document.createElement('va-textarea');
+      const shadowRoot = vaTextarea.attachShadow({ mode: 'open' });
+      const textarea = document.createElement('textarea');
+      textarea.id = 'test-textarea';
+      shadowRoot.appendChild(textarea);
+
+      const target = findFocusTarget(vaTextarea);
+      expect(target.id).to.equal('test-textarea');
+    });
+
+    it('should return select element from shadow root for va-select', () => {
+      const vaSelect = document.createElement('va-select');
+      const shadowRoot = vaSelect.attachShadow({ mode: 'open' });
+      const select = document.createElement('select');
+      select.id = 'test-select';
+      shadowRoot.appendChild(select);
+
+      const target = findFocusTarget(vaSelect);
+      expect(target.id).to.equal('test-select');
+    });
+
+    it('should return the element itself when no shadow root exists', () => {
+      const vaTextInput = document.createElement('va-text-input');
+
+      const target = findFocusTarget(vaTextInput);
+      expect(target).to.equal(vaTextInput);
+    });
+
+    it('should return first radio option input for va-radio group', () => {
+      const vaRadio = document.createElement('va-radio');
+      const option1 = document.createElement('va-radio-option');
+      const option2 = document.createElement('va-radio-option');
+
+      const shadowRoot1 = option1.attachShadow({ mode: 'open' });
+      const input1 = document.createElement('input');
+      input1.type = 'radio';
+      input1.id = 'radio-1';
+      shadowRoot1.appendChild(input1);
+
+      const shadowRoot2 = option2.attachShadow({ mode: 'open' });
+      const input2 = document.createElement('input');
+      input2.type = 'radio';
+      input2.id = 'radio-2';
+      shadowRoot2.appendChild(input2);
+
+      vaRadio.appendChild(option1);
+      vaRadio.appendChild(option2);
+
+      const target = findFocusTarget(vaRadio);
+      expect(target.id).to.equal('radio-1');
+    });
+
+    it('should return first checkbox input for va-checkbox-group', () => {
+      const vaCheckboxGroup = document.createElement('va-checkbox-group');
+      const checkbox1 = document.createElement('va-checkbox');
+      const checkbox2 = document.createElement('va-checkbox');
+
+      const shadowRoot1 = checkbox1.attachShadow({ mode: 'open' });
+      const input1 = document.createElement('input');
+      input1.type = 'checkbox';
+      input1.id = 'checkbox-1';
+      shadowRoot1.appendChild(input1);
+
+      const shadowRoot2 = checkbox2.attachShadow({ mode: 'open' });
+      const input2 = document.createElement('input');
+      input2.type = 'checkbox';
+      input2.id = 'checkbox-2';
+      shadowRoot2.appendChild(input2);
+
+      vaCheckboxGroup.appendChild(checkbox1);
+      vaCheckboxGroup.appendChild(checkbox2);
+
+      const target = findFocusTarget(vaCheckboxGroup);
+      expect(target.id).to.equal('checkbox-1');
+    });
+
+    it('should skip hidden elements when finding focus target', () => {
+      const vaTextInput = document.createElement('va-combo-box');
+      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
+
+      const hiddenInput = document.createElement('select');
+      hiddenInput.setAttribute('hidden', 'true');
+      hiddenInput.id = 'hidden-input';
+
+      const visibleInput = document.createElement('input');
+      visibleInput.id = 'visible-input';
+
+      shadowRoot.appendChild(hiddenInput);
+      shadowRoot.appendChild(visibleInput);
+
+      const target = findFocusTarget(vaTextInput);
+      expect(target.id).to.equal('visible-input');
+    });
+  });
+
+  describe('collectAllErrorElements', () => {
+    it('should collect elements with error attributes', () => {
+      render(
+        <div>
+          <va-text-input error="some error" id="error-1">
+            Error 1
+          </va-text-input>
+          <va-text-input id="no-error">Not an error</va-text-input>
+          <va-textarea error="another error" id="error-2">
+            Error 2
+          </va-textarea>
+        </div>,
+      );
+
+      const selectors = '[error]:not([error=""])';
+      const errors = collectAllErrorElements(selectors);
+
+      expect(errors.length).to.equal(2);
+      expect(errors[0].id).to.equal('error-1');
+      expect(errors[1].id).to.equal('error-2');
+    });
+
+    it('should collect nested VA components with errors in shadow roots', () => {
+      const { container } = render(<div id="test-container" />);
+
+      // Create a parent VA component with a nested child that has an error
+      const parent = document.createElement('va-text-input');
+      parent.id = 'parent';
+      parent.setAttribute('error', 'Parent error');
+
+      const shadowRoot = parent.attachShadow({ mode: 'open' });
+      const child = document.createElement('va-select');
+      child.id = 'child';
+      child.setAttribute('error', 'Child error');
+      shadowRoot.appendChild(child);
+
+      container.appendChild(parent);
+
+      const selectors = '[error]:not([error=""])';
+      const errors = collectAllErrorElements(selectors);
+
+      // Should find both parent and nested child
+      const errorIds = errors.map(e => e.id);
+      expect(errorIds).to.include('parent');
+      expect(errorIds).to.include('child');
+    });
+  });
+
+  describe('addErrorAnnotations', () => {
+    it('should add aria-labelledby to input element in shadow root', () => {
+      const vaTextInput = document.createElement('va-text-input');
+      vaTextInput.setAttribute('error', 'This field is required');
+      vaTextInput.setAttribute('label', 'First Name');
+
+      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
+      const input = document.createElement('input');
+      shadowRoot.appendChild(input);
+
+      addErrorAnnotations(vaTextInput);
+
+      expect(input.getAttribute('aria-labelledby')).to.not.be.null;
+    });
+
+    it('should create sr-only span with error message', () => {
+      const vaTextInput = document.createElement('va-text-input');
+      vaTextInput.setAttribute('error', 'This field is required');
+      vaTextInput.setAttribute('label', 'Email Address');
+
+      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
+      const input = document.createElement('input');
+      shadowRoot.appendChild(input);
+
+      addErrorAnnotations(vaTextInput);
+
+      const srSpan = shadowRoot.querySelector('span.usa-sr-only');
+      expect(srSpan).to.not.be.null;
+      expect(srSpan.textContent).to.include('Error');
+      expect(srSpan.textContent).to.include('This field is required');
+      expect(srSpan.textContent).to.include('Email Address');
+    });
+
+    it('should not add annotations to unsupported elements', () => {
+      const div = document.createElement('div');
+      div.setAttribute('error', 'Some error');
+
+      addErrorAnnotations(div);
+
+      expect(div.querySelector('span.usa-sr-only')).to.be.null;
+    });
+
+    it('should remove role="alert" from error message elements', () => {
+      const vaTextInput = document.createElement('va-text-input');
+      vaTextInput.setAttribute('error', 'This field is required');
+
+      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
+      const input = document.createElement('input');
+      const errorMessage = document.createElement('span');
+      errorMessage.id = 'input-error-message';
+      errorMessage.setAttribute('role', 'alert');
+      errorMessage.setAttribute('aria-live', 'polite');
+      shadowRoot.appendChild(input);
+      shadowRoot.appendChild(errorMessage);
+
+      addErrorAnnotations(vaTextInput);
+
+      expect(errorMessage.getAttribute('role')).to.be.null;
+      expect(errorMessage.getAttribute('aria-live')).to.be.null;
+    });
+
+    it('should handle va-radio groups by adding labels to each option', () => {
+      const vaRadio = document.createElement('va-radio');
+      vaRadio.setAttribute('error', 'Select an option');
+      vaRadio.setAttribute('label', 'Choose your answer');
+
+      const option1 = document.createElement('va-radio-option');
+      option1.setAttribute('label', 'Option 1');
+      const shadowRoot1 = option1.attachShadow({ mode: 'open' });
+      const input1 = document.createElement('input');
+      input1.type = 'radio';
+      shadowRoot1.appendChild(input1);
+
+      const option2 = document.createElement('va-radio-option');
+      option2.setAttribute('label', 'Option 2');
+      const shadowRoot2 = option2.attachShadow({ mode: 'open' });
+      const input2 = document.createElement('input');
+      input2.type = 'radio';
+      shadowRoot2.appendChild(input2);
+
+      vaRadio.appendChild(option1);
+      vaRadio.appendChild(option2);
+
+      addErrorAnnotations(vaRadio);
+
+      // Both options should have generated-error attribute
+      expect(option1.getAttribute('generated-error')).to.equal(
+        'Select an option',
+      );
+      expect(option2.getAttribute('generated-error')).to.equal(
+        'Select an option',
+      );
+
+      // Both inputs should have aria-labelledby
+      expect(input1.getAttribute('aria-labelledby')).to.not.be.null;
+      expect(input2.getAttribute('aria-labelledby')).to.not.be.null;
+    });
+
+    it('should handle va-checkbox-group by adding labels to each checkbox', () => {
+      const vaCheckboxGroup = document.createElement('va-checkbox-group');
+      vaCheckboxGroup.setAttribute('error', 'Select at least one');
+      vaCheckboxGroup.setAttribute('label', 'Select all that apply');
+
+      const checkbox1 = document.createElement('va-checkbox');
+      checkbox1.setAttribute('label', 'Checkbox 1');
+      const shadowRoot1 = checkbox1.attachShadow({ mode: 'open' });
+      const input1 = document.createElement('input');
+      input1.type = 'checkbox';
+      shadowRoot1.appendChild(input1);
+
+      const checkbox2 = document.createElement('va-checkbox');
+      checkbox2.setAttribute('label', 'Checkbox 2');
+      const shadowRoot2 = checkbox2.attachShadow({ mode: 'open' });
+      const input2 = document.createElement('input');
+      input2.type = 'checkbox';
+      shadowRoot2.appendChild(input2);
+
+      vaCheckboxGroup.appendChild(checkbox1);
+      vaCheckboxGroup.appendChild(checkbox2);
+
+      addErrorAnnotations(vaCheckboxGroup);
+
+      // Both checkboxes should have generated-error attribute
+      expect(checkbox1.getAttribute('generated-error')).to.equal(
+        'Select at least one',
+      );
+      expect(checkbox2.getAttribute('generated-error')).to.equal(
+        'Select at least one',
+      );
+
+      // Both inputs should have aria-labelledby
+      expect(input1.getAttribute('aria-labelledby')).to.not.be.null;
+      expect(input2.getAttribute('aria-labelledby')).to.not.be.null;
+    });
+  });
+
+  describe('cleanupErrorAnnotations', () => {
+    it('should remove aria-labelledby when error is cleared', () => {
+      const vaTextInput = document.createElement('va-text-input');
+      vaTextInput.setAttribute('error', 'This field is required');
+      vaTextInput.setAttribute('label', 'First Name');
+
+      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
+      const input = document.createElement('input');
+      shadowRoot.appendChild(input);
+
+      document.body.appendChild(vaTextInput);
+
+      // Add annotations
+      addErrorAnnotations(vaTextInput);
+      expect(input.getAttribute('aria-labelledby')).to.not.be.null;
+
+      // Clear error and cleanup
+      vaTextInput.removeAttribute('error');
+      cleanupErrorAnnotations();
+
+      expect(input.getAttribute('aria-labelledby')).to.be.null;
+
+      document.body.removeChild(vaTextInput);
+    });
+
+    it('should remove sr-only span when error is cleared', () => {
+      const vaTextInput = document.createElement('va-text-input');
+      vaTextInput.setAttribute('error', 'This field is required');
+      vaTextInput.setAttribute('label', 'Email');
+
+      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
+      const input = document.createElement('input');
+      shadowRoot.appendChild(input);
+
+      document.body.appendChild(vaTextInput);
+
+      // Add annotations
+      addErrorAnnotations(vaTextInput);
+      let srSpan = shadowRoot.querySelector('span.usa-sr-only');
+      expect(srSpan).to.not.be.null;
+
+      // Clear error and cleanup
+      vaTextInput.removeAttribute('error');
+      cleanupErrorAnnotations();
+
+      srSpan = shadowRoot.querySelector('span.usa-sr-only');
+      expect(srSpan).to.be.null;
+
+      document.body.removeChild(vaTextInput);
+    });
+
+    it('should update error message when it changes', () => {
+      const vaTextInput = document.createElement('va-text-input');
+      vaTextInput.setAttribute('error', 'First error message');
+      vaTextInput.setAttribute('label', 'Username');
+
+      const shadowRoot = vaTextInput.attachShadow({ mode: 'open' });
+      const input = document.createElement('input');
+      shadowRoot.appendChild(input);
+
+      document.body.appendChild(vaTextInput);
+
+      // Add initial annotations
+      addErrorAnnotations(vaTextInput);
+      let srSpan = shadowRoot.querySelector('span.usa-sr-only');
+      expect(srSpan.textContent).to.include('First error message');
+
+      // Change error message
+      vaTextInput.setAttribute('error', 'Second error message');
+      cleanupErrorAnnotations();
+      addErrorAnnotations(vaTextInput);
+
+      srSpan = shadowRoot.querySelector('span.usa-sr-only');
+      expect(srSpan.textContent).to.include('Second error message');
+      expect(srSpan.textContent).to.not.include('First error message');
+
+      document.body.removeChild(vaTextInput);
+    });
+
+    it('should clear generated-error from radio options when group error is cleared', () => {
+      const vaRadio = document.createElement('va-radio');
+      vaRadio.setAttribute('error', 'Select an option');
+
+      const option1 = document.createElement('va-radio-option');
+      const shadowRoot1 = option1.attachShadow({ mode: 'open' });
+      const input1 = document.createElement('input');
+      input1.type = 'radio';
+      shadowRoot1.appendChild(input1);
+
+      vaRadio.appendChild(option1);
+      document.body.appendChild(vaRadio);
+
+      // Add annotations
+      addErrorAnnotations(vaRadio);
+      expect(option1.getAttribute('generated-error')).to.equal(
+        'Select an option',
+      );
+
+      // Clear error and cleanup
+      vaRadio.removeAttribute('error');
+      cleanupErrorAnnotations();
+
+      expect(option1.getAttribute('generated-error')).to.be.null;
+
+      document.body.removeChild(vaRadio);
+    });
+
+    it('should handle multiple elements with errors', () => {
+      const vaTextInput1 = document.createElement('va-text-input');
+      vaTextInput1.setAttribute('error', 'Error 1');
+      vaTextInput1.id = 'input-1';
+      const shadowRoot1 = vaTextInput1.attachShadow({ mode: 'open' });
+      const input1 = document.createElement('input');
+      shadowRoot1.appendChild(input1);
+
+      const vaTextInput2 = document.createElement('va-text-input');
+      vaTextInput2.setAttribute('error', 'Error 2');
+      vaTextInput2.id = 'input-2';
+      const shadowRoot2 = vaTextInput2.attachShadow({ mode: 'open' });
+      const input2 = document.createElement('input');
+      shadowRoot2.appendChild(input2);
+
+      document.body.appendChild(vaTextInput1);
+      document.body.appendChild(vaTextInput2);
+
+      // Add annotations to both
+      addErrorAnnotations(vaTextInput1);
+      addErrorAnnotations(vaTextInput2);
+
+      expect(input1.getAttribute('aria-labelledby')).to.not.be.null;
+      expect(input2.getAttribute('aria-labelledby')).to.not.be.null;
+
+      // Clear first error only
+      vaTextInput1.removeAttribute('error');
+      cleanupErrorAnnotations();
+
+      expect(input1.getAttribute('aria-labelledby')).to.be.null;
+      expect(input2.getAttribute('aria-labelledby')).to.not.be.null;
+
+      document.body.removeChild(vaTextInput1);
+      document.body.removeChild(vaTextInput2);
+    });
   });
 });

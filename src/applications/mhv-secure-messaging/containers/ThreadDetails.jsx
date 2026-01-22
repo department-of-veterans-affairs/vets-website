@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
@@ -23,7 +23,7 @@ const ThreadDetails = props => {
     customFoldersRedesignEnabled,
     largeAttachmentsEnabled,
   } = useFeatureToggles();
-  const { threadId } = useParams();
+  const { threadId: messageId } = useParams();
   const { testing } = props;
   const dispatch = useDispatch();
   const location = useLocation();
@@ -37,9 +37,10 @@ const ThreadDetails = props => {
   const { folder } = useSelector(state => state.sm.folders);
 
   const message = messages?.length && messages[0];
+  const threadId = message?.threadId;
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const [isSending, setIsSending] = useState(false);
 
   const header = useRef();
@@ -70,22 +71,29 @@ const ThreadDetails = props => {
     [drafts, dispatch, folder, threadFolderId],
   );
 
+  const handleRedirectToFolder = useCallback(
+    () => {
+      navigateToFolderByFolderId(folder?.folderId || 0, history);
+    },
+    [folder, history],
+  );
+
   useEffect(
     () => {
-      if (threadId) {
-        dispatch(retrieveMessageThread(threadId))
+      if (messageId) {
+        dispatch(retrieveMessageThread(messageId))
           .then(() => {
             setIsLoaded(true);
           })
           .catch(() => {
-            navigateToFolderByFolderId(folder?.folderId || 0, history);
+            handleRedirectToFolder();
           });
       }
       return () => {
         dispatch(closeAlert());
       };
     },
-    [dispatch, threadId, location.pathname],
+    [dispatch, messageId, location.pathname, handleRedirectToFolder],
   );
 
   useEffect(

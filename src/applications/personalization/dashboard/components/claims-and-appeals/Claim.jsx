@@ -44,10 +44,9 @@ const Claim = ({ claim }) => {
 
   const content = (
     <>
-      <h3 className="vads-u-margin-top--0">
-        {/* Remove fallback when cst_use_claim_title_generator_web flag is removed */}
+      <h3 className="vads-u-margin-top--0 dd-privacy-mask">
         {capitalizeFirstLetter(
-          claim.attributes.claimTypeBase || `${getClaimType(claim)} claim`,
+          claim.attributes?.claimTypeBase || `${getClaimType(claim)} claim`,
         )}{' '}
         received {dateRecd}
       </h3>

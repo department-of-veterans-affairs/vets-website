@@ -31,6 +31,7 @@ import {
   capitalizeEachWord,
   disabilityIsSelected,
   isClaimingIncrease,
+  isNewConditionOption,
   isPlaceholderRated,
   pathWithIndex,
   sippableId,
@@ -64,8 +65,24 @@ export const makeSchemaForNewDisabilities = createSelector(
 
   (newDisabilities = []) => {
     const raw = newDisabilities
-      .map(d => (typeof d?.condition === 'string' ? d.condition.trim() : ''))
-      .filter(s => s.length > 0 && !isPlaceholderRated(s));
+      .map(d => {
+        const condition =
+          typeof d?.condition === 'string' ? d.condition.trim() : '';
+
+        if (!condition || isPlaceholderRated(condition)) {
+          return '';
+        }
+
+        const side =
+          typeof d?.sideOfBody === 'string' ? d.sideOfBody.trim() : '';
+
+        if (side) {
+          return `${condition}, ${side.toLowerCase()}`;
+        }
+
+        return condition;
+      })
+      .filter(s => s.length > 0);
 
     const normalized = raw.map(pretty);
     const unique = [...new Set(normalized)];
@@ -88,12 +105,54 @@ export const makeSchemaForNewDisabilities = createSelector(
  */
 export const makeSchemaForRatedDisabilities = createSelector(
   formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
-  (ratedDisabilities = []) => ({
-    properties: ratedDisabilities
+  formData =>
+    Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
+
+  (ratedDisabilities = [], newDisabilities = []) => {
+    // rated disabilities from the current workflow (view:selected)
+    const fromRatedDisabilities = ratedDisabilities
       .filter(disabilityIsSelected)
-      .map(disability => disability.name)
-      .reduce(createCheckboxSchema, {}),
-  }),
+      .map(disability => disability.name);
+
+    // rated disabilities from the v2 workflow (stored in the newDisabilities array)
+    const fromNewDisabilities = newDisabilities
+      .map(d => {
+        const condition =
+          typeof d?.condition === 'string' ? d.condition.trim() : '';
+        const ratedDisability =
+          typeof d?.ratedDisability === 'string'
+            ? d.ratedDisability.trim()
+            : '';
+
+        if (
+          condition &&
+          ratedDisability &&
+          isPlaceholderRated(condition) &&
+          !isNewConditionOption(ratedDisability)
+        ) {
+          return ratedDisability;
+        }
+        return '';
+      })
+      .filter(s => s.length > 0);
+
+    // combine and deduplicate
+    const combined = [...fromRatedDisabilities, ...fromNewDisabilities];
+    const unique = [
+      ...new Set(
+        combined.map(
+          d =>
+            typeof d === 'string' ? d.toLowerCase() : NULL_CONDITION_STRING,
+        ),
+      ),
+    ];
+
+    const properties = unique.reduce((schema, name) => {
+      return createCheckboxSchema(schema, name);
+    }, {});
+
+    return { properties };
+  },
 );
 
 /**

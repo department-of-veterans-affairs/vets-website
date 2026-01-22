@@ -15,6 +15,15 @@ import { getRootParentUrl } from '../../shared/utils';
 // Must match the H1
 document.title = TITLE;
 
+/**
+ * Render the Dependents Verification application
+ * @typedef {object} AppProps
+ * @property {object} location - current location object
+ * @property {node} children - child components
+ *
+ * @param {AppProps} props - Component props
+ * @returns {React.Component} - Dependents Verification application
+ */
 export default function App({ location, children }) {
   const isLoggedIn = useSelector(
     state => state?.user?.login?.currentlyLoggedIn,
@@ -57,21 +66,24 @@ export default function App({ location, children }) {
   useBrowserMonitoring({
     loggedIn: isLoggedIn,
     toggleName: 'vaDependentsBrowserMonitoringEnabled',
+
     applicationId: '2f49e2b2-d5d6-4a53-9850-a42ed7ab26d7',
     clientToken: 'pub15c7121f25875066ff90b92371cd7ff4',
-    site: 'ddog-gov.com',
-    // see https://docs.datadoghq.com/getting_started/site/
     service: 'benefits-dependents-verification',
     version: '1.0.0',
+
+    // record 100% of staging & production sessions; adjust the dashboard
+    // retention filters to manage volume & cost
     sessionReplaySampleRate: 100,
     sessionSampleRate: 100,
+
     defaultPrivacyLevel: 'mask-user-input',
     trackBfcacheViews: true,
   });
 
   useEffect(() => {
     if (!isIntroPage && dependentsLoading) {
-      location.replace(`${manifest.rootUrl}/introduction`);
+      location.pathname.replace(`${manifest.rootUrl}/introduction`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

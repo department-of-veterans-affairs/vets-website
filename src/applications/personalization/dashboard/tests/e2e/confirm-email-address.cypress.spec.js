@@ -1,3 +1,9 @@
+import {
+  DEFAULT_TRANSACTION_ID,
+  buildUpdateEmailResponse,
+  buildTransactionStatusResponse,
+} from '~/platform/mhv/tests/fixtures/confirm-email-transactions';
+
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -6,22 +12,6 @@ import DashboardPage from './pages/Dashboard';
 
 const MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE =
   'MHV_EMAIL_CONFIRMATION_DISMISSED';
-
-const buildUpdateEmailResponse = (isSuccess = true) => ({
-  statusCode: isSuccess ? 200 : 400,
-  body: {
-    data: {
-      id: '',
-      type: 'async_transaction_va_profile_email_address_transactions',
-      attributes: {
-        transactionId: 'email_address_tx_id',
-        transactionStatus: isSuccess ? 'RECEIVED' : 'COMPLETED_FAILURE',
-        type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
-        metadata: [],
-      },
-    },
-  },
-});
 
 describe('MHV Email Confirmation Alert - Confirm Email', () => {
   beforeEach(() => {
@@ -57,11 +47,18 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     cy.intercept('PUT', '/v0/profile/email_addresses', req => {
       if (!hasFailed) {
         hasFailed = true;
-        req.reply(buildUpdateEmailResponse(false));
+        req.reply(buildUpdateEmailResponse('COMPLETED_FAILURE'));
       } else {
-        req.reply(buildUpdateEmailResponse());
+        req.reply(buildUpdateEmailResponse('COMPLETED_SUCCESS'));
       }
     }).as('updateEmail');
+
+    // Mock successful polling for the retry
+    cy.intercept(
+      'GET',
+      `/v0/profile/status/${DEFAULT_TRANSACTION_ID}`,
+      buildTransactionStatusResponse('COMPLETED_SUCCESS'),
+    ).as('pollStatus');
 
     DashboardPage.clickConfirmEmail();
     cy.wait('@updateEmail');
@@ -88,7 +85,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     cy.intercept(
       'PUT',
       '/v0/profile/email_addresses',
-      buildUpdateEmailResponse(false),
+      buildUpdateEmailResponse('COMPLETED_FAILURE'),
     ).as('updateEmail');
 
     DashboardPage.clickConfirmEmail();
@@ -103,7 +100,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     // Click the edit link and verify redirection to contact info page.
     DashboardPage.clickErrorEditEmailLink();
     cy.url().should('include', '/profile/contact-information');
-    cy.hash().should('equal', '#contact-email-address');
+    cy.hash().should('equal', '#email-address');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -112,8 +109,14 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     cy.intercept(
       'PUT',
       '/v0/profile/email_addresses',
-      buildUpdateEmailResponse(),
+      buildUpdateEmailResponse('COMPLETED_SUCCESS'),
     ).as('updateEmail');
+
+    cy.intercept(
+      'GET',
+      `/v0/profile/status/${DEFAULT_TRANSACTION_ID}`,
+      buildTransactionStatusResponse('COMPLETED_SUCCESS'),
+    ).as('pollStatus');
 
     DashboardPage.clickConfirmEmail();
     cy.wait('@updateEmail');
@@ -131,7 +134,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     DashboardPage.clickEditEmailLink();
 
     cy.url().should('include', '/profile/contact-information');
-    cy.hash().should('equal', '#contact-email-address');
+    cy.hash().should('equal', '#email-address');
 
     cy.injectAxeThenAxeCheck();
   });

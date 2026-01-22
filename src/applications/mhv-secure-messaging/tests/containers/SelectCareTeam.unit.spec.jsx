@@ -4,6 +4,8 @@ import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { datadogRum } from '@datadog/browser-rum';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import * as monitoring from '@department-of-veterans-affairs/platform-monitoring/exports';
 import reducer from '../../reducers';
 import { ErrorMessages, Paths } from '../../util/constants';
 import SelectCareTeam from '../../containers/SelectCareTeam';
@@ -16,6 +18,7 @@ import * as threadDetailsActions from '../../actions/threadDetails';
 describe('SelectCareTeam', () => {
   let sandbox;
   let updateDraftInProgressSpy;
+  let recordEventStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -23,10 +26,12 @@ describe('SelectCareTeam', () => {
       threadDetailsActions,
       'updateDraftInProgress',
     );
+    recordEventStub = sinon.stub(monitoring, 'recordEvent');
   });
 
   afterEach(() => {
     sandbox.restore();
+    recordEventStub.restore();
     cleanup();
   });
 
@@ -109,6 +114,7 @@ describe('SelectCareTeam', () => {
     });
     const vaRadio = screen.container.querySelector('va-radio');
     expect(vaRadio).to.exist;
+    expect(vaRadio.hasAttribute('enable-analytics')).to.be.true;
     expect(vaRadio.getAttribute('label')).to.equal(
       'Select a VA health care system',
     );
@@ -165,6 +171,8 @@ describe('SelectCareTeam', () => {
 
     await waitFor(() => {
       const careSystemSelect = screen.getByTestId('care-system-select');
+      // Ensure enable-analytics is present on VaSelect
+      expect(careSystemSelect.hasAttribute('enable-analytics')).to.be.true;
 
       const options = careSystemSelect.querySelectorAll('option');
       expect(options).to.have.lengthOf(
@@ -313,6 +321,66 @@ describe('SelectCareTeam', () => {
         }`,
       );
     });
+  });
+
+  it('Updates continue button text when no messageId present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+          },
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    const continueButton = await screen.findByTestId('continue-button');
+    expect(continueButton).to.exist;
+    expect(continueButton).to.have.attribute(
+      'text',
+      'Continue to start message',
+    );
+  });
+
+  it('Updates continue button text when messageId present', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+            messageId: 123456,
+          },
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    const continueButton = await screen.findByTestId('continue-button');
+    expect(continueButton).to.exist;
+    expect(continueButton).to.have.attribute('text', 'Continue to draft');
   });
 
   it('dispatches correct care system when it does not match the selected care team on continue', async () => {
@@ -967,6 +1035,284 @@ describe('SelectCareTeam', () => {
       // Wait a bit to ensure no redirect happens
       await new Promise(resolve => setTimeout(resolve, 100));
       expect(screen.history.location.pathname).to.equal(Paths.SELECT_CARE_TEAM);
+    });
+  });
+
+  describe('Analytics - VA Health Systems Displayed', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    afterEach(() => {
+      global.window.dataLayer = [];
+    });
+
+    const findDataLayerEvent = eventName => {
+      return global.window.dataLayer?.find(e => e['api-name'] === eventName);
+    };
+
+    it('should call recordEvent when multiple VA health systems are displayed as radio buttons', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allFacilities: ['636', '662', '757'], // 3 facilities
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for the radio buttons to render using testid
+      await waitFor(() => {
+        expect(screen.getByTestId('care-system-636')).to.exist;
+      });
+
+      // Check that recordEvent pushed to dataLayer
+      await waitFor(() => {
+        const event = findDataLayerEvent('SM VA Health Systems Displayed');
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'successful',
+          'health-systems-count': 3,
+          version: 'radio',
+        });
+      });
+    });
+
+    it('should call recordEvent when 6 or more VA health systems are displayed as dropdown', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allFacilities: noBlocked6Recipients.mockAllFacilities, // 6 facilities
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for the dropdown to render using testid
+      await waitFor(() => {
+        expect(screen.getByTestId('care-system-select')).to.exist;
+      });
+
+      // Check that recordEvent pushed to dataLayer
+      await waitFor(() => {
+        const event = findDataLayerEvent('SM VA Health Systems Displayed');
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'successful',
+          'health-systems-count': 6,
+          version: 'dropdown',
+        });
+      });
+    });
+
+    it('should not call recordEvent when only one VA health system exists', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allFacilities: ['636'], // Only 1 facility
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for component to render (heading should always be present)
+      await screen.findByRole('heading', { name: 'Select care team' });
+
+      // Wait a bit to ensure useEffect has run
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Check that recordEvent was NOT called for this event
+      const event = findDataLayerEvent('SM VA Health Systems Displayed');
+      expect(event).to.be.undefined;
+    });
+
+    it('should call recordEvent with fail status when no VA health systems exist', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            allFacilities: [], // No facilities
+            noAssociations: false, // Ensure we don't redirect
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Check that recordEvent pushed to dataLayer with fail status
+      await waitFor(() => {
+        const event = findDataLayerEvent('SM VA Health Systems Displayed');
+        expect(event).to.exist;
+        expect(event).to.deep.include({
+          event: 'api_call',
+          'api-name': 'SM VA Health Systems Displayed',
+          'api-status': 'fail',
+          'health-systems-count': 0,
+          'error-key': 'no-health-systems',
+        });
+      });
+    });
+  });
+
+  describe('Analytics - Care Team Search Input', () => {
+    beforeEach(() => {
+      global.window.dataLayer = [];
+      // Restore recordEvent to allow real dataLayer pushes for these tests
+      recordEventStub.restore();
+    });
+
+    afterEach(() => {
+      global.window.dataLayer = [];
+      // Re-stub recordEvent after these tests
+      recordEventStub = sinon.stub(monitoring, 'recordEvent');
+    });
+
+    const findDataLayerEvent = eventName => {
+      return global.window.dataLayer?.find(e => e.event === eventName);
+    };
+
+    // Note: This test is skipped because it relies on simulating input in a web component's
+    // shadow DOM (va-combo-box), which doesn't properly trigger the component's internal
+    // handlers in the unit test environment. The debounced analytics event requires the
+    // actual shadow DOM input to be modified, which can't be accurately simulated.
+    // This analytics behavior should be verified in E2E tests instead.
+    it.skip('should call recordEvent when user types in care team search box', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for the combobox to render
+      await waitFor(() => {
+        expect(screen.getByTestId('compose-recipient-combobox')).to.exist;
+      });
+
+      // Simulate typing in the combobox by triggering onInput event
+      const combobox = screen.getByTestId('compose-recipient-combobox');
+      const inputEvent = new CustomEvent('input', {
+        bubbles: true,
+        detail: { value: 'test search' },
+      });
+      // Mock the shadowRoot querySelector to return an input with the typed value
+      Object.defineProperty(combobox, 'shadowRoot', {
+        value: {
+          querySelector: () => ({ value: 'test search' }),
+        },
+        writable: true,
+      });
+      combobox.dispatchEvent(inputEvent);
+
+      // Wait for debounce timer (500ms) plus some buffer
+      await waitFor(
+        () => {
+          const event = findDataLayerEvent('int-text-input-search');
+          expect(event).to.exist;
+          expect(event).to.deep.include({
+            event: 'int-text-input-search',
+            'text-input-label': 'Select a care team',
+          });
+        },
+        { timeout: 2000 },
+      );
+    });
+
+    it('should not call recordEvent when search box is empty', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait for the combobox to render
+      await waitFor(() => {
+        expect(screen.getByTestId('compose-recipient-combobox')).to.exist;
+      });
+
+      // Wait to ensure no event fires
+      await new Promise(resolve => setTimeout(resolve, 600));
+
+      // Check that recordEvent was NOT called for empty search
+      const event = findDataLayerEvent('int-text-input-search');
+      expect(event).to.be.undefined;
     });
   });
 });

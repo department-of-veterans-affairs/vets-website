@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../../constants';
 import {
+  fixDateFormat,
   parseDateToDateObj,
   parseDate,
   parseDateWithOffset,
@@ -10,6 +11,7 @@ import {
   toUTCStartOfDay,
   isLocalToday,
   isUTCTodayOrFuture,
+  formatDateToReadableString,
 } from '../../utils/dates';
 
 describe('parseDateToDateObj', () => {
@@ -229,5 +231,54 @@ describe('isUTCTodayOrFuture', () => {
     expect(utcComparisonResult).to.be.true;
     expect(issueDateUTC.getUTCDate()).to.equal(mockUTCToday.getUTCDate());
     expect(issueDateUTC.getTime()).to.equal(mockUTCToday.getTime());
+  });
+});
+
+describe('formatDateToReadableString', () => {
+  describe('VA.gov style month formatting', () => {
+    it('should NOT abbreviate March per VA.gov style guide', () => {
+      const marchDate = new Date(2025, 2, 15, 12, 0, 0); // March 15, 2025
+      const result = formatDateToReadableString(marchDate);
+      expect(result).to.equal('March 15, 2025');
+    });
+
+    it('should abbreviate December with period per VA.gov style guide', () => {
+      const decemberDate = new Date(2025, 11, 10, 12, 0, 0); // December 10, 2025
+      const result = formatDateToReadableString(decemberDate);
+      expect(result).to.equal('Dec. 10, 2025');
+    });
+  });
+});
+
+describe('fixDateFormat', () => {
+  it('should return an empty strings for empty or non-string values', () => {
+    expect(fixDateFormat()).to.eq('');
+    expect(fixDateFormat('')).to.eq('');
+    expect(fixDateFormat({})).to.eq('');
+    expect(fixDateFormat(null)).to.eq('');
+    expect(fixDateFormat(10)).to.eq('');
+  });
+  it('should return invalid dates strings', () => {
+    expect(fixDateFormat('-')).to.eq('-00-00');
+    expect(fixDateFormat('200')).to.eq('200-00-00');
+  });
+  it('should return already properly formatted date string', () => {
+    expect(fixDateFormat('2020-01-02')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023-12-31')).to.eq('2023-12-31');
+    expect(fixDateFormat('2000-06-30')).to.eq('2000-06-30');
+  });
+  it('should return properly formatted date string when passed dates with no leading zero', () => {
+    expect(fixDateFormat('2020-1-2')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023-10-1')).to.eq('2023-10-01');
+    expect(fixDateFormat('2000-6-30')).to.eq('2000-06-30');
+  });
+  it('should return properly formatted date string when passed dates with weird spacing', () => {
+    expect(fixDateFormat('2020--')).to.eq('2020-00-00');
+    expect(fixDateFormat('2020-1-')).to.eq('2020-01-00');
+    expect(fixDateFormat('2020- 1 - 2 ')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023 - 10 - 1')).to.eq('2023-10-01');
+    expect(fixDateFormat('2000-6 - 30')).to.eq('2000-06-30');
+    expect(fixDateFormat('2000  -  6 - 30')).to.eq('2000-06-30');
+    expect(fixDateFormat('2000 \t - \t 6 \t - \t 30')).to.eq('2000-06-30');
   });
 });

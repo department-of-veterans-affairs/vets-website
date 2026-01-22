@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const RxRenewalDeleteDraftSuccessAlert = () => {
   const [visible, setIsVisible] = useState(true);
+  const alertRef = useRef(null);
+
+  useEffect(() => {
+    if (alertRef.current) {
+      focusElement(alertRef.current);
+    }
+  }, []);
+
   return (
     <VaAlert
+      ref={alertRef}
       slim
       closeable
       role="status"

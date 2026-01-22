@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import {
   getFilesNeeded,
@@ -19,8 +19,12 @@ function WhatYouNeedToDo({ claim }) {
       // we will remove the automated 5103 request from the filesNeeded array, preventing the alert from showing.
       getFilesNeeded(trackedItems)
     : [];
-  const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
-    evidenceSubmissions,
+
+  // Memoize failed submissions to prevent UploadType2ErrorAlert from receiving
+  // a new array reference on every render, which would break its useEffect tracking
+  const failedSubmissionsWithinLast30Days = useMemo(
+    () => getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
+    [evidenceSubmissions],
   );
   const nothingNeededMessage = (
     <div className="no-documents">
@@ -41,6 +45,7 @@ function WhatYouNeedToDo({ claim }) {
         <Toggler.Enabled>
           <UploadType2ErrorAlert
             failedSubmissions={failedSubmissionsWithinLast30Days}
+            isStatusPage
           />
           {filesNeeded.length === 0 &&
             failedSubmissionsWithinLast30Days.length === 0 &&
@@ -53,7 +58,7 @@ function WhatYouNeedToDo({ claim }) {
       {filesNeeded.map(item => (
         <FilesNeeded
           key={item.id}
-          id={claim.id}
+          claimId={claim.id}
           item={item}
           evidenceWaiverSubmitted5103={evidenceWaiverSubmitted5103}
           previousPage="status"

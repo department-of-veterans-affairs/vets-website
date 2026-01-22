@@ -17,10 +17,8 @@ import {
 
 import { MAX_LENGTH } from '../../../shared/constants';
 import '../../../shared/definitions';
-import {
-  fixDateFormat,
-  replaceSubmittedData,
-} from '../../../shared/utils/replace';
+import { fixDateFormat } from '../../../shared/utils/dates';
+import { replaceSubmittedData } from '../../../shared/utils/replace';
 import { removeEmptyEntries } from '../../../shared/utils/submit';
 
 /**
