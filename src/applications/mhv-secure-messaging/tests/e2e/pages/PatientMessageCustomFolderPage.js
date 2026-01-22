@@ -226,6 +226,9 @@ class PatientMessageCustomFolderPage {
   };
 
   submitEditFolderName = folderName => {
+    // Wait for the inline form to be visible after clicking edit button
+    cy.get('[data-testid="edit-folder-form"]').should('be.visible');
+
     cy.get('[name="new-folder-name"]')
       .should('be.visible')
       .shadow()
@@ -251,7 +254,7 @@ class PatientMessageCustomFolderPage {
       },
     }).as('updatedFolderName');
 
-    cy.get('[text="Save"]')
+    cy.get('[data-testid="save-edit-folder-button"]')
       .should('be.visible')
       .click();
   };

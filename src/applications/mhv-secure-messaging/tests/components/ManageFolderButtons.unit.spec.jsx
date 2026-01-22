@@ -93,7 +93,7 @@ describe('Manage Folder Buttons component', () => {
     sinon.assert.calledWith(deleteFolderSpy);
   });
 
-  it("displays a modal when 'Rename folder' button is clicked", async () => {
+  it("displays inline edit form when 'Edit folder' button is clicked", async () => {
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -103,13 +103,13 @@ describe('Manage Folder Buttons component', () => {
     );
     fireEvent.click(screen.getByTestId('edit-folder-button'));
 
-    const renameModal = screen.getByTestId('rename-folder-modal');
-    expect(renameModal).to.have.attribute('visible', 'true');
-    fireEvent.click(renameModal.querySelector('va-button[text="Cancel"]'));
-    expect(renameModal).to.have.attribute('visible', 'false');
+    const editForm = screen.getByTestId('edit-folder-form');
+    expect(editForm).to.exist;
+    fireEvent.click(screen.getByTestId('cancel-edit-folder-button'));
+    expect(screen.queryByTestId('edit-folder-form')).to.not.exist;
   });
 
-  it('Rename modal accepts specific characters in folder name', async () => {
+  it('Edit form shows error for blank folder name', async () => {
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -118,10 +118,22 @@ describe('Manage Folder Buttons component', () => {
       },
     );
     fireEvent.click(screen.getByTestId('edit-folder-button'));
-    const renameModal = screen.getByTestId('rename-folder-modal');
-    const input = renameModal.querySelector('va-text-input');
 
-    const saveButton = renameModal.querySelector('va-button[text="Save"]');
+    await waitFor(() => {
+      expect(screen.getByTestId('edit-folder-form')).to.exist;
+    });
+
+    const editForm = screen.getByTestId('edit-folder-form');
+    const input = editForm.querySelector('va-text-input');
+
+    // Clear the input to simulate blank folder name
+    input.value = '';
+    fireEvent(
+      input,
+      new CustomEvent('input', { detail: { value: '' }, bubbles: true }),
+    );
+
+    const saveButton = screen.getByTestId('save-edit-folder-button');
     fireEvent.click(saveButton);
 
     await waitFor(() => {
@@ -129,18 +141,6 @@ describe('Manage Folder Buttons component', () => {
         'Folder name cannot be blank',
       );
     });
-    // fireEvent.click(input);
-    // fireEvent.change(input, {
-    //   target: { value: folder.name },
-    // });
-
-    // fireEvent.click(saveButton);
-    // screen.debug();
-    // await waitFor(() => {
-    //   expect(input.getAttribute('error')).to.equal(
-    //     'Folder name already in use. Please use another name.',
-    //   );
-    // });
   });
 
   it.skip('test', async () => {

@@ -35,7 +35,16 @@ describe('edit custom folder name validation', () => {
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    cy.get('[text="Save"]')
+    // Wait for the inline form to be visible
+    cy.get('[data-testid="edit-folder-form"]').should('be.visible');
+
+    // Clear the pre-filled folder name to trigger blank validation
+    cy.get('[name="new-folder-name"]')
+      .shadow()
+      .find('[id="inputField"]')
+      .clear({ force: true });
+
+    cy.get('[data-testid="save-edit-folder-button"]')
       .should('be.visible')
       .click({ waitForAnimations: true });
 

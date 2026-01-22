@@ -24,10 +24,10 @@ const ManageFolderButtons = props => {
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
   const [nameWarning, setNameWarning] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
-  const [renameModal, setRenameModal] = useState(false);
+  const [isEditExpanded, setIsEditExpanded] = useState(false);
   const [folderName, setFolderName] = useState('');
   const folderNameInput = useRef();
-  const renameModalReference = useRef(null);
+  const editFolderButtonRef = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
   const removeFolderRef = useRef(null);
@@ -41,7 +41,7 @@ const ManageFolderButtons = props => {
   useEffect(
     () => {
       if (alertStatus) {
-        renameModalReference.current?.focus();
+        editFolderButtonRef.current?.focus();
       }
     },
     [alertStatus],
@@ -55,6 +55,15 @@ const ManageFolderButtons = props => {
         );
     },
     [nameWarning],
+  );
+
+  useEffect(
+    () => {
+      if (isEditExpanded && folder?.name) {
+        setFolderName(folder.name);
+      }
+    },
+    [isEditExpanded, folder?.name],
   );
 
   const openDelModal = () => {
@@ -79,17 +88,27 @@ const ManageFolderButtons = props => {
     );
   };
 
-  const openRenameModal = () => {
+  const toggleEditExpanded = () => {
     if (alertStatus) dispatch(closeAlert());
-    setRenameModal(true);
+    if (isEditExpanded) {
+      // Collapsing - reset state
+      setFolderName('');
+      setNameWarning('');
+      datadogRum.addAction('Edit Folder Name Collapsed');
+    } else {
+      // Expanding - pre-fill with current folder name
+      setFolderName(folder.name);
+      datadogRum.addAction('Edit Folder Name Expanded');
+    }
+    setIsEditExpanded(!isEditExpanded);
   };
 
-  const closeRenameModal = async () => {
+  const cancelEdit = () => {
     setFolderName('');
     setNameWarning('');
-    await setRenameModal(false);
-    focusElement(renameModalReference.current);
-    datadogRum.addAction('Edit Folder Name Modal Closed');
+    setIsEditExpanded(false);
+    focusElement(editFolderButtonRef.current);
+    datadogRum.addAction('Edit Folder Name Cancelled');
   };
 
   const confirmRenameFolder = async () => {
@@ -103,7 +122,9 @@ const ManageFolderButtons = props => {
       setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       await dispatch(renameFolder(folder.folderId, folderName));
-      closeRenameModal();
+      setIsEditExpanded(false);
+      setFolderName('');
+      setNameWarning('');
     } else {
       setNameWarning(
         ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
@@ -114,36 +135,87 @@ const ManageFolderButtons = props => {
   return (
     <>
       {folder.folderId > 0 && (
-        <div
-          className="            
-            vads-u-display--flex
-            vads-u-flex-direction--column
-            mobile-lg:vads-u-flex-direction--row
-            mobile-lg:vads-u-align-content--flex-start
-          "
-        >
-          {/* TODO add GA event for both buttons */}
-          <button
-            type="button"
-            className="usa-button-secondary"
-            data-testid="edit-folder-button"
-            onClick={openRenameModal}
-            ref={renameModalReference}
-            data-dd-action-name="Edit Folder Name Button"
-          >
-            Edit folder name
-          </button>
-          <button
-            type="button"
-            className="usa-button-secondary"
-            data-testid="remove-folder-button"
-            onClick={openDelModal}
-            data-dd-action-name="Remove Folder Button"
-            ref={removeFolderRef}
-          >
-            Remove folder
-          </button>
-        </div>
+        <>
+          <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+            Edit folder
+          </h2>
+          <div className="vads-u-display--flex vads-u-flex-direction--column">
+            {/* Edit folder name accordion button */}
+            <button
+              type="button"
+              className="usa-button-secondary vads-u-width--full"
+              data-testid="edit-folder-button"
+              onClick={toggleEditExpanded}
+              ref={editFolderButtonRef}
+              aria-expanded={isEditExpanded}
+              aria-controls="edit-folder-form"
+              data-dd-action-name="Edit Folder Name Button"
+            >
+              Edit folder name
+            </button>
+
+            {/* Expanded inline form */}
+            {isEditExpanded && (
+              <div
+                id="edit-folder-form"
+                className="vads-u-padding--2 vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-background-color--gray-lightest"
+                data-testid="edit-folder-form"
+              >
+                <VaTextInput
+                  data-dd-privacy="mask"
+                  ref={folderNameInput}
+                  label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
+                  value={folderName}
+                  className="input"
+                  error={nameWarning}
+                  onInput={e => {
+                    setFolderName(e.target.value);
+                    setNameWarning(
+                      e.target.value ? '' : 'Folder name cannot be blank',
+                    );
+                  }}
+                  maxlength="50"
+                  name="new-folder-name"
+                  data-dd-action-name="Edit Folder Name Input Field"
+                  charcount
+                  hint="50 characters allowed"
+                />
+                <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2">
+                  <va-button
+                    text="Save"
+                    onClick={confirmRenameFolder}
+                    data-dd-action-name="Save Edit Folder Name Button"
+                    data-testid="save-edit-folder-button"
+                  />
+                  <va-button
+                    class="vads-u-margin-left--1"
+                    secondary
+                    text="Cancel"
+                    onClick={cancelEdit}
+                    data-dd-action-name="Cancel Edit Folder Name Button"
+                    data-testid="cancel-edit-folder-button"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Remove folder button - red destructive style */}
+            <button
+              type="button"
+              className="usa-button-secondary vads-u-margin-top--1 vads-u-width--full vads-u-color--secondary-dark"
+              style={{
+                borderColor: '#b50909',
+                color: '#b50909',
+              }}
+              data-testid="remove-folder-button"
+              onClick={openDelModal}
+              data-dd-action-name="Remove Folder Button"
+              ref={removeFolderRef}
+            >
+              Remove folder
+            </button>
+          </div>
+        </>
       )}
       {isEmptyWarning && (
         <VaModal
@@ -202,46 +274,6 @@ const ManageFolderButtons = props => {
           />
         </VaModal>
       )}
-      <VaModal
-        className="modal"
-        data-testid="rename-folder-modal"
-        visible={renameModal}
-        large
-        modalTitle={`Editing: ${folder.name}`}
-        onCloseEvent={closeRenameModal}
-        data-dd-action-name="Edit Folder Name Modal"
-      >
-        <VaTextInput
-          data-dd-privacy="mask"
-          ref={folderNameInput}
-          label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
-          value={folderName}
-          className="input"
-          error={nameWarning}
-          onInput={e => {
-            setFolderName(e.target.value);
-            setNameWarning(e.target.value ? '' : 'Folder name cannot be blank');
-          }}
-          maxlength="50"
-          name="new-folder-name"
-          data-dd-action-name="Edit Folder Name Input Field"
-          charcount
-          width="2xl"
-        />
-        <va-button
-          class="vads-u-margin-top--1"
-          text="Save"
-          onClick={confirmRenameFolder}
-          data-dd-action-name="Save Edit Folder Name Button"
-        />
-        <va-button
-          class="vads-u-margin-top--1"
-          secondary="true"
-          text="Cancel"
-          onClick={closeRenameModal}
-          data-dd-action-name="Cancel Edit Folder Name Button"
-        />
-      </VaModal>
     </>
   );
 };
