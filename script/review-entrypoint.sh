@@ -8,6 +8,7 @@ npm run build -- --buildtype=localhost --api='${API_URL}' --host='${WEB_HOST}' -
 
 # Build content-build and serve site
 cd ../content-build
+npm rebuild node-sass
 cp .env.example .env && yarn install --production=false
 # Build necessary node modules since ignore-scripts is set globally.
 cd node_modules/node-libcurl/ && npm run install && cd -
