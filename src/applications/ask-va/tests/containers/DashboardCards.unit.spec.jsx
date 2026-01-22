@@ -1,12 +1,16 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import { expect } from 'chai';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import React from 'react';
-import { Provider } from 'react-redux';
 
 import { envUrl } from '../../constants';
 import DashboardCards from '../../containers/DashboardCards';
@@ -15,10 +19,8 @@ describe('<DashboardCards>', () => {
   const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries`;
 
   describe('when the api server succeeds', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -65,44 +67,10 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
-
-      server.listen();
-    });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
     });
 
     it('should render Your questions and filters', async () => {
-      const mockStore = {
-        getState: () => ({
-          form: {
-            data: {},
-          },
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              userFullName: {
-                first: 'Peter',
-                middle: 'B',
-                last: 'Parker',
-              },
-            },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         // Check for the main heading
@@ -173,33 +141,7 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const mockStore = {
-        getState: () => ({
-          form: {
-            data: {},
-          },
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              userFullName: {
-                first: 'Peter',
-                middle: 'B',
-                last: 'Parker',
-              },
-            },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -221,7 +163,7 @@ describe('<DashboardCards>', () => {
 
         // Verify unauthenticated inquiry is not displayed
         const questions = view.container.querySelectorAll(
-          '.vacardSubmitterQuestion',
+          '.submitter-question',
         );
         expect(questions).to.have.lengthOf(2);
         expect(questions[0].textContent).to.equal('Test question 1');
@@ -254,25 +196,7 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const mockStore = {
-        getState: () => ({
-          form: { data: {} },
-          user: {
-            login: { currentlyLoggedIn: true },
-            profile: {
-              userFullName: { first: 'Peter', middle: 'B', last: 'Parker' },
-            },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -305,33 +229,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should clear filters when clear button is clicked', async () => {
-      const mockStore = {
-        getState: () => ({
-          form: {
-            data: {},
-          },
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              userFullName: {
-                first: 'Peter',
-                middle: 'B',
-                last: 'Parker',
-              },
-            },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -399,55 +297,29 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const mockStore = {
-        getState: () => ({
-          form: {
-            data: {},
-          },
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              userFullName: {
-                first: 'Peter',
-                middle: 'B',
-                last: 'Parker',
-              },
-            },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
           .exist;
 
         // Initially should show Business tab content
-        const filterInfo = view.container.querySelector(
-          '.vads-u-padding-x--2p5',
-        );
+        const filterInfo = view.getByRole('heading', {
+          level: 3,
+          name: /showing .+ results/i,
+        });
         expect(filterInfo.textContent).to.include('in "Business"');
       });
 
       // Switch to Personal tab
-      const personalTab = view.container.querySelector(
-        '.react-tabs__tab-list li:last-child',
-      );
+      const personalTab = view.getByRole('tab', { name: /personal/i });
       fireEvent.click(personalTab);
 
       await waitFor(() => {
-        const filterInfo = view.container.querySelector(
-          '.vads-u-padding-x--2p5',
-        );
+        const filterInfo = view.getByRole('heading', {
+          level: 3,
+          name: /showing .+ results/i,
+        });
         expect(filterInfo.textContent).to.include('in "Personal"');
       });
     });
@@ -463,9 +335,7 @@ describe('<DashboardCards>', () => {
       const filterSummary = await view.findByText(/showing/i);
       expect(filterSummary.textContent).to.include('categories in "Personal"');
 
-      const resultsBefore = await view.container.querySelectorAll(
-        '.dashboard-card-list',
-      );
+      const resultsBefore = view.getAllByTestId('dashboard-card');
       expect(resultsBefore.length).to.equal(2);
       expect(resultsBefore[0].textContent).to.include('Reference number: A-2');
 
@@ -482,61 +352,23 @@ describe('<DashboardCards>', () => {
       filterButtons.__events.primaryClick();
 
       // Confirrm the list is now just one desired result
-      const resultsAfter = await view.container.querySelectorAll(
-        '.dashboard-card-list',
-      );
+      const resultsAfter = view.getAllByTestId('dashboard-card');
       expect(resultsAfter.length).to.equal(1);
       expect(resultsAfter[0].textContent).to.include('Reference number: A-3');
     });
   });
 
   describe('when the api server fails', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse({}, { status: 500 });
         }),
       );
-
-      server.listen();
-    });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
     });
 
     it('should show error alert when API request fails', async () => {
-      const mockStore = {
-        getState: () => ({
-          form: {
-            data: {},
-          },
-          user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              userFullName: {
-                first: 'Peter',
-                middle: 'B',
-                last: 'Parker',
-              },
-            },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         const errorAlert = view.container.querySelector('va-alert');
@@ -547,10 +379,8 @@ describe('<DashboardCards>', () => {
   });
 
   describe('pagination functionality', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -571,44 +401,10 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
-
-      server.listen();
     });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
-    });
-
-    const mockStore = {
-      getState: () => ({
-        form: {
-          data: {},
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            userFullName: {
-              first: 'Peter',
-              middle: 'B',
-              last: 'Parker',
-            },
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
 
     it('should display pagination when there are more than 4 items', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         const pagination = view.container.querySelector('va-pagination');
@@ -622,11 +418,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should update displayed items when page changes', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         // Verify first page content
@@ -651,17 +443,13 @@ describe('<DashboardCards>', () => {
     });
 
     it('should update results info text when page changes', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
-        const resultsInfo = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
-        expect(resultsInfo.textContent).to.include('Showing 1-4 of 6');
+        const filterSummary = view.getByRole('heading', {
+          name: /showing .+ results/i,
+        });
+        expect(filterSummary.textContent).to.include('Showing 1-4 of 6');
       });
 
       // Change to page 2
@@ -674,25 +462,22 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        const resultsInfo = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
-        expect(resultsInfo.textContent).to.include('Showing 5-6 of 6');
+        const filterSummary = view.getByRole('heading', {
+          name: /showing .+ results/i,
+        });
+        expect(filterSummary.textContent).to.include('Showing 5-6 of 6');
       });
     });
 
     it('should focus on filter summary when page changes', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
-        const resultsInfo = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
-        expect(resultsInfo).to.exist;
+        const filterSummary = view.getByRole('heading', {
+          level: 3,
+          name: /showing 1-4 of 6 results/i,
+        });
+        expect(filterSummary).to.exist;
       });
 
       // Change to page 2
@@ -705,21 +490,19 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        const filterSummary = view.container.querySelector(
-          '.vads-u-margin-top--2',
-        );
+        const filterSummary = view.getByRole('heading', {
+          level: 3,
+          name: /showing 5-6 of 6 results/i,
+        });
         expect(document.activeElement).to.equal(filterSummary);
       });
     });
   });
 
   describe('loading state', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    it('should show loading indicator and then content', async () => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
-          // Use the adapter's jsonResponse helper instead of manual Promise
           return jsonResponse(
             {
               data: [
@@ -742,69 +525,30 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      server.listen();
-    });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
-    });
-
-    const mockStore = {
-      getState: () => ({
-        form: {
-          data: {},
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            userFullName: {
-              first: 'Peter',
-              middle: 'B',
-              last: 'Parker',
-            },
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-
-    it('should show loading indicator and then content', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       // Initially should show loading indicator
-      const loadingIndicator = view.container.querySelector(
-        'va-loading-indicator',
-      );
+      const loadingIndicator = view.getByTestId('loading-indicator');
       expect(loadingIndicator).to.exist;
       expect(loadingIndicator.getAttribute('message')).to.equal('Loading...');
 
-      // Wait for content to load
-      await waitFor(() => {
-        // Loading indicator should be gone
-        expect(view.container.querySelector('va-loading-indicator')).to.not
-          .exist;
+      await waitForElementToBeRemoved(loadingIndicator);
 
+      await waitFor(() => {
         // Content should be visible
-        expect(view.getByText('Your questions')).to.exist;
+        const heading = view.getByRole('heading', {
+          level: 2,
+          name: 'Your questions',
+        });
+        expect(heading).to.exist;
         expect(view.getByText('Test question')).to.exist;
       });
     });
   });
 
   describe('empty state', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -814,44 +558,10 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
-
-      server.listen();
     });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
-    });
-
-    const mockStore = {
-      getState: () => ({
-        form: {
-          data: {},
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            userFullName: {
-              first: 'Peter',
-              middle: 'B',
-              last: 'Parker',
-            },
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
 
     it('should show empty state message when no inquiries exist', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       await waitFor(() => {
         // Should show the empty state message
@@ -880,10 +590,8 @@ describe('<DashboardCards>', () => {
   });
 
   describe('business and personal view', () => {
-    let server = null;
-
-    before(() => {
-      server = setupServer(
+    beforeEach(() => {
+      server.use(
         createGetHandler(`${apiRequestWithUrl}`, () => {
           return jsonResponse(
             {
@@ -918,111 +626,61 @@ describe('<DashboardCards>', () => {
           );
         }),
       );
-
-      server.listen();
     });
-
-    afterEach(() => server.resetHandlers());
-
-    after(() => {
-      server.close();
-    });
-
-    const mockStore = {
-      getState: () => ({
-        form: {
-          data: {},
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            userFullName: {
-              first: 'Peter',
-              middle: 'B',
-              last: 'Parker',
-            },
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
 
     it('should show tabs when both business and personal inquiries exist', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
-      await waitFor(() => {
-        // Check for tabs
-        const tabs = view.container.querySelector('.tabs');
-        expect(tabs).to.exist;
-
-        // Check for both tab labels
-        const businessTab = view.container.querySelector(
-          '.react-tabs__tab-list li:first-child',
-        );
-        const personalTab = view.container.querySelector(
-          '.react-tabs__tab-list li:last-child',
-        );
-        expect(businessTab.textContent).to.equal('Business');
-        expect(personalTab.textContent).to.equal('Personal');
-
-        // Business tab should be active by default and show business content
-        expect(view.getByText('Business question')).to.exist;
-
-        // Check filtered results info is inside tab panel with correct padding
-        const filterInfo = view.container.querySelector(
-          '.vads-u-padding-x--2p5',
-        );
-        expect(filterInfo).to.exist;
-        expect(filterInfo.textContent).to.include('in "Business"');
+      const tabButtons = await view.findByRole('tablist');
+      const businessTab = await view.findByRole('tab', {
+        name: /business/i,
       });
+      const personalTab = await view.findByRole('tab', {
+        name: /personal/i,
+      });
+
+      const filterSummary = await view.findByRole('heading', {
+        level: 3,
+        name: /categories in "business"/i,
+      });
+
+      expect(tabButtons.childNodes.length).to.equal(2);
+      expect(businessTab).to.exist;
+      expect(personalTab).to.exist;
+      expect(filterSummary).to.exist;
     });
 
     it('should switch content and filtered results info when changing tabs', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
-      await waitFor(() => {
-        // Initially should show business content and filtered info
-        expect(view.getByText('Business question')).to.exist;
-        const filterInfo = view.container.querySelector(
-          '.vads-u-padding-x--2p5',
-        );
-        expect(filterInfo.textContent).to.include('in "Business"');
-      });
+      const personalTab = await view.findByRole('tab', { name: /personal/i });
 
-      // Click the Personal tab
-      const personalTab = view.container.querySelector(
-        '.react-tabs__tab-list li:last-child',
-      );
+      expect(
+        await view.findByRole('heading', {
+          level: 3,
+          name: /categories in "business"/i,
+        }),
+      ).to.exist;
+      expect(personalTab).to.exist;
+
       fireEvent.click(personalTab);
 
-      await waitFor(() => {
-        // Should now show personal content and filtered info
-        expect(view.getByText('Personal question')).to.exist;
-        expect(view.queryByText('Business question')).to.not.exist;
-        const filterInfo = view.container.querySelector(
-          '.vads-u-padding-x--2p5',
-        );
-        expect(filterInfo.textContent).to.include('in "Personal"');
+      const personalSummary = await view.findByRole('heading', {
+        level: 3,
+        name: /categories in "personal"/i,
       });
+
+      expect(personalSummary).to.exist;
+      expect(() => {
+        view.getByRole('heading', {
+          level: 3,
+          name: /categories in "business"/i,
+        });
+      }).to.throw();
     });
 
     it('should apply filters correctly in business view', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       // Wait for initial load and content
       await waitFor(() => {
@@ -1051,26 +709,20 @@ describe('<DashboardCards>', () => {
     });
 
     it('should show correct content in personal view', async () => {
-      const view = render(
-        <Provider store={mockStore}>
-          <DashboardCards />
-        </Provider>,
-      );
+      const view = render(<DashboardCards />);
 
       // Wait for initial load
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
           .exist;
-        const businessTab = view.container.querySelector(
-          '.react-tabs__tab-list li:first-child',
-        );
+        const businessTab = view.getByRole('tab', {
+          name: /business/i,
+        });
         expect(businessTab.textContent).to.equal('Business');
       });
 
       // Switch to personal tab
-      const personalTab = view.container.querySelector(
-        '.react-tabs__tab-list li:last-child',
-      );
+      const personalTab = view.getByRole('tab', { name: /personal/i });
       fireEvent.click(personalTab);
 
       // Wait for personal content
