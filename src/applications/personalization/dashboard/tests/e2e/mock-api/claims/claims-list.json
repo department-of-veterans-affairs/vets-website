@@ -19,6 +19,8 @@
         "currentPhaseBack": false,
         "requestedDecision": false,
         "claimType": "Dependency",
+        "claimTypeBase": "request to add or remove a dependent",
+        "displayTitle": "Request to add or remove a dependent",
         "updatedAt": "2022-06-08T14:18:59.888Z"
       }
     },
@@ -41,6 +43,8 @@
         "currentPhaseBack": false,
         "requestedDecision": false,
         "claimType": "Compensation",
+        "claimTypeBase": "compensation claim",
+        "displayTitle": "Claim for compensation",
         "updatedAt": "2022-06-08T14:20:30.112Z"
       }
     },
@@ -63,6 +67,8 @@
         "currentPhaseBack": false,
         "requestedDecision": false,
         "claimType": "Compensation",
+        "claimTypeBase": "compensation claim",
+        "displayTitle": "Claim for compensation",
         "updatedAt": "2022-06-08T03:34:10.967Z"
       }
     },
@@ -85,6 +91,8 @@
         "currentPhaseBack": false,
         "requestedDecision": false,
         "claimType": "Compensation",
+        "claimTypeBase": "compensation claim",
+        "displayTitle": "Claim for compensation",
         "updatedAt": "2022-06-08T03:34:10.967Z"
       }
     },
@@ -107,6 +115,8 @@
         "currentPhaseBack": false,
         "requestedDecision": false,
         "claimType": "Dependency",
+        "claimTypeBase": "request to add or remove a dependent",
+        "displayTitle": "Request to add or remove a dependent",
         "updatedAt": "2022-06-08T19:01:57.543Z"
       }
     }
