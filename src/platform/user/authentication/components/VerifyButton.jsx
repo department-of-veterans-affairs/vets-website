@@ -112,19 +112,13 @@ export const VerifyButton = ({
 }) => {
   const { image } = SERVICE_PROVIDERS[csp];
   const className = `usa-button ${csp}-verify-buttons`;
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityLogingovIal2Enforcement,
-  );
 
   return (
     <button
       key={csp}
       type="button"
       className={className}
-      onClick={() =>
-        onClick({ policy: csp, ial2Enforcement, queryParams, useOAuth })
-      }
+      onClick={() => onClick({ policy: csp, queryParams, useOAuth })}
     >
       <span className="sr-only">Verify with</span>
       {image}
