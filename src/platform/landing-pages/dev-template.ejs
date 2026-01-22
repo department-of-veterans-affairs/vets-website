@@ -237,13 +237,17 @@
         <% } else{ %>
           <div class="section">
             <div id="react-root">
-              <div class="vads-u-margin-y--5">
-                <div class="loading-indicator-container">
-                  <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" aria-label="Load application" tabindex="0">
+              <% if (typeof skeletonHTML !== 'undefined' && skeletonHTML) { %>
+                <%- skeletonHTML %>
+              <% } else { %>
+                <div class="vads-u-margin-y--5">
+                  <div class="loading-indicator-container">
+                    <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" aria-label="Load application" tabindex="0">
+                    </div>
+                    <%= loadingMessage %>
                   </div>
-                  <%= loadingMessage %>
                 </div>
-              </div>
+              <% } %>
             </div>
           </div>
         <% } %>
