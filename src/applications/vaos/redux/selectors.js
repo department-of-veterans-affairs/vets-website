@@ -137,3 +137,6 @@ export const selectFeatureRemoveFacilityConfigCheck = state =>
 
 export const selectFeatureUseBrowserTimezone = state =>
   toggleValues(state).vaOnlineSchedulingUseBrowserTimezone;
+
+export const selectFeatureUseVpg = state =>
+  toggleValues(state).vaOnlineSchedulingUseVpg;

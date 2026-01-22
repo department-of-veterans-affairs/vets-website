@@ -512,7 +512,7 @@ describe('Thread Details container', () => {
         .to.equal('success');
     });
   });
-  it('with an active reply draft, focuses on draft section when clicking Edit reply draft button', async () => {
+  it('with an active reply draft, displays draft section expanded by default', async () => {
     const draftMessageHistoryUpdated = [
       {
         ...replyMessage,
@@ -558,16 +558,14 @@ describe('Thread Details container', () => {
     };
     const screen = setup(state);
 
-    const editDraftReplyButton = screen.getByTestId('edit-draft-button-body');
-    expect(editDraftReplyButton).to.exist;
+    // Verify draft section is visible with the updated header text
     const draftReplyHeader = screen.getByTestId('draft-reply-header');
     expect(draftReplyHeader).to.exist;
-    await waitFor(() => {
-      fireEvent.click(editDraftReplyButton);
-      expect(document.activeElement).to.equal(
-        screen.getByTestId('draft-reply-header'),
-      );
-    });
+    expect(draftReplyHeader.textContent).to.equal('Draft reply');
+
+    // Verify the accordion item is open (expanded by default)
+    const accordionItem = document.querySelector('va-accordion-item');
+    expect(accordionItem).to.have.attribute('open');
   });
 
   it.skip('responds to sending a reply draft with attachments', async () => {
