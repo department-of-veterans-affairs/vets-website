@@ -38,22 +38,26 @@ export default function App({ children, location }) {
   // only need to show loading for debt pending if user is logged in
   if ((userLoggedIn && isDebtPending) || isLoadingFeatures) {
     return (
-      <va-loading-indicator
-        label="Loading"
-        message="Loading application..."
-        set-focus
-      />
+      <I18nextProvider i18n={i18nDebtApp}>
+        <va-loading-indicator
+          label={i18nDebtApp.t('loading-indicator.label')}
+          message={i18nDebtApp.t('loading-indicator.message')}
+          set-focus
+        />
+      </I18nextProvider>
     );
   }
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      <DowntimeNotification
-        appTitle="dispute debt system"
-        dependencies={formConfig.downtime.dependencies}
-      >
-        <I18nextProvider i18n={i18nDebtApp}>{children}</I18nextProvider>
-      </DowntimeNotification>
+      <I18nextProvider i18n={i18nDebtApp}>
+        <DowntimeNotification
+          appTitle={i18nDebtApp.t('downtime-notification-app-title')}
+          dependencies={formConfig.downtime.dependencies}
+        >
+          {children}
+        </DowntimeNotification>
+      </I18nextProvider>
     </RoutedSavableApp>
   );
 }

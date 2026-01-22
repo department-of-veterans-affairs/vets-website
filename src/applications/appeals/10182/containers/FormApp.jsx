@@ -118,7 +118,6 @@ export const FormApp = ({
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
     loggedIn,
-    formId: 'nod', // becomes "nodBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
