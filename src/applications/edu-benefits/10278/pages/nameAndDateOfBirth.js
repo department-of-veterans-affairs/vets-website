@@ -15,7 +15,7 @@ export default {
     },
     dateOfBirth: {
       ...dateOfBirthUI({
-        hint: 'For example, January 19, 2000',
+        hint: 'For example: January 19, 2000',
         removeDateHint: true,
       }),
       'ui:errorMessages': {
