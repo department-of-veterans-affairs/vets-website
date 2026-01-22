@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
@@ -7,9 +7,17 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 import DlcTelephoneLink from './DlcTelephoneLink';
+import { datadogActionNames, APP_NAME } from '../constants/datadogConstants';
+import { addDatadogAction } from '../utils/datadog';
 
 const IntroductionPage = ({ route }) => {
   const supplyDescription = 'hearing aid or CPAP supplies';
+
+  useEffect(() => {
+    addDatadogAction(datadogActionNames.introductionPage.FORM_START, {
+      form: APP_NAME,
+    });
+  }, []);
 
   return (
     <>
