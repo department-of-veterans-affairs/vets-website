@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   createPostHandler,
   jsonResponse,
@@ -174,10 +175,13 @@ describe('VAOS ChooseDateAndTime component', () => {
     let apiCalled = false;
 
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', () => {
-        apiCalled = true;
-        return jsonResponse({ data: createDraftAppointmentInfo() });
-      }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        () => {
+          apiCalled = true;
+          return jsonResponse({ data: createDraftAppointmentInfo() });
+        },
+      ),
     );
 
     const store = createTestStore(initialFullState);
@@ -197,12 +201,15 @@ describe('VAOS ChooseDateAndTime component', () => {
     let capturedBody = null;
 
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', ({ request }) => {
-        // MSW v1 uses req.body, MSW v2 uses request.json()
-        // The request object in v1 already has body parsed
-        capturedBody = request.body || null;
-        return jsonResponse({ data: createDraftAppointmentInfo() });
-      }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        ({ request }) => {
+          // MSW v1 uses req.body, MSW v2 uses request.json()
+          // The request object in v1 already has body parsed
+          capturedBody = request.body || null;
+          return jsonResponse({ data: createDraftAppointmentInfo() });
+        },
+      ),
     );
 
     const screen = renderWithStoreAndRouter(
@@ -226,11 +233,13 @@ describe('VAOS ChooseDateAndTime component', () => {
   });
   it('should show error if any fetch fails', async () => {
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', () =>
-        jsonResponse(
-          { error: { status: 500, message: 'Failed to create appointment' } },
-          { status: 500 },
-        ),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        () =>
+          jsonResponse(
+            { error: { status: 500, message: 'Failed to create appointment' } },
+            { status: 500 },
+          ),
       ),
     );
 

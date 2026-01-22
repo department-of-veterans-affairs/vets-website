@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   createPostHandler,
   jsonResponse,
@@ -79,8 +80,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   it('should get selected slot from session storage if not in redux', async () => {
     // Set up MSW handler BEFORE render - eliminates race condition
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', () =>
-        jsonResponse({ data: draftAppointmentInfo }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        () => jsonResponse({ data: draftAppointmentInfo }),
       ),
     );
 
@@ -117,8 +119,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   });
   it('should route to scheduleReferral if no slot selected', async () => {
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', () =>
-        jsonResponse({ data: draftAppointmentInfo }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        () => jsonResponse({ data: draftAppointmentInfo }),
       ),
     );
 
@@ -150,16 +153,22 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     let submitCalled = false;
 
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', () => {
-        draftCalled = true;
-        return jsonResponse({ data: draftAppointmentInfo });
-      }),
-      createPostHandler('*/vaos/v2/appointments/submit', () => {
-        submitCalled = true;
-        return jsonResponse({
-          data: { appointmentId: draftAppointmentInfo?.id },
-        });
-      }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        () => {
+          draftCalled = true;
+          return jsonResponse({ data: draftAppointmentInfo });
+        },
+      ),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/submit`,
+        () => {
+          submitCalled = true;
+          return jsonResponse({
+            data: { appointmentId: draftAppointmentInfo?.id },
+          });
+        },
+      ),
     );
 
     const store = createTestStore(initialFullState);
@@ -183,11 +192,13 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', () =>
-        jsonResponse({ data: draftAppointmentInfo }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        () => jsonResponse({ data: draftAppointmentInfo }),
       ),
-      createPostHandler('*/vaos/v2/appointments/submit', () =>
-        jsonResponse({ data: draftAppointmentInfo }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/submit`,
+        () => jsonResponse({ data: draftAppointmentInfo }),
       ),
     );
 
@@ -237,14 +248,17 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   });
   it('should display an error message when appointment creation fails', async () => {
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', () =>
-        jsonResponse({ data: draftAppointmentInfo }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        () => jsonResponse({ data: draftAppointmentInfo }),
       ),
-      createPostHandler('*/vaos/v2/appointments/submit', () =>
-        jsonResponse(
-          { error: { status: 500, message: 'Failed to create appointment' } },
-          { status: 500 },
-        ),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/submit`,
+        () =>
+          jsonResponse(
+            { error: { status: 500, message: 'Failed to create appointment' } },
+            { status: 500 },
+          ),
       ),
     );
 
@@ -271,13 +285,17 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     let capturedBody = null;
 
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', ({ request }) => {
-        // MSW v1 uses req.body, MSW v2 uses request.json()
-        capturedBody = request.body || null;
-        return jsonResponse({ data: draftAppointmentInfo });
-      }),
-      createPostHandler('*/vaos/v2/appointments/submit', () =>
-        jsonResponse({ data: draftAppointmentInfo }),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        ({ request }) => {
+          // MSW v1 uses req.body, MSW v2 uses request.json()
+          capturedBody = request.body || null;
+          return jsonResponse({ data: draftAppointmentInfo });
+        },
+      ),
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/submit`,
+        () => jsonResponse({ data: draftAppointmentInfo }),
       ),
     );
 
@@ -310,16 +328,18 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   });
   it('should display an error message when new draft appointment creation fails', async () => {
     server.use(
-      createPostHandler('*/vaos/v2/appointments/draft', () =>
-        jsonResponse(
-          {
-            error: {
-              status: 500,
-              message: 'Failed to create draft appointment',
+      createPostHandler(
+        `${environment.API_URL}/vaos/v2/appointments/draft`,
+        () =>
+          jsonResponse(
+            {
+              error: {
+                status: 500,
+                message: 'Failed to create draft appointment',
+              },
             },
-          },
-          { status: 500 },
-        ),
+            { status: 500 },
+          ),
       ),
     );
 
