@@ -4,12 +4,12 @@ import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 import { FORMAT_YMD_DATE_FNS } from '../constants';
 import {
+  fixDateFormat,
   parseDateToDateObj,
   isLocalToday,
   isUTCTodayOrFuture,
   formatDateToReadableString,
 } from '../utils/dates';
-import { fixDateFormat } from '../utils/replace';
 
 /**
  * Main validation method: Check if a date should be blocked from appeal submission
@@ -42,18 +42,18 @@ const buildDatePartErrors = (month, day, year) => {
   };
 };
 
-const isInvalidDateString = (year, day, month, dateString) => {
+export const isInvalidDateString = (year, day, month, dateString) => {
   return (
     !year ||
-    isNaN(year) ||
+    Number.isNaN(Number(year)) ||
     // minimum year is 1900; no need to check if year === '0'
     !day ||
-    isNaN(day) ||
+    Number.isNaN(Number(day)) ||
     day === '0' ||
     !month ||
-    isNaN(month) ||
+    Number.isNaN(Number(month)) ||
     month === '0' ||
-    dateString?.length < FORMAT_YMD_DATE_FNS.length
+    (!dateString || dateString?.length < FORMAT_YMD_DATE_FNS.length)
   );
 };
 
