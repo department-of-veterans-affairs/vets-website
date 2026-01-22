@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { useHistory } from 'react-router-dom';
 import AssessYourInterestsAccordionItem from '../components/AssessYourInterestsAccordionItem';
 import FindEmploymentAccordionItem from '../components/FindEmploymentAccordionItem';
 import FindAPathAccordionItem from '../components/FindAPathAccordionItem';
@@ -11,6 +12,7 @@ const MOBILE_BREAKPOINT = 768;
 
 export default function CareerPlanning() {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const history = useHistory();
 
   const [isMobile, setIsMobile] = useState(
     window.innerWidth < MOBILE_BREAKPOINT,
@@ -63,7 +65,11 @@ export default function CareerPlanning() {
         </va-accordion>
 
         <div className="medium-screen:vads-u-display--inline-block vads-u-display--none vads-u-margin-top--2">
-          <va-button back onClick={() => {}} text="Back to Case Tracker" />
+          <VaButton
+            back
+            onClick={() => history.push('/my-case-management-hub')}
+            text="Back to Case Tracker"
+          />
         </div>
 
         <NeedHelp />
