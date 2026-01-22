@@ -296,7 +296,7 @@ describe('Burials migrations', () => {
       expect(formData.placeOfSeparation).to.equal('Norfolk, VA');
     });
 
-    it('should not change formData or returnUrl when toursOfDuty is missing or empty', () => {
+    it('should always redirect to first page of application', () => {
       const input = {
         formData: {
           claimantEmail: 'user@example.com',
@@ -308,7 +308,9 @@ describe('Burials migrations', () => {
 
       const { formData, metadata } = migrations[3](input);
 
-      expect(metadata.returnUrl).to.equal('/original-url');
+      expect(metadata.returnUrl).to.equal(
+        '/claimant-information/relationship-to-veteran',
+      );
       expect(formData).to.deep.equal({
         claimantEmail: 'user@example.com',
       });

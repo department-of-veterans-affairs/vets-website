@@ -44,7 +44,11 @@ export default [
   // 3 > 4, align with new PDF form and redirect
   ({ formData, metadata }) => {
     let newFormData = { ...formData };
-    let newMetadata = { ...metadata };
+    const newMetadata = {
+      ...metadata,
+      // Always redirect to the first page of the application
+      returnUrl: '/claimant-information/relationship-to-veteran',
+    };
 
     if (
       !Array.isArray(formData.toursOfDuty) ||
@@ -86,13 +90,6 @@ export default [
 
     // Remove legacy array to prevent schema mismatch / resume issues
     delete newFormData.toursOfDuty;
-
-    // Send the applicant to the first page of the application
-    newMetadata = {
-      ...newMetadata,
-      // Redirect to first page of application
-      returnUrl: '/claimant-information/relationship-to-veteran',
-    };
 
     return {
       formData: newFormData,
