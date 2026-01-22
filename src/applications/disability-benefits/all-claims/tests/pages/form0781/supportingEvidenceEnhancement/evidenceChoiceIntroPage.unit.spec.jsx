@@ -1,8 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { render } from '@testing-library/react';
-import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import userEvent from '@testing-library/user-event';
+import { render, waitFor } from '@testing-library/react';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../../../config/form';
 
 describe('evidenceChoiceIntroPage', () => {
@@ -58,5 +63,53 @@ describe('evidenceChoiceIntroPage', () => {
     expect(tempEvidenceChoiceAdditionalDocuments(formData)).to.be.false;
     expect(summaryOfEvidencePage).to.exist;
     expect(summaryOfEvidencePage.path).to.equal('supporting-evidence/summary');
+  });
+
+  describe('schema', () => {
+    it('should have required properties for view:hasEvidenceChoice', () => {
+      expect(schema.required).to.include('view:hasEvidenceChoice');
+    });
+  });
+
+  it('should error when user makes no selection', async () => {
+    const onSubmit = sinon.spy();
+    const { getByText } = render(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const submitButton = getByText('Submit');
+    userEvent.click(submitButton);
+    await waitFor(() => {
+      expect(onSubmit.calledOnce).to.be.false;
+      expect($('va-radio').error).to.eq('You must provide a response');
+    });
+  });
+
+  it('should submit when user selects "yes" to add additional forms/supporting documents', () => {
+    const onSubmit = sinon.spy();
+    const { getByText } = render(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:hasEvidenceChoice': true,
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const submitButton = getByText('Submit');
+    userEvent.click(submitButton);
+    expect(onSubmit.calledOnce).to.be.true;
+    expect($('va-radio').error).to.be.null;
   });
 });
