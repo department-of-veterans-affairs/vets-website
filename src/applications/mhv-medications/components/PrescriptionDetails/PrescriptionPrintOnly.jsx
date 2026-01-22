@@ -343,7 +343,8 @@ const PrescriptionPrintOnly = props => {
                           className="vads-u-margin-bottom--2"
                         >
                           <h4>
-                            {`Prescription number: ${entry.prescriptionNumber}`}
+                            {`Prescription number: ${entry.prescriptionNumber ||
+                              'Not available'}`}
                           </h4>
                           {(entry.sortedDispensedDate || !isCernerPilot) && (
                             <p>
