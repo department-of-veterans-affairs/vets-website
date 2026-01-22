@@ -29,9 +29,14 @@ import submissionReasonOtherText from '../pages/submissionReasonOtherText';
 import primaryInstitutionIHL from '../pages/primaryInstitutionIHL';
 import primaryInstitutionTitle4 from '../pages/primaryInstitutionTitle4';
 
+import programInformationIntro from '../pages/programInformationIntro';
+import programInformationSummary from '../pages/programInformationSummary';
+import programInformationDetails from '../pages/programInformationDetails';
+
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
+  programInformationArrayOptions,
 } from '../helpers';
 
 const formConfig = {
@@ -245,6 +250,32 @@ const formConfig = {
           uiSchema: primaryInstitutionTitle4.uiSchema,
           schema: primaryInstitutionTitle4.schema,
         },
+      },
+    },
+    programInformation: {
+      title: 'Program Information',
+      pages: {
+        ...arrayBuilderPages(programInformationArrayOptions, pageBuilder => ({
+          programInformationIntro: pageBuilder.introPage({
+            path: 'program-information',
+            title: 'Program information',
+            uiSchema: programInformationIntro.uiSchema,
+            schema: programInformationIntro.schema,
+          }),
+          programInformationSummary: pageBuilder.summaryPage({
+            path: 'program-information-summary',
+            title: 'Program information summary',
+            uiSchema: programInformationSummary.uiSchema,
+            schema: programInformationSummary.schema,
+          }),
+          programInformationDetails: pageBuilder.itemPage({
+            path: 'program-information-details/:index',
+            title: 'Program information details',
+            showPagePerItem: true,
+            uiSchema: programInformationDetails.uiSchema,
+            schema: programInformationDetails.schema,
+          }),
+        })),
       },
     },
   },
