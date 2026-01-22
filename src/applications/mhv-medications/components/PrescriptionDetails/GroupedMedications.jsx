@@ -81,7 +81,9 @@ const GroupedMedications = props => {
                     data-dd-privacy="mask"
                   >
                     Prescription number:{' '}
-                    <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
+                    <span data-dd-privacy="mask">
+                      {rx.prescriptionNumber || 'Not available'}
+                    </span>
                   </h3>
                 </dt>
                 <dd className="last-filled-info-grouped-rx">
