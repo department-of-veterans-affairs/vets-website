@@ -1,15 +1,53 @@
+/**
+ * sync-conditions.js
+ *
+ * This module contains synchronization and normalization helpers that reconcile
+ * disability condition data across multiple claim workflows (New Conditions,
+ * Rated Disability Increases, VA treatment, etc.).
+ *
+ * These workflows historically store condition data in two different shapes:
+ *
+ * 1) A "new conditions" (NC) shape, where key fields are stored at the top level
+ *    of each newDisabilities item for form rendering and submission.
+ *
+ * 2) A "disability benefits" (DB) shape, where related follow-up data is nested under
+ *    workflow-specific keys (e.g. `view:secondaryFollowUp`,
+ *    `view:worsenedFollowUp`, `view:vaFollowUp`) to support persistence and
+ *    schema validation.
+ *
+ * Because users can switch between workflows mid-flow, the application must
+ * safely migrate data between these shapes without losing user-entered values,
+ * duplicating conditions, or violating schema requirements.
+ *
+ * The functions in this file are responsible for:
+ * - Synchronizing rated disabilities ↔ new conditions when switching workflows
+ * - Preventing duplicate or conflicting condition entries
+ * - Normalizing data so both top-level (NC) and nested (DB) shapes remain
+ *   consistent and complete
+ *
+ * All transformations are designed to be defensive and backward-compatible,
+ * preserving existing values whenever possible and only applying defaults when
+ * required by the target workflow.
+ *
+ * NOTE: This module exists to support in-progress forms during the transition
+ * to the new conditions workflow. Once all active forms have been migrated and
+ * the legacy workflow is fully retired, this file can be safely removed.
+ */
+
+const normalize = s => (s ?? '').trim().toLowerCase();
+
 export const syncRatedDisabilitiesToNewConditions = formData => {
   const rated = formData?.ratedDisabilities || [];
   const newDisabilities = formData?.newDisabilities || [];
-
   const selectedRated = rated.filter(rd => rd['view:selected']);
 
   if (!selectedRated.length) return formData;
 
-  const existingNames = new Set(newDisabilities.map(nd => nd?.ratedDisability));
-
+  const existingNames = new Set(
+    newDisabilities.map(nd => normalize(nd?.ratedDisability)).filter(Boolean),
+  );
   const toAdd = selectedRated
-    .filter(rd => !existingNames.has(rd.name))
+    .filter(rd => !existingNames.has(normalize(rd.name)))
     .map(rd => ({
       ratedDisability: rd.name,
       cause: 'WORSENED',
@@ -42,16 +80,20 @@ export const syncNewConditionsToRatedDisabilities = formData => {
 
   if (!ratedIncreaseNames.length) return formData;
 
-  const ratedNameSet = new Set(ratedDisabilities.map(rd => rd.name));
+  const ratedNameSet = new Set(
+    ratedDisabilities.map(rd => normalize(rd.name)).filter(Boolean),
+  );
   const removableSet = new Set(
-    ratedIncreaseNames.filter(name => ratedNameSet.has(name)),
+    ratedIncreaseNames
+      .map(name => normalize(name))
+      .filter(name => ratedNameSet.has(name)),
   );
 
   if (!removableSet.size) return formData;
 
   let ratedChanged = false;
   const updatedRated = ratedDisabilities.map(rd => {
-    if (removableSet.has(rd.name) && !rd['view:selected']) {
+    if (removableSet.has(normalize(rd.name)) && !rd['view:selected']) {
       ratedChanged = true;
       return { ...rd, 'view:selected': true };
     }
@@ -63,7 +105,7 @@ export const syncNewConditionsToRatedDisabilities = formData => {
       !(
         nd?.cause === 'WORSENED' &&
         nd?.condition === 'Rated Disability' &&
-        removableSet.has(nd?.ratedDisability)
+        removableSet.has(normalize(nd?.ratedDisability))
       ),
   );
 
@@ -221,7 +263,8 @@ export const normalizeNewDisabilities = formData => {
         }
         if (!nested.vaMistreatmentDate) {
           changed = true;
-          nested.vaMistreatmentDate = currentYearDate();
+          nested.vaMistreatmentDate =
+            item.vaMistreatmentDate || currentYearDate();
         }
         break;
       }
