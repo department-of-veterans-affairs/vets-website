@@ -1,10 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from 'platform/utilities/ui';
+import { scrollTo } from 'platform/utilities/scroll';
 import ITFClaimantStatusWrapper from './ITFClaimantStatusWrapper';
 
 const ITF403Error = ({ location, route, router }) => {
+  const alertRef = useRef(null);
   const { data: formData } = useSelector(state => state.form);
   const prevUrl =
     formData.isVeteran === 'yes'
@@ -17,9 +20,24 @@ const ITF403Error = ({ location, route, router }) => {
     router,
   ]);
 
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        scrollTo(alertRef.current);
+        focusElement('h2', {}, alertRef.current);
+      }
+    },
+    [alertRef],
+  );
+
   return (
     <ITFClaimantStatusWrapper>
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <va-alert
+        ref={alertRef}
+        close-btn-aria-label="Close notification"
+        status="info"
+        visible
+      >
         <h2 id="track-your-status-on-mobile" slot="headline">
           You don’t represent this claimant
         </h2>

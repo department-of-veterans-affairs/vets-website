@@ -28,4 +28,5 @@ module.exports = [
   { name: 'vaOnlineSchedulingImmediateCareAlert', value: false },
   { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
   { name: 'vaOnlineSchedulingUseBrowserTimezone', value: true },
+  { name: 'vaOnlineSchedulingUseVpg', value: true },
 ];
