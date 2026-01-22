@@ -208,7 +208,7 @@ const formConfig = {
       },
     },
     programInformation: {
-      title: 'Medical School and Program Information',
+      title: 'Program Information',
       pages: {
         ...arrayBuilderPages(programInformationArrayOptions, pageBuilder => ({
           programInformationIntro: pageBuilder.introPage({

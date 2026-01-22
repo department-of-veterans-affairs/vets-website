@@ -6,12 +6,15 @@ import {
   numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { validateWhiteSpace } from 'platform/forms/validations';
+
 export default {
   uiSchema: {
     ...titleUI('Program information'),
     programName: {
       ...textUI({
         title: 'Name of degree program',
+        validations: [validateWhiteSpace],
         errorMessages: {
           required: 'Enter the name of the degree program',
         },
@@ -20,6 +23,7 @@ export default {
     totalProgramLength: {
       ...textUI({
         title: 'Total length of program',
+        validations: [validateWhiteSpace],
         errorMessages: {
           required: 'Enter the total length of the program',
         },
@@ -37,6 +41,7 @@ export default {
     entryRequirements: {
       ...textUI({
         title: 'Entry requirements',
+        validations: [validateWhiteSpace],
         errorMessages: {
           required: 'List the entry requirements',
         },
@@ -60,7 +65,10 @@ export default {
       totalProgramLength: textSchema,
       weeksPerTerm: numberSchema,
       entryRequirements: textSchema,
-      creditHours: numberSchema,
+      creditHours: {
+        type: 'string',
+        pattern: '^\\d+(\\.\\d{0,2})?$', // digits, optionally with a decimal and 0, 1, or 2 numbers after the decimal
+      },
     },
     required: [
       'programName',

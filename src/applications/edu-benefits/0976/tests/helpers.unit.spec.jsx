@@ -203,7 +203,7 @@ describe('0839 Helpers', () => {
       totalProgramLength: 'Semester',
       weeksPerTerm: '16',
       entryRequirements: 'Bachelors',
-      creditHours: '20',
+      creditHours: '1',
     };
 
     const { isItemIncomplete, text } = programInformationArrayOptions;
@@ -219,6 +219,8 @@ describe('0839 Helpers', () => {
       const { container } = render(description);
       expect(container.textContent).to.contain('Semester');
       expect(container.textContent).to.contain('Bachelors');
+      expect(container.textContent).to.contain('16 weeks');
+      expect(container.textContent).to.contain('1 hour');
     });
 
     it('has the right card title', () => {

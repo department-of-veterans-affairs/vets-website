@@ -213,9 +213,15 @@ export const programInformationArrayOptions = {
       return (
         <div>
           <p>{item.totalProgramLength}</p>
-          <p>{item.weeksPerTerm} weeks</p>
+          <p>
+            {item.weeksPerTerm} week
+            {item.weekPerTerm !== 1 ? 's' : ''}
+          </p>
           <p>{item.entryRequirements}</p>
-          <p>{item.creditHours} hours</p>
+          <p>
+            {item.creditHours} hour
+            {item.creditHours !== 1 ? 's' : ''}
+          </p>
         </div>
       );
     },
