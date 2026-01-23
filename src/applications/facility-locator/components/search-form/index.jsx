@@ -65,8 +65,6 @@ export const SearchForm = props => {
       facilityType: newFacilityType,
       serviceType: null,
       vamcServiceDisplay: null,
-      fetchSvcsError: null,
-      error: null,
     });
   };
 
