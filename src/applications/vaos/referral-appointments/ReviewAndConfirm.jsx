@@ -33,7 +33,6 @@ const ReviewAndConfirm = props => {
   const selectedSlot = useSelector(state => getSelectedSlotStartTime(state));
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
-  const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const [skipDraft, setSkipDraft] = useState(false);
   const [createFailed, setCreateFailed] = useState(false);
@@ -85,12 +84,10 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (!isDraftLoading && !isDraftUninitialized) {
-        setLoading(false);
         setSkipDraft(true);
       }
       if (isDraftError) {
         setFailed(true);
-        setLoading(false);
       }
     },
     [
@@ -194,7 +191,9 @@ const ReviewAndConfirm = props => {
       heading="Review your appointment details"
       apiFailure={failed || isDraftError}
       loadingMessage={
-        loading && !isDraftError ? 'Loading your appointment details' : null
+        isDraftLoading && !isDraftError
+          ? 'Loading your appointment details'
+          : null
       }
     >
       <div>
