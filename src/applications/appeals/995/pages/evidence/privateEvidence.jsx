@@ -29,7 +29,6 @@ import {
   summaryContent,
   treatmentDateContent,
 } from '../../content/evidence/private';
-import { redesignActive } from '../../utils';
 import { getSelected } from '../../../shared/utils/issues';
 import { hasPrivateEvidence } from '../../utils/form-data-retrieval';
 
@@ -310,39 +309,34 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.privateIntro,
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
-    depends: formData =>
-      redesignActive(formData) && hasPrivateEvidence(formData),
+    depends: hasPrivateEvidence,
   }),
   privateSummary: pageBuilder.summaryPage({
     title: summaryContent.title,
     path: EVIDENCE_URLS.privateSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
-    depends: formData =>
-      redesignActive(formData) && hasPrivateEvidence(formData),
+    depends: hasPrivateEvidence,
   }),
   privateLocation: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateDetails,
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
-    depends: formData =>
-      redesignActive(formData) && hasPrivateEvidence(formData),
+    depends: hasPrivateEvidence,
   }),
   issues: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateIssues,
     uiSchema: issuesPage.uiSchema,
     schema: issuesPage.schema,
-    depends: formData =>
-      redesignActive(formData) && hasPrivateEvidence(formData),
+    depends: hasPrivateEvidence,
   }),
   treatmentDatePrivate: pageBuilder.itemPage({
     title: 'Treatment date',
     path: EVIDENCE_URLS.privateTreatmentDate,
     uiSchema: treatmentDatePage.uiSchema,
     schema: treatmentDatePage.schema,
-    depends: formData =>
-      redesignActive(formData) && hasPrivateEvidence(formData),
+    depends: hasPrivateEvidence,
   }),
 }));

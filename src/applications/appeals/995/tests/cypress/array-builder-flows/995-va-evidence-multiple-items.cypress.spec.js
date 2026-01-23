@@ -199,7 +199,7 @@ describe('Array Builder evidence flow', () => {
       h.verifyArrayBuilderReviewVACard(0, 'South Texas VA Medical Center');
       h.checkAlertText(
         'record_0',
-        'South Texas VA Medical Center information has been updated.',
+        'Success Alert South Texas VA Medical Center information has been updated.',
       );
 
       // ---------------------------------------- DELETING THIRD ITEM

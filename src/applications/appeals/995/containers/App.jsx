@@ -49,6 +49,7 @@ export const App = ({
   savedForms,
   scRedesign,
   setFormData,
+  showArrayBuilder,
 }) => {
   // ------- REMOVE when new design toggle is removed
   const { useFormFeatureToggleSync } = useFeatureToggle();
@@ -65,14 +66,10 @@ export const App = ({
   // Initialize combined feature flag and new-flow-only behavior
   useEffect(
     () => {
+      console.log('showArrayBuilder: ', showArrayBuilder);
       const hasSavedForm =
         savedForms?.length > 0 &&
         savedForms?.filter(form => form.form === '20-0995')?.length > 0;
-
-      console.log(
-        'eval: ',
-        scRedesign && (!hasSavedForm || hasNewEvidenceData),
-      );
 
       setFormData({
         ...formData,
@@ -245,6 +242,7 @@ const mapStateToProps = state => ({
   privateEvidence: state.form?.data?.privateEvidence || [],
   savedForms: state.user?.profile?.savedForms || [],
   scRedesign: state?.form?.data?.scRedesign,
+  showArrayBuilder: state?.form?.data?.showArrayBuilder,
   vaEvidence: state.form?.data?.vaEvidence,
 });
 
