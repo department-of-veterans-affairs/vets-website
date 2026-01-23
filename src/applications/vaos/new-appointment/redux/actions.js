@@ -25,6 +25,7 @@ import {
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
   selectFeatureOHDirectSchedule,
+  selectFeatureUseVpg,
 } from '../../redux/selectors';
 import {
   FORM_SUBMIT_SUCCEEDED,
@@ -427,6 +428,7 @@ async function fetchRecentLocations(
   dispatch,
   siteIds,
   removeFacilityConfigCheck = false,
+  useVpg = false,
 ) {
   try {
     dispatch({ type: FORM_FETCH_RECENT_LOCATIONS });
@@ -435,6 +437,7 @@ async function fetchRecentLocations(
       siteIds,
       sortByRecentLocations: true,
       removeFacilityConfigCheck,
+      useVpg,
     });
 
     dispatch({
@@ -464,6 +467,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const removeFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
         state,
       );
+      const featureUseVpg = selectFeatureUseVpg(state);
+
       dispatch({ type: FORM_PAGE_FACILITY_V2_OPEN });
 
       // Fetch facilities that support this type of care
@@ -473,12 +478,14 @@ export function openFacilityPageV2(page, uiSchema, schema) {
             dispatch,
             siteIds,
             removeFacilityConfigCheck,
+            featureUseVpg,
           );
           recordItemsRetrieved('recent-locations', facilities?.length || 0);
         } else {
           facilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
             removeFacilityConfigCheck,
+            useVpg: featureUseVpg,
           });
           recordItemsRetrieved('available_facilities', facilities?.length);
         }

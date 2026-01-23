@@ -7,8 +7,8 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-// import identificationInformation from '../pages/identificationInformation';
+import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import prefillTransform from './prefillTransform';
@@ -73,23 +73,27 @@ const formConfig = {
           personalInfoConfig: {
             name: { show: true, required: true },
             ssn: { show: true, required: true },
-            dateOfBirth: { show: true, required: false },
+            dateOfBirth: { show: true, required: true },
           },
           dataAdapter: {
             ssnPath: 'ssn',
           },
+          depends: formData => formData?.userLoggedIn === true,
         }),
-        // nameAndDateOfBirth: {
-        //   path: 'name-and-date-of-birth',
-        //   uiSchema: nameAndDateOfBirth.uiSchema,
-        //   schema: nameAndDateOfBirth.schema,
-        // },
-        // identificationInformation: {
-        //   path: 'identification-information',
-        //   title: 'Identification information',
-        //   uiSchema: identificationInformation.uiSchema,
-        //   schema: identificationInformation.schema,
-        // },
+        nameAndDateOfBirth: {
+          path: 'name-and-date-of-birth',
+          title: 'Name and date of birth',
+          uiSchema: nameAndDateOfBirth.uiSchema,
+          schema: nameAndDateOfBirth.schema,
+          depends: formData => formData?.userLoggedIn !== true,
+        },
+        identificationInformation: {
+          path: 'identification-information',
+          title: 'Identification information',
+          uiSchema: identificationInformation.uiSchema,
+          schema: identificationInformation.schema,
+          depends: formData => formData?.userLoggedIn !== true,
+        },
         mailingAddress: {
           path: 'mailing-address',
           title: 'Mailing address',
