@@ -94,10 +94,10 @@ export default function RightColumnContent({ onAccept }) {
         ) : (
           <>
             <p className="vads-u-margin-top--0">
-              New chatbot shell is ready for feature-based modules.
+              New chatbot shell is ready 🐚🐚🐚.
             </p>
             <p className="vads-u-margin-bottom--0 vads-u-font-style--italic">
-              Start wiring the conversation experience here.
+              Start wiring up the new experience here.
             </p>
           </>
         )}
