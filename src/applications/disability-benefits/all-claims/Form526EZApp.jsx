@@ -52,6 +52,7 @@ import {
   MissingServices,
 } from './containers/MissingServices';
 import ClaimFormSideNav from './components/ClaimFormSideNav';
+import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -320,13 +321,18 @@ export const Form526Entry = ({
         <div className={flexWrapperClass}>
           {shouldHideNav ? null : (
             <div className="vads-u-margin-right--5">
-              <ClaimFormSideNav
-                enableAnalytics
-                formData={form?.data}
+              <ClaimFormSideNavErrorBoundary
                 pathname={pathname}
-                router={router}
-                setFormData={setFormData}
-              />
+                formData={form?.data}
+              >
+                <ClaimFormSideNav
+                  enableAnalytics
+                  formData={form?.data}
+                  pathname={pathname}
+                  router={router}
+                  setFormData={setFormData}
+                />
+              </ClaimFormSideNavErrorBoundary>
             </div>
           )}
           <RequiredLoginView
