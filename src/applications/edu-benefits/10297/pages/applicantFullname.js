@@ -46,7 +46,10 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    applicantFullName: fullNameNoSuffixSchema,
+    applicantFullName: {
+      ...fullNameNoSuffixSchema,
+      required: []
+    },
     dateOfBirth: dateOfBirthSchema,
     eligibilityAlert: { type: 'object', properties: {} },
   },
