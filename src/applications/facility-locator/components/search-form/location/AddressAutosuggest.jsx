@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { useCombobox } from 'downshift-v9';
 import vaDebounce from 'platform/utilities/data/debounce';
 import PropTypes from 'prop-types';
 import UseMyLocation from './UseMyLocation';
@@ -18,6 +19,7 @@ function AddressAutosuggest({
   isTablet,
   onClearClick,
   onChange,
+  onLocationSelection,
   useProgressiveDisclosure,
 }) {
   const [inputValue, setInputValue] = useState(null);
@@ -48,11 +50,14 @@ function AddressAutosuggest({
       return;
     }
     setSelectedItem(item);
-    onChange({
-      searchString: onlySpaces(item.toDisplay)
-        ? item.toDisplay.trim()
-        : item.toDisplay,
-    });
+
+    if (onLocationSelection) {
+      onLocationSelection({
+        searchString: onlySpaces(item.toDisplay)
+          ? item.toDisplay.trim()
+          : item.toDisplay,
+      });
+    }
   };
 
   /**
@@ -72,8 +77,15 @@ function AddressAutosuggest({
         setIsGeocoding(true);
         searchAddresses(trimmedTerm)
           .then(features => {
-            if (!features) {
-              setOptions([]);
+            if (!features?.length) {
+              setOptions([
+                {
+                  id: 'no-items',
+                  isError: true,
+                  toDisplay: 'No results found',
+                  disabled: true,
+                },
+              ]);
             } else {
               setOptions([
                 ...features.map(feature => ({
@@ -100,10 +112,8 @@ function AddressAutosuggest({
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
 
-    // not expected to search when user leaves the field
-    if (value !== '') {
-      onChange({ searchString: ' ' });
-      onChange({ searchString: value });
+    if (onLocationSelection) {
+      onLocationSelection({ searchString: value });
     }
   };
 
@@ -111,7 +121,13 @@ function AddressAutosuggest({
     const { inputValue: value } = e;
     setInputValue(value?.trimStart());
     setIsTouched(true);
-
+    if (
+      e.type === useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem
+    ) {
+      setInputValue(options?.[0]?.toDisplay);
+      // Don't serch again
+      return;
+    }
     if (!value?.trimStart()) {
       onClearClick();
       return;
@@ -191,7 +207,6 @@ function AddressAutosuggest({
       }
       keepDataOnBlur
       showDownCaret={false}
-      shouldShowNoResults
       showOptionsRestriction={
         !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
       }
@@ -216,6 +231,7 @@ AddressAutosuggest.propTypes = {
   isTablet: PropTypes.bool,
   useProgressiveDisclosure: PropTypes.bool,
   onClearClick: PropTypes.func,
+  onLocationSelection: PropTypes.func,
 };
 
 export default AddressAutosuggest;

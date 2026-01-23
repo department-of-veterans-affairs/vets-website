@@ -19,7 +19,8 @@ const ServiceType = ({
   isMobile,
   isSmallDesktop,
   isTablet,
-  onChange,
+  committedVamcServiceDisplay,
+  onVamcDraftChange,
   searchInitiated,
   setSearchInitiated,
   useProgressiveDisclosure,
@@ -27,11 +28,18 @@ const ServiceType = ({
 }) => {
   const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
 
-  // VAMC Services Autosuggest feature
-  if (facilityType === LocationType.HEALTH && vamcAutoSuggestEnabled) {
+  const isHealthFacility = facilityType === LocationType.HEALTH;
+  const serviceNotInStaticList = serviceType && !healthServices[serviceType];
+  const shouldUseVamcAutosuggest =
+    isHealthFacility && (vamcAutoSuggestEnabled || serviceNotInStaticList);
+
+  if (shouldUseVamcAutosuggest) {
     return (
       <VAMCServiceAutosuggest
-        onChange={onChange}
+        // Key forces complete remount when facility type changes, ensuring fresh internal state
+        key={`vamc-autosuggest-${facilityType}`}
+        committedServiceDisplay={committedVamcServiceDisplay}
+        onDraftChange={onVamcDraftChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
       />

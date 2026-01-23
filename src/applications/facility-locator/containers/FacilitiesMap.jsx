@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+import { getServiceDisplayName } from '../reducers/searchQuery';
 
 // Components
 import Alert from '../components/Alert';
@@ -60,8 +61,6 @@ import { distBetween } from '../utils/facilityDistance';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink } from '../utils/mapLinks';
 
-let lastZoom = 3;
-
 const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
@@ -91,6 +90,7 @@ const FacilitiesMap = props => {
   const mapboxGlContainerRef = useRef(null);
   const searchResultTitleRef = useRef(null);
   const searchResultMessageRef = useRef();
+  const lastZoomRef = useRef(3);
 
   /**
    * Search when the component renders with a sharable url
@@ -103,27 +103,44 @@ const FacilitiesMap = props => {
     const { location } = props;
 
     if (!isEmpty(location.query)) {
+      const vamcServiceDisplay =
+        location.query.facilityType === 'health'
+          ? getServiceDisplayName(
+              location.query.serviceType,
+              props.vaHealthServicesData,
+            )
+          : null;
+
       props.updateSearchQuery({
         facilityType: location.query.facilityType,
         serviceType: location.query.serviceType,
+        searchString: location.query.address,
+        vamcServiceDisplay,
       });
     }
 
-    if (location.query.address) {
-      const expandedRadius =
-        location.query.facilityType === 'benefits' &&
-        !location.query.serviceType;
+    if (location.query.address && location.query.facilityType) {
+      const needsServiceType = location.query.facilityType === 'provider';
+      const hasRequiredServiceType =
+        !needsServiceType || location.query.serviceType;
 
-      props.genBBoxFromAddress(
-        {
-          searchString: location.query.address,
-          context: location.query.context,
-          facilityType: location.query.facilityType,
-        },
-        expandedRadius,
-        props.useProgressiveDisclosure,
-      );
-      setIsSearching(true);
+      if (hasRequiredServiceType) {
+        const expandedRadius =
+          location.query.facilityType === 'benefits' &&
+          !location.query.serviceType;
+
+        props.genBBoxFromAddress(
+          {
+            searchString: location.query.address,
+            context: location.query.context,
+            facilityType: location.query.facilityType,
+            serviceType: location.query.serviceType,
+          },
+          expandedRadius,
+          props.useProgressiveDisclosure,
+        );
+        setIsSearching(true);
+      }
     }
   };
 
@@ -203,22 +220,27 @@ const FacilitiesMap = props => {
         );
       }
     },
-    [addMapMarker, map, props.currentQuery],
+    // addMapMarker is intentionally omitted since it's defined inline without
+    // useCallback - including it would cause unnecessary re-renders
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [map, props.currentQuery, props.selectMobileMapPin, mobileMapUpdateEnabled],
   );
 
-  const handleSearch = async () => {
+  const handleSearch = (formValues = null) => {
     resetMapElements();
-    const { currentQuery } = props;
-    const { facilityType, serviceType, searchString } = currentQuery;
+    const queryToUse = formValues
+      ? { ...props.currentQuery, ...formValues }
+      : props.currentQuery;
+    const { facilityType, serviceType, searchString } = queryToUse;
     const expandedRadius = facilityType === 'benefits' && !serviceType;
-    lastZoom = null;
+    lastZoomRef.current = null;
 
     updateUrlParams({
       address: searchString,
     });
     props.genBBoxFromAddress(
       {
-        ...currentQuery,
+        ...queryToUse,
       },
       expandedRadius,
       props.useProgressiveDisclosure,
@@ -241,7 +263,7 @@ const FacilitiesMap = props => {
     if (!map) return;
 
     resetMapElements();
-    lastZoom = null;
+    lastZoomRef.current = null;
 
     const { currentQuery } = props;
     const center = map.getCenter().wrap();
@@ -319,14 +341,14 @@ const FacilitiesMap = props => {
 
       props.mapMoved(searchRadius);
 
-      if (lastZoom && parseInt(lastZoom, 10) > 3) {
-        recordZoomEvent(lastZoom, currentZoom);
+      if (lastZoomRef.current && parseInt(lastZoomRef.current, 10) > 3) {
+        recordZoomEvent(lastZoomRef.current, currentZoom);
       }
 
-      if (lastZoom !== currentZoom) {
-        const zoomDirection = currentZoom > lastZoom ? 'in' : 'out';
+      if (lastZoomRef.current !== currentZoom) {
+        const zoomDirection = currentZoom > lastZoomRef.current ? 'in' : 'out';
         speakZoom(searchRadius, zoomDirection);
-        lastZoom = currentZoom;
+        lastZoomRef.current = currentZoom;
       }
     });
   };
@@ -521,6 +543,7 @@ const FacilitiesMap = props => {
               setSearchInitiated={setSearchInitiated}
               suppressPPMS={props.suppressPPMS}
               useProgressiveDisclosure={useProgressiveDisclosure}
+              vaHealthServicesData={props.vaHealthServicesData}
               vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
             <EmergencyCareAlert
@@ -814,6 +837,9 @@ const FacilitiesMap = props => {
         setMapEventHandlers();
       }
     },
+    // We intentionally omit setMapEventHandlers from deps - we only want to
+    // set up event handlers when map is created or searchCoords changes,
+    // not on every render when the function reference changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [map, props.currentQuery.searchCoords],
   );
@@ -822,6 +848,9 @@ const FacilitiesMap = props => {
     () => {
       searchCurrentArea();
     },
+    // searchCurrentArea is intentionally omitted - we only want this to run
+    // when searchArea changes, not when the function reference changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.searchArea],
   );
 
@@ -832,14 +861,50 @@ const FacilitiesMap = props => {
         setUpResizeEventListener();
       }
     },
+    // We intentionally omit setupMap and setUpResizeEventListener from deps -
+    // this effect should only run once when the container ref is available
+    // and the map hasn't been initialized yet
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [mapboxContainerRef, map],
+  );
+
+  // Re-process URL params when vaHealthServicesData becomes available
+  // This handles the case where the page loads with URL params but the
+  // drupal static data hasn't loaded yet
+  useEffect(
+    () => {
+      const { location } = props;
+      if (
+        props.vaHealthServicesData?.data &&
+        !isEmpty(location.query) &&
+        location.query.facilityType === 'health' &&
+        location.query.serviceType &&
+        !props.currentQuery.vamcServiceDisplay
+      ) {
+        const vamcServiceDisplay = getServiceDisplayName(
+          location.query.serviceType,
+          props.vaHealthServicesData,
+        );
+        if (vamcServiceDisplay) {
+          props.updateSearchQuery({
+            vamcServiceDisplay,
+          });
+        }
+      }
+    },
+    // We intentionally only trigger on vaHealthServicesData changes -
+    // this is for re-processing URL params when drupal data loads
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.vaHealthServicesData],
   );
 
   useEffect(
     () => {
       handleSearchOnQueryChange();
     },
+    // handleSearchOnQueryChange is intentionally omitted - we only want this
+    // to run when currentQuery.id changes (indicating a new search)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.id],
   );
 
@@ -848,6 +913,9 @@ const FacilitiesMap = props => {
       if (!map) return;
       renderMarkers(props.results);
     },
+    // renderMarkers is intentionally omitted - it's a useCallback that depends
+    // on map and props, and we only want to re-render markers when results change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.results, map],
   );
 
@@ -859,17 +927,19 @@ const FacilitiesMap = props => {
         setFocus(searchResultTitleRef.current);
       }
     },
-    [
-      searchResultTitleRef.current,
-      props.currentQuery.inProgress,
-      props.currentQuery.searchStarted,
-    ],
+    // Ref values (searchResultTitleRef) shouldn't be in deps - they don't
+    // trigger re-renders. We trigger on inProgress/searchStarted state changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.currentQuery.inProgress, props.currentQuery.searchStarted],
   );
 
   useEffect(
     () => {
       handleMapOnNoResultsFound();
     },
+    // handleMapOnNoResultsFound is intentionally omitted - we only want this
+    // to run when searchCoords or results change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.currentQuery.searchCoords, props.results],
   );
 
@@ -948,6 +1018,7 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vaHealthServicesData: state.drupalStaticData?.vaHealthServicesData,
   vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 

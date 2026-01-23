@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
@@ -15,6 +16,38 @@ import {
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
 } from '../actions/actionTypes';
+// Test data fallback for localhost (same pattern as useServiceType hook)
+import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
+
+/**
+ * Selector that returns VA health services data, with localhost fallback.
+ * On localhost, the JSON endpoint returns 404, so we use test data.
+ * This centralizes the localhost handling in one place.
+ * @param {Object} vaHealthServicesData - from state.drupalStaticData.vaHealthServicesData
+ * @returns {Object} - data with .data array property
+ */
+export const getVaHealthServicesData = vaHealthServicesData => {
+  const localEnv = environment?.BUILDTYPE === 'localhost';
+  if (localEnv || !Array.isArray(vaHealthServicesData?.data)) {
+    return vaHealthcareServices;
+  }
+  return vaHealthServicesData;
+};
+
+/**
+ * Given a serviceId and the VA healthcare services data,
+ * return the display name for that service.
+ * @param {string} serviceId - e.g., "mentalHealth"
+ * @param {Object} vaHealthServicesData - from state.drupalStaticData.vaHealthServicesData
+ * @returns {string|null} - e.g., "Mental health care"
+ */
+export const getServiceDisplayName = (serviceId, vaHealthServicesData) => {
+  if (!serviceId) return null;
+  const data = getVaHealthServicesData(vaHealthServicesData);
+  if (!Array.isArray(data?.data)) return null;
+  const service = data.data.find(item => item[3] === serviceId);
+  return service ? service[0] : null;
+};
 
 export const INITIAL_STATE = {
   searchString: '',
@@ -38,6 +71,22 @@ export const INITIAL_STATE = {
   isValid: true,
   searchStarted: false,
 };
+
+export const INITIAL_FORM_FLAGS = {
+  isValid: true,
+  locationChanged: false,
+  facilityTypeChanged: false,
+  serviceTypeChanged: false,
+};
+
+export const createFormStateFromQuery = query => ({
+  facilityType: query.facilityType ?? INITIAL_STATE.facilityType,
+  serviceType: query.serviceType ?? INITIAL_STATE.serviceType,
+  searchString: query.searchString ?? INITIAL_STATE.searchString,
+  vamcServiceDisplay:
+    query.vamcServiceDisplay ?? INITIAL_STATE.vamcServiceDisplay,
+  ...INITIAL_FORM_FLAGS,
+});
 
 export const validateForm = (oldState, payload) => {
   const newState = {

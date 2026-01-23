@@ -221,7 +221,17 @@ export const FacilitiesMapTypes = {
   suppressPPMS: PropTypes.bool,
   updateSearchQuery: PropTypes.func,
   usePredictiveGeolocation: PropTypes.bool,
+  vaHealthServicesData: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.array),
+  }),
 };
+
+export const FormValuesTypes = PropTypes.shape({
+  facilityType: PropTypes.string,
+  serviceType: PropTypes.string,
+  searchString: PropTypes.string,
+  vamcServiceDisplay: PropTypes.string,
+});
 
 export const SearchFormTypes = {
   clearGeocodeError: PropTypes.func,
@@ -234,6 +244,9 @@ export const SearchFormTypes = {
   selectMobileMapPin: PropTypes.func,
   setSearchInitiated: PropTypes.func,
   suppressPPMS: PropTypes.bool,
+  vaHealthServicesData: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.array),
+  }),
   vamcServiceDisplay: PropTypes.string,
 };
 
@@ -267,7 +280,6 @@ export const ServiceTypeInputTypes = {
  * showDownCaret: optional flag to show the down caret/arrow
  * showError: optional flag to show the error state
  * stateReducer: optional function to modify the state of Downshift - e.g. handle escape to not clear
- * shouldShowNoResults: optional to hide show no results under input - shown with aria error role
  */
 export const AutosuggestProps = {
   AutosuggestOptionComponent: PropTypes.elementType,
@@ -291,7 +303,6 @@ export const AutosuggestProps = {
   onClearClick: PropTypes.func.isRequired,
   onInputValueChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  shouldShowNoResults: PropTypes.bool,
   showDownCaret: PropTypes.bool,
   showError: PropTypes.bool,
   stateReducer: PropTypes.func,

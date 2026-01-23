@@ -129,6 +129,7 @@ describe('Facility VA search', () => {
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').should('exist');
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.focused().contains(
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
     );
