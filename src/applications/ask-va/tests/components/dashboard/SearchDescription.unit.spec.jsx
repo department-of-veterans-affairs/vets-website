@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import React from 'react';
-import FilterSummary from '../../../components/dashboard/FilterSummary';
+import SearchDescription from '../../../components/dashboard/SearchDescription';
 
-describe('FilterSummary', () => {
+describe('SearchDescription', () => {
   it('renders correct sentence with default settings', () => {
     const sentence =
       'Showing 1-5 of 5 results with the status set to "All" and the category set to "All."';
     const view = render(
-      <FilterSummary
+      <SearchDescription
         categoryFilter="All"
         statusFilter="All"
         total={5}
@@ -24,7 +24,7 @@ describe('FilterSummary', () => {
     const sentence =
       'Showing no results with the status set to "All" and the category set to "All."';
     const view = render(
-      <FilterSummary
+      <SearchDescription
         categoryFilter="All"
         statusFilter="All"
         total={0}
@@ -40,7 +40,7 @@ describe('FilterSummary', () => {
     const sentence =
       'Showing 5-8 of 10 results with the status set to "Replied" and the category set to "Heath care."';
     const view = render(
-      <FilterSummary
+      <SearchDescription
         categoryFilter="Heath care"
         statusFilter="Replied"
         total={10}
@@ -56,7 +56,7 @@ describe('FilterSummary', () => {
     const sentence =
       'Showing 1-4 of 5 results for "last week" with the status set to "All" and the category set to "All."';
     const view = render(
-      <FilterSummary
+      <SearchDescription
         categoryFilter="All"
         statusFilter="All"
         total={5}
@@ -73,7 +73,7 @@ describe('FilterSummary', () => {
     const sentence =
       'Showing 1-5 of 5 results with the status set to "All" and the category set to "All" in "Business."';
     const view = render(
-      <FilterSummary
+      <SearchDescription
         categoryFilter="All"
         statusFilter="All"
         total={5}

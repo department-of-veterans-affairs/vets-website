@@ -4,7 +4,7 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import InquiryCard from './InquiryCard';
 import { paginateArray } from '../../utils/dashboard';
-import FilterSummary from './FilterSummary';
+import SearchDescription from './SearchDescription';
 
 export default function InquiriesList({
   inquiries,
@@ -23,7 +23,7 @@ export default function InquiriesList({
 
   return (
     <div>
-      <FilterSummary
+      <SearchDescription
         total={inquiries.length}
         pageEnd={Math.min(displayPage?.pageEnd, inquiries.length)}
         pageStart={displayPage?.pageStart}
@@ -73,5 +73,5 @@ InquiriesList.propTypes = {
   inquiries: PropTypes.arrayOf(InquiryCard.propTypes.inquiry).isRequired,
   query: PropTypes.string.isRequired,
   statusFilter: PropTypes.string.isRequired,
-  tabName: FilterSummary.propTypes.tabName,
+  tabName: SearchDescription.propTypes.tabName,
 };

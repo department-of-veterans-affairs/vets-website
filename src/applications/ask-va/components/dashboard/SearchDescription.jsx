@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function FilterSummary({
+export default function SearchDescription({
   categoryFilter,
   pageEnd,
   pageStart,
@@ -17,7 +17,7 @@ export default function FilterSummary({
 
   return (
     <h3
-      id="filter-summary"
+      id="search-description"
       className="vads-u-font-family--sans vads-u-font-size--md"
     >
       Showing {displayCount} results {queryPart}
@@ -29,7 +29,7 @@ export default function FilterSummary({
   );
 }
 
-FilterSummary.propTypes = {
+SearchDescription.propTypes = {
   categoryFilter: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
   statusFilter: PropTypes.string.isRequired,
