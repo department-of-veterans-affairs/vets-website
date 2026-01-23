@@ -100,12 +100,14 @@ export const getCopaySummaryStatements = async dispatch => {
 };
 
 export const getCopayDetailStatement = copayId => async dispatch => {
+  // console.log('HIT DETAIL FETCH ACTION', copayId);
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
 
   const dataUrl = `${environment.API_URL}/v1/medical_copays/${copayId}`;
 
   return apiRequest(dataUrl)
     .then(responseData => {
+      // console.log('HIT DETAIL FETCH ACTION', responseData);
       return dispatch({
         type: MCP_DETAIL_FETCH_SUCCESS,
         response: responseData,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Modals from '../../combined/components/Modals';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
@@ -30,6 +31,7 @@ const DEFAULT_COPAY_STATEMENT = {
 };
 
 const DetailCopayPage = ({ match }) => {
+  const dispatch = useDispatch();
   const [alert, setAlert] = useState('status');
   const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
     useSelector(state => state),
@@ -47,8 +49,8 @@ const DetailCopayPage = ({ match }) => {
 
   // Get the selected copay statement ID from the URL
   //  and the selected copay statement data from Redux
-  // const selectedStatement =
-  //   useSelector(state => state.combinedPortal.mcp.selectedStatement) || {};
+  const copayDetail =
+    useSelector(state => state.combinedPortal.mcp.selectedStatement) || {};
   const allStatements =
     useSelector(state => state.combinedPortal.mcp.statements) || [];
 
@@ -66,25 +68,43 @@ const DetailCopayPage = ({ match }) => {
     () => {
       // console.log('INSIDE USEEFFECT');
       if (!isAnyElementFocused()) setPageFocus();
-      const setCopayDetail = copay => {
-        // console.log('SETTING COPAY DETAIL');
+
+      const fetchCopayDetail = async () => {
+        // console.log('FETCHING COPAY DETAIL');
+        if (!copayDetail?.id) {
+          // console.log('FETCHING COPAY DETAIL FOR ID:', selectedId);
+          // console.log(getCopayDetailStatement);
+          await dispatch(getCopayDetailStatement(`${selectedId}`));
+          // setCopayDetail();
+        }
+      };
+
+      fetchCopayDetail();
+    },
+    [selectedCopay, selectedId, dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (copayDetail?.id) {
+        // console.log('SETTING COPAY DETAIL', copayDetail);
         const title = `Copay bill for ${
           shouldShowVHAPaymentHistory
-            ? copay?.attributes.facility
-            : copay?.station.facilityName
+            ? copayDetail?.attributes.facility
+            : copayDetail?.station.facilityName
         }`;
         const invoiceDate = verifyCurrentBalance(
           shouldShowVHAPaymentHistory
-            ? copay?.attributes.invoiceDate
-            : copay?.pSStatementDateOutput,
+            ? copayDetail?.attributes.invoiceDate
+            : copayDetail?.pSStatementDateOutput,
         );
         const acctNum = shouldShowVHAPaymentHistory
-          ? copay?.attributes.accountNumber
-          : copay?.accountNumber || copay?.pHAccountNumber;
+          ? copayDetail?.attributes.accountNumber
+          : copayDetail?.accountNumber || copayDetail?.pHAccountNumber;
 
         const charges = shouldShowVHAPaymentHistory
-          ? copay?.attributes?.lineItems ?? []
-          : copay?.details?.filter(
+          ? copayDetail?.attributes?.lineItems ?? []
+          : copayDetail?.details?.filter(
               charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
             ) ?? [];
 
@@ -93,23 +113,11 @@ const DetailCopayPage = ({ match }) => {
           INVOICE_DATE: invoiceDate,
           ACCOUNT_NUMBER: acctNum,
           CHARGES: charges,
-          FULL_DETAILS: copay,
+          FULL_DETAILS: copayDetail,
         });
-      };
-
-      // console.log('BEFORE SELECTION', selectedCopay);
-      const fetchCopayDetail = async () => {
-        // console.log('FETCHING COPAY DETAIL');
-        if (!selectedCopay.FULL_DETAILS.id) {
-          // console.log('INSIDE IF SELECTION');
-          const response = await getCopayDetailStatement(`${selectedId}`);
-          setCopayDetail(response);
-        }
-      };
-
-      fetchCopayDetail();
+      }
     },
-    [selectedId, selectedCopay, shouldShowVHAPaymentHistory],
+    [selectedId, selectedCopay, shouldShowVHAPaymentHistory, copayDetail],
   );
 
   useEffect(
@@ -160,6 +168,10 @@ const DetailCopayPage = ({ match }) => {
   };
 
   useHeaderPageTitle(selectedStatement.TITLE);
+
+  if (!selectedCopay.FULL_DETAILS.id) {
+    return <VaLoadingIndicator message="Loading features..." />;
+  }
 
   return (
     <>
