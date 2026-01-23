@@ -10,7 +10,7 @@ import {
   DEBTS_SET_ACTIVE_DEBT,
 } from '../../combined/actions/debts';
 import {
-  getStatements,
+  getAllCopayStatements,
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
 } from '../../combined/actions/copays';
@@ -108,7 +108,7 @@ describe('Copay Actions', () => {
       ],
     };
     mockApiRequest(mockResponse);
-    return getStatements(dispatch).then(() => {
+    return getAllCopayStatements(dispatch).then(() => {
       const allCalls = dispatch.getCalls().map(call => call.args[0]);
 
       // First call to MCP_STATEMENTS_FETCH_INIT

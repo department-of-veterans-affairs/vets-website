@@ -8,7 +8,7 @@ import {
   MCP_STATEMENTS_FETCH_SUCCESS,
   MCP_STATEMENTS_FETCH_FAILURE,
   mcpStatementsFetchInit,
-  getStatements,
+  getAllCopayStatements,
 } from '../../actions/copays';
 
 describe('copays actions', () => {
@@ -45,7 +45,7 @@ describe('copays actions', () => {
     });
   });
 
-  describe('getStatements', () => {
+  describe('getAllCopayStatements', () => {
     it('should dispatch FETCH_INIT and FETCH_SUCCESS actions when fetch succeeds', async () => {
       const fakeData = [
         {
@@ -58,7 +58,7 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns('Fake Medical Center');
 
-      await getStatements(dispatch);
+      await getAllCopayStatements(dispatch);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: MCP_STATEMENTS_FETCH_INIT,
@@ -81,7 +81,7 @@ describe('copays actions', () => {
       const fakeData = [{ id: 1 }]; // Missing station info
       apiRequestStub.resolves({ data: fakeData });
 
-      await getStatements(dispatch);
+      await getAllCopayStatements(dispatch);
 
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: MCP_STATEMENTS_FETCH_SUCCESS,
@@ -102,7 +102,7 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns(null);
 
-      await getStatements(dispatch);
+      await getAllCopayStatements(dispatch);
 
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: MCP_STATEMENTS_FETCH_SUCCESS,
@@ -123,7 +123,7 @@ describe('copays actions', () => {
       const networkError = { detail: 'Network error' };
       apiRequestStub.rejects({ errors: [networkError] });
 
-      await getStatements(dispatch);
+      await getAllCopayStatements(dispatch);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: MCP_STATEMENTS_FETCH_INIT,
@@ -139,7 +139,7 @@ describe('copays actions', () => {
     });
   });
 
-  describe('getStatements with various inputs', () => {
+  describe('getAllCopayStatements with various inputs', () => {
     it('should correctly transform city names', async () => {
       const fakeData = [
         {
@@ -152,7 +152,7 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns('NYC Medical Center');
 
-      await getStatements(dispatch);
+      await getAllCopayStatements(dispatch);
 
       expect(dispatch.secondCall.args[0].response[0].station.city).to.equal(
         'New York City',
@@ -171,7 +171,7 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns('Some Medical Center');
 
-      await getStatements(dispatch);
+      await getAllCopayStatements(dispatch);
 
       expect(dispatch.secondCall.args[0].response[0].station.city).to.equal('');
     });
@@ -188,7 +188,7 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns('Washington Medical Center');
 
-      await getStatements(dispatch);
+      await getAllCopayStatements(dispatch);
 
       expect(dispatch.secondCall.args[0].response[0].station.city).to.equal(
         'Washington',

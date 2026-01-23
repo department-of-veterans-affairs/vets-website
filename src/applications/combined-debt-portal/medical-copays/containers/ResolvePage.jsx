@@ -20,13 +20,17 @@ const ResolvePage = ({ match }) => {
     useSelector(state => state),
   );
 
+  // Get the selected copay statement ID from the URL
+  //  and the selected copay statement data from Redux
+  const selectedStatement =
+    useSelector(state => state.combinedPortal.mcp.selectedStatement) || {};
+  const allStatements =
+    useSelector(state => state.combinedPortal.mcp.statements) || [];
+
   const selectedId = match.params.id;
-  const combinedPortalData = useSelector(state => state.combinedPortal);
-  const statements = combinedPortalData.mcp.statements ?? [];
-  // get selected statement
   const selectedCopay = shouldShowVHAPaymentHistory
-    ? statements?.data
-    : statements?.find(({ id }) => id === selectedId); // get facility  number on selected statement
+    ? selectedStatement
+    : allStatements?.find(({ id }) => id === selectedId);
   const title = `Resolve your copay bill`;
 
   const facilityName = shouldShowVHAPaymentHistory

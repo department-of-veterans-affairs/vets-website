@@ -7,7 +7,10 @@ import {
 import PropTypes from 'prop-types';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
-import { getStatements, getCopaySummaryPageData } from '../actions/copays';
+import {
+  getAllCopayStatements,
+  getCopaySummaryStatements,
+} from '../actions/copays';
 import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
@@ -48,9 +51,9 @@ const CombinedPortalApp = ({ children }) => {
         fetchDebtLetters(dispatch, debtLettersActive);
 
         if (shouldUseLightHouseCopayData) {
-          getCopaySummaryPageData(dispatch);
+          getCopaySummaryStatements(dispatch);
         } else {
-          getStatements(dispatch);
+          getAllCopayStatements(dispatch);
         }
       }
     },
