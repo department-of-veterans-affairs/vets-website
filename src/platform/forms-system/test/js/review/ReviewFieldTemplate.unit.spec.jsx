@@ -186,4 +186,45 @@ describe('Schemaform ReviewFieldTemplate', () => {
     expect(tree.subTree('dt').text()).to.equal('Test');
     expect(tree.subTree('dd').text()).to.equal('123'); // ignore formData
   });
+
+  it('should hide review row when formContext filterEmptyFields is true', () => {
+    const schema = { type: 'string' };
+    const uiSchema = {
+      'ui:title': 'Label',
+      'ui:reviewWidget': () => <span />,
+    };
+    const tree = SkinDeep.shallowRender(
+      <ReviewFieldTemplate
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={{ filterEmptyFields: true }}
+      >
+        <StringField schema={schema} uiSchema={uiSchema} formData="" />
+      </ReviewFieldTemplate>,
+    );
+
+    expect(tree.everySubTree('.review-row')).to.be.empty;
+  });
+
+  it('should ignore hideEmptyValueInReview when filterEmptyFields is false', () => {
+    const schema = { type: 'string' };
+    const uiSchema = {
+      'ui:title': 'Label',
+      'ui:reviewWidget': () => <span />,
+      'ui:options': {
+        hideEmptyValueInReview: true,
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ReviewFieldTemplate
+        schema={schema}
+        uiSchema={uiSchema}
+        formContext={{ filterEmptyFields: false }}
+      >
+        <StringField schema={schema} uiSchema={uiSchema} formData="" />
+      </ReviewFieldTemplate>,
+    );
+
+    expect(tree.everySubTree('.review-row')).to.not.be.empty;
+  });
 });
