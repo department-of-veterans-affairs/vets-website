@@ -1,4 +1,5 @@
 import MedicationsSite from './med_site/MedicationsSite';
+import cernerUser from './fixtures/cerner-user.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 
 describe('Medications List Page Allergies', () => {
@@ -19,9 +20,9 @@ describe('Medications List Page Allergies', () => {
   it('visits Medications List Page Cerner Allergies Network Response', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    site.login();
-    listPage.visitMedicationsListForUserWithAcceleratedAllergies();
-    listPage.verifyAllergiesListNetworkResponseWithAcceleratedAllergies();
+    site.login(true, cernerUser);
+    listPage.visitMedicationsListForCernerUser();
+    listPage.verifyAllergiesListNetworkResponseForCernerUser();
     cy.injectAxe();
     cy.axeCheck('main');
   });

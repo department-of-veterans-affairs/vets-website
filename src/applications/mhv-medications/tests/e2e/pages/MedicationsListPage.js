@@ -1060,9 +1060,7 @@ class MedicationsListPage {
 
   // OH Integration tests
 
-  visitMedicationsListForUserWithAcceleratedAllergies = (
-    waitForMeds = false,
-  ) => {
+  visitMedicationsListForCernerUser = (waitForMeds = false) => {
     // cy.intercept('GET', '/my-health/medications', prescriptions);
     cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
       'delayAlertRxList',
@@ -1084,7 +1082,7 @@ class MedicationsListPage {
     }
   };
 
-  verifyAllergiesListNetworkResponseWithAcceleratedAllergies = () => {
+  verifyAllergiesListNetworkResponseForCernerUser = () => {
     cy.get('@acceleratedAllergies')
       .its('response')
       .then(res => {
