@@ -41,7 +41,7 @@ describe('22-0976 institution IHL page', () => {
 
   it('shows error when "No" is selected, but no detail is provided', async () => {
     const { container, getByRole } = renderPage({
-      institutionProfile: { isIHL: false },
+      institutionProfile: { isIhl: false },
     });
 
     getByRole('button', { name: /submit/i }).click();
