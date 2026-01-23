@@ -7,6 +7,7 @@ import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
 import manifest from '../../manifest.json';
+import { Paths } from '../../util/constants';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const SmBreadcrumbs = () => {
@@ -458,12 +459,16 @@ const SmBreadcrumbs = () => {
     ],
   );
 
+  // Wherever backLinkHref is derived today, add a resolved fallback:
+  const fallbackBackHref = `${manifest.rootUrl}${Paths.INBOX}`;
+  const resolvedBackLinkHref = backLinkHref || fallbackBackHref;
+
   if (shortenBreadcrumb) {
     return (
       <div className="mobile-lg:vads-u-margin-y--2">
         <a
           className="vads-c-action-link--green"
-          href={backLinkHref}
+          href={resolvedBackLinkHref}
           onClick={event => {
             event.preventDefault();
             navigateBack();
