@@ -100,13 +100,14 @@ class FolderManagementPage {
     cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
       .should('be.visible')
       .click();
-    // Wait for the modal to fully render and radio options to be available
+    // Wait for the modal to appear in DOM first, then check visibility
     cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID)
-      .should('be.visible')
+      .should('exist')
+      .and('be.visible')
       .within(() => {
-        cy.findByLabelText(folderName, { timeout: 10000 })
+        cy.findByLabelText(folderName)
           .should('exist')
-          .should('be.visible')
+          .and('be.visible')
           .click();
       });
   };
