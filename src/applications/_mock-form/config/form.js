@@ -1,3 +1,4 @@
+// Test change to verify deployment concurrency group generation in CI
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/00-1234-schema.json';
 
