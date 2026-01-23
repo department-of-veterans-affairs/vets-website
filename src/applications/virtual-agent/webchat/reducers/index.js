@@ -1,3 +1,5 @@
+import { chatbotReducer } from '../../chatbot/store';
+
 export const ACCEPTED = 'ACCEPTED';
 
 const initialState = {
@@ -17,5 +19,6 @@ const virtualAgentReducer = (state = initialState, action) => {
 };
 
 export default {
+  chatbot: chatbotReducer,
   virtualAgentData: virtualAgentReducer,
 };

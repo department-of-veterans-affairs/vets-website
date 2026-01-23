@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux';
 import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
 
 import {
-  useToggleValue,
   TOGGLE_NAMES,
+  useToggleValue,
 } from 'platform/utilities/feature-toggles';
 
 // Components
+import ChatboxDisclaimer from '../../chatbot/features/shell/components/RightColumnContent';
 import App from './App';
-import ChatboxDisclaimer from './ChatboxDisclaimer';
 
 // Hooks
 import useLoginModal from '../hooks/useLoginModal';
