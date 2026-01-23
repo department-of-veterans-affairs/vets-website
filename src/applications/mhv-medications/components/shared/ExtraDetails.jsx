@@ -99,7 +99,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                 data-testid="active-no-refill-left"
               >
                 You can’t refill this prescription. If you need more, send a
-                secure message to your care team
+                secure message to your care team.
               </p>
               <SendRxRenewalMessage
                 rx={rx}
@@ -325,7 +325,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                 data-testid="active-no-refill-left"
               >
                 You can’t refill this prescription. If you need more, send a
-                secure message to your care team
+                secure message to your care team.
               </p>
               <SendRxRenewalMessage
                 rx={rx}
