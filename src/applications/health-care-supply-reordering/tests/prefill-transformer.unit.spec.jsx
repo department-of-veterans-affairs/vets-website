@@ -30,6 +30,52 @@ describe('prefillTransformer', () => {
       expect(result.formData.temporaryAddress).to.deep.equal(temporaryAddress);
       expect(result.formData.temporaryAddress.street).to.equal('456 Elm St');
     });
+
+    it('should convert empty string fields to undefined in temporaryAddress', () => {
+      const permanentAddress = { ...defaultAddress };
+      const temporaryAddress = {
+        street: '',
+        street2: '',
+        city: '',
+        state: '',
+        country: '',
+        postalCode: '',
+      };
+      const formData = {
+        permanentAddress,
+        temporaryAddress,
+      };
+      const result = prefillTransformer(pages, formData, metadata);
+      expect(result.formData.temporaryAddress.street).to.be.undefined;
+      expect(result.formData.temporaryAddress.street2).to.be.undefined;
+      expect(result.formData.temporaryAddress.city).to.be.undefined;
+      expect(result.formData.temporaryAddress.state).to.be.undefined;
+      expect(result.formData.temporaryAddress.country).to.be.undefined;
+      expect(result.formData.temporaryAddress.postalCode).to.be.undefined;
+    });
+
+    it('should only convert empty string fields and preserve valid values in temporaryAddress', () => {
+      const permanentAddress = { ...defaultAddress };
+      const temporaryAddress = {
+        street: '456 Elm St',
+        street2: '',
+        city: 'Shelbyville',
+        state: '',
+        country: 'USA',
+        postalCode: '',
+      };
+      const formData = {
+        permanentAddress,
+        temporaryAddress,
+      };
+      const result = prefillTransformer(pages, formData, metadata);
+      expect(result.formData.temporaryAddress.street).to.equal('456 Elm St');
+      expect(result.formData.temporaryAddress.street2).to.be.undefined;
+      expect(result.formData.temporaryAddress.city).to.equal('Shelbyville');
+      expect(result.formData.temporaryAddress.state).to.be.undefined;
+      expect(result.formData.temporaryAddress.country).to.equal('USA');
+      expect(result.formData.temporaryAddress.postalCode).to.be.undefined;
+    });
   });
 
   describe('country code transformation', () => {
