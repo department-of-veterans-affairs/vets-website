@@ -83,6 +83,16 @@ describe('Medications List Card Extra Details', () => {
         [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
         ...(initialState.featureToggles || {}),
       },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            cernerFacilities: [
+              { vhaId: '668', vamcFacilityName: 'Spokane VA' },
+            ],
+          },
+        },
+        ...(initialState.drupalStaticData || {}),
+      },
     };
 
     return renderWithStoreAndRouterV6(<ExtraDetails {...rx} />, {
@@ -116,7 +126,7 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
     });
   });
@@ -196,6 +206,7 @@ describe('Medications List Card Extra Details', () => {
         isRenewable: true,
         prescriptionSource: 'VA',
         dispStatus: null,
+        stationNumber: '668',
       });
       expect(await screen.findByTestId('send-renewal-request-message-link')).to
         .exist;
@@ -208,6 +219,7 @@ describe('Medications List Card Extra Details', () => {
         prescriptionSource: 'VA',
         dispStatus: 'Active',
         refillRemaining: 5, // Has refills but isRenewable should still show link
+        stationNumber: '668',
       });
       expect(await screen.findByTestId('send-renewal-request-message-link')).to
         .exist;
@@ -219,6 +231,7 @@ describe('Medications List Card Extra Details', () => {
         isRenewable: true,
         prescriptionSource: 'NV',
         dispStatus: null,
+        stationNumber: '668',
       });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
@@ -231,6 +244,7 @@ describe('Medications List Card Extra Details', () => {
         prescriptionSource: 'VA',
         dispStatus: 'Active',
         refillRemaining: 5,
+        stationNumber: '668',
       });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
@@ -247,7 +261,7 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
     });
   });

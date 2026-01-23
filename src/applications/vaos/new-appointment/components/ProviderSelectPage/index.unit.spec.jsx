@@ -31,6 +31,18 @@ const requestDisabled = {
   },
 };
 
+const serviceFailures = [
+  {
+    system: 'VPG',
+    status: '500',
+    code: 10000,
+    message:
+      'Officia esse excepteur consequat qui nulla id anim sit esse officia ullamco.',
+    detail:
+      'icn=500104V500104 startDate=2016-01-25T00:00Z endDate=2025-12-26T00:00Z',
+  },
+];
+
 const defaultState = {
   featureToggles: {
     vaOnlineSchedulingOhDirectSchedule: true,
@@ -123,6 +135,7 @@ const defaultState = {
         hasAvailability: true,
       },
     ],
+    backendServiceFailures: [],
   },
 };
 
@@ -406,6 +419,56 @@ describe('VAOS Page: ProviderSelectPage', () => {
       ).not.to.contain.text('You can call the facility to schedule.');
 
       expect(screen.queryAllByText(/Option/)).to.have.length(2);
+    });
+  });
+
+  describe('When the patient relationship endpoint returns an error', () => {
+    it('should show the BackendProviderServiceAlert with the request an appointment option if the user is eligible to make requests', async () => {
+      const store = createTestStore({
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          patientProviderRelationships: [],
+          backendServiceFailures: serviceFailures,
+        },
+      });
+      const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
+        store,
+      });
+      expect(screen.getByTestId('page-header-provider-select')).to.have.text(
+        'Which provider do you want to schedule with?',
+      );
+
+      expect(screen.getByTestId('request-appointment-link')).to.exist;
+
+      await waitFor(() => {
+        expect(screen.getByTestId('backend-relationship-service-alert-request'))
+          .to.exist;
+      });
+    });
+    it('should show the BackendProviderServiceAlert with the call to schedule option if user is ineligible for requests', async () => {
+      const store = createTestStore({
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          eligibility: eligibilityOverRequestLimit,
+          patientProviderRelationships: [],
+          backendServiceFailures: serviceFailures,
+        },
+      });
+
+      const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
+        store,
+      });
+      expect(screen.getByTestId('page-header-provider-select')).to.have.text(
+        'Which provider do you want to schedule with?',
+      );
+      expect(screen.queryByTestId('request-appointment-link')).to.not.exist;
+
+      await waitFor(() => {
+        expect(screen.getByTestId('backend-relationship-service-alert-call')).to
+          .exist;
+      });
     });
   });
 });

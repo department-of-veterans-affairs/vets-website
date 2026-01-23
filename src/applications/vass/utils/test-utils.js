@@ -40,6 +40,19 @@ export const defaultVassFormState = {
 };
 
 /**
+ * Default initial state for scheduledDowntime slice.
+ * Setting isReady: true bypasses the DowntimeNotification loading indicator.
+ * serviceMap must be a Map (not null) when isReady is true.
+ */
+export const defaultScheduledDowntimeState = {
+  globalDowntime: null,
+  isReady: true,
+  isPending: false,
+  serviceMap: new Map(),
+  dismissedDowntimeWarnings: [],
+};
+
+/**
  * Creates default render options for tests using renderWithStoreAndRouterV6.
  *
  * @param {Object} vassFormOverrides - Override values for vassForm state fields
@@ -77,6 +90,9 @@ export const getDefaultRenderOptions = (
     vassForm: {
       ...defaultVassFormState,
       ...vassFormOverrides,
+    },
+    scheduledDowntime: {
+      ...defaultScheduledDowntimeState,
     },
     ...additionalState,
   },

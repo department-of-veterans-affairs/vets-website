@@ -706,6 +706,10 @@ const ComposeForm = props => {
       } = checkMessageValidity(validMessageType.SAVE);
 
       if (type === 'manual') {
+        recordEvent({
+          event: 'cta-button-click',
+          'button-click-label': 'Save Draft',
+        });
         const getErrorType = () => {
           const hasAttachments = attachmentsRef.current.length > 0;
           const hasValidSignature =
