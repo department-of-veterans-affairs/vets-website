@@ -47,7 +47,10 @@
       "claimantPhoneNumber": {
         "callingCode": 1,
         "countryCode": "US",
-        "contact": "(212) 555-1935"
+        "contact": "(212) 555-1935",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
       },
       "claimantEmail": "bail.organa@alderaan.gov"
     },

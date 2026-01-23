@@ -47,7 +47,10 @@
       "claimantPhoneNumber": {
         "callingCode": 880,
         "countryCode": "BD",
-        "contact": "212345678"
+        "contact": "212345678",
+        "IsValid": true,
+        "Error": null,
+        "Touched": true
       },
       "claimantEmail": "lando.jr@cloudcity.com"
     },
