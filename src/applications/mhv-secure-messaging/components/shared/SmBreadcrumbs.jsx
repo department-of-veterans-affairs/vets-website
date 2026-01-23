@@ -468,8 +468,8 @@ const SmBreadcrumbs = () => {
             event.preventDefault();
             navigateBack();
           }}
-          data-testid="sm-breadcrumb-back-link"
-          data-dd-action-name="Back"
+          data-testid="sm-breadcrumbs-back"
+          data-dd-action-name="Breadcrumb - Back"
         >
           Back
         </a>
