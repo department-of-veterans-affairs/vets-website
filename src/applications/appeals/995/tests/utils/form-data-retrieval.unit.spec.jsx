@@ -6,6 +6,9 @@ import {
   HAS_PRIVATE_LIMITATION,
 } from '../../constants';
 import {
+  getOtherEvidence,
+  getPrivateEvidence,
+  getVAEvidence,
   hasPrivateEvidence,
   hasPrivateLimitation,
   hasOtherEvidence,
@@ -79,6 +82,91 @@ describe('utils: form data retrieval', () => {
 
       // Both false
       expect(getResult(false, false)).to.be.false;
+    });
+  });
+
+  describe('getVAEvidence', () => {
+    it('should return expected value', () => {
+      expect(
+        getVAEvidence({ [HAS_VA_EVIDENCE]: undefined, locations: [{}] }),
+      ).to.deep.equal([]);
+
+      expect(
+        getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [{}] }),
+      ).to.deep.equal([{}]);
+
+      expect(
+        getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [] }),
+      ).to.deep.equal([]);
+
+      expect(
+        getVAEvidence({ [HAS_VA_EVIDENCE]: false, locations: [{}] }),
+      ).to.deep.equal([]);
+
+      expect(
+        getVAEvidence({
+          [HAS_VA_EVIDENCE]: true,
+          locations: [{ test: 'test' }],
+        }),
+      ).to.deep.equal([{ test: 'test' }]);
+    });
+  });
+
+  describe('getPrivateEvidence', () => {
+    it('should return expected value', () => {
+      expect(
+        getPrivateEvidence({
+          [HAS_PRIVATE_EVIDENCE]: undefined,
+          providerFacility: [{}],
+        }),
+      ).to.deep.equal([]);
+      expect(
+        getPrivateEvidence({
+          [HAS_PRIVATE_EVIDENCE]: true,
+          providerFacility: [{}],
+        }),
+      ).to.deep.equal([{}]);
+      expect(
+        getPrivateEvidence({
+          [HAS_PRIVATE_EVIDENCE]: true,
+          providerFacility: [],
+        }),
+      ).to.deep.equal([]);
+      expect(
+        getPrivateEvidence({
+          [HAS_PRIVATE_EVIDENCE]: false,
+          providerFacility: [{}],
+        }),
+      ).to.deep.equal([]);
+    });
+  });
+
+  describe('getOtherEvidence', () => {
+    it('should return expected value', () => {
+      expect(
+        getOtherEvidence({
+          [HAS_OTHER_EVIDENCE]: undefined,
+          additionalDocuments: [{}],
+        }),
+      ).to.deep.equal([]);
+      expect(
+        getOtherEvidence({
+          [HAS_OTHER_EVIDENCE]: true,
+          additionalDocuments: [{}],
+        }),
+      ).to.deep.equal([{}]);
+      expect(
+        getOtherEvidence({
+          [HAS_OTHER_EVIDENCE]: true,
+          additionalDocuments: [],
+        }),
+      ).to.deep.equal([]);
+      expect(
+        getOtherEvidence({
+          [HAS_OTHER_EVIDENCE]: false,
+          additionalDocuments: [{}],
+        }),
+      ).to.deep.equal([]);
     });
   });
 });
