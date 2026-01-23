@@ -4,8 +4,6 @@ import { useSelector, useDispatch, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { Element } from 'platform/utilities/scroll';
@@ -24,8 +22,6 @@ import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../../constants';
 import { getRouteInfoFromPath } from '../../../../../common/helpers';
 import { getRoutesForNav } from '../../../../routesForNav';
-import PreferenceSelection from './pages/PreferenceSelection';
-import TimesSelection from './pages/TimesSelection';
 
 const getFieldInfo = fieldName => {
   const fieldNameKey = Object.entries(FIELD_NAMES).find(
@@ -52,7 +48,12 @@ const clearBeforeUnloadListener = () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
 };
 
-export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
+export const SelectTimesContainer = ({
+  fieldName,
+  noPreferenceValue,
+  getContentComponent,
+  getButtons,
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const defaultReturnPath = PROFILE_PATHS.SCHEDULING_PREFERENCES;
@@ -310,12 +311,9 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
 
   const handlers = {
     cancel: () => {
+      setShowConfirmCancelModal(false);
       clearBeforeUnloadListener();
-
-      // ensures any field editing state is cleared
-      // and that hasUnsavedEdits is set to false
       dispatch(openModal(null));
-
       history.push(returnPath);
     },
     continue: () => {
@@ -349,45 +347,8 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
     },
   };
 
-  const content =
-    step === 'select' ? (
-      <PreferenceSelection
-        data={fieldData}
-        error={error}
-        fieldName={fieldName}
-        setPageData={setPageData}
-        pageData={pageData}
-        noPreferenceValue={noPreferenceValue}
-      />
-    ) : (
-      <TimesSelection
-        pageData={pageData}
-        fieldName={fieldName}
-        setPageData={setPageData}
-        error={error}
-      />
-    );
-
-  let buttons = (
-    <VaButtonPair
-      onPrimaryClick={handlers.continue}
-      onSecondaryClick={handlers.cancel}
-      leftButtonText="Continue"
-      rightButtonText="Cancel"
-      data-testid="continue-cancel-buttons"
-    />
-  );
-  if (pageData.quickExit || step === 'choose-times') {
-    buttons = (
-      <VaButtonPair
-        onPrimaryClick={handlers.save}
-        onSecondaryClick={handlers.cancel}
-        leftButtonText="Save to profile"
-        rightButtonText="Cancel"
-        data-testid="save-to-profile-cancel-buttons"
-      />
-    );
-  }
+  const ContentComponent = getContentComponent(step);
+  const buttons = getButtons(step, pageData.quickExit, handlers);
 
   return (
     <EditContext.Provider value={{ onCancel: handlers.cancel }}>
@@ -416,7 +377,14 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
               <div className="vads-l-row">
                 <div className="vads-l-col--12 medium-screen:vads-l-col--8">
                   <form onSubmit={handlers.save} noValidate>
-                    {content}
+                    <ContentComponent
+                      data={fieldData}
+                      error={error}
+                      fieldName={fieldName}
+                      setPageData={setPageData}
+                      pageData={pageData}
+                      noPreferenceValue={noPreferenceValue}
+                    />
                     <div className="vads-u-margin-top--2">{buttons}</div>
                   </form>
                 </div>
@@ -431,6 +399,8 @@ export const SelectTimesContainer = ({ fieldName, noPreferenceValue }) => {
 
 SelectTimesContainer.propTypes = {
   fieldName: PropTypes.string.isRequired,
+  getButtons: PropTypes.func.isRequired,
+  getContentComponent: PropTypes.func.isRequired,
   noPreferenceValue: PropTypes.string.isRequired,
 };
 
