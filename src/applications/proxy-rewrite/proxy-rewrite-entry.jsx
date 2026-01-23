@@ -247,7 +247,6 @@ function shouldActivateInjectedAssets(whitelistItem, proxyRewriteCookieValue) {
 
 const scriptPaths = [
   '/generated/polyfills.entry.js',
-  '/generated/runtime.entry.js',
   '/generated/vendor.entry.js',
   '/generated/proxy-rewrite.entry.js',
 ];
