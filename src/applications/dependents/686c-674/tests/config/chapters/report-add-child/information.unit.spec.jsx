@@ -17,6 +17,20 @@ const formData = {
   },
   childrenToAdd: [{}],
 };
+
+const noSsnFormData = {
+  'view:selectable686Options': {
+    addChild: true,
+  },
+  childrenToAdd: [
+    {
+      noSsn: true,
+      noSsnReason: 'NONRESIDENT_ALIEN',
+    },
+  ],
+  vaDependentsNoSsn: true,
+};
+
 describe('686 add child information', () => {
   const {
     schema,
@@ -38,6 +52,33 @@ describe('686 add child information', () => {
     );
 
     const formDOM = getFormDOM(form);
+    expect(formDOM.querySelectorAll('va-text-input').length).to.eq(4);
+  });
+});
+describe('686 add child information with no SSN', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.addChild.pages.addChildInformation;
+
+  it('should render', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={noSsnFormData}
+          arrayPath="childrenToAdd"
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    const formDOM = getFormDOM(form);
     expect(formDOM.querySelectorAll('va-text-input').length).to.eq(3);
+    expect(formDOM.querySelectorAll('va-checkbox').length).to.eq(1);
+    expect(formDOM.querySelectorAll('va-radio').length).to.eq(1);
+    expect(formDOM.querySelectorAll('va-radio-option').length).to.eq(2);
   });
 });
