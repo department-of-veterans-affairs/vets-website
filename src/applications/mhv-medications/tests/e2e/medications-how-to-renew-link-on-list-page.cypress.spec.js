@@ -8,7 +8,7 @@ describe('Medications List Page Renew Rx Link', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     // Use Cerner user to enable Oracle Health features
-    site.login(true, false, cernerUser);
+    site.login(true, cernerUser);
     listPage.visitMedicationsListPageURL(oracleHealthRxList);
     cy.injectAxe();
     cy.axeCheck('main');

@@ -28,7 +28,7 @@ describe('Send Rx Renewal Message Component', () => {
     const listPage = new MedicationsListPage();
 
     // Use Cerner user and Oracle Health prescriptions for renewal link
-    site.login(true, false, cernerUser);
+    site.login(true, cernerUser);
     listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
@@ -44,7 +44,7 @@ describe('Send Rx Renewal Message Component', () => {
     const listPage = new MedicationsListPage();
 
     // Use Cerner user and Oracle Health prescriptions for renewal link
-    site.login(true, false, cernerUser);
+    site.login(true, cernerUser);
     listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
@@ -61,7 +61,7 @@ describe('Send Rx Renewal Message Component', () => {
     const listPage = new MedicationsListPage();
 
     // Use Cerner user and Oracle Health prescriptions for renewal link
-    site.login(true, false, cernerUser);
+    site.login(true, cernerUser);
     listPage.visitMedicationsListPageURL(oracleHealthRxList);
 
     cy.get('[data-testid="send-renewal-request-message-link"]')
