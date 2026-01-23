@@ -94,25 +94,35 @@ export const SearchForm = props => {
       onChange({ [propName]: '' });
     };
 
-    // Validate using draft state values
-    if (!draftFormState.searchString) {
-      updateReduxState('searchString');
-      focusElement('#street-city-state-zip');
-      return;
-    }
+    const errors = [];
 
     if (!draftFormState.facilityType) {
-      updateReduxState('facilityType');
-      focusElement('#facility-type-dropdown');
-      return;
+      errors.push({
+        field: 'facilityType',
+        selector: '#facility-type-dropdown',
+      });
     }
 
     if (
       draftFormState.facilityType === LocationType.CC_PROVIDER &&
       (!draftFormState.serviceType || !selectedServiceType)
     ) {
-      updateReduxState('serviceType');
-      focusElement('#service-type-ahead-input');
+      errors.push({
+        field: 'serviceType',
+        selector: '#service-type-ahead-input',
+      });
+    }
+
+    if (!draftFormState.searchString) {
+      errors.push({
+        field: 'searchString',
+        selector: '#street-city-state-zip',
+      });
+    }
+
+    if (errors.length > 0) {
+      errors.forEach(error => updateReduxState(error.field));
+      focusElement(errors[0].selector);
       return;
     }
 
@@ -147,7 +157,7 @@ export const SearchForm = props => {
     }
 
     setSearchInitiated(true);
-    onSubmit();
+    onSubmit(draftFormState);
   };
 
   // Sync draft state when Redux searchString updates from geolocation

@@ -60,8 +60,6 @@ import { distBetween } from '../utils/facilityDistance';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink } from '../utils/mapLinks';
 
-let lastZoom = 3;
-
 const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
@@ -91,6 +89,7 @@ const FacilitiesMap = props => {
   const mapboxGlContainerRef = useRef(null);
   const searchResultTitleRef = useRef(null);
   const searchResultMessageRef = useRef();
+  const lastZoomRef = useRef(3);
 
   /**
    * Search when the component renders with a sharable url
@@ -206,19 +205,21 @@ const FacilitiesMap = props => {
     [addMapMarker, map, props.currentQuery],
   );
 
-  const handleSearch = async () => {
+  const handleSearch = async (formValues = null) => {
     resetMapElements();
-    const { currentQuery } = props;
-    const { facilityType, serviceType, searchString } = currentQuery;
+    const queryToUse = formValues
+      ? { ...props.currentQuery, ...formValues }
+      : props.currentQuery;
+    const { facilityType, serviceType, searchString } = queryToUse;
     const expandedRadius = facilityType === 'benefits' && !serviceType;
-    lastZoom = null;
+    lastZoomRef.current = null;
 
     updateUrlParams({
       address: searchString,
     });
     props.genBBoxFromAddress(
       {
-        ...currentQuery,
+        ...queryToUse,
       },
       expandedRadius,
       props.useProgressiveDisclosure,
@@ -241,7 +242,7 @@ const FacilitiesMap = props => {
     if (!map) return;
 
     resetMapElements();
-    lastZoom = null;
+    lastZoomRef.current = null;
 
     const { currentQuery } = props;
     const center = map.getCenter().wrap();
@@ -319,14 +320,14 @@ const FacilitiesMap = props => {
 
       props.mapMoved(searchRadius);
 
-      if (lastZoom && parseInt(lastZoom, 10) > 3) {
-        recordZoomEvent(lastZoom, currentZoom);
+      if (lastZoomRef.current && parseInt(lastZoomRef.current, 10) > 3) {
+        recordZoomEvent(lastZoomRef.current, currentZoom);
       }
 
-      if (lastZoom !== currentZoom) {
-        const zoomDirection = currentZoom > lastZoom ? 'in' : 'out';
+      if (lastZoomRef.current !== currentZoom) {
+        const zoomDirection = currentZoom > lastZoomRef.current ? 'in' : 'out';
         speakZoom(searchRadius, zoomDirection);
-        lastZoom = currentZoom;
+        lastZoomRef.current = currentZoom;
       }
     });
   };
