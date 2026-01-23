@@ -13,10 +13,10 @@ describe('Medications List Page Allergies Link', () => {
     listPage.verifyAllergiesAndReactionsLinkOnMedicationsListPage();
   });
 
-  it('visits Medications List Page Allergies And Reactions Link with Accelerated allergies', () => {
+  it('visits Medications List Page Allergies And Reactions Link with Cerner user', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    site.login(true, true);
+    site.login();
     listPage.visitMedicationsListPageURL(prescriptionList);
     cy.injectAxe();
     cy.axeCheck('main');

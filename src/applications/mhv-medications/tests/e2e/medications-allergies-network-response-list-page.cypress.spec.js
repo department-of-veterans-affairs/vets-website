@@ -16,10 +16,10 @@ describe('Medications List Page Allergies', () => {
     cy.axeCheck('main');
   });
 
-  it('visits Medications List Page Accelerated Allergies Network Response', () => {
+  it('visits Medications List Page Cerner Allergies Network Response', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    site.login(true, true);
+    site.login();
     listPage.visitMedicationsListForUserWithAcceleratedAllergies();
     listPage.verifyAllergiesListNetworkResponseWithAcceleratedAllergies();
     cy.injectAxe();
