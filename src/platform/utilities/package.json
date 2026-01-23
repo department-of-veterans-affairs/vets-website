@@ -12,6 +12,7 @@
     "./featureFlagNames": "./feature-toggles/featureFlagNames.js",
     "./flipper-client": "./feature-toggles/flipper-client.js",
     "./keepAliveSSO": "./sso/keepAliveSSO.js",
+    "./lazy-load-with-retry": "./lazy-load-with-retry.js",
     "./localStorage": "./storage/localStorage.js",
     "./loginAttempted": "./sso/loginAttempted.js",
     "./medical-centers": "./medical-centers/medical-centers.js",
