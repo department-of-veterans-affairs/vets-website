@@ -20,6 +20,7 @@ import {
   oneDisabilityRequired,
   validateDisabilityName,
   validateBooleanGroup,
+  validateIfHasEvidence,
   validateAge,
   validateSeparationDate,
   isInFuture,
@@ -790,6 +791,115 @@ describe('526 All Claims validations', () => {
       validateBooleanGroup(errors, { tests: false }, null, {});
 
       expect(errors.addError.called).to.be.true;
+    });
+  });
+
+  describe('validateIfHasEvidence', () => {
+    const createTestFixtures = () => ({
+      errors: { addError: sinon.spy() },
+      wrappedValidator: sinon.spy(),
+      fieldData: {},
+      schema: {},
+      messages: {},
+    });
+
+    const callValidateIfHasEvidence = (formData, fixtures) => {
+      validateIfHasEvidence(
+        fixtures.errors,
+        fixtures.fieldData,
+        formData,
+        fixtures.schema,
+        fixtures.messages,
+        { wrappedValidator: fixtures.wrappedValidator },
+        0,
+      );
+      return fixtures;
+    };
+
+    it('should call wrappedValidator in enhancement flow when view:hasMedicalRecords is true', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': true,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+      expect(
+        fixtures.wrappedValidator.calledWith(
+          fixtures.errors,
+          fixtures.fieldData,
+          formData,
+          fixtures.schema,
+          fixtures.messages,
+          0,
+        ),
+      ).to.be.true;
+    });
+
+    it('should not call wrappedValidator in enhancement flow when view:hasMedicalRecords is false', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': false,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.called).to.be.false;
+    });
+
+    it('should call wrappedValidator in legacy flow when view:hasEvidence is true', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        'view:hasEvidence': true,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+      expect(
+        fixtures.wrappedValidator.calledWith(
+          fixtures.errors,
+          fixtures.fieldData,
+          formData,
+          fixtures.schema,
+          fixtures.messages,
+          0,
+        ),
+      ).to.be.true;
+    });
+
+    it('should not call wrappedValidator in legacy flow when view:hasEvidence is false', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        'view:hasEvidence': false,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.called).to.be.false;
+    });
+
+    it('should call wrappedValidator in enhancement flow when view:hasMedicalRecords is undefined (defaults to true)', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+    });
+
+    it('should call wrappedValidator in legacy flow when view:hasEvidence is undefined (defaults to true)', () => {
+      const fixtures = createTestFixtures();
+      const formData = {};
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
     });
   });
 

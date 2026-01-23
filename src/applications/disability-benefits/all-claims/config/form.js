@@ -23,6 +23,7 @@ import {
   capitalizeEachWord,
   getPageTitle,
   hasGuardOrReservePeriod,
+  hasMedicalRecords,
   hasNewPtsdDisability,
   hasOtherEvidence,
   hasPrivateEvidence,
@@ -32,6 +33,7 @@ import {
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
+  isEvidenceEnhancement,
   isNewConditionsOn,
   isNewConditionsOff,
   isNotUploadingPrivateMedical,
@@ -67,6 +69,7 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
+  evidenceRequest,
   evidenceTypes,
   evidenceTypesBDD,
   federalOrders,
@@ -74,6 +77,7 @@ import {
   fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
+  medicalRecords,
   mentalHealthChanges,
   militaryHistory,
   newPTSDFollowUp,
@@ -609,9 +613,30 @@ const formConfig = {
         evidenceTypes: {
           title: 'Types of supporting evidence',
           path: 'supporting-evidence/evidence-types',
-          depends: formData => !isBDD(formData),
+          depends: formData =>
+            !isBDD(formData) && !isEvidenceEnhancement(formData),
+          updateFormData: evidenceTypes.updateFormData,
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
+        },
+        evidenceRequest: {
+          title: 'Medical records that support your disability claim',
+          path: 'supporting-evidence/evidence-request',
+          depends: formData =>
+            !isBDD(formData) && isEvidenceEnhancement(formData),
+          uiSchema: evidenceRequest.uiSchema,
+          schema: evidenceRequest.schema,
+        },
+        medicalRecords: {
+          title: 'Types of medical records',
+          path: 'supporting-evidence/medical-records',
+          depends: formData =>
+            !isBDD(formData) &&
+            isEvidenceEnhancement(formData) &&
+            hasMedicalRecords(formData),
+          updateFormData: medicalRecords.updateFormData,
+          uiSchema: medicalRecords.uiSchema,
+          schema: medicalRecords.schema,
         },
         evidenceTypesBDD: {
           title: 'Types of supporting evidence for BDD',
