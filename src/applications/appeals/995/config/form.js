@@ -74,6 +74,7 @@ import {
   EVIDENCE_VA_PROMPT_URL,
   EVIDENCE_VA_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL_OLD,
   EVIDENCE_PRIVATE_DETAILS_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
@@ -246,8 +247,9 @@ const formConfig = {
         },
       },
     },
-    evidence: {
+    evidenceOld: {
       title: 'New and relevant evidence',
+      depends: !redesignActive,
       pages: {
         notice5103: {
           title: 'Notice of evidence needed',
@@ -268,11 +270,9 @@ const formConfig = {
           schema: facilityTypes.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        ...vaEvidence,
         vaPrompt: {
           title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
-          depends: formData => !redesignActive(formData),
           CustomPage: VaPrompt,
           CustomPageReview: null,
           uiSchema: vaPrompt.uiSchema,
@@ -282,8 +282,7 @@ const formConfig = {
         vaDetails: {
           title: 'VA medical records details',
           path: EVIDENCE_VA_DETAILS_URL,
-          depends: formData =>
-            !redesignActive(formData) && hasVAEvidence(formData),
+          depends: hasVAEvidence,
           CustomPage: VaDetailsEntry,
           CustomPageReview: null,
           uiSchema: vaDetails.uiSchema,
@@ -293,29 +292,17 @@ const formConfig = {
         },
         privatePrompt: {
           title: 'Request non-VA medical records',
-          path: EVIDENCE_PRIVATE_PROMPT_URL,
+          path: EVIDENCE_PRIVATE_PROMPT_URL_OLD,
           CustomPage: PrivatePrompt,
           CustomPageReview: null,
           uiSchema: privatePrompt.uiSchema,
           schema: privatePrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        authorization: {
-          title: 'Non-VA medical record authorization',
-          path: EVIDENCE_PRIVATE_AUTHORIZATION_URL,
-          uiSchema: privateAuthorization.uiSchema,
-          schema: privateAuthorization.schema,
-          CustomPage: AuthorizationNew,
-          CustomPageReview: null,
-          depends: formData =>
-            redesignActive(formData) && hasPrivateEvidence(formData),
-        },
-        ...privateEvidence,
         privateAuthorization: {
           title: 'Non-VA medical record authorization',
           path: EVIDENCE_PRIVATE_AUTHORIZATION_URL,
-          depends: formData =>
-            !redesignActive(formData) && hasPrivateEvidence(formData),
+          depends: hasPrivateEvidence,
           CustomPage: PrivateRecordsAuthorization,
           CustomPageReview: null,
           uiSchema: privateAuthorization.uiSchema,
@@ -324,8 +311,7 @@ const formConfig = {
         limitedConsentPrompt: {
           title: 'Non-VA medical record: limited consent prompt',
           path: LIMITED_CONSENT_PROMPT_URL,
-          depends: formData =>
-            !redesignActive(formData) && hasPrivateEvidence(formData),
+          depends: hasPrivateEvidence,
           uiSchema: limitedConsentPromptPage.uiSchema,
           schema: limitedConsentPromptPage.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -333,8 +319,7 @@ const formConfig = {
         limitedConsentDetails: {
           title: 'Non-VA medical record: limited consent details',
           path: LIMITED_CONSENT_DETAILS_URL,
-          depends: formData =>
-            !redesignActive(formData) && hasPrivateLimitation(formData),
+          depends: hasPrivateLimitation,
           uiSchema: limitedConsentDetailsPage.uiSchema,
           schema: limitedConsentDetailsPage.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -342,8 +327,7 @@ const formConfig = {
         privateDetails: {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_DETAILS_URL,
-          depends: formData =>
-            !redesignActive(formData) && hasPrivateEvidence(formData),
+          depends: hasPrivateEvidence,
           CustomPage: PrivateDetailsEntry,
           CustomPageReview: null,
           uiSchema: privateDetails.uiSchema,
@@ -372,7 +356,65 @@ const formConfig = {
           uiSchema: summary.uiSchema,
           schema: summary.schema,
           scrollAndFocusTarget: focusAlertH3,
-          depends: formData => !redesignActive(formData),
+        },
+      },
+    },
+    evidenceNew: {
+      title: 'New and relevant evidence',
+      depends: redesignActive,
+      pages: {
+        notice5103: {
+          title: 'Notice of evidence needed',
+          path: 'notice-of-evidence-needed',
+          CustomPage: Notice5103,
+          CustomPageReview: null, // reviewField renders this!
+          uiSchema: notice5103.uiSchema,
+          schema: notice5103.schema,
+          scrollAndFocusTarget: focusAlertH3,
+          initialData: {
+            form5103Acknowledged: false,
+          },
+        },
+        facilityTypes: {
+          title: 'Facility types',
+          path: 'facility-types',
+          uiSchema: facilityTypes.uiSchema,
+          schema: facilityTypes.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        ...vaEvidence,
+        privatePrompt: {
+          title: 'Request non-VA medical records',
+          path: EVIDENCE_PRIVATE_PROMPT_URL,
+          CustomPage: PrivatePrompt,
+          CustomPageReview: null,
+          uiSchema: privatePrompt.uiSchema,
+          schema: privatePrompt.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        authorization: {
+          title: 'Non-VA medical record authorization',
+          path: EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+          uiSchema: privateAuthorization.uiSchema,
+          schema: privateAuthorization.schema,
+          CustomPage: AuthorizationNew,
+          CustomPageReview: null,
+          depends: hasPrivateEvidence,
+        },
+        ...privateEvidence,
+        uploadPrompt: {
+          title: 'Upload new and relevant evidence',
+          path: EVIDENCE_URLS.uploadPrompt,
+          uiSchema: uploadPrompt.uiSchema,
+          schema: uploadPrompt.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        uploadDetails: {
+          title: 'Uploaded evidence',
+          path: EVIDENCE_UPLOAD_URL,
+          depends: hasOtherEvidence,
+          uiSchema: uploadDetails.uiSchema,
+          schema: uploadDetails.schema,
         },
       },
     },

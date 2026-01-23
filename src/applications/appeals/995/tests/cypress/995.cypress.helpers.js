@@ -393,7 +393,6 @@ export const pageHooks = {
               verifyUrl(`${EVIDENCE_VA_DETAILS_URL}?index=${index}`);
             }
 
-            console.log('here');
             cy.fillVaTextInput('name', location.locationAndName);
 
             location?.issues.forEach(issue => {
