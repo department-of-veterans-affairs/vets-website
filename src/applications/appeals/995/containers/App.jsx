@@ -25,6 +25,7 @@ import {
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
+  TOGGLE_KEY,
 } from '../constants';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
@@ -79,6 +80,11 @@ export const App = ({
       const hasSavedForm =
         savedForms?.length > 0 &&
         savedForms?.filter(form => form.form === '20-0995')?.length > 0;
+
+      console.log(
+        'eval: ',
+        scRedesign && (!hasSavedForm || hasNewEvidenceData),
+      );
 
       setFormData({
         ...formData,

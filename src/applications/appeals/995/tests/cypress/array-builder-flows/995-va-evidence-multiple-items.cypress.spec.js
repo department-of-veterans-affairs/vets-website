@@ -1,6 +1,7 @@
 import manifest from '../../../manifest.json';
 import cypressSetup from '../../../../shared/tests/cypress.setup';
 import * as h from '../995.cypress.helpers';
+import { NOV_2025_REDESIGN_TOGGLE } from '../../../constants';
 import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
 import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
 import {
@@ -23,7 +24,7 @@ describe('Array Builder evidence flow', () => {
           type: 'feature_toggles',
           features: [
             {
-              name: 'decision_review_sc_redesign_nov2025',
+              name: NOV_2025_REDESIGN_TOGGLE,
               value: true,
             },
           ],

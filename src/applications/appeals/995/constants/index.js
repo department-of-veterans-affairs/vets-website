@@ -11,6 +11,10 @@ export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
+export const NOV_2025_REDESIGN_TOGGLE = 'decision_review_sc_redesign_nov2025';
+export const TOGGLE_KEY = 'decisionReviewsScRedesign';
+
+
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
