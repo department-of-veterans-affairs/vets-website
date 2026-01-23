@@ -227,7 +227,7 @@ class PatientMessageCustomFolderPage {
 
   submitEditFolderName = folderName => {
     // Wait for the edit form to be visible
-    cy.get('[data-testid="edit-folder-form"]').should('be.visible');
+    cy.findByTestId('edit-folder-form').should('be.visible');
 
     // Use the fillVaTextInput command for proper web component interaction
     cy.fillVaTextInput('new-folder-name', folderName);
@@ -250,7 +250,7 @@ class PatientMessageCustomFolderPage {
       },
     }).as('updatedFolderName');
 
-    cy.get('[data-testid="save-edit-folder-button"]')
+    cy.findByTestId('save-edit-folder-button')
       .should('be.visible')
       .click();
   };

@@ -145,7 +145,7 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = document.querySelector(
+    const input = screen.container.querySelector(
       'va-text-input[name="new-folder-name"]',
     );
 
@@ -182,7 +182,7 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = document.querySelector(
+    const input = screen.container.querySelector(
       'va-text-input[name="new-folder-name"]',
     );
 
@@ -252,7 +252,7 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = document.querySelector(
+    const input = screen.container.querySelector(
       'va-text-input[name="new-folder-name"]',
     );
 
