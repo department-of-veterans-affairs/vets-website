@@ -75,7 +75,7 @@ const testConfig = createTestConfig(
             },
             {
               name: 'income_and_assets_content_updates',
-              value: true,
+              value: false,
             },
           ],
         },
