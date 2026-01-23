@@ -193,12 +193,6 @@ export const ConfirmationPage = () => {
           </div>
         </>
       )}
-<<<<<<< HEAD
-      {vaEvidence.length ? (
-        <VaDetailsDisplay list={vaEvidence} reviewMode showListOnly />
-      ) : null}
-      {privateEvidence.length ? (
-=======
       {!isScRedesign && vaEvidence.length ? (
         <VaDetailsDisplay list={vaEvidence} reviewMode showListOnly />
       ) : null}
@@ -206,7 +200,6 @@ export const ConfirmationPage = () => {
         <VaDetailsDisplayNew list={vaEvidence} reviewMode showListOnly />
       ) : null}
       {!isScRedesign && privateEvidence.length ? (
->>>>>>> 034c79ffd0 (Wrapping up changes to data display on confirmation page)
         <PrivateDetailsDisplay
           limitedConsent={data?.limitedConsent}
           limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
@@ -216,12 +209,9 @@ export const ConfirmationPage = () => {
           showListOnly
         />
       ) : null}
-<<<<<<< HEAD
-=======
       {isScRedesign && privateEvidence.length ? (
         <PrivateDetailsDisplayNew data={data} reviewMode showListOnly />
       ) : null}
->>>>>>> 034c79ffd0 (Wrapping up changes to data display on confirmation page)
       {otherEvidence.length ? (
         <EvidenceUploadContent list={otherEvidence} reviewMode showListOnly />
       ) : null}

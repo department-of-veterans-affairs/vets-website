@@ -7,6 +7,7 @@ import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-te
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { setupPerTest, pageHooks } from './995.cypress.helpers';
+import { NOV_2025_REDESIGN_TOGGLE, TOGGLE_KEY } from '../../constants';
 
 const testConfig = createTestConfig(
   {
@@ -18,7 +19,19 @@ const testConfig = createTestConfig(
       mocks: path.join(__dirname, '..', 'fixtures', 'mocks'),
     },
     pageHooks,
-    setupPerTest,
+    setupPerTest: data => {
+      const toggles = [
+        {
+          name: NOV_2025_REDESIGN_TOGGLE,
+          value: false,
+        },
+        {
+          name: TOGGLE_KEY,
+          value: false,
+        },
+      ];
+      setupPerTest(data, toggles);
+    },
   },
   manifest,
   formConfig,
