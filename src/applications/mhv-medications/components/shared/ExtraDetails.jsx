@@ -94,13 +94,6 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         if (noRefillRemaining) {
           return (
             <div className="no-print">
-              <p
-                className="vads-u-margin-y--0"
-                data-testid="active-no-refill-left"
-              >
-                You can’t refill this prescription. If you need more, send a
-                secure message to your care team
-              </p>
               <SendRxRenewalMessage
                 rx={rx}
                 showFallBackContent={showRenewalLink}
@@ -320,13 +313,6 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         if (noRefillRemaining) {
           return (
             <div className="no-print">
-              <p
-                className="vads-u-margin-y--0"
-                data-testid="active-no-refill-left"
-              >
-                You can’t refill this prescription. If you need more, send a
-                secure message to your care team.
-              </p>
               <SendRxRenewalMessage
                 rx={rx}
                 showFallBackContent={showRenewalLink}

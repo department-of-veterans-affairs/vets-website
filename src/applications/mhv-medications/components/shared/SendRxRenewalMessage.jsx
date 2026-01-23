@@ -116,7 +116,7 @@ const RenderLinkVariation = ({
     </Link>
   ) : (
     <>
-      {(isExpired || isActiveNoRefills) && (
+      {isExpired && (
         <p
           className="vads-u-margin-y--0"
           data-testid={
@@ -124,6 +124,12 @@ const RenderLinkVariation = ({
           }
         >
           You have no refills left. If you need more, request a renewal.
+        </p>
+      )}
+      {isActiveNoRefills && (
+        <p className="vads-u-margin-y--0" data-testid="active-no-refill-left">
+          You can’t refill this prescription. If you need more, send a secure
+          message to your care team
         </p>
       )}
       <va-link
