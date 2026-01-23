@@ -158,6 +158,22 @@ const Prescriptions = () => {
   } = useGetPrescriptionsListQuery(queryParams);
 
   const isLoading = isPrescriptionsLoading || isPrescriptionsFetching;
+  
+  /**
+   * Shows loading spinner for all filter selections to provide
+   * consistent visual feedback regardless of cache state
+   */
+  const [isFilterLoading, setIsFilterLoading] = useState(false);
+  const filterTimeoutRef = useRef(null);
+  const isShowingLoading = isLoading || isFilterLoading;
+  
+  useEffect(() => {
+    return () => {
+      if (filterTimeoutRef.current) {
+        clearTimeout(filterTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const { pagination, meta } = prescriptionsData || {};
   const paginatedPrescriptionsList = useMemo(
@@ -213,13 +229,23 @@ const Prescriptions = () => {
       updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
       updates.page = 1;
 
-      if (newFilterOption === selectedFilterOption) {
-        document.getElementById('showingRx').scrollIntoView({
+      // Always show loading spinner for filter selections (visual feedback)
+      setIsFilterLoading(true);
+
+      if (filterTimeoutRef.current) {
+        clearTimeout(filterTimeoutRef.current);
+      }
+      
+      filterTimeoutRef.current = setTimeout(() => {
+        setIsFilterLoading(false);
+        filterTimeoutRef.current = null;
+        // Only scroll after loading completes for better UX
+        document.getElementById('showingRx')?.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
           inline: 'nearest',
         });
-      }
+      }, 500);
 
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
@@ -694,7 +720,7 @@ const Prescriptions = () => {
             />
             <InProductionEducationFiltering />
           </>
-          {isLoading && renderLoadingIndicator()}
+          {isShowingLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
               <FilterAriaRegion filterOption={selectedFilterOption} />
@@ -703,7 +729,7 @@ const Prescriptions = () => {
                 shouldShowSelect={!isLoading}
               />
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-              {!isLoading && renderMedicationsList()}
+              {!isShowingLoading && renderMedicationsList()}
               <BeforeYouDownloadDropdown page={pageType.LIST} />
               <PrintDownload
                 onDownload={handleExportListDownload}
