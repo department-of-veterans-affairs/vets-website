@@ -68,12 +68,28 @@ export const emailNeedsConfirmation = ({
         )
       : false;
 
+  // Updated Date is null or undefined
+  const hasNoUpdatedDate =
+    vet360ContactInformation?.email?.updatedAt === null ||
+    vet360ContactInformation?.email?.updatedAt === undefined;
+
+  // Updated Date is before March 1, 2025
+  const updatedDateIsBefore =
+    hasNoUpdatedDate === false
+      ? isBefore(
+          parseISO(vet360ContactInformation?.email?.updatedAt),
+          beforeDate,
+        )
+      : false;
+
   return (
     [CSP_IDS.LOGIN_GOV, CSP_IDS.ID_ME].includes(loginType) &&
     profile?.verified && // Verified User
     vaProfile?.vaPatient && // VA Patient
     vaProfile?.facilities?.length > 0 && // Assigned to a facility
-    (hasNoConfirmationDate || confirmationDateIsBefore || hasNoEmailAddress) // Confirmation Date or email related
+    (hasNoEmailAddress ||
+      ((hasNoConfirmationDate || confirmationDateIsBefore) &&
+        (hasNoUpdatedDate || updatedDateIsBefore))) // Need confirmation if BOTH dates are old/missing
   );
 };
 
