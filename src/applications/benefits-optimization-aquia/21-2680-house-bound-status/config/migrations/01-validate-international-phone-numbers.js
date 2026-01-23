@@ -9,7 +9,7 @@ export default function validateInternationalPhoneNumbers(savedData) {
     formData.claimantContact.claimantPhoneNumber._isValid =
       claimantPhoneNumber.isValid || claimantPhoneNumber.IsValid;
     formData.claimantContact.claimantPhoneNumber._error =
-      claimantPhoneNumber.error || claimantPhoneNumber.Error;
+      claimantPhoneNumber.error ?? claimantPhoneNumber.Error ?? null;
     formData.claimantContact.claimantPhoneNumber._touched =
       claimantPhoneNumber.touched || claimantPhoneNumber.Touched;
   }
