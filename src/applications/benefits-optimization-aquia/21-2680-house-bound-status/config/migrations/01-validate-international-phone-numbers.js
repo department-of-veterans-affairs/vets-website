@@ -7,11 +7,11 @@ export default function validateInternationalPhoneNumbers(savedData) {
   ) {
     const { claimantPhoneNumber } = formData.claimantContact;
     formData.claimantContact.claimantPhoneNumber._isValid =
-      claimantPhoneNumber.isValid;
+      claimantPhoneNumber.isValid || claimantPhoneNumber.IsValid;
     formData.claimantContact.claimantPhoneNumber._error =
-      claimantPhoneNumber.error;
+      claimantPhoneNumber.error || claimantPhoneNumber.Error;
     formData.claimantContact.claimantPhoneNumber._touched =
-      claimantPhoneNumber.touched;
+      claimantPhoneNumber.touched || claimantPhoneNumber.Touched;
   }
   return {
     formData,
