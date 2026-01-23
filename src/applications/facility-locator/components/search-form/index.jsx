@@ -48,12 +48,18 @@ export const SearchForm = props => {
   });
 
   const handleFacilityTypeChange = e => {
+    const newFacilityType = e.target.value;
     setDraftFormState(prev => ({
       ...prev,
-      facilityType: e.target.value,
+      facilityType: newFacilityType,
       serviceType: null,
       vamcServiceDisplay: null,
     }));
+    onChange({
+      facilityType: newFacilityType,
+      serviceType: null,
+      vamcServiceDisplay: null,
+    });
   };
 
   const handleServiceTypeChange = ({ target, selectedItem }) => {

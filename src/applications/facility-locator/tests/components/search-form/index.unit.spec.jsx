@@ -112,17 +112,21 @@ describe('SearchForm', () => {
       vamcAutoSuggestEnabled: false,
     });
 
-    it('should NOT call onChange when facility type changes', () => {
+    it('should call onChange immediately when facility type changes', () => {
       const props = getDefaultProps();
       const wrapper = shallow(<SearchForm {...props} />);
 
-      // Get the FacilityType component and call its handler
       const facilityType = wrapper.find('FacilityType');
       facilityType.prop('handleFacilityTypeChange')({
         target: { value: 'health' },
       });
 
-      expect(props.onChange.called).to.be.false;
+      expect(props.onChange.calledOnce).to.be.true;
+      expect(props.onChange.firstCall.args[0]).to.deep.include({
+        facilityType: 'health',
+        serviceType: null,
+        vamcServiceDisplay: null,
+      });
       wrapper.unmount();
     });
 
