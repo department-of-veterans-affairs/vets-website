@@ -50,7 +50,7 @@ const schema = {
     dateOfBirth: dateOfBirthSchema,
     eligibilityAlert: { type: 'object', properties: {} },
   },
-  required: ['applicantFullName', 'dateOfBirth'],
+  // required: ['applicantFullName', 'dateOfBirth'],
 };
 
 export { schema, uiSchema };
