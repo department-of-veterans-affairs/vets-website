@@ -146,7 +146,7 @@ const Mileage = () => {
     const expenseData = {
       purchaseDate:
         appointment?.localStartTime?.slice(0, 10) ??
-        claimDetails.appointment?.localStartTime?.slice(0, 10) ??
+        claimDetails.appointment?.appointmentDateTime?.slice(0, 10) ??
         '',
       description: 'Mileage',
       tripType: formState.tripType,
