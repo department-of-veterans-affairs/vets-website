@@ -10,8 +10,7 @@ import {
 
 const defaultState = {
   featureToggles: {
-    vaOnlineSchedulingOhDirectSchedule: true,
-    vaOnlineSchedulingOhRequest: true,
+    vaOnlineSchedulingUseVpg: true,
   },
 };
 
