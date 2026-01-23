@@ -53,9 +53,10 @@ const ReviewAndConfirm = props => {
     },
     { skip: skipDraft },
   );
+  // Use savedSelectedSlot as fallback to handle sessionStorage restoration timing
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
-    selectedSlot,
+    selectedSlot || savedSelectedSlot,
   );
   const [
     postReferralAppointment,
@@ -151,7 +152,7 @@ const ReviewAndConfirm = props => {
           currentReferral.uuid,
           draftAppointmentInfo.id,
         );
-      } else if (isAppointmentError && draftAppointmentInfo?.id) {
+      } else if (isAppointmentError) {
         setCreateLoading(false);
         setCreateFailed(true);
       }
@@ -313,7 +314,7 @@ const ReviewAndConfirm = props => {
             </div>
           </>
         )}
-        {createFailed &&
+        {(createFailed || isAppointmentError) &&
           !createLoading && (
             <va-alert
               status="error"
