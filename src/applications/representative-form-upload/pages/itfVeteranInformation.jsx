@@ -27,27 +27,30 @@ export const itfVeteranInformationPage = {
   uiSchema: {
     ...ITFClaimantTitleAndDescription,
     'ui:objectViewField': ITFClaimantInfoViewField,
-    veteranFullName: firstNameLastNameNoSuffixUI(),
-    address: addressUI({
-      omit: [
-        'country',
-        'city',
-        'isMilitary',
-        'state',
-        'street',
-        'street2',
-        'street3',
-        'postalCode',
-      ],
-      required: true,
-    }),
-    veteranSsn: ssnUI(),
-    veteranDateOfBirth: dateOfBirthUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI,
-      'ui:title': 'VA file number',
-      'ui:errorMessages': {
-        pattern: 'Your VA file number must be 8 or 9 digits',
+    veteranInformation: {
+      'ui:title': 'Veteran information',
+      veteranFullName: firstNameLastNameNoSuffixUI(),
+      address: addressUI({
+        omit: [
+          'country',
+          'city',
+          'isMilitary',
+          'state',
+          'street',
+          'street2',
+          'street3',
+          'postalCode',
+        ],
+        required: true,
+      }),
+      veteranSsn: ssnUI(),
+      veteranDateOfBirth: dateOfBirthUI(),
+      vaFileNumber: {
+        ...vaFileNumberUI,
+        'ui:title': 'VA file number',
+        'ui:errorMessages': {
+          pattern: 'Your VA file number must be 8 or 9 digits',
+        },
       },
     },
     benefitType: radioUI({
@@ -64,22 +67,28 @@ export const itfVeteranInformationPage = {
     properties: {
       'view:claimantTitle': emptyObjectSchema,
       'view:claimantDescription': emptyObjectSchema,
-      veteranFullName: firstNameLastNameNoSuffixSchema,
-      veteranSsn: ssnSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
-      address: addressSchema({
-        omit: [
-          'country',
-          'city',
-          'isMilitary',
-          'state',
-          'street',
-          'street2',
-          'street3',
-          'postalCode',
-        ],
-      }),
-      vaFileNumber: vaFileNumberSchema,
+      veteranInformation: {
+        type: 'object',
+        properties: {
+          veteranFullName: firstNameLastNameNoSuffixSchema,
+          veteranSsn: ssnSchema,
+          veteranDateOfBirth: dateOfBirthSchema,
+          address: addressSchema({
+            omit: [
+              'country',
+              'city',
+              'isMilitary',
+              'state',
+              'street',
+              'street2',
+              'street3',
+              'postalCode',
+            ],
+          }),
+          vaFileNumber: vaFileNumberSchema,
+        },
+      },
+
       benefitType: radioSchema(Object.keys(ITFBenefitTypes.labels)),
     },
     required: [
