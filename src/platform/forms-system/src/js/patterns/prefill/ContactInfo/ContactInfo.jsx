@@ -306,14 +306,11 @@ export const ContactInfoBase = ({
           <va-alert
             key={`success-${id}`}
             id={`updated-${id}`}
-            visible
             class="vads-u-margin-y--1"
             status="success"
-            slim
-            background-only
             role="alert"
           >
-            <h2>We’ve updated your {text}</h2>
+            <h2 slot="headline">We’ve updated your {text}</h2>
             <p className="vads-u-margin-y--0">
               {hasFormOnlyUpdate
                 ? 'We’ve made these changes to only this form.'
