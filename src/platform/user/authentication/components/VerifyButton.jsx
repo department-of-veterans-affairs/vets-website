@@ -10,10 +10,10 @@ import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 export const verifyHandler = ({
+  ial2Enforcement,
   policy,
   queryParams,
   useOAuth,
-  ial2Enforcement = false,
 }) => {
   const needsIal2Enforcement =
     ial2Enforcement && policy === SERVICE_PROVIDERS.logingov.policy;
@@ -45,7 +45,12 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
       type="button"
       className="usa-button idme-verify-button"
       onClick={() =>
-        verifyHandler({ policy, useOAuth: forceOAuth, queryParams })
+        verifyHandler({
+          ial2Enforcement: false,
+          policy,
+          useOAuth: forceOAuth,
+          queryParams,
+        })
       }
     >
       <span>
@@ -69,7 +74,7 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
 
 /**
  *
- * @returns The updated design of the Login.gov identity-verification buttion
+ * @returns The updated design of the Login.gov identity-verification button
  */
 export const VerifyLogingovButton = ({ queryParams, useOAuth = false }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
@@ -112,13 +117,19 @@ export const VerifyButton = ({
 }) => {
   const { image } = SERVICE_PROVIDERS[csp];
   const className = `usa-button ${csp}-verify-buttons`;
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const ial2Enforcement = useToggleValue(
+    TOGGLE_NAMES.identityLogingovIal2Enforcement,
+  );
 
   return (
     <button
       key={csp}
       type="button"
       className={className}
-      onClick={() => onClick({ policy: csp, queryParams, useOAuth })}
+      onClick={() =>
+        onClick({ ial2Enforcement, policy: csp, queryParams, useOAuth })
+      }
     >
       <span className="sr-only">Verify with</span>
       {image}

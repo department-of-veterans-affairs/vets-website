@@ -9,11 +9,16 @@ import {
   VerifyLogingovButton,
   verifyHandler,
 } from 'platform/user/authentication/components/VerifyButton';
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import * as OAuthUtils from 'platform/utilities/oauth/utilities';
 import * as AuthUtils from 'platform/user/authentication/utilities';
 
 const sharedStore = () => ({
-  getState: () => ({}),
+  getState: () => ({
+    featureToggles: {
+      [TOGGLE_NAMES.identityLogingovIal2Enforcement]: false,
+    },
+  }),
   dispatch: () => {},
   subscribe: () => {},
 });
@@ -126,6 +131,7 @@ describe('VerifyButton', () => {
 
     sinon.assert.calledOnce(verifyHandlerSpy);
     sinon.assert.calledWith(verifyHandlerSpy, {
+      ial2Enforcement: false,
       policy: csp,
       queryParams,
       useOAuth,
