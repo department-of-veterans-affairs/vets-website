@@ -4,9 +4,9 @@ import React from 'react';
 import FilterSummary from '../../../components/dashboard/FilterSummary';
 
 describe('FilterSummary', () => {
-  it('renders correct sentence when unfiltered', () => {
+  it('renders correct sentence with default settings', () => {
     const sentence =
-      'Showing 1-5 of 5 results for "All" statuses and "All" categories';
+      'Showing 1-5 of 5 results with the status set to "All" and the category set to "All."';
     const view = render(
       <FilterSummary
         categoryFilter="All"
@@ -20,14 +20,14 @@ describe('FilterSummary', () => {
     expect(heading.textContent).to.equal(sentence);
   });
 
-  it('renders correct sentence when filtered', () => {
+  it('renders correct sentence with no results', () => {
     const sentence =
-      'Showing no results for "Replied" status and "Heath care" category';
+      'Showing no results with the status set to "All" and the category set to "All."';
     const view = render(
       <FilterSummary
-        categoryFilter="Heath care"
-        statusFilter="Replied"
-        total={undefined}
+        categoryFilter="All"
+        statusFilter="All"
+        total={0}
         pageStart={undefined}
         pageEnd={0}
       />,
@@ -36,9 +36,42 @@ describe('FilterSummary', () => {
     expect(heading.textContent).to.equal(sentence);
   });
 
+  it('renders correct sentence with filters', () => {
+    const sentence =
+      'Showing 5-8 of 10 results with the status set to "Replied" and the category set to "Heath care."';
+    const view = render(
+      <FilterSummary
+        categoryFilter="Heath care"
+        statusFilter="Replied"
+        total={10}
+        pageStart={5}
+        pageEnd={8}
+      />,
+    );
+    const heading = view.getByRole('heading', { level: 3, name: /showing/i });
+    expect(heading.textContent).to.equal(sentence);
+  });
+
+  it('renders correct sentence with search', () => {
+    const sentence =
+      'Showing 1-4 of 5 results for "last week" with the status set to "All" and the category set to "All."';
+    const view = render(
+      <FilterSummary
+        categoryFilter="All"
+        statusFilter="All"
+        total={5}
+        pageStart={1}
+        pageEnd={4}
+        query="last week"
+      />,
+    );
+    const heading = view.getByRole('heading', { level: 3, name: /showing/i });
+    expect(heading.textContent).to.equal(sentence);
+  });
+
   it('renders correct sentence with tabs', () => {
     const sentence =
-      'Showing 1-5 of 5 results for "All" statuses and "All" categories in "Business"';
+      'Showing 1-5 of 5 results with the status set to "All" and the category set to "All" in "Business."';
     const view = render(
       <FilterSummary
         categoryFilter="All"

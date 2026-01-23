@@ -11,22 +11,20 @@ export default function FilterSummary({
   query,
 }) {
   const displayCount = total ? `${pageStart}-${pageEnd} of ${total}` : 'no';
-  const queryPart = query ? `"${query}" for ` : '';
+  const queryPart = query ? `for "${query}" ` : '';
 
-  // Singular or plural
-  const statusAmount = `status${statusFilter !== 'All' ? '' : 'es'}`;
-  const categoryAmount = `categor${categoryFilter !== 'All' ? 'y' : 'ies'}`;
-
-  const tabInfo = tabName ? ` in "${tabName}"` : '';
+  const tabInfo = tabName ? `" in "${tabName}` : '';
 
   return (
     <h3
       id="filter-summary"
       className="vads-u-font-family--sans vads-u-font-size--md"
     >
-      Showing {displayCount} results for {queryPart}"{statusFilter}"{' '}
-      {statusAmount} and "{categoryFilter}" {categoryAmount}
+      Showing {displayCount} results {queryPart}
+      with the status set to "{statusFilter}" and the category set to "
+      {categoryFilter}
       {tabInfo}
+      ."
     </h3>
   );
 }
