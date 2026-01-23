@@ -118,6 +118,7 @@ export const SearchForm = props => {
       return;
     }
 
+
     onChange({
       facilityType: draftFormState.facilityType,
       serviceType: draftFormState.serviceType,
