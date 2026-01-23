@@ -315,12 +315,6 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 // Needed to hide field that injects rated disability.
 // Satisfies schema requirements when new conditions workflow
 // feature flag is toggled from disabled to enabled and vice-versa
-// [id*="root_ratedDisability_"], [id*="root_newDisabilities_"]
-.schemaform-field-template.rated-disability,
-#root_ratedDisability-label {
-  display: none;
-}
-
-.review > .review-row:last-child {
+#form-526[data-location="new-disabilities/add"] .schemaform-field-template.rated-disability {
   display: none;
 }

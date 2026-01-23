@@ -33,6 +33,7 @@
  * to the new conditions workflow. Once all active forms have been migrated and
  * the legacy workflow is fully retired, this file can be safely removed.
  */
+import { NEW_CONDITION_OPTION } from '../constants';
 
 const normalize = s => (s ?? '').trim().toLowerCase();
 
@@ -74,7 +75,7 @@ export const syncNewConditionsToRatedDisabilities = formData => {
         nd?.cause === 'WORSENED' &&
         nd?.condition === 'Rated Disability' &&
         nd?.ratedDisability &&
-        nd.ratedDisability !== "A condition I haven't claimed before",
+        nd.ratedDisability !== NEW_CONDITION_OPTION,
     )
     .map(nd => nd.ratedDisability);
 
