@@ -34,37 +34,18 @@ const initialState = {
   },
 };
 
-const buildFacilitiesUrl = ({ ids, children = true }) => {
-  return `${
-    environment.API_URL
-  }/vaos/v2/facilities?children=${children}&${ids
-    .map(id => `ids[]=${id}`)
-    .join('&')}`;
+// Use path-only URL for MSW matching (query params handled by MSW internally)
+const buildFacilitiesUrl = () => {
+  return `${environment.API_URL}/vaos/v2/facilities`;
 };
 
-const buildSchedulingConfigurationsUrl = ({
-  facilityIds,
-  response,
-  isCCEnabled = false,
-}) => {
-  const ids = facilityIds || response.map(config => config.id);
-  const ccEnabledParam = isCCEnabled ? `&cc_enabled=${isCCEnabled}` : '';
-  return `${environment.API_URL}/vaos/v2/scheduling/configurations?${ids
-    .map(id => `facility_ids[]=${id}`)
-    .join('&')}${ccEnabledParam}`;
+// Use path-only URL for MSW matching (query params handled by MSW internally)
+const buildSchedulingConfigurationsUrl = () => {
+  return `${environment.API_URL}/vaos/v2/scheduling/configurations`;
 };
 
-const mockFacilitiesApi = ({
-  ids,
-  children = true,
-  response = [],
-  responseCode = 200,
-}) => {
-  let idList = ids;
-  if (!idList || idList.length === 0) {
-    idList = response.map(facility => facility.id);
-  }
-  const url = buildFacilitiesUrl({ ids: idList, children });
+const mockFacilitiesApi = ({ response = [], responseCode = 200 }) => {
+  const url = buildFacilitiesUrl();
   server.use(
     createGetHandler(
       url,
@@ -76,17 +57,8 @@ const mockFacilitiesApi = ({
   );
 };
 
-const mockSchedulingConfigurationsApi = ({
-  facilityIds,
-  response,
-  responseCode = 200,
-  isCCEnabled = false,
-}) => {
-  const url = buildSchedulingConfigurationsUrl({
-    facilityIds,
-    response,
-    isCCEnabled,
-  });
+const mockSchedulingConfigurationsApi = ({ response, responseCode = 200 }) => {
+  const url = buildSchedulingConfigurationsUrl();
   server.use(
     createGetHandler(
       url,

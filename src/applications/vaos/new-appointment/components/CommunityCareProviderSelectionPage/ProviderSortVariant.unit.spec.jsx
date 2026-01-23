@@ -47,34 +47,19 @@ const initialState = {
   },
 };
 
-const buildFacilitiesUrl = ({ ids, children = true }) => {
-  return `${
-    environment.API_URL
-  }/vaos/v2/facilities?children=${children}&${ids
-    .map(id => `ids[]=${id}`)
-    .join('&')}`;
+// Use path-only URL for MSW matching (query params handled by MSW internally)
+const buildFacilitiesUrl = () => {
+  return `${environment.API_URL}/vaos/v2/facilities`;
 };
 
-const buildSchedulingConfigurationsUrl = ({
-  facilityIds,
-  response,
-  isCCEnabled = false,
-}) => {
-  const ids = facilityIds || response.map(config => config.id);
-  const ccEnabledParam = isCCEnabled ? `&cc_enabled=${isCCEnabled}` : '';
-  return `${environment.API_URL}/vaos/v2/scheduling/configurations?${ids
-    .map(id => `facility_ids[]=${id}`)
-    .join('&')}${ccEnabledParam}`;
+// Use path-only URL for MSW matching (query params handled by MSW internally)
+const buildSchedulingConfigurationsUrl = () => {
+  return `${environment.API_URL}/vaos/v2/scheduling/configurations`;
 };
 
-const buildCCProviderUrl = ({ address, bbox, radius = 60, specialties }) => {
-  const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
-  const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
-  return `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${
-    address.latitude
-  }&longitude=${
-    address.longitude
-  }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`;
+// Use path-only URL for MSW matching (query params handled by MSW internally)
+const buildCCProviderUrl = () => {
+  return `${environment.API_URL}/facilities_api/v2/ccp/provider`;
 };
 
 const buildCCEligibilityUrl = serviceType => {
@@ -83,17 +68,8 @@ const buildCCEligibilityUrl = serviceType => {
   }/vaos/v2/community_care/eligibility/${serviceType}`;
 };
 
-const mockFacilitiesApi = ({
-  ids,
-  children = true,
-  response = [],
-  responseCode = 200,
-}) => {
-  let idList = ids;
-  if (!idList || idList.length === 0) {
-    idList = response.map(facility => facility.id);
-  }
-  const url = buildFacilitiesUrl({ ids: idList, children });
+const mockFacilitiesApi = ({ response = [], responseCode = 200 }) => {
+  const url = buildFacilitiesUrl();
   server.use(
     createGetHandler(
       url,
@@ -105,17 +81,8 @@ const mockFacilitiesApi = ({
   );
 };
 
-const mockSchedulingConfigurationsApi = ({
-  facilityIds,
-  response,
-  responseCode = 200,
-  isCCEnabled = false,
-}) => {
-  const url = buildSchedulingConfigurationsUrl({
-    facilityIds,
-    response,
-    isCCEnabled,
-  });
+const mockSchedulingConfigurationsApi = ({ response, responseCode = 200 }) => {
+  const url = buildSchedulingConfigurationsUrl();
   server.use(
     createGetHandler(
       url,
@@ -127,15 +94,8 @@ const mockSchedulingConfigurationsApi = ({
   );
 };
 
-const mockCCProviderApi = ({
-  address,
-  bbox,
-  radius = 60,
-  specialties,
-  response = [],
-  responseCode = 200,
-}) => {
-  const url = buildCCProviderUrl({ address, bbox, radius, specialties });
+const mockCCProviderApi = ({ response = [], responseCode = 200 }) => {
+  const url = buildCCProviderUrl();
   server.use(
     createGetHandler(
       url,
