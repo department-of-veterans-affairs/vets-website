@@ -12,7 +12,7 @@ export default {
   uiSchema: {
     ...titleUI('Institution details'),
     institutionProfile: {
-      participatesInTitleIV: yesNoUI({
+      participatesInTitleIv: yesNoUI({
         yesNoReverse: true,
         title:
           'Does the facility participate in a program under Title IV with the U.S. Department of Education?',
@@ -28,10 +28,10 @@ export default {
             required: 'You must enter your institution’s OPEID number below',
           },
           required: formData =>
-            formData.institutionProfile?.participatesInTitleIV === true,
+            formData.institutionProfile?.participatesInTitleIv === true,
         }),
         'ui:options': {
-          expandUnder: 'participatesInTitleIV',
+          expandUnder: 'participatesInTitleIv',
           expandUnderCondition: true,
         },
       },
@@ -43,13 +43,13 @@ export default {
       institutionProfile: {
         type: 'object',
         properties: {
-          participatesInTitleIV: yesNoSchema,
+          participatesInTitleIv: yesNoSchema,
           opeidNumber: {
             ...textSchema,
             maxLength: 500,
           },
         },
-        required: ['participatesInTitleIV'],
+        required: ['participatesInTitleIv'],
       },
     },
   },

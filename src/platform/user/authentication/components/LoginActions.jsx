@@ -37,20 +37,6 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
         <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
           Learn about creating an ID.me or Login.gov account
         </a>
-
-        <h2>Other sign-in option</h2>
-        <div>
-          <h3 className="vads-u-margin-top--3">
-            DS Logon sign-in option
-            <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-              This option is no longer available
-            </span>
-          </h3>
-          <va-link
-            text="Learn how to access your benefits and set up your new account"
-            href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-          />
-        </div>
       </div>
     </div>
   );
