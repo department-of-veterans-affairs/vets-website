@@ -45,7 +45,10 @@ export default function ProviderSortVariant({
   useEffect(
     () => {
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-        dispatch(requestProvidersList(currentLocation));
+        // Only request providers if we have a valid currentLocation
+        if (currentLocation && Object.keys(currentLocation).length > 0) {
+          dispatch(requestProvidersList(currentLocation));
+        }
       } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
         dispatch(requestProvidersList(address));
       } else {
@@ -56,7 +59,14 @@ export default function ProviderSortVariant({
         scrollAndFocus('#providerSelectionHeader');
       }
     },
-    [selectedCCFacility, sortMethod],
+    [
+      address,
+      communityCareProviderList,
+      currentLocation,
+      dispatch,
+      selectedCCFacility,
+      sortMethod,
+    ],
   );
 
   const onValueChange = option => {
