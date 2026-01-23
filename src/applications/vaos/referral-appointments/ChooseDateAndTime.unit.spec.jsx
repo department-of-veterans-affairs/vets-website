@@ -5,6 +5,7 @@ import { waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
+  createGetHandler,
   createPostHandler,
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
@@ -159,6 +160,12 @@ describe('VAOS ChooseDateAndTime component', () => {
   };
   beforeEach(() => {
     global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
+
+    server.use(
+      createGetHandler(`${environment.API_URL}/vaos/v2/appointments`, () =>
+        jsonResponse(confirmedV2),
+      ),
+    );
 
     sandbox
       .stub(fetchAppointmentsModule, 'fetchAppointments')

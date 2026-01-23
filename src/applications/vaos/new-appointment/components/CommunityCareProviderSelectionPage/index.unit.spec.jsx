@@ -64,6 +64,10 @@ const buildCCProviderUrl = () => {
   return `${environment.API_URL}/facilities_api/v2/ccp/provider`;
 };
 
+const buildFacilityByIdUrl = () => {
+  return `${environment.API_URL}/vaos/v2/facilities/:facilityId`;
+};
+
 const buildCCEligibilityUrl = serviceType => {
   return `${
     environment.API_URL
@@ -130,6 +134,22 @@ const mockCCEligibilityApi = ({
             })
           : jsonResponse({ errors: [] }, { status: responseCode }),
     ),
+  );
+};
+
+const mockFacilityByIdApi = ({ response, responseCode = 200 }) => {
+  const url = buildFacilityByIdUrl();
+  server.use(
+    createGetHandler(url, ({ params }) => {
+      const facility =
+        response ||
+        new MockFacilityResponse({
+          id: params.facilityId,
+        });
+      return responseCode === 200
+        ? jsonResponse({ data: facility })
+        : jsonResponse({ errors: [] }, { status: responseCode });
+    }),
   );
 };
 
@@ -229,6 +249,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ids: ['983'],
       response: [facility],
     });
+    mockFacilityByIdApi({ response: facility });
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,
       response: [
