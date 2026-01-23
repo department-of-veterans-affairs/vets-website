@@ -173,7 +173,9 @@ const ReviewAndConfirm = props => {
     ],
   );
 
-  if (isDraftLoading) {
+  // Check for error state before showing loading indicator to prevent race condition
+  // where isDraftError becomes true while isDraftLoading is still true
+  if (isDraftLoading && !isDraftError) {
     return (
       <ReferralLayout
         hasEyebrow
