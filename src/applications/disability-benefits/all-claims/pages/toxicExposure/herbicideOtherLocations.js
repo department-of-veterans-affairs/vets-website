@@ -8,6 +8,7 @@ import {
   getSelectedCount,
   herbicidePageTitle,
   notSureDatesDetails,
+  reviewDateField,
   startDateApproximate,
   teSubtitle,
 } from '../../content/toxicExposure';
@@ -47,6 +48,7 @@ export const uiSchema = {
           pattern: 'Please enter a valid date',
           required: 'Please enter a date',
         },
+        'ui:reviewField': reviewDateField,
       },
       endDate: {
         ...currentOrPastMonthYearDateUI({
@@ -59,6 +61,7 @@ export const uiSchema = {
           pattern: 'Please enter a valid date',
           required: 'Please enter a date',
         },
+        'ui:reviewField': reviewDateField,
       },
       'ui:validations': [validateToxicExposureDates],
       'view:notSure': {
@@ -75,6 +78,9 @@ export const uiSchema = {
   },
   _forceFieldBlur: {
     'ui:field': ForceFieldBlur,
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 
