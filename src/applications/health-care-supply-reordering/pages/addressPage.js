@@ -112,6 +112,32 @@ export default {
           formData['view:currentAddress'] !== 'temporaryAddress',
         viewComponent: AddressViewField,
       },
+      'ui:validations': [
+        (errors, field, formData) => {
+          const temporaryAddress = formData?.temporaryAddress;
+          if (temporaryAddress && typeof temporaryAddress === 'object') {
+            const fieldsToCheck = [
+              'street',
+              'street2',
+              'city',
+              'state',
+              'postalCode',
+              'country',
+            ];
+
+            fieldsToCheck.forEach(fieldName => {
+              if (temporaryAddress[fieldName] === '') {
+                Object.assign(formData, {
+                  temporaryAddress: {
+                    ...formData.temporaryAddress,
+                    [fieldName]: undefined,
+                  },
+                });
+              }
+            });
+          }
+        },
+      ],
     },
     [vetEmailField]: {
       ...emailUI(),
