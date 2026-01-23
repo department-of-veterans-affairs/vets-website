@@ -110,7 +110,7 @@ function buildClaimantInformation(cleanedData, veteranInformation) {
   );
   const countryCode =
     claimantContactData.claimantPhoneNumber?.countryCode || 'US';
-  if (countryCode !== 'US') {
+  if (claimantPhone && countryCode !== 'US') {
     // combine calling code with contact number for international numbers
     const callingCode =
       claimantContactData.claimantPhoneNumber?.callingCode || '';
