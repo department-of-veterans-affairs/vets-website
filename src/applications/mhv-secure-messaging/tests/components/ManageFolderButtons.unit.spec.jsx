@@ -226,7 +226,7 @@ describe('Manage Folder Buttons component', () => {
     expect(removeButton).to.have.attribute('full-width');
     expect(removeButton).to.have.attribute('secondary');
     expect(removeButton.getAttribute('class')).to.include(
-      'remove-folder-button',
+      'sm-button-destructive',
     );
   });
 

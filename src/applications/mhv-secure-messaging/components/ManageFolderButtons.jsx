@@ -219,7 +219,7 @@ const ManageFolderButtons = props => {
               onClick={openDelModal}
               data-dd-action-name="Remove Folder Button"
               data-testid="remove-folder-button"
-              class="vads-u-margin-top--1 remove-folder-button"
+              class="vads-u-margin-top--1 sm-button-destructive"
             />
           </div>
         </>

@@ -35,18 +35,18 @@ va-alert button {
   width: auto;
 }
 
-// Destructive button styling for Remove folder button
+// Destructive button styling for dangerous/irreversible actions
 // Uses ::part() to pierce shadow DOM and apply red outline style
 // Uses VADS color tokens matching va-button-icon button-type="delete"
 // The outline button uses box-shadow for border, not border-color
-.remove-folder-button::part(button) {
+.sm-button-destructive::part(button) {
   color: var(--vads-color-secondary-dark) !important;
   box-shadow: inset 0 0 0 2px var(--vads-color-secondary-dark) !important;
   background-color: transparent !important;
 }
 
-.remove-folder-button::part(button):hover,
-.remove-folder-button::part(button):active {
+.sm-button-destructive::part(button):hover,
+.sm-button-destructive::part(button):active {
   color: var(--vads-color-secondary-darkest) !important;
   box-shadow: inset 0 0 0 2px var(--vads-color-secondary-darkest) !important;
   background-color: var(--vads-color-secondary-lightest) !important;
