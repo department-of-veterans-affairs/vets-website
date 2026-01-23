@@ -102,7 +102,6 @@ const RenderLinkVariation = ({
   isActionLink,
   setShowRenewalModal,
   isExpired,
-  // isActiveNoRefills,
 }) => {
   return isActionLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
