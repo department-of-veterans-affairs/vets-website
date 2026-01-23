@@ -55,7 +55,7 @@ export const uiSchema = {
     noSsn: checkboxUI({
       title: 'Spouse doesn’t have a Social Security number',
       required: () => false,
-      hideIf: formData => !formData?.vaDependentsnoSsn, // check feature flag
+      hideIf: formData => !formData?.vaDependentsNoSsn, // check feature flag
     }),
     noSsnReason: radioUI({
       title: 'Why doesn’t your spouse have a Social Security number?',
@@ -74,9 +74,9 @@ export const uiSchema = {
     ssn: {
       ...ssnUI('Spouse’s Social Security number'),
       'ui:required': (_chapterData, _index, formData) =>
-        !formData?.spouseInformation?.noSsn,
+        formData?.spouseInformation?.noSsn !== true,
       'ui:options': {
-        hideIf: formData => formData?.spouseInformation?.noSsn,
+        hideIf: formData => formData?.spouseInformation?.noSsn === true,
       },
     },
   },
