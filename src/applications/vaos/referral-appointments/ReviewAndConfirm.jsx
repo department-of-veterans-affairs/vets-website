@@ -90,6 +90,7 @@ const ReviewAndConfirm = props => {
       }
       if (isDraftError) {
         setFailed(true);
+        setLoading(false);
       }
     },
     [
@@ -181,7 +182,7 @@ const ReviewAndConfirm = props => {
         hasEyebrow
         heading="Review your appointment details"
         loadingMessage="Loading your appointment details"
-        apiFailure={failed}
+        apiFailure={false}
       />
     );
   }
@@ -191,8 +192,10 @@ const ReviewAndConfirm = props => {
     <ReferralLayout
       hasEyebrow
       heading="Review your appointment details"
-      apiFailure={failed}
-      loadingMessage={loading ? 'Loading your appointment details' : null}
+      apiFailure={failed || isDraftError}
+      loadingMessage={
+        loading && !isDraftError ? 'Loading your appointment details' : null
+      }
     >
       <div>
         <hr className="vads-u-margin-y--2" />
