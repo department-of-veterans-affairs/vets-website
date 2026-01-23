@@ -18,13 +18,38 @@ import { getPreviousPagePath, checkValidPagePath } from '../routing';
 import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { getPageKey } from '../utilities/review';
-import {
-  getChapterTitle,
-  getPageTitle,
-  hasVisibleReviewFields,
-} from './utils';
+import { getChapterTitle, getPageTitle, hasVisibleReviewFields } from './utils';
 
 const ReviewChapterContent = props => {
+  const hasValidationError = (key, index) => {
+    const { form, pageList, reviewErrors = {} } = props;
+    const scrollElementKey = `${key}${index ?? ''}`;
+
+    const { errors } = isValidForm(form, pageList);
+    const cleanedErrors = reduceErrors(errors, pageList, reviewErrors);
+    props.setFormErrors({
+      rawErrors: errors,
+      errors: cleanedErrors,
+    });
+
+    const pageKey =
+      reviewErrors?._override?.(key, { pageKey: key, index })?.pageKey ||
+      scrollElementKey;
+    const hasErrors = cleanedErrors.some(error => {
+      const errorPageKey =
+        reviewErrors?._override?.(error.pageKey, error)?.pageKey ||
+        getPageKey(error);
+      return errorPageKey === pageKey;
+    });
+
+    if (hasErrors) {
+      focusOnChange(scrollElementKey, ERROR_ELEMENTS.join(','));
+    } else {
+      focusOnChange(scrollElementKey, 'va-button', 'button');
+    }
+    return hasErrors;
+  };
+
   const handleEdit = (key, editing, index = null) => {
     if (editing || !hasValidationError(key, index)) {
       props.onEdit(key, editing, index);
@@ -70,43 +95,23 @@ const ReviewChapterContent = props => {
     router.push(path);
   };
 
-  const shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
+  const shouldHideExpandedPageTitle = (
+    expandedPages,
+    chapterTitle,
+    pageTitle,
+  ) =>
     expandedPages.length === 1 &&
     typeof pageTitle === 'string' &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
 
-  const hasValidationError = (key, index) => {
-    const { form, pageList, reviewErrors = {} } = props;
-    const scrollElementKey = `${key}${index ?? ''}`;
-
-    const { errors } = isValidForm(form, pageList);
-    const cleanedErrors = reduceErrors(errors, pageList, reviewErrors);
-    props.setFormErrors({
-      rawErrors: errors,
-      errors: cleanedErrors,
-    });
-
-    const pageKey =
-      reviewErrors?._override?.(key, { pageKey: key, index })?.pageKey ||
-      scrollElementKey;
-    const hasErrors = cleanedErrors.some(error => {
-      const errorPageKey =
-        reviewErrors?._override?.(error.pageKey, error)?.pageKey ||
-        getPageKey(error);
-      return errorPageKey === pageKey;
-    });
-
-    if (hasErrors) {
-      focusOnChange(scrollElementKey, ERROR_ELEMENTS.join(','));
-    } else {
-      focusOnChange(scrollElementKey, 'va-button', 'button');
-    }
-    return hasErrors;
-  };
-
   const getSchemaformPageContent = (page, editing) => {
-    const { chapterFormConfig, expandedPages, form, formContext, viewedPages } =
-      props;
+    const {
+      chapterFormConfig,
+      expandedPages,
+      form,
+      formContext,
+      viewedPages,
+    } = props;
 
     const pageState = form.pages[page.pageKey];
     const fullPageKey = `${page.pageKey}${page.index ?? ''}`;
@@ -116,7 +121,8 @@ const ReviewChapterContent = props => {
     let arrayFields;
 
     if (page.showPagePerItem) {
-      pageSchema = pageState.schema.properties[page.arrayPath].items[page.index];
+      pageSchema =
+        pageState.schema.properties[page.arrayPath].items[page.index];
       pageUiSchema = pageState.uiSchema[page.arrayPath].items;
       pageData = get([page.arrayPath, page.index], form.data);
       arrayFields = [];
@@ -176,12 +182,7 @@ const ReviewChapterContent = props => {
           hideHeaderRow={page.hideHeaderRow}
           hideTitle={shouldHideExpandedPageTitle(
             expandedPages,
-            getChapterTitle(
-              chapterFormConfig,
-              form.data,
-              form,
-              true,
-            ),
+            getChapterTitle(chapterFormConfig, form.data, form, true),
             getPageTitle(page, form.data),
           )}
           pagePerItemIndex={page.index}
@@ -327,8 +328,13 @@ const ReviewChapterContent = props => {
   };
 
   const getChapterContent = () => {
-    const { chapterFormConfig, expandedPages, form, pageKeys, viewedPages } =
-      props;
+    const {
+      chapterFormConfig,
+      expandedPages,
+      form,
+      pageKeys,
+      viewedPages,
+    } = props;
     const ChapterDescription = chapterFormConfig.reviewDescription;
     return (
       <div data-testid={props.contentTestId || 'accordion-item-content'}>
@@ -390,4 +396,3 @@ ReviewChapterContent.propTypes = {
 
 export default ReviewChapterContent;
 export { ReviewChapterContent };
-

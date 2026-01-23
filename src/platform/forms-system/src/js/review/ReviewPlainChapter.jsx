@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Element } from 'platform/utilities/scroll';
 import { SCROLL_ELEMENT_SUFFIX } from '../../../../utilities/constants';
-import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 import ReviewChapterContent from './ReviewChapterContent';
 import { getChapterTitle } from './utils';
 
@@ -18,11 +17,7 @@ const ReviewPlainChapter = props => {
   return (
     <section className="form-review-chapter">
       <Element name={`chapter${chapterKey}${SCROLL_ELEMENT_SUFFIX}`} />
-      {isMinimalHeaderApp() ? (
-        <h2 className="vads-u-margin-top--0">{chapterTitle}</h2>
-      ) : (
-        <h2 className="vads-u-margin-top--0">{chapterTitle}</h2>
-      )}
+      <h2 className="vads-u-margin-top--0">{chapterTitle}</h2>
       <ReviewChapterContent {...props} />
     </section>
   );
@@ -36,4 +31,3 @@ ReviewPlainChapter.propTypes = {
 
 export default ReviewPlainChapter;
 export { ReviewPlainChapter };
-

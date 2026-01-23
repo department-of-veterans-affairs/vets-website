@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import ReviewPlainChapter from './ReviewPlainChapter';
-import { mapStateToProps, mapDispatchToProps as reviewMapDispatch } from './ReviewChapters';
+import {
+  mapStateToProps,
+  mapDispatchToProps as reviewMapDispatch,
+} from './ReviewChapters';
 import { setFormErrors } from '../actions';
 import { getPageKeys } from '../helpers';
 
@@ -106,4 +109,3 @@ export default withRouter(
 );
 
 export { ReviewChaptersPlain };
-

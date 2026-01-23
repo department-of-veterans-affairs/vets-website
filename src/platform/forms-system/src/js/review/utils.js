@@ -1,6 +1,11 @@
 import { showReviewField } from '../helpers';
 
-export function getChapterTitle(chapterFormConfig, formData, formConfig, onReviewPage) {
+export function getChapterTitle(
+  chapterFormConfig,
+  formData,
+  formConfig,
+  onReviewPage,
+) {
   let chapterTitle = chapterFormConfig?.title;
 
   if (typeof chapterTitle === 'function') {
@@ -54,4 +59,3 @@ export function hasVisibleReviewFields(
     ).length > 0
   );
 }
-
