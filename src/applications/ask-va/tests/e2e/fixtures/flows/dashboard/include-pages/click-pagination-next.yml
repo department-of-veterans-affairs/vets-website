@@ -3,5 +3,5 @@ steps:
     target: link
     value:  Next
   - action: exists
-    target: paragraph
+    target: header
     value: Showing 5-8 of 10 results for "All" statuses and "All" categories in "Personal"
