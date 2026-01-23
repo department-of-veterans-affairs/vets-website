@@ -48,7 +48,7 @@ const schema = {
   properties: {
     applicantFullName: {
       ...fullNameNoSuffixSchema,
-      required: []
+      required: [],
     },
     dateOfBirth: dateOfBirthSchema,
     eligibilityAlert: { type: 'object', properties: {} },
