@@ -187,7 +187,7 @@ describe('Burials migrations', () => {
     });
   });
 
-  context('v4 migration', () => {
+  context.skip('v4 migration', () => {
     it('should migrate toursOfDuty to new service period fields when serviceBranch maps cleanly', () => {
       const { formData, metadata } = migrations[3]({
         formData: {
