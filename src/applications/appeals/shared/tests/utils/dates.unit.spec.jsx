@@ -2,15 +2,17 @@ import { expect } from 'chai';
 
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../../constants';
 import {
-  parseDateToDateObj,
-  parseDate,
-  parseDateWithOffset,
-  getReadableDate,
+  fixDateFormat,
+  formatDateToReadableString,
+  formatMonthYearToReadableString,
   getCurrentUTCStartOfDay,
-  toUTCStartOfDay,
+  getReadableDate,
   isLocalToday,
   isUTCTodayOrFuture,
-  formatDateToReadableString,
+  parseDate,
+  parseDateToDateObj,
+  parseDateWithOffset,
+  toUTCStartOfDay,
 } from '../../utils/dates';
 
 describe('parseDateToDateObj', () => {
@@ -246,5 +248,87 @@ describe('formatDateToReadableString', () => {
       const result = formatDateToReadableString(decemberDate);
       expect(result).to.equal('Dec. 10, 2025');
     });
+  });
+});
+
+describe('formatMonthYearToReadableString', () => {
+  describe('invalid dates', () => {
+    it('should return whatever was passed in', () => {
+      expect(formatMonthYearToReadableString('')).to.eq('');
+      expect(formatMonthYearToReadableString(null)).to.eq(null);
+      expect(formatMonthYearToReadableString(undefined)).to.eq(undefined);
+      expect(formatMonthYearToReadableString('abcd')).to.eq('abcd');
+    });
+  });
+
+  describe('months that should not be abbreviated', () => {
+    const notAbbrMonths = {
+      '03': 'March',
+      '04': 'April',
+      '05': 'May',
+      '06': 'June',
+      '07': 'July',
+    };
+
+    Object.keys(notAbbrMonths).forEach(monthNumber => {
+      it('should give the correct format', () => {
+        expect(formatMonthYearToReadableString(`2025-${monthNumber}`)).to.eq(
+          `${notAbbrMonths[monthNumber]} 2025`,
+        );
+      });
+    });
+  });
+
+  describe('months that should be abbreviated', () => {
+    const abbrMonths = {
+      '01': 'Jan.',
+      '02': 'Feb.',
+      '08': 'Aug.',
+      '09': 'Sept.',
+      '10': 'Oct.',
+      '11': 'Nov.',
+      '12': 'Dec.',
+    };
+
+    Object.keys(abbrMonths).forEach(monthNumber => {
+      it('should give the correct format', () => {
+        expect(formatMonthYearToReadableString(`2025-${monthNumber}`)).to.eq(
+          `${abbrMonths[monthNumber]} 2025`,
+        );
+      });
+    });
+  });
+});
+
+describe('fixDateFormat', () => {
+  it('should return an empty strings for empty or non-string values', () => {
+    expect(fixDateFormat()).to.eq('');
+    expect(fixDateFormat('')).to.eq('');
+    expect(fixDateFormat({})).to.eq('');
+    expect(fixDateFormat(null)).to.eq('');
+    expect(fixDateFormat(10)).to.eq('');
+  });
+  it('should return invalid dates strings', () => {
+    expect(fixDateFormat('-')).to.eq('-00-00');
+    expect(fixDateFormat('200')).to.eq('200-00-00');
+  });
+  it('should return already properly formatted date string', () => {
+    expect(fixDateFormat('2020-01-02')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023-12-31')).to.eq('2023-12-31');
+    expect(fixDateFormat('2000-06-30')).to.eq('2000-06-30');
+  });
+  it('should return properly formatted date string when passed dates with no leading zero', () => {
+    expect(fixDateFormat('2020-1-2')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023-10-1')).to.eq('2023-10-01');
+    expect(fixDateFormat('2000-6-30')).to.eq('2000-06-30');
+  });
+  it('should return properly formatted date string when passed dates with weird spacing', () => {
+    expect(fixDateFormat('2020--')).to.eq('2020-00-00');
+    expect(fixDateFormat('2020-1-')).to.eq('2020-01-00');
+    expect(fixDateFormat('2020- 1 - 2 ')).to.eq('2020-01-02');
+    expect(fixDateFormat('2023 - 10 - 1')).to.eq('2023-10-01');
+    expect(fixDateFormat('2000-6 - 30')).to.eq('2000-06-30');
+    expect(fixDateFormat('2000  -  6 - 30')).to.eq('2000-06-30');
+    expect(fixDateFormat('2000 \t - \t 6 \t - \t 30')).to.eq('2000-06-30');
   });
 });

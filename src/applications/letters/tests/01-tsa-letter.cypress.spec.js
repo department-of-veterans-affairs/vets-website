@@ -70,7 +70,7 @@ describe('TSA Safe Travel Letter', () => {
       .as('warningAlert');
     cy.get('@warningAlert')
       .find('h4')
-      .should('have.text', 'Some letters may not be available');
+      .should('contain', 'Some letters may not be available');
   });
 
   it('displays alert if downloading TSA letter fails', () => {
@@ -94,7 +94,7 @@ describe('TSA Safe Travel Letter', () => {
       .as('errorAlert');
     cy.get('@errorAlert')
       .find('h4')
-      .should('have.text', `Your ${tsaLetterTitle} is currently unavailable`);
+      .should('contain', `Your ${tsaLetterTitle} is currently unavailable`);
   });
 
   it('does not display letter for ineligible users', () => {

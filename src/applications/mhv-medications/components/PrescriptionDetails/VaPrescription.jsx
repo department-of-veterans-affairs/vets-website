@@ -200,7 +200,7 @@ const VaPrescription = prescription => {
 
               {isRefillRunningLate && (
                 <h2
-                  className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+                  className="vads-u-margin-top--3 vads-u-padding-top--2"
                   data-testid="check-status-text"
                   data-dd-privacy="mask"
                 >

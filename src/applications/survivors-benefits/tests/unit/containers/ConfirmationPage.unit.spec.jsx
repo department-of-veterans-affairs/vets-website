@@ -13,7 +13,7 @@ const initConfirmationPage = () => {
   const store = mockStore({
     form: {
       submission: {
-        response: { confirmationNumber: '1234567890' },
+        response: { attributes: { confirmationNumber: '1234567890' } },
         timestamp: new Date().toISOString(),
       },
     },

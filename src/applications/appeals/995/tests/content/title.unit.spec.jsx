@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import {
+  APP_SUBHEADER,
   EVIDENCE_PRIVATE_AUTHORIZATION_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
@@ -10,7 +11,6 @@ import {
   LIMITED_CONSENT_PROMPT_URL,
 } from '../../constants';
 import { getSubTitle } from '../../content/title';
-import { subTitle4142 } from '../../content/evidence/form4142';
 
 describe('getSubTitle', () => {
   const testSubTitle = (pathname, expectedTitle) => {
@@ -31,10 +31,10 @@ describe('getSubTitle', () => {
   });
 
   it('should return 4142 title for 4142 paths', () => {
-    testSubTitle(EVIDENCE_PRIVATE_PROMPT_URL, subTitle4142);
-    testSubTitle(EVIDENCE_PRIVATE_AUTHORIZATION_URL, subTitle4142);
-    testSubTitle(EVIDENCE_PRIVATE_DETAILS_URL, subTitle4142);
-    testSubTitle(LIMITED_CONSENT_DETAILS_URL, subTitle4142);
-    testSubTitle(LIMITED_CONSENT_PROMPT_URL, subTitle4142);
+    testSubTitle(EVIDENCE_PRIVATE_PROMPT_URL, APP_SUBHEADER);
+    testSubTitle(EVIDENCE_PRIVATE_AUTHORIZATION_URL, APP_SUBHEADER);
+    testSubTitle(EVIDENCE_PRIVATE_DETAILS_URL, APP_SUBHEADER);
+    testSubTitle(LIMITED_CONSENT_DETAILS_URL, APP_SUBHEADER);
+    testSubTitle(LIMITED_CONSENT_PROMPT_URL, APP_SUBHEADER);
   });
 });
