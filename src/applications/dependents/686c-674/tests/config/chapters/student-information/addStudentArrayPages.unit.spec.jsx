@@ -25,6 +25,21 @@ const formData = () => {
   };
 };
 
+const noSsnFormData = () => {
+  return {
+    'view:selectable686Options': {
+      report674: true,
+    },
+    studentInformation: [
+      {
+        noSsn: true,
+        noSsnReason: 'NONRESIDENT_ALIEN',
+      },
+    ],
+    vaDependentsNoSsn: true,
+  };
+};
+
 // Array options
 
 describe('addStudentsOptions', () => {
@@ -280,16 +295,16 @@ describe('674 Add students: Student info page ', () => {
       </Provider>,
     );
 
-    expect($$('va-text-input', container).length).to.equal(3);
+    expect($$('va-text-input', container).length).to.equal(4);
     expect($$('va-memorable-date', container).length).to.equal(1);
   });
 });
 
-describe('674 Add students: Student SSN ', () => {
+describe('674 Add students: Student info page no SSN', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTwo;
+  } = formConfig.chapters.report674.pages.addStudentsPartOne;
 
   it('should render', () => {
     const { container } = render(
@@ -298,14 +313,18 @@ describe('674 Add students: Student SSN ', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
-          data={formData()}
+          data={noSsnFormData()}
           arrayPath={arrayPath}
           pagePerItemIndex={0}
         />
       </Provider>,
     );
 
-    expect($$('va-text-input', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(3);
+    expect($$('va-memorable-date', container).length).to.equal(1);
+    expect($$('va-checkbox', container).length).to.equal(1);
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 });
 
