@@ -132,7 +132,6 @@ function isLivingSituationInfoMissing(item) {
  * @property {string} fullName.first - First name
  * @property {string} fullName.last - Last name
  * @property {string} birthDate - Birth date
- * @property {string} ssn - SSN
  * @property {BirthLocation} birthLocation - Birth location object
  * @property {boolean} isBiologicalChild - Is biological child
  * @property {object} relationshipToChild - Relationship to child object
@@ -167,7 +166,6 @@ function isItemIncomplete(item) {
   fail(isFieldMissing(item?.fullName?.first), 'Missing child first name');
   fail(isFieldMissing(item?.fullName?.last), 'Missing child last name');
   fail(isFieldMissing(item?.birthDate), 'Missing birth date');
-  fail(isFieldMissing(item?.ssn), 'Missing SSN');
   fail(
     isBirthLocationIncomplete(item?.birthLocation),
     'Incomplete birth location',
