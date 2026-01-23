@@ -259,7 +259,7 @@ export const getSchedulingPreferencesContactMethodDisplay = optionId => {
       display.link = `/profile/edit?fieldName=email&returnPath=${encodeURIComponent(
         '/profile/health-care-settings/scheduling-preferences',
       )}`;
-      display.linkTitle = 'email address';
+      display.linkTitle = 'contact email';
       break;
     case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD].US_POST:
       display.field = 'mailingAddress';
