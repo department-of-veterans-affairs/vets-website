@@ -90,8 +90,8 @@ export const VerifyLogingovButton = ({ queryParams, useOAuth = false }) => {
       className="usa-button logingov-verify-button"
       onClick={() =>
         verifyHandler({
-          policy,
           ial2Enforcement,
+          policy,
           queryParams,
           useOAuth: forceOAuth,
         })
