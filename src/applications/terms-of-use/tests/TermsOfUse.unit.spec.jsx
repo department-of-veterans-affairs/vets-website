@@ -3,11 +3,11 @@ import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import {
-  setupServer,
   createGetHandler,
   createPostHandler,
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import TermsOfUse from '../containers/TermsOfUse';
 
 const store = ({ authenticatedWithSiS = false } = {}) => ({
@@ -26,16 +26,12 @@ const store = ({ authenticatedWithSiS = false } = {}) => ({
 
 describe('TermsOfUse', () => {
   const oldLocation = window.location;
-  const server = setupServer();
   const touResponse200 = { termsOfUseAgreement: { 'some-key': 'some-value' } };
 
-  before(() => server.listen());
   afterEach(() => {
     window.location = oldLocation;
     cleanup();
-    server.resetHandlers();
   });
-  after(() => server.close());
 
   it('should render', () => {
     const mockStore = store();

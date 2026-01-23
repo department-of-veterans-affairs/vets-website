@@ -24,7 +24,6 @@ src/platform/forms-system @department-of-veterans-affairs/platform-design-system
 src/applications/_mock-form @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/static-pages/simple-forms @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend
-script/component-migration @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ds-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/ds-v3-playground @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/platform-va-product-forms @department-of-veterans-affairs/va-platform-cop-frontend

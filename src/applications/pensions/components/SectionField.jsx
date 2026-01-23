@@ -26,6 +26,15 @@ export const formatCurrency = num => {
 };
 export const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 
+/**
+ * @typedef {object} ApplicantInformationProps
+ * @property {string} title - The title of the section
+ * @property {string} id - The id of the section
+ * @property {object} formData - The form data for the applicant
+ *
+ * @param {ApplicantInformationProps} props - The props for the component
+ * @returns {React.Element} - The rendered applicant information section
+ */
 export function ApplicantInformation({ title, id, formData }) {
   return (
     <>
@@ -81,6 +90,15 @@ export function ApplicantInformation({ title, id, formData }) {
   );
 }
 
+/**
+ * @typedef {object} MilitaryHistoryProps
+ * @property {string} title - The title of the section
+ * @property {string} id - The id of the section
+ * @property {object} formData - The form data for the military history
+ *
+ * @param {MilitaryHistoryProps} props - The props for the component
+ * @returns {React.Element} - The rendered military history section
+ */
 export function MilitaryHistory({ title, id, formData }) {
   return (
     <>
@@ -165,6 +183,15 @@ export function MilitaryHistory({ title, id, formData }) {
   );
 }
 
+/**
+ * @typedef {object} WorkHistoryProps
+ * @property {string} title - The title of the section
+ * @property {string} id - The id of the section
+ * @property {object} formData - The form data for the work history
+ *
+ * @param {WorkHistoryProps} props - The props for the component
+ * @returns {React.Element} - The rendered work history section
+ */
 export function WorkHistory({ title, id, formData }) {
   return (
     <>
@@ -276,6 +303,15 @@ export function WorkHistory({ title, id, formData }) {
   );
 }
 
+/**
+ * @typedef {object} HouseholdInformationProps
+ * @property {string} title - The title of the section
+ * @property {string} id - The id of the section
+ * @property {object} formData - The form data for the household information
+ *
+ * @param {HouseholdInformationProps} props - The props for the component
+ * @returns {React.Element} - The rendered household information section
+ */
 export function HouseholdInformation({ title, id, formData }) {
   return (
     <>
@@ -305,6 +341,15 @@ export function HouseholdInformation({ title, id, formData }) {
   );
 }
 
+/**
+ * @typedef {object} FinancialDisclosureProps
+ * @property {string} title - The title of the section
+ * @property {string} id - The id of the section
+ * @property {object} formData - The form data for the household information
+ *
+ * @param {FinancialDisclosureProps} props - The props for the component
+ * @returns {React.Element} - The rendered financial disclosure section
+ */
 export function FinancialDisclosure({ title, id, formData }) {
   const veteranName = `${formData?.veteranFullName?.first} ${
     formData?.veteranFullName?.last
@@ -442,6 +487,15 @@ export function FinancialDisclosure({ title, id, formData }) {
   );
 }
 
+/**
+ * @typedef {object} AdditionalInformationProps
+ * @property {string} title - The title of the section
+ * @property {string} id - The id of the section
+ * @property {object} formData - The form data for the household information
+ *
+ * @param {AdditionalInformationProps} props - The props for the component
+ * @returns {React.Element} - The rendered additional information section
+ */
 export function AdditionalInformation({ title, id, formData }) {
   return (
     <>

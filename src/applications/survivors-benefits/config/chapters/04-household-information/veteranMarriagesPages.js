@@ -119,7 +119,8 @@ const summaryPage = {
       }),
       'ui:required': formData => formData?.veteranMarriages?.length === 2,
       'ui:options': {
-        hideIf: formData => formData?.veteranMarriages?.length < 2,
+        hideIf: formData =>
+          !formData?.veteranMarriages || formData?.veteranMarriages?.length < 2,
       },
     },
   },
