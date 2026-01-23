@@ -47,7 +47,7 @@ function InputWithClear({
          */}
         <input
           className="input-with-clear vads-u-width--full"
-          {...getInputProps({ ref: inputRef, ...downshiftInputProps })}
+          {...getInputProps({ ref: inputRef, ...(downshiftInputProps || {}) })}
           data-testid={`${inputId}-input-with-clear`}
           aria-expanded={dropdownIsOpen}
           role="combobox"
