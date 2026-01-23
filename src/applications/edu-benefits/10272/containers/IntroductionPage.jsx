@@ -36,14 +36,14 @@ const ProcessList = () => {
             text="Apply for VA education benefits using Form 22-1990"
             href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction"
           />
-          <strong>, or</strong>
+          , <strong>or</strong>
         </p>
         <p>
           <va-link
             text="Apply for VA education benefits as a dependent using Form 22-5490"
             href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction"
           />
-          <strong>, or</strong>
+          , <strong>or</strong>
         </p>
         <p>
           <va-link
