@@ -696,6 +696,92 @@ const baseClaims = [
           canUploadFile: true,
           description: 'API-provided description for this request',
         }),
+
+        // ---------------------------------------------------------
+        // FORMATTED API DESCRIPTION EXAMPLES
+        // These items demonstrate the formatDescription helper function for formatting the API description field
+        // ---------------------------------------------------------
+
+        // Example with newline characters (\n)
+        createTrackedItem(20, 'Request with Line Breaks', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'Please submit the following documents:\nYour medical records from the past 5 years\nAny relevant treatment notes\nA signed statement from your physician',
+        }),
+
+        // Example with bold tags ({b}...{/b})
+        createTrackedItem(21, 'Request with Bold Text', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            '{b}Important:{/b} We need additional documentation to process your claim. Please ensure all forms are {b}signed and dated{/b} before submission.',
+        }),
+
+        // Example with list markers ([*])
+        createTrackedItem(22, 'Request with List Items', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'Please provide the following:\n[*] VA Form 21-4142\n[*] Private medical records\n[*] Buddy statements\n[*] Any supporting evidence',
+        }),
+
+        // Example with {*} list markers
+        createTrackedItem(23, 'Request with Alt List Markers', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'Required documents:{*} Completed VA Form 21-526EZ{*} Service treatment records{*} Post-service medical evidence',
+        }),
+
+        // Example with combined formatting (bold + list + newlines)
+        createTrackedItem(24, 'Request with Combined Formatting', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            '{b}Action Required:{/b} To complete your disability claim, please submit:\n\n[*] {b}VA Form 21-4142{/b} - Authorization to {b}release{/b} medical records\n[*] {b}Private medical records{/b} - From your treating physician\n[*] {b}Buddy statement{/b} - Statement from someone who witnessed your condition\n\nAll documents must be received by the suspense date shown above.\n\nBe sure to include stuff.',
+        }),
+
+        // Third party example with formatted description
+        createTrackedItem(25, 'Third Party Formatted Request', false, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            '{b}Notice:{/b} We have requested the following from external sources:\n[*] Military personnel records from the National Archives\n[*] Service treatment records from your duty station\n[*] Deployment records',
+        }),
+
+        // VA Form 21-4142 Medical Provider Information
+        createTrackedItem(26, 'Medical Provider Authorization', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'On your application, you indicated that you received treatment from provdr_nm of no 4142.\n\nComplete and return the enclosed VA form 21-4142, Authorization to Disclose information and VA Form 21-4142a, General Release for Medical Provider Information, so that we can obtain treatment records on your behalf. You may want to obtain and send us the records yourself, if possible.\n\nPlease complete both of the attached forms in order for us to assist with obtaining your records.',
+        }),
+
+        // Electronic Payment Method - Treasury Notice
+        createTrackedItem(27, 'Treasury EFT Notice', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'You recently claimed VA benefits and did not elect an electronic payment method. The Department of Treasury mandated that new recurring benefit payments must be made via EFT or prepaid debit card. You must contact the U.S. Treasury at {b}1-88-224-2950{/b} to discuss options available for receiving your future payments that are in compliance with U.S. Treasury regulations.\n\n{b}Before you call the Treasury, we can help!{/b} If compensation or pension is awarded, you can receive your payments through electronic funds transfer (EFT).\n\nTo have your federal benefits electronically transferred to your designated financial institution (e.g. bank) call VA at {b}1-800-827-1000{/b} with your banking information or go online to www.ebenefits.va.gov',
+        }),
+
+        // Asbestos Exposure Questionnaire
+        createTrackedItem(28, 'Asbestos Exposure Questionnaire', true, {
+          requestedDate: '2025-12-01',
+          suspenseDate: '2026-12-01',
+          canUploadFile: true,
+          description:
+            'Provide answers to the following questions about your claim for disability resulting from exposure to asbestos:\n{*} Where were you exposed to asbestos? (Organization, rank, task group, company or squadron, etc.)\n{*} When were you exposed?\n{*} How were you exposed?\n{*} What are the names of other service persons who were with you at the time of exposure?\n{*} What other things that may cause cancer (cigarettes, chemicals, etc.) were you exposed to while in service? After service?\n{*} What type of work did you do before service? What type of work have you been doing since service? Please state how long you did each job.',
+        }),
       ],
     },
     false,

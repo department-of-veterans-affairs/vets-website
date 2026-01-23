@@ -28,6 +28,7 @@ import {
   getStatusMap,
   getClaimStatusDescription,
   truncateDescription,
+  formatDescription,
   getItemDate,
   isClaimComplete,
   isClaimOpen,
@@ -360,6 +361,202 @@ describe('Disability benefits helpers: ', () => {
 
         const text = truncateDescription(userText, 200);
         expect(text).to.equal(userTextEllipsed);
+      });
+    });
+  });
+
+  describe('formatDescription', () => {
+    context('when text is null, undefined, empty, or not a string', () => {
+      [
+        { input: null, name: 'null input' },
+        { input: undefined, name: 'undefined input' },
+        { input: '', name: 'empty string' },
+        { input: '   ', name: 'whitespace-only string' },
+        { input: 123, name: 'number input' },
+        { input: {}, name: 'object input' },
+        { input: [], name: 'array input' },
+      ].forEach(({ input, name }) => {
+        it(`should return null for ${name}`, () => {
+          expect(formatDescription(input)).to.be.null;
+        });
+      });
+    });
+
+    context('when text has no special formatting', () => {
+      it('should wrap plain text in a paragraph element', () => {
+        const { container } = render(formatDescription('Simple text'));
+        const paragraph = container.querySelector('p');
+        expect(paragraph).to.exist;
+        expect(paragraph.textContent).to.equal('Simple text');
+      });
+    });
+
+    context('when text contains newline characters', () => {
+      it('should convert actual newlines to new paragraphs', () => {
+        const { container } = render(
+          formatDescription('Line one\nLine two\nLine three'),
+        );
+        const paragraph = container.querySelectorAll('p');
+        expect(paragraph.length).to.equal(3);
+        expect(paragraph[0].textContent).to.equal('Line one');
+        expect(paragraph[1].textContent).to.equal('Line two');
+        expect(paragraph[2].textContent).to.equal('Line three');
+      });
+    });
+
+    context('when text contains bold tags ({b}...{/b})', () => {
+      it('should convert {b}...{/b} to strong elements', () => {
+        const { container } = render(
+          formatDescription('This is {b}bold{/b} text'),
+        );
+        const strongElement = container.querySelector('strong');
+        expect(strongElement).to.exist;
+        expect(strongElement.textContent).to.equal('bold');
+      });
+
+      it('should handle multiple bold sections', () => {
+        const { container } = render(
+          formatDescription('{b}First{/b} and {b}Second{/b} bold'),
+        );
+        const strongElements = container.querySelectorAll('strong');
+        expect(strongElements.length).to.equal(2);
+        expect(strongElements[0].textContent).to.equal('First');
+        expect(strongElements[1].textContent).to.equal('Second');
+      });
+
+      it('should handle bold text spanning content', () => {
+        const { container } = render(
+          formatDescription('{b}Entire text is bold{/b}'),
+        );
+        const strongElement = container.querySelector('strong');
+        expect(strongElement).to.exist;
+        expect(strongElement.textContent).to.equal('Entire text is bold');
+      });
+    });
+
+    context('when text contains list markers ([*] or {*})', () => {
+      it('should convert [*] markers to list items', () => {
+        const { container } = render(
+          formatDescription('[*] First item\n[*] Second item\n[*] Third item'),
+        );
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.equal(3);
+        expect(listItems[0].textContent).to.equal('First item');
+        expect(listItems[1].textContent).to.equal('Second item');
+        expect(listItems[2].textContent).to.equal('Third item');
+      });
+
+      it('should convert {*} markers to list items', () => {
+        const { container } = render(
+          formatDescription('{*} First item\n{*} Second item'),
+        );
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.equal(2);
+      });
+
+      it('should handle mixed [*] and {*} markers', () => {
+        const { container } = render(
+          formatDescription('[*] First item\n{*} Second item'),
+        );
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.equal(2);
+      });
+
+      it('should handle inline list markers without preceding newlines', () => {
+        const { container } = render(
+          formatDescription(
+            'Required documents:{*} First item{*} Second item{*} Third item',
+          ),
+        );
+        const paragraph = container.querySelector('p');
+        expect(paragraph).to.exist;
+        expect(paragraph.textContent).to.equal('Required documents:');
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.equal(3);
+        expect(listItems[0].textContent).to.equal('First item');
+        expect(listItems[1].textContent).to.equal('Second item');
+        expect(listItems[2].textContent).to.equal('Third item');
+      });
+
+      it('should handle inline [*] markers without preceding newlines', () => {
+        const { container } = render(
+          formatDescription('Items:[*] One[*] Two[*] Three'),
+        );
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.equal(3);
+      });
+    });
+
+    context('when text contains combined formatting', () => {
+      it('should handle bold text within list items', () => {
+        const { container } = render(
+          formatDescription('[*] {b}Bold{/b} item\n[*] Normal item'),
+        );
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.equal(2);
+        const strongInFirstItem = listItems[0].querySelector('strong');
+        expect(strongInFirstItem).to.exist;
+        expect(strongInFirstItem.textContent).to.equal('Bold');
+      });
+
+      it('should handle paragraph text before list items', () => {
+        const { container } = render(
+          formatDescription(
+            'Introduction text\n[*] First item\n[*] Second item',
+          ),
+        );
+        const paragraph = container.querySelector('p');
+        expect(paragraph).to.exist;
+        expect(paragraph.textContent).to.equal('Introduction text');
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.equal(2);
+      });
+
+      it('should handle paragraph text after list items', () => {
+        const { container } = render(
+          formatDescription(
+            '[*] First item\n[*] Second item\n\nConclusion text',
+          ),
+        );
+        const paragraphs = container.querySelectorAll('p');
+        expect(paragraphs.length).to.equal(1);
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+      });
+
+      it('should handle complex mixed content', () => {
+        const { container } = render(
+          formatDescription(
+            '{b}Important:{/b} Please provide the following:\n[*] {b}Document A{/b}\n[*] Document B\n[*] Document C',
+          ),
+        );
+        const paragraph = container.querySelector('p');
+        expect(paragraph).to.exist;
+        const strongInParagraph = paragraph.querySelector('strong');
+        expect(strongInParagraph).to.exist;
+        expect(strongInParagraph.textContent).to.equal('Important:');
+
+        const list = container.querySelector('ul');
+        expect(list).to.exist;
+        const listItems = list.querySelectorAll('li');
+        expect(listItems.length).to.equal(3);
+        const strongInListItem = listItems[0].querySelector('strong');
+        expect(strongInListItem).to.exist;
+        expect(strongInListItem.textContent).to.equal('Document A');
       });
     });
   });

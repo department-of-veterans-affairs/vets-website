@@ -107,4 +107,141 @@ describe('Claim document request', () => {
       cy.axeCheck();
     });
   });
+
+  describe('Description formatting', () => {
+    const setupFormattedDescriptionTest = description => {
+      setupClaimTest({
+        claim: createBenefitsClaim({
+          trackedItems: [
+            {
+              id: 123456,
+              displayName: 'Test Request',
+              status: 'NEEDED_FROM_YOU',
+              requestedDate: '2025-12-01',
+              suspenseDate: '2050-01-01',
+              description,
+              canUploadFile: true,
+            },
+          ],
+        }),
+        path: NEEDED_FROM_YOU_PATH,
+      });
+
+      // Wait for the page to load
+      cy.url().should('include', NEEDED_FROM_YOU_PATH);
+      cy.get('h1').should('be.visible');
+      // Wait for the api-description element to be present
+      cy.get('[data-testid="api-description"]').should('exist');
+    };
+
+    it('should render newline characters as new paragraphs', () => {
+      setupFormattedDescriptionTest('Line one\nLine two\nLine three');
+
+      cy.get('[data-testid="api-description"]').should('exist');
+      cy.get('[data-testid="api-description"] p').should('have.length', 3);
+      cy.get('[data-testid="api-description"] p')
+        .eq(0)
+        .should('have.text', 'Line one');
+      cy.get('[data-testid="api-description"] p')
+        .eq(1)
+        .should('have.text', 'Line two');
+      cy.get('[data-testid="api-description"] p')
+        .eq(2)
+        .should('have.text', 'Line three');
+
+      cy.axeCheck();
+    });
+
+    it('should render {b}...{/b} tags as bold text', () => {
+      setupFormattedDescriptionTest('This is {b}important{/b} text');
+
+      cy.get('[data-testid="api-description"]').should('exist');
+      cy.get('[data-testid="api-description"] strong')
+        .should('exist')
+        .and('have.text', 'important');
+
+      cy.axeCheck();
+    });
+
+    it('should render [*] markers as unordered list items', () => {
+      setupFormattedDescriptionTest(
+        '[*] First item\n[*] Second item\n[*] Third item',
+      );
+
+      cy.get('[data-testid="api-description"]').should('exist');
+      cy.get('[data-testid="api-description"] ul').should('exist');
+      cy.get('[data-testid="api-description"] ul li').should('have.length', 3);
+      cy.get('[data-testid="api-description"] ul li')
+        .eq(0)
+        .should('have.text', 'First item');
+      cy.get('[data-testid="api-description"] ul li')
+        .eq(1)
+        .should('have.text', 'Second item');
+      cy.get('[data-testid="api-description"] ul li')
+        .eq(2)
+        .should('have.text', 'Third item');
+
+      cy.axeCheck();
+    });
+
+    it('should render {*} markers as unordered list items', () => {
+      setupFormattedDescriptionTest('{*} Item A\n{*} Item B');
+
+      cy.get('[data-testid="api-description"]').should('exist');
+      cy.get('[data-testid="api-description"] ul').should('exist');
+      cy.get('[data-testid="api-description"] ul li').should('have.length', 2);
+
+      cy.axeCheck();
+    });
+
+    it('should render inline list markers without preceding newlines', () => {
+      setupFormattedDescriptionTest(
+        'Required documents:{*} First item{*} Second item{*} Third item',
+      );
+
+      cy.get('[data-testid="api-description"]').should('exist');
+      cy.get('[data-testid="api-description"] p').should(
+        'contain.text',
+        'Required documents:',
+      );
+      cy.get('[data-testid="api-description"] ul').should('exist');
+      cy.get('[data-testid="api-description"] ul li').should('have.length', 3);
+      cy.get('[data-testid="api-description"] ul li')
+        .eq(0)
+        .should('have.text', 'First item');
+      cy.get('[data-testid="api-description"] ul li')
+        .eq(1)
+        .should('have.text', 'Second item');
+      cy.get('[data-testid="api-description"] ul li')
+        .eq(2)
+        .should('have.text', 'Third item');
+
+      cy.axeCheck();
+    });
+
+    it('should render combined formatting correctly', () => {
+      setupFormattedDescriptionTest(
+        '{b}Important:{/b} Please provide the following:\n[*] {b}Document A{/b}\n[*] Document B',
+      );
+
+      cy.get('[data-testid="api-description"]').should('exist');
+
+      // Check bold text in paragraph
+      cy.get('[data-testid="api-description"] p strong')
+        .should('exist')
+        .and('have.text', 'Important:');
+
+      // Check list exists
+      cy.get('[data-testid="api-description"] ul').should('exist');
+      cy.get('[data-testid="api-description"] ul li').should('have.length', 2);
+
+      // Check bold text in list item
+      cy.get('[data-testid="api-description"] ul li')
+        .eq(0)
+        .find('strong')
+        .should('have.text', 'Document A');
+
+      cy.axeCheck();
+    });
+  });
 });
