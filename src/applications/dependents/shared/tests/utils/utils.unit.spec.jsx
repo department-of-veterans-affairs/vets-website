@@ -140,11 +140,22 @@ describe('getIsDependentsWarningHidden', () => {
   });
 
   it('should return true when a valid date is stored', () => {
-    const testDate = '2023-12-01T10:00:00.000Z';
+    const testDate = new Date().toISOString();
     localStorage.setItem('viewDependentsWarningClosedAt', testDate);
 
     const result = getIsDependentsWarningHidden();
     expect(result).to.be.true;
+  });
+
+  it('should return false and clear the stored date when a date is > 6 months old', () => {
+    const testDate = '2025-06-01T10:00:00.000Z';
+    localStorage.setItem('viewDependentsWarningClosedAt', testDate);
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+
+    const storedValue = localStorage.getItem('viewDependentsWarningClosedAt');
+    expect(storedValue).to.be.null;
   });
 
   it('should return false when an invalid date string is stored', () => {
