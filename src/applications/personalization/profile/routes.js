@@ -4,8 +4,8 @@ import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 import ProfileHub from './components/hub/ProfileHub';
 import { ContactMethodContainer } from './components/health-care-settings/sub-tasks/contact-method/ContactMethodContainer';
-import AppointmentTimesWrapper from './components/health-care-settings/sub-tasks/select-times/AppointmentTimesWrapper';
-import ContactTimesWrapper from './components/health-care-settings/sub-tasks/select-times/ContactTimesWrapper';
+import AppointmentTimesWrapper from './components/health-care-settings/sub-tasks/AppointmentTimesWrapper';
+import ContactTimesWrapper from './components/health-care-settings/sub-tasks/ContactTimesWrapper';
 
 const getRoutes = (
   {

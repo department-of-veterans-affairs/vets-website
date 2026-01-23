@@ -2,9 +2,9 @@ import React from 'react';
 import { FIELD_NAMES } from 'platform/user/exportsFile';
 import { FIELD_OPTION_IDS } from 'platform/user/profile/vap-svc/constants/schedulingPreferencesConstants';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import SelectTimesContainer from './SelectTimesContainer';
-import PreferenceSelection from './pages/PreferenceSelection';
-import TimesSelection from './pages/TimesSelection';
+import SelectTimesContainer from './select-times/SelectTimesContainer';
+import PreferenceSelection from './select-times/pages/PreferenceSelection';
+import TimesSelection from './select-times/pages/TimesSelection';
 
 const AppointmentTimesWrapper = () => {
   const getContentComponent = step =>
