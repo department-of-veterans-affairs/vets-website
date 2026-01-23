@@ -172,6 +172,7 @@ const ManageFolderButtons = props => {
               >
                 <VaTextInput
                   data-dd-privacy="mask"
+                  data-testid="edit-folder-name-input"
                   ref={folderNameInput}
                   label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
                   value={folderName}

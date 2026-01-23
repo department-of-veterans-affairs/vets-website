@@ -145,9 +145,7 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = screen.container.querySelector(
-      'va-text-input[name="new-folder-name"]',
-    );
+    const input = screen.getByTestId('edit-folder-name-input');
 
     // Clear the input to simulate blank folder name
     // Set value on target for web component compatibility
@@ -182,9 +180,7 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = screen.container.querySelector(
-      'va-text-input[name="new-folder-name"]',
-    );
+    const input = screen.getByTestId('edit-folder-name-input');
 
     // Set to existing folder name
     fireEvent(
@@ -252,9 +248,7 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const input = screen.container.querySelector(
-      'va-text-input[name="new-folder-name"]',
-    );
+    const input = screen.getByTestId('edit-folder-name-input');
 
     // Set a new valid folder name
     input.value = 'New Folder Name';

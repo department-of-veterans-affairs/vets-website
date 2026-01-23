@@ -49,8 +49,7 @@ describe('edit custom folder name validation', () => {
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    // Check error attribute on web component (findByLabelText doesn't work for VA web components)
-    cy.get('va-text-input[name="new-folder-name"]')
+    cy.findByTestId('edit-folder-name-input')
       .should('have.attr', 'error')
       .and('include', Data.FOLDER_NAME_CANNOT_BLANK);
   });
