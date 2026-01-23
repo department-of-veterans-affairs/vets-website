@@ -10,13 +10,18 @@ import {
 } from 'platform/user/authentication/constants';
 import AuthMetrics from '../containers/AuthMetrics';
 
-const createPayload = (serviceName = 'idme', loaEnabled = false) => ({
+const createPayload = (
+  serviceName = 'idme',
+  loaEnabled = false,
+  authnContext = '/ial/2',
+) => ({
   data: {
     attributes: {
       profile: {
         signIn: {
           serviceName,
         },
+        authnContext,
         ...(loaEnabled && { loa: { current: 3 } }),
       },
     },
@@ -26,6 +31,11 @@ const createPayload = (serviceName = 'idme', loaEnabled = false) => ({
 const defaultPayload = createPayload();
 
 describe('AuthMetrics', () => {
+  beforeEach(() => {
+    global.window = global.window || {};
+    global.window.dataLayer = [];
+  });
+
   it('should record event using compareLoginPolicy', () => {
     const authMetrics = new AuthMetrics(
       SIGNUP_TYPES[CSP_IDS.ID_ME],
@@ -44,7 +54,7 @@ describe('AuthMetrics', () => {
     const gwData = global.window.dataLayer;
     const recordedEvent = gwData[gwData.length - 1];
 
-    expect(recordedEvent.event).to.equal('register-success-idme');
+    expect(recordedEvent.event).to.equal('register-success-idme-ial2');
   });
 
   it('should record `login-success` event using recordGAAuthEvents', () => {
@@ -53,7 +63,7 @@ describe('AuthMetrics', () => {
     const gwData = global.window.dataLayer;
     const recordedEvent = gwData[gwData.length - 1];
 
-    expect(recordedEvent.event).to.equal('login-success-idme');
+    expect(recordedEvent.event).to.equal('login-success-idme-ial2');
   });
 
   it('should record `login-or-register-success` event using recordGAAuthEvents', () => {
@@ -62,7 +72,7 @@ describe('AuthMetrics', () => {
     const gwData = global.window.dataLayer;
     const recordedEvent = gwData[gwData.length - 1];
 
-    expect(recordedEvent.event).to.equal('login-or-register-success-idme');
+    expect(recordedEvent.event).to.equal('login-or-register-success-idme-ial2');
   });
 
   it('should call reportSentryErrors when userProfile is empty', () => {
@@ -101,18 +111,18 @@ describe('AuthMetrics', () => {
   });
 
   ['custom', 'mhv_verified'].forEach(type => {
-    it(`should record the different recardGAAuthEvents for ${type}`, () => {
+    it(`should record the different recordGAAuthEvents for ${type}`, () => {
       const payload = createPayload(type);
       const authMetrics = new AuthMetrics(type, payload);
       authMetrics.recordGAAuthEvents();
       const gwData = global.window.dataLayer;
       const recordedEvent = gwData[gwData.length - 1];
 
-      expect(recordedEvent.event).to.equal(`login-success-${type}`);
+      expect(recordedEvent.event).to.equal(`login-success-${type}-ial2`);
     });
   });
 
-  it(`should record the different recardGAAuthEvents for mhv`, () => {
+  it('should record the different recordGAAuthEvents for mhv', () => {
     const payload = createPayload('mhv');
     const authMetrics = new AuthMetrics('mhv', payload);
     authMetrics.recordGAAuthEvents();
@@ -121,12 +131,12 @@ describe('AuthMetrics', () => {
       { event: secondEvent },
     ] = global.window.dataLayer;
 
-    expect(firstEvent).to.eql(`login-success-mhv`);
-    expect(secondEvent).to.eql(`login-mismatch-myhealthevet-mhv`);
+    expect(firstEvent).to.eql('login-success-mhv-ial2');
+    expect(secondEvent).to.eql('login-mismatch-myhealthevet-mhv');
   });
 
-  it(`should record the loa.current if exists`, () => {
-    const payload = createPayload('idme', true);
+  it('should record the loa.current if exists', () => {
+    const payload = createPayload('idme', true, '/loa/3');
     const authMetrics = new AuthMetrics('idme', payload);
     authMetrics.recordGAAuthEvents();
     const [
@@ -134,13 +144,13 @@ describe('AuthMetrics', () => {
       { event: secondEvent },
     ] = global.window.dataLayer;
 
-    expect(firstEvent).to.eql(`login-success-idme`);
-    expect(secondEvent).to.eql(`login-loa-current-3`);
+    expect(firstEvent).to.eql('login-success-idme-loa3');
+    expect(secondEvent).to.eql('login-loa-current-3');
   });
 
   it('should run if no session active', () => {
     localStorage.clear();
-    const payload = createPayload('idme', true);
+    const payload = createPayload('idme', true, '/loa/3');
     const authMetrics = new AuthMetrics('idme', payload);
     const sessionSpy = sinon.spy(authMetrics, 'recordGAAuthEvents');
     authMetrics.run();
