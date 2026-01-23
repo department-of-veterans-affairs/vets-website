@@ -821,4 +821,80 @@ describe('emailNeedsConfirmation', () => {
       }),
     ).to.be.true;
   });
+
+  it('should return true when confirmationDate is undefined and updatedAt is undefined', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: undefined,
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return true when confirmationDate is undefined and updatedAt is old', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: '2024-01-01T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
+
+  it('should return false when confirmationDate is undefined but updatedAt is recent', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'idme',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: undefined,
+              updatedAt: '2025-04-01T00:00:00Z',
+            },
+          },
+        },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return true when confirmationDate is empty string and updatedAt is empty string', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        loginType: 'logingov',
+        userAttributes: {
+          ...baseAttributes,
+          vet360ContactInformation: {
+            email: {
+              emailAddress: 'test@example.com',
+              confirmationDate: '',
+              updatedAt: '',
+            },
+          },
+        },
+      }),
+    ).to.be.true;
+  });
 });

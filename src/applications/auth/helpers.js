@@ -47,40 +47,25 @@ export const emailNeedsConfirmation = ({
   }
 
   // Has no email address
-  const hasNoEmailAddress =
-    !vet360ContactInformation?.email?.emailAddress ||
-    vet360ContactInformation?.email?.emailAddress === '' ||
-    vet360ContactInformation?.email?.emailAddress === undefined ||
-    vet360ContactInformation?.email?.emailAddress === null;
+  const hasNoEmailAddress = !vet360ContactInformation?.email?.emailAddress;
 
-  // Confirmation Date is null
-  const hasNoConfirmationDate =
-    vet360ContactInformation?.email?.confirmationDate === null;
+  // Confirmation Date is null, undefined, or empty
+  const confirmationDate = vet360ContactInformation?.email?.confirmationDate;
+  const hasNoConfirmationDate = !confirmationDate;
 
   // Confirmation Date is before March 1, 2025
-  const confirmationDateIsBefore =
-    hasNoConfirmationDate === false
-      ? isBefore(
-          parseISO(
-            userAttributes.vet360ContactInformation?.email?.confirmationDate,
-          ),
-          beforeDate,
-        )
-      : false;
+  const confirmationDateIsBefore = !hasNoConfirmationDate
+    ? isBefore(parseISO(confirmationDate), beforeDate)
+    : false;
 
-  // Updated Date is null or undefined
-  const hasNoUpdatedDate =
-    vet360ContactInformation?.email?.updatedAt === null ||
-    vet360ContactInformation?.email?.updatedAt === undefined;
+  // Updated Date is null, undefined, or empty
+  const updatedAt = vet360ContactInformation?.email?.updatedAt;
+  const hasNoUpdatedDate = !updatedAt;
 
   // Updated Date is before March 1, 2025
-  const updatedDateIsBefore =
-    hasNoUpdatedDate === false
-      ? isBefore(
-          parseISO(vet360ContactInformation?.email?.updatedAt),
-          beforeDate,
-        )
-      : false;
+  const updatedDateIsBefore = !hasNoUpdatedDate
+    ? isBefore(parseISO(updatedAt), beforeDate)
+    : false;
 
   return (
     [CSP_IDS.LOGIN_GOV, CSP_IDS.ID_ME].includes(loginType) &&
