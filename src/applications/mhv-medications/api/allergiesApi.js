@@ -39,20 +39,14 @@ export const convertAcceleratedAllergy = allergy => {
 /**
  * Build the API path for getAllergies endpoint
  * @param {Object} params - Query parameters
- * @param {boolean} params.isAcceleratingAllergies - Use v2 accelerated API
- * @param {boolean} params.isCerner - Use Cerner/Oracle Health path
+ * @param {boolean} params.isCerner - Use v2 accelerated API for Cerner/Oracle Health
  * @returns {Object} Object containing the path
  */
 export const buildGetAllergiesQuery = (params = {}) => {
-  const { isAcceleratingAllergies = false, isCerner = false } = params;
-  let path = '';
-  if (isAcceleratingAllergies) {
-    path = `${API_BASE_PATH_V2}/medical_records/allergies`;
-  } else {
-    path = isCerner
-      ? `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`
-      : `${apiBasePath}/medical_records/allergies`;
-  }
+  const { isCerner = false } = params;
+  const path = isCerner
+    ? `${API_BASE_PATH_V2}/medical_records/allergies`
+    : `${apiBasePath}/medical_records/allergies`;
   return { path };
 };
 
@@ -60,20 +54,14 @@ export const buildGetAllergiesQuery = (params = {}) => {
  * Build the API path for getAllergyById endpoint
  * @param {Object} params - Query parameters
  * @param {string} params.id - Allergy ID
- * @param {boolean} params.isAcceleratingAllergies - Use v2 accelerated API
- * @param {boolean} params.isCerner - Use Cerner/Oracle Health path
+ * @param {boolean} params.isCerner - Use v2 accelerated API for Cerner/Oracle Health
  * @returns {Object} Object containing the path
  */
 export const buildGetAllergyByIdQuery = (params = {}) => {
-  const { id, isAcceleratingAllergies = false, isCerner = false } = params;
-  let path = '';
-  if (isAcceleratingAllergies) {
-    path = `${API_BASE_PATH_V2}/medical_records/allergies/${id}`;
-  } else {
-    path = isCerner
-      ? `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`
-      : `${apiBasePath}/medical_records/allergies`;
-  }
+  const { id, isCerner = false } = params;
+  const path = isCerner
+    ? `${API_BASE_PATH_V2}/medical_records/allergies/${id}`
+    : `${apiBasePath}/medical_records/allergies`;
   return { path };
 };
 

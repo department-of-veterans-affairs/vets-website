@@ -12,13 +12,11 @@ import { selectSortOption } from '../selectors/selectPreferences';
 const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
   const {
-    isAcceleratingAllergies,
     isCerner,
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
   const { data: allergies } = useGetAllergiesQuery(
     {
-      isAcceleratingAllergies,
       isCerner,
     },
     {

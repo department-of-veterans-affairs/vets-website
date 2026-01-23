@@ -104,14 +104,12 @@ const PrescriptionDetails = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const {
-    isAcceleratingAllergies,
     isCerner,
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
 
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
-      isAcceleratingAllergies,
       isCerner,
     },
     {

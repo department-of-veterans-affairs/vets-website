@@ -141,27 +141,8 @@ describe('allergiesApi', () => {
       expect(result.path).to.equal(`${apiBasePath}/medical_records/allergies`);
     });
 
-    it('should return v2 path when isAcceleratingAllergies is true', () => {
-      const result = buildGetAllergiesQuery({ isAcceleratingAllergies: true });
-
-      expect(result.path).to.equal(
-        `${API_BASE_PATH_V2}/medical_records/allergies`,
-      );
-    });
-
-    it('should return Cerner path when isCerner is true', () => {
+    it('should return v2 path when isCerner is true', () => {
       const result = buildGetAllergiesQuery({ isCerner: true });
-
-      expect(result.path).to.equal(
-        `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
-      );
-    });
-
-    it('should prioritize isAcceleratingAllergies over isCerner', () => {
-      const result = buildGetAllergiesQuery({
-        isAcceleratingAllergies: true,
-        isCerner: true,
-      });
 
       expect(result.path).to.equal(
         `${API_BASE_PATH_V2}/medical_records/allergies`,
@@ -176,34 +157,14 @@ describe('allergiesApi', () => {
       expect(result.path).to.equal(`${apiBasePath}/medical_records/allergies`);
     });
 
-    it('should return v2 path with ID when isAcceleratingAllergies is true', () => {
+    it('should return v2 path with ID when isCerner is true', () => {
       const result = buildGetAllergyByIdQuery({
         id: '123',
-        isAcceleratingAllergies: true,
-      });
-
-      expect(result.path).to.equal(
-        `${API_BASE_PATH_V2}/medical_records/allergies/123`,
-      );
-    });
-
-    it('should return Cerner path when isCerner is true', () => {
-      const result = buildGetAllergyByIdQuery({ id: '123', isCerner: true });
-
-      expect(result.path).to.equal(
-        `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
-      );
-    });
-
-    it('should prioritize isAcceleratingAllergies over isCerner', () => {
-      const result = buildGetAllergyByIdQuery({
-        id: '456',
-        isAcceleratingAllergies: true,
         isCerner: true,
       });
 
       expect(result.path).to.equal(
-        `${API_BASE_PATH_V2}/medical_records/allergies/456`,
+        `${API_BASE_PATH_V2}/medical_records/allergies/123`,
       );
     });
   });

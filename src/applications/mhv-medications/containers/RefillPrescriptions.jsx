@@ -115,7 +115,6 @@ const RefillPrescriptions = () => {
   // Selectors
   const selectedSortOption = useSelector(selectSortOption);
   const {
-    isAcceleratingAllergies,
     isCerner,
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
@@ -146,7 +145,6 @@ const RefillPrescriptions = () => {
 
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
-      isAcceleratingAllergies,
       isCerner,
     },
     {

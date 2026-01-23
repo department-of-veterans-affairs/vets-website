@@ -101,7 +101,6 @@ const Prescriptions = () => {
     isV2StatusMapping,
   );
   const {
-    isAcceleratingAllergies,
     isCerner,
     isLoading: isAcceleratedDataLoading,
   } = useAcceleratedData();
@@ -189,7 +188,6 @@ const Prescriptions = () => {
   const scrollLocation = useRef();
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
-      isAcceleratingAllergies,
       isCerner,
     },
     {
