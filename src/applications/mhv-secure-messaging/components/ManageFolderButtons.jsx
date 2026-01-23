@@ -1,6 +1,4 @@
 import {
-  VaAccordion,
-  VaAccordionItem,
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -31,7 +29,6 @@ const ManageFolderButtons = props => {
   const [folderName, setFolderName] = useState('');
   const folderNameInput = useRef();
   const editFolderButtonRef = useRef(null);
-  const editAccordionRef = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
   const removeFolderRef = useRef(null);
@@ -103,36 +100,23 @@ const ManageFolderButtons = props => {
     );
   };
 
-  const handleAccordionToggle = ({ target }) => {
+  const openEditForm = () => {
     if (alertStatus) dispatch(closeAlert());
-    const isOpen = target?.getAttribute('open') === 'true';
-    if (isOpen) {
-      // Expanding - pre-fill with current folder name
-      setFolderName(folder.name);
-      setIsEditExpanded(true);
-      recordEvent({
-        event: 'cta-button-click',
-        'button-type': 'secondary',
-        'button-click-label': 'Edit folder name',
-      });
-      datadogRum.addAction('Edit Folder Name Expanded');
-    } else {
-      // Collapsing - reset state
-      setFolderName('');
-      setNameWarning('');
-      setIsEditExpanded(false);
-      datadogRum.addAction('Edit Folder Name Collapsed');
-    }
+    setFolderName(folder.name);
+    setIsEditExpanded(true);
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': 'secondary',
+      'button-click-label': 'Edit folder name',
+    });
+    datadogRum.addAction('Edit Folder Name Expanded');
   };
 
   const cancelEdit = useCallback(() => {
     setFolderName('');
     setNameWarning('');
     setIsEditExpanded(false);
-    // Close accordion and return focus
-    if (editAccordionRef.current) {
-      editAccordionRef.current.removeAttribute('open');
-    }
+    focusElement(editFolderButtonRef.current);
     datadogRum.addAction('Edit Folder Name Cancelled');
   }, []);
 
@@ -151,10 +135,7 @@ const ManageFolderButtons = props => {
         setIsEditExpanded(false);
         setFolderName('');
         setNameWarning('');
-        // Close accordion after successful save
-        if (editAccordionRef.current) {
-          editAccordionRef.current.removeAttribute('open');
-        }
+        focusElement(editFolderButtonRef.current);
       } else {
         setNameWarning(
           ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
@@ -172,20 +153,22 @@ const ManageFolderButtons = props => {
             Edit folder
           </h2>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
-            {/* Edit folder name accordion */}
-            <VaAccordion
-              bordered
-              open-single
-              onAccordionItemToggled={handleAccordionToggle}
-              data-testid="edit-folder-accordion"
-            >
-              <VaAccordionItem
-                header="Edit folder name"
-                bordered
-                ref={editAccordionRef}
-                data-testid="edit-folder-button"
-                data-dd-action-name="Edit Folder Name Accordion"
-                level={3}
+            {/* Edit folder name button */}
+            <va-button
+              ref={editFolderButtonRef}
+              secondary
+              full-width
+              text="Edit folder name"
+              onClick={openEditForm}
+              data-dd-action-name="Edit Folder Name Button"
+              data-testid="edit-folder-button"
+            />
+
+            {/* Inline edit form - shown when expanded */}
+            {isEditExpanded && (
+              <div
+                className="vads-u-margin-top--2 vads-u-margin-left--0p5 vads-u-border-left--5px vads-u-border-color--primary vads-u-padding-left--2"
+                data-testid="edit-folder-form"
               >
                 <VaTextInput
                   data-dd-privacy="mask"
@@ -193,7 +176,6 @@ const ManageFolderButtons = props => {
                   label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
                   value={folderName}
                   className="input"
-                  width="2xl"
                   error={nameWarning}
                   onInput={e => {
                     setFolderName(e.target.value);
@@ -207,7 +189,6 @@ const ManageFolderButtons = props => {
                   name="new-folder-name"
                   data-dd-action-name="Edit Folder Name Input Field"
                   charcount
-                  hint="50 characters allowed"
                 />
                 <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2">
                   <va-button
@@ -225,24 +206,20 @@ const ManageFolderButtons = props => {
                     data-testid="cancel-edit-folder-button"
                   />
                 </div>
-              </VaAccordionItem>
-            </VaAccordion>
+              </div>
+            )}
 
             {/* Remove folder button - red destructive style */}
-            <button
-              type="button"
-              className="usa-button-secondary vads-u-margin-top--1 vads-u-width--full vads-u-color--secondary-dark"
-              style={{
-                borderColor: '#b50909',
-                color: '#b50909',
-              }}
-              data-testid="remove-folder-button"
+            <va-button
+              ref={removeFolderRef}
+              secondary
+              full-width
+              text="Remove folder"
               onClick={openDelModal}
               data-dd-action-name="Remove Folder Button"
-              ref={removeFolderRef}
-            >
-              Remove folder
-            </button>
+              data-testid="remove-folder-button"
+              class="vads-u-margin-top--1 remove-folder-button"
+            />
           </div>
         </>
       )}
