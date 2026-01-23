@@ -1,9 +1,10 @@
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ACCEPTED } from '../../../../../webchat/reducers';
 import { clearBotSessionStorage } from '../../../../../webchat/utils/sessionStorage';
+import { selectChatbotHasAcceptedDisclaimer } from '../../../../store';
 import AiDisclaimer from './AiDisclaimer';
 
 function onClick(dispatch, onAccept) {
@@ -50,20 +51,45 @@ function Disclaimer() {
 
 export default function RightColumnContent({ onAccept }) {
   const dispatch = useDispatch();
+  const hasAcceptedDisclaimer = useSelector(selectChatbotHasAcceptedDisclaimer);
   return (
-    <va-alert status="info">
-      <h3 slot="headline">About this chatbot</h3>
-
-      <div data-testid="disclaimer" style={{ width: '100%' }}>
-        <Disclaimer />
-        <va-button
-          id="btnAcceptDisclaimer"
-          data-testid="btnAcceptDisclaimer"
-          text="Start chat"
-          onClick={() => onClick(dispatch, onAccept)}
-        />
+    <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
+      <div className="vads-u-background-color--primary-darker vads-u-padding--1p5">
+        <h2
+          className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0"
+          id="chatbot-header"
+          tabIndex="-1"
+        >
+          VA chatbot (beta)
+        </h2>
       </div>
-    </va-alert>
+      <div className="vads-u-padding--1p5">
+        {!hasAcceptedDisclaimer ? (
+          <va-alert status="info">
+            <h3 slot="headline">About this chatbot</h3>
+
+            <div data-testid="disclaimer" style={{ width: '100%' }}>
+              <Disclaimer />
+              <va-button
+                id="btnAcceptDisclaimer"
+                data-testid="btnAcceptDisclaimer"
+                text="Start chat"
+                onClick={() => onClick(dispatch, onAccept)}
+              />
+            </div>
+          </va-alert>
+        ) : (
+          <>
+            <p className="vads-u-margin-top--0">
+              New chatbot shell is ready for feature-based modules.
+            </p>
+            <p className="vads-u-margin-bottom--0 vads-u-font-style--italic">
+              Start wiring the conversation experience here.
+            </p>
+          </>
+        )}
+      </div>
+    </div>
   );
 }
 
