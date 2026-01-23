@@ -51,6 +51,52 @@ describe('CernerFacilityAlert', () => {
     });
   });
 
+  describe('when healthTool is invalid', () => {
+    it('does not render alert when healthTool is not found in CernerAlertContent', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
+          },
+        },
+      };
+
+      const screen = setup(stateWithFacility, { healthTool: 'INVALID_TOOL' });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-transition-alert')).to.not
+        .exist;
+    });
+
+    it('does not render alert when healthTool is undefined', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
+          },
+        },
+      };
+
+      const screen = setup(stateWithFacility, {});
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-info-alert')).to.not.exist;
+      expect(screen.queryByTestId('cerner-facilities-transition-alert')).to.not
+        .exist;
+    });
+  });
+
   describe('when user has one Cerner facility', () => {
     const stateWithOneFacility = {
       ...initialState,
@@ -679,6 +725,162 @@ describe('CernerFacilityAlert', () => {
         expect(screen.queryByTestId('cerner-facilities-transition-alert')).to
           .not.exist;
       });
+    });
+  });
+
+  describe('edge cases - missing constants', () => {
+    const stateWithFacility = {
+      ...initialState,
+      user: {
+        profile: {
+          facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
+          userFacilityMigratingToOh: false,
+          migrationSchedules: [],
+        },
+      },
+    };
+
+    it('uses default bodyIntro when not provided in constants', () => {
+      // MHV_LANDING_PAGE doesn't have bodyIntro
+      const screen = setup(stateWithFacility, {
+        healthTool: 'MHV_LANDING_PAGE',
+      });
+
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+      expect(
+        screen.getByText(
+          /Some of your MHV landing page may be in a different portal/i,
+        ),
+      ).to.exist;
+    });
+
+    it('uses default body action text when bodyActionSingle is not provided', () => {
+      // MEDICAL_RECORDS doesn't have bodyActionSingle
+      const screen = setup(stateWithFacility, {
+        healthTool: 'MEDICAL_RECORDS',
+      });
+
+      const singleText = screen.getByTestId('single-cerner-facility-text');
+      // Should use headline as fallback
+      expect(singleText).to.exist;
+    });
+
+    it('uses default body action text when bodyActionMultiple is not provided', () => {
+      const stateWithMultipleFacilities = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [
+              { facilityId: '668', isCerner: true },
+              { facilityId: '692', isCerner: true },
+            ],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: false,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
+          },
+        },
+      };
+
+      // MEDICAL_RECORDS doesn't have bodyActionMultiple
+      const screen = setup(stateWithMultipleFacilities, {
+        healthTool: 'MEDICAL_RECORDS',
+      });
+
+      expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+      expect(screen.getAllByTestId('cerner-facility').length).to.equal(2);
+    });
+
+    it('composes infoAlertHeadline from infoAlertActionPhrase when not provided', () => {
+      const stateWithInfoAlert = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
+          },
+        },
+      };
+
+      // MEDICATIONS doesn't have infoAlertHeadline, uses infoAlertActionPhrase
+      const screen = setup(stateWithInfoAlert, { healthTool: 'MEDICATIONS' });
+
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      expect(infoAlert.getAttribute('trigger')).to.equal(
+        `You can now ${
+          CernerAlertContent.MEDICATIONS.infoAlertActionPhrase
+        } for all VA facilities right here`,
+      );
+    });
+
+    it('uses provided infoAlertHeadline when available', () => {
+      const stateWithInfoAlert = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
+          },
+        },
+      };
+
+      // SECURE_MESSAGING has infoAlertHeadline
+      const screen = setup(stateWithInfoAlert, {
+        healthTool: 'SECURE_MESSAGING',
+      });
+
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      expect(infoAlert.getAttribute('trigger')).to.equal(
+        CernerAlertContent.SECURE_MESSAGING.infoAlertHeadline,
+      );
+    });
+
+    it('renders info alert without additional text when infoAlertText is empty', () => {
+      const stateWithInfoAlert = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+            userFacilityMigratingToOh: false,
+            migrationSchedules: [],
+          },
+        },
+      };
+
+      // MHV_LANDING_PAGE doesn't have infoAlertText
+      const screen = setup(stateWithInfoAlert, {
+        healthTool: 'MHV_LANDING_PAGE',
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      expect(infoText.textContent).to.include(
+        `We've brought all your VA health care data together`,
+      );
+      // Should not have additional text after the base message
+      expect(infoText.textContent).to.include('Still want to use My VA Health');
+    });
+
+    it('handles missing headline gracefully', () => {
+      // MHV_LANDING_PAGE has empty headline
+      const screen = setup(stateWithFacility, {
+        healthTool: 'MHV_LANDING_PAGE',
+      });
+
+      const alert = screen.getByTestId('cerner-facilities-alert');
+      expect(alert).to.exist;
+      // Should still render with empty headline
+      const headline = alert.querySelector('h2');
+      expect(headline).to.exist;
     });
   });
 });

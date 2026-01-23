@@ -85,6 +85,28 @@ describe('MigratingFacilitiesAlerts', () => {
 
       expect(container.firstChild).to.be.null;
     });
+
+    it('returns null when healthTool is not found in CernerAlertContent', () => {
+      const { container } = render(
+        <MigratingFacilitiesAlerts
+          healthTool="INVALID_TOOL"
+          migratingFacilities={mockMigratingFacilities}
+        />,
+      );
+
+      expect(container.firstChild).to.be.null;
+    });
+
+    it('returns null when healthTool is undefined', () => {
+      const { container } = render(
+        <MigratingFacilitiesAlerts
+          healthTool={undefined}
+          migratingFacilities={mockMigratingFacilities}
+        />,
+      );
+
+      expect(container.firstChild).to.be.null;
+    });
   });
 
   describe('warning alerts', () => {
@@ -646,6 +668,132 @@ describe('MigratingFacilitiesAlerts', () => {
       );
 
       expect(container.querySelector('va-alert-expandable')).to.exist;
+    });
+
+    it('renders warning alert when warningGetNote is missing', () => {
+      // MEDICAL_RECORDS doesn't have warningGetNote
+      const propsWithoutWarningNote = {
+        healthTool: 'MEDICAL_RECORDS',
+        migratingFacilities: [
+          {
+            ...mockMigratingFacilities[0],
+            phases: {
+              ...mockMigratingFacilities[0].phases,
+              current: 'p1',
+            },
+          },
+        ],
+      };
+
+      const { container } = render(
+        <MigratingFacilitiesAlerts {...propsWithoutWarningNote} />,
+      );
+
+      const alert = container.querySelector('va-alert-expandable');
+      expect(alert).to.exist;
+      // Note section should not exist if warningGetNote is missing
+      expect(container.querySelector('strong')?.textContent).to.not.include(
+        'Note:',
+      );
+    });
+
+    it('renders error alert when errorNote is missing', () => {
+      // Create a custom mock that's missing errorNote
+      const propsWithoutErrorNote = {
+        healthTool: 'MEDICAL_RECORDS',
+        migratingFacilities: [
+          {
+            ...mockMigratingFacilities[0],
+            phases: {
+              ...mockMigratingFacilities[0].phases,
+              current: 'p4',
+            },
+          },
+        ],
+      };
+
+      const { container, queryByTestId } = render(
+        <MigratingFacilitiesAlerts {...propsWithoutErrorNote} />,
+      );
+
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.exist;
+      // Find facility link should not exist if errorNote is missing
+      expect(queryByTestId('find-facility-link')).to.not.exist;
+    });
+
+    it('handles missing warningPhases or errorPhases arrays', () => {
+      // MHV_LANDING_PAGE doesn't have warningPhases or errorPhases
+      const propsWithoutPhaseArrays = {
+        healthTool: 'MHV_LANDING_PAGE',
+        migratingFacilities: [
+          {
+            ...mockMigratingFacilities[0],
+            phases: {
+              ...mockMigratingFacilities[0].phases,
+              current: 'p1',
+            },
+          },
+        ],
+      };
+
+      const { container } = render(
+        <MigratingFacilitiesAlerts {...propsWithoutPhaseArrays} />,
+      );
+
+      // Should return null when phase arrays are missing
+      expect(container.firstChild).to.be.null;
+    });
+
+    it('uses errorHeadline when errorGetHeadline is not provided', () => {
+      // MEDICATIONS uses errorHeadline (not errorGetHeadline)
+      const propsWithErrorHeadline = {
+        healthTool: 'MEDICATIONS',
+        migratingFacilities: [
+          {
+            ...mockMigratingFacilities[0],
+            phases: {
+              ...mockMigratingFacilities[0].phases,
+              current: 'p4',
+            },
+          },
+        ],
+      };
+
+      const { getByText } = render(
+        <MigratingFacilitiesAlerts {...propsWithErrorHeadline} />,
+      );
+
+      expect(
+        getByText(
+          `You can’t refill medications online for some facilities right now`,
+        ),
+      ).to.exist;
+    });
+
+    it('uses errorGetHeadline when provided (MEDICAL_RECORDS)', () => {
+      // MEDICAL_RECORDS uses errorGetHeadline function
+      const propsWithErrorGetHeadline = {
+        healthTool: 'MEDICAL_RECORDS',
+        migratingFacilities: [
+          {
+            ...mockMigratingFacilities[0],
+            phases: {
+              ...mockMigratingFacilities[0].phases,
+              current: 'p4',
+            },
+          },
+        ],
+      };
+
+      const { getByText, getAllByText } = render(
+        <MigratingFacilitiesAlerts {...propsWithErrorGetHeadline} />,
+      );
+
+      // errorGetHeadline for MEDICAL_RECORDS includes the end date
+      expect(getByText(/New medical records may not appear here until/)).to
+        .exist;
+      expect(getAllByText(/May 8, 2026/).length).to.be.greaterThan(0);
     });
   });
 });

@@ -52,7 +52,7 @@ const MigratingFacilitiesAlerts = ({
             <p>
               {config.errorIntro && (
                 <>
-                  {config.errorIntro} from <strong>{startDate}</strong> to{' '}
+                  {config.errorIntro} from <strong>{startDate}</strong>, to{' '}
                   <strong>{endDate}</strong>{' '}
                 </>
               )}
@@ -92,7 +92,7 @@ const MigratingFacilitiesAlerts = ({
       >
         <div>
           <p>
-            From <strong>{startDate}</strong> to <strong>{endDate}</strong>,{' '}
+            From <strong>{startDate}</strong>, to <strong>{endDate}</strong>,{' '}
             {config.warningMessage} {facilityText}:
           </p>
           <ul>

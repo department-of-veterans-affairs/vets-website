@@ -52,18 +52,6 @@ const CernerFacilityAlert = ({
   forceHideInfoAlert = false,
   forceHideTransitionAlert = false,
 }) => {
-  const {
-    pageName,
-    linkPath,
-    headline,
-    bodyIntro,
-    bodyActionSingle,
-    bodyActionMultiple,
-    infoAlertActionPhrase = 'manage your health care',
-    infoAlertHeadline,
-    infoAlertText = '',
-  } = CernerAlertContent[healthTool] || {};
-
   const userProfile = useSelector(state => state.user.profile);
 
   const userFacilities = useSelector(state => state?.user?.profile?.facilities);
@@ -81,6 +69,22 @@ const CernerFacilityAlert = ({
     },
     [userFacilities],
   );
+
+  if (!CernerAlertContent[healthTool]) {
+    return null;
+  }
+
+  const {
+    pageName,
+    linkPath,
+    headline,
+    bodyIntro,
+    bodyActionSingle,
+    bodyActionMultiple,
+    infoAlertActionPhrase = 'manage your health care',
+    infoAlertHeadline,
+    infoAlertText = '',
+  } = CernerAlertContent[healthTool];
 
   const handleLinkClick = () => {
     if (onLinkClick) {
@@ -136,7 +140,9 @@ const CernerFacilityAlert = ({
           <p>Still want to use My VA Health for now?</p>
           <va-link
             data-testid="cerner-info-alert-link"
-            href={getCernerURL(linkPath, true)}
+            href={
+              linkPath ? getCernerURL(linkPath, true) : getCernerURL('/', true)
+            }
             text="Go to My VA Health"
           />
         </div>
@@ -225,10 +231,10 @@ const CernerFacilityAlert = ({
 CernerFacilityAlert.propTypes = {
   apiError: PropTypes.bool,
   className: PropTypes.string,
-  healthTool: PropTypes.string,
   forceHidePretransitionedAlert: PropTypes.bool,
   forceHideInfoAlert: PropTypes.bool,
   forceHideTransitionAlert: PropTypes.bool,
+  healthTool: PropTypes.string,
   onLinkClick: PropTypes.func,
 };
 
