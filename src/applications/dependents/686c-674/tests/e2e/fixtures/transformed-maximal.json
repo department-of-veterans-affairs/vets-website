@@ -157,6 +157,7 @@
       "biologicalParentName": { "first": "John", "last": "Doe" },
       "biologicalParentSsn": "333444554",
       "biologicalParentDob": "2014-09-19",
+      "relationshipType": "STEPCHILD",
       "relationshipToChild": { "adopted": true, "stepchild": true },
       "isBiologicalChild": false,
       "birthLocation": {
