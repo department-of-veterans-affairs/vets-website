@@ -14,7 +14,7 @@ import {
   formatDate,
   verifyCurrentBalance,
 } from '../../combined/utils/helpers';
-import { getCopayDetailPageData } from '../../combined/actions/copays';
+import { getCopayDetailStatement } from '../../combined/actions/copays';
 
 const CurrentContent = ({ id, date }) => (
   <p className="vads-u-margin--0">
@@ -94,7 +94,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`detail-link-${id}`}
             onClick={event => {
               event.preventDefault();
-              dispatch(getCopayDetailPageData(`${id}`));
+              dispatch(getCopayDetailStatement(`${id}`));
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}`);
             }}
@@ -110,7 +110,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`resolve-link-${id}`}
             onClick={event => {
               event.preventDefault();
-              dispatch(getCopayDetailPageData(`${id}`));
+              dispatch(getCopayDetailStatement(`${id}`));
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}/resolve`);
             }}

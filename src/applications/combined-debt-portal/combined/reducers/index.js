@@ -2,9 +2,6 @@ import { FETCH_TOGGLE_VALUES_STARTED } from 'platform/site-wide/feature-toggles/
 import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
 import { combineReducers } from 'redux';
 import {
-  MCP_STATEMENTS_FETCH_INIT,
-  MCP_STATEMENTS_FETCH_SUCCESS,
-  MCP_STATEMENTS_FETCH_FAILURE,
   DEBTS_FETCH_INITIATED,
   DEBTS_FETCH_SUCCESS,
   DEBTS_FETCH_FAILURE,
@@ -13,6 +10,13 @@ import {
   DEBT_LETTERS_FETCH_FAILURE,
   DEBT_LETTERS_FETCH_INITIATED,
 } from '../actions/debts';
+import {
+  MCP_DETAIL_FETCH_FAILURE,
+  MCP_DETAIL_FETCH_SUCCESS,
+  MCP_STATEMENTS_FETCH_INIT,
+  MCP_STATEMENTS_FETCH_SUCCESS,
+  MCP_STATEMENTS_FETCH_FAILURE,
+} from '../actions/copays';
 
 const debtInitialState = {
   isProfileUpdating: true,
@@ -41,11 +45,21 @@ export const medicalCopaysReducer = (state = mcpInitialState, action) => {
         pending: true,
       };
     case MCP_STATEMENTS_FETCH_SUCCESS:
+      // console.log('HIT STATEMENTS FETCH REDUCER', action.response);
+
       return {
         ...state,
         pending: false,
         statements: action.response,
       };
+    case MCP_DETAIL_FETCH_SUCCESS:
+      // console.log('HIT DETAIL FETCH REDUCER', action.response);
+      return {
+        ...state,
+        pending: false,
+        selectedStatement: action.response.data,
+      };
+    case MCP_DETAIL_FETCH_FAILURE:
     case MCP_STATEMENTS_FETCH_FAILURE:
       return {
         ...state,
