@@ -12,7 +12,6 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   updatePageTitle,
-  reportGeneratedBy,
   usePrintTitle,
   MhvPageNotFoundContent,
   pharmacyPhoneNumber,
@@ -20,9 +19,6 @@ import {
 import PrintOnlyPage from './PrintOnlyPage';
 import {
   dateFormat,
-  generateMedicationsPDF,
-  generateTextFile,
-  generateTimestampForFilename,
   getErrorTypeFromFormat,
   getRefillHistory,
   hasCmopNdcNumber,
@@ -34,7 +30,6 @@ import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDro
 import {
   buildVAPrescriptionPDFList,
   buildNonVAPrescriptionPDFList,
-  buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import {
   buildVAPrescriptionTXT,
@@ -45,12 +40,12 @@ import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   rxListSortingOptions,
   defaultSelectedSortOption,
-  PDF_TXT_GENERATE_STATUS,
   DOWNLOAD_FORMAT,
   recordNotFoundMessage,
   DATETIME_FORMATS,
   RX_SOURCE,
 } from '../util/constants';
+import { useRxExport } from '../hooks/useRxExport';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -119,11 +114,24 @@ const PrescriptionDetails = () => {
     },
   );
 
-  const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
-  const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
-    status: PDF_TXT_GENERATE_STATUS.NotStarted,
-    format: undefined,
+  // Use the export hook for PDF/TXT generation
+  const {
+    exportStatus,
+    isExportInProgress,
+    isExportSuccess,
+    isShowingError: isShowingExportError,
+    startExport,
+    setExportSuccess,
+    exportRxDetails,
+  } = useRxExport({
+    userName,
+    dob,
+    allergies,
+    allergiesError,
+    options: { isCernerPilot, isV2StatusMapping },
   });
+
+  const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
 
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
@@ -173,186 +181,70 @@ const PrescriptionDetails = () => {
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
-  const pdfData = useCallback(
-    allergiesPdfList => {
-      return {
-        subject: `Single Medication Record - ${prescription?.prescriptionName}`,
-        headerBanner: [
-          {
-            text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
-          },
-          {
-            text: '988',
-            weight: 'bold',
-          },
-          {
-            text: '. Then select 1.',
-          },
-        ],
-        headerLeft: userName.first
-          ? `${userName.last}, ${userName.first}`
-          : `${userName.last || ' '}`,
-        headerRight: `Date of birth: ${dateFormat(
-          dob,
-          DATETIME_FORMATS.longMonthDate,
-        )}`,
-        footerLeft: reportGeneratedBy,
-        footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-        title: 'Medication details',
-        preface: [
-          {
-            value:
-              'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.',
-          },
-        ],
-        results: [
-          {
-            header: prescriptionHeader,
-            list: prescriptionPdfList,
-          },
-          {
-            header: 'Allergies and reactions',
-            ...(allergiesPdfList &&
-              allergiesPdfList.length > 0 && {
-                preface: [
-                  {
-                    value:
-                      'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
-                  },
-                  {
-                    value: `Showing ${
-                      allergiesPdfList.length
-                    } records from newest to oldest`,
-                  },
-                ],
-              }),
-            list: allergiesPdfList || [],
-            ...(allergiesPdfList &&
-              !allergiesPdfList.length && {
-                preface:
-                  'There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.',
-              }),
-            ...(!allergiesPdfList && {
-              preface: [
-                {
-                  value:
-                    'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
-                },
-              ],
-            }),
-          },
-        ],
-      };
+  // Build prescription content for TXT export
+  const prescriptionTxtContent = useMemo(
+    () => {
+      if (!prescription) return '';
+      return nonVaPrescription
+        ? buildNonVAPrescriptionTXT(
+            prescription,
+            {},
+            isCernerPilot,
+            isV2StatusMapping,
+          )
+        : buildVAPrescriptionTXT(
+            prescription,
+            isCernerPilot,
+            isV2StatusMapping,
+          );
     },
-    [userName, dob, prescription, prescriptionPdfList, prescriptionHeader],
+    [prescription, nonVaPrescription, isCernerPilot, isV2StatusMapping],
   );
 
-  const txtData = useCallback(
-    allergiesList => {
-      return (
-        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
-          'Medication details\n\n' +
-          'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.\n\n'}${
-          userName.first
-            ? `${userName.last}, ${userName.first}`
-            : userName.last || ' '
-        }\n\n` +
-        `Date of birth: ${dateFormat(
-          dob,
-          DATETIME_FORMATS.longMonthDate,
-        )}\n\n` +
-        `Report generated by My HealtheVet on VA.gov on ${dateFormat(
-          Date.now(),
-          DATETIME_FORMATS.longMonthDate,
-        )}\n\n${
-          nonVaPrescription
-            ? buildNonVAPrescriptionTXT(
-                prescription,
-                {},
-                isCernerPilot,
-                isV2StatusMapping,
-              )
-            : buildVAPrescriptionTXT(
-                prescription,
-                isCernerPilot,
-                isV2StatusMapping,
-              )
-        }${allergiesList ?? ''}`
-      );
+  // Handle file download - starts the export process
+  const handleFileDownload = useCallback(
+    format => {
+      startExport(format);
     },
-    [
-      userName,
-      dob,
-      prescription,
-      nonVaPrescription,
-      isCernerPilot,
-      isV2StatusMapping,
-    ],
+    [startExport],
   );
 
-  const handleFileDownload = async format => {
-    setPdfTxtGenerateStatus({
-      status: PDF_TXT_GENERATE_STATUS.InProgress,
-      format,
-    });
-  };
-
-  const generatePDF = useCallback(
-    allergiesList => {
-      generateMedicationsPDF(
-        'medications',
-        `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
-          userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${generateTimestampForFilename()}`,
-        pdfData(allergiesList),
-      ).then(() => {
-        setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
-      });
-    },
-    [nonVaPrescription, userName, pdfData, setPdfTxtGenerateStatus],
-  );
-
-  const generateTXT = useCallback(
-    allergiesList => {
-      generateTextFile(
-        txtData(allergiesList),
-        `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
-          userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${generateTimestampForFilename()}`,
-      );
-      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
-    },
-    [nonVaPrescription, userName, txtData, setPdfTxtGenerateStatus],
-  );
-
+  // Effect to execute export when status changes to InProgress
   useEffect(
     () => {
-      if (
-        !allergiesError &&
-        allergies &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
-      ) {
-        if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
-          generatePDF(buildAllergiesPDFList(allergies));
-        } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
-          generateTXT(buildAllergiesTXT(allergies));
-        } else {
-          setPdfTxtGenerateStatus({
-            status: PDF_TXT_GENERATE_STATUS.NotStarted,
-            format: 'print',
-          });
-        }
-      }
-      if (
-        allergies &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.NotStarted &&
-        pdfTxtGenerateStatus.format === 'print'
-      ) {
+      if (!isExportInProgress || !allergies || allergiesError) return;
+
+      const allergiesTxt = buildAllergiesTXT(allergies);
+
+      if (exportStatus.format === DOWNLOAD_FORMAT.PDF) {
+        exportRxDetails.pdf({
+          rxName: prescriptionHeader,
+          rxPdfList: prescriptionPdfList,
+          isNonVA: nonVaPrescription,
+        });
+      } else if (exportStatus.format === DOWNLOAD_FORMAT.TXT) {
+        exportRxDetails.txt({
+          rxContent: `${prescriptionTxtContent}${allergiesTxt ?? ''}`,
+          isNonVA: nonVaPrescription,
+        });
+      } else {
+        // Print mode
+        setExportSuccess();
         window.print();
       }
     },
-    [allergies, allergiesError, pdfTxtGenerateStatus, generatePDF, generateTXT],
+    [
+      isExportInProgress,
+      exportStatus.format,
+      allergies,
+      allergiesError,
+      prescriptionHeader,
+      prescriptionPdfList,
+      prescriptionTxtContent,
+      nonVaPrescription,
+      exportRxDetails,
+      setExportSuccess,
+    ],
   );
 
   useEffect(
@@ -407,19 +299,6 @@ const PrescriptionDetails = () => {
   // Determine if we should show the last filled paragraph
   const showLastFilledParagraph =
     nonVaPrescription || prescription?.sortedDispensedDate || !isCernerPilot;
-
-  const [isErrorNotificationVisible, setIsErrorNotificationVisible] = useState(
-    false,
-  );
-  useEffect(
-    () => {
-      setIsErrorNotificationVisible(
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-          Boolean(allergiesError),
-      );
-    },
-    [pdfTxtGenerateStatus, allergiesError],
-  );
 
   const hasPrintError =
     prescription && !prescriptionApiError && !allergiesError;
@@ -526,11 +405,9 @@ const PrescriptionDetails = () => {
                 )}
                 {prescription.prescriptionSource ===
                   RX_SOURCE.PENDING_DISPENSE && pendingMedAlert()}
-                {isErrorNotificationVisible && (
+                {isShowingExportError && (
                   <ApiErrorNotification
-                    errorType={getErrorTypeFromFormat(
-                      pdfTxtGenerateStatus.format,
-                    )}
+                    errorType={getErrorTypeFromFormat(exportStatus.format)}
                     content="records"
                   >
                     <p>
@@ -558,15 +435,8 @@ const PrescriptionDetails = () => {
 
                   <PrintDownload
                     onDownload={handleFileDownload}
-                    isSuccess={
-                      pdfTxtGenerateStatus.status ===
-                      PDF_TXT_GENERATE_STATUS.Success
-                    }
-                    isLoading={
-                      !allergiesError &&
-                      pdfTxtGenerateStatus.status ===
-                        PDF_TXT_GENERATE_STATUS.InProgress
-                    }
+                    isSuccess={isExportSuccess}
+                    isLoading={!allergiesError && isExportInProgress}
                   />
                 </div>
               </>
