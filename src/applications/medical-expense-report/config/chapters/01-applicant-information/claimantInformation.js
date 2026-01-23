@@ -4,6 +4,10 @@ import {
   fullNameUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const updatedFullNameSchema = fullNameSchema;
+updatedFullNameSchema.properties.first.maxLength = 40;
+updatedFullNameSchema.properties.last.maxLength = 50;
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -17,7 +21,7 @@ export default {
     type: 'object',
     required: ['claimantFullName'],
     properties: {
-      claimantFullName: fullNameSchema,
+      claimantFullName: updatedFullNameSchema,
     },
   },
 };

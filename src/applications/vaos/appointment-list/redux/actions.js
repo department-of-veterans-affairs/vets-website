@@ -6,6 +6,7 @@ import {
   selectFeatureCCDirectScheduling,
   selectFeatureUseBrowserTimezone,
   selectSystemIds,
+  selectFeatureUseVpg,
 } from '../../redux/selectors';
 import {
   APPOINTMENT_TYPES,
@@ -504,9 +505,11 @@ export function fetchFacilitySettings() {
     try {
       const initialState = getState();
       const siteIds = selectSystemIds(initialState) || [];
+      const featureUseVpg = selectFeatureUseVpg(initialState);
 
       const settings = await getLocationSettings({
         siteIds,
+        useVpg: featureUseVpg,
       });
 
       dispatch({
