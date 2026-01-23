@@ -11,6 +11,7 @@ import ManageFolderButtons from '../../components/ManageFolderButtons';
 import * as foldersActions from '../../actions/folders';
 
 describe('Manage Folder Buttons component', () => {
+  let sandbox;
   const folder = folders.customFolder;
   const initialState = {
     sm: {
@@ -28,6 +29,14 @@ describe('Manage Folder Buttons component', () => {
       },
     },
   };
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('renders without errors', () => {
     const screen = renderWithStoreAndRouter(
@@ -75,7 +84,7 @@ describe('Manage Folder Buttons component', () => {
   });
 
   it('confirming removal of a folder with no threads contained triggers a call', async () => {
-    const deleteFolderSpy = sinon.spy(foldersActions, 'delFolder');
+    const deleteFolderSpy = sandbox.spy(foldersActions, 'delFolder');
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -136,8 +145,9 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const editForm = screen.getByTestId('edit-folder-form');
-    const input = editForm.querySelector('va-text-input');
+    const input = document.querySelector(
+      'va-text-input[name="new-folder-name"]',
+    );
 
     // Clear the input to simulate blank folder name
     // Set value on target for web component compatibility
@@ -172,8 +182,9 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const editForm = screen.getByTestId('edit-folder-form');
-    const input = editForm.querySelector('va-text-input');
+    const input = document.querySelector(
+      'va-text-input[name="new-folder-name"]',
+    );
 
     // Set to existing folder name
     fireEvent(
@@ -224,7 +235,7 @@ describe('Manage Folder Buttons component', () => {
   });
 
   it('Save button in edit form triggers rename folder action with new name', async () => {
-    const renameFolderSpy = sinon.spy(foldersActions, 'renameFolder');
+    const renameFolderSpy = sandbox.spy(foldersActions, 'renameFolder');
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -241,8 +252,9 @@ describe('Manage Folder Buttons component', () => {
       expect(screen.getByTestId('edit-folder-form')).to.exist;
     });
 
-    const editForm = screen.getByTestId('edit-folder-form');
-    const input = editForm.querySelector('va-text-input');
+    const input = document.querySelector(
+      'va-text-input[name="new-folder-name"]',
+    );
 
     // Set a new valid folder name
     input.value = 'New Folder Name';
@@ -254,7 +266,5 @@ describe('Manage Folder Buttons component', () => {
     await waitFor(() => {
       sinon.assert.calledOnce(renameFolderSpy);
     });
-
-    renameFolderSpy.restore();
   });
 });

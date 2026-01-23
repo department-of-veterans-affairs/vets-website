@@ -17,12 +17,14 @@ describe('edit custom folder name validation', () => {
 
   it('verify edit folder name buttons', () => {
     PatientMessageCustomFolderPage.loadMessages();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.editFolderButton()
       .should('be.visible')
       .click({ waitForAnimations: true });
     PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
 
-    cy.get('[data-testid="alert-text"]')
+    cy.findByTestId('alert-text')
       .should('be.visible')
       .and('contain.text', Data.FOLDER_RENAMED_SUCCESSFULLY);
 
@@ -31,26 +33,24 @@ describe('edit custom folder name validation', () => {
 
   it('verify edit folder name error', () => {
     PatientMessageCustomFolderPage.loadMessages();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
     PatientMessageCustomFolderPage.editFolderButton()
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    // Wait for the accordion item to be expanded
-    cy.get('[data-testid="edit-folder-button"]').should('have.attr', 'open');
+    // Wait for the edit form to be visible
+    cy.findByTestId('edit-folder-form').should('be.visible');
 
     // Clear the pre-filled folder name to trigger blank validation
-    cy.get('[name="new-folder-name"]')
-      .shadow()
-      .find('[id="inputField"]')
-      .clear({ force: true });
+    cy.fillVaTextInput('new-folder-name', '');
 
-    cy.get('[data-testid="save-edit-folder-button"]')
+    cy.findByTestId('save-edit-folder-button')
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    cy.get(Locators.FOLDERS.FOLDER_NAME, { timeout: 10000 })
-      .shadow()
-      .find('#input-error-message')
-      .and('include.text', Data.FOLDER_NAME_CANNOT_BLANK);
+    cy.get('va-text-input[name="new-folder-name"]')
+      .should('have.attr', 'error')
+      .and('include', Data.FOLDER_NAME_CANNOT_BLANK);
   });
 });

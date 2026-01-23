@@ -226,15 +226,11 @@ class PatientMessageCustomFolderPage {
   };
 
   submitEditFolderName = folderName => {
-    // Wait for the accordion item to be expanded
-    cy.get('[data-testid="edit-folder-button"]').should('have.attr', 'open');
+    // Wait for the edit form to be visible
+    cy.get('[data-testid="edit-folder-form"]').should('be.visible');
 
-    cy.get('[name="new-folder-name"]')
-      .should('be.visible')
-      .shadow()
-      .find('[id="inputField"]')
-      .should('be.visible')
-      .type(folderName, { force: true });
+    // Use the fillVaTextInput command for proper web component interaction
+    cy.fillVaTextInput('new-folder-name', folderName);
 
     cy.intercept('PUT', `/my_health/v1/messaging/folders/${this.folderId}`, {
       data: {
