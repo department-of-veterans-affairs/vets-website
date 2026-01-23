@@ -395,12 +395,13 @@ const getLabelText = (el, { includeInputMessage = false } = {}) => {
  * Resolves the element that should receive focus for a component displaying an error state.
  *
  * The lookup prioritizes:
- * 1. Group option inputs when invoked on a radio or checkbox group
- * 2. Child elements already carrying an error attribute
- * 3. The first native form control within the component's shadow root
- * 4. Nested VA components that expose their own focus targets
- * 5. Any other focusable node within the component
- * 6. Finally the component itself when no better target is found
+ * 1. For date components: First invalid child input, or first child for cross-field validation errors
+ * 2. Group option inputs when invoked on a radio or checkbox group
+ * 3. Child elements already carrying an error attribute
+ * 4. The first native form control within the component's shadow root
+ * 5. Nested VA components that expose their own focus targets
+ * 6. Any other focusable node within the component
+ * 7. Finally the component itself when no better target is found
  *
  * @param {HTMLElement} el - The host web component being evaluated
  * @returns {HTMLElement} The element that should receive focus
@@ -408,12 +409,13 @@ const getLabelText = (el, { includeInputMessage = false } = {}) => {
 const findFocusTarget = el => {
   // CATEGORY 4: Date component handling
   // Find the first invalid child input, or fall back to first child
+  // (for cross-field validation where all children are technically valid)
   if (isDateComponent(el)) {
     const invalidChild = findFirstInvalidDateChild(el);
     if (invalidChild) {
       return findFocusTarget(invalidChild);
     }
-    // Fallback to first child component
+    // Fallback to first child component for cross-field validation errors
     const children = getDateChildComponents(el);
     if (children.length) {
       return findFocusTarget(children[0]);
@@ -508,7 +510,8 @@ function hasErrorAnnotation(element) {
  *   Order: {error}. {parent label}. {child label}. {hint}. {description}
  *
  * For date components (Category 4):
- *   Order: {error}. {child label}. {child #input-message}. {parent label}. {hint}
+ *   Order: {error}. {child label}. {child #input-message}. {parent label}
+ *   Note: parent label includes hint text, so it's not added separately
  *
  * @param {string} errorMessage - Raw error message coming from the component
  * @param {HTMLElement} errorWebComponent - The component producing the error
@@ -531,13 +534,19 @@ const buildErrorLabelText = (
 
   let fullText = `Error: ${errorText}.`;
 
-  // Date components: {error}. {child label}. {child #input-message} {parent label}. {hint}
+  // Date components: {error}. {child label}. {child #input-message}. {parent label}
+  // Note: parent label already includes hint text, so it's not added separately
   if (isDateComponent(errorWebComponent) && childOption) {
     const childLabel = normalizeText(
       getLabelText(childOption, { includeInputMessage: true }),
     );
     if (childLabel) {
       fullText += ` ${childLabel}.`;
+    }
+
+    // Add parent legend for context (includes hint text)
+    if (parentLabel) {
+      fullText += ` ${parentLabel}.`;
     }
   } else {
     // Groups & direct errors: {error}. {parent label}. {child label}. {hint}. {description}
@@ -783,8 +792,16 @@ function syncDateChildErrorStyling(childComponent, parentRequired) {
 
 /**
  * Associates error annotations with date component child inputs.
- * When the parent date component has an error, adds error styling only to invalid children
- * and attaches the error label to the first invalid child input (or first child as fallback).
+ * Handles two distinct error scenarios:
+ *
+ * 1. Field-level errors: Individual child inputs are invalid (empty required fields,
+ *    invalid formats). These children receive both visual error styling AND accessibility
+ *    scaffolding on each invalid child.
+ *
+ * 2. Cross-field validation errors: Parent has an error but all children are technically
+ *    valid (e.g., "To date must be after from date"). ALL children receive accessibility
+ *    scaffolding for screen readers, but NO children receive visual error styling since
+ *    the fields themselves are valid.
  *
  * @param {HTMLElement} dateComponent - The date component emitting an error
  * @param {string|null} errorMessage - Message to associate with the child input
@@ -797,21 +814,24 @@ function associateDateErrorAnnotations(dateComponent, errorMessage) {
   const parentRequired =
     dateComponent.hasAttribute('required') || dateComponent.required === true;
 
-  // Sync error styling on each child based on its individual validation state
+  // Step 1: Apply visual error styling ONLY to children that are actually invalid
   children.forEach(child => syncDateChildErrorStyling(child, parentRequired));
 
-  children.forEach(child => {
-    if (!isDateChildInvalid(child, parentRequired)) {
-      return;
-    }
+  // Step 2: Determine which children need screen reader scaffolding
+  // - If ANY child is invalid: only scaffold invalid children (field-level errors)
+  // - If NO children are invalid: scaffold ALL children (cross-field validation)
+  const invalidChildren = children.filter(child =>
+    isDateChildInvalid(child, parentRequired),
+  );
+  const childrenToScaffold =
+    invalidChildren.length > 0 ? invalidChildren : children;
 
+  // Step 3: Add screen reader scaffolding to target children
+  childrenToScaffold.forEach(child => {
     const inputElement = findFocusTarget(child);
     if (!inputElement) return;
 
     const fullText = buildErrorLabelText(errorMessage, dateComponent, child);
-
-    // Create the SR-only label and attach to the input. Use the child
-    // component as host so cleanup works correctly.
     createAndAssociateErrorLabel(inputElement, fullText, child);
   });
 }
