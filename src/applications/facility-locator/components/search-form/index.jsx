@@ -107,35 +107,24 @@ export const SearchForm = props => {
       onChange({ [propName]: '' });
     };
 
-    const errors = [];
-
     if (!draftFormState.facilityType) {
-      errors.push({
-        field: 'facilityType',
-        selector: '#facility-type-dropdown',
-      });
+      updateReduxState('facilityType');
+      focusElement('#facility-type-dropdown');
+      return;
     }
 
     if (
       draftFormState.facilityType === LocationType.CC_PROVIDER &&
       (!draftFormState.serviceType || !selectedServiceType)
     ) {
-      errors.push({
-        field: 'serviceType',
-        selector: '#service-type-ahead-input',
-      });
+      updateReduxState('serviceType');
+      focusElement('#service-type-ahead-input');
+      return;
     }
 
     if (!draftFormState.searchString) {
-      errors.push({
-        field: 'searchString',
-        selector: '#street-city-state-zip',
-      });
-    }
-
-    if (errors.length > 0) {
-      errors.forEach(error => updateReduxState(error.field));
-      focusElement(errors[0].selector);
+      updateReduxState('searchString');
+      focusElement('#street-city-state-zip');
       return;
     }
     // Commit draft state to Redux
