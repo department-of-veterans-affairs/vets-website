@@ -1,8 +1,4 @@
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 
 import {
   TOGGLE_NAMES,
@@ -50,18 +46,4 @@ function Page() {
   return virtualAgentShowFloatingChatbot ? <FloatingBot /> : <StickyBot />;
 }
 
-Page.propTypes = {
-  virtualAgentShowChatbot: PropTypes.bool,
-  virtualAgentShowFloatingChatbot: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  virtualAgentShowFloatingChatbot: toggleValues(state)[
-    FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot
-  ],
-  virtualAgentShowChatbot: toggleValues(state)[
-    FEATURE_FLAG_NAMES.virtualAgentShowChatbot
-  ],
-});
-
-export default connect(mapStateToProps)(Page);
+export default Page;

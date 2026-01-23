@@ -7,6 +7,12 @@ import { clearBotSessionStorage } from '../../../../../webchat/utils/sessionStor
 import { selectChatbotHasAcceptedDisclaimer } from '../../../../store';
 import AiDisclaimer from './AiDisclaimer';
 
+/**
+ * Handle click on the accept disclaimer button
+ * @param {Function} dispatch Redux dispatch function
+ * @param {Function} [onAccept] Optional callback function to call on accept, used to dispatch new chatbotActions.acceptDisclaimer action from Shell component
+ * @returns void
+ */
 function onClick(dispatch, onAccept) {
   if (onAccept) {
     onAccept();
@@ -27,28 +33,19 @@ function onClick(dispatch, onAccept) {
   dispatch({ type: ACCEPTED });
 }
 
-function Disclaimer() {
-  return (
-    <ul>
-      <li>
-        Our chatbot can’t help you if you’re experiencing a personal, medical,
-        or mental health emergency. Go to the nearest emergency room, dial 988
-        and press 1 for mental health support, or call 911 to get medical care
-        right away.
-        <br />
-        <a href="/health-care/health-needs-conditions/mental-health/">
-          Learn more about VA mental health services
-        </a>
-      </li>
-      <li>
-        Please don’t type any personal information such as your name, address,
-        or anything else that can be used to identify you.
-      </li>
-      <AiDisclaimer />
-    </ul>
-  );
-}
+/**
+ * @typedef {Object} RightContentProps
+ * @property {function(): void} onAccept - Click handler for accepting the disclaimer
+ */
 
+/**
+ * Right column content component that houses the disclaimer and chatbot UI.
+ * Used on the Shell component to house all the static page content for the right column, including the disclaimer and chatbot container.
+ * @component
+ * @param {RightContentProps} props Component props
+ * @returns jsx.Element
+ *
+ */
 export default function RightColumnContent({ onAccept }) {
   const dispatch = useDispatch();
   const hasAcceptedDisclaimer = useSelector(selectChatbotHasAcceptedDisclaimer);
@@ -69,7 +66,23 @@ export default function RightColumnContent({ onAccept }) {
             <h3 slot="headline">About this chatbot</h3>
 
             <div data-testid="disclaimer" style={{ width: '100%' }}>
-              <Disclaimer />
+              <ul>
+                <li>
+                  Our chatbot can’t help you if you’re experiencing a personal,
+                  medical, or mental health emergency. Go to the nearest
+                  emergency room, dial 988 and press 1 for mental health
+                  support, or call 911 to get medical care right away.
+                  <br />
+                  <a href="/health-care/health-needs-conditions/mental-health/">
+                    Learn more about VA mental health services
+                  </a>
+                </li>
+                <li>
+                  Please don’t type any personal information such as your name,
+                  address, or anything else that can be used to identify you.
+                </li>
+                <AiDisclaimer />
+              </ul>
               <va-button
                 id="btnAcceptDisclaimer"
                 data-testid="btnAcceptDisclaimer"

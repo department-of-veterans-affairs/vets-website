@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import * as FeatureToggleModule from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-import Page from '../../../chatbot/Page';
+import Chatbot from '../../../chatbot/Chatbot';
 import * as FloatingBotModule from '../../../webchat/components/FloatingBot';
 import * as StickyBotModule from '../../../webchat/components/StickyBot';
 
@@ -31,7 +31,7 @@ const getMockStore = ({
   dispatch: () => ({}),
 });
 
-describe('Page', () => {
+describe('Chatbot', () => {
   let sandbox;
 
   beforeEach(() => {
@@ -54,7 +54,7 @@ describe('Page', () => {
 
     const { container } = render(
       <Provider store={mockStore}>
-        <Page />
+        <Chatbot />
       </Provider>,
     );
 
@@ -66,7 +66,7 @@ describe('Page', () => {
 
     const { getByText } = render(
       <Provider store={mockStore}>
-        <Page />
+        <Chatbot />
       </Provider>,
     );
 
@@ -82,7 +82,7 @@ describe('Page', () => {
 
     const { getByTestId } = render(
       <Provider store={mockStore}>
-        <Page />
+        <Chatbot />
       </Provider>,
     );
 
@@ -98,7 +98,7 @@ describe('Page', () => {
 
     const { getByTestId } = render(
       <Provider store={mockStore}>
-        <Page />
+        <Chatbot />
       </Provider>,
     );
 
@@ -114,7 +114,7 @@ describe('Page', () => {
 
     const { getByTestId } = render(
       <Provider store={mockStore}>
-        <Page />
+        <Chatbot />
       </Provider>,
     );
 
