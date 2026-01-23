@@ -78,7 +78,7 @@ const responses = {
   // Note: Not using commonResponses to avoid conflicts with user/feature toggle mocks
   'OPTIONS /v0/maintenance_windows': 'OK',
 
-  'GET /v0/user': user.transitioningUser,
+  'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
