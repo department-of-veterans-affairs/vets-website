@@ -314,3 +314,6 @@ src/applications/office-directory @department-of-veterans-affairs/va-platform-co
 # BIO Huntridge Labs
 src/applications/medical-expense-report @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/survivors-benefits @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend
+
+#Medallia assets
+src/platform/site-wide/sass/modules/_m-medallia.scss @department-of-veterans-affairs/veteran-support-team
