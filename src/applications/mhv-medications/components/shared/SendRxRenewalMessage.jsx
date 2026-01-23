@@ -102,7 +102,6 @@ const RenderLinkVariation = ({
   isActionLink,
   setShowRenewalModal,
   isExpired,
-  isActiveNoRefills,
 }) => {
   return isActionLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -116,14 +115,13 @@ const RenderLinkVariation = ({
     </Link>
   ) : (
     <>
-      {(isExpired || isActiveNoRefills) && (
+      {isExpired && (
         <p
           className="vads-u-margin-y--0"
-          data-testid={
-            isExpired ? 'expired-less-than-120-days' : 'active-no-refills'
-          }
+          data-testid="expired-less-than-120-days"
         >
-          You have no refills left. If you need more, request a renewal.
+          You can’t refill this prescription. If you need more, send a secure
+          message to your care team.
         </p>
       )}
       <va-link
