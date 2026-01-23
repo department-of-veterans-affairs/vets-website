@@ -158,7 +158,7 @@ const Prescriptions = () => {
   } = useGetPrescriptionsListQuery(queryParams);
 
   const isLoading = isPrescriptionsLoading || isPrescriptionsFetching;
-  
+
   /**
    * Shows loading spinner for all filter selections to provide
    * consistent visual feedback regardless of cache state
@@ -166,7 +166,7 @@ const Prescriptions = () => {
   const [isFilterLoading, setIsFilterLoading] = useState(false);
   const filterTimeoutRef = useRef(null);
   const isShowingLoading = isLoading || isFilterLoading;
-  
+
   useEffect(() => {
     return () => {
       if (filterTimeoutRef.current) {
@@ -186,7 +186,12 @@ const Prescriptions = () => {
     [prescriptionsData],
   );
 
-  const filteredList = prescriptionsData?.prescriptions || [];
+  const filteredList = useMemo(
+    () => {
+      return prescriptionsData?.prescriptions || [];
+    },
+    [prescriptionsData],
+  );
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
@@ -235,7 +240,7 @@ const Prescriptions = () => {
       if (filterTimeoutRef.current) {
         clearTimeout(filterTimeoutRef.current);
       }
-      
+
       filterTimeoutRef.current = setTimeout(() => {
         setIsFilterLoading(false);
         filterTimeoutRef.current = null;
