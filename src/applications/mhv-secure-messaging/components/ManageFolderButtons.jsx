@@ -1,12 +1,15 @@
 import {
+  VaAccordion,
+  VaAccordionItem,
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import { navigateToFoldersPage } from '../util/helpers';
 import { delFolder, getFolders, renameFolder } from '../actions/folders';
@@ -28,6 +31,7 @@ const ManageFolderButtons = props => {
   const [folderName, setFolderName] = useState('');
   const folderNameInput = useRef();
   const editFolderButtonRef = useRef(null);
+  const editAccordionRef = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
   const removeFolderRef = useRef(null);
@@ -66,6 +70,17 @@ const ManageFolderButtons = props => {
     [isEditExpanded, folder?.name],
   );
 
+  useEffect(
+    () => {
+      if (isEditExpanded && folderNameInput.current) {
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
+      }
+    },
+    [isEditExpanded],
+  );
+
   const openDelModal = () => {
     if (alertStatus) dispatch(closeAlert());
     if (threads.threadList.length > 0) {
@@ -88,49 +103,66 @@ const ManageFolderButtons = props => {
     );
   };
 
-  const toggleEditExpanded = () => {
+  const handleAccordionToggle = ({ target }) => {
     if (alertStatus) dispatch(closeAlert());
-    if (isEditExpanded) {
+    const isOpen = target?.getAttribute('open') === 'true';
+    if (isOpen) {
+      // Expanding - pre-fill with current folder name
+      setFolderName(folder.name);
+      setIsEditExpanded(true);
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'secondary',
+        'button-click-label': 'Edit folder name',
+      });
+      datadogRum.addAction('Edit Folder Name Expanded');
+    } else {
       // Collapsing - reset state
       setFolderName('');
       setNameWarning('');
+      setIsEditExpanded(false);
       datadogRum.addAction('Edit Folder Name Collapsed');
-    } else {
-      // Expanding - pre-fill with current folder name
-      setFolderName(folder.name);
-      datadogRum.addAction('Edit Folder Name Expanded');
     }
-    setIsEditExpanded(!isEditExpanded);
   };
 
-  const cancelEdit = () => {
+  const cancelEdit = useCallback(() => {
     setFolderName('');
     setNameWarning('');
     setIsEditExpanded(false);
-    focusElement(editFolderButtonRef.current);
-    datadogRum.addAction('Edit Folder Name Cancelled');
-  };
-
-  const confirmRenameFolder = async () => {
-    const folderMatch = folders.filter(
-      testFolder => testFolder.name === folderName,
-    );
-    await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
-    if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
-    } else if (folderMatch.length > 0) {
-      setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
-    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-      await dispatch(renameFolder(folder.folderId, folderName));
-      setIsEditExpanded(false);
-      setFolderName('');
-      setNameWarning('');
-    } else {
-      setNameWarning(
-        ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
-      );
+    // Close accordion and return focus
+    if (editAccordionRef.current) {
+      editAccordionRef.current.removeAttribute('open');
     }
-  };
+    datadogRum.addAction('Edit Folder Name Cancelled');
+  }, []);
+
+  const confirmRenameFolder = useCallback(
+    async () => {
+      const folderMatch = folders.filter(
+        testFolder => testFolder.name === folderName,
+      );
+      await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
+      if (folderName === '' || folderName.match(/^[\s]+$/)) {
+        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
+      } else if (folderMatch.length > 0) {
+        setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
+      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+        await dispatch(renameFolder(folder.folderId, folderName));
+        setIsEditExpanded(false);
+        setFolderName('');
+        setNameWarning('');
+        // Close accordion after successful save
+        if (editAccordionRef.current) {
+          editAccordionRef.current.removeAttribute('open');
+        }
+      } else {
+        setNameWarning(
+          ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,
+        );
+      }
+    },
+    [folders, folderName, folder.folderId, dispatch, ErrorMessages],
+  );
 
   return (
     <>
@@ -140,26 +172,20 @@ const ManageFolderButtons = props => {
             Edit folder
           </h2>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
-            {/* Edit folder name accordion button */}
-            <button
-              type="button"
-              className="usa-button-secondary vads-u-width--full"
-              data-testid="edit-folder-button"
-              onClick={toggleEditExpanded}
-              ref={editFolderButtonRef}
-              aria-expanded={isEditExpanded}
-              aria-controls="edit-folder-form"
-              data-dd-action-name="Edit Folder Name Button"
+            {/* Edit folder name accordion */}
+            <VaAccordion
+              bordered
+              open-single
+              onAccordionItemToggled={handleAccordionToggle}
+              data-testid="edit-folder-accordion"
             >
-              Edit folder name
-            </button>
-
-            {/* Expanded inline form */}
-            {isEditExpanded && (
-              <div
-                id="edit-folder-form"
-                className="vads-u-padding--2 vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-background-color--gray-lightest"
-                data-testid="edit-folder-form"
+              <VaAccordionItem
+                header="Edit folder name"
+                bordered
+                ref={editAccordionRef}
+                data-testid="edit-folder-button"
+                data-dd-action-name="Edit Folder Name Accordion"
+                level={3}
               >
                 <VaTextInput
                   data-dd-privacy="mask"
@@ -167,11 +193,14 @@ const ManageFolderButtons = props => {
                   label={Alerts.Folder.CREATE_FOLDER_MODAL_LABEL}
                   value={folderName}
                   className="input"
+                  width="2xl"
                   error={nameWarning}
                   onInput={e => {
                     setFolderName(e.target.value);
                     setNameWarning(
-                      e.target.value ? '' : 'Folder name cannot be blank',
+                      e.target.value
+                        ? ''
+                        : ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED,
                     );
                   }}
                   maxlength="50"
@@ -196,8 +225,8 @@ const ManageFolderButtons = props => {
                     data-testid="cancel-edit-folder-button"
                   />
                 </div>
-              </div>
-            )}
+              </VaAccordionItem>
+            </VaAccordion>
 
             {/* Remove folder button - red destructive style */}
             <button

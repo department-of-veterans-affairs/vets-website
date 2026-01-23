@@ -226,8 +226,8 @@ class PatientMessageCustomFolderPage {
   };
 
   submitEditFolderName = folderName => {
-    // Wait for the inline form to be visible after clicking edit button
-    cy.get('[data-testid="edit-folder-form"]').should('be.visible');
+    // Wait for the accordion item to be expanded
+    cy.get('[data-testid="edit-folder-button"]').should('have.attr', 'open');
 
     cy.get('[name="new-folder-name"]')
       .should('be.visible')

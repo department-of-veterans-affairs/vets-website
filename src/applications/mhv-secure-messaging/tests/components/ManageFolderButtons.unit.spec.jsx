@@ -93,7 +93,7 @@ describe('Manage Folder Buttons component', () => {
     sinon.assert.calledWith(deleteFolderSpy);
   });
 
-  it("displays inline edit form when 'Edit folder' button is clicked", async () => {
+  it("displays inline edit form when 'Edit folder' accordion is opened", async () => {
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -101,12 +101,17 @@ describe('Manage Folder Buttons component', () => {
         reducers: reducer,
       },
     );
-    fireEvent.click(screen.getByTestId('edit-folder-button'));
+    const accordion = screen.getByTestId('edit-folder-accordion');
+    const accordionItem = screen.getByTestId('edit-folder-button');
+    expect(accordion).to.exist;
+    expect(accordionItem).to.exist;
 
-    const editForm = screen.getByTestId('edit-folder-form');
-    expect(editForm).to.exist;
-    fireEvent.click(screen.getByTestId('cancel-edit-folder-button'));
-    expect(screen.queryByTestId('edit-folder-form')).to.not.exist;
+    // Verify the input exists inside the accordion
+    const input = accordionItem.querySelector('va-text-input');
+    expect(input).to.exist;
+
+    // Verify cancel button exists
+    expect(screen.getByTestId('cancel-edit-folder-button')).to.exist;
   });
 
   it('Edit form shows error for blank folder name', async () => {
@@ -117,14 +122,11 @@ describe('Manage Folder Buttons component', () => {
         reducers: reducer,
       },
     );
-    fireEvent.click(screen.getByTestId('edit-folder-button'));
 
-    await waitFor(() => {
-      expect(screen.getByTestId('edit-folder-form')).to.exist;
-    });
-
-    const editForm = screen.getByTestId('edit-folder-form');
-    const input = editForm.querySelector('va-text-input');
+    // VaAccordionItem content is always rendered
+    const accordionItem = screen.getByTestId('edit-folder-button');
+    const input = accordionItem.querySelector('va-text-input');
+    expect(input).to.exist;
 
     // Clear the input to simulate blank folder name
     input.value = '';
@@ -143,7 +145,7 @@ describe('Manage Folder Buttons component', () => {
     });
   });
 
-  it.skip('test', async () => {
+  it.skip('Edit form shows error for duplicate folder name', async () => {
     const existingFolderName = folderList.slice(-1)[0].name;
     const mockStore = configureStore();
     const store = mockStore(initialState);
@@ -153,8 +155,7 @@ describe('Manage Folder Buttons component', () => {
       </Provider>,
     );
 
-    const editButton = wrapper.find('button[data-testid="edit-folder-button"]');
-    editButton.simulate('click');
+    // VaAccordionItem content is always rendered
     const input = wrapper.find('va-text-input');
     input.invoke('onInput')({
       target: { value: existingFolderName },

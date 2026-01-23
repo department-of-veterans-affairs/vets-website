@@ -35,8 +35,8 @@ describe('edit custom folder name validation', () => {
       .should('be.visible')
       .click({ waitForAnimations: true });
 
-    // Wait for the inline form to be visible
-    cy.get('[data-testid="edit-folder-form"]').should('be.visible');
+    // Wait for the accordion item to be expanded
+    cy.get('[data-testid="edit-folder-button"]').should('have.attr', 'open');
 
     // Clear the pre-filled folder name to trigger blank validation
     cy.get('[name="new-folder-name"]')
