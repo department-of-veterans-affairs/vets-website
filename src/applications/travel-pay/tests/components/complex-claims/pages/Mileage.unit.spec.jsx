@@ -19,15 +19,6 @@ describe('Complex Claims Mileage - Add', () => {
       appointment: {
         data: {
           id: TEST_APPT_ID,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-          },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
           localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
@@ -50,6 +41,12 @@ describe('Complex Claims Mileage - Add', () => {
           submission: { id: '', isSubmitting: false, error: null, data: null },
           fetch: { isLoading: false, error: null },
           data: {
+            claimId: TEST_CLAIM_ID,
+            appointment: {
+              id: TEST_APPT_ID,
+              facilityName: 'Test VA Medical Center',
+              appointmentDateTime: '2024-01-15T18:00:00Z',
+            },
             documents: [],
           },
         },
@@ -94,7 +91,6 @@ describe('Complex Claims Mileage - Add', () => {
       </MemoryRouter>,
       { initialState: getAddState(), reducers: reducer },
     );
-
   it('renders the component with all elements', () => {
     const screen = renderComponent();
 
@@ -194,6 +190,47 @@ describe('Complex Claims Mileage - Add', () => {
       expect(expenseData.tripType).to.equal('RoundTrip');
 
       stub.restore();
+    });
+    it('falls back to claimDetails appointment localStartTime when appointment is missing', async () => {
+      const state = getAddState();
+      state.travelPay.appointment.data.localStartTime = undefined;
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[
+            `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/`,
+          ]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/mileage"
+              element={<Mileage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState: state, reducers: reducer },
+      );
+
+      fireEvent(
+        $('va-radio[name="departureAddress"]'),
+        new CustomEvent('vaValueChange', {
+          detail: { name: 'departureAddress', value: 'home-address' },
+        }),
+      );
+
+      fireEvent(
+        $('va-radio[name="tripType"]'),
+        new CustomEvent('vaValueChange', {
+          detail: { name: 'tripType', value: 'RoundTrip' },
+        }),
+      );
+
+      fireEvent.click(
+        container.querySelector('.travel-pay-button-group va-button[continue]'),
+      );
+
+      const expenseData = stub.firstCall.args[2];
+      expect(expenseData.purchaseDate).to.equal('2024-01-15');
     });
   });
 
@@ -518,15 +555,6 @@ describe('Complex Claims Mileage - Edit', () => {
       appointment: {
         data: {
           id: TEST_APPT_ID,
-          facilityName: 'Test VA Medical Center',
-          facilityAddress: {
-            addressLine1: '123 Medical Center Drive',
-            city: 'Test City',
-            stateCode: 'TX',
-            zipCode: '12345',
-          },
-          appointmentDate: '2024-01-15',
-          appointmentTime: '10:00 AM',
           localStartTime: '2024-01-15T10:00:00.000-08:00',
         },
         error: null,
@@ -549,6 +577,12 @@ describe('Complex Claims Mileage - Edit', () => {
           submission: { id: '', isSubmitting: false, error: null, data: null },
           fetch: { isLoading: false, error: null },
           data: {
+            claimId: TEST_CLAIM_ID,
+            appointment: {
+              id: TEST_APPT_ID,
+              facilityName: 'Test VA Medical Center',
+              appointmentDateTime: '2024-01-15T18:00:00Z',
+            },
             documents: [],
           },
         },

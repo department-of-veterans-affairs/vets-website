@@ -54,6 +54,7 @@ const SendRxRenewalMessage = ({
         isActionLink={isActionLink}
         setShowRenewalModal={setShowRenewalModal}
         isExpired={isExpiredLessThan120Days}
+        isActiveNoRefills={isActiveNoRefills}
       />
       <VaModal
         modalTitle="You're leaving medications to send a message"
@@ -86,6 +87,7 @@ const SendRxRenewalMessage = ({
 SendRxRenewalMessage.propTypes = {
   fallbackContent: PropTypes.node,
   isActionLink: PropTypes.bool,
+  isActiveNoRefills: PropTypes.bool,
   rx: PropTypes.shape({
     refillRemaining: PropTypes.number,
     dispStatus: PropTypes.string,
@@ -100,6 +102,7 @@ const RenderLinkVariation = ({
   isActionLink,
   setShowRenewalModal,
   isExpired,
+  isActiveNoRefills,
 }) => {
   return isActionLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -113,13 +116,14 @@ const RenderLinkVariation = ({
     </Link>
   ) : (
     <>
-      {isExpired && (
+      {(isExpired || isActiveNoRefills) && (
         <p
           className="vads-u-margin-y--0"
-          data-testid="expired-less-than-120-days"
+          data-testid={
+            isExpired ? 'expired-less-than-120-days' : 'active-no-refills'
+          }
         >
-          You can’t refill this prescription. If you need more, send a secure
-          message to your care team.
+          You have no refills left. If you need more, request a renewal.
         </p>
       )}
       <va-link
@@ -134,6 +138,7 @@ const RenderLinkVariation = ({
 
 RenderLinkVariation.propTypes = {
   isActionLink: PropTypes.bool,
+  isActiveNoRefills: PropTypes.bool,
   isExpired: PropTypes.bool,
   setShowRenewalModal: PropTypes.func,
 };

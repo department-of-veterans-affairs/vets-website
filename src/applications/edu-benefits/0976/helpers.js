@@ -191,3 +191,39 @@ export const additionalInstitutionsWithoutCodeArrayOptions = {
     },
   },
 };
+
+export const programInformationArrayOptions = {
+  arrayPath: 'programs',
+  nounSingular: 'program',
+  nounPlural: 'programs',
+  required: true,
+  isItemIncomplete: item => {
+    return ![
+      item?.programName,
+      item?.totalProgramLength,
+      item?.weeksPerTerm,
+      item?.entryRequirements,
+      item?.creditHours,
+    ].every(Boolean);
+  },
+  text: {
+    getItemName: (item, _index, _fullData) => item.programName,
+    cardDescription: item => {
+      if (!item) return <></>;
+      return (
+        <div>
+          <p>{item.totalProgramLength}</p>
+          <p>
+            {item.weeksPerTerm} week
+            {parseFloat(item.weeksPerTerm) !== 1 ? 's' : ''}
+          </p>
+          <p>{item.entryRequirements}</p>
+          <p>
+            {item.creditHours} hour
+            {parseFloat(item.creditHours) !== 1 ? 's' : ''}
+          </p>
+        </div>
+      );
+    },
+  },
+};
