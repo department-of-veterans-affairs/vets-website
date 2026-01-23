@@ -124,9 +124,9 @@ const form210966 = (pathname = null) => {
       claimantInformationChapter: {
         title: 'Claimant and Veteran information',
         reviewDescription: () => (
-          <div className="itf-review-heading">
+          <h4 className="itf-review-heading">
             Claimant and Veteran information
-          </div>
+          </h4>
         ),
         pages: {
           claimantInformation: {
