@@ -119,10 +119,10 @@ export default function ReviewPage() {
               {!submitStatusVaos400 && (
                 <>
                   <p>
-                    We’re sorry. There’s a problem with our system. Refresh this
-                    page to start over or try again later.
+                    We’re sorry. There’s a problem with appointments. Refresh
+                    this page or try again later.
                   </p>
-                  <p>If you need to schedule now, call your VA facility.</p>
+                  <p>If you need to schedule now, call your facility.</p>
                 </>
               )}
               {!!facilityDetails && <strong>{facilityDetails.name}</strong>}

@@ -323,10 +323,10 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     await screen.findByText('We can’t schedule your appointment right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'If you need to schedule now, call your facility.',
     );
 
     expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
@@ -473,10 +473,10 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     await screen.findByText('We can’t schedule your appointment right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'If you need to schedule now, call your facility.',
     );
 
     expect(screen.getByTestId('facility-telephone')).to.exist;
