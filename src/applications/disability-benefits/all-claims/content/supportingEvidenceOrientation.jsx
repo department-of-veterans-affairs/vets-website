@@ -73,7 +73,7 @@ export const supportingEvidenceOrientationAlert = ({ formData }) => (
       Next, we’ll ask you about evidence we’ll need to support these claims:
     </p>
     <ul>
-      {isClaimingNew(formData) && (
+      {(isClaimingNew(formData) || isClaimingIncrease(formData)) && (
         <>
           <li>
             Medical records about your conditions, <strong>and</strong>
@@ -129,7 +129,7 @@ export const additionalSupportAccordion = (
       </h3>
       <ul>
         <li>Personal journal or diary entries</li>
-        <li>E-Emails, messages, or letters</li>
+        <li>Emails, messages, or letters</li>
       </ul>
       <h3 className="vads-u-font-size--h5 vads-u-margin-y--0">
         Additional forms
@@ -152,10 +152,42 @@ export const additionalSupportAccordion = (
   </va-accordion>
 );
 
+export const mentalHealthSupportAlert = () => {
+  return (
+    <va-alert-expandable
+      status="info"
+      trigger="Get mental health and military sexual trauma support anytime"
+      class="vads-u-margin-top--3"
+    >
+      <p>
+        We can connect you with free, confidential support for mental health
+        care or military sexual trauma anytime. We can connect you with support
+        even if you don’t file a claim for disability compensation or you aren’t
+        eligible for compensation.
+      </p>
+      <p>
+        <va-link
+          external
+          href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+          text="Learn how to get support for mental health care"
+        />
+      </p>
+      <p>
+        <va-link
+          external
+          href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+          text="Learn how to get support for military sexual trauma"
+        />
+      </p>
+    </va-alert-expandable>
+  );
+};
+
 export const supportingEvidenceOrientationEnhanced = ({ formData }) => (
   <>
     {supportingEvidenceOrientationAlert({ formData })}
     {additionalSupportAccordion}
+    {mentalHealthSupportAlert()}
   </>
 );
 
