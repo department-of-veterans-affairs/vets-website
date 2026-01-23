@@ -54,8 +54,6 @@ const cleanEmptyAddressFields = address => {
 
   fieldsToClean.forEach(fieldName => {
     if (cleanedAddress[fieldName] === '') {
-      // eslint-disable-next-line no-console
-      console.log(`Cleaning ${fieldName} from empty string to undefined`);
       cleanedAddress[fieldName] = undefined;
     }
   });
