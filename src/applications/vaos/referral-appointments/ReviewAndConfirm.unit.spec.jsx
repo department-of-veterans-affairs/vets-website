@@ -19,6 +19,7 @@ import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as flow from './flow';
+import { vaosApi } from '../redux/api/vaosApi';
 import {
   generateSlotsForDay,
   transformSlotsForCommunityCare,
@@ -76,6 +77,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     sandbox.restore();
     server.resetHandlers();
     sessionStorage.clear();
+    // Reset RTK Query cache to prevent test pollution
+    vaosApi.util.resetApiState();
   });
   it('should get selected slot from session storage if not in redux', async () => {
     // Set up MSW handler BEFORE render - eliminates race condition

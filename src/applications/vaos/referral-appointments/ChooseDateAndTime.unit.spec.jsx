@@ -20,6 +20,7 @@ import confirmedV2 from '../services/mocks/v2/confirmed.json';
 import * as fetchAppointmentsModule from '../services/appointment';
 import * as flow from './flow';
 import { FETCH_STATUS } from '../utils/constants';
+import { vaosApi } from '../redux/api/vaosApi';
 
 describe('VAOS ChooseDateAndTime component', () => {
   const sandbox = sinon.createSandbox();
@@ -170,6 +171,8 @@ describe('VAOS ChooseDateAndTime component', () => {
     await cleanup();
     sandbox.restore();
     server.resetHandlers();
+    // Reset RTK Query cache to prevent test pollution
+    vaosApi.util.resetApiState();
   });
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
     let apiCalled = false;
