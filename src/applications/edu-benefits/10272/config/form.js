@@ -72,7 +72,7 @@ const formConfig = {
           schema: educationBenefitsHistory.schema,
           depends: formData => formData?.hasPreviouslyApplied === true,
         },
-        educationBenefitsElibility: {
+        educationBenefitsEligibility: {
           path: 'education-benefits-eligibility',
           title: 'Your VA education benefits history',
           uiSchema: educationBenefitsElibility.uiSchema,
