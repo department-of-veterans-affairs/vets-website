@@ -271,8 +271,8 @@ export const hasPrivateEvidence = formData =>
 export const hasMedicalRecords = formData => {
   if (isEvidenceEnhancement(formData)) {
     // Enhancement flow: check new field name, with fallback to legacy data for transition compatibility
-    const hasRecords = _.get(DATA_PATHS.hasMedicalRecords, formData, false);
-    if (hasRecords !== false) {
+    const hasRecords = _.get(DATA_PATHS.hasMedicalRecords, formData);
+    if (hasRecords !== undefined) {
       return hasRecords;
     }
     // Transition compatibility: derive from legacy data if switching from legacy flow

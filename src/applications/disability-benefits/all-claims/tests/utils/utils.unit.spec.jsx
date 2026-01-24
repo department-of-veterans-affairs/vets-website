@@ -232,6 +232,18 @@ describe('526 helpers', () => {
       expect(hasMedicalRecords(formData)).to.equal(false);
     });
 
+    it('should return false when view:hasMedicalRecords is false even if legacy data exists', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': false,
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': true,
+        },
+      };
+      expect(hasMedicalRecords(formData)).to.equal(false);
+    });
+
     it('should derive from legacy data in enhancement flow when enhancement field is undefined', () => {
       const formData = {
         disability526SupportingEvidenceEnhancement: true,
