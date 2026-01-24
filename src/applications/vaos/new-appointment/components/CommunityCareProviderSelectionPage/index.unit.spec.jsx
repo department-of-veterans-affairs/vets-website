@@ -807,6 +807,12 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
     await userEvent.click(chooseProviderButton8);
 
+    // Wait for providers to be loaded in Redux state
+    await waitFor(() => {
+      const { communityCareProviders } = store.getState().newAppointment;
+      expect(Object.keys(communityCareProviders).length).to.be.greaterThan(0);
+    });
+
     // Choose Provider based on current location
     const currentLocButton = await screen.findByText(/your current location$/i);
     await screen.findByText(/Displaying 5 of /i);
@@ -996,7 +1002,22 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       screen.getByText(/Retry searching based on current location/i),
     );
 
-    // should eventually be one provder
+    // Wait for current location to be populated in Redux (geolocation succeeded)
+    await waitFor(() => {
+      const { currentLocation } = store.getState().newAppointment;
+      expect(currentLocation?.latitude).to.exist;
+    });
+
+    // Wait for providers to be loaded for current location sort method
+    await waitFor(() => {
+      const { communityCareProviders } = store.getState().newAppointment;
+      const currentLocationKey = Object.keys(communityCareProviders).find(key =>
+        key.startsWith(FACILITY_SORT_METHODS.distanceFromCurrentLocation),
+      );
+      expect(currentLocationKey).to.exist;
+    });
+
+    // should eventually be one provider
     await waitFor(() =>
       expect(screen.queryAllByRole('radio').length).to.equal(1),
     );
