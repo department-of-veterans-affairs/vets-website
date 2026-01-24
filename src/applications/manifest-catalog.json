@@ -808,15 +808,15 @@
       "rootUrl": "/mock-form-patterns"
     },
     {
-      "directoryPath": "src/applications/sitewide-minimal",
-      "appName": "Sitewide Minimal",
-      "entryName": "sitewide-minimal",
-      "rootUrl": "N/A"
-    },
-    {
       "directoryPath": "src/applications/static-pages",
       "appName": "Static pages",
       "entryName": "static-pages",
+      "rootUrl": "N/A"
+    },
+    {
+      "directoryPath": "src/applications/static-pages-essentials",
+      "appName": "Static pages essentials",
+      "entryName": "static-pages-essentials",
       "rootUrl": "N/A"
     },
     {
