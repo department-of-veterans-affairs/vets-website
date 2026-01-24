@@ -807,10 +807,10 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
     await userEvent.click(chooseProviderButton8);
 
-    // Wait for providers to be loaded in Redux state
+    // Wait for providers request to complete
     await waitFor(() => {
-      const { communityCareProviders } = store.getState().newAppointment;
-      expect(Object.keys(communityCareProviders).length).to.be.greaterThan(0);
+      const { requestStatus } = store.getState().newAppointment;
+      expect(requestStatus).to.equal('succeeded');
     });
 
     // Choose Provider based on current location

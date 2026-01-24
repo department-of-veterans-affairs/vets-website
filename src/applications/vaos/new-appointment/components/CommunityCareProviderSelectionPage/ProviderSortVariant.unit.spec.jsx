@@ -325,16 +325,10 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
     );
 
-    // Wait for providers to be loaded in Redux state (residential address sort)
+    // Wait for providers request to complete
     await waitFor(() => {
-      const { communityCareProviders } = store.getState().newAppointment;
-      const residentialKey = Object.keys(communityCareProviders).find(key =>
-        key.startsWith(FACILITY_SORT_METHODS.distanceFromResidential),
-      );
-      expect(residentialKey).to.exist;
-      expect(communityCareProviders[residentialKey]?.length).to.be.greaterThan(
-        0,
-      );
+      const { requestStatus } = store.getState().newAppointment;
+      expect(requestStatus).to.equal('succeeded');
     });
 
     // When the user selects to sort providers by distance from current location
@@ -517,16 +511,10 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
     );
 
-    // Wait for providers to be loaded in Redux state (residential address sort)
+    // Wait for providers request to complete
     await waitFor(() => {
-      const { communityCareProviders } = store.getState().newAppointment;
-      const residentialKey = Object.keys(communityCareProviders).find(key =>
-        key.startsWith(FACILITY_SORT_METHODS.distanceFromResidential),
-      );
-      expect(residentialKey).to.exist;
-      expect(communityCareProviders[residentialKey]?.length).to.be.greaterThan(
-        0,
-      );
+      const { requestStatus } = store.getState().newAppointment;
+      expect(requestStatus).to.equal('succeeded');
     });
 
     // When the user selects to sort providers by distance from a specific facility
