@@ -437,12 +437,19 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       screen.getByText(/Retry searching based on current location/i),
     );
 
-    // Wait for providers to be loaded in Redux state after retry
+    // Wait for current location to be populated in Redux (geolocation succeeded)
+    await waitFor(() => {
+      const { currentLocation } = store.getState().newAppointment;
+      expect(currentLocation?.latitude).to.exist;
+    });
+
+    // Wait for providers to be loaded for current location sort method
     await waitFor(() => {
       const { communityCareProviders } = store.getState().newAppointment;
-      const providerKeys = Object.keys(communityCareProviders);
-      // Should have a new cache key for current location
-      expect(providerKeys.length).to.be.greaterThan(0);
+      const currentLocationKey = Object.keys(communityCareProviders).find(key =>
+        key.startsWith(FACILITY_SORT_METHODS.distanceFromCurrentLocation),
+      );
+      expect(currentLocationKey).to.exist;
     });
 
     // Then providers should be displayed by distance from current location
