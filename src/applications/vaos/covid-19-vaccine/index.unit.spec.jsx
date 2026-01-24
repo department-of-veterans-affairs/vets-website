@@ -15,6 +15,10 @@ import MockSchedulingConfigurationResponse, {
   MockServiceConfiguration,
 } from '../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
+} from '../tests/mocks/mockMswApis';
+import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
@@ -32,42 +36,6 @@ const initialState = {
       ],
     },
   },
-};
-
-// Use path-only URL for MSW matching (query params handled by MSW internally)
-const buildFacilitiesUrl = () => {
-  return `${environment.API_URL}/vaos/v2/facilities`;
-};
-
-// Use path-only URL for MSW matching (query params handled by MSW internally)
-const buildSchedulingConfigurationsUrl = () => {
-  return `${environment.API_URL}/vaos/v2/scheduling/configurations`;
-};
-
-const mockFacilitiesApi = ({ response = [], responseCode = 200 }) => {
-  const url = buildFacilitiesUrl();
-  server.use(
-    createGetHandler(
-      url,
-      () =>
-        responseCode === 200
-          ? jsonResponse({ data: response })
-          : jsonResponse({ errors: [] }, { status: responseCode }),
-    ),
-  );
-};
-
-const mockSchedulingConfigurationsApi = ({ response, responseCode = 200 }) => {
-  const url = buildSchedulingConfigurationsUrl();
-  server.use(
-    createGetHandler(
-      url,
-      () =>
-        responseCode === 200
-          ? jsonResponse({ data: response })
-          : jsonResponse({ errors: [] }, { status: responseCode }),
-    ),
-  );
 };
 
 describe('VAOS vaccine flow: NewBookingSection', () => {

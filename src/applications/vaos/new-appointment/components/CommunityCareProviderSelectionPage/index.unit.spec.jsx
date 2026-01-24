@@ -3,11 +3,6 @@ import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import {
-  createGetHandler,
-  jsonResponse,
-} from 'platform/testing/unit/msw-adapter';
 import { server } from 'platform/testing/unit/mocha-setup';
 
 import {
@@ -25,6 +20,13 @@ import MockSchedulingConfigurationResponse, {
 } from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
 import { mockGetCurrentPosition } from '../../../tests/mocks/mockApis';
+import {
+  mockCCEligibilityApi,
+  mockCCProviderApi,
+  mockFacilitiesApi,
+  mockFacilityByIdApi,
+  mockSchedulingConfigurationsApi,
+} from '../../../tests/mocks/mockMswApis';
 import { calculateBoundingBox } from '../../../utils/address';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
 
@@ -47,110 +49,6 @@ const initialState = {
       },
     },
   },
-};
-
-// Use path-only URL for MSW matching (query params handled by MSW internally)
-const buildFacilitiesUrl = () => {
-  return `${environment.API_URL}/vaos/v2/facilities`;
-};
-
-// Use path-only URL for MSW matching (query params handled by MSW internally)
-const buildSchedulingConfigurationsUrl = () => {
-  return `${environment.API_URL}/vaos/v2/scheduling/configurations`;
-};
-
-// Use path-only URL for MSW matching (query params handled by MSW internally)
-const buildCCProviderUrl = () => {
-  return `${environment.API_URL}/facilities_api/v2/ccp/provider`;
-};
-
-const buildFacilityByIdUrl = () => {
-  return `${environment.API_URL}/vaos/v2/facilities/:facilityId`;
-};
-
-const buildCCEligibilityUrl = serviceType => {
-  return `${
-    environment.API_URL
-  }/vaos/v2/community_care/eligibility/${serviceType}`;
-};
-
-const mockFacilitiesApi = ({ response = [], responseCode = 200 }) => {
-  const url = buildFacilitiesUrl();
-  server.use(
-    createGetHandler(
-      url,
-      () =>
-        responseCode === 200
-          ? jsonResponse({ data: response })
-          : jsonResponse({ errors: [] }, { status: responseCode }),
-    ),
-  );
-};
-
-const mockSchedulingConfigurationsApi = ({ response, responseCode = 200 }) => {
-  const url = buildSchedulingConfigurationsUrl();
-  server.use(
-    createGetHandler(
-      url,
-      () =>
-        responseCode === 200
-          ? jsonResponse({ data: response })
-          : jsonResponse({ errors: [] }, { status: responseCode }),
-    ),
-  );
-};
-
-const mockCCProviderApi = ({ response = [], responseCode = 200 }) => {
-  const url = buildCCProviderUrl();
-  server.use(
-    createGetHandler(
-      url,
-      () =>
-        responseCode === 200
-          ? jsonResponse({ data: response })
-          : jsonResponse({ errors: [] }, { status: responseCode }),
-    ),
-  );
-};
-
-const mockCCEligibilityApi = ({
-  serviceType,
-  eligible = true,
-  responseCode = 200,
-}) => {
-  const url = buildCCEligibilityUrl(serviceType);
-  server.use(
-    createGetHandler(
-      url,
-      () =>
-        responseCode === 200
-          ? jsonResponse({
-              data: {
-                id: serviceType,
-                attributes: {
-                  eligible,
-                },
-              },
-            })
-          : jsonResponse({ errors: [] }, { status: responseCode }),
-    ),
-  );
-};
-
-const mockFacilityByIdApi = ({ response, responseCode = 200 }) => {
-  const url = buildFacilityByIdUrl();
-  server.use(
-    createGetHandler(url, ({ params }) => {
-      const facility =
-        response ||
-        new MockFacilityResponse({
-          id: params.facilityId,
-        });
-      return responseCode === 200
-        ? jsonResponse({ data: facility })
-        : jsonResponse({ errors: [] }, { status: responseCode });
-    }),
-  );
 };
 
 const mockV2CommunityCareEligibility = ({
