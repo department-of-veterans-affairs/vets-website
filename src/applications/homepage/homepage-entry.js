@@ -1,8 +1,8 @@
 import widgetTypes from 'platform/site-wide/widgetTypes';
 import createHomepageSearch from './createHomepageSearch';
-import { GLOBAL_STORE_VARIABLE_NAME } from '../sitewide-minimal/constants';
+import { GLOBAL_STORE_VARIABLE_NAME } from '../static-pages-essentials/constants';
 
-// Redux store exposed by sitewide-minimal bundle
+// Redux store exposed by static-pages-essentials bundle
 const store = window[GLOBAL_STORE_VARIABLE_NAME];
 
 if (store) {

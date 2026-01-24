@@ -6,10 +6,12 @@ import startSitewideComponents from 'platform/site-wide';
 import { GLOBAL_STORE_VARIABLE_NAME } from './constants';
 
 // Set the app name header when using the apiRequest helper
-window.appName = 'sitewide-minimal';
+window.appName = 'static-pages-essentials';
 
 // Set errors to have the appropriate source tag.
-Sentry.configureScope(scope => scope.setTag('source', 'sitewide-minimal'));
+Sentry.configureScope(scope =>
+  scope.setTag('source', 'static-pages-essentials'),
+);
 
 // Create the Redux store with minimal reducers (no app-specific reducers)
 const store = createCommonStore();
