@@ -342,6 +342,18 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
     });
 
+    // Wait for geolocation to complete and currentLocation to be set
+    await waitFor(() => {
+      const { currentLocation } = store.getState().newAppointment;
+      expect(currentLocation).to.have.property('latitude');
+    });
+
+    // Wait for the second providers request to complete after sort change
+    await waitFor(() => {
+      const { requestStatus } = store.getState().newAppointment;
+      expect(requestStatus).to.equal('succeeded');
+    });
+
     // Wait for provider list to reload after geolocation
     await screen.findByText(/Displaying 5 of /i);
 
@@ -524,6 +536,16 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // call VaSelect custom event for onChange handling
     providersSelect.__events.vaSelect({
       detail: { value: '983' },
+    });
+
+    // Wait for selectedCCFacility to be set and providers request to complete
+    await waitFor(() => {
+      const {
+        selectedCCFacility,
+        requestStatus,
+      } = store.getState().newAppointment;
+      expect(selectedCCFacility).to.have.property('id');
+      expect(requestStatus).to.equal('succeeded');
     });
 
     // Wait for provider list to reload after facility selection
