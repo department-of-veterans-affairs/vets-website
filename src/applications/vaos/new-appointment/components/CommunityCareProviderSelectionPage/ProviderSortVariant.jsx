@@ -50,23 +50,24 @@ export default function ProviderSortVariant({
           dispatch(requestProvidersList(currentLocation));
         }
       } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
-        dispatch(requestProvidersList(address));
-      } else {
-        dispatch(requestProvidersList(selectedCCFacility?.position));
+        // Only request if address is available
+        if (address && Object.keys(address).length > 0) {
+          dispatch(requestProvidersList(address));
+        }
+      } else if (selectedCCFacility?.position) {
+        dispatch(requestProvidersList(selectedCCFacility.position));
       }
 
       if (communityCareProviderList) {
         scrollAndFocus('#providerSelectionHeader');
       }
     },
-    // We intentionally exclude address, communityCareProviderList, and dispatch from deps:
-    // - address: changes infrequently and is only used when sortMethod is distanceFromResidential
+    // We intentionally exclude communityCareProviderList and dispatch from deps:
     // - communityCareProviderList: this effect *produces* the provider list, so including it would cause an infinite loop
     // - dispatch: stable reference from Redux
-    // We use primitive values (latitude/longitude) instead of the currentLocation object to avoid
-    // re-running when the object reference changes but the actual coordinates haven't.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
+      address,
       currentLocation?.latitude,
       currentLocation?.longitude,
       selectedCCFacility,
