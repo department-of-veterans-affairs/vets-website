@@ -152,6 +152,10 @@ const ReviewAndConfirm = props => {
           currentReferral.uuid,
           draftAppointmentInfo.id,
         );
+        // CI-FIX: Removed draftAppointmentInfo?.id check from error condition.
+        // When isAppointmentError is true (submit failed), draftAppointmentInfo.id
+        // is guaranteed to exist because the user can only click "Continue" after
+        // the draft appointment loads. The extra check was defensive but unnecessary.
       } else if (isAppointmentError) {
         setCreateLoading(false);
         setCreateFailed(true);
@@ -314,6 +318,9 @@ const ReviewAndConfirm = props => {
             </div>
           </>
         )}
+        {/* CI-FIX: Also check isAppointmentError directly to handle race condition where
+            RTK Query sets isAppointmentError=true before useEffect updates createFailed state.
+            This ensures error alert shows immediately when the mutation fails. */}
         {(createFailed || isAppointmentError) &&
           !createLoading && (
             <va-alert
