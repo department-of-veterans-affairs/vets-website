@@ -162,7 +162,7 @@ describe('Manage Folder Buttons component', () => {
     });
   });
 
-  it.skip('Inline edit form shows error for duplicate folder name', async () => {
+  it('Inline edit form shows error for duplicate folder name', async () => {
     const existingFolderName = folderList.slice(-1)[0].name;
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
@@ -182,14 +182,9 @@ describe('Manage Folder Buttons component', () => {
 
     const input = screen.getByTestId('edit-folder-name-input');
 
-    // Set to existing folder name
-    fireEvent(
-      input,
-      new CustomEvent('input', {
-        detail: { value: existingFolderName },
-        bubbles: true,
-      }),
-    );
+    // Set to existing folder name - use direct value assignment for web component compatibility
+    input.value = existingFolderName;
+    fireEvent(input, new CustomEvent('input', { bubbles: true }));
 
     const saveButton = screen.getByTestId('save-edit-folder-button');
     fireEvent.click(saveButton);
