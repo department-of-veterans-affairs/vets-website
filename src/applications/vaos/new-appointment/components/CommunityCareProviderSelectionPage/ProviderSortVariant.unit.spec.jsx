@@ -489,6 +489,12 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
     );
 
+    // Wait for providers to be loaded in Redux state
+    await waitFor(() => {
+      const { communityCareProviders } = store.getState().newAppointment;
+      expect(Object.keys(communityCareProviders).length).to.be.greaterThan(0);
+    });
+
     // When the user selects to sort providers by distance from a specific facility
     // Choose Provider based on facility address
     await screen.findByText(/Displaying 5 of /i);
