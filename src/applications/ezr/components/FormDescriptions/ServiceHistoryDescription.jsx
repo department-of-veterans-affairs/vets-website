@@ -8,15 +8,15 @@ const serviceHistoryDescription = (
 );
 
 export const serviceHistorySummary = ({ uiSchema }) => {
-  const history = uiSchema?.['ui:options']?.fullFormData?.serviceHistory || {};
+  const history = uiSchema?.['ui:options']?.fullFormData || {};
   return (
     <va-card uswds="true" className="vads-u-margin-bottom--2">
       <h4 className="vads-u-margin-top--0 dd-privacy-mask">
-        {history?.branch} (Branch coming soon)
+        {history?.lastServiceBranch} (Branch coming soon)
       </h4>
-      {history?.enterDate} (Date coming soon)
+      {history?.lastEntryDate} (Date coming soon)
       {' - '}
-      {history?.leaveDate} (Date coming soon)
+      {history?.lastDischargeDate} (Date coming soon)
     </va-card>
   );
 };

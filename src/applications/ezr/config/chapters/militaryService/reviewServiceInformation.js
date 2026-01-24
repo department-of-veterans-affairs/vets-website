@@ -26,6 +26,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['view:serviceHistoryCorrect'],
     properties: {
       'view:serviceHistorySummary': {
         type: 'object',
@@ -34,7 +35,6 @@ export default {
       'view:serviceHistoryCorrect': {
         type: 'string',
         enum: ['yes', 'no'],
-        required: ['view:serviceHistoryCorrect'],
       },
     },
   },
