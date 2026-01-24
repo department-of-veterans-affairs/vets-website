@@ -74,6 +74,8 @@
   "military-service-agent-orange-end-date": "Service end date",
   "military-service-gulf-war-start-date": "Service start date",
   "military-service-gulf-war-end-date": "Service end date",
+  "military-service-review-title": "Review your last military service",
+  "military-service-review-question": "Is this information for your most-recent military service accurate?",
   "military-service-date-range-description": "If you don’t know the exact date, enter your best guess",
   "military-service-other-toxic-exposure-title": "Other toxic exposures",
   "military-service-air-pollutants-exposure-title": "Air pollutants (like burn pits, sand, oil wells, or sulfur fires)",
