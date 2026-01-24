@@ -436,6 +436,15 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     await userEvent.click(
       screen.getByText(/Retry searching based on current location/i),
     );
+
+    // Wait for providers to be loaded in Redux state after retry
+    await waitFor(() => {
+      const { communityCareProviders } = store.getState().newAppointment;
+      const providerKeys = Object.keys(communityCareProviders);
+      // Should have a new cache key for current location
+      expect(providerKeys.length).to.be.greaterThan(0);
+    });
+
     // Then providers should be displayed by distance from current location
     // should eventually be one provider
     await waitFor(() => {
