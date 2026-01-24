@@ -51,10 +51,10 @@ export default function ProviderCard({ provider }) {
       {hasAvailability && (
         <VaLink
           href={preferredDate.url}
-          aria-label={`Choose your preferred date and time with ${providerName}`}
+          aria-label={`Choose your preferred appointment date and time with ${providerName}`}
           active
           data-testid="choose-date-time"
-          text="Choose your preferred date and time"
+          text="Choose your preferred appointment date and time"
           onClick={handleClick({
             history,
             dispatch,
