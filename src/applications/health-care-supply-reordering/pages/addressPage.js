@@ -17,14 +17,23 @@ const {
 } = schemaFields;
 
 // Wrap address fields with DL tags to resolve accessibility error.
-const addressUiWithDlWrappedFields = () => {
-  const customAddressUI = addressUI({ omit: ['street3'] });
+const addressUiWithDlWrappedFields = (options = {}) => {
+  const customAddressUI = addressUI({ omit: ['street3'], ...options });
   Object.keys(customAddressUI).forEach(element => {
     if (customAddressUI[element]['ui:options']) {
       customAddressUI[element]['ui:options'].useDlWrap = true;
     }
   });
   return customAddressUI;
+};
+
+// Make all address fields optional
+const optionalAddressRequired = {
+  street: () => false,
+  city: () => false,
+  state: () => false,
+  postalCode: () => false,
+  country: () => false,
 };
 
 /** @type {PageSchema} */
@@ -44,7 +53,7 @@ export default {
       },
     },
     [temporaryAddressField]: {
-      ...addressUiWithDlWrappedFields(),
+      ...addressUiWithDlWrappedFields({ required: optionalAddressRequired }),
       'ui:title': 'Temporary address',
       'ui:field': ReviewCardField,
       'ui:options': {
