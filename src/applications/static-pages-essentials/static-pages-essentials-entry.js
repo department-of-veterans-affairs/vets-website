@@ -16,8 +16,6 @@
  *   Situation Updates Banner
  */
 
-import 'platform/polyfills';
-
 import * as Sentry from '@sentry/browser';
 import createCommonStore from 'platform/startup/store';
 import startSitewideComponents from 'platform/site-wide';
