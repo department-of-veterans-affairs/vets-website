@@ -262,19 +262,28 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       ),
     );
 
+    const store = createTestStore(initialFullState);
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
         currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
-        store: createTestStore(initialFullState),
+        store,
       },
     );
     // Ensure the "Continue" button is present
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
-
+    // Wait for the mutation to be rejected before checking for the error alert
+    await waitFor(() => {
+      const mutation = Object.keys(
+        store.getState().appointmentApi.mutations,
+      )[0];
+      expect(
+        store.getState().appointmentApi.mutations[mutation].status,
+      ).to.equal('rejected');
+    });
     await screen.findByTestId('create-error-alert');
     expect(screen.getByTestId('create-error-alert')).to.contain.text(
       'We couldn’t schedule this appointment',
