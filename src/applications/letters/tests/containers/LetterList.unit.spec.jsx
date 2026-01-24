@@ -533,6 +533,7 @@ describe('<LetterList>', () => {
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
         tsaLetterEligibility: {
           documentId: '123',
+          documentVersion: '789',
           error: false,
           loading: false,
         },
@@ -551,12 +552,35 @@ describe('<LetterList>', () => {
       expect(unavailableHeading).to.not.exist;
     });
 
+    it('does not render unavailable content when letters are present but TSA letter is not present', () => {
+      const tsaLetterProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          error: false,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      // why does this need to be query and not find?
+      const errorHeading = queryByText('Some letters may not be available');
+      expect(errorHeading).to.not.exist;
+    });
+
     it('renders accordion item', async () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
         tsaLetterEligibility: {
           documentId: '123',
+          documentVersion: '789',
           error: false,
           loading: true,
         },
