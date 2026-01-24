@@ -32,7 +32,10 @@ export class LetterList extends React.Component {
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
-    if (this.props.tsaSafeTravelLetter) {
+    if (
+      this.props.tsaSafeTravelLetter &&
+      this.props.profile.loa.current === 3
+    ) {
       this.props.getTsaLetterEligibility();
     }
   }
@@ -180,6 +183,8 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
+  const { profile } = state.user;
+
   const letterState = state.letters;
 
   return {
@@ -187,6 +192,7 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
+    profile,
     tsaLetterEligibility: letterState.tsaLetterEligibility,
     tsaSafeTravelLetter:
       state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],

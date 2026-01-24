@@ -34,6 +34,11 @@ const defaultProps = {
   optionsAvailable: true,
   tsaLetterEligibility: {},
   tsaSafeTravelLetter: false,
+  profile: {
+    loa: {
+      current: 3,
+    },
+  },
 };
 
 const getStore = () =>
@@ -361,6 +366,54 @@ describe('<LetterList>', () => {
     const accordionItemText =
       'The TSA PreCheck Application Fee Waiver Letter shows you’re eligible for free enrollment in Transportation Security Administration (TSA) PreCheck.';
 
+    it('does not fetch TSA letter if user is not loa3', () => {
+      const profile = {
+        loa: {
+          current: 1,
+        },
+      };
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        profile,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {},
+        tsaSafeTravelLetter: true,
+      };
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
+    });
+
+    it('renders eligibility error when TSA letter request errors', async () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          error: true,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { findByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const errorHeading = await findByText(
+        'Some letters may not be available',
+      );
+      expect(errorHeading).to.exist;
+    });
+
+    // also test: does not display if response is null
+    // does not display warning/error message if letters succeeds but tsa letter response is empty
     it('does not fetch TSA letter if feature flag is disabled', () => {
       render(
         <Provider store={getStore()}>
@@ -400,7 +453,7 @@ describe('<LetterList>', () => {
       expect(getTsaLetterEligibilityStub.calledOnce).to.be.true;
     });
 
-    it('renders eligibility error when TSA letter is not available', async () => {
+    it('renders eligibility error when TSA letter request errors', async () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,

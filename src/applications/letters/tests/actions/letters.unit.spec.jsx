@@ -530,25 +530,12 @@ describe('getTsaLetterEligibility', () => {
 
   it('dispatches SUCCESS action when fetch succeeds for determining eligibility', async () => {
     setFetchJSONResponse(global.fetch.onFirstCall(), {
-      data: [
-        {
-          attributes: {
-            documentId: '456',
-          },
+      data: {
+        attributes: {
+          documentId: '123',
+          documentVersion: '789',
         },
-        {
-          attributes: {
-            documentId: '123',
-            receivedAt: '2025-01-01',
-          },
-        },
-        {
-          attributes: {
-            documentId: '789',
-            receivedAt: '2024-01-01',
-          },
-        },
-      ],
+      },
     });
     const dispatch = sinon.spy();
     const thunk = getTsaLetterEligibility();
@@ -582,12 +569,33 @@ describe('getTsaLetterEligibility', () => {
 
   it('dispatches SUCCESS action when fetch succeeds for determining eligibility (no letter)', async () => {
     setFetchJSONResponse(global.fetch.onFirstCall(), {
-      data: [],
+      data: null,
     });
     const dispatch = sinon.spy();
     const thunk = getTsaLetterEligibility();
     await thunk(dispatch);
     const successAction = dispatch.secondCall.args[0];
+    expect(successAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_SUCCESS);
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.getCall(0).args[0]).to.deep.equal({
+      event: 'api_call',
+      'api-name': 'GET /v0/tsa_letter',
+      'api-status': 'successful',
+      'has-letter': false,
+    });
+  });
+
+  // what was the original point of adding a test very similar to the previous test?
+  it('dispatches SUCCESS action when fetch succeeds for determining eligibility (no letter)', async () => {
+    setFetchJSONResponse(global.fetch.onFirstCall(), {
+      data: null,
+    });
+    const dispatch = sinon.spy();
+    const thunk = getTsaLetterEligibility();
+    await thunk(dispatch);
+    const successAction = dispatch.secondCall.args[0];
+    expect(successAction.data).to.equal(null);
+
     expect(successAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_SUCCESS);
     expect(recordEventStub.called).to.be.true;
     expect(recordEventStub.getCall(0).args[0]).to.deep.equal({
