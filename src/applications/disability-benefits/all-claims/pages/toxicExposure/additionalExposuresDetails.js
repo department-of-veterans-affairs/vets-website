@@ -9,6 +9,7 @@ import {
   getKeyIndex,
   getSelectedCount,
   notSureHazardDetails,
+  reviewDateField,
   showCheckboxLoopDetailsPage,
   teSubtitle,
 } from '../../content/toxicExposure';
@@ -52,6 +53,7 @@ function makeUiSchema(itemId) {
               pattern: 'Please enter a valid date',
               required: 'Please enter a date',
             },
+            'ui:reviewField': reviewDateField,
           },
           endDate: {
             ...currentOrPastMonthYearDateUI({
@@ -64,6 +66,7 @@ function makeUiSchema(itemId) {
               pattern: 'Please enter a valid date',
               required: 'Please enter a date',
             },
+            'ui:reviewField': reviewDateField,
           },
           'ui:validations': [validateToxicExposureDates],
           'view:notSure': {
@@ -81,6 +84,9 @@ function makeUiSchema(itemId) {
     },
     _forceFieldBlur: {
       'ui:field': ForceFieldBlur,
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   };
 }
