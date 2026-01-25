@@ -1,18 +1,10 @@
 import content from '../../../locales/en/content.json';
-import serviceHistoryDescription, {
-  serviceHistorySummary,
-} from '../../../components/FormDescriptions/ServiceHistoryDescription';
+import serviceHistoryDescription from '../../../components/FormDescriptions/ServiceHistoryDescription';
 
 export default {
   uiSchema: {
     'ui:title': content['military-service-review-title'],
     'ui:description': serviceHistoryDescription,
-    'view:serviceHistorySummary': {
-      'ui:field': serviceHistorySummary,
-      'ui:options': {
-        fullFormData: formData => formData,
-      },
-    },
     'view:serviceHistoryCorrect': {
       'ui:title': content['military-service-review-question'],
       'ui:widget': 'radio',
