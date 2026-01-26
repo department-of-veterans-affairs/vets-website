@@ -96,7 +96,11 @@ describe('VA File Input Multiple', () => {
   };
 
   const getAboveFileInputError = (fileIndex = 0) =>
+<<<<<<< HEAD
     getFileInput(fileIndex).find('#input-error-message');
+=======
+    getFileInput(fileIndex).find('span.usa-error-message');
+>>>>>>> origin/update-node-22
 
   const getFileError = (fileIndex = 0) =>
     getFileInput(fileIndex).find('#input-error-message');
