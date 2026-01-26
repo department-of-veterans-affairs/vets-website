@@ -12,20 +12,26 @@
 // CATEGORY DETAILS
 // ----------------
 // CATEGORY 1 – DIRECT ERROR
-//   The component itself receives the error attribute and owns the focus target
-//   inside its shadow DOM. We attach the screen reader label directly to that
-//   input element.
+//   Components: va-text-input, va-textarea, va-select, va-combo-box,
+//               va-file-input, va-file-input-multiple
+//   The component itself receives the error attribute and is found directly in
+//   the initial error query. We attach the screen reader label to its focus
+//   target inside its shadow DOM.
 //
-// CATEGORY 2 – CHILD COMPONENT ERROR
-//   Composite wrappers delegate errors to their internal VA children. The shared
-//   helpers discover those children and treat them the same as Category 1.
+// CATEGORY 2 – NESTED COMPONENT ERROR
+//   Components: va-statement-of-truth
+//   Wrapper components that delegate errors to internal VA children. These nested
+//   error components require special discovery logic (searching within shadow roots)
+//   but are processed the same as Category 1 once found.
 //
 // CATEGORY 3 – GROUP COMPONENT ERROR
+//   Components: va-radio, va-radio-option, va-checkbox-group, va-checkbox
 //   Group hosts receive the parent error while each option mirrors the message
 //   via an alternate attribute. We propagate labels to every option to avoid
 //   repeated announcements when focus moves within the group.
 //
 // CATEGORY 4 – DATE COMPONENT ERROR
+//   Components: va-date, va-memorable-date
 //   Date components delegate validation to their child inputs (va-select,
 //   va-text-input). We attach error labels to each invalid child and apply
 //   error styling only to those children, using the parent's error message.
@@ -350,15 +356,10 @@ const collectAllErrorElements = selectors => {
  *    date components where input-label is used for the legend, not the child label)
  * 3. Text content from a label element within the element's shadow DOM as final fallback
  *
- * When includeInputMessage is true, also appends text from #input-message (used for
- * date child components to include hint text like format instructions).
- *
  * @param {HTMLElement} el - The DOM element to extract label text from
- * @param {Object} [options] - Optional configuration
- * @param {boolean} [options.includeInputMessage=false] - Whether to append #input-message text
  * @returns {string} The label text found, or an empty string if no label is found
  */
-const getLabelText = (el, { includeInputMessage = false } = {}) => {
+const getLabelText = el => {
   let labelText = el.getAttribute('label') || el.label || '';
 
   // Skip input-label for date components—they use it for the legend, not individual
@@ -370,17 +371,6 @@ const getLabelText = (el, { includeInputMessage = false } = {}) => {
   if (!labelText) {
     const labelElement = el.shadowRoot?.querySelector('label');
     labelText = labelElement?.textContent?.trim() || '';
-  }
-
-  // Optionally include #input-message text (used for date child hints)
-  if (includeInputMessage) {
-    const inputMessage = el.shadowRoot?.querySelector('#input-message');
-    const inputMessageText = inputMessage?.textContent?.trim() || '';
-    if (inputMessageText) {
-      labelText = labelText
-        ? `${labelText}. ${inputMessageText}.`
-        : inputMessageText;
-    }
   }
 
   return labelText;
@@ -510,8 +500,7 @@ function hasErrorAnnotation(element) {
  *   Order: {error}. {parent label}. {child label}. {hint}. {description}
  *
  * For date components (Category 4):
- *   Order: {error}. {child label}. {child #input-message}. {parent label}
- *   Note: parent label includes hint text, so it's not added separately
+ *   Order: {error}. {child label}. {parent label}
  *
  * @param {string} errorMessage - Raw error message coming from the component
  * @param {HTMLElement} errorWebComponent - The component producing the error
@@ -534,12 +523,9 @@ const buildErrorLabelText = (
 
   let fullText = `Error: ${errorText}.`;
 
-  // Date components: {error}. {child label}. {child #input-message}. {parent label}
-  // Note: parent label already includes hint text, so it's not added separately
+  // Date components: {error}. {child label}. {parent label}
   if (isDateComponent(errorWebComponent) && childOption) {
-    const childLabel = normalizeText(
-      getLabelText(childOption, { includeInputMessage: true }),
-    );
+    const childLabel = normalizeText(getLabelText(childOption));
     if (childLabel) {
       fullText += ` ${childLabel}.`;
     }
@@ -586,7 +572,7 @@ const buildErrorLabelText = (
  * - Finds the appropriate container (shadow root or host component)
  * - Reuses existing error labels when possible or creates new ones
  * - Sets aria-labelledby attribute on the input element
- * - Removes aria-describedby attribute to avoid conflicts
+ * - Removes aria-describedby attribute to avoid conflicts (except for date components)
  * - Ensures proper DOM structure and accessibility compliance
  */
 const createAndAssociateErrorLabel = (input, fullText, hostComponent) => {
@@ -635,7 +621,13 @@ const createAndAssociateErrorLabel = (input, fullText, hostComponent) => {
   if (hostComponent?.setAttribute) {
     hostComponent.setAttribute(DATA_GENERATED_ERROR_LABEL_ID, labelId);
   }
-  input.removeAttribute('aria-describedby');
+
+  // Preserve aria-describedby for date component children - they use it for
+  // #input-message (format hints). For other components, remove it to avoid
+  // potential conflicts with our comprehensive error label.
+  if (!hasDateComponentParent(hostComponent)) {
+    input.removeAttribute('aria-describedby');
+  }
 };
 
 // ============================================================================
