@@ -64,6 +64,9 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
       case currentFilterOptions.RENEWAL?.label: {
         return filterCount.renewal;
       }
+      case currentFilterOptions.RENEWABLE?.label: {
+        return filterCount.renewable;
+      }
       case currentFilterOptions.NON_ACTIVE?.label: {
         return filterCount.nonActive;
       }

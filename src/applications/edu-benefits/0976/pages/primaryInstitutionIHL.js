@@ -6,6 +6,7 @@ import {
   textSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { validateWhiteSpace } from 'platform/forms/validations';
 
 /** @type {PageSchema} */
 export default {
@@ -29,6 +30,7 @@ export default {
           expandUnderCondition: false,
         },
         'ui:validations': [
+          validateWhiteSpace,
           (errors, fieldData, _formData) => {
             if (fieldData && !/^[\w\s]*$/.test(fieldData)) {
               errors.addError('No special characters allowed');

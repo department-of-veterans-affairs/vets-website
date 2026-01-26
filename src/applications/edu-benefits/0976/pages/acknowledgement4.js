@@ -9,6 +9,8 @@ import {
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { validateWhiteSpace } from 'platform/forms/validations';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -59,6 +61,7 @@ export default {
               'You must specify a reason the institution is not capable of fulfilling its commitments for training.',
           },
         }),
+        'ui:validations': [validateWhiteSpace],
         'ui:options': {
           charcount: true,
           hideLabelText: true,

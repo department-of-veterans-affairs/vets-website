@@ -2,10 +2,17 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
+
+// Components
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+// Pages
+import {
+  educationBenefitsElibility,
+  educationBenefitsHistory,
+  hasPreviouslyApplied,
+} from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -49,14 +56,28 @@ const formConfig = {
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    educationBenefitsChapter: {
+      title: 'Your education benefits information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        hasPreviouslyApplied: {
+          path: 'previously-applied',
+          title: 'Your VA education benefits',
+          uiSchema: hasPreviouslyApplied.uiSchema,
+          schema: hasPreviouslyApplied.schema,
+        },
+        educationBenefitsHistory: {
+          path: 'education-benefits-history',
+          title: 'Your VA education benefits history',
+          uiSchema: educationBenefitsHistory.uiSchema,
+          schema: educationBenefitsHistory.schema,
+          depends: formData => formData?.hasPreviouslyApplied === true,
+        },
+        educationBenefitsEligibility: {
+          path: 'education-benefits-eligibility',
+          title: 'Your VA education benefits history',
+          uiSchema: educationBenefitsElibility.uiSchema,
+          schema: educationBenefitsElibility.schema,
+          depends: formData => formData?.hasPreviouslyApplied === false,
         },
       },
     },
