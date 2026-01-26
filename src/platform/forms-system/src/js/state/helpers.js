@@ -869,7 +869,10 @@ export function createInitialState(formConfig) {
       checkValidSchema(schema);
       if (!environment.isProduction() && uniquePaths.has(page.path)) {
         throw new Error(
-          `Duplicate page path found: ${page.path}. Page paths must be unique.`,
+          `Duplicate page path found: ${page.path}. Page paths must be unique.
+          Paths must be unique because usually the side effects are unintentional,
+          such as going to the route you didn't expect to go to. (router.push will
+          go to the first path it finds, even if its "depends" is false)`,
         );
       }
       uniquePaths.add(page.path);
