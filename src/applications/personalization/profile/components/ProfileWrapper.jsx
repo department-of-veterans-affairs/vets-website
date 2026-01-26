@@ -237,6 +237,7 @@ ProfileWrapper.propTypes = {
   hero: PropTypes.object,
   isInMVI: PropTypes.bool,
   isLOA3: PropTypes.bool,
+  isSchedulingPreferencesPilotEligible: PropTypes.bool,
   location: PropTypes.object,
   profile2Enabled: PropTypes.bool,
   showNameTag: PropTypes.bool,
