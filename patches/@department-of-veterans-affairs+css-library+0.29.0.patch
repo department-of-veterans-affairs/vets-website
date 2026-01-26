@@ -1,0 +1,13 @@
+diff --git a/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss b/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss
+index d578e3a..e9a8337 100644
+--- a/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss
++++ b/node_modules/@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/_variables.scss
+@@ -3,7 +3,7 @@
+   working while we work on deprecation.
+ **/
+ 
+-@use '../override-function' as *;
++@import '../override-function';
+ 
+ $label-border-radius: 2px;
+ $h5-font-size: scale-rem(1.5rem);

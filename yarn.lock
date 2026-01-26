@@ -17104,6 +17104,11 @@ markdown-it-attrs@4.1.6:
   resolved "https://registry.yarnpkg.com/markdown-it-attrs/-/markdown-it-attrs-4.1.6.tgz#2bc331c7649d8c6396a0613c2bba1093f3e64da9"
   integrity sha512-O7PDKZlN8RFMyDX13JnctQompwrrILuz2y43pW2GagcwpIIElkAdfeek+erHfxUOlXWPsjFeWmZ8ch1xtRLWpA==
 
+markdown-it-attrs@^4.1.6:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/markdown-it-attrs/-/markdown-it-attrs-4.3.1.tgz#1e1f9bd2c87276d8f4ed74ad4268df428b7deee6"
+  integrity sha512-/ko6cba+H6gdZ0DOw7BbNMZtfuJTRp9g/IrGIuz8lYc/EfnmWRpaR3CFPnNbVz0LDvF8Gf1hFGPqrQqq7De0rg==
+
 markdown-it-for-inline@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/markdown-it-for-inline/-/markdown-it-for-inline-2.0.1.tgz#dd06c736a0b18b74298497cc8d1d717db9eebd89"

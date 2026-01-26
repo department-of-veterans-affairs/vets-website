@@ -446,6 +446,15 @@ module.exports = async (env = {}) => {
           __dirname,
           '../src/applications/benefits-optimization-aquia',
         ),
+        'p-defer-es5': path.resolve(__dirname, '../node_modules/p-defer-es5'),
+        'abort-controller-es5': path.resolve(
+          __dirname,
+          '../node_modules/abort-controller-es5',
+        ),
+        'markdown-it-attrs-es5': path.resolve(
+          __dirname,
+          '../node_modules/markdown-it-attrs-es5',
+        ),
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
