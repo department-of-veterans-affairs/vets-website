@@ -10,7 +10,6 @@ import {
   createDeleteHandler,
   jsonResponse,
   binaryResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
 import { apiRequest, fetchAndUpdateSessionExpiration } from '../../api';
 import environment from '../../environment';
