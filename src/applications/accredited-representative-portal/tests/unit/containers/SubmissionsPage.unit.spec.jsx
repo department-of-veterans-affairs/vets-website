@@ -12,8 +12,8 @@ describe('SubmissionsPage', () => {
   });
 
   it('can access required utilities', () => {
-    const submissions = require('../../../utilities/submissions');
-    expect(submissions).to.exist;
+    const helpers = require('../../../utilities/helpers');
+    expect(helpers).to.exist;
 
     const constants = require('../../../utilities/constants');
     expect(constants).to.exist;
@@ -80,7 +80,7 @@ describe('SubmissionsPage', () => {
   });
 
   it('tests loader function parameter validation', () => {
-    const { SORT_BY } = require('../../../utilities/poaRequests');
+    const { SORT_BY } = require('../../../utilities/constants');
 
     const validSortByValues = Object.values(SORT_BY);
     expect(validSortByValues).to.be.an('array');
@@ -92,18 +92,17 @@ describe('SubmissionsPage', () => {
   });
 
   it('tests loader function dependencies', () => {
-    const { SEARCH_PARAMS } = require('../../../utilities/constants');
     const {
+      SEARCH_PARAMS,
       SORT_BY,
       PENDING_SORT_DEFAULTS,
-    } = require('../../../utilities/poaRequests');
+    } = require('../../../utilities/constants');
 
     expect(SEARCH_PARAMS.SORTORDER).to.exist;
-    expect(SEARCH_PARAMS.SORTBY).to.exist;
     expect(SEARCH_PARAMS.SIZE).to.exist;
     expect(SEARCH_PARAMS.NUMBER).to.exist;
 
-    expect(SORT_BY.DESC).to.exist;
+    expect(SORT_BY.NEWEST).to.exist;
     expect(SORT_BY.CREATED).to.exist;
     expect(PENDING_SORT_DEFAULTS.SIZE).to.exist;
     expect(PENDING_SORT_DEFAULTS.NUMBER).to.exist;
@@ -140,13 +139,13 @@ describe('SubmissionsPage', () => {
   it('tests URL parsing in loader function', () => {
     const { SEARCH_PARAMS } = require('../../../utilities/constants');
 
-    const testUrl = `http://test.com?${SEARCH_PARAMS.SORTBY}=created_at&${
+    const testUrl = `http://test.com?${SEARCH_PARAMS.SORT}=created_at&${
       SEARCH_PARAMS.SORTORDER
     }=desc&${SEARCH_PARAMS.SIZE}=20&${SEARCH_PARAMS.NUMBER}=2`;
     const { searchParams } = new URL(testUrl);
 
     const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-    const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
+    const sortBy = searchParams.get(SEARCH_PARAMS.SORT);
     const size = searchParams.get(SEARCH_PARAMS.SIZE);
     const number = searchParams.get(SEARCH_PARAMS.NUMBER);
 

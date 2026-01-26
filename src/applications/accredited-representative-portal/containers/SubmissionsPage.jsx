@@ -13,12 +13,13 @@ import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import api from '../utilities/api';
 import {
-  SUBMISSIONS_BC_LABEL,
-  submissionsBC,
+  SEARCH_PARAMS,
+  SORT_BY,
+  SUBMISSION_DEFAULTS,
   SORT_DEFAULTS,
-} from '../utilities/submissions';
-import { SORT_BY, SUBMISSION_DEFAULTS } from '../utilities/poaRequests';
-import { SEARCH_PARAMS } from '../utilities/constants';
+  submissionsBC,
+  SUBMISSIONS_BC_LABEL,
+} from '../utilities/constants';
 import SortForm from '../components/SortForm';
 import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
@@ -119,13 +120,11 @@ const SubmissionsPage = title => {
       <SortForm
         options={[
           {
-            sortBy: 'created_at',
-            sortOrder: 'desc',
+            sort: 'newest',
             label: 'Submitted date (newest)',
           },
           {
-            sortBy: 'created_at',
-            sortOrder: 'asc',
+            sort: 'oldest',
             label: 'Submitted date (oldest)',
           },
         ]}
@@ -163,12 +162,10 @@ const SubmissionsPage = title => {
 SubmissionsPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
-  const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
-  if (!Object.values(SORT_BY).includes(sortBy)) {
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
-    searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
+  if (!Object.values(SORT_BY).includes(sort)) {
+    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.NEWEST);
     searchParams.set(SEARCH_PARAMS.SIZE, SUBMISSION_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, SUBMISSION_DEFAULTS.NUMBER);
     throw redirect(`?${searchParams}`);
@@ -176,7 +173,7 @@ SubmissionsPage.loader = async ({ request }) => {
 
   // Wait for the Promise-based Response object
   const response = await api.getSubmissions(
-    { sort, size, number, sortBy },
+    { sort, size, number },
     {
       signal: request.signal,
     },

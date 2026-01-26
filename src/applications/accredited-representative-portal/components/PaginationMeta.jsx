@@ -50,7 +50,7 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
       {selectedIndividual === 'true' && userName} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortOrder === 'asc' ? 'oldest' : 'newest'})
+        {sortOrder})
       </strong>
       ”
     </p>
