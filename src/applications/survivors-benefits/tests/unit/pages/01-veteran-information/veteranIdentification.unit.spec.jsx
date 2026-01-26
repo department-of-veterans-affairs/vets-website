@@ -24,7 +24,10 @@ describe('Claimant Information Page', () => {
     const vaTextInput = $$('va-text-input', formDOM);
 
     const vaSsn = $('va-text-input[label="Social Security number"]', formDOM);
-    const vaFileNumber = $('va-text-input[label="VA file number"]', formDOM);
+    const vaFileNumber = $(
+      'va-text-input[label="VA file number (if known)"]',
+      formDOM,
+    );
     const serviceNumber = $('va-text-input[label="Service number"]', formDOM);
 
     expect(vaTextInput.length).to.equal(3);
@@ -54,7 +57,7 @@ describe('Claimant Information Page', () => {
       'va-text-input[label="Social Security number"]',
     );
     const $vaFileNumber = formDOM.querySelector(
-      'va-text-input[label="VA file number"]',
+      'va-text-input[label="VA file number (if known)"]',
     );
 
     expect($vaSsn.getAttribute('required')).to.equal('false');
