@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
   VaButton,
@@ -108,6 +108,8 @@ const RefillPrescriptions = () => {
   );
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
+  const [hasPreselected, setHasPreselected] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
@@ -236,6 +238,29 @@ const RefillPrescriptions = () => {
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },
     [selectedSortOption],
+  );
+
+  // Handle preselection from URL parameter (e.g., from medication card link)
+  useEffect(
+    () => {
+      const refillId = searchParams.get('refillId');
+      if (
+        refillId &&
+        !isLoading &&
+        fullRefillList?.length > 0 &&
+        !hasPreselected
+      ) {
+        const prescriptionToSelect = fullRefillList.find(
+          rx => String(rx.prescriptionId) === String(refillId),
+        );
+        if (prescriptionToSelect) {
+          setSelectedRefillList([prescriptionToSelect]);
+        }
+        setHasPreselected(true);
+        setSearchParams({}, { replace: true });
+      }
+    },
+    [searchParams, setSearchParams, fullRefillList, isLoading, hasPreselected],
   );
 
   useEffect(

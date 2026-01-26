@@ -182,7 +182,6 @@ const FolderHeader = props => {
 
         {showInnerNav && <InnerNavigation />}
 
-        <ManageFolderButtons folder={folder} />
         {threadCount > 0 && (
           <SearchForm
             folder={folder}
@@ -192,6 +191,7 @@ const FolderHeader = props => {
             threadCount={threadCount}
           />
         )}
+        <ManageFolderButtons folder={folder} />
       </>
     </>
   );
