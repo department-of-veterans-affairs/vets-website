@@ -9,12 +9,16 @@ import { decodeJwt } from './jwt-utils';
  * @returns {boolean} True if the token is expired or invalid, false otherwise
  */
 export const isTokenExpired = token => {
-  const { payload } = decodeJwt(token);
-  if (!payload || !payload.exp) return true;
+  try {
+    const { payload } = decodeJwt(token) || {};
+    if (!payload || !payload.exp) return true;
 
-  // exp is in seconds, Date.now() is in milliseconds
-  const now = Math.floor(Date.now() / 1000);
-  return payload.exp <= now;
+    // exp is in seconds, Date.now() is in milliseconds
+    const now = Math.floor(Date.now() / 1000);
+    return payload.exp <= now;
+  } catch (error) {
+    return true;
+  }
 };
 
 /**
@@ -25,7 +29,7 @@ export const getVassToken = () => Cookies.get(VASS_TOKEN_COOKIE_NAME);
 
 export const setVassToken = token => {
   if (!token) return;
-  const { payload } = decodeJwt(token);
+  const { payload } = decodeJwt(token) || {};
   if (!payload || !payload.exp) return;
 
   // Convert the expiration time from seconds to milliseconds and create a Date object

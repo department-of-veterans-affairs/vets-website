@@ -36,7 +36,7 @@ const withAuthorization = (Component, authLevel = AUTH_LEVELS.TOKEN) => {
     // Attempt to hydrate from sessionStorage on mount
     useEffect(
       () => {
-        if (!hydrated && !hasValidToken) {
+        if (!hydrated) {
           const savedData = loadFormDataFromStorage();
           if (savedData) {
             dispatch(hydrateFormData(savedData));

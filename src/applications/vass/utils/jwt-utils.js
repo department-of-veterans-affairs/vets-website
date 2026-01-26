@@ -45,6 +45,7 @@ function base64UrlDecode(data) {
  * @returns {Object|null} The decoded payload, or null if invalid
  */
 function decodeJwt(token) {
+  if (!token || typeof token !== 'string') return null;
   const parts = token.split('.');
   if (parts.length !== 3) {
     throw new Error('Invalid JWT format');
