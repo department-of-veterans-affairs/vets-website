@@ -446,6 +446,9 @@ module.exports = async (env = {}) => {
           __dirname,
           '../src/applications/benefits-optimization-aquia',
         ),
+        'p-defer-es5': 'p-defer',
+        'markdown-it-attrs-es5': 'markdown-it-attrs',
+        'abort-controller-es5': 'abort-controller',
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {

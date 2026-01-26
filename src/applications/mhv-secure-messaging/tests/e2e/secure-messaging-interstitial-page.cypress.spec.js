@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT } from './utils/constants';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 
@@ -17,9 +17,7 @@ describe('SM INTERSTITIAL PAGE', () => {
     PatientInterstitialPage.getCrisisLineLink().should('have.focus');
 
     PatientInterstitialPage.getCrisisLineLink().click();
-    PatientInterstitialPage.getCrisisLineModal()
-      .find(`button`)
-      .click();
+    PatientInterstitialPage.getCrisisLineCloseButton().click({ force: true });
     PatientInterstitialPage.getCrisisLineLink().should('have.focus');
 
     cy.injectAxe();
@@ -31,10 +29,8 @@ describe('SM INTERSTITIAL PAGE', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToInterstitialPage();
 
-    cy.get(Locators.ALERTS.VA_CRISIS_LINE).click();
-    PatientInterstitialPage.getCrisisLineModal()
-      .find(`h3`)
-      .should(`include.text`, `We’re here anytime, day or night – 24/7`);
+    PatientInterstitialPage.getCrisisLineLink().click();
+    cy.contains(`We’re here anytime, day or night – 24/7`).should('be.visible');
     PatientInterstitialPage.getCrisisLineModalLink()
       .eq(0)
       .should(`include.text`, `Call`);
@@ -47,17 +43,12 @@ describe('SM INTERSTITIAL PAGE', () => {
     PatientInterstitialPage.getCrisisLineModalLink()
       .eq(3)
       .should(`include.text`, `For TTY`);
-    PatientInterstitialPage.getCrisisLineModal().should(
-      'include.text',
-      `Get more resources`,
-    );
+    cy.contains('Get more resources').should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientInterstitialPage.getCrisisLineModal()
-      .find(`button`)
-      .click();
+    PatientInterstitialPage.getCrisisLineCloseButton().click({ force: true });
   });
 
   it('verifies the page title', () => {

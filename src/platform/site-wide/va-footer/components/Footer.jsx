@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // Node modules.
 import React, { useEffect, useMemo, useState } from 'react';
+import { VaCrisisLineModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 // Relative imports.
 import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
-import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
 import LanguageSupport from './LanguageSupport';
 import MobileLinks from './MobileLinks';
@@ -54,6 +54,7 @@ const Footer = ({
 
   return (
     <div>
+      <VaCrisisLineModal mode="modal" />
       <div className="footer-inner">
         <DesktopLinks visible={!isMinimalFooter && !isMobile} links={linkObj} />
         <MobileLinks
@@ -92,7 +93,6 @@ const Footer = ({
           </div>
         )}
       </div>
-      <CrisisPanel />
     </div>
   );
 };

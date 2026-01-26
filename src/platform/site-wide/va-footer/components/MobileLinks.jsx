@@ -1,9 +1,9 @@
 import React from 'react';
+import { VaCrisisLineModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 import { FOOTER_COLUMNS } from '../helpers';
 import LanguageSupport from './LanguageSupport';
-import VeteranCrisisLine from '../../header/components/VeteranCrisisLine';
 
 export default function MobileLinks(props) {
   const { links, visible, langConfig, minimalFooter } = props;
@@ -15,7 +15,7 @@ export default function MobileLinks(props) {
     >
       <ul className="usa-accordion va-footer-accordion">
         <li>
-          <VeteranCrisisLine id="footer-crisis-line" />
+          <VaCrisisLineModal mode="trigger" />
         </li>
         {!minimalFooter && (
           <>
