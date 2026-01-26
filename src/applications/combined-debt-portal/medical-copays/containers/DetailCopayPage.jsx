@@ -41,8 +41,6 @@ const DetailCopayPage = ({ match }) => {
     DEFAULT_COPAY_STATEMENT,
   );
 
-  // Get the selected copay statement ID from the URL
-  //  and the selected copay statement data from Redux
   const copayDetail =
     useSelector(state => state.combinedPortal.mcp.selectedStatement) || {};
   const allStatements =
@@ -57,9 +55,9 @@ const DetailCopayPage = ({ match }) => {
     () => {
       if (!isAnyElementFocused()) setPageFocus();
 
-      const fetchCopayDetail = async () => {
+      const fetchCopayDetail = () => {
         if (!copayDetail?.id) {
-          await dispatch(getCopayDetailStatement(`${selectedId}`));
+          dispatch(getCopayDetailStatement(`${selectedId}`));
         }
       };
 
@@ -69,27 +67,23 @@ const DetailCopayPage = ({ match }) => {
   );
 
   const buildCopay = () => {
-    let copayAttributes = {};
     if (shouldShowVHAPaymentHistory) {
-      copayAttributes = {
+      return {
         title: `Copay bill for ${copayDetail?.attributes.facility}`,
         invoiceDate: verifyCurrentBalance(copayDetail?.attributes.invoiceDate),
         accountNumber: copayDetail?.attributes.accountNumber,
         charges: copayDetail?.attributes?.lineItems ?? [],
       };
-    } else {
-      copayAttributes = {
-        title: `Copay bill for ${copayDetail?.station.facilityName}`,
-        invoiceDate: verifyCurrentBalance(copayDetail?.pSStatementDateOutput),
-        accountNumber:
-          copayDetail?.accountNumber || copayDetail?.pHAccountNumber,
-        charges:
-          copayDetail?.details?.filter(
-            charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
-          ) ?? [],
-      };
     }
-    return copayAttributes;
+    return {
+      title: `Copay bill for ${copayDetail?.station.facilityName}`,
+      invoiceDate: verifyCurrentBalance(copayDetail?.pSStatementDateOutput),
+      accountNumber: copayDetail?.accountNumber || copayDetail?.pHAccountNumber,
+      charges:
+        copayDetail?.details?.filter(
+          charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
+        ) ?? [],
+    };
   };
 
   useEffect(
