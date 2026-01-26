@@ -12,10 +12,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import EnterOTC from './EnterOTC';
-import {
-  getDefaultRenderOptions,
-  defaultScheduledDowntimeState,
-} from '../utils/test-utils';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 import { FLOW_TYPES, URLS } from '../utils/constants';
 
 // Helper component to display current location for testing navigation
