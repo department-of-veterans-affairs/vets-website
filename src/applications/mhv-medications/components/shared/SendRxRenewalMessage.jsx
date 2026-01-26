@@ -71,8 +71,8 @@ const SendRxRenewalMessage = ({
         uswds
       >
         <p className="vads-u-margin-bottom--2">
-          You’ll need to select your provider and send them a message requesting
-          a prescription renewal.
+          You’ll need to select your provider and send the prescription renewal
+          request. We’ll pre-fill your prescription details in the message.
         </p>
         <p className="vads-u-margin-bottom--2">
           If you need a medication immediately, call your VA pharmacy’s
@@ -102,7 +102,6 @@ const RenderLinkVariation = ({
   isActionLink,
   setShowRenewalModal,
   isExpired,
-  isActiveNoRefills,
 }) => {
   return isActionLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -116,14 +115,13 @@ const RenderLinkVariation = ({
     </Link>
   ) : (
     <>
-      {(isExpired || isActiveNoRefills) && (
+      {isExpired && (
         <p
           className="vads-u-margin-y--0"
-          data-testid={
-            isExpired ? 'expired-less-than-120-days' : 'active-no-refills'
-          }
+          data-testid="expired-less-than-120-days"
         >
-          You have no refills left. If you need more, request a renewal.
+          You can’t refill this prescription. If you need more, send a secure
+          message to your care team.
         </p>
       )}
       <va-link
