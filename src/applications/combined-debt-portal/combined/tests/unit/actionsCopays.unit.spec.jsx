@@ -119,114 +119,74 @@ describe('copays actions', () => {
       });
     });
 
-    it('should handle 500 server errors', async () => {
-      const serverError = {
-        status: 500,
-        detail: 'Internal server error',
-      };
-      apiRequestStub.rejects({ errors: [serverError] });
+    describe('error handling', () => {
+      const errorTestCases = [
+        {
+          name: '500 server errors',
+          status: 500,
+          detail: 'Internal server error',
+        },
+        {
+          name: '403 forbidden errors',
+          status: 403,
+          detail: 'Forbidden - insufficient permissions',
+        },
+        {
+          name: '404 not found errors',
+          status: 404,
+          detail: 'Resource not found',
+        },
+        {
+          name: '401 unauthorized errors',
+          status: 401,
+          detail: 'Unauthorized - authentication required',
+        },
+        {
+          name: '503 service unavailable errors',
+          status: 503,
+          detail: 'Service temporarily unavailable',
+        },
+      ];
 
-      await getStatements(dispatch);
+      errorTestCases.forEach(({ name, status, detail }) => {
+        it(`should handle ${name}`, async () => {
+          const error = { status, detail };
+          apiRequestStub.rejects({ errors: [error] });
 
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_INIT,
+          await getStatements(dispatch);
+
+          expect(dispatch.firstCall.args[0]).to.deep.equal({
+            type: MCP_STATEMENTS_FETCH_INIT,
+          });
+          expect(dispatch.secondCall.args[0]).to.deep.equal({
+            type: MCP_STATEMENTS_FETCH_FAILURE,
+            error,
+          });
+          expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+          expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
+            `medical_copays failed: ${detail}`,
+          );
+        });
       });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_FAILURE,
-        error: serverError,
+
+      it('should handle network errors', async () => {
+        const networkError = { detail: 'Network error' };
+        apiRequestStub.rejects({ errors: [networkError] });
+
+        await getStatements(dispatch);
+
+        expect(dispatch.firstCall.args[0]).to.deep.equal({
+          type: MCP_STATEMENTS_FETCH_INIT,
+        });
+        expect(dispatch.secondCall.args[0]).to.deep.equal({
+          type: MCP_STATEMENTS_FETCH_FAILURE,
+          error: networkError,
+        });
+        expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+        expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
+          'medical_copays failed: Network error',
+        );
       });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
-        'medical_copays failed: Internal server error',
-      );
-    });
-
-    it('should handle 403 forbidden errors', async () => {
-      const forbiddenError = {
-        status: 403,
-        detail: 'Forbidden - insufficient permissions',
-      };
-      apiRequestStub.rejects({ errors: [forbiddenError] });
-
-      await getStatements(dispatch);
-
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_INIT,
-      });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_FAILURE,
-        error: forbiddenError,
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
-        'medical_copays failed: Forbidden - insufficient permissions',
-      );
-    });
-
-    it('should handle 404 not found errors', async () => {
-      const notFoundError = {
-        status: 404,
-        detail: 'Resource not found',
-      };
-      apiRequestStub.rejects({ errors: [notFoundError] });
-
-      await getStatements(dispatch);
-
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_INIT,
-      });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_FAILURE,
-        error: notFoundError,
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
-        'medical_copays failed: Resource not found',
-      );
-    });
-
-    it('should handle 401 unauthorized errors', async () => {
-      const unauthorizedError = {
-        status: 401,
-        detail: 'Unauthorized - authentication required',
-      };
-      apiRequestStub.rejects({ errors: [unauthorizedError] });
-
-      await getStatements(dispatch);
-
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_INIT,
-      });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_FAILURE,
-        error: unauthorizedError,
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
-        'medical_copays failed: Unauthorized - authentication required',
-      );
-    });
-
-    it('should handle 503 service unavailable errors', async () => {
-      const serviceUnavailableError = {
-        status: 503,
-        detail: 'Service temporarily unavailable',
-      };
-      apiRequestStub.rejects({ errors: [serviceUnavailableError] });
-
-      await getStatements(dispatch);
-
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_INIT,
-      });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_FAILURE,
-        error: serviceUnavailableError,
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
-        'medical_copays failed: Service temporarily unavailable',
-      );
     });
 
     it('should handle network errors', async () => {

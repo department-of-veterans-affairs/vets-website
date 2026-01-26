@@ -110,99 +110,52 @@ describe('debts actions', () => {
       expect(dispatch.calledTwice).to.be.true; // Only INITIATED and SUCCESS, no VBMS fetch
     });
 
-    it('should handle 500 server errors', async () => {
-      const serverError = {
-        status: 500,
-        detail: 'Internal server error',
-      };
-      apiRequestStub.rejects({ errors: [serverError] });
+    describe('error handling', () => {
+      const errorTestCases = [
+        {
+          name: '500 server errors',
+          status: 500,
+          detail: 'Internal server error',
+        },
+        {
+          name: '403 forbidden errors',
+          status: 403,
+          detail: 'Forbidden - insufficient permissions',
+        },
+        {
+          name: '404 not found errors',
+          status: 404,
+          detail: 'Resource not found',
+        },
+        {
+          name: '401 unauthorized errors',
+          status: 401,
+          detail: 'Unauthorized - authentication required',
+        },
+        {
+          name: '503 service unavailable errors',
+          status: 503,
+          detail: 'Service temporarily unavailable',
+        },
+      ];
 
-      await fetchDebtLetters(dispatch, true);
+      errorTestCases.forEach(({ name, status, detail }) => {
+        it(`should handle ${name}`, async () => {
+          const error = { status, detail };
+          apiRequestStub.rejects({ errors: [error] });
 
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_INITIATED,
+          await fetchDebtLetters(dispatch, true);
+
+          expect(dispatch.firstCall.args[0]).to.deep.equal({
+            type: DEBTS_FETCH_INITIATED,
+          });
+          expect(dispatch.secondCall.args[0]).to.deep.equal({
+            type: DEBTS_FETCH_FAILURE,
+            errors: [error],
+          });
+          expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+        });
       });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_FAILURE,
-        errors: [serverError],
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-    });
-
-    it('should handle 403 forbidden errors', async () => {
-      const forbiddenError = {
-        status: 403,
-        detail: 'Forbidden - insufficient permissions',
-      };
-      apiRequestStub.rejects({ errors: [forbiddenError] });
-
-      await fetchDebtLetters(dispatch, true);
-
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_INITIATED,
-      });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_FAILURE,
-        errors: [forbiddenError],
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-    });
-
-    it('should handle 404 not found errors', async () => {
-      const notFoundError = {
-        status: 404,
-        detail: 'Resource not found',
-      };
-      apiRequestStub.rejects({ errors: [notFoundError] });
-
-      await fetchDebtLetters(dispatch, true);
-
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_INITIATED,
-      });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_FAILURE,
-        errors: [notFoundError],
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-    });
-
-    it('should handle 401 unauthorized errors', async () => {
-      const unauthorizedError = {
-        status: 401,
-        detail: 'Unauthorized - authentication required',
-      };
-      apiRequestStub.rejects({ errors: [unauthorizedError] });
-
-      await fetchDebtLetters(dispatch, true);
-
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_INITIATED,
-      });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_FAILURE,
-        errors: [unauthorizedError],
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-    });
-
-    it('should handle 503 service unavailable errors', async () => {
-      const serviceUnavailableError = {
-        status: 503,
-        detail: 'Service temporarily unavailable',
-      };
-      apiRequestStub.rejects({ errors: [serviceUnavailableError] });
-
-      await fetchDebtLetters(dispatch, true);
-
-      expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_INITIATED,
-      });
-      expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: DEBTS_FETCH_FAILURE,
-        errors: [serviceUnavailableError],
-      });
-      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
     });
   });
 
@@ -265,84 +218,50 @@ describe('debts actions', () => {
     });
   });
 
-  it('should handle 500 server errors', async () => {
-    const error = { status: 500, detail: 'Internal server error' };
-    apiRequestStub.rejects(error);
+  describe('error handling', () => {
+    const errorTestCases = [
+      {
+        name: '500 server errors',
+        status: 500,
+        detail: 'Internal server error',
+      },
+      {
+        name: '403 forbidden errors',
+        status: 403,
+        detail: 'Forbidden - insufficient permissions',
+      },
+      {
+        name: '404 not found errors',
+        status: 404,
+        detail: 'Resource not found',
+      },
+      {
+        name: '401 unauthorized errors',
+        status: 401,
+        detail: 'Unauthorized - authentication required',
+      },
+      {
+        name: '503 service unavailable errors',
+        status: 503,
+        detail: 'Service temporarily unavailable',
+      },
+    ];
 
-    await fetchDebtLettersVBMS()(dispatch);
+    errorTestCases.forEach(({ name, status, detail }) => {
+      it(`should handle ${name}`, async () => {
+        const error = { status, detail };
+        apiRequestStub.rejects(error);
 
-    expect(dispatch.firstCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_INITIATED,
+        await fetchDebtLettersVBMS()(dispatch);
+
+        expect(dispatch.firstCall.args[0]).to.deep.equal({
+          type: DEBT_LETTERS_FETCH_INITIATED,
+        });
+        expect(dispatch.secondCall.args[0]).to.deep.equal({
+          type: DEBT_LETTERS_FETCH_FAILURE,
+        });
+        expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+      });
     });
-    expect(dispatch.secondCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_FAILURE,
-    });
-    expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-  });
-
-  it('should handle 403 forbidden errors', async () => {
-    const error = {
-      status: 403,
-      detail: 'Forbidden - insufficient permissions',
-    };
-    apiRequestStub.rejects(error);
-
-    await fetchDebtLettersVBMS()(dispatch);
-
-    expect(dispatch.firstCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_INITIATED,
-    });
-    expect(dispatch.secondCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_FAILURE,
-    });
-    expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-  });
-
-  it('should handle 404 not found errors', async () => {
-    const error = { status: 404, detail: 'Resource not found' };
-    apiRequestStub.rejects(error);
-
-    await fetchDebtLettersVBMS()(dispatch);
-
-    expect(dispatch.firstCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_INITIATED,
-    });
-    expect(dispatch.secondCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_FAILURE,
-    });
-    expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-  });
-
-  it('should handle 401 unauthorized errors', async () => {
-    const error = {
-      status: 401,
-      detail: 'Unauthorized - authentication required',
-    };
-    apiRequestStub.rejects(error);
-
-    await fetchDebtLettersVBMS()(dispatch);
-
-    expect(dispatch.firstCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_INITIATED,
-    });
-    expect(dispatch.secondCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_FAILURE,
-    });
-    expect(sentryCaptureMessageStub.calledOnce).to.be.true;
-  });
-
-  it('should handle 503 service unavailable errors', async () => {
-    const error = { status: 503, detail: 'Service temporarily unavailable' };
-    apiRequestStub.rejects(error);
-
-    await fetchDebtLettersVBMS()(dispatch);
-
-    expect(dispatch.firstCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_INITIATED,
-    });
-    expect(dispatch.secondCall.args[0]).to.deep.equal({
-      type: DEBT_LETTERS_FETCH_FAILURE,
-    });
-    expect(sentryCaptureMessageStub.calledOnce).to.be.true;
   });
 });
