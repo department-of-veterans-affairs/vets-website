@@ -23,11 +23,15 @@ export const DATETIME_FORMATS = {
  * Supports RFC 2822-style dates (e.g. `"Mon, 24 Feb 2025 03:39:11 EST"`)
  *
  * @param {string} dateString The input datetime string.
- * @returns {string|null} ISO string if parsed successfully, otherwise `null`.
+ * @returns {string|null} ISO string if converted from RFC 2822, otherwise `null` to let parseISO handle it.
  */
 const convertToISO = dateString => {
-  const regex = /^\w{3}, \d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [A-Z]{3}$/;
-  if (!regex.test(dateString)) {
+  if (!dateString) {
+    return null;
+  }
+  // Only convert RFC 2822-style dates; let parseISO handle all other formats
+  const rfc2822Regex = /^\w{3}, \d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [A-Z]{3}$/;
+  if (!rfc2822Regex.test(dateString)) {
     return null;
   }
   const date = new Date(dateString);

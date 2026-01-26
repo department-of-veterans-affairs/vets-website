@@ -128,5 +128,18 @@ export {
   buildAllergiesTxtSection,
 } from './rxBuilders';
 
+// High-level prescription builders (PDF and TXT)
+export {
+  buildNonVAPrescriptionPDFList,
+  buildPrescriptionsPDFList,
+  buildMedicationInformationPDF,
+  buildAllergiesPDFList,
+  buildVAPrescriptionPDFList,
+  buildNonVAPrescriptionTXT,
+  buildPrescriptionsTXT,
+  buildAllergiesTXT,
+  buildVAPrescriptionTXT,
+} from './prescriptionBuilders';
+
 // Low-level generators
 export { generatePdf, generateTxt, generateExportFilename } from './generators';
