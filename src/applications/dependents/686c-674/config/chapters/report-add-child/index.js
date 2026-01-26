@@ -48,21 +48,6 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/information',
       uiSchema: information.uiSchema,
       schema: information.schema,
-      onFormLoaded: ({ returnUrl, router, index }) => {
-        const pagesBefore = [
-          '/summary',
-          `/:${index}/information`,
-          `/:${index}/identification`,
-        ];
-
-        if (!pagesBefore.includes(returnUrl)) {
-          router?.push(`/:${index}/information`);
-        } else if (returnUrl === `/:${index}/information`) {
-          router?.push(`/:${index}/identification`);
-        } else {
-          router?.push(returnUrl);
-        }
-      },
     }),
     addChildPlaceOfBirth: pages.itemPage({
       depends: shouldIncludePage,
@@ -173,5 +158,14 @@ export default {
   title: 'Add one or more children',
   pages: {
     ...chapterPages,
+  },
+  onFormLoaded: ({ returnUrl, router, index }) => {
+    const pagesBefore = ['/summary', `/:${index}/information`];
+
+    if (!pagesBefore.includes(returnUrl)) {
+      router?.push(`/:${index}/information`);
+    } else {
+      router?.push(returnUrl);
+    }
   },
 };
