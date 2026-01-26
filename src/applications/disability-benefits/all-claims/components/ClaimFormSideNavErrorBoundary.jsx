@@ -6,8 +6,8 @@ import { datadogRum } from '@datadog/browser-rum';
  * Error boundary for the 526EZ side navigation feature
  *
  * Catches runtime errors in ClaimFormSideNav and its children, logs them to
- * Datadog RUM for monitoring silent failures, and fails gracefully by rendering
- * nothing (allowing the form to continue functioning without side navigation).
+ * Datadog RUM, and fails gracefully by rendering nothing (allowing the form
+ * to continue functioning without side navigation).
  *
  * Tracks errors with context including pathname, form state, and error details
  * for debugging chapter visibility and navigation issues.
