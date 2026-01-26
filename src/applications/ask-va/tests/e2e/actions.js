@@ -1,3 +1,8 @@
+// NODE 22 FIX: Import Timeouts to use longer timeouts for element assertions.
+// Under Node 22, page navigation and rendering can take slightly longer,
+// causing the default 4000ms timeout to be insufficient.
+import Timeouts from 'platform/testing/e2e/timeouts';
+
 export const HEADING_SELECTORS = [
   'div.form-panel h1',
   'div.form-panel h2',
@@ -102,60 +107,65 @@ const ensureExists = (content, selector = null) => {
         break;
     }
     if (newSelector === null) {
+      // NODE 22 FIX: Use Timeouts.slow to allow more time for page rendering
       cy.get('h1, h2, h3, h4, h5, h6', {
         includeShadowDom: true,
+        timeout: Timeouts.slow,
       })
         .contains(content)
         .should('exist');
     } else {
+      // NODE 22 FIX: Use Timeouts.slow to allow more time for page rendering
       cy.get(newSelector, {
         includeShadowDom: true,
+        timeout: Timeouts.slow,
       }).should('exist');
     }
   } else {
-    cy.get(selector, { includeShadowDom: true })
+    // NODE 22 FIX: Use Timeouts.slow to allow more time for page rendering
+    cy.get(selector, { includeShadowDom: true, timeout: Timeouts.slow })
       .contains(content)
       .should('exist');
   }
 };
 
 const clickTab = text => {
-  cy.get('li.inbox-tab', { includeShadowDom: true })
+  cy.get('li.inbox-tab', { includeShadowDom: true, timeout: Timeouts.slow })
     .contains(text)
     .should('exist');
-  cy.get('li.inbox-tab', { includeShadowDom: true })
+  cy.get('li.inbox-tab', { includeShadowDom: true, timeout: Timeouts.slow })
     .contains(text)
     .click({ force: true });
 };
 
 const clickLink = text => {
-  cy.get('a', { includeShadowDom: true })
+  cy.get('a', { includeShadowDom: true, timeout: Timeouts.slow })
     .contains(text)
     .should('exist');
-  cy.get('a', { includeShadowDom: true })
+  cy.get('a', { includeShadowDom: true, timeout: Timeouts.slow })
     .contains(text)
     .click({ force: true });
 };
 
 const clickSearchButton = () => {
-  cy.get('button#facility-search').should('exist');
-  cy.get('button#facility-search').click();
+  cy.get('button#facility-search', { timeout: Timeouts.slow }).should('exist');
+  cy.get('button#facility-search', { timeout: Timeouts.slow }).click();
 };
 
 const clickRadioButton = selector => {
   const RADIO_DEFAULT_SELECTOR = `va-radio-option[value*="${selector}"]`;
   const newSelector = mapSelectorShorthand(selector) || RADIO_DEFAULT_SELECTOR;
 
-  cy.get(newSelector).should('exist');
-  cy.get(newSelector).click();
+  cy.get(newSelector, { timeout: Timeouts.slow }).should('exist');
+  cy.get(newSelector, { timeout: Timeouts.slow }).click();
 };
 
 const clickRadioButtonYesNo = selector => {
   const RADIO_LABEL_SELECTOR = `va-radio-option[label*="${selector}"]`;
   const newSelector = mapSelectorShorthand(selector) || RADIO_LABEL_SELECTOR;
 
-  cy.get(newSelector).should('exist');
-  cy.get(newSelector).click();
+  cy.get(newSelector, { timeout: Timeouts.slow }).should('exist');
+  cy.get(newSelector, { timeout: Timeouts.slow }).click();
 };
 
 const clickCallToActionButton = (isPrimary = 'primary', text) => {
@@ -175,15 +185,25 @@ const clickCallToActionButton = (isPrimary = 'primary', text) => {
       break;
   }
   if (text) {
-    cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
+    cy.get(`.usa-button${selectorPrimary}`, {
+      includeShadowDom: true,
+      timeout: Timeouts.slow,
+    })
       .contains(text)
       .should('exist');
-    cy.get(`.usa-button${selectorPrimary}`, { includeShadowDom: true })
+    cy.get(`.usa-button${selectorPrimary}`, {
+      includeShadowDom: true,
+      timeout: Timeouts.slow,
+    })
       .contains(text)
       .click({ force: true });
   } else {
-    cy.get(`.usa-button${selectorPrimary}`).should('exist');
-    cy.get(`.usa-button${selectorPrimary}`).click({ force: true });
+    cy.get(`.usa-button${selectorPrimary}`, { timeout: Timeouts.slow }).should(
+      'exist',
+    );
+    cy.get(`.usa-button${selectorPrimary}`, { timeout: Timeouts.slow }).click({
+      force: true,
+    });
   }
 };
 
@@ -194,23 +214,34 @@ const typeText = (selector, text) => {
 
   const isInShadowDOM = newSelector.indexOf('#') < 0;
 
-  cy.get(newSelector, { includeShadowDom: true }).should('exist'); // TODO: verify this step works
+  cy.get(newSelector, {
+    includeShadowDom: true,
+    timeout: Timeouts.slow,
+  }).should('exist');
   if (isInShadowDOM) {
-    cy.get(newSelector, { includeShadowDom: true })
+    cy.get(newSelector, { includeShadowDom: true, timeout: Timeouts.slow })
       .shadow()
       .find('input')
       .type(text, { force: true });
   } else {
-    cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
+    cy.get(newSelector, {
+      includeShadowDom: true,
+      timeout: Timeouts.slow,
+    }).type(text, { force: true });
   }
 };
 
 const typeTextArea = (selector, text) => {
   const newSelector = mapSelectorShorthand(`TYPE_${selector}`) || selector;
 
-  cy.get(newSelector, { includeShadowDom: true }).should('exist'); // TODO: verify this step works
-  cy.get(newSelector, { includeShadowDom: true }).type(text, { force: true });
-  // cy.get(selector).type(text);
+  cy.get(newSelector, {
+    includeShadowDom: true,
+    timeout: Timeouts.slow,
+  }).should('exist');
+  cy.get(newSelector, { includeShadowDom: true, timeout: Timeouts.slow }).type(
+    text,
+    { force: true },
+  );
 };
 
 const selectOption = (selector, value) => {
@@ -226,12 +257,15 @@ const selectOption = (selector, value) => {
 
   const shadowSelector =
     parts.length > 1 ? parts[1] : 'select#options.usa-select';
-  cy.get(newSelector, { includeShadowDom: true }).should('exist');
-  cy.get(newSelector, { includeShadowDom: true })
+  cy.get(newSelector, {
+    includeShadowDom: true,
+    timeout: Timeouts.slow,
+  }).should('exist');
+  cy.get(newSelector, { includeShadowDom: true, timeout: Timeouts.slow })
     .shadow()
     .find(shadowSelector)
     .select(value, { force: true });
-  cy.get(newSelector, { includeShadowDom: true })
+  cy.get(newSelector, { includeShadowDom: true, timeout: Timeouts.slow })
     .shadow()
     .find(`${shadowSelector} option:selected`)
     .should('have.value', value);
