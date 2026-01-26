@@ -32,7 +32,7 @@ export default function ScheduleWithDifferentProvider({
           {title}
         </h2>
         <p className="vads-u-margin-y--0">
-          Call and ask to schedule with that provider:{' '}
+          Call the facility and ask to schedule with that provider:{' '}
           <FacilityPhone contact={facilityPhone} icon={false} />
         </p>
         <hr

@@ -98,8 +98,11 @@ describe('ScheduleWithDifferentProvider', () => {
     ).to.exist;
 
     // Should display call to schedule text with facility phone
-    expect(screen.getByText(/Call and ask to schedule with that provider/i)).to
-      .exist;
+    expect(
+      screen.getByText(
+        /Call the facility and ask to schedule with that provider: /i,
+      ),
+    ).to.exist;
 
     const phoneEl = screen.getByTestId('facility-telephone');
     expect(phoneEl).to.exist;
