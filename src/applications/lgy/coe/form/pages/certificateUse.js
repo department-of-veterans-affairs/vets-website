@@ -14,7 +14,7 @@ import { certificateUseOptions } from '../constants';
 
 const OptionsAccordion = () => (
   <VaAccordion className="vads-u-margin-top--2">
-    <VaAccordionItem header="Understanding your COE options" open>
+    <VaAccordionItem header="Understanding your COE options">
       <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
         Check your eligibility
       </p>
