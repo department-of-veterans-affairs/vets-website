@@ -475,18 +475,18 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }
     });
 
-    if (activePages.length === 0 && !environment.isProduction()) {
-      const contextInfo = context
-        ? ` Context: ${JSON.stringify(context)}.`
-        : '';
-      throw new Error(
-        `Array Builder Error: All item pages were filtered out for arrayPath "${arrayPath}" at index ${index}.${contextInfo} ` +
-          `This means all of your itemPage depends functions returned false for this item. ` +
-          `At least one itemPage must be available for every item in the array. ` +
-          `Check your depends conditions to ensure at least one itemPage depends always returns true, ` +
-          `or remove the depends condition from at least one itemPage to make it always available.`,
-      );
-    }
+    // if (activePages.length === 0 && !environment.isProduction()) {
+    //   const contextInfo = context
+    //     ? ` Context: ${JSON.stringify(context)}.`
+    //     : '';
+    //   throw new Error(
+    //     `Array Builder Error: All item pages were filtered out for arrayPath "${arrayPath}" at index ${index}.${contextInfo} ` +
+    //       `This means all of your itemPage depends functions returned false for this item. ` +
+    //       `At least one itemPage must be available for every item in the array. ` +
+    //       `Check your depends conditions to ensure at least one itemPage depends always returns true, ` +
+    //       `or remove the depends condition from at least one itemPage to make it always available.`,
+    //   );
+    // }
 
     return activePages;
   };

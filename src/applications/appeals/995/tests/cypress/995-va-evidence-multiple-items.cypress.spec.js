@@ -1,16 +1,16 @@
-import manifest from '../../../manifest.json';
-import cypressSetup from '../../../../shared/tests/cypress.setup';
-import * as h from '../995.cypress.helpers';
-import { NOV_2025_REDESIGN_TOGGLE } from '../../../constants';
-import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
-import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
+import manifest from '../../manifest.json';
+import cypressSetup from '../../../shared/tests/cypress.setup';
+import * as h from './995.cypress.helpers';
+import { NOV_2025_REDESIGN_TOGGLE } from '../../constants';
+import mockData from '../fixtures/data/pre-api-comprehensive-test.json';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 import {
   dateDetailsContent,
   datePromptContent,
   locationContent,
   promptContent,
   summaryContent,
-} from '../../../content/evidence/va';
+} from '../../content/evidence/va';
 
 const issues = mockData.data.contestedIssues;
 

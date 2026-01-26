@@ -14,7 +14,7 @@ import { promptQuestion } from '../../../pages/limitedConsentPrompt';
 import { detailsQuestion } from '../../../pages/limitedConsentDetails';
 import { PrivateDetailsDisplay } from '../../../components/evidence/PrivateDetailsDisplay';
 import { records } from '../../data/evidence-records';
-import { content as authContent } from '../../../components/4142/AuthorizationNew';
+import { content as authContent } from '../../../components/4142/Authorization';
 import {
   verifyHeader,
   verifyLink,
