@@ -35,10 +35,8 @@ describe('evidenceRequest', () => {
       'Are there medical records from VA or private?',
     );
 
-    expect(container.querySelector('va-radio-option[label="Yes"', container)).to
-      .exist;
-    expect(container.querySelector('va-radio-option[label="No"', container)).to
-      .exist;
+    expect(container.querySelector('va-radio-option[label="Yes"]')).to.exist;
+    expect(container.querySelector('va-radio-option[label="No"]')).to.exist;
   });
 
   it('should submit when no medical records selected', () => {
