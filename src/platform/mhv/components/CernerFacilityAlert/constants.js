@@ -106,6 +106,8 @@ export const CernerAlertContent = {
   },
 };
 
+// These will be used only for the pretransitioned sites' existing "Go to My VA Health" alerts
+// Once these 6 sites are fully transitioned away from that alert this const can be removed
 export const PretransitionedFacilitiesByVhaId = {
   '692': {
     vhaId: '692',
