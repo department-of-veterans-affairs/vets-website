@@ -1,15 +1,15 @@
 import {
-  yesNoUI,
+  titleUI,
   yesNoSchema,
-  // titleUI,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
-    // ...titleUI(''), // TODO: Are we missing a title or is it intentional?
+    ...titleUI('Ownership of properties with VA home loans'),
     loanHistory: {
       currentOwnership: yesNoUI({
-        title: 'Do you still own any property you bought using a VA home loan?', // TODO: bold the word own
+        title: 'Do you still own any property you bought using a VA home loan?',
         description:
           'Include homes, condos, or other property purchased with a VA‑backed mortgage.',
         labels: {
