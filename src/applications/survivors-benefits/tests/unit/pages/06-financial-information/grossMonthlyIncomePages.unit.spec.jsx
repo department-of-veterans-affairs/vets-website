@@ -9,9 +9,11 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   grossMonthlyIncomePages,
   options,
-  incomeRecipients,
 } from '../../../../config/chapters/06-financial-information/incomeAndAssets/grossMonthlyIncomePages';
-import { typeOfIncomeLabels } from '../../../../utils/labels';
+import {
+  incomeRecipientTypeLabels,
+  typeOfIncomeLabels,
+} from '../../../../utils/labels';
 
 const arrayPath = 'incomeEntries';
 
@@ -51,19 +53,20 @@ describe('Gross Monthly Income Pages', () => {
       'va-text-input[label*="Tell us the type of income"]';
     expect($(vaOtherTypeExplanationText, formDOM)).to.not.exist;
     expect(vaOptions.length).to.equal(9);
-    Object.keys({ ...incomeRecipients, ...typeOfIncomeLabels }).forEach(
-      (key, index) => {
-        if (index < Object.keys(incomeRecipients).length) {
-          expect(vaOptions[index].getAttribute('label')).to.equal(
-            incomeRecipients[key],
-          );
-        } else {
-          expect(vaOptions[index].getAttribute('label')).to.equal(
-            typeOfIncomeLabels[key],
-          );
-        }
-      },
-    );
+    Object.keys({
+      ...incomeRecipientTypeLabels,
+      ...typeOfIncomeLabels,
+    }).forEach((key, index) => {
+      if (index < Object.keys(incomeRecipientTypeLabels).length) {
+        expect(vaOptions[index].getAttribute('label')).to.equal(
+          incomeRecipientTypeLabels[key],
+        );
+      } else {
+        expect(vaOptions[index].getAttribute('label')).to.equal(
+          typeOfIncomeLabels[key],
+        );
+      }
+    });
     vaRecipient.__events.vaValueChange({
       detail: { value: 'OTHER' },
     });

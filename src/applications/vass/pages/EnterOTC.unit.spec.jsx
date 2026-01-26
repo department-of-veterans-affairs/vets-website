@@ -16,6 +16,7 @@ import {
   getDefaultRenderOptions,
   reducers,
   vassApi,
+  defaultScheduledDowntimeState,
 } from '../utils/test-utils';
 
 // Helper component to display current location for testing navigation
@@ -211,7 +212,9 @@ describe('VASS Component: EnterOTC', () => {
           <LocationDisplay />
         </>,
         {
-          initialState: {},
+          initialState: {
+            scheduledDowntime: defaultScheduledDowntimeState,
+          },
           reducers,
           initialEntries: ['/enter-otc'],
           additionalMiddlewares: [vassApi.middleware],

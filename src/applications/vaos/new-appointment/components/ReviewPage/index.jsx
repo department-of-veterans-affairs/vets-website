@@ -1,17 +1,18 @@
+import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
+import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
-import classNames from 'classnames';
-import { selectReviewPage } from '../../redux/selectors';
-import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import ReviewDirectScheduleInfo from './ReviewRequestInfo/ReviewDirectScheduleInfo/ReviewDirectScheduleInfo';
-import ReviewRequestInfo from './ReviewRequestInfo';
-import { submitAppointmentOrRequest } from '../../redux/actions';
-import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
+import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
+import { aOrAn } from '../../../utils/formatters';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';
+import { submitAppointmentOrRequest } from '../../redux/actions';
+import { selectReviewPage } from '../../redux/selectors';
+import ReviewRequestInfo from './ReviewRequestInfo';
+import ReviewDirectScheduleInfo from './ReviewRequestInfo/ReviewDirectScheduleInfo/ReviewDirectScheduleInfo';
+import FacilityPhone from '../../../components/FacilityPhone';
 
 const pageKey = 'review';
 
@@ -57,6 +58,8 @@ export default function ReviewPage() {
     ? 'We can’t schedule your appointment right now'
     : 'We can’t submit your request right now';
   const facilityDetails = facility || parentFacility;
+  const phone = facilityDetails?.telecom?.find(tele => tele.system === 'phone')
+    ?.value;
 
   return (
     <div>
@@ -99,37 +102,36 @@ export default function ReviewPage() {
             <>
               {submitStatusVaos409 && (
                 <p>
-                  We’re sorry. You already have an overlapping booked{' '}
-                  {submissionType}. Please schedule for a different day.
+                  You already have {aOrAn(submissionType)} {submissionType}{' '}
+                  scheduled for this day and time. Choose a different day or
+                  time. Or call your facility to help with your {submissionType}
+                  .
                 </p>
               )}
               {submitStatusVaos400 &&
                 !submitStatusVaos409 && (
                   <p>
-                    We’re sorry. Something went wrong when we tried to submit
-                    your {submissionType}. Call your VA medical center to
-                    schedule this {submissionType}.
+                    We’re sorry. Something went wrong when you tried to submit
+                    your {submissionType}. Try again later. Or call your
+                    facility to help with your {submissionType}.
                   </p>
                 )}
               {!submitStatusVaos400 && (
                 <>
                   <p>
-                    We’re sorry. There’s a problem with our system. Refresh this
-                    page to start over or try again later.
+                    We’re sorry. There’s a problem with appointments. Refresh
+                    this page or try again later.
                   </p>
-                  <p>If you need to schedule now, call your VA facility.</p>
+                  <p>If you need to schedule now, call your facility.</p>
                 </>
               )}
-              <>
-                {!!facilityDetails && (
-                  <FacilityAddress
-                    name={facilityDetails.name}
-                    facility={facilityDetails}
-                    showDirectionsLink
-                    level={3}
-                  />
-                )}
-              </>
+              {!!facilityDetails && <strong>{facilityDetails.name}</strong>}
+              {!!phone && (
+                <p className="vads-u-margin-y--0">
+                  <strong>Main phone: </strong>
+                  <FacilityPhone contact={phone} icon={false} />
+                </p>
+              )}
             </>
           </InfoAlert>
         </div>
