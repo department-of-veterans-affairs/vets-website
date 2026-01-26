@@ -122,9 +122,16 @@ describe('RouteLeavingGuard component', () => {
         expect(modalWithError.getAttribute('visible')).to.equal('true');
       });
 
-      testStore.dispatch({
-        type: 'SM_UPDATE_DRAFT_IN_PROGRESS',
-        payload: { navigationError: null, saveError: null },
+      // NODE 22 FIX: Wrap Redux dispatch in act() to ensure React processes
+      // the state update synchronously before we check the DOM.
+      // In Node 22, the event loop timing differs, causing the waitFor to
+      // check the DOM before React has re-rendered with the new state.
+      // This doesn't change test behavior - it just ensures proper React update flushing.
+      await act(async () => {
+        testStore.dispatch({
+          type: 'SM_UPDATE_DRAFT_IN_PROGRESS',
+          payload: { navigationError: null, saveError: null },
+        });
       });
 
       await waitFor(() => {
