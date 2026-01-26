@@ -4,12 +4,22 @@ import {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
 } from '../util/constants';
-import { createExportService } from '../util/rxExport';
+import {
+  createExportService,
+  buildVAPrescriptionPDFList,
+  buildNonVAPrescriptionPDFList,
+  buildPrescriptionsPDFList,
+  buildPrescriptionsTXT,
+} from '../util/rxExport';
 import {
   generatePdf,
   generateTxt,
   generateExportFilename,
 } from '../util/rxExport/generators';
+import {
+  displayHeaderPrefaceText,
+  displayMedicationsListHeader,
+} from '../util/helpers';
 
 /**
  * Export status constants for external use
@@ -37,6 +47,10 @@ export const EXPORT_FORMAT = {
  * @param {Object} config.options - Additional options
  * @param {boolean} config.options.isCernerPilot - Cerner pilot flag
  * @param {boolean} config.options.isV2StatusMapping - V2 status mapping flag
+ * @param {Object} config.listContext - Context for list exports (filter/sort)
+ * @param {string} config.listContext.selectedFilterOption - Selected filter option key
+ * @param {string} config.listContext.selectedSortOption - Selected sort option key
+ * @param {Object} config.listContext.currentFilterOptions - Available filter options
  * @returns {Object} Export hook return value
  */
 export const useRxExport = ({
@@ -45,6 +59,7 @@ export const useRxExport = ({
   allergies,
   allergiesError,
   options = {},
+  listContext = {},
 }) => {
   // Export lifecycle state
   const [exportStatus, setExportStatus] = useState({
@@ -163,11 +178,22 @@ export const useRxExport = ({
        * Export as PDF
        * @param {Object} config
        * @param {string} config.rxName - Prescription name
-       * @param {Array} config.rxPdfList - PDF field list
+       * @param {Object} config.prescription - Prescription object
        * @param {boolean} config.isNonVA - Whether it's a non-VA prescription
        */
-      async pdf({ rxName, rxPdfList, isNonVA }) {
+      async pdf({ rxName, prescription, isNonVA }) {
         try {
+          const rxPdfList = isNonVA
+            ? buildNonVAPrescriptionPDFList(
+                prescription,
+                options.isCernerPilot,
+                options.isV2StatusMapping,
+              )
+            : buildVAPrescriptionPDFList(
+                prescription,
+                options.isCernerPilot,
+                options.isV2StatusMapping,
+              );
           await exportService.exportRxDetailsPdf({
             rxName,
             rxPdfList,
@@ -199,7 +225,7 @@ export const useRxExport = ({
         }
       },
     }),
-    [exportService, allergies, setExportSuccess],
+    [exportService, allergies, options, setExportSuccess],
   );
 
   /**
@@ -210,12 +236,35 @@ export const useRxExport = ({
       /**
        * Export as PDF
        * @param {Object} config
-       * @param {Array} config.rxPdfList - PDF field list
-       * @param {Array|string} config.preface - Preface text
-       * @param {string} config.listHeader - List header
+       * @param {Array} config.prescriptions - Array of prescription objects
        */
-      async pdf({ rxPdfList, preface, listHeader }) {
+      async pdf({ prescriptions }) {
         try {
+          const { isCernerPilot, isV2StatusMapping } = options;
+          const {
+            selectedFilterOption,
+            selectedSortOption,
+            currentFilterOptions,
+          } = listContext;
+
+          const rxPdfList = buildPrescriptionsPDFList(
+            prescriptions,
+            isCernerPilot,
+            isV2StatusMapping,
+          );
+          const preface = displayHeaderPrefaceText(
+            selectedFilterOption,
+            selectedSortOption,
+            prescriptions.length,
+            true,
+          );
+          const listHeader = displayMedicationsListHeader(
+            selectedFilterOption,
+            isCernerPilot,
+            isV2StatusMapping,
+            currentFilterOptions,
+          );
+
           await exportService.exportRxListPdf({
             rxPdfList,
             allergies,
@@ -231,12 +280,35 @@ export const useRxExport = ({
       /**
        * Export as TXT
        * @param {Object} config
-       * @param {string} config.rxContent - TXT content
-       * @param {string} config.preface - Preface text
-       * @param {string} config.listHeader - List header
+       * @param {Array} config.prescriptions - Array of prescription objects
        */
-      txt({ rxContent, preface, listHeader }) {
+      txt({ prescriptions }) {
         try {
+          const { isCernerPilot, isV2StatusMapping } = options;
+          const {
+            selectedFilterOption,
+            selectedSortOption,
+            currentFilterOptions,
+          } = listContext;
+
+          const rxContent = buildPrescriptionsTXT(
+            prescriptions,
+            isCernerPilot,
+            isV2StatusMapping,
+          );
+          const preface = displayHeaderPrefaceText(
+            selectedFilterOption,
+            selectedSortOption,
+            prescriptions.length,
+            false,
+          );
+          const listHeader = displayMedicationsListHeader(
+            selectedFilterOption,
+            isCernerPilot,
+            isV2StatusMapping,
+            currentFilterOptions,
+          );
+
           exportService.exportRxListTxt({
             rxContent,
             allergies,
@@ -249,7 +321,7 @@ export const useRxExport = ({
         }
       },
     }),
-    [exportService, allergies, setExportSuccess],
+    [exportService, allergies, options, listContext, setExportSuccess],
   );
 
   return {

@@ -15,7 +15,7 @@ import {
   convertHtmlForDownload,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
-import { buildMedicationInformationPDF } from '../util/pdfConfigs';
+import { buildMedicationInformationPDF } from '../util/rxExport';
 import {
   rxListSortingOptions,
   defaultSelectedSortOption,

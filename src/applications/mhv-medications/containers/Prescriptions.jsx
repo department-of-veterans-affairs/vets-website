@@ -20,11 +20,7 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
-import {
-  getErrorTypeFromFormat,
-  displayHeaderPrefaceText,
-  displayMedicationsListHeader,
-} from '../util/helpers';
+import { getErrorTypeFromFormat } from '../util/helpers';
 import {
   rxListSortingOptions,
   medicationsUrls,
@@ -35,8 +31,6 @@ import {
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
-import { buildPrescriptionsPDFList } from '../util/pdfConfigs';
-import { buildPrescriptionsTXT } from '../util/txtConfigs';
 import { getFilterOptions } from '../util/helpers/getRxStatus';
 import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -187,7 +181,7 @@ const Prescriptions = () => {
 
   // Use the export hook for PDF/TXT generation state management
   const {
-    exportStatus: pdfTxtGenerateStatus,
+    exportStatus,
     isExportInProgress,
     isExportSuccess,
     isShowingError: isShowingExportError,
@@ -320,77 +314,6 @@ const Prescriptions = () => {
   usePageTitle(basePageTitle);
   usePrintTitle(basePageTitle, userName, dob, updatePageTitle);
 
-  // Export generation effect - uses the hook's export methods
-  useEffect(
-    () => {
-      const { format } = pdfTxtGenerateStatus;
-      const exportListReady = !!prescriptionsExportList?.length;
-      const allergiesReady = !!allergies && !allergiesError;
-
-      if (!isExportInProgress || !exportListReady || !allergiesReady) return;
-
-      if (format === DOWNLOAD_FORMAT.PDF) {
-        const rxPdfList = buildPrescriptionsPDFList(
-          prescriptionsExportList,
-          isCernerPilot,
-          isV2StatusMapping,
-        );
-        // For PDF, isPdf=true (default) returns structured array for PDF template
-        const preface = displayHeaderPrefaceText(
-          selectedFilterOption,
-          selectedSortOption,
-          prescriptionsExportList.length,
-          true,
-        );
-        const listHeader = displayMedicationsListHeader(
-          selectedFilterOption,
-          isCernerPilot,
-          isV2StatusMapping,
-          currentFilterOptions,
-        );
-        exportRxList.pdf({ rxPdfList, preface, listHeader });
-      } else if (format === DOWNLOAD_FORMAT.TXT) {
-        const rxContent = buildPrescriptionsTXT(
-          prescriptionsExportList,
-          isCernerPilot,
-          isV2StatusMapping,
-        );
-        const preface = displayHeaderPrefaceText(
-          selectedFilterOption,
-          selectedSortOption,
-          prescriptionsExportList.length,
-          false,
-        );
-        const listHeader = displayMedicationsListHeader(
-          selectedFilterOption,
-          isCernerPilot,
-          isV2StatusMapping,
-          currentFilterOptions,
-        );
-        exportRxList.txt({ rxContent, preface, listHeader });
-      } else if (format === PRINT_FORMAT.PRINT) {
-        setPrintedList(prescriptionsExportList);
-        resetExportStatus();
-        // Set the print trigger instead of using setTimeout
-        setShouldPrint(true);
-      }
-    },
-    [
-      allergies,
-      allergiesError,
-      prescriptionsExportList,
-      pdfTxtGenerateStatus,
-      isExportInProgress,
-      exportRxList,
-      resetExportStatus,
-      isCernerPilot,
-      isV2StatusMapping,
-      selectedFilterOption,
-      selectedSortOption,
-      currentFilterOptions,
-    ],
-  );
-
   useEffect(
     () => {
       if (shouldPrint) {
@@ -403,15 +326,16 @@ const Prescriptions = () => {
 
   const handleExportListDownload = async format => {
     setHasExportListDownloadError(false);
-    const isTxtOrPdf =
-      format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
     startExport(format);
-    if (
-      (isTxtOrPdf ||
-        !allergies ||
-        (format === PRINT_FORMAT.PRINT && !prescriptionsExportList.length)) &&
-      !prescriptionsExportList.length
-    ) {
+
+    // Check if allergies are ready - if there's an error, the hook will display it
+    if (allergiesError) {
+      return;
+    }
+
+    // Get prescriptions - use cached list if available, otherwise fetch
+    let prescriptions = prescriptionsExportList;
+    if (!prescriptions.length) {
       const { data, isError } = await dispatch(
         getPrescriptionsExportList.initiate(
           {
@@ -427,9 +351,21 @@ const Prescriptions = () => {
 
       if (isError) {
         setHasExportListDownloadError(true);
-      } else {
-        setPrescriptionsExportList(data.prescriptions);
+        return;
       }
+      prescriptions = data.prescriptions;
+      setPrescriptionsExportList(prescriptions);
+    }
+
+    // Execute the export based on format
+    if (format === DOWNLOAD_FORMAT.PDF) {
+      exportRxList.pdf({ prescriptions });
+    } else if (format === DOWNLOAD_FORMAT.TXT) {
+      exportRxList.txt({ prescriptions });
+    } else if (format === PRINT_FORMAT.PRINT) {
+      setPrintedList(prescriptions);
+      resetExportStatus();
+      setShouldPrint(true);
     }
   };
 
@@ -485,7 +421,7 @@ const Prescriptions = () => {
     return (
       <div className="vads-u-margin-y--3">
         <ApiErrorNotification
-          errorType={getErrorTypeFromFormat(pdfTxtGenerateStatus.format)}
+          errorType={getErrorTypeFromFormat(exportStatus.format)}
           content="records"
         >
           <div>

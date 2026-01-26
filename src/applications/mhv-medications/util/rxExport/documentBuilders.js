@@ -15,7 +15,7 @@ import {
 import {
   buildAllergiesPdfSection,
   buildAllergiesTxtSection,
-} from './rxBuilders';
+} from './rxRenderer';
 import { generatePdf, generateTxt, generateExportFilename } from './generators';
 
 // ============================================================================

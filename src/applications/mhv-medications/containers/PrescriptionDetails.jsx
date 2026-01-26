@@ -28,14 +28,10 @@ import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescripti
 import VaPrescription from '../components/PrescriptionDetails/VaPrescription';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import {
-  buildVAPrescriptionPDFList,
-  buildNonVAPrescriptionPDFList,
-} from '../util/pdfConfigs';
-import {
   buildVAPrescriptionTXT,
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
-} from '../util/txtConfigs';
+} from '../util/rxExport';
 import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   rxListSortingOptions,
@@ -131,8 +127,6 @@ const PrescriptionDetails = () => {
     options: { isCernerPilot, isV2StatusMapping },
   });
 
-  const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
-
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
   const refillHistory = useMemo(() => getRefillHistory(prescription), [
@@ -219,7 +213,7 @@ const PrescriptionDetails = () => {
       if (exportStatus.format === DOWNLOAD_FORMAT.PDF) {
         exportRxDetails.pdf({
           rxName: prescriptionHeader,
-          rxPdfList: prescriptionPdfList,
+          prescription,
           isNonVA: nonVaPrescription,
         });
       } else if (exportStatus.format === DOWNLOAD_FORMAT.TXT) {
@@ -238,33 +232,13 @@ const PrescriptionDetails = () => {
       exportStatus.format,
       allergies,
       allergiesError,
+      prescription,
       prescriptionHeader,
-      prescriptionPdfList,
       prescriptionTxtContent,
       nonVaPrescription,
       exportRxDetails,
       setExportSuccess,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (!prescription) return;
-      setPrescriptionPdfList(
-        nonVaPrescription
-          ? buildNonVAPrescriptionPDFList(
-              prescription,
-              isCernerPilot,
-              isV2StatusMapping,
-            )
-          : buildVAPrescriptionPDFList(
-              prescription,
-              isCernerPilot,
-              isV2StatusMapping,
-            ),
-      );
-    },
-    [nonVaPrescription, prescription, isCernerPilot, isV2StatusMapping],
   );
 
   const filledEnteredDate = () => {

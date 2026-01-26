@@ -111,16 +111,16 @@ export {
   getAllergiesCountText,
 } from './staticContent';
 
-// Allergy builders
+// Allergy builders (from rxRenderer)
 export {
   buildAllergyPdfItem,
   buildAllergyTxtItem,
   buildAllergiesPdfList,
   buildAllergiesPdfSection,
   buildAllergiesTxtSection,
-} from './rxBuilders';
+} from './rxRenderer';
 
-// High-level prescription builders (PDF and TXT)
+// High-level prescription builders (from rxRenderer)
 export {
   buildNonVAPrescriptionPDFList,
   buildPrescriptionsPDFList,
@@ -131,7 +131,35 @@ export {
   buildPrescriptionsTXT,
   buildAllergiesTXT,
   buildVAPrescriptionTXT,
-} from './prescriptionBuilders';
+} from './rxRenderer';
+
+// Data-driven mappers (extract fields from prescription data)
+export {
+  mapNonVAPrescription,
+  mapVAPrescriptionForList,
+  mapVAPrescriptionForDetail,
+  mapPrescriptionList,
+  mapAllergy,
+  mapAllergies,
+} from './rxMapper';
+
+// Data-driven renderers (transform normalized data to PDF/TXT)
+export {
+  fieldsToPdf,
+  fieldsToTxt,
+  renderNonVAPrescriptionPdf,
+  renderNonVAPrescriptionTxt,
+  renderVAPrescriptionListPdf,
+  renderVAPrescriptionListTxt,
+  renderPrescriptionListPdf,
+  renderPrescriptionListTxt,
+  renderVAPrescriptionDetailPdf,
+  renderVAPrescriptionDetailTxt,
+  renderAllergyPdf,
+  renderAllergyTxt,
+  renderAllergiesPdfSection,
+  renderAllergiesTxtSection,
+} from './rxRenderer';
 
 // Low-level generators
 export { generatePdf, generateTxt, generateExportFilename } from './generators';
