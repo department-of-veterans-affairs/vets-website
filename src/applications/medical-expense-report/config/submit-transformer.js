@@ -24,6 +24,16 @@ function swapNames(formData) {
       parsedFormData.claimantFullName?.suffix;
     delete transformedValue.claimantFullName;
   }
+  if (parsedFormData?.veteranFullName?.middle) {
+    transformedValue.veteranFullName.middle = parsedFormData?.veteranFullName?.middle.charAt(
+      0,
+    );
+  }
+  if (parsedFormData?.claimantFullName?.middle) {
+    transformedValue.claimantFullName.middle = parsedFormData?.claimantFullName?.middle.charAt(
+      0,
+    );
+  }
 
   // Alter fullNameRecipient to recipientName in careExpenses
   if (Array.isArray(transformedValue.careExpenses)) {
