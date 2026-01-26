@@ -63,6 +63,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         path: `/${response.id}`,
       });
 
+      // CI-FIX: Wait for the h1 heading to be present first before checking focus.
+      // On CI, async state updates may resolve at different timings.
+      await screen.findByRole('heading', { level: 1 });
       await waitFor(() => {
         expect(document.activeElement).to.have.tagName('h1');
       });
@@ -99,6 +102,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       });
 
       // Assert
+      // CI-FIX: Wait for the h1 heading to be present first before checking focus.
+      // On CI, async state updates may resolve at different timings.
+      await screen.findByRole('heading', { level: 1 });
       await waitFor(() => {
         expect(document.activeElement).to.have.tagName('h1');
       });
@@ -146,6 +152,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       });
 
       // Assert
+      // CI-FIX: Wait for the h1 heading to be present first before checking focus.
+      // On CI, async state updates may resolve at different timings.
+      await screen.findByRole('heading', { level: 1 });
       await waitFor(() => {
         expect(document.activeElement).to.have.tagName('h1');
       });
@@ -180,12 +189,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Upcoming Video Appointment At An ATLAS Location On ${formatInTimeZone(
@@ -215,12 +226,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Past Video Appointment At An ATLAS Location On ${formatInTimeZone(
@@ -250,12 +263,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Canceled Video Appointment At An ATLAS Location On ${formatInTimeZone(
@@ -284,12 +299,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Upcoming Video Appointment On ${formatInTimeZone(
@@ -319,12 +336,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Past Video Appointment On ${formatInTimeZone(
@@ -354,12 +373,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Canceled Video Appointment On ${formatInTimeZone(
@@ -388,12 +409,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Upcoming Video Appointment At A VA Location On ${formatInTimeZone(
@@ -423,12 +446,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Past Video Appointment At A VA Location On ${formatInTimeZone(
@@ -458,12 +483,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         });
 
         // Act
-        renderWithStoreAndRouter(<AppointmentList />, {
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
           initialState,
           path: `/${responses[0].id}`,
         });
 
         // Assert
+        // CI-FIX: Wait for the h1 heading to be present first before checking title.
+        await screen.findByRole('heading', { level: 1 });
         await waitFor(() => {
           expect(global.document.title).to.equal(
             `Canceled Video Appointment At A VA Location On ${formatInTimeZone(
@@ -495,12 +522,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           });
 
           // Act
-          renderWithStoreAndRouter(<AppointmentList />, {
+          const screen = renderWithStoreAndRouter(<AppointmentList />, {
             initialState,
             path: `/${responses[0].id}`,
           });
 
           // Assert
+          // CI-FIX: Wait for the h1 heading to be present first before checking title.
+          await screen.findByRole('heading', { level: 1 });
           await waitFor(() => {
             expect(global.document.title).to.equal(
               `Canceled Phone Appointment On ${formatInTimeZone(
@@ -530,12 +559,14 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           });
 
           // Act
-          renderWithStoreAndRouter(<AppointmentList />, {
+          const screen = renderWithStoreAndRouter(<AppointmentList />, {
             initialState,
             path: `/${responses[0].id}`,
           });
 
           // Assert
+          // CI-FIX: Wait for the h1 heading to be present first before checking title.
+          await screen.findByRole('heading', { level: 1 });
           await waitFor(() => {
             expect(global.document.title).to.equal(
               `Canceled Community Care Appointment On ${formatInTimeZone(
@@ -567,15 +598,16 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       });
 
       // Assert
+      // CI-FIX: Wait for the error heading to be present first, then verify focus.
+      // On CI, async state updates may resolve faster. Waiting for the heading to
+      // exist before checking focus ensures consistent behavior regardless of timing.
+      const errorHeading = await screen.findByRole('heading', {
+        level: 1,
+        name: /We can.t access your appointment details right now/,
+      });
+      expect(errorHeading).to.be.ok;
       await waitFor(() => {
         expect(document.activeElement).to.have.tagName('h1');
-
-        expect(
-          screen.getByRole('heading', {
-            level: 1,
-            name: 'We can’t access your appointment details right now',
-          }),
-        ).to.be.ok;
       });
     });
   });

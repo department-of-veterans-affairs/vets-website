@@ -1168,6 +1168,38 @@ class MedicationsListPage {
         "If you need a medication immediately, you should call your VA pharmacy's automated refill line",
       );
   };
+
+  // Request Refill Button on Card methods
+  verifyRequestRefillButtonExistsOnCard = () => {
+    cy.get('[data-testid="refill-nav-button"]')
+      .first()
+      .should('exist');
+  };
+
+  verifyRequestRefillButtonNotExistsOnCard = () => {
+    cy.get('[data-testid="refill-nav-button"]').should('not.exist');
+  };
+
+  verifyRequestRefillButtonText = () => {
+    cy.get('[data-testid="refill-nav-button"]')
+      .first()
+      .shadow()
+      .find('button')
+      .should('contain', 'Request a refill');
+  };
+
+  clickRequestRefillButtonOnFirstCard = () => {
+    cy.get('[data-testid="refill-nav-button"]')
+      .first()
+      .click();
+  };
+
+  verifyRequestRefillButtonHasAriaDescribedBy = () => {
+    cy.get('[data-testid="refill-nav-button"]')
+      .first()
+      .should('have.attr', 'aria-describedby')
+      .and('match', /card-header-\d+/);
+  };
 }
 
 export default MedicationsListPage;

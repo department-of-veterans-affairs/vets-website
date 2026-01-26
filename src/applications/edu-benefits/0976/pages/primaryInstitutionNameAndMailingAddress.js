@@ -9,6 +9,8 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { validateWhiteSpace } from 'platform/forms/validations';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -20,6 +22,7 @@ export default {
           errorMessages: {
             required: 'Enter the institution name',
           },
+          validations: [validateWhiteSpace],
         }),
       },
       differentPhysicalAddress: {

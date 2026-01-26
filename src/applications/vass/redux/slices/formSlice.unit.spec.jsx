@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import formReducer, {
   setSelectedDate,
   setSelectedTopics,
-  setToken,
   setObfuscatedEmail,
   setLowAuthFormData,
   clearFormData,
@@ -11,7 +10,6 @@ import formReducer, {
   selectSelectedDate,
   selectSelectedTopics,
   selectHydrated,
-  selectToken,
   selectObfuscatedEmail,
   selectUuid,
   selectLastname,
@@ -27,7 +25,6 @@ describe('formSlice', () => {
         selectedDate: null,
         selectedTopics: [],
         obfuscatedEmail: null,
-        token: null,
         uuid: null,
         lastname: null,
         dob: null,
@@ -41,7 +38,6 @@ describe('formSlice', () => {
           selectedDate: null,
           selectedTopics: [],
           obfuscatedEmail: null,
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -59,7 +55,6 @@ describe('formSlice', () => {
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1'],
           obfuscatedEmail: null,
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -82,7 +77,6 @@ describe('formSlice', () => {
           selectedDate: null,
           selectedTopics: [],
           obfuscatedEmail: null,
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -100,7 +94,6 @@ describe('formSlice', () => {
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1'],
           obfuscatedEmail: null,
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -118,7 +111,6 @@ describe('formSlice', () => {
           selectedDate: null,
           selectedTopics: ['topic-1', 'topic-2'],
           obfuscatedEmail: null,
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -129,42 +121,6 @@ describe('formSlice', () => {
       });
     });
 
-    describe('setToken', () => {
-      it('should set the token', () => {
-        const initialState = {
-          hydrated: false,
-          selectedDate: null,
-          selectedTopics: [],
-          obfuscatedEmail: null,
-          token: null,
-          uuid: null,
-          lastname: null,
-          dob: null,
-        };
-        const token = 'abc123';
-        const actual = formReducer(initialState, setToken(token));
-
-        expect(actual.token).to.equal(token);
-      });
-
-      it('should update the token when one already exists', () => {
-        const initialState = {
-          hydrated: false,
-          selectedDate: null,
-          selectedTopics: [],
-          obfuscatedEmail: null,
-          token: 'old-token',
-          uuid: null,
-          lastname: null,
-          dob: null,
-        };
-        const newToken = 'new-token';
-        const actual = formReducer(initialState, setToken(newToken));
-
-        expect(actual.token).to.equal(newToken);
-      });
-    });
-
     describe('setObfuscatedEmail', () => {
       it('should set the obfuscated email', () => {
         const initialState = {
@@ -172,7 +128,6 @@ describe('formSlice', () => {
           selectedDate: null,
           selectedTopics: [],
           obfuscatedEmail: null,
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -189,7 +144,6 @@ describe('formSlice', () => {
           selectedDate: null,
           selectedTopics: [],
           obfuscatedEmail: 'old***@example.com',
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -208,7 +162,6 @@ describe('formSlice', () => {
           selectedDate: null,
           selectedTopics: [],
           obfuscatedEmail: null,
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -231,7 +184,6 @@ describe('formSlice', () => {
           selectedDate: null,
           selectedTopics: [],
           obfuscatedEmail: null,
-          token: null,
           uuid: 'old-uuid',
           lastname: 'OldName',
           dob: '1980-05-20',
@@ -256,7 +208,6 @@ describe('formSlice', () => {
           selectedDate: '2025-01-15T10:00:00.000Z',
           selectedTopics: ['topic-1', 'topic-2'],
           obfuscatedEmail: 't***@example.com',
-          token: 'abc123',
           uuid: 'c0ffee-1234-beef-5678',
           lastname: 'Doe',
           dob: '1990-01-15',
@@ -267,7 +218,6 @@ describe('formSlice', () => {
         expect(actual.selectedDate).to.be.null;
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.obfuscatedEmail).to.be.null;
-        expect(actual.token).to.be.null;
         expect(actual.uuid).to.be.null;
         expect(actual.lastname).to.be.null;
         expect(actual.dob).to.be.null;
@@ -279,7 +229,6 @@ describe('formSlice', () => {
           selectedDate: null,
           selectedTopics: [],
           obfuscatedEmail: null,
-          token: null,
           uuid: null,
           lastname: null,
           dob: null,
@@ -290,7 +239,6 @@ describe('formSlice', () => {
         expect(actual.selectedDate).to.be.null;
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.obfuscatedEmail).to.be.null;
-        expect(actual.token).to.be.null;
         expect(actual.uuid).to.be.null;
         expect(actual.lastname).to.be.null;
         expect(actual.dob).to.be.null;
@@ -302,7 +250,6 @@ describe('formSlice', () => {
         const payload = {
           selectedDate: '2025-03-01T10:00:00.000Z',
           selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
-          token: null,
           uuid: null,
         };
         const actual = formReducer(undefined, hydrateFormData(payload));
@@ -319,7 +266,6 @@ describe('formSlice', () => {
           lastname: 'Smith',
           dob: '1985-05-15',
           obfuscatedEmail: 's***@example.com',
-          token: 'test-token',
           selectedDate: '2025-04-01T14:00:00.000Z',
           selectedTopics: [{ topicId: '2', topicName: 'Topic 2' }],
         };
@@ -330,7 +276,6 @@ describe('formSlice', () => {
         expect(actual.lastname).to.equal(payload.lastname);
         expect(actual.dob).to.equal(payload.dob);
         expect(actual.obfuscatedEmail).to.equal(payload.obfuscatedEmail);
-        expect(actual.token).to.equal(payload.token);
         expect(actual.selectedDate).to.equal(payload.selectedDate);
         expect(actual.selectedTopics).to.deep.equal(payload.selectedTopics);
       });
@@ -355,7 +300,6 @@ describe('formSlice', () => {
             selectedDate: '2025-01-15T10:00:00.000Z',
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,
@@ -372,7 +316,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,
@@ -391,7 +334,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: ['topic-1', 'topic-2'],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,
@@ -408,7 +350,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,
@@ -427,7 +368,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,
@@ -435,42 +375,6 @@ describe('formSlice', () => {
         };
         const result = selectHydrated(state);
         expect(result).to.be.true;
-      });
-    });
-
-    describe('selectToken', () => {
-      it('should select the token from state', () => {
-        const state = {
-          vassForm: {
-            hydrated: false,
-            selectedDate: null,
-            selectedTopics: [],
-            obfuscatedEmail: null,
-            token: 'abc123',
-            uuid: null,
-            lastname: null,
-            dob: null,
-          },
-        };
-        const result = selectToken(state);
-        expect(result).to.equal('abc123');
-      });
-
-      it('should return null when no token is set', () => {
-        const state = {
-          vassForm: {
-            hydrated: false,
-            selectedDate: null,
-            selectedTopics: [],
-            obfuscatedEmail: null,
-            token: null,
-            uuid: null,
-            lastname: null,
-            dob: null,
-          },
-        };
-        const result = selectToken(state);
-        expect(result).to.be.null;
       });
     });
 
@@ -482,7 +386,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: 't***@example.com',
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,
@@ -499,7 +402,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,
@@ -518,7 +420,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: 'c0ffee-1234-beef-5678',
             lastname: null,
             dob: null,
@@ -537,7 +438,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: 'Doe',
             dob: null,
@@ -554,7 +454,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,
@@ -573,7 +472,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: '1990-01-15',
@@ -590,7 +488,6 @@ describe('formSlice', () => {
             selectedDate: null,
             selectedTopics: [],
             obfuscatedEmail: null,
-            token: null,
             uuid: null,
             lastname: null,
             dob: null,

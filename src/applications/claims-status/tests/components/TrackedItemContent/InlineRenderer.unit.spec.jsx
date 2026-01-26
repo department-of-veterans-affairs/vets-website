@@ -53,7 +53,7 @@ describe('InlineRenderer', () => {
     expect(em.textContent).to.equal('Italic text');
   });
 
-  it('should render link', () => {
+  it('should render link with active style', () => {
     const { container } = render(
       <InlineRenderer
         content={{
@@ -67,6 +67,42 @@ describe('InlineRenderer', () => {
     const link = container.querySelector('va-link');
     expect(link).to.exist;
     expect(link.getAttribute('href')).to.equal('/test');
+    expect(link.hasAttribute('active')).to.be.true;
+  });
+
+  it('should render link with external style', () => {
+    const { container } = render(
+      <InlineRenderer
+        content={{
+          type: 'link',
+          text: 'External Link',
+          href: 'https://example.com',
+          style: 'external',
+        }}
+      />,
+    );
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.equal('https://example.com');
+    expect(link.hasAttribute('external')).to.be.true;
+  });
+
+  it('should render link with default style', () => {
+    const { container } = render(
+      <InlineRenderer
+        content={{
+          type: 'link',
+          text: 'Default Link',
+          href: '/default',
+          style: 'default',
+        }}
+      />,
+    );
+    const link = container.querySelector('va-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('href')).to.equal('/default');
+    expect(link.hasAttribute('active')).to.be.false;
+    expect(link.hasAttribute('external')).to.be.false;
   });
 
   it('should render telephone', () => {

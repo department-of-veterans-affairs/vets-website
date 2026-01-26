@@ -11,6 +11,7 @@ import {
   DISPENSE_STATUS,
 } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import RefillNavButton from './RefillNavButton';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { pageType } from '../../util/dataDogConstants';
 import {
@@ -18,7 +19,7 @@ import {
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
 
-const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
+const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
   const { dispStatus, refillRemaining, isRenewable } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const noRefillRemaining =
@@ -27,6 +28,9 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
+
+  const refillNavButton =
+    page === pageType.LIST ? <RefillNavButton rx={rx} /> : null;
 
   const renderV2Content = () => {
     switch (dispStatus) {
@@ -109,9 +113,12 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
           );
         }
         return (
-          <p className="vads-u-margin-y--0" data-testid="active">
-            You can request this prescription when you need it.
-          </p>
+          <div>
+            <p className="vads-u-margin-y--0" data-testid="active">
+              You can request this prescription when you need it.
+            </p>
+            {refillNavButton}
+          </div>
         );
 
       case dispStatusObjV2.inactive:
@@ -247,9 +254,12 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
 
       case dispStatusObj.activeParked:
         return (
-          <p className="vads-u-margin-y--0" data-testid="active-parked">
-            You can request this prescription when you need it.
-          </p>
+          <div>
+            <p className="vads-u-margin-y--0" data-testid="active-parked">
+              You can request this prescription when you need it.
+            </p>
+            {refillNavButton}
+          </div>
         );
 
       case dispStatusObj.expired:
@@ -334,7 +344,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             </div>
           );
         }
-        return null;
+        return refillNavButton;
 
       default:
         return null;
@@ -369,12 +379,18 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
     return renderV1Content();
   };
 
+  const content = renderContent();
+
+  if (!content) {
+    return null;
+  }
+
   return (
     <div
       className="shipping-info"
       id={`status-description-${rx.prescriptionId}`}
     >
-      {renderContent()}
+      {content}
     </div>
   );
 };

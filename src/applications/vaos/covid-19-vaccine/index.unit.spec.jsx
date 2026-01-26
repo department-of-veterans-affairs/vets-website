@@ -1,7 +1,8 @@
 import {
-  mockFetch,
-  setFetchJSONResponse,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+  createGetHandler,
+  jsonResponse,
+} from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import MockDate from 'mockdate';
 import { waitFor } from '@testing-library/dom';
@@ -16,7 +17,7 @@ import MockSchedulingConfigurationResponse, {
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
-} from '../tests/mocks/mockApis';
+} from '../tests/mocks/mockMswApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -39,7 +40,7 @@ const initialState = {
 
 describe('VAOS vaccine flow: NewBookingSection', () => {
   beforeEach(() => {
-    mockFetch();
+    server.resetHandlers();
   });
   before(() => {
     MockDate.set('2024-12-05T00:00:00Z');
@@ -168,28 +169,29 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
       ],
       responseCode: 404,
     });
-    setFetchJSONResponse(
-      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
-      {
-        data: [
-          {
-            id: '139',
-            type: 'maintenance_windows',
-            attributes: {
-              externalService: 'vaoswarning',
-              description: 'My description',
-              startTime: format(
-                subDays(new Date(), '1'),
-                DATE_FORMATS.ISODateTime,
-              ),
-              endTime: format(
-                addDays(new Date(), '1'),
-                DATE_FORMATS.ISODateTime,
-              ),
+    server.use(
+      createGetHandler(`${environment.API_URL}/v0/maintenance_windows/`, () =>
+        jsonResponse({
+          data: [
+            {
+              id: '139',
+              type: 'maintenance_windows',
+              attributes: {
+                externalService: 'vaoswarning',
+                description: 'My description',
+                startTime: format(
+                  subDays(new Date(), '1'),
+                  DATE_FORMATS.ISODateTime,
+                ),
+                endTime: format(
+                  addDays(new Date(), '1'),
+                  DATE_FORMATS.ISODateTime,
+                ),
+              },
             },
-          },
-        ],
-      },
+          ],
+        }),
+      ),
     );
 
     // Act

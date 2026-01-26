@@ -1,19 +1,20 @@
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
-import { within } from '@testing-library/react';
+import { cleanup, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import React from 'react';
+import { server } from 'platform/testing/unit/mocha-setup';
 import CommunityCareProviderSelectionPage from '.';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
+import { mockGetCurrentPosition } from '../../../tests/mocks/mockApis';
 import {
   mockCCEligibilityApi,
   mockCCProviderApi,
   mockFacilitiesApi,
-  mockGetCurrentPosition,
+  mockFacilityByIdApi,
   mockSchedulingConfigurationsApi,
-} from '../../../tests/mocks/mockApis';
+} from '../../../tests/mocks/mockMswApis';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -57,7 +58,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     .setLongitude(122.9988);
 
   beforeEach(() => {
-    mockFetch();
+    server.resetHandlers();
     mockCCEligibilityApi({ serviceType: 'PrimaryCare' });
     mockCCProviderApi({
       address: initialState.user.profile.vapContactInfo.residentialAddress,
@@ -74,6 +75,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ids: ['983'],
       response: [facility],
     });
+    mockFacilityByIdApi({ response: facility });
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,
       response: [
@@ -88,6 +90,10 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         }),
       ],
     });
+  });
+
+  afterEach(async () => {
+    await cleanup();
   });
 
   it('should display list of providers when choose a provider clicked', async () => {
@@ -211,11 +217,17 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     await screen.findByText(/Continue/i);
 
     // Choose Provider based on home address
-    userEvent.click(
+    await userEvent.click(
       await screen.container.querySelector(
         'va-button[text="Choose a provider"]',
       ),
     );
+
+    // Wait for providers request to complete
+    await waitFor(() => {
+      const { requestStatus } = store.getState().newAppointment;
+      expect(requestStatus).to.equal('succeeded');
+    });
 
     // When the user selects to sort providers by distance from current location
     // Choose Provider based on current location
@@ -228,9 +240,24 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
     });
 
-    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
-    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
-    userEvent.click(await screen.findByText(/Show 1 more provider$/i));
+    // Wait for geolocation to complete and currentLocation to be set
+    await waitFor(() => {
+      const { currentLocation } = store.getState().newAppointment;
+      expect(currentLocation).to.have.property('latitude');
+    });
+
+    // Wait for the second providers request to complete after sort change
+    await waitFor(() => {
+      const { requestStatus } = store.getState().newAppointment;
+      expect(requestStatus).to.equal('succeeded');
+    });
+
+    // Wait for provider list to reload after geolocation
+    await screen.findByText(/Displaying 5 of /i);
+
+    await userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    await userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    await userEvent.click(await screen.findByText(/Show 1 more provider$/i));
 
     // Then providers should be displayed in ascending order by distance from current location
     const miles = screen.queryAllByText(/miles$/);
@@ -275,13 +302,13 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     await screen.findByText(/Continue/i);
 
     // Choose Provider
-    userEvent.click(
+    await userEvent.click(
       await screen.container.querySelector(
         'va-button[text="Choose a provider"]',
       ),
     );
     await waitFor(() =>
-      expect(screen.getAllByRole('radio').length).to.equal(5),
+      expect(screen.queryAllByRole('radio').length).to.equal(5),
     );
     const providersSelect = await screen.findByTestId('providersSelect');
     // call VaSelect custom event for onChange handling
@@ -322,14 +349,30 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       response: CC_PROVIDERS_DATA.slice(0, 1),
     });
     // When the user attempts to search by current location again
-    userEvent.click(
+    await userEvent.click(
       screen.getByText(/Retry searching based on current location/i),
     );
+
+    // Wait for current location to be populated in Redux (geolocation succeeded)
+    await waitFor(() => {
+      const { currentLocation } = store.getState().newAppointment;
+      expect(currentLocation?.latitude).to.exist;
+    });
+
+    // Wait for providers to be loaded for current location sort method
+    await waitFor(() => {
+      const { communityCareProviders } = store.getState().newAppointment;
+      const currentLocationKey = Object.keys(communityCareProviders).find(key =>
+        key.startsWith(FACILITY_SORT_METHODS.distanceFromCurrentLocation),
+      );
+      expect(currentLocationKey).to.exist;
+    });
+
     // Then providers should be displayed by distance from current location
     // should eventually be one provider
     await waitFor(() => {
       const radioButtons = screen
-        .getAllByRole('radio')
+        .queryAllByRole('radio')
         .filter(element =>
           element.name.startsWith('root_communityCareProvider'),
         );
@@ -372,11 +415,17 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     await screen.findByText(/Continue/i);
 
     // Choose Provider based on home address
-    userEvent.click(
+    await userEvent.click(
       await screen.container.querySelector(
         'va-button[text="Choose a provider"]',
       ),
     );
+
+    // Wait for providers request to complete
+    await waitFor(() => {
+      const { requestStatus } = store.getState().newAppointment;
+      expect(requestStatus).to.equal('succeeded');
+    });
 
     // When the user selects to sort providers by distance from a specific facility
     // Choose Provider based on facility address
@@ -387,9 +436,22 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       detail: { value: '983' },
     });
 
-    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
-    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
-    userEvent.click(await screen.findByText(/Show 1 more provider$/i));
+    // Wait for selectedCCFacility to be set and providers request to complete
+    await waitFor(() => {
+      const {
+        selectedCCFacility,
+        requestStatus,
+      } = store.getState().newAppointment;
+      expect(selectedCCFacility).to.have.property('id');
+      expect(requestStatus).to.equal('succeeded');
+    });
+
+    // Wait for provider list to reload after facility selection
+    await screen.findByText(/Displaying 5 of /i);
+
+    await userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    await userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    await userEvent.click(await screen.findByText(/Show 1 more provider$/i));
 
     const miles = screen.queryAllByText(/miles$/);
     // Then providers should be displayed in ascending order by distance from the chosen facility

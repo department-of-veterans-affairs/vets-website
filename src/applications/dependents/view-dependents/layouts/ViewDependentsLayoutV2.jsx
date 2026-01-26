@@ -58,6 +58,8 @@ function ViewDependentsLayout(props) {
       <ViewDependentsHeader
         updateDiariesStatus={props.updateDiariesStatus}
         showAlert={hasDependents}
+        hasAwardDependents={props.onAwardDependents.length > 0}
+        hasMinimumRating={props.hasMinimumRating}
       />
       {mainContent}
       {showActionLink && (

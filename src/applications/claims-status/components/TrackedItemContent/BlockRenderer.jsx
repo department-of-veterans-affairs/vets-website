@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { InlineRenderer } from './InlineRenderer';
+import { BlockPropType } from './contentPropTypes';
 
 /**
  * Renders block-level elements (paragraphs, lists, line breaks)
@@ -20,9 +20,23 @@ export const BlockRenderer = ({ block }) => {
     case 'list': {
       const ListTag = block.style === 'numbered' ? 'ol' : 'ul';
       const className = block.style === 'bullet' ? 'bullet-disc' : undefined;
+
+      // Filter out null, undefined, empty strings, and empty arrays for accessibility
+      const validItems = (block.items || []).filter(item => {
+        if (item == null) return false; // Filters null and undefined
+        if (typeof item === 'string') return item.trim().length > 0;
+        if (Array.isArray(item)) return item.length > 0;
+        return true; // Keep objects (schema guarantees they have required properties)
+      });
+
+      // Don't render empty lists
+      if (validItems.length === 0) {
+        return null;
+      }
+
       return (
-        <ListTag {...(className ? { className } : {})}>
-          {block.items?.map((item, idx) => (
+        <ListTag className={className}>
+          {validItems.map((item, idx) => (
             <li key={idx}>
               <InlineRenderer content={item} />
             </li>
@@ -38,20 +52,5 @@ export const BlockRenderer = ({ block }) => {
 };
 
 BlockRenderer.propTypes = {
-  block: PropTypes.shape({
-    type: PropTypes.oneOf(['paragraph', 'list', 'lineBreak']).isRequired,
-    content: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.array,
-      PropTypes.object,
-    ]),
-    style: PropTypes.oneOf(['bullet', 'numbered']),
-    items: PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.array,
-        PropTypes.object,
-      ]),
-    ),
-  }).isRequired,
+  block: BlockPropType.isRequired,
 };

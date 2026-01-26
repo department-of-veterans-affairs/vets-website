@@ -116,7 +116,7 @@ describe('Reply form component', () => {
     const { getByText } = screen;
 
     const patientSafetyNotice = document.querySelector(
-      "[trigger='Only use messages for non-urgent needs']",
+      "[trigger='How to get help sooner for urgent needs']",
     );
     const draftToLabel = document.querySelector(
       'span[data-testid=draft-reply-to]',

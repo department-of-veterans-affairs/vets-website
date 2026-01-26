@@ -42,8 +42,8 @@ const EmergencyNote = props => {
       {dropDownFlag ? (
         <va-alert-expandable
           status="info"
-          trigger="Only use messages for non-urgent needs"
-          data-dd-action-name="Only use messages for non-urgent needs dropdown"
+          trigger="How to get help sooner for urgent needs"
+          data-dd-action-name="How to get help sooner for urgent needs dropdown"
           data-testid="emergency-use-only-expandable"
         >
           <div className="vads-u-padding-x--1 vads-u-padding-bottom--1">

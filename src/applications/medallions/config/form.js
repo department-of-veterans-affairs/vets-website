@@ -1,8 +1,8 @@
 import React from 'react';
-import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import get from 'platform/utilities/data/get';
+import Footer from '../components/Footer';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -83,6 +83,9 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  footerContent: ({ currentLocation }) => (
+    <Footer formConfig={formConfig} currentLocation={currentLocation} />
+  ),
   getHelp: GetFormHelp,
   defaultDefinitions: {},
   chapters: {
@@ -403,8 +406,6 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
-  footerContent,
 };
 
 export default formConfig;

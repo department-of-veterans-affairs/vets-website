@@ -1,15 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   VaLink,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { InlineContentPropType } from './contentPropTypes';
 
 /**
  * Renders inline content elements (bold, italic, links, telephone, line breaks)
  * Handles nested content and mixed arrays of strings and inline elements
  */
 export const InlineRenderer = ({ content }) => {
+  // Early return for null or undefined
+  if (content == null) return null; // Catches null and undefined
+
+  // Early return for invalid types (not string or object)
+  if (typeof content !== 'string' && typeof content !== 'object') {
+    return null;
+  }
+
   // Handle string content
   if (typeof content === 'string') {
     return content;
@@ -44,10 +52,11 @@ export const InlineRenderer = ({ content }) => {
       case 'link':
         return (
           <VaLink
-            active={content.style === 'active'}
             text={content.text}
             href={content.href}
             data-testid={content.testId}
+            {...content.style === 'active' && { active: true }}
+            {...content.style === 'external' && { external: true }}
           />
         );
       case 'telephone':
@@ -63,22 +72,5 @@ export const InlineRenderer = ({ content }) => {
 };
 
 InlineRenderer.propTypes = {
-  content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      content: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.array,
-        PropTypes.object,
-      ]),
-      text: PropTypes.string,
-      href: PropTypes.string,
-      style: PropTypes.string,
-      testId: PropTypes.string,
-      contact: PropTypes.string,
-      tty: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    }),
-  ]).isRequired,
+  content: InlineContentPropType.isRequired,
 };

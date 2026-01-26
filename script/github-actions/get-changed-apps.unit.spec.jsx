@@ -233,6 +233,70 @@ describe('getChangedAppsString', () => {
     });
   });
 
+  context('when the concurrency-group output type is specified', () => {
+    it('should return a single root folder name for a single app', () => {
+      const config = createChangedAppsConfig([{ rootFolder: 'app1' }]);
+      const changedFiles = ['src/applications/app1/some-file.js'];
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'concurrency-group',
+      );
+      expect(appString).to.equal('app1');
+    });
+
+    it('should return sorted root folder names for multiple apps', () => {
+      const config = createChangedAppsConfig([
+        { rootFolder: 'app2' },
+        { rootFolder: 'app1' },
+      ]);
+      const changedFiles = ['src/applications/app2', 'src/applications/app1'];
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'concurrency-group',
+      );
+      expect(appString).to.equal('app1 app2');
+    });
+
+    it('should return the root folder name when files are changed in a grouped app folder', () => {
+      const config = createChangedAppsConfig([{ rootFolder: 'groupedApps' }]);
+      const changedFiles = [
+        'src/applications/groupedApps/grouped-app-1/some-file.js',
+      ];
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'concurrency-group',
+      );
+      expect(appString).to.equal('groupedApps');
+    });
+
+    it('should return hyphen-delimited sorted root folder names when using hyphen delimiter', () => {
+      const config = createChangedAppsConfig([
+        { rootFolder: 'app2' },
+        { rootFolder: 'app1' },
+        { rootFolder: 'app3' },
+      ]);
+      const changedFiles = [
+        'src/applications/app3',
+        'src/applications/app1',
+        'src/applications/app2',
+      ];
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'concurrency-group',
+        '-',
+      );
+      expect(appString).to.equal('app1-app2-app3');
+    });
+  });
+
   context('when the delimiter is specified', () => {
     it('should return a string delimited by the delimiter', () => {
       const config = createChangedAppsConfig([

@@ -103,7 +103,7 @@ describe('Helpers', () => {
 
     it('calls scrollTo', () => {
       scrollAndFocusTarget();
-      expect(scrollToSpy.calledWith('topScrollElement')).to.be.true;
+      expect(scrollToSpy.calledWith('va-segmented-progress-bar')).to.be.true;
     });
 
     afterEach(() => {
