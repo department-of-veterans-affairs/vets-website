@@ -20,7 +20,11 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
-import { getErrorTypeFromFormat } from '../util/helpers';
+import {
+  getErrorTypeFromFormat,
+  displayHeaderPrefaceText,
+  displayMedicationsListHeader,
+} from '../util/helpers';
 import {
   rxListSortingOptions,
   medicationsUrls,
@@ -326,19 +330,44 @@ const Prescriptions = () => {
       if (!isExportInProgress || !exportListReady || !allergiesReady) return;
 
       if (format === DOWNLOAD_FORMAT.PDF) {
-        const rxList = buildPrescriptionsPDFList(
+        const rxPdfList = buildPrescriptionsPDFList(
           prescriptionsExportList,
           isCernerPilot,
           isV2StatusMapping,
         );
-        exportRxList.pdf(rxList, prescriptionsExportList.length);
+        // For PDF, isPdf=true (default) returns structured array for PDF template
+        const preface = displayHeaderPrefaceText(
+          selectedFilterOption,
+          selectedSortOption,
+          prescriptionsExportList.length,
+          true,
+        );
+        const listHeader = displayMedicationsListHeader(
+          selectedFilterOption,
+          isCernerPilot,
+          isV2StatusMapping,
+          currentFilterOptions,
+        );
+        exportRxList.pdf({ rxPdfList, preface, listHeader });
       } else if (format === DOWNLOAD_FORMAT.TXT) {
-        const rxList = buildPrescriptionsTXT(
+        const rxContent = buildPrescriptionsTXT(
           prescriptionsExportList,
           isCernerPilot,
           isV2StatusMapping,
         );
-        exportRxList.txt(rxList, prescriptionsExportList.length);
+        const preface = displayHeaderPrefaceText(
+          selectedFilterOption,
+          selectedSortOption,
+          prescriptionsExportList.length,
+          false,
+        );
+        const listHeader = displayMedicationsListHeader(
+          selectedFilterOption,
+          isCernerPilot,
+          isV2StatusMapping,
+          currentFilterOptions,
+        );
+        exportRxList.txt({ rxContent, preface, listHeader });
       } else if (format === PRINT_FORMAT.PRINT) {
         setPrintedList(prescriptionsExportList);
         resetExportStatus();
@@ -356,6 +385,9 @@ const Prescriptions = () => {
       resetExportStatus,
       isCernerPilot,
       isV2StatusMapping,
+      selectedFilterOption,
+      selectedSortOption,
+      currentFilterOptions,
     ],
   );
 
