@@ -244,7 +244,7 @@ class CCServiceTypeAhead extends Component {
                   }}
                   id="service-type-ahead-input"
                   aria-describedby="could-not-find-service-prompt error-message"
-                  aria-expanded={showExpanded}
+                  aria-expanded={showExpanded ? 'true' : 'false'}
                   aria-controls="service-typeahead-listbox"
                 />
 
