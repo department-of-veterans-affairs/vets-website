@@ -1,48 +1,31 @@
-import React from 'react';
 import {
   titleUI,
   textUI,
-  textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-
-const noSpaceOnlyPattern = '^(?!\\s*$).+';
 
 const uiSchema = {
   ...titleUI('Enter a pin or password'),
-  securitySetup: {
-    pinOrPassword: {
-      ...textUI({
-        title: (
-          <>
-            Pin or password (
-            <span className="vads-u-color--red">*Required</span>)
-          </>
-        ),
-        hint: 'Maximum limit is 30 characters',
-        errorMessages: {
-          required: 'Please enter a pin or password',
-          pattern: 'You must provide a response',
-        },
-      }),
-    },
+  securityAnswerText: {
+    ...textUI({
+      title: 'Pin or password',
+      hint: 'Maximum limit is 30 characters',
+      errorMessages: {
+        required: 'You must provide an answer',
+        maxLength: 'You must enter 30 characters or fewer',
+      },
+    }),
   },
 };
 
 const schema = {
   type: 'object',
   properties: {
-    securitySetup: {
-      type: 'object',
-      properties: {
-        pinOrPassword: {
-          ...textSchema,
-          pattern: noSpaceOnlyPattern,
-          maxLength: 30,
-        },
-      },
-      required: ['pinOrPassword'],
+    securityAnswerText: {
+      type: 'string',
+      maxLength: 30, // TODO -- keep this?
     },
   },
+  required: ['securityAnswerText'],
 };
 
 export { schema, uiSchema };

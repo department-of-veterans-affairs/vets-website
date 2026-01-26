@@ -168,8 +168,17 @@ const formConfig = {
               goPath('/security-setup-pin-password');
             } else if (question === 'create') {
               goPath('/security-setup-custom-question');
+            } else if (question === 'motherBornLocation') {
+              goPath('/security-setup-mother-born-location');
+            } else if (question === 'highSchool') {
+              goPath('/security-setup-high-school');
+            } else if (question === 'petName') {
+              goPath('/security-setup-pet-name');
+            } else if (question === 'teacherName') {
+              goPath('/security-setup-teacher-name');
+            } else if (question === 'fatherMiddleName') {
+              goPath('/security-setup-father-middle-name');
             }
-            // For other options, continue to next chapter/page
           },
         },
         securitySetupPinPassword: {
