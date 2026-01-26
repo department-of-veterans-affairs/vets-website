@@ -1,13 +1,7 @@
-// import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-
-// import { UploadDescription } from '../content/fileUploadDescriptions';
 import {
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import { ancillaryFormUploadUi } from '../utils/schemas';
-// import { selfAssessmentAlert } from '../content/selfAssessmentAlert';
-// import { isBDD } from '../utils';
 import {
   evidenceChoiceUploadContent,
   evidenceChoiceTitle,
@@ -31,11 +25,10 @@ export const uiSchema = {
       skipUpload: false,
       fileUploadUrl: UPLOAD_URL,
       formNumber: '21-526EZ',
-      // fileUploadUrl: `${baseURL}/upload_supporting_documents`,
       // Disallow uploads greater than 100 MB
-      maxFileSize: 104857600 / 2, // 100MB in bytes
+      maxFileSize: 104857600, // 100MB in bytes
+      minSize: 1024,
       accept: FILE_TYPES,
-      // errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
       hint: HINT_TEXT,
       errorMessages: {
         additionalInput: 'Choose a document type',
@@ -47,6 +40,14 @@ export const uiSchema = {
           payload.append('supporting_evidence_attachment[password]', password);
         }
         return payload;
+      },
+      parseResponse: (response, file) => {
+        // VaFileInputMultipleField expects `parseResponse` to include the original
+        // File object under `file` so it can derive name/size/type.
+        return {
+          confirmationCode: response?.data?.attributes?.guid,
+          file,
+        };
       },
       additionalInputRequired: true,
       additionalInput: additionalFormInputsContent,
