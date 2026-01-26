@@ -105,22 +105,14 @@ export {
   NON_VA_MEDICATION_DESCRIPTION,
   ACTIVE_NON_VA,
   PDF_FOOTER_RIGHT,
+  TXT_SEPARATOR,
   reportGeneratedBy,
   getReportGeneratedText,
   getAllergiesCountText,
 } from './staticContent';
 
-// Rx field builders
+// Allergy builders
 export {
-  createPdfField,
-  createTxtField,
-  buildInstructionsField,
-  buildReasonForUseField,
-  buildFacilityField,
-  buildProviderField,
-  buildDateField,
-  buildPharmacyPhoneField,
-  buildNonVARxFields,
   buildAllergyPdfItem,
   buildAllergyTxtItem,
   buildAllergiesPdfList,

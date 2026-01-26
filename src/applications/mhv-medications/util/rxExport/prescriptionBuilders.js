@@ -13,7 +13,11 @@ import {
   DATETIME_FORMATS,
   FIELD_NOT_AVAILABLE,
 } from './formatters';
-import { ACTIVE_NON_VA, NON_VA_MEDICATION_DESCRIPTION } from './staticContent';
+import {
+  ACTIVE_NON_VA,
+  NON_VA_MEDICATION_DESCRIPTION,
+  TXT_SEPARATOR,
+} from './staticContent';
 
 // Import helpers that are specific to prescription processing
 import {
@@ -48,8 +52,6 @@ const joinBlocks = (...blocks) =>
     .join(newLine(2)) + newLine();
 const fieldLine = (label, value) =>
   `${label}: ${validateFieldWithName(label, value)}`;
-const SEPARATOR =
-  '---------------------------------------------------------------------------------';
 
 const getLastFilledAndRxNumberBlock = rx => {
   const pendingMed =
@@ -815,7 +817,7 @@ export const buildNonVAPrescriptionTXT = (
 ) => {
   const { includeSeparators = true } = options ?? {};
   const header = includeSeparators
-    ? `${newLine()}${SEPARATOR}${newLine(3)}`
+    ? `${newLine()}${TXT_SEPARATOR}${newLine(3)}`
     : '';
 
   const body = joinBlocks(
@@ -879,7 +881,7 @@ export const buildPrescriptionsTXT = (
       newest.prescriptionNumber
     }, last filled on ${filledDate}`;
   };
-  const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
+  const header = `${newLine()}${TXT_SEPARATOR}${newLine(3)}`;
 
   const body = (prescriptions || []).map(rx => {
     if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
@@ -928,8 +930,8 @@ export const buildAllergiesTXT = allergies => {
     )}There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.${newLine()}`;
   }
 
-  const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
-  const footer = `${newLine(2)}${SEPARATOR}${newLine()}`;
+  const header = `${newLine()}${TXT_SEPARATOR}${newLine(3)}`;
+  const footer = `${newLine(2)}${TXT_SEPARATOR}${newLine()}`;
 
   const body = joinBlocks(
     'Allergies and reactions',
@@ -975,7 +977,7 @@ export const buildVAPrescriptionTXT = (
   isCernerPilot = false,
   isV2StatusMapping = false,
 ) => {
-  const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
+  const header = `${newLine()}${TXT_SEPARATOR}${newLine(3)}`;
   const rxTitle = prescription?.prescriptionName || prescription?.orderableItem;
   const subTitle = `Most recent prescription`;
 
