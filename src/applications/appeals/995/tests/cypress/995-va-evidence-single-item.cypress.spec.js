@@ -5,7 +5,11 @@ import mockData from '../fixtures/data/pre-api-comprehensive-test.json';
 import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 import { promptContent, summaryContent } from '../../content/evidence/va';
 import * as sh from '../../../shared/tests/cypress.helpers';
-import { EVIDENCE_URLS, NOV_2025_REDESIGN_TOGGLE } from '../../constants';
+import {
+  EVIDENCE_URLS,
+  NOV_2025_REDESIGN_TOGGLE,
+  TOGGLE_KEY,
+} from '../../constants';
 
 const issues = mockData.data.contestedIssues;
 
@@ -20,6 +24,10 @@ describe('Array Builder evidence flow', () => {
           features: [
             {
               name: NOV_2025_REDESIGN_TOGGLE,
+              value: true,
+            },
+            {
+              name: TOGGLE_KEY,
               value: true,
             },
           ],
