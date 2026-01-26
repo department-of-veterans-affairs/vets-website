@@ -8,6 +8,7 @@ import { cleanup, render, fireEvent, waitFor } from '@testing-library/react';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
 import ArrayBuilderItemPage from '../ArrayBuilderItemPage';
+
 import * as helpers from '../helpers';
 
 const mockRedux = ({
