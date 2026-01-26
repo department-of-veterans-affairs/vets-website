@@ -1,12 +1,12 @@
 import {
   yesNoUI,
   yesNoSchema,
-  // titleUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
-    // ...titleUI(''), // Are we missing a title or is it intentional?
+    ...titleUI('Previous VA home loans'),
     loanHistory: {
       hadPriorLoans: yesNoUI({
         title: 'Have you used the VA home loan program before?',
