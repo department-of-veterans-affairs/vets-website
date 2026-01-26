@@ -65,7 +65,11 @@ export const uiSchema = {
       },
       required: (_chapterData, _index, formData) =>
         formData?.spouseInformation?.noSsn === true,
-      hideIf: formData => formData?.spouseInformation?.noSsn !== true,
+      hideIf: formData => {
+        const addMode = formData?.spouseInformation?.noSsn;
+        const editMode = formData?.noSsn;
+        return !(addMode || editMode);
+      },
       errorMessages: {
         required:
           'Tell us why the spouse doesn’t have a Social Security number',
@@ -76,7 +80,11 @@ export const uiSchema = {
       'ui:required': (_chapterData, _index, formData) =>
         formData?.spouseInformation?.noSsn !== true,
       'ui:options': {
-        hideIf: formData => formData?.spouseInformation?.noSsn === true,
+        hideIf: formData => {
+          const addMode = formData?.spouseInformation?.noSsn;
+          const editMode = formData?.noSsn;
+          return addMode || editMode;
+        },
       },
     },
   },

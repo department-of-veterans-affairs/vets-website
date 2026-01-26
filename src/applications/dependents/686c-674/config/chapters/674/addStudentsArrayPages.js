@@ -171,8 +171,11 @@ export const studentInformationPage = {
       },
       required: (_chapterData, index, formData) =>
         formData?.studentInformation?.[index]?.noSsn === true,
-      hideIf: (formData, index) =>
-        formData?.studentInformation?.[index]?.noSsn !== true,
+      hideIf: (formData, index) => {
+        const addMode = formData?.studentInformation?.[index]?.noSsn;
+        const editMode = formData?.noSsn;
+        return !(addMode || editMode);
+      },
       errorMessages: {
         required: 'Tell us why the child doesn’t have a Social Security number',
       },
@@ -182,8 +185,11 @@ export const studentInformationPage = {
       'ui:required': (_chapterData, index, formData) =>
         !formData?.studentInformation?.[index]?.noSsn,
       'ui:options': {
-        hideIf: (formData, index) =>
-          formData?.studentInformation?.[index]?.noSsn,
+        hideIf: (formData, index) => {
+          const addMode = formData?.studentInformation?.[index]?.noSsn;
+          const editMode = formData?.noSsn;
+          return addMode || editMode;
+        },
       },
     },
   },
