@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   VaAlert,
@@ -6,12 +7,23 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Alerts, Paths } from '../../util/constants';
 import RouterLinkAction from './RouterLinkAction';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const CannotReplyAlert = props => {
   const { visible, isOhMessage = false } = props;
+  const { isStale } = useSelector(state => state.sm.threadDetails);
+  const { useCanReplyField } = useFeatureToggles();
+
+  const staleOrCannotReply = useMemo(
+    () => {
+      return useCanReplyField ? isStale : visible;
+    },
+    [useCanReplyField, visible, isStale],
+  );
+
   return (
     <>
-      {visible && (
+      {staleOrCannotReply && (
         <VaAlert status="info" class="vads-u-margin-y--4">
           <h2 slot="headline" data-testid="expired-alert-message">
             {Alerts.Message.CANNOT_REPLY_INFO_HEADER}

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useLocation } from 'react-router-dom';
-import { format, addDays } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MessageActionButtons from './MessageActionButtons';
@@ -32,7 +31,6 @@ const MessageThreadHeader = props => {
     threadId,
     category,
     subject,
-    sentDate,
     recipientId,
     isOhMessage = false,
   } = message;
@@ -41,9 +39,6 @@ const MessageThreadHeader = props => {
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
-  const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
-  const [hideReplyButton, setReplyButton] = useState(false);
   const [
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
@@ -71,15 +66,6 @@ const MessageThreadHeader = props => {
       // The Blocked Triage Group alert should stay visible until the user navigates away
     },
     [message, messages, recipientId],
-  );
-
-  useEffect(
-    () => {
-      if (new Date() > cannotReplyDate) {
-        setReplyButton(true);
-      }
-    },
-    [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
   );
 
   useEffect(
