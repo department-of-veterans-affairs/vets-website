@@ -96,7 +96,7 @@ describe('VA File Input Multiple', () => {
   };
 
   const getAboveFileInputError = (fileIndex = 0) =>
-    getFileInput(fileIndex).find('[role="alert"]');
+    getFileInput(fileIndex).find('#input-error-message');
 
   const getFileError = (fileIndex = 0) =>
     getFileInput(fileIndex).find('#input-error-message');
@@ -223,7 +223,7 @@ describe('VA File Input Multiple', () => {
       uploadFile('test-file.pdf');
 
       // Verify error is cleared after adding file
-      getAboveFileInputError().should('not.contain.text', VALIDATION_ERROR);
+      getAboveFileInputError().should('not.exist');
 
       cy.axeCheck();
     });

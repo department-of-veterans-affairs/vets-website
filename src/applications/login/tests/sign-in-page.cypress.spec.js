@@ -8,7 +8,7 @@ describe('Unified Sign-in Page', () => {
     cy.get('body').should('be.visible');
     cy.get('H1').contains('Sign in or create an account');
     cy.get('H2').contains('Help and support');
-    cy.get('a').contains('Learn about creating a Login.gov or ID.me account');
+    cy.contains('a', 'Learn about creating a Login.gov or ID.me account');
     cy.injectAxeThenAxeCheck();
   });
 });
