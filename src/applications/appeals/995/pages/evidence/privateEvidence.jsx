@@ -31,6 +31,7 @@ import {
 } from '../../content/evidence/private';
 import { getSelected } from '../../../shared/utils/issues';
 import { hasPrivateEvidence } from '../../utils/form-data-retrieval';
+import { redesignActive } from '../../utils';
 
 /**
  * This is how we determine whether all of the info for one
@@ -309,34 +310,39 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.privateIntro,
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
-    depends: hasPrivateEvidence,
+    depends: formData =>
+      redesignActive(formData) && hasPrivateEvidence(formData),
   }),
   privateSummary: pageBuilder.summaryPage({
     title: summaryContent.title,
     path: EVIDENCE_URLS.privateSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
-    depends: hasPrivateEvidence,
+    depends: formData =>
+      redesignActive(formData) && hasPrivateEvidence(formData),
   }),
   privateLocation: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateDetails,
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
-    depends: hasPrivateEvidence,
+    depends: formData =>
+      redesignActive(formData) && hasPrivateEvidence(formData),
   }),
   issues: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateIssues,
     uiSchema: issuesPage.uiSchema,
     schema: issuesPage.schema,
-    depends: hasPrivateEvidence,
+    depends: formData =>
+      redesignActive(formData) && hasPrivateEvidence(formData),
   }),
   treatmentDatePrivate: pageBuilder.itemPage({
     title: 'Treatment date',
     path: EVIDENCE_URLS.privateTreatmentDate,
     uiSchema: treatmentDatePage.uiSchema,
     schema: treatmentDatePage.schema,
-    depends: hasPrivateEvidence,
+    depends: formData =>
+      redesignActive(formData) && hasPrivateEvidence(formData),
   }),
 }));

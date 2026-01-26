@@ -44,7 +44,7 @@ export const NOTICE_5103_PATH = chapters.evidence.pages.notice5103.path;
 export const EVIDENCE_SUMMARY_PATH = chapters.evidence.pages.summary.path;
 export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
-  chapters.evidence.pages.vaDetails.path;
+  chapters.evidence.pages.vaDetailsOld.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
 export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
