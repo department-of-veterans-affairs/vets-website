@@ -1,4 +1,10 @@
-import React, { useMemo, useEffect, useState, useCallback } from 'react';
+import React, {
+  useMemo,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -59,6 +65,7 @@ export const PreferenceSelectionContainer = ({
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const historyUnblock = useRef(null);
   const defaultReturnPath = PROFILE_PATHS.SCHEDULING_PREFERENCES;
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
@@ -241,10 +248,26 @@ export const PreferenceSelectionContainer = ({
 
   useEffect(
     () => {
+      // Close out the modal on mount because clicking back
+      // from a sub task causes weird on page behaviors
+      dispatch(openModal(null));
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       // this is where we track the state of the beforeunload listener
       // and add/remove it as needed when the form has unsaved edits
       if (hasAnyUnsavedEdits && !hasBeforeUnloadListener) {
         window.addEventListener('beforeunload', beforeUnloadHandler);
+        historyUnblock.current = history.block(() => {
+          if (hasAnyUnsavedEdits) {
+            setShowConfirmCancelModal(true);
+            return false;
+          }
+          return true;
+        });
         setHasBeforeUnloadListener(true);
         return;
       }
@@ -252,6 +275,10 @@ export const PreferenceSelectionContainer = ({
       if (!hasAnyUnsavedEdits && hasBeforeUnloadListener) {
         setHasBeforeUnloadListener(false);
         clearBeforeUnloadListener();
+        if (historyUnblock.current) {
+          historyUnblock.current();
+          historyUnblock.current = null;
+        }
       }
     },
     [hasAnyUnsavedEdits, hasBeforeUnloadListener],
@@ -323,6 +350,7 @@ export const PreferenceSelectionContainer = ({
     cancel: () => {
       setShowConfirmCancelModal(false);
       clearBeforeUnloadListener();
+      historyUnblock.current();
       dispatch(openModal(null));
       history.push(returnPath);
     },
