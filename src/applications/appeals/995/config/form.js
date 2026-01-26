@@ -77,9 +77,9 @@ import {
   EVIDENCE_PRIVATE_DETAILS_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
+  EVIDENCE_ADDITIONAL_URL,
   EVIDENCE_PRIVATE_AUTHORIZATION_URL,
   EVIDENCE_UPLOAD_URL,
-  EVIDENCE_URLS,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
 import prefillTransformer from './prefill-transformer';
@@ -277,7 +277,7 @@ const formConfig = {
           uiSchema: vaPrompt.uiSchema,
           schema: vaPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
-          depends: formData => !redesignActive(formData),
+          depends: !redesignActive,
         },
         vaDetailsOld: {
           title: 'VA medical records details',
@@ -291,7 +291,7 @@ const formConfig = {
           depends: formData =>
             !redesignActive(formData) && hasVAEvidence(formData),
         },
-        privatePromptNew: {
+        privatePrompt: {
           title: 'Request non-VA medical records',
           path: EVIDENCE_PRIVATE_PROMPT_URL,
           CustomPage: PrivatePrompt,
@@ -299,7 +299,6 @@ const formConfig = {
           uiSchema: privatePrompt.uiSchema,
           schema: privatePrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
-          depends: formData => redesignActive(formData),
         },
         privateAuthorization: {
           title: 'Non-VA medical record authorization',
@@ -308,7 +307,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: privateAuthorization.uiSchema,
           schema: privateAuthorization.schema,
-          depends: formData => hasPrivateEvidence(formData),
+          depends: hasPrivateEvidence,
         },
         ...privateEvidence,
         limitedConsentPromptOld: {
@@ -342,7 +341,7 @@ const formConfig = {
         },
         uploadPrompt: {
           title: 'Upload new and relevant evidence',
-          path: EVIDENCE_URLS.uploadPrompt,
+          path: EVIDENCE_ADDITIONAL_URL,
           uiSchema: uploadPrompt.uiSchema,
           schema: uploadPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -352,7 +351,7 @@ const formConfig = {
           path: EVIDENCE_UPLOAD_URL,
           uiSchema: uploadDetails.uiSchema,
           schema: uploadDetails.schema,
-          depends: formData => hasOtherEvidence(formData),
+          depends: hasOtherEvidence,
         },
         summary: {
           title: 'Summary of evidence',
@@ -362,7 +361,7 @@ const formConfig = {
           uiSchema: summary.uiSchema,
           schema: summary.schema,
           scrollAndFocusTarget: focusAlertH3,
-          depends: formData => !redesignActive(formData),
+          depends: !redesignActive,
         },
       },
     },
