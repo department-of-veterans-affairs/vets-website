@@ -21,6 +21,9 @@ const ContactMethodWrapper = () => {
     if (quickExit || step === 'confirm') {
       buttonParams.leftButtonText = 'Save to profile';
       buttonParams.onPrimaryClick = handlers.save;
+      buttonParams['data-testid'] = 'quick-exit-cancel-buttons';
+    }
+    if (step === 'confirm') {
       buttonParams.rightButtonText = 'Update information';
       buttonParams.onSecondaryClick = handlers.updateContactInfo;
       buttonParams['data-testid'] = 'save-update-buttons';

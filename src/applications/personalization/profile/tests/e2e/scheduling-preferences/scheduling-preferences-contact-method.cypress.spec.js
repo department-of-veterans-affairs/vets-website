@@ -113,7 +113,7 @@ const clickContinueCancelButton = () => {
 const clickConfirmSave = () => {
   // Click to save on the confirm page
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.findByTestId('confirm-update-buttons')
+  cy.findByTestId('save-update-buttons')
     .shadow()
     .wait(1) // wait needed to ensure button is clickable for some reason
     .find('va-button')
