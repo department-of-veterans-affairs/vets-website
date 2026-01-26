@@ -4,6 +4,8 @@ import SignInWrapper from './components/SignInWrapper';
 import MockAuth from './containers/MockAuth';
 import ProdTestAccess from './containers/ProdTestAccess';
 import MhvTemporaryAccess from './containers/MhvTemporaryAccess';
+import MhvDemoLandingPageContainer from './containers/MhvDemoLandingPageContainer';
+import MhvDemoMedicalRecordsLandingPage from './containers/MhvDemoMedicalRecordsLandingPage';
 
 const routes = {
   path: '/',
@@ -23,6 +25,18 @@ const routes = {
           {
             path: 'mhv',
             component: MhvTemporaryAccess,
+          },
+          {
+            path: 'mhv-demo-mode-landing-page',
+            component: MhvDemoLandingPageContainer,
+          },
+          {
+            path: 'mhv-demo-mode-medical-records',
+            component: MhvDemoMedicalRecordsLandingPage,
+          },
+          {
+            path: 'mhv-demo-mode-payments',
+            // component: Mocked payments landing page,
           },
         ]
       : [

@@ -1,0 +1,154 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "./record-list";
+@import "./breadcrumbs";
+@import "./vitals";
+@import "./navigation";
+@import "./landing-page";
+@import "./labs-and-tests";
+@import "./chem-hem";
+@import "./print-download";
+@import "./radiology-images";
+@import "./settings";
+@import "./label-value";
+
+.link-button,
+.link-button:hover,
+.link-button:active {
+  background-color: transparent;
+  color: var(--vads-color-link);
+  font-weight: normal;
+  text-decoration: underline;
+  border: none;
+  border-radius: 0px;
+  transition-duration: 0s;
+  padding: 0px;
+  width: fit-content;
+}
+.link-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+@media print {
+  .no-print,
+  .no-print * {
+    visibility: hidden !important;
+    display: none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+  .page-title {
+    border: solid 1px var(--vads-color-black);
+    padding: 8px 0px;
+    text-align: center;
+  }
+  .print-header {
+    .name-dob {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  .card {
+    margin: 0px 0px 12px 0px !important;
+  }
+  .item-list * {
+    line-height: 1.3;
+  }
+  .print-title {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .left-align-print {
+    padding-left: 0px !important;
+  }
+  .print-indent {
+    padding-left: 16px !important;
+  }
+  .print-bold {
+    font-weight: 700 !important;
+  }
+  .margin-zero-print {
+    margin: 0px !important;
+  }
+}
+
+@media screen {
+  .print-only,
+  .print-only * {
+    visibility: hidden;
+    display: none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+}
+
+.max-80 {
+  max-width: 80ch;
+}
+
+.medical-records-container {
+  display: flex;
+  flex-direction: row;
+  .main-content {
+    margin-left: 0px;
+    width: 100%;
+    padding: 0px;
+    @media print {
+      margin-right: 0px;
+      max-width: none;
+    }
+  }
+}
+
+.page-description {
+  margin: 8px 0px 16px;
+}
+
+@media (max-width: $medium-screen) {
+  .medical-records-container {
+    flex-direction: column;
+  }
+}
+
+.time-header {
+  margin-bottom: 24px;
+}
+
+@media print {
+  .time-header {
+    margin: 0px;
+  }
+  .page-description {
+    margin: 16px 0px;
+  }
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto Mono"),
+    url(../../../site/assets/fonts/robotomono-regular.ttf) format("truetype");
+}
+
+.monospace {
+  font-family: Roboto Mono;
+  // font-family: monospace;
+}
+
+va-loading-indicator {
+  margin: 200px auto;
+}
+
+#new-records-indicator va-loading-indicator {
+  margin: initial;
+}
+
+#generating-ccd-indicator va-loading-indicator,
+#generating-sei-indicator va-loading-indicator {
+  margin: 0px;
+}
+
+.initial-fhir-load {
+  width: 300px;
+}
