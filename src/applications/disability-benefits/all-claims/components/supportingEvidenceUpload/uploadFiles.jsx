@@ -22,7 +22,7 @@ import {
   ADDITIONAL_ATTACHMENT_LABEL,
 } from './constants';
 
-const additionalFormInputsContent = ({
+export const additionalFormInputsContent = ({
   attachmentTypes = ATTACHMENTS_TYPE,
   label = ADDITIONAL_ATTACHMENT_LABEL,
 } = {}) => (

@@ -1,39 +1,74 @@
-import React from 'react';
-import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const evidenceChoiceUploadDescription = (
-  <p>
-    Upload copies of your supporting documents or additional forms to support
-    your claim.
-  </p>
-);
+// import { UploadDescription } from '../content/fileUploadDescriptions';
+import {
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+// import { ancillaryFormUploadUi } from '../utils/schemas';
+// import { selfAssessmentAlert } from '../content/selfAssessmentAlert';
+// import { isBDD } from '../utils';
+import {
+  evidenceChoiceUploadContent,
+  evidenceChoiceTitle,
+} from './evidenceChoiceUpload';
+import { standardTitle } from '../../../content/form0781';
+import {
+  FILE_TYPES,
+  HINT_TEXT,
+  UPLOAD_URL,
+  FILE_UPLOAD_TITLE,
+} from '../../../components/supportingEvidenceUpload/constants';
+import { additionalFormInputsContent } from '../../../components/supportingEvidenceUpload/uploadFiles';
 
-const evidenceChoiceAdditionalInfo = (
-  <VaAdditionalInfo trigger="How to prepare your files">
-    <p>
-      If your document is digital, make sure it’s one of the accepted file
-      types.
-    </p>
-    <p>
-      Before you upload your files, make sure they’re saved on the device you’re
-      using to submit this claim. You can do this in 1 of 2 ways:
-    </p>
-    <ul>
-      <li>
-        On a computer connected to a scanner, scan each document and save the
-        file as a PDF.
-      </li>
-      <li>
-        On a smartphone, take a photo of the document or use a scanning app to
-        save it as a PDF.
-      </li>
-    </ul>
-  </VaAdditionalInfo>
-);
+export const uiSchema = {
+  'ui:title': standardTitle(evidenceChoiceTitle),
+  'ui:description': evidenceChoiceUploadContent,
+  evidenceChoiceFileInput: {
+    ...fileInputMultipleUI({
+      title: FILE_UPLOAD_TITLE,
+      required: true,
+      skipUpload: false,
+      fileUploadUrl: UPLOAD_URL,
+      formNumber: '21-526EZ',
+      // fileUploadUrl: `${baseURL}/upload_supporting_documents`,
+      // Disallow uploads greater than 100 MB
+      maxFileSize: 104857600 / 2, // 100MB in bytes
+      accept: FILE_TYPES,
+      // errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
+      hint: HINT_TEXT,
+      errorMessages: {
+        additionalInput: 'Choose a document type',
+      },
+      createPayload: (file, _formId, password) => {
+        const payload = new FormData();
+        payload.append('supporting_evidence_attachment[file_data]', file);
+        if (password) {
+          payload.append('supporting_evidence_attachment[password]', password);
+        }
+        return payload;
+      },
+      additionalInputRequired: true,
+      additionalInput: additionalFormInputsContent,
+      additionalInputUpdate: (instance, error, data) => {
+        instance.setAttribute('error', error);
+        if (data) {
+          instance.setAttribute('value', data.documentType);
+        }
+      },
+      handleAdditionalInput: e => {
+        const { value } = e.detail;
+        if (value === '') return null;
+        return { documentType: e.detail.value };
+      },
+    }),
+  },
+};
 
-export const evidenceChoiceUploadContent = (
-  <>
-    {evidenceChoiceUploadDescription}
-    {evidenceChoiceAdditionalInfo}
-  </>
-);
+export const schema = {
+  type: 'object',
+  required: ['evidenceChoiceFileInput'],
+  properties: {
+    evidenceChoiceFileInput: fileInputMultipleSchema(),
+  },
+};
