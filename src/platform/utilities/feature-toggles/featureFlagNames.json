@@ -397,5 +397,6 @@
   "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled",
   "meb1995InstructionPageUpdateV3": "meb_1995_instruction_page_update_v3",
   "sobClaimantService": "sob_claimant_service",
-  "form10203ClaimantService": "form_10203_claimant_service"
+  "form10203ClaimantService": "form_10203_claimant_service",
+  "meb5490Under18Flow": "meb_5490_under_18_flow"
 }
