@@ -150,6 +150,7 @@
   "intentToFileSynchronousEnabled": "intent_to_file_synchronous_enabled",
   "kendraEnabledForResourcesAndSupportSearch": "kendra_enabled_for_resources_and_support_search",
   "loopPages": "loop_pages",
+  "loginGovStateDowntimeAlerts": "login_gov_state_downtime_alerts",
   "manageDependents": "dependents_management",
   "meb160630Automation": "meb_1606_30_automation",
   "mebAutoPopulateRelinquishmentDate": "meb_auto_populate_relinquishment_date",
