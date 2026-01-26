@@ -119,6 +119,116 @@ describe('copays actions', () => {
       });
     });
 
+    it('should handle 500 server errors', async () => {
+      const serverError = {
+        status: 500,
+        detail: 'Internal server error',
+      };
+      apiRequestStub.rejects({ errors: [serverError] });
+
+      await getStatements(dispatch);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_INIT,
+      });
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_FAILURE,
+        error: serverError,
+      });
+      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
+        'medical_copays failed: Internal server error',
+      );
+    });
+
+    it('should handle 403 forbidden errors', async () => {
+      const forbiddenError = {
+        status: 403,
+        detail: 'Forbidden - insufficient permissions',
+      };
+      apiRequestStub.rejects({ errors: [forbiddenError] });
+
+      await getStatements(dispatch);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_INIT,
+      });
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_FAILURE,
+        error: forbiddenError,
+      });
+      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
+        'medical_copays failed: Forbidden - insufficient permissions',
+      );
+    });
+
+    it('should handle 404 not found errors', async () => {
+      const notFoundError = {
+        status: 404,
+        detail: 'Resource not found',
+      };
+      apiRequestStub.rejects({ errors: [notFoundError] });
+
+      await getStatements(dispatch);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_INIT,
+      });
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_FAILURE,
+        error: notFoundError,
+      });
+      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
+        'medical_copays failed: Resource not found',
+      );
+    });
+
+    it('should handle 401 unauthorized errors', async () => {
+      const unauthorizedError = {
+        status: 401,
+        detail: 'Unauthorized - authentication required',
+      };
+      apiRequestStub.rejects({ errors: [unauthorizedError] });
+
+      await getStatements(dispatch);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_INIT,
+      });
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_FAILURE,
+        error: unauthorizedError,
+      });
+      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
+        'medical_copays failed: Unauthorized - authentication required',
+      );
+    });
+
+    it('should handle 503 service unavailable errors', async () => {
+      const serviceUnavailableError = {
+        status: 503,
+        detail: 'Service temporarily unavailable',
+      };
+      apiRequestStub.rejects({ errors: [serviceUnavailableError] });
+
+      await getStatements(dispatch);
+
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_INIT,
+      });
+      expect(dispatch.secondCall.args[0]).to.deep.equal({
+        type: MCP_STATEMENTS_FETCH_FAILURE,
+        error: serviceUnavailableError,
+      });
+      expect(sentryCaptureMessageStub.calledOnce).to.be.true;
+      expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
+        'medical_copays failed: Service temporarily unavailable',
+      );
+    });
+
     it('should handle network errors', async () => {
       const networkError = { detail: 'Network error' };
       apiRequestStub.rejects({ errors: [networkError] });
