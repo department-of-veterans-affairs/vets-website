@@ -45,15 +45,12 @@ export const medicalCopaysReducer = (state = mcpInitialState, action) => {
         pending: true,
       };
     case MCP_STATEMENTS_FETCH_SUCCESS:
-      // console.log('HIT STATEMENTS FETCH REDUCER', action.response);
-
       return {
         ...state,
         pending: false,
         statements: action.response,
       };
     case MCP_DETAIL_FETCH_SUCCESS:
-      // console.log('HIT DETAIL FETCH REDUCER', action.response);
       return {
         ...state,
         pending: false,
