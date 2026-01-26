@@ -291,6 +291,44 @@ export const getInfoToken = () => {
   return null;
 };
 
+export const getAccessTokenExpiration = () => {
+  const info = getInfoToken();
+  const exp = info?.access_token_expiration;
+
+  if (!exp) return null;
+
+  const expDate = exp instanceof Date ? exp : new Date(exp);
+  if (Number.isNaN(expDate.getTime())) return null;
+
+  return expDate;
+};
+
+export const msUntilAccessTokenExpiration = () => {
+  const exp = getAccessTokenExpiration();
+  if (!exp) return null;
+  return exp.getTime() - Date.now();
+};
+
+export const isAccessTokenExpiringSoon = (thresholdSeconds = 60) => {
+  if (!infoTokenExists()) return false;
+
+  const msRemaining = msUntilAccessTokenExpiration();
+  if (msRemaining === null) return false;
+
+  return msRemaining <= thresholdSeconds * 1000;
+};
+
+export const refreshIfAccessTokenExpiringSoon = async ({
+  thresholdSeconds = 60,
+  type,
+} = {}) => {
+  if (!type) return false;
+  if (!isAccessTokenExpiringSoon(thresholdSeconds)) return false;
+
+  await refresh({ type });
+  return true;
+};
+
 export const removeInfoToken = () => {
   if (!infoTokenExists()) return null;
 

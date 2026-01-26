@@ -8,6 +8,7 @@ import {
   checkOrSetSessionExpiration,
   infoTokenExists,
   refresh,
+  refreshIfAccessTokenExpiringSoon,
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
@@ -54,10 +55,31 @@ export function handleSessionUpdates(response) {
   }
 }
 
-export function fetchAndUpdateSessionExpiration(url, settings) {
+export async function fetchAndUpdateSessionExpiration(url, settings) {
   // use regular fetch if stubbed by sinon or cypress
   if (fetch.isSinonProxy) {
     return fetch(url, settings);
+  }
+
+  /**
+   * Proactive refresh:
+   * If OAuth access token is within 60s of expiring, refresh BEFORE making API request.
+   * This reduces the chance of an access token expiring "in flight".
+   */
+  const apiURL = environment.API_URL;
+  const isApiRequest = url.includes(apiURL);
+  const isTestEnv = !!window.Mocha;
+  const serviceName = sessionStorage.getItem('serviceName');
+
+  if (isApiRequest && !isTestEnv && infoTokenExists() && serviceName) {
+    try {
+      await refreshIfAccessTokenExpiringSoon({
+        thresholdSeconds: 60,
+        type: serviceName,
+      });
+    } catch (e) {
+      // Intentionally swallow refresh errors to avoid blocking API requests
+    }
   }
 
   const originalFetch = fetch;
@@ -68,10 +90,9 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
     ...(!window.Mocha && { retryOn }),
   };
 
-  return _fetch(url, mergedSettings).then(response => {
-    handleSessionUpdates(response);
-    return response;
-  });
+  const response = await _fetch(url, mergedSettings);
+  handleSessionUpdates(response);
+  return response;
 }
 
 /**
