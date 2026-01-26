@@ -111,6 +111,11 @@ const formConfig = {
           depends: formData => formData['view:coeFormRebuildCveteam'],
           included: ['mailingAddress', 'email', 'homePhone'],
           contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
+          content: {
+            ...getContent('application'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
         }),
         applicantInformationSummary: {
           path: 'applicant-information',
