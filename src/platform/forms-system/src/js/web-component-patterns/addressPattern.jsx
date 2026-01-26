@@ -331,12 +331,6 @@ function updateValidations(uiSchema, validations, keys) {
   }
 
   if (Array.isArray(validations)) {
-    // (PREFERRED) Single validation array for the whole address
-    // e.g. [(errors, fieldData, formData) => {...} ]
-    // if fieldData.street2...
-    //   errors.street2.addError('...')
-    // if fieldData.street3...
-    //   errors.street3.addError('...')
     // eslint-disable-next-line no-param-reassign
     uiSchema['ui:validations'] = uiSchema['ui:validations'].concat(validations);
     return;
@@ -344,11 +338,6 @@ function updateValidations(uiSchema, validations, keys) {
 
   if (typeof validations === 'object') {
     validateKeys(Object.keys(validations), 'validations', MAPPABLE_KEYS);
-
-    // Field-specific validations
-    // e.g. { street2: [ (errors, value) => {...} ] }
-    // if value...
-    //   errors.addError('...')
     Object.keys(validations).forEach(field => {
       const mappedKey = keys[field] || field;
       if (uiSchema[mappedKey]) {
