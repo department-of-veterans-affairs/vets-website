@@ -38,9 +38,8 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
   const [selectedFilterOption, setSelectedFilterOption] = useState(
     filterOption,
   );
-  const [loadingButton, setLoadingButton] = useState(null); // Track which button is loading
+  const [loadingButton, setLoadingButton] = useState(null);
 
-  // Reset button loading state when overall loading is complete
   useEffect(
     () => {
       if (!isLoading) {
