@@ -54,6 +54,7 @@ const SendRxRenewalMessage = ({
         isActionLink={isActionLink}
         setShowRenewalModal={setShowRenewalModal}
         isExpired={isExpiredLessThan120Days}
+        isActiveNoRefills={isActiveNoRefills}
       />
       <VaModal
         modalTitle="You're leaving medications to send a message"
@@ -70,8 +71,8 @@ const SendRxRenewalMessage = ({
         uswds
       >
         <p className="vads-u-margin-bottom--2">
-          You’ll need to select your provider and send them a message requesting
-          a prescription renewal.
+          You’ll need to select your provider and send the prescription renewal
+          request. We’ll pre-fill your prescription details in the message.
         </p>
         <p className="vads-u-margin-bottom--2">
           If you need a medication immediately, call your VA pharmacy’s
@@ -86,6 +87,7 @@ const SendRxRenewalMessage = ({
 SendRxRenewalMessage.propTypes = {
   fallbackContent: PropTypes.node,
   isActionLink: PropTypes.bool,
+  isActiveNoRefills: PropTypes.bool,
   rx: PropTypes.shape({
     refillRemaining: PropTypes.number,
     dispStatus: PropTypes.string,
@@ -134,6 +136,7 @@ const RenderLinkVariation = ({
 
 RenderLinkVariation.propTypes = {
   isActionLink: PropTypes.bool,
+  isActiveNoRefills: PropTypes.bool,
   isExpired: PropTypes.bool,
   setShowRenewalModal: PropTypes.func,
 };
