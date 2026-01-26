@@ -70,25 +70,13 @@ async function loadWithRetry(importFn, maxRetries, baseDelayMs, maxDelayMs) {
 
       // Don't retry after the last attempt
       if (attempt === maxRetries) {
-        // eslint-disable-next-line no-console
-        console.error(
-          `Failed to load chunk after ${maxRetries + 1} attempts:`,
-          error,
-        );
         throw error;
       }
 
       const delay = calculateDelay(attempt, baseDelayMs, maxDelayMs);
 
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Chunk load failed (attempt ${attempt + 1}/${maxRetries +
-          1}), retrying in ${Math.round(delay)}ms...`,
-        error?.message,
-      );
-
       // eslint-disable-next-line no-await-in-loop
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
