@@ -6,6 +6,8 @@ import { ACCEPTED } from '../../../../../webchat/reducers';
 import { clearBotSessionStorage } from '../../../../../webchat/utils/sessionStorage';
 import { selectChatbotHasAcceptedDisclaimer } from '../../../../store';
 import AiDisclaimer from './AiDisclaimer';
+import ChatboxContainer from '../../../../components/chatbox/ChatboxContainer';
+import ChatMessageList from '../../../../components/chatbox/ChatMessageList';
 
 /**
  * Handle click on the accept disclaimer button
@@ -49,60 +51,64 @@ function onClick(dispatch, onAccept) {
 export default function RightColumnContent({ onAccept }) {
   const dispatch = useDispatch();
   const hasAcceptedDisclaimer = useSelector(selectChatbotHasAcceptedDisclaimer);
-  return (
-    <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
-      <div className="vads-u-background-color--primary-darker vads-u-padding--1p5">
-        <h2
-          className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0"
-          id="chatbot-header"
-          tabIndex="-1"
-        >
-          VA chatbot (beta)
-        </h2>
-      </div>
-      <div className="vads-u-padding--1p5">
-        {!hasAcceptedDisclaimer ? (
-          <va-alert status="info">
-            <h3 slot="headline">About this chatbot</h3>
 
-            <div data-testid="disclaimer" style={{ width: '100%' }}>
-              <ul>
-                <li>
-                  Our chatbot can’t help you if you’re experiencing a personal,
-                  medical, or mental health emergency. Go to the nearest
-                  emergency room, dial 988 and press 1 for mental health
-                  support, or call 911 to get medical care right away.
-                  <br />
-                  <a href="/health-care/health-needs-conditions/mental-health/">
-                    Learn more about VA mental health services
-                  </a>
-                </li>
-                <li>
-                  Please don’t type any personal information such as your name,
-                  address, or anything else that can be used to identify you.
-                </li>
-                <AiDisclaimer />
-              </ul>
-              <va-button
-                id="btnAcceptDisclaimer"
-                data-testid="btnAcceptDisclaimer"
-                text="Start chat"
-                onClick={() => onClick(dispatch, onAccept)}
-              />
-            </div>
-          </va-alert>
-        ) : (
-          <>
-            <p className="vads-u-margin-top--0">
-              New chatbot shell is ready 🐚🐚🐚.
-            </p>
-            <p className="vads-u-margin-bottom--0 vads-u-font-style--italic">
-              Start wiring up the new experience here.
-            </p>
-          </>
-        )}
-      </div>
-    </div>
+  const messages = [
+    {
+      id: 'welcome',
+      sender: 'va',
+      text: "Hi, I'm the VA chatbot. I can help with VA.gov questions.",
+    },
+    {
+      id: 'user-question',
+      sender: 'user',
+      text: 'How do I check the status of my claim?',
+    },
+    {
+      id: 'va-response',
+      sender: 'va',
+      text: 'You can check your claim status on VA.gov after you sign in.',
+    },
+  ];
+
+  const errorMessage =
+    "We can't load more responses right now. Please try again later.";
+
+  return (
+    <ChatboxContainer>
+      {!hasAcceptedDisclaimer ? (
+        <va-alert status="info">
+          <h3 slot="headline">About this chatbot</h3>
+
+          <div data-testid="disclaimer" style={{ width: '100%' }}>
+            <ul>
+              <li>
+                Our chatbot can’t help you if you’re experiencing a personal,
+                medical, or mental health emergency. Go to the nearest emergency
+                room, dial 988 and press 1 for mental health support, or call
+                911 to get medical care right away.
+                <br />
+                <a href="/health-care/health-needs-conditions/mental-health/">
+                  Learn more about VA mental health services
+                </a>
+              </li>
+              <li>
+                Please don’t type any personal information such as your name,
+                address, or anything else that can be used to identify you.
+              </li>
+              <AiDisclaimer />
+            </ul>
+            <va-button
+              id="btnAcceptDisclaimer"
+              data-testid="btnAcceptDisclaimer"
+              text="Start chat"
+              onClick={() => onClick(dispatch, onAccept)}
+            />
+          </div>
+        </va-alert>
+      ) : (
+        <ChatMessageList messages={messages} errorMessage={errorMessage} />
+      )}
+    </ChatboxContainer>
   );
 }
 
