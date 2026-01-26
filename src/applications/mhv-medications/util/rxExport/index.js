@@ -5,7 +5,48 @@
  * in PDF and TXT formats. It consolidates logic that was previously
  * duplicated across containers and util files.
  *
- * Usage:
+ * Usage with useRxExport hook (recommended):
+ *
+ * ```javascript
+ * import { useRxExport } from '../hooks/useRxExport';
+ *
+ * const { exportRxList, exportRxDetails, isExportInProgress, isExportSuccess } = useRxExport({
+ *   userName,
+ *   dob,
+ *   allergies,
+ *   allergiesError,
+ *   options: { isCernerPilot, isV2StatusMapping }
+ * });
+ *
+ * // Export medications list as PDF
+ * exportRxList.pdf({
+ *   rxPdfList,      // Array - built via buildPrescriptionsPDFList()
+ *   preface,        // Array - built via displayHeaderPrefaceText(..., true) for PDF
+ *   listHeader      // String - built via displayMedicationsListHeader()
+ * });
+ *
+ * // Export medications list as TXT
+ * exportRxList.txt({
+ *   rxContent,      // String - built via buildPrescriptionsTXT()
+ *   preface,        // String - built via displayHeaderPrefaceText(..., false) for TXT
+ *   listHeader      // String - built via displayMedicationsListHeader()
+ * });
+ *
+ * // Export single Rx details as PDF
+ * exportRxDetails.pdf({
+ *   rxName,         // String - prescription name
+ *   rxPdfList,      // Array - prescription PDF field list
+ *   isNonVA         // Boolean - whether it's a non-VA prescription
+ * });
+ *
+ * // Export single Rx details as TXT
+ * exportRxDetails.txt({
+ *   rxContent,      // String - formatted prescription text content
+ *   isNonVA         // Boolean - whether it's a non-VA prescription
+ * });
+ * ```
+ *
+ * Direct service usage (advanced):
  *
  * ```javascript
  * import { createExportService } from '../util/rxExport';
@@ -16,17 +57,15 @@
  *   options: { isCernerPilot: false, isV2StatusMapping: false }
  * });
  *
- * // Export single Rx details
- * await exportService.exportRxDetailsPdf({
- *   rxName: 'Aspirin',
- *   rxPdfList: [...],
- *   allergies: [...],
- *   isNonVA: false
- * });
+ * // Export Rx list as PDF
+ * await exportService.exportRxListPdf({ rxPdfList, allergies, preface, listHeader });
+ *
+ * // Export Rx details as PDF
+ * await exportService.exportRxDetailsPdf({ rxName, rxPdfList, allergies, isNonVA });
  *
  * // Or build documents manually for more control
- * const pdfData = exportService.pdfBuilder.buildRxDetailsPdf({...});
- * const txtContent = exportService.txtBuilder.buildRxDetailsTxt({...});
+ * const pdfData = exportService.pdfBuilder.buildRxListPdf({ rxList, allergies, preface, listHeader });
+ * const txtContent = exportService.txtBuilder.buildRxDetailsTxt({ rxContent, allergies });
  * ```
  */
 
