@@ -17,6 +17,9 @@ import {
   thirdPartyPersonName,
   thirdPartyPersonAddress,
   discloseInformation,
+  securitySetup,
+  securitySetupPinPassword,
+  securitySetupCustomQuestion,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -148,6 +151,46 @@ const formConfig = {
           schema: thirdPartyPersonAddress.schema,
           depends: formData =>
             formData?.discloseInformation?.authorize === 'person',
+        },
+      },
+    },
+    securitySetupChapter: {
+      title: 'Security setup',
+      pages: {
+        securitySetup: {
+          path: 'security-setup',
+          title: 'Security setup',
+          uiSchema: securitySetup.uiSchema,
+          schema: securitySetup.schema,
+          onNavForward: ({ formData, goPath }) => {
+            const question = formData?.securityQuestion?.question;
+            if (question === 'pin') {
+              goPath('/security-setup-pin-password');
+            } else if (question === 'create') {
+              goPath('/security-setup-custom-question');
+            }
+            // For other options, continue to next chapter/page
+          },
+        },
+        securitySetupPinPassword: {
+          path: 'security-setup-pin-password',
+          title: 'Security setup',
+          uiSchema: securitySetupPinPassword.uiSchema,
+          schema: securitySetupPinPassword.schema,
+          depends: formData => formData?.securitySetup?.option === 'pin',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupCustomQuestion: {
+          path: 'security-setup-custom-question',
+          title: 'Security setup',
+          uiSchema: securitySetupCustomQuestion.uiSchema,
+          schema: securitySetupCustomQuestion.schema,
+          depends: formData => formData?.securitySetup?.option === 'create',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
         },
       },
     },
