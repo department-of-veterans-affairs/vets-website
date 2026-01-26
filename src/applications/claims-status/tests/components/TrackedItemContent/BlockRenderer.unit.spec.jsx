@@ -119,18 +119,80 @@ describe('BlockRenderer', () => {
     expect(container.firstChild).to.be.null;
   });
 
-  it('should handle list without items', () => {
+  it('should return null for list with empty items array', () => {
     const { container } = render(
       <BlockRenderer
         block={{
           type: 'list',
           style: 'bullet',
+          items: [],
+        }}
+      />,
+    );
+    expect(container.firstChild).to.be.null;
+  });
+
+  it('should filter out invalid list items (null, undefined, empty strings)', () => {
+    const { container } = render(
+      <BlockRenderer
+        block={{
+          type: 'list',
+          style: 'bullet',
+          items: ['Valid item 1', null, '', undefined, '  ', 'Valid item 2'],
         }}
       />,
     );
     const ul = container.querySelector('ul');
     expect(ul).to.exist;
+    // Should only render 2 valid items (filtered out: null, '', undefined, '  ')
     const lis = container.querySelectorAll('li');
-    expect(lis).to.have.length(0);
+    expect(lis).to.have.length(2);
+    expect(lis[0].textContent).to.equal('Valid item 1');
+    expect(lis[1].textContent).to.equal('Valid item 2');
+  });
+
+  it('should keep object/array items for InlineRenderer to handle', () => {
+    const { container } = render(
+      <BlockRenderer
+        block={{
+          type: 'list',
+          style: 'bullet',
+          items: [
+            'String item',
+            null, // Should be filtered
+            { type: 'bold', content: 'Bold object' }, // Should be kept
+            ['Array ', 'item'], // Should be kept
+            '', // Should be filtered
+          ],
+        }}
+      />,
+    );
+    const lis = container.querySelectorAll('li');
+    expect(lis).to.have.length(3); // Only 3 valid items
+    expect(lis[0].textContent).to.equal('String item');
+    expect(lis[1].textContent).to.equal('Bold object');
+    expect(lis[2].textContent).to.equal('Array item');
+  });
+
+  it('should filter out empty arrays', () => {
+    const { container } = render(
+      <BlockRenderer
+        block={{
+          type: 'list',
+          style: 'bullet',
+          items: [
+            'Valid string',
+            [], // Should be filtered - empty array
+            { type: 'bold', content: 'Valid object' }, // Should be kept
+            ['Valid', ' array'], // Should be kept
+          ],
+        }}
+      />,
+    );
+    const lis = container.querySelectorAll('li');
+    expect(lis).to.have.length(3); // Only 3 valid items (empty array filtered out)
+    expect(lis[0].textContent).to.equal('Valid string');
+    expect(lis[1].textContent).to.equal('Valid object');
+    expect(lis[2].textContent).to.equal('Valid array');
   });
 });

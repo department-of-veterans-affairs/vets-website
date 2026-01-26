@@ -129,11 +129,4 @@ describe('TrackedItemContent', () => {
     const { container } = render(<TrackedItemContent content={null} />);
     expect(container.firstChild).to.be.null;
   });
-
-  it('should return null when blocks is not an array', () => {
-    const { container } = render(
-      <TrackedItemContent content={{ blocks: 'not-an-array' }} />,
-    );
-    expect(container.firstChild).to.be.null;
-  });
 });

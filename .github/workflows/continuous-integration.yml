@@ -113,6 +113,7 @@ jobs:
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
+      deployment_concurrency_group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}
 
     strategy:
       fail-fast: false
@@ -147,7 +148,14 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, continuous_deployment'
+          output-type: 'entry_name, continuous_deployment, deployment_concurrency_group'
+
+      - name: Log changed apps info
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        run: |
+          echo "Entry names: ${{ steps.get-changed-apps.outputs.entry_names }}"
+          echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
+          echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -2007,7 +2015,8 @@ jobs:
           --arg ref "${{ github.ref }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
           --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
+          --arg concurrency_group "${{ needs.build.outputs.deployment_concurrency_group }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel, concurrency_group: $concurrency_group}}')"
 
       - name: Cancel CD dispatch due to holiday
         if: steps.holiday-check.outputs.is_holiday == 'true'

@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { BlockRenderer } from './BlockRenderer';
+import { ContentPropType } from './contentPropTypes';
 
 /**
  * Main component that renders structured content blocks from the API
@@ -21,24 +21,5 @@ export const TrackedItemContent = ({ content }) => {
 };
 
 TrackedItemContent.propTypes = {
-  content: PropTypes.shape({
-    blocks: PropTypes.arrayOf(
-      PropTypes.shape({
-        type: PropTypes.oneOf(['paragraph', 'list', 'lineBreak']).isRequired,
-        content: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.array,
-          PropTypes.object,
-        ]),
-        style: PropTypes.oneOf(['bullet', 'numbered']),
-        items: PropTypes.arrayOf(
-          PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.array,
-            PropTypes.object,
-          ]),
-        ),
-      }),
-    ),
-  }),
+  content: ContentPropType,
 };
