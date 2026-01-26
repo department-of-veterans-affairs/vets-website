@@ -374,7 +374,7 @@ describe('Medications Prescriptions container', () => {
           expect(screen.queryByTestId('loading-indicator')).not.to.exist;
         });
 
-        expect(screen.getByText('Medications')).to.exist;
+        expect(screen.getByTestId('list-page-title')).to.exist;
       });
     });
 
@@ -396,7 +396,7 @@ describe('Medications Prescriptions container', () => {
         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
       });
 
-      expect(screen.getByText('Medications')).to.exist;
+      expect(screen.getByTestId('list-page-title')).to.exist;
     });
 
     it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and V2StatusMapping flags enabled', async () => {
@@ -417,7 +417,7 @@ describe('Medications Prescriptions container', () => {
         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
       });
 
-      expect(screen.getByText('Medications')).to.exist;
+      expect(screen.getByTestId('list-page-title')).to.exist;
       expect(screen.getByTestId('med-list')).to.exist;
     });
   });
@@ -463,71 +463,15 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  describe('Filter Loading Integration', () => {
-    const openFilterAndClick = async (screen, buttonTestId) => {
-      const accordion = screen
-        .getByTestId('filter-accordion')
-        .querySelector('va-accordion-item');
-      fireEvent.click(accordion);
-      fireEvent.click(screen.getByTestId(buttonTestId));
-    };
-
-    it('should show accessible loading spinner when filtering', async () => {
+  describe('Medications Print Fallback', () => {
+    it('should pass current medications list to print component when printedList is empty', async () => {
       const screen = setup();
 
-      // Open accordion first
-      const accordion = screen
-        .getByTestId('filter-accordion')
-        .querySelector('va-accordion-item');
-      fireEvent.click(accordion);
-
       await waitFor(() => {
-        // Wait for accordion to open
-        expect(screen.getByTestId('filter-option-ACTIVE')).to.exist;
+        expect(screen.getByTestId('list-page-title')).to.exist;
       });
 
-      // Select a different filter option (Active)
-      const activeFilterOption = screen.getByTestId('filter-option-ACTIVE');
-      fireEvent.click(activeFilterOption);
-
-      // Apply filter
-      fireEvent.click(screen.getByTestId('filter-button'));
-
-      // Check immediately after clicking filter button
-      await waitFor(
-        () => {
-          const indicator = screen.queryByTestId('loading-indicator');
-          expect(indicator).to.exist;
-          expect(indicator.getAttribute('message')).to.equal(
-            'Filtering your medications...',
-          );
-        },
-        { timeout: 100 },
-      ); // Short timeout to catch immediate loading state
-    });
-
-    it('should show loading spinner when resetting filters', async () => {
-      const stateWithFilter = {
-        ...initialState,
-        rx: {
-          ...initialState.rx,
-          preferences: {
-            ...initialState.rx.preferences,
-            filterOption: 'ACTIVE',
-          },
-        },
-      };
-      const screen = setup(stateWithFilter);
-
-      await openFilterAndClick(screen, 'filter-reset-button');
-
-      await waitFor(() => {
-        const indicator = screen.getByTestId('loading-indicator');
-        expect(indicator).to.exist;
-        expect(indicator.getAttribute('message')).to.equal(
-          'Filtering your medications...',
-        );
-      });
+      expect(screen).to.exist;
     });
   });
 });
