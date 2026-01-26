@@ -97,7 +97,7 @@ class FolderManagementPage {
   selectFolderFromModal = (folderName = `Trash`) => {
     // Wait for folders to load before interacting with the move button
     cy.wait('@folders');
-    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
       .should('be.visible')
       .click();
     // Wait for the modal to appear in DOM first, then check visibility
