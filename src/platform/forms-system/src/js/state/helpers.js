@@ -867,15 +867,17 @@ export function createInitialState(formConfig) {
       let schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
       // Throw an error if the new schema is invalid
       checkValidSchema(schema);
-      if (!environment.isProduction() && uniquePaths.has(page.path)) {
-        throw new Error(
-          `Duplicate page path found: ${page.path}. Page paths must be unique.
-          Paths must be unique because usually the side effects are unintentional,
-          such as going to the route you didn't expect to go to. (router.push will
-          go to the first path it finds, even if its "depends" is false)`,
-        );
+      if (page.path) {
+        if (!environment.isProduction() && uniquePaths.has(page.path)) {
+          throw new Error(
+            `Duplicate page path found: ${page.path}. Page paths must be unique.
+            Paths must be unique because usually the side effects are unintentional,
+            such as going to the route you didn't expect to go to. (router.push will
+            go to the first path it finds, even if its "depends" is false)`,
+          );
+        }
+        uniquePaths.add(page.path);
       }
-      uniquePaths.add(page.path);
       schema = updateItemsSchema(schema);
       const isArrayPage = page.showPagePerItem;
       const data = getDefaultFormState(
