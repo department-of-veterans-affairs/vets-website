@@ -14,13 +14,18 @@ import {
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
-const createPayload = (file, formId, password = null) => {
+const createPayloadDefault = (file, formId, password = null) => {
   const payload = new FormData();
   payload.set('form_id', formId);
   payload.append('file', file);
   if (password) payload.append('password', password);
   return payload;
 };
+
+const parseResponseDefault = ({ data }, file) => ({
+  ...data?.attributes,
+  file,
+});
 
 export const uploadFile = (
   fileUploadUrl,
@@ -30,13 +35,15 @@ export const uploadFile = (
   onProgress,
   accept = '.pdf,.jpeg,.png',
   password,
+  createPayload,
+  parseResponse,
 ) => {
   const uiOptions = {
     fileUploadUrl,
     fileTypes: accept.split(','),
     maxSize: MAX_FILE_SIZE_BYTES,
-    createPayload,
-    parseResponse: ({ data }, file) => ({ ...data?.attributes, file }),
+    createPayload: createPayload || createPayloadDefault,
+    parseResponse: parseResponse || parseResponseDefault,
   };
 
   return dispatch => {
@@ -71,7 +78,11 @@ export const getFileSize = num => {
 export const allKeysAreEmpty = (obj = {}) =>
   Object.keys(obj).every(key => !obj[key] || isEmpty(obj[key]));
 
-export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
+export const useFileUpload = (
+  { fileUploadUrl, formNumber, createPayload, parseResponse },
+  accept,
+  dispatch,
+) => {
   const [isUploading, setIsUploading] = useState(false);
   const [percentUploaded, setPercentUploaded] = useState(null);
 
@@ -98,6 +109,8 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
         onFileUploading,
         accept,
         password,
+        createPayload,
+        parseResponse,
       ),
     );
   };

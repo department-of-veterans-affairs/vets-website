@@ -588,8 +588,7 @@ const formConfig = {
             'ui:title': standardTitle(
               'Supporting evidence for your disability claim',
             ),
-            'ui:description': formData =>
-              supportingEvidenceOrientation(formData),
+            'ui:description': supportingEvidenceOrientation,
           },
           schema: { type: 'object', properties: {} },
         },
