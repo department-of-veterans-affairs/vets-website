@@ -90,6 +90,13 @@ export const recipientTypeLabels = {
   CUSTODIAN_SPOUSE: 'Custodian’s spouse',
 };
 
+export const incomeRecipientTypeLabels = {
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  CHILD: 'Veteran’s child',
+  CUSTODIAN: 'Custodian',
+  CUSTODIAN_SPOUSE: 'Custodian’s spouse',
+};
+
 export const medicalExpenseRecipientLabels = {
   VETERAN: 'Veteran (only select if a last or burial expense)',
   SURVIVING_SPOUSE: 'Surviving spouse',
@@ -116,7 +123,7 @@ export const careFrequencyLabels = {
 
 export const typeOfIncomeLabels = {
   SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
+  INTEREST_DIVIDENDS: 'Interest or dividend income',
   CIVIL_SERVICE: 'Civil Service',
   PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',

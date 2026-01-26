@@ -120,7 +120,9 @@ const MedicationsListCard = ({ rx }) => {
               id={`prescription-number-${rx.prescriptionId}`}
             >
               Prescription number:{' '}
-              <span data-dd-privacy="mask">{rx.prescriptionNumber}</span>
+              <span data-dd-privacy="mask">
+                {rx.prescriptionNumber || 'Not available'}
+              </span>
             </p>
           )}
         {cardBodyContent()}
