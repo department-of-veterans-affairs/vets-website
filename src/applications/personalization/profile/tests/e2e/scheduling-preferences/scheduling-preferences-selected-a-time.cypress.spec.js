@@ -71,7 +71,7 @@ const setup = (preferences = []) => {
 };
 
 const clickEdit = () => {
-  // Click edit button in the preferred contact method section to enter edit view
+  // Click edit button in the preferred select a time section to enter edit view
   cy.get(
     '#edit-when-do-you-want-us-to-contact-you-to-schedule-your-appointments',
   ).click();
@@ -118,84 +118,126 @@ const clickSaveToProfile = () => {
     .click();
 };
 
-describe('Scheduling preferences time selection - select preferred times', () => {
+describe('Scheduling preferences time selection', () => {
   beforeEach(() => {
     setup();
   });
 
-  const quickExitTests = [
-    {
-      label: 'should allow selection of no preference',
-      option: 'option-17',
-      expectedText: /No preference/i,
-    },
-  ];
+  context('select preferred times', () => {
+    const quickExitTests = [
+      {
+        label: 'should allow selection of no preference',
+        option: 'option-17',
+        expectedText: /No preference/i,
+      },
+    ];
 
-  quickExitTests.forEach(({ label, option, expectedText }) => {
-    it(label, () => {
-      // Select a time preference and click Save to profile to bypass confirm page
+    quickExitTests.forEach(({ label, option, expectedText }) => {
+      it(label, () => {
+        // Select a time preference and click Save to profile to bypass confirm page
+        clickEdit();
+        selectPreferredOption(option);
+
+        // Click to save via quick exit
+        clickSaveToProfile();
+
+        // Wait for the API call to complete
+        cy.wait('@updateSchedulingPreferencesSuccess');
+
+        // Confirm remove button is visible which only shows when a time is selected
+        cy.get(
+          '#remove-when-do-you-want-us-to-contact-you-to-schedule-your-appointments',
+        ).should('be.visible');
+
+        cy.findByText(expectedText).should('exist');
+
+        cy.injectAxeThenAxeCheck();
+      });
+    });
+
+    const selectTimesTests = [
+      {
+        label: 'should allow selection of both Monday times',
+        options: ['option-7', 'option-8'],
+        expectedText: /Monday: morning or afternoon/i,
+      },
+      {
+        label: 'should allow selection of Tuesday morning',
+        options: ['option-9'],
+        expectedText: /Tuesday: morning/i,
+      },
+      {
+        label: 'should allow selection of Wednesday afternoon',
+        options: ['option-12'],
+        expectedText: /Wednesday: afternoon/i,
+      },
+      {
+        label: 'should allow selection of all days and times',
+        options: [
+          'option-7',
+          'option-8',
+          'option-9',
+          'option-10',
+          'option-11',
+          'option-12',
+          'option-13',
+          'option-14',
+          'option-15',
+          'option-16',
+        ],
+        expectedText: [
+          /Monday: morning or afternoon/i,
+          /Tuesday: morning or afternoon/i,
+          /Wednesday: morning or afternoon/i,
+          /Thursday: morning or afternoon/i,
+          /Friday: morning or afternoon/i,
+        ],
+      },
+    ];
+
+    selectTimesTests.forEach(({ label, options, expectedText }) => {
+      it(label, () => {
+        // Select a set of time preferences and click Save to profile
+        clickEdit();
+        selectPreferredOption('continue');
+
+        // Click to continue to confirm page
+        clickContinueCancelButton();
+
+        selectTimes(options);
+
+        clickSaveToProfile();
+
+        // Wait for the API call to complete
+        cy.wait('@updateSchedulingPreferencesSuccess');
+
+        if (Array.isArray(expectedText)) {
+          expectedText.forEach(text => {
+            cy.findByText(text).should('exist');
+          });
+        } else {
+          cy.findByText(expectedText).should('exist');
+        }
+
+        cy.injectAxeThenAxeCheck();
+      });
+    });
+    it('should show an error when no overall preference is selected', () => {
+      // Select a set of time preferences and click Save to profile
       clickEdit();
-      selectPreferredOption(option);
 
-      // Click to save via quick exit
-      clickSaveToProfile();
+      // Click to continue to confirm page
+      clickContinueCancelButton();
 
-      // Wait for the API call to complete
-      cy.wait('@updateSchedulingPreferencesSuccess');
-
-      // Confirm remove button is visible which only shows when a time is selected
-      cy.get(
-        '#remove-when-do-you-want-us-to-contact-you-to-schedule-your-appointments',
-      ).should('be.visible');
-
-      cy.findByText(expectedText).should('exist');
+      cy.get('va-radio')
+        .shadow()
+        .findByText(/Please choose an option to continue/i)
+        .should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
-  });
 
-  const selectTimesTests = [
-    {
-      label: 'should allow selection of both Monday times',
-      options: ['option-7', 'option-8'],
-      expectedText: /Monday: morning or afternoon/i,
-    },
-    {
-      label: 'should allow selection of Tuesday morning',
-      options: ['option-9'],
-      expectedText: /Tuesday: morning/i,
-    },
-    {
-      label: 'should allow selection of Wednesday afternoon',
-      options: ['option-12'],
-      expectedText: /Wednesday: afternoon/i,
-    },
-    {
-      label: 'should allow selection of all days and times',
-      options: [
-        'option-7',
-        'option-8',
-        'option-9',
-        'option-10',
-        'option-11',
-        'option-12',
-        'option-13',
-        'option-14',
-        'option-15',
-        'option-16',
-      ],
-      expectedText: [
-        /Monday: morning or afternoon/i,
-        /Tuesday: morning or afternoon/i,
-        /Wednesday: morning or afternoon/i,
-        /Thursday: morning or afternoon/i,
-        /Friday: morning or afternoon/i,
-      ],
-    },
-  ];
-
-  selectTimesTests.forEach(({ label, options, expectedText }) => {
-    it(label, () => {
+    it('should show an error when no times are selected', () => {
       // Select a set of time preferences and click Save to profile
       clickEdit();
       selectPreferredOption('continue');
@@ -203,145 +245,212 @@ describe('Scheduling preferences time selection - select preferred times', () =>
       // Click to continue to confirm page
       clickContinueCancelButton();
 
-      selectTimes(options);
-
       clickSaveToProfile();
 
-      // Wait for the API call to complete
-      cy.wait('@updateSchedulingPreferencesSuccess');
-
-      if (Array.isArray(expectedText)) {
-        expectedText.forEach(text => {
-          cy.findByText(text).should('exist');
-        });
-      } else {
-        cy.findByText(expectedText).should('exist');
-      }
+      cy.get('va-checkbox-group')
+        .shadow()
+        .findByText(/Please choose an option to continue/i)
+        .should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
   });
-  it('should show an error when no overall preference is selected', () => {
-    // Select a set of time preferences and click Save to profile
-    clickEdit();
+  context('cancel button', () => {
+    it('should allow canceling out of edit flow', () => {
+      // Click edit button in the preferred select a time section to enter edit view
+      clickEdit();
 
-    // Click to continue to confirm page
-    clickContinueCancelButton();
+      // Click to cancel
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.findByTestId('continue-cancel-buttons')
+        .shadow()
+        .wait(1) // wait needed to ensure button is clickable for some reason
+        .find('va-button')
+        .last()
+        .shadow()
+        .find('button')
+        .click();
 
-    cy.get('va-radio')
-      .shadow()
-      .findByText(/Please choose an option to continue/i)
-      .should('exist');
+      // Confirm we are back on the scheduling preferences main page
+      cy.url().should(
+        'eq',
+        `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
+      );
 
-    cy.injectAxeThenAxeCheck();
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
-  it('should show an error when no times are selected', () => {
-    // Select a set of time preferences and click Save to profile
-    clickEdit();
-    selectPreferredOption('continue');
+  context('error handling', () => {
+    it('should show an error message when the API call fails', () => {
+      // Mock POST request to return API error response
+      cy.intercept('POST', '/v0/profile/scheduling_preferences', {
+        statusCode: 500,
+        body: {},
+      }).as('updateSchedulingPreferencesError');
 
-    // Click to continue to confirm page
-    clickContinueCancelButton();
+      // Select no preference and click save
+      clickEdit();
+      selectPreferredOption('option-17');
+      clickSaveToProfile();
 
-    clickSaveToProfile();
+      // Wait for the API call to complete
+      cy.wait('@updateSchedulingPreferencesError');
 
-    cy.get('va-checkbox-group')
-      .shadow()
-      .findByText(/Please choose an option to continue/i)
-      .should('exist');
+      // Confirm error message is shown
+      cy.findByText(/We’re sorry./i).should('exist');
 
-    cy.injectAxeThenAxeCheck();
-  });
-});
-
-describe('Scheduling preferences contact method - cancel button', () => {
-  beforeEach(() => {
-    setup();
-  });
-
-  it('should allow canceling out of edit flow', () => {
-    // Click edit button in the preferred contact method section to enter edit view
-    clickEdit();
-
-    // Click to cancel
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.findByTestId('continue-cancel-buttons')
-      .shadow()
-      .wait(1) // wait needed to ensure button is clickable for some reason
-      .find('va-button')
-      .last()
-      .shadow()
-      .find('button')
-      .click();
-
-    // Confirm we are back on the scheduling preferences main page
-    cy.url().should(
-      'eq',
-      `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
-    );
-
-    cy.injectAxeThenAxeCheck();
-  });
-});
-
-describe('Scheduling preferences contact method - error handling', () => {
-  beforeEach(() => {
-    setup();
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
-  it('should show an error message when the API call fails', () => {
-    // Mock POST request to return API error response
-    cy.intercept('POST', '/v0/profile/scheduling_preferences', {
-      statusCode: 500,
-      body: {},
-    }).as('updateSchedulingPreferencesError');
+  context('remove preference', () => {
+    beforeEach(() => {
+      setup([
+        {
+          itemId: 1,
+          optionIds: [3], // no preference
+        },
+      ]);
+    });
+    it('should show and allow preference to be removed', () => {
+      cy.get(
+        '#remove-whats-the-best-way-to-contact-you-to-schedule-your-appointments',
+      ).click();
 
-    // Select no preference and click save
-    clickEdit();
-    selectPreferredOption('option-17');
-    clickSaveToProfile();
+      cy.findByTestId('confirm-remove-modal').within(() => {
+        cy.findByText(/This will remove your/i).should('exist');
+      });
 
-    // Wait for the API call to complete
-    cy.wait('@updateSchedulingPreferencesError');
+      cy.findByTestId('confirm-remove-modal')
+        .shadow()
+        .find('va-button')
+        .first()
+        .shadow()
+        .find('button')
+        .click();
 
-    // Confirm error message is shown
-    cy.findByText(/We’re sorry./i).should('exist');
+      // Confirm that the preference has been removed
+      cy.findByText(/Update saved./i).should('exist');
 
-    cy.injectAxeThenAxeCheck();
+      cy.injectAxeThenAxeCheck();
+    });
   });
-});
 
-describe('Scheduling preferences contact method - remove preference', () => {
-  beforeEach(() => {
-    setup([
-      {
-        itemId: 1,
-        optionIds: [3], // no preference
-      },
-    ]);
-  });
+  context('confirm cancel modal fires correctly', () => {
+    it('should show modal when exiting a modified page via breadcrumb link', () => {
+      // Click edit button in the preferred contact method section to enter edit view
+      clickEdit();
 
-  it('should show and allow preference to be removed', () => {
-    cy.get(
-      '#remove-whats-the-best-way-to-contact-you-to-schedule-your-appointments',
-    ).click();
+      selectPreferredOption('option-17');
 
-    cy.findByTestId('confirm-remove-modal').within(() => {
-      cy.findByText(/This will remove your/i).should('exist');
+      // Attempt to navigate away
+      cy.get('va-link[back]')
+        .shadow()
+        .find('a')
+        .click();
+
+      // Confirm that the confirm cancel modal is shown
+      cy.findByTestId('edit-confirm-cancel-modal').should('exist');
+
+      // Close the modal
+      cy.findByTestId('edit-confirm-cancel-modal')
+        .shadow()
+        .find('va-button')
+        .first()
+        .shadow()
+        .find('button')
+        .click();
+
+      // Confirm we are back on the scheduling preferences main page
+      cy.url().should(
+        'eq',
+        `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
+      );
+
+      cy.injectAxeThenAxeCheck();
     });
 
-    cy.findByTestId('confirm-remove-modal')
-      .shadow()
-      .find('va-button')
-      .first()
-      .shadow()
-      .find('button')
-      .click();
+    it('should not show modal when exiting an unmodified page via breadcrumb link', () => {
+      // Click edit button in the preferred contact method section to enter edit view
+      clickEdit();
 
-    // Confirm that the preference has been removed
-    cy.findByText(/Update saved./i).should('exist');
+      // Attempt to navigate away
+      cy.get('va-link[back]')
+        .shadow()
+        .find('a')
+        .click();
 
-    cy.injectAxeThenAxeCheck();
+      // Confirm that the confirm cancel modal is shown
+      cy.findByTestId('edit-confirm-cancel-modal').should('not.exist');
+
+      // Confirm we are back on the scheduling preferences main page
+      cy.url().should(
+        'eq',
+        `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+    it('should show modal when exiting a modified page via cancel button', () => {
+      // Click edit button in the preferred contact method section to enter edit view
+      clickEdit();
+
+      selectPreferredOption('option-17');
+
+      // Attempt to navigate away
+      cy.findByTestId('save-cancel-buttons')
+        .shadow()
+        .find('va-button')
+        .last()
+        .shadow()
+        .find('button')
+        .click();
+
+      // Confirm that the confirm cancel modal is shown
+      cy.findByTestId('edit-confirm-cancel-modal').should('exist');
+
+      // Close the modal
+      cy.findByTestId('edit-confirm-cancel-modal')
+        .shadow()
+        .find('va-button')
+        .first()
+        .shadow()
+        .find('button')
+        .click();
+
+      // Confirm we are back on the scheduling preferences main page
+      cy.url().should(
+        'eq',
+        `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should not show modal when exiting an unmodified page via cancel button', () => {
+      // Click edit button in the preferred contact method section to enter edit view
+      clickEdit();
+
+      // Attempt to navigate away
+      cy.findByTestId('continue-cancel-buttons')
+        .shadow()
+        .find('va-button')
+        .last()
+        .shadow()
+        .find('button')
+        .click();
+
+      // Confirm that the confirm cancel modal is shown
+      cy.findByTestId('edit-confirm-cancel-modal').should('not.exist');
+
+      // Confirm we are back on the scheduling preferences main page
+      cy.url().should(
+        'eq',
+        `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });
