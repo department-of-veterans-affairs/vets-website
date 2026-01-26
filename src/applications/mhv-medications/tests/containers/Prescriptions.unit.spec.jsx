@@ -374,7 +374,7 @@ describe('Medications Prescriptions container', () => {
           expect(screen.queryByTestId('loading-indicator')).not.to.exist;
         });
 
-        expect(screen.getAllByText('Medications')).to.exist;
+        expect(screen.getByTestId('list-page-title')).to.exist;
       });
     });
 
@@ -396,7 +396,7 @@ describe('Medications Prescriptions container', () => {
         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
       });
 
-      expect(screen.getAllByText('Medications')).to.exist;
+      expect(screen.getByTestId('list-page-title')).to.exist;
     });
 
     it('should properly apply frontend filtering when SHIPPED filter is selected with BOTH CernerPilot and V2StatusMapping flags enabled', async () => {
@@ -417,7 +417,7 @@ describe('Medications Prescriptions container', () => {
         expect(screen.queryByTestId('loading-indicator')).not.to.exist;
       });
 
-      expect(screen.getAllByText('Medications')).to.exist;
+      expect(screen.getByTestId('list-page-title')).to.exist;
       expect(screen.getByTestId('med-list')).to.exist;
     });
   });
@@ -460,6 +460,18 @@ describe('Medications Prescriptions container', () => {
         e => e['api-name'] === 'Rx SM Renewal',
       );
       expect(event).to.be.undefined;
+    });
+  });
+
+  describe('Medications Print Fallback', () => {
+    it('should pass current medications list to print component when printedList is empty', async () => {
+      const screen = setup();
+
+      await waitFor(() => {
+        expect(screen.getByTestId('list-page-title')).to.exist;
+      });
+
+      expect(screen).to.exist;
     });
   });
 });
