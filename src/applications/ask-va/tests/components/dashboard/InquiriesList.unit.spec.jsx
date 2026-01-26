@@ -38,45 +38,6 @@ describe('InquiriesList', () => {
     expect(cardsText).to.not.contain(inquiries.personal[4].inquiryNumber);
   });
 
-  it('Calculates the correct props for FilterSummary with NO tabs', () => {
-    const sentence =
-      'Showing 1-4 of 7 results for "All" statuses and "All" categories';
-
-    const view = render(
-      <InquiriesList
-        categoryFilter="All"
-        statusFilter="All"
-        inquiries={inquiries.personal}
-      />,
-    );
-
-    const heading = view.getByRole('heading', {
-      level: 3,
-      name: /showing/i,
-    });
-    expect(heading.textContent).to.equal(sentence);
-  });
-
-  it('Calculates the correct props for FilterSummary with tabs', () => {
-    const sentence =
-      'Showing 1-4 of 7 results for "All" statuses and "All" categories in "Personal"';
-
-    const view = render(
-      <InquiriesList
-        categoryFilter="All"
-        statusFilter="All"
-        inquiries={inquiries.personal}
-        tabName="Personal"
-      />,
-    );
-
-    const heading = view.getByRole('heading', {
-      level: 3,
-      name: /showing/i,
-    });
-    expect(heading.textContent).to.equal(sentence);
-  });
-
   it('renders an alert if no inquiries', () => {
     const view = render(
       <InquiriesList
@@ -86,9 +47,9 @@ describe('InquiriesList', () => {
       />,
     );
 
-    const filterSummary = view.getByText(/results/i);
-    expect(filterSummary.textContent).to.equal(
-      'Showing no results for "In progress" status and "All" categories',
+    const vaAlert = view.getByText(/match/i);
+    expect(vaAlert.textContent).to.equal(
+      'No questions match your search criteria',
     );
   });
 });

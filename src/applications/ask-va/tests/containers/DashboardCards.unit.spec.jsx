@@ -260,70 +260,6 @@ describe('<DashboardCards>', () => {
       });
     });
 
-    it('should handle getCurrentTabType correctly', async () => {
-      server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
-          return jsonResponse(
-            {
-              data: [
-                {
-                  id: '1',
-                  attributes: {
-                    inquiryNumber: 'A-1',
-                    status: 'In Progress',
-                    categoryName: 'Benefits',
-                    createdOn: '01/01/2024 12:00:00 PM',
-                    lastUpdate: '01/01/2024 12:00:00 PM',
-                    submitterQuestion: 'Business question',
-                    levelOfAuthentication: 'Business',
-                  },
-                },
-                {
-                  id: '2',
-                  attributes: {
-                    inquiryNumber: 'A-2',
-                    status: 'In Progress',
-                    categoryName: 'Benefits',
-                    createdOn: '01/01/2024 12:00:00 PM',
-                    lastUpdate: '01/01/2024 12:00:00 PM',
-                    submitterQuestion: 'Personal question',
-                    levelOfAuthentication: 'Personal',
-                  },
-                },
-              ],
-            },
-            { status: 200 },
-          );
-        }),
-      );
-
-      const view = render(<DashboardCards />);
-
-      await waitFor(() => {
-        expect(view.container.querySelector('va-loading-indicator')).to.not
-          .exist;
-
-        // Initially should show Business tab content
-        const filterInfo = view.getByRole('heading', {
-          level: 3,
-          name: /showing .+ results/i,
-        });
-        expect(filterInfo.textContent).to.include('in "Business"');
-      });
-
-      // Switch to Personal tab
-      const personalTab = view.getByRole('tab', { name: /personal/i });
-      fireEvent.click(personalTab);
-
-      await waitFor(() => {
-        const filterInfo = view.getByRole('heading', {
-          level: 3,
-          name: /showing .+ results/i,
-        });
-        expect(filterInfo.textContent).to.include('in "Personal"');
-      });
-    });
-
     it('should sort results based on search query', async () => {
       const view = render(<DashboardCards />);
 
@@ -332,8 +268,8 @@ describe('<DashboardCards>', () => {
       fireEvent.click(personalTab);
 
       // Confirm correct tab's content is displayed
-      const filterSummary = await view.findByText(/showing/i);
-      expect(filterSummary.textContent).to.include('categories in "Personal"');
+      const searchDescription = await view.findByText(/showing/i);
+      expect(searchDescription.textContent).to.include('Personal');
 
       const resultsBefore = view.getAllByTestId('dashboard-card');
       expect(resultsBefore.length).to.equal(2);
@@ -628,55 +564,34 @@ describe('<DashboardCards>', () => {
       );
     });
 
-    it('should show tabs when both business and personal inquiries exist', async () => {
+    it('should show switchable tabs when both business and personal inquiries exist', async () => {
       const view = render(<DashboardCards />);
 
       const tabButtons = await view.findByRole('tablist');
-      const businessTab = await view.findByRole('tab', {
+      const businessTabBefore = await view.findByRole('tab', {
         name: /business/i,
       });
-      const personalTab = await view.findByRole('tab', {
+      const personalTabBefore = await view.findByRole('tab', {
         name: /personal/i,
       });
 
-      const filterSummary = await view.findByRole('heading', {
-        level: 3,
-        name: /categories in "business"/i,
-      });
-
       expect(tabButtons.childNodes.length).to.equal(2);
-      expect(businessTab).to.exist;
-      expect(personalTab).to.exist;
-      expect(filterSummary).to.exist;
-    });
+      expect(businessTabBefore).to.exist;
+      expect(personalTabBefore).to.exist;
+      expect(businessTabBefore.outerHTML).to.include('aria-selected="true"');
+      expect(personalTabBefore.outerHTML).to.include('aria-selected="false"');
 
-    it('should switch content and filtered results info when changing tabs', async () => {
-      const view = render(<DashboardCards />);
+      fireEvent.click(personalTabBefore);
 
-      const personalTab = await view.findByRole('tab', { name: /personal/i });
-
-      expect(
-        await view.findByRole('heading', {
-          level: 3,
-          name: /categories in "business"/i,
-        }),
-      ).to.exist;
-      expect(personalTab).to.exist;
-
-      fireEvent.click(personalTab);
-
-      const personalSummary = await view.findByRole('heading', {
-        level: 3,
-        name: /categories in "personal"/i,
+      const businessTabAfter = await view.findByRole('tab', {
+        name: /business/i,
+      });
+      const personalTabAfter = await view.findByRole('tab', {
+        name: /personal/i,
       });
 
-      expect(personalSummary).to.exist;
-      expect(() => {
-        view.getByRole('heading', {
-          level: 3,
-          name: /categories in "business"/i,
-        });
-      }).to.throw();
+      expect(businessTabAfter.outerHTML).to.include('aria-selected="false"');
+      expect(personalTabAfter.outerHTML).to.include('aria-selected="true"');
     });
 
     it('should apply filters correctly in business view', async () => {

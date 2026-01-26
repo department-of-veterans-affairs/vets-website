@@ -34,20 +34,24 @@ export function categorizeByLOA(rawInquiries) {
   return { ...buckets, uniqueCategories: [...buckets.uniqueCategories] };
 }
 
-/** Splits an array into buckets of limited size
- * @param {Array} arr The list of items
- * @param {number} itemsPerPage The maximum number of items that can be on 1 page
- * @returns {{pageStart: number; pageEnd: number; items: Array}[]}
+/**
+ * @typedef {import('../components/dashboard/InquiryCard').Inquiry} Inquiry
  */
-export function paginateArray(arr, itemsPerPage) {
-  return arr.reduce((acc, cur, index) => {
+
+/** Splits an array into buckets of limited size
+ * @param {Inquiry[]} inquiries The list of items
+ * @param {number} itemsPerPage The maximum number of items that can be on 1 page
+ * @returns {{pageStart: number; pageEnd: number; items: Inquiry[]}[]}
+ */
+export function paginateInquiries(inquiries, itemsPerPage) {
+  const paginatedArray = inquiries.reduce((acc, cur, index) => {
     const isFirstItem = !(index % itemsPerPage);
 
     // Create a new bucket if first item on a page
     if (isFirstItem)
       acc.push({
         pageStart: index + 1,
-        pageEnd: index + itemsPerPage,
+        pageEnd: Math.min(index + itemsPerPage, inquiries.length),
         items: [cur],
       });
     // Otherwise, add to the end of the previous page
@@ -55,6 +59,10 @@ export function paginateArray(arr, itemsPerPage) {
 
     return [...acc];
   }, []);
+
+  return paginatedArray.length
+    ? paginatedArray
+    : [{ pageStart: 0, pageEnd: 0, items: [] }];
 }
 
 export function filterAndSort({

@@ -482,6 +482,14 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+.no-results-alert {
+  padding-top: 20px;
+}
+
+.inbox-tab-container .no-results-alert {
+  padding: 20px;
+}
+
 // Actually on Conversation page
 .dashboard-dl {
   margin-top: 0;
