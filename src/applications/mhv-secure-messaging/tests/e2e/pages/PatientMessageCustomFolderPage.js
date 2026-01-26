@@ -145,10 +145,10 @@ class PatientMessageCustomFolderPage {
   verifyMainButtons = () => {
     cy.get(Locators.BUTTONS.EDIT_FOLDER)
       .should('be.visible')
-      .and('have.text', `Edit folder name`);
+      .and('have.attr', 'text', 'Edit folder name');
     cy.get(Locators.BUTTONS.REMOVE_FOLDER)
       .should('be.visible')
-      .and('have.text', `Remove folder`);
+      .and('have.attr', 'text', 'Remove folder');
     cy.get(Locators.BUTTONS.SORT)
       .shadow()
       .find(`button`)
@@ -258,12 +258,13 @@ class PatientMessageCustomFolderPage {
   verifyRemoveFolderButton = () => {
     cy.get(Locators.BUTTONS.REMOVE_FOLDER)
       .should('be.visible')
-      .and('have.text', Data.REMOVE_FOLDER);
+      .and('have.attr', 'text', Data.REMOVE_FOLDER);
   };
 
   clickRemoveFolderButton = () => {
     cy.get(Locators.BUTTONS.REMOVE_FOLDER).should(
-      'have.text',
+      'have.attr',
+      'text',
       Data.REMOVE_FOLDER,
     );
     cy.get(Locators.BUTTONS.REMOVE_FOLDER).click({ waitForAnimations: true });
