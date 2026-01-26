@@ -47,6 +47,7 @@ import {
   showPtsdNonCombat,
   showSeparationLocation,
   isCompletingModern4142,
+  isSupportingEvidenceEnhanced,
   onFormLoaded,
 } from '../utils';
 
@@ -673,12 +674,25 @@ const formConfig = {
           },
           schema: privateMedicalRecordsRelease.schema,
         },
-        additionalDocuments: {
+        // Legacy file upload (feature toggle OFF)
+        additionalDocumentsLegacy: {
           title: 'Non-VA treatment records you uploaded',
           path: 'supporting-evidence/additional-evidence',
-          depends: hasOtherEvidence,
-          uiSchema: additionalDocuments.uiSchema,
-          schema: additionalDocuments.schema,
+          depends: formData =>
+            hasOtherEvidence(formData) &&
+            !isSupportingEvidenceEnhanced(formData),
+          uiSchema: additionalDocuments.legacyUiSchema,
+          schema: additionalDocuments.legacySchema,
+        },
+        // Enhanced file upload using platform component (feature toggle ON)
+        additionalDocumentsEnhanced: {
+          title: 'Non-VA treatment records you uploaded',
+          path: 'supporting-evidence/additional-evidence-v2',
+          depends: formData =>
+            hasOtherEvidence(formData) &&
+            isSupportingEvidenceEnhanced(formData),
+          uiSchema: additionalDocuments.enhancedUiSchema,
+          schema: additionalDocuments.enhancedSchema,
         },
         summaryOfEvidence: {
           title: 'Summary of evidence',

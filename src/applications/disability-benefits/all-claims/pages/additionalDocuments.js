@@ -1,43 +1,41 @@
-// import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import React from 'react';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import environment from 'platform/utilities/environment';
 
-// import { UploadDescription } from '../content/fileUploadDescriptions';
-// import { ancillaryFormUploadUi } from '../utils/schemas';
-// import { selfAssessmentAlert } from '../content/selfAssessmentAlert';
-// import { isBDD } from '../utils';
 import { evidenceChoiceUploadContent } from './form0781/supportingEvidenceEnhancement/evidenceChoiceUploadPage';
 import { standardTitle } from '../content/form0781';
 import UploadFiles from '../components/supportingEvidenceUpload/uploadFiles';
+import {
+  FILE_TYPES,
+  HINT_TEXT,
+  LABEL_TEXT,
+  ATTACHMENTS_TYPE,
+  ADDITIONAL_ATTACHMENT_LABEL,
+} from '../components/supportingEvidenceUpload/constants';
 
-// const { attachments } = full526EZSchema.properties;
+const fileUploadUrl = `${environment.API_URL}/v0/upload_supporting_evidence`;
 
-export const uiSchema = {
-  // 'view:selfAssessmentAlert': {
-  //   'ui:title': selfAssessmentAlert,
-  //   'ui:options': {
-  //     hideIf: formData => !isBDD(formData),
-  //   },
-  // },
-  // additionalDocuments: {
-  //   ...ancillaryFormUploadUi(
-  //     'Supporting (lay) statements or other evidence',
-  //     'Adding additional evidence:',
-  //     {
-  //       addAnotherLabel: 'Add another file',
-  //       buttonText: 'Upload file',
-  //     },
-  //   ),
-  //   'ui:description': UploadDescription,
-  //   'ui:confirmationField': ({ formData }) => ({
-  //     data: formData?.map(item => item.name || item.fileName),
-  //     label: 'Uploaded file(s)',
-  //   }),
-  // },
-  'view:evidenceChoiceUpload': {
-    'ui:title': standardTitle(
-      'Upload supporting documents and additional forms',
-    ),
-    'ui:description': evidenceChoiceUploadContent,
-  },
+// Shared view config for both legacy and enhanced versions
+const evidenceChoiceUploadView = {
+  'ui:title': standardTitle('Upload supporting documents and additional forms'),
+  'ui:description': evidenceChoiceUploadContent,
+};
+
+const evidenceChoiceUploadSchema = {
+  type: 'object',
+  properties: {},
+};
+
+/**
+ * Legacy implementation (feature toggle OFF)
+ * Uses custom UploadFiles component with existing backend payload format
+ */
+export const legacyUiSchema = {
+  'view:evidenceChoiceUpload': evidenceChoiceUploadView,
   uploadedFiles: {
     'ui:title': ' ',
     'ui:field': UploadFiles,
@@ -48,19 +46,11 @@ export const uiSchema = {
   },
 };
 
-export const schema = {
+export const legacySchema = {
   type: 'object',
   required: ['uploadedFiles'],
   properties: {
-    'view:evidenceChoiceUpload': {
-      type: 'object',
-      properties: {},
-    },
-    // additionalDocuments: attachments,
-    // 'view:evidenceChoiceUpload': {
-    //   type: 'object',
-    //   properties: {},
-    // },
+    'view:evidenceChoiceUpload': evidenceChoiceUploadSchema,
     uploadedFiles: {
       type: 'array',
       minItems: 1,
@@ -71,3 +61,64 @@ export const schema = {
     },
   },
 };
+
+/**
+ * Enhanced implementation (feature toggle ON)
+ * Uses platform fileInputMultipleUI with standard payload format
+ * @note Requires backend update to accept standard platform payload
+ */
+export const enhancedUiSchema = {
+  'view:evidenceChoiceUpload': evidenceChoiceUploadView,
+  uploadedFiles: fileInputMultipleUI({
+    title: LABEL_TEXT,
+    hint: HINT_TEXT,
+    required: true,
+    fileUploadUrl,
+    accept: FILE_TYPES.map(type => `.${type}`).join(','),
+    formNumber: '21-526EZ',
+    maxFileSize: 99 * 1024 * 1024, // 99 MB for PDFs
+    errorMessages: {
+      required: 'Please upload at least one supporting document',
+      additionalInput: 'Please provide a document type',
+    },
+    additionalInputRequired: true,
+    additionalInput: () => {
+      return (
+        <VaSelect required label={ADDITIONAL_ATTACHMENT_LABEL}>
+          {ATTACHMENTS_TYPE.map(attachmentType => (
+            <option key={attachmentType.value} value={attachmentType.value}>
+              {attachmentType.label}
+            </option>
+          ))}
+        </VaSelect>
+      );
+    },
+    additionalInputUpdate: (instance, error, data) => {
+      instance.setAttribute('error', error);
+      if (data) {
+        instance.setAttribute('value', data.docType);
+      }
+    },
+    handleAdditionalInput: e => {
+      const { value } = e.detail;
+      if (value === '') return null;
+      return { docType: e.detail.value };
+    },
+  }),
+};
+
+export const enhancedSchema = {
+  type: 'object',
+  required: ['uploadedFiles'],
+  properties: {
+    'view:evidenceChoiceUpload': evidenceChoiceUploadSchema,
+    uploadedFiles: fileInputMultipleSchema(),
+  },
+};
+
+/**
+ * Default exports for backwards compatibility
+ * @deprecated Will be removed once feature toggle is fully rolled out
+ */
+export const uiSchema = legacyUiSchema;
+export const schema = legacySchema;

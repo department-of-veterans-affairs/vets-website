@@ -12,12 +12,18 @@ import {
   checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
 
+import {
+  VALIDATION_ERROR,
+  PASSWORD_ERROR,
+  DOC_TYPE_ERROR,
+} from '../../components/supportingEvidenceUpload/constants';
+
+// Re-export for convenience
+export { VALIDATION_ERROR, PASSWORD_ERROR, DOC_TYPE_ERROR };
+
 // Error messages
 export const FILE_SIZE_ERROR_PDF = `The file you selected is larger than the ${MAX_PDF_FILE_SIZE_MB}MB maximum file size and could not be added.`;
 export const FILE_SIZE_ERROR_NON_PDF = `The file you selected is larger than the ${MAX_FILE_SIZE_MB}MB maximum file size and could not be added.`;
-export const VALIDATION_ERROR = 'Please select a file first';
-export const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
-export const DOC_TYPE_ERROR = 'Please provide a document type';
 
 // Helper functions
 export const isPdf = file => file.name?.toLowerCase().endsWith('.pdf') ?? false;

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -37,11 +37,23 @@ const additionalFormInputsContent = ({
   </>
 );
 
+/**
+ * UploadFiles component for handling multiple file uploads with document type selection.
+ * Used as a custom ui:field in RJSF form configuration.
+ *
+ * @param {Object} props - Component props
+ * @param {string[]} props.fileTypes - Allowed file extensions (default: FILE_TYPES)
+ * @param {Object} props.formData - Current form data from RJSF (unused but passed by form system)
+ * @param {Function} props.onChange - Callback to update form data (unused but passed by form system)
+ * @param {Object} props.schema - JSON schema for the field (unused but passed by form system)
+ * @param {Object} props.uiSchema - UI schema for the field (unused but passed by form system)
+ */
 const UploadFiles = ({ fileTypes = FILE_TYPES }) => {
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
   const fileInputRef = useRef(null);
+
   const handleFileChange = async event => {
     const { action, state } = event.detail;
     const newFiles = state || [];
@@ -80,24 +92,53 @@ const UploadFiles = ({ fileTypes = FILE_TYPES }) => {
     }
   };
 
+  // Check document types and clear errors when they're populated
+  const checkAndClearDocTypeErrors = useCallback(() => {
+    const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
+
+    setErrors(prevErrors =>
+      clearSpecificErrors(
+        prevErrors,
+        DOC_TYPE_ERROR,
+        index => currentDocTypes[index]?.trim() !== '',
+      ),
+    );
+  }, []);
+
   useEffect(
     () => {
-      // Poll for document type changes to clear errors immediately
-      const interval = setInterval(() => {
-        const currentDocTypes = extractDocumentTypesFromShadowDOM(fileInputRef);
+      const shadowRoot = fileInputRef.current?.shadowRoot;
+      if (!shadowRoot || files.length === 0) return undefined;
 
-        setErrors(prevErrors =>
-          clearSpecificErrors(
-            prevErrors,
-            DOC_TYPE_ERROR,
-            index => currentDocTypes[index]?.trim() !== '',
-          ),
+      // Use MutationObserver to watch for changes in Shadow DOM
+      // This is more efficient than polling and responds to actual DOM changes
+      const observer = new MutationObserver(() => {
+        checkAndClearDocTypeErrors();
+      });
+
+      observer.observe(shadowRoot, {
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['value'],
+        childList: true,
+      });
+
+      // Also listen for vaSelect events that bubble up
+      const handleSelectChange = () => {
+        checkAndClearDocTypeErrors();
+      };
+
+      fileInputRef.current?.addEventListener('vaSelect', handleSelectChange);
+
+      return () => {
+        observer.disconnect();
+        fileInputRef.current?.removeEventListener(
+          'vaSelect',
+          handleSelectChange,
         );
-      }, 150);
-
-      return () => clearInterval(interval);
+      };
     },
-    [files],
+    [files, checkAndClearDocTypeErrors],
   );
 
   return (
@@ -107,7 +148,6 @@ const UploadFiles = ({ fileTypes = FILE_TYPES }) => {
       required
       hint={HINT_TEXT}
       label={LABEL_TEXT}
-      // labelClass={toggleValue ? 'vads-u-visibility--screen-reader' : ''}
       onVaMultipleChange={handleFileChange}
       errors={errors}
       encrypted={encrypted}
@@ -118,6 +158,16 @@ const UploadFiles = ({ fileTypes = FILE_TYPES }) => {
 };
 
 UploadFiles.propTypes = {
+  // Component-specific props
   fileTypes: PropTypes.arrayOf(PropTypes.string),
+  // RJSF form system props (passed automatically by ui:field)
+  formData: PropTypes.array,
+  onChange: PropTypes.func,
+  schema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  idSchema: PropTypes.object,
+  errorSchema: PropTypes.object,
+  registry: PropTypes.object,
 };
+
 export default UploadFiles;
