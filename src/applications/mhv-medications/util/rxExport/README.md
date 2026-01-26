@@ -5,6 +5,15 @@ This module provides a unified API for exporting prescription (Rx) data in PDF a
 ## Architecture (Composition Pattern)
 
 ```
+useRxExport hook (recommended)
+├── exportRxList
+│   ├── pdf({ rxPdfList, preface, listHeader })
+│   └── txt({ rxContent, preface, listHeader })
+├── exportRxDetails
+│   ├── pdf({ rxName, rxPdfList, isNonVA })
+│   └── txt({ rxContent, isNonVA })
+└── state: isExportInProgress, isExportSuccess, isShowingError
+
 createExportService({ userName, dob, options })
 ├── pdfBuilder (from createPdfDocumentBuilder)
 │   ├── buildDocument()
@@ -34,7 +43,72 @@ createExportService({ userName, dob, options })
 
 ## Usage
 
-### Basic Usage with Export Service
+### Using the useRxExport Hook (Recommended)
+
+The `useRxExport` hook manages export state and provides methods for PDF/TXT generation:
+
+```javascript
+import { useRxExport } from '../hooks/useRxExport';
+import { displayHeaderPrefaceText, displayMedicationsListHeader } from '../util/helpers';
+import { buildPrescriptionsPDFList } from '../util/pdfConfigs';
+import { buildPrescriptionsTXT } from '../util/txtConfigs';
+
+const {
+  exportRxList,
+  exportRxDetails,
+  isExportInProgress,
+  isExportSuccess,
+  isShowingError,
+  startExport,
+  resetExportStatus,
+} = useRxExport({
+  userName,
+  dob,
+  allergies,
+  allergiesError,
+  options: { isCernerPilot, isV2StatusMapping }
+});
+
+// Export medications list as PDF
+// Note: preface must be an array for PDF (use isPdf=true)
+const rxPdfList = buildPrescriptionsPDFList(prescriptions, isCernerPilot, isV2StatusMapping);
+const pdfPreface = displayHeaderPrefaceText(filterOption, sortOption, count, true);
+const listHeader = displayMedicationsListHeader(filterOption, isCernerPilot, isV2StatusMapping);
+exportRxList.pdf({ rxPdfList, preface: pdfPreface, listHeader });
+
+// Export medications list as TXT
+// Note: preface must be a string for TXT (use isPdf=false)
+const rxContent = buildPrescriptionsTXT(prescriptions, isCernerPilot, isV2StatusMapping);
+const txtPreface = displayHeaderPrefaceText(filterOption, sortOption, count, false);
+exportRxList.txt({ rxContent, preface: txtPreface, listHeader });
+
+// Export single Rx details as PDF
+exportRxDetails.pdf({ rxName: 'Aspirin 81mg', rxPdfList, isNonVA: false });
+
+// Export single Rx details as TXT
+exportRxDetails.txt({ rxContent, isNonVA: false });
+```
+
+### Important: Preface Parameter Format
+
+The `preface` parameter has different formats for PDF vs TXT:
+
+| Format | `isPdf` param | Return type | Example |
+|--------|---------------|-------------|---------|
+| PDF | `true` (default) | Array of objects | `[{ value: 'This is a ', continued: true }, { value: 'list', weight: 'bold' }]` |
+| TXT | `false` | String | `'This is a list of all 10 medications...'` |
+
+```javascript
+// For PDF export - returns array
+const pdfPreface = displayHeaderPrefaceText(filter, sort, count, true);
+
+// For TXT export - returns string  
+const txtPreface = displayHeaderPrefaceText(filter, sort, count, false);
+```
+
+### Direct Usage with Export Service
+
+For more control, use the export service directly:
 
 ```javascript
 import { createExportService } from '../util/rxExport';
@@ -49,6 +123,22 @@ const exportService = useMemo(
   [userName, dob, isCernerPilot, isV2StatusMapping]
 );
 
+// Export Rx list as PDF (preface should be array format)
+await exportService.exportRxListPdf({
+  rxPdfList: [...],
+  allergies: [...],
+  preface: [...],  // Array format from displayHeaderPrefaceText(..., true)
+  listHeader: 'All medications',
+});
+
+// Export Rx list as TXT (preface should be string format)
+exportService.exportRxListTxt({
+  rxContent: '...',
+  allergies: [...],
+  preface: '...',  // String format from displayHeaderPrefaceText(..., false)
+  listHeader: 'All medications',
+});
+
 // Export single Rx details as PDF
 await exportService.exportRxDetailsPdf({
   rxName: 'Aspirin 81mg',
@@ -62,22 +152,6 @@ exportService.exportRxDetailsTxt({
   rxContent: '...',
   allergies: [...],
   isNonVA: false,
-});
-
-// Export Rx list as PDF
-await exportService.exportRxListPdf({
-  rxPdfList: [...],
-  allergies: [...],
-  preface: '...',
-  listHeader: 'All medications',
-});
-
-// Export Rx list as TXT
-exportService.exportRxListTxt({
-  rxContent: '...',
-  allergies: [...],
-  preface: '...',
-  listHeader: 'All medications',
 });
 ```
 
