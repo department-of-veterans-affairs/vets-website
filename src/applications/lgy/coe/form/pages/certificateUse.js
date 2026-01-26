@@ -73,8 +73,8 @@ export default {
             'To refinance and change my interest rate',
         },
       }),
-      'view:optionsAccordion': descriptionUI(<OptionsAccordion />),
     },
+    'view:optionsAccordion': descriptionUI(<OptionsAccordion />),
   },
   schema: {
     type: 'object',
