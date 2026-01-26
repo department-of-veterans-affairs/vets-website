@@ -37,15 +37,9 @@ const DetailCopayPage = ({ match }) => {
     useSelector(state => state),
   );
 
-  // const [isLoading, setIsLoading] = useState(false);
-
   const [selectedStatement, setSelectedStatement] = useState(
     DEFAULT_COPAY_STATEMENT,
   );
-
-  // const currentState = useSelector(state => state);
-
-  // console.log('CURRENT STATE: ', currentState);
 
   // Get the selected copay statement ID from the URL
   //  and the selected copay statement data from Redux
@@ -54,28 +48,18 @@ const DetailCopayPage = ({ match }) => {
   const allStatements =
     useSelector(state => state.combinedPortal.mcp.statements) || [];
 
-  // console.log('ALL STATEMENTS', allStatements);
-
   const selectedId = match.params.id;
   const selectedCopay = shouldShowVHAPaymentHistory
     ? selectedStatement
     : allStatements?.find(({ id }) => id === selectedId);
 
-  // Get selected copay statement data
-  // console.log('DETAIL PAGE SELECTED COPAY: ', selectedCopay);
-
   useEffect(
     () => {
-      // console.log('INSIDE USEEFFECT');
       if (!isAnyElementFocused()) setPageFocus();
 
       const fetchCopayDetail = async () => {
-        // console.log('FETCHING COPAY DETAIL');
         if (!copayDetail?.id) {
-          // console.log('FETCHING COPAY DETAIL FOR ID:', selectedId);
-          // console.log(getCopayDetailStatement);
           await dispatch(getCopayDetailStatement(`${selectedId}`));
-          // setCopayDetail();
         }
       };
 
@@ -84,35 +68,40 @@ const DetailCopayPage = ({ match }) => {
     [selectedId, dispatch],
   );
 
+  const buildCopay = () => {
+    let copayAttributes = {};
+    if (shouldShowVHAPaymentHistory) {
+      copayAttributes = {
+        title: `Copay bill for ${copayDetail?.attributes.facility}`,
+        invoiceDate: verifyCurrentBalance(copayDetail?.attributes.invoiceDate),
+        accountNumber: copayDetail?.attributes.accountNumber,
+        charges: copayDetail?.attributes?.lineItems ?? [],
+      };
+    } else {
+      copayAttributes = {
+        title: `Copay bill for ${copayDetail?.station.facilityName}`,
+        invoiceDate: verifyCurrentBalance(copayDetail?.pSStatementDateOutput),
+        accountNumber:
+          copayDetail?.accountNumber || copayDetail?.pHAccountNumber,
+        charges:
+          copayDetail?.details?.filter(
+            charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
+          ) ?? [],
+      };
+    }
+    return copayAttributes;
+  };
+
   useEffect(
     () => {
       if (copayDetail?.id) {
-        // console.log('SETTING COPAY DETAIL', copayDetail);
-        const title = `Copay bill for ${
-          shouldShowVHAPaymentHistory
-            ? copayDetail?.attributes.facility
-            : copayDetail?.station.facilityName
-        }`;
-        const invoiceDate = verifyCurrentBalance(
-          shouldShowVHAPaymentHistory
-            ? copayDetail?.attributes.invoiceDate
-            : copayDetail?.pSStatementDateOutput,
-        );
-        const acctNum = shouldShowVHAPaymentHistory
-          ? copayDetail?.attributes.accountNumber
-          : copayDetail?.accountNumber || copayDetail?.pHAccountNumber;
-
-        const charges = shouldShowVHAPaymentHistory
-          ? copayDetail?.attributes?.lineItems ?? []
-          : copayDetail?.details?.filter(
-              charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
-            ) ?? [];
+        const copayAttributes = buildCopay();
 
         setSelectedStatement({
-          TITLE: title,
-          INVOICE_DATE: invoiceDate,
-          ACCOUNT_NUMBER: acctNum,
-          CHARGES: charges,
+          TITLE: copayAttributes.title,
+          INVOICE_DATE: copayAttributes.invoiceDate,
+          ACCOUNT_NUMBER: copayAttributes.accountNumber,
+          CHARGES: copayAttributes.charges,
           FULL_DETAILS: copayDetail,
         });
       }
