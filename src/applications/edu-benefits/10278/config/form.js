@@ -20,6 +20,11 @@ import {
   securitySetup,
   securitySetupPinPassword,
   securitySetupCustomQuestion,
+  securitySetupMotherBornLocation,
+  securitySetupHighSchool,
+  securitySetupPetName,
+  securitySetupTeacherName,
+  securitySetupFatherMiddleName,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -197,6 +202,61 @@ const formConfig = {
           uiSchema: securitySetupCustomQuestion.uiSchema,
           schema: securitySetupCustomQuestion.schema,
           depends: formData => formData?.securitySetup?.option === 'create',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupMotherBornLocation: {
+          path: 'security-setup-mother-born-location',
+          title: 'Security setup',
+          uiSchema: securitySetupMotherBornLocation.uiSchema,
+          schema: securitySetupMotherBornLocation.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'motherBornLocation',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupHighSchool: {
+          path: 'security-setup-high-school',
+          title: 'Security setup',
+          uiSchema: securitySetupHighSchool.uiSchema,
+          schema: securitySetupHighSchool.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'highSchool',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupPetName: {
+          path: 'security-setup-pet-name',
+          title: 'Security setup',
+          uiSchema: securitySetupPetName.uiSchema,
+          schema: securitySetupPetName.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'petName',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupTeacherName: {
+          path: 'security-setup-teacher-name',
+          title: 'Security setup',
+          uiSchema: securitySetupTeacherName.uiSchema,
+          schema: securitySetupTeacherName.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'teacherName',
+          onNavBack: ({ goPath }) => {
+            goPath('/security-setup');
+          },
+        },
+        securitySetupFatherMiddleName: {
+          path: 'security-setup-father-middle-name',
+          title: 'Security setup',
+          uiSchema: securitySetupFatherMiddleName.uiSchema,
+          schema: securitySetupFatherMiddleName.schema,
+          depends: formData =>
+            formData?.securityQuestion?.question === 'fatherMiddleName',
           onNavBack: ({ goPath }) => {
             goPath('/security-setup');
           },
