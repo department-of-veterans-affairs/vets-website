@@ -81,7 +81,7 @@ const DetailCopayPage = ({ match }) => {
 
       fetchCopayDetail();
     },
-    [selectedCopay, selectedId, dispatch],
+    [selectedId, dispatch],
   );
 
   useEffect(
@@ -117,7 +117,7 @@ const DetailCopayPage = ({ match }) => {
         });
       }
     },
-    [selectedId, selectedCopay, shouldShowVHAPaymentHistory, copayDetail],
+    [shouldShowVHAPaymentHistory, copayDetail],
   );
 
   useEffect(
