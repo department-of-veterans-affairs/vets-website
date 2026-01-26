@@ -41,11 +41,14 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
   const [loadingButton, setLoadingButton] = useState(null); // Track which button is loading
 
   // Reset button loading state when overall loading is complete
-  useEffect(() => {
-    if (!isLoading) {
-      setLoadingButton(null);
-    }
-  }, [isLoading]);
+  useEffect(
+    () => {
+      if (!isLoading) {
+        setLoadingButton(null);
+      }
+    },
+    [isLoading],
+  );
 
   const mapFilterCountToFilterLabels = label => {
     switch (label) {

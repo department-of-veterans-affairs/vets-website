@@ -159,22 +159,6 @@ const Prescriptions = () => {
 
   const isLoading = isPrescriptionsLoading || isPrescriptionsFetching;
 
-  /**
-   * Shows loading spinner for all filter selections to provide
-   * consistent visual feedback regardless of cache state
-   */
-  const [isFilterLoading, setIsFilterLoading] = useState(false);
-  const filterTimeoutRef = useRef(null);
-  const isShowingLoading = isLoading || isFilterLoading;
-
-  useEffect(() => {
-    return () => {
-      if (filterTimeoutRef.current) {
-        clearTimeout(filterTimeoutRef.current);
-      }
-    };
-  }, []);
-
   const { pagination, meta } = prescriptionsData || {};
   const paginatedPrescriptionsList = useMemo(
     () => {
@@ -233,25 +217,6 @@ const Prescriptions = () => {
     if (isFiltering) {
       updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
       updates.page = 1;
-
-      // Always show loading spinner for filter selections (visual feedback)
-      setIsFilterLoading(true);
-
-      if (filterTimeoutRef.current) {
-        clearTimeout(filterTimeoutRef.current);
-      }
-
-      filterTimeoutRef.current = setTimeout(() => {
-        setIsFilterLoading(false);
-        filterTimeoutRef.current = null;
-        // Only scroll after loading completes for better UX
-        document.getElementById('showingRx')?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest',
-        });
-      }, 500);
-
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
     }
@@ -722,7 +687,7 @@ const Prescriptions = () => {
             <MedicationsListFilter
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
-              isLoading={isShowingLoading}
+              isLoading={isLoading}
             />
             <InProductionEducationFiltering />
           </>
