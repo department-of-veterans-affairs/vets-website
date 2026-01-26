@@ -48,7 +48,7 @@ const getLastFilledAndRxNumberBlock = rx => {
           DATETIME_FORMATS.longMonthDate,
           'Date not available',
         )}`,
-        `Prescription number: ${rx.prescriptionNumber}`,
+        `Prescription number: ${rx.prescriptionNumber || 'Not available'}`,
       );
 };
 const getAttributes = (rx, isCernerPilot, isV2StatusMapping = false) =>
@@ -324,7 +324,8 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
     const previousRxs = prescription.groupedMedications
       .map(previousRx => {
         return joinBlocks(
-          `Prescription number: ${previousRx.prescriptionNumber}`,
+          `Prescription number: ${previousRx.prescriptionNumber ||
+            'Not available'}`,
           `Last filled: ${dateFormat(
             previousRx.sortedDispensedDate,
             DATETIME_FORMATS.longMonthDate,
