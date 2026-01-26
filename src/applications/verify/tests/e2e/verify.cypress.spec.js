@@ -67,6 +67,34 @@ describe('Verify App', () => {
     cy.get('.idme-verify-button').should('not.exist');
   });
 
+  it('should have an acr value of "ial2" when the Login.gov verify button is clicked', () => {
+    cy.intercept('GET', '/v0/sign_in/authorize*', req => {
+      expect(req.query.acr).to.equal('ial2');
+    }).as('verifyRequest');
+
+    cy.visit(manifest.rootUrl);
+    cy.injectAxeThenAxeCheck();
+
+    cy.get('.logingov-verify-button').should('exist');
+    cy.get('.logingov-verify-button').click();
+
+    cy.wait('@verifyRequest');
+  });
+
+  it('should have an acr value of "loa3" when the ID.me verify button is clicked', () => {
+    cy.intercept('GET', '/v0/sign_in/authorize*', req => {
+      expect(req.query.acr).to.equal('loa3');
+    }).as('verifyRequest');
+
+    cy.visit(manifest.rootUrl);
+    cy.injectAxeThenAxeCheck();
+
+    cy.get('.idme-verify-button').should('exist');
+    cy.get('.idme-verify-button').click();
+
+    cy.wait('@verifyRequest');
+  });
+
   it('should show success message for a verified ID.me user', () => {
     const mockUser = createMockUser({
       verified: true,

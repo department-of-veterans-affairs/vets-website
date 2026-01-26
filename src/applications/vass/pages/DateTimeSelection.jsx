@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui/focus';
+import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
 import Wrapper from '../layout/Wrapper';
 import {
   setSelectedDate,
@@ -10,8 +11,6 @@ import {
 } from '../redux/slices/formSlice';
 import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
 
-// TODO: make this component a shared component
-import CalendarWidget from '../components/calendar/CalendarWidget';
 import { mapAppointmentAvailabilityToSlots } from '../utils/slots';
 import { getTimezoneDescByTimeZoneString } from '../utils/timezone';
 
@@ -87,7 +86,7 @@ const DateTimeSelection = () => {
 
   return (
     <Wrapper
-      pageTitle="What date and time do you want for this appointment?"
+      pageTitle="When do you want to schedule your appointment?"
       classNames="vads-u-margin-top--4"
       testID="date-time-selection"
       required
@@ -100,8 +99,8 @@ const DateTimeSelection = () => {
           times are displayed in {getTimezoneDescByTimeZoneString(timezone)}.
         </p>
         <p>
-          <strong>Note:</strong> Available dates are shown for the next 2 weeks,
-          and weekends are unavailable.
+          <strong>Note:</strong> You can schedule a appointment on a week day
+          within the next 2 weeks.
         </p>
       </div>
 

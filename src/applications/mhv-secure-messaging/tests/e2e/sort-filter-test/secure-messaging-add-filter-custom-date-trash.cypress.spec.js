@@ -65,8 +65,13 @@ describe('SM TRASH ADD FILTER CUSTOM DATE RANGE', () => {
       .find('[name="discharge-dateMonth"]')
       .should('not.be.disabled');
 
+    // Must provide complete dates (month, day, year) to test date range validation
     PatientFilterPage.selectStartMonth('April');
+    PatientFilterPage.selectStartDay('15');
+    PatientFilterPage.getStartYear('2025');
     PatientFilterPage.selectEndMonth('February');
+    PatientFilterPage.selectEndDay('10');
+    PatientFilterPage.getEndYear('2025');
     cy.get(Locators.BUTTONS.FILTER).click();
 
     PatientFilterPage.getRequiredFieldError(

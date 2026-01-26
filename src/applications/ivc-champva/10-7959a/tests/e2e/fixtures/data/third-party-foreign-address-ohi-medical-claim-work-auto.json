@@ -12,6 +12,14 @@
         "isEncrypted": false
       }
     ],
+    "secondaryEob": [
+      {
+        "name": "file.png",
+        "confirmationCode": "06d807fc-3089-4868-9c09-2dca72ebfce5",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
     "medicalUpload": [
       {
         "name": "file.png",

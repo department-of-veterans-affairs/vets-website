@@ -79,7 +79,8 @@
             "name": "sample.png",
             "isEncrypted": false
           }
-        ]
+        ],
+        "hasMedicarePartD": false
       }
     ],
     "view:hasHealthInsurance": false,
