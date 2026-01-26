@@ -509,9 +509,9 @@ export function scrubDescription(text) {
 /**
  * Formats description text from VBMS/vets-api by converting special formatting codes
  * to React elements:
- * - \n → line breaks (<br />)
- * - {b}...{/b} → bold text (<strong>)
+ * - \n → separate paragraphs (<p>) for text-only content
  * - [*] or {*} → unordered list items (<ul><li>)
+ * - {b}...{/b} → bold text (<strong>)
  *
  * @param {string} text - The raw description text from the API
  * @returns {React.ReactNode} - Formatted React elements, or null if no text
