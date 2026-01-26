@@ -17,6 +17,15 @@ const responses = {
   'GET /v0/debts': { data: [] },
   'GET /v0/health_care_applications/enrollment_status': {},
   'GET /v0/medical_copays': { data: [] },
+  'POST /v0/profile/telephones': {
+    data: {
+      attributes: {},
+    },
+  },
+  'POST /v0/profile/email_addresses': {
+    data: {
+      attributes: {},
+    },
+  },
 };
-
 module.exports = responses;
