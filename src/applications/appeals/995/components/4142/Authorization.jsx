@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   VaCheckbox,
   VaModal,
@@ -12,25 +13,34 @@ import {
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
 import AuthorizationAlert, { alertTitle } from './AuthorizationAlert';
-import { content } from './AuthorizationNew';
 import { AUTHORIZATION_LABEL } from '../../constants';
-import { customPageProps995 } from '../../../shared/props';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
+import LimitedConsent from './LimitedConsent';
+
+export const content = {
+  title:
+    'Authorize the release of private provider or VA Vet Center medical records to VA',
+};
 
 const Authorization = ({
+  contentAfterButtons,
+  contentBeforeButtons,
   data = {},
   goBack,
   goForward,
   setFormData,
-  contentBeforeButtons,
-  contentAfterButtons,
 }) => {
-  const [hasError, setHasError] = useState(false);
+  const { auth4142, lcPrompt, lcDetails, showArrayBuilder } = data || {};
+
+  const [checkboxError, setCheckboxError] = useState(false);
+  const [radioError, setRadioError] = useState(false);
+  const [textAreaError, setTextAreaError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalOpenedBy, setModalOpenedBy] = useState(null);
 
   const toggle4142PrivacyModal = buttonId => {
     const wasVisible = modalVisible;
+
     if (!wasVisible && buttonId) {
       setModalOpenedBy(buttonId);
     }
@@ -53,12 +63,15 @@ const Authorization = ({
         if (modalOpenedBy) {
           // Direct focus on the internal button element, not the web component, immediately
           const vaButton = document.getElementById(modalOpenedBy);
+
           if (vaButton?.shadowRoot) {
             const internalButton = vaButton.shadowRoot.querySelector('button');
+
             if (internalButton) {
               internalButton.focus();
             }
           }
+
           setModalOpenedBy(null);
         }
       };
@@ -78,7 +91,7 @@ const Authorization = ({
 
   useEffect(
     () => {
-      if (hasError) {
+      if (checkboxError) {
         recordEvent({
           event: 'visible-alert-box',
           'alert-box-type': 'warning',
@@ -91,12 +104,34 @@ const Authorization = ({
         });
       }
     },
-    [hasError],
+    [checkboxError],
   );
 
   const focusOnAlert = () => {
     scrollTo('topScrollElement');
     waitForRenderThenFocus('va-alert h3');
+  };
+
+  const allDataIsPresent = () => {
+    const lcDetailsRequirement = lcPrompt === 'Y' && !!lcDetails;
+
+    return auth4142 && (lcPrompt === 'N' || lcDetailsRequirement);
+  };
+
+  const setErrorsForMissingData = () => {
+    if (!auth4142) {
+      // Show error and move focus ONLY when Continue is clicked
+      setCheckboxError(true);
+      focusOnAlert();
+    }
+
+    if (!lcPrompt) {
+      setRadioError(true);
+    }
+
+    if (!lcDetails && lcPrompt === 'Y') {
+      setTextAreaError(true);
+    }
   };
 
   const handlers = {
@@ -110,23 +145,32 @@ const Authorization = ({
       scrollTo(checkbox);
       waitForRenderThenFocus('input', checkbox.shadowRoot);
     },
-    onChange: event => {
+    onCheckboxChange: event => {
       const { checked } = event.target;
-      setFormData({ ...data, privacyAgreementAccepted: checked });
 
-      if (checked && hasError) {
-        setHasError(false);
+      if (checked && checkboxError) {
+        setCheckboxError(false);
+      }
+
+      if (showArrayBuilder) {
+        setFormData({ ...data, auth4142: checked });
+      } else {
+        setFormData({ ...data, privacyAgreementAccepted: checked });
       }
     },
+    onLcChange: lcData => {
+      setFormData({ ...data, ...lcData });
+    },
     onGoForward: () => {
-      // Validation ONLY happens on form submission attempt
-      if (data.privacyAgreementAccepted) {
-        setHasError(false);
-        goForward(data);
-      } else {
+      if (!showArrayBuilder && !data.privacyAgreementAccepted) {
         // Show error and move focus ONLY when Continue is clicked without checkbox
-        setHasError(true);
+        setCheckboxError(true);
         focusOnAlert();
+      } else if (showArrayBuilder && !allDataIsPresent()) {
+        setErrorsForMissingData();
+      } else {
+        setCheckboxError(false);
+        goForward(data);
       }
     },
   };
@@ -158,12 +202,19 @@ const Authorization = ({
     'privacy-modal-button-2',
   );
 
+  const nextQuestionText =
+    'In the next question, you can limit your authorization to specific sources and types of information.';
+
+  const checkboxIsChecked = showArrayBuilder
+    ? auth4142
+    : data.privacyAgreementAccepted;
+
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
-        {hasError && (
+        {checkboxError && (
           <AuthorizationAlert
-            hasError={hasError}
+            checkboxError={checkboxError}
             onAnchorClick={handlers.onAnchorClick}
           />
         )}
@@ -241,10 +292,7 @@ const Authorization = ({
                 friends, public officials)
               </li>
             </ul>
-            <p>
-              You’ll have the option on the next page to limit your
-              authorization of types of sources and/or types of information.
-            </p>
+            <p>{nextQuestionText}</p>
           </va-accordion-item>
           <va-accordion-item header="3. Costs for records" level="4" open>
             <p className="vads-u-margin-top--0">
@@ -468,29 +516,29 @@ const Authorization = ({
               the types of sources listed.
             </li>
           </ul>
-          <p className="vads-u-margin-bottom--0">
-            You’ll have the option on the next page to limit your authorization
-            to types of sources and/or types of information.
-          </p>
+          <p className="vads-u-margin-bottom--0">{nextQuestionText}</p>
           <VaCheckbox
             className="vads-u-font-weight--bold vads-u-margin-top--3"
             id="privacy-agreement"
             name="privacy-agreement"
             label={AUTHORIZATION_LABEL}
-            checked={data.privacyAgreementAccepted}
-            onVaChange={handlers.onChange}
+            checked={checkboxIsChecked}
+            onVaChange={handlers.onCheckboxChange}
             required
             enable-analytics
-          >
-            {/* https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4219
-          This empty slot is required for now due to a DST defect where a
-          "description" slot is required in order for the analytics to work */}
-            <div slot="description" className="vads-u-display--none">
-              <p />
-            </div>
-          </VaCheckbox>
+          />
         </div>
-
+        {showArrayBuilder && (
+          <LimitedConsent
+            lcDetails={data.lcDetails}
+            lcPrompt={data.lcPrompt}
+            onChange={handlers.onLcChange}
+            radioError={radioError}
+            setRadioError={setRadioError}
+            textAreaError={textAreaError}
+            setTextAreaError={setTextAreaError}
+          />
+        )}
         <div className="vads-u-margin-top--5">
           {contentBeforeButtons}
           <FormNavButtons
@@ -513,6 +561,13 @@ const Authorization = ({
   );
 };
 
-Authorization.propTypes = customPageProps995;
+Authorization.propTypes = {
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  data: PropTypes.shape(),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  setFormData: PropTypes.func,
+};
 
 export default Authorization;

@@ -1,19 +1,19 @@
-import manifest from '../../../manifest.json';
-import cypressSetup from '../../../../shared/tests/cypress.setup';
-import * as h from '../995.cypress.helpers';
-import { EVIDENCE_URLS, NOV_2025_REDESIGN_TOGGLE } from '../../../constants';
-import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
-import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
+import manifest from '../../manifest.json';
+import cypressSetup from '../../../shared/tests/cypress.setup';
+import * as h from './995.cypress.helpers';
+import { EVIDENCE_URLS, NOV_2025_REDESIGN_TOGGLE } from '../../constants';
+import mockData from '../fixtures/data/pre-api-comprehensive-test.json';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 import {
   detailsEntryContent,
   introContent,
   summaryContent,
   treatmentDateContent,
-} from '../../../content/evidence/private';
-import { privateRecordsPromptError } from '../../../components/evidence/PrivatePrompt';
-import { issuesContent } from '../../../pages/evidence/privateEvidence';
-import { content as limitedConsentContent } from '../../../components/4142/LimitedConsent';
-import { content as authContent } from '../../../components/4142/AuthorizationNew';
+} from '../../content/evidence/private';
+import { privateRecordsPromptError } from '../../components/evidence/PrivatePrompt';
+import { issuesContent } from '../../pages/evidence/privateEvidence';
+import { content as limitedConsentContent } from '../../components/4142/LimitedConsent';
+import { content as authContent } from '../../components/4142/Authorization';
 
 const issues = mockData.data.contestedIssues;
 

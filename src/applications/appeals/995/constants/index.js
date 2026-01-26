@@ -23,15 +23,17 @@ export const CONTACT_INFO_URL = 'contact-information';
 export const ADD_ISSUE_URL = 'add-issue';
 export const EVIDENCE_VA_PROMPT_URL =
   'supporting-evidence/request-va-medical-records';
-export const EVIDENCE_VA_DETAILS_URL = 'supporting-evidence/va-medical-records';
-export const EVIDENCE_PRIVATE_PROMPT_URL_OLD =
-  'supporting-evidence/request-private-medical-records';
+// export const EVIDENCE_VA_DETAILS_URL = 'supporting-evidence/va-medical-records';
+export const EVIDENCE_VA_DETAILS_URL =
+  'supporting-evidence/va-medical-records-old';
 export const EVIDENCE_PRIVATE_PROMPT_URL =
   'supporting-evidence/private-medical-records';
 export const EVIDENCE_PRIVATE_AUTHORIZATION_URL =
   'supporting-evidence/private-medical-records-authorization';
+// export const EVIDENCE_PRIVATE_DETAILS_URL =
+//   'supporting-evidence/private-medical-records';
 export const EVIDENCE_PRIVATE_DETAILS_URL =
-  'supporting-evidence/private-medical-records';
+  'supporting-evidence/private-medical-records-old';
 export const LIMITED_CONSENT_PROMPT_URL = 'supporting-evidence/add-limitation';
 export const LIMITED_CONSENT_DETAILS_URL = 'supporting-evidence/limitation';
 export const EVIDENCE_ADDITIONAL_URL =

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
-import { content as authContent } from '../4142/AuthorizationNew';
+import { content as authContent } from '../4142/Authorization';
 import { content } from '../../content/evidence/summary';
 import { detailsQuestion as limitedConsentDetailsQuestion } from '../../pages/limitedConsentDetails';
 import { promptQuestion as limitedConsentPromptQuestion } from '../../pages/limitedConsentPrompt';

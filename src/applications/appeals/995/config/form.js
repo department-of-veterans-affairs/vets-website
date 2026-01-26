@@ -5,7 +5,6 @@ import { externalServices as services } from 'platform/monitoring/DowntimeNotifi
 
 // Components
 import AddContestableIssue from '../components/AddContestableIssue';
-import AuthorizationNew from '../components/4142/AuthorizationNew';
 import ConfirmationPage from '../components/ConfirmationPage';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -75,7 +74,6 @@ import {
   EVIDENCE_VA_PROMPT_URL,
   EVIDENCE_VA_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
-  EVIDENCE_PRIVATE_PROMPT_URL_OLD,
   EVIDENCE_PRIVATE_DETAILS_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
@@ -289,26 +287,6 @@ const formConfig = {
           depends: formData =>
             !redesignActive(formData) && hasVAEvidence(formData),
         },
-        privatePromptOld: {
-          title: 'Request non-VA medical records',
-          path: EVIDENCE_PRIVATE_PROMPT_URL_OLD,
-          CustomPage: PrivatePrompt,
-          CustomPageReview: null,
-          uiSchema: privatePrompt.uiSchema,
-          schema: privatePrompt.schema,
-          scrollAndFocusTarget: focusRadioH3,
-          depends: formData => !redesignActive(formData),
-        },
-        privateAuthorizationOld: {
-          title: 'Non-VA medical record authorization',
-          path: EVIDENCE_PRIVATE_AUTHORIZATION_URL,
-          CustomPage: PrivateRecordsAuthorization,
-          CustomPageReview: null,
-          uiSchema: privateAuthorization.uiSchema,
-          schema: privateAuthorization.schema,
-          depends: formData =>
-            !redesignActive(formData) && hasPrivateEvidence(formData),
-        },
         privatePromptNew: {
           title: 'Request non-VA medical records',
           path: EVIDENCE_PRIVATE_PROMPT_URL,
@@ -317,18 +295,16 @@ const formConfig = {
           uiSchema: privatePrompt.uiSchema,
           schema: privatePrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
-          depends: formData =>
-            redesignActive(formData) && hasPrivateEvidence(formData),
+          depends: formData => redesignActive(formData),
         },
-        privateAuthorizationNew: {
+        privateAuthorization: {
           title: 'Non-VA medical record authorization',
           path: EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+          CustomPage: PrivateRecordsAuthorization,
+          CustomPageReview: null,
           uiSchema: privateAuthorization.uiSchema,
           schema: privateAuthorization.schema,
-          CustomPage: AuthorizationNew,
-          CustomPageReview: null,
-          depends: formData =>
-            redesignActive(formData) && hasPrivateEvidence(formData),
+          depends: formData => hasPrivateEvidence(formData),
         },
         ...privateEvidence,
         limitedConsentPromptOld: {
@@ -382,6 +358,7 @@ const formConfig = {
           uiSchema: summary.uiSchema,
           schema: summary.schema,
           scrollAndFocusTarget: focusAlertH3,
+          depends: formData => !redesignActive(formData),
         },
       },
     },
