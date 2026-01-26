@@ -57,18 +57,26 @@ const deriveRatedIncreaseSelections = (formData = {}) => {
     });
 
   const combined = [...fromRatedDisabilities, ...fromNewDisabilities];
-
   const deduped = new Map();
+
   combined.forEach(item => {
     const key = item.name.toLowerCase();
     const existing = deduped.get(key);
 
-    if (
-      !existing ||
-      (existing.ratingPercentage == null && item.ratingPercentage != null)
-    ) {
+    if (!existing) {
       deduped.set(key, item);
+      return;
     }
+
+    deduped.set(key, {
+      ...existing,
+      ...item,
+      conditionDate: item.conditionDate || existing.conditionDate,
+      ratingPercentage:
+        existing.ratingPercentage != null
+          ? existing.ratingPercentage
+          : item.ratingPercentage,
+    });
   });
 
   return [...deduped.values()];
