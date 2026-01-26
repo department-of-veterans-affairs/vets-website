@@ -40,6 +40,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
       vaOnlineSchedulingImmediateCareAlert: true,
+      vaOnlineSchedulingUseVpg: true,
     });
     mockVamcEhrApi({ isCerner: true });
   });
