@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const serviceHistoryDescription = props => (
   <>
@@ -40,6 +41,10 @@ export const ServiceHistorySummary = ({ formData }) => {
         : 'Not Given'}
     </va-card>
   );
+};
+
+ServiceHistorySummary.propTypes = {
+  formData: PropTypes.object,
 };
 
 export default serviceHistoryDescription;
