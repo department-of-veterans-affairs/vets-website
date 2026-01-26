@@ -57,7 +57,6 @@ const uiSchema = {
   },
   statement1Initial: {
     ...textUI('Initial here'),
-    'ui:description': STATEMENT_1,
     'ui:reviewField': createInitialReviewField(STATEMENT_1),
     'ui:webComponentField': CapitalizedTextInputField,
     'ui:options': {
@@ -76,7 +75,6 @@ const uiSchema = {
   },
   statement2Initial: {
     ...textUI('Initial here'),
-    'ui:description': STATEMENT_2,
     'ui:reviewField': createInitialReviewField(STATEMENT_2),
     'ui:webComponentField': CapitalizedTextInputField,
     'ui:options': {
@@ -95,7 +93,6 @@ const uiSchema = {
   },
   statement3Initial: {
     ...textUI('Initial here'),
-    'ui:description': STATEMENT_3,
     'ui:reviewField': createInitialReviewField(STATEMENT_3),
     'ui:webComponentField': CapitalizedTextInputField,
     'ui:options': {
@@ -114,7 +111,6 @@ const uiSchema = {
   },
   statement4Initial: {
     ...textUI('Initial here'),
-    'ui:description': STATEMENT_4,
     'ui:reviewField': createInitialReviewField(STATEMENT_4),
     'ui:webComponentField': CapitalizedTextInputField,
     'ui:options': {
