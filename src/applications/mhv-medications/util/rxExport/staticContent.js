@@ -5,8 +5,7 @@ import { formatDate, DATETIME_FORMATS } from './formatters';
 // TXT Document Formatting
 // ============================================================================
 
-export const TXT_SEPARATOR =
-  '---------------------------------------------------------------------------------';
+export const TXT_SEPARATOR = `---------------------------------------------------------------------------------`;
 
 // ============================================================================
 // Crisis Line Content
@@ -17,8 +16,8 @@ export const TXT_SEPARATOR =
  */
 export const CRISIS_LINE_PDF = [
   {
-    text:
-      "If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ",
+    text: `If you're ever in crisis and need to talk with someone right away, \
+call the Veterans Crisis Line at `,
   },
   { text: '988', weight: 'bold' },
   { text: '. Then select 1.' },
@@ -27,8 +26,12 @@ export const CRISIS_LINE_PDF = [
 /**
  * Crisis line text for TXT documents
  */
-export const CRISIS_LINE_TXT =
-  "\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n";
+export const CRISIS_LINE_TXT = `
+If you're ever in crisis and need to talk with someone right away, call the \
+Veterans Crisis Line at 988. Then select 1.
+
+
+`;
 
 // ============================================================================
 // Report Metadata
@@ -50,16 +53,23 @@ export const getReportGeneratedText = () =>
 // Allergies Section Content
 // ============================================================================
 
-export const ALLERGIES_SECTION_HEADER = 'Allergies and reactions';
+export const ALLERGIES_SECTION_HEADER = `Allergies and reactions`;
 
-export const ALLERGIES_DESCRIPTION =
-  'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.';
+export const ALLERGIES_DESCRIPTION = `This list includes all allergies, \
+reactions, and side effects in your VA medical records. This includes \
+medication side effects (also called adverse drug reactions). If you have \
+allergies or reactions that are missing from this list, tell your care team \
+at your next appointment.`;
 
-export const ALLERGIES_EMPTY_MESSAGE =
-  'There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.';
+export const ALLERGIES_EMPTY_MESSAGE = `There are no allergies or reactions \
+in your VA medical records. If you have allergies or reactions that are \
+missing from your records, tell your care team at your next appointment.`;
 
-export const ALLERGIES_ERROR_MESSAGE =
-  "We couldn't access your allergy records when you downloaded this list. We're sorry. There was a problem with our system. Try again later. If it still doesn't work, call us at 877-327-0022 (TTY: 711). We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.";
+export const ALLERGIES_ERROR_MESSAGE = `We couldn't access your allergy \
+records when you downloaded this list. We're sorry. There was a problem with \
+our system. Try again later. If it still doesn't work, call us at \
+877-327-0022 (TTY: 711). We're here Monday through Friday, 8:00 a.m. to \
+8:00 p.m. ET.`;
 
 /**
  * Get allergies count text
@@ -75,20 +85,26 @@ export const getAllergiesCountText = count => {
 // Document Prefaces
 // ============================================================================
 
-export const SINGLE_MEDICATION_PREFACE =
-  'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.';
+export const SINGLE_MEDICATION_PREFACE = `This is a single medication record \
+from your VA medical records. When you download a medication record, we also \
+include a list of allergies and reactions in your VA medical records.`;
 
 // ============================================================================
 // Non-VA Medication Content
 // ============================================================================
 
-export const NON_VA_MEDICATION_DESCRIPTION =
-  "A VA provider added this medication record in your VA medical records. But this isn't a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can't request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.";
+export const NON_VA_MEDICATION_DESCRIPTION = `A VA provider added this \
+medication record in your VA medical records. But this isn't a prescription \
+you filled through a VA pharmacy. This could be sample medications, \
+over-the-counter medications, supplements or herbal remedies. You can't \
+request refills or manage this medication through this online tool. If you \
+aren't taking this medication, ask your provider to remove it at your next \
+appointment.`;
 
-export const ACTIVE_NON_VA = 'Active: Non-VA';
+export const ACTIVE_NON_VA = `Active: Non-VA`;
 
 // ============================================================================
 // PDF Footer/Header
 // ============================================================================
 
-export const PDF_FOOTER_RIGHT = 'Page %PAGE_NUMBER% of %TOTAL_PAGES%';
+export const PDF_FOOTER_RIGHT = `Page %PAGE_NUMBER% of %TOTAL_PAGES%`;
