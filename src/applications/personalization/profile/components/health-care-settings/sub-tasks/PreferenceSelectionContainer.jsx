@@ -368,6 +368,7 @@ export const PreferenceSelectionContainer = ({
       }
 
       savePreference();
+      historyUnblock.current();
 
       history.push(returnPath, {
         fieldInfo,
@@ -381,6 +382,7 @@ export const PreferenceSelectionContainer = ({
       // First save the contact method preference
       savePreference();
 
+      historyUnblock.current();
       setShowConfirmCancelModal(false);
       clearBeforeUnloadListener();
       dispatch(openModal(null));
