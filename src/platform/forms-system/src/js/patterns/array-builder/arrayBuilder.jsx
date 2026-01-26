@@ -212,7 +212,23 @@ export function getPageAfterPageKey(pageList, pageKey) {
   return nextPage;
 }
 
-export function validatePages(orderedPageTypes) {
+export function validateIntroPageDependsCount(
+  introCount,
+  introPagesWithDepends,
+  required,
+  arrayPath,
+) {
+  if (!environment.isProduction() && typeof required === 'function') {
+    const allIntroPagesHaveDepends = introCount === introPagesWithDepends;
+    if (!allIntroPagesHaveDepends) {
+      throw new Error(
+        `arrayBuilderPages: When \`arrayBuilderOptions\` \`required\` is a function for arrayPath "${arrayPath}", all \`pageBuilder.introPage\` pages must include a \`depends\` function to conditionally display the intro page.`,
+      );
+    }
+  }
+}
+
+export function validatePages(orderedPageTypes, required, arrayPath) {
   const pageTypes = {
     summaryCount: 0,
     summaryPagesWithDepends: 0,
@@ -277,11 +293,38 @@ export function validatePages(orderedPageTypes) {
       'arrayBuilderPages must include at least one item page with `pageBuilder.itemPage`',
     );
   }
+
+  validateIntroPageDependsCount(
+    pageTypes.introCount,
+    pageTypes.introPagesWithDepends,
+    required,
+    arrayPath,
+  );
 }
 
 export function validateRequired(required) {
   if (required == null || typeof required === 'string') {
     throwValidateRequired();
+  }
+}
+
+export function validateRequiredFlowHasIntroPage(
+  required,
+  introPages,
+  arrayPath,
+) {
+  if (environment.isProduction()) {
+    return;
+  }
+
+  const isRequiredFunction = typeof required === 'function';
+  const isRequired = isRequiredFunction ? true : required;
+
+  if (isRequired && introPages.length === 0) {
+    const message = isRequiredFunction
+      ? `arrayBuilderPages: When \`arrayBuilderOptions\` \`required\` is a function for arrayPath "${arrayPath}", you must include at least one \`pageBuilder.introPage\` with a \`depends\` function.`
+      : `arrayBuilderPages: When \`arrayBuilderOptions\` \`required\` is true for arrayPath "${arrayPath}", you must include a \`pageBuilder.introPage\`. See ArrayBuilder README.md for more information.';`;
+    throw new Error(message);
   }
 }
 
@@ -456,8 +499,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   // Verify and setup any initial page options
   pageBuilderCallback(pageBuilderVerifyAndSetup);
-  validatePages(orderedPageTypes);
+  validatePages(orderedPageTypes, userRequired, arrayPath);
   validateRequired(userRequired);
+  validateRequiredFlowHasIntroPage(userRequired, introPages, arrayPath);
   validateReviewPath(reviewPath);
   validateMinItems(options.minItems);
   const required =
