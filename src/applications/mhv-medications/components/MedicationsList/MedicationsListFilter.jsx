@@ -38,16 +38,6 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
   const [selectedFilterOption, setSelectedFilterOption] = useState(
     filterOption,
   );
-  const [loadingButton, setLoadingButton] = useState(null);
-
-  useEffect(
-    () => {
-      if (!isLoading) {
-        setLoadingButton(null);
-      }
-    },
-    [isLoading],
-  );
 
   const mapFilterCountToFilterLabels = label => {
     switch (label) {
@@ -115,13 +105,11 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
       form_field_option_label: selectedFilterOption,
     });
 
-    setLoadingButton('apply');
     updateFilter(selectedFilterOption);
     waitForRenderThenFocus('#showingRx', document, 500);
   };
 
   const handleFilterReset = () => {
-    setLoadingButton('reset');
     updateFilter(ALL_MEDICATIONS_FILTER_KEY);
     setSelectedFilterOption(ALL_MEDICATIONS_FILTER_KEY);
     waitForRenderThenFocus('#showingRx', document, 500);
@@ -203,7 +191,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
           }
-          loading={isLoading && loadingButton === 'apply'}
+          loading={isLoading}
         />
         <VaButton
           className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
@@ -214,7 +202,6 @@ const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.RESET_FILTER_BUTTON
           }
-          loading={isLoading && loadingButton === 'reset'}
         />
       </VaAccordionItem>
     </VaAccordion>

@@ -260,7 +260,7 @@ describe('Medications List Filter component', () => {
   });
 
   describe('Button loading states', () => {
-    it('shows loading state on apply button when clicked and isLoading is true', async () => {
+    it('shows loading state on apply button when isLoading is true', () => {
       const updateFilter = sandbox.spy();
       const screen = setup(
         { rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } } },
@@ -274,41 +274,10 @@ describe('Medications List Filter component', () => {
       const applyButton = screen.getByTestId('filter-button');
       const resetButton = screen.getByTestId('filter-reset-button');
 
-      expect(applyButton).to.have.attribute('loading', 'false');
-      expect(resetButton).to.have.attribute('loading', 'false');
-
-      applyButton.click();
-
-      await waitFor(() => {
-        expect(applyButton).to.have.attribute('loading', 'true');
-      });
-      expect(resetButton).to.have.attribute('loading', 'false');
+      expect(applyButton).to.have.attribute('loading', 'true');
+      expect(resetButton).to.not.have.attribute('loading');
     });
 
-    it('shows loading state on reset button when clicked and isLoading is true', async () => {
-      const updateFilter = sandbox.spy();
-      const screen = setup(
-        { rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } } },
-        updateFilter,
-        filterCountObj,
-        false,
-        false,
-        true, // isLoading = true
-      );
-
-      const applyButton = screen.getByTestId('filter-button');
-      const resetButton = screen.getByTestId('filter-reset-button');
-
-      expect(applyButton).to.have.attribute('loading', 'false');
-      expect(resetButton).to.have.attribute('loading', 'false');
-
-      resetButton.click();
-
-      await waitFor(() => {
-        expect(resetButton).to.have.attribute('loading', 'true');
-      });
-      expect(applyButton).to.have.attribute('loading', 'false');
-    });
 
     it('never shows loading state when isLoading is false', () => {
       const updateFilter = sandbox.spy();
@@ -325,13 +294,7 @@ describe('Medications List Filter component', () => {
       const resetButton = screen.getByTestId('filter-reset-button');
 
       expect(applyButton).to.have.attribute('loading', 'false');
-      expect(resetButton).to.have.attribute('loading', 'false');
-
-      applyButton.click();
-      resetButton.click();
-
-      expect(applyButton).to.have.attribute('loading', 'false');
-      expect(resetButton).to.have.attribute('loading', 'false');
+      expect(resetButton).to.not.have.attribute('loading');
     });
 
     it('calls updateFilter with selected filter when apply button is clicked', () => {
