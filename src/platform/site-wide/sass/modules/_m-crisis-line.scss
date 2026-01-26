@@ -1,4 +1,4 @@
-@use "@department-of-veterans-affairs/css-library/dist/tokens/scss/variables" as *;
+// Tokens are imported in parent style.scss; avoid duplicating imports to prevent dart-sass conflicts.
 
 @media screen and (min-width: $small-desktop-screen) {
   va-crisis-line-modal {
