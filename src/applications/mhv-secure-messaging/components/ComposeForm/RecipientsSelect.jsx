@@ -233,6 +233,11 @@ const RecipientsSelect = ({
     ],
   );
 
+  const shortenSystemName = name => {
+    const prefixRemoved = name?.replace(/^VA\s+/i, '');
+    return prefixRemoved?.replace(/\s+health care$/i, '');
+  };
+
   const optionsValues = useMemo(
     () => {
       if (!optGroupEnabled || !mhvSecureMessagingCuratedListFlow) {
@@ -248,12 +253,14 @@ const RecipientsSelect = ({
       let groupedOptions = [];
 
       // Insert Recent care teams group first (if available)
+      // debugger;
       if (Array.isArray(recentRecipients) && recentRecipients.length > 0) {
         options.push(
           <optgroup key="recent-care-teams" label="Recent care teams">
             {recentRecipients.map(r => (
               <option key={r.triageTeamId} value={r.triageTeamId}>
                 {r.name}
+                {`Facility: ${shortenSystemName(r.healthCareSystemName)}`}
               </option>
             ))}
           </optgroup>,
@@ -261,10 +268,13 @@ const RecipientsSelect = ({
       }
 
       recipientsListSorted.forEach(item => {
+        // debugger;
         if (item.vamcSystemName === undefined) {
           options.push(
             <option key={item.id} value={item.id}>
               {item.suggestedNameDisplay || item.name}
+              {/* {item.vamcSystemName.replace(/^VA\s+|\s+health care$/i, '')} */}
+              {`Facility: ${shortenSystemName(item.vamcSystemName)}`}
             </option>,
           );
         } else if (item.vamcSystemName !== currentVamcSystemName) {
@@ -284,10 +294,12 @@ const RecipientsSelect = ({
         groupedOptions.push(
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
+            {`Facility: ${shortenSystemName(item.vamcSystemName)}`}
           </option>,
         );
       });
 
+      // TODO add to this optgroup as well
       // Push the last group
       if (currentVamcSystemName !== null) {
         options.push(
@@ -296,6 +308,7 @@ const RecipientsSelect = ({
           </optgroup>,
         );
       }
+      // console.log('Pushed last group', currentVamcSystemName);
 
       return options;
     },
