@@ -150,6 +150,13 @@ jobs:
           delimiter: ','
           output-type: 'entry_name, continuous_deployment, deployment_concurrency_group'
 
+      - name: Log changed apps info
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        run: |
+          echo "Entry names: ${{ steps.get-changed-apps.outputs.entry_names }}"
+          echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
+          echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
+
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/inject-secrets
