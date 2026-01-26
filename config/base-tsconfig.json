@@ -6,6 +6,7 @@
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "allowJs": true,
     "esModuleInterop": true,
     "moduleResolution": "node",

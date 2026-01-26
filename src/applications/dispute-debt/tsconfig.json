@@ -1,0 +1,32 @@
+{
+  "extends": "../../../config/base-tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "typeRoots": ["./types", "../../../node_modules/@types"],
+    "baseUrl": "../../../src",
+    "paths": {
+      "platform/*": ["platform/*"],
+      "~/*": ["*"],
+      "@config/*": ["../../../config/*"]
+    }
+  },
+  "include": [
+    "**/*",
+    "../../../config/globalTypes/web-components.d.ts",
+    "../../../config/globalTypes/global-state.d.ts",
+    "../../../config/globalTypes/router-types.d.ts",
+    "types/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "../../../node_modules/@department-of-veterans-affairs/component-library/dist/react-bindings/react-component-lib/createOverlayComponent.tsx"
+  ]
+}

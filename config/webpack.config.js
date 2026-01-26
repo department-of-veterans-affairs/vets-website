@@ -334,9 +334,23 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'ts-loader',
+              options: {
+                // This prevents ts-loader from checking .tsx files in node_modules
+                // DO NOT REMOVE without consulting the dispute debt team.
+                transpileOnly: true,
+                // DO NOT REMOVE without consulting the dispute debt team.
+                compilerOptions: {
+                  skipLibCheck: true,
+                },
+              },
             },
           ],
-          exclude: /node_modules/,
+          exclude: [
+            /node_modules/,
+            // DO NOT REMOVE without consulting the dispute debt team.
+            // See TYPESCRIPT_MIGRATION.md for full details.
+            /@department-of-veterans-affairs\/component-library\/dist\/react-bindings\/react-component-lib\/createOverlayComponent\.tsx$/,
+          ],
         },
         {
           test: /\.(sa|sc|c)ss$/,
