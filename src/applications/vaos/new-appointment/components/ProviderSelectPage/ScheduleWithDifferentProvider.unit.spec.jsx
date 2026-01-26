@@ -100,7 +100,7 @@ describe('ScheduleWithDifferentProvider', () => {
     // Should display call to schedule text with facility phone
     expect(
       screen.getByText(
-        /Call the facility and ask to schedule with that provider: /i,
+        /Call the facility and ask to schedule with that provider:/i,
       ),
     ).to.exist;
 
