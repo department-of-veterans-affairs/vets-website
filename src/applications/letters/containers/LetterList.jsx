@@ -42,7 +42,10 @@ export class LetterList extends React.Component {
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
-    const hasTsaLetter = Boolean(this.props.tsaLetterEligibility?.documentId);
+    const hasTsaLetter = Boolean(
+      this.props.tsaLetterEligibility?.documentId &&
+        this.props.tsaLetterEligibility?.documentVersion,
+    );
     const isDeterminingTsaEligibility =
       this.props.tsaSafeTravelLetter &&
       this.props.tsaLetterEligibility?.loading;

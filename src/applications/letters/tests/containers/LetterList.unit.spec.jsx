@@ -425,7 +425,7 @@ describe('<LetterList>', () => {
       expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
     });
 
-    it('does not render accordion item', () => {
+    it('does not render accordion item if feature flag is disabled', () => {
       const { queryByText } = render(
         <Provider store={getStore()}>
           <MemoryRouter>

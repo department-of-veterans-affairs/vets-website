@@ -520,7 +520,7 @@ describe('getTsaLetterEligibility', () => {
   });
 
   it('dispatches LOADING action first', async () => {
-    setFetchJSONResponse(global.fetch.onCall(0), { data: [] });
+    setFetchJSONResponse(global.fetch.onCall(0), { data: null });
     const dispatch = sinon.spy();
     const thunk = getTsaLetterEligibility();
     await thunk(dispatch);
@@ -575,27 +575,7 @@ describe('getTsaLetterEligibility', () => {
     const thunk = getTsaLetterEligibility();
     await thunk(dispatch);
     const successAction = dispatch.secondCall.args[0];
-    expect(successAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_SUCCESS);
-    expect(recordEventStub.called).to.be.true;
-    expect(recordEventStub.getCall(0).args[0]).to.deep.equal({
-      event: 'api_call',
-      'api-name': 'GET /v0/tsa_letter',
-      'api-status': 'successful',
-      'has-letter': false,
-    });
-  });
-
-  // what was the original point of adding a test very similar to the previous test?
-  it('dispatches SUCCESS action when fetch succeeds for determining eligibility (no letter)', async () => {
-    setFetchJSONResponse(global.fetch.onFirstCall(), {
-      data: null,
-    });
-    const dispatch = sinon.spy();
-    const thunk = getTsaLetterEligibility();
-    await thunk(dispatch);
-    const successAction = dispatch.secondCall.args[0];
     expect(successAction.data).to.equal(null);
-
     expect(successAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_SUCCESS);
     expect(recordEventStub.called).to.be.true;
     expect(recordEventStub.getCall(0).args[0]).to.deep.equal({
