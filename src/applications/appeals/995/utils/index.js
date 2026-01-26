@@ -1,5 +1,4 @@
 export const redesignActive = formData => formData?.showArrayBuilder;
-// export const redesignActive = () => false;
 
 /**
  * Redirect to the user's last saved URL if it exists

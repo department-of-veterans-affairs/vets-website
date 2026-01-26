@@ -66,18 +66,19 @@ export const App = ({
   // Initialize combined feature flag and new-flow-only behavior
   useEffect(
     () => {
-      console.log('showArrayBuilder: ', showArrayBuilder);
-      const hasSavedForm =
-        savedForms?.length > 0 &&
-        savedForms?.filter(form => form.form === '20-0995')?.length > 0;
+      if (showArrayBuilder === undefined) {
+        const hasSavedForm =
+          savedForms?.length > 0 &&
+          savedForms?.filter(form => form.form === '20-0995')?.length > 0;
 
-      setFormData({
-        ...formData,
-        showArrayBuilder: scRedesign && (!hasSavedForm || hasNewEvidenceData),
-      });
+        setFormData({
+          ...formData,
+          showArrayBuilder: scRedesign && (!hasSavedForm || hasNewEvidenceData),
+        });
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [hasNewEvidenceData, savedForms, scRedesign, setFormData],
+    [hasNewEvidenceData, savedForms, scRedesign, setFormData, showArrayBuilder],
   );
 
   const { pathname } = location || {};
@@ -229,6 +230,7 @@ App.propTypes = {
   }),
   savedForms: PropTypes.array,
   scRedesign: PropTypes.bool,
+  showArrayBuilder: PropTypes.bool,
   vaEvidence: PropTypes.array,
 };
 

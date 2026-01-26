@@ -27,6 +27,7 @@ import {
   VA_TREATMENT_MONTH_YEAR_KEY,
 } from '../../constants';
 import { hasTreatmentBefore2005 } from '../../utils/form-data-retrieval';
+import { redesignActive } from '../../utils';
 
 /**
  * This is how we determine whether all of the info for one
@@ -209,24 +210,28 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.vaPromptSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
+    depends: formData => redesignActive(formData),
   }),
   vaLocation: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.vaLocation,
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
+    depends: formData => redesignActive(formData),
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
     title: 'Treatment date prompt',
     path: EVIDENCE_URLS.vaTreatmentDatePrompt,
     uiSchema: datePromptPage.uiSchema,
     schema: datePromptPage.schema,
+    depends: formData => redesignActive(formData),
   }),
   treatmentDateVA: pageBuilder.itemPage({
     title: 'Treatment date',
     path: EVIDENCE_URLS.vaTreatmentDateDetails,
     uiSchema: dateDetailsPage.uiSchema,
     schema: dateDetailsPage.schema,
-    depends: (formData, index) => hasTreatmentBefore2005(formData, index),
+    depends: (formData, index) =>
+      redesignActive(formData) && hasTreatmentBefore2005(formData, index),
   }),
 }));
