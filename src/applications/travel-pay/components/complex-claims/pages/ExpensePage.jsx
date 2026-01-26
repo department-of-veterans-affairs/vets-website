@@ -104,7 +104,6 @@ const ExpensePage = () => {
   const [isFetchingDocument, setIsDocumentLoading] = useState(false);
   const [previousDocumentId, setPreviousDocumentId] = useState(null);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
-  const [uploadError, setUploadError] = useState('');
   const [extraFieldErrors, setExtraFieldErrors] = useState({});
   const [shouldScrollToError, setShouldScrollToError] = useState(false);
 
@@ -513,7 +512,9 @@ const ExpensePage = () => {
     const errors = {};
 
     // Receipt validation
-    if (!formState.receipt) {
+    const existingReceiptError = extraFieldErrors.receipt;
+    // If no receipt exists AND no prior error exists, set error
+    if (!formState.receipt && !existingReceiptError) {
       errors.receipt = 'Select an approved file type under 5MB';
     }
 
@@ -561,6 +562,7 @@ const ExpensePage = () => {
         description: descriptionValidation.description,
       }),
       ...amountValidation.errors,
+      ...(existingReceiptError && { receipt: existingReceiptError }),
     };
 
     setExtraFieldErrors(finalErrors);
@@ -674,54 +676,73 @@ const ExpensePage = () => {
     }
   };
 
-  const handleDocumentChange = async e => {
-    setUploadError(''); // Clear any previous processing errors
+  const handleFileInputError = e => {
+    const { detail } = e;
 
+    if (detail?.error) {
+      setExtraFieldErrors(prev => ({
+        ...prev,
+        receipt: detail.error,
+      }));
+    }
+  };
+
+  const handleDocumentChange = async e => {
     const files = e.detail?.files;
 
-    // Delete document
+    // User removed the file
     if (!files || files.length === 0) {
-      // If document exists but no files then user deleted the previous document
       if (expenseDocument) {
         setExpenseDocument(null);
+
         setFormState(prev => {
-          // Remove document from the formState so we dont re-add it
-          // eslint-disable-next-line no-unused-vars
-          const { receipt, ...formStateWithoutReceipt } = prev;
-          return formStateWithoutReceipt;
+          const updated = { ...prev };
+          delete updated.receipt;
+          return updated;
         });
       }
-    } else {
-      try {
-        const file = files[0]; // Get the first (and only) file
 
-        const base64File = await toBase64(file);
+      // Clear receipt-related errors when file is removed
+      setExtraFieldErrors(prev => {
+        const next = { ...prev };
+        delete next.receipt;
+        return next;
+      });
 
-        // Change or add document
-        setExpenseDocument(file);
+      return;
+    }
 
-        // Sync into formState so validation works
-        setFormState(prev => ({
-          ...prev,
-          receipt: {
-            contentType: file.type,
-            length: file.size,
-            fileName: file.name,
-            fileData: base64File,
-          },
-        }));
+    try {
+      const file = files[0];
+      const base64File = await toBase64(file);
 
-        // ✅ Clear any receipt error when a file is added using Object.fromEntries
-        setExtraFieldErrors(prevErrors =>
-          Object.fromEntries(
-            Object.entries(prevErrors).filter(([key]) => key !== 'receipt'),
-          ),
-        );
-      } catch (err) {
-        setUploadError(
+      // Update document state
+      setExpenseDocument(file);
+
+      // Sync into formState so validation works
+      setFormState(prev => ({
+        ...prev,
+        receipt: {
+          contentType: file.type,
+          length: file.size,
+          fileName: file.name,
+          fileData: base64File,
+        },
+      }));
+
+      // Clear receipt errors ONLY after successful processing
+      setExtraFieldErrors(prev => {
+        const updated = { ...prev };
+        delete updated.receipt; // remove the key safely
+        return updated;
+      });
+    } catch (err) {
+      // Treat processing errors like validation errors
+      setExtraFieldErrors(prev => ({
+        ...prev,
+        receipt:
           'There was a problem processing your document. Please try again later.',
-        );
-      }
+      }));
     }
   };
 
@@ -788,7 +809,8 @@ const ExpensePage = () => {
           <DocumentUpload
             currentDocument={expenseDocument}
             handleDocumentChange={handleDocumentChange}
-            uploadError={extraFieldErrors.receipt || uploadError || undefined}
+            error={extraFieldErrors.receipt}
+            onVaFileInputError={handleFileInputError}
           />
           {isMeal && (
             <ExpenseMealFields
