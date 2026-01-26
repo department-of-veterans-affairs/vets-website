@@ -87,6 +87,7 @@
   "ezrUploadEnabled": "ezr_upload_enabled",
   "ezrEmergencyContactsEnabled": "ezr_emergency_contacts_enabled",
   "ezrNextOfKinEnabled": "ezr_next_of_kin_enabled",
+  "ezrServiceHistoryEnabled": "ezr_service_history_enabled",
   "ezrSpouseConfirmationFlowEnabled": "ezr_spouse_confirmation_flow_enabled",
   "facilitiesAutoSuggestVAMCServicesEnabled": "facilities_autosuggest_vamc_services_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",

@@ -20,20 +20,24 @@ export const ServiceHistorySummary = ({ formData }) => {
   return (
     <va-card uswds="true" className="vads-u-margin-bottom--2">
       <h4 className="vads-u-margin-top--0 dd-privacy-mask">
-        {(history?.lastServiceBranch || '')
+        {(history?.lastServiceBranch || 'Not Given')
           .split(' ')
           .map(w => w.charAt(0).toUpperCase() + w.slice(1))
           .join(' ')}
       </h4>
-      {new Date(history?.lastEntryDate || 0).toLocaleDateString(
-        'en-US',
-        dateOptions,
-      )}
+      {history?.lastEntryDate
+        ? new Date(history?.lastEntryDate).toLocaleDateString(
+            'en-US',
+            dateOptions,
+          )
+        : 'Not Given'}
       {' — '}
-      {new Date(history?.lastDischargeDate || 0).toLocaleDateString(
-        'en-US',
-        dateOptions,
-      )}
+      {history?.lastDischargeDate
+        ? new Date(history?.lastDischargeDate).toLocaleDateString(
+            'en-US',
+            dateOptions,
+          )
+        : 'Not Given'}
     </va-card>
   );
 };
