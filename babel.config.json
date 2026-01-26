@@ -291,6 +291,9 @@
           "@department-of-veterans-affairs/platform-forms-system/web-component-fields": "./src/platform/forms-system/src/js/web-component-fields/index.js",
           "@department-of-veterans-affairs/platform-forms-system/src/js/web-component-patterns/radioPattern": "./src/platform/forms-system/src/js/web-component-patterns/radioPattern.jsx",
 
+          "@department-of-veterans-affairs/platform-form-renderer/exports": "./src/platform/form-renderer/exportsFile.js",
+          "@department-of-veterans-affairs/platform-form-renderer/FormRenderer": "./src/platform/form-renderer/FormRenderer.jsx",
+
           "@department-of-veterans-affairs/platform-monitoring/exports": "./src/platform/monitoring/exportsFile.js",
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification": "./src/platform/monitoring/DowntimeNotification/index.jsx",
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/containers/DowntimeNotification": "./src/platform/monitoring/DowntimeNotification/containers/DowntimeNotification.jsx",

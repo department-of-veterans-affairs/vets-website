@@ -11,6 +11,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingMedicationsRenewalRequest = false,
     mhvMedicationsCernerPilot = false,
     mhvMedicationsV2StatusMapping = false,
+    mhvMedicationsEnableKramesHtmlSanitization = true,
+    mhvMedicationsManagementImprovements = false,
   } = toggles;
 
   return {
@@ -60,6 +62,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_v2_status_mapping',
           value: mhvMedicationsV2StatusMapping,
+        },
+        {
+          name: 'mhv_medications_enable_krames_html_sanitization',
+          value: mhvMedicationsEnableKramesHtmlSanitization,
+        },
+        {
+          name: 'mhv_medications_management_improvements',
+          value: mhvMedicationsManagementImprovements,
         },
       ],
     },

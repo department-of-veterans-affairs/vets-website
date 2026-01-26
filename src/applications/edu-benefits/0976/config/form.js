@@ -22,10 +22,21 @@ import additionalInstitutionsSummaryWithCode from '../pages/additionalInstitutio
 import additionalInstitutionsItemWithCode from '../pages/additionalInstitutionsItemWithCode';
 import additionalInstitutionsSummaryWithoutCode from '../pages/additionalInstitutionsSummaryWithoutCode';
 import additionalInstitutionsItemWithoutCode from '../pages/additionalInstitutionsItemWithoutCode';
+import primaryInstitutionWebsite from '../pages/primaryInstitutionWebsite';
+import submissionReasons from '../pages/submissionReasons';
+import submissionReasonUpdateInformationText from '../pages/submissionReasonUpdateInformationText';
+import submissionReasonOtherText from '../pages/submissionReasonOtherText';
+import primaryInstitutionIHL from '../pages/primaryInstitutionIHL';
+import primaryInstitutionTitle4 from '../pages/primaryInstitutionTitle4';
+
+import programInformationIntro from '../pages/programInformationIntro';
+import programInformationSummary from '../pages/programInformationSummary';
+import programInformationDetails from '../pages/programInformationDetails';
 
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
+  programInformationArrayOptions,
 } from '../helpers';
 
 const formConfig = {
@@ -200,6 +211,71 @@ const formConfig = {
             }),
           }),
         ),
+        primaryInstitutionWebsite: {
+          path: 'primary-institution-website',
+          title: 'Primary institution website',
+          uiSchema: primaryInstitutionWebsite.uiSchema,
+          schema: primaryInstitutionWebsite.schema,
+        },
+        submissionReasons: {
+          path: 'submission-reasons',
+          title: 'Submission reasons',
+          uiSchema: submissionReasons.uiSchema,
+          schema: submissionReasons.schema,
+        },
+        submissionReasonUpdateInformationText: {
+          path: 'submission-reason-update-text',
+          title: 'Submission reason update text',
+          uiSchema: submissionReasonUpdateInformationText.uiSchema,
+          schema: submissionReasonUpdateInformationText.schema,
+          depends: formData =>
+            formData?.submissionReasons?.updateInformation === true,
+        },
+        submissionReasonOtherText: {
+          path: 'submission-reasons-other text',
+          title: 'Submission reason other text',
+          uiSchema: submissionReasonOtherText.uiSchema,
+          schema: submissionReasonOtherText.schema,
+          depends: formData => formData?.submissionReasons?.other === true,
+        },
+        primaryInstitutionIHL: {
+          path: 'primary-institution-ihl',
+          title: 'Primary institution IHL',
+          uiSchema: primaryInstitutionIHL.uiSchema,
+          schema: primaryInstitutionIHL.schema,
+        },
+        primaryInstitutionTitle4: {
+          path: 'primary-institution-title-4',
+          title: 'Primary institution title 4',
+          uiSchema: primaryInstitutionTitle4.uiSchema,
+          schema: primaryInstitutionTitle4.schema,
+        },
+      },
+    },
+    programInformation: {
+      title: 'Program Information',
+      pages: {
+        ...arrayBuilderPages(programInformationArrayOptions, pageBuilder => ({
+          programInformationIntro: pageBuilder.introPage({
+            path: 'program-information',
+            title: 'Program information',
+            uiSchema: programInformationIntro.uiSchema,
+            schema: programInformationIntro.schema,
+          }),
+          programInformationSummary: pageBuilder.summaryPage({
+            path: 'program-information-summary',
+            title: 'Program information summary',
+            uiSchema: programInformationSummary.uiSchema,
+            schema: programInformationSummary.schema,
+          }),
+          programInformationDetails: pageBuilder.itemPage({
+            path: 'program-information-details/:index',
+            title: 'Program information details',
+            showPagePerItem: true,
+            uiSchema: programInformationDetails.uiSchema,
+            schema: programInformationDetails.schema,
+          }),
+        })),
       },
     },
   },

@@ -9,7 +9,6 @@ import PreSubmitInfo from '../components/PreSubmitInfo';
 import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
-import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import migrations from './migrations';
 import { blankSchema } from '../definitions';
@@ -101,7 +100,6 @@ const formConfig = {
   version: migrations.length,
   migrations,
   prefillEnabled: true,
-  prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound:

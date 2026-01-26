@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -26,6 +27,8 @@ const CALLSTATUS = {
 /**
  * @typedef ViewDependentsHeaderProps
  * @property {Boolean} showAlert true if dependent receives compensation and has dependents
+ * @property {Boolean} hasMinimumRating true if disability rating is 30 or higher
+ * @property {Boolean} hasAwardDependents true if Veteran has active dependents
  * @property {String} updateDiariesStatus status of update diaries call
  */
 /**
@@ -34,7 +37,12 @@ const CALLSTATUS = {
  * @returns {JSX.Element} page title, description, and alert if showAlert is true
  */
 function ViewDependentsHeader(props) {
-  const { updateDiariesStatus, showAlert } = props;
+  const {
+    updateDiariesStatus,
+    showAlert,
+    hasAwardDependents,
+    hasMinimumRating,
+  } = props;
 
   const [warningHidden, setWarningHidden] = useState(
     getIsDependentsWarningHidden(),
@@ -45,6 +53,29 @@ function ViewDependentsHeader(props) {
     scrollToTop();
   }, []);
 
+  useEffect(
+    () => {
+      let state = showAlert && !warningHidden ? 'visible' : 'hidden';
+      let reason = '';
+      if (warningHidden) {
+        // Alert may start hidden
+        state = 'already hidden';
+        reason = 'user previously closed alert';
+      } else if (!hasAwardDependents) {
+        state = 'hidden because no active dependents';
+        reason = 'no active dependents';
+      } else if (!hasMinimumRating) {
+        state = 'hidden because disability rating below 30%';
+        reason = 'disability rating below 30%';
+      }
+      dataDogLogger({
+        message: `View dependents 0538 warning alert ${state}`,
+        attributes: { state, reason },
+      });
+    },
+    [showAlert, warningHidden, hasAwardDependents, hasMinimumRating],
+  );
+
   /**
    * Handler function for close of the alert
    * @returns {null} triggers calls to other functions
@@ -52,8 +83,22 @@ function ViewDependentsHeader(props) {
   function handleWarningClose() {
     setWarningHidden(true);
     hideDependentsWarning();
+    dataDogLogger({
+      message: 'View dependents 0538 warning alert hidden by user',
+      attributes: { state: 'hidden by user', reason: 'hidden by user' },
+    });
     scrollToTop();
     focusElement('.view-deps-header');
+  }
+
+  /**
+   * Handler function for clicking the verification link
+   * @returns {null} triggers datadog logging
+   */
+  function jumpToForm0538() {
+    dataDogLogger({
+      message: 'View dependents 0538 verification link clicked',
+    });
   }
 
   let alertProps = null;
@@ -146,6 +191,7 @@ function ViewDependentsHeader(props) {
                   <va-link-action
                     text="Verify your VA disability benefits dependents"
                     href={dependentsVerificationUrl}
+                    onClick={jumpToForm0538}
                   />
                 </p>
               </>
@@ -157,6 +203,8 @@ function ViewDependentsHeader(props) {
 }
 
 ViewDependentsHeader.propTypes = {
+  hasAwardDependents: PropTypes.bool,
+  hasMinimumRating: PropTypes.bool,
   showAlert: PropTypes.bool,
   updateDiariesStatus: PropTypes.string,
 };
