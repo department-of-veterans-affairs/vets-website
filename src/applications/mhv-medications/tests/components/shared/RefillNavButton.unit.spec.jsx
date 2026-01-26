@@ -5,7 +5,7 @@ import RefillNavButton from '../../../components/shared/RefillNavButton';
 import reducers from '../../../reducers';
 import { dataDogActionNames } from '../../../util/dataDogConstants';
 
-describe('RefillLinkButton component', () => {
+describe('RefillNavButton component', () => {
   const defaultRx = {
     prescriptionId: 12345,
     isRefillable: true,

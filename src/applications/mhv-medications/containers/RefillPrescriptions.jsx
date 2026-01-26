@@ -255,9 +255,9 @@ const RefillPrescriptions = () => {
         );
         if (prescriptionToSelect) {
           setSelectedRefillList([prescriptionToSelect]);
-          setHasPreselected(true);
-          setSearchParams({}, { replace: true });
         }
+        setHasPreselected(true);
+        setSearchParams({}, { replace: true });
       }
     },
     [searchParams, setSearchParams, fullRefillList, isLoading, hasPreselected],

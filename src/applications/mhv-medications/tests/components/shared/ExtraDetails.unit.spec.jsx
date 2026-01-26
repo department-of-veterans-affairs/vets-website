@@ -266,7 +266,7 @@ describe('Medications List Card Extra Details', () => {
       );
     });
   });
-  describe('RefillLinkButton rendering based on page prop', () => {
+  describe('RefillNavButton rendering based on page prop', () => {
     it('renders refill button on list page for active prescription with refills', async () => {
       const screen = setup({
         ...prescription,

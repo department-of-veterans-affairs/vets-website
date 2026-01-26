@@ -16,6 +16,7 @@ describe('Medications List Page - Request Refill Button on Card', () => {
 
     listPage.verifyRequestRefillButtonExistsOnCard();
     listPage.verifyRequestRefillButtonText();
+    listPage.verifyRequestRefillButtonHasAriaDescribedBy();
   });
 
   it('does not display Request a refill button for non-refillable prescriptions', () => {
