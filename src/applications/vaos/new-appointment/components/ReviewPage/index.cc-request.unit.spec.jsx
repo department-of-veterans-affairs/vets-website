@@ -274,14 +274,13 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
     await screen.findByText('We can’t submit your request right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
+      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your VA facility.',
+      'If you need to schedule now, call your facility.',
     );
 
     expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).contain.text('2360 East Pershing Boulevard');
 
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {

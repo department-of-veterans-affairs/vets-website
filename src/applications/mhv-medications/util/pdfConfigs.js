@@ -190,7 +190,7 @@ export const buildPrescriptionsPDFList = (
                   },
                   {
                     title: 'Prescription number',
-                    value: rx.prescriptionNumber,
+                    value: rx.prescriptionNumber || 'Not available',
                     inline: true,
                   },
                 ]
@@ -426,7 +426,7 @@ export const buildVAPrescriptionPDFList = (
               ? [
                   {
                     title: 'Prescription number',
-                    value: prescription.prescriptionNumber,
+                    value: prescription.prescriptionNumber || 'Not available',
                     inline: true,
                   },
                 ]
@@ -667,9 +667,8 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
         },
         ...prescription.groupedMedications.map(previousPrescription => {
           return {
-            header: `Prescription number: ${
-              previousPrescription.prescriptionNumber
-            }`,
+            header: `Prescription number: ${previousPrescription.prescriptionNumber ||
+              'Not available'}`,
             indent: 32,
             items: [
               {
