@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import * as reactRedux from 'react-redux';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -277,7 +276,6 @@ describe('Medications List Filter component', () => {
       expect(applyButton).to.have.attribute('loading', 'true');
       expect(resetButton).to.not.have.attribute('loading');
     });
-
 
     it('never shows loading state when isLoading is false', () => {
       const updateFilter = sandbox.spy();
