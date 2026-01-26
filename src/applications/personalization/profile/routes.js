@@ -3,7 +3,7 @@ import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 import ProfileHub from './components/hub/ProfileHub';
-import { ContactMethodContainer } from './components/health-care-settings/sub-tasks/contact-method/ContactMethodContainer';
+import ContactMethodWrapper from './components/health-care-settings/sub-tasks/ContactMethodWrapper';
 import AppointmentTimesWrapper from './components/health-care-settings/sub-tasks/AppointmentTimesWrapper';
 import ContactTimesWrapper from './components/health-care-settings/sub-tasks/ContactTimesWrapper';
 
@@ -39,7 +39,7 @@ const getRoutes = (
       requiresMVI: true,
     },
     {
-      component: ContactMethodContainer,
+      component: ContactMethodWrapper,
       name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
       path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
       requiresLOA3: true,

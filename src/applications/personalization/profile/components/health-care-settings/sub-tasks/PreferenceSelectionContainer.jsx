@@ -13,15 +13,18 @@ import { FIELD_NAMES, FIELD_SECTION_HEADERS } from '@@vap-svc/constants';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
-import { schedulingPreferenceOptions } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
+import {
+  schedulingPreferenceOptions,
+  getSchedulingPreferencesContactMethodDisplay,
+} from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { createSchedulingPreferencesUpdate } from '@@vap-svc/actions/schedulingPreferences';
-import { EditContext } from '../../../edit/EditContext';
-import { EditConfirmCancelModal } from '../../../edit/EditConfirmCancelModal';
-import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
+import { EditContext } from '../../edit/EditContext';
+import { EditConfirmCancelModal } from '../../edit/EditConfirmCancelModal';
+import { EditBreadcrumb } from '../../edit/EditBreadcrumb';
 
-import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../../constants';
-import { getRouteInfoFromPath } from '../../../../../common/helpers';
-import { getRoutesForNav } from '../../../../routesForNav';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../constants';
+import { getRouteInfoFromPath } from '../../../../common/helpers';
+import { getRoutesForNav } from '../../../routesForNav';
 
 const getFieldInfo = fieldName => {
   const fieldNameKey = Object.entries(FIELD_NAMES).find(
@@ -48,11 +51,12 @@ const clearBeforeUnloadListener = () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
 };
 
-export const SelectTimesContainer = ({
+export const PreferenceSelectionContainer = ({
   fieldName,
   noPreferenceValue,
   getContentComponent,
   getButtons,
+  emptyValue,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -111,7 +115,7 @@ export const SelectTimesContainer = ({
   const hasAnyUnsavedEdits = hasUnsavedEdits || hasLocalUnsavedEdits;
 
   const fieldData = useSelector(
-    state => state.vaProfile.schedulingPreferences[fieldName] || [],
+    state => state.vaProfile.schedulingPreferences[fieldName] || emptyValue,
     isEqual,
   );
 
@@ -254,7 +258,7 @@ export const SelectTimesContainer = ({
     [hasAnyUnsavedEdits, hasBeforeUnloadListener],
   );
 
-  const saveTimePreferences = useCallback(
+  const savePreference = useCallback(
     () => {
       const {
         apiRoute,
@@ -274,7 +278,7 @@ export const SelectTimesContainer = ({
           method: 'POST',
           fieldName,
           payload,
-          analyticsSectionName: 'scheduling-preferences-appointment-times',
+          analyticsSectionName: 'scheduling-preferences-contact-method',
           value: pageData.data,
         }),
       );
@@ -291,22 +295,29 @@ export const SelectTimesContainer = ({
   const optionValues = options.map(option => option.value);
 
   const validate = data => {
-    const values = data?.[fieldName] || [];
+    const values = data?.[fieldName] || emptyValue;
 
-    if (!values || values.length === 0) {
-      return false;
+    if (Array.isArray(values)) {
+      if (!values || values.length === 0) {
+        return false;
+      }
+
+      if (isEqual(values, [noPreferenceValue])) {
+        return true;
+      }
+
+      if (values.includes('continue') && step === 'select') {
+        return true;
+      }
+
+      return values.some(v => optionValues.includes(v));
     }
 
-    if (isEqual(values, [noPreferenceValue])) {
+    if (isEqual(values, noPreferenceValue)) {
       return true;
     }
 
-    if (values.includes('continue') && step === 'select') {
-      return true;
-    }
-
-    // If any selected value matches a known option value, it's valid
-    return values.some(v => optionValues.includes(String(v)));
+    return optionValues.includes(values);
   };
 
   const handlers = {
@@ -321,7 +332,7 @@ export const SelectTimesContainer = ({
         setError(true);
         return;
       }
-      setStep('choose-times');
+      setStep('confirm');
     },
     save: () => {
       if (!validate(pageData.data)) {
@@ -329,11 +340,33 @@ export const SelectTimesContainer = ({
         return;
       }
 
-      saveTimePreferences();
+      savePreference();
 
       history.push(returnPath, {
         fieldInfo,
       });
+    },
+    updateContactInfo: () => {
+      if (!validate(pageData.data)) {
+        setError(true);
+        return;
+      }
+      // First save the contact method preference
+      savePreference();
+
+      setShowConfirmCancelModal(false);
+      clearBeforeUnloadListener();
+      dispatch(openModal(null));
+
+      // Then navigate to the profile sub task flow to edit the related contact info field
+      const relatedField = getSchedulingPreferencesContactMethodDisplay(
+        pageData.data[fieldName],
+      );
+      history.push(
+        `${PROFILE_PATHS.EDIT}?returnPath=${encodeURIComponent(
+          returnPath,
+        )}&fieldName=${encodeURIComponent(relatedField.field)}`,
+      );
     },
     breadCrumbClick: e => {
       e.preventDefault();
@@ -384,6 +417,8 @@ export const SelectTimesContainer = ({
                       setPageData={setPageData}
                       pageData={pageData}
                       noPreferenceValue={noPreferenceValue}
+                      options={options}
+                      handlers={handlers}
                     />
                     <div className="vads-u-margin-top--2">{buttons}</div>
                   </form>
@@ -397,7 +432,9 @@ export const SelectTimesContainer = ({
   );
 };
 
-SelectTimesContainer.propTypes = {
+PreferenceSelectionContainer.propTypes = {
+  emptyValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+    .isRequired,
   fieldName: PropTypes.string.isRequired,
   getButtons: PropTypes.func.isRequired,
   getContentComponent: PropTypes.func.isRequired,
@@ -411,4 +448,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps,
-)(SelectTimesContainer);
+)(PreferenceSelectionContainer);

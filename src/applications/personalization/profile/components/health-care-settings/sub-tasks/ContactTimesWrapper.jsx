@@ -2,7 +2,7 @@ import React from 'react';
 import { FIELD_NAMES } from 'platform/user/exportsFile';
 import { FIELD_OPTION_IDS } from 'platform/user/profile/vap-svc/constants/schedulingPreferencesConstants';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import SelectTimesContainer from './select-times/SelectTimesContainer';
+import SelectTimesContainer from './PreferenceSelectionContainer';
 import PreferenceSelection from './select-times/pages/PreferenceSelection';
 import TimesSelection from './select-times/pages/TimesSelection';
 
@@ -18,7 +18,7 @@ const ContactTimesWrapper = () => {
       onSecondaryClick: handlers.breadCrumbClick,
       'data-testid': 'continue-cancel-buttons',
     };
-    if (quickExit || step === 'choose-times') {
+    if (quickExit || step === 'confirm') {
       buttonParams.leftButtonText = 'Save to profile';
       buttonParams.onPrimaryClick = handlers.save;
       buttonParams['data-testid'] = 'save-cancel-buttons';
@@ -29,6 +29,7 @@ const ContactTimesWrapper = () => {
 
   return (
     <SelectTimesContainer
+      emptyValue={[]}
       getContentComponent={getContentComponent}
       getButtons={getButtons}
       fieldName={FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES}

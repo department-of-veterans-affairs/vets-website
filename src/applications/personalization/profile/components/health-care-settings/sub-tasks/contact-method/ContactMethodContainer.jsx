@@ -37,7 +37,7 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../../constants';
 import { getRouteInfoFromPath } from '../../../../../common/helpers';
 import { getRoutesForNav } from '../../../../routesForNav';
 import ContactMethodConfirm from './pages/ContactMethodConfirm';
-import { ContactMethodSelect } from './pages/ContactMethodSelect';
+import ContactMethodSelect from './pages/ContactMethodSelect';
 
 const getFieldInfo = fieldName => {
   const fieldNameKey = Object.entries(FIELD_NAMES).find(
