@@ -25,6 +25,16 @@ export const defaultScrollOptions = {
   // root: document,
 };
 
+const escapeCssIdentifier = value => {
+  if (typeof value !== 'string') return value;
+  if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
+    return CSS.escape(value);
+  }
+
+  // Minimal escape fallback for environments without CSS.escape (e.g. some test runners)
+  return value.replace(/[^a-zA-Z0-9_-]/g, match => `\\${match}`);
+};
+
 // Allows smooth scrolling to be overridden by our E2E tests
 export function getScrollOptions(additionalOptions = {}, mediaQuery) {
   const globals = window.Forms || {};
@@ -52,6 +62,8 @@ export function getScrollOptions(additionalOptions = {}, mediaQuery) {
 export const getElement = (name, root = document) =>
   typeof name === 'string'
     ? root.querySelector?.(name) ||
+      root.querySelector?.(`#${escapeCssIdentifier(name)}`) ||
+      root.querySelector?.(`[name="${escapeCssIdentifier(name)}"]`) ||
       root.getElementById?.(name) ||
       root.getElementsByName?.(name)[0] ||
       root.getElementsByClassName?.(name)[0]
