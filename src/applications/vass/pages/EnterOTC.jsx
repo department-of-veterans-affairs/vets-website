@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui';
+import { useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
-
-const mockUser = {
-  uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
-  dob: '1935-04-07',
-};
+import { selectObfuscatedEmail } from '../redux/slices/formSlice';
+import { URLS } from '../utils/constants';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
@@ -24,10 +21,21 @@ const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   }
 };
 
+const getPageTitle = (cancellationFlow, error) => {
+  if (error) {
+    return 'We couldn’t verify your information';
+  }
+  if (cancellationFlow) {
+    return 'Cancel VA Solid Start appointment';
+  }
+  return 'Schedule an appointment with VA Solid Start';
+};
+
 const EnterOTC = () => {
+  const [searchParams] = useSearchParams();
+  const cancellationFlow = searchParams.get('cancel') === 'true';
   const navigate = useNavigate();
-  // TODO: get veteran email from lorota?
-  const veteranEmail = 't***@test.com';
+  const obfuscatedEmail = useSelector(selectObfuscatedEmail);
 
   const [code, setCode] = useState('');
   const [error, setError] = useState(undefined);
@@ -59,9 +67,6 @@ const EnterOTC = () => {
     }
     const response = await postOTCVerification({
       otc: code,
-      uuid: mockUser.uuid,
-      lastname: mockUser.lastname,
-      dob: mockUser.dob,
     });
 
     if (response.error) {
@@ -70,15 +75,19 @@ const EnterOTC = () => {
       setFocusTrigger(prev => prev + 1);
       return;
     }
-    // TODO: handle otc verification success
-    navigate('/date-time');
+    if (cancellationFlow) {
+      // TODO: handle cancellation flow
+      navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
+    } else {
+      navigate(URLS.DATE_TIME, { replace: true });
+    }
   };
 
   const errorMessage = getErrorMessage(error?.code, error?.attemptsRemaining);
-  const pageTitle =
-    error?.code === 'account_locked'
-      ? 'We couldn’t verify your information'
-      : 'Schedule a call to learn about VA benefits and health care';
+  const pageTitle = getPageTitle(
+    cancellationFlow,
+    error?.code === 'account_locked',
+  );
 
   const verificationError =
     error?.code === 'account_locked' ? errorMessage : undefined;
@@ -92,7 +101,7 @@ const EnterOTC = () => {
           data-testid="enter-otc-success-alert"
         >
           <p className="vads-u-margin-y--0">
-            {`We just emailed a one-time verification code to ${veteranEmail}.
+            {`We just emailed a one-time verification code to ${obfuscatedEmail}.
           Please check your email and come back to enter the code to complete
           your verification process and start scheduling your appointment.`}
           </p>

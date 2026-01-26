@@ -97,6 +97,7 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
         dispatch(
           setData({
             ...formData,
+            AGREED: isCertified,
             certification: certificationData,
           }),
         );

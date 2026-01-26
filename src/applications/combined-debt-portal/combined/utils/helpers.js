@@ -36,8 +36,8 @@ export const showPaymentHistory = state =>
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
 
-export const showOneThingPerPage = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.showCDPOneThingPerPage];
+export const showVHAPaymentHistory = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.showVHAPaymentHistory];
 
 /**
  * Helper function to consisently format date strings
@@ -50,6 +50,16 @@ export const formatDate = date => {
   const newDate =
     typeof date === 'string' ? new Date(date.replace(/-/g, '/')) : date;
   return isValid(newDate) ? format(new Date(newDate), 'MMMM d, y') : '';
+};
+
+export const formatISODateToMMDDYYYY = isoString => {
+  const date = new Date(isoString);
+
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // months are 0-based
+  const year = date.getUTCFullYear();
+
+  return `${month}/${day}/${year}`;
 };
 
 export const currency = amount => {

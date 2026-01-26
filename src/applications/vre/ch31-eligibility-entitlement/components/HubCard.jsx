@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const HubCard = ({ title, body, icon }) => (
   <div className="hub-card vads-u-margin-bottom--2">
@@ -15,5 +16,11 @@ const HubCard = ({ title, body, icon }) => (
     </va-card>
   </div>
 );
+
+HubCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+};
 
 export default HubCard;

@@ -564,7 +564,10 @@ const CompareLayout = ({
           },
         ]}
       />
-      <va-additional-info trigger="Additional information on veteran programs fields">
+      <va-additional-info
+        trigger="Additional information on veteran programs fields"
+        class="vads-u-margin-bottom--4"
+      >
         <YellowRibbonModalContent />
         <StudentVeteranGroupModalContent />
         <PrinciplesOfExcellenceModalContent />

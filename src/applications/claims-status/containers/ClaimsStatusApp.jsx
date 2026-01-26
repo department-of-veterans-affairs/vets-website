@@ -90,7 +90,6 @@ function ClaimsStatusApp({
       loadingIndicator={<AppLoadingIndicator id="required-login-view-loader" />}
       verify
       serviceRequired={[
-        backendServices.EVSS_CLAIMS,
         backendServices.APPEALS_STATUS,
         backendServices.LIGHTHOUSE,
       ]}
@@ -100,7 +99,6 @@ function ClaimsStatusApp({
         <DowntimeNotification
           appTitle="Claim Status"
           dependencies={[
-            externalServices.evss,
             externalServices.lighthouseBenefitsClaims,
             externalServices.global,
             externalServices.mvi,

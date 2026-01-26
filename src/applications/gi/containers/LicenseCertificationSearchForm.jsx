@@ -9,7 +9,7 @@ import {
   updateCategoryDropdown,
   updateQueryParam,
 } from '../utils/helpers';
-
+import recordEvent from 'platform/monitoring/record-event';
 import { fetchLicenseCertificationResults, filterLcResults } from '../actions';
 
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
@@ -108,6 +108,11 @@ export default function LicenseCertificationSearchForm() {
 
   const handleChange = e => {
     setDropdown(updateCategoryDropdown(e.target.value));
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': e.target.name,
+      'gibct-form-value': e.target.value,
+    });
   };
 
   const onSelection = selection => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { cloneDeep, merge } from 'lodash';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -15,7 +14,6 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
-  radioSchema,
   internationalPhoneUI,
   internationalPhoneSchema,
   yesNoUI,
@@ -38,11 +36,7 @@ import {
   validAddressCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
-import PaymentSelectionUI, {
-  PaymentReviewScreen,
-  loggedInPaymentInfo,
-  loggedOutPaymentInfo,
-} from '../components/PaymentSelection';
+import paymentSelection from '../chapters/payments/paymentSelection';
 import {
   UploadDocumentsVeteran,
   UploadDocumentsProvider,
@@ -278,32 +272,8 @@ const formConfig = {
       pages: {
         page6: {
           path: 'payment-selection',
-          title: 'Where to send the payment',
-          uiSchema: {
-            ...titleUI(
-              'Who should we send payments to?',
-              ({ _formData, formContext }) => {
-                return (
-                  <>
-                    {formContext?.isLoggedIn ? (
-                      <>{loggedInPaymentInfo} </>
-                    ) : (
-                      <>{loggedOutPaymentInfo}</>
-                    )}
-                  </>
-                );
-              },
-            ),
-            sendPayment: PaymentSelectionUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['sendPayment'],
-            properties: {
-              sendPayment: radioSchema(['Veteran', 'Provider']),
-            },
-          },
-          CustomPageReview: PaymentReviewScreen,
+          title: 'Who should we send payments to?',
+          ...paymentSelection,
         },
       },
     },

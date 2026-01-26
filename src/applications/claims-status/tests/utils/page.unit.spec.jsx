@@ -40,46 +40,36 @@ describe('Page utils:', () => {
 
   describe('focusNotificationAlert', () => {
     let alertElement;
+    let headlineElement;
 
-    beforeEach(() => {
+    afterEach(() => {
+      if (alertElement && alertElement.parentNode) {
+        document.body.removeChild(alertElement);
+      }
+    });
+
+    it('should focus headline inside alert when present', () => {
+      alertElement = document.createElement('div');
+      alertElement.className = 'claims-alert';
+      headlineElement = document.createElement('h2');
+      alertElement.appendChild(headlineElement);
+      document.body.appendChild(alertElement);
+
+      focusNotificationAlert();
+
+      expect(document.activeElement).to.equal(headlineElement);
+      expect(headlineElement.getAttribute('tabindex')).to.equal('-1');
+    });
+
+    it('should focus alert container when no headline present', () => {
       alertElement = document.createElement('div');
       alertElement.className = 'claims-alert';
       document.body.appendChild(alertElement);
-    });
 
-    afterEach(() => {
-      document.body.removeChild(alertElement);
-    });
-
-    it('should focus immediately if element is present and focusable', () => {
       focusNotificationAlert();
 
       expect(document.activeElement).to.equal(alertElement);
       expect(alertElement.getAttribute('tabindex')).to.equal('-1');
-    });
-
-    it('should retry focus if focus does not succeed initially', done => {
-      const originalFocus = alertElement.focus;
-
-      let calledOnce = false;
-
-      alertElement.focus = () => {
-        if (!calledOnce) {
-          calledOnce = true;
-        } else {
-          alertElement.focus = originalFocus;
-          alertElement.focus();
-        }
-      };
-
-      focusNotificationAlert();
-
-      setTimeout(() => {
-        setTimeout(() => {
-          expect(document.activeElement).to.equal(alertElement);
-          done();
-        }, 160);
-      }, 0);
     });
   });
 });

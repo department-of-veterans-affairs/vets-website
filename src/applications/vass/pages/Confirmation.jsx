@@ -1,17 +1,28 @@
 import React from 'react';
-import { useParams } from 'react-router-dom-v5-compat';
+import {
+  useParams,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
+import { selectSelectedTopics } from '../redux/slices/formSlice';
+import { URLS } from '../utils/constants';
 
 const Confirmation = () => {
   const { appointmentId } = useParams();
+  const [searchParams] = useSearchParams();
+  const selectedTopics = useSelector(selectSelectedTopics);
+  const detailsCardOnly = searchParams.get('details') === 'true';
+  const navigate = useNavigate();
   const { data: appointmentData, isLoading, isError } = useGetAppointmentQuery({
     appointmentId,
   });
 
   const handleCancelAppointment = () => {
-    // TODO: Implement cancel appointment logic
+    navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`);
   };
 
   if (isLoading) {
@@ -25,14 +36,25 @@ const Confirmation = () => {
   return (
     <Wrapper
       testID="confirmation-page"
-      pageTitle="Your appointment is scheduled"
+      showBackLink={detailsCardOnly}
+      pageTitle={
+        detailsCardOnly
+          ? undefined
+          : 'Your VA Solid Start appointment is scheduled'
+      }
     >
-      <p data-testid="confirmation-message" className="vads-u-margin-bottom--5">
-        We’ve confirmed your appointment.
-      </p>
+      {!detailsCardOnly && (
+        <p
+          data-testid="confirmation-message"
+          className="vads-u-margin-bottom--5"
+        >
+          We’ve confirmed your appointment.
+        </p>
+      )}
       <AppointmentCard
         appointmentData={{
           ...appointmentData,
+          topics: appointmentData?.topics || selectedTopics,
           showAddToCalendarButton: true,
         }}
         handleCancelAppointment={handleCancelAppointment}

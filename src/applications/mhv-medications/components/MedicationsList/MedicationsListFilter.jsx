@@ -11,10 +11,12 @@ import {
   VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { ALL_MEDICATIONS_FILTER_KEY } from '../../util/constants';
+import { getFilterOptions } from '../../util/helpers/getRxStatus';
 import {
-  ALL_MEDICATIONS_FILTER_KEY,
-  filterOptions,
-} from '../../util/constants';
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { setFilterOpen, setFilterOption } from '../../redux/preferencesSlice';
 import {
@@ -27,26 +29,47 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
   const ref = useRef(null);
   const filterOpenByDefault = useSelector(selectFilterOpenByDefault);
   const filterOption = useSelector(selectFilterOption);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const currentFilterOptions = getFilterOptions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
   const [selectedFilterOption, setSelectedFilterOption] = useState(
     filterOption,
   );
 
   const mapFilterCountToFilterLabels = label => {
     switch (label) {
-      case filterOptions.ALL_MEDICATIONS.label: {
+      case currentFilterOptions.ALL_MEDICATIONS.label: {
         return filterCount.allMedications;
       }
-      case filterOptions.ACTIVE.label: {
+      case currentFilterOptions.ACTIVE.label: {
         return filterCount.active;
       }
-      case filterOptions.RECENTLY_REQUESTED.label: {
+      case currentFilterOptions.RECENTLY_REQUESTED?.label: {
         return filterCount.recentlyRequested;
       }
-      case filterOptions.RENEWAL.label: {
+      case currentFilterOptions.IN_PROGRESS?.label: {
+        return filterCount.inProgress;
+      }
+      case currentFilterOptions.RENEWAL?.label: {
         return filterCount.renewal;
       }
-      case filterOptions.NON_ACTIVE.label: {
+      case currentFilterOptions.NON_ACTIVE?.label: {
         return filterCount.nonActive;
+      }
+      case currentFilterOptions.INACTIVE?.label: {
+        return filterCount.inactive;
+      }
+      case currentFilterOptions.SHIPPED?.label: {
+        return filterCount.shipped;
+      }
+      case currentFilterOptions.TRANSFERRED?.label: {
+        return filterCount.transferred;
+      }
+      case currentFilterOptions.STATUS_NOT_AVAILABLE?.label: {
+        return filterCount.statusNotAvailable;
       }
       default:
         return null;
@@ -103,7 +126,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
     }
   };
 
-  const filterOptionsArray = Object.keys(filterOptions);
+  const filterOptionsArray = Object.keys(currentFilterOptions);
   return (
     <VaAccordion
       bordered
@@ -134,17 +157,20 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
         >
           {filterOptionsArray.map(option => (
             <VaRadioOption
-              key={`filter option ${filterOptions[option].label}`}
-              label={`${filterOptions[option].label}${
-                filterCount
+              key={`filter option ${currentFilterOptions[option].label}`}
+              label={`${currentFilterOptions[option].label}${
+                filterCount &&
+                mapFilterCountToFilterLabels(
+                  currentFilterOptions[option].label,
+                ) !== null
                   ? ` (${mapFilterCountToFilterLabels(
-                      filterOptions[option].label,
+                      currentFilterOptions[option].label,
                     )})`
                   : ''
               }`}
               name="filter-options-group"
               value={option}
-              description={filterOptions[option].description}
+              description={currentFilterOptions[option].description}
               checked={selectedFilterOption === option}
               data-testid={`filter-option-${option}`}
               data-dd-action-name={

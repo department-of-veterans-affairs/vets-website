@@ -6,8 +6,6 @@ import { DEBOUNCE_MS } from '../../contexts/Type2FailureAnalyticsContext';
 
 // Constants
 const TYPE2_EVENT_NAME = 'claims-upload-failure-type-2';
-const ENTRY_POINT_LIST = 'claims-list-page';
-const ENTRY_POINT_STATUS = 'claims-status-page';
 
 // Selectors
 const SELECTORS = {
@@ -106,8 +104,7 @@ describe('Type 2 Failure Analytics', () => {
             expect(type2Events).to.have.length(1);
             expect(type2Events[0]).to.deep.include({
               event: TYPE2_EVENT_NAME,
-              count: 1,
-              'entry-point': ENTRY_POINT_LIST,
+              'upload-fail-alert-count': 1,
             });
           });
 
@@ -153,14 +150,13 @@ describe('Type 2 Failure Analytics', () => {
           .its('dataLayer')
           .then(dl => {
             const type2Events = dl.filter(
-              item =>
-                item.event === TYPE2_EVENT_NAME &&
-                item['entry-point'] === ENTRY_POINT_STATUS,
+              item => item.event === TYPE2_EVENT_NAME,
             );
             expect(type2Events).to.have.length(1);
+            // The length of the event should be 1 because we are only recording the Type 2 event for the single failed submission
             expect(type2Events[0]).to.deep.include({
               event: TYPE2_EVENT_NAME,
-              'entry-point': ENTRY_POINT_STATUS,
+              'upload-fail-alert-count': 1,
             });
           });
 

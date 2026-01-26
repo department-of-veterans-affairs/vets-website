@@ -11,12 +11,12 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
+import { validateChars } from '../utils/validation';
 import {
-  fileUploadUi as fileUploadUI,
-  singleFileSchema,
-} from '../../shared/components/fileUploads/upload';
-import { validFieldCharsOnly } from '../../shared/validations';
-import { blankSchema } from '../definitions';
+  attachmentUI,
+  blankSchema,
+  singleAttachmentSchema,
+} from '../definitions';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
@@ -74,7 +74,10 @@ export function applicantProviderSchema(isPrimary) {
   return {
     uiSchema: {
       ...titleUI('Health insurance information'),
-      [keyname1]: textUI('Name of insurance provider'),
+      [keyname1]: textUI({
+        title: 'Name of insurance provider',
+        validations: [validateChars],
+      }),
       [keyname2]: currentOrPastDateUI({
         title: 'Insurance start date',
         hint: 'This information is on the insurance policy declaration page.',
@@ -83,10 +86,6 @@ export function applicantProviderSchema(isPrimary) {
         title: 'Insurance termination date',
         hint: 'Only enter this date if the policy is inactive.',
       }),
-      'ui:validations': [
-        (errors, formData) =>
-          validFieldCharsOnly(errors, null, formData, keyname1),
-      ],
     },
     schema: {
       type: 'object',
@@ -195,16 +194,17 @@ export function applicantInsuranceSOBSchema(isPrimary) {
         'You’ll need to submit a copy of the card or document that shows the schedule of benefits that lists the beneficiary’s co-payments.',
       ),
       ...fileUploadBlurb,
-      [keyname]: fileUploadUI({
+      [keyname]: attachmentUI({
         label: 'Upload schedule of benefits document',
         attachmentId: 'Schedule of benefits document',
       }),
     },
     schema: {
       type: 'object',
+      required: [keyname],
       properties: {
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: singleFileSchema,
+        [keyname]: singleAttachmentSchema,
       },
     },
   };
@@ -285,12 +285,9 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
       [keyname]: textareaUI({
         title:
           'Do you have any additional comments about the beneficiary’s health insurance?',
+        validations: [validateChars],
         charcount: true,
       }),
-      'ui:validations': [
-        (errors, formData) =>
-          validFieldCharsOnly(errors, null, formData, keyname),
-      ],
     },
     schema: {
       type: 'object',
@@ -313,21 +310,22 @@ export function applicantInsuranceCardSchema(isPrimary) {
         'You’ll need to submit a copy of the front and back of this health insurance card.',
       ),
       ...fileUploadBlurb,
-      [`${keyname}Front`]: fileUploadUI({
+      [`${keyname}Front`]: attachmentUI({
         label: 'Upload front of insurance card',
         attachmentId: 'Front of insurance card', // used behind the scenes
       }),
-      [`${keyname}Back`]: fileUploadUI({
+      [`${keyname}Back`]: attachmentUI({
         label: 'Upload back of insurance card',
         attachmentId: 'Back of insurance card', // used behind the scenes
       }),
     },
     schema: {
       type: 'object',
+      required: [`${keyname}Front`, `${keyname}Back`],
       properties: {
         'view:fileUploadBlurb': blankSchema,
-        [`${keyname}Front`]: singleFileSchema,
-        [`${keyname}Back`]: singleFileSchema,
+        [`${keyname}Front`]: singleAttachmentSchema,
+        [`${keyname}Back`]: singleAttachmentSchema,
       },
     },
   };

@@ -4,6 +4,7 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 export default function Notification({
   body,
+  role,
   title,
   type,
   onClose,
@@ -13,9 +14,10 @@ export default function Notification({
   useEffect(
     () => {
       if (typeof onSetFocus === 'function') {
+        // Delay ensures focus lands on alert, not competing elements
         setTimeout(() => {
           onSetFocus();
-        });
+        }, 150);
       }
     },
     [title, body, onSetFocus],
@@ -28,10 +30,13 @@ export default function Notification({
       className="claims-alert"
       closeable={closeable}
       onCloseEvent={onClose}
+      role={role}
       status={type}
       visible
     >
-      <h2 slot="headline">{title}</h2>
+      <h2 slot="headline" className="vads-u-margin-top--0">
+        {title}
+      </h2>
       <div className="vads-u-margin-y--0">{body}</div>
     </VaAlert>
   );
@@ -44,6 +49,7 @@ Notification.defaultProps = {
 Notification.propTypes = {
   body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   title: PropTypes.string.isRequired,
+  role: PropTypes.oneOf(['alert', 'alertdialog', 'status']),
   type: PropTypes.string,
   onClose: PropTypes.func,
   onSetFocus: PropTypes.func,

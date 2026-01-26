@@ -8,15 +8,15 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Marriage to Veteran'),
-    marriedAtDeath: yesNoUI({
+    marriedToVeteranAtTimeOfDeath: yesNoUI({
       title: 'Were you married to the Veteran at the time of their death?',
     }),
   },
   schema: {
     type: 'object',
-    required: ['marriedAtDeath'],
+    required: ['marriedToVeteranAtTimeOfDeath'],
     properties: {
-      marriedAtDeath: yesNoSchema,
+      marriedToVeteranAtTimeOfDeath: yesNoSchema,
     },
   },
 };

@@ -12,7 +12,6 @@ describe('CDP - One Thing Per Page', () => {
           { name: 'debt_letters_show_letters_vbms', value: false },
           { name: 'show_one_va_debt_letter', value: true },
           { name: 'dispute_debt', value: true },
-          { name: 'show_cdp_one_thing_per_page', value: true },
         ],
       },
     }).as('features');

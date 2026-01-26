@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { capitalize } from 'lodash';
-import { DEFAULT_BRANCH_LABELS } from 'platform/forms-system/src/js/web-component-patterns/serviceBranchPattern';
+import DEFAULT_BRANCH_LABELS from 'platform/forms-system/src/js/web-component-patterns/content/serviceBranch.json';
 
 // Custom sanitizer to strip view fields, empty objects, and normalize country codes
 const sanitize = (key, value) => {
@@ -44,14 +44,20 @@ export const transform = (formConfig, form) => {
   const { name, phoneNumber, address } = recipientOrganization;
 
   const servedUnderDifferentName = previousNames?.reduce((acc, val) => {
-    const { previousName } = val;
+    const { previousName, servicePeriod } = val;
     const parts = [
       capitalize(previousName?.first),
       capitalize(previousName?.middle),
       capitalize(previousName?.last),
     ].filter(Boolean);
     const formattedName = parts?.join(' ');
-    return `${acc ? `${acc}, ` : ''}${formattedName}`;
+
+    // Add service period if provided
+    const nameWithService = servicePeriod
+      ? `${formattedName}, Service Periods: ${servicePeriod}`
+      : formattedName;
+
+    return `${acc ? `${acc}; ` : ''}${nameWithService}`;
   }, '');
 
   // convert service period branch name to label

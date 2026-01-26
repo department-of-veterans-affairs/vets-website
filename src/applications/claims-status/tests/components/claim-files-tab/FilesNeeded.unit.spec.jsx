@@ -5,25 +5,29 @@ import { fireEvent } from '@testing-library/dom';
 import FilesNeeded from '../../../components/claim-files-tab/FilesNeeded';
 import { renderWithRouter } from '../../utils';
 
+const claimId = '123456';
 const item = {
   id: 1,
   displayName: 'Request 1',
   description: 'This is a alert',
   suspenseDate: '2024-12-01',
 };
-
 const filesTab = 'files';
 const statusTab = 'status';
 
 describe('<FilesNeeded>', () => {
   context('when user navigates to page directly', () => {
     it('should render va-alert with item data and show DueDate', () => {
-      const { getByText } = renderWithRouter(<FilesNeeded item={item} />);
+      const { getByText, container } = renderWithRouter(
+        <FilesNeeded claimId={claimId} item={item} />,
+      );
 
       getByText('December 1, 2024', { exact: false });
       getByText('Request for evidence');
       getByText(item.description);
-      getByText('About this request');
+      expect(
+        container.querySelector('va-link-action[text="About this request"]'),
+      ).to.exist;
       expect(sessionStorage.getItem('previousPage')).to.not.exist;
     });
 
@@ -36,8 +40,8 @@ describe('<FilesNeeded>', () => {
 
       context('when evidenceWaiverSubmitted5103 is false', () => {
         it('should render va-alert with item data and hide DueDate', () => {
-          const { queryByText, getByText } = renderWithRouter(
-            <FilesNeeded item={item5103} />,
+          const { queryByText, container } = renderWithRouter(
+            <FilesNeeded claimId={claimId} item={item5103} />,
           );
 
           expect(queryByText('December 1, 2024')).to.not.exist;
@@ -47,7 +51,11 @@ describe('<FilesNeeded>', () => {
             ),
           ).to.exist;
           expect(queryByText('Review evidence list (5103 notice)')).to.exist;
-          getByText('About this request');
+          expect(
+            container.querySelector(
+              'va-link-action[text="About this request"]',
+            ),
+          ).to.exist;
         });
       });
     });
@@ -55,11 +63,12 @@ describe('<FilesNeeded>', () => {
 
   context('when user navigates to page from the files tab', () => {
     it('clicking details link should set session storage', () => {
-      const { getByRole } = renderWithRouter(
-        <FilesNeeded item={item} previousPage={filesTab} />,
+      const { container } = renderWithRouter(
+        <FilesNeeded claimId={claimId} item={item} previousPage={filesTab} />,
       );
 
-      fireEvent.click(getByRole('link'));
+      const link = container.querySelector('va-link-action');
+      fireEvent.click(link);
 
       expect(sessionStorage.getItem('previousPage')).to.equal(filesTab);
     });
@@ -67,11 +76,12 @@ describe('<FilesNeeded>', () => {
 
   context('when user navigates to page from the status tab', () => {
     it('clicking details link should set session storage', () => {
-      const { getByRole } = renderWithRouter(
-        <FilesNeeded item={item} previousPage={statusTab} />,
+      const { container } = renderWithRouter(
+        <FilesNeeded claimId={claimId} item={item} previousPage={statusTab} />,
       );
 
-      fireEvent.click(getByRole('link'));
+      const link = container.querySelector('va-link-action');
+      fireEvent.click(link);
 
       expect(sessionStorage.getItem('previousPage')).to.equal(statusTab);
     });
@@ -95,7 +105,9 @@ describe('<FilesNeeded>', () => {
       documents: '[]',
       date: '2024-03-07',
     };
-    const { getByText } = renderWithRouter(<FilesNeeded item={item214142} />);
+    const { getByText } = renderWithRouter(
+      <FilesNeeded claimId={claimId} item={item214142} />,
+    );
     getByText('good description');
     getByText('Provide authorization to Disclose Information');
   });
@@ -111,7 +123,7 @@ describe('<FilesNeeded>', () => {
       date: '2024-03-07',
     };
     const { getByText } = renderWithRouter(
-      <FilesNeeded item={noOverrideItem} />,
+      <FilesNeeded claimId={claimId} item={noOverrideItem} />,
     );
     getByText('Request for evidence');
     getByText('Description comes from API');

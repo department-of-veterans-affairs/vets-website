@@ -58,6 +58,7 @@ import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
@@ -96,7 +97,10 @@ const DashboardHeader = ({
     <div>
       {displayOnboardingInformation && (
         <VaAlert status="info" visible className="vads-u-margin-top--4">
-          <h2> Welcome to VA, {user.profile.userFullName.first}</h2>
+          <h2 className="dd-privacy-mask">
+            {' '}
+            Welcome to VA, {user.profile.userFullName.first}
+          </h2>
           <p>
             We understand that transitioning out of the military can be a
             daunting experience, which is why we offer a range of resources to
@@ -145,7 +149,7 @@ const DashboardHeader = ({
       />
       {showConfirmEmail && (
         <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 dd-privacy-mask">
             <MhvAlertConfirmEmail />
           </div>
         </div>
@@ -288,6 +292,8 @@ const Dashboard = ({
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
   const dispatch = useDispatch();
+
+  useBrowserMonitoring();
 
   const [welcomeModalVisible, setWelcomeModalVisible] = useState(
     !localStorage.getItem('welcomeToMyVAModalIsDismissed'),

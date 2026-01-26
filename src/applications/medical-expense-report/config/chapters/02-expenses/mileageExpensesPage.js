@@ -181,7 +181,10 @@ const destinationPage = {
       required: (formData, index, fullData) =>
         requiredIfMileageLocationOther(formData, index, fullData),
     }),
-    travelMilesTraveled: numberUI('How many miles were traveled?'),
+    travelMilesTraveled: numberUI({
+      title: 'How many miles were traveled?',
+      max: 9999,
+    }),
     travelDate: currentOrPastDateUI({
       title: 'What was the date of travel?',
       monthSelect: false,
@@ -212,6 +215,7 @@ const reimbursementPage = {
       ...currencyUI({
         title: 'How much money was reimbursed?',
         expandUnder: 'travelReimbursed',
+        max: 999999.99,
         expandUnderCondition: field => field === true,
       }),
       'ui:required': (formData, index, fullData) =>

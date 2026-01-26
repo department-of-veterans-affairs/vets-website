@@ -24,6 +24,7 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       site.login(bothSourcesUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -94,6 +95,7 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -147,6 +149,7 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -201,6 +204,7 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -217,6 +221,7 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: false,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -238,6 +243,7 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -253,6 +259,7 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: false,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -272,6 +279,7 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       site.login(bothSourcesUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -290,6 +298,7 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       site.login(bothSourcesUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: false,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -311,6 +320,7 @@ describe('Medical Records Download Page - URL Query Params', () => {
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
     });
 
@@ -343,6 +353,7 @@ describe('Medical Records Download Page - Self-Entered Health Information', () =
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -371,6 +382,7 @@ describe('Medical Records Download Page - Self-Entered Health Information', () =
       site.login(bothSourcesUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -412,6 +424,7 @@ describe('Medical Records Download Page - CernerFacilityAlert', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -433,6 +446,7 @@ describe('Medical Records Download Page - CernerFacilityAlert', () => {
       site.login(bothSourcesUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -449,6 +463,7 @@ describe('Medical Records Download Page - CernerFacilityAlert', () => {
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -468,6 +483,7 @@ describe('Medical Records Download Page - CCD Download Success Alerts', () => {
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
       DownloadReportsPage.clickCcdAccordionItem();
@@ -500,6 +516,7 @@ describe('Medical Records Download Page - CCD Download Success Alerts', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -525,6 +542,7 @@ describe('Medical Records Download Page - Loading States', () => {
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
       DownloadReportsPage.clickCcdAccordionItem();
@@ -552,6 +570,7 @@ describe('Medical Records Download Page - Loading States', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -586,6 +605,7 @@ describe('Medical Records Download Page - Blue Button Section', () => {
       site.login(vistaOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -608,6 +628,7 @@ describe('Medical Records Download Page - Blue Button Section', () => {
       site.login(bothSourcesUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -624,6 +645,7 @@ describe('Medical Records Download Page - Blue Button Section', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -647,6 +669,7 @@ describe('Medical Records Download Page - AcceleratedCernerFacilityAlert', () =>
       site.mockFeatureToggles({
         isAcceleratingEnabled: true,
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -663,6 +686,7 @@ describe('Medical Records Download Page - AcceleratedCernerFacilityAlert', () =>
       site.mockFeatureToggles({
         isAcceleratingEnabled: true,
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -677,6 +701,7 @@ describe('Medical Records Download Page - AcceleratedCernerFacilityAlert', () =>
       site.mockFeatureToggles({
         isAcceleratingEnabled: true,
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -698,6 +723,7 @@ describe('Medical Records Download Page - CCD Download Functionality', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -734,6 +760,7 @@ describe('Medical Records Download Page - Component Differentiation', () => {
     site.login(ohOnlyUser, false);
     site.mockFeatureToggles({
       isCcdExtendedFileTypesEnabled: true,
+      isCcdOHEnabled: true,
     });
     DownloadReportsPage.goToReportsPage();
 
@@ -749,6 +776,7 @@ describe('Medical Records Download Page - Component Differentiation', () => {
     site.login(vistaOnlyUser, false);
     site.mockFeatureToggles({
       isCcdExtendedFileTypesEnabled: true,
+      isCcdOHEnabled: true,
     });
     DownloadReportsPage.goToReportsPage();
 
@@ -761,6 +789,7 @@ describe('Medical Records Download Page - Component Differentiation', () => {
     site.login(bothSourcesUser, false);
     site.mockFeatureToggles({
       isCcdExtendedFileTypesEnabled: true,
+      isCcdOHEnabled: true,
     });
     DownloadReportsPage.goToReportsPage();
 

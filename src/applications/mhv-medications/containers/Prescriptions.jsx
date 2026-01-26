@@ -8,6 +8,7 @@ import React, {
 import { Link, useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import PropTypes from 'prop-types';
@@ -33,7 +34,6 @@ import {
   medicationsUrls,
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
-  filterOptions,
   ALL_MEDICATIONS_FILTER_KEY,
   defaultSelectedSortOption,
   DATETIME_FORMATS,
@@ -45,6 +45,7 @@ import {
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
+import { getFilterOptions } from '../util/helpers/getRxStatus';
 import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -75,22 +76,30 @@ import {
   selectSortOption,
   selectFilterOption,
 } from '../selectors/selectPreferences';
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../util/selectors';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
+  const currentFilterOptions = getFilterOptions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
   const {
     isAcceleratingAllergies,
     isCerner,
@@ -99,6 +108,20 @@ const Prescriptions = () => {
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
+
+  // Track when user returns from Rx Renewal SM flow
+  useEffect(
+    () => {
+      if (rxRenewalMessageSuccess) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'Rx SM Renewal',
+          'api-status': 'successful',
+        });
+      }
+    },
+    [rxRenewalMessageSuccess],
+  );
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -113,7 +136,7 @@ const Prescriptions = () => {
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
+    filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
   });
 
   useEffect(
@@ -146,7 +169,10 @@ const Prescriptions = () => {
     },
     [prescriptionsData],
   );
-  const { prescriptions: filteredList } = prescriptionsData || [];
+
+  const filteredList = useMemo(() => prescriptionsData?.prescriptions || [], [
+    prescriptionsData?.prescriptions,
+  ]);
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
@@ -186,7 +212,7 @@ const Prescriptions = () => {
     );
 
     if (isFiltering) {
-      updates.filterOption = filterOptions[newFilterOption]?.url || '';
+      updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
       updates.page = 1;
 
       if (newFilterOption === selectedFilterOption) {
@@ -235,12 +261,12 @@ const Prescriptions = () => {
       if (!isLoading) {
         if (prescriptionId) {
           goToPrevious();
-        } else {
+        } else if (!rxRenewalMessageSuccess && !deleteDraftSuccess) {
           focusElement(document.querySelector('h1'));
         }
       }
     },
-    [isLoading, prescriptionId],
+    [isLoading, prescriptionId, rxRenewalMessageSuccess, deleteDraftSuccess],
   );
 
   useEffect(
@@ -312,7 +338,12 @@ const Prescriptions = () => {
           prescriptionsExportList?.length,
           false,
         )}\n\n\n` +
-        `${displayMedicationsListHeader(selectedFilterOption)}\n\n` +
+        `${displayMedicationsListHeader(
+          selectedFilterOption,
+          isCernerPilot,
+          isV2StatusMapping,
+          currentFilterOptions,
+        )}\n\n` +
         `${rxList}${allergiesList ?? ''}`
       );
     },
@@ -322,6 +353,9 @@ const Prescriptions = () => {
       selectedFilterOption,
       selectedSortOption,
       prescriptionsExportList,
+      isCernerPilot,
+      isV2StatusMapping,
+      currentFilterOptions,
     ],
   );
 
@@ -372,12 +406,20 @@ const Prescriptions = () => {
 
       if (format === DOWNLOAD_FORMAT.PDF) {
         generatePDF(
-          buildPrescriptionsPDFList(prescriptionsExportList, isCernerPilot),
+          buildPrescriptionsPDFList(
+            prescriptionsExportList,
+            isCernerPilot,
+            isV2StatusMapping,
+          ),
           buildAllergiesPDFList(allergies),
         );
       } else if (format === DOWNLOAD_FORMAT.TXT) {
         generateTXT(
-          buildPrescriptionsTXT(prescriptionsExportList, isCernerPilot),
+          buildPrescriptionsTXT(
+            prescriptionsExportList,
+            isCernerPilot,
+            isV2StatusMapping,
+          ),
           buildAllergiesTXT(allergies),
         );
       } else if (format === PRINT_FORMAT.PRINT) {
@@ -397,6 +439,7 @@ const Prescriptions = () => {
       generatePDF,
       generateTXT,
       isCernerPilot,
+      isV2StatusMapping,
     ],
   );
 
@@ -428,7 +471,7 @@ const Prescriptions = () => {
         getPrescriptionsExportList.initiate(
           {
             sortEndpoint: rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-            filterOption: filterOptions[selectedFilterOption]?.url || '',
+            filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
             includeImage: false,
           },
           {
@@ -711,11 +754,15 @@ const Prescriptions = () => {
     <div>
       {content()}
       <PrescriptionsPrintOnly
-        list={printedList}
+        list={printedList.length > 0 ? printedList : filteredList}
         hasError={
           hasExportListDownloadError || isAlertVisible || !!allergiesError
         }
-        isFullList={printedList.length === prescriptionsExportList.length}
+        isFullList={
+          printedList.length > 0
+            ? printedList.length === prescriptionsExportList.length
+            : true
+        }
       />
     </div>
   );

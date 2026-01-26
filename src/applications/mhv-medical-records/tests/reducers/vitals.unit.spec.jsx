@@ -177,6 +177,25 @@ describe('vitalReducer', () => {
     expect(newState.updatedList.length).to.equal(0);
   });
 
+  it('handles entries with missing code.coding without crashing', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1, code: {} } }, // missing coding array
+        { resource: { id: 2 } }, // missing code entirely
+        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } }, // valid
+      ],
+      resourceType: 'Observation',
+    };
+    expect(() => {
+      vitalReducer({}, { type: Actions.Vitals.GET_LIST, response });
+    }).to.not.throw();
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList.length).to.equal(1);
+  });
+
   it('moves updatedList into vitalsList on request', () => {
     const newState = vitalReducer(
       {

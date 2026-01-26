@@ -6,17 +6,17 @@ import UploadType2ErrorAlert from '../../components/UploadType2ErrorAlert';
 import * as analytics from '../../utils/analytics';
 
 describe('<UploadType2ErrorAlert>', () => {
-  let recordType2FailureEventStatusPageStub;
+  let recordType2FailureEventStub;
 
   beforeEach(() => {
-    recordType2FailureEventStatusPageStub = sinon.stub(
+    recordType2FailureEventStub = sinon.stub(
       analytics,
-      'recordType2FailureEventStatusPage',
+      'recordType2FailureEvent',
     );
   });
 
   afterEach(() => {
-    recordType2FailureEventStatusPageStub.restore();
+    recordType2FailureEventStub.restore();
   });
 
   const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
@@ -45,7 +45,7 @@ describe('<UploadType2ErrorAlert>', () => {
     );
 
     expect(container.querySelector('va-alert')).to.not.exist;
-    expect(recordType2FailureEventStatusPageStub.called).to.be.false;
+    expect(recordType2FailureEventStub.called).to.be.false;
   });
 
   it('should render null when failed submissions array is undefined', () => {
@@ -54,7 +54,7 @@ describe('<UploadType2ErrorAlert>', () => {
     );
 
     expect(container.querySelector('va-alert')).to.not.exist;
-    expect(recordType2FailureEventStatusPageStub.called).to.be.false;
+    expect(recordType2FailureEventStub.called).to.be.false;
   });
 
   context('Google Analytics', () => {
@@ -72,7 +72,8 @@ describe('<UploadType2ErrorAlert>', () => {
         />,
       );
 
-      expect(recordType2FailureEventStatusPageStub.calledOnce).to.be.true;
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      expect(recordType2FailureEventStub.calledWith({ count: 1 })).to.be.true;
     });
 
     it('should NOT record analytics event when isStatusPage is false (files tab)', () => {
@@ -87,7 +88,7 @@ describe('<UploadType2ErrorAlert>', () => {
         />,
       );
 
-      expect(recordType2FailureEventStatusPageStub.called).to.be.false;
+      expect(recordType2FailureEventStub.called).to.be.false;
     });
 
     it('should not record analytics event multiple times for same submissions', () => {
@@ -100,7 +101,7 @@ describe('<UploadType2ErrorAlert>', () => {
         />,
       );
 
-      expect(recordType2FailureEventStatusPageStub.calledOnce).to.be.true;
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
       // Rerender with same data
       rerender(
         <UploadType2ErrorAlert
@@ -109,7 +110,7 @@ describe('<UploadType2ErrorAlert>', () => {
         />,
       );
       // Should still only be called once
-      expect(recordType2FailureEventStatusPageStub.calledOnce).to.be.true;
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
     });
   });
 
@@ -248,5 +249,35 @@ describe('<UploadType2ErrorAlert>', () => {
       'text',
       "Review files we couldn't process and learn other ways to send your documents",
     );
+  });
+
+  context('heading level based on page context', () => {
+    it('should render h4 heading when isStatusPage is true', () => {
+      const failedSubmissions = [createFailedSubmission()];
+
+      const { container } = render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
+      );
+
+      expect(container.querySelector('h4')).to.exist;
+      expect(container.querySelector('h3')).to.not.exist;
+    });
+
+    it('should render h3 heading when isStatusPage is false', () => {
+      const failedSubmissions = [createFailedSubmission()];
+
+      const { container } = render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage={false}
+        />,
+      );
+
+      expect(container.querySelector('h3')).to.exist;
+      expect(container.querySelector('h4')).to.not.exist;
+    });
   });
 });

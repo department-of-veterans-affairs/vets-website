@@ -45,6 +45,7 @@
     "dateOfMarriage": "1995-02-22",
     "cohabitedLastYear": true,
     "sameAddress": true,
+    "maritalStatus": "Married",
     "nonPrefill": {
       "previousFinancialInfo": {
         "veteranFinancialInfo": {

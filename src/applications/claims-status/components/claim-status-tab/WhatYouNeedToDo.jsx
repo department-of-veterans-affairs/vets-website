@@ -58,7 +58,7 @@ function WhatYouNeedToDo({ claim }) {
       {filesNeeded.map(item => (
         <FilesNeeded
           key={item.id}
-          id={claim.id}
+          claimId={claim.id}
           item={item}
           evidenceWaiverSubmitted5103={evidenceWaiverSubmitted5103}
           previousPage="status"

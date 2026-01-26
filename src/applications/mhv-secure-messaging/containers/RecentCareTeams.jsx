@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   VaRadio,
   VaRadioOption,
@@ -14,8 +15,10 @@ import { getRecentRecipients } from '../actions/recipients';
 import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
+import manifest from '../manifest.json';
 
-const RECENT_RECIPIENTS_LABEL = `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`;
+const RECENT_RECIPIENTS_LABEL = 'Select a team you want to message';
+const RECENT_RECIPIENTS_HINT = `This list only includes teams that you've sent messages to in the last 6 months. If you want to contact another team, select "A different care team."`;
 
 const OTHER_VALUE = 'other';
 const { Paths } = Constants;
@@ -117,24 +120,33 @@ const RecentCareTeams = () => {
     [recentRecipients],
   );
 
+  const getDestinationPath = useCallback(
+    (includeRootUrl = false) => {
+      const selectCareTeamPath = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+      const startPath = `${Paths.COMPOSE}${Paths.START_MESSAGE}`;
+      let path;
+      if (selectedCareTeam === OTHER_VALUE) {
+        path = selectCareTeamPath;
+      } else {
+        path = startPath;
+      }
+      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
+    },
+    [selectedCareTeam],
+  );
+
   const handleContinue = useCallback(
-    () => {
+    event => {
+      event?.preventDefault();
       if (!selectedCareTeam) {
         setError('Select a care team');
         focusOnErrorField();
         return;
       }
       setError(null); // Clear error on valid submit
-      if (selectedCareTeam === OTHER_VALUE) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
-        return;
-      }
-      // TODO: CURATED LIST handle pushing selected recipient value to reducer
-      // For now, just redirect to compose message
-      // This is a placeholder for the actual logic to dispatch value to activeDraft redux state
-      history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
+      history.push(getDestinationPath());
     },
-    [history, selectedCareTeam],
+    [history, selectedCareTeam, getDestinationPath],
   );
 
   const handleRadioChange = useCallback(
@@ -159,6 +171,13 @@ const RecentCareTeams = () => {
         }),
       );
       setError(null); // Clear error on selection
+      recordEvent({
+        event: 'int-select-box-option-click',
+        'select-label': RECENT_RECIPIENTS_LABEL,
+        'select-selectLabel':
+          value === OTHER_VALUE ? OTHER_VALUE : 'recent care team',
+        'select-required': true,
+      });
     },
     [recentRecipients, dispatch, ehrDataByVhaId],
   );
@@ -169,12 +188,7 @@ const RecentCareTeams = () => {
 
   return (
     <>
-      <h1
-        id="test01"
-        className="vads-u-margin-bottom--3"
-        tabIndex="-1"
-        ref={h1Ref}
-      >
+      <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
         Care teams you recently sent messages to
       </h1>
       <EmergencyNote dropDownFlag />
@@ -182,6 +196,8 @@ const RecentCareTeams = () => {
         class="vads-u-margin-bottom--3"
         error={error}
         label={RECENT_RECIPIENTS_LABEL}
+        hint={RECENT_RECIPIENTS_HINT}
+        label-header-level="2"
         required
         onVaValueChange={handleRadioChange}
         data-testid="recent-care-teams-radio-group"
@@ -209,12 +225,14 @@ const RecentCareTeams = () => {
           })}
         <VaRadioOption label="A different care team" tile value={OTHER_VALUE} />
       </VaRadio>
-      <va-button
-        class="vads-u-width--full small-screen:vads-u-width--auto"
-        continue
-        onClick={handleContinue}
-        text="Continue"
+
+      <va-link-action
+        href={getDestinationPath(true)}
+        text="Continue to start message"
         data-testid="recent-care-teams-continue-button"
+        onClick={handleContinue}
+        class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
+        type="primary"
       />
     </>
   );

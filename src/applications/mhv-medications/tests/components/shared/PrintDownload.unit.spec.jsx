@@ -71,13 +71,11 @@ describe('Medications Print/Download button component', () => {
       );
       expect(errorAlert).to.exist;
 
-      // Check for the actual error headline
-      expect(errorAlert.innerHTML).to.match(
-        /We can[’']t download your records right now/,
+      expect(errorAlert.innerHTML).to.include(
+        'We can’t download your records right now',
       );
-      // Check for the actual error body message
-      expect(errorAlert.innerHTML).to.match(
-        /We[’']re sorry. There[’']s a problem with our system. Try again later./,
+      expect(errorAlert.innerHTML).to.include(
+        'We’re sorry. There’s a problem with our system. Try again later.',
       );
     });
   });

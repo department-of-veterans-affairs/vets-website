@@ -329,4 +329,16 @@ describe('draftDetails actions', () => {
       });
     });
   });
+
+  it('should dispatch clearPrescription action on successful deleteDraft', async () => {
+    mockApiRequest({ method: 'DELETE', ok: true, status: 204 });
+    const store = mockStore({ sm: {} });
+    await store.dispatch(deleteDraft('1234')).then(() => {
+      const actions = store.getActions();
+
+      expect(actions).to.deep.include({
+        type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+      });
+    });
+  });
 });

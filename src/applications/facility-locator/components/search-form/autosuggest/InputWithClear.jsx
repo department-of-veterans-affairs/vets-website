@@ -27,6 +27,8 @@ function InputWithClear({
   isOpen,
   showDownCaret,
   showClearButton,
+  dropdownIsOpen,
+  dropdownId,
 }) {
   return (
     <div className={className}>
@@ -40,6 +42,9 @@ function InputWithClear({
           className="input-with-clear vads-u-width--full"
           {...getInputProps({ ref: inputRef, ...downshiftInputProps })}
           data-testid={`${inputId}-input-with-clear`}
+          aria-expanded={dropdownIsOpen}
+          role="combobox"
+          aria-controls={dropdownId}
         />
         <InputControlsContainer
           isOpen={isOpen}
@@ -63,6 +68,8 @@ InputWithClear.propTypes = {
   showDownCaret: PropTypes.bool.isRequired,
   onClearClick: PropTypes.func.isRequired,
   className: PropTypes.string,
+  dropdownIsOpen: PropTypes.bool,
+  dropdownId: PropTypes.string,
   downshiftInputProps: PropTypes.object,
   inputRef: PropTypes.any,
   // others not specified, may be passed from function

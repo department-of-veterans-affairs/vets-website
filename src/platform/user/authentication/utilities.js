@@ -457,8 +457,8 @@ export const logoutUrl = () => {
  * @param {Boolean} cernerNonEligibleSisEnabled feature toggle that controls logic
  * @returns {Boolean} Returns a boolean to determine AuthBroker
  */
-export const determineAuthBroker = featureFlagEnabled => {
-  if (!featureFlagEnabled) return false;
+export const determineAuthBroker = (featureFlagEnabled, toggleIsLoading) => {
+  if (!featureFlagEnabled && !toggleIsLoading) return false;
 
   const cookieValue = Cookies.get('CERNER_ELIGIBLE');
 
@@ -496,5 +496,5 @@ export const determineAuthBroker = featureFlagEnabled => {
    * @returns true if plain text cookie is 'false', false if 'true'
    */
   const plainTextCookie = cookieValue.trim().toLowerCase();
-  return plainTextCookie === 'false';
+  return plainTextCookie !== 'true';
 };

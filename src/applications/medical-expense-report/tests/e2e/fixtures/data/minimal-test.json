@@ -8,7 +8,7 @@
     },
     "claimantAddress": {
       "street": "101 Main St",
-      "street2": "Apartment 2B",
+      "street2": "Apt2B",
       "city": "Anytown",
       "state": "OH",
       "postalCode": "01234",
@@ -52,7 +52,7 @@
         "travelReimbursementAmount": 123,
         "travelLocation": "OTHER",
         "otherTravelLocation": "Other location",
-        "travelMilesTraveled": "12312",
+        "travelMilesTraveled": "45",
         "travelDate": "2004-04-04",
         "traveler": "VETERAN"
       }

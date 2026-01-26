@@ -339,7 +339,11 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       }
     }
 
-    if (data.homelessOrAtRisk && data['view:isBddData'] !== true) {
+    if (
+      data.homelessOrAtRisk &&
+      (data.disability526ExtraBDDPagesEnabled ||
+        data['view:isBddData'] !== true)
+    ) {
       cy.contains(/are you homeless or at risk of becoming homeless/i).should(
         'exist',
       );
@@ -368,8 +372,8 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
 
     if (
       !hasRatedDisabilities(data) &&
-      !isBDD(data) &&
-      data['view:isBddData'] !== true
+      (data.disability526ExtraBDDPagesEnabled ||
+        (!isBDD(data) && data['view:isBddData'] !== true))
     ) {
       cy.contains(/have you ever received military retirement pay/i).should(
         'exist',
@@ -717,6 +721,32 @@ export const pageHooks = (cy, testOptions) => ({
       .check({ force: true });
 
     cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'supporting-evidence/orientation': () => {
+    // The orientation page can be legacy or enhanced depending on the feature flag.
+    // Web components may take a moment to hydrate; wait for either legacy marker text
+    // or any accordion item to appear.
+    cy.get('body', { timeout: 15000 }).should($body => {
+      const enhancedItems = $body.find('va-accordion-item');
+      const hasEnhancedAccordion = enhancedItems.length > 0;
+      const hasLegacyMarker =
+        /you can submit these types of evidence/i.test($body.text()) ||
+        /Notice of evidence needed/i.test($body.text());
+
+      expect(hasEnhancedAccordion || hasLegacyMarker).to.equal(true);
+    });
+
+    cy.get('body').then($body => {
+      const hasEnhancedAccordion = $body.find('va-accordion-item').length > 0;
+
+      if (hasEnhancedAccordion) {
+        cy.get('va-accordion', { timeout: 15000 }).should('exist');
+        cy.get('va-accordion-item').should('have.length.greaterThan', 0);
+      } else {
+        cy.contains(/you can submit these types of evidence/i).should('exist');
+      }
+    });
   },
 
   'review-veteran-details/separation-location': () => {

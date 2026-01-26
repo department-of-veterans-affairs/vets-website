@@ -218,7 +218,13 @@ export const arrayBuilderOptions = {
     cardDescription: item => (
       <div>
         Date of birth:
-        <strong> {getFormatedDate(item?.birthDate)}</strong>
+        <strong
+          className="dd-privacy-mask"
+          data-dd-action-name="child date of birth"
+        >
+          {' '}
+          {getFormatedDate(item?.birthDate)}
+        </strong>
       </div>
     ),
     duplicateSummaryCardLabel: () => 'DUPLICATE CHILD',

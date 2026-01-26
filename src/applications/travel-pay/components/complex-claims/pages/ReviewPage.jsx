@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { focusElement } from 'platform/utilities/ui/focus';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -14,18 +17,43 @@ import {
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
-import { clearReviewPageAlert } from '../../../redux/actions';
+import {
+  clearReviewPageAlert,
+  setExpenseBackDestination,
+} from '../../../redux/actions';
 import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
+  const alertRef = useRef(null);
 
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const expenses = useSelector(selectAllExpenses) ?? [];
   const documents = useSelector(selectAllDocuments) ?? [];
   const alertMessage = useSelector(selectReviewPageAlert);
+
+  const title = 'Your unsubmitted expenses';
+
+  useSetPageTitle(title);
+  useRecordPageview('complex-claims', title);
+
+  useEffect(
+    () => {
+      if (alertMessage) {
+        if (alertRef.current) {
+          focusElement(alertRef.current);
+        }
+      } else {
+        const firstH1 = document.getElementsByTagName('h1')[0];
+        if (firstH1) {
+          focusElement(firstH1);
+        }
+      }
+    },
+    [alertMessage],
+  );
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
@@ -66,6 +94,7 @@ const ReviewPage = () => {
   };
 
   const addMoreExpenses = () => {
+    dispatch(setExpenseBackDestination('review'));
     navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
 
@@ -74,13 +103,14 @@ const ReviewPage = () => {
   };
 
   const numGroupedExpenses = Object.keys(groupedExpenses).length;
-  const isAlertVisible = !!alertMessage && numGroupedExpenses > 0;
+  const isAlertVisible = !!alertMessage;
 
   return (
     <div data-testid="review-page">
-      <h1>Your unsubmitted expenses</h1>
+      <h1>{title}</h1>
       {isAlertVisible && (
         <ReviewPageAlert
+          alertRef={alertRef}
           header={alertMessage.title}
           description={alertMessage.description}
           status={alertMessage.type}
@@ -116,28 +146,18 @@ const ReviewPage = () => {
             expenses={expenses}
             documents={documents}
             groupAccordionItemsByType
+            headerLevel={3}
           />
           <div className="vads-u-margin-top--1">
             <va-card data-testid="summary-box" background>
-              <h3 className="vads-u-margin-top--1">Estimated reimbursement</h3>
+              <h2 className="vads-u-margin-top--1">Estimated reimbursement</h2>
               <ul>
                 {Object.entries(totalByExpenseType)
                   .filter(([_, total]) => total > 0) // only show if total > 0
                   .map(([type, total]) => {
-                    const labelMap = {
-                      Mileage: EXPENSE_TYPES.Mileage.title,
-                      Parking: EXPENSE_TYPES.Parking.title,
-                      Toll: EXPENSE_TYPES.Toll.title,
-                      Commoncarrier: EXPENSE_TYPES.Commoncarrier.title,
-                      Airtravel: EXPENSE_TYPES.Airtravel.title,
-                      Lodging: EXPENSE_TYPES.Lodging.title,
-                      Meal: EXPENSE_TYPES.Meal.title,
-                      Other: EXPENSE_TYPES.Other.title,
-                    };
-
                     return (
                       <li key={type}>
-                        <strong>{labelMap[type] || type}</strong> $
+                        <strong>{EXPENSE_TYPES[type]?.title ?? type}</strong> $
                         {formatAmount(total)}
                       </li>
                     );

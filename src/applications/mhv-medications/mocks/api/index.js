@@ -93,14 +93,19 @@ const responses = {
     // Emulate a successful refill for the first ID and failed refill for subsequent IDs
     const successfulIds = ids[0] ? [ids[0]] : [];
     const failedIds = ids[1] ? ids.slice(1) : [];
-    return res.status(200).json({
-      data: {
-        attributes: {
-          prescriptionList: successfulIds,
-          failedPrescriptionList: failedIds,
-        },
-      },
-    });
+    // delay response to emulate network latency
+    delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            attributes: {
+              prescriptionList: successfulIds,
+              failedPrescriptionList: failedIds,
+            },
+          },
+        }),
+      3000,
+    );
   },
   /**
   'GET /my_health/v1/medical_records/allergies': (req, res) => {

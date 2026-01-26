@@ -17,53 +17,67 @@ const ProfileHub = () => {
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.CONTACT_INFORMATION}
-        content="Addresses, phone numbers, and email address"
+        content="Addresses, emails, and phone numbers"
         href={PROFILE_PATHS.CONTACT_INFORMATION}
         reactLink
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.SERVICE_HISTORY_INFORMATION}
-        content="Military branches and dates of service"
+        content="Military branches and periods of service"
         href={PROFILE_PATHS.SERVICE_HISTORY_INFORMATION}
         reactLink
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.FINANCIAL_INFORMATION}
-        content="Manage your direct deposit information, payments, and debts"
+        content="Direct deposit information, payments, benefit overpayments, and copay bills"
         href={PROFILE_PATHS.FINANCIAL_INFORMATION}
         reactLink
       />
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileHealthCareSettingsPage}>
         <Toggler.Enabled>
-          <ProfileHubItem
-            heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
-            content="Settings for your VA health care experience, such as emergency contacts and scheduling preferences"
-            href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
-            reactLink
-          />
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.profileHideHealthCareContacts}
+          >
+            <Toggler.Enabled>
+              <ProfileHubItem
+                heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
+                content="Messages signature and scheduling preferences"
+                href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
+                reactLink
+              />
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <ProfileHubItem
+                heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
+                content="Health care contacts, messages signature, and scheduling preferences"
+                href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
+                reactLink
+              />
+            </Toggler.Disabled>
+          </Toggler>
         </Toggler.Enabled>
       </Toggler>
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS}
-        content="Manage your benefits dependents and accredited representative or VSO"
+        content="Benefits dependents and accredited representative or VSO"
         href={PROFILE_PATHS.DEPENDENTS_AND_CONTACTS}
         reactLink
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS}
-        content="Review your VA letters and documents, including your Veteran Status Card"
+        content="VA benefit letters and documents and Veteran Status Card"
         href={PROFILE_PATHS.LETTERS_AND_DOCUMENTS}
         reactLink
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.EMAIL_AND_TEXT_NOTIFICATIONS}
-        content="Manage your text and email notifications"
+        content="Preferences for receiving email and text notifications"
         href={PROFILE_PATHS.EMAIL_AND_TEXT_NOTIFICATIONS}
         reactLink
       />
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.ACCOUNT_SECURITY}
-        content="Sign-in, account information, and connected apps"
+        content="Sign-in information and connected apps"
         href={PROFILE_PATHS.ACCOUNT_SECURITY}
         reactLink
       />

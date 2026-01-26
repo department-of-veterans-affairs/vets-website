@@ -3,38 +3,33 @@ import {
   currentOrPastDateUI,
   textSchema,
   textUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording, privWrapper } from '../../../shared/utilities';
-import { validFieldCharsOnly } from '../../../shared/validations';
+import { validateChars } from '../../utils/validation';
+import { titleWithNameUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const PAGE_TITLE = ({ formData }) => {
-  const name = nameWording(formData, undefined, undefined, true);
-  return privWrapper(`${name} Medicare Part B carrier`);
+const TITLE_TEXT = content['medicare--part-b-carrier-title'];
+const INPUT_LABELS = {
+  carrier: content['medicare--carrier-label'],
+  effectiveDate: content['medicare--part-b-effective-date-label'],
+};
+const HINT_TEXT = {
+  carrier: content['medicare--carrier-hint'],
+  effectiveDate: content['medicare--part-b-effective-date-hint'],
 };
 
 export default {
   uiSchema: {
-    ...titleUI(PAGE_TITLE),
+    ...titleWithNameUI(TITLE_TEXT),
     applicantMedicarePartBCarrier: textUI({
-      title: 'Name of insurance carrier',
-      hint:
-        'The insurance carrier may be listed as “Medicare Health Insurance” on the insurance card.',
+      title: INPUT_LABELS.carrier,
+      hint: HINT_TEXT.carrier,
+      validations: [validateChars],
     }),
     applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
-      title: 'Medicare Part B effective date',
-      hint:
-        'You may find the effective date on the front of the Medicare card near “Coverage starts” or “Effective date.”',
+      title: INPUT_LABELS.effectiveDate,
+      hint: HINT_TEXT.effectiveDate,
     }),
-    'ui:validations': [
-      (errors, formData) =>
-        validFieldCharsOnly(
-          errors,
-          null,
-          formData,
-          'applicantMedicarePartBCarrier',
-        ),
-    ],
   },
   schema: {
     type: 'object',

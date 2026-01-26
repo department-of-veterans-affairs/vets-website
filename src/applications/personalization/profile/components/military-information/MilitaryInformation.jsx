@@ -12,6 +12,11 @@ import DowntimeNotification, {
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
 
+import {
+  TOGGLE_NAMES,
+  Toggler,
+  useFeatureToggle,
+} from 'platform/utilities/feature-toggles';
 import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
@@ -157,6 +162,13 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
+        <Toggler.Enabled>
+          <div className="vads-u-margin-bottom--4 vads-u-margin-top--1">
+            <MilitaryRecordErrorInfo />
+          </div>
+        </Toggler.Enabled>
+      </Toggler>
       <ProfileInfoSection
         data={serviceHistory.map(item =>
           transformServiceHistoryEntryIntoTableRow(item),
@@ -166,34 +178,13 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         asList
       />
 
-      <div className="vads-u-margin-bottom--4 vads-u-margin-top--1">
-        <va-additional-info
-          trigger="What if I don't think my military service information is correct?"
-          uswds
-        >
-          <p className="vads-u-padding-bottom--2">
-            Some Veterans have reported that their military service information
-            in their VA.gov profiles doesn’t seem right. When this happens, it’s
-            because there’s an error in the information we’re pulling into
-            VA.gov from the Defense Enrollment Eligibility Reporting System
-            (DEERS).
-          </p>
-
-          <p className="vads-u-padding-bottom--2">
-            If you don’t think your military service information is correct
-            here, call the Defense Manpower Data Center (DMDC). They’ll work
-            with you to update your information in DEERS.
-          </p>
-
-          <p>
-            You can call the DMDC at{' '}
-            <va-telephone contact={CONTACTS.DS_LOGON} /> (
-            <va-telephone contact={CONTACTS['711']} tty />
-            ). They’re available Monday through Friday (except federal
-            holidays), 8:00 a.m. to 8:00 p.m. ET.
-          </p>
-        </va-additional-info>
-      </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
+        <Toggler.Disabled>
+          <div className="vads-u-margin-bottom--4 vads-u-margin-top--1">
+            <MilitaryRecordErrorInfo />
+          </div>
+        </Toggler.Disabled>
+      </Toggler>
     </>
   );
 };
@@ -203,14 +194,40 @@ MilitaryInformationContent.propTypes = {
   veteranStatus: PropTypes.object,
 };
 
+const MilitaryRecordErrorInfo = () => (
+  <va-additional-info
+    trigger="What if I don't think my military service information is correct?"
+    uswds
+  >
+    <p className="vads-u-padding-bottom--2">
+      If you don’t think your military service information is correct here, call
+      the Defense Manpower Data Center (DMDC). They’ll work with you to update
+      your information in DEERS.
+    </p>
+
+    <p>
+      You can call the DMDC at <va-telephone contact={CONTACTS.DS_LOGON} /> (
+      <va-telephone contact={CONTACTS['711']} tty />
+      ). They’re available Monday through Friday (except federal holidays), 8:00
+      a.m. to 8:00 p.m. ET.
+    </p>
+  </va-additional-info>
+);
+
 const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
 
+  const { useToggleValue } = useFeatureToggle();
+  const isProfile2Enabled = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const headlineText = isProfile2Enabled
+    ? 'Service history information'
+    : 'Military Information';
+
   return (
     <div>
-      <Headline>Military information</Headline>
+      <Headline>{headlineText}</Headline>
       <DowntimeNotification
         appTitle="military information page"
         dependencies={[externalServices.VAPRO_MILITARY_INFO]}
@@ -221,7 +238,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         />
       </DowntimeNotification>
 
-      <h2 className="vads-u-margin--0">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
         Request your military service records
       </h2>
 

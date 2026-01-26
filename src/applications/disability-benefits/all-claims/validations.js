@@ -1,6 +1,6 @@
 import _ from 'platform/utilities/data';
 import some from 'lodash/some';
-import { isValid, isBefore, isAfter, add } from 'date-fns';
+import { isValid, isBefore, isAfter, add, startOfToday } from 'date-fns';
 
 import {
   parseDate,
@@ -643,8 +643,8 @@ export const validateSeparationDate = (
     return;
   }
 
-  // Get today as a Date object by parsing the current date
-  const today = parseDate(new Date().toISOString().split('T')[0]);
+  // Get today as a Date object normalized to start of day to avoid time precision issues
+  const today = startOfToday();
 
   // If a reservist is activated, they are considered to be active duty.
   // Inactive or active reserves may have a future separation date.
@@ -706,7 +706,7 @@ export const validateTitle10StartDate = (
       return b > a ? -1 : 1;
     });
   const activationDate = parseDate(dateString);
-  const today = parseDate(new Date().toISOString().split('T')[0]);
+  const today = startOfToday();
   if (activationDate && isAfter(activationDate, today)) {
     errors.addError('Enter an activation date in the past');
   } else if (!startTimes[0] || dateString < startTimes[0]) {

@@ -33,13 +33,9 @@ describe('Claim cards', () => {
 
     cy.findByText('Step 5 of 5: Closed');
     cy.findByText('Moved to this step on January 2, 2025');
-    cy.findByRole('link', {
-      name: 'Details for claim submitted on January 1, 2025',
-    }).should(
-      'have.attr',
-      'href',
-      '/track-claims/your-claims/123456789/status',
-    );
+    cy.get(
+      'va-link[aria-label="Details for claim submitted on January 1, 2025"]',
+    ).should('have.attr', 'href', '/track-claims/your-claims/123456789/status');
 
     cy.axeCheck();
   });
@@ -53,9 +49,9 @@ describe('Claim cards', () => {
 
     cy.findByText('Step 1 of 5: Claim received');
     cy.findByText('Moved to this step on January 2, 2025');
-    cy.findByRole('link', {
-      name: 'Details for claim submitted on January 1, 2025',
-    });
+    cy.get(
+      'va-link[aria-label="Details for claim submitted on January 1, 2025"]',
+    );
 
     cy.axeCheck();
   });

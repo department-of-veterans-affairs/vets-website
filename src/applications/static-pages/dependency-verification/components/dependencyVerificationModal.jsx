@@ -11,7 +11,7 @@ import DependencyVerificationHeader from './dependencyVerificationHeader';
 import DependencyVerificationList from './dependencyVerificationList';
 import DependencyVerificationFooter from './dependencyVerificationFooter';
 
-const disabilityBenefits686cUrl = getAppUrl('686C-674');
+const disabilityBenefits686cUrl = getAppUrl('686C-674-v2');
 
 const DependencyVerificationModal = props => {
   const nodeToWatch = document.getElementsByTagName('body')[0];

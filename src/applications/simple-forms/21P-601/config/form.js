@@ -26,12 +26,12 @@ import {
   waiverOfSubstitution,
   relativesOverview,
   relativesPages,
-  supportingDocuments,
   expensesClaim,
   expensesPages,
   otherDebts,
   otherDebtsPages,
   remarks,
+  supportingDocuments,
 } from '../pages';
 import { personalInfoConfig } from '../helpers/personalInformationConfig';
 
@@ -279,7 +279,7 @@ const formConfig = {
         },
         remarks: {
           path: 'additional-info/remarks',
-          title: 'Additional remarks (optional)',
+          title: 'Additional remarks',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,
           scrollAndFocusTarget,

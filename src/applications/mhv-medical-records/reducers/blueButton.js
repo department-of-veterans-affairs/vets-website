@@ -88,6 +88,21 @@ export const convertMedication = med => {
 };
 
 /**
+ * Format a practitioner's name from a practitioner object.
+ * @param {Object} practitioner - The practitioner object with name.given and name.family
+ * @returns {string} The formatted name or 'Not available' if name data is missing
+ */
+export const formatPractitionerName = practitioner => {
+  const given = Array.isArray(practitioner?.name?.given)
+    ? practitioner.name.given.join(' ')
+    : '';
+  return (
+    [given, practitioner?.name?.family].filter(Boolean).join(' ') ||
+    'Not available'
+  );
+};
+
+/**
  * Convert the appointment resource from the backend into the appropriate model.
  * @param {Object} appt an MHV appointment resource
  * @returns an appointment object that this application can use, or null if the param is null/undefined
@@ -105,14 +120,7 @@ export const convertAppointment = appt => {
   const practitioners = attributes.practitioners || [];
   const practitionerNames =
     practitioners.length > 0
-      ? practitioners
-          .map(
-            practitioner =>
-              `${practitioner.name.given.join(' ')} ${
-                practitioner.name.family
-              }`,
-          )
-          .join(', ')
+      ? practitioners.map(formatPractitionerName).join(', ')
       : 'Not available';
 
   return {
@@ -130,9 +138,11 @@ export const convertAppointment = appt => {
     clinicName: attributes.clinic || 'Unknown clinic',
     clinicPhone: clinic.phoneNumber || 'N/A',
     detailsShared: {
-      reason: attributes.serviceCategory?.[0]?.text
-        ? attributes.serviceCategory.map(item => item.text).join(', ')
-        : 'Not specified',
+      reason:
+        Array.isArray(attributes.serviceCategory) &&
+        attributes.serviceCategory[0]?.text
+          ? attributes.serviceCategory.map(item => item.text).join(', ')
+          : 'Not specified',
       otherDetails: attributes.friendlyName || 'No details provided',
     },
   };

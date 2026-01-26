@@ -3,7 +3,6 @@
     "veteranInformation": {
       "veteranFullName": {
         "first": "Ahsoka",
-        "middle": "T",
         "last": "Tano"
       },
       "dateOfBirth": "2004-05-04"
@@ -39,7 +38,6 @@
     "dutyStatus": {
       "reserveOrGuardStatus": false
     },
-    "dutyStatusDetails": {},
     "benefitsInformation": {
       "benefitEntitlement": true
     },
@@ -47,8 +45,7 @@
       "benefitType": "Resistance network medical coverage and equipment allowance for field operatives with hazardous duty classification",
       "grossMonthlyAmount": 2500,
       "startReceivingDate": "2020-02-01",
-      "firstPaymentDate": "2020-02-15",
-      "stopReceivingDate": "2024-12-31"
+      "firstPaymentDate": "2020-02-15"
     },
     "remarks": {
       "remarks": "Currently employed veteran with ongoing service to intelligence operations. Has middle name. Demonstrates currently employed scenario where no employment ending date is provided. Receives current ongoing benefits with no stop date. Not in Reserve/Guard status. Tests signature validation disabled with different name."

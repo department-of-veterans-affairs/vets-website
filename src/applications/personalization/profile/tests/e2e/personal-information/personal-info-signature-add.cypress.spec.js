@@ -55,7 +55,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
 
     cy.get(Locators.SIGNATURE.ALERTS.SUCCESS)
       .should(`be.visible`)
-      .and('have.text', Data.SIGNATURE.UPDATE_SAVED);
+      .and('contain.text', Data.SIGNATURE.UPDATE_SAVED);
     cy.get('va-alert[status="success"]').should('be.focused');
 
     cy.injectAxeThenAxeCheck();

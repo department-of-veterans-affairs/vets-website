@@ -78,7 +78,8 @@ import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
 const REASON_ADDITIONAL_INFO_TITLES = {
-  va: 'Add any details you’d like to share with your provider.',
+  va:
+    'Enter a brief reason for this appointment. Your provider will contact you if they need more details.',
   ccRequest:
     'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
 };
@@ -118,6 +119,7 @@ const initialState = {
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   isAppointmentSelectionError: false,
   ehr: null,
+  backendServiceFailures: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -136,6 +138,7 @@ function resetFormDataOnChange(state, data) {
   let newPatientProviderRelationshipsStatus =
     state.patientProviderRelationshipsStatus;
   let newPatientProviderRelationships = state.patientProviderRelationships;
+  let newBackendServiceFailures = state.backendServiceFailures;
   let newData = data;
 
   // Reset form data if typeOfCare has changed
@@ -169,6 +172,7 @@ function resetFormDataOnChange(state, data) {
     newData = unset('selectedProvider', newData);
     newPatientProviderRelationships = [];
     newPatientProviderRelationshipsStatus = FETCH_STATUS.notStarted;
+    newBackendServiceFailures = null;
   }
 
   return {
@@ -176,6 +180,7 @@ function resetFormDataOnChange(state, data) {
     newData,
     newPatientProviderRelationshipsStatus,
     newPatientProviderRelationships,
+    newBackendServiceFailures,
   };
 }
 
@@ -701,7 +706,9 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         patientProviderRelationshipsStatus: FETCH_STATUS.succeeded,
-        patientProviderRelationships: action.patientProviderRelationships,
+        patientProviderRelationships:
+          action.relationships?.patientProviderRelationships,
+        backendServiceFailures: action.relationships?.backendServiceFailures,
       };
     case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED:
       return {

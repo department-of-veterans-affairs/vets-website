@@ -44,7 +44,7 @@ testNumberOfWebComponentFields(
   mockDataFalse,
 );
 
-const expectedNumberOfErrorsTrue = 0;
+const expectedNumberOfErrorsTrue = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

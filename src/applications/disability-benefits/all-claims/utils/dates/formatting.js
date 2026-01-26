@@ -28,6 +28,10 @@ export const DATE_FORMAT_LONG = 'MMMM d, yyyy';
 export const PARTIAL_DATE_FORMAT = 'yyyy-MM';
 // Public template for full ISO-like date strings used across the all-claims app
 export const DATE_TEMPLATE = 'yyyy-MM-dd';
+export const DATE_FULL_MONTH_YEAR_FORMAT = 'MMMM yyyy';
+export const DATE_SHORT_MONTH_YEAR_FORMAT = 'MMM yyyy'; // e.g., "Jan 2021"
+export const DATE_SHORT_MONTH_DAY_YEAR_FORMAT = 'MMM d, yyyy'; // e.g., "Jan 1, 2021"
+
 // Map common Moment.js tokens to date-fns tokens for compatibility in tests/components
 const normalizeFormatTokens = fmt => {
   if (!fmt || typeof fmt !== 'string') return DATE_FORMAT;
@@ -124,12 +128,49 @@ export const formatDateRange = (dateRange = {}, formatStr = DATE_FORMAT) => {
 
 /**
  * Format a date as month and year only
+ * Handles full dates (YYYY-MM-DD), month/year (YYYY-MM), and year-only (YYYY-XX)
  * @param {string} rawDate - Date string to format
- * @returns {string} Formatted as "Month YYYY" or empty string
+ * @returns {string} Formatted as "Month YYYY", "YYYY", or empty string
  */
 export const formatMonthYearDate = (rawDate = '') => {
   if (!rawDate) return '';
 
+  // Handle year-only format (YYYY-XX)
+  if (/^\d{4}-XX$/.test(rawDate)) {
+    return rawDate.split('-')[0];
+  }
+
+  // Handle month/year format (YYYY-MM where MM is 01-12)
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(rawDate)) {
+    const [year, month] = rawDate.split('-');
+    // Use parse with explicit format to avoid date-fns month offset issues
+    // Parse as YYYY-MM-01 to create a valid date, then format as month/year
+    const date = parse(`${year}-${month}-01`, 'yyyy-MM-dd', new Date());
+    if (isValid(date)) {
+      return format(date, 'MMMM yyyy');
+    }
+    return '';
+  }
+
+  // Handle legacy formats that might still exist (YYYY-MM-XX or YYYY-XX-XX)
+  // These shouldn't occur with monthYearOnly, but handle for backward compatibility
+  if (/^\d{4}-XX-XX$/.test(rawDate)) {
+    return rawDate.split('-')[0];
+  }
+
+  if (/^\d{4}-\d{2}-XX$/.test(rawDate)) {
+    const [year, month] = rawDate.split('-');
+    const monthNum = parseInt(month, 10);
+    if (monthNum >= 1 && monthNum <= 12) {
+      const date = parse(`${year}-${month}-01`, 'yyyy-MM-dd', new Date());
+      if (isValid(date)) {
+        return format(date, 'MMMM yyyy');
+      }
+    }
+    return '';
+  }
+
+  // Handle full date format (YYYY-MM-DD) - fallback for any other format
   const date = safeFnsDate(rawDate);
   if (!date) return '';
   return format(date, 'MMMM yyyy');
@@ -192,30 +233,6 @@ export const isValidYear = (err, fieldData) => {
   if (!platformIsValidYear(fieldData)) {
     err.addError('Please enter a valid year');
   }
-};
-
-/**
- * Validate partial date (year or year-month)
- * Enhanced version of platform utility to handle our specific formats
- * @param {string} dateString - Partial date string
- * @returns {boolean} True if valid
- */
-export const isValidPartialDate = dateString => {
-  if (!dateString) return false;
-
-  // Check if it's just a year
-  if (/^\d{4}$/.test(dateString)) {
-    const year = parseInt(dateString, 10);
-    return (
-      !Number.isNaN(year) && year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR
-    );
-  }
-
-  // Check if it's year-month
-  const date = parse(dateString, PARTIAL_DATE_FORMAT, new Date());
-  if (!isValid(date)) return false;
-  const year = getYear(date);
-  return year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR;
 };
 
 /**

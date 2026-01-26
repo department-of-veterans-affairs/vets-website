@@ -120,7 +120,7 @@ const LandingPage = () => {
         </p>
       </section>
 
-      <CernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
+      <CernerFacilityAlert {...CernerAlertContent.MEDICAL_RECORDS} />
 
       {isLoading && (
         <section>

@@ -24,7 +24,6 @@ import InfoAlert from '../shared/InfoAlert';
 import {
   processList,
   generateTextFile,
-  asyncErrorForUnequalBirthDates,
   itemListWrapper,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
@@ -57,11 +56,6 @@ const ChemHemDetails = props => {
   );
 
   const generateChemHemPdf = async () => {
-    // Test to see if formatDateLong and formatBirthDate return the same value for the user's
-    // date of birth. If not, throw an error that will get picked up by Datadog that indicates
-    // which date is earlier.
-    asyncErrorForUnequalBirthDates(user.dob);
-
     setDownloadStarted(true);
     const { title, subject, subtitles } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject);

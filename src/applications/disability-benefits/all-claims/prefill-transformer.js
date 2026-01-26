@@ -154,6 +154,17 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     return newData;
   };
 
+  const prefillDisabilityCompNewConditionsWorkflow = data => {
+    const newData = _.omit(['disabilityCompNewConditionsWorkflow'], data);
+    const { disabilityCompNewConditionsWorkflow } = data;
+
+    if (disabilityCompNewConditionsWorkflow) {
+      newData.disabilityCompNewConditionsWorkflow = disabilityCompNewConditionsWorkflow;
+    }
+
+    return newData;
+  };
+
   const transformations = [
     prefillRatedDisabilities,
     prefillContactInformation,
@@ -161,6 +172,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     prefillBankInformation,
     prefillStartedFormVersion,
     prefillSyncModern0781Flow,
+    prefillDisabilityCompNewConditionsWorkflow,
   ];
 
   const applyTransformations = (data = {}, transformer) =>

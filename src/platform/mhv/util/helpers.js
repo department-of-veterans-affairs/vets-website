@@ -1,11 +1,9 @@
-import {
-  formatDateLong,
-  focusElement,
-} from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { format } from 'date-fns';
 import * as Sentry from '@sentry/browser';
 import { datadogRum } from '@datadog/browser-rum';
 import { reportGeneratedBy } from './constants';
+import { formatBirthDateLong } from './dateUtil';
 
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
@@ -22,51 +20,6 @@ export const formatName = ({ first, middle, last, suffix }) => {
 };
 
 /**
- * Formats a birth date string. We always expect to get this date in YYYY-MM-DD format. If the
- * string is in a different format, fall back to the original formatDateLong function.
- * @param {string} dateStr - The date string to format
- * @param {function} fallback - The fallback function to call if the format is invalid
- * @returns {string} The formatted date string
- */
-export const formatBirthDate = (dateStr, fallback = formatDateLong) => {
-  // Regex check for YYYY-MM-DD
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-    return fallback(dateStr); // Fall back to a date-handling function
-  }
-
-  const [year, month, day] = dateStr.split('-');
-
-  // Validate month range
-  if (month < '01' || month > '12') {
-    throw new Error('Invalid month in date string');
-  }
-
-  // Validate day range (01–31 only, no per-month/day-of-month checks)
-  if (day < '01' || day > '31') {
-    throw new Error('Invalid day in date string');
-  }
-  const months = {
-    '01': 'January',
-    '02': 'February',
-    '03': 'March',
-    '04': 'April',
-    '05': 'May',
-    '06': 'June',
-    '07': 'July',
-    '08': 'August',
-    '09': 'September',
-    '10': 'October',
-    '11': 'November',
-    '12': 'December',
-  };
-
-  // Strip leading zero from day (e.g. "01" -> "1")
-  const dayNum = day.startsWith('0') ? day.slice(1) : day;
-
-  return `${months[month]} ${dayNum}, ${year}`;
-};
-
-/**
  * @param {Object} user user profile object from redux store (state.user.profile)
  * @param {Object} title title of the doc (displayed at the top of the doc)
  * @param {Object} subject subject of the doc (metadata)
@@ -75,7 +28,12 @@ export const formatBirthDate = (dateStr, fallback = formatDateLong) => {
  */
 export const generatePdfScaffold = (user, title, subject, preface) => {
   const name = formatName(user.userFullName);
-  const dob = formatBirthDate(user.dob);
+  let dob = '';
+  try {
+    dob = formatBirthDateLong(user.dob);
+  } catch (error) {
+    dob = '';
+  }
   const scaffold = {
     headerLeft: name,
     headerRight: `Date of birth: ${dob}`,
@@ -198,12 +156,19 @@ export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
  * If a date of birth is present in the user profile, it returns the formatted date
  * (e.g., "January 1, 1980"). If not, it returns the string "Not found".
  *
+ * Also returns "Not found" if the date is invalid.
+ *
  * @param {Object} userProfile - The user profile object, typically from Redux state.
  * @param {string} userProfile.dob - The user's date of birth in ISO string format.
  * @returns {string} A formatted date string or "Not found" if the DOB is missing.
  */
 export const formatUserDob = userProfile => {
-  return userProfile?.dob ? formatBirthDate(userProfile.dob) : 'Not found';
+  if (!userProfile?.dob) return 'Not found';
+  try {
+    return formatBirthDateLong(userProfile.dob);
+  } catch (error) {
+    return 'Not found';
+  }
 };
 
 /**

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-
 import Modals from '../../combined/components/Modals';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
@@ -11,23 +9,20 @@ import StatementCharges from '../components/StatementCharges';
 import HTMLStatementList from '../components/HTMLStatementList';
 import StatementAddresses from '../components/StatementAddresses';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-
 import {
+  showVHAPaymentHistory,
   formatDate,
   verifyCurrentBalance,
   setPageFocus,
 } from '../../combined/utils/helpers';
+
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import CopayAlertContainer from '../components/CopayAlertContainer';
 
 const DetailCopayPage = ({ match }) => {
   const [alert, setAlert] = useState('status');
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
-  );
-  const showCDPOneThingPerPage = useToggleValue(
-    TOGGLE_NAMES.showCDPOneThingPerPage,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
 
   // Get the selected copay statement ID from the URL
@@ -161,7 +156,7 @@ const DetailCopayPage = ({ match }) => {
         </div>
         <div className="vads-u-margin-y--4">
           {/* Show VHA Lighthouse data | or Current CDW Statement */}
-          {showVHAPaymentHistory ? (
+          {shouldShowVHAPaymentHistory ? (
             <StatementTable
               charges={charges}
               formatCurrency={formatCurrency}
@@ -171,7 +166,6 @@ const DetailCopayPage = ({ match }) => {
             <StatementCharges
               copay={selectedCopay}
               showCurrentStatementHeader
-              showOneThingPerPage={showCDPOneThingPerPage}
             />
           )}
           <DownloadStatement
@@ -181,10 +175,7 @@ const DetailCopayPage = ({ match }) => {
             fullName={fullName}
           />
         </div>
-        <HTMLStatementList
-          selectedId={selectedId}
-          oneThingPerPageActive={showCDPOneThingPerPage}
-        />
+        <HTMLStatementList selectedId={selectedId} />
         <StatementAddresses
           data-testid="statement-addresses"
           copay={selectedCopay}

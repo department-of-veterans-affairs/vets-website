@@ -34,6 +34,18 @@ export const whatAreAssets = (
 );
 
 /**
+ * Returns the net worth description text based on feature flag
+ * @param {boolean} featureFlag - vaDependentsNetWorthAndPension feature flag
+ * @returns {string} Net worth description text
+ */
+export const netWorthDescription = (featureFlag = false) => {
+  if (featureFlag) {
+    return 'Because you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets, your annual income, and the assets and income of your dependents (including your spouse if you are married).';
+  }
+  return "If you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets and your annual income. If you're married, include the value of your spouse's assets and annual income too.";
+};
+
+/**
  * @typedef {object} StudentNetworthTitleProps
  * @property {number|string} netWorthLimit - Net worth limit value
  * @property {boolean} featureFlag - Feature flag for formatted net worth
@@ -42,14 +54,17 @@ export const whatAreAssets = (
  * @returns {string} Net worth title
  */
 export const netWorthTitle = ({ netWorthLimit, featureFlag } = {}) => {
-  if (!featureFlag) {
-    return `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`;
-  }
-
   const number = netWorthLimit || NETWORTH_VALUE;
   const formattedNumber = parseInt(
     `${number}`.replace(/,/g, ''),
     10,
   ).toLocaleString('en-US');
+
+  if (!featureFlag) {
+    // If va_dependents_net_worth_and_pension FF is off, show "greater than" wording
+    return `Did your household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`;
+  }
+
+  // If va_dependents_net_worth_and_pension FF is on, show "less than" wording (value gets flipped for RBPS submission)
   return `Did your household have a net worth less than $${formattedNumber} in the last tax year?`;
 };

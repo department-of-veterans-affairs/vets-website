@@ -12,31 +12,15 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
-  recipientTypeLabels,
   typeOfIncomeLabels,
+  incomeRecipientTypeLabels,
 } from '../../../../utils/labels';
-
-const {
-  SURVIVING_SPOUSE,
-  VETERANS_CHILD,
-  CUSTODIAN,
-  CUSTODIAN_SPOUSE,
-} = recipientTypeLabels;
-
-// specific income recipient labels for gross income per figma design
-export const incomeRecipients = {
-  SURVIVING_SPOUSE,
-  VETERANS_CHILD,
-  CUSTODIAN,
-  CUSTODIAN_SPOUSE,
-};
 
 const grossDescription = () => (
   <div>
     <p>
-      Next we’ll ask you the gross monthly income you, your spouse, and your
-      dependents receive. You’ll need to add at least 1 income source and can
-      add up to 4.
+      Next we’ll ask you the gross monthly income you and your dependents
+      receive. You’ll need to add at least 1 income source and can add up to 4.
     </p>
 
     <p>
@@ -53,15 +37,15 @@ const whatWeConsiderIncome = () => (
   <va-additional-info trigger="What we consider income">
     <p>
       Your income is how much you earn. It includes your Social Security
-      benefits, investment and retirement payments, and any income your spouse
-      and dependents receive.
+      benefits, investment and retirement payments, and any income your
+      dependents receive.
     </p>
   </va-additional-info>
 );
 
 /** Array builder options for income sources */
 export const options = {
-  arrayPath: 'incomeSources',
+  arrayPath: 'incomeEntries',
   nounSingular: 'Income source',
   nounPlural: 'Income sources',
   maxItems: 4,
@@ -98,11 +82,11 @@ export const options = {
     ),
     // headline for each card: use the selected type of income label
     getItemName: item =>
-      (item && item.typeOfIncome && typeOfIncomeLabels[item.typeOfIncome]) ||
+      (item && item.incomeType && typeOfIncomeLabels[item.incomeType]) ||
       'Income source',
     // description shown under the card title: show monthly amount if present
     cardDescription: item =>
-      item?.amount ? `$${item.amount}` : 'Monthly amount',
+      item?.monthlyIncome ? `$${item.monthlyIncome}` : 'Monthly amount',
     // summary page heading
     summaryTitle: 'Review gross monthly income',
     // yes/no question text on summary page
@@ -117,7 +101,7 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
     grossMonthlyIncome: pageBuilder.introPage({
       title: 'Gross monthly income',
       path: 'financial-information/gross-monthly-income',
-      depends: formData => formData?.claims?.survivorPension === true,
+      depends: formData => formData?.claims?.survivorsPension === true,
       uiSchema: {
         ...titleUI('Gross monthly income', grossDescription),
         'ui:description': whatWeConsiderIncome,
@@ -130,7 +114,7 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
     addIncomeSource: pageBuilder.summaryPage({
       title: 'Add income source',
       path: 'financial-information/add-income-source',
-      depends: formData => formData?.claims?.survivorPension === true,
+      depends: formData => formData?.claims?.survivorsPension === true,
       uiSchema: {
         ...titleUI('Add an income source'),
         'view:hasMonthlyIncomeSource': arrayBuilderYesNoUI(
@@ -157,34 +141,38 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
     monthlyIncomeDetails: pageBuilder.itemPage({
       title: 'Gross monthly income details',
       path: 'financial-information/:index/monthly-income-details',
-      depends: formData => formData?.claims?.survivorPension === true,
+      depends: formData => formData?.claims?.survivorsPension === true,
       uiSchema: {
         ...titleUI('Gross monthly income details'),
-        whoReceives: radioUI({
+        recipient: radioUI({
           title: 'Who receives this income?',
-          labels: incomeRecipients,
+          labels: incomeRecipientTypeLabels,
         }),
-        // fullName: textUI({
-        //   title: 'Full name of the person who receives this income',
-        //   expandUnder: 'whoReceives',
-        //   expandUnderCondition: field => field === 'OTHER',
-        //   required: formData => formData?.whoReceives === 'OTHER',
-        // }),
-        typeOfIncome: radioUI({
+        recipientName: textUI({
+          title: 'Full name of the person who receives this income',
+          expandUnder: 'recipient',
+          expandUnderCondition: field => field === 'CHILD',
+          required: (formData, index, fullData) => {
+            const items = formData?.incomeEntries ?? fullData?.incomeEntries;
+            const item = items?.[index];
+            return item?.recipient === 'CHILD';
+          },
+        }),
+        incomeType: radioUI({
           title: 'What type of income?',
           labels: typeOfIncomeLabels,
         }),
-        otherTypeExplanation: textUI({
+        incomeTypeOther: textUI({
           title: 'Tell us the type of income',
-          expandUnder: 'typeOfIncome',
+          expandUnder: 'incomeType',
           expandUnderCondition: field => field === 'OTHER',
           required: (formData, index, fullData) => {
-            const items = formData?.incomeSources ?? fullData?.incomeSources;
+            const items = formData?.incomeEntries ?? fullData?.incomeEntries;
             const item = items?.[index];
-            return item?.typeOfIncome === 'OTHER';
+            return item?.incomeType === 'OTHER';
           },
         }),
-        payer: {
+        incomePayer: {
           'ui:title': 'Who pays this income?',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
@@ -193,18 +181,18 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
             classNames: 'vads-u-margin-bottom--2',
           },
         },
-        amount: currencyUI('How much is the monthly income?'),
+        monthlyIncome: currencyUI('How much is the monthly income?'),
       },
       schema: {
         type: 'object',
-        required: ['whoReceives', 'typeOfIncome', 'payer', 'amount'],
+        required: ['recipient', 'incomeType', 'incomePayer', 'monthlyIncome'],
         properties: {
-          whoReceives: radioSchema(Object.keys(incomeRecipients)),
-          // fullName: { type: 'string' },
-          typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
-          payer: { type: 'string' },
-          otherTypeExplanation: { type: 'string' },
-          amount: currencySchema,
+          recipient: radioSchema(Object.keys(incomeRecipientTypeLabels)),
+          recipientName: { type: 'string' },
+          incomeType: radioSchema(Object.keys(typeOfIncomeLabels)),
+          incomePayer: { type: 'string' },
+          incomeTypeOther: { type: 'string' },
+          monthlyIncome: currencySchema,
         },
       },
     }),

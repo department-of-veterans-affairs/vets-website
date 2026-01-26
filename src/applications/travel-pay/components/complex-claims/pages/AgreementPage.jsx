@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import useSetFocus from '../../../hooks/useSetFocus';
+import useRecordPageview from '../../../hooks/useRecordPageview';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import { submitComplexClaim } from '../../../redux/actions';
@@ -19,6 +22,12 @@ const AgreementPage = () => {
   const { isSubmitting } = useSelector(selectComplexClaimSubmissionState);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
   const [isAgreementError, setIsAgreementError] = useState(false);
+
+  const title = 'Beneficiary travel agreement';
+
+  useSetPageTitle(title);
+  useSetFocus();
+  useRecordPageview('complex-claims', title);
 
   const onSubmit = async () => {
     setIsAgreementError(!isAgreementChecked);
@@ -44,7 +53,7 @@ const AgreementPage = () => {
 
   return (
     <>
-      <h1>Beneficiary travel agreement</h1>
+      <h1>{title}</h1>
       <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-display--inline">
         Penalty statement:
       </p>{' '}
@@ -54,7 +63,7 @@ const AgreementPage = () => {
         fraudulent claim.
       </p>
       <p>
-        By submitting this claim, you agree to the beneficiary travel agreement.
+        By submitting this claim, you agree to the beneficiary travel agreement:
       </p>
       <TravelAgreementContent />
       <VaCheckbox

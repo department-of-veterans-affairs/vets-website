@@ -252,6 +252,7 @@ const acceleratedCernerUser = {
         'vet360',
         'medical-records',
         'messaging',
+        'rx',
       ],
       account: {
         accountUuid: '9b8a5a1f-d99f-4e03-9b43-4c689f3e4f00',

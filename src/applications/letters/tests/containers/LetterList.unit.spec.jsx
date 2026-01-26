@@ -358,6 +358,9 @@ describe('<LetterList>', () => {
   });
 
   describe('TSA letter', () => {
+    const accordionItemText =
+      'The TSA PreCheck Application Fee Waiver Letter shows you’re eligible for free enrollment in Transportation Security Administration (TSA) PreCheck.';
+
     it('does not fetch TSA letter if feature flag is disabled', () => {
       render(
         <Provider store={getStore()}>
@@ -367,6 +370,17 @@ describe('<LetterList>', () => {
         </Provider>,
       );
       expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
+    });
+
+    it('does not render accordion item', () => {
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(queryByText(accordionItemText)).to.be.null;
     });
 
     it('fetches TSA letter if feature flag is enabled', () => {
@@ -482,6 +496,27 @@ describe('<LetterList>', () => {
         `You don't have any benefit letters or documents available.`,
       );
       expect(unavailableHeading).to.not.exist;
+    });
+
+    it('renders accordion item', async () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          documentId: '123',
+          error: false,
+          loading: true,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { getByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(getByText(accordionItemText)).to.exist;
     });
   });
 });

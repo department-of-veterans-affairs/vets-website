@@ -78,7 +78,7 @@ describe('ServiceType', () => {
         </Provider>,
       );
 
-      expectOptions(screen, 20, healthServices);
+      expectOptions(screen, 19, healthServices);
       const dropdown = screen.getByTestId('service-type');
       expect(dropdown.classList.contains('service-type-dropdown-desktop')).to.be
         .true;

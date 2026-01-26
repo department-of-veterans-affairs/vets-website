@@ -1,16 +1,164 @@
 {
+  "debt-selection": {
+    "submitted-note": "Note: This debt has already been disputed on {{ date }} and cannot be disputed again. It can take up to 60 days to process."
+  },
   "dispute-submission-alert": {
     "title": "Your dispute submission is in progress",
-    "description": "An email confirmation has been sent to <bold>{{ email }}</bold>. You should also receive a confirmation letter in the mail within 60 days. We expect to issue a decision within 180 days and will notify you of the outcome in a follow-up letter."
+    "description": "We sent a confirmation email to <bold>{{ email }}</bold>. We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.<br/><br/> We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
   },
   "dispute-submitted-whats-next": {
     "first-action": {
-      "header": "We’ll confirm when we processed your request",
-      "description": "After we receive your submission, we’ll review your dispute. You should receive a confirmation letter by mail within 60 days."
+      "number": "1",
+      "header": "We’ll confirm when we processed your dispute",
+      "description": "After we receive your submission, we’ll review your dispute. You should receive a confirmation letter in the mail within 60 days."
     },
     "second-action": {
+      "number": "2",
       "header": "We’ll review your dispute",
-      "description": "A decision is normally made within 180 days.  We will send you a letter with the outcome."
+      "description": "We expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
+    }
+  },
+  "sip-options": {
+    "start-text": "Start your dispute",
+    "unauth-start-text": "Sign in or create an account",
+    "retention-period": "60 days"
+  },
+  "form-intro": {
+    "title": "Dispute your VA debt",
+    "info": {
+      "about-form": "Use this form if you’d like to dispute all or part of the debt.",
+      "before-form": "What to know before you fill out this form",
+      "form-usage": "Right now, you can only use this form to dispute debts from benefit overpayments. You can’t use it to dispute copay bills atthis time.",
+      "dispute-charges-link": "Learn how to dispute copay bills",
+      "payments-note": "You may need to make payments on your debt while we review your dispute."
+    },
+    "alert": {
+      "title": "We’re sorry. This application is unavailable.",
+      "description": "We are currently working on this application",
+      "link": "Go back to VA.gov"
+    }
+  },
+  "downtime-notification-app-title": "dispute debt system",
+  "loading-indicator": {
+    "label": "Loading",
+    "message": "Loading application..."
+  },
+  "shared": {
+    "contact": {
+      "title": "How to contact us if you have questions",
+      "main-phone": {
+        "number": "1-800-827-1000",
+        "tel": "18008271000"
+      },
+      "tty": {
+        "number": "711",
+        "tel": "711"
+      },
+      "call-us": {
+        "prefix": "Call us at ",
+        "suffix": ". We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET."
+      },
+      "ask-va-text": "Or you can ask us a question online through Ask VA. Select the category and topic for the VA benefit this form is related to.",
+      "ask-va-link": {
+        "text": "Contact us online through Ask VA",
+        "url": "https://ask.va.gov/"
+      }
+    },
+    "need-help": {
+      "title": "Need help?",
+      "my-v411": {
+        "prefix": "If you have trouble using this online form, call our MyVA411 main information line at ",
+        "phone": {
+          "number": "800-698-2411",
+          "tel": "18006982411"
+        },
+        "tty": {
+          "number": "711",
+          "tel": "711"
+        }
+      },
+      "accredited-rep": {
+        "text": "If you need help to gather your information or fill out your form, contact an accredited representative or VSO.",
+        "link": {
+          "text": "Get help filling out your form",
+          "url": "https://www.va.gov/vso/"
+        }
+      },
+      "overpayments": {
+        "prefix": "If you have questions about your benefit overpayments, call us at ",
+        "phone": {
+          "number": "800-827-0648",
+          "tel": "18008270648"
+        },
+        "alt-phone": {
+          "number": "+1-612-713-6415",
+          "tel": "+16127136415"
+        },
+        "suffix": " from overseas). We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET."
+      },
+      "copay": {
+        "prefix": "If you have questions about your copay bills, call us at ",
+        "phone": {
+          "number": "866-400-1238",
+          "tel": "18664001238"
+        },
+        "suffix": ". We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET."
+      }
+    }
+  },
+  "pdf": {
+    "document-meta": {
+      "author": "U.S. Department of Veterans Affairs",
+      "dmc-subject": "Debt dispute from VA.gov",
+      "vet-subject": "Dispute your VA debt",
+      "title": "Debt Dispute",
+      "lang": "en-US"
+    },
+    "dmc-page-title": "Debt dispute from VA.gov",
+    "vet-page-title": "Dispute your VA debt",
+    "logo-alt": "VA U.S Department of Veteran Affairs",
+    "footer": {
+      "left": "VA.gov",
+      "right": "Page %PAGE_NUMBER% of %TOTAL_PAGES%"
+    },
+    "dmc-routing-title": {
+      "use-comp-and-pen-title": "DMC routing: C&P Dispute",
+      "use-education-title": "DMC routing: Education Dispute"
+    },
+    "submission": {
+      "type-header": "Submission type",
+      "dmc-title": "Submission details",
+      "vet-title": "Form submitted on {{date}}",
+      "text": "We’ll send you a confirmation letter in the mail once we’ve processed your dispute. You should receive that letter within 60 days.\n\nWe expect to make a decision on your dispute within 180 days. We’ll notify you of the outcome with a letter in the mail."
+    },
+    "section-headings": {
+      "information-submitted": "Information submitted on this dispute",
+      "personal-info": "Veteran's personal information",
+      "identification-info": "Veteran's identification information",
+      "mailing-address": "Veteran's mailing address",
+      "contact-info": "Veteran's contact information",
+      "what-to-expect": "What to expect"
+    },
+    "labels": {
+      "first-name": "First name",
+      "middle-name": "Middle name",
+      "last-name": "Last name",
+      "suffix": "Suffix",
+      "dob": "Date of birth",
+      "ssn": "Social Security number",
+      "file-number": "File number",
+      "country": "Country",
+      "street-address": "Street address",
+      "city": "City",
+      "state": "State",
+      "postal-code": "Postal code",
+      "phone": "Phone number",
+      "email": "Email",
+      "dispute-reason": "Dispute reason",
+      "dispute-statement": "Dispute statement",
+      "rcvbl-id": "Receivable ID",
+      "date": "Date: ",
+      "time": "Time: "
     }
   }
 }

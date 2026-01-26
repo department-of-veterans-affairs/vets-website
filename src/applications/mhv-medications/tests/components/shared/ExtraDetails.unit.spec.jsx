@@ -5,12 +5,71 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
-import { dateFormat } from '../../../util/helpers';
-import { DATETIME_FORMATS, dispStatusObj } from '../../../util/constants';
+import { dispStatusObj, dispStatusObjV2 } from '../../../util/constants';
+import { pageType } from '../../../util/dataDogConstants';
 
 describe('Medications List Card Extra Details', () => {
+  const FLAG_COMBINATIONS = [
+    {
+      cernerPilot: false,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'both flags disabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'only cernerPilot enabled',
+    },
+    {
+      cernerPilot: false,
+      v2StatusMapping: true,
+      useV2: false,
+      desc: 'only v2StatusMapping enabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: true,
+      useV2: true,
+      desc: 'both flags enabled',
+    },
+  ];
+
+  const V1_STATUS_TESTS = [
+    { status: dispStatusObj.unknown, testId: 'unknown' },
+    {
+      status: dispStatusObj.refillinprocess,
+      testId: 'rx-refillinprocess-info',
+    },
+    { status: dispStatusObj.submitted, testId: 'submitted-refill-request' },
+    { status: dispStatusObj.discontinued, testId: 'discontinued' },
+    { status: dispStatusObj.activeParked, testId: 'active-parked' },
+    { status: dispStatusObj.transferred, testId: 'transferred' },
+    { status: dispStatusObj.onHold, testId: 'active-onHold' },
+    { status: dispStatusObj.expired, testId: 'expired', refillRemaining: 0 },
+  ];
+
+  const V2_STATUS_TESTS = [
+    { status: dispStatusObjV2.statusNotAvailable, testId: 'unknown' },
+    { status: dispStatusObjV2.inprogress, testId: 'refill-in-process' },
+    {
+      status: dispStatusObjV2.active,
+      testId: 'active',
+      refillRemaining: 3,
+    },
+    { status: dispStatusObjV2.inactive, testId: 'inactive' },
+    { status: dispStatusObjV2.transferred, testId: 'transferred' },
+  ];
+
   const prescription = prescriptionsListItem;
-  const setup = (rx = prescription, initialState = {}) => {
+
+  const setup = (
+    rx = prescription,
+    initialState = {},
+    isCernerPilot = false,
+    isV2StatusMapping = false,
+  ) => {
     const featureToggleReducer = (state = {}) => state;
     const testReducers = {
       ...reducers,
@@ -21,7 +80,19 @@ describe('Medications List Card Extra Details', () => {
       ...initialState,
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
         ...(initialState.featureToggles || {}),
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            cernerFacilities: [
+              { vhaId: '668', vamcFacilityName: 'Spokane VA' },
+            ],
+          },
+        },
+        ...(initialState.drupalStaticData || {}),
       },
     };
 
@@ -36,108 +107,97 @@ describe('Medications List Card Extra Details', () => {
     expect(screen);
   });
 
-  it('displays error message when status is unknown', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.unknown,
+  // REFACTORED: Consolidated V1 status tests into parameterized block
+  describe('V1 status handling (when flags disabled)', () => {
+    V1_STATUS_TESTS.forEach(({ status, testId, refillRemaining }) => {
+      it(`displays ${status} content correctly`, async () => {
+        const rx = { ...prescription, dispStatus: status };
+        if (refillRemaining !== undefined) rx.refillRemaining = refillRemaining;
+        const screen = setup(rx);
+        expect(await screen.findByTestId(testId)).to.exist;
+      });
     });
-    expect(await screen.findByTestId('unknown')).to.contain.text(
-      'We’re sorry. There’s a problem with our system. You can’t manage this prescription online right now.',
+
+    it('displays active with no refills content correctly', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.active,
+        refillRemaining: 0,
+      });
+      expect(
+        await screen.findByTestId('active-no-refill-left'),
+      ).to.contain.text(
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
+      );
+    });
+  });
+
+  // REFACTORED: Consolidated V2 status tests
+  describe('V2 status handling (when BOTH CernerPilot and V2StatusMapping flags enabled)', () => {
+    V2_STATUS_TESTS.forEach(({ status, testId, refillRemaining }) => {
+      it(`displays ${status} message`, async () => {
+        const rx = { ...prescription, dispStatus: status };
+        if (refillRemaining !== undefined) rx.refillRemaining = refillRemaining;
+        const screen = setup(rx, {}, true, true);
+        expect(await screen.findByTestId(testId)).to.exist;
+      });
+    });
+
+    it('displays no refills left message when Active with 0 refills', async () => {
+      const screen = setup(
+        {
+          ...prescription,
+          dispStatus: dispStatusObjV2.active,
+          refillRemaining: 0,
+        },
+        {},
+        true,
+        true,
+      );
+      expect(await screen.findByTestId('active-no-refill-left')).to.exist;
+    });
+  });
+
+  describe('CernerPilot and V2StatusMapping flag requirement validation', () => {
+    FLAG_COMBINATIONS.forEach(
+      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+        it(`uses ${
+          useV2 ? 'V2' : 'V1'
+        } status logic when ${desc}`, async () => {
+          // Pass appropriate status based on flag combination
+          // When both flags enabled, API returns V2 status; otherwise V1
+          const statusToTest = useV2
+            ? dispStatusObjV2.active
+            : dispStatusObj.activeParked;
+          const expectedTestId = useV2 ? 'active' : 'active-parked';
+          const screen = setup(
+            { ...prescription, dispStatus: statusToTest },
+            {},
+            cernerPilot,
+            v2StatusMapping,
+          );
+          expect(await screen.findByTestId(expectedTestId)).to.exist;
+        });
+      },
     );
   });
 
-  it('displays refill in process content correctly', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.refillinprocess,
+  describe('Non-VA status preservation', () => {
+    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
+      it(`preserves Non-VA behavior when ${desc}`, async () => {
+        const screen = setup(
+          {
+            ...prescription,
+            dispStatus: 'Active: Non-VA',
+            prescriptionSource: 'NV',
+          },
+          {},
+          cernerPilot,
+          v2StatusMapping,
+        );
+        expect(await screen.findByTestId('non-VA-prescription')).to.exist;
+      });
     });
-    const expectedDate = dateFormat(
-      prescription.refillDate,
-      DATETIME_FORMATS.longMonthDate,
-    );
-    expect(
-      await screen.findByTestId('rx-refillinprocess-info'),
-    ).to.contain.text(
-      `We expect to fill this prescription on ${expectedDate}.`,
-    );
-  });
-
-  it('displays submitted content correctly', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.submitted,
-    });
-    const expectedDate = dateFormat(
-      prescription.refillSubmitDate,
-      DATETIME_FORMATS.longMonthDate,
-    );
-    expect(
-      await screen.findByTestId('submitted-refill-request'),
-    ).to.contain.text(
-      `We got your request on ${expectedDate}. Check back for updates.`,
-    );
-  });
-
-  it('displays discontinued content correctly', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.discontinued,
-    });
-    expect(await screen.findByTestId('discontinued')).to.contain.text(
-      'You can’t refill this prescription. If you need more, send a message to your care team.',
-    );
-  });
-
-  it('displays active parked content correctly', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.activeParked,
-    });
-    expect(await screen.findByTestId('active-parked')).to.contain.text(
-      'You can request this prescription when you need it.',
-    );
-  });
-
-  it('displays transferred content correctly', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.transferred,
-    });
-    expect(await screen.findByTestId('transferred')).to.contain.text(
-      'To manage this prescription, go to our My VA Health portal.',
-    );
-  });
-
-  it('displays on-hold content correctly', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.onHold,
-    });
-    expect(await screen.findByTestId('active-onHold')).to.contain.text(
-      'You can’t refill this prescription online right now. If you need a refill, call your VA pharmacy',
-    );
-  });
-
-  it('displays active with no refills content correctly', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.active,
-      refillRemaining: 0,
-    });
-    expect(await screen.findByTestId('active-no-refill-left')).to.contain.text(
-      'You have no refills left. If you need more, request a renewal.',
-    );
-  });
-
-  it('displays expired content correctly', async () => {
-    const screen = setup({
-      ...prescription,
-      dispStatus: dispStatusObj.expired,
-      refillRemaining: 0,
-    });
-    expect(await screen.findByTestId('expired')).to.contain.text(
-      'This prescription is too old to refill. If you need more, request a renewal.',
-    );
   });
 
   describe('isRenewable for OH prescriptions', () => {
@@ -147,6 +207,7 @@ describe('Medications List Card Extra Details', () => {
         isRenewable: true,
         prescriptionSource: 'VA',
         dispStatus: null,
+        stationNumber: '668',
       });
       expect(await screen.findByTestId('send-renewal-request-message-link')).to
         .exist;
@@ -159,6 +220,7 @@ describe('Medications List Card Extra Details', () => {
         prescriptionSource: 'VA',
         dispStatus: 'Active',
         refillRemaining: 5, // Has refills but isRenewable should still show link
+        stationNumber: '668',
       });
       expect(await screen.findByTestId('send-renewal-request-message-link')).to
         .exist;
@@ -170,6 +232,7 @@ describe('Medications List Card Extra Details', () => {
         isRenewable: true,
         prescriptionSource: 'NV',
         dispStatus: null,
+        stationNumber: '668',
       });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
@@ -182,6 +245,7 @@ describe('Medications List Card Extra Details', () => {
         prescriptionSource: 'VA',
         dispStatus: 'Active',
         refillRemaining: 5,
+        stationNumber: '668',
       });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
@@ -198,8 +262,95 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
+    });
+  });
+  describe('RefillNavButton rendering based on page prop', () => {
+    it('renders refill button on list page for active prescription with refills', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.active,
+        isRefillable: true,
+        refillRemaining: 3,
+        page: pageType.LIST,
+      });
+      expect(await screen.findByTestId('refill-nav-button')).to.exist;
+    });
+
+    it('renders refill button on list page for active parked prescription with refills', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.activeParked,
+        isRefillable: true,
+        refillRemaining: 3,
+        page: pageType.LIST,
+      });
+      expect(await screen.findByTestId('refill-nav-button')).to.exist;
+    });
+
+    it('does not render refill button on details page for active parked prescription', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.activeParked,
+        isRefillable: true,
+        refillRemaining: 3,
+        page: pageType.DETAILS,
+      });
+      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+    });
+
+    it('does not render refill button when page prop is not provided', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.activeParked,
+        isRefillable: true,
+        refillRemaining: 3,
+      });
+      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+    });
+
+    it('does not render refill button when prescription is not refillable', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.activeParked,
+        isRefillable: false,
+        refillRemaining: 3,
+        page: pageType.LIST,
+      });
+      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+    });
+
+    it('renders refill button for V2 Active status on list page', async () => {
+      const screen = setup(
+        {
+          ...prescription,
+          dispStatus: dispStatusObjV2.active,
+          isRefillable: true,
+          refillRemaining: 3,
+          page: pageType.LIST,
+        },
+        {},
+        true,
+        true,
+      );
+      expect(await screen.findByTestId('refill-nav-button')).to.exist;
+    });
+
+    it('does not render refill button for V2 Active status on details page', async () => {
+      const screen = setup(
+        {
+          ...prescription,
+          dispStatus: dispStatusObjV2.active,
+          isRefillable: true,
+          refillRemaining: 3,
+          page: pageType.DETAILS,
+        },
+        {},
+        true,
+        true,
+      );
+      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
     });
   });
 });

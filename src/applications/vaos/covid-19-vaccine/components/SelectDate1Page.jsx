@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
-import CalendarWidget from '../../components/calendar/CalendarWidget';
+import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
 import FormButtons from '../../components/FormButtons';
 import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';

@@ -4,7 +4,7 @@ import {
   CHAMPVA_FAX_NUMBER,
   CHAMPVA_ELIGIBILITY_ADDRESS,
 } from '../../../shared/constants';
-import { APP_URLS } from '../../helpers/appUrls';
+import { APP_URLS } from '../../utils/appUrls';
 
 const NotEnrolledPage = () => (
   <form className="rjsf" noValidate>

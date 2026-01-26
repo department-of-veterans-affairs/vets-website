@@ -20,6 +20,7 @@ import { selectProfileToggles } from '../selectors';
 const LAYOUTS = {
   SIDEBAR: 'sidebar',
   FULL_WIDTH: 'full-width',
+  FULL_WIDTH_AND_BREADCRUMBS: 'full-width-and-breadcrumbs',
 };
 
 // we want to use a different layout for the specific routes
@@ -28,7 +29,18 @@ const LAYOUTS = {
 const getLayout = ({ currentPathname }) => {
   const path = normalizePath(currentPathname);
 
-  const fullWidthPaths = [PROFILE_PATHS.EDIT, PROFILE_PATHS.PROFILE_ROOT];
+  const fullWidthAndBreadcrumbsPaths = [PROFILE_PATHS.PROFILE_ROOT];
+
+  const fullWidthPaths = [
+    PROFILE_PATHS.EDIT,
+    PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
+    PROFILE_PATHS.SCHEDULING_PREF_CONTACT_TIMES,
+    PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
+  ];
+
+  if (fullWidthAndBreadcrumbsPaths.includes(path)) {
+    return LAYOUTS.FULL_WIDTH_AND_BREADCRUMBS;
+  }
 
   // if the current path is in the list of full width paths, use that layout
   if (fullWidthPaths.includes(path)) {
@@ -54,10 +66,14 @@ const ProfileWrapper = ({
   const profileHealthCareSettingsPage = useToggleValue(
     TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
+  const profileHideHealthCareContacts = useToggleValue(
+    TOGGLE_NAMES.profileHideHealthCareContacts,
+  );
 
   const routesForNav = getRoutesForNav({
     profile2Enabled,
     profileHealthCareSettingsPage,
+    profileHideHealthCareContacts,
   });
 
   const layout = useMemo(
@@ -146,7 +162,22 @@ const ProfileWrapper = ({
       )}
 
       {layout === LAYOUTS.FULL_WIDTH && (
-        <ProfileFullWidthContainer profile2Enabled={profile2Enabled}>
+        <ProfileFullWidthContainer
+          profile2Enabled={profile2Enabled}
+          breadcrumbs={false}
+        >
+          <>
+            {children}
+            <ProfilePrivacyPolicy />
+          </>
+        </ProfileFullWidthContainer>
+      )}
+
+      {layout === LAYOUTS.FULL_WIDTH_AND_BREADCRUMBS && (
+        <ProfileFullWidthContainer
+          profile2Enabled={profile2Enabled}
+          breadcrumbs
+        >
           <>
             {children}
             <ProfilePrivacyPolicy />

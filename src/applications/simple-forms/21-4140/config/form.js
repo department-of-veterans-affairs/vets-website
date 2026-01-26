@@ -1,5 +1,4 @@
 // @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -15,6 +14,14 @@ import identificationInformation from '../pages/identificationInformation';
 import address from '../pages/address';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import { employersPages } from '../pages/employers';
+import prefillTransformer from './prefill-transformer';
+import {
+  shouldShowEmploymentSection,
+  shouldShowUnemploymentSection,
+} from '../utils/employment';
+
+import employmentCheck from '../pages/employmentCheck';
+import employed from '../pages/employed';
 import unemployed from '../pages/unemployed';
 import evidence from '../pages/evidence';
 
@@ -27,12 +34,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit,
+  prefillTransformer,
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: 'fullName',
     },
   },
@@ -41,21 +49,6 @@ const formConfig = {
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/disability',
-        label: 'Disability benefits',
-      },
-      {
-        href:
-          '/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140',
-        label: 'Submit Employment Questionnaire',
-      },
-    ],
-    wrapping: true,
-  }),
   formId: VA_FORM_IDS.FORM_21_4140,
   saveInProgress: {
     // messages: {
@@ -77,7 +70,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Section I: Your personal information',
       pages: {
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
@@ -85,16 +78,21 @@ const formConfig = {
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
+      },
+    },
+    identificationInformationChapter: {
+      title: 'Section I: Your identification information',
+      pages: {
         identificationInformation: {
           path: 'identification-information',
-          title: 'Your identification information',
+          title: 'Your identification information Numbers',
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
         },
       },
     },
     mailingInformationChapter: {
-      title: 'Your mailing information',
+      title: 'Section I: Your mailing information',
       pages: {
         address: {
           path: 'address',
@@ -105,7 +103,7 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Your contact information',
+      title: 'Section I: Your contact information',
       pages: {
         phoneAndEmailAddress: {
           path: 'phone-and-email-address',
@@ -115,24 +113,63 @@ const formConfig = {
         },
       },
     },
-    employmentHistoryChapter: {
-      title: 'Your employment history',
-      pages: employersPages,
+    employmentCheckChapter: {
+      title: 'Section I: Employment Confirmation',
+      pages: {
+        employmentCheck: {
+          path: 'employment-check',
+          title: 'Employment in the past 12 months',
+          uiSchema: employmentCheck.uiSchema,
+          schema: employmentCheck.schema,
+          updateFormData: employmentCheck.updateFormData,
+        },
+      },
     },
-    unemployedChapter: {
-      title: 'Unemployed',
+    employmentChapter: {
+      title: 'Section II: Employment information',
+      pages: {
+        ...Object.fromEntries(
+          Object.entries(employersPages).map(([key, page]) => [
+            key,
+            {
+              ...page,
+              depends: formData => {
+                if (!shouldShowEmploymentSection(formData)) {
+                  return false;
+                }
+                if (typeof page.depends === 'function') {
+                  return page.depends(formData);
+                }
+                return true;
+              },
+            },
+          ]),
+        ),
+
+        employed: {
+          path: 'employed',
+          title: 'Employed',
+          uiSchema: employed.uiSchema,
+          schema: employed.schema,
+          depends: shouldShowEmploymentSection,
+        },
+      },
+    },
+    unemploymentChapter: {
+      title: 'Section III: Unemployment information',
       pages: {
         unemployed: {
           path: 'unemployed',
           title: 'Unemployed',
           uiSchema: unemployed.uiSchema,
           schema: unemployed.schema,
-          depends: formData => !formData?.employers?.length,
+          depends: shouldShowUnemploymentSection,
         },
       },
     },
+
     evidenceChapter: {
-      title: 'Evidence',
+      title: 'Supporting documentation',
       pages: {
         evidence: {
           path: 'evidence',

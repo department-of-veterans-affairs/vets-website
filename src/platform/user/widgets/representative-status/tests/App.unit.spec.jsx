@@ -7,8 +7,8 @@ import { CSP_IDS } from '~/platform/user/authentication/constants';
 import {
   createGetHandler,
   jsonResponse,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 
 import App from '../components/App';
 
@@ -53,20 +53,6 @@ describe('App component', () => {
   });
 
   context('authenticated with lighthouse service', () => {
-    const server = setupServer();
-
-    before(() => {
-      server.listen();
-    });
-
-    afterEach(() => {
-      server.resetHandlers();
-    });
-
-    after(() => {
-      server.close();
-    });
-
     it('should render no rep found message when no rep is found', async () => {
       server.use(
         createGetHandler(

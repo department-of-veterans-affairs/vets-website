@@ -1,23 +1,38 @@
+import { isAfter } from 'date-fns';
+
 /**
  * Helper to test if the spouse item is in an incomplete state.
  *
  * The spouse section has a few required fields that are always required, and some that are only required if the spouse does not have the same address, or if they provide support last year.
  *
  * @param {Object} item - The spouse item.
- * @returns {boolean} - Returns true if the required fields are missing.
+ * @returns {boolean} - Returns true if the required fields are missing/invalid.
  */
 export const isItemIncomplete = item => {
   // Always required fields.
+  const firstName = item?.spouseFullName?.first;
+  const lastName = item?.spouseFullName?.last;
+  const dateOfMarriage = item?.dateOfMarriage;
+  const spouseDateOfBirth = item?.spouseDateOfBirth;
   const missingRequiredFields =
-    !item?.spouseFullName?.first ||
-    !item?.spouseFullName?.last ||
+    !firstName ||
+    !lastName ||
     !item?.spouseSocialSecurityNumber ||
-    !item?.spouseDateOfBirth ||
-    !item?.dateOfMarriage ||
+    !spouseDateOfBirth ||
+    !dateOfMarriage ||
     item?.cohabitedLastYear === undefined ||
     item?.sameAddress === undefined;
 
   if (missingRequiredFields) {
+    return true;
+  }
+
+  // identity field validation
+  if (
+    isAfter(new Date(1900, 1, 1), new Date(spouseDateOfBirth)) ||
+    isAfter(new Date(1900, 1, 1), new Date(dateOfMarriage)) ||
+    isAfter(new Date(spouseDateOfBirth), new Date(dateOfMarriage))
+  ) {
     return true;
   }
 

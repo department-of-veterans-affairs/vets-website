@@ -8,12 +8,14 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   selectPatientFacilities,
   selectIsCernerPatient,
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectHoldTimeMessagingUpdate } from '../util/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -57,9 +59,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     },
   } = useSelector(state => state);
 
-  const ccdExtendedFileTypeFlag = useSelector(
-    state => state.featureToggles?.mhv_medical_records_ccd_extended_file_types,
-  );
+  const { ccdExtendedFileTypeFlag, ccdOHFlagEnabled } = useSelector(state => ({
+    ccdExtendedFileTypeFlag:
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
+      ],
+    ccdOHFlagEnabled:
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdOH],
+  }));
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
@@ -85,25 +93,27 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
 
-  // Map facility IDs to facility names
+  // Map facility IDs to facility names, fallback to 'None recorded' if empty
   const vistaFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return [];
+      if (!ehrDataByVhaId) return ['None recorded'];
       const vistaFacilities = facilities.filter(f => !f.isCerner);
-      return vistaFacilities
+      const names = vistaFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
+      return names.length ? names : ['None recorded'];
     },
     [facilities, ehrDataByVhaId],
   );
 
   const ohFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return [];
+      if (!ehrDataByVhaId) return ['None recorded'];
       const ohFacilities = facilities.filter(f => f.isCerner);
-      return ohFacilities
+      const names = ohFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
+      return names.length ? names : ['None recorded'];
     },
     [facilities, ehrDataByVhaId],
   );
@@ -254,66 +264,70 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     sendDataDogAction('Download self-entered health information PDF link');
   };
 
-  if (hasBothDataSources) {
-    return (
-      <div>
-        <VistaAndOHIntroText
-          ohFacilityNames={ohFacilityNames}
-          vistaFacilityNames={vistaFacilityNames}
-        />
-        <VistaAndOHContent
-          vistaFacilityNames={vistaFacilityNames}
-          ohFacilityNames={ohFacilityNames}
-          handleDownloadCCDV2={handleDownloadCCDV2}
-          ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-          failedSeiDomains={failedSeiDomains}
-          getFailedDomainList={getFailedDomainList}
-          lastSuccessfulUpdate={lastSuccessfulUpdate}
-          generatingCCD={generatingCCD}
-          handleDownloadCCD={handleDownloadCCD}
-          handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
-          selfEnteredPdfLoading={selfEnteredPdfLoading}
-          successfulSeiDownload={successfulSeiDownload}
-          activeAlert={activeAlert}
-          accessErrors={accessErrors}
-          ccdError={ccdError}
-          ccdDownloadSuccess={ccdDownloadSuccess}
-          CCDRetryTimestamp={CCDRetryTimestamp}
-          failedBBDomains={failedBBDomains}
-          successfulBBDownload={successfulBBDownload}
-        />
-        <NeedHelpSection />
-      </div>
-    );
+  if (ccdOHFlagEnabled) {
+    if (hasBothDataSources) {
+      return (
+        <div>
+          <VistaAndOHIntroText
+            ohFacilityNames={ohFacilityNames}
+            vistaFacilityNames={vistaFacilityNames}
+            holdTimeMessagingUpdate={holdTimeMessagingUpdate}
+          />
+          <VistaAndOHContent
+            vistaFacilityNames={vistaFacilityNames}
+            ohFacilityNames={ohFacilityNames}
+            handleDownloadCCDV2={handleDownloadCCDV2}
+            ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
+            failedSeiDomains={failedSeiDomains}
+            getFailedDomainList={getFailedDomainList}
+            lastSuccessfulUpdate={lastSuccessfulUpdate}
+            generatingCCD={generatingCCD}
+            handleDownloadCCD={handleDownloadCCD}
+            handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
+            selfEnteredPdfLoading={selfEnteredPdfLoading}
+            successfulSeiDownload={successfulSeiDownload}
+            activeAlert={activeAlert}
+            accessErrors={accessErrors}
+            ccdError={ccdError}
+            ccdDownloadSuccess={ccdDownloadSuccess}
+            CCDRetryTimestamp={CCDRetryTimestamp}
+            failedBBDomains={failedBBDomains}
+            successfulBBDownload={successfulBBDownload}
+          />
+          <NeedHelpSection />
+        </div>
+      );
+    }
+    if (hasOHOnly) {
+      return (
+        <div>
+          <OHOnlyIntroText holdTimeMessagingUpdate={holdTimeMessagingUpdate} />
+          <OHOnlyContent
+            testIdSuffix="OH"
+            ddSuffix="OH"
+            generatingCCD={generatingCCD}
+            handleDownload={handleDownloadCCDV2}
+            ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
+            lastSuccessfulUpdate={lastSuccessfulUpdate}
+            accessErrors={accessErrors}
+            activeAlert={activeAlert}
+            successfulSeiDownload={successfulSeiDownload}
+            failedSeiDomains={failedSeiDomains}
+            ccdDownloadSuccess={ccdDownloadSuccess}
+            ccdError={ccdError}
+            CCDRetryTimestamp={CCDRetryTimestamp}
+          />
+
+          <NeedHelpSection />
+        </div>
+      );
+    }
   }
 
-  if (hasOHOnly) {
-    return (
-      <div>
-        <OHOnlyIntroText />
-        <OHOnlyContent
-          testIdSuffix="OH"
-          ddSuffix="OH"
-          generatingCCD={generatingCCD}
-          handleDownload={handleDownloadCCDV2}
-          ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-          lastSuccessfulUpdate={lastSuccessfulUpdate}
-          accessErrors={accessErrors}
-          activeAlert={activeAlert}
-          successfulSeiDownload={successfulSeiDownload}
-          failedSeiDomains={failedSeiDomains}
-          ccdDownloadSuccess={ccdDownloadSuccess}
-          ccdError={ccdError}
-          CCDRetryTimestamp={CCDRetryTimestamp}
-        />
-
-        <NeedHelpSection />
-      </div>
-    );
-  }
+  // Default case: OH CCD is disabled, *OR* user has only VistA facilities
   return (
     <div>
-      <VistaIntroText />
+      <VistaIntroText holdTimeMessagingUpdate={holdTimeMessagingUpdate} />
       <VistaOnlyContent
         ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
         failedSeiDomains={failedSeiDomains}

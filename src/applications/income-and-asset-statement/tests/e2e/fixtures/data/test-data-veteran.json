@@ -55,7 +55,7 @@
         "view:propertyOrBusinessFormRequestAlert": {},
         "grossMonthlyIncome": 4000,
         "fairMarketValue": 500000,
-        "canBeSold": true,
+        "canBeSold": false,
         "mitigatingCircumstances": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         "recipientRelationship": "VETERAN"
       }

@@ -28,6 +28,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   transformForSubmit,
   trackingPrefix: '21P-0847-substitute-claimant-',
+  hideUnauthedStartLink: true,
   dev: {
     showNavLinks: true,
   },

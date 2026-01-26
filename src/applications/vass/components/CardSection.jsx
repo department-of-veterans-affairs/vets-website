@@ -8,6 +8,7 @@ export default function CardSection({
   textContent,
   heading,
   level = 2,
+  customBodyElement,
   ...props
 }) {
   const Heading = `h${level}`;
@@ -30,11 +31,13 @@ export default function CardSection({
           )}
         </>
       )}
+      {customBodyElement}
     </div>
   );
 }
 
 CardSection.propTypes = {
+  customBodyElement: PropTypes.node,
   dateContent: PropTypes.object,
   heading: PropTypes.string,
   level: PropTypes.number,

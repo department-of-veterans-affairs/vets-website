@@ -114,6 +114,7 @@ export const createMultipleEvidenceSubmissions = (count, overrides = {}) => {
  * @param {string} overrides.originalFileName - Original file name
  * @param {number|null} overrides.trackedItemId - Associated tracked item ID
  * @param {string} overrides.uploadDate - Date the document was uploaded
+ * @param {string} overrides.date - Date for FilesReceived (uses date property)
  * @returns {Object} Supporting document object
  */
 export const createSupportingDocument = ({
@@ -122,12 +123,14 @@ export const createSupportingDocument = ({
   originalFileName = 'document.pdf',
   trackedItemId = null,
   uploadDate = '2025-01-15',
+  date = '2025-01-15',
 } = {}) => ({
   documentId,
   documentTypeLabel,
   originalFileName,
   trackedItemId,
   uploadDate,
+  date,
 });
 
 /**
@@ -159,6 +162,7 @@ export const createMultipleSupportingDocuments = (count, overrides = {}) => {
  * @param {string} overrides.displayName - Display name (determines heading logic via evidenceDictionary)
  * @param {string} overrides.status - Tracked item status
  * @param {string} overrides.requestedDate - Date the item was requested
+ * @param {string|null} overrides.closedDate - Date the item was closed (for NO_LONGER_REQUIRED status)
  * @returns {Object} Tracked item object
  */
 export const createTrackedItem = ({
@@ -166,6 +170,7 @@ export const createTrackedItem = ({
   displayName = 'Medical Records Request',
   status = 'NEEDED_FROM_YOU',
   requestedDate = '2025-05-01',
+  closedDate = null,
 } = {}) => ({
   id,
   status,
@@ -174,7 +179,9 @@ export const createTrackedItem = ({
   suspenseDate: '2050-01-01',
   shortDescription: 'Please provide your medical records.',
   description: '',
-  closedDate: null,
+  closedDate,
+  date: null,
+  documents: [],
   overdue: false,
   receivedDate: null,
   requestedDate,
@@ -210,6 +217,7 @@ export const createMultipleTrackedItems = (count, overrides = {}) => {
  * @param {string|null} overrides.closeDate - Claim close date
  * @param {Array} overrides.evidenceSubmissions - Evidence submissions array
  * @param {Array} overrides.trackedItems - Tracked items
+ * @param {Array} overrides.supportingDocuments - Supporting documents (additional evidence)
  * @param {boolean} overrides.currentPhaseBack - Whether claim moved back to current phase
  * @param {boolean} overrides.decisionLetterSent - Whether decision letter was sent (for closed claims)
  * @param {Object} overrides.previousPhases - Previous phase completion dates (for Recent Activity)
@@ -231,6 +239,7 @@ export const createBenefitsClaim = ({
   evidenceSubmissions = [],
   previousPhases = { phase1CompleteDate: '2025-01-02' },
   status = 'EVIDENCE_GATHERING_REVIEW_DECISION',
+  supportingDocuments = [],
   trackedItems,
 } = {}) => {
   // Commented out properties are part of the claim response but not currently used in the detail
@@ -263,7 +272,7 @@ export const createBenefitsClaim = ({
       status,
       submitterApplicationCode: 'VBMS',
       submitterRoleCode: 'VBA',
-      supportingDocuments: [],
+      supportingDocuments,
       tempJurisdiction: 'Milwaukee',
       trackedItems: trackedItems || [
         {

@@ -30,6 +30,7 @@ import {
   DISABILITY_526_V2_ROOT_URL,
   FORM_STATUS_BDD,
   HOMELESSNESS_TYPES,
+  NEW_CONDITION_OPTION,
   NINE_ELEVEN,
   PAGE_TITLES,
   PTSD_MATCHES,
@@ -397,6 +398,12 @@ export const isBDD = formData => {
   return Boolean(result);
 };
 
+// TODO: Once vetted, drop the feature toggle _and_ drop this obsolete
+// conditionality.
+export const showNewlyBDDPages = formData => {
+  return formData.disability526ExtraBDDPagesEnabled || !isBDD(formData);
+};
+
 export const hasNewPtsdDisability = formData =>
   !isBDD(formData) &&
   isClaimingNew(formData) &&
@@ -595,6 +602,8 @@ export const claimingRated = formData =>
   formData?.ratedDisabilities?.some(d => d['view:selected']);
 
 export const isPlaceholderRated = v => v === 'Rated Disability';
+
+export const isNewConditionOption = v => v === NEW_CONDITION_OPTION;
 
 // TE/POW should only show when there’s at least one *real* condition
 export const hasRealNewOrSecondaryConditions = formData =>

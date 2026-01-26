@@ -53,10 +53,6 @@ const ProcessList = () => {
           </li>
           <li>Accrued Benefits</li>
           <li>Pension benefits for a disabled child</li>
-          <li>
-            Expenses for in-home care, nursing home, or other care facility
-            expenses
-          </li>
         </ul>
         <p>
           You can also upload evidence (supporting documents) to support your
@@ -125,6 +121,7 @@ export const IntroductionPage = props => {
       ) : (
         <SaveInProgressIntro
           headingLevel={2}
+          hideUnauthedStartLink
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}

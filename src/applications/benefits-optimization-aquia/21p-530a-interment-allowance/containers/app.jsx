@@ -3,7 +3,6 @@ import React from 'react';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { SaveInProgress } from '@bio-aquia/shared/components';
 
 import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
 
@@ -20,7 +19,7 @@ import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
  * @param {Object} props.location - React Router location object
  * @param {Object} props.router - React Router instance
  */
-export const App = ({ location, router, children }) => {
+export const App = ({ location, children }) => {
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -45,30 +44,21 @@ export const App = ({ location, router, children }) => {
 
   // Redirect to home if form is disabled
   if (!formEnabled) {
-    window.location.replace('/find-forms/about-form-21p-530a/');
+    window.location.replace('/forms/21p-530a/');
     return null;
   }
 
   // Render normal app if flag is true
   return (
-    <SaveInProgress formConfig={formConfig} location={location} router={router}>
-      <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
-        <RoutedSavableApp
-          formConfig={formConfig}
-          currentLocation={location}
-          router={router}
-        >
-          {children}
-        </RoutedSavableApp>
-      </div>
-    </SaveInProgress>
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
   );
 };
 
 App.propTypes = {
   children: PropTypes.node,
   location: PropTypes.object,
-  router: PropTypes.object,
 };
 
 export default App;

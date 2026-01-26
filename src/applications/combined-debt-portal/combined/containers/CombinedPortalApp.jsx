@@ -7,11 +7,12 @@ import {
 import PropTypes from 'prop-types';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
-import { getStatements } from '../actions/copays';
+import { getStatements, getCopaySummaryPageData } from '../actions/copays';
 import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
   debtLettersShowLettersVBMS,
+  showVHAPaymentHistory,
 } from '../utils/helpers';
 
 const CombinedPortalApp = ({ children }) => {
@@ -37,14 +38,29 @@ const CombinedPortalApp = ({ children }) => {
   const { isPending, isPendingVBMS, isProfileUpdating } = debtLetters;
   const isDebtLoading = isPending || isPendingVBMS || isProfileUpdating;
 
+  const shouldUseLightHouseCopayData = showVHAPaymentHistory(
+    useSelector(state => state),
+  );
+
   useEffect(
     () => {
       if (!profileLoading && userLoggedIn) {
         fetchDebtLetters(dispatch, debtLettersActive);
-        getStatements(dispatch);
+
+        if (shouldUseLightHouseCopayData) {
+          getCopaySummaryPageData(dispatch);
+        } else {
+          getStatements(dispatch);
+        }
       }
     },
-    [debtLettersActive, dispatch, profileLoading, userLoggedIn],
+    [
+      debtLettersActive,
+      dispatch,
+      profileLoading,
+      userLoggedIn,
+      shouldUseLightHouseCopayData,
+    ],
   );
 
   // Authentication!

@@ -87,6 +87,7 @@ const formConfig = {
   // Validates basic name format (letters including accented/international characters,
   // spaces, hyphens, apostrophes, periods) but does NOT require exact match to veteran's name
   preSubmitInfo: {
+    required: true,
     CustomComponent: PreSubmitInfo,
   },
   chapters: {
@@ -108,11 +109,11 @@ const formConfig = {
       },
     },
     employerInformationChapter: {
-      title: 'Employers Information',
+      title: "Employer's Information",
       pages: {
         employerInformation: {
           path: 'employer-information',
-          title: 'Employers Information',
+          title: "Employer's Information",
           uiSchema: employerInformationUiSchema,
           schema: employerInformationSchema,
         },

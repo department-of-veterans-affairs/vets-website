@@ -46,7 +46,7 @@ describe('VAOS helper: getReasonCode', () => {
         isDS: true,
       });
 
-      expect(result.text).to.include('comments:');
+      expect(result.text).to.equal('comments:Test reason for appointment');
     });
 
     it('should truncate DS comments to REASON_MAX_CHARS', () => {

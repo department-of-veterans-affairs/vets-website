@@ -9,7 +9,7 @@ import { useEditOrAddForm } from './useEditOrAddForm';
 import { useDuplicateChecks } from './useDuplicateChecks';
 import { useItemPageGuard } from './useItemPageGuard';
 import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
-import { getArrayUrlSearchParams } from './helpers';
+import * as helpers from './helpers';
 
 /**
  * @param {ArrayBuilderItemPageProps} itemPageProps
@@ -31,7 +31,7 @@ export default function ArrayBuilderItemPage(itemPageProps) {
       currentPath,
     } = arrayBuilderProps;
 
-    const searchParams = getArrayUrlSearchParams();
+    const searchParams = helpers.getArrayUrlSearchParams();
     const isEdit = !!searchParams.get('edit');
     const isAdd = !!searchParams.get('add');
     const isReview = searchParams?.has('review');
@@ -95,6 +95,7 @@ export default function ArrayBuilderItemPage(itemPageProps) {
           formContext={props.formContext}
           getFormData={props.getFormData}
           trackingPrefix={props.trackingPrefix}
+          uploadFile={props.uploadFile}
           onChange={onChange}
           onSubmit={handleSubmit}
         >
@@ -161,20 +162,27 @@ export default function ArrayBuilderItemPage(itemPageProps) {
     name: PropTypes.string.isRequired,
     schema: PropTypes.object.isRequired,
     uiSchema: PropTypes.object.isRequired,
+    NavButtons: PropTypes.func,
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
+    duplicateChecks: PropTypes.shape({
+      // allowDuplicates: PropTypes.bool, // Not enabled in MVP
+      comparisons: PropTypes.arrayOf(PropTypes.string),
+      duplicateModalDescription: PropTypes.func,
+      duplicateModalTitle: PropTypes.func,
+      duplicateModalPrimaryButtonText: PropTypes.func,
+      duplicateModalSecondaryButtonText: PropTypes.func,
+      externalComparisonData: PropTypes.func,
+      itemPathModalChecks: PropTypes.object,
+    }),
     formContext: PropTypes.object,
     formOptions: PropTypes.object,
     fullData: PropTypes.object,
     getFormData: PropTypes.func,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
-    onChange: PropTypes.func,
-    onContinue: PropTypes.func,
-    onReviewPage: PropTypes.bool,
-    onSubmit: PropTypes.func,
     pageContentBeforeButtons: PropTypes.node,
     pagePerItemIndex: PropTypes.string,
     path: PropTypes.string,
@@ -182,17 +190,11 @@ export default function ArrayBuilderItemPage(itemPageProps) {
     setFormData: PropTypes.func,
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
-    NavButtons: PropTypes.func,
-    duplicateChecks: PropTypes.shape({
-      // allowDuplicates: PropTypes.bool, // Not enabled in MVP
-      comparisons: PropTypes.arrayOf(PropTypes.string),
-      duplicateModalTitle: PropTypes.func,
-      duplicateModalPrimaryButtonText: PropTypes.func,
-      duplicateModalSecondaryButtonText: PropTypes.func,
-      duplicateModalDescription: PropTypes.func,
-      externalComparisonData: PropTypes.func,
-      itemPathModalChecks: PropTypes.object,
-    }),
+    uploadFile: PropTypes.func,
+    onChange: PropTypes.func,
+    onContinue: PropTypes.func,
+    onReviewPage: PropTypes.bool,
+    onSubmit: PropTypes.func,
   };
 
   return CustomPage;

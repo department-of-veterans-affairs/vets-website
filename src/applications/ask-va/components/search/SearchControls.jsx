@@ -11,7 +11,7 @@ const SearchControls = props => {
     onSubmit,
     locateUser,
     geolocationInProgress,
-    userLocation,
+    userCoordinates,
     searchQuery,
     geoCodeError,
     searchTitle,
@@ -57,16 +57,16 @@ const SearchControls = props => {
   useEffect(
     () => {
       const getLocation = async () => {
-        if (userLocation && !geoCodeError) {
-          const place = await convertLocation(userLocation);
+        if (userCoordinates.length && !geoCodeError) {
+          const place = await convertLocation(userCoordinates);
           setQueryState(place.place_name);
-          dispatch(setLocationInput(place));
-          await locateUser(userLocation);
+          dispatch(setLocationInput(place.place_name));
+          await locateUser(userCoordinates);
         }
       };
       getLocation();
     },
-    [userLocation],
+    [userCoordinates],
   );
 
   const renderLocationInputField = () => {
@@ -141,7 +141,7 @@ const SearchControls = props => {
 
 function mapStateToProps(state) {
   return {
-    userLocation: state.askVA.currentUserLocation,
+    userCoordinates: state.askVA.currentUserLocation,
     searchQuery: state.askVA.searchLocationInput,
     geolocationInProgress: state.askVA.getLocationInProgress,
     geoCodeError: state.askVA.getLocationError,
@@ -156,7 +156,7 @@ SearchControls.propTypes = {
   searchHint: PropTypes.string,
   searchQuery: PropTypes.string,
   searchTitle: PropTypes.string,
-  userLocation: PropTypes.object,
+  userCoordinates: PropTypes.arrayOf(PropTypes.number),
   onSubmit: PropTypes.func,
 };
 

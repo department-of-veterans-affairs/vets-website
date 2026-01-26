@@ -156,5 +156,10 @@
     "appName": "Dependents Verification How To Verify",
     "rootUrl": "/manage-dependents/dependents-verification-how-to-verify",
     "widgetType": "dependents-verification-how-to-verify"
+  },
+  {
+    "appName": "Submit Employment Questionnaire",
+    "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140 ", 
+    "widgetType": "employment-questionnaire"
   }
 ]

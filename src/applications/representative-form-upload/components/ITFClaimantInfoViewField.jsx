@@ -17,7 +17,7 @@ const ITFClaimantInfoViewField = props => {
       return 'Pension';
     }
     if (benefitType === 'survivor') {
-      return 'Survivor’s Pension and/or Dependency Indemnity Compensation';
+      return 'Survivors pension and/or dependency and indemnity compensation (DIC)';
     }
     return null;
   };
@@ -33,18 +33,15 @@ const ITFClaimantInfoViewField = props => {
     claimantFullName,
     claimantDateOfBirth,
     benefitType,
+    isVeteran,
   } = formData;
 
-  const isDependentClaim =
-    claimantSsn &&
-    claimantFullName?.first &&
-    claimantFullName?.last &&
-    claimantDateOfBirth;
+  const isDependentClaim = isVeteran === 'no';
 
   const veteranDisplay = {
     'First name': veteranFullName.first ? veteranFullName.first : '',
     'Last name': veteranFullName.last ? veteranFullName.last : '',
-    'Social Security Number': veteranSsn ? mask(veteranSsn) : '',
+    'Social Security number': veteranSsn ? mask(veteranSsn) : '',
     'Date of birth': formatDate(veteranDateOfBirth),
     'VA file number': vaFileNumber ? maskVaFileNumber(vaFileNumber) : '',
     'Select the benefit you intend to file a claim for': formatBenefitType(
@@ -56,7 +53,7 @@ const ITFClaimantInfoViewField = props => {
     ? {
         'First name': claimantFullName.first,
         'Last name': claimantFullName.last,
-        'Social Security Number': claimantSsn ? mask(claimantSsn) : '',
+        'Social Security number': claimantSsn ? mask(claimantSsn) : '',
         'Date of birth': formatDate(claimantDateOfBirth),
       }
     : veteranDisplay;
@@ -64,9 +61,9 @@ const ITFClaimantInfoViewField = props => {
   return (
     <div className="form-review-panel-page form-review-panel-page-representative-form-upload">
       <div className="form-review-panel-page-header-row vads-u-justify-content--space-between">
-        <h4 className="vads-u-font-size--h5 vads-u-margin--0">
+        <h5 className="vads-u-font-size--h5 vads-u-margin--0">
           Claimant information
-        </h4>
+        </h5>
         {defaultEditButton()}
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
           {Object.entries(claimantDisplay).map(
@@ -86,9 +83,9 @@ const ITFClaimantInfoViewField = props => {
 
       {isDependentClaim && (
         <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
-          <h4 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--0">
+          <h5 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--0">
             Veteran identification information
-          </h4>
+          </h5>
           <dl className="review vads-u-margin-top--2 vads-u-width--full">
             {Object.entries(veteranDisplay).map(
               ([label, value]) =>
@@ -125,6 +122,7 @@ ITFClaimantInfoViewField.propTypes = {
     }),
     claimantDateOfBirth: PropTypes.string,
     benefitType: PropTypes.string,
+    isVeteran: PropTypes.oneOf(['yes', 'no']),
   }).isRequired,
   defaultEditButton: PropTypes.func,
 };

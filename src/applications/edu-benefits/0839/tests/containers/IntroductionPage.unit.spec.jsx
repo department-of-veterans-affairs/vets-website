@@ -73,17 +73,15 @@ describe('22-0839 <IntroductionPage>', () => {
     );
   });
 
-  it('should render info banner', () => {
+  it('should render info alert', () => {
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    const banner = container.querySelector(
-      'va-banner[data-label="Info banner"]',
-    );
+    const banner = container.querySelector('va-alert');
     expect(banner).to.exist;
-    expect(banner.getAttribute('type')).to.equal('info');
+    expect(banner.getAttribute('status')).to.equal('info');
   });
 
   it('should render the correct section headers', () => {

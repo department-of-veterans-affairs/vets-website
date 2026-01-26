@@ -53,7 +53,7 @@ export function selectDocumentType(fileIndex, docTypeCode) {
     .find('select')
     .should('not.be.disabled')
     .should('be.visible')
-    .wait(100) // Small wait to ensure stability
+    .wait(300) // Small wait to ensure stability
     .select(docTypeCode);
 }
 

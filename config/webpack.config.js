@@ -353,7 +353,19 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'sass-loader',
-              options: { sourceMap: true },
+              options: {
+                sourceMap: true,
+                sassOptions: {
+                  silenceDeprecations: [
+                    'legacy-js-api',
+                    'import',
+                    'if-function',
+                    'slash-div',
+                    'global-builtin',
+                    'color-functions',
+                  ],
+                },
+              },
             },
           ],
         },

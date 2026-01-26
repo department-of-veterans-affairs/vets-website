@@ -70,7 +70,7 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another unreported asset',
+    reviewAddButtonText: 'Add unreported asset',
     alertItemUpdated: 'Your unreported asset information has been updated',
     alertItemDeleted: 'Your unreported asset information has been deleted',
     cancelAddTitle: 'Cancel adding this unreported asset',

@@ -21,6 +21,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -63,6 +64,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -99,6 +101,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -147,6 +150,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -163,6 +167,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -177,6 +182,7 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
 
@@ -200,6 +206,7 @@ describe('Medical Records Download Page - OHOnlyContent CCD Downloads', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -249,6 +256,7 @@ describe('Medical Records Download Page - OHOnlyContent CCD Downloads', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: true,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });
@@ -281,6 +289,7 @@ describe('Medical Records Download Page - OHOnlyContent CCD Downloads', () => {
       site.login(ohOnlyUser, false);
       site.mockFeatureToggles({
         isCcdExtendedFileTypesEnabled: false,
+        isCcdOHEnabled: true,
       });
       DownloadReportsPage.goToReportsPage();
     });

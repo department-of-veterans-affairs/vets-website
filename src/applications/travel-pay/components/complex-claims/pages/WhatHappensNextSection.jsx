@@ -43,14 +43,14 @@ const WhatHappensNextSection = ({ isError }) => {
       ) : (
         <>
           <va-process-list>
-            <va-process-list-item header="VA will review your claim">
+            <va-process-list-item header="We’ll review your claim">
               <p>
                 You can check the status of this claim or review all your travel
                 claims on your travel reimbursement claims page.
               </p>
               <va-link
                 href="/my-health/travel-pay/claims/"
-                text="Check your travel reimbursement claim status"
+                text="Review your travel reimbursement claim status"
               />
             </va-process-list-item>
             <va-process-list-item header="If we approve your claim, we’ll deposit your funds into your bank account">

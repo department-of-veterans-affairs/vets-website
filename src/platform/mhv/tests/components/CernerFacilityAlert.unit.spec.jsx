@@ -177,6 +177,16 @@ describe('CernerFacilityAlert', () => {
       const link = screen.getByTestId('cerner-facility-action-link');
       expect(link.getAttribute('rel')).to.equal('noopener noreferrer');
     });
+
+    it('does not render yellow alert when domain is mhv-landing-page', () => {
+      const screen = setup(
+        stateWithFacility,
+        CernerAlertContent.MHV_LANDING_PAGE,
+      );
+
+      // Yellow alert should be suppressed on MHV landing page
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+    });
   });
 
   describe('with custom text props', () => {
@@ -219,15 +229,14 @@ describe('CernerFacilityAlert', () => {
       },
     };
 
-    // TODO: how to test custom classnames
-    it.skip('adds extra margin when apiError is true', () => {
+    it('adds extra margin when apiError is true', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
         apiError: true,
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      expect(alert.classname).to.include('vads-u-margin-top--2');
+      expect(alert.getAttribute('class')).to.include('vads-u-margin-top--2');
     });
   });
 
@@ -250,15 +259,14 @@ describe('CernerFacilityAlert', () => {
       expect(alert.getAttribute('status')).to.equal('warning');
     });
 
-    // TODO: Need to investigate, not quite right
-    it.skip('applies custom className', () => {
+    it('applies custom className', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
         className: 'custom-test-class',
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      expect(alert.className).to.include('custom-test-class');
+      expect(alert.getAttribute('class')).to.include('custom-test-class');
     });
   });
 
@@ -305,18 +313,18 @@ describe('CernerFacilityAlert', () => {
   });
 
   describe('info alert behavior', () => {
-    it('renders the info alert when userFacilityReadyForInfoAlert flag is true', () => {
-      const stateWithFacility = {
-        ...initialState,
-        user: {
-          profile: {
-            facilities: [{ facilityId: '668', isCerner: true }],
-            userAtPretransitionedOhFacility: true,
-            userFacilityReadyForInfoAlert: true,
-          },
+    const stateWithFacility = {
+      ...initialState,
+      user: {
+        profile: {
+          facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: true,
         },
-      };
+      },
+    };
 
+    it('renders the info alert when userFacilityReadyForInfoAlert flag is true', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
       });
@@ -325,10 +333,79 @@ describe('CernerFacilityAlert', () => {
       const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
       expect(infoAlert).to.exist;
       expect(infoAlert.getAttribute('status')).to.equal('info');
+      // Trigger should use the provided infoAlertActionPhrase from props
       expect(infoAlert.getAttribute('trigger')).to.equal(
-        'You can now manage your health care for all VA facilities right here',
+        `You can now ${
+          CernerAlertContent.MEDICATIONS.infoAlertActionPhrase
+        } for all VA facilities right here`,
       );
       expect(screen.getByTestId('cerner-facility-info-text')).to.exist;
+    });
+
+    it('adds margin class when apiError is true on info alert', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+        apiError: true,
+      });
+
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      expect(infoAlert.getAttribute('class')).to.include(
+        'vads-u-margin-top--2',
+      );
+    });
+
+    it('uses infoAlertHeadline when provided (Secure Messaging)', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.SECURE_MESSAGING,
+      });
+
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      expect(infoAlert).to.exist;
+      // When infoAlertHeadline is supplied, the trigger should exactly match it
+      expect(infoAlert.getAttribute('trigger')).to.equal(
+        CernerAlertContent.SECURE_MESSAGING.infoAlertHeadline,
+      );
+    });
+
+    it('displays composed text with infoAlertText when provided (Medications)', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      expect(infoText.textContent).to.include(
+        `We've brought all your VA health care data together so you can manage your care in one place.`,
+      );
+      expect(infoText.textContent).to.include(
+        CernerAlertContent.MEDICATIONS.infoAlertText,
+      );
+    });
+
+    it('displays composed text with infoAlertText when provided (Secure Messaging)', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.SECURE_MESSAGING,
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      expect(infoText.textContent).to.include(
+        `We've brought all your VA health care data together so you can manage your care in one place.`,
+      );
+      expect(infoText.textContent).to.include(
+        CernerAlertContent.SECURE_MESSAGING.infoAlertText,
+      );
+    });
+
+    it('displays only base text when infoAlertText is not provided', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MHV_LANDING_PAGE,
+        domain: 'test-domain', // Override domain to allow alert to render
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      const baseText = `We've brought all your VA health care data together so you can manage your care in one place.`;
+      expect(infoText.textContent).to.include(baseText);
+      // Verify no additional text is appended after the base message
+      expect(infoText.textContent).to.include('Still want to use My VA Health');
     });
   });
 });

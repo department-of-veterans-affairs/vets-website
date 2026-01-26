@@ -54,6 +54,9 @@ const CernerFacilityAlert = ({
   bodyActionSingle, // Optional custom action text for single facility (overrides default "To get your {pageName} from")
   bodyActionMultiple, // Optional custom action text for multiple facilities (overrides default "To get your {pageName} from these facilities")
   forceHideInfoAlert = false,
+  infoAlertActionPhrase = 'manage your health care',
+  infoAlertHeadline,
+  infoAlertText = '',
 }) => {
   const userProfile = useSelector(state => state.user.profile);
 
@@ -99,6 +102,14 @@ const CernerFacilityAlert = ({
 
   // Render blue info alert if flag is true and it's not overridden
   if (userProfile.userFacilityReadyForInfoAlert && !forceHideInfoAlert) {
+    // use infoAlertHeadline if provided; otherwise compose from infoAlertActionPhrase
+    // using a single template.
+    const infoAlertComposedHeadline =
+      infoAlertHeadline ||
+      `You can now ${infoAlertActionPhrase} for all VA facilities right here`;
+    const infoAlertComposedText = `We've brought all your VA health care data together so you can manage your care in one place.${
+      infoAlertText ? ` ${infoAlertText}` : ''
+    }`;
     return (
       <va-alert-expandable
         // Some usages might need extra top margin if there's an API error message above
@@ -107,13 +118,10 @@ const CernerFacilityAlert = ({
         }`}
         data-testid="cerner-facilities-info-alert"
         status="info"
-        trigger="You can now manage your health care for all VA facilities right here"
+        trigger={infoAlertComposedHeadline}
       >
         <div data-testid="cerner-facility-info-text">
-          <p>
-            We’ve brought all your VA health care data together so you can
-            manage your care in one place.
-          </p>
+          <p>{infoAlertComposedText}</p>
           <p>Still want to use My VA Health for now?</p>
           <va-link
             data-testid="cerner-info-alert-link"
@@ -123,6 +131,11 @@ const CernerFacilityAlert = ({
         </div>
       </va-alert-expandable>
     );
+  }
+
+  // Do not render the yellow alert on the MHV Landing Page
+  if (domain === 'mhv-landing-page') {
+    return null;
   }
 
   const isMultipleFacilities = cernerFacilitiesNames.length > 1;
@@ -144,7 +157,7 @@ const CernerFacilityAlert = ({
   return (
     <va-alert
       // Some usages might need extra top margin if there's an API error message above
-      className={`vads-u-margin-bottom--2p5 ${className} ${
+      class={`vads-u-margin-bottom--2p5 ${className} ${
         apiError ? 'vads-u-margin-top--2' : ''
       }`}
       status="warning"
@@ -197,15 +210,18 @@ const CernerFacilityAlert = ({
 };
 
 CernerFacilityAlert.propTypes = {
+  domain: PropTypes.string.isRequired,
+  headline: PropTypes.string.isRequired,
+  linkPath: PropTypes.string.isRequired,
   apiError: PropTypes.bool,
   bodyActionMultiple: PropTypes.string,
   bodyActionSingle: PropTypes.string,
   bodyIntro: PropTypes.string,
   className: PropTypes.string,
-  domain: PropTypes.string.isRequired,
   forceHideInfoAlert: PropTypes.bool,
-  headline: PropTypes.string.isRequired,
-  linkPath: PropTypes.string.isRequired,
+  infoAlertActionPhrase: PropTypes.string,
+  infoAlertHeadline: PropTypes.string,
+  infoAlertText: PropTypes.string,
   onLinkClick: PropTypes.func,
 };
 

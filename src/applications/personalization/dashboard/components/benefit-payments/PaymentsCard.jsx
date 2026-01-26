@@ -26,7 +26,7 @@ export const PaymentsCard = ({ lastPayment }) => {
       {isRecentPayment && (
         <>
           <p
-            className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-y--0 vads-u-margin-top--0p5"
+            className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-y--0 vads-u-margin-top--0p5 dd-privacy-mask"
             data-testid="deposit-header"
             aria-describedby="paycheck-type"
           >

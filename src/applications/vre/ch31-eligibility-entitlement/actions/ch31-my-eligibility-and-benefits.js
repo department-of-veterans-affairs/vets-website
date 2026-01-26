@@ -58,7 +58,7 @@ export function fetchCh31CaseStatusDetails() {
   return dispatch => {
     dispatch({ type: CH31_CASE_STATUS_DETAILS_FETCH_STARTED });
 
-    const url = `${environment.API_URL}/v0/ch31_case_details`;
+    const url = `${environment.API_URL}/vre/v0/ch31_case_details`;
 
     return apiRequest(url)
       .then(response => {

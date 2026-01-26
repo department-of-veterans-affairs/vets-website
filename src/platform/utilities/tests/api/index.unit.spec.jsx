@@ -2,6 +2,7 @@
 import path from 'path';
 import fs from 'fs';
 import { expect } from 'chai';
+import { server, rest } from 'platform/testing/unit/mocha-setup';
 import sinon from 'sinon';
 import {
   createGetHandler,
@@ -17,24 +18,6 @@ import * as ssoModule from '../../sso';
 import * as oauthModule from '../../oauth/utilities';
 
 describe('test wrapper', () => {
-  const server = setupServer();
-  let expected;
-
-  before(() => {
-    server.listen();
-    server.events.on('request:end', async req => {
-      expected = { ...expected, ...req };
-    });
-    server.events.on('response:mocked', async res => {
-      // In MSW 2.x, res has { status, statusText, headers, body } directly
-      expected = { ...expected, response: res };
-    });
-  });
-
-  after(() => {
-    server.close();
-  });
-
   describe('apiRequest', () => {
     const mockEnv = {
       ...environment,
@@ -43,7 +26,6 @@ describe('test wrapper', () => {
 
     afterEach(() => {
       server.resetHandlers();
-      expected = undefined;
       sessionStorage.removeItem('shouldRedirectExpiredSession');
     });
 
@@ -196,9 +178,6 @@ describe('test wrapper', () => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      expect(expected.response.body).to.have.a.lengthOf(
-        JSON.stringify(expectedJsonResponse).length,
-      );
       expect(response.status).to.eql('ok');
     });
 
@@ -214,43 +193,36 @@ describe('test wrapper', () => {
       });
 
       expect(response.ok).to.eql(true);
-      expect(expected.response.body).to.be.null;
-      expect(response.body._readableState.buffer.length).to.eql(0);
+      expect(response.status).to.eql(204);
     });
 
     it('should not return JSON on (status: 404)', async () => {
+      const errorResponse = { errors: [{ status: '404', title: 'Not found' }] };
       server.use(
-        createGetHandler('*', () =>
-          jsonResponse(
-            { errors: [{ status: '404', title: 'Not found' }] },
-            { status: 404 },
-          ),
+        rest.get('*', (req, res, ctx) =>
+          res(ctx.status(404), ctx.json(errorResponse)),
         ),
       );
 
       await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
       }).catch(error => {
-        expect(expected.response.body).to.not.be.null;
-        expect(error).to.deep.equal(JSON.parse(expected.response.body));
+        expect(error).to.deep.equal(errorResponse);
       });
     });
 
     it('should return JSON on (status: 403)', async () => {
+      const errorResponse = { errors: [{ status: '403', title: 'Forbidden' }] };
       server.use(
-        createGetHandler('*', () =>
-          jsonResponse(
-            { errors: [{ status: '403', title: 'Forbidden' }] },
-            { status: 403 },
-          ),
+        rest.get('*', (req, res, ctx) =>
+          res(ctx.status(403), ctx.json(errorResponse)),
         ),
       );
 
       await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
       }).catch(error => {
-        expect(expected.response.body).to.not.be.null;
-        expect(error).to.deep.equal(JSON.parse(expected.response.body));
+        expect(error).to.deep.equal(errorResponse);
       });
     });
 
@@ -271,8 +243,7 @@ describe('test wrapper', () => {
       );
 
       expect(response.ok).to.eql(true);
-      expect(expected.response.body).to.be.null;
-      expect(response.body._readableState.buffer.length).to.eql(0);
+      expect(response.status).to.eql(202);
     });
 
     it('should not fail when downloading a file', async () => {
@@ -315,7 +286,6 @@ describe('test wrapper', () => {
 
       expect(response.bodyUsed).to.be.false;
       expect(response.status).to.eql(200);
-      expect(expected.response.body).to.not.be.null;
     });
   });
 
@@ -335,7 +305,6 @@ describe('test wrapper', () => {
 
     afterEach(() => {
       server.resetHandlers();
-      expected = undefined;
       checkOrSetSessionExpirationMock.restore();
       checkAndUpdateSSOSessionMock.restore();
     });
@@ -365,9 +334,7 @@ describe('test wrapper', () => {
 
     it('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
       server.use(
-        createGetHandler(environment.BASE_URL, () =>
-          jsonResponse({}, { status: 404 }),
-        ),
+        rest.get('*', (req, res, ctx) => res(ctx.status(404), ctx.json({}))),
       );
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);

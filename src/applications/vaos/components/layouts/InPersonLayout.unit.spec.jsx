@@ -269,12 +269,9 @@ describe('VAOS Component: InPersonLayout', () => {
           },
         );
         // Assert
-        expect(
-          screen.queryByText(/Details you’d like to share with your provider/i),
-        ).not.to.exist;
+        expect(screen.queryByText(/Reason for appointment/i)).not.to.exist;
 
-        expect(screen.queryByText(/Details you shared with your provider'/i))
-          .not.to.exist;
+        expect(screen.queryByText(/Reason for appointment'/i)).not.to.exist;
       });
 
       it('should not display location heading when physical location is missing', async () => {
@@ -409,7 +406,7 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/Additional information:colon/i));
@@ -507,7 +504,7 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/Additional information:colon/i));
@@ -590,7 +587,7 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/Additional information:colon/i));
@@ -697,7 +694,7 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/Additional information:colon/i));
@@ -780,7 +777,7 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /Details you shared with your provider/i,
+          name: /Reason for appointment/i,
         }),
       );
       expect(screen.getByText(/Additional information:colon/i));

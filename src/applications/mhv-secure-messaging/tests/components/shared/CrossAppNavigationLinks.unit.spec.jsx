@@ -110,7 +110,7 @@ describe('Cross-App Navigation Links', () => {
 
       // Paths.COMPOSE is internal to SM app - should use RouterLinkAction
       const composeLink = screen.container.querySelector(
-        `va-link-action[href="${Paths.COMPOSE}"]`,
+        `va-link-action[href="/my-health/secure-messages${Paths.COMPOSE}"]`,
       );
       expect(composeLink).to.exist;
       expect(composeLink.getAttribute('text')).to.equal('Start a new message');

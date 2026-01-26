@@ -117,6 +117,7 @@ describe('Profile Breadcrumbs', () => {
           representativeStatusEnableV2Features: true,
           profile2Enabled: true,
           profileHealthCareSettingsPage: true,
+          profileHideHealthCareContacts: false,
         }),
       ).as('featureToggles');
       cy.visit(path);

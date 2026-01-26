@@ -134,6 +134,20 @@ const testConfig = createTestConfig(
         });
       },
 
+      'beneficiary-date-of-death': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillDateWebComponentPattern(
+              'beneficiaryDateOfDeath',
+              data.beneficiaryDateOfDeath,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+
       'your-name-and-date-of-birth': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -298,7 +312,7 @@ const testConfig = createTestConfig(
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

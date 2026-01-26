@@ -74,7 +74,10 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
         <strong>{charge.pDTransDescOutput.replace(/&nbsp;/g, ' ')}</strong>
       </div>
       {charge.provider && (
-        <div className="vads-u-color--gray-medium vads-u-font-size--sm">
+        <div
+          className="vads-u-color--gray-medium vads-u-font-size--sm"
+          data-testid="provider-info"
+        >
           Provider: {charge.provider}
         </div>
       )}
@@ -148,10 +151,16 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             ?.filter(charge => !charge.pDTransDescOutput.startsWith('&nbsp;'))
             .map((charge, index) => (
               <va-table-row key={`${charge.pDRefNo || index}`}>
-                <span>{getDate(charge)}</span>
-                <span>{renderDescription(charge)}</span>
-                <span>{getReference(charge)}</span>
-                <span>{formatCurrency(charge.pDTransAmt)}</span>
+                <span data-testId="statement-date">{getDate(charge)}</span>
+                <span data-testId="statement-description">
+                  {renderDescription(charge)}
+                </span>
+                <span data-testId="statement-reference">
+                  {getReference(charge)}
+                </span>
+                <span data-testId="statement-transaction-amount">
+                  {formatCurrency(charge.pDTransAmt)}
+                </span>
               </va-table-row>
             ))}
         </va-table>

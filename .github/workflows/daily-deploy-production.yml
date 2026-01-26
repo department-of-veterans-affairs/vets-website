@@ -55,6 +55,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
+      - name: Configure AWS credentials for secret injection (bypass)
+        if: ${{ github.event.inputs.bypass_freeze == 'true' }}
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}  
+
       - name: Get bot token from Parameter Store (bypass)
         if: ${{ github.event.inputs.bypass_freeze == 'true' }}
         uses: ./.github/workflows/inject-secrets

@@ -84,7 +84,7 @@ const OHOnlyContent = ({
                 />
               </>
             )}
-          {(generatingCCD || ccdDownloadSuccess) &&
+          {ccdDownloadSuccess &&
             !ccdError &&
             !CCDRetryTimestamp && (
               <DownloadSuccessAlert

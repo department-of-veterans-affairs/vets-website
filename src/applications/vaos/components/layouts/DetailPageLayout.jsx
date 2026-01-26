@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { waitForRenderThenFocus, waitTime } from 'platform/utilities/ui';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
@@ -19,7 +20,6 @@ import TravelReimbursementSection from '../TravelReimbursementSection';
 import AppointmentTasksSection from '../AppointmentTasksSection';
 import Section from '../Section';
 import ErrorAlert from '../ErrorAlert';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export function When({ children, level = 2 }) {
   return (
@@ -83,10 +83,8 @@ Prepare.propTypes = {
   children: PropTypes.node,
 };
 
-export function CCDetails({ otherDetails, request, level = 2 }) {
-  const heading = request
-    ? 'Details you’d like to share with your provider'
-    : 'Details you shared with your provider';
+export function CCDetails({ otherDetails, level = 2 }) {
+  const heading = 'Reason for appointment';
   return (
     <Section heading={heading} level={level}>
       <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
@@ -98,21 +96,13 @@ export function CCDetails({ otherDetails, request, level = 2 }) {
 CCDetails.propTypes = {
   level: PropTypes.number,
   otherDetails: PropTypes.string,
-  request: PropTypes.bool,
 };
 
-export function Details({
-  otherDetails,
-  request,
-  level = 2,
-  isCerner = false,
-}) {
+export function Details({ otherDetails, level = 2, isCerner = false }) {
   // Do not display details for Oracle (Cerner) appointments
   if (isCerner) return null;
 
-  const heading = request
-    ? 'Details you’d like to share with your provider'
-    : 'Details you shared with your provider';
+  const heading = 'Reason for appointment';
   return (
     <Section heading={heading} level={level}>
       <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
@@ -125,8 +115,6 @@ Details.propTypes = {
   isCerner: PropTypes.bool,
   level: PropTypes.number,
   otherDetails: PropTypes.string,
-  reason: PropTypes.string,
-  request: PropTypes.bool,
 };
 
 export function ClinicOrFacilityPhone({
@@ -200,18 +188,17 @@ export default function DetailPageLayout({
     selectFeatureTravelPaySubmitMileageExpense(state),
   );
 
-  const headingRef = useRef(null);
-
-  useEffect(
-    () => {
-      if (headingRef.current) {
-        setTimeout(() => {
-          scrollAndFocus();
-        }, 50);
-      }
-    },
-    [headingRef],
-  );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Focus on the heading after render -- added function to utilities/ui/focus.js to shorten this interval
+    // but still allows cypress tests to run properly
+    const wait = waitTime(100);
+    waitForRenderThenFocus(
+      '#vaos-appointment-details-page-heading',
+      document,
+      wait,
+    );
+  }, []);
 
   if (!appointment) return null;
 
@@ -224,9 +211,9 @@ export default function DetailPageLayout({
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
         <h1
+          id="vaos-appointment-details-page-heading"
           className="vaos__dynamic-font-size--h2"
           tabIndex="-1"
-          ref={headingRef}
         >
           <span data-dd-privacy="mask">{heading}</span>
         </h1>
@@ -240,7 +227,8 @@ export default function DetailPageLayout({
             <AppointmentTasksSection appointment={appointment} />
           )}
         {isPastAppointment &&
-          APPOINTMENT_STATUS.booked === appointment.status && (
+          (APPOINTMENT_STATUS.booked === appointment.status ||
+            APPOINTMENT_STATUS.fulfilled === appointment.status) && (
             <AfterVisitSummary data={appointment} />
           )}
         {children}

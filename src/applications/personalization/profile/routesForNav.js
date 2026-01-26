@@ -42,6 +42,7 @@ const routesForNav = [
     path: PROFILE_PATHS.CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
+    featureFlag: 'profileHideHealthCareContacts',
   },
   {
     component: MilitaryInformation,
@@ -148,7 +149,8 @@ const routesForProfile2Nav = [
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
-    featureFlag: 'profileHealthCareSettingsPage',
+    featureFlag: 'profileHealthCareSettingsPage|profileHideHealthCareContacts',
+    // This field allows for toggling based on two feature flags by using string.includes()
   },
   {
     component: MessagesSignature,
@@ -232,22 +234,42 @@ const routesForProfile2Nav = [
 ];
 
 export const getRoutesForNav = (
-  { profile2Enabled = false, profileHealthCareSettingsPage = false } = {
+  {
+    profile2Enabled = false,
+    profileHealthCareSettingsPage = false,
+    profileHideHealthCareContacts = false,
+  } = {
     profile2Enabled: false,
     profileHealthCareSettingsPage: false,
+    profileHideHealthCareContacts: false,
   },
 ) => {
   if (profile2Enabled) {
     return routesForProfile2Nav.filter(route => {
       // filter out routes based on feature flags
-      if (route.featureFlag === 'profileHealthCareSettingsPage') {
+      if (
+        route.featureFlag?.includes('profileHideHealthCareContacts') &&
+        route.featureFlag?.includes('profileHealthCareSettingsPage')
+      ) {
+        if (profileHideHealthCareContacts) {
+          return false;
+        }
+        return profileHealthCareSettingsPage;
+      }
+      if (route.featureFlag?.includes('profileHealthCareSettingsPage')) {
         return profileHealthCareSettingsPage;
       }
       return true;
     });
   }
 
-  return routesForNav;
+  return routesForNav.filter(route => {
+    // filter out routes based on feature flags
+    if (route.featureFlag === 'profileHideHealthCareContacts') {
+      return !profileHideHealthCareContacts;
+    }
+    return true;
+  });
 };
 
 export const routeHasParent = (route, routes) => {

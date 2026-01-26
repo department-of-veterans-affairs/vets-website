@@ -43,7 +43,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 0;
+const expectedNumberOfWebComponentErrors = 10;
 
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,

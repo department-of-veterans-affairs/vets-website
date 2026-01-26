@@ -4,16 +4,21 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as api from 'platform/utilities/api';
+import * as ddUtils from 'platform/monitoring/Datadog/utilities';
 
 import DisabilityRatingAlert from '../../../components/DisabilityRatingAlert';
 
 describe('DisabilityRatingAlert component', () => {
   let apiStub;
-
+  let ddLoggerStub;
   afterEach(() => {
     if (apiStub) {
       apiStub.restore();
       apiStub = null;
+    }
+    if (ddLoggerStub) {
+      ddLoggerStub.restore();
+      ddLoggerStub = null;
     }
   });
 
@@ -30,6 +35,7 @@ describe('DisabilityRatingAlert component', () => {
   });
 
   it('renders info alert when rating is 100%', async () => {
+    ddLoggerStub = sinon.stub(ddUtils, 'dataDogLogger');
     apiStub = sinon.stub(api, 'apiRequest').resolves({
       data: {
         type: 'disability_ratings',
@@ -45,6 +51,15 @@ describe('DisabilityRatingAlert component', () => {
           /You’re unlikely to get a higher payment from a Veterans Pension/i,
         ),
       ).to.exist;
+      expect(ddLoggerStub.called).to.be.true;
+      expect(ddLoggerStub.args[0][0]).to.deep.equal({
+        message: 'Pension disability rating alert visible for 100 rating',
+        attributes: {
+          error: null,
+          state: 'visible',
+          alertType: 'warning',
+        },
+      });
 
       const link = container.querySelector('va-link');
       expect(link).to.exist;
@@ -55,6 +70,7 @@ describe('DisabilityRatingAlert component', () => {
   });
 
   it('renders nothing when rating is less than 100%', async () => {
+    ddLoggerStub = sinon.stub(ddUtils, 'dataDogLogger');
     apiStub = sinon.stub(api, 'apiRequest').resolves({
       data: {
         type: 'disability_ratings',
@@ -66,10 +82,20 @@ describe('DisabilityRatingAlert component', () => {
 
     await waitFor(() => {
       expect(container.querySelector('va-alert')).to.not.exist;
+      expect(ddLoggerStub.args[0][0]).to.deep.equal({
+        message:
+          'Pension disability rating alert hidden for ratings less than 100',
+        attributes: {
+          error: null,
+          state: 'hidden',
+          alertType: null,
+        },
+      });
     });
   });
 
   it('renders fallback alert when request fails', async () => {
+    ddLoggerStub = sinon.stub(ddUtils, 'dataDogLogger');
     apiStub = sinon.stub(api, 'apiRequest').rejects(new Error('Network error'));
 
     const { container, getByText } = render(<DisabilityRatingAlert />);
@@ -80,6 +106,14 @@ describe('DisabilityRatingAlert component', () => {
           /A 100% disability rating pays more than a Veterans Pension/i,
         ),
       ).to.exist;
+      expect(ddLoggerStub.args[0][0]).to.deep.equal({
+        message: 'Pension disability rating fetch error',
+        attributes: {
+          error: 'unknown error',
+          state: 'visible',
+          alertType: 'info',
+        },
+      });
     });
 
     const link = container.querySelector('va-link');

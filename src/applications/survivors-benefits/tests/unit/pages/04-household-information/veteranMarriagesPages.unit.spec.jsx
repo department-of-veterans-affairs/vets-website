@@ -30,12 +30,12 @@ describe('Veteran Previous Marriages pages', () => {
     return wrapper ? wrapper.items : null;
   };
 
-  it('renders intro description and depends logic honors SPOUSE + hadPreviousMarriages', () => {
+  it('renders intro description and depends logic honors SURVIVING_SPOUSE + hadPreviousMarriages', () => {
     expect(veteranMarriagesIntro, 'intro page').to.exist;
 
     // depends logic scenarios
     const showData = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
     };
     const hideDataNotSpouse = {
@@ -43,7 +43,7 @@ describe('Veteran Previous Marriages pages', () => {
       hadPreviousMarriages: true,
     };
     const hideDataNoPrevious = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
     };
     expect(veteranMarriagesIntro.depends(showData)).to.be.true;
@@ -69,7 +69,7 @@ describe('Veteran Previous Marriages pages', () => {
 
     // depends logic scenarios
     const showData = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
     };
     const hideDataNotSpouse = {
@@ -77,7 +77,7 @@ describe('Veteran Previous Marriages pages', () => {
       hadPreviousMarriages: true,
     };
     const hideDataNoPrevious = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
     };
     expect(veteranMarriagesSummary.depends(showData)).to.be.true;
@@ -101,7 +101,7 @@ describe('Veteran Previous Marriages pages', () => {
 
     // depends logic scenarios (same gating as intro/summary pages)
     const showData = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
     };
     const hideDataNotSpouse = {
@@ -109,23 +109,21 @@ describe('Veteran Previous Marriages pages', () => {
       hadPreviousMarriages: true,
     };
     const hideDataNoPrevious = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
     };
     expect(veteranPreviousSpouseName.depends(showData)).to.be.true;
     expect(veteranPreviousSpouseName.depends(hideDataNotSpouse)).to.be.false;
     expect(veteranPreviousSpouseName.depends(hideDataNoPrevious)).to.be.false;
 
-    // verify the array item UI schema wrapper and the presence of previousSpouseFullName field config
+    // verify the array item UI schema wrapper and the presence of spouseFullName field config
     const itemUi = findItemUi(veteranPreviousSpouseName);
     expect(itemUi, 'array item uiSchema wrapper (items) should exist').to.exist;
-    expect(
-      itemUi.previousSpouseFullName,
-      'previousSpouseFullName field uiSchema should exist',
-    ).to.exist;
+    expect(itemUi.spouseFullName, 'spouseFullName field uiSchema should exist')
+      .to.exist;
 
     // Explicit ui:title checks for name subfields
-    const nameUi = itemUi.previousSpouseFullName;
+    const nameUi = itemUi.spouseFullName;
     expect(nameUi.first?.['ui:title'], 'First or given name').to.exist;
     expect(nameUi.middle?.['ui:title'], 'Middle name').to.exist;
     expect(nameUi.last?.['ui:title'], 'Last or family name').to.exist;
@@ -143,10 +141,10 @@ describe('Veteran Previous Marriages pages', () => {
   it('marriage date/place state/country hideIf and required respond to marriedOutsideUS', () => {
     const itemUi = findItemUi(veteranMarriageDatePlace);
     expect(itemUi, 'marriage date/place item UI not found').to.exist;
-    const stateOptions = itemUi.marriageLocation.state['ui:options'];
-    const stateRequired = itemUi.marriageLocation.state['ui:required'];
-    const countryOptions = itemUi.marriageLocation.country['ui:options'];
-    const countryRequired = itemUi.marriageLocation.country['ui:required'];
+    const stateOptions = itemUi.locationOfMarriage.state['ui:options'];
+    const stateRequired = itemUi.locationOfMarriage.state['ui:required'];
+    const countryOptions = itemUi.locationOfMarriage.country['ui:options'];
+    const countryRequired = itemUi.locationOfMarriage.country['ui:required'];
 
     const itemBornOutside = { veteranMarriages: [{ marriedOutsideUS: true }] };
     expect(Boolean(stateOptions.hideIf(itemBornOutside, 0))).to.be.true;
@@ -164,10 +162,10 @@ describe('Veteran Previous Marriages pages', () => {
   it('marriage end date/location state/country hideIf and required respond to marriageEndedOutsideUS', () => {
     const itemUi = findItemUi(veteranMarriageEndDateLocation);
     expect(itemUi, 'marriage end date/location item UI not found').to.exist;
-    const stateOptions = itemUi.marriageEndLocation.state['ui:options'];
-    const stateRequired = itemUi.marriageEndLocation.state['ui:required'];
-    const countryOptions = itemUi.marriageEndLocation.country['ui:options'];
-    const countryRequired = itemUi.marriageEndLocation.country['ui:required'];
+    const stateOptions = itemUi.locationOfSeparation.state['ui:options'];
+    const stateRequired = itemUi.locationOfSeparation.state['ui:required'];
+    const countryOptions = itemUi.locationOfSeparation.country['ui:options'];
+    const countryRequired = itemUi.locationOfSeparation.country['ui:required'];
 
     const itemEndedOutside = {
       veteranMarriages: [{ marriageEndedOutsideUS: true }],
@@ -178,10 +176,10 @@ describe('Veteran Previous Marriages pages', () => {
     expect(Boolean(countryRequired(itemEndedOutside, 0))).to.be.true;
   });
 
-  it('veteranMarriageDatePlace depends logic honors SPOUSE + hadPreviousMarriages and shows marriageDate', () => {
+  it('veteranMarriageDatePlace depends logic honors SPOUSE + hadPreviousMarriages and shows dateOfMarriage', () => {
     // depends logic scenarios
     const showData = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
     };
     const hideDataNotSpouse = {
@@ -189,12 +187,12 @@ describe('Veteran Previous Marriages pages', () => {
       hadPreviousMarriages: true,
     };
     const hideDataNoPrevious = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
     };
     expect(
       veteranMarriageDatePlace.depends(showData),
-      'should show for SPOUSE with previous marriages',
+      'should show for SURVIVING_SPOUSE with previous marriages',
     ).to.be.true;
     expect(
       veteranMarriageDatePlace.depends(hideDataNotSpouse),
@@ -218,13 +216,13 @@ describe('Veteran Previous Marriages pages', () => {
 
     const formDOM = getFormDOM(form);
     const dateEl = $('*[label="Date of marriage"]', formDOM);
-    expect(dateEl, 'marriageDate field should be visible').to.exist;
-    // Verify title and ui:description on the marriageDate config
-    expect(uiSchema.veteranMarriages.items.marriageDate?.['ui:title']).to.equal(
-      'Date of marriage',
-    );
+    expect(dateEl, 'dateOfMarriage field should be visible').to.exist;
+    // Verify title and ui:description on the dateOfMarriage config
     expect(
-      uiSchema.veteranMarriages.items.marriageDate?.['ui:options']?.[
+      uiSchema.veteranMarriages.items.dateOfMarriage?.['ui:title'],
+    ).to.equal('Date of marriage');
+    expect(
+      uiSchema.veteranMarriages.items.dateOfMarriage?.['ui:options']?.[
         'ui:description'
       ],
     ).to.equal(
@@ -232,17 +230,17 @@ describe('Veteran Previous Marriages pages', () => {
     );
     // Safety-net: if visible, the required function evaluates true for initial render
     const requiredFn =
-      uiSchema.veteranMarriages.items.marriageDate?.['ui:required'] ||
-      uiSchema.veteranMarriages.items.marriageDate?.required ||
-      uiSchema.veteranMarriages.items.marriageDate?.['ui:options']?.required;
-    expect(requiredFn, "marriageDate 'required'").to.be.a('function');
+      uiSchema.veteranMarriages.items.dateOfMarriage?.['ui:required'] ||
+      uiSchema.veteranMarriages.items.dateOfMarriage?.required ||
+      uiSchema.veteranMarriages.items.dateOfMarriage?.['ui:options']?.required;
+    expect(requiredFn, "dateOfMarriage 'required'").to.be.a('function');
     expect(Boolean(requiredFn({}))).to.be.true;
   });
 
-  it('veteranMarriageEnded depends logic honors SPOUSE + hadPreviousMarriages and includes marriageEndedBy radio + marriageEndedOther expansion and validation', () => {
+  it('veteranMarriageEnded depends logic honors SPOUSE + hadPreviousMarriages and includes reasonForSeparation radio + reasonForSeparationExplanation expansion and validation', () => {
     // depends logic scenarios
     const showData = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
     };
     const hideDataNotSpouse = {
@@ -250,12 +248,12 @@ describe('Veteran Previous Marriages pages', () => {
       hadPreviousMarriages: true,
     };
     const hideDataNoPrevious = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
     };
     expect(
       veteranMarriageEnded.depends(showData),
-      'should show for SPOUSE with previous marriages',
+      'should show for SURVIVING_SPOUSE with previous marriages',
     ).to.be.true;
     expect(
       veteranMarriageEnded.depends(hideDataNotSpouse),
@@ -270,8 +268,8 @@ describe('Veteran Previous Marriages pages', () => {
     expect(itemUi, 'marriage ended item UI not found').to.exist;
 
     // Radio field
-    const radioUi = itemUi.marriageEndedBy;
-    expect(radioUi, 'marriageEndedBy').to.exist;
+    const radioUi = itemUi.reasonForSeparation;
+    expect(radioUi, 'reasonForSeparation').to.exist;
     expect(radioUi['ui:title']).to.equal('How did the marriage end?');
     const radioOptions = radioUi['ui:options'] || {};
     expect(radioOptions.labelHeaderLevel).to.equal(3);
@@ -283,13 +281,13 @@ describe('Veteran Previous Marriages pages', () => {
     });
 
     // Text field config
-    const otherUi = itemUi.marriageEndedOther;
-    expect(otherUi, 'marriageEndedOther').to.exist;
+    const otherUi = itemUi.separationExplanation;
+    expect(otherUi, 'separationExplanation').to.exist;
     expect(otherUi['ui:title']).to.equal('Tell us how the marriage ended');
     const otherOptions = otherUi['ui:options'] || {};
 
     // expandUnderCondition should expand only for OTHER
-    expect(otherOptions.expandUnder).to.equal('marriageEndedBy');
+    expect(otherOptions.expandUnder).to.equal('reasonForSeparation');
     expect(otherOptions.expandUnderCondition('OTHER')).to.be.true;
     expect(otherOptions.expandUnderCondition('DIVORCE')).to.be.false;
 
@@ -297,8 +295,8 @@ describe('Veteran Previous Marriages pages', () => {
     const requiredFn =
       otherUi['ui:required'] || otherUi.required || otherOptions.required;
     expect(requiredFn, 'required').to.be.a('function');
-    expect(Boolean(requiredFn({ marriageEndedBy: 'OTHER' }))).to.be.true;
-    expect(Boolean(requiredFn({ marriageEndedBy: 'DEATH' }))).to.be.false;
+    expect(Boolean(requiredFn({ reasonForSeparation: 'OTHER' }))).to.be.true;
+    expect(Boolean(requiredFn({ reasonForSeparation: 'DEATH' }))).to.be.false;
 
     // Error messages
     const errorMessages =
@@ -311,10 +309,10 @@ describe('Veteran Previous Marriages pages', () => {
     );
   });
 
-  it('veteranMarriageEndDateLocation depends logic honors SPOUSE + hadPreviousMarriages and dateOfTermination is visible with correct title, description, and is required', () => {
+  it('veteranMarriageEndDateLocation depends logic honors SPOUSE + hadPreviousMarriages and dateOfSeparation is visible with correct title, description, and is required', () => {
     // depends logic scenarios
     const showData = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: true,
     };
     const hideDataNotSpouse = {
@@ -322,7 +320,7 @@ describe('Veteran Previous Marriages pages', () => {
       hadPreviousMarriages: true,
     };
     const hideDataNoPrevious = {
-      claimantRelationship: 'SPOUSE',
+      claimantRelationship: 'SURVIVING_SPOUSE',
       hadPreviousMarriages: false,
     };
     expect(
@@ -351,10 +349,10 @@ describe('Veteran Previous Marriages pages', () => {
 
     const formDOM = getFormDOM(form);
     const endDateEl = $('*[label="Date marriage ended"]', formDOM);
-    expect(endDateEl, 'dateOfTermination field should be visible').to.exist;
+    expect(endDateEl, 'dateOfSeparation field should be visible').to.exist;
 
     // Verify title & description from uiSchema
-    const endDateUi = uiSchema.veteranMarriages.items.dateOfTermination;
+    const endDateUi = uiSchema.veteranMarriages.items.dateOfSeparation;
     expect(endDateUi?.['ui:title']).to.equal('Date marriage ended');
     expect(endDateUi?.['ui:options']?.['ui:description']).to.equal(
       'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
@@ -365,25 +363,25 @@ describe('Veteran Previous Marriages pages', () => {
       endDateUi?.['ui:required'] ||
       endDateUi?.required ||
       endDateUi?.['ui:options']?.required;
-    expect(requiredFn, 'dateOfTermination required').to.be.a('function');
+    expect(requiredFn, 'dateOfSeparation required').to.be.a('function');
     expect(Boolean(requiredFn({}))).to.be.true;
-    expect(Boolean(requiredFn({ 'view:dateOfTermination': '2024-01-01' }))).to
-      .be.false;
+    expect(Boolean(requiredFn({ 'view:dateOfSeparation': '2024-01-01' }))).to.be
+      .false;
   });
 
   it('should check if the item is incomplete', () => {
     const completeItem = {
-      previousSpouseFullName: { first: 'John', last: 'Doe' },
-      marriageDate: '2000-01-01',
+      spouseFullName: { first: 'John', last: 'Doe' },
+      dateOfMarriage: '2000-01-01',
     };
 
     const missingName = {
-      previousSpouseFullName: null,
-      marriageDate: '2000-01-01',
+      spouseFullName: null,
+      dateOfMarriage: '2000-01-01',
     };
 
     const missingDate = {
-      previousSpouseFullName: { first: 'John', last: 'Doe' },
+      spouseFullName: { first: 'John', last: 'Doe' },
     };
 
     expect(options.isItemIncomplete(completeItem)).to.be.false;
@@ -460,7 +458,7 @@ describe('Veteran Previous Marriages pages', () => {
   it("getItemName returns joined name when present or default 'Previous marriage'", () => {
     // Full name present: returns all parts in correect order
     const full = {
-      previousSpouseFullName: {
+      spouseFullName: {
         first: 'Alex',
         middle: 'Q.',
         last: 'Smith',
@@ -470,21 +468,21 @@ describe('Veteran Previous Marriages pages', () => {
     expect(options.text.getItemName(full)).to.equal('Alex Q. Smith Jr.');
 
     // Partial name: only last -> returns just that part
-    const lastOnly = { previousSpouseFullName: { last: 'Doe' } };
+    const lastOnly = { spouseFullName: { last: 'Doe' } };
     expect(options.text.getItemName(lastOnly)).to.equal('Doe');
 
     // Empty parts object: all empty strings -> default label
     const emptyParts = {
-      previousSpouseFullName: { first: '', middle: '', last: '', suffix: '' },
+      spouseFullName: { first: '', middle: '', last: '', suffix: '' },
     };
     expect(options.text.getItemName(emptyParts)).to.equal('Previous marriage');
 
-    // Missing previousSpouseFullName entirely -> default label
+    // Missing spouseFullName entirely -> default label
     const missing = {};
     expect(options.text.getItemName(missing)).to.equal('Previous marriage');
 
-    // Null previousSpouseFullName -> default label
-    const nullName = { previousSpouseFullName: null };
+    // Null spouseFullName -> default label
+    const nullName = { spouseFullName: null };
     expect(options.text.getItemName(nullName)).to.equal('Previous marriage');
   });
 });

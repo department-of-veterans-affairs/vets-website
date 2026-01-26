@@ -44,6 +44,25 @@ describe('Claim document request', () => {
 
       cy.axeCheck();
     });
+
+    it('should display empty state when no description is available', () => {
+      setupClaimTest({
+        claim: createBenefitsClaim({
+          trackedItems: [
+            createTrackedItem({
+              displayName: 'Unknown Request Type', // Not in evidenceDictionary
+              description: '', // No API description either
+            }),
+          ],
+        }),
+        path: NEEDED_FROM_YOU_PATH,
+      });
+
+      cy.findByText(/We’re unable to provide more information/);
+      cy.findByText(/listed in the claim letter/);
+
+      cy.axeCheck();
+    });
   });
 
   describe('Third-party evidence requests', () => {

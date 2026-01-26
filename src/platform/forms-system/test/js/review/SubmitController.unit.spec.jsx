@@ -893,4 +893,167 @@ describe('Schemaform review: SubmitController', () => {
     expect(router.push.calledWith('page-2')).to.be.true;
     tree.unmount();
   });
+
+  describe('customValidationErrors', () => {
+    it('should call customValidationErrors function when configured and include errors in validation', () => {
+      const customValidationErrors = sinon.stub().returns([
+        {
+          property: 'instance.testField',
+          message: 'Test error',
+          name: 'required',
+          argument: 'testField',
+          stack: 'instance requires property "testField"',
+        },
+      ]);
+
+      const form = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+          testField: null,
+        },
+      });
+      const formConfig = createFormConfig({
+        customValidationErrors,
+      });
+      const pageList = createPageList();
+      const user = createUserLogIn();
+      const setPreSubmit = sinon.spy();
+      const setSubmission = sinon.spy();
+      const submitForm = sinon.spy();
+      const setFormErrors = sinon.spy();
+
+      const store = createStore({
+        form,
+      });
+
+      const tree = render(
+        <Provider store={store}>
+          <SubmitController
+            form={form}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+          />
+        </Provider>,
+      );
+
+      const submitButton = tree.getByText('Submit application');
+      fireEvent.click(submitButton);
+
+      expect(customValidationErrors.calledWith(form.data)).to.be.true;
+      expect(setFormErrors.called).to.be.true;
+      const errorCall = setFormErrors.getCall(0);
+      const customErrors = errorCall.args[0].rawErrors.filter(
+        e => e.property === 'instance.testField',
+      );
+      expect(customErrors.length).to.equal(1);
+      expect(customErrors[0].name).to.equal('required');
+      expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
+      tree.unmount();
+    });
+
+    it('should not call customValidationErrors when not configured', () => {
+      const customValidationErrors = sinon.stub();
+      const form = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+        },
+      });
+      const formConfig = createFormConfig();
+      const pageList = createPageList();
+      const user = createUserLogIn();
+      const setPreSubmit = sinon.spy();
+      const setSubmission = sinon.spy();
+      const submitForm = sinon.spy();
+      const setFormErrors = sinon.spy();
+
+      const store = createStore({
+        form,
+      });
+
+      const tree = render(
+        <Provider store={store}>
+          <SubmitController
+            form={form}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+          />
+        </Provider>,
+      );
+
+      const submitButton = tree.getByText('Submit application');
+      fireEvent.click(submitButton);
+
+      expect(customValidationErrors.called).to.be.false;
+      tree.unmount();
+    });
+
+    it('should handle customValidationErrors returning empty array', () => {
+      const customValidationErrors = sinon.stub().returns([]);
+      const form = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+        },
+        pages: {}, // Empty pages object to ensure no validation errors
+        formId: 'test-form',
+      });
+      const formConfig = createFormConfig({
+        customValidationErrors,
+        preSubmitInfo: {
+          required: false,
+        },
+      });
+      const pageList = [];
+      const user = createUserLogIn();
+      const setPreSubmit = sinon.spy();
+      const setSubmission = sinon.spy();
+      const submitForm = sinon.spy();
+      const setFormErrors = sinon.spy();
+
+      const store = createStore({
+        form,
+      });
+
+      const tree = render(
+        <Provider store={store}>
+          <SubmitController
+            form={form}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+            autoSaveForm={sinon.spy()}
+          />
+        </Provider>,
+      );
+
+      const submitButton = tree.getByText('Submit application');
+      fireEvent.click(submitButton);
+
+      expect(customValidationErrors.called).to.be.true;
+      // Should proceed with submission if no custom errors and form is valid
+      // setFormErrors should not be called if form is valid and has no custom errors
+      expect(setFormErrors.called).to.be.false;
+      expect(submitForm.called).to.be.true;
+      tree.unmount();
+    });
+  });
 });

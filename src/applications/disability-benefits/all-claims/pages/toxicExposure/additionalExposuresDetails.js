@@ -1,5 +1,4 @@
-import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastMonthYearDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   additionalExposuresPageTitle,
@@ -10,11 +9,17 @@ import {
   getKeyIndex,
   getSelectedCount,
   notSureHazardDetails,
+  reviewDateField,
   showCheckboxLoopDetailsPage,
   teSubtitle,
 } from '../../content/toxicExposure';
 import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
 import { validateToxicExposureDates } from '../../utils/validations';
+import { validateApproximateMonthYearDate } from '../../utils/dates';
+import {
+  ForceFieldBlur,
+  monthYearDateSchemaWithFullDateSupport,
+} from './utils';
 
 /**
  * Make the uiSchema for each additional exposures details page
@@ -38,14 +43,30 @@ function makeUiSchema(itemId) {
       otherExposuresDetails: {
         [itemId]: {
           startDate: {
-            ...currentOrPastDateUI({
+            ...currentOrPastMonthYearDateUI({
               title: exposureStartDateApproximate,
             }),
+            'ui:required': false,
+            // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
+            'ui:validations': [validateApproximateMonthYearDate],
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid date',
+              required: 'Please enter a date',
+            },
+            'ui:reviewField': reviewDateField,
           },
           endDate: {
-            ...currentOrPastDateUI({
+            ...currentOrPastMonthYearDateUI({
               title: exposureEndDateApproximate,
             }),
+            'ui:required': false,
+            // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
+            'ui:validations': [validateApproximateMonthYearDate],
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid date',
+              required: 'Please enter a date',
+            },
+            'ui:reviewField': reviewDateField,
           },
           'ui:validations': [validateToxicExposureDates],
           'view:notSure': {
@@ -59,6 +80,12 @@ function makeUiSchema(itemId) {
       },
       'view:otherExposuresAdditionalInfo': {
         'ui:description': dateRangeAdditionalInfo,
+      },
+    },
+    _forceFieldBlur: {
+      'ui:field': ForceFieldBlur,
+      'ui:options': {
+        hideOnReview: true,
       },
     },
   };
@@ -82,8 +109,8 @@ function makeSchema(itemId) {
               [itemId]: {
                 type: 'object',
                 properties: {
-                  startDate: full526EZSchema.definitions.minimumYearDate,
-                  endDate: full526EZSchema.definitions.minimumYearDate,
+                  startDate: monthYearDateSchemaWithFullDateSupport,
+                  endDate: monthYearDateSchemaWithFullDateSupport,
                   'view:notSure': {
                     type: 'boolean',
                   },
@@ -96,6 +123,9 @@ function makeSchema(itemId) {
             properties: {},
           },
         },
+      },
+      _forceFieldBlur: {
+        type: 'boolean',
       },
     },
   };

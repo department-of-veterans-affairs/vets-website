@@ -123,7 +123,7 @@ describe('Form Configuration', () => {
       const page = chapter.pages.employerInformation;
       expect(page).to.exist;
       expect(page.path).to.equal('employer-information');
-      expect(page.title).to.equal('Employers Information');
+      expect(page.title).to.equal("Employer's Information");
       expect(page.uiSchema).to.exist;
       expect(page.schema).to.exist;
     });
@@ -453,6 +453,10 @@ describe('Form Configuration', () => {
 
     it('should not have statementOfTruth configuration (uses CustomComponent instead)', () => {
       expect(formConfig.preSubmitInfo.statementOfTruth).to.not.exist;
+    });
+
+    it('should have required flag set to true to enforce certification', () => {
+      expect(formConfig.preSubmitInfo.required).to.be.true;
     });
   });
 

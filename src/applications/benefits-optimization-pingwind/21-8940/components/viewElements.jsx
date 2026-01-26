@@ -1,5 +1,74 @@
 import React from 'react';
 
+const parseConnectedDisabilities = value => {
+  if (!value) {
+    return [];
+  }
+
+  if (Array.isArray(value)) {
+    return value.filter(item => typeof item === 'string' && item.trim().length);
+  }
+
+  if (typeof value === 'string') {
+    return value
+      .split(',')
+      .map(entry => entry.trim())
+      .filter(item => item.length);
+  }
+
+  if (typeof value === 'object') {
+    return Object.entries(value)
+      .filter(([, isSelected]) => !!isSelected)
+      .map(([key]) => key)
+      .filter(item => item && item.trim().length);
+  }
+
+  return [];
+};
+
+const renderConnectedDisabilities = value => {
+  const connected = parseConnectedDisabilities(value);
+
+  if (!connected.length) {
+    return null;
+  }
+
+  if (connected.length === 1) {
+    return <p>Connected disabilities: {connected[0]}</p>;
+  }
+
+  return (
+    <div>
+      <p className="vads-u-margin-bottom--0">Connected disabilities:</p>
+      <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+        {connected.map((item, index) => (
+          <li key={`${item}-${index}`}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const renderTreatmentDates = dates => {
+  if (!Array.isArray(dates) || !dates.length) {
+    return null;
+  }
+
+  return (
+    <div>
+      <p className="vads-u-margin-bottom--0">Treatment dates:</p>
+      <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+        {dates.map((range, index) => (
+          <li key={`treatment-${index}`}>
+            {range?.startDate || 'Not provided'} &mdash;{' '}
+            {range?.endDate || 'Not provided'}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 export const DisabilityView = ({ formData }) => {
   const disability =
     typeof formData === 'string' ? formData : formData?.disability;
@@ -37,9 +106,8 @@ export const DoctorView = ({ formData }) => {
           ? ` ${formData.doctorAddress.postalCode}`
           : ''}
       </p>
-      {formData.connectedDisabilities && (
-        <p>Connected disabilities: {formData.connectedDisabilities}</p>
-      )}
+      {renderConnectedDisabilities(formData.connectedDisabilities)}
+      {renderTreatmentDates(formData.treatmentDates)}
     </div>
   );
 };
@@ -69,9 +137,8 @@ export const HospitalView = ({ formData }) => {
           ? ` ${formData.hospitalAddress.postalCode}`
           : ''}
       </p>
-      {formData.connectedDisabilities && (
-        <p>Connected disabilities: {formData.connectedDisabilities}</p>
-      )}
+      {renderConnectedDisabilities(formData.connectedDisabilities)}
+      {renderTreatmentDates(formData.treatmentDates)}
     </div>
   );
 };
@@ -112,10 +179,10 @@ export const EmploymentHistoryView = ({ formData }) => (
       {formData.endDate || 'End date not provided'}
     </p>
     <p>
-      Time lost from illness: {formData.lostTime || 'Not provided'} hours
+      Time lost from illness: {formData.lostTime ?? 'Not provided'} hours
       <br />
       Highest gross earnings per month: $
-      {formData.highestIncome || 'Not provided'}
+      {formData.highestIncome ?? 'Not provided'}
     </p>
     <p>
       Address: {formData.employerAddress?.street || ''}{' '}

@@ -46,7 +46,7 @@ export default {
         ...getAge(45),
         firstName: 'SPOUSY',
         lastName: 'FOSTER',
-        ssn: '3332',
+        ssn: '333322222',
         relationshipToVeteran: 'Spouse',
         awardIndicator: 'Y',
         fullName: { first: 'SPOUSY', last: 'FOSTER' },
@@ -57,7 +57,7 @@ export default {
         ...getAge(46),
         firstName: 'SUMMER',
         lastName: 'FOSTER',
-        ssn: '3331',
+        ssn: '333311111',
         relationshipToVeteran: 'Spouse',
         awardIndicator: 'Y',
         fullName: { first: 'SUMMER', last: 'FOSTER' },
@@ -68,7 +68,7 @@ export default {
         ...getAge(17),
         firstName: 'PENNY',
         lastName: 'FOSTER',
-        ssn: '3479',
+        ssn: '347934793',
         relationshipToVeteran: 'Child',
         awardIndicator: 'Y',
         fullName: { first: 'PENNY', last: 'FOSTER' },
@@ -79,7 +79,7 @@ export default {
         ...getAge(33),
         firstName: 'FRANK',
         lastName: 'FOSTER',
-        ssn: '3236',
+        ssn: '323632363',
         relationshipToVeteran: 'Child',
         awardIndicator: 'Y',
         fullName: { first: 'FRANK', last: 'FOSTER' },
@@ -90,7 +90,7 @@ export default {
         ...getAge(19),
         firstName: 'JOE',
         lastName: 'FOSTER',
-        ssn: '3468',
+        ssn: '346834683',
         relationshipToVeteran: 'Child',
         awardIndicator: 'Y',
         fullName: { first: 'JOE', last: 'FOSTER' },
@@ -102,7 +102,7 @@ export default {
         ...getAge(20),
         firstName: 'MIKE',
         lastName: 'FOSTER',
-        ssn: '3499',
+        ssn: '349934993',
         relationshipToVeteran: 'Child',
         awardIndicator: 'Y',
         fullName: { first: 'MIKE', last: 'FOSTER' },
@@ -113,7 +113,7 @@ export default {
         ...getAge(0, 4),
         firstName: 'STACY',
         lastName: 'FOSTER',
-        ssn: '3233',
+        ssn: '323332333',
         relationshipToVeteran: 'Child',
         awardIndicator: 'Y',
         fullName: { first: 'STACY', last: 'FOSTER' },
@@ -124,7 +124,7 @@ export default {
         ...getAge(4),
         firstName: 'JENNIFER',
         lastName: 'FOSTER',
-        ssn: '3311',
+        ssn: '331133113',
         relationshipToVeteran: 'Child',
         awardIndicator: 'Y',
         fullName: { first: 'JENNIFER', last: 'FOSTER' },
@@ -135,7 +135,7 @@ export default {
         ...getAge(11),
         firstName: 'FORMER',
         lastName: 'FOSTER',
-        ssn: '3145',
+        ssn: '314531453',
         relationshipToVeteran: 'Child',
         awardIndicator: 'Y',
         fullName: { first: 'FORMER', last: 'FOSTER' },
@@ -146,7 +146,7 @@ export default {
         ...getAge(89),
         firstName: 'PETER',
         lastName: 'FOSTER',
-        ssn: '0104',
+        ssn: '010401040',
         relationshipToVeteran: 'Parent',
         awardIndicator: 'Y',
         fullName: { first: 'PETER', last: 'FOSTER' },
@@ -157,7 +157,7 @@ export default {
         ...getAge(85),
         firstName: 'MARY',
         lastName: 'FOSTER',
-        ssn: '0155',
+        ssn: '015501550',
         relationshipToVeteran: 'Parent',
         awardIndicator: 'Y',
         fullName: { first: 'MARY', last: 'FOSTER' },
@@ -166,7 +166,7 @@ export default {
       },
     ],
   },
-  netWorthLimit: 159240,
+  netWorthLimit: 163699,
   daysTillExpires: 365,
   statementOfTruthSignature: 'John Doe',
   statementOfTruthCertified: true,
@@ -174,7 +174,7 @@ export default {
     {
       ...getAge(45),
       fullName: { first: 'SPOUSY', last: 'FOSTER' },
-      ssn: '3332',
+      ssn: '333322222',
       relationshipToVeteran: 'Spouse',
       awardIndicator: 'Y',
       key: 'spousy-3332',
@@ -195,7 +195,7 @@ export default {
     {
       ...getAge(46),
       fullName: { first: 'SUMMER', last: 'FOSTER' },
-      ssn: '3331',
+      ssn: '333311111',
       relationshipToVeteran: 'Spouse',
       awardIndicator: 'Y',
       key: 'summer-3331',
@@ -214,7 +214,7 @@ export default {
     {
       ...getAge(17),
       fullName: { first: 'PENNY', last: 'FOSTER' },
-      ssn: '3479',
+      ssn: '347934793',
       relationshipToVeteran: 'Child',
       awardIndicator: 'Y',
       key: 'penny-3479',
@@ -234,7 +234,7 @@ export default {
     {
       ...getAge(33),
       fullName: { first: 'FRANK', last: 'FOSTER' },
-      ssn: '3236',
+      ssn: '323632363',
       relationshipToVeteran: 'Child',
       awardIndicator: 'Y',
       key: 'frank-3236',
@@ -255,7 +255,7 @@ export default {
     {
       ...getAge(19),
       fullName: { first: 'JOE', last: 'FOSTER' },
-      ssn: '3468',
+      ssn: '346834683',
       relationshipToVeteran: 'Child',
       awardIndicator: 'Y',
       key: 'joe-3468',
@@ -276,7 +276,7 @@ export default {
     {
       ...getAge(20),
       fullName: { first: 'MIKE', last: 'FOSTER' },
-      ssn: '3499',
+      ssn: '349934993',
       relationshipToVeteran: 'Child',
       awardIndicator: 'Y',
       key: 'mike-3499',
@@ -297,7 +297,7 @@ export default {
     {
       ...getAge(0, 4),
       fullName: { first: 'STACY', last: 'FOSTER' },
-      ssn: '3233',
+      ssn: '323332333',
       relationshipToVeteran: 'Child',
       awardIndicator: 'Y',
       key: 'stacy-3233',
@@ -318,7 +318,7 @@ export default {
     {
       ...getAge(4),
       fullName: { first: 'JENNIFER', last: 'FOSTER' },
-      ssn: '3311',
+      ssn: '331133113',
       relationshipToVeteran: 'Child',
       awardIndicator: 'Y',
       key: 'jennifer-3311',
@@ -339,7 +339,7 @@ export default {
     {
       ...getAge(11),
       fullName: { first: 'FORMER', last: 'FOSTER' },
-      ssn: '3145',
+      ssn: '314531453',
       relationshipToVeteran: 'Child',
       awardIndicator: 'Y',
       key: 'former-3145',
@@ -359,7 +359,7 @@ export default {
     {
       ...getAge(89),
       fullName: { first: 'PETER', last: 'FOSTER' },
-      ssn: '0104',
+      ssn: '010401040',
       relationshipToVeteran: 'Parent',
       awardIndicator: 'Y',
       key: 'peter-0104',
@@ -378,7 +378,7 @@ export default {
     {
       ...getAge(85),
       fullName: { first: 'MARY', last: 'FOSTER' },
-      ssn: '0155',
+      ssn: '015501550',
       relationshipToVeteran: 'Parent',
       awardIndicator: 'Y',
       key: 'mary-0155',
@@ -398,7 +398,7 @@ export default {
   householdIncome: true,
   reportDivorce: {
     spouseIncome: 'N',
-    ssn: '3332',
+    ssn: '333322222',
     date: '2025-01-01',
     divorceLocation: {
       outsideUsa: true,
@@ -415,7 +415,7 @@ export default {
   deaths: [
     {
       fullName: { first: 'SUMMER', last: 'FOSTER' },
-      ssn: '3331',
+      ssn: '333311111',
       birthDate: createDoB(46),
       dependentType: 'SPOUSE',
       dependentDeathDate: '2025-01-01',
@@ -427,7 +427,7 @@ export default {
     },
     {
       fullName: { first: 'FRANK', last: 'FOSTER' },
-      ssn: '3236',
+      ssn: '323632363',
       birthDate: createDoB(33),
       dependentType: 'CHILD',
       dependentDeathDate: '2025-06-06',
@@ -444,7 +444,7 @@ export default {
     },
     {
       fullName: { first: 'PETER', last: 'FOSTER' },
-      ssn: '0104',
+      ssn: '010401040',
       birthDate: createDoB(89),
       dependentType: 'DEPENDENT_PARENT',
       dependentDeathDate: '2025-01-01',
@@ -458,7 +458,7 @@ export default {
   childMarriage: [
     {
       fullName: { first: 'PENNY', last: 'FOSTER' },
-      ssn: '3479',
+      ssn: '347934793',
       birthDate: createDoB(17),
       dateMarried: '2025-06-05',
       dependentIncome: 'N',
@@ -467,7 +467,7 @@ export default {
   childStoppedAttendingSchool: [
     {
       fullName: { first: 'JOE', last: 'FOSTER' },
-      ssn: '3468',
+      ssn: '346834683',
       birthDate: createDoB(19),
       dateChildLeftSchool: '2025-06-07',
       dependentIncome: 'N',
@@ -476,7 +476,7 @@ export default {
   stepChildren: [
     {
       fullName: { first: 'STACY', last: 'FOSTER' },
-      ssn: '3233',
+      ssn: '323332333',
       address: {},
       birthDate: createDoB(0, 4),
       dateStepchildLeftHousehold: '2025-06-05',
@@ -486,7 +486,7 @@ export default {
     },
     {
       fullName: { first: 'FORMER', last: 'FOSTER' },
-      ssn: '3145',
+      ssn: '314531453',
       birthDate: createDoB(11),
     },
   ],

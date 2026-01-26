@@ -188,7 +188,7 @@ export const vitalReducer = (state = initialState, action) => {
       const newList =
         action?.response?.entry
           ?.filter(entry =>
-            entry.resource.code.coding.some(coding =>
+            entry.resource?.code?.coding?.some(coding =>
               allowedVitalLoincs.includes(coding.code),
             ),
           )

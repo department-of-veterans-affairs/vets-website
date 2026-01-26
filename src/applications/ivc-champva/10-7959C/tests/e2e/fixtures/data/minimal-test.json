@@ -1,7 +1,7 @@
 {
   "description": "No Medicare, no OHIs, US address (new), third party signer",
   "data": {
-    "champvaBenefitStatus": true,
+    "view:champvaBenefitStatus": true,
     "applicantHasPrimary": false,
     "applicantMedicareStatus": false,
     "applicantPhone": "1231231234",

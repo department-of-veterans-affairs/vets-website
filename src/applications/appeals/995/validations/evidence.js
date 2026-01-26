@@ -2,7 +2,7 @@ import { isValidUSZipCode } from 'platform/forms/address';
 import { errorMessages } from '../constants';
 import { validateDate, validateYMDate } from './date';
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
-import { fixDateFormat } from '../../shared/utils/replace';
+import { fixDateFormat } from '../../shared/utils/dates';
 import {
   validateAddressParts,
   validateIssues,

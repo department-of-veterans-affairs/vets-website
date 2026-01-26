@@ -17,10 +17,10 @@ import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
 import Alerts from '../containers/Alerts';
 import {
-  isCerner,
   isLOA3,
   isVAPatient,
   personalizationEnabled,
+  selectProfile,
 } from '../selectors';
 import manifest from '../manifest.json';
 
@@ -30,7 +30,8 @@ const LandingPage = ({ data = {} }) => {
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const userHasCernerFacility = useSelector(isCerner);
+  const profile = useSelector(selectProfile);
+  const { userFacilityReadyForInfoAlert = false } = profile;
 
   return (
     <>
@@ -54,7 +55,7 @@ const LandingPage = ({ data = {} }) => {
           />
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
-            isCerner={userHasCernerFacility}
+            showCernerInfoAlert={userFacilityReadyForInfoAlert}
           />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}

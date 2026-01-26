@@ -35,8 +35,8 @@ export const advanceFromHouseholdToSubmit = (testData, props = {}) => {
   cy.selectRadio('root_isEnrolledMedicarePartA', 'N');
 
   goToNextPage('/insurance-information/your-health-insurance');
-  goToNextPage('/insurance-information/general');
-  cy.selectRadio('root_isCoveredByHealthInsurance', 'N');
+  goToNextPage('/insurance-information/health-insurance');
+  cy.selectYesNoVaRadioOption('root_view:hasHealthInsuranceToAdd', false);
 
   goToNextPage('/insurance-information/va-facility');
   fillVaFacility(testData['view:preferredFacility']);
@@ -77,8 +77,8 @@ export const advanceFromShortFormToSubmit = testData => {
   cy.selectRadio('root_isMedicaidEligible', 'N');
 
   goToNextPage('/insurance-information/your-health-insurance');
-  goToNextPage('/insurance-information/general');
-  cy.selectRadio('root_isCoveredByHealthInsurance', 'N');
+  goToNextPage('/insurance-information/health-insurance');
+  cy.selectYesNoVaRadioOption('root_view:hasHealthInsuranceToAdd', false);
 
   goToNextPage('/insurance-information/va-facility');
   fillVaFacility(testData['view:preferredFacility']);

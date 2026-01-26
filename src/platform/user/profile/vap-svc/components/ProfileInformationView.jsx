@@ -15,11 +15,22 @@ import {
 import {
   getSchedulingPreferencesOptionDisplayName,
   isSchedulingPreference,
+  preferredContactMethodDisplay,
 } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
 
 const ProfileInformationView = props => {
-  const { data, fieldName, title, id } = props;
+  const {
+    data,
+    fieldName,
+    title,
+    id,
+    email,
+    mailingAddress,
+    homePhone,
+    workPhone,
+    mobilePhone,
+  } = props;
 
   let displayTitle;
   let titleFormatted;
@@ -123,10 +134,27 @@ const ProfileInformationView = props => {
   }
 
   if (fieldName in data && isSchedulingPreference(fieldName)) {
-    return (
+    displayTitle =
       getSchedulingPreferencesOptionDisplayName(fieldName, data[fieldName]) ||
-      unsetFieldTitleSpan
-    );
+      unsetFieldTitleSpan;
+    switch (fieldName) {
+      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+        return preferredContactMethodDisplay(
+          email,
+          mailingAddress,
+          mobilePhone,
+          homePhone,
+          workPhone,
+          data,
+          fieldName,
+        );
+      case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+        return displayTitle;
+      case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+        return displayTitle;
+      default:
+        return displayTitle;
+    }
   }
 
   return null;
@@ -135,8 +163,13 @@ const ProfileInformationView = props => {
 ProfileInformationView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   data: PropTypes.object,
+  email: PropTypes.object,
+  homePhone: PropTypes.object,
   id: PropTypes.string,
+  mailingAddress: PropTypes.object,
+  mobilePhone: PropTypes.object,
   title: PropTypes.string,
+  workPhone: PropTypes.object,
 };
 
 export default ProfileInformationView;

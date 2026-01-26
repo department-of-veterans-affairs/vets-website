@@ -43,7 +43,11 @@ export default function AppointmentTasksSection({ appointment }) {
       <va-link-action
         data-testid="file-claim-link"
         className="vads-u-margin-top--1"
-        href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+        href={
+          isClaimInProgress
+            ? `/my-health/travel-pay/claims/${claimData?.claim?.id}`
+            : `/my-health/travel-pay/file-new-claim/${appointment.id}`
+        }
         onClick={() => {
           sessionStorage.setItem(
             TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
