@@ -20,7 +20,7 @@ export const schema = {
 
 export const uiSchema = {
   ...titleUI('Your net worth'),
-  'ui:description': formData => (
+  'ui:description': ({ formData }) => (
     <>
       <p>{netWorthDescription(formData?.vaDependentsNetWorthAndPension)}</p>
       {whatAreAssets}
