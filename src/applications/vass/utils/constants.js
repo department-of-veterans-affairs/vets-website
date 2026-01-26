@@ -27,3 +27,12 @@ export const AUTH_LEVELS = {
 };
 
 export const VASS_TOKEN_COOKIE_NAME = 'VASS_TOKEN';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+export const VASS_COOKIE_OPTIONS = {
+  secure: isProduction,
+  sameSite: isProduction ? 'strict' : undefined,
+  path: '/',
+  ...(isProduction ? { domain: 'va.gov' } : {}),
+};

@@ -1,5 +1,6 @@
 const { addDays, addMinutes, format } = require('date-fns');
 const { zonedTimeToUtc } = require('date-fns-tz');
+const { base64UrlEncode } = require('./jwt-utils');
 
 const TZ_ET = 'America/New_York';
 const TZ_PT = 'America/Los_Angeles';
@@ -78,22 +79,6 @@ const generateSlots = (numberOfDays = 14, slotsPerDay = 12) => {
     return slots;
   });
 };
-
-/**
- * Base64 URL encode a string (for mock JWT creation)
- * @param {string} data - The string to encode
- * @returns {string} Base64 URL encoded string
- */
-function base64UrlEncode(data) {
-  if (!data) return null;
-
-  const base64 = Buffer.from(data, 'utf8').toString('base64');
-
-  return base64
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
-}
 
 /**
  * Creates a mock JWT token for testing purposes.

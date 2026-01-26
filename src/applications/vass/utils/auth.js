@@ -1,45 +1,6 @@
 import Cookies from 'js-cookie';
-import { VASS_TOKEN_COOKIE_NAME } from './constants';
-
-/**
- * Base64 URL decode a string (browser-compatible)
- * @param {string} data - The base64url encoded string to decode
- * @returns {string} Decoded string
- */
-const base64UrlDecode = data => {
-  if (!data) return null;
-
-  // Convert base64url to base64
-  let base64 = data.replace(/-/g, '+').replace(/_/g, '/');
-
-  // Add padding if needed
-  const padding = base64.length % 4;
-  if (padding) {
-    base64 += '='.repeat(4 - padding);
-  }
-
-  return atob(base64);
-};
-
-/**
- * Decodes a JWT token and extracts the payload.
- * Note: This does NOT verify the signature.
- *
- * @param {string} token - The JWT token to decode
- * @returns {Object|null} The decoded payload, or null if invalid
- */
-export const decodeJwt = token => {
-  if (!token) return null;
-
-  try {
-    const parts = token.split('.');
-    if (parts.length !== 3) return null;
-
-    return JSON.parse(base64UrlDecode(parts[1]));
-  } catch {
-    return null;
-  }
-};
+import { VASS_TOKEN_COOKIE_NAME, VASS_COOKIE_OPTIONS } from './constants';
+import { decodeJwt } from './jwt-utils';
 
 /**
  * Checks if a JWT token is expired.
@@ -48,7 +9,7 @@ export const decodeJwt = token => {
  * @returns {boolean} True if the token is expired or invalid, false otherwise
  */
 export const isTokenExpired = token => {
-  const payload = decodeJwt(token);
+  const { payload } = decodeJwt(token);
   if (!payload || !payload.exp) return true;
 
   // exp is in seconds, Date.now() is in milliseconds
@@ -56,7 +17,25 @@ export const isTokenExpired = token => {
   return payload.exp <= now;
 };
 
+/**
+ * Gets the VASS token from the cookie.
+ * @returns {string|null} The token if exists, null if missing
+ */
 export const getVassToken = () => Cookies.get(VASS_TOKEN_COOKIE_NAME);
+
+export const setVassToken = token => {
+  if (!token) return;
+  const { payload } = decodeJwt(token);
+  if (!payload || !payload.exp) return;
+
+  // Convert the expiration time from seconds to milliseconds and create a Date object
+  const expires = new Date(payload.exp * 1000);
+
+  Cookies.set(VASS_TOKEN_COOKIE_NAME, token, {
+    ...VASS_COOKIE_OPTIONS,
+    expires,
+  });
+};
 
 /**
  * Gets the VASS token if it exists and is not expired.
@@ -74,5 +53,8 @@ export const getValidVassToken = () => {
  * Removes the VASS token cookie.
  */
 export const removeVassToken = () => {
-  Cookies.remove(VASS_TOKEN_COOKIE_NAME);
+  Cookies.remove(VASS_TOKEN_COOKIE_NAME, {
+    // Must include the same options as the setVassToken to ensure the cookie is removed
+    ...VASS_COOKIE_OPTIONS,
+  });
 };

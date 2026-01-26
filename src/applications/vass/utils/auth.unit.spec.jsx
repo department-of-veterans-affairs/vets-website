@@ -2,48 +2,16 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import Cookies from 'js-cookie';
 import {
-  decodeJwt,
   isTokenExpired,
   getVassToken,
   getValidVassToken,
   removeVassToken,
+  setVassToken,
 } from './auth';
 import { createMockJwt } from './mock-helpers';
 import { VASS_TOKEN_COOKIE_NAME } from './constants';
 
 describe('VASS Utils: auth', () => {
-  describe('decodeJwt', () => {
-    it('should decode a valid JWT and return the payload', () => {
-      const token = createMockJwt('test-uuid-123');
-      const payload = decodeJwt(token);
-
-      expect(payload).to.be.an('object');
-      expect(payload.sub).to.equal('test-uuid-123');
-      expect(payload.jti).to.equal('mock-jti');
-      expect(payload).to.have.property('iat');
-      expect(payload).to.have.property('exp');
-    });
-
-    it('should return null for null or undefined token', () => {
-      expect(decodeJwt(null)).to.be.null;
-      expect(decodeJwt(undefined)).to.be.null;
-    });
-
-    it('should return null for empty string', () => {
-      expect(decodeJwt('')).to.be.null;
-    });
-
-    it('should return null for invalid JWT format (not 3 parts)', () => {
-      expect(decodeJwt('invalid-token')).to.be.null;
-      expect(decodeJwt('only.two')).to.be.null;
-      expect(decodeJwt('too.many.parts.here')).to.be.null;
-    });
-
-    it('should return null for malformed base64 payload', () => {
-      expect(decodeJwt('header.!!!invalid!!!.signature')).to.be.null;
-    });
-  });
-
   describe('isTokenExpired', () => {
     it('should return false for a valid non-expired token', () => {
       const token = createMockJwt('test-uuid', 3600); // expires in 1 hour
@@ -163,6 +131,15 @@ describe('VASS Utils: auth', () => {
       removeVassToken();
 
       expect(cookiesRemoveStub.calledWith(VASS_TOKEN_COOKIE_NAME)).to.be.true;
+    });
+  });
+
+  describe('setVassToken', () => {
+    it('should set the VASS token in cookies', () => {
+      const token = createMockJwt('test-uuid');
+      setVassToken(token);
+
+      expect(Cookies.get(VASS_TOKEN_COOKIE_NAME)).to.equal(token);
     });
   });
 });
