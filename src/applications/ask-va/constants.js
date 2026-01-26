@@ -50,7 +50,6 @@ export const URL = {
   GET_INQUIRIES: `${baseURL}/inquiries`,
   INQUIRIES: `${baseURL}/inquiries`,
   AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
-  DASHBOARD_ID: `/user/dashboard/`,
   DOWNLOAD_ATTACHMENT: `${baseURL}/download_attachment?id=`,
 };
 
