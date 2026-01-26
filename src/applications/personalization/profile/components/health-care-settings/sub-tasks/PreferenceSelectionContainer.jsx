@@ -20,7 +20,6 @@ import {
 import { createSchedulingPreferencesUpdate } from '@@vap-svc/actions/schedulingPreferences';
 import { EditContext } from '../../edit/EditContext';
 import { EditConfirmCancelModal } from '../../edit/EditConfirmCancelModal';
-import { EditBreadcrumb } from '../../edit/EditBreadcrumb';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../constants';
 import { getRouteInfoFromPath } from '../../../../common/helpers';
@@ -394,13 +393,17 @@ export const PreferenceSelectionContainer = ({
             onHide={() => setShowConfirmCancelModal(false)}
           />
           <div className="vads-u-display--block medium-screen:vads-u-display--block">
-            <EditBreadcrumb
-              className="vads-u-margin-top--2 vads-u-margin-bottom--3"
-              onClickHandler={handlers.breadCrumbClick}
-              href={returnPath}
+            <nav
+              aria-label="Breadcrumb"
+              className="vads-u-margin-top--3 vads-u-margin-bottom--3"
             >
-              {returnPathName}
-            </EditBreadcrumb>
+              <va-link
+                back
+                href={returnPath}
+                onClick={handlers.breadCrumbClick}
+                text={returnPathName}
+              />
+            </nav>
 
             <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
               {editPageHeadingString}
