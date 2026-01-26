@@ -722,10 +722,11 @@ const Prescriptions = () => {
             <MedicationsListFilter
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
+              isLoading={isShowingLoading}
             />
             <InProductionEducationFiltering />
           </>
-          {isShowingLoading && renderLoadingIndicator()}
+          {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
               <FilterAriaRegion filterOption={selectedFilterOption} />
@@ -734,7 +735,7 @@ const Prescriptions = () => {
                 shouldShowSelect={!isLoading}
               />
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-              {!isShowingLoading && renderMedicationsList()}
+              {!isLoading && renderMedicationsList()}
               <BeforeYouDownloadDropdown page={pageType.LIST} />
               <PrintDownload
                 onDownload={handleExportListDownload}

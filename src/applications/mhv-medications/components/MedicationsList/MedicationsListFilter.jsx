@@ -24,7 +24,7 @@ import {
   selectFilterOption,
 } from '../../selectors/selectPreferences';
 
-const MedicationsListFilter = ({ updateFilter, filterCount }) => {
+const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   const filterOpenByDefault = useSelector(selectFilterOpenByDefault);
@@ -38,6 +38,14 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
   const [selectedFilterOption, setSelectedFilterOption] = useState(
     filterOption,
   );
+  const [loadingButton, setLoadingButton] = useState(null); // Track which button is loading
+
+  // Reset button loading state when overall loading is complete
+  useEffect(() => {
+    if (!isLoading) {
+      setLoadingButton(null);
+    }
+  }, [isLoading]);
 
   const mapFilterCountToFilterLabels = label => {
     switch (label) {
@@ -102,11 +110,13 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
       form_field_option_label: selectedFilterOption,
     });
 
+    setLoadingButton('apply');
     updateFilter(selectedFilterOption);
     waitForRenderThenFocus('#showingRx', document, 500);
   };
 
   const handleFilterReset = () => {
+    setLoadingButton('reset');
     updateFilter(ALL_MEDICATIONS_FILTER_KEY);
     setSelectedFilterOption(ALL_MEDICATIONS_FILTER_KEY);
     waitForRenderThenFocus('#showingRx', document, 500);
@@ -188,6 +198,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
           }
+          loading={isLoading && loadingButton === 'apply'}
         />
         <VaButton
           className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
@@ -198,6 +209,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.RESET_FILTER_BUTTON
           }
+          loading={isLoading && loadingButton === 'reset'}
         />
       </VaAccordionItem>
     </VaAccordion>
@@ -205,6 +217,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
 };
 
 MedicationsListFilter.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   filterCount: PropTypes.object,
   updateFilter: PropTypes.func,
 };
