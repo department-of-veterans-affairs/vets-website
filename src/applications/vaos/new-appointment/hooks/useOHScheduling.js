@@ -3,7 +3,7 @@ import { getFormData, getTypeOfCare } from '../redux/selectors';
 import { selectFeatureUseVpg } from '../../redux/selectors';
 import { OH_ENABLED_TYPES_OF_CARE } from '../../utils/constants';
 
-export function useOHRequestScheduling() {
+export function useOHScheduling() {
   const featureUseVpg = useSelector(selectFeatureUseVpg);
   const data = useSelector(getFormData);
   const typeOfCare = getTypeOfCare(data);
