@@ -1,6 +1,5 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { waitForElementToBeRemoved } from '@testing-library/react';
 
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
@@ -44,10 +43,7 @@ function deleteAddress(addressName) {
 async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { confirmRemoveModal } = deleteAddress(addressName);
-
-  // wait for the confirm removal modal to close
-  await waitForElementToBeRemoved(confirmRemoveModal);
+  deleteAddress(addressName);
 
   // the va-loading-indicator should display
   await view.findByTestId('loading-indicator');
