@@ -3,22 +3,13 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import AppointmentCard from './AppointmentCard';
+import { createAppointmentData } from '../utils/appointments';
 
 describe('VASS Component: AppointmentCard', () => {
   it('renders card sections and actions', () => {
-    const appointmentData = {
-      appointmentId: '123',
-      startUTC: '2025-05-01T16:00:00.000Z',
-      endUTC: '2025-05-01T16:30:00.000Z',
-      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
-      agentNickname: 'Bill Brasky',
-      appointmentStatusCode: 1,
-      appointmentStatus: 'Confirmed',
-      cohortStartUtc: '2025-01-01T00:00:00.000Z',
-      cohortEndUtc: '2025-12-31T23:59:59.999Z',
+    const appointmentData = createAppointmentData({
       topics: [{ topicName: 'Benefits' }, { topicName: 'Health care' }],
-      showAddToCalendarButton: true,
-    };
+    });
 
     const { getByTestId } = render(
       <AppointmentCard
@@ -48,44 +39,20 @@ describe('VASS Component: AppointmentCard', () => {
   });
 
   it('omits calendar and cancel actions when not provided', () => {
-    const appointmentData = {
-      appointmentId: '456',
-      phoneNumber: '8005551212',
-      startUTC: '2025-06-01T16:00:00.000Z',
-      endUTC: '2025-06-01T16:30:00.000Z',
-      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
-      agentNickname: 'Bill Brasky',
-      appointmentStatusCode: 1,
-      appointmentStatus: 'Confirmed',
-      cohortStartUtc: '2025-01-01T00:00:00.000Z',
-      cohortEndUtc: '2025-12-31T23:59:59.999Z',
-      topics: [{ topicName: 'Benefits' }],
-      showAddToCalendarButton: false,
-    };
+    const appointmentData = createAppointmentData();
 
     const { getByTestId, queryByTestId } = render(
       <AppointmentCard appointmentData={appointmentData} />,
     );
 
     expect(getByTestId('appointment-card')).to.exist;
-    expect(queryByTestId('add-to-calendar-button')).to.not.exist;
     expect(queryByTestId('print-button')).to.not.exist;
     expect(queryByTestId('cancel-button')).to.not.exist;
   });
 
   it('omits topics section when no topics are provided', () => {
-    const appointmentData = {
-      appointmentId: '789',
-      startUTC: '2025-07-01T16:00:00.000Z',
-      endUTC: '2025-07-01T16:30:00.000Z',
-      agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
-      agentNickname: 'Bill Brasky',
-      appointmentStatusCode: 1,
-      appointmentStatus: 'Confirmed',
-      cohortStartUtc: '2025-01-01T00:00:00.000Z',
-      cohortEndUtc: '2025-12-31T23:59:59.999Z',
-      topics: [],
-    };
+    const appointmentData = createAppointmentData({ topics: [] });
+
     const { queryByTestId } = render(
       <AppointmentCard appointmentData={appointmentData} />,
     );

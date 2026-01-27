@@ -12,7 +12,10 @@ import {
 import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
 
 import { mapAppointmentAvailabilityToSlots } from '../utils/slots';
-import { getTimezoneDescByTimeZoneString } from '../utils/timezone';
+import {
+  getTimezoneDescByTimeZoneString,
+  getBrowserTimezone,
+} from '../utils/timezone';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
@@ -24,8 +27,7 @@ const DateTimeSelection = () => {
     isLoading: loading,
   } = useGetAppointmentAvailabilityQuery(uuid);
 
-  // TODO: determine what timezone to use
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const timezone = getBrowserTimezone();
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
 

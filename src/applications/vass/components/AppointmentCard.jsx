@@ -2,9 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CardSection from './CardSection';
 import { VASS_PHONE_NUMBER } from '../utils/constants';
+/**
+ * @typedef {import('../utils/appointments').Appointment} Appointment
+ */
 
+/**
+ * Renders a card for an appointment.
+ * @param {Object} props
+ * @param {Appointment} props.appointmentData - The appointment data
+ * @param {Function} props.handleCancelAppointment - The function to handle canceling the appointment
+ * @returns {JSX.Element}
+ */
 const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
-  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return (
     <va-card
       data-testid="appointment-card"
@@ -35,12 +44,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
       <CardSection
         data-testid="when-section"
         heading="When"
-        dateContent={{
-          dateTime: appointmentData?.startUTC,
-          timezone: browserTimezone,
-          phoneNumber: VASS_PHONE_NUMBER,
-          showAddToCalendarButton: appointmentData?.showAddToCalendarButton,
-        }}
+        appointmentData={appointmentData}
       />
       <CardSection
         data-testid="what-section"

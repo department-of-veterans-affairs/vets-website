@@ -5,19 +5,10 @@ import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform
 
 import Confirmation from './Confirmation';
 import { getDefaultRenderOptions } from '../utils/test-utils';
+import { createAppointmentData } from '../utils/appointments';
 
 const appointmentId = '123';
-const appointmentData = {
-  appointmentId,
-  startUTC: '2025-05-01T16:00:00.000Z',
-  endUTC: '2025-05-01T16:30:00.000Z',
-  agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
-  agentNickname: 'Bill Brasky',
-  appointmentStatusCode: 1,
-  appointmentStatus: 'Confirmed',
-  cohortStartUtc: '2025-01-01T00:00:00.000Z',
-  cohortEndUtc: '2025-12-31T23:59:59.999Z',
-};
+const appointmentData = createAppointmentData({ appointmentId });
 
 // Pre-populate the RTK Query cache with the appointment data
 const getVassApiState = () => ({
