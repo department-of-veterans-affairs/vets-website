@@ -280,7 +280,11 @@ export const SearchForm = props => {
   const facilityAndServiceTypeInputs = (
     <>
       <FacilityType
-        currentQuery={draftFormState}
+        currentQuery={{
+          ...draftFormState,
+          isValid: currentQuery.isValid,
+          facilityTypeChanged: currentQuery.facilityTypeChanged,
+        }}
         handleFacilityTypeChange={handleFacilityTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
@@ -289,7 +293,10 @@ export const SearchForm = props => {
         useProgressiveDisclosure={useProgressiveDisclosure}
       />
       <ServiceType
-        currentQuery={draftFormState}
+        currentQuery={{
+          ...draftFormState,
+          serviceTypeChanged: currentQuery.serviceTypeChanged,
+        }}
         getProviderSpecialties={props.getProviderSpecialties}
         handleServiceTypeChange={handleServiceTypeChange}
         isMobile={isMobile}
