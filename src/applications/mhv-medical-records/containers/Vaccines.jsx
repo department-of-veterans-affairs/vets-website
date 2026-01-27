@@ -178,7 +178,6 @@ const Vaccines = props => {
   };
 
   const generateVaccineListItemTxt = item => {
-    setDownloadStarted(true);
     const content = [
       `${txtLine}\n\n`,
       `${item.name}\n`,
@@ -203,6 +202,7 @@ const Vaccines = props => {
     return content.join('');
   };
   const generateVaccinesTxt = async () => {
+    setDownloadStarted(true);
     const content = [
       `${crisisLineHeader}\n\n`,
       `Vaccines\n`,

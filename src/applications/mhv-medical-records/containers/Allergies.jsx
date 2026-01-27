@@ -150,7 +150,6 @@ const Allergies = props => {
   };
 
   const generateAllergyListItemTxt = item => {
-    setDownloadStarted(true);
     if (isCerner) {
       return `
 ${txtLine}\n\n
@@ -173,6 +172,7 @@ Provider notes: ${item.notes}\n`;
   };
 
   const generateAllergiesTxt = async () => {
+    setDownloadStarted(true);
     // Conditional content based on whether user has Meds by Mail facility
     const additionalInfo = hasMedsByMailFacility
       ? `
