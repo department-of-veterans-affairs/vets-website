@@ -99,8 +99,8 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
         VAFacilityPageObject.assertUrl()
           .selectLocation(/Facility 983/i)
           .clickNextButton()
-          .assertWarningModal({
-            text: /This facility doesn.t accept online scheduling for this care/,
+          .assertErrorModal({
+            text: /You can.t schedule an appointment online right now/,
           });
 
         // Assert
@@ -161,7 +161,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /This facility doesn.t accept online scheduling for this care/i,
+            text: /You can.t schedule this appointment online/i,
           });
 
         // Assert
@@ -227,7 +227,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /This facility doesn.t accept online scheduling for this care/i,
+            text: /You can.t schedule this appointment online/i,
           });
 
         // Assert
@@ -289,7 +289,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /This facility doesn.t accept online scheduling for this care/i,
+            text: /You can.t schedule an appointment online/i,
           });
 
         // Assert
@@ -355,7 +355,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /This facility doesn.t accept online scheduling for this care/i,
+            text: /You can.t schedule an appointment online/i,
           });
 
         // Assert
