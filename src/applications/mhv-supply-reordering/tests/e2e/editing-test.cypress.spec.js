@@ -119,10 +119,9 @@ describe(`${appName} -- editing test`, () => {
 
     // confirmation
     cy.injectAxeThenAxeCheck();
-    heading = {
-      level: 2,
-      name: /^You’ve submitted your medical supplies order$/,
-    };
-    cy.findByRole('heading', heading); // .should('have.focus'); // it _should_ have focus, but does not
+    cy.get('va-alert[status="success"] h2').should(
+      'contain.text',
+      'You’ve submitted your medical supplies order',
+    );
   });
 });
