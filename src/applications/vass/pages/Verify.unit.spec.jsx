@@ -20,6 +20,7 @@ import {
   reducers,
   vassApi,
 } from '../utils/test-utils';
+import { FLOW_TYPES, URLS } from '../utils/constants';
 
 // Helper component to display current location for testing navigation
 const LocationDisplay = () => {
@@ -58,10 +59,27 @@ describe('VASS Component: Verify', () => {
   });
 
   describe('when cancellation url parameter is true', () => {
+    it('should set the flow type to cancel', async () => {
+      const store = createStore(
+        combineReducers({ ...commonReducer, ...reducers }),
+        defaultRenderOptions.initialState,
+        applyMiddleware(thunk, vassApi.middleware),
+      );
+
+      renderWithStoreAndRouterV6(<Verify />, {
+        ...defaultRenderOptions,
+        store,
+        initialEntries: [`${URLS.VERIFY}?cancel=true&uuid=test-uuid`],
+      });
+
+      await waitFor(() => {
+        expect(store.getState().vassForm.flowType).to.equal(FLOW_TYPES.CANCEL);
+      });
+    });
     it('should display the correct page title', () => {
       const { getByTestId } = renderWithStoreAndRouterV6(<Verify />, {
         ...defaultRenderOptions,
-        initialEntries: ['/?cancel=true'],
+        initialEntries: [`${URLS.VERIFY}?cancel=true`],
       });
 
       expect(getByTestId('header').textContent).to.contain(
@@ -69,7 +87,7 @@ describe('VASS Component: Verify', () => {
       );
     });
 
-    it('should navigate to enter otc page passing cancel=true as a url parameter', async () => {
+    it('should navigate to enter otc page', async () => {
       setFetchJSONResponse(global.fetch.onCall(0), {
         data: {
           message: 'OTC sent to registered email address',
@@ -81,14 +99,14 @@ describe('VASS Component: Verify', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path="/" element={<Verify />} />
-            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+            <Route path={URLS.VERIFY} element={<Verify />} />
+            <Route path={URLS.ENTER_OTC} element={<div>Enter OTC Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
         {
           ...defaultRenderOptions,
-          initialEntries: ['/?cancel=true'],
+          initialEntries: [URLS.VERIFY],
         },
       );
 
@@ -108,7 +126,7 @@ describe('VASS Component: Verify', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/enter-otc?cancel=true',
+          URLS.ENTER_OTC,
         );
       });
     });
@@ -127,8 +145,8 @@ describe('VASS Component: Verify', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path="/" element={<Verify />} />
-            <Route path="/enter-otc" element={<div>Enter OTC Page</div>} />
+            <Route path={URLS.VERIFY} element={<Verify />} />
+            <Route path={URLS.ENTER_OTC} element={<div>Enter OTC Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
@@ -154,7 +172,7 @@ describe('VASS Component: Verify', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/enter-otc',
+          URLS.ENTER_OTC,
         );
       });
     });

@@ -143,6 +143,7 @@
   "hcaInsuranceV2Enabled": "hca_insurance_v2_enabled",
   "hcaPerformanceAlertEnabled": "hca_performance_alert_enabled",
   "hcaRegOnlyEnabled": "hca_reg_only_enabled",
+  "identityLogingovIal2Enforcement": "identity_logingov_ial2_enforcement",
   "incomeAndAssetsFormEnabled": "income_and_assets_form_enabled",
   "incomeAndAssetsContentUpdates": "income_and_assets_content_updates",
   "incomeAndAssetsBrowserMonitoringEnabled": "income_and_assets_browser_monitoring_enabled",
@@ -194,8 +195,10 @@
   "mhvMedicationsPartialFillContent": "mhv_medications_partial_fill_content",
   "mhvMedicationsDontIncrementIpeCount": "mhv_medications_dont_increment_ipe_count",
   "mhvMedicationsEnableKramesHtmlSanitization": "mhv_medications_enable_krames_html_sanitization",
+  "mhvMedicationsManagementImprovements": "mhv_medications_management_improvements",
   "mhvMilestone2ChangesEnabled": "mhv_milestone_2_changes_enabled",
   "mhvModernCtaLinks": "mhv_modern_cta_links",
+  "mhvSecureMessagingCanReplyField":"mhv_secure_messaging_can_reply_field",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
   "mhvSecureMessagingCernerPilotSystemMaintenanceBanner": "mhv_secure_messaging_cerner_pilot_system_maintenance_banner",
   "mhvSecureMessagingFilterAccordion": "mhv_secure_messaging_filter_accordion",
@@ -395,5 +398,6 @@
   "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled",
   "meb1995InstructionPageUpdateV3": "meb_1995_instruction_page_update_v3",
   "sobClaimantService": "sob_claimant_service",
-  "form10203ClaimantService": "form_10203_claimant_service"
+  "form10203ClaimantService": "form_10203_claimant_service",
+  "meb5490Under18Flow": "meb_5490_under_18_flow"
 }

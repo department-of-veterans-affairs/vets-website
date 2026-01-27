@@ -6,7 +6,7 @@ export default function VAFacilityInfoMessage({ facility, sortMethod }) {
   return (
     <div className="vads-u-margin-bottom--4">
       <p>
-        We found one VA location where you're registered that offers COVID-19
+        We found 1 VA location where you're registered that offers COVID-19
         vaccine appointments.
       </p>
       <strong>{facility.name}</strong>
