@@ -36,6 +36,5 @@ export default function ChatMessageIcon({ user }) {
 }
 
 ChatMessageIcon.propTypes = {
-  className: PropTypes.string,
   user: PropTypes.bool,
 };
