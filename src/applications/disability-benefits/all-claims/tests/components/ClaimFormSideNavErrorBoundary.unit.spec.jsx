@@ -58,7 +58,6 @@ describe('ClaimFormSideNavErrorBoundary', () => {
 
     const [error, context] = addErrorStub.firstCall.args;
     expect(error).to.be.an.instanceof(Error);
-    // In test environment, React may wrap the error message
     expect(error.message).to.include('error');
 
     expect(context).to.have.property('component', 'ClaimFormSideNav');
