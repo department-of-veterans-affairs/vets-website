@@ -19,6 +19,7 @@ import {
   claimingRated,
   showSeparationLocation,
   sippableId,
+  isEvidenceEnhancement,
 } from './utils';
 
 import {
@@ -233,7 +234,11 @@ export const validateIfHasEvidence = (
   index,
 ) => {
   const { wrappedValidator } = options;
-  if (_.get('view:hasEvidence', formData, true)) {
+  // In enhancement flow, check view:hasMedicalRecords; otherwise check view:hasEvidence
+  const hasEvidence = isEvidenceEnhancement(formData)
+    ? _.get('view:hasMedicalRecords', formData, true)
+    : _.get('view:hasEvidence', formData, true);
+  if (hasEvidence) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
 };
