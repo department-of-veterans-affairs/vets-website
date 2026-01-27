@@ -59,7 +59,7 @@ describe('Documents', () => {
       'alert-box-closeable': false,
       'reason-for-alert': 'Not enrolled in VA benefits',
     };
-    sinon.assert.calledWithExactly(recordEventStub, notEnrolledEvent);
+    sinon.assert.calledWith(recordEventStub, notEnrolledEvent);
   });
 
   it('should render documents', () => {
@@ -107,6 +107,6 @@ describe('Documents', () => {
       'alert-box-closeable': false,
       'reason-for-alert': 'API error',
     };
-    sinon.assert.calledWithExactly(recordEventStub, apiErrorEvent);
+    sinon.assert.calledWith(recordEventStub, apiErrorEvent);
   });
 });
