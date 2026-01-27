@@ -336,8 +336,6 @@
   "vaOnlineSchedulingCommunityCare": "va_online_scheduling_community_care",
   "vaOnlineSchedulingCommunityCareCancellations": "va_online_scheduling_community_care_cancellations",
   "vaOnlineSchedulingDirect": "va_online_scheduling_direct",
-  "vaOnlineSchedulingOhDirectSchedule": "va_online_scheduling_OH_direct_schedule",
-  "vaOnlineSchedulingOhRequest": "va_online_scheduling_OH_request",
   "vaOnlineSchedulingRecentLocationsFilter": "va_online_scheduling_recent_locations_filter",
   "vaOnlineSchedulingRequests": "va_online_scheduling_requests",
   "vaOnlineSchedulingRemovePodiatry": "vaos_online_scheduling_remove_podiatry",
