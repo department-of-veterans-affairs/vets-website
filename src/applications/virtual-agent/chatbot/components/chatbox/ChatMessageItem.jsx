@@ -25,8 +25,8 @@ const buildBubbleClassNames = isUser => {
   return classNames(
     'va-chatbot-message-bubble vads-u-padding-y--1 vads-u-padding-x--1p5',
     {
-      'va-chatbot-message-bubble--va vads-u-background-color--primary-alt-lightest vads-u-border-color--primary': !isUser,
-      'va-chatbot-message-bubble--user vads-u-background-color--gray-lightest vads-u-margin-left--auto': isUser,
+      'vads-u-background-color--primary-alt-lightest vads-u-border-color--primary': !isUser,
+      'vads-u-background-color--gray-lightest vads-u-margin-left--auto': isUser,
     },
   );
 };
