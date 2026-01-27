@@ -2,7 +2,7 @@ import manifest from '../../manifest.json';
 import cypressSetup from '../../../shared/tests/cypress.setup';
 import * as h from './995.cypress.helpers';
 import {
-  EVIDENCE_URLS,
+  EVIDENCE_ADDITIONAL_URL,
   NOV_2025_REDESIGN_TOGGLE,
   TOGGLE_KEY,
 } from '../../constants';
@@ -288,7 +288,7 @@ describe('Array Builder evidence flow', () => {
       h.selectPrivatePromptRepeaterResponse('N');
       cy.url().should(
         'contain',
-        `${manifest.rootUrl}/${EVIDENCE_URLS.uploadPrompt}`,
+        `${manifest.rootUrl}/${EVIDENCE_ADDITIONAL_URL}`,
       );
 
       cy.go('back');

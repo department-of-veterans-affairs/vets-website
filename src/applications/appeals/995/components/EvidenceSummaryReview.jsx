@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
-  getOtherEvidence,
-  getPrivateEvidence,
   getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
 } from '../utils/form-data-retrieval';
 import { content } from '../content/evidence/summary';
 import { PrivateDetailsDisplay } from './evidence/PrivateDetailsDisplay';
