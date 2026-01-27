@@ -116,7 +116,7 @@ const clickContinueCancelButton = () => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('continue-cancel-buttons')
     .shadow()
-    .wait(1) // wait needed to ensure button is clickable for some reason
+    .wait(100) // wait needed to ensure button is clickable for some reason
     .find('va-button')
     .first()
     .shadow()
