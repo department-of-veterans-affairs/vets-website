@@ -31,10 +31,7 @@ export default function ChatboxContainer({
           {title}
         </h2>
       </div>
-      <div
-        className="vads-u-background-color--white"
-        style={{ height: '550px', width: '100%', position: 'relative' }}
-      >
+      <div className="vads-u-background-color--white va-chatbot-chatbox-container">
         {children}
       </div>
     </div>
