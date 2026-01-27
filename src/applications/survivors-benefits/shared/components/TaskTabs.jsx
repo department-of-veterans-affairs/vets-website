@@ -87,7 +87,7 @@ export const TaskTabs = ({ location, formConfig }) => {
       // Replace the port number in hostname with 3002
       const newHostname = window.location.hostname.replace(
         /-\d+\.app\.github\.dev$/,
-        '-3002.app.github.dev',
+        '-3001.app.github.dev',
       );
       // Construct full URL with / path
       window.location.href = `${window.location.protocol}//${newHostname}/`;
