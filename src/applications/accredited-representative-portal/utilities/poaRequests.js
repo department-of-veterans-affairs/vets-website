@@ -4,7 +4,6 @@ import {
   formatDateParsedZoneLong,
   timeFromNow,
 } from 'platform/utilities/date/index';
-import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 export const BANNER_TYPES = {
   PROCESSING: 'PENDING',
@@ -170,81 +169,6 @@ export const dashboardBC = [
     label: 'Dashboard',
   },
 ];
-
-export const SEARCH_PARAMS = {
-  STATUS: 'status',
-  SORTBY: 'sortBy',
-  SORTORDER: 'sortOrder',
-  SIZE: 'pageSize',
-  NUMBER: 'pageNumber',
-  SELECTED_INDIVIDUAL: 'as_selected_individual',
-};
-export const SORT_BY = {
-  CREATED: 'created_at',
-  RESOLVED: 'resolved_at',
-  ASC: 'asc',
-  DESC: 'desc',
-};
-
-export const STATUSES = {
-  PENDING: 'pending',
-  PROCESSED: 'processed',
-};
-
-export const PROCESSED_SORT_DEFAULTS = {
-  SORT_BY: 'resolved_at',
-  SORT_ORDER: 'desc',
-  // default is 20 per page
-  SIZE: '20',
-  // default is page 1
-  NUMBER: '1',
-  SELECTED_INDIVIDUAL: 'false',
-};
-
-export const PENDING_SORT_DEFAULTS = {
-  SORT_BY: 'created_at',
-  SORT_ORDER: 'desc',
-  // default is 20 per page
-  SIZE: '20',
-  // default is page 1
-  NUMBER: '1',
-  SELECTED_INDIVIDUAL: 'false',
-};
-
-export const SUBMISSION_DEFAULTS = {
-  STATUS: null,
-  SORT_BY: 'created_at',
-  SORT_ORDER: 'desc',
-  // default is 20 per page
-  SIZE: '20',
-  // default is page 1
-  NUMBER: '1',
-  SELECTED_INDIVIDUAL: null,
-};
-
-export async function addStyleToShadowDomOnPages(
-  urlArray,
-  targetElements,
-  style,
-) {
-  // If we're on one of the desired pages (per URL array), inject CSS
-  // into the specified target elements' shadow DOMs:
-  if (urlArray.some(u => window.location.href.includes(u)))
-    targetElements.map(async e => {
-      try {
-        document.querySelectorAll(e).forEach(async item => {
-          const el = await waitForShadowRoot(item);
-          if (el?.shadowRoot) {
-            const sheet = new CSSStyleSheet();
-            sheet.replaceSync(style);
-            el.shadowRoot.adoptedStyleSheets.push(sheet);
-          }
-        });
-      } catch (err) {
-        // Fail silently (styles just won't be applied)
-      }
-    });
-}
 
 export const checkReason = poaRequest => {
   const declinationReason = poaRequest?.resolution?.declinationReason;

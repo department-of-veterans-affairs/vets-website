@@ -10,6 +10,7 @@ import { commonReducer } from 'platform/startup/store';
 import reducers from '../redux/reducers';
 
 import { vassApi } from '../redux/api/vassApi';
+import { FLOW_TYPES } from './constants';
 
 /**
  * @typedef {{ topicId: string, topicName: string }} Topic
@@ -24,6 +25,7 @@ import { vassApi } from '../redux/api/vassApi';
  * @property {string | null} uuid - Unique identifier from the appointment URL
  * @property {string | null} lastname - User's last name for verification
  * @property {string | null} dob - User's date of birth for verification (YYYY-MM-DD)
+ * @property {'schedule'|'cancel'|'any'} flowType - The current user flow type
  */
 
 /**
@@ -39,6 +41,7 @@ export const defaultVassFormState = {
   uuid: null,
   lastname: null,
   dob: null,
+  flowType: FLOW_TYPES.ANY,
 };
 
 /**
