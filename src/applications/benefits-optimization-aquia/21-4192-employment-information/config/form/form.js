@@ -109,11 +109,11 @@ const formConfig = {
       },
     },
     employerInformationChapter: {
-      title: 'Employers Information',
+      title: "Employer's Information",
       pages: {
         employerInformation: {
           path: 'employer-information',
-          title: 'Employers Information',
+          title: "Employer's Information",
           uiSchema: employerInformationUiSchema,
           schema: employerInformationSchema,
         },

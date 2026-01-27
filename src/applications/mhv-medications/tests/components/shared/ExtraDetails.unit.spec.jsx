@@ -6,6 +6,7 @@ import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
 import { dispStatusObj, dispStatusObjV2 } from '../../../util/constants';
+import { pageType } from '../../../util/dataDogConstants';
 
 describe('Medications List Card Extra Details', () => {
   const FLAG_COMBINATIONS = [
@@ -83,6 +84,16 @@ describe('Medications List Card Extra Details', () => {
         [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
         ...(initialState.featureToggles || {}),
       },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            cernerFacilities: [
+              { vhaId: '668', vamcFacilityName: 'Spokane VA' },
+            ],
+          },
+        },
+        ...(initialState.drupalStaticData || {}),
+      },
     };
 
     return renderWithStoreAndRouterV6(<ExtraDetails {...rx} />, {
@@ -116,7 +127,7 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
     });
   });
@@ -196,6 +207,7 @@ describe('Medications List Card Extra Details', () => {
         isRenewable: true,
         prescriptionSource: 'VA',
         dispStatus: null,
+        stationNumber: '668',
       });
       expect(await screen.findByTestId('send-renewal-request-message-link')).to
         .exist;
@@ -208,6 +220,7 @@ describe('Medications List Card Extra Details', () => {
         prescriptionSource: 'VA',
         dispStatus: 'Active',
         refillRemaining: 5, // Has refills but isRenewable should still show link
+        stationNumber: '668',
       });
       expect(await screen.findByTestId('send-renewal-request-message-link')).to
         .exist;
@@ -219,6 +232,7 @@ describe('Medications List Card Extra Details', () => {
         isRenewable: true,
         prescriptionSource: 'NV',
         dispStatus: null,
+        stationNumber: '668',
       });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
@@ -231,6 +245,7 @@ describe('Medications List Card Extra Details', () => {
         prescriptionSource: 'VA',
         dispStatus: 'Active',
         refillRemaining: 5,
+        stationNumber: '668',
       });
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
@@ -247,8 +262,95 @@ describe('Medications List Card Extra Details', () => {
       expect(
         await screen.findByTestId('active-no-refill-left'),
       ).to.contain.text(
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
+    });
+  });
+  describe('RefillNavButton rendering based on page prop', () => {
+    it('renders refill button on list page for active prescription with refills', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.active,
+        isRefillable: true,
+        refillRemaining: 3,
+        page: pageType.LIST,
+      });
+      expect(await screen.findByTestId('refill-nav-button')).to.exist;
+    });
+
+    it('renders refill button on list page for active parked prescription with refills', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.activeParked,
+        isRefillable: true,
+        refillRemaining: 3,
+        page: pageType.LIST,
+      });
+      expect(await screen.findByTestId('refill-nav-button')).to.exist;
+    });
+
+    it('does not render refill button on details page for active parked prescription', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.activeParked,
+        isRefillable: true,
+        refillRemaining: 3,
+        page: pageType.DETAILS,
+      });
+      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+    });
+
+    it('does not render refill button when page prop is not provided', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.activeParked,
+        isRefillable: true,
+        refillRemaining: 3,
+      });
+      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+    });
+
+    it('does not render refill button when prescription is not refillable', async () => {
+      const screen = setup({
+        ...prescription,
+        dispStatus: dispStatusObj.activeParked,
+        isRefillable: false,
+        refillRemaining: 3,
+        page: pageType.LIST,
+      });
+      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+    });
+
+    it('renders refill button for V2 Active status on list page', async () => {
+      const screen = setup(
+        {
+          ...prescription,
+          dispStatus: dispStatusObjV2.active,
+          isRefillable: true,
+          refillRemaining: 3,
+          page: pageType.LIST,
+        },
+        {},
+        true,
+        true,
+      );
+      expect(await screen.findByTestId('refill-nav-button')).to.exist;
+    });
+
+    it('does not render refill button for V2 Active status on details page', async () => {
+      const screen = setup(
+        {
+          ...prescription,
+          dispStatus: dispStatusObjV2.active,
+          isRefillable: true,
+          refillRemaining: 3,
+          page: pageType.DETAILS,
+        },
+        {},
+        true,
+        true,
+      );
+      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
     });
   });
 });
