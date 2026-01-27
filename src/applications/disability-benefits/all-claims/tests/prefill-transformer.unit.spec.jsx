@@ -356,6 +356,126 @@ describe('526v2 prefill transformer', () => {
         },
       });
     });
+
+    it('should auto-detect military base when prefill has military city but checkbox unchecked', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Base Street',
+            city: 'APO', // Military city
+            state: 'NY', // Regular state
+            zipCode: '09012',
+            // Military checkbox NOT set in prefill data
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true, // Should be auto-detected as true
+          country: 'USA',
+          addressLine1: '123 Base Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'APO',
+          state: 'NY',
+          zipCode: '09012',
+        },
+      });
+    });
+
+    it('should auto-detect military base when prefill has military state but checkbox unchecked', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '456 Military Ave',
+            city: 'Some City', // Regular city
+            state: 'AE', // Military state
+            zipCode: '09033',
+            // Military checkbox NOT set in prefill data
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true, // Should be auto-detected as true
+          country: 'USA',
+          addressLine1: '456 Military Ave',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'Some City',
+          state: 'AE',
+          zipCode: '09033',
+        },
+      });
+    });
+
+    it('should override explicitly set military checkbox to false', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Base Street',
+            city: 'APO', // Military city
+            state: 'NY',
+            zipCode: '09012',
+            'view:livesOnMilitaryBase': false,
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true,
+          country: 'USA',
+          addressLine1: '123 Base Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'APO',
+          state: 'NY',
+          zipCode: '09012',
+        },
+      });
+    });
   });
 
   describe('prefillServiceInformation', () => {

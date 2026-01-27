@@ -81,7 +81,7 @@ const shouldShowZipCode = formData => {
  * military base checkbox state changes
  */
 export const updateFormData = (oldFormData, formData) => {
-  return updateFormDataAddress(
+  const updatedFormData = updateFormDataAddress(
     oldFormData,
     formData,
     ['mailingAddress'],
@@ -94,6 +94,28 @@ export const updateFormData = (oldFormData, formData) => {
       isMilitary: 'view:livesOnMilitaryBase',
     },
   );
+
+  // Auto-detect military status based on city or state and set view:livesOnMilitaryBase accordingly
+  if (updatedFormData.mailingAddress) {
+    const { city, state } = updatedFormData.mailingAddress;
+    const isMilitaryCity = city && MILITARY_CITIES.includes(city);
+    const isMilitaryState = state && MILITARY_STATE_VALUES.includes(state);
+
+    const oldMilitaryFlag =
+      oldFormData.mailingAddress?.['view:livesOnMilitaryBase'];
+    const newMilitaryFlag =
+      updatedFormData.mailingAddress['view:livesOnMilitaryBase'];
+
+    if (
+      (isMilitaryCity || isMilitaryState) &&
+      oldMilitaryFlag === newMilitaryFlag &&
+      !newMilitaryFlag
+    ) {
+      updatedFormData.mailingAddress['view:livesOnMilitaryBase'] = true;
+    }
+  }
+
+  return updatedFormData;
 };
 
 export const uiSchema = {
@@ -168,7 +190,8 @@ export const uiSchema = {
           const ui = _uiSchema;
           if (
             formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
-            MILITARY_CITIES.includes(formData.mailingAddress.city)
+            MILITARY_CITIES.includes(formData.mailingAddress.city) ||
+            MILITARY_STATE_VALUES.includes(formData.mailingAddress.state)
           ) {
             ui['ui:webComponentField'] = VaRadioField;
             ui['ui:errorMessages'] = {
