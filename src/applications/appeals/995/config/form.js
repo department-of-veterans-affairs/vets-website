@@ -273,7 +273,7 @@ const formConfig = {
           uiSchema: vaPrompt.uiSchema,
           schema: vaPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
-          depends: !redesignActive,
+          depends: formData => !redesignActive(formData),
         },
         vaDetailsOld: {
           title: 'VA medical records details',
@@ -357,7 +357,7 @@ const formConfig = {
           uiSchema: summary.uiSchema,
           schema: summary.schema,
           scrollAndFocusTarget: focusAlertH3,
-          depends: !redesignActive,
+          depends: formData => !redesignActive(formData),
         },
       },
     },
