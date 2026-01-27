@@ -285,7 +285,7 @@ export const PreferenceSelectionContainer = ({
         }
       }
     },
-    [hasAnyUnsavedEdits, hasBeforeUnloadListener],
+    [hasAnyUnsavedEdits, hasBeforeUnloadListener, history],
   );
 
   const savePreference = useCallback(
