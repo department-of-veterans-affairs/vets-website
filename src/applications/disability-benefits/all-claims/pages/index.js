@@ -14,6 +14,7 @@ import * as claimExamsInfo from './claimExamsInfo';
 import * as claimType from './claimType';
 import * as contactInformation from './contactInformation';
 import * as employmentHistory from './employmentHistory';
+import * as evidenceRequest from './evidenceRequest';
 import * as evidenceTypes from './evidenceTypes';
 import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
@@ -45,6 +46,7 @@ import * as instructionalPart2 from './instructionalPart2';
 import * as instructionalPart3 from './instructionalPart3';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
+import * as medicalRecords from './medicalRecords';
 import * as mentalHealthChanges from './mentalHealthChanges';
 import * as militaryDutyImpact from './militaryDutyImpact';
 import * as militaryHistory from './militaryHistory';
@@ -133,6 +135,7 @@ export {
   claimType,
   contactInformation,
   employmentHistory,
+  evidenceRequest,
   evidenceTypes,
   evidenceTypesBDD,
   evidenceChoiceIntro,
@@ -165,6 +168,7 @@ export {
   instructionalPart3,
   medals,
   medicalCare,
+  medicalRecords,
   mentalHealthChanges,
   militaryDutyImpact,
   militaryHistory,
