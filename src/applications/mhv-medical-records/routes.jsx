@@ -29,6 +29,10 @@ const RadiologyImagesList = lazy(() =>
 const RadiologySingleImage = lazy(() =>
   import('./containers/RadiologySingleImage'),
 );
+const Radiology = lazy(() => import('./containers/Radiology'));
+const RadiologyDetailsPage = lazy(() =>
+  import('./containers/RadiologyDetailsPage'),
+);
 const DownloadReportPage = lazy(() =>
   import('./containers/DownloadReportPage'),
 );
@@ -120,6 +124,30 @@ const routes = (
           key="RadiologySingleImage"
         >
           <RadiologySingleImage />
+        </AppRoute>
+        <AppRoute exact path="/imaging-results" key="Radiology">
+          <Radiology />
+        </AppRoute>
+        <AppRoute
+          exact
+          path="/imaging-results/:radiologyId"
+          key="RadiologyDetails"
+        >
+          <RadiologyDetailsPage />
+        </AppRoute>
+        <AppRoute
+          exact
+          path="/imaging-results/:labId/images"
+          key="RadiologyImagesListNew"
+        >
+          <RadiologyImagesList basePath="/imaging-results" />
+        </AppRoute>
+        <AppRoute
+          exact
+          path="/imaging-results/:labId/images/:imageId"
+          key="RadiologySingleImageNew"
+        >
+          <RadiologySingleImage basePath="/imaging-results" />
         </AppRoute>
         <AppRoute exact path="/settings" key="Settings">
           <SettingsPage />

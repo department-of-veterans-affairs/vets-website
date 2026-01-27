@@ -177,6 +177,7 @@
   "mhvMedicalRecordsCcdOH": "mhv_medical_records_ccd_oh",
   "mhvMedicalRecordsFilterAndSort": "mhv_medical_records_filter_and_sort",
   "mhvMedicalRecordsHoldTimeMessagingUpdate": "mhv_medical_records_hold_time_messaging_update",
+  "mhvMedicalRecordsImagesDomain": "mhv_medical_records_images_domain",
   "mhvMedicalRecordsMergeCvixIntoScdf": "mhv_medical_records_merge_cvix_into_scdf",
   "mhvMedicalRecordsSupportBackendPaginationAllergy": "mhv_medical_records_support_backend_pagination_allergy",
   "mhvMedicalRecordsSupportBackendPaginationCareSummaryNote": "mhv_medical_records_support_backend_pagination_care_summary_note",
