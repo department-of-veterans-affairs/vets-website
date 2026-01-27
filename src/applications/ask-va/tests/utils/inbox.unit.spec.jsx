@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import {
   flattenInquiry,
   categorizeByLOA,
-  paginateArray,
+  paginateInquiries,
   filterAndSort,
-} from '../../utils/dashboard';
+} from '../../utils/inbox';
 import { mockInquiries } from './mock-inquiries';
 
 describe('flattenInquiry', () => {
@@ -45,37 +45,49 @@ describe('splitInquiresByLOA', () => {
   });
 });
 
-describe('paginateArray', () => {
+describe('paginateInquiries', () => {
   const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   it('Returns an array with sub-arrays of specified length', () => {
-    const pages = paginateArray(testArray, 4);
+    const pages = paginateInquiries(testArray, 4);
 
     const totalPages = pages.length;
     const firstPageLength = pages[0].items.length;
     const secondPageFirstItem = pages[1].items[0];
-    const lastPageFirstItem = pages[totalPages - 1].items[0];
+    const lastPage = pages[totalPages - 1];
+    const lastPageFirstItem = lastPage.items[0];
+    const lastPageLastItem = lastPage.items[lastPage.items.length - 1];
 
     expect(totalPages).to.equal(3);
     expect(firstPageLength).to.equal(4);
     expect(secondPageFirstItem).to.equal(5);
     expect(lastPageFirstItem).to.equal(9);
+    expect(lastPageLastItem).to.equal(10);
   });
 
   it('returns the correct page-start and -end numbers', () => {
-    const pages = paginateArray(testArray, 3);
+    const pages = paginateInquiries(testArray, 3);
 
     expect(pages[0].pageStart).to.equal(1);
     expect(pages[0].pageEnd).to.equal(3);
     expect(pages[1].pageStart).to.equal(4);
     expect(pages[1].pageEnd).to.equal(6);
+
+    // pageEnd can't be higher than number of items
+    expect(pages[3].pageEnd).to.equal(10);
   });
 
-  it('returns an empty array if given an empty array', () => {
-    const pages = paginateArray([], 4);
+  it("returns 0's if given array without inquiries", () => {
+    const pages = paginateInquiries([], 4);
 
-    expect(pages.length).to.equal(0);
-    expect(pages).to.eql([]);
+    expect(pages.length).to.equal(1);
+    expect(pages).to.eql([
+      {
+        pageStart: 0,
+        pageEnd: 0,
+        items: [],
+      },
+    ]);
   });
 });
 
