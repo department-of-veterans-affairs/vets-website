@@ -77,7 +77,7 @@ describe('YourInformationDescription component', () => {
     const wrapper = shallow(<YourInformationDescription formData={formData} />);
 
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
-      "Dependents' Education Assistance (DEA, Chapter 35)",
+      "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
     );
     wrapper.unmount();
   });

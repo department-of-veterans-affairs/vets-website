@@ -50,7 +50,7 @@ const getFormInfo = benefitType => {
   };
   const form5490 = {
     header:
-      "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
+      "Dependents' Application for VA Education Benefits (VA Form 22-5490)",
     link:
       '/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
     linkText: 'Apply for education benefits (VA Form 22-5490)',
@@ -103,7 +103,7 @@ const getSwitchFormHeader = val => {
       return 'Application for VA Education Benefits (VA Form 22-1990)';
     case 'dea':
     case 'fry':
-      return "Dependent's Application for VA Education Benefits (VA Form 22-5490)";
+      return "Dependents' Application for VA Education Benefits (VA Form 22-5490)";
     case 'toe':
       return 'Application for VA Education Benefits (VA Form 22-1990e)';
     default:
@@ -228,7 +228,7 @@ const BenefitSwitchDescription = () => {
           <va-link
             external
             href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
-            text="Survivors' and Dependents' Education Assistance (DEA)"
+            text="Survivors' and Dependents' Educational Assistance (DEA)"
           />{' '}
           and{' '}
           <va-link
@@ -310,7 +310,7 @@ export const sameBenefitSelectionPage = () => ({
           'Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)',
           'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
           'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
-          "Dependents' Educational Assistance (DEA, Chapter 35)",
+          "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
           'Fry Scholarship (Chapter 33)',
         ],
       },
@@ -365,7 +365,7 @@ export const benefitSwitchPage = () => ({
           'Montgomery GI Bill (MGIB-AD, Chapter 30)',
           'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
           'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
-          'Dependents’ Education Assistance (DEA, Chapter 35)',
+          "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
           'Fry Scholarship (Chapter 33)',
         ],
       },
@@ -474,7 +474,7 @@ export const deaResultPage = () =>
     linkText: 'Apply for education benefits (VA Form 22-5490)',
     answers: [
       'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
-      'You want to change your current benefit to the Dependents’ Education Assistance (DEA, Chapter 35)',
+      "You want to change your current benefit to the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
     ],
   });
 

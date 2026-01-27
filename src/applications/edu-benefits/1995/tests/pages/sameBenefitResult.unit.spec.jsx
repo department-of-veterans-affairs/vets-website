@@ -98,7 +98,7 @@ describe('sameBenefitResultPage description prioritization', () => {
 
     expect(container.textContent).to.include('VA Form 22-5490');
     expect(container.textContent).to.include(
-      "Your most recently used benefit is Dependents' Education Assistance (DEA, Chapter 35)",
+      "Your most recently used benefit is Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
     );
   });
 
