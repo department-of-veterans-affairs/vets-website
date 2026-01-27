@@ -172,6 +172,24 @@ export const SearchForm = props => {
     [currentQuery.searchString],
   );
 
+  // Sync draft state when VAMC autosuggest updates Redux serviceType/vamcServiceDisplay
+  useEffect(
+    () => {
+      if (
+        currentQuery.serviceType !== draftFormState.serviceType ||
+        currentQuery.vamcServiceDisplay !== draftFormState.vamcServiceDisplay
+      ) {
+        setDraftFormState(prev => ({
+          ...prev,
+          serviceType: currentQuery.serviceType || null,
+          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+        }));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentQuery.serviceType, currentQuery.vamcServiceDisplay],
+  );
+
   // Sync all fields on URL parameter changes (browser back/forward)
   useEffect(
     () => {
