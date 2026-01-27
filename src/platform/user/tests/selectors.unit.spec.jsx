@@ -413,4 +413,20 @@ describe('user selectors', () => {
       expect(selectors.isInMPI(state)).to.be.false;
     });
   });
+
+  describe('isSchedulingPreferencesPilotEligible', () => {
+    it('returns true if the user is eligible for the scheduling preferences pilot', () => {
+      const state = {
+        user: {
+          profile: {},
+        },
+      };
+      state.user.profile = { schedulingPreferencesPilotEligible: true };
+      expect(selectors.isSchedulingPreferencesPilotEligible(state)).to.be.true;
+      state.user.profile = { schedulingPreferencesPilotEligible: false };
+      expect(selectors.isSchedulingPreferencesPilotEligible(state)).to.be.false;
+      state.user.profile = {};
+      expect(selectors.isSchedulingPreferencesPilotEligible(state)).to.be.false;
+    });
+  });
 });
