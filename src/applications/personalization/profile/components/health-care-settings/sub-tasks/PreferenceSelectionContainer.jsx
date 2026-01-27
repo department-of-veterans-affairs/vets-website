@@ -354,9 +354,7 @@ export const PreferenceSelectionContainer = ({
     cancel: () => {
       setShowConfirmCancelModal(false);
       clearBeforeUnloadListener();
-      if (historyUnblock.current) {
-        historyUnblock.current();
-      }
+      historyUnblock?.current();
       dispatch(openModal(null));
       history.push(returnPath);
     },
@@ -374,9 +372,7 @@ export const PreferenceSelectionContainer = ({
       }
 
       savePreference();
-      if (historyUnblock.current) {
-        historyUnblock.current();
-      }
+      historyUnblock?.current();
 
       history.push(returnPath, {
         fieldInfo,
@@ -390,9 +386,7 @@ export const PreferenceSelectionContainer = ({
       // First save the contact method preference
       savePreference();
 
-      if (historyUnblock.current) {
-        historyUnblock.current();
-      }
+      historyUnblock?.current();
       setShowConfirmCancelModal(false);
       clearBeforeUnloadListener();
       dispatch(openModal(null));
