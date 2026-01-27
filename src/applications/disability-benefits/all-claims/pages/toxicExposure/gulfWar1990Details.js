@@ -1,5 +1,4 @@
-import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastMonthYearDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   dateRangeAdditionalInfo,
@@ -9,12 +8,18 @@ import {
   getSelectedCount,
   gulfWar1990PageTitle,
   notSureDatesDetails,
+  reviewDateField,
   showCheckboxLoopDetailsPage,
   startDateApproximate,
   teSubtitle,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 import { validateToxicExposureGulfWar1990Dates } from '../../utils/validations';
+import { validateApproximateMonthYearDate } from '../../utils/dates';
+import {
+  ForceFieldBlur,
+  monthYearDateSchemaWithFullDateSupport,
+} from './utils';
 
 /**
  * Make the uiSchema for each gulf war 1990 details page
@@ -36,14 +41,30 @@ function makeUiSchema(locationId) {
       gulfWar1990Details: {
         [locationId]: {
           startDate: {
-            ...currentOrPastDateUI({
+            ...currentOrPastMonthYearDateUI({
               title: startDateApproximate,
             }),
+            'ui:required': false,
+            // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
+            'ui:validations': [validateApproximateMonthYearDate],
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid date',
+              required: 'Please enter a date',
+            },
+            'ui:reviewField': reviewDateField,
           },
           endDate: {
-            ...currentOrPastDateUI({
+            ...currentOrPastMonthYearDateUI({
               title: endDateApproximate,
             }),
+            'ui:required': false,
+            // Replace platform validation (validateCurrentOrPastMonthYear) with custom validation
+            'ui:validations': [validateApproximateMonthYearDate],
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid date',
+              required: 'Please enter a date',
+            },
+            'ui:reviewField': reviewDateField,
           },
           'ui:validations': [validateToxicExposureGulfWar1990Dates],
           'view:notSure': {
@@ -57,6 +78,12 @@ function makeUiSchema(locationId) {
       },
       'view:gulfWar1990AdditionalInfo': {
         'ui:description': dateRangeAdditionalInfo,
+      },
+    },
+    _forceFieldBlur: {
+      'ui:field': ForceFieldBlur,
+      'ui:options': {
+        hideOnReview: true,
       },
     },
   };
@@ -80,8 +107,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: full526EZSchema.definitions.minimumYearDate,
-                  endDate: full526EZSchema.definitions.minimumYearDate,
+                  startDate: monthYearDateSchemaWithFullDateSupport,
+                  endDate: monthYearDateSchemaWithFullDateSupport,
                   'view:notSure': {
                     type: 'boolean',
                   },
@@ -94,6 +121,9 @@ function makeSchema(locationId) {
             properties: {},
           },
         },
+      },
+      _forceFieldBlur: {
+        type: 'boolean',
       },
     },
   };
