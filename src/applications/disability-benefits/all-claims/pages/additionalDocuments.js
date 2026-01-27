@@ -19,6 +19,36 @@ import {
 
 const fileUploadUrl = `${environment.API_URL}/v0/upload_supporting_evidence`;
 
+/**
+ * Custom payload for 526EZ backend - uses supporting_evidence_attachment format
+ * @param {File} file - The file to upload
+ * @param {string} _formId - Form ID (unused, backend uses different format)
+ * @param {string} password - Password for encrypted PDFs
+ * @returns {FormData} Formatted payload for backend
+ */
+const createPayload = (file, _formId, password) => {
+  const payload = new FormData();
+  payload.append('supporting_evidence_attachment[file_data]', file);
+  if (password) {
+    payload.append('supporting_evidence_attachment[password]', password);
+  }
+  return payload;
+};
+
+/**
+ * Parse response from 526EZ upload endpoint
+ * @param {Object} response - API response
+ * @param {File} file - Original file
+ * @returns {Object} Parsed file data with all fields needed for save-in-progress
+ */
+const parseResponse = (response, file) => ({
+  name: file.name,
+  size: file.size,
+  type: file.type,
+  confirmationCode: response.data.attributes.guid,
+  file,
+});
+
 // Shared view config for both legacy and enhanced versions
 const evidenceChoiceUploadView = {
   'ui:title': standardTitle('Upload supporting documents and additional forms'),
@@ -64,8 +94,8 @@ export const legacySchema = {
 
 /**
  * Enhanced implementation (feature toggle ON)
- * Uses platform fileInputMultipleUI with standard payload format
- * @note Requires backend update to accept standard platform payload
+ * Uses platform fileInputMultipleUI with custom createPayload/parseResponse
+ * to match the 526EZ backend's expected payload format
  */
 export const enhancedUiSchema = {
   'view:evidenceChoiceUpload': evidenceChoiceUploadView,
@@ -74,6 +104,8 @@ export const enhancedUiSchema = {
     hint: HINT_TEXT,
     required: true,
     fileUploadUrl,
+    createPayload,
+    parseResponse,
     accept: FILE_TYPES.map(type => `.${type}`).join(','),
     formNumber: '21-526EZ',
     maxFileSize: 99 * 1024 * 1024, // 99 MB for PDFs
