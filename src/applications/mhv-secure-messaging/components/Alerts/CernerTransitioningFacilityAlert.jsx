@@ -65,7 +65,7 @@ const CernerTransitioningFacilityAlert = ({ t5, t30, facilityId }) => {
             <div>
               <p>
                 <strong>{isTranstioningFacility}</strong> is moving to our My VA
-                Health portal.
+                Health portal. test
               </p>
               <ul>
                 <li>
