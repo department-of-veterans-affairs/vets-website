@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from 'platform/forms-system/src/js/components/FormNavButtons';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -10,6 +12,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 const mapBooleanToRadioValue = value => {
   if (value === true) {
@@ -92,6 +95,10 @@ const ConfirmationQuestion = ({
   const confirmationValue = mapBooleanToRadioValue(confirmation);
   const shouldShowConfirmationAlert =
     confirmation !== null && confirmation !== undefined;
+  const useMinimalNav =
+    route?.formConfig?.useTopBackLink && isMinimalHeaderPath();
+  const useWebComponents =
+    route?.formConfig?.formOptions?.useWebComponentForNavigation;
 
   let confirmationAlert = null;
   if (confirmation === false) {
@@ -163,7 +170,18 @@ const ConfirmationQuestion = ({
       {confirmationAnswered && shouldShowConfirmationAlert
         ? confirmationAlert
         : null}
-      <FormNavButtons goBack={goBack} goForward={goForward} />
+      {useMinimalNav ? (
+        <FormNavButtonContinue
+          goForward={goForward}
+          useWebComponents={useWebComponents}
+        />
+      ) : (
+        <FormNavButtons
+          goBack={goBack}
+          goForward={goForward}
+          useWebComponents={useWebComponents}
+        />
+      )}
     </div>
   );
 };
