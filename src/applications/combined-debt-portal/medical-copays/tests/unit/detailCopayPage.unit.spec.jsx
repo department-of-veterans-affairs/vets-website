@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { combineReducers, createStore } from 'redux';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import DetailCopayPage from '../../containers/DetailCopayPage';
 
 describe('DetailCopayPage TITLE', () => {
@@ -17,6 +18,7 @@ describe('DetailCopayPage TITLE', () => {
         ) => state,
       }),
     );
+
     return render(
       <Provider store={store}>
         <Router>{component}</Router>
@@ -89,7 +91,7 @@ describe('DetailCopayPage TITLE', () => {
       },
       featureToggles: {
         // eslint-disable-next-line camelcase
-        combined_debt_portal_vha_payment_history: true,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
         loading: false,
       },
     };
@@ -98,6 +100,7 @@ describe('DetailCopayPage TITLE', () => {
       <DetailCopayPage match={mockMatch} />,
       mockState,
     );
+
     expect(container.textContent).to.include('Copay bill for James A. Haley');
   });
 
@@ -145,7 +148,7 @@ describe('DetailCopayPage TITLE', () => {
       },
       featureToggles: {
         // eslint-disable-next-line camelcase
-        combined_debt_portal_vha_payment_history: false,
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
         loading: false,
       },
     };
@@ -154,6 +157,7 @@ describe('DetailCopayPage TITLE', () => {
       <DetailCopayPage match={mockMatch} />,
       mockState,
     );
+
     expect(container.textContent).to.include(
       'Copay bill for Tampa VA Medical Center',
     );
