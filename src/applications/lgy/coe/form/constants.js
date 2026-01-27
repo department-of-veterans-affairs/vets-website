@@ -68,3 +68,10 @@ export const serviceStatuses = {
   DNANA: 'DNANA', // Discharged from National Guard, never activated
   DRNA: 'DRNA', // Discharged from Reserves, never activated
 };
+
+export const certificateUseOptions = {
+  ENTITLEMENT_INQUIRY_ONLY: 'ENTITLEMENT_INQUIRY_ONLY',
+  HOME_PURCHASE: 'HOME_PURCHASE',
+  CASH_OUT_REFINANCE: 'CASH_OUT_REFINANCE',
+  INTEREST_RATE_REDUCTION_REFINANCE: 'INTEREST_RATE_REDUCTION_REFINANCE',
+};

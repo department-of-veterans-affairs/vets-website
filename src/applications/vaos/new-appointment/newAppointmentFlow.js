@@ -1,8 +1,7 @@
 /* eslint-disable no-shadow */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
-  selectFeatureOHDirectSchedule,
-  selectFeatureOHRequest,
+  selectFeatureUseVpg,
   selectFeaturePCMHI,
   selectFeatureRemoveFacilityConfigCheck,
   selectFeatureSubstanceUseDisorder,
@@ -88,8 +87,7 @@ async function vaFacilityNext(state, dispatch) {
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
-  const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
-  const featureOHRequest = selectFeatureOHRequest(state);
+  const featureUseVpg = selectFeatureUseVpg(state);
   const featureRemoveFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
     state,
   );
@@ -116,7 +114,7 @@ async function vaFacilityNext(state, dispatch) {
   }
 
   if (isCerner) {
-    if ((featureOHDirectSchedule || featureOHRequest) && typeOfCareEnabled) {
+    if (featureUseVpg && typeOfCareEnabled) {
       if (featureRemoveFacilityConfigCheck) {
         if (eligibility.direct === true || eligibility.request === true)
           return 'selectProvider';
@@ -137,7 +135,9 @@ async function vaFacilityNext(state, dispatch) {
     return 'requestDateTime';
   }
 
+  // Display Cerner error page when feature flag is on per conversation with UI team.
   if (featureRemoveFacilityConfigCheck) return 'scheduleCerner';
+
   dispatch(showEligibilityModal());
   return VA_FACILITY_V2_KEY;
 }

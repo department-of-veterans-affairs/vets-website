@@ -54,9 +54,13 @@ export default function ReviewPage() {
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const submissionType = isDirectSchedule ? 'appointment' : 'request';
-  const alertHeadline = isDirectSchedule
-    ? 'We can’t schedule your appointment right now'
-    : 'We can’t submit your request right now';
+  let alertHeadline = 'We can’t submit your request right now';
+  if (isDirectSchedule) {
+    alertHeadline =
+      submitStatusVaos409 || submitStatusVaos400
+        ? 'We couldn’t schedule this appointment'
+        : 'This tool isn’t working right now';
+  }
   const facilityDetails = facility || parentFacility;
   const phone = facilityDetails?.telecom?.find(tele => tele.system === 'phone')
     ?.value;
