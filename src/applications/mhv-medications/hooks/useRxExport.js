@@ -75,6 +75,17 @@ const useRxExport = ({
     [status, allergiesError, exportListError],
   );
 
+  // Compute the effective error format - use status.format when there's an allergies error
+  // since the errorFormat state may not be set yet
+  const effectiveErrorFormat = useMemo(
+    () =>
+      errorFormat ||
+      (status.status === PDF_TXT_GENERATE_STATUS.InProgress && allergiesError
+        ? status.format
+        : undefined),
+    [errorFormat, status, allergiesError],
+  );
+
   const buildTxtData = useCallback(
     (rxList, allergiesList) => {
       return (
@@ -259,7 +270,7 @@ const useRxExport = ({
     isLoading,
     isSuccess,
     hasError,
-    errorFormat,
+    errorFormat: effectiveErrorFormat,
     shouldPrint,
     printList,
     exportList,
