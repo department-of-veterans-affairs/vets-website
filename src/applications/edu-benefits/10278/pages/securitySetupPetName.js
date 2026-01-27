@@ -9,6 +9,7 @@ const uiSchema = {
     ...textUI({
       title: 'Name of first pet',
       hint: 'Maximum limit is 30 characters',
+      charcount: true,
       errorMessages: {
         required: 'You must provide an answer',
         maxLength: 'You must enter 30 characters or fewer',

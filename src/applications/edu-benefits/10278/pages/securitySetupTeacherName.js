@@ -9,6 +9,7 @@ const uiSchema = {
     ...textUI({
       title: 'Name of favorite teacher',
       hint: 'Maximum limit is 30 characters',
+      charcount: true,
       errorMessages: {
         required: 'You must provide an answer',
         maxLength: 'You must enter 30 characters or fewer',

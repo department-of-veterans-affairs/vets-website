@@ -7,13 +7,11 @@ import {
 // Helper function to get the person or organization name
 const getThirdPartyName = formData => {
   if (formData?.discloseInformation?.authorize === 'organization') {
-    return 'the organization'; // TODO: update this to return the organization name
+    return formData?.thirdPartyOrganizationInformation?.organizationName;
   }
   if (formData?.discloseInformation?.authorize === 'person') {
     const name = formData?.thirdPartyPersonName?.fullName;
-    if (name?.first && name?.last) {
-      return `${name.first} ${name.last}`;
-    }
+    return `${name.first} ${name.last}`;
   }
   return 'the third party';
 };

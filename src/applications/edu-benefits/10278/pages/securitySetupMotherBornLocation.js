@@ -36,7 +36,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    motherBornLocation: {
+    securityAnswerLocation: {
       type: 'object',
       properties: {
         city: {

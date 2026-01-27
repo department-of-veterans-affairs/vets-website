@@ -9,6 +9,7 @@ const uiSchema = {
     ...textUI({
       title: 'Pin or password',
       hint: 'Maximum limit is 30 characters',
+      charcount: true,
       errorMessages: {
         required: 'You must provide an answer',
         maxLength: 'You must enter 30 characters or fewer',
@@ -22,7 +23,7 @@ const schema = {
   properties: {
     securityAnswerText: {
       type: 'string',
-      maxLength: 30, // TODO -- keep this?
+      maxLength: 30,
     },
   },
   required: ['securityAnswerText'],

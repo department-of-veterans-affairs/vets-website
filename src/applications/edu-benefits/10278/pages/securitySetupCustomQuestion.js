@@ -25,6 +25,7 @@ const uiSchema = {
       ...textUI({
         title: 'Security question',
         hint: 'Maximum limit is 100 characters',
+        charcount: true,
         errorMessages: {
           required: 'Please enter a security question',
         },
@@ -34,6 +35,7 @@ const uiSchema = {
       ...textUI({
         title: 'Answer',
         hint: 'Maximum limit is 30 characters',
+        charcount: true,
         errorMessages: {
           required: 'You must provide an answer',
         },

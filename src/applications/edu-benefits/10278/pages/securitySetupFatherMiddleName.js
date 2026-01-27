@@ -9,6 +9,7 @@ const uiSchema = {
     ...textUI({
       title: "Father's middle name",
       hint: 'Maximum limit is 30 characters',
+      charcount: true,
       errorMessages: {
         required: 'You must provide an answer',
       },
