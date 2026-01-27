@@ -4,8 +4,8 @@ import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import manifest from '../manifest.json';
-import { getSignInUrl } from './constants';
-import { SORT_DEFAULTS } from './submissions';
+import { getSignInUrl, SORT_DEFAULTS } from './constants';
+import { paramUpdate } from './helpers';
 
 // Set app name for request headers
 window.appName = manifest.entryName;
@@ -133,8 +133,9 @@ const api = {
     const status = query.status ? `status=${query.status}` : '';
     const size = query.size ? `&page[size]=${query.size}` : '';
     const number = query.number ? `&page[number]=${query.number}` : '';
-    const sort = query.sort
-      ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
+    const sortParam = paramUpdate(query.sort, query.status);
+    const sort = sortParam
+      ? `&sort[by]=${sortParam.sortBy}&sort[order]=${sortParam.order}`
       : '';
     const selectedIndividual = query.selectedIndividual
       ? `&as_selected_individual=${query.selectedIndividual}`
@@ -149,8 +150,9 @@ const api = {
     const number = query.number
       ? `&page[number]=${query.number}`
       : `&page[number]=${SORT_DEFAULTS.NUMBER}`;
-    const sort = query.sort
-      ? `&sort[by]=${query.sortBy}&sort[order]=${query.sort}`
+    const subParam = paramUpdate(query.sort);
+    const sort = subParam
+      ? `&sort[by]=${subParam.sortBy}&sort[order]=${subParam.order}`
       : `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
           SORT_DEFAULTS.SORT_ORDER
         }`;

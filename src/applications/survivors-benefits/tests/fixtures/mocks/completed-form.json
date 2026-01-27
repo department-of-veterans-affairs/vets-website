@@ -114,10 +114,17 @@
   "totalNetWorth": false,
   "incomeEntries": [
     {
-      "recipient": "SURVIVING_SPOUSE",
+      "recipient": "CHILD",
       "recipientName": "Child name",
       "incomeType": "OTHER",
       "incomeTypeOther": "something",
+      "incomePayer": "USA",
+      "monthlyIncome": 121123
+    },
+    {
+      "recipient": "SURVIVING_SPOUSE",
+      "recipientName": "Child name",
+      "incomeType": "INTEREST_DIVIDENDS",
       "incomePayer": "USA",
       "monthlyIncome": 111111
     }

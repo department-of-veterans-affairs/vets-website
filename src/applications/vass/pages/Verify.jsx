@@ -5,8 +5,8 @@ import { focusElement } from 'platform/utilities/ui';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 import { usePostAuthenticationMutation } from '../redux/api/vassApi';
-import { clearFormData } from '../redux/slices/formSlice';
-import { URLS } from '../utils/constants';
+import { clearFormData, setFlowType } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
 
 const getPageTitle = (cancellationFlow, verificationError) => {
   if (verificationError) {
@@ -30,12 +30,17 @@ const Verify = () => {
     // TODO: route to the "Something went wrong" page
   }
 
-  // Ensures a fresh start when landing on Verify page
+  // Ensures a fresh start when landing on Verify page and sets the flow type
   useEffect(
     () => {
       dispatch(clearFormData());
+      // Set flow type based on URL parameter
+      const flowType = cancellationFlow
+        ? FLOW_TYPES.CANCEL
+        : FLOW_TYPES.SCHEDULE;
+      dispatch(setFlowType(flowType));
     },
-    [dispatch],
+    [dispatch, cancellationFlow],
   );
 
   const [lastname, setLastname] = useState('');
@@ -95,11 +100,7 @@ const Verify = () => {
       setAttemptCount(count => count + 1);
       return;
     }
-    let otcRoute = URLS.ENTER_OTC;
-    if (cancellationFlow) {
-      otcRoute += '?cancel=true';
-    }
-    navigate(otcRoute);
+    navigate(URLS.ENTER_OTC);
   };
 
   const pageTitle = getPageTitle(cancellationFlow, verificationError);
