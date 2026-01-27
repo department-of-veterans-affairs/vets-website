@@ -58,7 +58,7 @@ const DownloadFileType = props => {
   const [fileTypeError, setFileTypeError] = useState('');
 
   const dispatch = useDispatch();
-  const { isAcceleratingVaccines } = useAcceleratedData();
+  const { isAcceleratingVaccines, isLoading } = useAcceleratedData();
 
   const fileTypeFilter = useSelector(
     state => state.mr.downloads?.fileTypeFilter,
@@ -240,11 +240,18 @@ const DownloadFileType = props => {
         isAcceleratingVaccines,
       };
 
-      if (!isDataFetched) {
+      if (!isLoading && !isDataFetched) {
         dispatch(getBlueButtonReportData(options, dateFilter));
       }
     },
-    [isDataFetched, recordFilter, dispatch, dateFilter, isAcceleratingVaccines],
+    [
+      isDataFetched,
+      recordFilter,
+      dispatch,
+      dateFilter,
+      isAcceleratingVaccines,
+      isLoading,
+    ],
   );
 
   const recordData = useMemo(

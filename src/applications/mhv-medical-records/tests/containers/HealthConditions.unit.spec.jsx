@@ -191,6 +191,13 @@ describe('Health conditions container with errors', () => {
 });
 
 describe('Health conditions with accelerated data', () => {
+  const cernerUser = {
+    profile: {
+      ...user.profile,
+      facilities: [{ facilityId: '757' }],
+    },
+  };
+
   const setUpState = ({
     isAcceleratingConditions = false,
     conditionsArray = [],
@@ -207,9 +214,22 @@ describe('Health conditions with accelerated data', () => {
       drupalStaticData: {
         vamcEhrData: {
           loading: false,
+          data: {
+            cernerFacilities: isAcceleratingConditions
+              ? [
+                  {
+                    vhaId: '757',
+                    vamcFacilityName:
+                      'Chalmers P. Wylie Veterans Outpatient Clinic',
+                    vamcSystemName: 'VA Central Ohio health care',
+                    ehr: 'cerner',
+                  },
+                ]
+              : [],
+          },
         },
       },
-      user,
+      user: isAcceleratingConditions ? cernerUser : user,
       mr: {
         conditions: {
           conditionsList: conditionsArray,

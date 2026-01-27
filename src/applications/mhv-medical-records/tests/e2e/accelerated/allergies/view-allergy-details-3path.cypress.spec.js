@@ -10,7 +10,8 @@ describe('Allergy Details with 3-Path Routing', () => {
 
   describe('Path 1: V2 SCDF endpoint (Accelerated)', () => {
     beforeEach(() => {
-      site.login();
+      // Acceleration requires isCerner, so use oracleHealthUser
+      site.login(oracleHealthUser, false);
       site.mockFeatureToggles({
         isAcceleratingEnabled: true,
         isAcceleratingAllergies: true,
