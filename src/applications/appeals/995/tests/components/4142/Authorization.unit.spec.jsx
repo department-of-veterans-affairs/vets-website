@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import Authorization, { content } from '../../../components/4142/Authorization';
 
@@ -35,7 +35,7 @@ describe('<Authorization>', () => {
       // testing onAnchorClick callback - scrolls to & focus on alert
       fireEvent.click($('#checkbox-anchor', container));
 
-      const alert = $('va-alert[visible="true"]', container);
+      const alert = $('va-alert[status="error"]', container);
       expect(alert).to.exist;
       expect(goSpy.called).to.be.false;
     });
@@ -101,7 +101,7 @@ describe('<Authorization>', () => {
           target: { checked: false },
         });
 
-        const alert = $('va-alert[visible="true"]', container);
+        const alert = $('va-alert[status="error"]', container);
         expect(alert).to.not.exist;
       });
 
@@ -116,13 +116,13 @@ describe('<Authorization>', () => {
           />,
         );
 
-        const alert = $('va-alert[visible="true"]', container);
+        const alert = $('va-alert[status="error"]', container);
         expect(alert).to.not.exist;
 
         // Click Continue button - this SHOULD trigger error
         fireEvent.click($('va-button[continue]', container));
 
-        const errorAlert = $('va-alert[visible="true"]', container);
+        const errorAlert = $('va-alert[status="error"]', container);
         expect(errorAlert).to.exist;
         expect(goSpy.called).to.be.false;
       });
@@ -140,13 +140,13 @@ describe('<Authorization>', () => {
 
         fireEvent.click($('va-button[continue]', container));
 
-        expect($('va-alert[visible="true"]', container)).to.exist;
+        expect($('va-alert[status="error"]', container)).to.exist;
 
         $('#privacy-agreement', container).__events.vaChange({
           target: { checked: true },
         });
 
-        expect($('va-alert[visible="true"]', container)).to.not.exist;
+        expect($('va-alert[status="error"]', container)).to.not.exist;
       });
 
       it('should allow multiple check/uncheck cycles without showing errors', () => {
@@ -171,7 +171,7 @@ describe('<Authorization>', () => {
           target: { checked: false },
         });
 
-        const alert = $('va-alert[visible="true"]', container);
+        const alert = $('va-alert[status="error"]', container);
         expect(alert).to.not.exist;
       });
     });
@@ -251,6 +251,7 @@ describe('<Authorization>', () => {
         const props = {
           ...defaultProps,
           data: {
+            ...defaultProps.data,
             auth4142: true,
           },
         };
@@ -287,6 +288,7 @@ describe('<Authorization>', () => {
           ...defaultProps,
           setFormData,
           data: {
+            ...defaultProps.data,
             lcPrompt: 'Y',
             lcDetails: 'Some details',
             privateEvidence: [
@@ -345,6 +347,7 @@ describe('<Authorization>', () => {
             ...defaultProps,
             goForward,
             data: {
+              ...defaultProps.data,
               lcPrompt: 'N',
               auth4142: true,
             },
@@ -368,6 +371,7 @@ describe('<Authorization>', () => {
             ...defaultProps,
             goForward,
             data: {
+              ...defaultProps.data,
               auth4142: true,
               lcPrompt: 'Y',
               lcDetails: 'Some details',
@@ -390,6 +394,7 @@ describe('<Authorization>', () => {
             ...defaultProps,
             goForward,
             data: {
+              ...defaultProps.data,
               auth4142: true,
               lcPrompt: 'Y',
             },
@@ -411,6 +416,7 @@ describe('<Authorization>', () => {
             ...defaultProps,
             goForward,
             data: {
+              ...defaultProps.data,
               auth4142: true,
               lcPrompt: 'Y',
               lcDetails: 'Some limitation details',
@@ -472,7 +478,10 @@ describe('<Authorization>', () => {
         rerender(
           <Authorization
             {...defaultProps}
-            data={{ privateEvidence: [{ authorization: true }] }}
+            data={{
+              ...defaultProps.data,
+              privateEvidence: [{ authorization: true }],
+            }}
           />,
         );
 
