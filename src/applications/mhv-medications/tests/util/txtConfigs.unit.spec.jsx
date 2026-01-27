@@ -319,6 +319,122 @@ describe('Medication Information Config', () => {
   });
 });
 
+describe('Grouped medications with missing prescription number', () => {
+  const cernerPilotFlag = false;
+  const v2StatusMappingFlag = false;
+
+  it('displays "Not available" when prescription number is null', () => {
+    const rxDetails = {
+      ...prescriptionDetails.data.attributes,
+      groupedMedications: [
+        {
+          prescriptionNumber: null,
+          sortedDispensedDate: '2024-01-15',
+          quantity: 30,
+          orderedDate: '2024-01-10',
+          providerFirstName: 'John',
+          providerLastName: 'Doe',
+        },
+      ],
+    };
+
+    const txt = buildVAPrescriptionTXT(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
+
+    expect(txt).to.include('Previous prescriptions');
+    expect(txt).to.include('Prescription number: Not available');
+  });
+
+  it('displays "Not available" when prescription number is undefined', () => {
+    const rxDetails = {
+      ...prescriptionDetails.data.attributes,
+      groupedMedications: [
+        {
+          // prescriptionNumber is intentionally omitted
+          sortedDispensedDate: '2024-01-15',
+          quantity: 30,
+          orderedDate: '2024-01-10',
+          providerFirstName: 'John',
+          providerLastName: 'Doe',
+        },
+      ],
+    };
+
+    const txt = buildVAPrescriptionTXT(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
+
+    expect(txt).to.include('Previous prescriptions');
+    expect(txt).to.include('Prescription number: Not available');
+  });
+
+  it('displays actual prescription number when present', () => {
+    const rxDetails = {
+      ...prescriptionDetails.data.attributes,
+      groupedMedications: [
+        {
+          prescriptionNumber: '1234567',
+          sortedDispensedDate: '2024-01-15',
+          quantity: 30,
+          orderedDate: '2024-01-10',
+          providerFirstName: 'John',
+          providerLastName: 'Doe',
+        },
+      ],
+    };
+
+    const txt = buildVAPrescriptionTXT(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
+
+    expect(txt).to.include('Previous prescriptions');
+    expect(txt).to.include('Prescription number: 1234567');
+    expect(txt).to.not.include('Prescription number: Not available');
+  });
+
+  it('handles multiple grouped medications with mixed prescription numbers', () => {
+    const rxDetails = {
+      ...prescriptionDetails.data.attributes,
+      groupedMedications: [
+        {
+          prescriptionNumber: '1234567',
+          sortedDispensedDate: '2024-01-15',
+          quantity: 30,
+          orderedDate: '2024-01-10',
+          providerFirstName: 'John',
+          providerLastName: 'Doe',
+        },
+        {
+          prescriptionNumber: null,
+          sortedDispensedDate: '2024-01-10',
+          quantity: 60,
+          orderedDate: '2024-01-05',
+          providerFirstName: 'Jane',
+          providerLastName: 'Smith',
+        },
+      ],
+    };
+
+    const txt = buildVAPrescriptionTXT(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
+
+    expect(txt).to.include('Previous prescriptions');
+    expect(txt).to.include('Showing 2 prescriptions, from newest to oldest');
+    expect(txt).to.include('Prescription number: 1234567');
+    expect(txt).to.include('Prescription number: Not available');
+  });
+});
+
 describe('CernerPilot and V2StatusMapping Feature flag tests for status formatting', () => {
   const createTestPrescription = (
     dispStatus,
