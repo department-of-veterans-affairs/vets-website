@@ -44,7 +44,18 @@ export class LetterList extends React.Component {
       this.props.tsaSafeTravelLetter &&
       this.props.tsaLetterEligibility?.loading;
 
-    const letterItems = (this.props.letters || []).map((letter, index) => {
+    // Filter out foreign medical program letter if feature flag is disabled
+    const filteredLetters = (this.props.letters || []).filter(letter => {
+      if (
+        letter.letterType === LETTER_TYPES.foreignMedicalProgram &&
+        !this.props.fmpBenefitsAuthorizationLetter
+      ) {
+        return false;
+      }
+      return true;
+    });
+
+    const letterItems = filteredLetters.map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
       }
@@ -59,6 +70,9 @@ export class LetterList extends React.Component {
         content = newLetterContent[letter.letterType];
       } else if (letter.letterType === LETTER_TYPES.benefitSummaryDependent) {
         letterTitle = 'Benefit Summary Letter';
+        content = newLetterContent[letter.letterType];
+      } else if (letter.letterType === LETTER_TYPES.foreignMedicalProgram) {
+        letterTitle = 'Foreign Medical Program Enrollment Letter';
         content = newLetterContent[letter.letterType];
       } else {
         letterTitle = letter.name;
@@ -187,10 +201,13 @@ function mapStateToProps(state) {
     tsaLetterEligibility: letterState.tsaLetterEligibility,
     tsaSafeTravelLetter:
       state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],
+    fmpBenefitsAuthorizationLetter:
+      state.featureToggles[FEATURE_FLAG_NAMES.fmpBenefitsAuthorizationLetter],
   };
 }
 
 LetterList.propTypes = {
+  fmpBenefitsAuthorizationLetter: PropTypes.bool,
   getTsaLetterEligibility: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
