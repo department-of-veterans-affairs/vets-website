@@ -452,5 +452,53 @@ describe('Scheduling preferences time selection', () => {
 
       cy.injectAxeThenAxeCheck();
     });
+    it('should show modal when exiting a modified page via browser back button', () => {
+      // Click edit button in the preferred contact method section to enter edit view
+      clickEdit();
+
+      selectPreferredOption('option-17');
+
+      // Attempt to navigate away
+      cy.go('back');
+
+      // Confirm that the confirm cancel modal is shown
+      cy.findByTestId('edit-confirm-cancel-modal').should('exist');
+
+      // Close the modal
+      cy.findByTestId('edit-confirm-cancel-modal')
+        .shadow()
+        .find('va-button')
+        .first()
+        .shadow()
+        .find('button')
+        .click();
+
+      // Confirm we are back on the scheduling preferences main page
+      cy.url().should(
+        'eq',
+        `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should not show modal when exiting an unmodified page via browser back button', () => {
+      // Click edit button in the preferred contact method section to enter edit view
+      clickEdit();
+
+      // Attempt to navigate away
+      cy.go('back');
+
+      // Confirm that the confirm cancel modal is shown
+      cy.findByTestId('edit-confirm-cancel-modal').should('not.exist');
+
+      // Confirm we are back on the scheduling preferences main page
+      cy.url().should(
+        'eq',
+        `${Cypress.config().baseUrl}${PROFILE_PATHS.SCHEDULING_PREFERENCES}`,
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

@@ -236,7 +236,7 @@ describe('Scheduling preferences contact method - select preferred contact metho
 
         // This should not be needed but the page doesn't redirect on save within
         // Cypress so this forces the browser back to scheduling preferences
-        cy.findByText(/Scheduling preferences/)
+        cy.get('va-link[back]')
           .should('exist')
           .click();
 
