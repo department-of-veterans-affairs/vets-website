@@ -53,6 +53,11 @@ describe('Medications List Card Extra Details', () => {
   const V2_STATUS_TESTS = [
     { status: dispStatusObjV2.statusNotAvailable, testId: 'unknown' },
     { status: dispStatusObjV2.inprogress, testId: 'refill-in-process' },
+    {
+      status: dispStatusObjV2.active,
+      testId: 'active',
+      refillRemaining: 3,
+    },
     { status: dispStatusObjV2.inactive, testId: 'inactive' },
     { status: dispStatusObjV2.transferred, testId: 'transferred' },
   ];
