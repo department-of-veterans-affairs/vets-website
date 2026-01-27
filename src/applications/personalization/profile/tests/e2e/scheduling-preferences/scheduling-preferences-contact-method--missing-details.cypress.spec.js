@@ -28,10 +28,6 @@ const setup = (preferences = []) => {
           name: 'profile_health_care_settings_page',
           value: true,
         },
-        {
-          name: 'profile_scheduling_preferences',
-          value: true,
-        },
       ],
     },
   }));

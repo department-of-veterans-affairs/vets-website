@@ -30,6 +30,7 @@ const getRoutes = (
       path: PROFILE_PATHS.EDIT,
       requiresLOA3: true,
       requiresMVI: true,
+      requiresSchedulingPreferencesPilot: false,
     },
     {
       component: profile2Enabled ? ProfileHub : Hub,
@@ -37,6 +38,7 @@ const getRoutes = (
       path: PROFILE_PATHS.PROFILE_ROOT,
       requiresLOA3: true,
       requiresMVI: true,
+      requiresSchedulingPreferencesPilot: false,
     },
     {
       component: ContactMethodWrapper,
@@ -44,6 +46,7 @@ const getRoutes = (
       path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
       requiresLOA3: true,
       requiresMVI: true,
+      requiresSchedulingPreferencesPilot: true,
     },
     {
       component: ContactTimesWrapper,
@@ -51,6 +54,7 @@ const getRoutes = (
       path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_TIMES,
       requiresLOA3: true,
       requiresMVI: true,
+      requiresSchedulingPreferencesPilot: true,
     },
     {
       component: AppointmentTimesWrapper,
@@ -58,6 +62,7 @@ const getRoutes = (
       path: PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
       requiresLOA3: true,
       requiresMVI: true,
+      requiresSchedulingPreferencesPilot: true,
     },
   ];
 };

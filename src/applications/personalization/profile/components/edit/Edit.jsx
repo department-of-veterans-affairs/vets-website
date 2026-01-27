@@ -17,7 +17,10 @@ import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAtt
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import InitializeVAPServiceIDContainer from '@@vap-svc/containers/InitializeVAPServiceID';
 
-import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
+import {
+  hasVAPServiceConnectionError,
+  isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector,
+} from '~/platform/user/selectors';
 
 import { isSubtaskSchedulingPreference } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { EditFallbackContent } from './EditFallbackContent';
@@ -73,14 +76,14 @@ export const Edit = () => {
   const profileHealthCareSettingsPageToggle = useToggleValue(
     TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
-  const profileSchedulingPreferencesToggle = useToggleValue(
-    TOGGLE_NAMES.profileSchedulingPreferences,
+  const isSchedulingPreferencesPilotEligible = useSelector(state =>
+    isSchedulingPreferencesPilotEligibleSelector(state),
   );
 
   const routesForNav = getRoutesForNav({
     profile2Enabled: profile2Toggle,
     profileHealthCareSettingsPage: profileHealthCareSettingsPageToggle,
-    profileSchedulingPreferencesEnabled: profileSchedulingPreferencesToggle,
+    profileSchedulingPreferencesEnabled: isSchedulingPreferencesPilotEligible,
   });
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
