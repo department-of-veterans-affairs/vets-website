@@ -1051,8 +1051,8 @@ jobs:
 
   node-22-unit-test-compatibility-check:
     name: Node 22 Unit Test Compatibility
-    if: ${{ needs.tests-prep.outputs.changed_unit_tests != 'false' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [tests-prep]
     steps:
       - name: Checkout
@@ -1102,12 +1102,6 @@ jobs:
 
       - name: Create test results folder
         run: mkdir -p test-results
-
-      - name: Download changed unit tests list
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: changed-unit-tests
-          path: .
 
       - name: Run unit tests
         id: run-tests
