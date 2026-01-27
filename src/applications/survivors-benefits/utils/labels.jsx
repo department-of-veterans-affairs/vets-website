@@ -9,32 +9,16 @@ export const dicOptions = {
   pactActDIC: 'DIC re-evaluation based on the PACT Act',
 };
 
-export const servicesOptions = {
-  army: {
-    label: 'Army',
-  },
-  navy: {
-    label: 'Navy',
-  },
-  airForce: {
-    label: 'Air Force',
-  },
-  coastGuard: {
-    label: 'Coast Guard',
-  },
-  marineCorps: {
-    label: 'Marine Corps',
-  },
-  spaceForce: {
-    label: 'Space Force',
-  },
-  usphs: {
-    label: 'USPHS',
-  },
-  noaa: {
-    label: 'NOAA',
-  },
-};
+export const servicesOptions = [
+  { value: 'army', label: 'Army' },
+  { value: 'navy', label: 'Navy' },
+  { value: 'airForce', label: 'Air Force' },
+  { value: 'coastGuard', label: 'Coast Guard' },
+  { value: 'marineCorps', label: 'Marine Corps' },
+  { value: 'spaceForce', label: 'Space Force' },
+  { value: 'usphs', label: 'USPHS' },
+  { value: 'noaa', label: 'NOAA' },
+];
 
 export const claimantRelationshipOptions = {
   SURVIVING_SPOUSE: 'Surviving spouse',
