@@ -10,7 +10,10 @@ import {
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
-import { selectHoldTimeMessagingUpdate } from '../util/selectors';
+import {
+  selectHoldTimeMessagingUpdate,
+  selectImagesDomainFlag,
+} from '../util/selectors';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -54,9 +57,10 @@ const LabsAndTests = () => {
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
-  const labsAndTests = useSelector(
+  const labsAndTestsRaw = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
+  const showImagesDomain = useSelector(selectImagesDomainFlag);
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
   const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
   const mergeCvixWithScdf = useSelector(
@@ -64,6 +68,19 @@ const LabsAndTests = () => {
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
       ],
+  );
+
+  // Filter out radiology records when the images domain flag is enabled
+  const labsAndTests = useMemo(
+    () => {
+      if (!showImagesDomain || !labsAndTestsRaw) return labsAndTestsRaw;
+      return labsAndTestsRaw.filter(
+        record =>
+          record?.type !== labTypes.RADIOLOGY &&
+          record?.type !== labTypes.CVIX_RADIOLOGY,
+      );
+    },
+    [labsAndTestsRaw, showImagesDomain],
   );
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
