@@ -115,8 +115,13 @@ export default class ArrayField extends React.Component {
 
   scrollToRow = id => {
     setTimeout(() => {
+      const tableTarget = `table_${id}`;
+      const hasTableAnchor = Boolean(
+        document?.querySelector?.(`[name="${tableTarget}"]`),
+      );
+
       scrollTo(
-        `table_${id}`,
+        hasTableAnchor ? tableTarget : `#${id}`,
         window.Forms?.scroll || getScrollOptions({ offset: 0 }),
       );
     }, 100);

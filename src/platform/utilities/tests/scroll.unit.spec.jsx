@@ -103,15 +103,23 @@ describe('getElement', () => {
       </main>,
     );
 
-  // Don't use render container as a getElement parameter. The `getElement`
-  // functions are undefined. Only document (default) appears to work.
   it('should return element by id', () => {
     setup();
     expect(getElement('test1').textContent).to.eq('id');
   });
+
+  it('should return element by id within a root element', () => {
+    const { container } = setup();
+    expect(getElement('test1', container).textContent).to.eq('id');
+  });
   it('should return element by name', () => {
     setup();
     expect(getElement('test2').textContent).to.eq('name');
+  });
+
+  it('should return element by name within a root element', () => {
+    const { container } = setup();
+    expect(getElement('test2', container).textContent).to.eq('name');
   });
   it('should return element by class name', () => {
     setup();

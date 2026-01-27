@@ -15,6 +15,39 @@ import {
 } from '../../../components/supportingEvidenceUpload/constants';
 import { additionalFormInputsContent } from '../../../components/supportingEvidenceUpload/uploadFiles';
 
+export const migrateEvidenceChoiceUploadFormData = formData => {
+  const existingFiles = formData?.evidenceChoiceFileInput;
+  if (!Array.isArray(existingFiles) || existingFiles.length === 0) {
+    return formData;
+  }
+
+  let didChange = false;
+  const migratedFiles = existingFiles.map(file => {
+    if (!file) {
+      return file;
+    }
+
+    if (!file.confirmationCode && file.guid) {
+      didChange = true;
+      return {
+        ...file,
+        confirmationCode: file.guid,
+      };
+    }
+
+    return file;
+  });
+
+  if (!didChange) {
+    return formData;
+  }
+
+  return {
+    ...formData,
+    evidenceChoiceFileInput: migratedFiles,
+  };
+};
+
 export const uiSchema = {
   'ui:title': standardTitle(evidenceChoiceTitle),
   'ui:description': evidenceChoiceUploadContent,
@@ -52,9 +85,35 @@ export const uiSchema = {
       additionalInputRequired: true,
       additionalInput: additionalFormInputsContent,
       additionalInputUpdate: (instance, error, data) => {
-        instance.setAttribute('error', error);
-        if (data) {
-          instance.setAttribute('value', data.documentType);
+        if (!instance) return;
+
+        const inputEl = instance;
+
+        // The slotted `va-select` can exist before it's fully hydrated.
+        // Setting `value` too early can crash inside the web component.
+        inputEl.setAttribute('error', error);
+
+        const documentType = data?.documentType;
+        if (!documentType) return;
+
+        const setDocumentType = () => {
+          try {
+            inputEl.value = documentType;
+          } catch (e) {
+            // ignore
+          }
+
+          try {
+            inputEl.setAttribute('value', documentType);
+          } catch (e) {
+            // ignore
+          }
+        };
+
+        if (typeof inputEl.componentOnReady === 'function') {
+          inputEl.componentOnReady().then(setDocumentType);
+        } else {
+          setTimeout(setDocumentType, 0);
         }
       },
       handleAdditionalInput: e => {

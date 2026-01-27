@@ -677,10 +677,14 @@ const formConfig = {
           title: 'Non-VA treatment records you uploaded',
           path: 'supporting-evidence/additional-evidence-upload',
           depends: formData =>
-            hasOtherEvidence &&
-            formData.disability526SupportingEvidenceEnhancement,
+            hasOtherEvidence(formData) &&
+            !!formData?.disability526SupportingEvidenceEnhancement,
           uiSchema: evidenceChoiceUploadPage.uiSchema,
           schema: evidenceChoiceUploadPage.schema,
+          updateFormData: (_oldFormData, newFormData) =>
+            evidenceChoiceUploadPage.migrateEvidenceChoiceUploadFormData(
+              newFormData,
+            ),
         },
         additionalDocuments: {
           title: 'Non-VA treatment records you uploaded',
