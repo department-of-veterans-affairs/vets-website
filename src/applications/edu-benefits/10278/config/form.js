@@ -172,6 +172,8 @@ const formConfig = {
               path: 'organizations/representatives',
               uiSchema: thirdPartyOrganizationRepresentativesIntro.uiSchema,
               schema: thirdPartyOrganizationRepresentativesIntro.schema,
+              depends: formData =>
+                formData?.discloseInformation?.authorize === 'organization',
             }),
             thirdPartyOrganizationRepresentativesSummary: pageBuilder.summaryPage(
               {
@@ -179,6 +181,8 @@ const formConfig = {
                 path: 'organizations/representatives-summary',
                 uiSchema: thirdPartyOrganizationRepresentativesSummary.uiSchema,
                 schema: thirdPartyOrganizationRepresentativesSummary.schema,
+                depends: formData =>
+                  formData?.discloseInformation?.authorize === 'organization',
               },
             ),
             thirdPartyOrganizationRepresentativeName: pageBuilder.itemPage({
@@ -187,6 +191,8 @@ const formConfig = {
               showPagePerItem: true,
               uiSchema: thirdPartyOrganizationRepresentativeName.uiSchema,
               schema: thirdPartyOrganizationRepresentativeName.schema,
+              depends: formData =>
+                formData?.discloseInformation?.authorize === 'organization',
             }),
           }),
         ),

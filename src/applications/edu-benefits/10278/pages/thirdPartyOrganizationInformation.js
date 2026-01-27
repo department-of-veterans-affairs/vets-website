@@ -9,7 +9,7 @@ import {
 export default {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Organization name and mailing address',
+      title: 'Name and address of organization',
     }),
     organizationName: textUI({
       title: 'Name of organization',
