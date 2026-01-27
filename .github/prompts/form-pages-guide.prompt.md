@@ -1654,8 +1654,8 @@ export default {
     properties: {
       serviceBranchDefault: serviceBranchSchema(),
       serviceBranchNoOptGroups: serviceBranchSchema(),
-      serviceBranchSubset: serviceBranchSchema(['army', 'navy', 'air force']),
-      serviceBranchWithBranchSubset: serviceBranchSchema(['AF', 'SF', 'ARMY', 'PHS'])
+      serviceBranchSubset: serviceBranchSchema({ groups: ['army', 'navy', 'air force'] }),
+      serviceBranchWithBranchSubset: serviceBranchSchema({ branches:['AF', 'SF', 'ARMY', 'PHS'] })
     },
     required: ['serviceBranch'],
   },

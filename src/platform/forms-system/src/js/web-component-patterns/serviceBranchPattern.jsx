@@ -12,13 +12,10 @@ const VALID_GROUPS = Object.values(DEFAULT_BRANCH_LABELS).map(({ group }) =>
  * @returns { Object } branches within a group
  */
 export function getServiceBranchesByGroup(group) {
-  if (!VALID_GROUPS.includes(group)) {
-    throw new Error('This is an invalid group.');
-  }
   const branches = {};
   for (const [key, value] of Object.entries(DEFAULT_BRANCH_LABELS)) {
     if (value.group.toLowerCase() === group) {
-      branches[key] = value;
+      branches[key] = { ...value };
     }
   }
   return branches;
@@ -35,23 +32,10 @@ VALID_GROUPS.forEach(group => {
  * @returns { Object } an object with the key/value for each option in a subset of valid groups
  */
 function getOptionsForGroups(groups) {
-  const selectedGroups = groups.filter(group => VALID_GROUPS.includes(group));
-  if (selectedGroups.length === 0) {
-    throw new Error('Not a valid Service Branch group');
-  }
-
-  const options = selectedGroups.reduce((acc, group) => {
-    return Object.assign(acc, BRANCHES[group]);
+  return groups.reduce((acc, group) => {
+    const clonedGroup = JSON.parse(JSON.stringify(BRANCHES[group]));
+    return { ...acc, ...clonedGroup };
   }, {});
-
-  // if there is only a single group remove the group property from each option so we don't render a redundant option group label
-  if (groups.length === 1) {
-    Object.keys(options).forEach(key => {
-      delete options[key].group;
-    });
-  }
-
-  return options;
 }
 
 /**
@@ -59,17 +43,59 @@ function getOptionsForGroups(groups) {
  * @returns an object with the key/value for each branch specified in the branches array.
  */
 function getOptionsForBranches(branches) {
-  const keys = Object.keys(DEFAULT_BRANCH_LABELS);
   const data = {};
   for (const branch of branches) {
-    if (!keys.includes(branch)) {
-      throw new Error(
-        'This key does not correspond to a valid service branch.',
-      );
-    }
-    data[branch] = DEFAULT_BRANCH_LABELS[branch];
+    const clonedBranch = { ...DEFAULT_BRANCH_LABELS[branch] };
+    data[branch] = clonedBranch;
   }
   return data;
+}
+
+/**
+ * @param {ServiceBranchGroup} groups custom list of groups
+ * @throws {Error} if one of the specified groups is invalid
+ */
+function checkGroups(groups) {
+  groups.forEach(group => {
+    if (!VALID_GROUPS.includes(group)) {
+      throw new Error(`"${group}" is not a valid service branch group.`);
+    }
+  });
+}
+
+/**
+ * @param {string[]} branches array of branch keys
+ * @throws {Error} if one of the specified keys is invalid
+ */
+function checkBranches(branches) {
+  const validKeys = new Set(Object.keys(DEFAULT_BRANCH_LABELS));
+  branches.forEach(branch => {
+    if (!validKeys.has(branch)) {
+      throw new Error(`"${branch}" is not a valid service branch.`);
+    }
+  });
+}
+
+/**
+ * @param {ServiceBranchGroup | string[]} options either user specified groups or branches
+ * @param {boolean} groups is the option a group (if false then treat as array of branches)
+ * @returns {boolean} true if a valid set of options false if none provided
+ * @throws {Error} if options contains invalid group or invalid branch
+ */
+function checkOption(option, groups = true) {
+  if (!option) return false;
+
+  if (!Array.isArray(option)) {
+    throw new Error(`${groups ? 'groups' : 'branches'} must be an array.`);
+  }
+
+  if (groups) {
+    checkGroups(option);
+  } else {
+    checkBranches(option);
+  }
+
+  return true;
 }
 
 /**
@@ -92,7 +118,7 @@ function getOptionsForBranches(branches) {
  * })
  * 
  * // uiSchema with branches specified
- * branchesExampleServiceBranch({
+ * branchesExampleServiceBranch: serviceBranchUI({
  *  branches: ['AF', 'CG', 'PHS'],
  * })
  *
@@ -101,10 +127,10 @@ function getOptionsForBranches(branches) {
  * exampleServiceBranch: serviceBranchSchema()
  *
  * // schema with groups
- * exampleServiceBranch: serviceBranchSchema(['army', 'navy'])
+ * exampleServiceBranch: serviceBranchSchema({ groups: ['army', 'navy'] })
  * 
  * // schema with branches
- * branchesExampleServiceBranch: serviceBranchSchema(['AF', 'CG', 'PHS'])
+ * branchesExampleServiceBranch: serviceBranchSchema({ branches: ['AF', 'CG', 'PHS']})
  * ```
  *
  * @param {string | UIOptions & {
@@ -133,16 +159,16 @@ export const serviceBranchUI = options => {
   } = typeof options === 'object' ? options : { title: options };
 
   let labels;
-  if (branches && Array.isArray(branches)) {
-    labels = getOptionsForBranches(branches);
-  } else if (groups && Array.isArray(groups)) {
+  if (checkOption(groups)) {
     labels = getOptionsForGroups(groups);
+  } else if (checkOption(branches, false)) {
+    labels = getOptionsForBranches(branches);
   } else {
-    labels = DEFAULT_BRANCH_LABELS;
+    labels = JSON.parse(JSON.stringify(DEFAULT_BRANCH_LABELS));
   }
 
-  // don't show optgroups if individual branches are specified
-  if (!optGroups || branches) {
+  // don't render optgroups if only one group or for branches of if user sets optGroups = false
+  if (!optGroups || (groups && groups.length === 1) || branches) {
     Object.keys(labels).forEach(key => {
       delete labels[key].group;
     });
@@ -174,33 +200,22 @@ export const serviceBranchUI = options => {
  * schema for serviceBranchUI
  * ```js
  * exampleServiceBranch: serviceBranchSchema()
- * exampleServiceBranch: serviceBranchSchema(['army', 'navy'])
+ * exampleServiceBranch: serviceBranchSchema({ groups: ['army', 'navy'] })
  * ```
  */
 
+/** @typedef {groups: ServiceBranchGroup, branches: string[] } SchemaInputOptions */
+
 /**
- * @param {ServiceBranchGroup[]} [groups] an array of valid groups, i.e. the keys in BRANCHES
+ * @param {SchemaInpuOptions} [options] an object which may contain an array of valid groups or an array of valid branches
  * @returns {SchemaOptions}
  */
-export const serviceBranchSchema = options => {
-  // check if this pattern instance specified groups
-  const isGroupArray =
-    Array.isArray(options) &&
-    options.every(option => VALID_GROUPS.includes(option));
-
-  // check if this pattern instance specified an array of branches taken from across groups
-  const isBranchArray =
-    !isGroupArray &&
-    Array.isArray(options) &&
-    options.every(option =>
-      Object.keys(DEFAULT_BRANCH_LABELS).includes(option),
-    );
-
+export const serviceBranchSchema = ({ branches, groups } = {}) => {
   let labels;
-  if (isGroupArray) {
-    labels = Object.keys(getOptionsForGroups(options));
-  } else if (isBranchArray) {
-    labels = options;
+  if (checkOption(groups)) {
+    labels = Object.keys(getOptionsForGroups(groups));
+  } else if (checkOption(branches, false)) {
+    labels = branches;
   } else {
     labels = Object.keys(DEFAULT_BRANCH_LABELS);
   }

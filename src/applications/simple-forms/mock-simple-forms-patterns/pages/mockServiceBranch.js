@@ -24,14 +24,12 @@ export default {
     type: 'object',
     properties: {
       wcv3ServiceBranchDefault: serviceBranchSchema(),
-      wcv3ServiceBranchCustom: serviceBranchSchema(['coast guard']),
-      wcv3ServiceBranchCustomBranches: serviceBranchSchema([
-        'AAC',
-        'PA',
-        'MC',
-        'SF',
-        'PHS',
-      ]),
+      wcv3ServiceBranchCustom: serviceBranchSchema({
+        groups: ['coast guard'],
+      }),
+      wcv3ServiceBranchCustomBranches: serviceBranchSchema({
+        branches: ['AAC', 'PA', 'MC', 'SF', 'PHS'],
+      }),
     },
   },
 };
