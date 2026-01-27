@@ -191,7 +191,7 @@ export const addressUISchema = (
     )
       .trim()
       .toUpperCase();
-    if (MILITARY_CITIES.includes(currentCity?.trim().toUpperCase())) {
+    if (MILITARY_CITIES.includes(currentCity)) {
       return {
         enum: MILITARY_STATE_VALUES,
         enumNames: MILITARY_STATE_LABELS,

@@ -8,7 +8,6 @@ import {
   isCountryRequired,
   shouldHideState,
   isStateRequired,
-  createAddressLineValidator,
 } from '../../utils/contactInformationHelpers';
 
 describe('contactInformationHelpers', () => {
@@ -215,33 +214,6 @@ describe('contactInformationHelpers', () => {
           },
         };
         expect(isStateRequired(formData)).to.be.false;
-      });
-    });
-
-    describe('createAddressLineValidator', () => {
-      it('should create a validator function with correct max length', () => {
-        const validator = createAddressLineValidator(20, 'street');
-        expect(validator).to.be.a('function');
-
-        const mockErrors = { addError: () => {} };
-        const result = validator(mockErrors, 'short');
-        expect(result).to.be.undefined; // validator doesn't return anything for valid input
-      });
-
-      it('should validate max length correctly', () => {
-        const validator = createAddressLineValidator(10, 'street');
-        const mockErrors = { addError: () => {} };
-
-        // Should not add error for short string
-        const result1 = validator(mockErrors, 'short');
-        expect(result1).to.be.undefined;
-
-        // Should add error for long string (we can't easily test the error addition)
-        const result2 = validator(
-          mockErrors,
-          'this is way too long for the limit',
-        );
-        expect(result2).to.be.undefined;
       });
     });
   });
