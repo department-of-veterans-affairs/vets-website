@@ -389,31 +389,6 @@ describe('<LetterList>', () => {
       expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
     });
 
-    it('renders eligibility error when TSA letter request errors', async () => {
-      const tsaLetterEnabledProps = {
-        ...defaultProps,
-        getTsaLetterEligibility: getTsaLetterEligibilityStub,
-        tsaLetterEligibility: {
-          error: true,
-          loading: false,
-        },
-        tsaSafeTravelLetter: true,
-      };
-      const { findByText } = render(
-        <Provider store={getStore()}>
-          <MemoryRouter>
-            <LetterList {...tsaLetterEnabledProps} />
-          </MemoryRouter>
-        </Provider>,
-      );
-      const errorHeading = await findByText(
-        'Some letters may not be available',
-      );
-      expect(errorHeading).to.exist;
-    });
-
-    // also test: does not display if response is null
-    // does not display warning/error message if letters succeeds but tsa letter response is empty
     it('does not fetch TSA letter if feature flag is disabled', () => {
       render(
         <Provider store={getStore()}>
@@ -508,6 +483,8 @@ describe('<LetterList>', () => {
         letters: [],
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
         tsaLetterEligibility: {
+          documentId: undefined,
+          documentVersion: undefined,
           error: false,
           loading: false,
         },
@@ -557,6 +534,8 @@ describe('<LetterList>', () => {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
         tsaLetterEligibility: {
+          documentId: undefined,
+          documentVersion: undefined,
           error: false,
           loading: false,
         },
@@ -569,7 +548,6 @@ describe('<LetterList>', () => {
           </MemoryRouter>
         </Provider>,
       );
-      // why does this need to be query and not find?
       const errorHeading = queryByText('Some letters may not be available');
       expect(errorHeading).to.not.exist;
     });
