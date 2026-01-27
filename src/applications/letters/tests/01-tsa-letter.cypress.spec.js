@@ -4,7 +4,7 @@ import {
   benefitSummaryOptions,
   mockUserData,
 } from './e2e/fixtures/mocks/lh_letters';
-import { tsaLetter } from './e2e/fixtures/mocks/tsa_letter';
+import { tsaLetter, tsaLetterNull } from './e2e/fixtures/mocks/tsa_letter';
 
 describe('TSA Safe Travel Letter', () => {
   const lettersPage = '/records/download-va-letters/letters/';
@@ -97,10 +97,16 @@ describe('TSA Safe Travel Letter', () => {
       .should('contain', `Your ${tsaLetterTitle} is currently unavailable`);
   });
 
-  it('does not display letter for ineligible users', () => {
-    cy.intercept('GET', '/v0/tsa_letter', { data: [] });
+  it('does not display letter or error if user does not have an available letter', () => {
+    cy.intercept('GET', '/v0/tsa_letter', tsaLetterNull);
     cy.visit(lettersPage);
     cy.injectAxeThenAxeCheck();
     cy.get('[data-testid="tsa-letter-accordion"]').should('not.exist');
+    cy.get('va-alert[status="error"]', {
+      timeout: Timeouts.slow,
+    }).should('not.exist');
+    cy.get('va-alert[status="warning"]', {
+      timeout: Timeouts.slow,
+    }).should('not.exist');
   });
 });
