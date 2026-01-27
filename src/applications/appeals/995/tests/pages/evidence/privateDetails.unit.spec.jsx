@@ -11,7 +11,7 @@ describe('Private evidence details page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.evidence.pages.privateDetails;
+  } = formConfig.chapters.evidence.pages.privateDetailsOld;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {

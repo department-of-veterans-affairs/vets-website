@@ -6,7 +6,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../config/form';
 
 describe('VA evidence prompt page', () => {
-  const { schema, uiSchema } = formConfig.chapters.evidence.pages.vaPrompt;
+  const { schema, uiSchema } = formConfig.chapters.evidence.pages.vaPromptOld;
 
   // Custom page is rendered, so this renders a checkbox + submit button
   it('should render', () => {
