@@ -51,8 +51,10 @@ describe('useRxListExport', () => {
   let buildPrescriptionsPDFListStub;
   let buildAllergiesPDFListStub;
   let buildPrescriptionsTXTStub;
+  let buildAllergiesTXTStub;
   let buildPdfDataStub;
   let generateMedicationsPdfFileStub;
+  let generateTextFileStub;
 
   const mockUser = {
     first: 'John',
