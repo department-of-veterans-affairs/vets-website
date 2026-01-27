@@ -89,19 +89,19 @@ export const clickResultsBack = () =>
 export const verifyFormErrorNotShown = selector =>
   cy
     .findByTestId(selector)
-    .find('span[role="alert"]')
+    .get('span[role="alert"]')
     .should('have.text', '');
 
 export const verifyFormErrorDoesNotExist = selector =>
   cy
     .findByTestId(selector)
-    .find('span[role="alert"]')
+    .get('span[role="alert"]')
     .should('not.exist');
 
 export const checkFormAlertText = (selector, expectedValue) =>
   cy
     .findByTestId(selector)
-    .find('span[role="alert"]')
+    .get('span[role="alert"]')
     .should('be.visible')
     .should('have.text', expectedValue);
 
