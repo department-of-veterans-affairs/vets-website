@@ -930,6 +930,17 @@ export function isCompletingModern4142(formData) {
   return formData?.disability526Enable2024Form4142 === true;
 }
 
+/**
+ * Checks if the supporting evidence enhancement feature flag is enabled.
+ * When enabled, uses the platform fileInputMultipleUI component for file uploads.
+ *
+ * @param {object} formData
+ * @returns {boolean} true if disability526SupportingEvidenceEnhancement is enabled
+ */
+export function isSupportingEvidenceEnhanced(formData) {
+  return formData?.disability526SupportingEvidenceEnhancement === true;
+}
+
 export const modern4142AuthURL =
   '/supporting-evidence/private-medical-records-authorize-release';
 
