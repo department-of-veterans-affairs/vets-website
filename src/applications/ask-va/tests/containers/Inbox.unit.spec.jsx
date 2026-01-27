@@ -13,9 +13,9 @@ import { server } from 'platform/testing/unit/mocha-setup';
 import React from 'react';
 
 import { envUrl } from '../../constants';
-import DashboardCards from '../../containers/DashboardCards';
+import Inbox from '../../containers/Inbox';
 
-describe('<DashboardCards>', () => {
+describe('<Inbox />', () => {
   const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries`;
 
   describe('when the api server succeeds', () => {
@@ -70,7 +70,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should render Your questions and filters', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         // Check for the main heading
@@ -141,7 +141,7 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -196,7 +196,7 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -229,7 +229,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should clear filters when clear button is clicked', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -260,82 +260,18 @@ describe('<DashboardCards>', () => {
       });
     });
 
-    it('should handle getCurrentTabType correctly', async () => {
-      server.use(
-        createGetHandler(`${apiRequestWithUrl}`, () => {
-          return jsonResponse(
-            {
-              data: [
-                {
-                  id: '1',
-                  attributes: {
-                    inquiryNumber: 'A-1',
-                    status: 'In Progress',
-                    categoryName: 'Benefits',
-                    createdOn: '01/01/2024 12:00:00 PM',
-                    lastUpdate: '01/01/2024 12:00:00 PM',
-                    submitterQuestion: 'Business question',
-                    levelOfAuthentication: 'Business',
-                  },
-                },
-                {
-                  id: '2',
-                  attributes: {
-                    inquiryNumber: 'A-2',
-                    status: 'In Progress',
-                    categoryName: 'Benefits',
-                    createdOn: '01/01/2024 12:00:00 PM',
-                    lastUpdate: '01/01/2024 12:00:00 PM',
-                    submitterQuestion: 'Personal question',
-                    levelOfAuthentication: 'Personal',
-                  },
-                },
-              ],
-            },
-            { status: 200 },
-          );
-        }),
-      );
-
-      const view = render(<DashboardCards />);
-
-      await waitFor(() => {
-        expect(view.container.querySelector('va-loading-indicator')).to.not
-          .exist;
-
-        // Initially should show Business tab content
-        const filterInfo = view.getByRole('heading', {
-          level: 3,
-          name: /showing .+ results/i,
-        });
-        expect(filterInfo.textContent).to.include('in "Business"');
-      });
-
-      // Switch to Personal tab
-      const personalTab = view.getByRole('tab', { name: /personal/i });
-      fireEvent.click(personalTab);
-
-      await waitFor(() => {
-        const filterInfo = view.getByRole('heading', {
-          level: 3,
-          name: /showing .+ results/i,
-        });
-        expect(filterInfo.textContent).to.include('in "Personal"');
-      });
-    });
-
     it('should sort results based on search query', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       // Switch to personal tab
       const personalTab = await view.findByRole('tab', { name: /personal/i });
       fireEvent.click(personalTab);
 
       // Confirm correct tab's content is displayed
-      const filterSummary = await view.findByText(/showing/i);
-      expect(filterSummary.textContent).to.include('categories in "Personal"');
+      const searchDescription = await view.findByText(/showing/i);
+      expect(searchDescription.textContent).to.include('Personal');
 
-      const resultsBefore = view.getAllByTestId('dashboard-card');
+      const resultsBefore = view.getAllByTestId('inquiry-card');
       expect(resultsBefore.length).to.equal(2);
       expect(resultsBefore[0].textContent).to.include('Reference number: A-2');
 
@@ -352,7 +288,7 @@ describe('<DashboardCards>', () => {
       filterButtons.__events.primaryClick();
 
       // Confirrm the list is now just one desired result
-      const resultsAfter = view.getAllByTestId('dashboard-card');
+      const resultsAfter = view.getAllByTestId('inquiry-card');
       expect(resultsAfter.length).to.equal(1);
       expect(resultsAfter[0].textContent).to.include('Reference number: A-3');
     });
@@ -368,7 +304,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should show error alert when API request fails', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         const errorAlert = view.container.querySelector('va-alert');
@@ -404,7 +340,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should display pagination when there are more than 4 items', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         const pagination = view.container.querySelector('va-pagination');
@@ -418,7 +354,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should update displayed items when page changes', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         // Verify first page content
@@ -443,7 +379,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should update results info text when page changes', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         const filterSummary = view.getByRole('heading', {
@@ -470,7 +406,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should focus on filter summary when page changes', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         const filterSummary = view.getByRole('heading', {
@@ -490,11 +426,13 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        const filterSummary = view.getByRole('heading', {
+        const searchDescription = view.getByRole('heading', {
           level: 3,
           name: /showing 5-6 of 6 results/i,
         });
-        expect(document.activeElement).to.equal(filterSummary);
+        expect(document.activeElement).to.equal(
+          searchDescription.parentElement,
+        );
       });
     });
   });
@@ -525,7 +463,7 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       // Initially should show loading indicator
       const loadingIndicator = view.getByTestId('loading-indicator');
@@ -561,7 +499,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should show empty state message when no inquiries exist', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         // Should show the empty state message
@@ -628,59 +566,38 @@ describe('<DashboardCards>', () => {
       );
     });
 
-    it('should show tabs when both business and personal inquiries exist', async () => {
-      const view = render(<DashboardCards />);
+    it('should show switchable tabs when both business and personal inquiries exist', async () => {
+      const view = render(<Inbox />);
 
       const tabButtons = await view.findByRole('tablist');
-      const businessTab = await view.findByRole('tab', {
+      const businessTabBefore = await view.findByRole('tab', {
         name: /business/i,
       });
-      const personalTab = await view.findByRole('tab', {
+      const personalTabBefore = await view.findByRole('tab', {
         name: /personal/i,
       });
 
-      const filterSummary = await view.findByRole('heading', {
-        level: 3,
-        name: /categories in "business"/i,
-      });
-
       expect(tabButtons.childNodes.length).to.equal(2);
-      expect(businessTab).to.exist;
-      expect(personalTab).to.exist;
-      expect(filterSummary).to.exist;
-    });
+      expect(businessTabBefore).to.exist;
+      expect(personalTabBefore).to.exist;
+      expect(businessTabBefore.outerHTML).to.include('aria-selected="true"');
+      expect(personalTabBefore.outerHTML).to.include('aria-selected="false"');
 
-    it('should switch content and filtered results info when changing tabs', async () => {
-      const view = render(<DashboardCards />);
+      fireEvent.click(personalTabBefore);
 
-      const personalTab = await view.findByRole('tab', { name: /personal/i });
-
-      expect(
-        await view.findByRole('heading', {
-          level: 3,
-          name: /categories in "business"/i,
-        }),
-      ).to.exist;
-      expect(personalTab).to.exist;
-
-      fireEvent.click(personalTab);
-
-      const personalSummary = await view.findByRole('heading', {
-        level: 3,
-        name: /categories in "personal"/i,
+      const businessTabAfter = await view.findByRole('tab', {
+        name: /business/i,
+      });
+      const personalTabAfter = await view.findByRole('tab', {
+        name: /personal/i,
       });
 
-      expect(personalSummary).to.exist;
-      expect(() => {
-        view.getByRole('heading', {
-          level: 3,
-          name: /categories in "business"/i,
-        });
-      }).to.throw();
+      expect(businessTabAfter.outerHTML).to.include('aria-selected="false"');
+      expect(personalTabAfter.outerHTML).to.include('aria-selected="true"');
     });
 
     it('should apply filters correctly in business view', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       // Wait for initial load and content
       await waitFor(() => {
@@ -709,7 +626,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should show correct content in personal view', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       // Wait for initial load
       await waitFor(() => {

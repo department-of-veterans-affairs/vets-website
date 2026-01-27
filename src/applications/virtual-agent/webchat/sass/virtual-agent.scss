@@ -208,3 +208,10 @@ button.webchat__send-button[disabled] {
 .va-chatbot-message-nub__path {
   fill: currentColor;
 }
+
+.va-chatbot-chatbox-container {
+  min-height: 550px;
+  max-height: 100%;
+  position: relative;
+  width: 100%;
+}
