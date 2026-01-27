@@ -21,6 +21,7 @@ import {
   validateDisabilityName,
   validateBooleanGroup,
   validateIfHasEvidence,
+  validateMedicalRecordsAtLeastOne,
   validateAge,
   validateSeparationDate,
   isInFuture,
@@ -905,6 +906,71 @@ describe('526 All Claims validations', () => {
       callValidateIfHasEvidence(formData, fixtures);
 
       expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+    });
+  });
+
+  describe('validateMedicalRecordsAtLeastOne', () => {
+    const callValidator = (
+      formData,
+      fieldData = formData?.['view:selectableEvidenceTypes'] ?? {},
+    ) => {
+      const errors = { addError: sinon.spy() };
+      const schema = {};
+      const messages = {
+        atLeastOne: 'Please select at least one type of supporting evidence',
+      };
+      validateMedicalRecordsAtLeastOne(
+        errors,
+        fieldData,
+        formData,
+        schema,
+        messages,
+        {},
+        0,
+      );
+      return errors;
+    };
+
+    it('adds error when view:hasEvidence true, view:hasOtherEvidence true, but neither VA nor private selected', () => {
+      const formData = {
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select at least one type of supporting evidence',
+      );
+    });
+
+    it('does not add error when view:hasEvidence true and at least one of VA or private is selected', () => {
+      const formData = {
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': true,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('does not add error when only private medical records selected', () => {
+      const formData = {
+        'view:hasEvidence': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': true,
+          'view:hasOtherEvidence': false,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
     });
   });
 
