@@ -348,7 +348,11 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={draftFormState}
+          currentQuery={{
+            ...draftFormState,
+            locationChanged: currentQuery.locationChanged,
+            geolocationInProgress: currentQuery.geolocationInProgress,
+          }}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
