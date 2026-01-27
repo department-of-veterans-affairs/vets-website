@@ -104,6 +104,11 @@ const testConfig = createTestConfig(
         cy.fillPage();
       },
 
+      'supporting-evidence/evidence-request': () => {
+        // Use cy.fillPage() which will handle va-radio components automatically
+        cy.fillPage();
+      },
+
       // Chapter 5: Additional Information
       'payment-information': () => {
         // First, handle the payment info form (from existing helper)
