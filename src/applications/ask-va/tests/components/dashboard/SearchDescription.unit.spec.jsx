@@ -18,11 +18,13 @@ describe('SearchDescription', () => {
     );
     const heading = view.getByRole('heading', { level: 3, name: /showing/i });
     expect(heading.textContent).to.equal(sentence);
+
+    expect(view.queryByTestId('no-results-suggestion')).to.not.exist;
   });
 
   it('renders correct sentence with no results', () => {
     const sentence =
-      'Showing no results with the status set to "All" and the category set to "All."';
+      'Showing no results with the status set to "All" and the category set to "All."Search 1 of these 3 things to get more results:Reference numberCategory nameOriginal question';
     const view = render(
       <SearchDescription
         categoryFilter="All"
@@ -33,7 +35,8 @@ describe('SearchDescription', () => {
       />,
     );
     const heading = view.getByRole('heading', { level: 3, name: /showing/i });
-    expect(heading.textContent).to.equal(sentence);
+    expect(view.queryByTestId('no-results-suggestion')).to.exist;
+    expect(heading.parentElement.textContent).to.equal(sentence);
   });
 
   it('renders correct sentence with filters', () => {

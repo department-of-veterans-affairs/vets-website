@@ -158,6 +158,7 @@ export default function DashboardCards() {
                   setStatusFilter(pendingStatusFilter);
                   setCategoryFilter(pendingCategoryFilter);
                   setQuery(pendingQuery);
+                  focusElement('#search-description');
                 }}
                 onSecondaryClick={() => {
                   setStatusFilter('All');
@@ -166,6 +167,7 @@ export default function DashboardCards() {
                   setPendingQuery('');
                   setPendingStatusFilter('All');
                   setPendingCategoryFilter('All');
+                  focusElement('#search-description');
                 }}
                 leftButtonText="Apply"
                 rightButtonText="Clear"

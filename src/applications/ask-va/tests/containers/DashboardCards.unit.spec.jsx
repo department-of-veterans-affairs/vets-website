@@ -426,11 +426,13 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        const filterSummary = view.getByRole('heading', {
+        const searchDescription = view.getByRole('heading', {
           level: 3,
           name: /showing 5-6 of 6 results/i,
         });
-        expect(document.activeElement).to.equal(filterSummary);
+        expect(document.activeElement).to.equal(
+          searchDescription.parentElement,
+        );
       });
     });
   });

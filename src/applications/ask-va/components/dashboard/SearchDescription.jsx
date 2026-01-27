@@ -16,16 +16,27 @@ export default function SearchDescription({
   const tabInfo = tabName ? `" in "${tabName}` : '';
 
   return (
-    <h3
-      id="search-description"
-      className="vads-u-font-family--sans vads-u-font-size--md"
-    >
-      Showing {displayCount} results {queryPart}
-      with the status set to "{statusFilter}" and the category set to "
-      {categoryFilter}
-      {tabInfo}
-      ."
-    </h3>
+    <div id="search-description">
+      <h3 className="vads-u-font-family--sans vads-u-font-size--md">
+        Showing {displayCount} results {queryPart}
+        with the status set to "{statusFilter}" and the category set to "
+        {categoryFilter}
+        {tabInfo}
+        ."
+      </h3>
+      {!total && (
+        <>
+          <p data-testid="no-results-suggestion">
+            Search 1 of these 3 things to get more results:
+          </p>
+          <ul>
+            <li>Reference number</li>
+            <li>Category name</li>
+            <li>Original question</li>
+          </ul>
+        </>
+      )}
+    </div>
   );
 }
 
