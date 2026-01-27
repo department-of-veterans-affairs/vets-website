@@ -53,7 +53,10 @@ function getAtlasLocation(appt) {
 }
 
 function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
-  const timezone = appt.location?.attributes?.timezone?.timeZoneId;
+  let timezone = appt.location?.attributes?.timezone?.timeZoneId;
+  if (timezone === 'GMT' || timezone === 'UTC') {
+    timezone = null;
+  }
 
   return (
     timezone ||
