@@ -15,6 +15,7 @@ describe('VASS Component: AppointmentCard', () => {
       <AppointmentCard
         appointmentData={appointmentData}
         handleCancelAppointment={() => {}}
+        showAddToCalendarButton
       />,
     );
 
@@ -48,6 +49,19 @@ describe('VASS Component: AppointmentCard', () => {
     expect(getByTestId('appointment-card')).to.exist;
     expect(queryByTestId('print-button')).to.not.exist;
     expect(queryByTestId('cancel-button')).to.not.exist;
+  });
+
+  it('omits add to calendar button when showAddToCalendarButton is false', () => {
+    const appointmentData = createAppointmentData();
+
+    const { queryByTestId } = render(
+      <AppointmentCard
+        appointmentData={appointmentData}
+        showAddToCalendarButton={false}
+      />,
+    );
+
+    expect(queryByTestId('add-to-calendar-button')).not.to.exist;
   });
 
   it('omits topics section when no topics are provided', () => {

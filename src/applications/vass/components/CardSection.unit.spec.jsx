@@ -24,6 +24,19 @@ describe('VASS Component: CardSection', () => {
 
     expect(getByText('When')).to.exist;
     expect(getByTestId('date-time-description')).to.exist;
-    expect(getByTestId('add-to-calendar-button')).to.exist;
+  });
+
+  it('should not render add to calendar button when showAddToCalendarButton is false', () => {
+    const mockAppointmentData = createAppointmentData();
+
+    const { queryByTestId } = render(
+      <CardSection
+        heading="When"
+        appointmentData={mockAppointmentData}
+        showAddToCalendarButton={false}
+      />,
+    );
+
+    expect(queryByTestId('add-to-calendar-button')).not.to.exist;
   });
 });

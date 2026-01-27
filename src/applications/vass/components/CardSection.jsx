@@ -11,6 +11,7 @@ import AddToCalendarButton from './AddToCalendarButton';
  * @param {string} props.textContent - The text content
  * @param {string} props.heading - The heading
  * @param {number} props.level - The level
+ * @param {boolean} props.showAddToCalendarButton - Whether to show the add to calendar button if appointmentData is provided
  * @param {React.ReactNode} props.customBodyElement - The custom body element
  * @returns {JSX.Element}
  */
@@ -20,6 +21,7 @@ export default function CardSection({
   heading,
   level = 2,
   customBodyElement,
+  showAddToCalendarButton,
   ...props
 }) {
   const Heading = `h${level}`;
@@ -37,7 +39,9 @@ export default function CardSection({
       {appointmentData && (
         <>
           <DateTime dateTime={appointmentData.startUTC} />
-          <AddToCalendarButton appointment={appointmentData} />
+          {showAddToCalendarButton && (
+            <AddToCalendarButton appointment={appointmentData} />
+          )}
         </>
       )}
       {customBodyElement}
@@ -50,5 +54,6 @@ CardSection.propTypes = {
   customBodyElement: PropTypes.node,
   heading: PropTypes.string,
   level: PropTypes.number,
+  showAddToCalendarButton: PropTypes.bool,
   textContent: PropTypes.string,
 };

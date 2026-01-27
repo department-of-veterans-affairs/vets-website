@@ -11,9 +11,14 @@ import { VASS_PHONE_NUMBER } from '../utils/constants';
  * @param {Object} props
  * @param {Appointment} props.appointmentData - The appointment data
  * @param {Function} props.handleCancelAppointment - The function to handle canceling the appointment
+ * @param {boolean} props.showAddToCalendarButton - Whether to show the add to calendar button
  * @returns {JSX.Element}
  */
-const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
+const AppointmentCard = ({
+  appointmentData,
+  handleCancelAppointment,
+  showAddToCalendarButton,
+}) => {
   return (
     <va-card
       data-testid="appointment-card"
@@ -45,6 +50,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
         data-testid="when-section"
         heading="When"
         appointmentData={appointmentData}
+        showAddToCalendarButton={showAddToCalendarButton}
       />
       <CardSection
         data-testid="what-section"
@@ -99,4 +105,5 @@ export default AppointmentCard;
 AppointmentCard.propTypes = {
   appointmentData: PropTypes.object.isRequired,
   handleCancelAppointment: PropTypes.func,
+  showAddToCalendarButton: PropTypes.bool,
 };

@@ -69,6 +69,7 @@ describe('VASS Page: CancelAppointment', () => {
     );
     expect(screen.getByTestId('appointment-card')).to.exist;
     expect(screen.getByTestId('cancel-confirm-button-pair')).to.exist;
+    expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
   });
 
   describe('navigation', () => {

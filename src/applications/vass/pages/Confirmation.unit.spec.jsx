@@ -46,6 +46,7 @@ describe('VASS Component: Confirmation', () => {
     expect(getByTestId('confirmation-page')).to.exist;
     expect(getByTestId('confirmation-message')).to.exist;
     expect(getByTestId('appointment-card')).to.exist;
+    expect(getByTestId('add-to-calendar-button')).to.exist;
   });
 
   describe('when the details url parameter is true', () => {
