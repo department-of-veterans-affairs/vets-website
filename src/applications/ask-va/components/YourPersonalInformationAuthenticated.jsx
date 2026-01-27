@@ -1,11 +1,13 @@
+import React, { useEffect } from 'react';
 import { parseISO } from 'date-fns';
 import format from 'date-fns/format';
-import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
+
+import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+
 import { clearFormData, removeAskVaForm } from '../actions';
 
 const PersonalAuthenticatedInformation = ({
@@ -32,26 +34,12 @@ const PersonalAuthenticatedInformation = ({
     router.push('/');
   };
 
-  const { first, last, dateOfBirth, socialOrServiceNum } =
-    formData.aboutYourself || {};
-
-  const { ssn, serviceNumber } = socialOrServiceNum || {};
+  const { first, last, dateOfBirth } = formData.aboutYourself || {};
 
   const nameDisplay = first || last ? `${first} ${last}` : 'No name provided';
   const dateOfBirthFormatted = !dateOfBirth
     ? 'None provided'
     : format(parseISO(dateOfBirth.split('T')[0]), 'MMMM d, yyyy');
-
-  let ssnOrServiceNumDisplay = '';
-  if (ssn) {
-    ssnOrServiceNumDisplay = `Social Security number: ●●●–●●–${ssn.substr(
-      ssn.length - 4,
-    )}`;
-  } else if (serviceNumber) {
-    ssnOrServiceNumDisplay = `Service number: ${serviceNumber}`;
-  } else {
-    ssnOrServiceNumDisplay = 'Social Security number: None provided';
-  }
 
   useEffect(
     () => {
@@ -70,12 +58,6 @@ const PersonalAuthenticatedInformation = ({
             <div className="vads-u-padding-left--1">
               <p className="vads-u-margin--1px vads-u-font-weight--bold dd-privacy-mask">
                 {nameDisplay}
-              </p>
-              <p
-                className="vads-u-margin--1px dd-privacy-mask"
-                data-dd-action-name="Veteran's SSN"
-              >
-                {ssnOrServiceNumDisplay}
               </p>
               <p className="vads-u-margin--1px dd-privacy-mask">
                 Date of birth: {dateOfBirthFormatted}

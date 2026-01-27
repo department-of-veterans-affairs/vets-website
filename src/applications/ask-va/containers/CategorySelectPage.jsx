@@ -84,9 +84,6 @@ const CategorySelectPage = props => {
       //   first: 'Wallace',
       //   middle: 'R',
       //   last: 'Webb',
-      //   socialOrServiceNum: {
-      //     ssn: '796128064',
-      //   },
       //   dateOfBirth: '1950-09-13',
       // },
       // schoolInfo: {

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { cloneDeep } from 'lodash';
 import {
   CategoryDebt,
   CHAPTER_2,
@@ -175,7 +175,6 @@ export const ch3Pages = {
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => !form.hasPrefillInformation,
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
@@ -384,7 +383,7 @@ export const ch3Pages = {
 };
 
 export const flowPages = (obj, list, path) => {
-  const pages = _.cloneDeep(obj);
+  const pages = cloneDeep(obj);
   const flowGroup = {};
   const flowGroupName = path
     .split('-')

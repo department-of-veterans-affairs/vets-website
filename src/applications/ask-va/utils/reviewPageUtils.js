@@ -16,13 +16,6 @@ export const convertDate = dob => {
   return null;
 };
 
-export const maskSocial = ssn => {
-  if (ssn) {
-    return `•••-••-${ssn.slice(-4)}`;
-  }
-  return null;
-};
-
 export const getSchoolString = (code, name) => {
   if (code && name) return `${code} - ${name}`;
   return null;

@@ -8,9 +8,6 @@ export const mockData = {
     aboutYourself: {
       first: 'test',
       last: 'test',
-      socialOrServiceNum: {
-        ssn: '444434343',
-      },
       dateOfBirth: '1999-01-03',
     },
     relationshipToVeteran: "I'm the Veteran",
