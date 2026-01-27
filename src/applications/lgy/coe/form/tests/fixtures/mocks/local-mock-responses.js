@@ -17,6 +17,9 @@ const responses = {
   'GET /v0/debts': { data: [] },
   'GET /v0/health_care_applications/enrollment_status': {},
   'GET /v0/medical_copays': { data: [] },
+  'POST /v0/coe/submit_coe_claim': {
+    status: 200,
+  },
   'POST /v0/profile/telephones': {
     data: {
       attributes: {},
