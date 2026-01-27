@@ -17,6 +17,7 @@ import {
   currencySchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { validateEmploymentStartAfterDob } from '../helpers/validations';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -169,19 +170,33 @@ const employmentDatesPage = {
           ? `Dates you were employed at ${formData.employerName}`
           : 'Employment dates',
     ),
-    employmentDates: currentOrPastDateRangeUI(
-      {
-        title: 'Employment start date',
-        errorMessages: {
-          required: 'Enter start date of employment',
+    employmentDates: (() => {
+      const baseUiSchema = currentOrPastDateRangeUI(
+        {
+          title: 'Employment start date',
+          errorMessages: {
+            required: 'Enter start date of employment',
+          },
         },
-      },
-      {
-        title: 'Employment end date',
-        hint: 'Leave blank if you still work here.',
-      },
-      'End date must be after start date',
-    ),
+        {
+          title: 'Employment end date',
+          hint: 'Leave blank if you still work here.',
+        },
+        'End date must be after start date',
+      );
+
+      return {
+        ...baseUiSchema,
+        'ui:validations': [
+          ...(baseUiSchema['ui:validations'] || []),
+          { validator: validateEmploymentStartAfterDob },
+        ],
+        'ui:options': {
+          ...(baseUiSchema['ui:options'] || {}),
+          useAllFormData: true,
+        },
+      };
+    })(),
   },
   schema: {
     type: 'object',
