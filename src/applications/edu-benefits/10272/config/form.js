@@ -14,7 +14,7 @@ import {
   hasPreviouslyApplied,
   prepCourseName,
   prepCourseAddress,
-  prepCourseOnline
+  prepCourseOnline,
 } from '../pages';
 
 /** @type {FormConfig} */
