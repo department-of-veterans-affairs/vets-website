@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
-
 import {
   TOGGLE_NAMES,
   useToggleValue,
