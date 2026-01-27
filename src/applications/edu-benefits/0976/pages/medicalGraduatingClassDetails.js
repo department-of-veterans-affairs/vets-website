@@ -42,6 +42,7 @@ export default {
       ...numberUI({
         title: 'Number of students that graduated',
         min: 0,
+        max: 50000,
         errorMessages: {
           required: 'Enter the number of students that graduated',
         },
@@ -68,6 +69,7 @@ export default {
       ...numberUI({
         title: 'Number of students that graduated',
         min: 0,
+        max: 50000,
         errorMessages: {
           required: 'Enter the number of students that graduated',
         },
