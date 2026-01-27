@@ -4,6 +4,7 @@ import formReducer, {
   setSelectedTopics,
   setObfuscatedEmail,
   setLowAuthFormData,
+  setFlowType,
   clearFormData,
   hydrateFormData,
   loadFormDataFromStorage,
@@ -14,7 +15,9 @@ import formReducer, {
   selectUuid,
   selectLastname,
   selectDob,
+  selectFlowType,
 } from './formSlice';
+import { FLOW_TYPES } from '../../utils/constants';
 
 describe('formSlice', () => {
   describe('reducer', () => {
@@ -28,6 +31,7 @@ describe('formSlice', () => {
         uuid: null,
         lastname: null,
         dob: null,
+        flowType: FLOW_TYPES.ANY,
       });
     });
 
@@ -41,6 +45,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const dateString = '2025-01-15T10:00:00.000Z';
         const actual = formReducer(initialState, setSelectedDate(dateString));
@@ -58,6 +63,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const newDateString = '2025-02-20T14:30:00.000Z';
         const actual = formReducer(
@@ -80,6 +86,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const topics = ['topic-1', 'topic-2', 'topic-3'];
         const actual = formReducer(initialState, setSelectedTopics(topics));
@@ -97,6 +104,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const newTopics = ['topic-2', 'topic-3'];
         const actual = formReducer(initialState, setSelectedTopics(newTopics));
@@ -114,6 +122,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const actual = formReducer(initialState, setSelectedTopics([]));
 
@@ -131,6 +140,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const email = 't***@example.com';
         const actual = formReducer(initialState, setObfuscatedEmail(email));
@@ -147,6 +157,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const newEmail = 'new***@example.com';
         const actual = formReducer(initialState, setObfuscatedEmail(newEmail));
@@ -165,6 +176,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const payload = {
           uuid: 'c0ffee-1234-beef-5678',
@@ -187,6 +199,7 @@ describe('formSlice', () => {
           uuid: 'old-uuid',
           lastname: 'OldName',
           dob: '1980-05-20',
+          flowType: FLOW_TYPES.ANY,
         };
         const payload = {
           uuid: 'new-uuid',
@@ -201,8 +214,70 @@ describe('formSlice', () => {
       });
     });
 
+    describe('setFlowType', () => {
+      it('should set the flow type to schedule', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: null,
+          token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
+          flowType: FLOW_TYPES.ANY,
+        };
+        const actual = formReducer(
+          initialState,
+          setFlowType(FLOW_TYPES.SCHEDULE),
+        );
+
+        expect(actual.flowType).to.equal(FLOW_TYPES.SCHEDULE);
+      });
+
+      it('should set the flow type to cancel', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: null,
+          token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
+          flowType: FLOW_TYPES.ANY,
+        };
+        const actual = formReducer(
+          initialState,
+          setFlowType(FLOW_TYPES.CANCEL),
+        );
+
+        expect(actual.flowType).to.equal(FLOW_TYPES.CANCEL);
+      });
+
+      it('should update the flow type when one already exists', () => {
+        const initialState = {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+          obfuscatedEmail: null,
+          token: null,
+          uuid: null,
+          lastname: null,
+          dob: null,
+          flowType: FLOW_TYPES.SCHEDULE,
+        };
+        const actual = formReducer(
+          initialState,
+          setFlowType(FLOW_TYPES.CANCEL),
+        );
+
+        expect(actual.flowType).to.equal(FLOW_TYPES.CANCEL);
+      });
+    });
+
     describe('clearFormData', () => {
-      it('should clear all form data including hydrated flag', () => {
+      it('should clear all form data including hydrated flag and reset flowType', () => {
         const initialState = {
           hydrated: true,
           selectedDate: '2025-01-15T10:00:00.000Z',
@@ -211,6 +286,7 @@ describe('formSlice', () => {
           uuid: 'c0ffee-1234-beef-5678',
           lastname: 'Doe',
           dob: '1990-01-15',
+          flowType: FLOW_TYPES.CANCEL,
         };
         const actual = formReducer(initialState, clearFormData());
 
@@ -221,6 +297,7 @@ describe('formSlice', () => {
         expect(actual.uuid).to.be.null;
         expect(actual.lastname).to.be.null;
         expect(actual.dob).to.be.null;
+        expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
       });
 
       it('should return initial state when clearing already empty data', () => {
@@ -232,6 +309,7 @@ describe('formSlice', () => {
           uuid: null,
           lastname: null,
           dob: null,
+          flowType: FLOW_TYPES.ANY,
         };
         const actual = formReducer(initialState, clearFormData());
 
@@ -242,6 +320,7 @@ describe('formSlice', () => {
         expect(actual.uuid).to.be.null;
         expect(actual.lastname).to.be.null;
         expect(actual.dob).to.be.null;
+        expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
       });
     });
 
@@ -258,9 +337,10 @@ describe('formSlice', () => {
         expect(actual.selectedDate).to.equal(payload.selectedDate);
         expect(actual.selectedTopics).to.deep.equal(payload.selectedTopics);
         expect(actual.uuid).to.be.null;
+        expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
       });
 
-      it('should hydrate all form fields from payload', () => {
+      it('should hydrate all form fields from payload including flowType', () => {
         const payload = {
           uuid: 'test-uuid',
           lastname: 'Smith',
@@ -268,6 +348,7 @@ describe('formSlice', () => {
           obfuscatedEmail: 's***@example.com',
           selectedDate: '2025-04-01T14:00:00.000Z',
           selectedTopics: [{ topicId: '2', topicName: 'Topic 2' }],
+          flowType: FLOW_TYPES.CANCEL,
         };
         const actual = formReducer(undefined, hydrateFormData(payload));
 
@@ -278,6 +359,7 @@ describe('formSlice', () => {
         expect(actual.obfuscatedEmail).to.equal(payload.obfuscatedEmail);
         expect(actual.selectedDate).to.equal(payload.selectedDate);
         expect(actual.selectedTopics).to.deep.equal(payload.selectedTopics);
+        expect(actual.flowType).to.equal(FLOW_TYPES.CANCEL);
       });
 
       it('should only flip hydrated when payload is empty', () => {
@@ -287,6 +369,7 @@ describe('formSlice', () => {
         expect(actual.selectedDate).to.be.null;
         expect(actual.selectedTopics).to.deep.equal([]);
         expect(actual.uuid).to.be.null;
+        expect(actual.flowType).to.equal(FLOW_TYPES.ANY);
       });
     });
   });
@@ -303,6 +386,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectSelectedDate(state);
@@ -319,6 +403,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectSelectedDate(state);
@@ -337,6 +422,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectSelectedTopics(state);
@@ -353,6 +439,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectSelectedTopics(state);
@@ -371,6 +458,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectHydrated(state);
@@ -389,6 +477,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectObfuscatedEmail(state);
@@ -405,6 +494,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectObfuscatedEmail(state);
@@ -423,6 +513,7 @@ describe('formSlice', () => {
             uuid: 'c0ffee-1234-beef-5678',
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectUuid(state);
@@ -441,6 +532,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: 'Doe',
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectLastname(state);
@@ -457,6 +549,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectLastname(state);
@@ -475,6 +568,7 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: '1990-01-15',
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectDob(state);
@@ -491,10 +585,67 @@ describe('formSlice', () => {
             uuid: null,
             lastname: null,
             dob: null,
+            flowType: FLOW_TYPES.ANY,
           },
         };
         const result = selectDob(state);
         expect(result).to.be.null;
+      });
+    });
+
+    describe('selectFlowType', () => {
+      it('should select the flowType from state', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
+            flowType: FLOW_TYPES.SCHEDULE,
+          },
+        };
+        const result = selectFlowType(state);
+        expect(result).to.equal(FLOW_TYPES.SCHEDULE);
+      });
+
+      it('should return cancel when flowType is cancel', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
+            flowType: FLOW_TYPES.CANCEL,
+          },
+        };
+        const result = selectFlowType(state);
+        expect(result).to.equal(FLOW_TYPES.CANCEL);
+      });
+
+      it('should return any when flowType is any (default)', () => {
+        const state = {
+          vassForm: {
+            hydrated: false,
+            selectedDate: null,
+            selectedTopics: [],
+            obfuscatedEmail: null,
+            token: null,
+            uuid: null,
+            lastname: null,
+            dob: null,
+            flowType: FLOW_TYPES.ANY,
+          },
+        };
+        const result = selectFlowType(state);
+        expect(result).to.equal(FLOW_TYPES.ANY);
       });
     });
   });

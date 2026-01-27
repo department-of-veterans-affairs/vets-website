@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
-import { selectObfuscatedEmail } from '../redux/slices/formSlice';
-import { URLS } from '../utils/constants';
+import {
+  selectFlowType,
+  selectObfuscatedEmail,
+} from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
@@ -32,8 +35,8 @@ const getPageTitle = (cancellationFlow, error) => {
 };
 
 const EnterOTC = () => {
-  const [searchParams] = useSearchParams();
-  const cancellationFlow = searchParams.get('cancel') === 'true';
+  const flowType = useSelector(selectFlowType);
+  const cancellationFlow = flowType === FLOW_TYPES.CANCEL;
   const navigate = useNavigate();
   const obfuscatedEmail = useSelector(selectObfuscatedEmail);
 
