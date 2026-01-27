@@ -50,7 +50,6 @@ export const SearchForm = props => {
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
 
-
   const handleSubmit = e => {
     e.preventDefault();
 
