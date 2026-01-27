@@ -27,7 +27,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      accreditingAuthorityName: textSchema,
+      accreditingAuthorityName: { ...textSchema, maxLength: 100 },
     },
     required: ['accreditingAuthorityName'],
   },
