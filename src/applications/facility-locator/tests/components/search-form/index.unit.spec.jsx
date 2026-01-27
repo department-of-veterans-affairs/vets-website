@@ -112,7 +112,7 @@ describe('SearchForm', () => {
       vamcAutoSuggestEnabled: false,
     });
 
-    it('should call onChange immediately when facility type changes', () => {
+    it('should NOT call onChange when facility type changes (draft state pattern)', () => {
       const props = getDefaultProps();
       const wrapper = shallow(<SearchForm {...props} />);
 
@@ -121,16 +121,12 @@ describe('SearchForm', () => {
         target: { value: 'health' },
       });
 
-      expect(props.onChange.calledOnce).to.be.true;
-      expect(props.onChange.firstCall.args[0]).to.deep.include({
-        facilityType: 'health',
-        serviceType: null,
-        vamcServiceDisplay: null,
-      });
+      // In draft state pattern, onChange is only called on submit
+      expect(props.onChange.called).to.be.false;
       wrapper.unmount();
     });
 
-    it('should call onChange when service type changes to clear errors', () => {
+    it('should NOT call onChange when service type changes (draft state pattern)', () => {
       const props = {
         ...getDefaultProps(),
         currentQuery: {
@@ -147,10 +143,8 @@ describe('SearchForm', () => {
         selectedItem: { name: 'Applying for Benefits' },
       });
 
-      expect(props.onChange.calledOnce).to.be.true;
-      expect(props.onChange.firstCall.args[0]).to.deep.equal({
-        serviceType: 'ApplyingForBenefits',
-      });
+      // In draft state pattern, onChange is only called on submit
+      expect(props.onChange.called).to.be.false;
       wrapper.unmount();
     });
 
