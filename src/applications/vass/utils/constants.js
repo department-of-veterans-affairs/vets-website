@@ -12,6 +12,12 @@ export const URLS = Object.freeze({
   ALREADY_SCHEDULED: '/already-scheduled',
 });
 
+export const FLOW_TYPES = {
+  SCHEDULE: 'schedule',
+  CANCEL: 'cancel',
+  ANY: 'any',
+};
+
 /**
  * Authorization level enum for route protection.
  * @readonly
