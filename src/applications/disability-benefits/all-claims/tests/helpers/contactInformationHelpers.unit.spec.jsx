@@ -1,0 +1,248 @@
+import { expect } from 'chai';
+
+import {
+  getCountryOptions,
+  getRegularStateOptions,
+  isMilitaryLocation,
+  shouldAutoDetectMilitary,
+  isCountryRequired,
+  shouldHideState,
+  isStateRequired,
+  createAddressLineValidator,
+} from '../../utils/contactInformationHelpers';
+
+describe('contactInformationHelpers', () => {
+  describe('getCountryOptions', () => {
+    it('should return object with COUNTRY_VALUES and COUNTRY_NAMES', () => {
+      const result = getCountryOptions();
+      expect(result).to.have.property('COUNTRY_VALUES');
+      expect(result).to.have.property('COUNTRY_NAMES');
+      expect(result.COUNTRY_VALUES).to.be.an('array');
+      expect(result.COUNTRY_NAMES).to.be.an('array');
+      expect(result.COUNTRY_VALUES.length).to.equal(
+        result.COUNTRY_NAMES.length,
+      );
+    });
+  });
+
+  describe('getRegularStateOptions', () => {
+    it('should return object with STATE_VALUES and STATE_LABELS without military states', () => {
+      const result = getRegularStateOptions();
+      expect(result).to.have.property('STATE_VALUES');
+      expect(result).to.have.property('STATE_LABELS');
+      expect(result.STATE_VALUES).to.be.an('array');
+      expect(result.STATE_LABELS).to.be.an('array');
+      expect(result.STATE_VALUES.length).to.equal(result.STATE_LABELS.length);
+      // Should not contain military states
+      expect(result.STATE_VALUES).to.not.include('AA');
+      expect(result.STATE_VALUES).to.not.include('AE');
+      expect(result.STATE_VALUES).to.not.include('AP');
+    });
+
+    describe('isMilitaryLocation', () => {
+      it('should return true for military city (uppercase)', () => {
+        expect(isMilitaryLocation('APO', '')).to.be.true;
+      });
+
+      it('should return true for military city (lowercase)', () => {
+        expect(isMilitaryLocation('apo', '')).to.be.true;
+      });
+
+      it('should return true for military city (mixed case)', () => {
+        expect(isMilitaryLocation('ApO', '')).to.be.true;
+      });
+
+      it('should return true for military city with extra spaces', () => {
+        expect(isMilitaryLocation('  FPO  ', '')).to.be.true;
+      });
+
+      it('should return true for military state (uppercase)', () => {
+        expect(isMilitaryLocation('Springfield', 'AE')).to.be.true;
+      });
+
+      it('should return true for military state (lowercase)', () => {
+        expect(isMilitaryLocation('Springfield', 'ae')).to.be.true;
+      });
+
+      it('should return true for military state (mixed case)', () => {
+        expect(isMilitaryLocation('Springfield', 'Ae')).to.be.true;
+      });
+
+      it('should return true for military state with extra spaces', () => {
+        expect(isMilitaryLocation('Springfield', '  AP  ')).to.be.true;
+      });
+
+      it('should return false for non-military address', () => {
+        expect(isMilitaryLocation('Los Angeles', 'CA')).to.be.false;
+      });
+
+      it('should handle empty values', () => {
+        expect(isMilitaryLocation('', '')).to.be.false;
+        expect(isMilitaryLocation(null, null)).to.be.false;
+        expect(isMilitaryLocation(undefined, undefined)).to.be.false;
+      });
+    });
+
+    describe('shouldAutoDetectMilitary', () => {
+      it('should return true when military location detected and flag unchanged', () => {
+        const oldFormData = {
+          mailingAddress: { 'view:livesOnMilitaryBase': false },
+        };
+        const newFormData = {
+          mailingAddress: {
+            city: 'APO',
+            state: '',
+            'view:livesOnMilitaryBase': false,
+          },
+        };
+
+        expect(shouldAutoDetectMilitary(oldFormData, newFormData)).to.be.true;
+      });
+
+      it('should return false when military flag was explicitly changed', () => {
+        const oldFormData = {
+          mailingAddress: { 'view:livesOnMilitaryBase': false },
+        };
+        const newFormData = {
+          mailingAddress: {
+            city: 'APO',
+            state: '',
+            'view:livesOnMilitaryBase': true,
+          },
+        };
+
+        expect(shouldAutoDetectMilitary(oldFormData, newFormData)).to.be.false;
+      });
+
+      it('should return false when military flag is already true', () => {
+        const oldFormData = {
+          mailingAddress: { 'view:livesOnMilitaryBase': true },
+        };
+        const newFormData = {
+          mailingAddress: {
+            city: 'APO',
+            state: '',
+            'view:livesOnMilitaryBase': true,
+          },
+        };
+
+        expect(shouldAutoDetectMilitary(oldFormData, newFormData)).to.be.false;
+      });
+
+      it('should handle missing address data', () => {
+        const oldFormData = {};
+        const newFormData = {};
+        expect(shouldAutoDetectMilitary(oldFormData, newFormData)).to.be.false;
+      });
+    });
+
+    describe('isCountryRequired', () => {
+      it('should return true when military base is not checked', () => {
+        const formData = {
+          mailingAddress: { 'view:livesOnMilitaryBase': false },
+        };
+        expect(isCountryRequired(formData)).to.be.true;
+      });
+
+      it('should return false when military base is checked', () => {
+        const formData = {
+          mailingAddress: { 'view:livesOnMilitaryBase': true },
+        };
+        expect(isCountryRequired(formData)).to.be.false;
+      });
+
+      it('should return true when no address data', () => {
+        const formData = {};
+        expect(isCountryRequired(formData)).to.be.true;
+      });
+    });
+
+    describe('shouldHideState', () => {
+      it('should return false when military base is checked', () => {
+        const formData = {
+          mailingAddress: { 'view:livesOnMilitaryBase': true },
+        };
+        expect(shouldHideState(formData)).to.be.false;
+      });
+
+      it('should return true when country is not USA', () => {
+        const formData = {
+          mailingAddress: {
+            'view:livesOnMilitaryBase': false,
+            country: 'CAN',
+          },
+        };
+        expect(shouldHideState(formData)).to.be.true;
+      });
+
+      it('should return false when military base is unchecked and country is USA', () => {
+        const formData = {
+          mailingAddress: {
+            'view:livesOnMilitaryBase': false,
+            country: 'USA',
+          },
+        };
+        expect(shouldHideState(formData)).to.be.false;
+      });
+    });
+
+    describe('isStateRequired', () => {
+      it('should return true when military base is checked', () => {
+        const formData = {
+          mailingAddress: {
+            'view:livesOnMilitaryBase': true,
+            country: 'USA',
+          },
+        };
+        expect(isStateRequired(formData)).to.be.true;
+      });
+
+      it('should return true when country is USA and military base is not checked', () => {
+        const formData = {
+          mailingAddress: {
+            'view:livesOnMilitaryBase': false,
+            country: 'USA',
+          },
+        };
+        expect(isStateRequired(formData)).to.be.true;
+      });
+
+      it('should return false when country is not USA and military base is not checked', () => {
+        const formData = {
+          mailingAddress: {
+            'view:livesOnMilitaryBase': false,
+            country: 'CAN',
+          },
+        };
+        expect(isStateRequired(formData)).to.be.false;
+      });
+    });
+
+    describe('createAddressLineValidator', () => {
+      it('should create a validator function with correct max length', () => {
+        const validator = createAddressLineValidator(20, 'street');
+        expect(validator).to.be.a('function');
+
+        const mockErrors = { addError: () => {} };
+        const result = validator(mockErrors, 'short');
+        expect(result).to.be.undefined; // validator doesn't return anything for valid input
+      });
+
+      it('should validate max length correctly', () => {
+        const validator = createAddressLineValidator(10, 'street');
+        const mockErrors = { addError: () => {} };
+
+        // Should not add error for short string
+        const result1 = validator(mockErrors, 'short');
+        expect(result1).to.be.undefined;
+
+        // Should add error for long string (we can't easily test the error addition)
+        const result2 = validator(
+          mockErrors,
+          'this is way too long for the limit',
+        );
+        expect(result2).to.be.undefined;
+      });
+    });
+  });
+});

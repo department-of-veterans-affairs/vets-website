@@ -68,9 +68,11 @@ export default function prefillTransformer(pages, formData, metadata, state) {
         newData.phoneAndEmail.primaryPhone = primaryPhone;
       }
       if (mailingAddress) {
-        const isMilitaryCity = MILITARY_CITIES.includes(mailingAddress.city);
+        const isMilitaryCity = MILITARY_CITIES.includes(
+          mailingAddress.city?.trim().toUpperCase(),
+        );
         const isMilitaryState = MILITARY_STATE_VALUES.includes(
-          mailingAddress.state,
+          mailingAddress.state?.trim().toUpperCase(),
         );
         const onMilitaryBase = isMilitaryCity || isMilitaryState;
         // map existing country name to country code

@@ -437,6 +437,46 @@ describe('526v2 prefill transformer', () => {
       });
     });
 
+    it('should auto-detect military base with case insensitive city and state', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '789 Lowercase Ave',
+            city: 'apo', // Military city in lowercase
+            state: 'ae', // Military state in lowercase
+            zipCode: '09033',
+            // Military checkbox NOT set in prefill data
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true, // Should be auto-detected as true despite lowercase
+          country: 'USA',
+          addressLine1: '789 Lowercase Ave',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'apo',
+          state: 'ae',
+          zipCode: '09033',
+        },
+      });
+    });
+
     it('should override explicitly set military checkbox to false', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
