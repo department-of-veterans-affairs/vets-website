@@ -43,7 +43,6 @@ const fillOutPicklistPage = dependent => {
 
   checkElAndFill('isStepchild', 'selectVaRadioOption');
   checkElAndFill('removalReason', 'selectVaRadioOption');
-  checkElAndFill('childHasPermanentDisability', 'selectVaRadioOption');
   checkElAndFill('stepchildFinancialSupport', 'selectVaRadioOption');
 
   checkElAndFill('endType', 'selectVaRadioOption');
