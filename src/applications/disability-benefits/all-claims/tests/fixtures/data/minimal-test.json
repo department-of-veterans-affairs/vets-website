@@ -18,6 +18,7 @@
     },
     "view:contactInfoDescription": {},
     "view:hasEvidence": false,
+    "view:hasEvidenceChoice": false,
     "view:powStatus": false,
     "newDisabilities": [],
     "ratedDisabilities": [
