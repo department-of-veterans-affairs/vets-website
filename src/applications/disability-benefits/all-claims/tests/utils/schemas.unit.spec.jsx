@@ -135,7 +135,7 @@ describe('makeSchemaForRatedDisabilities', () => {
     });
   });
 
-  it('should return the null condition string if disability name is not a string', () => {
+  it('should return empty properties if disability name is not a string', () => {
     const formData = {
       'view:claimType': {
         'view:claimingIncrease': true,
@@ -153,12 +153,7 @@ describe('makeSchemaForRatedDisabilities', () => {
       ],
     };
     expect(makeSchemaForRatedDisabilities(formData)).to.eql({
-      properties: {
-        unknowncondition: {
-          title: 'Unknown Condition',
-          type: 'boolean',
-        },
-      },
+      properties: {},
     });
   });
 
