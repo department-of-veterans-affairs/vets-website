@@ -47,6 +47,7 @@ export const SearchResult = ({
       </div>
       <h3
         aria-describedby={article.entityUrl.path}
+        aria-label={article.title.trim()}
         className="vads-u-margin-top--0 vads-u-font-size--md"
       >
         <va-link
