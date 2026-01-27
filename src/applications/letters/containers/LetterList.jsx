@@ -213,6 +213,11 @@ LetterList.propTypes = {
   ),
   lettersAvailability: PropTypes.string,
   optionsAvailable: PropTypes.bool,
+  profile: PropTypes.shape({
+    loa: PropTypes.shape({
+      current: PropTypes.number,
+    }),
+  }),
   tsaLetterEligibility: PropTypes.shape({
     documentId: PropTypes.string,
     documentVersion: PropTypes.string,
