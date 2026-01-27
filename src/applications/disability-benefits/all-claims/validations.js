@@ -133,7 +133,9 @@ export function validateMilitaryState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+    state.trim().toUpperCase(),
+  );
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
@@ -162,7 +164,9 @@ export function validateMilitaryTreatmentCity(
       `vaTreatmentFacilities[${index}].treatmentCenterAddress.state`,
       formData,
       '',
-    ),
+    )
+      .trim()
+      .toUpperCase(),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -199,7 +203,9 @@ export function validateMilitaryTreatmentState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+    state.trim().toUpperCase(),
+  );
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
