@@ -24,7 +24,10 @@ export const UPDATE_GLOBAL_PHONE_NUMBER = 'UPDATE_GLOBAL_PHONE_NUMBER';
 export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
 
-export const LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT = `${
+export const FETCH_DIRECT_DEPOSIT = 'FETCH_DIRECT_DEPOSIT';
+export const FETCH_DIRECT_DEPOSIT_SUCCESS = 'FETCH_DIRECT_DEPOSIT_SUCCESS';
+export const FETCH_DIRECT_DEPOSIT_FAILED = 'FETCH_DIRECT_DEPOSIT_FAILED';
+export const FETCH_DIRECT_DEPOSIT_ENDPOINT = `${
   environment.API_URL
 }/v0/profile/direct_deposits`;
 
@@ -164,5 +167,24 @@ export function fetchClaimStatus(selectedChapter) {
       successDispatchType: FETCH_CLAIM_STATUS_SUCCESS,
       failureDispatchType: FETCH_CLAIM_STATUS_FAILURE,
     });
+  };
+}
+
+export function fetchDirectDeposit() {
+  return async dispatch => {
+    dispatch({ type: FETCH_DIRECT_DEPOSIT });
+    return apiRequest(FETCH_DIRECT_DEPOSIT_ENDPOINT)
+      .then(response => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_SUCCESS,
+          response,
+        });
+      })
+      .catch(errors => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_FAILED,
+          errors,
+        });
+      });
   };
 }

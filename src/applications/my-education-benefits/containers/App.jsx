@@ -41,6 +41,7 @@ export const App = ({
   showMebEnhancements08,
   showMebEnhancements09,
   mebKickerNotificationEnabled,
+  mebBankInfoConfirmationField,
   email,
   duplicateEmail,
   duplicatePhone,
@@ -364,6 +365,15 @@ export const App = ({
         });
       }
 
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
+        setFormData({
+          ...formData,
+          mebBankInfoConfirmationField,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -387,6 +397,7 @@ export const App = ({
       meb1995Reroute,
       mebDpoAddressOptionEnabled,
       mebKickerNotificationEnabled,
+      mebBankInfoConfirmationField,
     ],
   );
 
@@ -477,6 +488,7 @@ App.propTypes = {
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
   meb1995Reroute: PropTypes.bool,
+  mebBankInfoConfirmationField: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   mebKickerNotificationEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,

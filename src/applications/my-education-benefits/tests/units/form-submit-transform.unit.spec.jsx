@@ -512,6 +512,24 @@ describe('form submit transform', () => {
         const result = createDirectDeposit(mockSubmissionForm);
         expect(result).to.eql({});
       });
+      it('does not include accountNumberConfirmation in the submission', () => {
+        mockSubmissionForm['view:directDeposit'] = {
+          bankAccount: {
+            accountType: 'Checking',
+            accountNumber: '654321',
+            routingNumber: '123456789',
+            accountNumberConfirmation: '654321',
+          },
+        };
+        mockSubmissionForm.bankAccount = {};
+
+        const result = createDirectDeposit(mockSubmissionForm);
+
+        expect(result.directDepositAccountType).to.eql('Checking');
+        expect(result.directDepositAccountNumber).to.eql('654321');
+        expect(result.directDepositRoutingNumber).to.eql('123456789');
+        expect(result.directDepositAccountNumberConfirmation).to.be.undefined;
+      });
     });
   });
 });
