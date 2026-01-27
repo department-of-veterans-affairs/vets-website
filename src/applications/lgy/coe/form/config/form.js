@@ -198,7 +198,7 @@ const formConfig = {
                 certificateUseOptions.ENTITLEMENT_INQUIRY_ONLY,
                 certificateUseOptions.HOME_PURCHASE,
                 certificateUseOptions.CASH_OUT_REFINANCE,
-              ].includes(formData?.certificateUse)
+              ].includes(formData?.loanHistory?.certificateUse)
             );
           },
           uiSchema: hadPriorLoans.uiSchema,
