@@ -9,10 +9,7 @@ import {
   buildPrescriptionsPDFList,
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
-import {
-  buildPrescriptionsTXT,
-  buildAllergiesTXT,
-} from '../util/txtConfigs';
+import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import {
   dateFormat,
   displayHeaderPrefaceText,
@@ -54,12 +51,17 @@ const useRxListExport = ({
     setShouldPrint(false);
     setExportListError(false);
     setErrorFormat(undefined);
-    setStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted, format: undefined });
+    setStatus({
+      status: PDF_TXT_GENERATE_STATUS.NotStarted,
+      format: undefined,
+    });
   }, []);
 
   const isLoading = useMemo(
     () =>
-      status.status === PDF_TXT_GENERATE_STATUS.InProgress && !allergiesError && !exportListError,
+      status.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+      !allergiesError &&
+      !exportListError,
     [status, allergiesError, exportListError],
   );
 
@@ -126,15 +128,27 @@ const useRxListExport = ({
     ],
   );
 
-  const finalizeSuccess = useCallback(() => {
-    setStatus({ status: PDF_TXT_GENERATE_STATUS.Success, format: status.format });
-  }, [status.format]);
+  const finalizeSuccess = useCallback(
+    () => {
+      setStatus({
+        status: PDF_TXT_GENERATE_STATUS.Success,
+        format: status.format,
+      });
+    },
+    [status.format],
+  );
 
-  const handleGenerationError = useCallback(() => {
-    setExportListError(true);
-    setErrorFormat(status.format);
-    setStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted, format: status.format });
-  }, [status.format]);
+  const handleGenerationError = useCallback(
+    () => {
+      setExportListError(true);
+      setErrorFormat(status.format);
+      setStatus({
+        status: PDF_TXT_GENERATE_STATUS.NotStarted,
+        format: status.format,
+      });
+    },
+    [status.format],
+  );
 
   const handlePdfGeneration = useCallback(
     async (rxList, allergiesList) => {
@@ -150,12 +164,7 @@ const useRxListExport = ({
       await generateMedicationsPdfFile({ userName: user, pdfData: pdfDataObj });
       finalizeSuccess();
     },
-    [
-      user,
-      selectedFilterOption,
-      selectedSortOption,
-      finalizeSuccess,
-    ],
+    [user, selectedFilterOption, selectedSortOption, finalizeSuccess],
   );
 
   const handleTxtGeneration = useCallback(
@@ -204,7 +213,7 @@ const useRxListExport = ({
       const isInProgress = status.status === PDF_TXT_GENERATE_STATUS.InProgress;
       if (!isInProgress) return;
 
-      const format = status.format;
+      const { format } = status;
       const exportReady = !!exportList?.length;
       const allergiesReady = !!allergies && !allergiesError;
 
@@ -212,7 +221,10 @@ const useRxListExport = ({
 
       if (format === PRINT_FORMAT.PRINT) {
         setPrintList(exportList);
-        setStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted, format: undefined });
+        setStatus({
+          status: PDF_TXT_GENERATE_STATUS.NotStarted,
+          format: undefined,
+        });
         setShouldPrint(true);
         return;
       }
@@ -239,11 +251,7 @@ const useRxListExport = ({
       } else if (format === DOWNLOAD_FORMAT.TXT) {
         try {
           handleTxtGeneration(
-            buildPrescriptionsTXT(
-              exportList,
-              isCernerPilot,
-              isV2StatusMapping,
-            ),
+            buildPrescriptionsTXT(exportList, isCernerPilot, isV2StatusMapping),
             buildAllergiesTXT(allergies),
           );
         } catch (error) {

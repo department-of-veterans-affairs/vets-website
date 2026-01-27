@@ -308,6 +308,7 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       isLoading,
       filteredList,
