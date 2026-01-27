@@ -9,6 +9,7 @@ import {
 } from 'platform/utilities/feature-toggles';
 
 // Components
+import ChatboxContainer from '../../chatbot/components/chatbox/ChatboxContainer';
 import RightColumnContent from '../../chatbot/features/shell/components/RightColumnContent';
 import App from './App';
 
@@ -27,7 +28,6 @@ import {
 import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
 
 // Selectors
-import ChatboxContainer from '../../chatbot/components/chatbox/ChatboxContainer';
 import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedIn';
 import selectVirtualAgentDataTermsAccepted from '../selectors/selectVirtualAgentDataTermsAccepted';
 
