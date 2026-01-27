@@ -9,6 +9,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
+    mhvMedicationsManagementImprovements = false,
 
     // OH integration work
     mhvMedicalRecordsCcdExtendedFileTypes = true,
@@ -99,6 +100,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDontIncrementIpeCount,
         },
         {
+          name: 'mhv_medications_management_improvements',
+          value: mhvMedicationsManagementImprovements,
+        },
+        {
           name: 'mhv_medications_display_new_cerner_facility_alert',
           value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
@@ -152,6 +157,10 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         {
           name: 'mhv_secure_messaging_recent_recipients',
+          value: mhvSecureMessagingRecentRecipients,
+        },
+        {
+          name: 'mhvSecureMessagingRecentRecipients',
           value: mhvSecureMessagingRecentRecipients,
         },
       ],

@@ -30,6 +30,7 @@ import {
   DISABILITY_526_V2_ROOT_URL,
   FORM_STATUS_BDD,
   HOMELESSNESS_TYPES,
+  NEW_CONDITION_OPTION,
   NINE_ELEVEN,
   PAGE_TITLES,
   PTSD_MATCHES,
@@ -602,6 +603,8 @@ export const claimingRated = formData =>
 
 export const isPlaceholderRated = v => v === 'Rated Disability';
 
+export const isNewConditionOption = v => v === NEW_CONDITION_OPTION;
+
 // TE/POW should only show when there’s at least one *real* condition
 export const hasRealNewOrSecondaryConditions = formData =>
   Array.isArray(formData?.newDisabilities) &&
@@ -1015,4 +1018,14 @@ export const onFormLoaded = props => {
     // otherwise, we just redirect to the returnUrl as usual when resuming a form
     router.push(returnUrl);
   }
+};
+
+/**
+ * Checks if
+ * Veteran has additional evidence to upload within the 0781 flow
+ * @param {object} formData
+ * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
+ */
+export const hasEvidenceChoice = formData => {
+  return formData?.['view:hasEvidenceChoice'] === true;
 };

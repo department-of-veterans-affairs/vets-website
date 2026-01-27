@@ -5,6 +5,10 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+const addressSchemaWithDefault = addressSchema();
+
+addressSchemaWithDefault.properties.country.default = 'USA';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -12,16 +16,12 @@ export default {
       'Mailing address',
       'We’ll send any important information about your application to this address.',
     ),
-    address: addressUI({
-      omit: ['street3'],
-    }),
+    claimantAddress: addressUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      address: addressSchema({
-        omit: ['street3'],
-      }),
+      claimantAddress: addressSchemaWithDefault,
     },
   },
 };

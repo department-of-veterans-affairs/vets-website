@@ -16,7 +16,7 @@ import {
   ContactInfoFormAppConfigProvider,
   useContactInfoFormAppConfig,
 } from '@@vap-svc/components/ContactInfoFormAppConfigContext';
-import { useRouteMetadata } from './useRouteMetadata';
+import { useRouteMetadata } from '../hooks/useRouteMetadata';
 
 export const BuildPageBase = ({
   title,

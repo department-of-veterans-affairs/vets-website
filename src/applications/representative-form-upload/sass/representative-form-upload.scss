@@ -191,6 +191,11 @@
       margin-top: 0 !important;
       [id="root_view:claimantTitle__title"] {
         padding: 0;
+        line-height: 1;
+      }
+      //targeting title above form fields
+      &div:first-child {
+        line-height: 1;
       }
     }
   }
@@ -220,6 +225,12 @@
 }
 
 .form-21-0966 {
+  .form-review-panel-page-header-row {
+    va-button[text="Edit"] {
+      display: none;
+    }
+  }
+
   .form-review-panel-page {
     div[name="veteranInformationPageScrollElement"] {
       display: none;
@@ -271,12 +282,7 @@
 .form {
   &__icon {
     &--warning {
-      margin: 0 4px 0 10px;
-    }
-  }
-  &__itf-card {
-    &--date {
-      margin-left: 3px;
+      margin: 0 4px;
     }
   }
 }

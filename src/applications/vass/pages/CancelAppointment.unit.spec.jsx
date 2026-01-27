@@ -5,8 +5,7 @@ import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import CancelAppointment from './CancelAppointment';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 
 // Helper component to display current location for testing navigation
 const LocationDisplay = () => {
@@ -53,18 +52,10 @@ const vassApiState = {
   },
 };
 
-const defaultRenderOptions = {
-  initialState: {
-    vassForm: {
-      hydrated: false,
-      selectedDate: null,
-      selectedTopics: [],
-    },
-    vassApi: vassApiState,
-  },
-  reducers,
-  additionalMiddlewares: [vassApi.middleware],
-};
+const defaultRenderOptions = getDefaultRenderOptions(
+  {},
+  { vassApi: vassApiState },
+);
 
 describe('VASS Page: CancelAppointment', () => {
   it('renders page, appointment card, and buttons', () => {

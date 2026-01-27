@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui';
+import { useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
-
-const mockUser = {
-  uuid: 'c0ffee-1234-beef-5678',
-  lastname: 'Smith',
-  dob: '1935-04-07',
-};
+import {
+  selectFlowType,
+  selectObfuscatedEmail,
+} from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
@@ -35,11 +35,10 @@ const getPageTitle = (cancellationFlow, error) => {
 };
 
 const EnterOTC = () => {
-  const [searchParams] = useSearchParams();
-  const cancellationFlow = searchParams.get('cancel') === 'true';
+  const flowType = useSelector(selectFlowType);
+  const cancellationFlow = flowType === FLOW_TYPES.CANCEL;
   const navigate = useNavigate();
-  // TODO: get veteran email from lorota?
-  const veteranEmail = 't***@test.com';
+  const obfuscatedEmail = useSelector(selectObfuscatedEmail);
 
   const [code, setCode] = useState('');
   const [error, setError] = useState(undefined);
@@ -71,9 +70,6 @@ const EnterOTC = () => {
     }
     const response = await postOTCVerification({
       otc: code,
-      uuid: mockUser.uuid,
-      lastname: mockUser.lastname,
-      dob: mockUser.dob,
     });
 
     if (response.error) {
@@ -82,11 +78,11 @@ const EnterOTC = () => {
       setFocusTrigger(prev => prev + 1);
       return;
     }
-    // TODO: handle otc verification success
     if (cancellationFlow) {
-      navigate('/cancel-appointment/abcdef123456');
+      // TODO: handle cancellation flow
+      navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
     } else {
-      navigate('/date-time');
+      navigate(URLS.DATE_TIME, { replace: true });
     }
   };
 
@@ -108,7 +104,7 @@ const EnterOTC = () => {
           data-testid="enter-otc-success-alert"
         >
           <p className="vads-u-margin-y--0">
-            {`We just emailed a one-time verification code to ${veteranEmail}.
+            {`We just emailed a one-time verification code to ${obfuscatedEmail}.
           Please check your email and come back to enter the code to complete
           your verification process and start scheduling your appointment.`}
           </p>

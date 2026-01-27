@@ -50,6 +50,7 @@ const mockSipPut = {
         savedAt: 1593500000000,
         lastUpdated: 1593500000000,
         expiresAt: 99999999999,
+        inProgressFormId: 1234,
       },
     },
   },
@@ -66,7 +67,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(45),
           ssn: '3332',
-          relationshipToVeteran: 'Spouse',
+          relationshipToVeteran: 'Spouse', // prefill
+          relationship: 'Spouse', // API
           awardIndicator: 'Y',
         },
         {
@@ -74,7 +76,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(46),
           ssn: '3331',
-          relationshipToVeteran: 'Spouse',
+          relationshipToVeteran: 'Spouse', // prefill
+          relationship: 'Spouse', // API
           awardIndicator: 'Y',
         },
 
@@ -83,7 +86,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(17),
           ssn: '3479',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
@@ -91,7 +95,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(33),
           ssn: '3236',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
@@ -99,7 +104,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(19),
           ssn: '3468',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
@@ -107,7 +113,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(20),
           ssn: '3499',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
@@ -115,7 +122,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(0, 4),
           ssn: '3233',
-          relationshipToVeteran: 'Child', // Stepchild
+          relationshipToVeteran: 'Child', // prefill (Stepchild)
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
@@ -123,7 +131,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(4),
           ssn: '3311',
-          relationshipToVeteran: 'Child', // Stepchild
+          relationshipToVeteran: 'Child', // prefill (Stepchild)
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
         {
@@ -131,7 +140,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(11),
           ssn: '3145',
-          relationshipToVeteran: 'Child',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
           awardIndicator: 'Y',
         },
 
@@ -140,7 +150,8 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(89),
           ssn: '0104',
-          relationshipToVeteran: 'Parent',
+          relationshipToVeteran: 'Parent', // prefill
+          relationship: 'Parent', // API
           awardIndicator: 'Y',
         },
         {
@@ -148,8 +159,18 @@ const mockDependents = {
           lastName: 'FOSTER',
           dateOfBirth: createDate(85),
           ssn: '0155',
-          relationshipToVeteran: 'Parent',
+          relationshipToVeteran: 'Parent', // prefill
+          relationship: 'Parent', // API
           awardIndicator: 'Y',
+        },
+        {
+          firstName: 'EXTRA', // No award
+          lastName: 'FOSTER',
+          dateOfBirth: createDate(10),
+          ssn: '3189',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
+          awardIndicator: 'N',
         },
       ],
     },
@@ -223,6 +244,8 @@ const responses = {
         { name: 'manageDependents', value: true },
         { name: 'vaDependentsVerification', value: true },
         { name: 'va_dependents_verification', value: true },
+        { name: 'vaDependentsBrowserMonitoringEnabled', value: true },
+        { name: 'va_dependents_browser_monitoring_enabled', value: true },
       ],
     },
   },

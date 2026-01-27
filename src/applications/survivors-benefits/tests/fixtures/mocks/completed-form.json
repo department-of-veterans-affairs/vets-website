@@ -13,25 +13,38 @@
   "view:isAddingDicBenefits": false,
   "dicType": "DIC",
   "recognizedAsSpouse": true,
-  "hadPreviousMarriages": false,
-  "remarried": false,
-  "livedContinuouslyWithVeteran": true,
+  "hadPreviousMarriages": true,
+  "remarriedAfterVeteralDeath": true,
+  "remarriageDates": {
+    "from": "2020-01-01",
+    "to": "2022-02-02"
+  },
+  "endCauseExplanation": "Some other cause",
+  "remarriageEndCause": "other",
+  "claimantHasAdditionalMarriages": true,
+  "separationDueToAssignedReasons": "RELATIONSHIP_DIFFERENCES",
+  "separationExplanation": "Some explanation",
+  "separationStartDate": "2021-01-01",
+  "separationEndDate": "2022-01-01",
+  "courtOrderedSeparation": false,
+  "livedContinuouslyWithVeteran": false,
   "validMarriage": true,
   "marriageValidityExplanation": "Some explanation",
   "marriageToVeteranEndDate": "2023-03-03",
   "marriageToVeteranEndLocation": {
-    "city": "rgegerg",
+    "city": "EndCity",
     "state": "AL"
   },
-  "marriageType": "CIVIL_RELIGIOUS",
+  "marriageType": "other",
+  "typeOfMarriageExplanation": "Some other way",
   "marriageToVeteranStartDate": "2022-03-03",
   "marriageToVeteranStartLocation": {
-    "city": "fgfgr",
+    "city": "StartCity",
     "state": "AL"
   },
   "marriedToVeteranAtTimeOfDeath": false,
   "howMarriageEnded": "other",
-  "howMarriageEndedExplanation": "Some other reason",
+  "marriageEndedExplanation": "Some other reason",
   "receivedBenefits": false,
   "claims": {
     "DIC": true,
@@ -51,8 +64,9 @@
   "claimantAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
-    "street": "2131",
-    "city": "123213",
+    "street": "1234 Testing Dr",
+    "street2": "AB",
+    "city": "Testville",
     "state": "AL",
     "postalCode": "12313"
   },
@@ -87,8 +101,8 @@
   "view:uploadMessage": {},
   "statementOfTruthSignature": "Jane Middle Doe",
   "statementOfTruthCertified": true,
-  "expectingChild": false,
-  "hadChildWithVeteran": false,
+  "pregnantWithVeteran": false,
+  "childWithVeteran": false,
   "moreThanFourIncomeSources": true,
   "otherIncome": true,
   "landMarketable": true,
@@ -100,10 +114,17 @@
   "totalNetWorth": false,
   "incomeEntries": [
     {
-      "recipient": "SURVIVING_SPOUSE",
+      "recipient": "CHILD",
       "recipientName": "Child name",
       "incomeType": "OTHER",
       "incomeTypeOther": "something",
+      "incomePayer": "USA",
+      "monthlyIncome": 121123
+    },
+    {
+      "recipient": "SURVIVING_SPOUSE",
+      "recipientName": "Child name",
+      "incomeType": "INTEREST_DIVIDENDS",
       "incomePayer": "USA",
       "monthlyIncome": 111111
     }
@@ -120,22 +141,20 @@
         "last": "Service",
         "middle": "Name"
       }
+    },
+    {
+      "otherServiceName": {
+        "first": "John",
+        "last": "Other",
+        "middle": "Test"
+      }
     }
   ],
-  "serviceBranch": {
-    "ARMY": true,
-    "NAVY": true,
-    "AIR_FORCE": true,
-    "COAST_GUARD": true,
-    "MARINE_CORPS": true,
-    "SPACE_FORCE": true,
-    "USPHS": true,
-    "NOAA": true
-  },
+  "serviceBranch": "spaceForce",
   "nationalGuardActivated": true,
   "nationalGuardActivationDate": "2001-09-11",
   "unitName": "Unit Name",
-  "unitPhoneNumber": {
+  "unitPhone": {
     "callingCode": 1,
     "countryCode": "US",
     "contact": "5555112222",
@@ -147,13 +166,15 @@
   "unitAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
-    "street": "2131",
-    "city": "123213",
+    "street": "999 Unit St",
+    "city": "North Unitton",
     "state": "AL",
     "postalCode": "12313"
   },
-  "dateInitiallyEnteredActiveDuty": "2000-01-01",
-  "finalReleaseDateFromActiveDuty": "2005-01-01",
+  "activeServiceDateRange": {
+    "from": "1995-01-01",
+    "to": "2000-01-01"
+  },
   "placeOfSeparation": "Some City, ST",
   "careExpenses": [
     {
@@ -204,11 +225,34 @@
       "state": "GA"
     }
   ],
+  "veteranChildrenCount": "12",
   "veteransChildren": [
     {
       "childFullName": {
-        "first": "ChildFirst",
-        "last": "ChildLast"
+        "first": "FirstChild",
+        "middle": "ChildMiddle",
+        "last": "LastName"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "Some City",
+        "state": "OH",
+        "country": "USA"
+      },
+      "bornOutsideUS": false,
+      "relationship": "BIOLOGICAL",
+      "inSchool": true,
+      "seriouslyDisabled": false,
+      "hasBeenMarried": true,
+      "currentlyMarried": false,
+      "livesWith": false,
+      "childSupport": 5000
+    },
+    {
+      "childFullName": {
+        "first": "MiddleChild",
+        "last": "Testerson"
       },
       "childDateOfBirth": "2010-10-10",
       "childSocialSecurityNumber": "123451234",
@@ -219,23 +263,126 @@
       },
       "bornOutsideUS": false,
       "relationship": "ADOPTED",
+      "inSchool": false,
+      "seriouslyDisabled": true,
+      "hasBeenMarried": false,
+      "currentlyMarried": false,
+      "livesWith": true,
+      "childSupport": 5000
+    },
+    {
+      "childFullName": {
+        "first": "Reallylongchildfirstname",
+        "middle": "Reallylongmiddlename",
+        "last": "Reallylongchildlastname"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "Some City",
+        "state": "OH",
+        "country": "USA"
+      },
+      "bornOutsideUS": false,
+      "relationship": "STEPCHILD",
       "inSchool": true,
       "seriouslyDisabled": false,
       "hasBeenMarried": true,
       "currentlyMarried": false,
       "livesWith": false,
-      "mailingAddress": {
-        "country": "USA",
-        "street": "123 Child St",
-        "city": "Child City",
-        "state": "AL",
-        "postalCode": "12313"
-      },
-      "custodianFullName": {
-        "first": "CustodianFirst",
-        "last": "CustodianLast"
-      },
       "childSupport": 5000
     }
-  ]
+  ],
+  "dependentsResidence": true,
+  "custodianFullName": {
+    "first": "Custodianfirst",
+    "last": "Custodianlast"
+  },
+  "custodianAddress": {
+    "country": "USA",
+    "street": "123 Child St",
+    "city": "Child City",
+    "state": "AL",
+    "postalCode": "12313"
+  },
+  "veteranMarriages": [
+    {
+      "reasonForSeparation": "OTHER",
+      "separationExplanation": "Some other reason",
+      "dateOfMarriage": "1990-01-01",
+      "dateOfSeparation": "2000-01-01",
+      "locationOfSeparation": {
+        "city": "Some City",
+        "state": "TX"
+      },
+      "locationOfMarriage": {
+        "city": "Another City",
+        "state": "TX"
+      },
+      "spouseFullName": {
+        "first": "SpouseFirst",
+        "last": "SpouseLast",
+        "middle": "SpouseMiddle"
+      }
+    },
+    {
+      "reasonForSeparation": "DIVORCE",
+      "dateOfMarriage": "2001-01-01",
+      "dateOfSeparation": "2010-01-01",
+      "locationOfSeparation": {
+        "city": "City2",
+        "state": "TX"
+      },
+      "locationOfMarriage": {
+        "city": "City1",
+        "state": "TX"
+      },
+      "spouseFullName": {
+        "first": "Spouse2First",
+        "last": "Spouse2Last",
+        "middle": "Spouse2Middle"
+      }
+    }
+  ],
+  "veteranHasAdditionalMarriages": false,
+  "spouseMarriages": [
+    {
+      "reasonForSeparation": "OTHER",
+      "separationExplanation": "Some other reason",
+      "dateOfMarriage": "1991-01-01",
+      "dateOfSeparation": "2001-01-01",
+      "locationOfSeparation": {
+        "city": "Some City",
+        "state": "MO"
+      },
+      "locationOfMarriage": {
+        "city": "Another City",
+        "state": "MO"
+      },
+      "spouseFullName": {
+        "first": "SpouseFirstName",
+        "last": "SpouseLastName",
+        "middle": "SpouseMiddleName"
+      }
+    },
+    {
+      "reasonForSeparation": "DIVORCE",
+      "dateOfMarriage": "2002-01-01",
+      "dateOfSeparation": "2012-01-01",
+      "locationOfSeparation": {
+        "city": "City2",
+        "state": "PA"
+      },
+      "locationOfMarriage": {
+        "city": "City1",
+        "state": "PA"
+      },
+      "spouseFullName": {
+        "first": "Spouse2FirstName",
+        "last": "Spouse2LastName",
+        "middle": "Spouse2MiddleName"
+      }
+    }
+  ],
+  "spouseHasAdditionalMarriages": true
 }

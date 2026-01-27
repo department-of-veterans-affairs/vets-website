@@ -1,16 +1,13 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import NeedHelp from '../components/NeedHelp';
-import { hydrateFormData, selectHydrated } from '../redux/slices/formSlice';
-import { usePersistentSelections } from '../hooks/usePersistentSelections';
-
-// TODO: remove this once we have a real UUID
-import { UUID } from '../services/mocks/utils/formData';
 
 const Wrapper = props => {
   const {
@@ -24,19 +21,7 @@ const Wrapper = props => {
     loading = false,
     loadingMessage = 'Loading...',
   } = props;
-  const hydrated = useSelector(selectHydrated);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { getSaved } = usePersistentSelections(UUID);
-
-  const loadSavedData = useCallback(
-    () => {
-      if (!hydrated) {
-        dispatch(hydrateFormData(getSaved()));
-      }
-    },
-    [dispatch, getSaved, hydrated],
-  );
 
   useEffect(() => {
     focusElement('h1');
@@ -53,13 +38,6 @@ const Wrapper = props => {
     [verificationError],
   );
 
-  useEffect(
-    () => {
-      loadSavedData();
-    },
-    [loadSavedData],
-  );
-
   if (loading) {
     return (
       <div className="vads-l-grid-container vads-u-margin-y--8">
@@ -73,7 +51,7 @@ const Wrapper = props => {
 
   return (
     <div
-      className={classNames(`vads-l-grid-container`, {
+      className={classNames(`vads-l-grid-container vads-u-padding-x--2p5`, {
         'vads-u-padding-y--3': !showBackLink,
         'vads-u-padding-top--2 vads-u-padding-bottom--3': showBackLink, // Make the spacing consistent when showBackLink is true
         [className]: className,
@@ -109,17 +87,22 @@ const Wrapper = props => {
               )}
             </h1>
           )}
-          {!verificationError && children}
-          {verificationError && (
-            <va-alert
-              data-testid="verification-error-alert"
-              class="vads-u-margin-top--4"
-              status="error"
-            >
-              {verificationError}
-            </va-alert>
-          )}
-          <NeedHelp />
+          <DowntimeNotification
+            appTitle="VA Solid Start"
+            dependencies={[externalServices.vass]}
+          >
+            {!verificationError && children}
+            {verificationError && (
+              <va-alert
+                data-testid="verification-error-alert"
+                class="vads-u-margin-top--4"
+                status="error"
+              >
+                {verificationError}
+              </va-alert>
+            )}
+            <NeedHelp />
+          </DowntimeNotification>
         </div>
       </div>
     </div>

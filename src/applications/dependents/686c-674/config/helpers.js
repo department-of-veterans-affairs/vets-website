@@ -240,3 +240,23 @@ export const veteranFormerMarriageLabels = {
   Annulment: 'We got an annulment',
   Other: 'Some other way',
 };
+
+/**
+ * Returns the updateUiSchema function for income questions based on feature flag
+ * When vaDependentsNetWorthAndPension is ON, hides the hint text (new pension flow)
+ * When OFF, shows the hint text (current production)
+ * @param {object} formData - The form data
+ * @returns {object} - UI schema updates
+ */
+export const incomeQuestionUpdateUiSchema = formData => {
+  // Only hide hint when feature flag is ON (new pension flow)
+  if (formData?.vaDependentsNetWorthAndPension) {
+    return {
+      'ui:options': {
+        hint: '',
+      },
+    };
+  }
+  // Keep original hint when flag is OFF (current production)
+  return {};
+};

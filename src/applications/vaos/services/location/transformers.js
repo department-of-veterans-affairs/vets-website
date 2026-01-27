@@ -178,12 +178,17 @@ function getTypeOfCareIdFromV2(id) {
   return allTypesOfCare.find(care => care.idV2 === id)?.id;
 }
 
-export function transformSettingsV2(settings) {
+export function transformSettingsV2(settings, useVpg = false) {
   return settings.map(setting => ({
     ...setting,
-    services: setting.services.map(service => ({
-      ...service,
-      id: getTypeOfCareIdFromV2(service.id),
-    })),
+    services: useVpg
+      ? setting.vaServices.map(service => ({
+          ...service,
+          id: getTypeOfCareIdFromV2(service.clinicalServiceId),
+        }))
+      : setting.services.map(service => ({
+          ...service,
+          id: getTypeOfCareIdFromV2(service.id),
+        })),
   }));
 }

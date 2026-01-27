@@ -7,7 +7,6 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import servicePeriod from '../../../../config/chapters/03-military-history/servicePeriod';
-import { servicesOptions } from '../../../../utils/labels';
 
 describe('Service period page', () => {
   const { schema, uiSchema } = servicePeriod;
@@ -18,15 +17,15 @@ describe('Service period page', () => {
     const formDOM = getFormDOM(form);
     expect(form.getByRole('heading')).to.have.text('Service period');
 
-    const vaCheckboxGroups = $$('va-checkbox-group', formDOM);
-    expect(vaCheckboxGroups.length).to.equal(1);
+    const vaSelect = $$('va-select', formDOM);
+    expect(vaSelect.length).to.equal(1);
     const vaMemorableDates = $$('va-memorable-date', formDOM);
     expect(vaMemorableDates.length).to.equal(2);
     const textInputs = $$('va-text-input[type="text"]', formDOM);
     expect(textInputs.length).to.equal(1);
 
     const vaBranchOfService = $(
-      'va-checkbox-group[label="Branch of service"]',
+      'va-select[label="Branch of service"]',
       formDOM,
     );
     expect(vaBranchOfService.getAttribute('required')).to.equal('true');
@@ -48,13 +47,5 @@ describe('Service period page', () => {
     expect(vaLastSeparationPlace.getAttribute('hint')).to.equal(
       'City, state, or foreign country',
     );
-
-    const vaCheckboxes = $$('va-checkbox[name^="root_serviceBranch"]', formDOM);
-    expect(vaCheckboxes.length).to.equal(Object.keys(servicesOptions).length);
-    vaCheckboxes.forEach(checkbox => {
-      const key = checkbox.getAttribute('data-key');
-      const label = checkbox.getAttribute('label');
-      expect(label).to.equal(servicesOptions[key]);
-    });
   });
 });

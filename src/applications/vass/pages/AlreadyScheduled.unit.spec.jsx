@@ -3,10 +3,8 @@ import { expect } from 'chai';
 import { format } from 'date-fns';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import { vassApi } from '../redux/api/vassApi';
-import reducers from '../redux/reducers';
-
 import AlreadyScheduled from './AlreadyScheduled';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 
 describe('VASS Component: AlreadyScheduled', () => {
   it('should render all content', () => {
@@ -17,17 +15,10 @@ describe('VASS Component: AlreadyScheduled', () => {
     const expectedDate = format(appointmentDate, 'MM/dd/yyyy');
     const expectedTime = format(appointmentDate, 'hh:mm a');
 
-    const { getByTestId } = renderWithStoreAndRouterV6(<AlreadyScheduled />, {
-      initialState: {
-        vassForm: {
-          hydrated: false,
-          selectedDate: null,
-          selectedTopics: [],
-        },
-      },
-      reducers,
-      additionalMiddlewares: [vassApi.middleware],
-    });
+    const { getByTestId } = renderWithStoreAndRouterV6(
+      <AlreadyScheduled />,
+      getDefaultRenderOptions(),
+    );
     expect(getByTestId('already-scheduled-page')).to.exist;
     expect(getByTestId('already-scheduled-phone-number')).to.exist;
     const dateTimeElement = getByTestId('already-scheduled-date-time');

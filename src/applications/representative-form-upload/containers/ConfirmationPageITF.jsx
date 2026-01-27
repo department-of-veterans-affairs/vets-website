@@ -6,7 +6,8 @@ import { ConfirmationPageViewITF } from '../components/ConfirmationPageViewITF';
 const ConfirmationPageITF = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  const { benefitType } = form.data;
+  const benefitType =
+    form.data.isVeteran === 'no' ? 'survivor' : form.data.benefitType;
   const submitDate = submission.response?.attributes?.creationDate
     ? new Date(submission.response.attributes.creationDate)
     : null;
@@ -14,7 +15,10 @@ const ConfirmationPageITF = () => {
     ? new Date(submission.response.attributes.expirationDate)
     : null;
 
-  const { first, last } = form.data.veteranFullName;
+  const { first, last } =
+    form.data.isVeteran === 'no'
+      ? form.data.claimantFullName
+      : form.data.veteranFullName;
   const { city, state, postalCode } = form.data.address;
 
   const address = { city, state, postalCode };

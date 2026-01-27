@@ -20,15 +20,11 @@ describe('CCDAccordionItemV2', () => {
 
   it('shows loading spinner when generatingCCD is true', () => {
     const props = { ...defaultProps, generatingCCD: true };
-    const { container, queryByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       <CCDAccordionItemV2 {...props} />,
     );
 
-    const spinnerContainer = container.querySelector(
-      '#generating-ccd-indicator',
-    );
-    expect(spinnerContainer).to.exist;
-    expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
+    expect(getByTestId('generating-ccd-indicator')).to.exist;
 
     expect(queryByTestId('generateCcdButtonXml')).to.not.exist;
     expect(queryByTestId('generateCcdButtonPdf')).to.not.exist;

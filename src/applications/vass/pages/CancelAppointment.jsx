@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
+import { URLS } from '../utils/constants';
 
 const CancelAppointment = () => {
   const { appointmentId } = useParams();
@@ -31,11 +32,13 @@ const CancelAppointment = () => {
         leftButtonText="Yes, cancel appointment"
         rightButtonText="No, don’t cancel"
         onPrimaryClick={() => {
-          navigate('/cancel-appointment/confirmation');
+          navigate(URLS.CANCEL_APPOINTMENT_CONFIRMATION);
         }}
         onSecondaryClick={() => {
           navigate(
-            `/confirmation/${appointmentData.appointmentId}?details=true`,
+            `${URLS.CONFIRMATION}/${
+              appointmentData.appointmentId
+            }?details=true`,
           );
         }}
         class="vads-u-margin-top--4"

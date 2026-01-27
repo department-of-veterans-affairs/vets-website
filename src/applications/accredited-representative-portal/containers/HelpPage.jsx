@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { HELP_BC_LABEL, HelpBC } from '../utilities/poaRequests';
 
 const VAGovLink = () => (
@@ -38,8 +39,10 @@ const HelpPage = title => {
         const id = hash.replace('#', '');
         const el = document.getElementById(id);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-          focusElement(`#${id}`);
+          setTimeout(() => {
+            el.scrollIntoView({ behavior: 'smooth' });
+            focusElement(`#${id}`);
+          }, 500);
         }
       } else {
         focusElement('h1');
@@ -487,55 +490,130 @@ const HelpPage = title => {
               </p>
             </va-accordion-item>
           </va-accordion>
-          <h2 id="submitting-va-forms">Submitting VA forms</h2>
-          <p>
-            If you or one of your organizations has representation with an
-            individual, you can submit forms through the portal on their behalf.
-          </p>
-          <va-accordion>
-            <va-accordion-item
-              header="Uploading and submitting completed PDFs"
-              id="section-seventeen"
-              level="3"
-            >
-              To submit VA forms, you will need to upload a completed PDF of the
-              form and any additional relevant evidence or documentation. Prior
-              to submission, the system will verify that you or one of your VSOs
-              has existing representation with the claimant. We’ll notify you of
-              the status of receipt in VBMS and track submissions for 60 days.
-            </va-accordion-item>
-            <va-accordion-item
-              header="Supported forms"
-              id="section-eighteen"
-              level="3"
-            >
-              Currently, you can submit these forms through the portal:
-              <ul>
-                <li>
-                  Application Request to Add and/or Remove Dependents (VA Form
-                  21-686c)
-                </li>
-                <li>
-                  Application for Disability Compensation and Related
-                  Compensation Benefits (VA Form 21-526EZ)
-                </li>
-              </ul>
-            </va-accordion-item>
-            <va-accordion-item
-              header="In SEP, I was able to submit a 21-686c and establish dependents within 24 hours. Will I be able to do this in the portal?"
-              id="section-nineteen"
-              level="3"
-            >
+          <Toggler
+            toggleName={
+              Toggler.TOGGLE_NAMES.accreditedRepresentativePortalIntentToFile
+            }
+          >
+            <Toggler.Enabled>
+              <h2 id="submitting-va-forms">Submitting VA forms</h2>
               <p>
-                The capability to establish dependents within 24 hours won’t be
-                available in the portal upon initial release.
+                There are two methods the portal uses for submissions. Some
+                forms require you to upload a completed PDF to submit. Other
+                forms can be submitted by filling out the required steps in the
+                portal.
               </p>
               <p>
-                We are exploring ways to speed up this process as a future
-                enhancement.
+                Prior to submission, the system will verify that you or your
+                Veterans Service Organization (VSO) currently represent the
+                claimant.
               </p>
-            </va-accordion-item>
-          </va-accordion>
+              <va-accordion>
+                <va-accordion-item
+                  header="VA Form 21-0966 (Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC)"
+                  id="section-seventeen"
+                  level="3"
+                >
+                  <p>
+                    Fill out the required steps in the portal for VA Form
+                    21-0966, and then submit.
+                  </p>
+                  <p>
+                    The intent to file will be recorded immediately after
+                    submission.
+                  </p>
+                </va-accordion-item>
+                <va-accordion-item
+                  header="VA Form 21-526EZ (Application for Disability Compensation and Related Compensation Benefits)"
+                  id="section-eighteen"
+                  level="3"
+                >
+                  <p>
+                    Upload the completed VA Form 21-526EZ PDF, and then submit.
+                  </p>
+                  <p>
+                    The form will be processed by VA Centralized Mail after
+                    submission. We’ll notify you of the status of receipt in
+                    VBMS. The portal will track the submission for 60 days.
+                  </p>
+                </va-accordion-item>
+                <va-accordion-item
+                  header="VA Form 21-686c (Application Request to Add and/or Remove Dependents)"
+                  id="section-nineteen"
+                  level="3"
+                >
+                  <p>
+                    Upload the completed VA Form 21-686c PDF and any supporting
+                    evidence, and then submit.
+                  </p>
+                  <p>
+                    The form will be processed by VA Centralized Mail after
+                    submission. We’ll notify you of the status of receipt in
+                    VBMS. The portal will track the submission for 60 days.
+                  </p>
+                  <p>
+                    <strong>Note:</strong> The portal isn’t able to establish
+                    dependents within 24 hours at this time. We’re exploring
+                    ways to speed up this process as a future enhancement.
+                  </p>
+                </va-accordion-item>
+              </va-accordion>
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <h2 id="submitting-va-forms">Submitting VA forms</h2>
+              <p>
+                If you or one of your organizations has representation with an
+                individual, you can submit forms through the portal on their
+                behalf.
+              </p>
+              <va-accordion>
+                <va-accordion-item
+                  header="Uploading and submitting completed PDFs"
+                  id="section-seventeen"
+                  level="3"
+                >
+                  To submit VA forms, you will need to upload a completed PDF of
+                  the form and any additional relevant evidence or
+                  documentation. Prior to submission, the system will verify
+                  that you or one of your VSOs has existing representation with
+                  the claimant. We’ll notify you of the status of receipt in
+                  VBMS and track submissions for 60 days.
+                </va-accordion-item>
+                <va-accordion-item
+                  header="Supported forms"
+                  id="section-eighteen"
+                  level="3"
+                >
+                  Currently, you can submit these forms through the portal:
+                  <ul>
+                    <li>
+                      Application Request to Add and/or Remove Dependents (VA
+                      Form 21-686c)
+                    </li>
+                    <li>
+                      Application for Disability Compensation and Related
+                      Compensation Benefits (VA Form 21-526EZ)
+                    </li>
+                  </ul>
+                </va-accordion-item>
+                <va-accordion-item
+                  header="In SEP, I was able to submit a 21-686c and establish dependents within 24 hours. Will I be able to do this in the portal?"
+                  id="section-nineteen"
+                  level="3"
+                >
+                  <p>
+                    The capability to establish dependents within 24 hours won’t
+                    be available in the portal upon initial release.
+                  </p>
+                  <p>
+                    We are exploring ways to speed up this process as a future
+                    enhancement.
+                  </p>
+                </va-accordion-item>
+              </va-accordion>
+              `
+            </Toggler.Disabled>
+          </Toggler>
           <div className="va-h-ruled--stars mobile-view-divider" />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--4 contact-us">

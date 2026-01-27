@@ -3,21 +3,11 @@ import {
   createGetHandler,
   jsonResponse,
   networkError,
-  setupServer,
 } from 'platform/testing/unit/msw-adapter';
+import { server } from 'platform/testing/unit/mocha-setup';
 import RepresentativeStatusApi from '../api/RepresentativeStatusApi';
 
 describe('RepresentativeStatusApi', () => {
-  const server = setupServer();
-
-  before(() => {
-    server.listen();
-  });
-
-  after(() => {
-    server.close();
-  });
-
   const createResponse = ({
     status = 200,
     json = {},
@@ -61,13 +51,13 @@ describe('RepresentativeStatusApi', () => {
   });
 
   it('should handle errors', async () => {
-    const mockError = new Error('Network error');
     createResponse({ isNetworkError: true });
 
     try {
       await RepresentativeStatusApi.getRepresentativeStatus();
     } catch (error) {
-      expect(error.message).to.contain(mockError.message);
+      // MSW v1 network errors result in "Failed to fetch"
+      expect(error.message).to.contain('Failed to fetch');
     }
   });
 });

@@ -5,11 +5,14 @@
  */
 
 import {
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
+  internationalPhoneUI,
+  internationalPhoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+import { isClaimantVeteran } from '../utils/relationship-helpers';
+import { getVeteranName, getClaimantName } from '../utils/name-helpers';
 
 /**
  * uiSchema for Claimant Contact page
@@ -17,44 +20,45 @@ import {
  */
 export const claimantContactUiSchema = {
   claimantContact: {
-    claimantPhoneNumber: phoneUI('Home phone number'),
-    claimantMobilePhone: phoneUI('Mobile phone number'),
+    claimantPhoneNumber: internationalPhoneUI(),
     claimantEmail: emailUI('Email address'),
   },
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const data = fullData || formData;
-      const firstName =
-        data?.claimantInformation?.claimantFullName?.first || '';
-      const lastName = data?.claimantInformation?.claimantFullName?.last || '';
-      const fullName = `${firstName} ${lastName}`.trim();
+      const isVeteran = isClaimantVeteran(data);
+
+      // Get the appropriate name based on relationship
+      const fullName = isVeteran
+        ? getVeteranName(data, '')
+        : getClaimantName(data, '');
+
+      // Use appropriate fallback based on relationship
+      const fallback = isVeteran ? "Veteran's" : "Claimant's";
 
       const title = fullName
         ? `${fullName}'s phone number and email address`
-        : "Claimant's phone number and email address";
+        : `${fallback} phone number and email address`;
 
       const homePhoneLabel = fullName
-        ? `${fullName}'s home phone number`
-        : "Claimant's home phone number";
-
-      const mobilePhoneLabel = fullName
-        ? `${fullName}'s mobile phone number`
-        : "Claimant's mobile phone number";
+        ? `${fullName}'s phone number`
+        : `${fallback} phone number`;
 
       const emailLabel = fullName
         ? `${fullName}'s email address`
-        : "Claimant's email address";
+        : `${fallback} email address`;
+
+      // Use appropriate pronouns for veterans vs other claimants
+      const description = isVeteran
+        ? 'We may use your contact information to contact you if we have questions about your application or if we need more information.'
+        : 'We may use their contact information to contact them if we have questions about their application or if we need more information.';
 
       return {
         'ui:title': title,
-        'ui:description':
-          'We may use their contact information to contact them if we have questions about their application or if we need more information.',
+        'ui:description': description,
         claimantContact: {
           claimantPhoneNumber: {
             'ui:title': homePhoneLabel,
-          },
-          claimantMobilePhone: {
-            'ui:title': mobilePhoneLabel,
           },
           claimantEmail: {
             'ui:title': emailLabel,
@@ -71,14 +75,11 @@ export const claimantContactUiSchema = {
  */
 export const claimantContactSchema = {
   type: 'object',
-  required: ['claimantContact'],
   properties: {
     claimantContact: {
       type: 'object',
-      required: ['claimantPhoneNumber', 'claimantEmail'],
       properties: {
-        claimantPhoneNumber: phoneSchema,
-        claimantMobilePhone: phoneSchema,
+        claimantPhoneNumber: internationalPhoneSchema(),
         claimantEmail: emailSchema,
       },
     },

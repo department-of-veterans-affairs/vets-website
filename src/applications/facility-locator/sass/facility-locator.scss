@@ -102,12 +102,6 @@ $text-color: rgba(27, 27, 27, 1);
       border-top: none;
     }
 
-    @media screen and (min-width: $small-screen) {
-      &.active {
-        border: $focus-outline;
-      }
-    }
-
     a {
       color: var(--vads-color-link);
 
@@ -491,11 +485,6 @@ $text-color: rgba(27, 27, 27, 1);
         align-items: flex-end;
       }
     }
-
-    p.service-hint-text {
-      color: $vads-label-hint-text-color-on-light;
-      margin: 0.5em 0;
-    }
   }
 
   .facility-detail {
@@ -665,6 +654,7 @@ $text-color: rgba(27, 27, 27, 1);
   font-size: 0.9375rem;
   width: 1.5rem;
   height: 1.5rem;
+  padding: 0;
 
   &#active-pin {
     height: 38.5px;

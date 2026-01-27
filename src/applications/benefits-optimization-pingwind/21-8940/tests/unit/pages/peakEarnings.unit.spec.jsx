@@ -11,7 +11,7 @@ const {
 } = formConfig.chapters.sectionThreeChapter.pages.peakEarnings;
 const pageTitle = 'peak earnings';
 
-// All inputs use web components
+// All three peak earnings inputs render web components
 const expectedWebComponents = 3;
 
 testNumberOfWebComponentFields(

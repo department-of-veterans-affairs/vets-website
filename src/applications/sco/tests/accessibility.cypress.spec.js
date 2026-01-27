@@ -52,8 +52,8 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'GovDelivery Message Archive');
     // Tab to 'Program approval information' links
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'WEAMS Institution Search');
-    cy.repeatKey('Tab', 13);
+    cy.focused().should('contain.text', 'GI Bill® Comparison Tool');
+    cy.repeatKey('Tab', 11);
     cy.focused().should(
       'contain.text',
       'State Approving Agency contact information',

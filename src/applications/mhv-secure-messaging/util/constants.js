@@ -1,3 +1,5 @@
+import manifest from '../manifest.json';
+
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
 export const draftAutoSaveTimeout = 10000;
 
@@ -21,6 +23,7 @@ export const Paths = {
   SELECT_CARE_TEAM: 'select-care-team/',
   START_MESSAGE: 'start-message/',
   CARE_TEAM_HELP: '/new-message/care-team-help/',
+  ROOT_URL: manifest.rootUrl,
 };
 
 export const DefaultFolders = {
@@ -187,7 +190,7 @@ export const Alerts = {
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
-    SEND_MESSAGE_SUCCESS: 'Message Sent.',
+    SEND_MESSAGE_SUCCESS: 'Message sent',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
@@ -217,7 +220,7 @@ export const Alerts = {
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
     DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER: 'Empty this folder',
     DELETE_FOLDER_ERROR_NOT_EMPTY_BODY: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
-    RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
+    RENAME_FOLDER_SUCCESS: 'Folder renamed',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:

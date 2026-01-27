@@ -1,3 +1,6 @@
+/**
+ * E2E test for 995 ITF page.
+ */
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import { BASE_URL } from '../../constants';

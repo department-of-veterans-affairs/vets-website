@@ -10,9 +10,8 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import DateTimeSelection from './DateTimeSelection';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
 import { generateSlots } from '../utils/mock-helpers';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 
 // Mock appointment availability data
 const mockAppointmentAvailability = {
@@ -33,16 +32,10 @@ describe('VASS Component: DateTimeSelection', () => {
   });
 
   const renderComponent = (selectedDate = null) => {
-    return renderWithStoreAndRouterV6(<DateTimeSelection />, {
-      initialState: {
-        vassForm: {
-          selectedDate,
-          selectedTopics: [],
-        },
-      },
-      reducers,
-      additionalMiddlewares: [vassApi.middleware],
-    });
+    return renderWithStoreAndRouterV6(
+      <DateTimeSelection />,
+      getDefaultRenderOptions({ selectedDate }),
+    );
   };
 
   it('should render the date time page correctly', async () => {

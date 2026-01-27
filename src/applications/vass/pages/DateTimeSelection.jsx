@@ -1,38 +1,31 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui/focus';
+import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
 import Wrapper from '../layout/Wrapper';
-import { usePersistentSelections } from '../hooks/usePersistentSelections';
-import { setSelectedDate, selectSelectedDate } from '../redux/slices/formSlice';
+import {
+  setSelectedDate,
+  selectSelectedDate,
+  selectUuid,
+} from '../redux/slices/formSlice';
 import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
-// TODO: remove this once we have a real UUID
-import { UUID } from '../services/mocks/utils/formData';
 
-// TODO: make this component a shared component
-import CalendarWidget from '../components/calendar/CalendarWidget';
 import { mapAppointmentAvailabilityToSlots } from '../utils/slots';
 import { getTimezoneDescByTimeZoneString } from '../utils/timezone';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
   const selectedDate = useSelector(selectSelectedDate);
+  const uuid = useSelector(selectUuid);
   const navigate = useNavigate();
-  const { saveDateSelection } = usePersistentSelections(UUID);
   const {
     data: appointmentAvailability,
     isLoading: loading,
-  } = useGetAppointmentAvailabilityQuery();
+  } = useGetAppointmentAvailabilityQuery(uuid);
 
   // TODO: determine what timezone to use
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const saveDate = useCallback(
-    date => {
-      saveDateSelection(date);
-      dispatch(setSelectedDate(date));
-    },
-    [saveDateSelection, dispatch],
-  );
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
 
@@ -62,7 +55,7 @@ const DateTimeSelection = () => {
       return;
     }
     // Update selected dates and clear any previous error state
-    saveDate(selectedSlotTime);
+    dispatch(setSelectedDate(selectedSlotTime));
     setHasAttemptedSubmit(false);
   };
 
@@ -93,7 +86,7 @@ const DateTimeSelection = () => {
 
   return (
     <Wrapper
-      pageTitle="What date and time do you want for this appointment?"
+      pageTitle="When do you want to schedule your appointment?"
       classNames="vads-u-margin-top--4"
       testID="date-time-selection"
       required
@@ -106,8 +99,8 @@ const DateTimeSelection = () => {
           times are displayed in {getTimezoneDescByTimeZoneString(timezone)}.
         </p>
         <p>
-          <strong>Note:</strong> Available dates are shown for the next 2 weeks,
-          and weekends are unavailable.
+          <strong>Note:</strong> You can schedule a appointment on a week day
+          within the next 2 weeks.
         </p>
       </div>
 

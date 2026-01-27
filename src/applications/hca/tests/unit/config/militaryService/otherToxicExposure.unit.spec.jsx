@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca Other Toxic Exposures config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca Other Toxic Exposures config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 10;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,67 @@ describe('hca Other Toxic Exposures config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:otherToxicExposures': {
+          type: 'object',
+          properties: {
+            exposureToAirPollutants: {},
+            exposureToAsbestos: {},
+            exposureToChemicals: {},
+            exposureToContaminatedWater: {},
+            exposureToMustardGas: {},
+            exposureToOccupationalHazards: {},
+            exposureToRadiation: {},
+            exposureToShad: {},
+            exposureToWarfareAgents: {},
+            exposureToOther: {},
+          },
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:otherToxicExposures': {
+        exposureToAirPollutants: {
+          'ui:title': {},
+        },
+        exposureToAsbestos: {
+          'ui:title': {},
+        },
+        exposureToChemicals: {
+          'ui:title': {},
+        },
+        exposureToContaminatedWater: {
+          'ui:title': {},
+        },
+        exposureToMustardGas: {
+          'ui:title': {},
+        },
+        exposureToOccupationalHazards: {
+          'ui:title': {},
+        },
+        exposureToRadiation: {
+          'ui:title': {},
+        },
+        exposureToShad: {
+          'ui:title': {},
+        },
+        exposureToWarfareAgents: {
+          'ui:title': {},
+        },
+        exposureToOther: {
+          'ui:title': {},
+        },
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

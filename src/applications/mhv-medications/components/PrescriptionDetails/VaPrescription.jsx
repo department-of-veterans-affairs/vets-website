@@ -12,7 +12,6 @@ import {
   dateFormat,
   determineRefillLabel,
   displayProviderName,
-  getImageUri,
   getRefillHistory,
   getShowRefillHistory,
   hasCmopNdcNumber,
@@ -42,6 +41,7 @@ import GroupedMedications from './GroupedMedications';
 import CallPharmacyPhone from '../shared/CallPharmacyPhone';
 import ProcessList from '../shared/ProcessList';
 import { landMedicationDetailsAal } from '../../api/rxApi';
+import PrescriptionFillImage from './PrescriptionFillImage';
 
 const VaPrescription = prescription => {
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
@@ -200,7 +200,7 @@ const VaPrescription = prescription => {
 
               {isRefillRunningLate && (
                 <h2
-                  className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+                  className="vads-u-margin-top--3 vads-u-padding-top--2"
                   data-testid="check-status-text"
                   data-dd-privacy="mask"
                 >
@@ -519,37 +519,10 @@ const VaPrescription = prescription => {
                                 {!isCernerPilot &&
                                   !isPartialFill && (
                                     <>
-                                      <h5
-                                        className={`${
-                                          i === 0 ? 'vads-u-margin-top--2 ' : ''
-                                        }vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0`}
-                                        data-testid="med-image"
-                                      >
-                                        Image
-                                      </h5>
-                                      <div className="no-print">
-                                        {entry.cmopNdcNumber ? (
-                                          <>
-                                            <img
-                                              alt=""
-                                              className="vads-u-margin-top--1"
-                                              data-testid="rx-image"
-                                              src={getImageUri(
-                                                entry.cmopNdcNumber,
-                                              )}
-                                              width="350"
-                                              height="350"
-                                            />
-                                          </>
-                                        ) : (
-                                          <p
-                                            className="vads-u-margin--0"
-                                            data-testid="no-image"
-                                          >
-                                            Image not available
-                                          </p>
-                                        )}
-                                      </div>
+                                      <PrescriptionFillImage
+                                        prescriptionFill={entry}
+                                        isFirstFill={i === 0}
+                                      />
                                       <h5
                                         className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                                         data-testid="med-description"

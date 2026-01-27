@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from 'platform/utilities/environment';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import {
   DATETIME_FORMATS,
@@ -12,14 +11,15 @@ import {
   DISPENSE_STATUS,
 } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import RefillNavButton from './RefillNavButton';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
-import { pageType, dataDogActionNames } from '../../util/dataDogConstants';
+import { pageType } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
 
-const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
+const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
   const { dispStatus, refillRemaining, isRenewable } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const noRefillRemaining =
@@ -29,6 +29,9 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
+  const refillNavButton =
+    page === pageType.LIST ? <RefillNavButton rx={rx} /> : null;
+
   const renderV2Content = () => {
     switch (dispStatus) {
       case dispStatusObjV2.statusNotAvailable:
@@ -37,7 +40,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             <va-icon icon="warning" size={4} aria-hidden="true" />
             <div className="vads-u-padding-left--2" data-testid="unknown-rx">
               <p className="vads-u-margin-y--0">
-                We’re sorry. There’s a problem with our system. You can't manage
+                We’re sorry. There’s a problem with our system. You can’t manage
                 this prescription online right now.
               </p>
               <p className="vads-u-margin-y--0">
@@ -99,26 +102,23 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You have no refills left. If you need more, request a renewal.
+                You can’t refill this prescription. If you need more, send a
+                secure message to your care team.
               </p>
               <SendRxRenewalMessage
                 rx={rx}
                 showFallBackContent={showRenewalLink}
-                fallbackContent={
-                  <va-link
-                    href="/resources/how-to-renew-a-va-prescription"
-                    text="Learn how to renew prescriptions"
-                    data-testid="learn-to-renew-prescriptions-link"
-                  />
-                }
               />
             </div>
           );
         }
         return (
-          <p className="vads-u-margin-y--0" data-testid="active">
-            You can request this prescription when you need it.
-          </p>
+          <div>
+            <p className="vads-u-margin-y--0" data-testid="active">
+              You can request this prescription when you need it.
+            </p>
+            {refillNavButton}
+          </div>
         );
 
       case dispStatusObjV2.inactive:
@@ -131,18 +131,9 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="inactive">
-                    This prescription is inactive. If you need more, contact
-                    your VA provider.
+                    You can’t refill this prescription. Contact your VA provider
+                    if you need more of this medication.
                   </p>
-                  <va-link
-                    href="/resources/how-to-renew-a-va-prescription"
-                    text="Learn how to renew prescriptions"
-                    data-testid="learn-to-renew-precsriptions-link"
-                    data-dd-action-name={
-                      dataDogActionNames.detailsPage
-                        .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
-                    }
-                  />
                 </>
               }
             />
@@ -263,9 +254,12 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
 
       case dispStatusObj.activeParked:
         return (
-          <p className="vads-u-margin-y--0" data-testid="active-parked">
-            You can request this prescription when you need it.
-          </p>
+          <div>
+            <p className="vads-u-margin-y--0" data-testid="active-parked">
+              You can request this prescription when you need it.
+            </p>
+            {refillNavButton}
+          </div>
         );
 
       case dispStatusObj.expired:
@@ -277,18 +271,9 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="expired">
-                    This prescription is too old to refill. If you need more,
-                    request a renewal.
+                    You can’t refill this prescription. Contact your VA provider
+                    if you need more of this medication.
                   </p>
-                  <va-link
-                    href="/resources/how-to-renew-a-va-prescription"
-                    text="Learn how to renew prescriptions"
-                    data-testid="learn-to-renew-precsriptions-link"
-                    data-dd-action-name={
-                      dataDogActionNames.detailsPage
-                        .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
-                    }
-                  />
                 </>
               }
             />
@@ -299,19 +284,9 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="discontinued">
-              You can't refill this prescription. If you need more, send a
-              message to your care team.
+              You can’t refill this prescription. Contact your VA provider if
+              you need more of this medication.
             </p>
-            <va-link
-              href={`${
-                environment.BASE_URL
-              }/my-health/secure-messages/new-message/`}
-              text="Start a new message"
-              data-testid="discontinued-compose-message-link"
-              data-dd-action-name={
-                dataDogActionNames.detailsPage.COMPOSE_A_MESSAGE_LINK
-              }
-            />
           </div>
         );
 
@@ -342,8 +317,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             className="vads-u-margin-y--0 no-print"
             data-testid="active-onHold"
           >
-            You can’t refill this prescription online right now. If you need a
-            refill, call your VA pharmacy
+            You can’t refill this prescription. Contact your VA provider if you
+            need more of this medication.
             <CallPharmacyPhone
               cmopDivisionPhone={pharmacyPhone}
               page={pageType.DETAILS}
@@ -359,23 +334,17 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
                 className="vads-u-margin-y--0"
                 data-testid="active-no-refill-left"
               >
-                You have no refills left. If you need more, request a renewal.
+                You can’t refill this prescription. If you need more, send a
+                secure message to your care team.
               </p>
               <SendRxRenewalMessage
                 rx={rx}
                 showFallBackContent={showRenewalLink}
-                fallbackContent={
-                  <va-link
-                    href="/resources/how-to-renew-a-va-prescription"
-                    text="Learn how to renew prescriptions"
-                    data-testid="learn-to-renew-prescriptions-link"
-                  />
-                }
               />
             </div>
           );
         }
-        return null;
+        return refillNavButton;
 
       default:
         return null;
@@ -410,12 +379,18 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
     return renderV1Content();
   };
 
+  const content = renderContent();
+
+  if (!content) {
+    return null;
+  }
+
   return (
     <div
       className="shipping-info"
       id={`status-description-${rx.prescriptionId}`}
     >
-      {renderContent()}
+      {content}
     </div>
   );
 };

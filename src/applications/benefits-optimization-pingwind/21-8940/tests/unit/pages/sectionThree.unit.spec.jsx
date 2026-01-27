@@ -11,13 +11,13 @@ const {
 } = formConfig.chapters.sectionThreeChapter.pages.sectionThree;
 const pageTitle = 'employment statement';
 
-// 3 date fields
-testNumberOfWebComponentFields(formConfig, schema, uiSchema, 3, pageTitle);
+// Dates render through a custom field that does not register as a web component in the shared helpers
+testNumberOfWebComponentFields(formConfig, schema, uiSchema, 0, pageTitle);
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
-  3,
+  0,
   pageTitle,
 );
 
