@@ -22,7 +22,7 @@ export {};
  */
 export default function InquiryCard({ inquiry }) {
   return (
-    <va-card class="inquiry-card" data-testid="dashboard-card">
+    <va-card class="inquiry-card" data-testid="inquiry-card">
       <div>
         <h3>
           <span className="sr-only">Status </span>

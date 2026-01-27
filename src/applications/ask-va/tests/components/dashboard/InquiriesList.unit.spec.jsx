@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import InquiriesList from '../../../components/dashboard/InquiriesList';
-import { categorizeByLOA } from '../../../utils/dashboard';
+import InquiriesList from '../../../components/inbox/InquiriesList';
+import { categorizeByLOA } from '../../../utils/inbox';
 import { mockInquiries } from '../../utils/mock-inquiries';
 
 describe('InquiriesList', () => {
@@ -17,7 +17,7 @@ describe('InquiriesList', () => {
       />,
     );
 
-    const cards = view.getAllByTestId('dashboard-card');
+    const cards = view.getAllByTestId('inquiry-card');
     expect(cards.length).to.equal(4);
   });
 

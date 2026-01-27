@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import React from 'react';
-import SearchDescription from '../../../components/dashboard/SearchDescription';
+import SearchDescription from '../../../components/inbox/SearchDescription';
 
 describe('SearchDescription', () => {
   it('renders correct sentence with default settings', () => {

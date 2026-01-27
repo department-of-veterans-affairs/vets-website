@@ -35,7 +35,7 @@ export function categorizeByLOA(rawInquiries) {
 }
 
 /**
- * @typedef {import('../components/dashboard/InquiryCard').Inquiry} Inquiry
+ * @typedef {import('../components/inbox/InquiryCard').Inquiry} Inquiry
  */
 
 /** Splits an array into buckets of limited size

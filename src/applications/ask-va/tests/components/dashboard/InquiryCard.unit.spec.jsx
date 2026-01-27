@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 import { expect } from 'chai';
-import InquiryCard from '../../../components/dashboard/InquiryCard';
+import InquiryCard from '../../../components/inbox/InquiryCard';
 
 describe('InquiryCard', () => {
   it('renders inquiry details accurately', () => {

@@ -4,7 +4,7 @@ import {
   categorizeByLOA,
   paginateInquiries,
   filterAndSort,
-} from '../../utils/dashboard';
+} from '../../utils/inbox';
 import { mockInquiries } from './mock-inquiries';
 
 describe('flattenInquiry', () => {

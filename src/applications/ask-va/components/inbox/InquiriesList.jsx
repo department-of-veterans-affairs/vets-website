@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import InquiryCard from './InquiryCard';
-import { paginateInquiries } from '../../utils/dashboard';
+import { paginateInquiries } from '../../utils/inbox';
 import SearchDescription from './SearchDescription';
 
 /**

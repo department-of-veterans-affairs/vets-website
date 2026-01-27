@@ -13,9 +13,9 @@ import { server } from 'platform/testing/unit/mocha-setup';
 import React from 'react';
 
 import { envUrl } from '../../constants';
-import DashboardCards from '../../containers/DashboardCards';
+import Inbox from '../../containers/Inbox';
 
-describe('<DashboardCards>', () => {
+describe('<Inbox />', () => {
   const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries`;
 
   describe('when the api server succeeds', () => {
@@ -70,7 +70,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should render Your questions and filters', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         // Check for the main heading
@@ -141,7 +141,7 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -196,7 +196,7 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -229,7 +229,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should clear filters when clear button is clicked', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
@@ -261,7 +261,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should sort results based on search query', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       // Switch to personal tab
       const personalTab = await view.findByRole('tab', { name: /personal/i });
@@ -271,7 +271,7 @@ describe('<DashboardCards>', () => {
       const searchDescription = await view.findByText(/showing/i);
       expect(searchDescription.textContent).to.include('Personal');
 
-      const resultsBefore = view.getAllByTestId('dashboard-card');
+      const resultsBefore = view.getAllByTestId('inquiry-card');
       expect(resultsBefore.length).to.equal(2);
       expect(resultsBefore[0].textContent).to.include('Reference number: A-2');
 
@@ -288,7 +288,7 @@ describe('<DashboardCards>', () => {
       filterButtons.__events.primaryClick();
 
       // Confirrm the list is now just one desired result
-      const resultsAfter = view.getAllByTestId('dashboard-card');
+      const resultsAfter = view.getAllByTestId('inquiry-card');
       expect(resultsAfter.length).to.equal(1);
       expect(resultsAfter[0].textContent).to.include('Reference number: A-3');
     });
@@ -304,7 +304,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should show error alert when API request fails', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         const errorAlert = view.container.querySelector('va-alert');
@@ -340,7 +340,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should display pagination when there are more than 4 items', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         const pagination = view.container.querySelector('va-pagination');
@@ -354,7 +354,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should update displayed items when page changes', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         // Verify first page content
@@ -379,7 +379,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should update results info text when page changes', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         const filterSummary = view.getByRole('heading', {
@@ -406,7 +406,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should focus on filter summary when page changes', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         const filterSummary = view.getByRole('heading', {
@@ -463,7 +463,7 @@ describe('<DashboardCards>', () => {
         }),
       );
 
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       // Initially should show loading indicator
       const loadingIndicator = view.getByTestId('loading-indicator');
@@ -499,7 +499,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should show empty state message when no inquiries exist', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       await waitFor(() => {
         // Should show the empty state message
@@ -567,7 +567,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should show switchable tabs when both business and personal inquiries exist', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       const tabButtons = await view.findByRole('tablist');
       const businessTabBefore = await view.findByRole('tab', {
@@ -597,7 +597,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should apply filters correctly in business view', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       // Wait for initial load and content
       await waitFor(() => {
@@ -626,7 +626,7 @@ describe('<DashboardCards>', () => {
     });
 
     it('should show correct content in personal view', async () => {
-      const view = render(<DashboardCards />);
+      const view = render(<Inbox />);
 
       // Wait for initial load
       await waitFor(() => {
