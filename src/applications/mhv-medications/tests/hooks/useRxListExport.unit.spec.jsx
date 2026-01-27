@@ -51,10 +51,8 @@ describe('useRxListExport', () => {
   let buildPrescriptionsPDFListStub;
   let buildAllergiesPDFListStub;
   let buildPrescriptionsTXTStub;
-  let buildAllergiesTXTStub;
   let buildPdfDataStub;
   let generateMedicationsPdfFileStub;
-  let generateTextFileStub;
 
   const mockUser = {
     first: 'John',
@@ -171,9 +169,7 @@ describe('useRxListExport', () => {
     });
 
     it('should set isLoading to true during export', async () => {
-      const fetchExportListStub = sandbox
-        .stub()
-        .returns(new Promise(() => {})); // Never resolves
+      const fetchExportListStub = sandbox.stub().returns(new Promise(() => {})); // Never resolves
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
       const { result } = renderHook(() => useRxListExport(props));

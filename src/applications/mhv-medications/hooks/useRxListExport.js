@@ -72,7 +72,8 @@ const useRxListExport = ({
 
   const hasError = useMemo(
     () =>
-      (status.status === PDF_TXT_GENERATE_STATUS.InProgress && allergiesError) ||
+      (status.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+        allergiesError) ||
       exportListError,
     [status, allergiesError, exportListError],
   );
