@@ -163,9 +163,8 @@ describe('Medications List Card Extra Details', () => {
         true,
         true,
       );
-      expect(
-        screen.container.querySelector('.shipping-info').children.length,
-      ).to.equal(0);
+      // V2 Active with refills remaining returns null (component renders nothing)
+      expect(screen.container.querySelector('.shipping-info')).to.not.exist;
     });
   });
 
