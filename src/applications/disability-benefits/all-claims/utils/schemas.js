@@ -29,7 +29,6 @@ import {
 
 import {
   capitalizeEachWord,
-  disabilityIsSelected,
   isClaimingIncrease,
   isNewConditionOption,
   isPlaceholderRated,
@@ -141,10 +140,8 @@ export const makeSchemaForRatedDisabilities = createSelector(
 
     const uniqueRatedDisabilities = [...dedupedByNormalizedName.values()];
 
-
     const properties = uniqueRatedDisabilities.reduce(
-      (schema, disabilityName) =>
-        createCheckboxSchema(schema, disabilityName),
+      (schema, disabilityName) => createCheckboxSchema(schema, disabilityName),
       {},
     );
 
