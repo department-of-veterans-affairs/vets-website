@@ -19,7 +19,10 @@ const stepchildLivesWith = {
      */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.livesWithParent?.first || !itemData.livesWithParent?.last) {
+      if (
+        !itemData.whoDoesTheStepchildLiveWith?.first ||
+        !itemData.whoDoesTheStepchildLiveWith?.last
+      ) {
         scrollToError();
       } else {
         goForward();
@@ -36,8 +39,8 @@ const stepchildLivesWith = {
       const { field, value } = getValue(event);
       handlers.onChange({
         ...itemData,
-        livesWithParent: {
-          ...(itemData.livesWithParent || {}),
+        whoDoesTheStepchildLiveWith: {
+          ...(itemData.whoDoesTheStepchildLiveWith || {}),
           [field]: value,
         },
       });
@@ -57,11 +60,11 @@ const stepchildLivesWith = {
           name="first"
           label="Parent or guardian’s first name"
           onVaInput={onChange}
-          value={itemData.livesWithParent?.first || ''}
+          value={itemData.whoDoesTheStepchildLiveWith?.first || ''}
           error={
-            formSubmitted && !itemData.livesWithParent?.first
+            formSubmitted && !itemData.whoDoesTheStepchildLiveWith?.first
               ? 'Enter a first name'
-              : ''
+              : null
           }
           required
         />
@@ -70,18 +73,18 @@ const stepchildLivesWith = {
           name="middle"
           label="Parent or guardian’s middle name"
           onVaInput={onChange}
-          value={itemData.livesWithParent?.middle || ''}
+          value={itemData.whoDoesTheStepchildLiveWith?.middle || ''}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
           name="last"
           label="Parent or guardian’s last name"
           onVaInput={onChange}
-          value={itemData.livesWithParent?.last || ''}
+          value={itemData.whoDoesTheStepchildLiveWith?.last || ''}
           error={
-            formSubmitted && !itemData.livesWithParent?.last
+            formSubmitted && !itemData.whoDoesTheStepchildLiveWith?.last
               ? 'Enter a last name'
-              : ''
+              : null
           }
           required
         />

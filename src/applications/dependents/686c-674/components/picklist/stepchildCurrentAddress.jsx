@@ -21,8 +21,8 @@ const initialAddressUI = addressUI();
 initialAddressUI.street['ui:errorMessages'].minLength =
   'Enter a valid street address';
 
-const isValidPostalCode = (code, outsideUs) =>
-  outsideUs ? postalRegex.test(code || '') : usZipRegex.test(code || '');
+const isValidPostalCode = (code, isUSA) =>
+  isUSA ? usZipRegex.test(code || '') : postalRegex.test(code || '');
 
 const stepchildCurrentAddress = {
   handlers: {
@@ -40,11 +40,14 @@ const stepchildCurrentAddress = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (
-        !itemData.endStreet ||
-        !itemData.endCity ||
-        !isValidPostalCode(itemData.endPostalCode, itemData.endOutsideUs) ||
-        (!itemData.endOutsideUs && !itemData.endState) ||
-        (itemData.endOutsideUs && !itemData.endCountry)
+        !itemData.address?.street ||
+        !itemData.address?.city ||
+        !isValidPostalCode(
+          itemData.address?.postalCode,
+          itemData.address?.country === 'USA',
+        ) ||
+        (itemData.address?.country === 'USA' && !itemData.address?.state) ||
+        (itemData.address?.country !== 'USA' && !itemData.address?.country)
       ) {
         scrollToError();
       } else {
@@ -59,15 +62,14 @@ const stepchildCurrentAddress = {
    */
   Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const [localData, setLocalData] = useState({
-      city: itemData.endCity || '',
-      country: itemData.endCountry || '',
-      isMilitary: ['APO', 'FPO', 'DPO'].includes(itemData.endCity),
-      endOutsideUs: itemData.endCountry !== 'USA',
-      postalCode: itemData.endPostalCode || '',
-      state: itemData.endState || '',
-      street: itemData.endStreet || '',
-      street2: itemData.endStreet2 || '',
-      street3: itemData.endStreet3 || '',
+      city: itemData.address?.city || '',
+      country: itemData.address?.country || '',
+      isMilitary: ['APO', 'FPO', 'DPO'].includes(itemData.address?.city),
+      postalCode: itemData.address?.postalCode || '',
+      state: itemData.address?.state || '',
+      street: itemData.address?.street || '',
+      street2: itemData.address?.street2 || '',
+      street3: itemData.address?.street3 || '',
     });
     const [schema, setSchema] = useState(addressSchema());
     const [uiSchema, setUiSchema] = useState(initialAddressUI);
@@ -89,15 +91,16 @@ const stepchildCurrentAddress = {
       // Transform local data to formData structure
       handlers.onChange({
         ...itemData,
-        endIsMilitary: result.data.isMilitary,
-        endCountry: result.data.country,
-        endOutsideUs: result.data.country !== 'USA',
-        endCity: (result.data.city || '').trim(),
-        endState: (result.data.state || '').trim(),
-        endStreet: (result.data.street || '').trim(),
-        endStreet2: (result.data.street2 || '').trim(),
-        endStreet3: (result.data.street3 || '').trim(),
-        endPostalCode: (result.data.postalCode || '').trim(),
+        address: {
+          isMilitary: result.data.isMilitary,
+          country: result.data.country,
+          city: (result.data.city || '').trim(),
+          state: (result.data.state || '').trim(),
+          street: (result.data.street || '').trim(),
+          street2: (result.data.street2 || '').trim(),
+          street3: (result.data.street3 || '').trim(),
+          postalCode: (result.data.postalCode || '').trim(),
+        },
       });
     };
 
