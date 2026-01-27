@@ -20,31 +20,15 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
+import { getErrorTypeFromFormat } from '../util/helpers';
 import {
-  dateFormat,
-  displayHeaderPrefaceText,
-  displayMedicationsListHeader,
-  generateTextFile,
-  generateTimestampForFilename,
-  getErrorTypeFromFormat,
-} from '../util/helpers';
-import {
-  PDF_TXT_GENERATE_STATUS,
   rxListSortingOptions,
   medicationsUrls,
-  DOWNLOAD_FORMAT,
-  PRINT_FORMAT,
   ALL_MEDICATIONS_FILTER_KEY,
   defaultSelectedSortOption,
-  DATETIME_FORMATS,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
-import {
-  buildPrescriptionsPDFList,
-  buildAllergiesPDFList,
-} from '../util/pdfConfigs';
-import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import { getFilterOptions } from '../util/helpers/getRxStatus';
 import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -80,12 +64,11 @@ import {
   selectCernerPilotFlag,
   selectV2StatusMappingFlag,
 } from '../util/selectors';
-import { buildPdfData } from '../util/buildPdfData';
-import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
+import useRxExport from '../hooks/useRxExport';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
@@ -175,19 +158,9 @@ const Prescriptions = () => {
   ]);
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
-  const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
-  const [shouldPrint, setShouldPrint] = useState(false);
-  const [printedList, setPrintedList] = useState([]);
-  const [hasExportListDownloadError, setHasExportListDownloadError] = useState(
-    false,
-  );
   const isAlertVisible = useMemo(() => false, []);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState('');
-  const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
-    status: PDF_TXT_GENERATE_STATUS.NotStarted,
-    format: undefined,
-  });
   const scrollLocation = useRef();
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
@@ -198,6 +171,42 @@ const Prescriptions = () => {
       skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
     },
   );
+
+  // Initialize export hook
+  const {
+    onDownload: handleExportListDownload,
+    isLoading: isExportLoading,
+    isSuccess: isExportSuccess,
+    hasError: hasExportError,
+    errorFormat,
+    shouldPrint,
+    printList,
+    exportList,
+    resetExportState,
+    clearPrintTrigger,
+  } = useRxExport({
+    user: { ...userName, dob },
+    allergies,
+    allergiesError,
+    selectedFilterOption,
+    selectedSortOption,
+    currentFilterOptions,
+    features: { isCernerPilot, isV2StatusMapping },
+    fetchExportList: async () => {
+      return dispatch(
+        getPrescriptionsExportList.initiate(
+          {
+            sortEndpoint: rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+            filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
+            includeImage: false,
+          },
+          {
+            forceRefetch: true,
+          },
+        ),
+      );
+    },
+  });
 
   const refillAlertList = prescriptionsData?.refillAlertList || [];
 
@@ -230,10 +239,7 @@ const Prescriptions = () => {
     if (newSortOption && newSortOption !== selectedSortOption) {
       updates.sortEndpoint = rxListSortingOptions[newSortOption].API_ENDPOINT;
       dispatch(setSortOption(newSortOption));
-      setPdfTxtGenerateStatus({
-        ...pdfTxtGenerateStatus,
-        status: PDF_TXT_GENERATE_STATUS.NotStarted,
-      });
+      resetExportState();
     }
 
     // Only update if we have changes
@@ -242,7 +248,7 @@ const Prescriptions = () => {
         ...prev,
         ...updates,
       }));
-      setPrescriptionsExportList([]);
+      resetExportState();
     }
 
     navigate('/?page=1', { replace: true });
@@ -315,190 +321,22 @@ const Prescriptions = () => {
   usePageTitle(basePageTitle);
   usePrintTitle(basePageTitle, userName, dob, updatePageTitle);
 
-  const txtData = useCallback(
-    (rxList, allergiesList) => {
-      return (
-        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
-          'Medications\n\n'}${
-          userName.first
-            ? `${userName.last}, ${userName.first}`
-            : userName.last || ' '
-        }\n\n` +
-        `Date of birth: ${dateFormat(
-          dob,
-          DATETIME_FORMATS.longMonthDate,
-        )}\n\n` +
-        `Report generated by My HealtheVet on VA.gov on ${dateFormat(
-          Date.now(),
-          DATETIME_FORMATS.longMonthDate,
-        )}\n\n` +
-        `${displayHeaderPrefaceText(
-          selectedFilterOption,
-          selectedSortOption,
-          prescriptionsExportList?.length,
-          false,
-        )}\n\n\n` +
-        `${displayMedicationsListHeader(
-          selectedFilterOption,
-          isCernerPilot,
-          isV2StatusMapping,
-          currentFilterOptions,
-        )}\n\n` +
-        `${rxList}${allergiesList ?? ''}`
-      );
-    },
-    [
-      userName,
-      dob,
-      selectedFilterOption,
-      selectedSortOption,
-      prescriptionsExportList,
-      isCernerPilot,
-      isV2StatusMapping,
-      currentFilterOptions,
-    ],
-  );
-
-  const generatePDF = useCallback(
-    async (rxList, allergiesList) => {
-      const pdfDataObj = buildPdfData({
-        userName,
-        dob,
-        selectedFilterOption,
-        selectedSortOption,
-        rxList,
-        allergiesList,
-      });
-      await generateMedicationsPdfFile({ userName, pdfData: pdfDataObj });
-      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
-    },
-    [
-      userName,
-      dob,
-      selectedFilterOption,
-      selectedSortOption,
-      setPdfTxtGenerateStatus,
-    ],
-  );
-
-  const generateTXT = useCallback(
-    (rxList, allergiesList) => {
-      generateTextFile(
-        txtData(rxList, allergiesList),
-        `VA-medications-list-${
-          userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${generateTimestampForFilename()}`,
-      );
-      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
-    },
-    [userName, txtData, setPdfTxtGenerateStatus],
-  );
-
-  useEffect(
-    () => {
-      const { format } = pdfTxtGenerateStatus;
-      const isInProgress =
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress;
-      const exportListReady = !!prescriptionsExportList?.length;
-      const allergiesReady = !!allergies && !allergiesError;
-
-      if (!isInProgress || !exportListReady || !allergiesReady) return;
-
-      if (format === DOWNLOAD_FORMAT.PDF) {
-        generatePDF(
-          buildPrescriptionsPDFList(
-            prescriptionsExportList,
-            isCernerPilot,
-            isV2StatusMapping,
-          ),
-          buildAllergiesPDFList(allergies),
-        );
-      } else if (format === DOWNLOAD_FORMAT.TXT) {
-        generateTXT(
-          buildPrescriptionsTXT(
-            prescriptionsExportList,
-            isCernerPilot,
-            isV2StatusMapping,
-          ),
-          buildAllergiesTXT(allergies),
-        );
-      } else if (format === PRINT_FORMAT.PRINT) {
-        setPrintedList(prescriptionsExportList);
-        setPdfTxtGenerateStatus({
-          status: PDF_TXT_GENERATE_STATUS.NotStarted,
-        });
-        // Set the print trigger instead of using setTimeout
-        setShouldPrint(true);
-      }
-    },
-    [
-      allergies,
-      allergiesError,
-      prescriptionsExportList,
-      pdfTxtGenerateStatus,
-      generatePDF,
-      generateTXT,
-      isCernerPilot,
-      isV2StatusMapping,
-    ],
-  );
-
+  // Handle print trigger from hook
   useEffect(
     () => {
       if (shouldPrint) {
         printRxList();
-        setShouldPrint(false);
+        clearPrintTrigger();
       }
     },
-    [shouldPrint, printRxList],
-  );
-
-  const handleExportListDownload = async format => {
-    setHasExportListDownloadError(false);
-    const isTxtOrPdf =
-      format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
-    setPdfTxtGenerateStatus({
-      status: PDF_TXT_GENERATE_STATUS.InProgress,
-      format,
-    });
-    if (
-      (isTxtOrPdf ||
-        !allergies ||
-        (format === PRINT_FORMAT.PRINT && !prescriptionsExportList.length)) &&
-      !prescriptionsExportList.length
-    ) {
-      const { data, isError } = await dispatch(
-        getPrescriptionsExportList.initiate(
-          {
-            sortEndpoint: rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-            filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
-            includeImage: false,
-          },
-          {
-            forceRefetch: true,
-          },
-        ),
-      );
-
-      if (isError) {
-        setHasExportListDownloadError(true);
-      } else {
-        setPrescriptionsExportList(data.prescriptions);
-      }
-    }
-  };
-
-  const isShowingErrorNotification = Boolean(
-    (pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-      allergiesError) ||
-      hasExportListDownloadError,
+    [shouldPrint, printRxList, clearPrintTrigger],
   );
 
   let contentMarginTop;
   if (paginatedPrescriptionsList?.length || filteredList?.length) {
     contentMarginTop = '0';
   } else {
-    contentMarginTop = isShowingErrorNotification ? '5' : '3';
+    contentMarginTop = hasExportError ? '5' : '3';
   }
 
   const renderLoadingIndicator = () => (
@@ -537,12 +375,12 @@ const Prescriptions = () => {
   );
 
   const renderErrorNotification = () => {
-    if (!isShowingErrorNotification) return null;
+    if (!hasExportError) return null;
 
     return (
       <div className="vads-u-margin-y--3">
         <ApiErrorNotification
-          errorType={getErrorTypeFromFormat(pdfTxtGenerateStatus.format)}
+          errorType={getErrorTypeFromFormat(errorFormat)}
           content="records"
         >
           <div>
@@ -709,15 +547,8 @@ const Prescriptions = () => {
               <BeforeYouDownloadDropdown page={pageType.LIST} />
               <PrintDownload
                 onDownload={handleExportListDownload}
-                isSuccess={
-                  pdfTxtGenerateStatus.status ===
-                  PDF_TXT_GENERATE_STATUS.Success
-                }
-                isLoading={
-                  !allergiesError &&
-                  pdfTxtGenerateStatus.status ===
-                    PDF_TXT_GENERATE_STATUS.InProgress
-                }
+                isSuccess={isExportSuccess}
+                isLoading={isExportLoading}
                 list
                 isFiltered={filterApplied}
               />
@@ -754,14 +585,10 @@ const Prescriptions = () => {
     <div>
       {content()}
       <PrescriptionsPrintOnly
-        list={printedList.length > 0 ? printedList : filteredList}
-        hasError={
-          hasExportListDownloadError || isAlertVisible || !!allergiesError
-        }
+        list={printList.length > 0 ? printList : filteredList}
+        hasError={hasExportError || isAlertVisible || !!allergiesError}
         isFullList={
-          printedList.length > 0
-            ? printedList.length === prescriptionsExportList.length
-            : true
+          printList.length > 0 ? printList.length === exportList.length : true
         }
       />
     </div>
