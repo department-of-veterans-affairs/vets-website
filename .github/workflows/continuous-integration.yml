@@ -1966,7 +1966,7 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments, determine-cd-eligibility]
-    if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
+    if: always() && startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
