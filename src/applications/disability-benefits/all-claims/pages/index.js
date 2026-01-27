@@ -15,6 +15,7 @@ import * as contactInformation from './contactInformation';
 import * as employmentHistory from './employmentHistory';
 import * as evidenceTypes from './evidenceTypes';
 import * as evidenceTypesBDD from './evidenceTypesBDD';
+import * as evidenceChoiceUploadPage from './form0781/supportingEvidenceEnhancement/evidenceChoiceUploadPage';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
 import * as fullyDevelopedClaim from './fullyDevelopedClaim';
@@ -132,6 +133,7 @@ export {
   claimType,
   contactInformation,
   employmentHistory,
+  evidenceChoiceUploadPage,
   evidenceTypes,
   evidenceTypesBDD,
   federalOrders,
