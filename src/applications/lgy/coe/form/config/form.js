@@ -131,19 +131,25 @@ const formConfig = {
     contactInformationChapter: {
       title: 'Your contact information',
       pages: {
-        // mailingAddress: {
-        //   path: 'mailing-address',
-        //   title: mailingAddress.title,
-        //   uiSchema: mailingAddress.uiSchema,
-        //   schema: mailingAddress.schema,
-        //   updateFormData: mailingAddress.updateFormData,
-        // },
-        // additionalInformation: {
-        //   path: 'additional-contact-information',
-        //   title: additionalInformation.title,
-        //   uiSchema: additionalInformation.uiSchema,
-        //   schema: additionalInformation.schema,
-        // },
+        mailingAddress: {
+          path: 'mailing-address',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
+          title: mailingAddress.title,
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
+          updateFormData: mailingAddress.updateFormData,
+        },
+        additionalInformation: {
+          path: 'additional-contact-information',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
+          title: additionalInformation.title,
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
+        },
       },
     },
     serviceHistoryChapter: {
