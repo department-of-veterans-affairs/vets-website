@@ -161,11 +161,11 @@ const SubmissionsPage = title => {
 
 SubmissionsPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
-  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  const sort = searchParams.get(SEARCH_PARAMS.SORT);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
   if (!Object.values(SORT_BY).includes(sort)) {
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.NEWEST);
+    searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.NEWEST);
     searchParams.set(SEARCH_PARAMS.SIZE, SUBMISSION_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, SUBMISSION_DEFAULTS.NUMBER);
     throw redirect(`?${searchParams}`);

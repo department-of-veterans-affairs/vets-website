@@ -21,7 +21,7 @@ const SortForm = ({ options, defaults }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const status = searchParams.get(SEARCH_PARAMS.STATUS) || defaults.STATUS;
-  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER) || defaults.SORT_ORDER;
+  const sort = searchParams.get(SEARCH_PARAMS.SORT) || defaults.SORT;
   const number = searchParams.get(SEARCH_PARAMS.NUMBER) || defaults.NUMBER;
   const size = searchParams.get(SEARCH_PARAMS.SIZE) || defaults.SIZE;
   const selectedIndividual =

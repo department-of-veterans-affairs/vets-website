@@ -10,8 +10,7 @@ const Pagination = ({ meta, defaults }) => {
   const pageSize = Number(searchParams.get('pageSize'));
   const pageSelect = page => {
     const status = searchParams.get(SEARCH_PARAMS.STATUS) || defaults.STATUS;
-    const sort =
-      searchParams.get(SEARCH_PARAMS.SORTORDER) || defaults.SORT_ORDER;
+    const sort = searchParams.get(SEARCH_PARAMS.SORT) || defaults.SORT;
     const selectedIndividual =
       searchParams.get(SEARCH_PARAMS.SELECTED_INDIVIDUAL) ||
       defaults.SELECTED_INDIVIDUAL;

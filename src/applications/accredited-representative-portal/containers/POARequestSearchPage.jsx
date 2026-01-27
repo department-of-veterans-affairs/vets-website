@@ -277,7 +277,7 @@ POARequestSearchPage.propTypes = {
 POARequestSearchPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
-  const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
+  const sort = searchParams.get(SEARCH_PARAMS.SORT);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
   const selectedIndividual = searchParams.get(
@@ -288,7 +288,7 @@ POARequestSearchPage.loader = async ({ request }) => {
     !Object.values(STATUSES).includes(sort)
   ) {
     searchParams.set(SEARCH_PARAMS.STATUS, STATUSES.PENDING);
-    searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.NEWEST);
+    searchParams.set(SEARCH_PARAMS.SORT, SORT_BY.NEWEST);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     searchParams.set(

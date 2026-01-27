@@ -98,7 +98,7 @@ describe('SubmissionsPage', () => {
       PENDING_SORT_DEFAULTS,
     } = require('../../../utilities/constants');
 
-    expect(SEARCH_PARAMS.SORTORDER).to.exist;
+    expect(SEARCH_PARAMS.SORT).to.exist;
     expect(SEARCH_PARAMS.SIZE).to.exist;
     expect(SEARCH_PARAMS.NUMBER).to.exist;
 
