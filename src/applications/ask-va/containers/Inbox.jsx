@@ -10,10 +10,10 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ServerErrorAlert } from '../config/helpers';
 import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
-import { categorizeByLOA, filterAndSort } from '../utils/dashboard';
-import InquiriesList from '../components/dashboard/InquiriesList';
+import { categorizeByLOA, filterAndSort } from '../utils/inbox';
+import InquiriesList from '../components/inbox/InquiriesList';
 
-export default function DashboardCards() {
+export default function Inbox() {
   const [error, hasError] = useState(false);
   const [inquiries, setInquiries] = useState({ business: [], personal: [] });
   const [categories, setCategories] = useState([]);
@@ -54,7 +54,7 @@ export default function DashboardCards() {
 
   useEffect(
     () => {
-      // Focus element if we're on the main dashboard
+      // Focus element if we're on the main inbox
       if (window.location.pathname.includes('introduction')) {
         focusElement('.schemaform-title > h1');
       }
@@ -158,6 +158,7 @@ export default function DashboardCards() {
                   setStatusFilter(pendingStatusFilter);
                   setCategoryFilter(pendingCategoryFilter);
                   setQuery(pendingQuery);
+                  focusElement('#search-description');
                 }}
                 onSecondaryClick={() => {
                   setStatusFilter('All');
@@ -166,6 +167,7 @@ export default function DashboardCards() {
                   setPendingQuery('');
                   setPendingStatusFilter('All');
                   setPendingCategoryFilter('All');
+                  focusElement('#search-description');
                 }}
                 leftButtonText="Apply"
                 rightButtonText="Clear"
