@@ -185,7 +185,7 @@ const ThreadDetails = props => {
               <MessageActionButtons
                 threadId={threadId}
                 message={messages[0]}
-                cannotReply={threadCantReply}
+                hideReplyButton={threadCantReply}
                 isCreateNewModalVisible={isCreateNewModalVisible}
                 setIsCreateNewModalVisible={setIsCreateNewModalVisible}
               />
@@ -225,7 +225,7 @@ const ThreadDetails = props => {
             <MessageActionButtons
               threadId={threadId}
               message={messages[0]}
-              cannotReply={threadCantReply}
+              hideReplyButton={threadCantReply}
               isCreateNewModalVisible={isCreateNewModalVisible}
               setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             />
