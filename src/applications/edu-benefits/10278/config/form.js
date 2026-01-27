@@ -191,7 +191,7 @@ const formConfig = {
           title: 'Security setup',
           uiSchema: securitySetupPinPassword.uiSchema,
           schema: securitySetupPinPassword.schema,
-          depends: formData => formData?.securitySetup?.question === 'pin',
+          depends: formData => formData?.securityQuestion?.question === 'pin',
           onNavBack: ({ goPath }) => {
             goPath('/security-setup');
           },
@@ -201,7 +201,8 @@ const formConfig = {
           title: 'Security setup',
           uiSchema: securitySetupCustomQuestion.uiSchema,
           schema: securitySetupCustomQuestion.schema,
-          depends: formData => formData?.securitySetup?.question === 'create',
+          depends: formData =>
+            formData?.securityQuestion?.question === 'create',
           onNavBack: ({ goPath }) => {
             goPath('/security-setup');
           },

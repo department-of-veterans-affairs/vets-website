@@ -178,4 +178,120 @@ describe('22-10278 formConfig – navigation logic', () => {
       expect(goPath.calledWith('/third-party-person-details')).to.be.true;
     });
   });
+
+  describe('securitySetupChapter -> securitySetup onNavForward', () => {
+    const page = formConfig.chapters.securitySetupChapter.pages.securitySetup;
+
+    it('is wired with onNavForward function', () => {
+      expect(page.onNavForward).to.be.a('function');
+    });
+
+    it('navigates to the correct follow-up page based on selected question', () => {
+      const questionToPath = {
+        pin: '/security-setup-pin-password',
+        create: '/security-setup-custom-question',
+        motherBornLocation: '/security-setup-mother-born-location',
+        highSchool: '/security-setup-high-school',
+        petName: '/security-setup-pet-name',
+        teacherName: '/security-setup-teacher-name',
+        fatherMiddleName: '/security-setup-father-middle-name',
+      };
+
+      Object.entries(questionToPath).forEach(([question, expectedPath]) => {
+        const goPath = sinon.spy();
+        const formData = {
+          securityQuestion: { question },
+        };
+
+        page.onNavForward({ formData, goPath });
+
+        expect(goPath.calledOnce).to.be.true;
+        expect(goPath.calledWith(expectedPath)).to.be.true;
+      });
+    });
+
+    it('does not navigate when no question is selected', () => {
+      const goPath = sinon.spy();
+      const formData = {};
+
+      page.onNavForward({ formData, goPath });
+
+      expect(goPath.called).to.be.false;
+    });
+  });
+
+  describe('securitySetupChapter -> follow-up pages depends and onNavBack', () => {
+    const {
+      securitySetupPinPassword,
+      securitySetupCustomQuestion,
+      securitySetupMotherBornLocation,
+      securitySetupHighSchool,
+      securitySetupPetName,
+      securitySetupTeacherName,
+      securitySetupFatherMiddleName,
+    } = formConfig.chapters.securitySetupChapter.pages;
+
+    const cases = [
+      {
+        page: securitySetupPinPassword,
+        value: 'pin',
+      },
+      {
+        page: securitySetupCustomQuestion,
+        value: 'create',
+      },
+      {
+        page: securitySetupMotherBornLocation,
+        value: 'motherBornLocation',
+      },
+      {
+        page: securitySetupHighSchool,
+        value: 'highSchool',
+      },
+      {
+        page: securitySetupPetName,
+        value: 'petName',
+      },
+      {
+        page: securitySetupTeacherName,
+        value: 'teacherName',
+      },
+      {
+        page: securitySetupFatherMiddleName,
+        value: 'fatherMiddleName',
+      },
+    ];
+
+    cases.forEach(({ page, value }) => {
+      it(`depends on securityQuestion.question === "${value}"`, () => {
+        expect(page.depends).to.be.a('function');
+
+        expect(
+          page.depends({
+            securityQuestion: { question: value },
+          }),
+        ).to.be.true;
+
+        expect(
+          page.depends({
+            securityQuestion: { question: 'other' },
+          }),
+        ).to.be.false;
+
+        expect(page.depends({})).to.be.false;
+        expect(page.depends(undefined)).to.be.false;
+      });
+
+      it(`navigates back to /security-setup for "${value}" page`, () => {
+        expect(page.onNavBack).to.be.a('function');
+
+        const goPath = sinon.spy();
+
+        page.onNavBack({ goPath });
+
+        expect(goPath.calledOnce).to.be.true;
+        expect(goPath.calledWith('/security-setup')).to.be.true;
+      });
+    });
+  });
 });

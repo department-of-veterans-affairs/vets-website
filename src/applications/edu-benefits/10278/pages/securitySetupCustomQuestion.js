@@ -4,7 +4,6 @@ import {
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-// Examples accordion component
 const AdditionalInfo = () => (
   <va-additional-info trigger="Examples of security questions">
     <ul>
