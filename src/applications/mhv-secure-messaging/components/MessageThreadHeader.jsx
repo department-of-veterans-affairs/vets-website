@@ -15,6 +15,7 @@ import {
 import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
+import StaleMessageAlert from './shared/StaleMessageAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import ReplyButton from './ReplyButton';
@@ -35,7 +36,10 @@ const MessageThreadHeader = props => {
     isOhMessage = false,
   } = message;
 
-  const { customFoldersRedesignEnabled } = useFeatureToggles();
+  const {
+    customFoldersRedesignEnabled,
+    useCanReplyField,
+  } = useFeatureToggles();
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -46,6 +50,9 @@ const MessageThreadHeader = props => {
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
   const messages = useSelector(state => state.sm.threadDetails.messages);
+  const { isStale, providerAllowsReply } = useSelector(
+    state => state.sm.threadDetails,
+  );
 
   useEffect(
     () => {
@@ -108,10 +115,32 @@ const MessageThreadHeader = props => {
           {`Messages: ${categoryLabel} - ${subject}`}
         </h1>
 
-        <CannotReplyAlert
-          visible={cannotReply && !showBlockedTriageGroupAlert}
-          isOhMessage={isOhMessage}
-        />
+        {useCanReplyField ? (
+          <>
+            <CannotReplyAlert
+              visible={
+                cannotReply &&
+                !providerAllowsReply &&
+                !showBlockedTriageGroupAlert
+              }
+              isOhMessage={isOhMessage}
+            />
+            <StaleMessageAlert
+              visible={
+                cannotReply &&
+                isStale &&
+                providerAllowsReply &&
+                !showBlockedTriageGroupAlert
+              }
+              isOhMessage={isOhMessage}
+            />
+          </>
+        ) : (
+          <StaleMessageAlert
+            visible={cannotReply && isStale && !showBlockedTriageGroupAlert}
+            isOhMessage={isOhMessage}
+          />
+        )}
       </header>
 
       {currentRecipient && (

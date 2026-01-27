@@ -97,6 +97,7 @@ export const retrieveMessageThread = messageId => async dispatch => {
         replyToName,
         threadFolderId,
         isStale: isOlderThan(lastSentDate, 45),
+        providerAllowsReply: canReply,
         cannotReply: isOlderThan(lastSentDate, 45) || !canReply,
         replyToMessageId: response.data[0].attributes.messageId,
         drafts: drafts.map(m => ({

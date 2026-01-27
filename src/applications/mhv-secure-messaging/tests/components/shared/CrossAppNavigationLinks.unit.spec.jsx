@@ -4,7 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { cleanup, waitFor } from '@testing-library/react';
 import reducer from '../../../reducers';
 import BlockedTriageGroupAlert from '../../../components/shared/BlockedTriageGroupAlert';
-import CannotReplyAlert from '../../../components/shared/CannotReplyAlert';
+import StaleMessageAlert from '../../../components/shared/StaleMessageAlert';
 import EditSignatureLink from '../../../components/ComposeForm/EditSignatureLink';
 import CernerTransitioningFacilityAlert from '../../../components/Alerts/CernerTransitioningFacilityAlert';
 import {
@@ -78,10 +78,10 @@ describe('Cross-App Navigation Links', () => {
     });
   });
 
-  describe('CannotReplyAlert - mixed internal and cross-app links', () => {
+  describe('StaleMessageAlert - mixed internal and cross-app links', () => {
     it('renders /find-locations as VaLinkAction for OH messages', () => {
       const screen = renderWithStoreAndRouter(
-        <CannotReplyAlert visible isOhMessage />,
+        <StaleMessageAlert visible isOhMessage />,
         {
           initialState: { sm: {} },
           reducers: reducer,
@@ -100,7 +100,7 @@ describe('Cross-App Navigation Links', () => {
 
     it('renders Paths.COMPOSE as RouterLinkAction (same SPA internal navigation)', () => {
       const screen = renderWithStoreAndRouter(
-        <CannotReplyAlert visible isOhMessage={false} />,
+        <StaleMessageAlert visible isOhMessage={false} />,
         {
           initialState: { sm: {} },
           reducers: reducer,

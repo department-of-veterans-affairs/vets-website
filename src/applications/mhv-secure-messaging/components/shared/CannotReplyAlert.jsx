@@ -1,53 +1,20 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaAlert,
-  VaLinkAction,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Alerts, Paths } from '../../util/constants';
 import RouterLinkAction from './RouterLinkAction';
-import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const CannotReplyAlert = props => {
-  const { visible, isOhMessage = false } = props;
-  const { isStale } = useSelector(state => state.sm.threadDetails);
-  const { useCanReplyField } = useFeatureToggles();
-
-  const staleOrCannotReply = useMemo(
-    () => {
-      return useCanReplyField ? isStale : visible;
-    },
-    [useCanReplyField, visible, isStale],
-  );
+  const { visible } = props;
 
   return (
     <>
-      {staleOrCannotReply && (
-        <VaAlert status="info" class="vads-u-margin-y--4">
-          <h2 slot="headline" data-testid="expired-alert-message">
+      {visible && (
+        <VaAlert status="warning" class="vads-u-margin-y--4">
+          <h2 slot="headline" data-testid="cannot-reply-alert-message">
             {Alerts.Message.CANNOT_REPLY_INFO_HEADER}
           </h2>
-          {!isOhMessage ? (
-            <p>
-              {`${Alerts.Message.CANNOT_REPLY_BODY.MAIN} ${
-                Alerts.Message.CANNOT_REPLY_BODY.VISTA
-              }`}
-            </p>
-          ) : (
-            <>
-              <p>{Alerts.Message.CANNOT_REPLY_BODY.MAIN}</p>
-              <p>{Alerts.Message.CANNOT_REPLY_BODY.OH}</p>
-              <p>
-                <VaLinkAction
-                  data-dd-action-name="cannot-reply-find-facility"
-                  href="/find-locations"
-                  text="Find your VA health facility"
-                />
-              </p>
-              <p>{Alerts.Message.CANNOT_REPLY_BODY.OH_CONTACT}</p>
-            </>
-          )}
+          <p>{Alerts.Message.CANNOT_REPLY_BODY}</p>
           <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
             <RouterLinkAction
               data-dd-action-name="Start a new message - 45 day alert"

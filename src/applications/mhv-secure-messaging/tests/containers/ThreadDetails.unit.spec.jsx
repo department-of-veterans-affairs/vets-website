@@ -356,6 +356,7 @@ describe('Thread Details container', () => {
         },
         threadDetails: {
           isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
+          providerAllowsReply: true,
           cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
           drafts: [
             {
@@ -410,7 +411,7 @@ describe('Thread Details container', () => {
       'va-link-action[data-dd-action-name="cannot-reply-find-facility"]',
     );
     expect(findFacilityLink).to.exist;
-    expect(screen.getByText(Alerts.Message.CANNOT_REPLY_BODY.OH)).to.exist;
+    expect(screen.getByText(Alerts.Message.STALE_REPLY_BODY.OH)).to.exist;
     expect(
       screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
     ).to.contain(olderMessage.body);
@@ -449,6 +450,7 @@ describe('Thread Details container', () => {
           isStale: false,
           // cannotReply is true from API (provider disabled replies)
           cannotReply: true,
+          providerAllowsReply: false,
           drafts: [
             {
               ...replyDraftMessage,
@@ -486,7 +488,9 @@ describe('Thread Details container', () => {
     expect(document.querySelector('va-textarea')).to.not.exist;
 
     // Since the message is less than 45 days old, the stale alert should NOT be shown
+    // but the cannot reply alert should be shown
     expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    expect(screen.queryByTestId('cannot-reply-alert-message')).to.exist;
 
     // Since cannotReply is true, the reply button is missing
     expect(screen.queryByText('Reply')).to.not.exist;
