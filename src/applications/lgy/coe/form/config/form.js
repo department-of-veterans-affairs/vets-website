@@ -34,30 +34,6 @@ import serviceStatus2 from '../pages/serviceStatus2';
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
 
-const customConfig = {
-  // Page identification
-  contactInfoPageKey: 'confirmContactInformation',
-  contactPath: 'contact-information',
-  // Content customization
-  content: getContent('application'), // or custom content object
-  // Data keys - customize where contact info is stored in form data
-  wrapperKey: 'veteran',
-  emailKey: 'email',
-  homePhoneKey: 'homePhone',
-  mobilePhoneKey: 'mobilePhone',
-  addressKey: 'mailingAddress',
-  // Which fields to include
-  included: ['email', 'mobilePhone', 'mailingAddress'], // Excludes home phone
-  // Required fields - prevents form continuation if missing
-  contactInfoRequiredKeys: ['email', 'mobilePhone', 'mailingAddress'],
-  // UI options
-  contactSectionHeadingLevel: 'h4', // Default: 'h3' (main page) or 'h4' (review)
-  editContactInfoHeadingLevel: 'h3', // Default: 'h3'
-  disableMockContactInfo: false, // Disable mock data in local development
-
-  prefillPatternEnabled: true, // Enable prefill pattern features
-};
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
