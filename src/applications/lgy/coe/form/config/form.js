@@ -28,6 +28,8 @@ import { fileUpload } from './chapters/documents';
 
 import serviceStatus2 from '../pages/serviceStatus2';
 import certificateUse from '../pages/certificateUse';
+import { certificateUseOptions } from '../constants';
+import hadPriorLoans from '../pages/hadPriorLoans';
 // import disabilitySeparation from '../pages/disabilitySeparation';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
@@ -185,6 +187,22 @@ const formConfig = {
           },
           uiSchema: certificateUse.uiSchema,
           schema: certificateUse.schema,
+        },
+        hadPriorLoans: {
+          path: 'prior-loans',
+          title: 'Previous VA home loans',
+          depends: formData => {
+            return (
+              formData['view:coeFormRebuildCveteam'] &&
+              [
+                certificateUseOptions.ENTITLEMENT_INQUIRY_ONLY,
+                certificateUseOptions.HOME_PURCHASE,
+                certificateUseOptions.CASH_OUT_REFINANCE,
+              ].includes(formData?.certificateUse)
+            );
+          },
+          uiSchema: hadPriorLoans.uiSchema,
+          schema: hadPriorLoans.schema,
         },
       },
     },
