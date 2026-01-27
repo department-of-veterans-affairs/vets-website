@@ -1171,16 +1171,19 @@ jobs:
 
       - name: Set up Git
         if: needs.tests-prep.outputs.cypress-tests != '[]'
+        working-directory: ${{ github.workspace }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
       - name: Fetch target branch
         if: needs.tests-prep.outputs.cypress-tests != '[]'
+        working-directory: ${{ github.workspace }}
         run: git fetch origin ${{ github.head_ref }}
 
       - name: Merge in feature branch
         if: needs.tests-prep.outputs.cypress-tests != '[]'
+        working-directory: ${{ github.workspace }}
         run: git merge -X ours origin/${{ github.ref_name }} --no-edit
 
       - name: Download production build artifact
