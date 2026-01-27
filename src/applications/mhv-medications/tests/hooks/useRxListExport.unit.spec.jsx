@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor, render } from '@testing-library/react';
 import sinon from 'sinon';
-import useRxExport from '../../hooks/useRxExport';
+import useRxListExport from '../../hooks/useRxListExport';
 import * as pdfConfigs from '../../util/pdfConfigs';
 import * as txtConfigs from '../../util/txtConfigs';
 import * as buildPdfData from '../../util/buildPdfData';
@@ -46,7 +46,7 @@ function renderHook(renderCallback, options = {}) {
   return { result, rerender, unmount };
 }
 
-describe('useRxExport', () => {
+describe('useRxListExport', () => {
   let sandbox;
   let buildPrescriptionsPDFListStub;
   let buildAllergiesPDFListStub;
@@ -110,7 +110,7 @@ describe('useRxExport', () => {
 
   describe('initial state', () => {
     it('should return correct initial values', () => {
-      const { result } = renderHook(() => useRxExport(defaultProps));
+      const { result } = renderHook(() => useRxListExport(defaultProps));
 
       expect(result.current.isLoading).to.be.false;
       expect(result.current.isSuccess).to.be.false;
@@ -133,7 +133,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -149,7 +149,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -160,7 +160,7 @@ describe('useRxExport', () => {
     });
 
     it('should set error state when fetchExportList is not provided', async () => {
-      const { result } = renderHook(() => useRxExport(defaultProps));
+      const { result } = renderHook(() => useRxListExport(defaultProps));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -176,7 +176,7 @@ describe('useRxExport', () => {
         .returns(new Promise(() => {})); // Never resolves
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -194,7 +194,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(PRINT_FORMAT.PRINT);
 
@@ -211,7 +211,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(PRINT_FORMAT.PRINT);
 
@@ -235,7 +235,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -254,7 +254,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -274,7 +274,7 @@ describe('useRxExport', () => {
         features: { isCernerPilot: true, isV2StatusMapping: true },
         fetchExportList: fetchExportListStub,
       };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -302,7 +302,7 @@ describe('useRxExport', () => {
         features: { isCernerPilot: true, isV2StatusMapping: true },
         fetchExportList: fetchExportListStub,
       };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.TXT);
 
@@ -334,7 +334,7 @@ describe('useRxExport', () => {
         allergiesError: new Error('Allergies API error'),
         fetchExportList: fetchExportListStub,
       };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -354,7 +354,7 @@ describe('useRxExport', () => {
         allergiesError: new Error('Allergies API error'),
         fetchExportList: fetchExportListStub,
       };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -376,7 +376,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       // Trigger export
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
@@ -406,7 +406,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -432,7 +432,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
@@ -448,7 +448,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(DOWNLOAD_FORMAT.TXT);
 
@@ -464,7 +464,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       result.current.onDownload(PRINT_FORMAT.PRINT);
 
@@ -482,7 +482,7 @@ describe('useRxExport', () => {
       });
 
       const props = { ...defaultProps, fetchExportList: fetchExportListStub };
-      const { result } = renderHook(() => useRxExport(props));
+      const { result } = renderHook(() => useRxListExport(props));
 
       // Initial status
       expect(result.current.status.status).to.equal(
