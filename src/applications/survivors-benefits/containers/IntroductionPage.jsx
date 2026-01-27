@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../utils/constants';
 
-const OMB_RES_BURDEN = 40;
+const OMB_RES_BURDEN = '40';
 const OMB_NUMBER = '2900-0004';
 const OMB_EXP_DATE = '08/31/2028';
 
@@ -99,37 +99,101 @@ const ProcessList = () => {
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
-  const { route } = props;
+  const { route, routes, router } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+  const showVerifyIdentify =
+    userLoggedIn &&
+    !userIdVerified; /* If User's signed-in but not identity-verified [not LOA3] */
 
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
   }, []);
 
+  const appendLoggedInQueryParam = (windowLocation = window.location) => {
+    return `${windowLocation.origin}${windowLocation.pathname}?loggedIn=true`;
+  };
+
+  // Determine the first form route path (exclude intro/confirmation-style routes)
+  // const getFirstFormPath = () => {
+  //   const childRoutes = routes?.[0]?.childRoutes || [];
+  //   const exclude = [
+  //     'introduction',
+  //     'review-and-submit',
+  //     'confirmation',
+  //     'confirm',
+  //   ];
+  //   const first = childRoutes.find(r => r?.path && !exclude.includes(r.path));
+  //   return first?.path || childRoutes[0]?.path || null;
+  // };
+
+  const mockSignInButton = () => {
+    const text = userLoggedIn
+      ? 'Continue your application'
+      : 'Sign in to start your application';
+
+    const nextRoute = userLoggedIn
+      ? routes[0].childRoutes[1].path // first page of form
+      : appendLoggedInQueryParam();
+
+    const onContinueButtonClick = event => {
+      event.preventDefault();
+      if (nextRoute) {
+        router.push(nextRoute);
+        return;
+      }
+      window.location = nextRoute;
+    };
+
+    const onSignInButtonClick = () => {
+      const redirectLocation = `${formConfig.rootUrl}${
+        formConfig.urlPrefix
+      }introduction?loggedIn=true`;
+
+      window.location = redirectLocation;
+    };
+
+    const LoggedInLink = () =>
+      userLoggedIn ? (
+        <va-link-action
+          type="primary"
+          onClick={onContinueButtonClick}
+          text={text}
+          href={nextRoute}
+        />
+      ) : (
+        <va-button onClick={onSignInButtonClick} text={text} />
+      );
+
+    return <LoggedInLink />;
+  };
+
+  // TODO: Consolidate return into IntroductionPageView component
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <IntroductionText />
-      <h2 className="vad-u-margin-top--0">
+      <h2 className="vads-u-margin-top--0">
         Follow these steps to get started:
       </h2>
       <ProcessList />
       {showVerifyIdentify ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          hideUnauthedStartLink
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Apply for survivors benefits"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
+        <>
+          <SaveInProgressIntro
+            headingLevel={2}
+            hideUnauthedStartLink
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            pageList={pageList}
+            startText="Apply for survivors benefits"
+            devOnly={{
+              forceShowFormControls: false,
+            }}
+            customLink={mockSignInButton}
+          />
+        </>
       )}
       <p />
       <va-omb-info
@@ -146,12 +210,18 @@ IntroductionPage.propTypes = {
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool.isRequired,
       savedFormMessages: PropTypes.object.isRequired,
+      rootUrl: PropTypes.string.isRequired,
+      urlPrefix: PropTypes.string.isRequired,
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  routes: PropTypes.array,
 };
 
 export default IntroductionPage;
