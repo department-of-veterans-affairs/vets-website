@@ -23,7 +23,7 @@ const uiSchema = {
       ...radioUI({
         labels: securityOptions,
         errorMessages: {
-          required: 'You must select a security option',
+          required: 'You must provide an answer',
         },
       }),
     },

@@ -27,7 +27,7 @@ describe('10278 securitySetup page', () => {
       questionUI['ui:errorMessages'] || options.errorMessages || {};
     expect(errorMessages).to.have.property(
       'required',
-      'You must select a security option',
+      'You must provide an answer',
     );
   });
 
