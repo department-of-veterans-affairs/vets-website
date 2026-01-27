@@ -68,7 +68,7 @@ import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
-import useRxExport from '../hooks/useRxExport';
+import useRxListExport from '../hooks/useRxListExport';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
@@ -184,7 +184,7 @@ const Prescriptions = () => {
     exportList,
     resetExportState,
     clearPrintTrigger,
-  } = useRxExport({
+  } = useRxListExport({
     user: { ...userName, dob },
     allergies,
     allergiesError,

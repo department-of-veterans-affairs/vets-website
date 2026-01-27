@@ -27,7 +27,7 @@ import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
  * Hook to manage generating PDF/TXT/print exports for prescriptions list.
  * Consumers supply user info, allergies data, feature flags, and a fetcher for the export list.
  */
-const useRxExport = ({
+const useRxListExport = ({
   user,
   allergies,
   allergiesError,
@@ -279,4 +279,4 @@ const useRxExport = ({
   };
 };
 
-export default useRxExport;
+export default useRxListExport;
