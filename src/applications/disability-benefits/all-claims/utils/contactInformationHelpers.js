@@ -54,11 +54,9 @@ export const getRegularStateOptions = () => {
  */
 export const isMilitaryLocation = (city, state) => {
   const isMilitaryCity =
-    city &&
     typeof city === 'string' &&
     MILITARY_CITIES.includes(city.trim().toUpperCase());
   const isMilitaryState =
-    state &&
     typeof state === 'string' &&
     MILITARY_STATE_VALUES.includes(state.trim().toUpperCase());
   return isMilitaryCity || isMilitaryState;
