@@ -51,9 +51,11 @@ describe('useRxListExport', () => {
   let buildPrescriptionsPDFListStub;
   let buildAllergiesPDFListStub;
   let buildPrescriptionsTXTStub;
+  // eslint-disable-next-line no-unused-vars
   let buildAllergiesTXTStub;
   let buildPdfDataStub;
   let generateMedicationsPdfFileStub;
+  // eslint-disable-next-line no-unused-vars
   let generateTextFileStub;
 
   const mockUser = {
