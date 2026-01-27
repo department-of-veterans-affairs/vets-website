@@ -5,6 +5,7 @@
     "isTerminallyIll": false,
     "view:terminallyIllInfo": {},
     "view:hasEvidence": false,
+    "view:hasEvidenceChoice": false,
     "view:powStatus": false,
     "skip781ForCombatReason": false,
     "skip781ForNonCombatReason": true,
