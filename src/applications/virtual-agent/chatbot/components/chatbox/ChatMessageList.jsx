@@ -27,7 +27,7 @@ export default function ChatMessageList({ messages, errorMessage }) {
   return (
     <ul
       aria-live="polite"
-      className="vads-u-margin--0 vads-u-padding--0"
+      className="vads-u-margin--0 vads-u-padding--1p5"
       data-testid="chat-message-list"
       style={{ listStyle: 'none' }}
     >

@@ -31,7 +31,7 @@ export default function ChatboxContainer({
           {title}
         </h2>
       </div>
-      <div className="vads-u-padding--1p5">{children}</div>
+      <div className="vads-u-background-color--white">{children}</div>
     </div>
   );
 }

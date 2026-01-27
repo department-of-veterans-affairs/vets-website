@@ -4,10 +4,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ACCEPTED } from '../../../../../webchat/reducers';
 import { clearBotSessionStorage } from '../../../../../webchat/utils/sessionStorage';
-import { selectChatbotHasAcceptedDisclaimer } from '../../../../store';
-import AiDisclaimer from './AiDisclaimer';
 import ChatboxContainer from '../../../../components/chatbox/ChatboxContainer';
 import ChatMessageList from '../../../../components/chatbox/ChatMessageList';
+import { selectChatbotHasAcceptedDisclaimer } from '../../../../store';
+import AiDisclaimer from './AiDisclaimer';
 
 /**
  * Handle click on the accept disclaimer button
@@ -52,11 +52,13 @@ export default function RightColumnContent({ onAccept }) {
   const dispatch = useDispatch();
   const hasAcceptedDisclaimer = useSelector(selectChatbotHasAcceptedDisclaimer);
 
+  // Sample messages for demonstration purposes. Remove these when integrating with backend.
   const messages = [
     {
       id: 'welcome',
       sender: 'va',
-      text: "Hi, I'm the VA chatbot. I can help with VA.gov questions.",
+      text:
+        "Welcome to the VA chatbot. I'm here to help you with your questions about VA benefits and services.",
     },
     {
       id: 'user-question',
@@ -70,8 +72,9 @@ export default function RightColumnContent({ onAccept }) {
     },
   ];
 
+  // Sample error message for demonstration purposes. Remove when integrating with backend.
   const errorMessage =
-    "We can't load more responses right now. Please try again later.";
+    "We can't load the chatbot right now. Please try again later.";
 
   return (
     <ChatboxContainer>
@@ -87,9 +90,11 @@ export default function RightColumnContent({ onAccept }) {
                 room, dial 988 and press 1 for mental health support, or call
                 911 to get medical care right away.
                 <br />
-                <a href="/health-care/health-needs-conditions/mental-health/">
-                  Learn more about VA mental health services
-                </a>
+                <va-link
+                  href="/health-care/health-needs-conditions/mental-health/"
+                  text="Learn more about VA mental health services"
+                  external
+                />
               </li>
               <li>
                 Please don’t type any personal information such as your name,
