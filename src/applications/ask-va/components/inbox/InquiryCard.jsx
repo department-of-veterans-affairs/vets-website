@@ -5,20 +5,24 @@ import { formatDate } from '../../config/helpers';
 import { getConversationLink } from '../../utils/links';
 
 /**
- * @param {{
- *   inquiry: {
- *     status: string,
- *     createdOn: string,
- *     lastUpdate: string,
- *     inquiryNumber: string,
- *     categoryName: string,
- *     submitterQuestion: string
- *   }
- * }} props
+ * @typedef {Object} Inquiry
+ * @property {string} id
+ * @property {string} status
+ * @property {string} createdOn
+ * @property {string} lastUpdate
+ * @property {string} inquiryNumber
+ * @property {string} categoryName
+ * @property {string} submitterQuestion
+ */
+
+export {};
+
+/**
+ * @param {{ inquiry: Inquiry }}
  */
 export default function InquiryCard({ inquiry }) {
   return (
-    <va-card class="inquiry-card" data-testid="dashboard-card">
+    <va-card class="inquiry-card" data-testid="inquiry-card">
       <div>
         <h3>
           <span className="sr-only">Status </span>
