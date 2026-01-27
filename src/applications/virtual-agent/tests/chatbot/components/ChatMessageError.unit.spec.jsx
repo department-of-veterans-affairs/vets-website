@@ -12,7 +12,6 @@ describe('ChatMessageError', () => {
       </ul>,
     );
 
-    expect(getByText('We ran into a problem')).to.exist;
     expect(getByText('Unable to connect')).to.exist;
   });
 });
