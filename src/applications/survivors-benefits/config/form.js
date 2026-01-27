@@ -79,15 +79,19 @@ import { transform } from './submit-transformer';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/survivors_benefits/v0/form534ez`,
+  // submitUrl: `${environment.API_URL}/survivors_benefits/v0/form534ez`,
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123456789' } }),
   transformForSubmit: transform,
   trackingPrefix: 'survivors-534ez',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,
   dev: {
     disableWindowUnloadInCI: true,
-    showNavLinks: true,
-    collapsibleNavLinks: true,
+    // showNavLinks: true,
+    // collapsibleNavLinks: true,
+    showNavLinks: false,
+    collapsibleNavLinks: false,
   },
   downtime: {
     dependencies: [externalServices.icmhs],
@@ -135,6 +139,7 @@ const formConfig = {
           path: 'veteran',
           uiSchema: veteranName.uiSchema,
           schema: veteranName.schema,
+          // initialData: getMockedData(mockData, isLocalhostOrDev),
         },
         veteranIdentification: {
           title: 'Veteran’s identification information',

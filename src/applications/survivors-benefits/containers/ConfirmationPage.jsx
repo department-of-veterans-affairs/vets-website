@@ -17,7 +17,7 @@ export const ConfirmationPage = props => {
       confirmationNumber={confirmationNumber}
       pdfUrl={attributes?.pdfUrl}
       devOnly={{
-        showButtons: true,
+        showButtons: false,
       }}
     >
       <ConfirmationView.SubmissionAlert />
