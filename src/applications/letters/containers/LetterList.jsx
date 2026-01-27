@@ -34,7 +34,7 @@ export class LetterList extends React.Component {
     });
     if (
       this.props.tsaSafeTravelLetter &&
-      this.props.profile.loa.current === 3
+      this.props.profile?.loa?.current === 3
     ) {
       this.props.getTsaLetterEligibility();
     }
