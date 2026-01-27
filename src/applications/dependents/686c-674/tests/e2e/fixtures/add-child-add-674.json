@@ -75,6 +75,7 @@
       },
       "biologicalParentSsn": "333445556",
       "biologicalParentDob": "1990-06-19",
+      "relationshipType": "STEPCHILD",
       "relationshipToChild": {
         "adopted": true,
         "stepchild": true

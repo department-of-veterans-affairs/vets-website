@@ -25,6 +25,7 @@ addressUI.state['ui:errorMessages'] = {
   required: 'Select a state',
   enum: 'Select a state',
 };
+addressUI.state['ui:required'] = () => true;
 delete addressUI.state['ui:options'].replaceSchema;
 
 const uiSchema = {
