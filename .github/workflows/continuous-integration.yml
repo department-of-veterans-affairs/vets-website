@@ -817,7 +817,7 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: cypress/browsers:node-22.11.0-chrome-131-0-6778-204-1-ff-132-0-1-edge-131-0-2903-63-1
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
