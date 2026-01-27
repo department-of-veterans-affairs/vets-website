@@ -123,5 +123,6 @@ describe(`${appName} -- editing test`, () => {
       'contain.text',
       'You’ve submitted your medical supplies order',
     );
+    // .should('have.focus'); // FIXME: element should receive focus.
   });
 });
