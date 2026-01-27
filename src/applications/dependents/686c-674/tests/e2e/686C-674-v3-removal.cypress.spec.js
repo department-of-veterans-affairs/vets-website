@@ -35,7 +35,18 @@ const fillOutPicklistPage = dependent => {
     cy.get(
       'va-radio-option, va-checkbox, va-text-input, va-memorable-date, va-select',
     ).each($el => {
-      if ($el[0].getAttribute('name') === name) {
+      const attrName = $el[0].getAttribute('name') || '';
+      if (attrName === `root_${name}` && dependent.address?.[name]) {
+        cy[fillFnName](attrName, dependent.address[name]);
+      } else if (
+        (attrName === 'first' || attrName === 'last') &&
+        name.startsWith('whoDoesTheStepchildLiveWith.')
+      ) {
+        cy[fillFnName](
+          attrName,
+          dependent.whoDoesTheStepchildLiveWith?.[attrName],
+        );
+      } else if (attrName === name) {
         cy[fillFnName](name, dependent[name]);
       }
     });
@@ -54,6 +65,17 @@ const fillOutPicklistPage = dependent => {
   checkElAndFill('endProvince', 'fillVaTextInput');
   checkElAndFill('endCountry', 'selectVaSelect');
   checkElAndFill('endState', 'selectVaSelect');
+
+  checkElAndFill('isMilitary', 'selectVaCheckbox');
+  checkElAndFill('country', 'selectVaSelect');
+  checkElAndFill('street', 'fillVaTextInput');
+  checkElAndFill('city', 'fillVaTextInput');
+  checkElAndFill('state', 'selectVaSelect');
+  checkElAndFill('postalCode', 'fillVaTextInput');
+
+  checkElAndFill('whoDoesTheStepchildLiveWith.first', 'fillVaTextInput');
+  checkElAndFill('whoDoesTheStepchildLiveWith.last', 'fillVaTextInput');
+
   cy.injectAxeThenAxeCheck();
 };
 
@@ -175,6 +197,8 @@ const testConfig = createTestConfig(
           // Only select 1 parent, 1 child, and 1 spouse for testing
           selectPicklistDependent('spousy-3332'); // spouse with marriage ended
           selectPicklistDependent('penny-3479'); // child who married
+          // selectPicklistDependent('stacy-3233'); // child who is stepchild with financial support
+          // selectPicklistDependent('jennifer-3311'); // child who is stepchild
           selectPicklistDependent('peter-0104'); // parent who died
 
           cy.clickFormContinue();
@@ -215,6 +239,48 @@ const testConfig = createTestConfig(
             // Penny: marriage date
             processCurrentDependent(picklistData);
             cy.get('va-button[continue]').click();
+
+            /*
+            // Stacy: stepchild question
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Stacy: reason to remove
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Stacy: financial support question
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Stacy: left household date
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Jennifer: stepchild question
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Jennifer: reason to remove
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Jennifer: financial support question
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Jennifer: current address
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Jennifer: lives with
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+
+            // Jennifer: left household date
+            processCurrentDependent(picklistData);
+            cy.get('va-button[continue]').click();
+            */
 
             // Peter: reason to remove
             processCurrentDependent(picklistData);
