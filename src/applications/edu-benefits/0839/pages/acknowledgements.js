@@ -2,7 +2,6 @@ import React from 'react';
 import {
   titleUI,
   textUI,
-  textSchema,
   checkboxUI,
   checkboxRequiredSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -17,15 +16,6 @@ const STATEMENT_3 =
   "The IHL agrees to provide contributions on behalf of a participating individual during the current academic year and all subsequent academic years in which the IHL participates in the Yellow Ribbon Program, provided that the individual maintains satisfactory progress, conduct, and attendance according to the regularly prescribed standards of the institution. If modification to the existing agreement reduces the contribution amount, the IHL agrees to maintain the prior agreement's contribution amount for any individuals in good standing who were in receipt of Yellow Ribbon for prior academic years. ";
 const STATEMENT_4 =
   'The IHL agrees to provide the maximum amount of contributions payable toward the net cost for each participating individual during each term, quarter, or semester does not exceed the maximum dollar amount payable during the academic year. ';
-
-const createInitialReviewField = description => ({ children }) => (
-  <dl className="review-row">
-    <dt>
-      <p>{description}</p>
-    </dt>
-    <dd>{children}</dd>
-  </dl>
-);
 
 const validateInitialsMatch = (errors, fieldData, formData) => {
   const firstName = formData?.authorizedOfficial?.fullName?.first || '';
@@ -52,12 +42,11 @@ const uiSchema = {
     ),
   },
 
-  'view:statement1': {
-    'ui:description': STATEMENT_1,
-  },
   statement1Initial: {
-    ...textUI('Initial here'),
-    'ui:reviewField': createInitialReviewField(STATEMENT_1),
+    ...textUI({
+      title: 'Initial here',
+      description: STATEMENT_1,
+    }),
     'ui:webComponentField': CapitalizedTextInputField,
     'ui:options': {
       width: 'small',
@@ -69,13 +58,12 @@ const uiSchema = {
       pattern: 'Please enter your initials using letters only',
     },
     'ui:validations': [validateInitialsMatch],
-  },
-  'view:statement2': {
-    'ui:description': STATEMENT_2,
   },
   statement2Initial: {
-    ...textUI('Initial here'),
-    'ui:reviewField': createInitialReviewField(STATEMENT_2),
+    ...textUI({
+      title: 'Initial here',
+      description: STATEMENT_2,
+    }),
     'ui:webComponentField': CapitalizedTextInputField,
     'ui:options': {
       width: 'small',
@@ -87,13 +75,12 @@ const uiSchema = {
       pattern: 'Please enter your initials using letters only',
     },
     'ui:validations': [validateInitialsMatch],
-  },
-  'view:statement3': {
-    'ui:description': STATEMENT_3,
   },
   statement3Initial: {
-    ...textUI('Initial here'),
-    'ui:reviewField': createInitialReviewField(STATEMENT_3),
+    ...textUI({
+      title: 'Initial here',
+      description: STATEMENT_3,
+    }),
     'ui:webComponentField': CapitalizedTextInputField,
     'ui:options': {
       width: 'small',
@@ -106,12 +93,11 @@ const uiSchema = {
     },
     'ui:validations': [validateInitialsMatch],
   },
-  'view:statement4': {
-    'ui:description': STATEMENT_4,
-  },
   statement4Initial: {
-    ...textUI('Initial here'),
-    'ui:reviewField': createInitialReviewField(STATEMENT_4),
+    ...textUI({
+      title: 'Initial here',
+      description: STATEMENT_4,
+    }),
     'ui:webComponentField': CapitalizedTextInputField,
     'ui:options': {
       width: 'small',
@@ -143,30 +129,26 @@ const schema = {
   ],
   properties: {
     'view:additionalInstructions': { type: 'object', properties: {} },
-    'view:statement1': { type: 'object', properties: {} },
     statement1Initial: {
-      ...textSchema,
+      type: 'string',
       minLength: 2,
       maxLength: 3,
       pattern: '^[A-Za-z]{2,3}$',
     },
-    'view:statement2': { type: 'object', properties: {} },
     statement2Initial: {
-      ...textSchema,
+      type: 'string',
       minLength: 2,
       maxLength: 3,
       pattern: '^[A-Za-z]{2,3}$',
     },
-    'view:statement3': { type: 'object', properties: {} },
     statement3Initial: {
-      ...textSchema,
+      type: 'string',
       minLength: 2,
       maxLength: 3,
       pattern: '^[A-Za-z]{2,3}$',
     },
-    'view:statement4': { type: 'object', properties: {} },
     statement4Initial: {
-      ...textSchema,
+      type: 'string',
       minLength: 2,
       maxLength: 3,
       pattern: '^[A-Za-z]{2,3}$',
