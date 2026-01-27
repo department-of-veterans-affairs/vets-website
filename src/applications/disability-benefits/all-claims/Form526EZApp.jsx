@@ -319,7 +319,7 @@ export const Form526Entry = ({
       >
         <div className="vads-grid-row vads-u-margin-x--neg2p5">
           {shouldHideNav ? null : (
-            <div className="vads-u-padding-x--2p5 vads-grid-col-12 medium-screen:vads-grid-col-3">
+            <div className="vads-u-padding-x--2p5 vads-u-padding-bottom--3 vads-grid-col-12 medium-screen:vads-grid-col-3">
               <ClaimFormSideNav
                 enableAnalytics
                 formData={form?.data}
