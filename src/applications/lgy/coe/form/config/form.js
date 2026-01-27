@@ -1,6 +1,8 @@
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -80,18 +82,26 @@ const formConfig = {
           : 'Your personal information on file';
       },
       pages: {
+        yourInformation: personalInformation,
+        ...profileContactInfoPages({
+          depends: formData => formData['view:coeFormRebuildCveteam'],
+          included: ['mailingAddress', 'email', 'homePhone'],
+          contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
+          content: {
+            ...getContent('application'),
+            title: 'Confirm the contact information we have on file for you',
+            description: null,
+          },
+        }),
         applicantInformationSummary: {
           path: 'applicant-information',
-          // There seems to be a bug where the depends clause is ignored for the first item in the form
-          // depends: formData => {
-          //   console.log('the value 2:', formData);
-          //   return !formData['view:coeFormRebuildCveteam'];
-          // },
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           title: 'Your personal information on file',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
-        yourInformation: personalInformation,
       },
     },
     contactInformationChapter: {
@@ -99,6 +109,9 @@ const formConfig = {
       pages: {
         mailingAddress: {
           path: 'mailing-address',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           title: mailingAddress.title,
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
@@ -106,6 +119,9 @@ const formConfig = {
         },
         additionalInformation: {
           path: 'additional-contact-information',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           title: additionalInformation.title,
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
