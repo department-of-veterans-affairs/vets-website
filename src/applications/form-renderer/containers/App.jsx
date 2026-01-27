@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FormRenderer from 'platform/form-renderer/FormRenderer';
 import { getData } from '../config/utilities';
+import '../sass/form-renderer.scss';
 
 const fetchFormData = async (setConfig, setData) => {
   const response = await getData('/form_submissions/latest');
@@ -18,10 +19,20 @@ const App = () => {
     return (
       <div>
         <div className="vads-grid-container vads-u-padding--0">
-          <h1 className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+          <h1 className="vads-u-margin-bottom--1 vads-u-margin-top--4">
             {config.formLabel}
+            <span className="schemaform-title"> ({config.formName})</span>
           </h1>
-          <div className="schemaform-title form-name">({config.formName})</div>
+          <div className="subheading">
+            <span>
+              OMB Version {config.formVersion}, Release {config.formRelease}
+            </span>
+            <br />
+            <span>
+              Signed electronically and submitted via VA.gov at{' '}
+              {data.date_submitted}.
+            </span>
+          </div>
         </div>
         <FormRenderer config={config} data={data} />
       </div>

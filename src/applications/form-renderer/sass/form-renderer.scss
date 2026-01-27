@@ -1,1 +1,30 @@
 // Your custom scss
+.schemaform-title {
+  font-weight: normal;
+}
+
+main {
+    margin: 0 auto;
+    padding: 0;
+    width: 42.5rem;
+    transform: translateX(-14%);
+}
+
+/* Reduce shift on tablets and smaller */
+@media (max-width: 768px) {
+    main {
+        width: 80vw;
+        transform: translateX(-2%);
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+      width: 90vw;
+        transform: translateX(0);
+    }
+}
+
+.subheading {
+    font-size: 17px;
+}

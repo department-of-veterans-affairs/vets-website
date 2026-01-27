@@ -1,5 +1,5 @@
 import React from 'react';
-import { getNestedProperty, renderStr } from './util';
+import { getNestedProperty, renderStr, formatPhoneNumber } from './util';
 
 function renderPart(part, data, depth, key = '') {
   const label = renderStr(part.label, data);
@@ -50,8 +50,10 @@ function createLabel(obj) {
   const tag = `h${obj.depth + 2}`;
   const className =
     {
-      h2: 'vads-u-margin-top--3',
-      h3: 'vads-u-margin-top--1',
+      h2: 'vads-u-margin-top--3 vads-u-margin-bottom--0',
+      h3: 'vads-u-margin-top--1 vads-u-margin-bottom--1',
+      h4:
+        'vads-u-color--gray-medium vads-u-margin-top--2 vads-u-margin-bottom--1',
     }[tag] || '';
   return React.createElement(tag, { className, key: obj.key }, obj.label);
 }
@@ -59,10 +61,15 @@ function createLabel(obj) {
 function createField(obj) {
   const label = obj.label.endsWith('?') ? obj.label : `${obj.label}:`;
   return (
-    <div className="vads-grid-row vads-u-margin-x--neg2p5" key={obj.key}>
-      <div className="vads-grid-col-5 vads-u-padding-x--2p5">{label}</div>
-      <div className="vads-grid-col-7 vads-u-padding-x--2p5 vads-u-font-weight--bold">
-        {obj.value}
+    <div
+      className="vads-grid-row vads-u-margin-x--neg2p5 vads-u-margin-bottom--0p25"
+      key={obj.key}
+    >
+      <div className="vads-grid-col-4 vads-u-padding-x--2p5">{label}</div>
+      <div className="vads-grid-col-6 vads-u-padding-x--2p5 vads-u-font-weight--bold">
+        {obj.label === 'Phone number'
+          ? formatPhoneNumber(obj.value)
+          : obj.value}
       </div>
     </div>
   );
@@ -71,11 +78,13 @@ function createField(obj) {
 function createChecklist(obj) {
   const label = obj.label.endsWith('?') ? obj.label : `${obj.label}:`;
   return (
-    <div key={obj.key}>
-      {label}
-      {obj.options.map(opt => (
-        <div key={opt}>✓ {opt}</div>
-      ))}
+    <div key={obj.key} className="vads-grid-row">
+      <div className="vads-grid-col-4">{label}</div>
+      <div className="vads-grid-col-6">
+        {obj.options.map(opt => (
+          <div key={opt}>✓ {opt}</div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -86,7 +95,7 @@ function render(cfg, data) {
     if (index > 0) {
       elements.push(
         <hr
-          className="vads-u-border--1px vads-u-border-color--gray-light vads-u-margin-y--2"
+          className="vads-u-border--1px vads-u-border-color--gray-light vads-u-margin-y--4"
           key={`HR-${index}`}
         />,
       );
@@ -107,7 +116,7 @@ function render(cfg, data) {
 const FormRenderer = ({ config, data }) => {
   const rendered = render(config, data);
   return (
-    <div className="vads-grid-container vads-u-padding--0">
+    <div className="vads-grid-container vads-u-padding--0 vads-u-margin-bottom--8">
       <div className="vads-grid-col-12">{rendered}</div>
     </div>
   );

@@ -16,3 +16,15 @@ export function getNestedProperty(obj, path) {
 export function renderStr(str, data) {
   return Handlebars.compile(str)(data);
 }
+
+export function formatPhoneNumber(phoneNumberString) {
+  const cleaned = `${phoneNumberString}`.replace(/\D/g, '');
+  if (cleaned.length === 10) {
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+    return null;
+  }
+  return phoneNumberString;
+}
