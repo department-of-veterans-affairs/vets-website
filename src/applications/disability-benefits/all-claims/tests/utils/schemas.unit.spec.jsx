@@ -227,6 +227,51 @@ describe('makeSchemaForRatedDisabilities', () => {
       },
     });
   });
+  it('should treat disability names as case-insensitive and avoid duplicate keys', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        { name: 'Asthma', 'view:selected': true },
+        { name: 'asthma', 'view:selected': true },
+        { name: 'ASTHMA', 'view:selected': true },
+      ],
+    };
+    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        asthma: {
+          title: 'Asthma',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
+  it('should only include valid, selected disabilities and filter out unselected or invalid ones', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        { name: 'Asthma', 'view:selected': true },
+        { name: 'Tachycardia', 'view:selected': false },
+        { name: '', 'view:selected': true },
+        { name: null, 'view:selected': true },
+        { name: undefined, 'view:selected': true },
+      ],
+    };
+    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        asthma: {
+          title: 'Asthma',
+          type: 'boolean',
+        },
+      },
+    });
+  });
 });
 
 describe('makeSchemaForAllDisabilities', () => {
