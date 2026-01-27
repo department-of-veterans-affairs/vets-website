@@ -20,11 +20,6 @@ const isJson = response => {
 /**
  * Checks if the access token is close to expiring (within 30 seconds)
  *
- * TODO: Implement a locking mechanism to prevent multiple simultaneous API
- * requests from independently calling refresh when they all detect the token
- * is about to expire. Consider using a promise-based lock or flag to ensure
- * only one refresh call is made at a time.
- *
  * @returns {boolean} true if token is about to expire
  */
 const isTokenAboutToExpire = () => {
