@@ -7,7 +7,19 @@ import { combineReducers, createStore } from 'redux';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import DetailCopayPage from '../../containers/DetailCopayPage';
 
-describe('DetailCopayPage TITLE', () => {
+describe('DetailCopayPage', () => {
+  const registerMockElement = name => {
+    class MockWebComponent extends HTMLElement {}
+    if (!window.customElements.get(name)) {
+      window.customElements.define(name, MockWebComponent);
+    }
+  };
+
+  before(() => {
+    registerMockElement('va-breadcrumbs');
+    registerMockElement('va-loading-indicator');
+  });
+
   const renderWithStore = (component, initialState) => {
     const store = createStore(
       combineReducers({
@@ -28,53 +40,21 @@ describe('DetailCopayPage TITLE', () => {
 
   const mockMatch = { params: { id: '123' } };
 
-  it('should use attributes.facility for TITLE when flag is true', () => {
+  it('uses attributes.facility for TITLE when VHA payment history flag is true', () => {
     const mockStatement = {
       id: '123',
       attributes: {
         facility: 'James A. Haley',
         invoiceDate: '2024-01-15',
         accountNumber: 'ACC123',
-        statementDate: '2024-01-15',
-        lineItems: [
-          {
-            datePosted: '2024-01-10',
-            description: 'Test Service',
-            billingReference: 'REF123',
-            priceComponents: [{ amount: 25 }],
-            providerName: 'Test Provider',
-          },
-        ],
+        lineItems: [],
         principalBalance: 100,
         paymentDueDate: '2024-02-15',
         principalPaid: 25,
-        veteranName: 'John Doe',
-        veteranAddress: {
-          street: '456 Patient St',
-          city: 'Tampa',
-          state: 'FL',
-          postalCode: '33333',
-        },
-        facilityAddress: {
-          street: '123 Main St',
-          city: 'Tampa',
-          state: 'FL',
-          postalCode: '33333',
-        },
       },
       station: {
         facilityName: 'James A. Haley',
-        staTAddress1: '123 Main St',
-        city: 'Tampa',
-        state: 'FL',
-        ziPCde: '33333',
       },
-      pHAddress1: '456 Patient St',
-      pHCity: 'Tampa',
-      pHState: 'FL',
-      pHZipCde: '33333',
-      statementStartDate: '2024-01-01',
-      statementEndDate: '2024-01-31',
     };
 
     const mockState = {
@@ -90,7 +70,6 @@ describe('DetailCopayPage TITLE', () => {
         },
       },
       featureToggles: {
-        // eslint-disable-next-line camelcase
         [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
         loading: false,
       },
@@ -104,34 +83,17 @@ describe('DetailCopayPage TITLE', () => {
     expect(container.textContent).to.include('Copay bill for James A. Haley');
   });
 
-  it('should use station.facilityName for TITLE when flag is false', () => {
+  it('uses station.facilityName for TITLE when VHA payment history flag is false', () => {
     const mockStatement = {
       id: '123',
       station: {
         facilityName: 'Tampa VA Medical Center',
-        staTAddress1: '123 Main St',
-        city: 'Tampa',
-        state: 'FL',
-        ziPCde: '33333',
       },
       pSStatementDateOutput: '01/15/2024',
-      pSStatementDate: '01/15/2024',
       accountNumber: 'ACC123',
-      pHAccountNumber: 'ACC123',
-      details: [
-        {
-          pDTransDescOutput: 'Test',
-          pDRefNo: '123',
-          pDTransAmt: 10.0,
-          pDTransAmtOutput: '10.00',
-        },
-      ],
+      details: [],
       pHNewBalance: 100,
       pHTotCharges: 25,
-      pHAddress1: '456 Patient St',
-      pHCity: 'Tampa',
-      pHState: 'FL',
-      pHZipCde: '33333',
     };
 
     const mockState = {
@@ -147,7 +109,6 @@ describe('DetailCopayPage TITLE', () => {
         },
       },
       featureToggles: {
-        // eslint-disable-next-line camelcase
         [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
         loading: false,
       },
