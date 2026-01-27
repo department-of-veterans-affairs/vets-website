@@ -274,6 +274,7 @@ export const AutosuggestProps = {
   clearOnEscape: PropTypes.bool,
   downshiftInputProps: PropTypes.object,
   handleOnSelect: PropTypes.func.isRequired,
+  handleFocus: PropTypes.func,
   initialSelectedItem: PropTypes.object,
   inputContainerClassName: PropTypes.string,
   inputError: PropTypes.element,

@@ -7,8 +7,20 @@ import MessagePromptDiv from './MessagePromptDiv';
 
 const MIN_SEARCH_CHARS = 2;
 /**
+ *
+ *
  * CC Providers' Service Types Typeahead
  */
+
+// const handleFocus = () => {
+//   const servicesTypeContainer = document.getElementById("vamc-services-autosuggest-container")
+//   console.log(' handleFocus run ');
+
+//   if (servicesTypeContainer && isMobile) {
+//     console.log('Scrolling to servicesTypeContainer');
+//     servicesTypeContainer.scrollIntoView(true, { behavior: 'smooth', block: 'start' });
+//   }
+// };
 class CCServiceTypeAhead extends Component {
   constructor(props) {
     super(props);
