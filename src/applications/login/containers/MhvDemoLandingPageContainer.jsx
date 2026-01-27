@@ -8,6 +8,7 @@ import {
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
 } from '../../mhv-landing-page/utilities/data';
+import DemoModeBanner from '../components/DemoModeBanner';
 
 const MhvDemoLandingPageContainer = () => {
   const { featureToggles } = useSelector(state => state);
@@ -69,9 +70,12 @@ const MhvDemoLandingPageContainer = () => {
   }
 
   return (
-    <ErrorBoundary>
-      <LandingPage data={data} />
-    </ErrorBoundary>
+    <>
+      <DemoModeBanner />
+      <ErrorBoundary>
+        <LandingPage data={data} />
+      </ErrorBoundary>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import DemoModeBanner from '../components/DemoModeBanner';
 
 const MhvDemoMedicalRecordsLandingPage = () => {
   const headingRef = useRef(null);
@@ -21,6 +22,7 @@ const MhvDemoMedicalRecordsLandingPage = () => {
 
   return (
     <>
+      <DemoModeBanner />
       <MhvSecondaryNav />
       <div className="vads-l-grid-container vads-u-padding-left--2">
         <VaBreadcrumbs
