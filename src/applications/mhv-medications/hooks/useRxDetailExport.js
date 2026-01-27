@@ -249,8 +249,12 @@ const useRxDetailExport = ({
       const { format } = status;
       const allergiesReady = !!allergies && !allergiesError;
 
-      // Handle print - doesn't require allergies
+      // Handle print - if allergies error, stay in InProgress to trigger error display
       if (format === PRINT_FORMAT.PRINT) {
+        if (allergiesError) {
+          // Keep status InProgress with print format so hasError returns true
+          return;
+        }
         setStatus({
           status: PDF_TXT_GENERATE_STATUS.NotStarted,
           format: 'print',
