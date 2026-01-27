@@ -229,7 +229,9 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         </div>
       )}
 
-      {downloadStarted && <DownloadSuccessAlert />}
+      {downloadStarted && (
+        <DownloadSuccessAlert className="vads-u-margin-bottom--3" />
+      )}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.ALLERGY}
