@@ -107,12 +107,6 @@ export const SearchForm = props => {
       onChange({ [propName]: '' });
     };
 
-    if (!draftFormState.facilityType) {
-      updateReduxState('facilityType');
-      focusElement('#facility-type-dropdown');
-      return;
-    }
-
     if (
       draftFormState.facilityType === LocationType.CC_PROVIDER &&
       (!draftFormState.serviceType || !selectedServiceType)
@@ -127,6 +121,13 @@ export const SearchForm = props => {
       focusElement('#street-city-state-zip');
       return;
     }
+
+    if (!draftFormState.facilityType) {
+      updateReduxState('facilityType');
+      focusElement('#facility-type-dropdown');
+      return;
+    }
+
     // Commit draft state to Redux
     onChange({
       facilityType: draftFormState.facilityType,
