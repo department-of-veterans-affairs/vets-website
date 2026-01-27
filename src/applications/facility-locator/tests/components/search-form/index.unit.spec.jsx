@@ -130,7 +130,7 @@ describe('SearchForm', () => {
       wrapper.unmount();
     });
 
-    it('should NOT call onChange when service type changes', () => {
+    it('should call onChange when service type changes to clear errors', () => {
       const props = {
         ...getDefaultProps(),
         currentQuery: {
@@ -147,7 +147,10 @@ describe('SearchForm', () => {
         selectedItem: { name: 'Applying for Benefits' },
       });
 
-      expect(props.onChange.called).to.be.false;
+      expect(props.onChange.calledOnce).to.be.true;
+      expect(props.onChange.firstCall.args[0]).to.deep.equal({
+        serviceType: 'ApplyingForBenefits',
+      });
       wrapper.unmount();
     });
 

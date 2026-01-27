@@ -72,6 +72,7 @@ export const SearchForm = props => {
       ...prev,
       serviceType,
     }));
+    onChange({ serviceType });
   };
 
   const handleSubmit = e => {
