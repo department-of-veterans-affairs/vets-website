@@ -29,14 +29,13 @@ const VaFileInputMultipleField = props => {
   const [percentsUploaded, setPercentsUploaded] = useState([]);
   const [initPoll, setInitPoll] = useState(true);
   const dispatch = useDispatch();
+  const mappedProps = vaFileInputFieldMapping(props);
   const { percentUploaded, handleUpload } = useFileUpload(
-    uiOptions.fileUploadUrl,
-    uiOptions.accept,
-    uiOptions.formNumber,
+    uiOptions,
+    mappedProps.accept,
     dispatch,
   );
   const componentRef = useRef(null);
-  const mappedProps = vaFileInputFieldMapping(props);
 
   // if prefill, initialize values
   useEffect(() => {

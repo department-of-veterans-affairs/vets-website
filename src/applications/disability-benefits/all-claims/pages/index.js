@@ -1,3 +1,4 @@
+import * as evidenceChoiceIntro from './form0781/supportingEvidenceEnhancement/evidenceChoiceIntroPage';
 import * as adaptiveBenefits from './adaptiveBenefits';
 import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
@@ -134,6 +135,7 @@ export {
   employmentHistory,
   evidenceTypes,
   evidenceTypesBDD,
+  evidenceChoiceIntro,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,

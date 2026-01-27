@@ -2,11 +2,8 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const mockTopics = require('./utils/topic');
-const {
-  generateSlots,
-  createMockJwt,
-  decodeJwtUuid,
-} = require('../../utils/mock-helpers');
+const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
+const { decodeJwt } = require('../../utils/jwt-utils');
 
 const mockUUIDs = Object.freeze({
   'c0ffee-1234-beef-5678': {
@@ -170,16 +167,17 @@ const responses = {
   },
   'GET /vass/v0/appointment-availablity': (req, res) => {
     const { headers } = req;
-    const token = headers.authorization;
-    if (!token) {
+    const [, token] = headers.authorization?.split(' ') || [];
+    const tokenPayload = decodeJwt(token);
+
+    const uuid = tokenPayload?.payload?.sub;
+    if (!token || !uuid) {
       return res.status(401).json({
         errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
       });
     }
-    const uuid = decodeJwtUuid(token);
     return res.json({
       data: {
-        // TODO: extract this from the token
         appointmentId: uuid,
         availableTimeSlots: generateSlots(),
       },

@@ -48,6 +48,7 @@ import {
   showSeparationLocation,
   isCompletingModern4142,
   onFormLoaded,
+  hasEvidenceChoice,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -69,6 +70,7 @@ import {
   contactInformation,
   evidenceTypes,
   evidenceTypesBDD,
+  evidenceChoiceIntro,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -671,6 +673,26 @@ const formConfig = {
             },
           },
           schema: privateMedicalRecordsRelease.schema,
+        },
+        evidenceChoiceIntro: {
+          title:
+            'Supporting documents and additional forms for your disability claim',
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement,
+          // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
+          path: 'supporting-evidence/additional-evidence-intro',
+          uiSchema: evidenceChoiceIntro.uiSchema,
+          schema: evidenceChoiceIntro.schema,
+        },
+        evidenceChoiceAdditionalDocuments: {
+          title: 'Non-VA treatment records you uploaded',
+          // NOTE: a temporary copy of `additionalDocuments` for testing purposes
+          path: 'supporting-evidence/additional-evidence-enhancement',
+          depends: formData =>
+            hasEvidenceChoice(formData) &&
+            formData.disability526SupportingEvidenceEnhancement,
+          uiSchema: additionalDocuments.uiSchema,
+          schema: additionalDocuments.schema,
         },
         additionalDocuments: {
           title: 'Non-VA treatment records you uploaded',
