@@ -1,8 +1,7 @@
 /* eslint-disable no-shadow */
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
-  selectFeatureOHDirectSchedule,
-  selectFeatureOHRequest,
+  selectFeatureUseVpg,
   selectFeaturePCMHI,
   selectFeatureRemoveFacilityConfigCheck,
   selectFeatureSubstanceUseDisorder,
@@ -88,8 +87,7 @@ async function vaFacilityNext(state, dispatch) {
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
-  const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
-  const featureOHRequest = selectFeatureOHRequest(state);
+  const featureUseVpg = selectFeatureUseVpg(state);
   const featureRemoveFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
     state,
   );
@@ -102,7 +100,7 @@ async function vaFacilityNext(state, dispatch) {
   dispatch(updateFacilityEhr(ehr));
 
   if (isCerner) {
-    if ((featureOHDirectSchedule || featureOHRequest) && typeOfCareEnabled) {
+    if (featureUseVpg && typeOfCareEnabled) {
       // Fetch eligibility if we haven't already
       if (!eligibility) {
         const siteId = getSiteIdFromFacilityId(location.id);
