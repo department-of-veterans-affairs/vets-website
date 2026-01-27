@@ -11,5 +11,5 @@ export {
   educationBenefitsElibility,
   prepCourseName,
   prepCourseAddress,
-  prepCourseOnline 
+  prepCourseOnline,
 };
