@@ -2046,6 +2046,45 @@ export function sortByLastUpdated(item1, item2) {
   return 0;
 }
 
+/**
+ * Determines if an item (appeal or claim) is closed
+ * @param {Object} item - Appeal or claim object from different endpoints
+ * @returns {boolean} - true if closed, false if open
+ *
+ * Data sources:
+ * 1. Appeals API (/appeals): Uses attributes.active boolean
+ * 2. Benefits Claims API (/benefits_claims): Uses attributes.status string
+ * 3. STEM Claims API (/education_benefits_claims/stem_claim_status): Has claimType: 'STEM' added
+ */
+export function isClosed(item) {
+  if (!item || !item.attributes) {
+    return false;
+  }
+
+  // Appeals API: check the 'active' property (false = closed)
+  if (appealTypes.includes(item.type)) {
+    return item.attributes.active === false;
+  }
+
+  // STEM Claims API: STEM claims are always considered closed
+  // (claimType is added by addAttributes() function in actions/index.js)
+  if (item.attributes.claimType === 'STEM') {
+    return true;
+  }
+
+  // Benefits Claims API: check status string
+  return item.attributes.status === 'COMPLETE';
+}
+
+/**
+ * Determines if an item (appeal or claim) is open/in progress
+ * @param {Object} item - Appeal or claim object
+ * @returns {boolean} - true if in progress, false if closed
+ */
+export function isInProgress(item) {
+  return !isClosed(item);
+}
+
 // export function sortByInProgress(item1, item2) {
 
 // }

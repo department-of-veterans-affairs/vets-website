@@ -8,6 +8,8 @@ import {
   getStatusContents,
   EVENT_TYPES,
   getEventContent,
+  isClosed,
+  isInProgress,
 } from '../../utils/appeals-v2-helpers';
 
 describe('functions', () => {
@@ -1280,6 +1282,184 @@ describe('functions', () => {
         'You requested a decision review under the Appeals Modernization Act',
       );
       expect(content.description).to.eql('');
+    });
+  });
+
+  describe('isClosed', () => {
+    it('should return false for null or undefined items', () => {
+      expect(isClosed(null)).to.be.false;
+      expect(isClosed(undefined)).to.be.false;
+    });
+
+    it('should return false for items without attributes', () => {
+      expect(isClosed({})).to.be.false;
+      expect(isClosed({ type: 'appeal' })).to.be.false;
+    });
+
+    it('should return true for closed appeals (active: false)', () => {
+      const closedAppeal = {
+        type: APPEAL_TYPES.appeal,
+        attributes: {
+          active: false,
+          status: { type: 'decision_mailed' },
+        },
+      };
+      expect(isClosed(closedAppeal)).to.be.true;
+    });
+
+    it('should return false for open appeals (active: true)', () => {
+      const openAppeal = {
+        type: APPEAL_TYPES.appeal,
+        attributes: {
+          active: true,
+          status: { type: 'pending_soc' },
+        },
+      };
+      expect(isClosed(openAppeal)).to.be.false;
+    });
+
+    it('should handle all appeal types correctly', () => {
+      const appealTypes = [
+        APPEAL_TYPES.appeal,
+        APPEAL_TYPES.legacy,
+        APPEAL_TYPES.supplementalClaim,
+        APPEAL_TYPES.higherLevelReview,
+      ];
+
+      appealTypes.forEach(type => {
+        const closedItem = {
+          type,
+          attributes: { active: false },
+        };
+        const openItem = {
+          type,
+          attributes: { active: true },
+        };
+
+        expect(isClosed(closedItem)).to.be.true;
+        expect(isClosed(openItem)).to.be.false;
+      });
+    });
+
+    it('should return true for claims with status COMPLETE', () => {
+      const completedClaim = {
+        type: 'claim',
+        attributes: {
+          status: 'COMPLETE',
+        },
+      };
+      expect(isClosed(completedClaim)).to.be.true;
+    });
+
+    it('should return false for claims with other statuses', () => {
+      const activeClaim = {
+        type: 'claim',
+        attributes: {
+          status: 'CLAIM_RECEIVED',
+        },
+      };
+      expect(isClosed(activeClaim)).to.be.false;
+    });
+
+    it('should return true for STEM claims', () => {
+      const stemClaim = {
+        type: 'claim',
+        attributes: {
+          claimType: 'STEM',
+          status: 'PENDING',
+        },
+      };
+      expect(isClosed(stemClaim)).to.be.true;
+    });
+
+    it('should return true for completed STEM claims', () => {
+      const completedStemClaim = {
+        type: 'claim',
+        attributes: {
+          claimType: 'STEM',
+          status: 'COMPLETE',
+        },
+      };
+      expect(isClosed(completedStemClaim)).to.be.true;
+    });
+  });
+
+  describe('isInProgress', () => {
+    it('should return true for null or undefined items', () => {
+      expect(isInProgress(null)).to.be.true;
+      expect(isInProgress(undefined)).to.be.true;
+    });
+
+    it('should return true for items without attributes', () => {
+      expect(isInProgress({})).to.be.true;
+      expect(isInProgress({ type: 'appeal' })).to.be.true;
+    });
+
+    it('should return false for closed appeals', () => {
+      const closedAppeal = {
+        type: APPEAL_TYPES.appeal,
+        attributes: {
+          active: false,
+          status: { type: 'decision_mailed' },
+        },
+      };
+      expect(isInProgress(closedAppeal)).to.be.false;
+    });
+
+    it('should return true for open appeals', () => {
+      const openAppeal = {
+        type: APPEAL_TYPES.appeal,
+        attributes: {
+          active: true,
+          status: { type: 'pending_soc' },
+        },
+      };
+      expect(isInProgress(openAppeal)).to.be.true;
+    });
+
+    it('should return false for completed claims', () => {
+      const completedClaim = {
+        type: 'claim',
+        attributes: {
+          status: 'COMPLETE',
+        },
+      };
+      expect(isInProgress(completedClaim)).to.be.false;
+    });
+
+    it('should return true for active claims', () => {
+      const activeClaim = {
+        type: 'claim',
+        attributes: {
+          status: 'CLAIM_RECEIVED',
+        },
+      };
+      expect(isInProgress(activeClaim)).to.be.true;
+    });
+
+    it('should return false for STEM claims', () => {
+      const stemClaim = {
+        type: 'claim',
+        attributes: {
+          claimType: 'STEM',
+          status: 'PENDING',
+        },
+      };
+      expect(isInProgress(stemClaim)).to.be.false;
+    });
+
+    it('should be the inverse of isClosed', () => {
+      const testItems = [
+        { type: APPEAL_TYPES.appeal, attributes: { active: true } },
+        { type: APPEAL_TYPES.appeal, attributes: { active: false } },
+        { type: 'claim', attributes: { status: 'COMPLETE' } },
+        { type: 'claim', attributes: { status: 'PENDING' } },
+        { type: 'claim', attributes: { claimType: 'STEM' } },
+      ];
+
+      testItems.forEach(item => {
+        expect(isInProgress(item)).to.equal(!isClosed(item));
+      });
     });
   });
 });
