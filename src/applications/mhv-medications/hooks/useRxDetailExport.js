@@ -16,9 +16,12 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import { dateFormat } from '../util/helpers';
-import { generateRxDetailPdfFile } from '../util/generateRxDetailPdfFile';
-import { generateRxDetailTxtFile } from '../util/generateRxDetailTxtFile';
+import {
+  dateFormat,
+  generateMedicationsPDF,
+  generateRxDetailFilename,
+  generateTextFile,
+} from '../util/helpers';
 
 /**
  * Hook to manage generating PDF/TXT/print exports for a single prescription details page.
@@ -207,11 +210,12 @@ const useRxDetailExport = ({
 
   const handlePdfGeneration = useCallback(
     allergiesList => {
-      generateRxDetailPdfFile({
-        user,
-        isNonVaPrescription,
-        pdfData: buildPdfData(allergiesList),
-      }).then(() => {
+      const filename = generateRxDetailFilename({ user, isNonVaPrescription });
+      generateMedicationsPDF(
+        'medications',
+        filename,
+        buildPdfData(allergiesList),
+      ).then(() => {
         finalizeSuccess();
       });
     },
@@ -220,11 +224,8 @@ const useRxDetailExport = ({
 
   const handleTxtGeneration = useCallback(
     allergiesList => {
-      generateRxDetailTxtFile({
-        user,
-        isNonVaPrescription,
-        txtData: buildTxtData(allergiesList),
-      });
+      const filename = generateRxDetailFilename({ user, isNonVaPrescription });
+      generateTextFile(buildTxtData(allergiesList), filename);
       finalizeSuccess();
     },
     [isNonVaPrescription, user, buildTxtData, finalizeSuccess],

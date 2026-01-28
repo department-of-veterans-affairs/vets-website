@@ -6,8 +6,8 @@ import sinon from 'sinon';
 import useRxDetailExport from '../../hooks/useRxDetailExport';
 import * as pdfConfigs from '../../util/pdfConfigs';
 import * as txtConfigs from '../../util/txtConfigs';
-import * as generateRxDetailPdfFileModule from '../../util/generateRxDetailPdfFile';
-import * as generateRxDetailTxtFileModule from '../../util/generateRxDetailTxtFile';
+import * as generateMedicationsPDFModule from '../../util/helpers/generateMedicationsPDF';
+import * as generateTextFileModule from '../../util/helpers/generateTextFile';
 import { PDF_TXT_GENERATE_STATUS, DOWNLOAD_FORMAT } from '../../util/constants';
 
 // Custom renderHook function
@@ -44,8 +44,8 @@ function renderHook(renderCallback, options = {}) {
 describe('useRxDetailExport', () => {
   let sandbox;
   let buildVAPrescriptionPDFListStub;
-  let generateRxDetailPdfFileStub;
-  let generateRxDetailTxtFileStub;
+  let generateMedicationsPDFStub;
+  let generateTextFileStub;
 
   const mockUser = {
     first: 'John',
@@ -83,12 +83,12 @@ describe('useRxDetailExport', () => {
       .stub(txtConfigs, 'buildVAPrescriptionTXT')
       .returns('prescription text');
     sandbox.stub(txtConfigs, 'buildAllergiesTXT').returns('allergies text');
-    generateRxDetailPdfFileStub = sandbox
-      .stub(generateRxDetailPdfFileModule, 'generateRxDetailPdfFile')
+    generateMedicationsPDFStub = sandbox
+      .stub(generateMedicationsPDFModule, 'generateMedicationsPDF')
       .resolves();
-    generateRxDetailTxtFileStub = sandbox.stub(
-      generateRxDetailTxtFileModule,
-      'generateRxDetailTxtFile',
+    generateTextFileStub = sandbox.stub(
+      generateTextFileModule,
+      'generateTextFile',
     );
   });
 
@@ -144,7 +144,7 @@ describe('useRxDetailExport', () => {
       result.current.onDownload(DOWNLOAD_FORMAT.PDF);
 
       await waitFor(() => {
-        expect(generateRxDetailPdfFileStub.calledOnce).to.be.true;
+        expect(generateMedicationsPDFStub.calledOnce).to.be.true;
       });
     });
 
@@ -166,7 +166,7 @@ describe('useRxDetailExport', () => {
       result.current.onDownload(DOWNLOAD_FORMAT.TXT);
 
       await waitFor(() => {
-        expect(generateRxDetailTxtFileStub.calledOnce).to.be.true;
+        expect(generateTextFileStub.calledOnce).to.be.true;
       });
     });
 
@@ -212,7 +212,7 @@ describe('useRxDetailExport', () => {
 
       // Wait a bit to ensure PDF generation is not triggered
       await new Promise(resolve => setTimeout(resolve, 100));
-      expect(generateRxDetailPdfFileStub.called).to.be.false;
+      expect(generateMedicationsPDFStub.called).to.be.false;
     });
   });
 
