@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
@@ -435,44 +435,77 @@ describe('Edit Contact List container', async () => {
   });
 
   it('adds eventListener if path is /contact-list', async () => {
-    const screen = setup();
-
+    // Create spy BEFORE setup to capture all addEventListener calls across Node versions
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+
+    const screen = setup();
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
     );
 
-    checkVaCheckbox(checkbox, false);
+    // Count beforeunload listeners after initial render (varies by Node version)
+    const initialBeforeunloadCount = addEventListenerSpy
+      .getCalls()
+      .filter(call => call.args[0] === 'beforeunload').length;
 
-    await waitFor(() => {
-      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    // Click checkbox to trigger a contact list change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, false);
     });
+
+    // Verify a NEW beforeunload listener was added after the change
+    await waitFor(() => {
+      const newBeforeunloadCount = addEventListenerSpy
+        .getCalls()
+        .filter(call => call.args[0] === 'beforeunload').length;
+      expect(newBeforeunloadCount).to.be.above(initialBeforeunloadCount);
+    });
+
+    addEventListenerSpy.restore();
   });
 
   it('removes eventListener if contact list changes are reverted', async () => {
-    const screen = setup();
-
+    // Create spies BEFORE setup to capture all calls across Node versions
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+
+    const screen = setup();
 
     const checkbox = await screen.findByTestId(
       'contact-list-select-team-1013155',
     );
 
-    checkVaCheckbox(checkbox, false);
+    // Count beforeunload listeners after initial render
+    const initialBeforeunloadCount = addEventListenerSpy
+      .getCalls()
+      .filter(call => call.args[0] === 'beforeunload').length;
 
-    await waitFor(() => {
-      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    // Click checkbox to trigger a contact list change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, false);
     });
 
-    checkVaCheckbox(checkbox, true);
+    // Verify a NEW beforeunload listener was added
+    await waitFor(() => {
+      const newBeforeunloadCount = addEventListenerSpy
+        .getCalls()
+        .filter(call => call.args[0] === 'beforeunload').length;
+      expect(newBeforeunloadCount).to.be.above(initialBeforeunloadCount);
+    });
 
+    // Click checkbox again to revert the change - wrap in act to ensure state updates flush
+    await act(async () => {
+      checkVaCheckbox(checkbox, true);
+    });
+
+    // Verify beforeunload listener was removed
     await waitFor(() => {
       expect(removeEventListenerSpy.calledWith('beforeunload')).to.be.true;
     });
+
+    addEventListenerSpy.restore();
+    removeEventListenerSpy.restore();
   });
 
   it('error alert displayed if "save" clicked and an error is returned', async () => {
@@ -504,14 +537,22 @@ describe('Edit Contact List container', async () => {
     mockApiRequest({ ...errorResponse, status: 403 }, false);
     fireEvent.click(saveButton);
 
+    // NODE 22 FIX: Split assertions into separate waitFor calls. In Node 22,
+    // the alert component may render before its text content is populated.
+    // First wait for the alert to appear with error status, then wait for the text.
+    // This doesn't change test behavior - we're still verifying the same things,
+    // just in a more resilient order that handles async rendering differences.
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
+      expect(alert).to.exist;
       expect(alert.getAttribute('status')).to.equal('error');
-      expect(
-        screen.getByText(
-          "We're sorry. We couldn't save your changes. Try saving again.",
-        ),
-      ).to.exist;
+    });
+
+    await waitFor(() => {
+      const alertText = screen.getByTestId('alert-text');
+      expect(alertText.textContent).to.include(
+        "We're sorry. We couldn't save your changes. Try saving again.",
+      );
     });
 
     screen.unmount();

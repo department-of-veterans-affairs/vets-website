@@ -1,5 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
+import { addDays, addMinutes, subDays, format } from 'date-fns';
+import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Wrapper from './Wrapper';
@@ -176,6 +178,133 @@ describe('VASS Component: Wrapper', () => {
         defaultRenderOptions,
       );
       expect(queryByTestId('loading-indicator')).to.not.exist;
+    });
+  });
+
+  describe('maintenance window', () => {
+    it('should render maintenance message when service is down', () => {
+      const serviceMap = createServiceMap([
+        {
+          attributes: {
+            externalService: 'vass',
+            status: 'down',
+            startTime: format(subDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+            endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+          },
+        },
+      ]);
+
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div data-testid="child-content">Child content</div>
+        </Wrapper>,
+        {
+          ...defaultRenderOptions,
+          initialState: {
+            ...defaultRenderOptions.initialState,
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap,
+              dismissedDowntimeWarnings: [],
+            },
+          },
+        },
+      );
+
+      expect(screen.queryByText(/down for maintenance/)).to.exist;
+      expect(screen.queryByTestId('child-content')).to.not.exist;
+    });
+
+    it('should render maintenance approaching message', () => {
+      // startTime 30 minutes from now triggers "downtimeApproaching" status
+      const serviceMap = createServiceMap([
+        {
+          attributes: {
+            externalService: 'vass',
+            startTime: format(
+              addMinutes(new Date(), 30),
+              "yyyy-MM-dd'T'HH:mm:ss",
+            ),
+            endTime: format(addDays(new Date(), 1), "yyyy-MM-dd'T'HH:mm:ss"),
+          },
+        },
+      ]);
+
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div data-testid="child-content">Child content</div>
+        </Wrapper>,
+        {
+          ...defaultRenderOptions,
+          initialState: {
+            ...defaultRenderOptions.initialState,
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap,
+              dismissedDowntimeWarnings: [],
+            },
+          },
+        },
+      );
+
+      // The modal element uses id attribute, not data-testid
+      const modal = screen.container.querySelector(
+        '#downtime-approaching-modal',
+      );
+      expect(modal).to.exist;
+      expect(screen.getByTestId('child-content')).to.exist;
+      expect(modal.getAttribute('secondary-button-text')).to.eq('Dismiss');
+    });
+
+    it('should render default maintenance message without description', () => {
+      const serviceMap = createServiceMap([
+        {
+          attributes: {
+            externalService: 'vass',
+            status: 'down',
+            startTime: format(subDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+            endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+          },
+        },
+      ]);
+
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div data-testid="child-content">Child content</div>
+        </Wrapper>,
+        {
+          ...defaultRenderOptions,
+          initialState: {
+            ...defaultRenderOptions.initialState,
+            scheduledDowntime: {
+              globalDowntime: null,
+              isReady: true,
+              isPending: false,
+              serviceMap,
+              dismissedDowntimeWarnings: [],
+            },
+          },
+        },
+      );
+
+      expect(screen.queryByText(/down for maintenance/)).to.exist;
+      expect(screen.queryByTestId('child-content')).to.not.exist;
+    });
+
+    it('should render children when no maintenance window is active', () => {
+      const screen = renderWithStoreAndRouter(
+        <Wrapper>
+          <div data-testid="child-content">Child content</div>
+        </Wrapper>,
+        defaultRenderOptions,
+      );
+
+      expect(screen.getByTestId('child-content')).to.exist;
+      expect(screen.queryByText(/down for maintenance/)).to.not.exist;
     });
   });
 });
