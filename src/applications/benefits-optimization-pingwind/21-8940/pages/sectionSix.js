@@ -3,20 +3,19 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import {
   checkboxRequiredSchema,
   checkboxUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Section VI: Authorization, Certification, and Signature'),
     'ui:description': (
       <div>
-        <h3 style={{ marginTop: 0 }}>
-          Section VI: Authorization, Certification, and Signature
-        </h3>
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <span slot="headline" className="vads-u-font-weight--bold">
+          <h2 slot="headline" className="vads-u-font-weight--bold">
             What to expect:
-          </span>
+          </h2>
           <div className="vads-u-margin--0">
             <ul style={{ marginBottom: 0 }}>
               <li>Authorize the release of your application</li>
@@ -51,9 +50,9 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="warning" class="vads-u-margin-top--3" uswds visible>
-          <span slot="headline" className="vads-u-font-weight--bold">
+          <h2 slot="headline" className="vads-u-font-weight--bold">
             Penalty
-          </span>
+          </h2>
           <p className="vads-u-margin--0">
             The law provides severe penalties which include fine or imprisonment
             or both for the willful submission of any statement or evidence of a
@@ -67,9 +66,9 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <span slot="headline" className="vads-u-font-weight--bold">
+          <h3 slot="headline" className="vads-u-font-weight--bold">
             Privacy Act Notice
-          </span>
+          </h3>
           <p className="vads-u-margin--0">
             VA will not disclose information collected on this form to any
             source other than what has been authorized under the Privacy Act of
@@ -96,9 +95,9 @@ export default {
       'ui:field': 'ViewField',
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
-          <span slot="headline" className="vads-u-font-weight--bold">
+          <h3 slot="headline" className="vads-u-font-weight--bold">
             Respondent Burden
-          </span>
+          </h3>
           <p className="vads-u-margin--0">
             An agency may not conduct or sponsor, and a person is not required
             to respond to a collection of information unless it displays a

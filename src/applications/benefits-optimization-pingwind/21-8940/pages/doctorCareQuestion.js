@@ -1,16 +1,9 @@
 import React from 'react';
 import {
-  inlineTitleUI,
+  titleUI,
   yesNoSchema,
   yesNoUI,
-  radioUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-
-const doctorCareTypeOptions = [
-  { value: 'nonVa', label: 'Non-VA Doctor' },
-  { value: 'va', label: 'VA Doctor' },
-  { value: 'both', label: 'Both VA and Non-VA Doctor' },
-];
 
 import { doctorCareQuestionFields } from '../definitions/constants';
 
@@ -18,7 +11,7 @@ import { doctorCareQuestionFields } from '../definitions/constants';
 export default {
   uiSchema: {
     [doctorCareQuestionFields.parentObject]: {
-      ...inlineTitleUI(
+      ...titleUI(
         'Recent Medical Care',
         'Tell us more about the doctors treating you and when.',
       ),
@@ -28,26 +21,11 @@ export default {
           Y: "Yes, I have been under a doctor's care in the past 12 months",
           N: "No, I have NOT been under a doctor's care in the past 12 months",
         },
-      }),
-      doctorCareType: {
-        ...radioUI({
-          title: 'What type of doctor(s) treated you?',
-          options: doctorCareTypeOptions,
-          errorMessages: {
-            required: 'Please select if this is a VA or Non-VA doctor',
-          },
-        }),
-        'ui:required': formData =>
-          formData?.[doctorCareQuestionFields.parentObject]?.[
-            doctorCareQuestionFields.hasReceivedDoctorCare
-          ] === true,
-        'ui:options': {
-          hideIf: formData =>
-            !formData?.[doctorCareQuestionFields.parentObject]?.[
-              doctorCareQuestionFields.hasReceivedDoctorCare
-            ],
+        errorMessages: {
+          required:
+            'Select a response to tell us if you have been under a doctor’s care in the last year.',
         },
-      },
+      }),
       'view:doctorCareTypeDescription': {
         'ui:description': () => (
           <div>
@@ -77,8 +55,8 @@ export default {
           </div>
         ),
         'ui:options': {
-          expandUnder: 'doctorCareType',
-          expandUnderCondition: val => val === 'nonVa' || val === 'both',
+          expandUnder: doctorCareQuestionFields.hasReceivedDoctorCare,
+          expandUnderCondition: true,
         },
       },
       'ui:options': {
@@ -96,11 +74,6 @@ export default {
         required: [doctorCareQuestionFields.hasReceivedDoctorCare],
         properties: {
           [doctorCareQuestionFields.hasReceivedDoctorCare]: yesNoSchema,
-          doctorCareType: {
-            type: 'string',
-            enum: doctorCareTypeOptions.map(o => o.value),
-            enumNames: doctorCareTypeOptions.map(o => o.label),
-          },
           'view:doctorCareTypeDescription': {
             type: 'object',
             properties: {},
