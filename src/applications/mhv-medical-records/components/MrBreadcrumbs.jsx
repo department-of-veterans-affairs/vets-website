@@ -27,7 +27,14 @@ const MrBreadcrumbs = () => {
   const textContent = document.querySelector('h1')?.textContent;
   const searchIndex = new URLSearchParams(location.search);
   const page = searchIndex.get('page');
-  const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
+  const {
+    labId,
+    vaccineId,
+    summaryId,
+    allergyId,
+    conditionId,
+    radiologyId,
+  } = useParams();
 
   const urlTimeFrame = searchIndex.get('timeFrame');
 
@@ -107,7 +114,8 @@ const MrBreadcrumbs = () => {
         vaccineId ||
         summaryId ||
         allergyId ||
-        conditionId}`,
+        conditionId ||
+        radiologyId}`,
     )
   ) {
     const url = `${backToImagesBreadcrumb}${
