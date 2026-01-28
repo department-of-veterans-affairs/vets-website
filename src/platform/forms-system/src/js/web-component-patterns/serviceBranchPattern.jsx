@@ -167,7 +167,7 @@ export const serviceBranchUI = options => {
     labels = JSON.parse(JSON.stringify(DEFAULT_BRANCH_LABELS));
   }
 
-  // don't render optgroups if only one group or for branches of if user sets optGroups = false
+  // don't render optgroups if only one group or for branches or if user sets optGroups = false
   if (!optGroups || (groups && groups.length === 1) || branches) {
     Object.keys(labels).forEach(key => {
       delete labels[key].group;
@@ -219,6 +219,12 @@ export const serviceBranchSchema = ({ branches, groups } = {}) => {
   } else {
     labels = Object.keys(DEFAULT_BRANCH_LABELS);
   }
+
+  labels.sort((a, b) => {
+    const { label: labelA } = DEFAULT_BRANCH_LABELS[a];
+    const { label: labelB } = DEFAULT_BRANCH_LABELS[b];
+    return labelA.localeCompare(labelB);
+  });
 
   return {
     type: 'string',
