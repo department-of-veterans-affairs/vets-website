@@ -825,7 +825,9 @@ describe('Refill Prescriptions Component', () => {
       sandbox
         .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
         .returns([
-          sinon.stub().resolves({ data: { successfulIds: [22377956], failedIds: [] } }),
+          sinon
+            .stub()
+            .resolves({ data: { successfulIds: [22377956], failedIds: [] } }),
           { isLoading: true, error: null }, // This makes isDataLoading = true, preventing interactions
         ]);
       stubAllergiesApi({ sandbox });

@@ -135,7 +135,9 @@ const RefillPrescriptions = () => {
   // Use the original refillable prescriptions list without client-side filtering
   // This prevents duplicate refill attempts by relying on server-side data consistency
   // Cache invalidation in the API (invalidatesTags) will handle removing refilled prescriptions
-  const fullRefillList = refillableData?.prescriptions || [];
+  const fullRefillList = useMemo(() => refillableData?.prescriptions || [], [
+    refillableData?.prescriptions,
+  ]);
 
   // Hide the refillable list during cache refresh after successful refill to prevent duplicate attempts
   const hideList = isRefreshing;
