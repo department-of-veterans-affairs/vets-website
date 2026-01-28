@@ -162,6 +162,25 @@ export const vassApi = createApi({
         }
       },
     }),
+    getUserAppointment: builder.query({
+      async queryFn() {
+        try {
+          const token = getVassToken();
+          return await api('/vass/v0/user/appointment', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } catch (error) {
+          // captureError(error, false, 'get user appointment');
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
+      },
+    }),
   }),
 });
 
@@ -172,4 +191,6 @@ export const {
   useGetAppointmentQuery,
   useGetTopicsQuery,
   useGetAppointmentAvailabilityQuery,
+  useGetUserAppointmentQuery,
+  useLazyGetUserAppointmentQuery,
 } = vassApi;

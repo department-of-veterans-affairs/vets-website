@@ -13,6 +13,13 @@ const mockUUIDs = Object.freeze({
     otc: '123456',
     email: 's****@email.com',
   },
+  // Test user with existing appointment - use this UUID to test redirect flow
+  'has-appointment': {
+    lastname: 'Smith',
+    dob: '1935-04-07',
+    otc: '123456',
+    email: 's****@email.com',
+  },
 });
 
 // uuid -> date string of last attempt in ISO 8601 format (UTC) delimited by count of attempts example: '2026-01-12T10:00:00Z|1'
@@ -25,6 +32,10 @@ const otcUseCounts = new Map(); // uuid -> count
 const maxOtcUseCount = 5;
 
 const mockAppointments = [createAppointmentData()];
+
+// Track which UUIDs have existing appointments
+// For testing: 'has-appointment' UUID will have an existing appointment
+const userAppointments = new Map([['has-appointment', mockAppointments[0]]]);
 
 const responses = {
   'POST /vass/v0/authenticate': (req, res) => {
@@ -162,6 +173,42 @@ const responses = {
         appointmentId: uuid,
         availableTimeSlots: generateSlots(),
       },
+    });
+  },
+  'GET /vass/v0/user/appointment': (req, res) => {
+    const { headers } = req;
+    const [, token] = headers.authorization?.split(' ') || [];
+    const tokenPayload = decodeJwt(token);
+
+    const uuid = tokenPayload?.payload?.sub;
+    if (!token || !uuid) {
+      return res.status(401).json({
+        errors: [
+          {
+            code: 'unauthorized',
+            detail: 'Invalid or missing authentication token',
+            status: 401,
+          },
+        ],
+      });
+    }
+
+    const appointment = userAppointments.get(uuid);
+
+    if (appointment) {
+      return res.json({
+        data: appointment,
+      });
+    }
+
+    return res.status(404).json({
+      errors: [
+        {
+          code: 'not_found',
+          detail: 'No appointment found for user',
+          status: 404,
+        },
+      ],
     });
   },
 };
