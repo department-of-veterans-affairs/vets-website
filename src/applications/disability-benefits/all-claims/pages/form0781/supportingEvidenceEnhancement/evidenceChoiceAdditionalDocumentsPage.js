@@ -4,6 +4,7 @@ import {
   standardTitle,
   mentalHealthSupportAlert,
 } from '../../../content/form0781';
+import { additionalSupportAccordion } from '../../../content/supportingEvidenceOrientation';
 import {
   evidenceChoiceAdditionalDocumentsTitle,
   evidenceChoiceAdditionalDocumentsContent,
@@ -16,6 +17,7 @@ export const uiSchema = {
   'ui:title': standardTitle(evidenceChoiceAdditionalDocumentsTitle),
   'ui:order': [
     'evidenceChoiceAdditionalDocuments',
+    'view:additionalSupportAccordionEvidenceChoiceAdditionalDocuments',
     'view:mentalHealthSupportAlertEvidenceChoiceAdditionalDocuments',
   ],
   evidenceChoiceAdditionalDocuments: {
@@ -31,6 +33,9 @@ export const uiSchema = {
       label: 'Uploaded file(s)',
     }),
   },
+  'view:additionalSupportAccordionEvidenceChoiceAdditionalDocuments': {
+    'ui:description': additionalSupportAccordion,
+  },
   'view:mentalHealthSupportAlertEvidenceChoiceAdditionalDocuments': {
     'ui:description': mentalHealthSupportAlert,
   },
@@ -41,6 +46,10 @@ export const schema = {
   required: ['evidenceChoiceAdditionalDocuments'],
   properties: {
     evidenceChoiceAdditionalDocuments: attachments,
+    'view:additionalSupportAccordionEvidenceChoiceAdditionalDocuments': {
+      type: 'object',
+      properties: {},
+    },
     'view:mentalHealthSupportAlertEvidenceChoiceAdditionalDocuments': {
       type: 'object',
       properties: {},
