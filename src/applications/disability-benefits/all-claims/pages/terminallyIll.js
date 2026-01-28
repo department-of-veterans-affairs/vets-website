@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
- * Terminally Ill page for VA Form 21-0966 (Disability Benefits Claim).
+ * Terminally Ill page for VA Form 21-526EZ (Disability Compensation and Related Compensation Benefits).
  *
  * This page asks if the veteran is terminally ill to help prioritize
  * their disability claim processing.
