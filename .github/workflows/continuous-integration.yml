@@ -792,6 +792,7 @@ jobs:
         with:
           aws_region: us-gov-west-1
           role: ${{ vars.AWS_ASSUME_ROLE }}
+          role_duration: 7200
 
       - name: Login to Amazon ECR
         id: login-ecr
