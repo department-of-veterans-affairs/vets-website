@@ -197,7 +197,7 @@
         "type": "REQUEST",
         "modality": "vaVideoCareAtHome",
         "past": false,
-        "future": true,
+        "future": false,
         "pending": true
       }
     },
@@ -398,7 +398,7 @@
         "type": "REQUEST",
         "modality": "vaVideoCareAtHome",
         "past": false,
-        "future": true,
+        "future": false,
         "pending": true
       }
     }

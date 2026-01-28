@@ -1,33 +1,6 @@
-const { formatInTimeZone } = require('date-fns-tz');
-const { APPOINTMENT_STATUS } = require('../../../../utils/constants');
-const { findNextBusinessDay } = require('../../utils/confirmedAppointments');
-const { getMockSlots } = require('../../utils/slots');
-const clinics983 = require('../../v2/clinics_983.json');
-const confirmed = require('../../v2/confirmed.json');
+const clinics = require('../../v2/clinics_983.json');
 
 function postAppointmentHandler(req, res) {
-  const MockAppointmentResponse = {
-    data: confirmed.data,
-  };
-
-  const nextBusinessDay = findNextBusinessDay();
-  const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Get YYYY-MM-DD format
-  const nextBusinessDayAppointments = MockAppointmentResponse.data.filter(
-    appointment => {
-      const appointmentDate = appointment.attributes.start?.split('T')[0];
-      return appointmentDate === nextBusinessDayString;
-    },
-  );
-
-  const appointmentSlotsV2 = getMockSlots({
-    existingAppointments: MockAppointmentResponse.data,
-    futureMonths: 6,
-    pastMonths: 1,
-    slotsPerDay: 10,
-    conflictRate: 0.4, // 40% of days with appointments will have conflicts
-    forceConflictWithAppointments: nextBusinessDayAppointments,
-  });
-
   // key: NPI, value: Provider Name
   const providerMock = {
     1801312053: 'AJADI, ADEDIWURA',
@@ -51,25 +24,13 @@ function postAppointmentHandler(req, res) {
     practitioners = [{ identifier: [{ system: null, value: null }] }],
     kind,
   } = req.body;
-  const selectedClinic = clinics983.data.filter(
+  const selectedClinic = clinics.data.filter(
     clinic => clinic.id === req.body.clinic,
   );
   const providerNpi = practitioners[0]?.identifier[0].value;
-  const selectedTime = appointmentSlotsV2.data
-    .filter(slot => slot.id === req.body.slot?.id)
-    .map(slot => slot.attributes.start);
+  const pending = req.body.status === 'proposed';
+  const future = req.body.status === 'booked';
 
-  // convert to local time in America/Denver timezone
-  let localTime;
-  if (selectedTime && selectedTime.length) {
-    localTime = formatInTimeZone(
-      selectedTime[0],
-      'America/Denver',
-      'yyyy-MM-ddTHH:mm:ss',
-    );
-  }
-  const pending = req.body.status === APPOINTMENT_STATUS.proposed;
-  const future = req.body.status === APPOINTMENT_STATUS.booked;
   let patientComments;
   let type;
   let modality;
@@ -88,38 +49,36 @@ function postAppointmentHandler(req, res) {
     modality = 'vaInPerson';
   }
 
-  const submittedAppt = {
+  const tokens = req.body.slot?.id.split('|');
+  const response = {
     id: `mock${global.currentMockId}`,
     attributes: {
       ...req.body,
-      created: new Date().toISOString(),
-      kind,
-      type,
-      modality,
-      localStartTime: req.body.slot?.id ? localTime : null,
-      start: req.body.slot?.id ? selectedTime[0] : null,
-      preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
+      cancellable: true,
       contact: {
         telecom: [
-          {
-            type: 'phone',
-            value: '6195551234',
-          },
-          {
-            type: 'email',
-            value: 'myemail72585885@unattended.com',
-          },
+          { type: 'phone', value: '6195551234' },
+          { type: 'email', value: 'myemail72585885@unattended.com' },
         ],
       },
-      physicalLocation: selectedClinic[0]?.attributes.physicalLocation || null,
-      patientComments,
+      created: new Date().toISOString(),
       future,
+      id: `mock${global.currentMockId}`,
+      kind,
+      localStartTime: req.body.slot?.id ? tokens[2] : null, // TODO: Default to current date????
+      modality,
+      patientComments,
       pending,
+      physicalLocation: selectedClinic[0]?.attributes.physicalLocation || null,
+      preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
+      start: req.body.slot?.id ? tokens[2] : null, // TODO: Default to current date????
+      type,
     },
   };
-  global.currentMockId += 1;
-  global.database?.push(submittedAppt);
 
-  return res.json({ data: submittedAppt });
+  global.currentMockId += 1;
+  global.database?.push(response);
+
+  return res.json({ data: response });
 }
 exports.postAppointmentHandler = postAppointmentHandler;

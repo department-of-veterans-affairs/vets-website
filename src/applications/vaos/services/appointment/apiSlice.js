@@ -24,7 +24,7 @@ const slice = createApi({
   tagTypes: ['Appointment'],
   // The base query used by each endpoint if no queryFn option is specified.
   baseQuery: async (
-    url,
+    args,
     _api,
     extraOptions = {
       method: 'GET',
@@ -39,18 +39,20 @@ const slice = createApi({
       // error and it ignore unknown attributes. It is expected to return an
       // object with either a data or error property, or a promise that resolves
       // to return such an object.
-      // console.log(url)
+      // console.log(args)
       // if (process.env.LOG_LEVEL === 'debug')
       //   console.log(
-      //     `API Call: ${environment.API_URL}/vaos/v2/appointments${url}`,
+      //     `API Call: ${environment.API_URL}/vaos/v2/appointments${args}`,
       //   );
+      const url = typeof args === 'string' ? args : args?.url;
       const response = await apiRequestWithUrl(`/vaos/v2/appointments${url}`, {
         method: extraOptions.method,
         headers: {
+          'X-BaseQuery': true,
           'Content-Type': 'application/json',
           ...acheronHeader.headers,
         },
-        body: JSON.stringify(extraOptions?.body),
+        body: JSON.stringify(args?.body),
       });
 
       return {
@@ -74,6 +76,24 @@ const slice = createApi({
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'Appointment', id },
       ],
+    }),
+    createAppointment: builder.mutation({
+      query(body) {
+        return {
+          url: '',
+          method: 'POST',
+          body,
+        };
+      },
+      extraOptions: {
+        method: 'POST',
+      },
+      invalidatesTags: (_result, _error) => [
+        { type: 'Appointment', id: 'LIST' },
+      ],
+      onCacheEntryAdded(args) {
+        console.log('args', args);
+      },
     }),
     getAppointment: builder.query({
       // NOTE: You must specify either a query field (which will use the API's
@@ -119,9 +139,11 @@ const slice = createApi({
           ? // successful query
             [
               ...result.map(({ id }) => ({ type: 'Appointment', id })),
+              // The `LIST` id is a made up "virtual id" used to invalidate
+              // this query specifically if a new `Appointment` element is added.
               { type: 'Appointment', id: 'LIST' },
             ]
-          : // an error occurred, but we still want to refetch this query when `{ type: 'Appointment', id: 'LIST' }` is invalidated
+          : // An error occurred, but we still want to refetch this query when `{ type: 'Appointment', id: 'LIST' }` is invalidated
             [{ type: 'Appointment', id: 'LIST' }],
       transformResponse: transformResponses,
       async onQueryStarted(body, { _dispatch, queryFulfilled }) {
@@ -297,11 +319,12 @@ export function sortByDateDescending(a, b) {
 }
 
 export const {
+  useCancelAppointmentMutation,
+  useCreateAppointmentMutation,
   useGetAppointmentQuery,
-  useGetAppointmentsQuery,
   useGetAppointmentRequestQuery,
   useGetAppointmentRequestsQuery,
-  useCancelAppointmentMutation,
+  useGetAppointmentsQuery,
 } = slice;
 
 export default slice;
