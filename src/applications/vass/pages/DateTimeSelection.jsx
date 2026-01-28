@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
@@ -35,6 +35,63 @@ const DateTimeSelection = () => {
   const timezone = getBrowserTimezone();
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
+
+  // Warn user when pressing back button
+  useEffect(() => {
+    const handlePopState = () => {
+      // eslint-disable-next-line no-alert
+      const confirmLeave = window.confirm(
+        'Are you sure you want to leave? Your progress will not be saved.',
+      );
+
+      if (!confirmLeave) {
+        // User cancelled - push forward to stay on page
+        window.history.pushState(null, '', window.location.pathname);
+      }
+      // If confirmed, the back navigation has already happened naturally
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  // Warn user when clicking external links
+  useEffect(() => {
+    const handleClick = e => {
+      const link = e.target.closest('a');
+      if (!link) return;
+
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      // Check if it's an external link
+      const isExternal =
+        href.startsWith('http://') ||
+        href.startsWith('https://') ||
+        href.startsWith('www.');
+
+      if (isExternal) {
+        e.preventDefault();
+        // eslint-disable-next-line no-alert
+        const confirmLeave = window.confirm(
+          'Are you sure you want to leave? Your progress will not be saved.',
+        );
+
+        if (confirmLeave) {
+          window.location.href = href;
+        }
+      }
+    };
+
+    document.addEventListener('click', handleClick, true);
+
+    return () => {
+      document.removeEventListener('click', handleClick, true);
+    };
+  }, []);
 
   // This is for loading not sure if we will need it
   const disabledMessage = null;
