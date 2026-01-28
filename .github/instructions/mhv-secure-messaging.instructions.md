@@ -801,6 +801,50 @@ Update this file when you:
   - Focus success alert after actions
   - Trap focus in modals with `trapFocus()`
   - Return focus after modal close
+- **Alert Placement Pattern (WCAG 1.3.2, 2.4.3, 4.1.3)**:
+  - **Rule**: Success/info alerts MUST appear BELOW the page heading (`<h1>`), not above
+  - **Why**: MHV sets focus to `<h1>` on page load. If alert is above h1, screen reader users must backtrack to find it. Placing alert after h1 ensures users encounter it in natural reading order.
+  - **WCAG References**:
+    - 1.3.2 Meaningful Sequence: Alert follows h1 in DOM order
+    - 2.4.3 Focus Order: Focus on h1 first, alert follows logically
+    - 4.1.3 Status Messages: Use `role="status"` for polite announcement
+  - **Pattern**:
+    ```jsx
+    // ✅ CORRECT: Alert after h1 heading
+    {folderId !== undefined && (
+      <>
+        <FolderHeader ... />   {/* Contains <h1> */}
+        <AlertBackgroundBox closeable />   {/* Alert AFTER h1 */}
+        {content}
+      </>
+    )}
+    ```
+  - **Anti-pattern**:
+    ```jsx
+    // ❌ WRONG: Alert before h1 heading
+    <AlertBackgroundBox closeable />   {/* Alert BEFORE h1 - BAD */}
+    <FolderHeader ... />   {/* Contains <h1> */}
+    {content}
+    ```
+  - **Dual-Render Pattern for Error vs Success Alerts**:
+    - Error alerts (e.g., API failure when `folder === null`) may need to render at top when page content doesn't exist
+    - Success alerts render after h1 when page content exists
+    - Example from `FolderThreadListView.jsx`:
+      ```jsx
+      {folder === null && <AlertBackgroundBox closeable />}  {/* Error case at top */}
+      {folderId !== undefined && (
+        <>
+          <FolderHeader ... />
+          <AlertBackgroundBox closeable />  {/* Success case after h1 */}
+          {content}
+        </>
+      )}
+      ```
+  - **role="status" Requirement**:
+    - Add `role="status"` to `VaAlert` components that appear after user actions
+    - This allows assistive tech to announce the alert politely without interrupting
+    - Implicit `aria-live="polite"` and `aria-atomic="true"`
+    - Reference: [VADS Alert guidance](https://design.va.gov/components/alert/#web-4)
 - **Testing**:
   - Run `cy.axeCheck(AXE_CONTEXT)` in all Cypress tests
   - Fix all violations before merging
