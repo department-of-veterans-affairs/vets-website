@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
@@ -29,10 +29,54 @@ const DateTimeSelection = () => {
   const [{ error, handleSetError }] = useErrorFocus([
     '.vaos-calendar__validation-msg',
   ]);
+  const isNavigatingAway = useRef(false);
 
   const timezone = getBrowserTimezone();
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
+
+  // Warn on page refresh/close
+  useEffect(() => {
+    const handleBeforeUnload = e => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  // Warn on back button
+  useEffect(() => {
+    window.history.pushState(null, '', window.location.pathname);
+
+    const handlePopState = () => {
+      if (isNavigatingAway.current) {
+        return;
+      }
+
+      // eslint-disable-next-line no-alert
+      const confirmLeave = window.confirm(
+        'This page is asking you to confirm that you want to leave — information you’ve entered may not be saved.',
+      );
+
+      if (!confirmLeave) {
+        window.history.pushState(null, '', window.location.pathname);
+      } else {
+        isNavigatingAway.current = true;
+        window.history.back();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   // This is for loading not sure if we will need it
   const disabledMessage = null;
