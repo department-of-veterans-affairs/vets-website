@@ -14,15 +14,15 @@ const responses = {
           stateList: [
             {
               stepCode: 'APPL',
-              status: 'COMPLETED',
+              status: 'PENDING',
             },
             {
               stepCode: 'ELGLDET',
-              status: 'COMPLETED',
+              status: 'ACTIVE',
             },
             {
               stepCode: 'ORICMPT',
-              status: 'ACTIVE',
+              status: 'PENDING',
             },
             {
               stepCode: 'INTAKE',

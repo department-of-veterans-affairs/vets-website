@@ -2,7 +2,7 @@ import React from 'react';
 
 const AppointmentScheduledAlert = () => {
   return (
-    <div className="usa-width-two-thirds vads-u-margin-y--3">
+    <div className="vads-u-margin-y--3">
       <va-alert-expandable
         status="info"
         trigger="You have an Appointment Scheduled"
