@@ -26,7 +26,7 @@ const uiSchema = {
         hint: 'Maximum limit is 100 characters',
         charcount: true,
         errorMessages: {
-          required: 'Please enter a security question',
+          required: 'You must enter a security question',
         },
       }),
     },

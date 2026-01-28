@@ -18,7 +18,7 @@ describe('10278 securitySetupCustomQuestion page', () => {
 
     expect(questionErrors).to.have.property(
       'required',
-      'Please enter a security question',
+      'You must enter a security question',
     );
     expect(answerErrors).to.have.property(
       'required',
