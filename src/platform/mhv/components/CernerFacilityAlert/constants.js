@@ -52,14 +52,14 @@ export const CernerAlertContent = {
     infoAlertText:
       'You can review and download most of your medical records here.',
     // Migration alert configuration
-    warningPhases: ['p1', 'p2', 'p3'],
+    warningPhases: ['p1', 'p2', 'p3', 'p4'],
     warningMessage: `there may be a delay in updating medical records for`,
-    errorPhases: ['p4', 'p5', 'p6'],
+    errorPhases: ['p5', 'p6'],
     errorGetHeadline: endDate =>
       `New medical records may not appear here until ${endDate}`,
     errorIntro: 'Medical records',
     errorMessage: `may not be updated for`,
-    errorStartDate: 'p4',
+    errorStartDate: 'p5',
     errorEndDate: 'p6',
   },
   MEDICATIONS: {
