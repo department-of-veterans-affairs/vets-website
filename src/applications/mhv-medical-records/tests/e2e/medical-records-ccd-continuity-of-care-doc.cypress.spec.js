@@ -35,7 +35,7 @@ describe('Medical Records download page', () => {
     cy.axeCheck('main');
   });
 
-  it('Non-Cerner user sees V2 extended format accordion (not dual)', () => {
+  it('VistA only user sees V2 extended format accordion', () => {
     site.mockFeatureToggles({
       isCcdExtendedFileTypesEnabled: true,
     });
@@ -43,9 +43,9 @@ describe('Medical Records download page', () => {
     DownloadReportsPage.goToReportsPage();
     DownloadReportsPage.clickCcdAccordionItem();
 
-    cy.get('[data-testid="generateCcdButtonXml"]').should('be.visible');
-    cy.get('[data-testid="generateCcdButtonPdf"]').should('be.visible');
-    cy.get('[data-testid="generateCcdButtonHtml"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonXmlVistA"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonPdfVistA"]').should('be.visible');
+    cy.get('[data-testid="generateCcdButtonHtmlVistA"]').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
   });
