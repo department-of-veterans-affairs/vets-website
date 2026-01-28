@@ -716,9 +716,9 @@ jobs:
         with:
           name: vagovprod.tar.bz2
 
-      - name: Install bzip2
+      - name: Install missing dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: apt-get update && apt-get install -y bzip2
+        run: apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -767,7 +767,7 @@ jobs:
           node src/platform/testing/e2e/test-server.js \
             --buildtype=vagovprod \
             --port=3001 \
-            --host=0.0.0.0 \
+            --host=127.0.0.1 \
             > test-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
