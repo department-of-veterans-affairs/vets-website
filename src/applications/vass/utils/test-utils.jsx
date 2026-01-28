@@ -4,9 +4,11 @@
  * This module provides shared test helpers to avoid duplicating redux state
  * configuration across multiple test files.
  */
+import React from 'react';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { commonReducer } from 'platform/startup/store';
+import { useLocation } from 'react-router-dom-v5-compat';
 import reducers from '../redux/reducers';
 
 import { vassApi } from '../redux/api/vassApi';
@@ -133,6 +135,22 @@ export const getHydratedFormRenderOptions = (vassFormOverrides = {}) => {
     store,
   };
 };
+
+// Helper component to display current location for testing navigation
+export const LocationDisplay = () => {
+  const location = useLocation();
+  return (
+    <div data-testid="location-display">
+      {location.pathname}
+      {location.search}
+    </div>
+  );
+};
+
+// Simple test component to wrap
+export const TestComponent = () => (
+  <div data-testid="test-component">Test Content</div>
+);
 
 // Re-export commonly used items for convenience
 export { reducers, vassApi };
