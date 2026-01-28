@@ -50,12 +50,12 @@ export const routes = [
     flowType: FLOW_TYPES.ANY, // Entry point for both flows
     setsData: ['uuid', 'lastname', 'dob', 'obfuscatedEmail'],
   },
-  // Low auth routes - require form data but redirect if user already has token
+  // Low auth routes - require form data
   {
     path: URLS.ENTER_OTC,
     component: EnterOTC,
     permissions: {
-      requiresAuthorization: AUTH_LEVELS.LOW_AUTH_ONLY,
+      requiresAuthorization: AUTH_LEVELS.NONE,
       requireFormData: ['uuid', 'lastname', 'dob', 'obfuscatedEmail'],
     },
     flowType: FLOW_TYPES.ANY, // Both flows go through OTC verification
