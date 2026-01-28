@@ -159,13 +159,4 @@ export default {
   pages: {
     ...chapterPages,
   },
-  onFormLoaded: ({ returnUrl, router, index }) => {
-    const pagesBefore = ['/summary', `/:${index}/information`];
-
-    if (!pagesBefore.includes(returnUrl)) {
-      router?.push(`/:${index}/information`);
-    } else {
-      router?.push(returnUrl);
-    }
-  },
 };
