@@ -61,7 +61,7 @@ const MigratingFacilitiesAlerts = ({
             </p>
             <ul>
               {migration.facilities.map((facility, i) => (
-                <li key={i}>{facility.facilityName}</li>
+                <li key={i}>{facility.name}</li>
               ))}
             </ul>
             {config.errorNote && (
@@ -97,7 +97,7 @@ const MigratingFacilitiesAlerts = ({
           </p>
           <ul>
             {migration.facilities.map((facility, i) => (
-              <li key={i}>{facility.facilityName}</li>
+              <li key={i}>{facility.name}</li>
             ))}
           </ul>
           {(config.warningGetNote || config.warningNote) && (

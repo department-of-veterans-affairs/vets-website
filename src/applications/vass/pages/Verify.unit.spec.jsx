@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { commonReducer } from 'platform/startup/store';
@@ -19,19 +19,9 @@ import {
   getDefaultRenderOptions,
   reducers,
   vassApi,
+  LocationDisplay,
 } from '../utils/test-utils';
 import { FLOW_TYPES, URLS } from '../utils/constants';
-
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return (
-    <div data-testid="location-display">
-      {location.pathname}
-      {location.search}
-    </div>
-  );
-};
 
 const defaultRenderOptions = getDefaultRenderOptions();
 

@@ -39,6 +39,10 @@ import medical32MonthProgram from '../pages/medical32MonthProgram';
 import medicalHasGraduatingClass from '../pages/medicalHasGraduatingClass';
 import medicalGraduatingClassDetails from '../pages/medicalGraduatingClassDetails';
 
+import institutionContactsInstructions from '../pages/institutionContactsInstructions';
+import institutionFinancialRepresentative from '../pages/institutionFinancialRepresentative';
+import institutionCertifyingOfficial from '../pages/institutionCertifyingOfficial';
+
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
@@ -317,6 +321,29 @@ const formConfig = {
           depends: formData =>
             formData?.isMedicalSchool === true &&
             formData?.graduatedLast12Months === true,
+        },
+      },
+    },
+    institutionContacts: {
+      title: 'Institution contacts and faculty details',
+      pages: {
+        contactsInstructions: {
+          path: 'contacts-instructions',
+          title: 'Institution contacts instructions',
+          uiSchema: institutionContactsInstructions.uiSchema,
+          schema: institutionContactsInstructions.schema,
+        },
+        institutionFinancialRepresentative: {
+          path: 'financial-representative',
+          title: 'Financial representative',
+          uiSchema: institutionFinancialRepresentative.uiSchema,
+          schema: institutionFinancialRepresentative.schema,
+        },
+        institutionCertifyingOfficial: {
+          path: 'certifying-official',
+          title: 'Certifying official',
+          uiSchema: institutionCertifyingOfficial.uiSchema,
+          schema: institutionCertifyingOfficial.schema,
         },
       },
     },
