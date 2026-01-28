@@ -21,8 +21,18 @@ export default {
         environment.API_URL
       }/simple_forms_api/v1/supporting_documents_upload`,
       skipUpload: false,
-      maxFileSize: 1024 * 1024 * 100, // 100MB
-      minFileSize: 1024, // 1KB
+      // maxFileSize: 1024 * 1024 * 100, // 100MB
+      // minFileSize: 1024, // 1KB
+      fileSizesByFileType: {
+        pdf: {
+          maxFileSize: 1024 * 1024 * 50,
+          minFileSize: 1024,
+        },
+        default: {
+          maxFileSize: 1024 * 10,
+          minFileSize: 1,
+        },
+      },
       errorMessages: {
         additionalInput: 'Choose a document status',
       },
