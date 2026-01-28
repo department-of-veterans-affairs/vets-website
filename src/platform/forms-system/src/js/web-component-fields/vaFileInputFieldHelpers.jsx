@@ -197,7 +197,7 @@ export async function getFileError(
 
   // don't do more checks if there is a duplicate file or file size error
   if (!fileError) {
-    const checks = await standardFileChecks(file, fileSizesByFileType);
+    const checks = await standardFileChecks(file);
     encryptedCheck = !!checks.checkIsEncryptedPdf;
 
     if (!checks.checkTypeAndExtensionMatches) {
