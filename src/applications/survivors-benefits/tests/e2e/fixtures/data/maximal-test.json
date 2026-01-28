@@ -183,7 +183,7 @@
         "monthlySupport": 500
       }
     ],
-    "dicType": "DIC",
+    "benefit": "DIC",
       "vaMedicalCenters": [
         {
           "vaMedicalCenterName": "Anytown VA Medical Center",

@@ -76,8 +76,7 @@ export const options = {
   maxItems: 6,
   isItemIncomplete: item =>
     !item?.recipient ||
-    (['VETERANS_CHILD', 'OTHER'].includes(item?.recipient) &&
-      !item?.recipientOther) ||
+    (['CHILD'].includes(item?.recipient) && !item?.childName) ||
     !item?.purpose ||
     !item?.paymentDate ||
     !item?.paymentFrequency ||
@@ -178,15 +177,14 @@ const recipientPage = {
       title: 'Who is the expense for?',
       labels: medicalExpenseRecipientLabels,
     }),
-    recipientOther: textUI({
+    childName: textUI({
       title: 'Full name of the person who the expense is for',
       expandUnder: 'recipient',
-      expandUnderCondition: field =>
-        field === 'VETERANS_CHILD' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD',
       required: (formData, index, fullData) => {
         const items = formData?.medicalExpenses ?? fullData?.medicalExpenses;
         const item = items?.[index];
-        return ['VETERANS_CHILD'].includes(item?.recipient);
+        return ['CHILD'].includes(item?.recipient);
       },
     }),
     provider: textUI({
@@ -199,7 +197,7 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(medicalExpenseRecipientLabels)),
-      recipientOther: textSchema,
+      childName: textSchema,
       provider: textSchema,
     },
     required: ['recipient', 'provider'],
