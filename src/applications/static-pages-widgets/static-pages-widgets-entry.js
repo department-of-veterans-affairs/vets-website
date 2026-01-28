@@ -1,4 +1,4 @@
-import { GLOBAL_STORE_VARIABLE_NAME } from '../static-pages-essentials/constants';
+import { getGlobalStore } from '../static-pages-essentials/store';
 
 import * as Sentry from '@sentry/browser';
 import '../static-pages/analytics';
@@ -111,12 +111,7 @@ import createDependentsVerificationHowToVerify from '../static-pages/dependents-
 import create21P534ezAccess from '../static-pages/survivors-benefits/entry';
 
 // Redux store exposed by static-pages-essentials bundle
-const store = window[GLOBAL_STORE_VARIABLE_NAME];
-if (!store) {
-  throw new Error(
-    'Redux store not found for widgets bundle. Please load the static-pages-essentials bundle first.',
-  );
-}
+const store = getGlobalStore();
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
