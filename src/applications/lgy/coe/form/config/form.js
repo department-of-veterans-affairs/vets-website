@@ -37,7 +37,6 @@ import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
 
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
