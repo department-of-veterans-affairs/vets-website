@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 import { FormApp } from '../../../src/js/containers/FormApp';
 
-const shallowFormApp = ({ formConfig, currentLocation, formData = null }) => {
+const renderFormApp = ({ formConfig, currentLocation, formData = null }) => {
   const routes = [{ pageList: [{ path: currentLocation.pathname }] }];
   return render(
     <FormApp
@@ -28,7 +28,7 @@ describe('Schemaform <FormApp>', () => {
       pathname: 'introduction',
       search: '',
     };
-    const { container, queryByTestId } = shallowFormApp({
+    const { container, queryByTestId } = renderFormApp({
       formConfig,
       currentLocation,
     });
@@ -53,7 +53,7 @@ describe('Schemaform <FormApp>', () => {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
-    const { container, queryByTestId } = shallowFormApp({
+    const { container, queryByTestId } = renderFormApp({
       formConfig,
       currentLocation,
     });
@@ -82,7 +82,7 @@ describe('Schemaform <FormApp>', () => {
     };
     const routes = [{ pageList: [{ path: currentLocation.pathname }] }];
 
-    const { getByTestId, rerender } = shallowFormApp({
+    const { getByTestId, rerender } = renderFormApp({
       formConfig,
       currentLocation,
       formData,
@@ -124,7 +124,7 @@ describe('Schemaform <FormApp>', () => {
     };
     const routes = [{ pageList: [{ path: currentLocation.pathname }] }];
 
-    const { getByTestId, rerender } = shallowFormApp({
+    const { getByTestId, rerender } = renderFormApp({
       formConfig,
       currentLocation,
       formData,
@@ -153,7 +153,7 @@ describe('Schemaform <FormApp>', () => {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
-    const { container, queryByTestId } = shallowFormApp({
+    const { container, queryByTestId } = renderFormApp({
       formConfig,
       currentLocation,
     });
@@ -195,7 +195,7 @@ describe('Schemaform <FormApp>', () => {
           pathname: '/form-title-hidden',
           search: '',
         };
-        const { queryByTestId } = shallowFormApp({
+        const { queryByTestId } = renderFormApp({
           formConfig,
           currentLocation,
         });
@@ -210,7 +210,7 @@ describe('Schemaform <FormApp>', () => {
           pathname: '/form-title-explicitly-displayed',
           search: '',
         };
-        const { queryByTestId } = shallowFormApp({
+        const { queryByTestId } = renderFormApp({
           formConfig,
           currentLocation,
         });
@@ -225,7 +225,7 @@ describe('Schemaform <FormApp>', () => {
           pathname: '/form-title-implicitly-displayed',
           search: '',
         };
-        const { queryByTestId } = shallowFormApp({
+        const { queryByTestId } = renderFormApp({
           formConfig,
           currentLocation,
         });
