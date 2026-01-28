@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   titleUI,
   yesNoSchema,
@@ -10,8 +11,12 @@ export default {
     loanHistory: {
       currentOwnership: yesNoUI({
         title: 'Do you still own any property you bought using a VA home loan?',
-        description:
-          'Include homes, condos, or other property purchased with a VA‑backed mortgage.',
+        description: (
+          <span className="vads-u-color--gray-medium">
+            Include homes, condos, or other property purchased with a VA‑backed
+            mortgage.
+          </span>
+        ),
         labels: {
           Y: 'Yes — I still own at least one property',
           N: 'No — I don’t own any anymore',
