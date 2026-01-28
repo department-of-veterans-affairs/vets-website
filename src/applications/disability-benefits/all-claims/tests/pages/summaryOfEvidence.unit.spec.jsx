@@ -513,7 +513,7 @@ describe('Summary of Evidence', () => {
         .text(),
     ).to.contain(additionalDocuments[1].name);
     expect(form.render().text()).to.contain(
-      'We’ll submit these documents you uploaded as evidence supporting your claims:',
+      'We’ll submit these documents you uploaded as evidence supporting your claim:',
     );
     form.unmount();
   });

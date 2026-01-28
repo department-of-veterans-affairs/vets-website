@@ -166,7 +166,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
       <div className="vads-u-margin-top--2">
         <strong>
           We’ll submit these documents you uploaded as evidence supporting your
-          claims:
+          claim:
         </strong>
         <ul>{layEvidenceUploadsList}</ul>
       </div>
