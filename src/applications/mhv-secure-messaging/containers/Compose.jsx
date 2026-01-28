@@ -176,6 +176,7 @@ const Compose = () => {
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
+            alertSlot={<AlertBackgroundBox closeable />}
           />
         </>
       );
@@ -230,7 +231,6 @@ const Compose = () => {
             (noAssociations === (undefined || false) &&
               !allTriageGroupsBlocked) && (
               <div className="vads-l-grid-container compose-container">
-                <AlertBackgroundBox closeable />
                 {content()}
               </div>
             )}

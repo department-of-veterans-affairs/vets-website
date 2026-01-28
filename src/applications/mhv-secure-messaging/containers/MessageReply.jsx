@@ -74,6 +74,7 @@ const MessageReply = () => {
 
     return (
       <ReplyForm
+        alertSlot={<AlertBackgroundBox closeable />}
         drafts={drafts || []}
         replyMessage={replyMessage}
         recipients={recipients}
@@ -122,7 +123,6 @@ const MessageReply = () => {
             className="vads-l-grid-container compose-container"
             style={{ display: isSending && 'none' }}
           >
-            <AlertBackgroundBox closeable />
             {content()}
             {messages?.length && thread()}
           </div>
