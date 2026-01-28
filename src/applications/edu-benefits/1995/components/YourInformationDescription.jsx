@@ -21,9 +21,10 @@ const BENEFIT_TYPE_LABELS = {
   CH1606: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
 
   // Dependents' Education Assistance
-  chapter35: "Dependents' Education Assistance (DEA, Chapter 35)",
-  CH35: "Dependents' Education Assistance (DEA, Chapter 35)",
-  DEA: "Dependents' Education Assistance (DEA, Chapter 35)",
+  chapter35:
+    "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
+  CH35: "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
+  DEA: "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
 
   // Legacy mappings (for backward compatibility)
   transferOfEntitlement:
