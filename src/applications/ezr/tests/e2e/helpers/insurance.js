@@ -5,6 +5,7 @@ import {
   selectDropdownWebComponent,
   selectYesNoWebComponent,
 } from '.';
+import { handleOptionalServiceHistoryPage } from './handleOptionalServiceHistoryPage';
 
 export const advanceToInsurancePolicies = testData => {
   cy.get('[href="#start"]')
@@ -29,8 +30,7 @@ export const advanceToInsurancePolicies = testData => {
   selectYesNoWebComponent('view:hasNextOfKin', false);
 
   // Skip TERA Section
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('N');
+  handleOptionalServiceHistoryPage();
 
   goToNextPage('/household-information/marital-status');
   selectDropdownWebComponent(

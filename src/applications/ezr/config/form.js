@@ -108,7 +108,8 @@ const showServiceHistoryEnabled = () => {
   const featureToggles = state?.featureToggles || {};
   return (
     featureToggles?.ezrServiceHistoryEnabled ||
-    featureToggles?.['view:isServiceHistoryEnabled']
+    featureToggles?.['view:isServiceHistoryEnabled'] ||
+    true
   );
 };
 

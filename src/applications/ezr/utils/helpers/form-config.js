@@ -441,4 +441,4 @@ export const notShortFormEligible = formData => {
  * service information (or lacks service history on file)
  */
 export const doesVeteranWantToUpdateServiceInfo = formData =>
-  formData['view:serviceHistoryCorrect'] === 'yes';
+  formData['view:serviceHistoryCorrect'] === 'no';

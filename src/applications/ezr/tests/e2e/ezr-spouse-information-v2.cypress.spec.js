@@ -13,6 +13,8 @@ import {
   fillSpousePersonalInformation,
 } from './helpers/household';
 
+import { handleOptionalServiceHistoryPage } from './helpers/handleOptionalServiceHistoryPage';
+
 const { data: testData } = maxTestData;
 
 featureToggles.data.features.push({
@@ -36,8 +38,7 @@ function setUserDataAndAdvanceToSpouseSection(user, prefillData) {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
   advanceToHouseholdSection();
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('N');
+  handleOptionalServiceHistoryPage();
   goToNextPage('/household-information/marital-status-information');
   cy.injectAxeThenAxeCheck();
 }
