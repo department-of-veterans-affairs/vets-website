@@ -52,9 +52,11 @@ const testConfig = createTestConfig(
               // eslint-disable-next-line cypress/no-unnecessary-waiting
               cy.wait(100);
               cy.findByText(/continue/i, { selector: 'button' }).click();
-              // Missing info alert should be focused
+              // Missing info alert should be focused.
+              // Note: focusElement is async for web components so we need to wait for tabindex
               cy.get(
                 'va-card[name="employer_1"] .array-builder-missing-info-alert',
+                { timeout: 10000 },
               ).should('have.attr', 'tabindex', '-1');
             };
 
