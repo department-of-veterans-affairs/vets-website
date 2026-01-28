@@ -39,13 +39,11 @@ const evidenceChoiceAdditionalDocumentsAddtlInfo = (
 );
 
 const evidenceChoiceAdditionalDocumentsUploaderInfo = ({ uploadTitle }) => (
-  <div>
+  <>
     {uploadTitle && (
-      <p className="vads-u-margin-top--3 vads-u-margin-bottom--0">
+      <p className="vads-u-margin--0">
         {uploadTitle}{' '}
-        <span className="schemaform-required-span vads-u-font-weight--normal">
-          (*Required)
-        </span>
+        <span className="vads-u-color--secondary-dark">(*Required)</span>
       </p>
     )}
     <p className="vads-u-margin-top--0 vads-u-color--gray-medium">
@@ -54,7 +52,7 @@ const evidenceChoiceAdditionalDocumentsUploaderInfo = ({ uploadTitle }) => (
       files. Larger files may take longer to upload, depending on the internet
       connection.
     </p>
-  </div>
+  </>
 );
 
 evidenceChoiceAdditionalDocumentsUploaderInfo.propTypes = {
