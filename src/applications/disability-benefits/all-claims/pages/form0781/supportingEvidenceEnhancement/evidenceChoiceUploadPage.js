@@ -13,7 +13,13 @@ import {
   UPLOAD_URL,
   FILE_UPLOAD_TITLE,
 } from '../../../components/supportingEvidenceUpload/constants';
-import { additionalFormInputsContent } from '../../../components/supportingEvidenceUpload/uploadFiles';
+import { additionalInput } from '../../../components/supportingEvidenceUpload/additionalFormInput';
+import {
+  createPayload,
+  parseResponse,
+  handleAdditionalInput,
+  additionalInputUpdate,
+} from '../../../utils/supportingEvidence/fileInputMultiUIConfig';
 
 export const uiSchema = {
   'ui:title': standardTitle(evidenceChoiceTitle),
@@ -33,35 +39,12 @@ export const uiSchema = {
       errorMessages: {
         additionalInput: 'Choose a document type',
       },
-      createPayload: (file, _formId, password) => {
-        const payload = new FormData();
-        payload.append('supporting_evidence_attachment[file_data]', file);
-        if (password) {
-          payload.append('supporting_evidence_attachment[password]', password);
-        }
-        return payload;
-      },
-      parseResponse: (response, file) => {
-        // VaFileInputMultipleField expects `parseResponse` to include the original
-        // File object under `file` so it can derive name/size/type.
-        return {
-          confirmationCode: response?.data?.attributes?.guid,
-          file,
-        };
-      },
+      createPayload,
+      parseResponse,
       additionalInputRequired: true,
-      additionalInput: additionalFormInputsContent,
-      additionalInputUpdate: (instance, error, data) => {
-        instance.setAttribute('error', error);
-        if (data) {
-          instance.setAttribute('value', data.documentType);
-        }
-      },
-      handleAdditionalInput: e => {
-        const { value } = e.detail;
-        if (value === '') return null;
-        return { documentType: e.detail.value };
-      },
+      additionalInput,
+      handleAdditionalInput,
+      additionalInputUpdate,
     }),
   },
 };
