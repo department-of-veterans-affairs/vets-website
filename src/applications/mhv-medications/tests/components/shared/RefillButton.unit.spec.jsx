@@ -66,9 +66,9 @@ describe('Refill Button component', () => {
     );
   });
 
-  it('dispatches refillPrescription action and shows correct loading message', async () => {
+  it('dispatches refillPrescription action and shows correct loading message', () => {
     const screen = setup();
-    const refillButton = await screen.findByTestId('refill-request-button');
+    const refillButton = screen.getByTestId('refill-request-button');
     fireEvent.click(refillButton);
     expect(refillButton).to.exist;
     waitFor(() => {

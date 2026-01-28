@@ -83,7 +83,7 @@ const RefillButton = rx => {
         secondary
         uswds
         className="va-button vads-u-padding-y--0p5"
-        id={`refill-button-${rx.prescriptionId}`}
+        id={`refill-button-${prescriptionId}`}
         aria-describedby={`card-header-${prescriptionId}`}
         data-dd-action-name={
           dataDogActionNames.medicationsListPage.REFILL_BUTTON
@@ -100,11 +100,10 @@ const RefillButton = rx => {
 };
 
 RefillButton.propTypes = {
-  rx: PropTypes.shape({
-    prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    isRefillable: PropTypes.bool,
-    refillSubmitDate: PropTypes.string,
-  }),
+  cmopDivisionPhone: PropTypes.string,
+  isRefillable: PropTypes.bool,
+  prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  refillSubmitDate: PropTypes.string,
 };
 
 export default RefillButton;
