@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import withAuthorization from './withAuthorization';
@@ -13,23 +13,9 @@ import { createMockJwt } from '../utils/mock-helpers';
 import {
   getDefaultRenderOptions,
   getHydratedFormRenderOptions,
+  LocationDisplay,
+  TestComponent,
 } from '../utils/test-utils';
-
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return (
-    <div data-testid="location-display">
-      {location.pathname}
-      {location.search}
-    </div>
-  );
-};
-
-// Simple test component to wrap
-const TestComponent = () => (
-  <div data-testid="test-component">Test Content</div>
-);
 
 describe('VASS Containers: withAuthorization', () => {
   let loadFormDataFromStorageStub;
