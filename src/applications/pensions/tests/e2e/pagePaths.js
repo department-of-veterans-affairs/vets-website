@@ -51,6 +51,19 @@ export default {
   marriageInfo: formChapters.householdInformation.pages.marriageInfo.path,
   marriageHistory: formChapters.householdInformation.pages.marriageHistory.path,
   spouseInfo: formChapters.householdInformation.pages.spouseInfo.path,
+  currentMarriageInformation:
+    formChapters.householdInformation.pages.currentMarriageInformation.path,
+  currentSpouseName:
+    formChapters.householdInformation.pages.currentSpouseName.path,
+  currentSpouseInformation:
+    formChapters.householdInformation.pages.currentSpouseInformation.path,
+  currentSpouseVeteranInformation:
+    formChapters.householdInformation.pages.currentSpouseVeteranInformation
+      .path,
+  livesWithCurrentSpouse:
+    formChapters.householdInformation.pages.livesWithCurrentSpouse.path,
+  currentSpouseAddressV2:
+    formChapters.householdInformation.pages.currentSpouseAddressV2.path,
   reasonForCurrentSeparation:
     formChapters.householdInformation.pages.reasonForCurrentSeparation.path,
   currentSpouseAddress:
