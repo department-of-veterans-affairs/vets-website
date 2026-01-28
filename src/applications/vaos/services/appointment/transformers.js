@@ -52,7 +52,7 @@ function getAtlasLocation(appt) {
   };
 }
 
-function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
+export function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
   let timezone = appt.location?.attributes?.timezone?.timeZoneId;
   if (timezone === 'GMT' || timezone === 'UTC') {
     timezone = null;
