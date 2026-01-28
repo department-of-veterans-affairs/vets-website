@@ -1,7 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { isReactComponent } from '~/platform/utilities/ui';
-import constants from 'vets-json-schema/dist/constants.json';
 import {
   createPageListByChapter,
   getActiveChapters,
@@ -17,12 +16,6 @@ import classNames from 'classnames';
 let arrayMap = {};
 let nextClass = '';
 let reviewEntryKeys = {};
-
-// Create country code to name mapping
-const COUNTRY_CODE_TO_NAME = constants.countries.reduce((acc, country) => {
-  acc[country.value] = country.label;
-  return acc;
-}, {});
 
 function resetDefaults() {
   arrayMap = {};
@@ -139,10 +132,6 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
     refinedData = uiSchema['ui:options'].labels[refinedData ? 'Y' : 'N'];
   } else if (uiSchema['ui:options']?.labels?.[refinedData]) {
     refinedData = uiSchema['ui:options'].labels[refinedData];
-  } else if (key === 'country' && COUNTRY_CODE_TO_NAME[refinedData]) {
-    // Handle country codes - show full names, but keep 'USA' as 'USA'
-    refinedData =
-      refinedData === 'USA' ? 'USA' : COUNTRY_CODE_TO_NAME[refinedData];
   } else if (
     uiSchema['ui:webComponentField']?.identifier === 'VaCheckboxGroupField'
   ) {

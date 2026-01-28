@@ -22,9 +22,9 @@
     "mailingAddress": {
       "country": "USA",
       "addressLine1": "123 Main",
-      "city": "APO",
-      "state": "AA",
-      "zipCode": "34012"
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
     },
     "forwardingAddress": {
       "country": "USA",

@@ -29,12 +29,16 @@
       "emailAddress": "test2@test1.net"
     },
     "mailingAddress": {
-      "view:livesOnMilitaryBase": true,
+      "view:livesOnMilitaryBase": false,
+      "type": "MILITARY",
+      "militaryPostOfficeTypeCode": "APO",
+      "militaryStateCode": "AA",
+      "zipFirstFive": "27103",
       "country": "USA",
       "addressLine1": "123 Main",
-      "city": "APO",
-      "state": "AA",
-      "zipCode": "34012"
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
     },
     "view:hasForwardingAddress": true,
     "forwardingAddress": {

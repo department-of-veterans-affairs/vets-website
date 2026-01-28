@@ -4,7 +4,7 @@ import {
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
 import removeDeeplyEmptyObjects from 'platform/utilities/data/removeDeeplyEmptyObjects';
-import constants from 'vets-json-schema/dist/constants.json';
+
 import {
   causeTypes,
   specialIssueTypes,
@@ -293,35 +293,6 @@ export function transform(formConfig, form) {
     return _.set('homelessnessContact', sanitizedHomelessnessContact, formData);
   };
 
-  const COUNTRY_CODE_TO_NAME = constants.countries.reduce((acc, country) => {
-    acc[country.value] = country.label;
-    return acc;
-  }, {});
-  const transformCountryCodeToName = formData => {
-    if (!formData.mailingAddress?.country) {
-      return formData;
-    }
-
-    const currentCountry = formData.mailingAddress.country;
-
-    // Keep USA as-is, convert other country codes to full names
-    if (currentCountry === 'USA') {
-      return formData;
-    }
-
-    // If it's a country code, convert to full name
-    if (COUNTRY_CODE_TO_NAME[currentCountry]) {
-      return _.set(
-        'mailingAddress.country',
-        COUNTRY_CODE_TO_NAME[currentCountry],
-        formData,
-      );
-    }
-
-    // If it's already a full name, leave it as-is
-    return formData;
-  };
-
   const fullyDevelopedClaim = formData => {
     if (isBDDForm) {
       const clonedData = _.cloneDeep(formData);
@@ -362,7 +333,6 @@ export function transform(formConfig, form) {
     addForm0781V2,
     addForm8940,
     addFileAttachments,
-    transformCountryCodeToName,
     fullyDevelopedClaim,
   ].reduce(
     (formData, transformer) => transformer(formData),

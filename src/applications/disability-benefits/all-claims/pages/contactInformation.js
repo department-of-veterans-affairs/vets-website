@@ -1,46 +1,72 @@
+import React from 'react';
+import merge from 'lodash/merge';
+import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
-import {
-  addressUI,
-  addressSchema,
-  updateFormDataAddress,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   contactInfoDescription,
   contactInfoUpdateHelpDescription,
   phoneEmailViewField,
 } from '../content/contactInformation';
 
-import { validateZIP } from '../validations';
+import { addressUISchema } from '../utils/schemas';
+
 import {
-  shouldAutoDetectMilitary,
-  shouldShowZipCode,
-  createAddressLineValidator,
-  updateCountrySchema,
-  updateStateSchema,
-  isStateRequired,
-  isCountryRequired,
-  shouldHideState,
-} from '../utils/contactInformationHelpers';
+  ADDRESS_PATHS,
+  USA,
+  MILITARY_STATE_LABELS,
+  MILITARY_STATE_VALUES,
+  MILITARY_CITIES,
+  STATE_LABELS,
+  STATE_VALUES,
+} from '../constants';
 
-const { phoneAndEmail } = fullSchema.properties;
+import {
+  validateMilitaryCity,
+  validateMilitaryState,
+  validateZIP,
+} from '../validations';
 
-const defaultAddressUI = {
-  ...addressUI({
-    keys: {
-      street: 'addressLine1',
-      street2: 'addressLine2',
-      street3: 'addressLine3',
-      postalCode: 'zipCode',
-      isMilitary: 'view:livesOnMilitaryBase',
+const {
+  // forwardingAddress,
+  phoneAndEmail,
+} = fullSchema.properties;
+
+const mailingAddress = merge(
+  {
+    properties: {
+      'view:livesOnMilitaryBase': {
+        type: 'boolean',
+      },
+      'view:livesOnMilitaryBaseInfo': {
+        type: 'object',
+        properties: {},
+      },
     },
-  }),
+  },
+  fullSchema.definitions.address,
+);
+
+const countryEnum = fullSchema.definitions.country.enum;
+const citySchema = fullSchema.definitions.address.properties.city;
+
+/**
+ * Return state of mailing address military base checkbox
+ * @param {object} data - Complete form data
+ * @returns {boolean} - military base checkbox state
+ */
+const getMilitaryValue = data =>
+  data.mailingAddress?.['view:livesOnMilitaryBase'];
+
+// Temporary storage for city & state if military base checkbox is toggled more
+// than once
+const savedAddress = {
+  city: '',
+  state: '',
 };
 
 /**
@@ -53,26 +79,31 @@ const defaultAddressUI = {
  * military base checkbox state changes
  */
 export const updateFormData = (oldFormData, formData) => {
-  const updatedFormData = updateFormDataAddress(
-    oldFormData,
-    formData,
-    ['mailingAddress'],
-    null,
-    {
-      street: 'addressLine1',
-      street2: 'addressLine2',
-      street3: 'addressLine3',
-      postalCode: 'zipCode',
-      isMilitary: 'view:livesOnMilitaryBase',
-    },
-  );
-
-  // Auto-detect military status based on city or state and set view:livesOnMilitaryBase accordingly
-  if (shouldAutoDetectMilitary(oldFormData, updatedFormData)) {
-    updatedFormData.mailingAddress['view:livesOnMilitaryBase'] = true;
+  let { city, state } = formData.mailingAddress;
+  const onMilitaryBase = getMilitaryValue(formData);
+  if (getMilitaryValue(oldFormData) !== onMilitaryBase) {
+    if (onMilitaryBase) {
+      savedAddress.city = oldFormData.mailingAddress.city || '';
+      savedAddress.state = oldFormData.mailingAddress.state || '';
+      city = '';
+      state = '';
+    } else {
+      city = MILITARY_CITIES.includes(oldFormData.mailingAddress.city)
+        ? savedAddress.city
+        : city || savedAddress.city;
+      state = MILITARY_STATE_VALUES.includes(oldFormData.mailingAddress.state)
+        ? savedAddress.state
+        : state || savedAddress.state;
+    }
   }
-
-  return updatedFormData;
+  return {
+    ...formData,
+    mailingAddress: {
+      ...formData.mailingAddress,
+      city,
+      state,
+    },
+  };
 };
 
 export const uiSchema = {
@@ -88,67 +119,158 @@ export const uiSchema = {
     emailAddress: emailUI(),
   },
   mailingAddress: {
-    ...defaultAddressUI,
-    'ui:title': 'Mailing address',
-    'ui:field': ReviewCardField,
-    'ui:options': {
-      ...defaultAddressUI['ui:options'],
-      viewComponent: AddressViewField,
-      classNames:
-        'vads-web-component-pattern vads-web-component-pattern-address',
+    ...omit(
+      ['ui:order'],
+      addressUISchema(ADDRESS_PATHS.mailingAddress, 'Mailing address', true),
+    ),
+    'view:livesOnMilitaryBase': {
+      'ui:title':
+        'I live on a United States military base outside of the United States',
     },
-    // Override country field to display 'USA' instead of 'United States'
+    'view:livesOnMilitaryBaseInfo': {
+      'ui:description': () => (
+        <div className="vads-u-padding-x--2p5">
+          <va-additional-info trigger="Learn more about military base addresses">
+            <span>
+              The United States is automatically chosen as your country if you
+              live on a military base outside of the country.
+            </span>
+          </va-additional-info>
+        </div>
+      ),
+    },
     country: {
-      ...defaultAddressUI.country,
-      'ui:required': isCountryRequired,
+      'ui:title': 'Country',
+      'ui:autocomplete': 'country',
       'ui:options': {
-        ...defaultAddressUI.country['ui:options'],
-        updateSchema: updateCountrySchema,
+        updateSchema: (formData, schema, uiSchemaCountry) => {
+          const uiSchemaDisabled = uiSchemaCountry;
+
+          if (formData.mailingAddress?.['view:livesOnMilitaryBase']) {
+            const formDataMailingAddress = formData.mailingAddress;
+            formDataMailingAddress.country = USA;
+
+            uiSchemaDisabled['ui:disabled'] = true;
+
+            return {
+              enum: [USA],
+            };
+          }
+          uiSchemaDisabled['ui:disabled'] = false;
+          return {
+            enum: countryEnum,
+          };
+        },
       },
+    },
+    addressLine1: {
+      'ui:title': 'Street address (20 characters maximum)',
+      'ui:autocomplete': 'address-line1',
+      'ui:errorMessages': {
+        required: 'Please enter a street address',
+      },
+    },
+    addressLine2: {
+      'ui:title': 'Street address line 2 (20 characters maximum)',
+      'ui:autocomplete': 'address-line2',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+      },
+    },
+    addressLine3: {
+      'ui:title': 'Street address line 3 (20 characters maximum)',
+      'ui:autocomplete': 'address-line3',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid street address',
+      },
+    },
+    city: {
+      'ui:autocomplete': 'address-level2',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid city',
+        required: 'Please enter a city',
+      },
+      'ui:options': {
+        replaceSchema: formData => {
+          if (formData.mailingAddress?.['view:livesOnMilitaryBase'] === true) {
+            return {
+              type: 'string',
+              title: 'APO/FPO/DPO',
+              enum: MILITARY_CITIES,
+            };
+          }
+          return merge(
+            {
+              title: 'City',
+            },
+            citySchema,
+          );
+        },
+      },
+      'ui:validations': [
+        {
+          options: { addressPath: 'mailingAddress' },
+          // pathWithIndex is called in validateMilitaryCity
+          validator: validateMilitaryCity,
+        },
+      ],
     },
     state: {
       'ui:title': 'State',
       'ui:autocomplete': 'address-level1',
-      'ui:webComponentField': VaSelectField,
-      'ui:errorMessages': {
-        required: 'Please select a state',
-      },
       'ui:options': {
-        hideIf: shouldHideState,
-        classNames:
-          'vads-web-component-pattern-field vads-web-component-pattern-address',
-        hideEmptyValueInReview: true,
-        updateSchema: updateStateSchema,
+        hideIf: formData =>
+          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
+          formData.mailingAddress.country !== USA,
+        updateSchema: formData => {
+          if (
+            formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
+            MILITARY_CITIES.includes(formData.mailingAddress.city)
+          ) {
+            return {
+              enum: MILITARY_STATE_VALUES,
+              enumNames: MILITARY_STATE_LABELS,
+            };
+          }
+          return {
+            enum: STATE_VALUES,
+            enumNames: STATE_LABELS,
+          };
+        },
       },
-      'ui:required': isStateRequired,
+      'ui:required': formData =>
+        formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress.country === USA,
+      'ui:validations': [
+        {
+          options: { addressPath: 'mailingAddress' },
+          // pathWithIndex is called in validateMilitaryState
+          validator: validateMilitaryState,
+        },
+      ],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid state',
+        required: 'Please enter a state',
+      },
     },
     zipCode: {
-      ...defaultAddressUI.zipCode,
-      'ui:required': shouldShowZipCode,
+      'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
       'ui:validations': [validateZIP],
+      'ui:required': formData =>
+        formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress.country === USA,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
           'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
       'ui:options': {
-        classNames:
-          'vads-web-component-pattern-field vads-web-component-pattern-address',
-        widgetClassNames: 'usa-input-medium',
-        hideIf: formData => !shouldShowZipCode(formData),
+        widgetClassNames: 'va-input-medium-large',
+        hideIf: formData =>
+          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
+          formData.mailingAddress.country !== USA,
       },
-    },
-    addressLine1: {
-      ...defaultAddressUI.addressLine1,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 1')],
-    },
-    addressLine2: {
-      ...defaultAddressUI.addressLine2,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 2')],
-    },
-    addressLine3: {
-      ...defaultAddressUI.addressLine3,
-      'ui:validations': [createAddressLineValidator(20, 'Address line 3')],
     },
   },
   'view:contactInfoDescription': {
@@ -160,15 +282,7 @@ export const schema = {
   type: 'object',
   properties: {
     phoneAndEmail,
-    mailingAddress: addressSchema({
-      keys: {
-        street: 'addressLine1',
-        street2: 'addressLine2',
-        street3: 'addressLine3',
-        postalCode: 'zipCode',
-        isMilitary: 'view:livesOnMilitaryBase',
-      },
-    }),
+    mailingAddress,
     'view:contactInfoDescription': {
       type: 'object',
       properties: {},
