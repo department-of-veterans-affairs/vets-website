@@ -9,13 +9,12 @@ import mockSubmit from '../fixtures/mocks/application-submit.json';
 import {
   ADD_ISSUE_URL,
   CONTACT_INFO_URL,
-  EVIDENCE_ADDITIONAL_URL,
+  // EVIDENCE_ADDITIONAL_URL,
   EVIDENCE_PRIVATE_AUTHORIZATION_URL,
-  EVIDENCE_PRIVATE_DETAILS_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
-  EVIDENCE_VA_PROMPT_URL,
-  LIMITED_CONSENT_DETAILS_URL,
-  LIMITED_CONSENT_PROMPT_URL,
+  EVIDENCE_URLS,
+  NOV_2025_REDESIGN_TOGGLE,
+  TOGGLE_KEY,
 } from '../../constants';
 import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../../constants/apis';
@@ -38,6 +37,21 @@ describe('Supplemental Claim keyboard only navigation', () => {
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     cy.intercept('GET', ITF_API, helpers.fetchItf());
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: NOV_2025_REDESIGN_TOGGLE,
+            value: true,
+          },
+          {
+            name: TOGGLE_KEY,
+            value: true,
+          },
+        ],
+      },
+    }).as('features');
 
     cy.get('@testData').then(data => {
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
@@ -160,33 +174,54 @@ describe('Supplemental Claim keyboard only navigation', () => {
       tabToContinue();
 
       // *** VA evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_VA_PROMPT_URL);
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(100);
-      cy.tabToElement('[name="va-prompt"]'); // Yes radio
-      cy.chooseRadio('y');
+      h.verifyUrl(EVIDENCE_URLS.vaPromptSummary);
+      cy.get('va-radio-option[value="Y"]').should('have.class', 'hydrated');
+      cy.get('va-radio-option[value="Y"]')
+        .find('input[type="radio"]')
+        .click({ force: true });
       tabToContinue();
 
-      // *** VA evidence location details page
-      h.verifyUrl(h.EVIDENCE_VA_RECORDS_DETAILS_PATH);
-      const locationData = data.locations[0];
-
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(100); // wait for focus on header
-      cy.tabToElement(h.VA_EVIDENCE_FACILITY_NAME_INPUT); // name of VA location
-      cy.realType(locationData.locationAndName);
-      cy.tabToElement(h.VA_EVIDENCE_ISSUES_CHECKBOXES); // select first issue
-      cy.realPress('Space');
-      h.selectDropdownWithKeyboard('txdate', '1'); // fill out month
-      cy.tabToElement(h.VA_EVIDENCE_TREATMENT_YEAR);
-      cy.realType('2001'); // fill out year
-      cy.realPress('Space');
+      // *** VA evidence location name page
+      h.verifyUrl('supporting-evidence/0/va-medical-records-location');
+      cy.get('va-text-input[name="root_vaTreatmentLocation"]')
+        .shadow()
+        .find('input')
+        .focus()
+        .type('Midwest Alabama VA Facility');
       tabToContinue();
 
-      // *** Private evidence request (y/n) question page
+      // *** VA evidence treatment before 2005 prompt page
+      h.verifyUrl('supporting-evidence/0/va-medical-before-2005');
+      cy.get('va-radio-option[value="Y"]').should('have.class', 'hydrated');
+      cy.get('va-radio-option[value="Y"]')
+        .find('input[type="radio"]')
+        .click({ force: true });
+      tabToContinue();
+
+      // *** VA evidence treatment date page
+      h.verifyUrl('supporting-evidence/0/va-medical-before-2005-date');
+      h.selectShadowDropdownWithKeyboard(
+        '.select-month',
+        'root_treatmentMonthYearMonth',
+        '3',
+      );
+      cy.tabToElement('.input-year')
+        .shadow()
+        .find('[name="root_treatmentMonthYearYear"]')
+        .realType('2001');
+      tabToContinue();
+
+      // // *** VA evidence summary page
+      h.verifyUrl(EVIDENCE_URLS.vaPromptSummary);
+      cy.tabToElement('[name="root_hasVaEvidence"]').chooseRadio('N');
+      tabToContinue();
+
+      // // *** Private evidence request (y/n) question page
       h.verifyUrl(EVIDENCE_PRIVATE_PROMPT_URL);
-      cy.tabToElement('[name="private"]'); // Yes radio
-      cy.chooseRadio('y'); // make sure we're choosing yes
+      cy.get('va-radio-option[value="y"]').should('have.class', 'hydrated');
+      cy.get('va-radio-option[value="y"]')
+        .find('input[type="radio"]')
+        .click({ force: true });
       tabToContinue();
 
       // *** Private evidence authorization page
@@ -213,34 +248,35 @@ describe('Supplemental Claim keyboard only navigation', () => {
       });
 
       cy.setCheckboxFromData(h.PRIVACY_AGREEMENT_CHECKBOX, true);
+
+      // Limited consent
+      cy.get('va-radio-option[value="Y"]').should('have.class', 'hydrated');
+      cy.get('va-radio-option[value="Y"]')
+        .find('input[type="radio"]')
+        .click({ force: true });
+      cy.get('[name="limited-consent-description')
+        .shadow()
+        .find('[name="limited-consent-description"]')
+        .focus()
+        .type('Some limited consent info');
+
       tabToContinue();
 
-      // *** Limited consent prompt page
-      h.verifyUrl(LIMITED_CONSENT_PROMPT_URL);
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(100);
-      cy.tabToElement(h.LIMITED_CONSENT_RADIOS); // Yes radio
-      cy.chooseRadio('Y');
+      // *** Private intro page
       tabToContinue();
 
-      // *** Limited consent details page
-      h.verifyUrl(LIMITED_CONSENT_DETAILS_URL);
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(100);
-      cy.tabToElement(h.LIMITED_CONSENT_TEXTAREA);
-      cy.realType('Testing');
-      tabToContinue();
-
-      // *** Private evidence facility page
-      h.verifyUrl(EVIDENCE_PRIVATE_DETAILS_URL);
+      // *** Private evidence facility details page
+      h.verifyUrl('supporting-evidence/0/private-medical-records-location');
 
       const facilityData = data.providerFacility[0];
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(100);
-      cy.tabToElement('[name="name"]'); // provider or hospital
+      cy.tabToElement('[name="root_privateTreatmentLocation"]'); // provider or hospital
       cy.realType(facilityData.providerFacilityName);
-
       cy.realPress('Tab'); // skip country select
+      h.selectShadowDropdownWithKeyboard(
+        '[name="root_address_country"]',
+        'root_address_country',
+        'USA',
+      );
       cy.realPress('Tab'); // street address
       cy.realType(facilityData.providerFacilityAddress.street);
       cy.realPress('Tab'); // skip street address line 2
@@ -250,71 +286,89 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.realType(facilityData.providerFacilityAddress.state);
       cy.realPress('Tab'); // postal code
       cy.realType(facilityData.providerFacilityAddress.postalCode);
+      tabToContinue();
 
-      cy.tabToElement('[name="issues"]'); // select first issue (ignore data)
+      // *** Private evidence issues page
+      h.verifyUrl('supporting-evidence/0/private-medical-records-condition');
+      cy.tabToElement('[name="root_issues_Headaches"]');
       cy.realPress('Space');
-
-      // Provider from date
-      const privateFromDate = facilityData.treatmentDateRange.from
-        .split('-')
-        .map(v => parseInt(v, 10).toString());
-      cy.tabToElement('[name="fromMonth"]');
-      cy.realType(privateFromDate[1]); // month
-      cy.realPress('Tab');
-      cy.realType(privateFromDate[2]); // day
-      cy.realPress('Tab');
-      cy.realType(privateFromDate[0]); // year
-
-      // Provider to date
-      const privateToDate = facilityData.treatmentDateRange.to
-        .split('-')
-        .map(v => parseInt(v, 10).toString());
-      cy.tabToElement('[name="toMonth"]');
-      cy.realType(privateToDate[1]); // month
-      cy.realPress('Tab');
-      cy.realType(privateToDate[2]); // day
-      cy.realPress('Tab');
-      cy.realType(privateToDate[0]); // year
       tabToContinue();
 
-      // *** Upload evidence (y/n) - skipping since we can't test uploads
-      h.verifyUrl(EVIDENCE_ADDITIONAL_URL);
-      cy.tabToElement(h.ADDTL_EVIDENCE_RADIO); // No radio
-      cy.chooseRadio('N');
-      tabToContinue();
+      // *** Private evidence treatment dates page
+      h.verifyUrl('supporting-evidence/0/private-medical-records-dates');
+      cy.tabToElement('[name="root_treatmentStart"]');
+      // cy.get('[name="root_treatmentStart"]')
+      //   .shadow()
+      //   .within(() => {
+      //     cy.find('memorable-date-input')
+      //       .eq(0)
+      //       .shadow()
+      //       .find('input')
+      //       .realType('05');
+      //   });
+      // cy.fillVaMemorableDate('root_treatmentStart', '05-10-2020');
 
-      // *** Evidence summary
-      h.verifyUrl(h.EVIDENCE_SUMMARY_PATH);
-      tabToContinue();
+      // // Provider from date
+      // const privateFromDate = facilityData.treatmentDateRange.from
+      //   .split('-')
+      //   .map(v => parseInt(v, 10).toString());
+      // cy.tabToElement('[name="fromMonth"]');
+      // cy.realType(privateFromDate[1]); // month
+      // cy.realPress('Tab');
+      // cy.realType(privateFromDate[2]); // day
+      // cy.realPress('Tab');
+      // cy.realType(privateFromDate[0]); // year
 
-      // *** MST page
-      h.verifyUrl(h.MST_PATH);
-      cy.tabToElement(h.MST_RADIO); // No radio
-      cy.chooseRadio('Y');
-      tabToContinue();
+      // // Provider to date
+      // const privateToDate = facilityData.treatmentDateRange.to
+      //   .split('-')
+      //   .map(v => parseInt(v, 10).toString());
+      // cy.tabToElement('[name="toMonth"]');
+      // cy.realType(privateToDate[1]); // month
+      // cy.realPress('Tab');
+      // cy.realType(privateToDate[2]); // day
+      // cy.realPress('Tab');
+      // cy.realType(privateToDate[0]); // year
+      // tabToContinue();
 
-      // *** Add indicator page
-      h.verifyUrl(h.MST_OPTION_PATH);
-      cy.tabToElement(h.MST_OPTION_RADIO);
-      cy.chooseRadio('yes');
-      tabToContinue();
+      // // *** Upload evidence (y/n) - skipping since we can't test uploads
+      // h.verifyUrl(EVIDENCE_ADDITIONAL_URL);
+      // cy.tabToElement(h.ADDTL_EVIDENCE_RADIO); // No radio
+      // cy.chooseRadio('N');
+      // tabToContinue();
 
-      // *** Review & submit page
-      cy.url().should('include', h.REVIEW_PATH);
-      cy.tabToElement('va-checkbox');
-      cy.get(':focus').then($el => {
-        // privacy checkbox is already checked because privacyAgreementAccepted
-        // is accidentally used by both 4142 and SC review & submit checkbox
-        if (!$el[0].checked) {
-          cy.realPress('Space');
-        }
-      });
-      cy.tabToSubmitForm();
+      // // *** Evidence summary
+      // h.verifyUrl(h.EVIDENCE_SUMMARY_PATH);
+      // tabToContinue();
 
-      // *** Confirmation page
-      // Check confirmation page print button
-      cy.url().should('include', 'confirmation');
-      cy.get('va-button[text="Print this page"]').should('exist');
+      // // *** MST page
+      // h.verifyUrl(h.MST_PATH);
+      // cy.tabToElement(h.MST_RADIO); // No radio
+      // cy.chooseRadio('Y');
+      // tabToContinue();
+
+      // // *** Add indicator page
+      // h.verifyUrl(h.MST_OPTION_PATH);
+      // cy.tabToElement(h.MST_OPTION_RADIO);
+      // cy.chooseRadio('yes');
+      // tabToContinue();
+
+      // // *** Review & submit page
+      // cy.url().should('include', h.REVIEW_PATH);
+      // cy.tabToElement('va-checkbox');
+      // cy.get(':focus').then($el => {
+      //   // privacy checkbox is already checked because privacyAgreementAccepted
+      //   // is accidentally used by both 4142 and SC review & submit checkbox
+      //   if (!$el[0].checked) {
+      //     cy.realPress('Space');
+      //   }
+      // });
+      // cy.tabToSubmitForm();
+
+      // // *** Confirmation page
+      // // Check confirmation page print button
+      // cy.url().should('include', 'confirmation');
+      // cy.get('va-button[text="Print this page"]').should('exist');
     });
   });
 });

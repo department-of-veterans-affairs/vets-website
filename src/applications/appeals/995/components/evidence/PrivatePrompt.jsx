@@ -73,6 +73,7 @@ const PrivatePrompt = ({
         form-heading={privateRecordsPromptTitle}
         form-heading-level="3"
         label="Do you want us to get your records?"
+        name="root_hasPrivateEvidence"
         onVaValueChange={handlers.onSelected}
         required
         use-forms-pattern="single"

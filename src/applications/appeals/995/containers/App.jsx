@@ -22,6 +22,7 @@ import {
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
+  TOGGLE_KEY,
 } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
@@ -35,21 +36,25 @@ import { isOutsideForm } from '../../shared/utils/helpers';
 import { data995 } from '../../shared/props';
 
 export const App = ({
-  loggedIn,
-  location,
-  children,
-  formData,
-  setFormData,
-  router,
-  getContestableIssues,
-  contestableIssues,
-  legacyCount,
   accountUuid,
+  children,
+  contestableIssues,
+  formData,
+  getContestableIssues,
   inProgressFormId,
+  legacyCount,
+  location,
+  loggedIn,
+  router,
+  savedForms,
+  scRedesign,
+  setFormData,
+  showArrayBuilder,
 }) => {
   // ------- REMOVE when new design toggle is removed
-  const TOGGLE_KEY = 'decisionReviewsScRedesign';
   const { useFormFeatureToggleSync } = useFeatureToggle();
+  const hasNewEvidenceData =
+    !!formData?.vaEvidence || !!formData?.privateEvidence;
 
   useFormFeatureToggleSync([
     {
@@ -57,7 +62,24 @@ export const App = ({
       formKey: 'scRedesign',
     },
   ]);
-  // ------- END REMOVE
+
+  // Initialize combined feature flag and new-flow-only behavior
+  useEffect(
+    () => {
+      if (showArrayBuilder === undefined) {
+        const hasSavedForm =
+          savedForms?.length > 0 &&
+          savedForms?.filter(form => form.form === '20-0995')?.length > 0;
+
+        setFormData({
+          ...formData,
+          showArrayBuilder: scRedesign && (!hasSavedForm || hasNewEvidenceData),
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [hasNewEvidenceData, savedForms, scRedesign, setFormData, showArrayBuilder],
+  );
 
   const { pathname } = location || {};
   // Make sure we're only loading issues once - see
@@ -199,6 +221,7 @@ App.propTypes = {
     pathname: PropTypes.string,
   }),
   loggedIn: PropTypes.bool,
+  privateEvidence: PropTypes.array,
   profile: PropTypes.shape({
     vapContactInfo: PropTypes.shape({}),
   }),
@@ -206,16 +229,23 @@ App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  scRedesign: PropTypes.bool,
+  showArrayBuilder: PropTypes.bool,
+  vaEvidence: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
-  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
-  loggedIn: isLoggedIn(state),
-  formData: state.form?.data || {},
-  savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
+  formData: state.form?.data || {},
+  inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   legacyCount: state.legacyCount || 0,
+  loggedIn: isLoggedIn(state),
+  privateEvidence: state.form?.data?.privateEvidence || [],
+  savedForms: state.user?.profile?.savedForms || [],
+  scRedesign: state?.form?.data?.scRedesign,
+  showArrayBuilder: state?.form?.data?.showArrayBuilder,
+  vaEvidence: state.form?.data?.vaEvidence,
 });
 
 const mapDispatchToProps = {

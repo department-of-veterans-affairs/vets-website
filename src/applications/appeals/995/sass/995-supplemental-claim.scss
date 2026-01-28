@@ -25,3 +25,18 @@ va-checkbox[name="issues"]::part(label) {
 #evidence-title {
   color: $vads-color-base;
 }
+
+/* Array builder style adjustments */
+.schemaform-block-title {
+  padding-bottom: 0;
+
+  h3 {
+    margin-bottom: 0;
+    color: $vads-color-base !important;
+  }
+}
+
+#limited-consent {
+  padding-left: 1rem;
+  border-left: 7px solid $vads-color-primary-alt-light;
+}
