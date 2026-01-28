@@ -50,17 +50,15 @@ const Folders = () => {
 
   useEffect(
     () => {
-      const alertVisible = alertList[alertList?.length - 1];
-      const alertSelector =
-        folders !== undefined && !alertVisible?.isActive
-          ? 'h1'
-          : alertVisible?.isActive && 'va-alert';
-
       const pageTitleTag = getPageTitle({
         pathname: location.pathname,
       });
 
-      focusElement(document.querySelector(alertSelector));
+      // Always focus on H1 per MHV accessibility decision records.
+      // Alert content is announced via role="status" without stealing focus.
+      if (folders !== undefined) {
+        focusElement(document.querySelector('h1'));
+      }
       updatePageTitle(pageTitleTag);
     },
     [alertList, folders, location.pathname],
@@ -103,6 +101,9 @@ const Folders = () => {
         <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
           Messages: {Breadcrumbs.FOLDERS.label}
         </h1>
+
+        <AlertBackgroundBox closeable />
+
         {(noAssociations || allTriageGroupsBlocked) && (
           <BlockedTriageGroupAlert
             alertStyle={
@@ -139,10 +140,7 @@ const Folders = () => {
   };
 
   return (
-    <div className="folders-container">
-      <AlertBackgroundBox closeable />
-      {folders?.length > 0 && content()}
-    </div>
+    <div className="folders-container">{folders?.length > 0 && content()}</div>
   );
 };
 

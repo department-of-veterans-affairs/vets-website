@@ -67,7 +67,7 @@ import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 import useNavigationError from '../../hooks/useNavigationError';
 
 const ComposeForm = props => {
-  const { pageTitle, draft, recipients, signature } = props;
+  const { pageTitle, draft, recipients, signature, alertSlot } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -986,6 +986,8 @@ const ComposeForm = props => {
         {pageTitle}
       </h1>
 
+      {alertSlot}
+
       <DowntimeNotification
         appTitle={downtimeNotificationParams.appTitle}
         dependencies={[externalServices.mhvPlatform, externalServices.mhvSm]}
@@ -1168,6 +1170,7 @@ const ComposeForm = props => {
 };
 
 ComposeForm.propTypes = {
+  alertSlot: PropTypes.node,
   draft: PropTypes.object,
   headerRef: PropTypes.object,
   pageTitle: PropTypes.string,

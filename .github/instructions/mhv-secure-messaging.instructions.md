@@ -951,6 +951,91 @@ Update this file when you:
   - Uses `VaAccordionItem` from component library
   - Handles message expansion, read receipts, attachments
 
+### AlertBackgroundBox & Alert Positioning Pattern
+The `AlertBackgroundBox` component (`components/shared/AlertBackgroundBox.jsx`) displays success, error, and warning alerts throughout the application. **CRITICAL**: Alerts must always appear **below** the page H1 heading, never above.
+
+- **Accessibility Requirements**:
+  - **WCAG SC 1.3.2 (Meaningful Sequence)**: Content order must be programmatically determinable
+  - **WCAG SC 2.4.3 (Focus Order)**: Focus order preserves meaning and operability
+  - **WCAG SC 4.1.3 (Status Messages)**: Status messages announced by AT without receiving focus
+  - **MHV Decision Records**: Focus should be set to H1 on page load
+
+- **Implementation Pattern**:
+  - Add `role="status"` to VaAlert for screen reader announcement without stealing focus
+  - Always focus H1 on page load, not the alert
+  - Let `role="status"` handle the announcement automatically
+
+- **AlertSlot Pattern**: For containers where the H1 is inside a child component (ComposeForm, ReplyForm, MessageThreadHeader), use the `alertSlot` prop pattern:
+  ```jsx
+  // Container (parent) - passes AlertBackgroundBox as prop
+  <ComposeForm
+    alertSlot={<AlertBackgroundBox closeable />}
+    // ... other props
+  />
+  
+  // Child component - renders alertSlot after H1
+  const ComposeForm = ({ alertSlot, ...props }) => {
+    return (
+      <>
+        <h1 className="page-title">{pageTitle}</h1>
+        {alertSlot}  {/* ← Alert renders AFTER H1 */}
+        {/* ... rest of form */}
+      </>
+    );
+  };
+  ```
+
+- **Direct Pattern**: For containers where H1 is in the same file (FolderThreadListView, Folders), render AlertBackgroundBox directly after the H1:
+  ```jsx
+  // In container component
+  <>
+    <FolderHeader folder={folder} />  {/* Contains H1 */}
+    <AlertBackgroundBox closeable />  {/* ← Alert AFTER H1 */}
+    {content}
+  </>
+  ```
+
+- **Error State Handling**: When page data fails to load (e.g., 503 error), the H1 may not exist. Render AlertBackgroundBox at the top of the content area for error visibility:
+  ```jsx
+  {folder === null ? (
+    <AlertBackgroundBox closeable />  {/* Error state: no H1 */}
+  ) : (
+    folderId === undefined && <LoadingIndicator />
+  )}
+  {folderId !== undefined && (
+    <>
+      <FolderHeader folder={folder} />  {/* Contains H1 */}
+      <AlertBackgroundBox closeable />  {/* Normal state: after H1 */}
+      {content}
+    </>
+  )}
+  ```
+
+- **Focus Management**: Always focus H1, never the alert:
+  ```jsx
+  // ✅ CORRECT: Always focus H1, let role="status" announce alert
+  useEffect(() => {
+    if (folder !== undefined) {
+      focusElement(document.querySelector('h1'));
+    }
+  }, [alertList, folder]);
+  
+  // ❌ WRONG: Conditional focus on alert
+  useEffect(() => {
+    const alertVisible = alertList[alertList?.length - 1];
+    const selector = alertVisible?.isActive ? 'va-alert' : 'h1';
+    focusElement(document.querySelector(selector));
+  }, [alertList, folder]);
+  ```
+
+- **PropTypes**: When using alertSlot pattern, add to component's propTypes:
+  ```jsx
+  ComponentName.propTypes = {
+    alertSlot: PropTypes.node,
+    // ... other props
+  };
+  ```
+
 ### Component Composition Patterns
 - Container components fetch data and handle routing
 - Presentational components receive data via props
