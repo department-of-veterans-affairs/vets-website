@@ -52,8 +52,7 @@ function createLabel(obj) {
     {
       h2: 'vads-u-margin-top--3 vads-u-margin-bottom--0',
       h3: 'vads-u-margin-top--1 vads-u-margin-bottom--1',
-      h4:
-        'vads-u-color--gray-medium vads-u-margin-top--2 vads-u-margin-bottom--1',
+      h4: 'vads-u-margin-top--2 vads-u-margin-bottom--1',
     }[tag] || '';
   return React.createElement(tag, { className, key: obj.key }, obj.label);
 }
