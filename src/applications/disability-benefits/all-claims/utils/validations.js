@@ -195,3 +195,12 @@ export function validateToxicExposureDates(errors, { startDate, endDate }) {
     }
   }
 }
+
+export const normalizePath = (url = '') =>
+  url
+    .toLowerCase()
+    .split('?')[0]
+    .replace(/\/+$/, '');
+
+export const includesAny = (path, fragments) =>
+  fragments.some(f => path.includes(f.toLowerCase()));
