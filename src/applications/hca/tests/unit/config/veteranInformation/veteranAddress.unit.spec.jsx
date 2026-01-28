@@ -1,7 +1,9 @@
 // @ts-check
 import {
   testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
 import formConfig from '../../../../config/form';
@@ -13,8 +15,7 @@ describe('hca VeteranAddress config', () => {
     uiSchema,
   } = formConfig.chapters.veteranInformation.pages.veteranAddress;
 
-  // run test for correct number of fields on the page
-  const expectedNumberOfFields = 9;
+  const expectedNumberOfFields = 7;
   testNumberOfFields(
     formConfig,
     schema,
@@ -23,13 +24,30 @@ describe('hca VeteranAddress config', () => {
     pageTitle,
   );
 
-  // run test for correct number of error messages on submit
-  const expectedNumberOfErrors = 5;
+  const expectedNumberOfErrors = 4;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
     uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  const expectedNumberOfWebComponentFields = 1;
+  testNumberOfWebComponentFields(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfWebComponentFields,
+    pageTitle,
+  );
+
+  const expectedNumberOfErrorsForWebComponents = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfErrorsForWebComponents,
     pageTitle,
   );
 
@@ -99,6 +117,7 @@ describe('hca VeteranAddress config', () => {
       'view:doesMailingMatchHomeAddress': {
         'ui:title': {},
         'ui:required': {},
+        'ui:webComponentField': {},
       },
     },
     expectedRequired: [],
