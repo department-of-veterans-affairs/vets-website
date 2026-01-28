@@ -52,7 +52,6 @@ import createFindVaFormsPDFDownloadHelper from '../static-pages/find-forms/downl
 import createHCAPerformanceWarning from '../static-pages/hca-performance-warning';
 import createManageVADebtCTA from '../static-pages/manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from '../static-pages/medical-copays-cta';
-import createMyVALoginWidget from '../static-pages/widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from '../static-pages/facilities/vet-center/createNearByVetCenters';
 import createNearByVALocations from '../static-pages/facilities/vet-center/createNearByVALocations';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
@@ -273,8 +272,3 @@ createMhvSigninCallToAction(store, widgetTypes.MHV_SIGNIN_CTA);
 create21P8416Access(store, widgetTypes.MEDICAL_EXPENSE_REPORT);
 
 create21P534ezAccess(store, widgetTypes.SURVIVORS_BENEFITS);
-
-// Create the My VA Login widget only on the homepage.
-if (window.location.pathname === '/') {
-  createMyVALoginWidget(store); // We might only need this one for the homepage
-}
