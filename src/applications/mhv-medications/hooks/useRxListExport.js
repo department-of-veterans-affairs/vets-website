@@ -1,10 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  PDF_TXT_GENERATE_STATUS,
-  DOWNLOAD_FORMAT,
-  PRINT_FORMAT,
-  DATETIME_FORMATS,
-} from '../util/constants';
+import { useCallback, useMemo, useState } from 'react';
+import { DATETIME_FORMATS } from '../util/constants';
 import {
   buildPrescriptionsPDFList,
   buildAllergiesPDFList,
@@ -19,10 +14,14 @@ import {
 } from '../util/helpers';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
+import useExportFile from './useExportFile';
 
 /**
  * Hook to manage generating PDF/TXT/print exports for prescriptions list.
  * Consumers supply user info, allergies data, feature flags, and a fetcher for the export list.
+ *
+ * This hook builds the list-specific export payloads and delegates the
+ * shared export flow (status, async handling, print trigger) to useExportFile.
  */
 const useRxListExport = ({
   user,
@@ -35,59 +34,18 @@ const useRxListExport = ({
   fetchExportList,
 }) => {
   const { isCernerPilot = false, isV2StatusMapping = false } = features;
+
   const [exportList, setExportList] = useState([]);
   const [printList, setPrintList] = useState([]);
-  const [shouldPrint, setShouldPrint] = useState(false);
-  const [status, setStatus] = useState({
-    status: PDF_TXT_GENERATE_STATUS.NotStarted,
-    format: undefined,
-  });
   const [exportListError, setExportListError] = useState(false);
-  const [errorFormat, setErrorFormat] = useState(undefined);
+  const [exportListErrorFormat, setExportListErrorFormat] = useState(undefined);
 
   const resetExportState = useCallback(() => {
     setExportList([]);
     setPrintList([]);
-    setShouldPrint(false);
     setExportListError(false);
-    setErrorFormat(undefined);
-    setStatus({
-      status: PDF_TXT_GENERATE_STATUS.NotStarted,
-      format: undefined,
-    });
+    setExportListErrorFormat(undefined);
   }, []);
-
-  const isLoading = useMemo(
-    () =>
-      status.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-      !allergiesError &&
-      !exportListError,
-    [status, allergiesError, exportListError],
-  );
-
-  const isSuccess = useMemo(
-    () => status.status === PDF_TXT_GENERATE_STATUS.Success,
-    [status],
-  );
-
-  const hasError = useMemo(
-    () =>
-      (status.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-        allergiesError) ||
-      exportListError,
-    [status, allergiesError, exportListError],
-  );
-
-  // Compute the effective error format - use status.format when there's an allergies error
-  // since the errorFormat state may not be set yet
-  const effectiveErrorFormat = useMemo(
-    () =>
-      errorFormat ||
-      (status.status === PDF_TXT_GENERATE_STATUS.InProgress && allergiesError
-        ? status.format
-        : undefined),
-    [errorFormat, status, allergiesError],
-  );
 
   const buildTxtData = useCallback(
     (rxList, allergiesList) => {
@@ -129,162 +87,100 @@ const useRxListExport = ({
     ],
   );
 
-  const finalizeSuccess = useCallback(
-    () => {
-      setStatus({
-        status: PDF_TXT_GENERATE_STATUS.Success,
-        format: status.format,
-      });
-    },
-    [status.format],
-  );
+  const isReady = useMemo(() => !!exportList?.length, [exportList]);
 
-  const handleGenerationError = useCallback(
-    () => {
-      setExportListError(true);
-      setErrorFormat(status.format);
-      setStatus({
-        status: PDF_TXT_GENERATE_STATUS.NotStarted,
-        format: status.format,
-      });
-    },
-    [status.format],
-  );
+  const exportFlow = useExportFile({
+    allergies,
+    allergiesError,
+    isReady,
+    error: exportListError,
 
-  const handlePdfGeneration = useCallback(
-    async (rxList, allergiesList) => {
+    // Prepare step: fetch export list (if needed) on download.
+    prepare: async format => {
+      setExportListError(false);
+      setExportListErrorFormat(undefined);
+
+      if (exportList.length) return;
+
+      if (!fetchExportList) {
+        setExportListError(true);
+        setExportListErrorFormat(format);
+        return;
+      }
+
+      const { data, isError } = await fetchExportList();
+      if (isError) {
+        setExportListError(true);
+        setExportListErrorFormat(format);
+        return;
+      }
+
+      if (data?.prescriptions) {
+        setExportList(data.prescriptions);
+      } else {
+        setExportListError(true);
+        setExportListErrorFormat(format);
+      }
+    },
+
+    onBeforePrint: () => {
+      setPrintList(exportList);
+    },
+
+    onGeneratePdf: async () => {
       const pdfDataObj = buildPdfData({
         userName: user,
         dob: user.dob,
         selectedFilterOption,
         selectedSortOption,
-        rxList,
-        allergiesList,
+        rxList: buildPrescriptionsPDFList(
+          exportList,
+          isCernerPilot,
+          isV2StatusMapping,
+        ),
+        allergiesList: buildAllergiesPDFList(allergies),
       });
 
       await generateMedicationsPdfFile({ userName: user, pdfData: pdfDataObj });
-      finalizeSuccess();
     },
-    [user, selectedFilterOption, selectedSortOption, finalizeSuccess],
-  );
 
-  const handleTxtGeneration = useCallback(
-    (rxList, allergiesList) => {
+    onGenerateTxt: async () => {
       generateTextFile(
-        buildTxtData(rxList, allergiesList),
+        buildTxtData(
+          buildPrescriptionsTXT(exportList, isCernerPilot, isV2StatusMapping),
+          buildAllergiesTXT(allergies),
+        ),
         `VA-medications-list-${
           user.first ? `${user.first}-${user.last}` : user.last
         }-${generateTimestampForFilename()}`,
       );
-      finalizeSuccess();
     },
-    [user, buildTxtData, finalizeSuccess],
-  );
+  });
 
-  const onDownload = useCallback(
-    async format => {
-      setExportListError(false);
-      setErrorFormat(undefined);
-      setStatus({ status: PDF_TXT_GENERATE_STATUS.InProgress, format });
-
-      if (!exportList.length && fetchExportList) {
-        const { data, isError } = await fetchExportList();
-
-        if (isError) {
-          setExportListError(true);
-          setErrorFormat(format);
-          setStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted, format });
-          return;
-        }
-
-        if (data?.prescriptions) {
-          setExportList(data.prescriptions);
-        }
-      } else if (!exportList.length && !fetchExportList) {
-        setExportListError(true);
-        setErrorFormat(format);
-        setStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted, format });
-      }
-    },
-    [exportList.length, fetchExportList],
-  );
-
-  useEffect(
+  // Prefer export-list-specific error format if present; otherwise fall back to exportFlow's.
+  const effectiveErrorFormat = useMemo(
     () => {
-      const isInProgress = status.status === PDF_TXT_GENERATE_STATUS.InProgress;
-      if (!isInProgress) return;
-
-      const { format } = status;
-      const exportReady = !!exportList?.length;
-      const allergiesReady = !!allergies && !allergiesError;
-
-      if (!exportReady) return;
-
-      if (format === PRINT_FORMAT.PRINT) {
-        setPrintList(exportList);
-        setStatus({
-          status: PDF_TXT_GENERATE_STATUS.NotStarted,
-          format: undefined,
-        });
-        setShouldPrint(true);
-        return;
-      }
-
-      if (!allergiesReady) return;
-
-      if (format === DOWNLOAD_FORMAT.PDF) {
-        const runPdf = async () => {
-          try {
-            await handlePdfGeneration(
-              buildPrescriptionsPDFList(
-                exportList,
-                isCernerPilot,
-                isV2StatusMapping,
-              ),
-              buildAllergiesPDFList(allergies),
-            );
-          } catch (error) {
-            handleGenerationError();
-          }
-        };
-
-        runPdf();
-      } else if (format === DOWNLOAD_FORMAT.TXT) {
-        try {
-          handleTxtGeneration(
-            buildPrescriptionsTXT(exportList, isCernerPilot, isV2StatusMapping),
-            buildAllergiesTXT(allergies),
-          );
-        } catch (error) {
-          handleGenerationError();
-        }
-      }
+      return exportListErrorFormat || exportFlow.errorFormat;
     },
-    [
-      status,
-      exportList,
-      allergies,
-      allergiesError,
-      handlePdfGeneration,
-      handleTxtGeneration,
-      isCernerPilot,
-      isV2StatusMapping,
-      handleGenerationError,
-    ],
+    [exportListErrorFormat, exportFlow.errorFormat],
   );
 
   return {
-    onDownload,
-    status,
-    isLoading,
-    isSuccess,
-    hasError,
+    onDownload: exportFlow.onDownload,
+    status: exportFlow.status,
+    isLoading: exportFlow.isLoading,
+    isSuccess: exportFlow.isSuccess,
+    hasError: exportFlow.hasError,
     errorFormat: effectiveErrorFormat,
-    shouldPrint,
+    shouldPrint: exportFlow.shouldPrint,
     printList,
     exportList,
-    resetExportState,
-    clearPrintTrigger: () => setShouldPrint(false),
+
+    resetExportState: () => {
+      resetExportState();
+      exportFlow.resetExportFlow();
+    },
+    clearPrintTrigger: exportFlow.clearPrintTrigger,
   };
 };
 

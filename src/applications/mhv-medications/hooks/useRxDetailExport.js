@@ -1,11 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { reportGeneratedBy } from '@department-of-veterans-affairs/mhv/exports';
-import {
-  PDF_TXT_GENERATE_STATUS,
-  DOWNLOAD_FORMAT,
-  PRINT_FORMAT,
-  DATETIME_FORMATS,
-} from '../util/constants';
+import { DATETIME_FORMATS } from '../util/constants';
 import {
   buildVAPrescriptionPDFList,
   buildNonVAPrescriptionPDFList,
@@ -22,10 +17,14 @@ import {
   generateRxDetailFilename,
   generateTextFile,
 } from '../util/helpers';
+import useExportFile from './useExportFile';
 
 /**
  * Hook to manage generating PDF/TXT/print exports for a single prescription details page.
  * Consumers supply user info, prescription data, allergies data, and feature flags.
+ *
+ * This hook builds the detail-specific export payloads and delegates the
+ * shared export flow (status, async handling, print trigger) to useExportFile.
  */
 const useRxDetailExport = ({
   user,
@@ -36,11 +35,6 @@ const useRxDetailExport = ({
   features = {},
 }) => {
   const { isCernerPilot = false, isV2StatusMapping = false } = features;
-  const [shouldPrint, setShouldPrint] = useState(false);
-  const [status, setStatus] = useState({
-    status: PDF_TXT_GENERATE_STATUS.NotStarted,
-    format: undefined,
-  });
 
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
@@ -61,32 +55,6 @@ const useRxDetailExport = ({
           );
     },
     [prescription, isNonVaPrescription, isCernerPilot, isV2StatusMapping],
-  );
-
-  const isLoading = useMemo(
-    () =>
-      status.status === PDF_TXT_GENERATE_STATUS.InProgress && !allergiesError,
-    [status, allergiesError],
-  );
-
-  const isSuccess = useMemo(
-    () => status.status === PDF_TXT_GENERATE_STATUS.Success,
-    [status],
-  );
-
-  const hasError = useMemo(
-    () =>
-      status.status === PDF_TXT_GENERATE_STATUS.InProgress && allergiesError,
-    [status, allergiesError],
-  );
-
-  // Compute the effective error format - use status.format when there's an allergies error
-  const effectiveErrorFormat = useMemo(
-    () =>
-      status.status === PDF_TXT_GENERATE_STATUS.InProgress && allergiesError
-        ? status.format
-        : undefined,
-    [status, allergiesError],
   );
 
   const buildPdfData = useCallback(
@@ -198,106 +166,49 @@ const useRxDetailExport = ({
     [user, prescription, isNonVaPrescription, isCernerPilot, isV2StatusMapping],
   );
 
-  const finalizeSuccess = useCallback(
-    () => {
-      setStatus({
-        status: PDF_TXT_GENERATE_STATUS.Success,
-        format: status.format,
-      });
-    },
-    [status.format],
-  );
+  const exportFlow = useExportFile({
+    allergies,
+    allergiesError,
+    isReady: true,
+    error: false,
 
-  const handlePdfGeneration = useCallback(
-    allergiesList => {
+    onGeneratePdf: async () => {
       const filename = generateRxDetailFilename({ user, isNonVaPrescription });
-      generateMedicationsPDF(
+      await generateMedicationsPDF(
         'medications',
         filename,
-        buildPdfData(allergiesList),
-      ).then(() => {
-        finalizeSuccess();
-      });
+        buildPdfData(buildAllergiesPDFList(allergies)),
+      );
     },
-    [isNonVaPrescription, user, buildPdfData, finalizeSuccess],
-  );
 
-  const handleTxtGeneration = useCallback(
-    allergiesList => {
+    onGenerateTxt: async () => {
       const filename = generateRxDetailFilename({ user, isNonVaPrescription });
-      generateTextFile(buildTxtData(allergiesList), filename);
-      finalizeSuccess();
+      generateTextFile(buildTxtData(buildAllergiesTXT(allergies)), filename);
     },
-    [isNonVaPrescription, user, buildTxtData, finalizeSuccess],
-  );
 
-  const onDownload = useCallback(format => {
-    setStatus({ status: PDF_TXT_GENERATE_STATUS.InProgress, format });
-  }, []);
+    onBeforePrint: () => {},
+  });
 
-  // Handle generation when status changes to InProgress and allergies are ready
+  // Trigger actual browser print when requested
   useEffect(
     () => {
-      const isInProgress = status.status === PDF_TXT_GENERATE_STATUS.InProgress;
-      if (!isInProgress) return;
-
-      const { format } = status;
-      const allergiesReady = !!allergies && !allergiesError;
-
-      // Handle print - if allergies error, stay in InProgress to trigger error display
-      if (format === PRINT_FORMAT.PRINT) {
-        if (allergiesError) {
-          // Keep status InProgress with print format so hasError returns true
-          return;
-        }
-        setStatus({
-          status: PDF_TXT_GENERATE_STATUS.NotStarted,
-          format: 'print',
-        });
-        return;
-      }
-
-      // For PDF/TXT, wait for allergies
-      if (!allergiesReady) return;
-
-      if (format === DOWNLOAD_FORMAT.PDF) {
-        handlePdfGeneration(buildAllergiesPDFList(allergies));
-      } else if (format === DOWNLOAD_FORMAT.TXT) {
-        handleTxtGeneration(buildAllergiesTXT(allergies));
-      }
-    },
-    [
-      status,
-      allergies,
-      allergiesError,
-      handlePdfGeneration,
-      handleTxtGeneration,
-    ],
-  );
-
-  // Handle print trigger
-  useEffect(
-    () => {
-      if (
-        allergies &&
-        status.status === PDF_TXT_GENERATE_STATUS.NotStarted &&
-        status.format === 'print'
-      ) {
+      if (exportFlow.shouldPrint) {
         window.print();
-        setShouldPrint(false);
+        exportFlow.clearPrintTrigger();
       }
     },
-    [allergies, status],
+    [exportFlow.shouldPrint, exportFlow],
   );
 
   return {
-    onDownload,
-    status,
-    isLoading,
-    isSuccess,
-    hasError,
-    errorFormat: effectiveErrorFormat,
-    shouldPrint,
+    onDownload: exportFlow.onDownload,
+    status: exportFlow.status,
+    isLoading: exportFlow.isLoading,
+    isSuccess: exportFlow.isSuccess,
+    hasError: exportFlow.hasError,
+    errorFormat: exportFlow.errorFormat,
+    shouldPrint: exportFlow.shouldPrint,
+
     prescriptionPdfList,
   };
 };
