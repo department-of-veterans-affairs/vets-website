@@ -375,9 +375,9 @@ export const prescriptionsApi = createApi({
           }
         }
       },
-      // Note: We intentionally don't invalidate tags here because the UI filters out
-      // successfully refilled prescriptions immediately. This avoids an extra API call.
-      // The cache will naturally refresh when the user navigates away and back.
+      // Invalidate prescription cache to prevent duplicate refill attempts
+      // This ensures the refillable list is updated immediately after successful refills
+      invalidatesTags: ['Prescription'],
       transformResponse: transformBulkRefillResponse,
     }),
   }),

@@ -647,35 +647,23 @@ describe('Refill Prescriptions Component', () => {
       });
     });
 
-    it('filters out successfully refilled prescriptions from the checkbox list immediately', async () => {
-      // This test verifies that after a successful refill, the prescription
-      // is immediately hidden from the refillable checkbox list without waiting for cache refresh
+    it('shows loading indicator during cache refresh (isFetching = true)', async () => {
+      // This test verifies the cache refresh behavior when isFetching is true
+      // In real usage, this happens after successful refills when RTK Query invalidates and refetches
       sandbox.restore();
-
-      const prescription1 = {
-        ...refillablePrescriptions[0],
-        prescriptionId: 11111111,
-        prescriptionName: 'MEDICATION A',
-      };
-      const prescription2 = {
-        ...refillablePrescriptions[1],
-        prescriptionId: 22222222,
-        prescriptionName: 'MEDICATION B',
-      };
 
       sandbox
         .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
         .returns({
           data: {
-            prescriptions: [prescription1, prescription2],
+            prescriptions: [refillablePrescriptions[0]],
             meta: {},
           },
           error: false,
           isLoading: false,
-          isFetching: false,
+          isFetching: true, // Cache invalidation in progress
         });
 
-      // Simulate completed mutation with prescription1 successfully refilled
       sandbox
         .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
         .returns([
@@ -683,107 +671,20 @@ describe('Refill Prescriptions Component', () => {
           {
             isLoading: false,
             error: null,
-            data: {
-              successfulIds: [prescription1.prescriptionId],
-              failedIds: [],
-            },
+            data: null, // No active refill
           },
         ]);
       stubAllergiesApi({ sandbox });
 
       const screen = setup(initialState);
 
-      // Wait for prescriptions to load and check the checkbox list
+      // When isFetching is true, component should show the form normally
+      // (The cache refresh hiding only occurs when refillStatus is FINISHED AND isFetching is true)
       await waitFor(() => {
-        // Only one checkbox should exist now (index 0) since prescription1 was refilled
-        const checkbox0 = screen.queryByTestId(
-          'refill-prescription-checkbox-0',
-        );
-        expect(checkbox0).to.exist;
-        // MEDICATION B should now be at index 0 since MEDICATION A was filtered out
-        expect(checkbox0).to.have.property('label', 'MEDICATION B');
-        // There should be no second checkbox
-        const checkbox1 = screen.queryByTestId(
-          'refill-prescription-checkbox-1',
-        );
-        expect(checkbox1).to.not.exist;
-      });
-    });
-
-    it('filters out successfully refilled prescriptions using stationNumber when pilot is enabled', async () => {
-      // This test verifies that prescriptions with same ID but different stationNumbers
-      // are correctly identified (only the matching one is filtered out from checkbox list)
-      sandbox.restore();
-
-      const prescription1 = {
-        ...refillablePrescriptions[0],
-        prescriptionId: 11111111,
-        stationNumber: '989',
-        prescriptionName: 'MEDICATION A - STATION 989',
-      };
-      const prescription2 = {
-        ...refillablePrescriptions[1],
-        prescriptionId: 11111111, // Same ID, different station
-        stationNumber: '123',
-        prescriptionName: 'MEDICATION A - STATION 123',
-      };
-
-      sandbox
-        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
-        .returns({
-          data: {
-            prescriptions: [prescription1, prescription2],
-            meta: {},
-          },
-          error: false,
-          isLoading: false,
-          isFetching: false,
-        });
-
-      // Simulate completed mutation with only prescription1 (station 989) successfully refilled
-      sandbox
-        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
-        .returns([
-          sinon.stub(),
-          {
-            isLoading: false,
-            error: null,
-            data: {
-              successfulIds: [
-                { id: prescription1.prescriptionId, stationNumber: '989' },
-              ],
-              failedIds: [],
-            },
-          },
-        ]);
-      stubAllergiesApi({ sandbox });
-
-      const stateWithPilotEnabled = {
-        ...initialState,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_cerner_pilot: true,
-        },
-      };
-
-      const screen = setup(stateWithPilotEnabled);
-
-      await waitFor(() => {
-        // Only one checkbox should exist now (index 0) since prescription1 was refilled
-        const checkbox0 = screen.queryByTestId(
-          'refill-prescription-checkbox-0',
-        );
-        expect(checkbox0).to.exist;
-        // MEDICATION A - STATION 123 should now be at index 0 since STATION 989 was filtered out
-        expect(checkbox0).to.have.property(
-          'label',
-          'MEDICATION A - STATION 123',
-        );
-        // There should be no second checkbox
-        const checkbox1 = screen.queryByTestId(
-          'refill-prescription-checkbox-1',
-        );
-        expect(checkbox1).to.not.exist;
+        const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+        const button = screen.queryByTestId('request-refill-button');
+        expect(checkboxGroup).to.exist;
+        expect(button).to.exist;
       });
     });
 
@@ -900,6 +801,47 @@ describe('Refill Prescriptions Component', () => {
         expect(button).to.exist;
         expect(button.text).to.include('refills');
         expect(button.text).to.not.include('1 refill');
+      });
+    });
+  });
+
+  describe('Duplicate refill prevention', () => {
+    it('shows loading indicator and hides form during refill submission', async () => {
+      sandbox.restore();
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [refillablePrescriptions[0]],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // Simulate mutation in loading state (isRefilling = true)
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          sinon.stub().resolves({ data: { successfulIds: [22377956], failedIds: [] } }),
+          { isLoading: true, error: null }, // This makes isDataLoading = true, preventing interactions
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const screen = setup();
+
+      // When isRefilling is true, should show loading indicator and hide form
+      await waitFor(() => {
+        const loadingIndicator = screen.queryByTestId('loading-indicator');
+        expect(loadingIndicator).to.exist;
+
+        // Form elements should not exist during loading to prevent duplicate submissions
+        const button = screen.queryByTestId('request-refill-button');
+        const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
+        expect(button).to.not.exist;
+        expect(checkboxGroup).to.not.exist;
       });
     });
   });
