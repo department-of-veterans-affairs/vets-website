@@ -36,6 +36,7 @@ const Confirmation = () => {
       testID="confirmation-page"
       showBackLink={detailsCardOnly}
       loading={isLoading}
+      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
       pageTitle={
         detailsCardOnly
           ? undefined

@@ -66,7 +66,7 @@ function createVassApiStateWithAppointment(appointmentId, appointmentData) {
         endpointName: 'getAppointment',
         requestId: 'test',
         startedTimeStamp: 0,
-        data: appointmentData,
+        data: { ...appointmentData, appointmentId },
       },
     },
     mutations: {},

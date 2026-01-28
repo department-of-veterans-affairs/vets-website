@@ -48,6 +48,7 @@ const CancelAppointment = () => {
       loading={isLoading}
       testID="cancel-appointment-page"
       pageTitle="Would you like to cancel this appointment?"
+      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
     >
       <div className="vads-u-margin-top--6">
         <AppointmentCard

@@ -19,6 +19,7 @@ const CancelConfirmation = () => {
       testID="cancel-confirmation-page"
       loading={isLoading}
       pageTitle="You have canceled your appointment"
+      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
     >
       <p
         className="vads-u-margin-bottom--4"
