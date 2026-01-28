@@ -30,7 +30,6 @@ import {
   mockClinicsApi,
   mockEligibilityApi,
   mockEligibilityCCApi,
-  mockExistingAppointments,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -48,7 +47,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockExistingAppointments(true);
+      mockAppointmentsGetApi({ response: [] });
       mockFeatureToggles();
       mockVamcEhrApi();
     });

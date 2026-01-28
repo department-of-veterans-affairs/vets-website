@@ -1,5 +1,5 @@
 // @ts-check
-import { addMonths } from 'date-fns';
+import { addMonths, subDays } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
@@ -25,10 +25,10 @@ import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentCreateApi,
   mockAppointmentGetApi,
+  mockAppointmentsGetApi,
   mockClinicsApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
-  mockExistingAppointments,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -36,6 +36,33 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
+
+function mockExistingAppointments(hasPast = false) {
+  const response = [];
+  if (hasPast) {
+    response.push(
+      new MockAppointmentResponse({
+        future: false,
+        status: APPOINTMENT_STATUS.booked,
+        localStartTime: subDays(new Date(), 10),
+      })
+        .setLocation(new MockFacilityResponse({ id: '983' }))
+        .setClinicId('1'),
+    );
+    response.push(
+      new MockAppointmentResponse({
+        future: false,
+        status: APPOINTMENT_STATUS.booked,
+        localStartTime: subDays(new Date(), 15),
+      })
+        .setLocation(new MockFacilityResponse({ id: '983' }))
+        .setClinicId('2'),
+    );
+  }
+  mockAppointmentsGetApi({
+    response,
+  });
+}
 
 /**
  *

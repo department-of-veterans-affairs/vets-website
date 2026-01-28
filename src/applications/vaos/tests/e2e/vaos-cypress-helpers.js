@@ -2,12 +2,8 @@
 // Location to custom commands type definitions.
 /// <reference path="./index.d.ts" />
 
-import { subDays } from 'date-fns';
-import featureFlags from '../../services/mocks/featureFlags';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
-import MockAppointmentResponse from '../fixtures/MockAppointmentResponse';
-import MockFacilityResponse from '../fixtures/MockFacilityResponse';
+import featureFlags from '../../services/mocks/featureFlags';
 
 /**
  * Function to mock feature toggle endpoint.
@@ -711,37 +707,4 @@ export function mockRelationshipsApi({ response: data, responseCode = 200 }) {
       req.reply({ data });
     },
   ).as('v2:get:relationships');
-}
-
-/**
- * Function to mock existing appointments.
- *
- * @export
- * @param {boolean} hasPast - whether existing appointments should include past appointments.
- */
-export function mockExistingAppointments(hasPast = false) {
-  const response = [];
-  if (hasPast) {
-    response.push(
-      new MockAppointmentResponse({
-        future: false,
-        status: APPOINTMENT_STATUS.booked,
-        localStartTime: subDays(new Date(), 10),
-      })
-        .setLocation(new MockFacilityResponse({ id: '983' }))
-        .setClinicId('1'),
-    );
-    response.push(
-      new MockAppointmentResponse({
-        future: false,
-        status: APPOINTMENT_STATUS.booked,
-        localStartTime: subDays(new Date(), 15),
-      })
-        .setLocation(new MockFacilityResponse({ id: '983' }))
-        .setClinicId('2'),
-    );
-  }
-  mockAppointmentsGetApi({
-    response,
-  });
 }
