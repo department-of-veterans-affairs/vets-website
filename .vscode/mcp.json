@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "cypress-screenshots": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/.github/mcp-server/cypress-screenshots.js"
+      ],
+      "env": {}
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    }
+  }
+}
