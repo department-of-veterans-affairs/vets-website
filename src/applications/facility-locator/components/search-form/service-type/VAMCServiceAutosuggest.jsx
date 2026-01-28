@@ -13,6 +13,7 @@ const VAMCServiceAutosuggest = ({
   searchInitiated,
   setSearchInitiated,
   vamcServiceDisplay,
+  isMobile,
 }) => {
   const { selector, serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
@@ -144,6 +145,26 @@ const VAMCServiceAutosuggest = ({
     }
   };
 
+  useEffect(() => {
+    if (isMobile) {
+      const servicesTypeInput = document.getElementById('vamc-services');
+      servicesTypeInput.addEventListener('focus', () => {
+        const servicesTypeContainer = document.getElementById(
+          'vamc-services-autosuggest-container',
+        );
+
+        if (servicesTypeContainer) {
+          setTimeout(() => {
+            servicesTypeContainer.scrollIntoView(true, {
+              behavior: 'smooth',
+              block: 'start',
+            });
+          }, 300);
+        }
+      });
+    }
+  }, []);
+
   return (
     <Autosuggest
       downshiftInputProps={{
@@ -171,6 +192,7 @@ const VAMCServiceAutosuggest = ({
 };
 
 VAMCServiceAutosuggest.propTypes = {
+  isMobile: PropTypes.bool,
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
   vamcServiceDisplay: PropTypes.string,
