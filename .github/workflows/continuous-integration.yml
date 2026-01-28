@@ -1,6 +1,5 @@
 name: Continuous Integration
 
-
 on:
   push:
     branches:
@@ -813,10 +812,10 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    if: |
-      needs.build.result == 'success' &&
-      needs.tests-prep.result == 'success' &&
-      needs.tests-prep.outputs.e2e_count != '0'
+#   if: |
+#     needs.build.result == 'success' &&
+#     needs.tests-prep.result == 'success' &&
+#     needs.tests-prep.outputs.e2e_count != '0'
 
     container:
       image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
