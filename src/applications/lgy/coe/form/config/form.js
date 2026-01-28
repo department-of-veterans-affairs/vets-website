@@ -26,10 +26,11 @@ import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
 
-import serviceStatus2 from '../pages/serviceStatus2';
+import certificateUse from '../pages/certificateUse';
 import disabilitySeparation from '../pages/disabilitySeparation';
 import preDischargeClaim from '../pages/preDischargeClaim';
 import purpleHeartRecipient from '../pages/purpleHeartRecipient';
+import serviceStatus2 from '../pages/serviceStatus2';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -176,11 +177,18 @@ const formConfig = {
       },
     },
     loansChapter: {
-      title: 'Your VA loan history',
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Loan history'
+          : 'Your VA loan history';
+      },
       pages: {
         loanScreener: {
           path: 'existing-loan-screener',
           title: 'Existing loans',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           uiSchema: loanScreener.uiSchema,
           schema: loanScreener.schema,
         },
@@ -189,7 +197,18 @@ const formConfig = {
           title: 'VA-backed loan history',
           uiSchema: loanHistory.uiSchema,
           schema: loanHistory.schema,
-          depends: formData => formData?.vaLoanIndicator,
+          depends: formData =>
+            !formData['view:coeFormRebuildCveteam'] &&
+            formData?.vaLoanIndicator,
+        },
+        certificateUse: {
+          path: 'certificate-use',
+          title: 'Certificate use',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: certificateUse.uiSchema,
+          schema: certificateUse.schema,
         },
       },
     },
