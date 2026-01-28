@@ -132,7 +132,8 @@ describe('getAppointmentTimezone util', () => {
       },
     };
 
-    getAppointmentTimezone(appointment, true);
+    const result = getAppointmentTimezone(appointment, true);
+    expect(result).to.equal('America/Chicago');
     expect(getTimezoneByFacilityIdStub.calledWith('555', true)).to.be.true;
   });
 
