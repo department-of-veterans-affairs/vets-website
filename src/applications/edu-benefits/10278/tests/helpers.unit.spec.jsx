@@ -10,9 +10,7 @@ describe('10278 helpers - getThirdPartyName', () => {
   it('returns organization name when authorize is "organization"', () => {
     const formData = {
       discloseInformation: { authorize: 'organization' },
-      thirdPartyOrganizationInformation: {
-        organizationName: 'Acme Org',
-      },
+      organizationName: 'Acme Org',
     };
 
     expect(getThirdPartyName(formData)).to.equal('Acme Org');
