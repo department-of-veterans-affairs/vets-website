@@ -1,16 +1,28 @@
 import footerContent from 'platform/forms/components/FormFooter';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
+import { organizationRepresentativesArrayOptions } from '../helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
+import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrganizationRepresentativesSummary ';
+import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
+import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
+import thirdPartyOrganizationRepresentativeName from '../pages/thirdPartyOrganizationRepresentativesName';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
-import * as discloseInformation from '../pages/discloseInformation';
+import prefillTransform from './prefillTransform';
+
+import {
+  thirdPartyPersonName,
+  thirdPartyPersonAddress,
+  discloseInformation,
+} from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -25,6 +37,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_10278,
+  useCustomScrollAndFocus: true,
   saveInProgress: {
     messages: {
       inProgress: 'Your form (22-10278) is in progress.',
@@ -35,6 +48,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer: prefillTransform,
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
@@ -42,7 +56,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   customText: {
-    appType: 'form',
+    appType: 'application',
     continueAppButtonText: 'Continue your form',
     startNewAppButtonText: 'Start a new form',
     finishAppLaterMessage: 'Finish this form later',
@@ -60,28 +74,42 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
+        ...personalInformationPage({
+          personalInfoConfig: {
+            name: { show: true, required: true },
+            ssn: { show: true, required: true },
+            dateOfBirth: { show: true, required: true },
+          },
+          dataAdapter: {
+            ssnPath: 'ssn',
+          },
+          depends: formData => formData?.userLoggedIn === true,
+        }),
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
           title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
+          depends: formData => formData?.userLoggedIn !== true,
         },
         identificationInformation: {
           path: 'identification-information',
           title: 'Identification information',
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
+          depends: formData => formData?.userLoggedIn !== true,
         },
-      },
-    },
-    mailingAddressChapter: {
-      title: 'Mailing address',
-      pages: {
         mailingAddress: {
           path: 'mailing-address',
           title: 'Mailing address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
+        },
+        phoneAndEmailAddress: {
+          path: 'phone-and-email-address',
+          title: 'Phone and email address',
+          uiSchema: phoneAndEmailAddress.uiSchema,
+          schema: phoneAndEmailAddress.schema,
         },
       },
     },
@@ -93,29 +121,81 @@ const formConfig = {
           title: 'Disclose your personal information to a third party',
           uiSchema: discloseInformation.uiSchema,
           schema: discloseInformation.schema,
-
           onNavForward: ({ formData, goPath }) => {
             if (formData?.discloseInformation?.authorize === 'organization') {
-              //  go straight into add flow (hides summary until after first item)
-              goPath('/authorized-organizations/0?add=true');
+              goPath('/organization-name-and-address');
               return;
             }
-
-            // person flow (use your actual person page path)
-            goPath('/third-party-person-name');
+            goPath('/third-party-person-details');
           },
         },
       },
     },
-    contactInformationChapter: {
-      title: 'Contact information',
+    thirdPartyContactInformation: {
+      title: 'Third party contact information',
       pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        thirdPartyPersonName: {
+          path: 'third-party-person-details',
+          title: 'Name of person',
+          uiSchema: thirdPartyPersonName.uiSchema,
+          schema: thirdPartyPersonName.schema,
+          depends: formData =>
+            formData?.discloseInformation?.authorize === 'person',
         },
+        thirdPartyPersonAddress: {
+          path: 'third-party-person-details-1',
+          title: 'Address of person',
+          uiSchema: thirdPartyPersonAddress.uiSchema,
+          schema: thirdPartyPersonAddress.schema,
+          depends: formData =>
+            formData?.discloseInformation?.authorize === 'person',
+        },
+      },
+    },
+
+    thirdPartyOrganizationsChapter: {
+      title: 'Third party contact information',
+      pages: {
+        thirdPartyOrganizationInformation: {
+          title: 'Organization name and address',
+          path: 'organization-name-and-address',
+          uiSchema: thirdPartyOrganizationInformation.uiSchema,
+          schema: thirdPartyOrganizationInformation.schema,
+          depends: formData =>
+            formData?.discloseInformation?.authorize === 'organization',
+        },
+        ...arrayBuilderPages(
+          organizationRepresentativesArrayOptions,
+          pageBuilder => ({
+            thirdPartyOrganizationRepresentativesIntro: pageBuilder.introPage({
+              title: 'Name of organization’s representatives',
+              path: 'organizations/representatives',
+              uiSchema: thirdPartyOrganizationRepresentativesIntro.uiSchema,
+              schema: thirdPartyOrganizationRepresentativesIntro.schema,
+              depends: formData =>
+                formData?.discloseInformation?.authorize === 'organization',
+            }),
+            thirdPartyOrganizationRepresentativesSummary: pageBuilder.summaryPage(
+              {
+                title: 'Review representatives',
+                path: 'organizations/representatives-summary',
+                uiSchema: thirdPartyOrganizationRepresentativesSummary.uiSchema,
+                schema: thirdPartyOrganizationRepresentativesSummary.schema,
+                depends: formData =>
+                  formData?.discloseInformation?.authorize === 'organization',
+              },
+            ),
+            thirdPartyOrganizationRepresentativeName: pageBuilder.itemPage({
+              title: 'Name of organization’s representatives',
+              path: 'organizations/representatives/:index',
+              showPagePerItem: true,
+              uiSchema: thirdPartyOrganizationRepresentativeName.uiSchema,
+              schema: thirdPartyOrganizationRepresentativeName.schema,
+              depends: formData =>
+                formData?.discloseInformation?.authorize === 'organization',
+            }),
+          }),
+        ),
       },
     },
   },

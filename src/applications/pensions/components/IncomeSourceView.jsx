@@ -3,6 +3,16 @@ import PropTypes from 'prop-types';
 import { formatCurrency } from '../helpers';
 import { recipientTypeLabels, typeOfIncomeLabels } from '../labels';
 
+/**
+ * @typedef {object} ExpenseFieldProps
+ * @property {object} formData - The form data for the expense
+ *
+ * @param {ExpenseFieldProps} formData - The form data for the expense
+ * @param {string} formData.typeOfIncome - The type of income
+ * @param {string} formData.receiver - The recipient of the income
+ * @param {string} formData.amount - The amount of the income
+ * @returns {React.Element} - The rendered expense field
+ */
 export default function IncomeSourceView({ formData }) {
   return (
     <section>
@@ -22,5 +32,10 @@ export default function IncomeSourceView({ formData }) {
 }
 
 IncomeSourceView.propTypes = {
-  formData: PropTypes.object,
+  formData: PropTypes.shape({
+    typeOfIncome: PropTypes.string,
+    receiver: PropTypes.string,
+    payer: PropTypes.string,
+    amount: PropTypes.string,
+  }),
 };

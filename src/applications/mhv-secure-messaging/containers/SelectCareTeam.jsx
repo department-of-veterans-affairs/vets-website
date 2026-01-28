@@ -287,7 +287,7 @@ const SelectCareTeam = () => {
           'api-name': 'SM VA Health Systems Displayed',
           'api-status': 'successful',
           'health-systems-count': allFacilities.length,
-          'display-type':
+          version:
             allFacilities.length < MAX_RADIO_OPTIONS ? 'radio' : 'dropdown',
         });
       } else if (allFacilities?.length === 0) {
