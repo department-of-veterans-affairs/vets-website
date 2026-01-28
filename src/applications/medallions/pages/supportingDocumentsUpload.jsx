@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   titleUI,
-  fileInputUI,
-  fileInputSchema,
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { supportingDocsInfo } from '../utils/helpers';
@@ -28,7 +28,7 @@ export default {
   uiSchema: {
     ...titleUI('Upload your supporting documents'),
     'ui:description': formData => description(formData),
-    supportingDocuments: fileInputUI({
+    supportingDocuments: fileInputMultipleUI({
       title: 'Select a file to upload',
       required: false,
       hint:
@@ -43,7 +43,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      supportingDocuments: fileInputSchema(),
+      supportingDocuments: fileInputMultipleSchema(),
     },
   },
 };
