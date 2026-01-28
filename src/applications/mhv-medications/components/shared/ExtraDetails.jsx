@@ -11,7 +11,7 @@ import {
   DISPENSE_STATUS,
 } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
-import RefillNavButton from './RefillNavButton';
+import RefillButton from './RefillButton';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { pageType } from '../../util/dataDogConstants';
 import {
@@ -29,8 +29,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
-  const refillNavButton =
-    page === pageType.LIST ? <RefillNavButton rx={rx} /> : null;
+  const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
 
   const renderV2Content = () => {
     switch (dispStatus) {
@@ -112,7 +111,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             </div>
           );
         }
-        return null;
+        return refillButton;
 
       case dispStatusObjV2.inactive:
         // All map to "Inactive" in V2
@@ -251,7 +250,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             <p className="vads-u-margin-y--0" data-testid="active-parked">
               You can request this prescription when you need it.
             </p>
-            {refillNavButton}
+            {refillButton}
           </div>
         );
 
@@ -337,7 +336,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             </div>
           );
         }
-        return refillNavButton;
+        return refillButton;
 
       default:
         return null;
