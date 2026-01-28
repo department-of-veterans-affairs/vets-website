@@ -758,12 +758,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          echo "=== Debug: Network info ==="
-          echo "Hostname: $(hostname)"
-          cat /etc/hosts || true
-          ip addr 2>/dev/null || ifconfig 2>/dev/null || true
-
-          echo "=== Debug: Starting test server ==="
+          echo "Starting test server..."
           node src/platform/testing/e2e/test-server.js \
             --buildtype=vagovprod \
             --port=3001 \
@@ -775,9 +770,7 @@ jobs:
           echo "Waiting for server to be ready..."
           ready=false
           for i in $(seq 1 30); do
-            echo "=== Attempt $i: Checking port 3001 ==="
-            ss -tlnp 2>/dev/null | grep 3001 || netstat -tlnp 2>/dev/null | grep 3001 || true
-            if curl -v http://127.0.0.1:3001 2>&1 | head -20; then
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
               echo "Server is ready!"
               ready=true
               break
