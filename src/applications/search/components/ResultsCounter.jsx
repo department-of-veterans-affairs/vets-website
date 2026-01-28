@@ -42,7 +42,7 @@ const ResultsCounter = ({
           <span className="vads-u-font-weight--bold">{spellingCorrection}</span>
           "
         </h2>
-        <hr className="vads-u-margin-y--3" aria-hidden="true" />
+        <hr className="vads-u-margin-y--0" aria-hidden="true" />
       </>
     );
   }
@@ -61,7 +61,7 @@ const ResultsCounter = ({
           of {totalEntries} results for "
           <span className="vads-u-font-weight--bold">{query}</span>"
         </h2>
-        <hr className="vads-u-margin-y--3" aria-hidden="true" />
+        <hr className="vads-u-margin-y--0" aria-hidden="true" />
       </>
     );
   }

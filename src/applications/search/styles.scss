@@ -28,6 +28,9 @@
           color: $color-gray-dark;
         }
 
+        .result-url {
+          color: var(--vads-color-base-dark);
+        }
 
         p {
           margin: 0;
@@ -96,15 +99,6 @@
   }
 
 
-  .search-box {
-    flex-direction: column;
-
-
-    @media (min-width: $medium-screen) {
-      flex-direction: row;
-    }
-  }
-
   .search-row {
     box-sizing: inherit;
     margin: 0 auto;
@@ -114,6 +108,16 @@
 
     @media (min-width: $medium-screen) {
       flex-direction: row;
+    }
+  }
+
+  .search-input-container {
+    va-search-input {
+      width: 100%;
+    }
+
+    @include media($medium-screen) {
+      max-width: 768px;
     }
   }
 }
