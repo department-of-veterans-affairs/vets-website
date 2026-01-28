@@ -13,12 +13,14 @@ describe('RefillNotification', () => {
     refillStatus = initRefillStatus,
     successfulMeds = initSuccessfulMeds,
     failedMeds = initFailedMeds,
+    isFetching = false,
   ) => {
     return renderWithStoreAndRouterV6(
       <RefillNotification
         refillStatus={refillStatus}
         successfulMeds={successfulMeds}
         failedMeds={failedMeds}
+        isFetching={isFetching}
       />,
       {
         initialState: {},
@@ -82,5 +84,29 @@ describe('RefillNotification', () => {
       'To check the status of your refill requests, go to your medications list and filter by "recently requested."',
     );
     expect(screen.getByTestId('back-to-medications-page-link')).to.exist;
+  });
+
+  it('should display cache refresh loading indicator when refills are finished and data is fetching', () => {
+    const screen = setup('finished', initSuccessfulMeds, [], true);
+
+    expect(screen.getByTestId('cache-refresh-loading')).to.exist;
+    const loadingIndicator = screen
+      .getByTestId('cache-refresh-loading')
+      .querySelector('va-loading-indicator');
+    expect(loadingIndicator).to.exist;
+    expect(loadingIndicator).to.have.attribute(
+      'message',
+      'Updating your refillable prescriptions list...',
+    );
+  });
+
+  it('should not display cache refresh loading indicator when not fetching or status not finished', () => {
+    // Test when not fetching
+    const screen1 = setup('finished', initSuccessfulMeds, [], false);
+    expect(screen1.queryByTestId('cache-refresh-loading')).to.not.exist;
+
+    // Test when status not finished
+    const screen2 = setup('not-started', initSuccessfulMeds, [], true);
+    expect(screen2.queryByTestId('cache-refresh-loading')).to.not.exist;
   });
 });
