@@ -320,7 +320,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('This tool isn’t working right now');
 
     expect(screen.baseElement).contain.text(
       'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
@@ -372,7 +372,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
       'We’re sorry. Something went wrong when you tried to submit your appointment. Try again later. Or call your facility to help with your appointment.',
@@ -421,7 +421,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('We couldn’t schedule this appointment');
 
     expect(screen.baseElement).contain.text(
       'You already have an appointment scheduled for this day and time. Choose a different day or time. Or call your facility to help with your appointment.',
@@ -470,7 +470,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
 
     userEvent.click(screen.getByText(/Confirm appointment/i));
 
-    await screen.findByText('We can’t schedule your appointment right now');
+    await screen.findByText('This tool isn’t working right now');
 
     expect(screen.baseElement).contain.text(
       'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',

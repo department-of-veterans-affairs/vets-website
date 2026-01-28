@@ -278,7 +278,6 @@ describe('addressPattern mapping functions', () => {
         expect(result.properties).to.have.property('state');
         expect(result.properties).to.have.property('country');
       });
-
       it('should validate if using wrong keys in omit', () => {
         const keys = {
           street: 'addressLine1',
