@@ -467,7 +467,7 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: ${{ inputs.use_node_22 && 'cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1' || '008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge' }}
+      image: ${{ inputs.use_node_22 && 'public.ecr.aws/cypress-io/cypress/browsers:22.12.0' || '008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge' }}
       credentials:
         username: ${{ inputs.use_node_22 && '' || needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ inputs.use_node_22 && '' || needs.fetch-ecr-credentials.outputs.ecr_password }}
