@@ -448,8 +448,8 @@ export async function fetchFlowEligibilityAndClinics({
         location?.id,
       );
     }
-    // When removeFacilityConfigCheck is removed, remove the requiresMatchingClinics variable because
-    // we will always need to check for matching clinics at that point.
+    // When removeFacilityConfigCheck is removed, replace the requiresMatchingClinics with
+    // typeOfCareRequiresCheck since that will be the only relevant condition.
     const requiresMatchingClinics =
       (removeFacilityConfigCheck && typeOfCareRequiresCheck) ||
       (keepFacilityConfigCheck &&
