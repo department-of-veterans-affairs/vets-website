@@ -34,6 +34,12 @@ const blobToArrayBuffer = blob => {
 
 describe('PDF generation API', () => {
   before(() => {
+    Object.defineProperty(navigator, 'platform', {
+      value: '',
+      writable: true,
+      configurable: true,
+    });
+
     fileSaverMock = sinon.stub(fileSaver, 'saveAs').returns('foo');
   });
   after(() => {
