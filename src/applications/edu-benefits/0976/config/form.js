@@ -33,6 +33,16 @@ import programInformationIntro from '../pages/programInformationIntro';
 import programInformationSummary from '../pages/programInformationSummary';
 import programInformationDetails from '../pages/programInformationDetails';
 
+import isMedicalSchool from '../pages/isMedicalSchool';
+import medicalAuthorityName from '../pages/medicalAuthorityName';
+import medical32MonthProgram from '../pages/medical32MonthProgram';
+import medicalHasGraduatingClass from '../pages/medicalHasGraduatingClass';
+import medicalGraduatingClassDetails from '../pages/medicalGraduatingClassDetails';
+
+import institutionContactsInstructions from '../pages/institutionContactsInstructions';
+import institutionFinancialRepresentative from '../pages/institutionFinancialRepresentative';
+import institutionCertifyingOfficial from '../pages/institutionCertifyingOfficial';
+
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
@@ -276,6 +286,65 @@ const formConfig = {
             schema: programInformationDetails.schema,
           }),
         })),
+        isMedicalSchool: {
+          path: 'is-medical-school',
+          title: 'Medical school information',
+          uiSchema: isMedicalSchool.uiSchema,
+          schema: isMedicalSchool.schema,
+        },
+        medicalAuthorityName: {
+          path: 'medical-authority-name',
+          title: 'Medical authority name',
+          uiSchema: medicalAuthorityName.uiSchema,
+          schema: medicalAuthorityName.schema,
+          depends: formData => formData?.isMedicalSchool === true,
+        },
+        medical32MonthProgram: {
+          path: 'medical-32-month-program',
+          title: 'Medical 32 month program',
+          uiSchema: medical32MonthProgram.uiSchema,
+          schema: medical32MonthProgram.schema,
+          depends: formData => formData?.isMedicalSchool === true,
+        },
+        medicalHasGraduatingClass: {
+          path: 'medical-graduating-class',
+          title: 'Medical graduation class',
+          uiSchema: medicalHasGraduatingClass.uiSchema,
+          schema: medicalHasGraduatingClass.schema,
+          depends: formData => formData?.isMedicalSchool === true,
+        },
+        medicalGraduatingClassDetails: {
+          path: 'medical-graduating-class-details',
+          title: 'Medical graduation class details',
+          uiSchema: medicalGraduatingClassDetails.uiSchema,
+          schema: medicalGraduatingClassDetails.schema,
+          depends: formData =>
+            formData?.isMedicalSchool === true &&
+            formData?.graduatedLast12Months === true,
+        },
+      },
+    },
+    institutionContacts: {
+      title: 'Institution contacts and faculty details',
+      pages: {
+        contactsInstructions: {
+          path: 'contacts-instructions',
+          title: 'Institution contacts instructions',
+          uiSchema: institutionContactsInstructions.uiSchema,
+          schema: institutionContactsInstructions.schema,
+        },
+        institutionFinancialRepresentative: {
+          path: 'financial-representative',
+          title: 'Financial representative',
+          uiSchema: institutionFinancialRepresentative.uiSchema,
+          schema: institutionFinancialRepresentative.schema,
+        },
+        institutionCertifyingOfficial: {
+          path: 'certifying-official',
+          title: 'Certifying official',
+          uiSchema: institutionCertifyingOfficial.uiSchema,
+          schema: institutionCertifyingOfficial.schema,
+        },
       },
     },
   },
