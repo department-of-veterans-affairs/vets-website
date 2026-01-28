@@ -462,7 +462,7 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:22.12.0
+      image: cypress/browsers:node-22.21.0-chrome-141.0.7390.107-1-ff-144.0-edge-141.0.3537.92-1
 
     strategy:
       fail-fast: false
