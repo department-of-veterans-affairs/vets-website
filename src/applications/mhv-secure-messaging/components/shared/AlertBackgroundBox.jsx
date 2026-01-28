@@ -240,6 +240,7 @@ const AlertBackgroundBox = props => {
       <VaAlert
         uswds
         ref={alertRef}
+        role="status"
         background-only
         closeable={props.closeable}
         className="vads-u-margin-bottom--1 va-alert"
