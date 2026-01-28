@@ -174,7 +174,13 @@ jobs:
     needs: [validate-inputs]
     if: ${{ inputs.run_full_e2e_suite && inputs.reuse_build_from_run != '' }}
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Download build artifact from previous run
         run: gh run download ${{ inputs.reuse_build_from_run }} -n vagovprod.tar.bz2
         env:
