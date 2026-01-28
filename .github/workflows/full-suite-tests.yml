@@ -23,6 +23,11 @@ on:
         required: false
         type: boolean
         default: false
+      reuse_build_from_run:
+        description: 'Skip build and reuse artifacts from a previous run ID (for faster iteration)'
+        required: false
+        type: string
+        default: ''
 
 concurrency:
   group: full-suite-tests-${{ github.ref }}
@@ -103,7 +108,7 @@ jobs:
   build:
     name: Build
     needs: [validate-inputs]
-    if: ${{ inputs.run_full_e2e_suite }}
+    if: ${{ inputs.run_full_e2e_suite && inputs.reuse_build_from_run == '' }}
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
@@ -159,6 +164,24 @@ jobs:
 
       - name: Upload build artifact
         uses: ./.github/workflows/upload-artifact
+        with:
+          name: vagovprod.tar.bz2
+          path: vagovprod.tar.bz2
+          retention-days: 1
+
+  reuse-build:
+    name: Reuse Build from Previous Run
+    needs: [validate-inputs]
+    if: ${{ inputs.run_full_e2e_suite && inputs.reuse_build_from_run != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact from previous run
+        run: gh run download ${{ inputs.reuse_build_from_run }} -n vagovprod.tar.bz2
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Re-upload build artifact for this run
+        uses: actions/upload-artifact@v4
         with:
           name: vagovprod.tar.bz2
           path: vagovprod.tar.bz2
@@ -622,14 +645,15 @@ jobs:
     name: Cypress E2E Tests (Node 22)
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
-    needs: [build, tests-prep]
+    needs: [build, reuse-build, tests-prep]
     permissions:
       id-token: write
       contents: read
     if: |
+      always() &&
       inputs.run_full_e2e_suite &&
       inputs.use_node_22 &&
-      needs.build.result == 'success' &&
+      (needs.build.result == 'success' || needs.reuse-build.result == 'success') &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
 
@@ -728,11 +752,16 @@ jobs:
         run: |
           set -euo pipefail
 
-          echo "Starting test server..."
+          echo "=== Debug: Network info ==="
+          echo "Hostname: $(hostname)"
+          cat /etc/hosts || true
+          ip addr 2>/dev/null || ifconfig 2>/dev/null || true
+
+          echo "=== Debug: Starting test server ==="
           node src/platform/testing/e2e/test-server.js \
             --buildtype=vagovprod \
             --port=3001 \
-            --host=127.0.0.1 \
+            --host=0.0.0.0 \
             > test-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
@@ -740,7 +769,9 @@ jobs:
           echo "Waiting for server to be ready..."
           ready=false
           for i in $(seq 1 30); do
-            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+            echo "=== Attempt $i: Checking port 3001 ==="
+            ss -tlnp 2>/dev/null | grep 3001 || netstat -tlnp 2>/dev/null | grep 3001 || true
+            if curl -v http://127.0.0.1:3001 2>&1 | head -20; then
               echo "Server is ready!"
               ready=true
               break
