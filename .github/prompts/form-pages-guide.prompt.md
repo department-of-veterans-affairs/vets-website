@@ -381,8 +381,16 @@ yourDocument: fileInputUI({
   hint: 'Upload a file that is less than 5MB',
   headerSize: '3',
   formNumber: '31-4159',
-  maxFileSize: 1024 * 1024 * 5,
-  minFileSize: 1,
+  fileSizesByFileType: { // specify file size limits by file type
+    pdf: {
+      maxFileSize: 1024 * 1024 * 50,
+      minFileSize: 1024
+    },
+    default: {
+      maxFileSize: 1024 * 3,
+      minFileSize: 1
+    }
+  },
   disallowEncryptedPdfs: true,
   errorMessages: {
     additionalInput: 'Choose a document status',
@@ -449,8 +457,16 @@ financialHardshipDocuments: fileInputMultipleUI({
   headerSize: '3',
   formNumber: '31-4159',
   // disallowEncryptedPdfs: true,
-  maxFileSize: 1024 * 1024 * 5,
-  minFileSize: 1,
+  fileSizesByFileType: { // specify file size limits by file type
+    pdf: {
+      maxFileSize: 1024 * 1024 * 50,
+      minFileSize: 1024
+    },
+    default: {
+      maxFileSize: 1024 * 3,
+      minFileSize: 1
+    }
+  },
   errorMessages: {
     additionalInput: 'Choose a document status',
   },
