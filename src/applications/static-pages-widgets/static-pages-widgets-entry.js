@@ -120,11 +120,17 @@ window.appName = 'static-pages';
 Sentry.configureScope(scope => scope.setTag('source', 'static-pages-widgets'));
 
 // Add the extra reducers to the store.
-store.injectReducer('facility', facilityReducer);
-store.injectReducer('findVAForms', findVAFormsReducer);
-store.injectReducer('post911GIBillStatus', post911GIBillStatusReducer);
-store.injectReducer('thirdPartyApps', thirdPartyAppsReducer);
-store.injectReducer('dependencyVerification', dependencyVerificationReducer);
+[
+  facilityReducer,
+  findVAFormsReducer,
+  post911GIBillStatusReducer,
+  thirdPartyAppsReducer,
+  dependencyVerificationReducer,
+].forEach(reducer => {
+  Object.keys(reducer).forEach(key => {
+    store.injectReducer(key, reducer[key]);
+  });
+});
 
 // Before create-widget tasks.
 alertsBuildShow();
