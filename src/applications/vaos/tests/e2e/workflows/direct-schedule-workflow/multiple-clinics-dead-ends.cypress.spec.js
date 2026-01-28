@@ -10,11 +10,11 @@ import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
-  mockAppointmentsGetApi,
   mockClinicsApi,
   mockEligibilityCCApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
+  mockExistingAppointments,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -30,7 +30,7 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentsGetApi({ response: [] });
+    mockExistingAppointments(true);
     mockFeatureToggles();
     mockVamcEhrApi();
   });
