@@ -325,6 +325,78 @@ describe('prefillTransformer', () => {
     });
   });
 
+  describe('Scenario: Bank account confirmation fields prefill', () => {
+    it('correctly pre-fills routingNumberConfirmation field from bankInformation', () => {
+      const state = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {
+            accountType: 'Checking',
+            accountNumber: '12345678',
+            routingNumber: '123456789',
+          },
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer({}, {}, {}, state);
+
+      expect(
+        result.formData?.[formFields.viewDirectDeposit]?.[
+          formFields.bankAccount
+        ]?.routingNumberConfirmation,
+      ).to.equal('123456789');
+    });
+
+    it('correctly pre-fills accountNumberConfirmation field from bankInformation', () => {
+      const state = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {
+            accountType: 'Savings',
+            accountNumber: '98765432101',
+            routingNumber: '987654321',
+          },
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer({}, {}, {}, state);
+
+      expect(
+        result.formData?.[formFields.viewDirectDeposit]?.[
+          formFields.bankAccount
+        ]?.accountNumberConfirmation,
+      ).to.equal('98765432101');
+    });
+
+    it('handles missing bankInformation gracefully', () => {
+      const state = {
+        featureToggles: { loading: false },
+        data: {
+          formData: claimantInfo.data.formData,
+          bankInformation: {},
+        },
+        user: { profile: {} },
+      };
+
+      const result = prefillTransformer({}, {}, {}, state);
+
+      expect(
+        result.formData?.[formFields.viewDirectDeposit]?.[
+          formFields.bankAccount
+        ]?.routingNumberConfirmation,
+      ).to.be.undefined;
+      expect(
+        result.formData?.[formFields.viewDirectDeposit]?.[
+          formFields.bankAccount
+        ]?.accountNumberConfirmation,
+      ).to.be.undefined;
+    });
+  });
+
   describe('Scenario: Military base address prefill logic', () => {
     it('sets livesOnMilitaryBase to true when addressType is MILITARY_OVERSEAS', () => {
       const militaryOverseasState = {
