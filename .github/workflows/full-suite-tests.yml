@@ -18,6 +18,11 @@ on:
         required: false
         type: string
         default: ''
+      use_node_22:
+        description: 'Use Node 22 Docker image for E2E tests (for Node 22 upgrade verification)'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: full-suite-tests-${{ github.ref }}
@@ -451,7 +456,7 @@ jobs:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
-    needs: [build, tests-prep]
+    needs: [build, tests-prep, fetch-ecr-credentials]
     permissions:
       id-token: write
       contents: read
