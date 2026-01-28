@@ -12,6 +12,12 @@ export const URLS = Object.freeze({
   ALREADY_SCHEDULED: '/already-scheduled',
 });
 
+export const FLOW_TYPES = {
+  SCHEDULE: 'schedule',
+  CANCEL: 'cancel',
+  ANY: 'any',
+};
+
 /**
  * Authorization level enum for route protection.
  * @readonly
@@ -24,4 +30,15 @@ export const AUTH_LEVELS = {
   LOW_AUTH_ONLY: 'lowAuthOnly',
   /** Requires a valid authentication token */
   TOKEN: 'token',
+};
+
+export const VASS_TOKEN_COOKIE_NAME = 'VASS_TOKEN';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+export const VASS_COOKIE_OPTIONS = {
+  secure: isProduction,
+  sameSite: isProduction ? 'strict' : undefined,
+  path: '/',
+  ...(isProduction ? { domain: 'va.gov' } : {}),
 };

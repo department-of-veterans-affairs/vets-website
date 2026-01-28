@@ -55,9 +55,9 @@ const Confirmation = () => {
         appointmentData={{
           ...appointmentData,
           topics: appointmentData?.topics || selectedTopics,
-          showAddToCalendarButton: true,
         }}
         handleCancelAppointment={handleCancelAppointment}
+        showAddToCalendarButton
       />
     </Wrapper>
   );

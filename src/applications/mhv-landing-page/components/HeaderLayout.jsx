@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { MhvAlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
 import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import WelcomeContainer from '../containers/WelcomeContainer';
 
 const learnMoreLink = {
@@ -45,16 +44,18 @@ const HeaderLayout = ({
             {ledeContent}
           </p>
         </div>
+
+        <CernerFacilityAlert
+          healthTool="MHV_LANDING_PAGE"
+          forceHidePretransitionedAlert
+          forceHideTransitionAlert
+        />
         {showCernerInfoAlert && (
-          <>
-            <CernerFacilityAlert {...CernerAlertContent.MHV_LANDING_PAGE} />
-            <div>
-              <p className="vads-u-margin-y--2">
-                Want to learn more about what’s new?{' '}
-                <VaLink {...learnMoreLink} />
-              </p>
-            </div>
-          </>
+          <div>
+            <p className="vads-u-margin-y--2">
+              Want to learn more about what’s new? <VaLink {...learnMoreLink} />
+            </p>
+          </div>
         )}
       </div>
       <div

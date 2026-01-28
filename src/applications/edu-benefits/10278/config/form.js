@@ -1,12 +1,17 @@
 import footerContent from 'platform/forms/components/FormFooter';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
+import { organizationRepresentativesArrayOptions } from '../helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
+import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrganizationRepresentativesSummary ';
+import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
+import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
+import thirdPartyOrganizationRepresentativeName from '../pages/thirdPartyOrganizationRepresentativesName';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
@@ -124,15 +129,11 @@ const formConfig = {
           title: 'Disclose your personal information to a third party',
           uiSchema: discloseInformation.uiSchema,
           schema: discloseInformation.schema,
-
           onNavForward: ({ formData, goPath }) => {
             if (formData?.discloseInformation?.authorize === 'organization') {
-              //  go straight into add flow (hides summary until after first item)
-              goPath('/authorized-organizations/0?add=true');
+              goPath('/organization-name-and-address');
               return;
             }
-
-            // person flow (use your actual person page path)
             goPath('/third-party-person-details');
           },
         },
@@ -157,6 +158,51 @@ const formConfig = {
           depends: formData =>
             formData?.discloseInformation?.authorize === 'person',
         },
+      },
+    },
+    thirdPartyOrganizationsChapter: {
+      title: 'Third party contact information',
+      pages: {
+        thirdPartyOrganizationInformation: {
+          title: 'Organization name and address',
+          path: 'organization-name-and-address',
+          uiSchema: thirdPartyOrganizationInformation.uiSchema,
+          schema: thirdPartyOrganizationInformation.schema,
+          depends: formData =>
+            formData?.discloseInformation?.authorize === 'organization',
+        },
+        ...arrayBuilderPages(
+          organizationRepresentativesArrayOptions,
+          pageBuilder => ({
+            thirdPartyOrganizationRepresentativesIntro: pageBuilder.introPage({
+              title: 'Name of organization’s representatives',
+              path: 'organizations/representatives',
+              uiSchema: thirdPartyOrganizationRepresentativesIntro.uiSchema,
+              schema: thirdPartyOrganizationRepresentativesIntro.schema,
+              depends: formData =>
+                formData?.discloseInformation?.authorize === 'organization',
+            }),
+            thirdPartyOrganizationRepresentativesSummary: pageBuilder.summaryPage(
+              {
+                title: 'Review representatives',
+                path: 'organizations/representatives-summary',
+                uiSchema: thirdPartyOrganizationRepresentativesSummary.uiSchema,
+                schema: thirdPartyOrganizationRepresentativesSummary.schema,
+                depends: formData =>
+                  formData?.discloseInformation?.authorize === 'organization',
+              },
+            ),
+            thirdPartyOrganizationRepresentativeName: pageBuilder.itemPage({
+              title: 'Name of organization’s representatives',
+              path: 'organizations/representatives/:index',
+              showPagePerItem: true,
+              uiSchema: thirdPartyOrganizationRepresentativeName.uiSchema,
+              schema: thirdPartyOrganizationRepresentativeName.schema,
+              depends: formData =>
+                formData?.discloseInformation?.authorize === 'organization',
+            }),
+          }),
+        ),
       },
     },
     securitySetupChapter: {

@@ -29,7 +29,7 @@ const SendRxRenewalMessage = ({
   const isActiveNoRefills =
     rx.dispStatus === 'Active' && rx.refillRemaining === 0;
   const isExpiredLessThan120Days =
-    rx.dispStatus === 'Expired' &&
+    (rx.dispStatus === 'Expired' || rx.dispStatus === 'Inactive') &&
     rx.expirationDate &&
     new Date(rx.expirationDate) >
       new Date(Date.now() - 120 * 24 * 60 * 60 * 1000);

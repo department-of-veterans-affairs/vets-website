@@ -52,6 +52,7 @@ import {
   MissingServices,
 } from './containers/MissingServices';
 import ClaimFormSideNav from './components/ClaimFormSideNav';
+import ClaimFormSideNavErrorBoundary from './components/ClaimFormSideNavErrorBoundary';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -306,9 +307,9 @@ export const Form526Entry = ({
 
     const pathname = location?.pathname?.replace(/\/+$/, '') || '';
     const shouldHideNav = hideNavPaths.some(p => pathname.endsWith(p));
-    const flexWrapperClass = shouldHideNav
-      ? ''
-      : 'vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between';
+    const contentHiddenSideNavClass = shouldHideNav
+      ? ``
+      : ` medium-screen:vads-grid-col-9`;
 
     return wrapWithBreadcrumb(
       title,
@@ -317,27 +318,36 @@ export const Form526Entry = ({
         id="form-526"
         data-location={`${location?.pathname?.slice(1)}`}
       >
-        <div className={flexWrapperClass}>
+        <div className="vads-grid-row vads-u-margin-x--neg2p5">
           {shouldHideNav ? null : (
-            <div className="vads-u-margin-right--5">
-              <ClaimFormSideNav
-                enableAnalytics
-                formData={form?.data}
+            <div className="vads-u-padding-x--2p5 vads-u-padding-bottom--3 vads-grid-col-12 medium-screen:vads-grid-col-3">
+              <ClaimFormSideNavErrorBoundary
                 pathname={pathname}
-                router={router}
-                setFormData={setFormData}
-              />
+                formData={form?.data}
+              >
+                <ClaimFormSideNav
+                  enableAnalytics
+                  formData={form?.data}
+                  pathname={pathname}
+                  router={router}
+                  setFormData={setFormData}
+                />
+              </ClaimFormSideNavErrorBoundary>
             </div>
           )}
-          <RequiredLoginView
-            serviceRequired={serviceRequired}
-            user={user}
-            verify
+          <div
+            className={`vads-u-padding-x--2p5 vads-grid-col-12${contentHiddenSideNavClass}`}
           >
-            <ITFWrapper location={location} title={title}>
-              {content}
-            </ITFWrapper>
-          </RequiredLoginView>
+            <RequiredLoginView
+              serviceRequired={serviceRequired}
+              user={user}
+              verify
+            >
+              <ITFWrapper location={location} title={title}>
+                {content}
+              </ITFWrapper>
+            </RequiredLoginView>
+          </div>
         </div>
       </article>,
     );
