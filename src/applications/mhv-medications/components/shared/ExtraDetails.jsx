@@ -20,7 +20,7 @@ import {
 } from '../../util/selectors';
 
 const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
-  const { dispStatus, refillRemaining, isRenewable } = rx;
+  const { dispStatus, refillRemaining } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const noRefillRemaining =
     refillRemaining === 0 && dispStatus === DISPENSE_STATUS.ACTIVE;
@@ -112,14 +112,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             </div>
           );
         }
-        return (
-          <div>
-            <p className="vads-u-margin-y--0" data-testid="active">
-              You can request this prescription when you need it.
-            </p>
-            {refillNavButton}
-          </div>
-        );
+        return null;
 
       case dispStatusObjV2.inactive:
         // All map to "Inactive" in V2
@@ -358,15 +351,6 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
         <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
           You can’t manage this medication in this online tool.
         </p>
-      );
-    }
-
-    // Handle OH prescriptions with isRenewable (may have dispStatus or null)
-    if (isRenewable) {
-      return (
-        <div className="no-print">
-          <SendRxRenewalMessage rx={rx} />
-        </div>
       );
     }
 
