@@ -1130,14 +1130,17 @@ jobs:
     name: Node 22 Cypress E2E Compatibility
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
-    needs: [build, tests-prep]
+    needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
     strategy:
       fail-fast: false
@@ -1156,18 +1159,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: update-node-22
-
-      - name: Get Node version
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        id: get-node-version
-        shell: bash
-        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
-
-      - name: Setup Node
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Set up Git
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -1191,6 +1182,10 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
+
+      - name: Install missing dependencies
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
