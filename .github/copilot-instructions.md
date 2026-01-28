@@ -65,10 +65,17 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 
 ## Common Utilities
 - Use `yarn reset:env` to clean environment (node modules, Babel cache, reinstall)
-- Use `yarn lint` to run all linters, `yarn lint:js` for JavaScript only
-- Use `yarn lint:js:changed:fix` to fix lint issues in changed files
 - Use `yarn update:schema` to update vets-json-schema to latest
 - Use `yarn new:app` to create new React applications
+
+## Linting Commands
+- **Avoid** `yarn lint:js` as it lints ALL files in the repo (very slow)
+- Use `yarn lint:js:working:fix` to lint and fix all staged, modified, and untracked files
+- Use `yarn lint:js:changed:fix` to lint and fix only changed files (git diff)
+- Use `yarn lint:js:untracked:fix` to lint and fix only untracked files
+- Use `eslint --fix --quiet path/to/file.js` to lint a specific file directly
+- Use `yarn lint:sass` to lint SCSS files
+- Use `yarn lint:sass:changed` to lint only changed SCSS files
 
 ## Forms
 - For understanding valid uiSchema and schema web component patterns, reference `src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
