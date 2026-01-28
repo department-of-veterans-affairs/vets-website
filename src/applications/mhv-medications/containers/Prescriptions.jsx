@@ -170,9 +170,12 @@ const Prescriptions = () => {
     [prescriptionsData],
   );
 
-  const filteredList = useMemo(() => prescriptionsData?.prescriptions || [], [
-    prescriptionsData?.prescriptions,
-  ]);
+  const filteredList = useMemo(
+    () => {
+      return prescriptionsData?.prescriptions || [];
+    },
+    [prescriptionsData],
+  );
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
@@ -214,15 +217,6 @@ const Prescriptions = () => {
     if (isFiltering) {
       updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
       updates.page = 1;
-
-      if (newFilterOption === selectedFilterOption) {
-        document.getElementById('showingRx').scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest',
-        });
-      }
-
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
     }
@@ -693,6 +687,7 @@ const Prescriptions = () => {
             <MedicationsListFilter
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
+              isLoading={isLoading}
             />
             <InProductionEducationFiltering />
           </>
