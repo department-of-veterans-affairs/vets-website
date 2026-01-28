@@ -53,13 +53,13 @@ const setup = (preferences = []) => {
   cy.intercept(
     'POST',
     '/v0/profile/scheduling_preferences',
-    createMockTransactionResponse('COMPLETED'),
+    createMockTransactionResponse('COMPLETED_SUCCESS'),
   ).as('updateSchedulingPreferencesSuccess');
 
   cy.intercept(
     'DELETE',
     '/v0/profile/scheduling_preferences',
-    createMockTransactionResponse('COMPLETED'),
+    createMockTransactionResponse('COMPLETED_SUCCESS'),
   ).as('deleteSchedulingPreferencesSuccess');
 
   cy.visit(PROFILE_PATHS.SCHEDULING_PREFERENCES);
@@ -85,12 +85,13 @@ const clickQuickExitSave = () => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('quick-exit-cancel-buttons')
     .shadow()
-    .wait(100) // wait needed to ensure button is clickable for some reason
     .find('va-button')
+    .should('be.visible')
     .first()
     .shadow()
     .find('button')
-    .click();
+    .should('be.visible')
+    .click({ waitForAnimations: true });
 };
 
 const clickContinueCancelButton = () => {
@@ -98,12 +99,13 @@ const clickContinueCancelButton = () => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('continue-cancel-buttons')
     .shadow()
-    .wait(1) // wait needed to ensure button is clickable for some reason
     .find('va-button')
+    .should('be.visible')
     .first()
     .shadow()
     .find('button')
-    .click();
+    .should('be.visible')
+    .click({ waitForAnimations: true });
 };
 
 const clickConfirmSave = () => {
@@ -111,12 +113,13 @@ const clickConfirmSave = () => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('save-update-buttons')
     .shadow()
-    .wait(1) // wait needed to ensure button is clickable for some reason
     .find('va-button')
+    .should('be.visible')
     .first()
     .shadow()
     .find('button')
-    .click();
+    .should('be.visible')
+    .click({ waitForAnimations: true });
 };
 
 describe('Scheduling preferences contact method - select preferred contact method', () => {
@@ -231,12 +234,13 @@ describe('Scheduling preferences contact method - cancel button', () => {
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.findByTestId('continue-cancel-buttons')
       .shadow()
-      .wait(1) // wait needed to ensure button is clickable for some reason
       .find('va-button')
+      .should('be.visible')
       .last()
       .shadow()
       .find('button')
-      .click();
+      .should('be.visible')
+      .click({ waitForAnimations: true });
 
     // Confirm we are back on the scheduling preferences main page
     cy.url().should(
@@ -297,10 +301,12 @@ describe('Scheduling preferences contact method - remove preference', () => {
     cy.findByTestId('confirm-remove-modal')
       .shadow()
       .find('va-button')
+      .should('be.visible')
       .first()
       .shadow()
       .find('button')
-      .click();
+      .should('be.visible')
+      .click({ waitForAnimations: true });
 
     // Confirm that the preference has been removed
     cy.findByText(/Update saved./i).should('exist');

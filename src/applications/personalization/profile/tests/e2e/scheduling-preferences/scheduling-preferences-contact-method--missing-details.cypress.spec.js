@@ -67,7 +67,7 @@ const setup = (preferences = []) => {
   cy.intercept(
     'POST',
     '/v0/profile/telephones',
-    createMockTransactionResponse('COMPLETED'),
+    createMockTransactionResponse('RECEIVED'),
   ).as('updateTelephonesSuccess');
 
   cy.intercept(
@@ -90,7 +90,7 @@ const setup = (preferences = []) => {
   cy.intercept(
     'GET',
     '/v0/profile/status/mock-transaction-id',
-    createMockTransactionResponse('COMPLETED'),
+    createMockTransactionResponse('COMPLETED_SUCCESS'),
   ).as('getTransactionStatus');
 
   cy.visit(PROFILE_PATHS.SCHEDULING_PREFERENCES);
@@ -116,12 +116,13 @@ const clickContinueCancelButton = () => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('continue-cancel-buttons')
     .shadow()
-    .wait(100) // wait needed to ensure button is clickable for some reason
     .find('va-button')
+    .should('be.visible')
     .first()
     .shadow()
     .find('button')
-    .click();
+    .should('be.visible')
+    .click({ waitForAnimations: true });
 };
 
 const clickSaveToProfile = () => {
@@ -129,9 +130,9 @@ const clickSaveToProfile = () => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('save-edit-button')
     .shadow()
-    .wait(1) // wait needed to ensure button is clickable for some reason
     .find('button')
-    .click();
+    .should('be.visible')
+    .click({ waitForAnimations: true, force: true });
 };
 
 describe('Scheduling preferences contact method - select preferred contact method', () => {
@@ -139,7 +140,7 @@ describe('Scheduling preferences contact method - select preferred contact metho
     setup();
   });
 
-  const subTaskFlowForMissingDetails = [
+  const subTaskPhoneFlowForMissingDetails = [
     {
       label: 'should allow selection of home phone',
       option: 'option-38',
@@ -168,16 +169,9 @@ describe('Scheduling preferences contact method - select preferred contact metho
       expectedText: /Phone call: work phone/i,
       relatedFieldName: 'workPhone',
     },
-    // {
-    //   label: 'should allow selection of mailing address',
-    //   option: 'option-4',
-    //   editPageText: /Enter the mailing address you want to use for scheduling./,
-    //   expectedText: /Mailing address/i,
-    //   relatedFieldName: 'mailingAddress',
-    // },
   ];
 
-  subTaskFlowForMissingDetails.forEach(
+  subTaskPhoneFlowForMissingDetails.forEach(
     ({ label, option, expectedText, editPageText, relatedFieldName }) => {
       it(label, () => {
         // Select a contact method preference and continue
@@ -206,35 +200,16 @@ describe('Scheduling preferences contact method - select preferred contact metho
               .find('input')
               .type('5551234567');
             break;
-          case 'mailingAddress':
-            cy.get('va-text-input[name="root_addressLine1"]')
-              .shadow()
-              .find('input')
-              .type('36320 Coronado Dr');
-            cy.get('va-text-input[name="root_city"]')
-              .shadow()
-              .find('input')
-              .type('Fremont');
-            cy.get('va-select[name="root_stateCode"]')
-              .shadow()
-              .find('select')
-              .select('MD');
-            cy.get('va-text-input[name="root_zipCode"]')
-              .shadow()
-              .find('input')
-              .type('94536');
-            break;
           default:
             break;
         }
 
         clickSaveToProfile();
 
-        // This should not be needed but the page doesn't redirect on save within
-        // Cypress so this forces the browser back to scheduling preferences
-        cy.get('va-link[back]')
-          .should('exist')
-          .click();
+        // Wait for the transaction to complete
+        cy.wait('@updateTelephonesSuccess');
+        cy.wait('@getTransactionStatus');
+        cy.wait('@finalUserRequest');
 
         cy.findByText(expectedText).should('exist');
 

@@ -57,13 +57,13 @@ const setup = (preferences = []) => {
   cy.intercept(
     'POST',
     '/v0/profile/scheduling_preferences',
-    createMockTransactionResponse('COMPLETED'),
+    createMockTransactionResponse('COMPLETED_SUCCESS'),
   ).as('updateSchedulingPreferencesSuccess');
 
   cy.intercept(
     'DELETE',
     '/v0/profile/scheduling_preferences',
-    createMockTransactionResponse('COMPLETED'),
+    createMockTransactionResponse('COMPLETED_SUCCESS'),
   ).as('deleteSchedulingPreferencesSuccess');
 
   cy.visit(PROFILE_PATHS.SCHEDULING_PREFERENCES);
@@ -97,11 +97,12 @@ const clickContinueCancelButton = () => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('continue-cancel-buttons')
     .shadow()
-    .wait(1) // wait needed to ensure button is clickable for some reason
     .find('va-button')
+    .should('be.visible')
     .first()
     .shadow()
     .find('button')
+    .should('be.visible')
     .click();
 };
 
@@ -110,11 +111,12 @@ const clickSaveToProfile = () => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.findByTestId('save-cancel-buttons')
     .shadow()
-    .wait(1) // wait needed to ensure button is clickable for some reason
     .find('va-button')
+    .should('be.visible')
     .first()
     .shadow()
     .find('button')
+    .should('be.visible')
     .click();
 };
 
@@ -264,11 +266,12 @@ describe('Scheduling preferences time selection', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.findByTestId('continue-cancel-buttons')
         .shadow()
-        .wait(1) // wait needed to ensure button is clickable for some reason
         .find('va-button')
+        .should('be.visible')
         .last()
         .shadow()
         .find('button')
+        .should('be.visible')
         .click();
 
       // Confirm we are back on the scheduling preferences main page
@@ -325,9 +328,11 @@ describe('Scheduling preferences time selection', () => {
       cy.findByTestId('confirm-remove-modal')
         .shadow()
         .find('va-button')
+        .should('be.visible')
         .first()
         .shadow()
         .find('button')
+        .should('be.visible')
         .click();
 
       // Confirm that the preference has been removed
@@ -357,9 +362,11 @@ describe('Scheduling preferences time selection', () => {
       cy.findByTestId('edit-confirm-cancel-modal')
         .shadow()
         .find('va-button')
+        .should('be.visible')
         .first()
         .shadow()
         .find('button')
+        .should('be.visible')
         .click();
 
       // Confirm we are back on the scheduling preferences main page
@@ -402,9 +409,11 @@ describe('Scheduling preferences time selection', () => {
       cy.findByTestId('save-cancel-buttons')
         .shadow()
         .find('va-button')
+        .should('be.visible')
         .last()
         .shadow()
         .find('button')
+        .should('be.visible')
         .click();
 
       // Confirm that the confirm cancel modal is shown
@@ -414,9 +423,11 @@ describe('Scheduling preferences time selection', () => {
       cy.findByTestId('edit-confirm-cancel-modal')
         .shadow()
         .find('va-button')
+        .should('be.visible')
         .first()
         .shadow()
         .find('button')
+        .should('be.visible')
         .click();
 
       // Confirm we are back on the scheduling preferences main page
@@ -436,9 +447,11 @@ describe('Scheduling preferences time selection', () => {
       cy.findByTestId('continue-cancel-buttons')
         .shadow()
         .find('va-button')
+        .should('be.visible')
         .last()
         .shadow()
         .find('button')
+        .should('be.visible')
         .click();
 
       // Confirm that the confirm cancel modal is shown
@@ -468,9 +481,11 @@ describe('Scheduling preferences time selection', () => {
       cy.findByTestId('edit-confirm-cancel-modal')
         .shadow()
         .find('va-button')
+        .should('be.visible')
         .first()
         .shadow()
         .find('button')
+        .should('be.visible')
         .click();
 
       // Confirm we are back on the scheduling preferences main page
