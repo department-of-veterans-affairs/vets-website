@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
 const Breadcrumbs = () => {
