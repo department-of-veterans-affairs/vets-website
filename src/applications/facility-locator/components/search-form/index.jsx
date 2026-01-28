@@ -181,9 +181,11 @@ export const SearchForm = props => {
   useEffect(
     () => {
       if (
-        currentQuery.serviceType !== draftFormState.serviceType ||
-        currentQuery.vamcServiceDisplay !== draftFormState.vamcServiceDisplay
+        currentQuery.serviceType !== prevServiceTypeRef.current ||
+        currentQuery.vamcServiceDisplay !== prevVamcServiceDisplayRef.current
       ) {
+        prevServiceTypeRef.current = currentQuery.serviceType;
+        prevVamcServiceDisplayRef.current = currentQuery.vamcServiceDisplay;
         setDraftFormState(prev => ({
           ...prev,
           serviceType: currentQuery.serviceType || null,
@@ -191,7 +193,6 @@ export const SearchForm = props => {
         }));
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentQuery.serviceType, currentQuery.vamcServiceDisplay],
   );
 
