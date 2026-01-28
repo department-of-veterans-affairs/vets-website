@@ -15,7 +15,7 @@ import {
   ContactWarningAlert,
   ContactWarningMultiAlert,
 } from '../../../components/FormAlerts';
-import { formatFullName } from '../../../helpers';
+import { formatFullName, showMultiplePageResponse } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 import { separationTypeLabels } from '../../../labels';
@@ -52,7 +52,9 @@ export default {
   title: 'Spouse’s former marriages',
   path: 'household/marital-status/spouse-marriages',
   depends: formData =>
-    requiresSpouseInfo(formData) && currentSpouseHasFormerMarriages(formData),
+    !showMultiplePageResponse() &&
+    requiresSpouseInfo(formData) &&
+    currentSpouseHasFormerMarriages(formData),
   uiSchema: {
     ...titleUI(SpouseMarriageTitle),
     'view:contactWarning': {

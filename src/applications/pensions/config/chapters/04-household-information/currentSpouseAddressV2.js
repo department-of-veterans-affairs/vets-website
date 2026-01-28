@@ -1,20 +1,23 @@
+import get from 'platform/utilities/data/get';
 import {
   addressUI,
   addressSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
-import { showSpouseAddress } from './helpers';
+import { generateSpouseTitle, showSpouseAddress } from './helpers';
 import { showMultiplePageResponse } from '../../../helpers';
 
 /** @type {PageSchema} */
 export default {
   title: 'Spouse address',
-  path: 'household/marital-status/separated/spouse-address',
+  path: 'household/current-marriage/spouse-address',
   depends: formData =>
-    !showMultiplePageResponse() && showSpouseAddress(formData),
+    showMultiplePageResponse() &&
+    showSpouseAddress(formData) &&
+    (formData.maritalStatus === 'SEPARATED' ||
+      get(['view:liveWithSpouse'], formData) === false),
   uiSchema: {
-    ...titleUI(createHouseholdMemberTitle('spouseFullName', 'address')),
+    ...titleUI(generateSpouseTitle('address')),
     spouseAddress: addressUI({
       omit: ['isMilitary', 'street3'],
     }),
