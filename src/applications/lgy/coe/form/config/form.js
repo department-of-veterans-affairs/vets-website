@@ -26,15 +26,14 @@ import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
 
-import certificateUse from '../pages/certificateUse';
-import { certificateUseOptions } from '../constants';
-import hadPriorLoans from '../pages/hadPriorLoans';
-// TODO: When schema is migrated to vets-json-schema, remove common
-// definitions from form schema and get them from common definitions instead
 import disabilitySeparation from '../pages/disabilitySeparation';
 import preDischargeClaim from '../pages/preDischargeClaim';
 import purpleHeartRecipient from '../pages/purpleHeartRecipient';
 import serviceStatus2 from '../pages/serviceStatus2';
+
+import { certificateUseOptions } from '../constants';
+import certificateUse from '../pages/certificateUse';
+import hadPriorLoans from '../pages/hadPriorLoans';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
