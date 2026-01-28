@@ -169,7 +169,7 @@ describe('stepchildFinancialSupport', () => {
         stepchildFinancialSupport.handlers.goForward({
           itemData: { stepchildFinancialSupport: 'Y' },
         }),
-      ).to.equal('stepchild-financial-support-exit');
+      ).to.equal('stepchild-current-address');
     });
 
     it('should return "stepchild-left-household" when not providing financial support', () => {
@@ -180,12 +180,12 @@ describe('stepchildFinancialSupport', () => {
       ).to.equal('stepchild-left-household');
     });
 
-    it('should return "DONE" when financial support value is not set', () => {
+    it('should return "stepchild-left-household" when financial support value is not set', () => {
       expect(
         stepchildFinancialSupport.handlers.goForward({
           itemData: {},
         }),
-      ).to.equal('DONE');
+      ).to.equal('stepchild-left-household');
     });
 
     it('should call goForward when financial support value is set on submit', () => {

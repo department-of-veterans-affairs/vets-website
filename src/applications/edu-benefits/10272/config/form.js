@@ -12,6 +12,9 @@ import {
   educationBenefitsElibility,
   educationBenefitsHistory,
   hasPreviouslyApplied,
+  prepCourseName,
+  prepCourseAddress,
+  prepCourseOnline,
 } from '../pages';
 
 /** @type {FormConfig} */
@@ -78,6 +81,30 @@ const formConfig = {
           uiSchema: educationBenefitsElibility.uiSchema,
           schema: educationBenefitsElibility.schema,
           depends: formData => formData?.hasPreviouslyApplied === false,
+        },
+      },
+    },
+    prepCourseChapter: {
+      title: 'Prep course details',
+      pages: {
+        prepCourseName: {
+          path: 'prep-course-details',
+          title: 'The name of the prep course',
+          uiSchema: prepCourseName.uiSchema,
+          schema: prepCourseName.schema,
+        },
+        prepCourseAddress: {
+          path: 'prep-course-details-1',
+          title:
+            'The name and mailing address of the organization giving the prep course',
+          uiSchema: prepCourseAddress.uiSchema,
+          schema: prepCourseAddress.schema,
+        },
+        prepCourseOnline: {
+          path: 'prep-course-details-2',
+          title: `How you'll take the prep course`,
+          uiSchema: prepCourseOnline.uiSchema,
+          schema: prepCourseOnline.schema,
         },
       },
     },
