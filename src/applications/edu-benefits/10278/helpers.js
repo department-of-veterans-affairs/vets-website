@@ -26,7 +26,7 @@ export const organizationRepresentativesArrayOptions = {
 
 export const getThirdPartyName = formData => {
   if (formData?.discloseInformation?.authorize === 'organization') {
-    return formData?.thirdPartyOrganizationInformation?.organizationName;
+    return formData?.organizationName;
   }
 
   return getFullName(formData?.thirdPartyPersonName?.fullName);
