@@ -30,10 +30,10 @@ import disabilitySeparation from '../pages/disabilitySeparation';
 import preDischargeClaim from '../pages/preDischargeClaim';
 import purpleHeartRecipient from '../pages/purpleHeartRecipient';
 import serviceStatus2 from '../pages/serviceStatus2';
-
 import { certificateUseOptions } from '../constants';
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
+import currentOwnership from '../pages/currentOwnership';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -228,6 +228,18 @@ const formConfig = {
           },
           uiSchema: hadPriorLoans.uiSchema,
           schema: hadPriorLoans.schema,
+        },
+        currentOwnership: {
+          path: 'current-ownership',
+          title: 'Ownership of properties with VA home loans',
+          depends: formData => {
+            return (
+              formData['view:coeFormRebuildCveteam'] &&
+              formData?.loanHistory?.hadPriorLoans
+            );
+          },
+          uiSchema: currentOwnership.uiSchema,
+          schema: currentOwnership.schema,
         },
       },
     },
