@@ -35,11 +35,8 @@ const getTypeOfWorkTitle = formData => {
 const getAmountEarnedTitle = formData => {
   if (!formData || typeof formData !== 'object') return 'Amount earned';
   const veteranName = getVeteranName(formData);
-  const tense = getEmploymentTense(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  return `How much ${
-    tense.does
-  } ${veteranName} earn in the ${timeframe} (before deductions)?`;
+  return `How much did ${veteranName} earn in the ${timeframe} (before deductions)?`;
 };
 
 /**
@@ -49,11 +46,8 @@ const getTimeLostTitle = formData => {
   if (!formData || typeof formData !== 'object')
     return 'Time lost to disability';
   const veteranName = getVeteranName(formData);
-  const tense = getEmploymentTense(formData);
   const timeframe = getEmploymentTimeframe(formData);
-  return `How many hours ${
-    tense.does
-  } ${veteranName} lose to disability in the ${timeframe}?`;
+  return `How many hours did ${veteranName} lose to disability in the ${timeframe}?`;
 };
 
 /**
