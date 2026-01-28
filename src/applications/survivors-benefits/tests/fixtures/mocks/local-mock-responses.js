@@ -72,6 +72,7 @@ const responses = {
       },
     });
   },
+  'GET /data/cms/vamc-ehr.json': {},
   'POST /survivors_benefits/v0/form534ez': submit,
 };
 

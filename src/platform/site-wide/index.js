@@ -19,6 +19,7 @@ import startSideNav from './side-nav';
 import startUserNavWidget from './user-nav';
 import startAuthModals from './user-nav/startAuthModals';
 import startVAFooter from './va-footer';
+import startTaskTabs from './task-tabs'
 import { addOverlayTriggers } from './legacy/menu';
 
 /**
@@ -80,6 +81,7 @@ export default function startSitewideComponents(commonStore) {
   startMobileMenuButton(commonStore);
   startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
   startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);
+  startTaskTabs(commonStore);
 
   // Start Veteran Crisis Line modal functionality.
   addFocusBehaviorToCrisisLineModal();

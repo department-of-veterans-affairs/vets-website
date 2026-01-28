@@ -6,7 +6,8 @@
 | ------ | ----------- |
 | Site   | http://localhost:3001/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez |
 | Watch  | yarn watch --env entry=survivors-benefits |
-| Mock API (not implemented) | yarn mock-api --responses src/applications/survivors-benefits/tests/fixtures/mocks/local-mock-responses.js | 
+| Mock API (auto-port) | `./src/applications/survivors-benefits/start-mock-api.sh` (finds next available port) | 
+| Mock API (manual port) | yarn mock-api --responses src/applications/survivors-benefits/tests/fixtures/mocks/local-mock-responses.js --port 3000 | 
 | Unit tests | yarn test:unit --app-folder survivors-benefits --log-level all |
 
 ## Authentication
