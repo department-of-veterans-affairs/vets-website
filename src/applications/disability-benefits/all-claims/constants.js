@@ -119,6 +119,8 @@ export const SERVICE_CONNECTION_TYPES = {
 };
 
 export const DATA_PATHS = {
+  hasMedicalRecords: 'view:hasMedicalRecords',
+  hasEvidence: 'view:hasEvidence',
   hasVAEvidence: 'view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
     'view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',

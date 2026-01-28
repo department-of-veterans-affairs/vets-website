@@ -238,6 +238,8 @@ export const setup = (cy, testOptions = {}) => {
     if (data.toxicExposure) {
       formData.toxicExposure = data.toxicExposure;
     }
+    // use mailing address from test data instead of prefill
+    formData.veteran.mailingAddress = data.mailingAddress;
 
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
@@ -322,21 +324,20 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       cy.contains(mockPrefill.formData.veteran.emailAddress).should('exist');
     }
 
-    if (mockPrefill.formData.veteran.mailingAddress) {
-      const address = mockPrefill.formData.veteran.mailingAddress;
+    // the address assertions now reference the provided test JSON data instead of prefill data
+    const address = data.mailingAddress;
 
-      if (address.country) {
-        cy.contains(address.country).should('exist');
-      }
-      if (address.addressLine1) {
-        cy.contains(address.addressLine1.toUpperCase()).should('exist');
-      }
-      if (address.state) {
-        cy.contains(address.state.toUpperCase()).should('exist');
-      }
-      if (address.zipCode) {
-        cy.contains(address.zipCode).should('exist');
-      }
+    if (address.country) {
+      cy.contains(address.country).should('exist');
+    }
+    if (address.addressLine1) {
+      cy.contains(address.addressLine1).should('exist');
+    }
+    if (address.state) {
+      cy.contains(address.state).should('exist');
+    }
+    if (address.zipCode) {
+      cy.contains(address.zipCode).should('exist');
     }
 
     if (
@@ -687,10 +688,48 @@ export const pageHooks = (cy, testOptions) => ({
         cy.findByText(/continue/i, { selector: 'button' }).click();
       });
 
-    // veteran info page continue button
-    cy.findByText(/continue/i, { selector: 'button' })
-      .should('be.visible')
+    cy.findByText(/continue/i, { selector: 'button' }).click();
+  },
+
+  'contact-information': () => {
+    // contact info page
+    // click phone/email edit button to load pre-fill data into form fields
+    cy.get('button')
+      .contains(/^edit$/i)
       .click();
+
+    // click edit for address section
+    cy.get('button')
+      .contains(/edit/i)
+      .click();
+    // look for the data address street line to confirm pre-fill loaded
+    cy.get('@testData').then(data => {
+      const { city, state, addressLine1 } = data.mailingAddress;
+      // if military address is present in test data, city and state are radio buttons for military post office and state
+      if (data.mailingAddress['view:livesOnMilitaryBase'] === true) {
+        cy.get(
+          'va-radio-option[name="root_mailingAddress_city"][checked="true"]',
+        ).should('have.value', city);
+        cy.contains('legend', /military post office/i).should('exist');
+        cy.get(
+          'va-radio-option[name="root_mailingAddress_state"][checked="true"]',
+        ).should('have.value', state);
+      } else {
+        cy.get('input[name="root_mailingAddress_city"]').should(
+          'have.value',
+          city,
+        );
+        cy.get('select[name="root_mailingAddress_state"]').should(
+          'have.value',
+          state,
+        );
+      }
+      cy.get('input[name="root_mailingAddress_addressLine1"]').should(
+        'have.value',
+        addressLine1,
+      );
+    });
+    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'review-veteran-details/military-service-history/federal-orders': () => {

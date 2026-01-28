@@ -52,8 +52,14 @@ function getAtlasLocation(appt) {
   };
 }
 
-function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
-  const timezone = appt.location?.attributes?.timezone?.timeZoneId;
+export function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
+  let timezone = appt.location?.attributes?.timezone?.timeZoneId;
+  // GMT/UTC is not a proper timeZoneId - only occurs when facility lat/long is 0,0 (Unset)
+  // and LH resolves that to GMT. "GMT" is the IANA timezone (which LH uses) and UTC is just an alias.
+  // We may want to log when a facility has a GMT/UTC timezone, but that may create a lot of logs
+  if (timezone === 'GMT' || timezone === 'UTC') {
+    timezone = null;
+  }
 
   return (
     timezone ||

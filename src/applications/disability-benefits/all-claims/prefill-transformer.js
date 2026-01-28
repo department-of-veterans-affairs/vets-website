@@ -1,8 +1,10 @@
 import _ from 'platform/utilities/data';
+import constants from 'vets-json-schema/dist/constants.json';
 import {
   SERVICE_CONNECTION_TYPES,
   disabilityActionTypes,
   MILITARY_CITIES,
+  MILITARY_STATE_VALUES,
 } from './constants';
 import { viewifyFields } from './utils';
 import { migrateBranches } from './utils/serviceBranches';
@@ -66,7 +68,18 @@ export default function prefillTransformer(pages, formData, metadata, state) {
         newData.phoneAndEmail.primaryPhone = primaryPhone;
       }
       if (mailingAddress) {
-        const onMilitaryBase = MILITARY_CITIES.includes(mailingAddress.city);
+        const isMilitaryCity = MILITARY_CITIES.includes(
+          mailingAddress.city?.trim().toUpperCase(),
+        );
+        const isMilitaryState = MILITARY_STATE_VALUES.includes(
+          mailingAddress.state?.trim().toUpperCase(),
+        );
+        const onMilitaryBase = isMilitaryCity || isMilitaryState;
+        // map existing country name to country code
+        const mappedCountryCode = constants.countries.find(
+          c => c.label === mailingAddress.country,
+        )?.value;
+        mailingAddress.country = mappedCountryCode || mailingAddress.country;
         newData.mailingAddress = {
           // strip out any extra data. Maybe left over from v1?
           // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423

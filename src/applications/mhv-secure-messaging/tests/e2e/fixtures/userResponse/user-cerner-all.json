@@ -64,14 +64,18 @@
         "isCernerPatient": true,
         "facilities": [
           {
-            "facilityId": "463",
+            "facilityId": "692",
             "isCerner": true
           }
         ],
         "vaPatient": true,
         "mhvAccountState": "NONE",
-        "userAtPretransitionedOhFacility": true,
-        "userFacilityReadyForInfoAlert": false
+        "ohMigrationInfo": {
+          "userAtPretransitionedOhFacility": true,
+          "userFacilityReadyForInfoAlert": false,
+          "userFacilityMigratingToOh": false,
+          "migrationSchedules": []
+        }
       },
       "veteranStatus": null,
       "inProgressForms": [

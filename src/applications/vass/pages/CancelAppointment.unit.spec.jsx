@@ -1,35 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import CancelAppointment from './CancelAppointment';
-import { getDefaultRenderOptions } from '../utils/test-utils';
-
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return (
-    <div data-testid="location-display">
-      {location.pathname}
-      {location.search}
-    </div>
-  );
-};
+import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
+import { createAppointmentData } from '../utils/appointments';
 
 const appointmentId = 'abcdef123456';
-const appointmentData = {
-  appointmentId,
-  startUTC: '2025-12-24T10:00:00Z',
-  endUTC: '2025-12-24T10:30:00Z',
-  agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
-  agentNickname: 'Bill Brasky',
-  appointmentStatusCode: 1,
-  appointmentStatus: 'Confirmed',
-  cohortStartUtc: '2025-12-01T00:00:00Z',
-  cohortEndUtc: '2026-02-28T23:59:59Z',
-};
+const appointmentData = createAppointmentData({ appointmentId });
 
 // Pre-populate the RTK Query cache with the appointment data
 const vassApiState = {
@@ -78,6 +58,7 @@ describe('VASS Page: CancelAppointment', () => {
     );
     expect(screen.getByTestId('appointment-card')).to.exist;
     expect(screen.getByTestId('cancel-confirm-button-pair')).to.exist;
+    expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
   });
 
   describe('navigation', () => {

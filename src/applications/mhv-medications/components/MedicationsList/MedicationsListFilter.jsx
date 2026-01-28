@@ -24,7 +24,7 @@ import {
   selectFilterOption,
 } from '../../selectors/selectPreferences';
 
-const MedicationsListFilter = ({ updateFilter, filterCount }) => {
+const MedicationsListFilter = ({ updateFilter, filterCount, isLoading }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   const filterOpenByDefault = useSelector(selectFilterOpenByDefault);
@@ -191,6 +191,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
           }
+          loading={isLoading}
         />
         <VaButton
           className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
@@ -208,6 +209,7 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
 };
 
 MedicationsListFilter.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   filterCount: PropTypes.object,
   updateFilter: PropTypes.func,
 };

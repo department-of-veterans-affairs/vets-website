@@ -33,6 +33,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingLargeAttachments = true,
     mhvSecureMessagingCuratedListFlow = true,
     mhvSecureMessagingRecentRecipients = true,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag = false,
   } = toggles;
 
   return {
@@ -162,6 +163,11 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhvSecureMessagingRecentRecipients',
           value: mhvSecureMessagingRecentRecipients,
+        },
+        {
+          name:
+            'mhv_secure_messaging_cerner_pilot_system_maintenance_banner_flag',
+          value: mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
         },
       ],
     },

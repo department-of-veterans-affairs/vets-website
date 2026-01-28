@@ -3,21 +3,17 @@ import { format } from 'date-fns';
 
 import Wrapper from '../layout/Wrapper';
 import { VASS_PHONE_NUMBER } from '../utils/constants';
+import { createAppointmentData } from '../utils/appointments';
 
 // TODO: replace with actual data
-const appointmentData = {
-  appointmentId: '123',
-  phoneNumber: '8005551212',
-  dtStartUtc: '2025-05-01T16:00:00.000Z',
-  providerName: 'Bill Brasky',
-  topics: [
-    { topicName: 'Benefits', topicId: '123' },
-    { topicName: 'Health care', topicId: '456' },
-  ],
-};
+const appointmentData = createAppointmentData({
+  startUTC: '2025-05-01T16:00:00.000Z',
+  endUTC: '2025-05-01T16:30:00.000Z',
+  topics: [{ topicName: 'Benefits' }, { topicName: 'Health care' }],
+});
 
 const AlreadyScheduled = () => {
-  const appointmentDate = new Date(appointmentData.dtStartUtc);
+  const appointmentDate = new Date(appointmentData.startUTC);
   return (
     <Wrapper
       testID="already-scheduled-page"

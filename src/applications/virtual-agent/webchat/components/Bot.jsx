@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
-
 import {
   TOGGLE_NAMES,
   useToggleValue,
 } from 'platform/utilities/feature-toggles';
 
 // Components
-import ChatboxDisclaimer from '../../chatbot/features/shell/components/RightColumnContent';
+import RightColumnContent from '../../chatbot/features/shell/components/RightColumnContent';
 import App from './App';
 
 // Hooks
@@ -27,6 +26,7 @@ import {
 import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
 
 // Selectors
+import ChatboxContainer from '../../chatbot/components/chatbox/ChatboxContainer';
 import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedIn';
 import selectVirtualAgentDataTermsAccepted from '../selectors/selectVirtualAgentDataTermsAccepted';
 
@@ -62,7 +62,7 @@ function Bot() {
 
   const inAuthExp = getInAuthExp();
   if (!isAccepted && !inAuthExp) {
-    return <ChatboxDisclaimer />;
+    return <RightColumnContent />;
   }
 
   if (!isLoggedIn && isAuthTopic && !virtualAgentUseStsAuthentication) {
@@ -79,12 +79,14 @@ function Bot() {
   }
 
   return (
-    <App
-      timeout={MINUTE}
-      virtualAgentEnableParamErrorDetection={
-        virtualAgentEnableParamErrorDetection
-      }
-    />
+    <ChatboxContainer>
+      <App
+        timeout={MINUTE}
+        virtualAgentEnableParamErrorDetection={
+          virtualAgentEnableParamErrorDetection
+        }
+      />
+    </ChatboxContainer>
   );
 }
 

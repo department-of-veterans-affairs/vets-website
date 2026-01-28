@@ -36,7 +36,7 @@
     "applicantPhone": "1231231234",
     "applicantEmail": "app@email.gov",
     "applicantMemberNumber": "222111123",
-    "applicantDOB": "2000-10-25",
+    "applicantDob": "2000-10-25",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Beneficiary Street",

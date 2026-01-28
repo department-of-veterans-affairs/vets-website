@@ -57,13 +57,17 @@ const ProgressNoteDetails = props => {
       ...generateProgressNoteContent(record),
     };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
-    makePdf(
-      pdfName,
-      pdfData,
-      'medicalRecords',
-      'Medical Records - Progress note details - PDF generation error',
-      runningUnitTest,
-    );
+    try {
+      await makePdf(
+        pdfName,
+        pdfData,
+        'medicalRecords',
+        'Medical Records - Progress note details - PDF generation error',
+        runningUnitTest,
+      );
+    } catch {
+      // makePdf handles error logging to Datadog/Sentry
+    }
   };
 
   const generateCareNotesTxt = () => {

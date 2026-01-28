@@ -160,6 +160,11 @@
   {
     "appName": "Submit Employment Questionnaire",
     "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140 ", 
-    "widgetType": "employment-questionnaire"
+    "widgetType": "employment-questionnaire-21-4140"
+  },
+  {
+    "appName": "Apply for Individual Unemployability disability benefits",
+    "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940 ", 
+    "widgetType": "unemployability-compensation"
   }
 ]

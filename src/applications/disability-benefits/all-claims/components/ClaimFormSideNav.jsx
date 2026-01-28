@@ -93,7 +93,7 @@ export default function ClaimFormSideNav({
 
   return (
     <VaSidenav
-      header="Form sections"
+      header="Form steps"
       icon-background-color="vads-color-link"
       icon-name="description"
       id="default-sidenav"

@@ -62,8 +62,12 @@ function createDefaultData() {
           { facilityId: '983', isCerner: false },
           { facilityId: '984', isCerner: false },
         ],
-        user_at_pretransitioned_oh_facility: false,
-        user_facility_ready_for_info_alert: false,
+        oh_migration_info: {
+          user_at_pretransitioned_oh_facility: false,
+          user_facility_ready_for_info_alert: false,
+          user_facility_migrating_to_oh: false,
+          migration_schedules: [],
+        },
       },
     },
   };
@@ -192,56 +196,133 @@ describe('Profile utilities', () => {
       expect(mappedData.facilities).to.be.undefined;
     });
 
-    it('should map userAtPretransitionedOhFacility flag as true when set', () => {
-      const data = createDefaultData();
-      data.attributes.va_profile.user_at_pretransitioned_oh_facility = true;
-      const mappedData = mapRawUserDataToState({
-        data,
-        meta: {
-          errors: null,
-        },
+    context('OH Migration Info', () => {
+      it('should map ohMigrationInfo properly', () => {
+        const data = createDefaultData();
+        data.attributes.va_profile.oh_migration_info = {
+          user_at_pretransitioned_oh_facility: false,
+          user_facility_ready_for_info_alert: false,
+          user_facility_migrating_to_oh: true,
+          migration_schedules: [
+            {
+              migration_date: '2026-05-01',
+              facilities: [
+                {
+                  id: '528',
+                  name: 'Test VA Medical Center',
+                },
+                {
+                  id: '123',
+                  name: 'Different VA Medical Center',
+                },
+              ],
+              phases: {
+                current: 'p0',
+                p0: 'March 1, 2026',
+                p1: 'March 15, 2026',
+                p2: 'April 1, 2026',
+                p3: 'April 24, 2026',
+                p4: 'April 27, 2026',
+                p5: 'May 1, 2026',
+                p6: 'May 3, 2026',
+                p7: 'May 8, 2026',
+              },
+            },
+          ],
+        };
+        const mappedData = mapRawUserDataToState({
+          data,
+          meta: {
+            errors: null,
+          },
+        });
+
+        expect(mappedData.migrationSchedules).to.deep.equal([
+          {
+            migrationDate: '2026-05-01',
+            facilities: [
+              {
+                id: '528',
+                name: 'Test VA Medical Center',
+              },
+              {
+                id: '123',
+                name: 'Different VA Medical Center',
+              },
+            ],
+            phases: {
+              current: 'p0',
+              p0: 'March 1, 2026',
+              p1: 'March 15, 2026',
+              p2: 'April 1, 2026',
+              p3: 'April 24, 2026',
+              p4: 'April 27, 2026',
+              p5: 'May 1, 2026',
+              p6: 'May 3, 2026',
+              p7: 'May 8, 2026',
+            },
+          },
+        ]);
       });
 
-      expect(mappedData.userAtPretransitionedOhFacility).to.equal(true);
-    });
+      it('should map userAtPretransitionedOhFacility flag as true when set', () => {
+        const data = createDefaultData();
+        data.attributes.va_profile.oh_migration_info.user_at_pretransitioned_oh_facility = true;
+        const mappedData = mapRawUserDataToState({
+          data,
+          meta: {
+            errors: null,
+          },
+        });
 
-    it('should map userFacilityReadyForInfoAlert flag as true when set', () => {
-      const data = createDefaultData();
-      data.attributes.va_profile.user_facility_ready_for_info_alert = true;
-      const mappedData = mapRawUserDataToState({
-        data,
-        meta: {
-          errors: null,
-        },
+        expect(mappedData.userAtPretransitionedOhFacility).to.equal(true);
       });
 
-      expect(mappedData.userFacilityReadyForInfoAlert).to.equal(true);
-    });
+      it('should map userFacilityReadyForInfoAlert flag as true when set', () => {
+        const data = createDefaultData();
+        data.attributes.va_profile.oh_migration_info.user_facility_ready_for_info_alert = true;
+        const mappedData = mapRawUserDataToState({
+          data,
+          meta: {
+            errors: null,
+          },
+        });
 
-    it('should handle missing userAtPretransitionedOhFacility flag', () => {
-      const data = createDefaultData();
-      delete data.attributes.va_profile.user_at_pretransitioned_oh_facility;
-      const mappedData = mapRawUserDataToState({
-        data,
-        meta: {
-          errors: null,
-        },
+        expect(mappedData.userFacilityReadyForInfoAlert).to.equal(true);
       });
 
-      expect(mappedData.userAtPretransitionedOhFacility).to.be.undefined;
-    });
+      it('should map userFacilityMigratingToOh flag as true when set', () => {
+        const data = createDefaultData();
+        data.attributes.va_profile.oh_migration_info.user_facility_migrating_to_oh = true;
+        const mappedData = mapRawUserDataToState({
+          data,
+          meta: {
+            errors: null,
+          },
+        });
 
-    it('should handle missing userFacilityReadyForInfoAlert flag', () => {
-      const data = createDefaultData();
-      delete data.attributes.va_profile.user_facility_ready_for_info_alert;
-      const mappedData = mapRawUserDataToState({
-        data,
-        meta: {
-          errors: null,
-        },
+        expect(mappedData.userFacilityMigratingToOh).to.equal(true);
       });
 
-      expect(mappedData.userFacilityReadyForInfoAlert).to.be.undefined;
+      it('should handle missing OH transition flags', () => {
+        const data = createDefaultData();
+        delete data.attributes.va_profile.oh_migration_info
+          .user_at_pretransitioned_oh_facility;
+        delete data.attributes.va_profile.oh_migration_info
+          .user_facility_ready_for_info_alert;
+        delete data.attributes.va_profile.oh_migration_info
+          .user_facility_migrating_to_oh;
+        const mappedData = mapRawUserDataToState({
+          data,
+          meta: {
+            errors: null,
+          },
+        });
+
+        expect(mappedData.userAtPretransitionedOhFacility).to.be.undefined;
+        expect(mappedData.userFacilityReadyForInfoAlert).to.be.undefined;
+        expect(mappedData.userFacilityMigratingToOh).to.be.undefined;
+      });
     });
 
     it('should handle profile error', () => {

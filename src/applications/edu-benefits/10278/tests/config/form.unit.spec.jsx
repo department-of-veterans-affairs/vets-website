@@ -152,8 +152,7 @@ describe('22-10278 formConfig – navigation logic', () => {
       page.onNavForward({ formData, goPath });
 
       expect(goPath.calledOnce).to.be.true;
-      expect(goPath.calledWith('/authorized-organizations/0?add=true')).to.be
-        .true;
+      expect(goPath.calledWith('/organization-name-and-address')).to.be.true;
     });
 
     it('navigates to third-party-person-details when authorize is not "organization"', () => {

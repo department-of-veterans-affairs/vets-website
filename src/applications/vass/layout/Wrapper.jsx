@@ -101,8 +101,8 @@ const Wrapper = props => {
                 {verificationError}
               </va-alert>
             )}
-            <NeedHelp />
           </DowntimeNotification>
+          <NeedHelp />
         </div>
       </div>
     </div>

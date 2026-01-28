@@ -54,7 +54,7 @@ describe('buildMajorStepsFromConfig', () => {
       // Mental health chapter is filtered out for minimal data (no visible pages)
       expect(supportingEvidenceStep.label).to.equal('Supporting evidence');
       expect(additionalInfoStep.label).to.equal('Additional information');
-      expect(reviewStep.label).to.equal('Review and submit');
+      expect(reviewStep.label).to.equal('Review application');
     });
 
     it('should mark the current chapter based on pathname', () => {
@@ -108,7 +108,7 @@ describe('buildMajorStepsFromConfig', () => {
       expect(steps[1].idx).to.equal(1); // disabilities
       expect(steps[2].idx).to.equal(3); // supportingEvidence (mental health at idx 2 is skipped)
       expect(steps[3].idx).to.equal(4); // additionalInformation
-      expect(steps[4].idx).to.equal(4); // reviewSubmit (takes length of filtered steps)
+      expect(steps[4].idx).to.equal(5); // reviewSubmit - based on number of unique chapters
     });
 
     it('should handle conditional pages based on formData', () => {
@@ -280,7 +280,7 @@ describe('buildMajorStepsFromConfig', () => {
       // Mental health chapter should be included when it has visible pages
       expect(mentalHealthStep).to.exist;
       expect(mentalHealthStep.key).to.equal('mentalHealth');
-      expect(mentalHealthStep.label).to.equal('Mental health');
+      expect(mentalHealthStep.label).to.equal('Mental health statement');
       expect(mentalHealthStep.idx).to.equal(2);
       expect(steps.length).to.equal(6); // All 5 chapters + review
     });

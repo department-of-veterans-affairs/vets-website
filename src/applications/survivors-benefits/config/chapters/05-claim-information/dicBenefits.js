@@ -109,16 +109,16 @@ export default {
   uiSchema: {
     ...titleUI('DIC benefits', Description),
     'ui:description': DicAccordion,
-    dicType: radioUI({
+    benefit: radioUI({
       title: CHAPTER_5.dicBenefits,
       labels: dicOptions,
     }),
   },
   schema: {
     type: 'object',
-    required: ['dicType'],
+    required: ['benefit'],
     properties: {
-      dicType: radioSchema(Object.keys(dicOptions)),
+      benefit: radioSchema(Object.keys(dicOptions)),
     },
   },
 };

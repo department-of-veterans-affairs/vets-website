@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import CardSection from './CardSection';
+import { createAppointmentData } from '../utils/appointments';
 
 describe('VASS Component: CardSection', () => {
   it('should render all content with text content', () => {
@@ -15,30 +16,27 @@ describe('VASS Component: CardSection', () => {
   });
 
   it('should render with date content', () => {
-    const mockDateContent = {
-      dateTime: '2025-11-17T20:00:00Z',
-      showAddToCalendarButton: true,
-    };
+    const mockAppointmentData = createAppointmentData();
 
     const { getByText, getByTestId } = render(
-      <CardSection heading="When" dateContent={mockDateContent} />,
+      <CardSection heading="When" appointmentData={mockAppointmentData} />,
     );
 
     expect(getByText('When')).to.exist;
     expect(getByTestId('date-time-description')).to.exist;
-    expect(getByTestId('add-to-calendar-button')).to.exist;
   });
 
-  it('should hide calendar button when flag is false', () => {
-    const mockDateContent = {
-      dateTime: '2025-11-17T20:00:00Z',
-      showAddToCalendarButton: false,
-    };
+  it('should not render add to calendar button when showAddToCalendarButton is false', () => {
+    const mockAppointmentData = createAppointmentData();
 
     const { queryByTestId } = render(
-      <CardSection heading="When" dateContent={mockDateContent} />,
+      <CardSection
+        heading="When"
+        appointmentData={mockAppointmentData}
+        showAddToCalendarButton={false}
+      />,
     );
 
-    expect(queryByTestId('add-to-calendar-button')).to.not.exist;
+    expect(queryByTestId('add-to-calendar-button')).not.to.exist;
   });
 });

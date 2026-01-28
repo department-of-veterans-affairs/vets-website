@@ -1,0 +1,7 @@
+steps:
+  - action: click
+    target: call-to-action-not-primary
+    value:  Apply
+  - action: exists
+    target: header
+    value: Showing 1-2 of 2 results with the status set to "In progress" and the category set to "Education benefits and work study" in "Personal."

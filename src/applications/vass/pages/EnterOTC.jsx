@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
+import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
 import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
 import {
@@ -39,33 +39,22 @@ const EnterOTC = () => {
   const cancellationFlow = flowType === FLOW_TYPES.CANCEL;
   const navigate = useNavigate();
   const obfuscatedEmail = useSelector(selectObfuscatedEmail);
+  const [
+    { error: otcError, handleSetError: setOtcError },
+    { handleSetError: setApiError },
+  ] = useErrorFocus([
+    'va-text-input[name="otc"]',
+    'va-alert[data-testid="enter-otc-error-alert"]',
+  ]);
 
   const [code, setCode] = useState('');
   const [error, setError] = useState(undefined);
-  const [fieldError, setFieldError] = useState(undefined);
-  const [focusTrigger, setFocusTrigger] = useState(0);
 
   const [postOTCVerification, { isLoading }] = usePostOTCVerificationMutation();
 
-  useEffect(
-    () => {
-      if (fieldError || error) {
-        setTimeout(() => {
-          if (fieldError) {
-            focusElement('va-text-input[name="otc"]');
-          } else {
-            focusElement('va-alert[data-testid="enter-otc-error-alert"]');
-          }
-        }, 100);
-      }
-    },
-    [fieldError, error, focusTrigger],
-  );
-
   const handleSubmit = async () => {
     if (code === '') {
-      setFieldError('Please enter your one-time verification code');
-      setFocusTrigger(prev => prev + 1);
+      setOtcError('Please enter your one-time verification code');
       return;
     }
     const response = await postOTCVerification({
@@ -74,8 +63,8 @@ const EnterOTC = () => {
 
     if (response.error) {
       setError(response.error);
+      setApiError('API Error');
       setCode('');
-      setFocusTrigger(prev => prev + 1);
       return;
     }
     if (cancellationFlow) {
@@ -123,14 +112,14 @@ const EnterOTC = () => {
         value={code}
         onBlur={e => {
           if (e.target.value !== '') {
-            setFieldError(undefined);
+            setOtcError('');
           }
         }}
         onInput={e => {
           setCode(e.target.value);
         }}
         required
-        error={fieldError}
+        error={otcError}
         data-testid="otc-input"
         show-input-error
       />
