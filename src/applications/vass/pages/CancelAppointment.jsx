@@ -25,7 +25,10 @@ const CancelAppointment = () => {
       pageTitle="Would you like to cancel this appointment?"
     >
       <div className="vads-u-margin-top--6">
-        <AppointmentCard appointmentData={appointmentData} />
+        <AppointmentCard
+          appointmentData={appointmentData}
+          showAddToCalendarButton={false}
+        />
       </div>
       <VaButtonPair
         data-testid="cancel-confirm-button-pair"
