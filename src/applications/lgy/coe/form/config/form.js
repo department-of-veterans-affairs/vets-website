@@ -28,6 +28,7 @@ import { fileUpload } from './chapters/documents';
 
 import serviceStatus2 from '../pages/serviceStatus2';
 import certificateUse from '../pages/certificateUse';
+import currentOwnership from '../pages/currentOwnership';
 // import disabilitySeparation from '../pages/disabilitySeparation';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
@@ -185,6 +186,15 @@ const formConfig = {
           },
           uiSchema: certificateUse.uiSchema,
           schema: certificateUse.schema,
+        },
+        currentOwnership: {
+          path: 'current-ownership',
+          title: 'Ownership of properties with VA home loans',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          }, // add hadPriorLoans dependency when page is merged
+          uiSchema: currentOwnership.uiSchema,
+          schema: currentOwnership.schema,
         },
       },
     },
