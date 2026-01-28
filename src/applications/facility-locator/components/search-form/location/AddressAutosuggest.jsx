@@ -184,7 +184,7 @@ function AddressAutosuggest({
       handleOnSelect={handleOnSelect}
       label={
         <>
-          <span id="city-state-zip-text">Zip code or city, state</span>{' '}
+          <span id="city-state-zip-text">Enter a zip code or city, state</span>{' '}
           <span className="form-required-span">(*Required)</span>
         </>
       }

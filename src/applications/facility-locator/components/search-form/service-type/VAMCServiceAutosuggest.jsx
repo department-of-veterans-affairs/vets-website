@@ -178,7 +178,7 @@ const VAMCServiceAutosuggest = ({
         spellCheck: 'false',
       }}
       handleOnSelect={handleDropdownSelection}
-      hintText="Begin typing to search for a service, like vision or dental"
+      hintText="Type a medical condition, treatment, or specialty to find services"
       initialSelectedItem={options?.[0]}
       inputId="vamc-services"
       inputRef={inputRef}
