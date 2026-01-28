@@ -100,12 +100,10 @@ const testConfig = createTestConfig(
       },
 
       'supporting-evidence/additional-evidence-intro': () => {
-        // Use cy.fillPage() which will handle va-radio components automatically
         cy.fillPage();
       },
 
       'supporting-evidence/evidence-request': () => {
-        // Use cy.fillPage() which will handle va-radio components automatically
         cy.fillPage();
       },
 
