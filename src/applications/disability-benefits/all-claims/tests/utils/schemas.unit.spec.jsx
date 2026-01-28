@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import {
+  makeLegacySchemaForRatedDisabilities,
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
   makeSchemaForAllDisabilities,
@@ -107,6 +108,92 @@ describe('makeSchemaForNewDisabilities', () => {
   });
 });
 
+describe('makeLegacySchemaForRatedDisabilities', () => {
+  it('should handle special characters in the disability name', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd - personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes (mellitus)',
+          'view:selected': true,
+        },
+        {
+          name: 'Type-1 Diabetes',
+          'view:selected': true,
+        },
+        {
+          name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        diabetesmellitus: {
+          title: 'Diabetes (Mellitus)',
+          type: 'boolean',
+        },
+        lowerbackinjuryaffectingvertebraec4vertebraec5: {
+          title: 'Lower Back Injury Affecting Vertebrae C-4 Vertebrae C-5',
+          type: 'boolean',
+        },
+        ptsdpersonaltrauma: {
+          title: 'Ptsd - Personal Trauma',
+          type: 'boolean',
+        },
+        type1diabetes: {
+          title: 'Type-1 Diabetes',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+  it('should create unique keys', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'cat',
+          'view:selected': true,
+        },
+        {
+          name: 'CAT',
+          'view:selected': true,
+        },
+        {
+          name: 'cAt',
+          'view:selected': true,
+        },
+        {
+          name: 'cAT',
+          'view:selected': true,
+        },
+        {
+          name: 'CaT',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        cat: {
+          title: 'CaT',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+});
 describe('makeSchemaForRatedDisabilities', () => {
   it('should return schema for selected disabilities only', () => {
     const formData = {
