@@ -4,15 +4,16 @@ import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom-v5-compat';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
-import { selectSelectedTopics } from '../redux/slices/formSlice';
-import { URLS } from '../utils/constants';
+import { selectSelectedTopics, setFlowType } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
 
 const Confirmation = () => {
   const { appointmentId } = useParams();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const selectedTopics = useSelector(selectSelectedTopics);
   const detailsCardOnly = searchParams.get('details') === 'true';
@@ -22,6 +23,7 @@ const Confirmation = () => {
   });
 
   const handleCancelAppointment = () => {
+    dispatch(setFlowType(FLOW_TYPES.CANCEL));
     navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`);
   };
 

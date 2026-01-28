@@ -115,7 +115,7 @@ export const routes = [
     flowType: FLOW_TYPES.CANCEL,
   },
   {
-    path: URLS.CANCEL_APPOINTMENT_CONFIRMATION,
+    path: `${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/:appointmentId`,
     component: CancelAppointmentConfirmation,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
@@ -128,7 +128,7 @@ export const routes = [
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
-    flowType: FLOW_TYPES.CANCEL,
+    flowType: FLOW_TYPES.SCHEDULE,
   },
 ];
 

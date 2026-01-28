@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
-import { useGetAppointmentQuery } from '../redux/api/vassApi';
+import {
+  useGetAppointmentQuery,
+  useCancelAppointmentMutation,
+} from '../redux/api/vassApi';
 import { URLS } from '../utils/constants';
 
 const CancelAppointment = () => {
@@ -12,6 +15,19 @@ const CancelAppointment = () => {
   const { data: appointmentData, isLoading } = useGetAppointmentQuery({
     appointmentId,
   });
+  const [cancelAppointment] = useCancelAppointmentMutation();
+
+  const onCancelAppointment = useCallback(
+    async () => {
+      try {
+        await cancelAppointment({ appointmentId });
+        navigate(`${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${appointmentId}`);
+      } catch (error) {
+        // TODO: handle error
+      }
+    },
+    [appointmentId, cancelAppointment, navigate],
+  );
 
   if (isLoading || !appointmentData) {
     // TODO: is there a loading screen?
@@ -34,9 +50,7 @@ const CancelAppointment = () => {
         data-testid="cancel-confirm-button-pair"
         leftButtonText="Yes, cancel appointment"
         rightButtonText="No, don’t cancel"
-        onPrimaryClick={() => {
-          navigate(URLS.CANCEL_APPOINTMENT_CONFIRMATION);
-        }}
+        onPrimaryClick={onCancelAppointment}
         onSecondaryClick={() => {
           navigate(
             `${URLS.CONFIRMATION}/${
