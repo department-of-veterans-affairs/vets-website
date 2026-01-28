@@ -27,6 +27,24 @@ describe('payeeNumber', () => {
     expect($$('va-text-input', container).length).to.equal(1);
   });
 
+  it('should not render an error message if the input valid', async () => {
+    const formData = { payeeNumber: 'M2' };
+
+    const { container, getByRole } = render(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+      />,
+    );
+
+    await waitFor(() => {
+      getByRole('button', { name: /submit/i }).click();
+      expect($$('va-text-input[error]', container).length).to.equal(0);
+    });
+  });
+
   it('should render an error message if the input is invalid', async () => {
     const formData = { payeeNumber: '#3' };
 
