@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -109,5 +110,124 @@ describe('VASS Component: DateTimeSelection', () => {
 
     // The calendar widget should be present for selecting a date
     expect(screen.getByTestId('vaos-calendar')).to.exist;
+  });
+
+  describe('navigation prevention', () => {
+    let addEventListenerSpy;
+    let removeEventListenerSpy;
+
+    beforeEach(() => {
+      addEventListenerSpy = sinon.spy(window, 'addEventListener');
+      removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
+    });
+
+    afterEach(() => {
+      addEventListenerSpy.restore();
+      removeEventListenerSpy.restore();
+    });
+
+    it('should add beforeunload listener on mount', async () => {
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      expect(addEventListenerSpy.calledWith('beforeunload', sinon.match.func))
+        .to.be.true;
+    });
+
+    it('should add popstate listener on mount', async () => {
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      expect(addEventListenerSpy.calledWith('popstate', sinon.match.func)).to.be
+        .true;
+    });
+
+    it('should remove beforeunload listener on unmount', async () => {
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      screen.unmount();
+
+      expect(
+        removeEventListenerSpy.calledWith('beforeunload', sinon.match.func),
+      ).to.be.true;
+    });
+
+    it('should remove popstate listener on unmount', async () => {
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      screen.unmount();
+
+      expect(removeEventListenerSpy.calledWith('popstate', sinon.match.func)).to
+        .be.true;
+    });
+
+    it('should push history state on mount', async () => {
+      const pushStateSpy = sinon.spy(window.history, 'pushState');
+
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      expect(pushStateSpy.called).to.be.true;
+      pushStateSpy.restore();
+    });
+
+    it('should prevent back navigation when user cancels confirm dialog', async () => {
+      const confirmStub = sinon.stub(window, 'confirm').returns(false);
+      const pushStateSpy = sinon.spy(window.history, 'pushState');
+
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      // Simulate popstate event
+      const popstateEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(popstateEvent);
+
+      await waitFor(() => {
+        expect(confirmStub.called).to.be.true;
+      });
+
+      // Should push state again to stay on page
+      expect(pushStateSpy.callCount).to.be.at.least(2);
+
+      confirmStub.restore();
+      pushStateSpy.restore();
+    });
+
+    it('should allow back navigation when user confirms dialog', async () => {
+      const confirmStub = sinon.stub(window, 'confirm').returns(true);
+      const backSpy = sinon.spy(window.history, 'back');
+
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      // Simulate popstate event
+      const popstateEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(popstateEvent);
+
+      await waitFor(() => {
+        expect(confirmStub.called).to.be.true;
+      });
+
+      expect(backSpy.called).to.be.true;
+
+      confirmStub.restore();
+      backSpy.restore();
+    });
   });
 });
