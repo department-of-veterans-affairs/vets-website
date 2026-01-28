@@ -211,7 +211,7 @@ const SearchResult = ({
                 id={`representative-${representativeId}`}
                 className="vads-u-font-weight--bold vads-u-font-family--serif"
               >
-                {parseFloat(JSON.parse(distance).toFixed(2))} Mi
+                {parseFloat(JSON.parse(distance).toFixed(2))} miles
                 {isEstimatedAddress ? ' (estimated)' : ''}
               </div>
             )}

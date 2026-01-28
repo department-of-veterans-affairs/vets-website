@@ -247,7 +247,7 @@ describe('SearchResults', () => {
         '.vads-u-font-weight--bold.vads-u-font-family--serif',
       );
       expect(distanceElement).to.exist;
-      expect(distanceElement.textContent).to.contain('Mi');
+      expect(distanceElement.textContent).to.contain('miles');
       expect(distanceElement.textContent).to.not.contain('(estimated)');
     });
 
@@ -263,7 +263,7 @@ describe('SearchResults', () => {
       );
 
       expect(distanceElement).to.exist;
-      expect(distanceElement.textContent).to.contain('0 Mi');
+      expect(distanceElement.textContent).to.contain('0 miles');
     });
 
     it('shows "(estimated)" when street address is missing but city+state exists', () => {
