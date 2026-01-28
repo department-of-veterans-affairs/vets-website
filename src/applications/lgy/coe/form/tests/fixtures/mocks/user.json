@@ -114,7 +114,11 @@
           "updatedAt": "2020-07-14T19:07:46.000+00:00",
           "vet360Id": "1273780"
         },
-        "homePhone": {},
+        "homePhone": {
+          "areaCode": "503",
+          "countryCode": "1",
+          "phoneNumber": "2222222"
+        },
         "workPhone": {},
         "temporaryPhone": null,
         "faxNumber": null,
