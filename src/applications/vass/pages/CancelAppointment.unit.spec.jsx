@@ -1,23 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import CancelAppointment from './CancelAppointment';
-import { getDefaultRenderOptions } from '../utils/test-utils';
+import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import { createAppointmentData } from '../utils/appointments';
-
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return (
-    <div data-testid="location-display">
-      {location.pathname}
-      {location.search}
-    </div>
-  );
-};
 
 const appointmentId = 'abcdef123456';
 const appointmentData = createAppointmentData({ appointmentId });
