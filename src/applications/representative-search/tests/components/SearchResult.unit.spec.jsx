@@ -251,6 +251,21 @@ describe('SearchResults', () => {
       expect(distanceElement.textContent).to.not.contain('(estimated)');
     });
 
+    it('renders distance when distance is 0 (exact match)', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <SearchResult {...fullAddressProps} distance={0} />
+        </Provider>,
+      );
+
+      const distanceElement = container.querySelector(
+        '.vads-u-font-weight--bold.vads-u-font-family--serif',
+      );
+
+      expect(distanceElement).to.exist;
+      expect(distanceElement.textContent).to.contain('0 Mi');
+    });
+
     it('shows "(estimated)" when street address is missing but city+state exists', () => {
       const cityStateProps = {
         ...baseProps,

@@ -54,6 +54,8 @@ const SearchResult = ({
   const addressExists = hasStreetAddress || hasValidPartialLocation;
 
   const cityStateText = hasCity && hasState ? `${city}, ${stateCode}` : '';
+  const hasDistance =
+    distance !== null && distance !== undefined && distance !== '';
   let partialLocationText = zipCode;
 
   if (cityStateText) {
@@ -204,7 +206,7 @@ const SearchResult = ({
       <va-card class="representative-result-card vads-u-padding--4">
         <div className="representative-result-card-content">
           <div className="representative-info-heading">
-            {distance && (
+            {hasDistance && (
               <div
                 id={`representative-${representativeId}`}
                 className="vads-u-font-weight--bold vads-u-font-family--serif"
