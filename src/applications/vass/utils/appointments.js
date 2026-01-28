@@ -58,27 +58,26 @@ function createAppointmentData(appointmentData = {}) {
  * const vassApiState = createVassApiStateWithAppointment('123', createMockAppointmentData({ appointmentId: '123' }));
  * const options = getDefaultRenderOptions({}, { vassApi: vassApiState });
  */
-export const createVassApiStateWithAppointment = (
-  appointmentId,
-  appointmentData,
-) => ({
-  queries: {
-    [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
-      status: 'fulfilled',
-      endpointName: 'getAppointment',
-      requestId: 'test',
-      startedTimeStamp: 0,
-      data: appointmentData,
+function createVassApiStateWithAppointment(appointmentId, appointmentData) {
+  return {
+    queries: {
+      [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
+        status: 'fulfilled',
+        endpointName: 'getAppointment',
+        requestId: 'test',
+        startedTimeStamp: 0,
+        data: appointmentData,
+      },
     },
-  },
-  mutations: {},
-  provided: {},
-  subscriptions: {},
-  config: {
-    online: true,
-    focused: true,
-    middlewareRegistered: true,
-  },
-});
+    mutations: {},
+    provided: {},
+    subscriptions: {},
+    config: {
+      online: true,
+      focused: true,
+      middlewareRegistered: true,
+    },
+  };
+}
 
 module.exports = { createAppointmentData, createVassApiStateWithAppointment };

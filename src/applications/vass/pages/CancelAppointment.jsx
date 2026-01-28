@@ -42,14 +42,10 @@ const CancelAppointment = () => {
     ],
   );
 
-  if (isLoading || !appointmentData) {
-    // TODO: is there a loading screen?
-    return null;
-  }
-
   return (
     <Wrapper
       showBackLink
+      loading={isLoading}
       testID="cancel-appointment-page"
       pageTitle="Would you like to cancel this appointment?"
     >

@@ -9,6 +9,7 @@ import {
   createAppointmentData,
   createVassApiStateWithAppointment,
 } from '../utils/appointments';
+import { URLS } from '../utils/constants';
 
 const appointmentId = 'abcdef123456';
 const appointmentData = createAppointmentData({ appointmentId });
@@ -21,13 +22,15 @@ describe('VASS Component: CancelConfirmation', () => {
     const { getByTestId } = renderWithStoreAndRouter(
       <Routes>
         <Route
-          path="/cancel-appointment/confirmation/:appointmentId"
+          path={`${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/:appointmentId`}
           element={<CancelConfirmation />}
         />
       </Routes>,
       {
         ...getDefaultRenderOptions({}, { vassApi: getVassApiState() }),
-        initialEntries: [`/cancel-appointment/confirmation/${appointmentId}`],
+        initialEntries: [
+          `${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${appointmentId}`,
+        ],
       },
     );
     expect(getByTestId('cancel-confirmation-page')).to.exist;

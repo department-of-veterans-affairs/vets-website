@@ -14,13 +14,10 @@ const CancelConfirmation = () => {
   const { data: appointmentData, isLoading } = useGetAppointmentQuery({
     appointmentId,
   });
-  if (isLoading || !appointmentData) {
-    // TODO: is there a loading screen?
-    return null;
-  }
   return (
     <Wrapper
       testID="cancel-confirmation-page"
+      loading={isLoading}
       pageTitle="You have canceled your appointment"
     >
       <p

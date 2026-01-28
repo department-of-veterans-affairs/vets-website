@@ -27,10 +27,6 @@ const Confirmation = () => {
     navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`);
   };
 
-  if (isLoading) {
-    // TODO: is there a loading screen?
-    return null;
-  }
   if (isError) {
     return <div>Error</div>;
   }
@@ -39,6 +35,7 @@ const Confirmation = () => {
     <Wrapper
       testID="confirmation-page"
       showBackLink={detailsCardOnly}
+      loading={isLoading}
       pageTitle={
         detailsCardOnly
           ? undefined
