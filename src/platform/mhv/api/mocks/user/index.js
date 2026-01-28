@@ -515,12 +515,12 @@ const transitioningUser = {
               migrationDate: '2026-05-01',
               facilities: [
                 {
-                  facilityId: 528,
-                  facilityName: 'Test VA Medical Center',
+                  id: '528',
+                  name: 'Test VA Medical Center',
                 },
                 {
-                  facilityId: 123,
-                  facilityName: 'Different VA Medical Center',
+                  id: '123',
+                  name: 'Different VA Medical Center',
                 },
               ],
               phases: {
@@ -539,8 +539,8 @@ const transitioningUser = {
               migrationDate: '2026-03-01',
               facilities: [
                 {
-                  facilityId: 565,
-                  facilityName: 'One More VA Medical Center',
+                  id: '565',
+                  name: 'One More VA Medical Center',
                 },
               ],
               phases: {
