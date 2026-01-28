@@ -1,5 +1,5 @@
 import React from 'react';
-import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default class OptOutWizard extends React.Component {
