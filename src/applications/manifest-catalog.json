@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 153,
+  "totalApplications": 154,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -817,6 +817,12 @@
       "directoryPath": "src/applications/static-pages-essentials",
       "appName": "Static pages essentials",
       "entryName": "static-pages-essentials",
+      "rootUrl": "N/A"
+    },
+    {
+      "directoryPath": "src/applications/static-pages-widgets",
+      "appName": "Static pages widgets",
+      "entryName": "static-pages-widgets",
       "rootUrl": "N/A"
     },
     {
