@@ -18,11 +18,6 @@ on:
         required: false
         type: string
         default: ''
-      use_node_22:
-        description: 'Use Node 22 Docker image for E2E tests (for Node 22 upgrade verification)'
-        required: false
-        type: boolean
-        default: false
 
 concurrency:
   group: full-suite-tests-${{ github.ref }}
@@ -456,7 +451,7 @@ jobs:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
-    needs: [build, tests-prep, fetch-ecr-credentials]
+    needs: [build, tests-prep]
     permissions:
       id-token: write
       contents: read
@@ -467,10 +462,7 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: ${{ inputs.use_node_22 && 'public.ecr.aws/cypress-io/cypress/browsers:22.12.0' || '008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge' }}
-      credentials:
-        username: ${{ inputs.use_node_22 && '' || needs.fetch-ecr-credentials.outputs.ecr_user }}
-        password: ${{ inputs.use_node_22 && '' || needs.fetch-ecr-credentials.outputs.ecr_password }}
+      image: public.ecr.aws/cypress-io/cypress/browsers:22.12.0
 
     strategy:
       fail-fast: false
