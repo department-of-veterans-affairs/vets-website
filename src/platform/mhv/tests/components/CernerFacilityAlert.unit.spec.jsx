@@ -505,8 +505,8 @@ describe('CernerFacilityAlert', () => {
         migrationDate: '2026-05-01',
         facilities: [
           {
-            facilityId: '528',
-            facilityName: 'VA New Orleans Medical Center',
+            id: '528',
+            name: 'VA New Orleans Medical Center',
           },
         ],
         phases: {

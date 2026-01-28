@@ -9,8 +9,8 @@ describe('MigratingFacilitiesAlerts', () => {
       migrationDate: '2026-05-01',
       facilities: [
         {
-          facilityId: '528',
-          facilityName: 'VA Uptown New Orleans Medical Center',
+          id: '528',
+          name: 'VA Uptown New Orleans Medical Center',
         },
       ],
       phases: {
@@ -31,12 +31,12 @@ describe('MigratingFacilitiesAlerts', () => {
       migrationDate: '2026-05-01',
       facilities: [
         {
-          facilityId: '528',
-          facilityName: 'VA Uptown New Orleans Medical Center',
+          id: '528',
+          name: 'VA Uptown New Orleans Medical Center',
         },
         {
-          facilityId: '529',
-          facilityName: 'VA Downtown New Orleans Clinic',
+          id: '529',
+          name: 'VA Downtown New Orleans Clinic',
         },
       ],
       phases: {
@@ -409,8 +409,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-05-01',
           facilities: [
             {
-              facilityId: '528',
-              facilityName: 'VA Uptown New Orleans Medical Center',
+              id: '528',
+              name: 'VA Uptown New Orleans Medical Center',
             },
           ],
           phases: {
@@ -429,8 +429,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-06-01',
           facilities: [
             {
-              facilityId: '529',
-              facilityName: 'VA Downtown New Orleans Clinic',
+              id: '529',
+              name: 'VA Downtown New Orleans Clinic',
             },
           ],
           phases: {
@@ -491,8 +491,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-05-01',
           facilities: [
             {
-              facilityId: '528',
-              facilityName: 'VA Uptown New Orleans Medical Center',
+              id: '528',
+              name: 'VA Uptown New Orleans Medical Center',
             },
           ],
           phases: {
@@ -511,8 +511,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-06-01',
           facilities: [
             {
-              facilityId: '529',
-              facilityName: 'VA Downtown New Orleans Clinic',
+              id: '529',
+              name: 'VA Downtown New Orleans Clinic',
             },
           ],
           phases: {
@@ -531,8 +531,8 @@ describe('MigratingFacilitiesAlerts', () => {
           migrationDate: '2026-07-01',
           facilities: [
             {
-              facilityId: '530',
-              facilityName: 'VA Westside Clinic',
+              id: '530',
+              name: 'VA Westside Clinic',
             },
           ],
           phases: {
