@@ -925,8 +925,6 @@ describe('526 All Claims validations', () => {
         formData,
         schema,
         messages,
-        {},
-        0,
       );
       return errors;
     };
@@ -971,6 +969,95 @@ describe('526 All Claims validations', () => {
       };
       const errors = callValidator(formData);
       expect(errors.addError.called).to.be.false;
+    });
+
+    it('does not add error when view:hasEvidence false (validation skipped)', () => {
+      const formData = {
+        'view:hasEvidence': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('adds error when view:hasEvidence undefined (defaults to true) and neither VA nor private selected', () => {
+      const formData = {
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select at least one type of supporting evidence',
+      );
+    });
+
+    it('adds error when view:hasMedicalRecords true, view:hasOtherEvidence true, but neither VA nor private selected (enhancement)', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select at least one type of supporting evidence',
+      );
+    });
+
+    it('does not add error when view:hasMedicalRecords true and at least one of VA or private is selected (enhancement)', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': true,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('does not add error when view:hasMedicalRecords false (validation skipped) (enhancement)', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasMedicalRecords': false,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('adds error when view:hasMedicalRecords undefined (defaults to true) and neither VA nor private selected (enhancement)', () => {
+      const formData = {
+        disability526SupportingEvidenceEnhancement: true,
+        'view:selectableEvidenceTypes': {
+          'view:hasVaMedicalRecords': false,
+          'view:hasPrivateMedicalRecords': false,
+          'view:hasOtherEvidence': true,
+        },
+      };
+      const errors = callValidator(formData);
+      expect(errors.addError.calledOnce).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'Please select at least one type of supporting evidence',
+      );
     });
   });
 
