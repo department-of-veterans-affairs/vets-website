@@ -82,7 +82,7 @@ export const clickStartClaim = () =>
     .eq(0)
     .click();
 
-const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
+export const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
 export const checkVaFacilityBox = () =>
   cy
@@ -97,6 +97,17 @@ export const clickContinue = () =>
 
 export const selectDropdownWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="${fieldName}"]`);
+  cy.chooseSelectOptionUsingValue(value);
+};
+
+export const selectShadowDropdownWithKeyboard = (
+  parentSelector,
+  fieldName,
+  value,
+) => {
+  cy.tabToElement(parentSelector)
+    .shadow()
+    .find(`select[name="${fieldName}"]`);
   cy.chooseSelectOptionUsingValue(value);
 };
 

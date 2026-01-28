@@ -9,7 +9,7 @@ import { formatMonthYearToReadableString } from '../../../shared/utils/dates';
 
 export const promptContent = {
   topQuestion:
-    'NEW Do you want us to get your VA medical records or military health records?',
+    'Do you want us to get your VA medical records or military health records?',
   aboveRadioQuestion: 'Do you want us to get your records?',
   options: {
     Y:

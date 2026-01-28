@@ -202,8 +202,8 @@ const Authorization = ({
     'privacy-modal-button-2',
   );
 
-  const nextQuestionText =
-    'In the next question, you can limit your authorization to specific sources and types of information.';
+  const nextPageText =
+    'You can limit your authorization to specific sources and information on the next page.';
 
   const checkboxIsChecked = showArrayBuilder
     ? auth4142
@@ -292,7 +292,7 @@ const Authorization = ({
                 friends, public officials)
               </li>
             </ul>
-            <p>{nextQuestionText}</p>
+            <p>{nextPageText}</p>
           </va-accordion-item>
           <va-accordion-item header="3. Costs for records" level="4" open>
             <p className="vads-u-margin-top--0">
@@ -516,7 +516,7 @@ const Authorization = ({
               the types of sources listed.
             </li>
           </ul>
-          <p className="vads-u-margin-bottom--0">{nextQuestionText}</p>
+          <p className="vads-u-margin-bottom--0">{nextPageText}</p>
           <VaCheckbox
             className="vads-u-font-weight--bold vads-u-margin-top--3"
             id="privacy-agreement"

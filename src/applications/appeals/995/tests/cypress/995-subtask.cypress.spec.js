@@ -5,8 +5,6 @@ import * as h from '../../../shared/tests/cypress.helpers';
 import cypressSetup from '../../../shared/tests/cypress.setup';
 import { title995 } from '../../content/title';
 
-const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
-
 describe('995 subtask', () => {
   beforeEach(() => {
     cypressSetup();
@@ -32,7 +30,7 @@ describe('995 subtask', () => {
       .find('.usa-error-message')
       .contains('You must choose a claim type');
 
-    verifyUrl(`/start`);
+    h.verifyUrl(`/start`);
   });
 
   it('should go to intro page when compensation is selected - C30851', () => {
@@ -42,7 +40,7 @@ describe('995 subtask', () => {
     cy.get('va-radio-option[value="compensation"] label').click(checkOpt);
     cy.get('va-button[continue]').click();
 
-    verifyUrl(`/introduction`);
+    h.verifyUrl(`/introduction`);
   });
 
   it('should go to non-compensation type page when another type is selected - C30852', () => {
@@ -52,7 +50,7 @@ describe('995 subtask', () => {
     cy.get('va-radio-option[value="other"] label').click(checkOpt);
     cy.get('va-button[continue]').click();
 
-    verifyUrl(`/start`);
+    h.verifyUrl(`/start`);
     cy.get('h2').contains('Claim isn’t for a disability');
     cy.get('[text="Find the address for mailing your form"]')
       .shadow()
