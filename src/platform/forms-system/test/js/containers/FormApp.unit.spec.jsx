@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import { FormApp } from '../../../src/js/containers/FormApp';
 
 const shallowFormApp = ({ formConfig, currentLocation, formData = null }) => {
   const routes = [{ pageList: [{ path: currentLocation.pathname }] }];
-  return SkinDeep.shallowRender(
+  return render(
     <FormApp
       formConfig={formConfig}
       routes={routes}
@@ -19,72 +19,130 @@ const shallowFormApp = ({ formConfig, currentLocation, formData = null }) => {
 };
 
 describe('Schemaform <FormApp>', () => {
+  beforeEach(() => {
+    if (!document.body.dataset) document.body.dataset = {};
+  });
   it('should render children on intro page, but not form title or nav', () => {
     const formConfig = {};
     const currentLocation = {
       pathname: 'introduction',
       search: '',
     };
-    const tree = shallowFormApp({ formConfig, currentLocation });
+    const { container, queryByTestId } = shallowFormApp({
+      formConfig,
+      currentLocation,
+    });
 
-    expect(tree.everySubTree('.child')).not.to.be.empty;
-    expect(tree.everySubTree('FormNav')).to.be.empty;
-    expect(tree.everySubTree('FormTitle')).to.be.empty;
+    expect(container.querySelector('.child')).to.exist;
+    expect(queryByTestId('navFormDiv')).to.not.exist;
+    expect(queryByTestId('form-title')).to.not.exist;
   });
 
   it('should show nav when the form is in progress', () => {
-    const formConfig = {};
+    const formConfig = {
+      chapters: {
+        test: {
+          title: 'Test',
+          pages: {
+            test: { path: '/veteran-information/personal-information' },
+          },
+        },
+      },
+    };
     const currentLocation = {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
-    const tree = shallowFormApp({ formConfig, currentLocation });
+    const { container, queryByTestId } = shallowFormApp({
+      formConfig,
+      currentLocation,
+    });
 
-    expect(tree.everySubTree('.child')).not.to.be.empty;
-    expect(tree.everySubTree('FormNav')).not.to.be.empty;
+    expect(container.querySelector('.child')).to.exist;
+    expect(queryByTestId('navFormDiv')).to.exist;
   });
 
   it('should show dynamic title', () => {
     const titles = ['Main title', 'Alternate title'];
-    const formData = { test: false };
+    let formData = { test: false };
     const formConfig = {
       title: props => titles[props.formData.test ? 1 : 0],
+      chapters: {
+        test: {
+          title: 'Test',
+          pages: {
+            test: { path: '/veteran-information/personal-information' },
+          },
+        },
+      },
     };
     const currentLocation = {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
+    const routes = [{ pageList: [{ path: currentLocation.pathname }] }];
 
-    const tree = shallowFormApp({ formConfig, currentLocation, formData });
+    const { getByTestId, rerender } = shallowFormApp({
+      formConfig,
+      currentLocation,
+      formData,
+    });
 
-    expect(tree.everySubTree('FormTitle')[0].props.title).to.equal(titles[0]);
-    formData.test = true;
-    tree.reRender({ formData, currentLocation, formConfig });
-    expect(tree.everySubTree('FormTitle')[0].props.title).to.equal(titles[1]);
+    expect(getByTestId('form-title').textContent).to.equal(titles[0]);
+    formData = { test: true };
+    rerender(
+      <FormApp
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        formData={formData}
+      >
+        <div className="child" />
+      </FormApp>,
+    );
+    expect(getByTestId('form-title').textContent).to.equal(titles[1]);
   });
 
   it('should show dynamic subTitle', () => {
     const subTitles = ['Main subTitle', 'Alternate subTitle'];
-    const formData = { test: false };
+    let formData = { test: false };
     const formConfig = {
       title: 'Test',
       subTitle: props => subTitles[props.formData.test ? 1 : 0],
+      chapters: {
+        test: {
+          title: 'Test',
+          pages: {
+            test: { path: '/veteran-information/personal-information' },
+          },
+        },
+      },
     };
     const currentLocation = {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
+    const routes = [{ pageList: [{ path: currentLocation.pathname }] }];
 
-    const tree = shallowFormApp({ formConfig, currentLocation, formData });
+    const { getByTestId, rerender } = shallowFormApp({
+      formConfig,
+      currentLocation,
+      formData,
+    });
 
-    expect(tree.everySubTree('FormTitle')[0].props.subTitle).to.equal(
-      subTitles[0],
+    expect(getByTestId('form-subtitle').textContent).to.equal(subTitles[0]);
+    formData = { test: true };
+    rerender(
+      <FormApp
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        formData={formData}
+      >
+        <div className="child" />
+      </FormApp>,
     );
-    formData.test = true;
-    tree.reRender({ formData, currentLocation, formConfig });
-    expect(tree.everySubTree('FormTitle')[0].props.subTitle).to.equal(
-      subTitles[1],
-    );
+    expect(getByTestId('form-subtitle').textContent).to.equal(subTitles[1]);
   });
 
   it('should hide title, nav and layout classes when formOptions are set', () => {
@@ -95,12 +153,15 @@ describe('Schemaform <FormApp>', () => {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
-    const tree = shallowFormApp({ formConfig, currentLocation });
+    const { container, queryByTestId } = shallowFormApp({
+      formConfig,
+      currentLocation,
+    });
 
-    expect(tree.everySubTree('.child')).not.to.be.empty;
-    expect(tree.everySubTree('FormTitle')).to.be.empty;
-    expect(tree.everySubTree('.row')).to.be.empty;
-    expect(tree.everySubTree('.usa-width-two-thirds')).to.be.empty;
+    expect(container.querySelector('.child')).to.exist;
+    expect(queryByTestId('form-title')).to.not.exist;
+    expect(container.querySelector('.row')).to.not.exist;
+    expect(container.querySelector('.usa-width-two-thirds')).to.not.exist;
   });
 
   describe('hiding and displaying form title', () => {
@@ -134,9 +195,12 @@ describe('Schemaform <FormApp>', () => {
           pathname: '/form-title-hidden',
           search: '',
         };
-        const tree = shallowFormApp({ formConfig, currentLocation });
+        const { queryByTestId } = shallowFormApp({
+          formConfig,
+          currentLocation,
+        });
 
-        expect(tree.everySubTree('FormTitle')).to.be.empty;
+        expect(queryByTestId('form-title')).to.not.exist;
       });
     });
 
@@ -146,9 +210,12 @@ describe('Schemaform <FormApp>', () => {
           pathname: '/form-title-explicitly-displayed',
           search: '',
         };
-        const tree = shallowFormApp({ formConfig, currentLocation });
+        const { queryByTestId } = shallowFormApp({
+          formConfig,
+          currentLocation,
+        });
 
-        expect(tree.everySubTree('FormTitle')).not.to.be.empty;
+        expect(queryByTestId('form-title')).to.exist;
       });
     });
 
@@ -158,9 +225,12 @@ describe('Schemaform <FormApp>', () => {
           pathname: '/form-title-implicitly-displayed',
           search: '',
         };
-        const tree = shallowFormApp({ formConfig, currentLocation });
+        const { queryByTestId } = shallowFormApp({
+          formConfig,
+          currentLocation,
+        });
 
-        expect(tree.everySubTree('FormTitle')).not.to.be.empty;
+        expect(queryByTestId('form-title')).to.exist;
       });
     });
   });
