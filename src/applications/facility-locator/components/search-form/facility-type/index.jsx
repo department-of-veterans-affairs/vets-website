@@ -53,7 +53,7 @@ const FacilityType = ({
           showError ? `vads-u-padding-left--1p5 vads-u-padding-top--1p5` : null
         }
         label="Facility type"
-        hint="Choose a facility type"
+        hint="Select a facility type"
         value={facilityType || ''}
         onVaSelect={e => handleFacilityTypeChange(e)}
         error={showError ? 'Select a facility type' : null}
