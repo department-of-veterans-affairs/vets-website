@@ -60,6 +60,7 @@ import * as paymentInformation from './paymentInformation';
 import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
 import * as privateMedicalRecords from './privateMedicalRecords';
+import * as privateMedicalRecordsUpload from './form0781/supportingEvidenceEnhancement/privateMedicalRecordsUpload';
 import * as privateMedicalRecordsAttachments from './privateMedicalRecordsAttachments';
 import * as privateMedicalAuthorizeRelease from './privateMedicalAuthorizeRelease';
 import * as privateMedicalRecordsRelease from './privateMedicalRecordsRelease';
@@ -182,6 +183,7 @@ export {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsUpload,
   privateMedicalRecordsAttachments,
   privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
