@@ -14,7 +14,7 @@ describe('Terminally Ill', () => {
   } = formConfig.chapters.veteranDetails.pages.terminallyIll;
   const { defaultDefinitions: definitions } = formConfig;
 
-  it('should render', () => {
+  it('should render the terminally ill question with Yes/No options', () => {
     const { container, getByText } = render(
       <DefinitionTester
         definitions={definitions}
@@ -30,15 +30,13 @@ describe('Terminally Ill', () => {
     const question = container.querySelector('va-radio');
     expect(question).to.have.attribute('label', 'Are you terminally ill?');
 
-    expect(container.querySelector('va-radio-option[label="Yes"', container)).to
-      .exist;
-    expect(container.querySelector('va-radio-option[label="No"', container)).to
-      .exist;
+    expect(container.querySelector('va-radio-option[label="Yes"]')).to.exist;
+    expect(container.querySelector('va-radio-option[label="No"]')).to.exist;
   });
 
-  it('should be allowed to submit if no answers are provided', () => {
+  it('should allow submission without answering the question', () => {
     const onSubmit = sinon.spy();
-    const { getByText } = render(
+    const { getByRole, container } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
@@ -49,15 +47,15 @@ describe('Terminally Ill', () => {
       />,
     );
 
-    userEvent.click(getByText(/submit/i));
-    expect(onSubmit.called).to.be.true;
+    userEvent.click(getByRole('button', { name: 'Submit' }));
+    expect(onSubmit.calledOnce).to.be.true;
     // Check for absence of an error message.
     expect($('va-radio').error).to.be.null;
   });
 
-  it('should submit if question answered with a no', () => {
+  it('should allow submission when answered with "No"', () => {
     const onSubmit = sinon.spy();
-    const { getByText, container } = render(
+    const { getByRole, container } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
@@ -71,7 +69,29 @@ describe('Terminally Ill', () => {
     $('va-radio', container).__events.vaValueChange({
       detail: { value: 'N' },
     });
-    userEvent.click(getByText(/submit/i));
+    userEvent.click(getByRole('button', { name: 'Submit' }));
+    expect(onSubmit.calledOnce).to.be.true;
+    // Check for absence of an error message.
+    expect($('va-radio').error).to.be.null;
+  });
+
+  it('should allow submission when answered with "Yes"', () => {
+    const onSubmit = sinon.spy();
+    const { getByRole, container } = render(
+      <DefinitionTester
+        definitions={definitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
+    userEvent.click(getByRole('button', { name: 'Submit' }));
     expect(onSubmit.calledOnce).to.be.true;
     // Check for absence of an error message.
     expect($('va-radio').error).to.be.null;
