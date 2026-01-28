@@ -29,6 +29,7 @@ import {
 
 import {
   capitalizeEachWord,
+  disabilityIsSelected,
   isClaimingIncrease,
   isNewConditionOption,
   isPlaceholderRated,
@@ -96,6 +97,21 @@ export const makeSchemaForNewDisabilities = createSelector(
 
     return { properties };
   },
+);
+
+/**
+ * The original version of makeSchemaForRatedDisabilities, prior to
+ * changes introduced for the Conditions v2 workflow.
+ * Lifted from 2209dab6 (Oct 2025) on the main branch.
+ */
+export const makeLegacySchemaForRatedDisabilities = createSelector(
+  formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
+  (ratedDisabilities = []) => ({
+    properties: ratedDisabilities
+      .filter(disabilityIsSelected)
+      .map(disability => disability.name)
+      .reduce(createCheckboxSchema, {}),
+  }),
 );
 
 /**
