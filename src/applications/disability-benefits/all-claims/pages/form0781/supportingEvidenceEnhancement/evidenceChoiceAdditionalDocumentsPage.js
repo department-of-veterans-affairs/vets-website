@@ -12,7 +12,7 @@ const { attachments } = full526EZSchema.properties;
 export const uiSchema = {
   'ui:title': standardTitle(evidenceChoiceAdditionalDocumentsTitle),
   evidenceChoiceAdditionalDocuments: {
-    ...ancillaryFormUploadUi('', 'Adding additional evidence:', {
+    ...ancillaryFormUploadUi('', 'Selected files', {
       addAnotherLabel: 'Add another file',
       buttonText: 'Upload file',
     }),

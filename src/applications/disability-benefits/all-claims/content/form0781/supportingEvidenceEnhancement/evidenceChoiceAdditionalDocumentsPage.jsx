@@ -41,29 +41,18 @@ const evidenceChoiceAdditionalDocumentsAddtlInfo = (
 const evidenceChoiceAdditionalDocumentsUploaderInfo = ({ uploadTitle }) => (
   <div>
     {uploadTitle && (
-      <p className="vads-u-margin-top--3">
+      <p className="vads-u-margin-top--3 vads-u-margin-bottom--0">
         {uploadTitle}{' '}
         <span className="schemaform-required-span vads-u-font-weight--normal">
           (*Required)
         </span>
       </p>
     )}
-    <p>
-      You can upload your file in a .pdf, .jpg, .jpeg, .png, .gif, .bmp, or .txt
-      format. You’ll first need to scan a copy of your file onto your computer
-      or mobile phone. You can then upload the file from there.
-    </p>
-    <p>Guidelines for uploading a file:</p>
-    <ul>
-      <li>
-        File types you can upload: .pdf, .jpg, .jpeg, .png, .gif, .bmp, or .txt
-      </li>
-    </ul>
-    <p>
-      <em>
-        A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
-        Large files can take longer to upload with a slow Internet connection.
-      </em>
+    <p className="vads-u-margin-top--0 vads-u-color--gray-medium">
+      You can upload .pdf, .jpg, .jpeg, .png, .heic, .gif, .bmp, or .txt files.
+      Each file should be no larger than 50MB for non-PDF files or 99 MB for PDF
+      files. Larger files may take longer to upload, depending on the internet
+      connection.
     </p>
   </div>
 );
@@ -84,7 +73,7 @@ export const evidenceChoiceAdditionalDocumentsContent = (
     {evidenceChoiceAdditionalDocumentsDescription}
     {evidenceChoiceAdditionalDocumentsAddtlInfo}
     {evidenceChoiceAdditionalDocumentsUploaderInfo({
-      uploadTitle: 'Upload your documents',
+      uploadTitle: 'Select files to upload',
     })}
     {evidenceChoiceAdditionalDocumentsNote}
   </>
