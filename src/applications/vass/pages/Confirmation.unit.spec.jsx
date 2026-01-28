@@ -4,14 +4,14 @@ import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Confirmation from './Confirmation';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 import {
-  getDefaultRenderOptions,
-  createMockAppointmentData,
+  createAppointmentData,
   createVassApiStateWithAppointment,
-} from '../utils/test-utils';
+} from '../utils/appointments';
 
 const appointmentId = '123';
-const appointmentData = createMockAppointmentData({ appointmentId });
+const appointmentData = createAppointmentData({ appointmentId });
 
 const getVassApiState = () =>
   createVassApiStateWithAppointment(appointmentId, appointmentData);

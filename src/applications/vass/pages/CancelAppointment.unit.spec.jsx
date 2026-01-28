@@ -6,16 +6,15 @@ import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import CancelAppointment from './CancelAppointment';
-import {
-  getDefaultRenderOptions,
-  createMockAppointmentData,
-  createVassApiStateWithAppointment,
-  LocationDisplay,
-} from '../utils/test-utils';
+import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import * as vassApi from '../redux/api/vassApi';
+import {
+  createAppointmentData,
+  createVassApiStateWithAppointment,
+} from '../utils/appointments';
 
 const appointmentId = 'abcdef123456';
-const appointmentData = createMockAppointmentData({ appointmentId });
+const appointmentData = createAppointmentData({ appointmentId });
 
 const getVassApiState = () =>
   createVassApiStateWithAppointment(appointmentId, appointmentData);
