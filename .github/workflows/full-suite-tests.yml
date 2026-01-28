@@ -686,6 +686,10 @@ jobs:
         with:
           name: vagovprod.tar.bz2
 
+      - name: Install bzip2
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: apt-get update && apt-get install -y bzip2
+
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: |
