@@ -11,6 +11,7 @@ import slice from './services/appointment/apiSlice';
 import facilitySlice from './services/location/apiSlice';
 // import healthCareSlice from './services/healthcare-service/apiSlice';
 import schedulingCofigurationSlice from './services/scheduling-configuration/apiSlice';
+import healthcareSlice from './services/healthcare-service/apiSlice';
 
 startApp({
   url: manifest.rootUrl,
@@ -23,5 +24,6 @@ startApp({
     facilitySlice.middleware,
     // healthCareSlice.middleware,
     schedulingCofigurationSlice.middleware,
+    healthcareSlice.middleware,
   ],
 });
