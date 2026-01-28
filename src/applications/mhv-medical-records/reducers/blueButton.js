@@ -113,6 +113,7 @@ export const convertAppointment = appt => {
   const now = new Date();
   const { attributes } = appt;
   const appointmentTime = new Date(attributes.localStartTime);
+  const isValidAppointmentTime = !Number.isNaN(appointmentTime.getTime());
   const location = attributes.location?.attributes || { physicalAddress: {} };
   const { line, city, state, postalCode } = location.physicalAddress;
   const addressLines = line || [];
@@ -125,8 +126,8 @@ export const convertAppointment = appt => {
 
   return {
     id: appt.id,
-    date: dateFormat(appointmentTime),
-    isUpcoming: isAfter(appointmentTime, now),
+    date: dateFormat(appointmentTime) || UNKNOWN,
+    isUpcoming: isValidAppointmentTime ? isAfter(appointmentTime, now) : false,
     appointmentType: attributes.kind ? capitalize(attributes.kind) : UNKNOWN,
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
     what: attributes.serviceName || 'General',
@@ -157,13 +158,22 @@ export const convertAppointment = appt => {
 export const convertDemographics = info => {
   if (!info) return null;
 
+  // Safely format dateOfBirth to prevent RangeError
+  let formattedDateOfBirth = NONE_RECORDED;
+  if (info.dateOfBirth) {
+    const dob = new Date(info.dateOfBirth);
+    if (!Number.isNaN(dob.getTime())) {
+      formattedDateOfBirth = format(dob, 'MMMM d, yyyy');
+    }
+  }
+
   return {
     id: info.id,
     facility: info.facilityInfo?.name || NONE_RECORDED,
     firstName: info.firstName,
     middleName: info.middleName || NONE_RECORDED,
     lastName: info.lastName || NONE_RECORDED,
-    dateOfBirth: format(new Date(info.dateOfBirth), 'MMMM d, yyyy'),
+    dateOfBirth: formattedDateOfBirth,
     age: info.age || NONE_RECORDED,
     gender: info.gender || NONE_RECORDED,
     ethnicity: NONE_RECORDED, // no matching attribute in test user data
@@ -298,13 +308,20 @@ export const convertAccountSummary = data => {
       facility => facility.facilityInfo?.id === ipa.authenticatingFacilityId,
     );
 
+  // Safely format authenticationDate to prevent RangeError
+  let formattedAuthDate = 'Unknown date';
+  if (ipa?.authenticationDate) {
+    const authDate = new Date(ipa.authenticationDate);
+    if (!Number.isNaN(authDate.getTime())) {
+      formattedAuthDate = format(authDate, 'MMMM d, yyyy');
+    }
+  }
+
   const authenticationInfo = ipa
     ? {
         source: 'VA',
         authenticationStatus: ipa.status || UNKNOWN,
-        authenticationDate: ipa.authenticationDate
-          ? format(new Date(ipa.authenticationDate), 'MMMM d, yyyy')
-          : 'Unknown date',
+        authenticationDate: formattedAuthDate,
         authenticationFacilityName:
           authenticatingFacility?.facilityInfo?.name || 'Unknown facility',
         authenticationFacilityID:

@@ -34,15 +34,23 @@ export { dateFormatWithoutTimezone } from './dateHelpers';
 /**
  * @param {*} timestamp
  * @param {*} format defaults to 'MMMM d, yyyy, h:mm a zzz', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
- * @returns {String} formatted timestamp
+ * @returns {String} formatted timestamp, or null if the timestamp is invalid
  */
 export const dateFormat = (timestamp, format = null) => {
+  // Guard against null, undefined, or invalid date values
+  if (!timestamp) {
+    return null;
+  }
+
+  const date = new Date(timestamp);
+
+  // Validate the date to prevent RangeError in formatToParts
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
   const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
-  return formatInTimeZone(
-    new Date(timestamp),
-    timeZone,
-    format || 'MMMM d, yyyy, h:mm a zzz',
-  );
+  return formatInTimeZone(date, timeZone, format || 'MMMM d, yyyy, h:mm a zzz');
 };
 
 export const dateFormatWithoutTime = str => {
