@@ -11,6 +11,7 @@ import {
   selectVAPContactInfoField,
 } from 'platform/user/exportsFile';
 import PhoneView from '@@vap-svc/components/PhoneField/PhoneView';
+import { FIELD_OPTION_IDS } from '@@vap-svc/constants/schedulingPreferencesConstants';
 
 const ContactMethodConfirm = ({
   pageData = {},
@@ -19,12 +20,58 @@ const ContactMethodConfirm = ({
   mobilePhone,
   homePhone,
   workPhone,
+  handlers,
 }) => {
   const data = pageData.data || {};
   const fieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
   useEffect(() => {
     focusElement('h1');
   }, []);
+
+  useEffect(
+    () => {
+      // Check for existing data on the confirm step and push to profile edit if missing
+      let existingData;
+      switch (pageData.data[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]) {
+        case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+          .TELEPHONE_MOBILE:
+        case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+          .TEXT_MESSAGE:
+          existingData = mobilePhone;
+          break;
+        case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+          .TELEPHONE_HOME:
+          existingData = homePhone;
+          break;
+        case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+          .TELEPHONE_WORK:
+          existingData = workPhone;
+          break;
+        case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD].EMAIL:
+          existingData = email;
+          break;
+        case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
+          .US_POST:
+          existingData = mailingAddress;
+          break;
+        default:
+          existingData = false;
+      }
+      if (!existingData) {
+        // Save the contact method preference in the background as the user is redirected to edit the related contact info field
+        handlers.updateContactInfo();
+      }
+    },
+    [
+      pageData,
+      mobilePhone,
+      homePhone,
+      workPhone,
+      email,
+      mailingAddress,
+      handlers,
+    ],
+  );
 
   const cardContent = {
     title: '',
@@ -114,6 +161,7 @@ const mapStateToProps = state => {
 };
 
 ContactMethodConfirm.propTypes = {
+  handlers: PropTypes.object.isRequired,
   pageData: PropTypes.object.isRequired,
   email: PropTypes.object,
   error: PropTypes.bool,

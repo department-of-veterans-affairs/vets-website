@@ -1,9 +1,11 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
-
+import { useNavigate } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
-import { VASS_PHONE_NUMBER } from '../utils/constants';
 import { createAppointmentData } from '../utils/appointments';
+import { setFlowType } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS, VASS_PHONE_NUMBER } from '../utils/constants';
 
 // TODO: replace with actual data
 const appointmentData = createAppointmentData({
@@ -14,6 +16,14 @@ const appointmentData = createAppointmentData({
 
 const AlreadyScheduled = () => {
   const appointmentDate = new Date(appointmentData.startUTC);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleCancelAppointment = e => {
+    e.preventDefault();
+    dispatch(setFlowType(FLOW_TYPES.CANCEL));
+    navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentData.appointmentId}`);
+  };
   return (
     <Wrapper
       testID="already-scheduled-page"
@@ -35,6 +45,7 @@ const AlreadyScheduled = () => {
         aria-labelledby="appointment-date-time"
         type="secondary"
         data-testid="already-scheduled-cancel-button"
+        onClick={handleCancelAppointment}
       />
       <p data-testid="already-scheduled-reschedule-message">
         If you want to reschedule this appointment, call us at{' '}
