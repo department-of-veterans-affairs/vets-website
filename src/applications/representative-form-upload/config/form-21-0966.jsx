@@ -60,13 +60,13 @@ const form210966 = (pathname = null) => {
         path: 'intent-to-file-no-representation',
         pageKey: 'intent-to-file-no-representation',
         component: ITF403Error,
-        depends: formData => formData,
+        depends: () => false,
       },
       {
         path: 'intent-to-file-unknown',
         pageKey: 'intent-to-file-unknown',
         component: ITF500Error,
-        depends: formData => formData,
+        depends: () => false,
       },
       {
         path: 'existing-itf',
@@ -124,9 +124,9 @@ const form210966 = (pathname = null) => {
       claimantInformationChapter: {
         title: 'Claimant and Veteran information',
         reviewDescription: () => (
-          <div className="itf-review-heading">
+          <h4 className="itf-review-heading">
             Claimant and Veteran information
-          </div>
+          </h4>
         ),
         pages: {
           claimantInformation: {

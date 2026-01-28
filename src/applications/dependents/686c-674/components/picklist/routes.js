@@ -15,8 +15,6 @@ import childMarriage from './childMarriage';
 // Child death
 import childDeath from './childDeath';
 // Child left school
-import childHasDisability from './childHasDisability';
-import childDisabilityExit from './childDisabilityExit';
 import childLeftSchool from './childLeftSchool';
 // Child adopted out of family
 import childAdoptedExit from './childAdoptedExit';
@@ -55,8 +53,6 @@ export const routing = {
     // Child death
     { path: 'child-death', page: childDeath },
     // Child left school
-    { path: 'child-disability', page: childHasDisability },
-    { path: 'child-exit', page: childDisabilityExit },
     { path: 'child-left-school', page: childLeftSchool },
     // Child adopted out of family
     { path: 'child-adopted-exit', page: childAdoptedExit },

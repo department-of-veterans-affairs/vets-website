@@ -22,6 +22,7 @@ import {
   otcAccountLockedError,
   otcSuccess,
 } from '../tests/fixtures';
+import { FLOW_TYPES, URLS } from '../utils/constants';
 
 // Helper component to display current location for testing navigation
 const LocationDisplay = () => {
@@ -34,6 +35,15 @@ const defaultRenderOptions = getDefaultRenderOptions({
   uuid: 'c0ffee-1234-beef-5678',
   lastname: 'Smith',
   dob: '1935-04-07',
+  flowType: FLOW_TYPES.SCHEDULE, // default to schedule flow for testing
+});
+
+const defaultRenderOptionsWithCancelFlow = getDefaultRenderOptions({
+  obfuscatedEmail: 't***@test.com',
+  uuid: 'c0ffee-1234-beef-5678',
+  lastname: 'Smith',
+  dob: '1935-04-07',
+  flowType: FLOW_TYPES.CANCEL,
 });
 
 const renderComponent = () =>
@@ -162,22 +172,20 @@ describe('VASS Component: EnterOTC', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path="/enter-otc" element={<EnterOTC />} />
-            <Route path="/date-time" element={<div>Date Time Page</div>} />
+            <Route path={URLS.ENTER_OTC} element={<EnterOTC />} />
+            <Route path={URLS.DATE_TIME} element={<div>Date Time Page</div>} />
           </Routes>
           <LocationDisplay />
         </>,
         {
-          initialState: {},
-          reducers,
-          initialEntries: ['/enter-otc'],
-          additionalMiddlewares: [vassApi.middleware],
+          ...defaultRenderOptions,
+          initialEntries: [URLS.ENTER_OTC],
         },
       );
 
       // Verify we start on the enter-otc page
       expect(getByTestId('location-display').textContent).to.equal(
-        '/enter-otc',
+        URLS.ENTER_OTC,
       );
 
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
@@ -186,17 +194,17 @@ describe('VASS Component: EnterOTC', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/date-time',
+          URLS.DATE_TIME,
         );
       });
     });
   });
 
-  describe('when cancellation url parameter is true', () => {
+  describe('when cancellation flow is active', () => {
     it('should display the correct page title', () => {
       const { getByTestId } = renderWithStoreAndRouterV6(<EnterOTC />, {
-        ...defaultRenderOptions,
-        initialEntries: ['/enter-otc?cancel=true'],
+        ...defaultRenderOptionsWithCancelFlow,
+        initialEntries: [URLS.ENTER_OTC],
       });
 
       expect(getByTestId('header').textContent).to.contain(
@@ -210,7 +218,7 @@ describe('VASS Component: EnterOTC', () => {
       const { container, getByTestId } = renderWithStoreAndRouterV6(
         <>
           <Routes>
-            <Route path="/enter-otc" element={<EnterOTC />} />
+            <Route path={URLS.ENTER_OTC} element={<EnterOTC />} />
             <Route
               path="/cancel-appointment/:appointmentId"
               element={<div>Cancel Appointment Page</div>}
@@ -219,9 +227,8 @@ describe('VASS Component: EnterOTC', () => {
           <LocationDisplay />
         </>,
         {
-          ...defaultRenderOptions,
-          initialEntries: ['/enter-otc?cancel=true'],
-          additionalMiddlewares: [vassApi.middleware],
+          ...defaultRenderOptionsWithCancelFlow,
+          initialEntries: [URLS.ENTER_OTC],
         },
       );
 
@@ -231,7 +238,7 @@ describe('VASS Component: EnterOTC', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          '/cancel-appointment/abcdef123456',
+          `${URLS.CANCEL_APPOINTMENT}/abcdef123456`,
         );
       });
     });

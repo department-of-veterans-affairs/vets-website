@@ -2,11 +2,9 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const mockTopics = require('./utils/topic');
-const {
-  generateSlots,
-  createMockJwt,
-  decodeJwtUuid,
-} = require('../../utils/mock-helpers');
+const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
+const { decodeJwt } = require('../../utils/jwt-utils');
+const { createAppointmentData } = require('../../utils/appointments');
 
 const mockUUIDs = Object.freeze({
   'c0ffee-1234-beef-5678': {
@@ -26,27 +24,7 @@ const lowAuthVerificationTimeout = 15 * 60 * 1000; // 15 minutes
 const otcUseCounts = new Map(); // uuid -> count
 const maxOtcUseCount = 5;
 
-const mockAppointments = [
-  {
-    appointmentId: 'abcdef123456',
-    // Currently the appointment GET api does not return topics, so we are not mocking them
-    // ideally VASS adds these values to the appointment GET api response
-    // topics: [
-    //   {
-    //     topicId: '123',
-    //     topicName: 'General Health',
-    //   },
-    // ],
-    startUTC: '2025-12-24T10:00:00Z',
-    endUTC: '2025-12-24T10:30:00Z',
-    agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
-    agentNickname: 'Bill Brasky',
-    appointmentStatusCode: 1,
-    appointmentStatus: 'Confirmed',
-    cohortStartUtc: '2025-12-01T00:00:00Z',
-    cohortEndUtc: '2026-02-28T23:59:59Z',
-  },
-];
+const mockAppointments = [createAppointmentData()];
 
 const responses = {
   'POST /vass/v0/authenticate': (req, res) => {
@@ -170,16 +148,17 @@ const responses = {
   },
   'GET /vass/v0/appointment-availablity': (req, res) => {
     const { headers } = req;
-    const token = headers.authorization;
-    if (!token) {
+    const [, token] = headers.authorization?.split(' ') || [];
+    const tokenPayload = decodeJwt(token);
+
+    const uuid = tokenPayload?.payload?.sub;
+    if (!token || !uuid) {
       return res.status(401).json({
         errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
       });
     }
-    const uuid = decodeJwtUuid(token);
     return res.json({
       data: {
-        // TODO: extract this from the token
         appointmentId: uuid,
         availableTimeSlots: generateSlots(),
       },

@@ -81,12 +81,6 @@ export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
 
-export const selectFeatureOHDirectSchedule = state =>
-  toggleValues(state).vaOnlineSchedulingOhDirectSchedule;
-
-export const selectFeatureOHRequest = state =>
-  toggleValues(state).vaOnlineSchedulingOhRequest;
-
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
@@ -137,3 +131,6 @@ export const selectFeatureRemoveFacilityConfigCheck = state =>
 
 export const selectFeatureUseBrowserTimezone = state =>
   toggleValues(state).vaOnlineSchedulingUseBrowserTimezone;
+
+export const selectFeatureUseVpg = state =>
+  toggleValues(state).vaOnlineSchedulingUseVpg;

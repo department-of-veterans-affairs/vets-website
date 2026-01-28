@@ -71,7 +71,9 @@ export const ChooseDateAndTime = props => {
     [location, dispatch],
   );
 
-  if (loading || isDraftLoading) {
+  // Check for error state before showing loading indicator to prevent race condition
+  // where isDraftError becomes true while loading is still true
+  if ((loading || isDraftLoading) && !isDraftError) {
     return (
       <ReferralLayout
         data-testid="loading"
@@ -85,7 +87,7 @@ export const ChooseDateAndTime = props => {
   return (
     <ReferralLayout
       hasEyebrow
-      apiFailure={failed}
+      apiFailure={failed || isDraftError}
       heading="Schedule an appointment with your provider"
     >
       <DateAndTimeContent
