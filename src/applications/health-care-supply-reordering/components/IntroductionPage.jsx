@@ -22,7 +22,7 @@ const IntroductionPage = ({ route }) => {
   return (
     <>
       {' '}
-      <FormTitle title="Order hearing aid and CPAP supplies" />
+      <FormTitle title="Order hearing aid and CPAP supplies 17" />
       <div className="vads-u-margin-y--4">
         <p>
           If you receive hearing aid or CPAP supplies from VA, you may be able
