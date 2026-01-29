@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   mockFetch,
@@ -12,23 +12,13 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import EnterOTC from './EnterOTC';
-import {
-  getDefaultRenderOptions,
-  reducers,
-  vassApi,
-} from '../utils/test-utils';
+import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import {
   otcInvalidError,
   otcAccountLockedError,
   otcSuccess,
 } from '../tests/fixtures';
 import { FLOW_TYPES, URLS } from '../utils/constants';
-
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return <div data-testid="location-display">{location.pathname}</div>;
-};
 
 const defaultRenderOptions = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
