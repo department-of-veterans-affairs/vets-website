@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 157,
+  "totalApplications": 153,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -500,30 +500,6 @@
       "appName": "My HealtheVet on VA.gov",
       "entryName": "mhv-landing-page",
       "rootUrl": "/my-health"
-    },
-    {
-      "directoryPath": "src/applications/mhv-demo-mode/demo-apps/mhv-medical-records",
-      "appName": "MHV Medical Records",
-      "entryName": "medical-records",
-      "rootUrl": "/my-health/medical-records"
-    },
-    {
-      "directoryPath": "src/applications/mhv-demo-mode/demo-apps/mhv-medications",
-      "appName": "MHV Medications",
-      "entryName": "medications",
-      "rootUrl": "/my-health/medications"
-    },
-    {
-      "directoryPath": "src/applications/mhv-demo-mode/demo-apps/mhv-secure-messaging",
-      "appName": "MHV Secure Messaging",
-      "entryName": "mhv-secure-messaging",
-      "rootUrl": "/my-health/secure-messages"
-    },
-    {
-      "directoryPath": "src/applications/mhv-demo-mode/demo-apps/mhv-supply-reordering",
-      "appName": "Order medical supplies",
-      "entryName": "mhv-supply-reordering",
-      "rootUrl": "/my-health/order-medical-supplies"
     },
     {
       "directoryPath": "src/applications/mhv-landing-page",

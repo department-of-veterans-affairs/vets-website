@@ -1,9 +1,0 @@
-/**
- * Preserves newline formatting while allowing wrapping. Breaks extremely long text
- * strings across lines on small screens.
- */
-.breakable-text-wrap {
-    white-space: pre-line;
-    overflow-wrap: break-word;
-    word-break: break-word;
-}

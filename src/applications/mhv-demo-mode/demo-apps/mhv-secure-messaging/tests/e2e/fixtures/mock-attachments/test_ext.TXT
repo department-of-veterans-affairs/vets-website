@@ -1,1 +1,0 @@
-File extensions: attempting to attach a file with an uppercase extension results in an error message
