@@ -98,11 +98,20 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId('card-link')
           .click();
 
-        cy.findByTestId(`balance-card-${id}`)
-          .findByTestId(`resolve-link-${id}`)
+        cy.get(`[data-testid="resolve-link-${id}"]`)
+          .shadow()
+          .find('a')
+          .should('be.visible')
           .click();
 
-        cy.findByTestId('resolve-page-title').contains('Resolve your copay');
+        cy.location('pathname').should(
+          'match',
+          /\/copay-balances\/.*\/resolve$/,
+        );
+
+        cy.findByTestId('resolve-page-title')
+          .should('exist')
+          .and('contain', 'Resolve your copay');
 
         // how to pay also has on this page that is hidden, let's make sure it only shows up once
         cy.get('va-on-this-page').should('have.length', 1);
