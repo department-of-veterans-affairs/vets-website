@@ -10,7 +10,9 @@
  *   some functionality may be limited or changing soon.
  * - errorPhases: phases where we show an error-style alert because
  *   the functionality is not available online for affected facilities.
- * - errorStartDate / errorEndDate: the first and last phases (inclusive)
+ *   - NOTE: final entry in error phase array should be one phase before the errorEndDate
+ *     phase, since by errorEndDate the tool should be fully functional again.
+ * - errorStartDate / errorEndDate: the first and last phases
  *   used when displaying date-related messaging for that tool, based on
  *   T-XX dates for each tool's functionality migrating (calculated on the backend).
  *
@@ -30,7 +32,7 @@ export const CernerAlertContent = {
     warningMessage: `you won’t be able to schedule or cancel appointments online for`,
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to schedule or cancel appointments.`,
-    errorPhases: ['p2', 'p3', 'p4', 'p5', 'p6', 'p7'],
+    errorPhases: ['p2', 'p3', 'p4', 'p5', 'p6'],
     errorHeadline: `You can’t manage appointments online for some facilities right now`,
     errorMessage: `You can’t schedule or cancel appointments online for`,
     errorNote:
@@ -54,7 +56,7 @@ export const CernerAlertContent = {
     // Migration alert configuration
     warningPhases: ['p1', 'p2', 'p3', 'p4'],
     warningMessage: `there may be a delay in updating medical records for`,
-    errorPhases: ['p5', 'p6'],
+    errorPhases: ['p5'],
     errorGetHeadline: endDate =>
       `New medical records may not appear here until ${endDate}`,
     errorIntro: 'Medical records',
@@ -73,7 +75,7 @@ export const CernerAlertContent = {
     warningPhases: ['p1', 'p2', 'p3'],
     warningMessage: `you won’t be able to refill your medications online for`,
     warningNote: `During this time, you can still call your VA pharmacy’s automated refill line to refill a medication.`,
-    errorPhases: ['p4', 'p5', 'p6'],
+    errorPhases: ['p4', 'p5'],
     errorHeadline: `You can’t refill medications online for some facilities right now`,
     errorMessage: `You can’t refill your medications online for`,
     errorNote: `If you need to refill a medication now, call your VA pharmacy’s automated refill line. The phone number is on your prescription label or in your medications details page.`,
@@ -96,7 +98,7 @@ export const CernerAlertContent = {
     warningMessage: `you won’t be able to send or receive new messages or reply to conversations with providers at`,
     warningGetNote: facilityText =>
       `During this time, you can still call ${facilityText} to contact your provider.`,
-    errorPhases: ['p3', 'p4', 'p5', 'p6'],
+    errorPhases: ['p3', 'p4', 'p5'],
     errorHeadline: `You can’t use messages to contact providers at some facilities right now`,
     errorMessage: `You can’t send or receive new messages or reply to conversations with providers at`,
     errorNote:
