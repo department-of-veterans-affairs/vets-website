@@ -46,7 +46,7 @@ export const convertCvixRadiologyRecord = record => {
       : EMPTY_FIELD,
     sortDate: record.performedDatePrecise
       ? `${new Date(record.performedDatePrecise).toISOString().split('.')[0]}Z`
-      : EMPTY_FIELD,
+      : null,
     imagingProvider: EMPTY_FIELD,
     results: buildRadiologyResults({
       reportText: parsedReport.Report,
