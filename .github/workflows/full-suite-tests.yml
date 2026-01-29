@@ -497,7 +497,7 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
@@ -551,6 +551,10 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
+
+      - name: Install missing dependencies
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: apt-get update && apt-get install -y bzip2 curl
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -651,7 +655,7 @@ jobs:
     name: Cypress E2E Tests (Node 22)
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
-    needs: [build, reuse-build, tests-prep]
+    needs: [build, reuse-build, tests-prep, fetch-ecr-credentials]
     permissions:
       id-token: write
       contents: read
@@ -664,7 +668,10 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
     strategy:
       fail-fast: false
