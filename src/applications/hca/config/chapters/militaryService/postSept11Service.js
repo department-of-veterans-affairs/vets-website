@@ -11,7 +11,8 @@ export default {
   uiSchema: {
     ...titleUI(content['service-info--post911-title']),
     gulfWarService: yesNoUI({
-      title: PostSept11ServiceDescription,
+      title: content['service-info--post911-label'],
+      description: PostSept11ServiceDescription,
     }),
   },
   schema: {
