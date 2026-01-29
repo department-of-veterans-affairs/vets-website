@@ -260,7 +260,7 @@ const RecipientsSelect = ({
             {recentRecipients.map(r => (
               <option key={r.triageTeamId} value={r.triageTeamId}>
                 {r.name}
-                {`Facility: ${shortenSystemName(r.healthCareSystemName)}`}
+                {`\t(${shortenSystemName(r.healthCareSystemName)})`}
               </option>
             ))}
           </optgroup>,
@@ -273,8 +273,7 @@ const RecipientsSelect = ({
           options.push(
             <option key={item.id} value={item.id}>
               {item.suggestedNameDisplay || item.name}
-              {/* {item.vamcSystemName.replace(/^VA\s+|\s+health care$/i, '')} */}
-              {`Facility: ${shortenSystemName(item.vamcSystemName)}`}
+              {`\t(${shortenSystemName(item.vamcSystemName)})`}
             </option>,
           );
         } else if (item.vamcSystemName !== currentVamcSystemName) {
@@ -294,7 +293,7 @@ const RecipientsSelect = ({
         groupedOptions.push(
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
-            {`Facility: ${shortenSystemName(item.vamcSystemName)}`}
+            {`\t(${shortenSystemName(item.vamcSystemName)})`}
           </option>,
         );
       });
