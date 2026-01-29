@@ -114,7 +114,7 @@ const formConfig = {
           uiSchema: prepCoursePeriod.uiSchema,
           schema: prepCoursePeriod.schema,
         },
-         prepCourseCost: {
+        prepCourseCost: {
           path: 'prep-course-details-4',
           title: 'Enter the cost of the prep course including all fees',
           uiSchema: prepCourseCost.uiSchema,

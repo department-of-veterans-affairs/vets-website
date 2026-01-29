@@ -1,11 +1,7 @@
 import React from 'react';
 import { isValidDateString } from 'platform/utilities/date';
 
-export const validatePrepCourseStartDate = (
-  errors,
-  fieldData,
-  formData,
-) => {
+export const validatePrepCourseStartDate = (errors, fieldData, formData) => {
   if (!fieldData) return;
 
   if (!isValidDateString(fieldData)) errors.addError('Enter a valid date');
@@ -16,9 +12,7 @@ export const validatePrepCourseStartDate = (
   const end = new Date(formData.prepCourseEndDate);
 
   if (end < start) {
-    errors.addError(
-      'The start date cannot be after the end date',
-    );
+    errors.addError('The start date cannot be after the end date');
   }
   if (
     start.getFullYear() === end.getFullYear() &&
