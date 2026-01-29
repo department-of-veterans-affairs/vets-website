@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import classNames from 'classnames';
@@ -84,16 +87,21 @@ const Wrapper = props => {
               )}
             </h1>
           )}
-          {!verificationError && children}
-          {verificationError && (
-            <va-alert
-              data-testid="verification-error-alert"
-              class="vads-u-margin-top--4"
-              status="error"
-            >
-              {verificationError}
-            </va-alert>
-          )}
+          <DowntimeNotification
+            appTitle="VA Solid Start"
+            dependencies={[externalServices.vass]}
+          >
+            {!verificationError && children}
+            {verificationError && (
+              <va-alert
+                data-testid="verification-error-alert"
+                class="vads-u-margin-top--4"
+                status="error"
+              >
+                {verificationError}
+              </va-alert>
+            )}
+          </DowntimeNotification>
           <NeedHelp />
         </div>
       </div>

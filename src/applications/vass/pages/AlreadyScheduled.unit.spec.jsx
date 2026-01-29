@@ -5,13 +5,16 @@ import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testin
 
 import AlreadyScheduled from './AlreadyScheduled';
 import { getDefaultRenderOptions } from '../utils/test-utils';
+import { createAppointmentData } from '../utils/appointments';
 
 describe('VASS Component: AlreadyScheduled', () => {
   it('should render all content', () => {
     // Use the same UTC timestamp as the component to compute expected values
     // This ensures the test works regardless of the timezone it runs in
-    const appointmentDateUtc = '2025-05-01T16:00:00.000Z';
-    const appointmentDate = new Date(appointmentDateUtc);
+    const appointmentData = createAppointmentData({
+      startUTC: '2025-05-01T16:00:00.000Z',
+    });
+    const appointmentDate = new Date(appointmentData.startUTC);
     const expectedDate = format(appointmentDate, 'MM/dd/yyyy');
     const expectedTime = format(appointmentDate, 'hh:mm a');
 

@@ -40,12 +40,11 @@ describe(`${appName} -- minimal test`, () => {
 
     // confirmation
     cy.injectAxeThenAxeCheck();
-    heading = {
-      level: 2,
-      name: /^You’ve submitted your medical supplies order$/,
-    };
     cy.findByRole('navigation', { name: 'My HealtheVet' }).should.exist;
-    cy.findByRole('heading', heading);
+    cy.get('va-alert[status="success"] h2').should(
+      'contain.text',
+      'You’ve submitted your medical supplies order',
+    );
     cy.findByRole('link', { name: /^Go back to VA.gov$/ });
   });
 });

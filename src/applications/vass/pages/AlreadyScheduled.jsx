@@ -1,23 +1,29 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
-
+import { useNavigate } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
-import { VASS_PHONE_NUMBER } from '../utils/constants';
+import { createAppointmentData } from '../utils/appointments';
+import { setFlowType } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS, VASS_PHONE_NUMBER } from '../utils/constants';
 
 // TODO: replace with actual data
-const appointmentData = {
-  appointmentId: '123',
-  phoneNumber: '8005551212',
-  dtStartUtc: '2025-05-01T16:00:00.000Z',
-  providerName: 'Bill Brasky',
-  topics: [
-    { topicName: 'Benefits', topicId: '123' },
-    { topicName: 'Health care', topicId: '456' },
-  ],
-};
+const appointmentData = createAppointmentData({
+  startUTC: '2025-05-01T16:00:00.000Z',
+  endUTC: '2025-05-01T16:30:00.000Z',
+  topics: [{ topicName: 'Benefits' }, { topicName: 'Health care' }],
+});
 
 const AlreadyScheduled = () => {
-  const appointmentDate = new Date(appointmentData.dtStartUtc);
+  const appointmentDate = new Date(appointmentData.startUTC);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleCancelAppointment = e => {
+    e.preventDefault();
+    dispatch(setFlowType(FLOW_TYPES.CANCEL));
+    navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentData.appointmentId}`);
+  };
   return (
     <Wrapper
       testID="already-scheduled-page"
@@ -39,6 +45,7 @@ const AlreadyScheduled = () => {
         aria-labelledby="appointment-date-time"
         type="secondary"
         data-testid="already-scheduled-cancel-button"
+        onClick={handleCancelAppointment}
       />
       <p data-testid="already-scheduled-reschedule-message">
         If you want to reschedule this appointment, call us at{' '}
