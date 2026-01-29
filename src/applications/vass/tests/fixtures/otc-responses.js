@@ -1,3 +1,5 @@
+import { createMockJwt } from '../../utils/mock-helpers';
+
 /**
  * OTC (One-Time Code) verification API response fixtures
  * Used by unit tests and local mock server
@@ -7,7 +9,7 @@
  * Success response for OTC verification
  */
 export const otcSuccess = ({
-  token = 'jwt-token',
+  token = createMockJwt('mock-uuid'),
   expiresIn = 3600,
   tokenType = 'Bearer',
 } = {}) => ({
