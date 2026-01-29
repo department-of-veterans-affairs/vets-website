@@ -157,12 +157,17 @@
   "signer--role-label": "Which of these best describes you?",
   "signer--role-option--applicant": "I’m filling out this form for myself",
   "signer--role-option--other": "I’m a parent, spouse, or legal representative signing on behalf of the beneficiary",
+  "statement-of-truth--default": "I confirm that the identifying information in this form is accurate and has been represented correctly.",
+  "statement-of-truth--representative": "On behalf of %s, I confirm that the identifying information in this form is accurate and has been represented correctly.",
   "validation--date-pattern": "Enter a valid date",
   "validation--date-range": "Termination date must be after the effective date",
   "validation--date-value--current": "Enter a valid current or past date",
   "validation--date-value--future": "Date may not be more than 1 year from today",
   "validation--mbi-invalid": "Enter a valid 11-character MBI code (without dashes)",
   "validation--required": "You must provide a response",
+  "validation--sot--applicant-signature": "Enter your name exactly as it appears on your application: %s",
+  "validation--sot--other-signature": "Enter your full name",
+  "validation--sot--checkbox": "You must certify by checking the box",
   "validation--text-characters--singular": "You entered a character we can’t accept. Try removing this character",
   "validation--text-characters--plural": "You entered multiple characters we can’t accept. Try removing these characters"
 }

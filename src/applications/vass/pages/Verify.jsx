@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
-import { focusElement } from 'platform/utilities/ui';
+import { useDispatch } from 'react-redux';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 import { usePostAuthenticationMutation } from '../redux/api/vassApi';
+import { clearFormData, setFlowType } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
+import { useErrorFocus } from '../hooks/useErrorFocus';
 
 const getPageTitle = (cancellationFlow, verificationError) => {
   if (verificationError) {
@@ -17,6 +20,7 @@ const getPageTitle = (cancellationFlow, verificationError) => {
 
 const Verify = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
 
   // Check for cancel=true URL parameter to initiate cancellation flow
@@ -26,6 +30,19 @@ const Verify = () => {
     // TODO: route to the "Something went wrong" page
   }
 
+  // Ensures a fresh start when landing on Verify page and sets the flow type
+  useEffect(
+    () => {
+      dispatch(clearFormData());
+      // Set flow type based on URL parameter
+      const flowType = cancellationFlow
+        ? FLOW_TYPES.CANCEL
+        : FLOW_TYPES.SCHEDULE;
+      dispatch(setFlowType(flowType));
+    },
+    [dispatch, cancellationFlow],
+  );
+
   const [lastname, setLastname] = useState('');
   const [dob, setDob] = useState('');
 
@@ -34,28 +51,18 @@ const Verify = () => {
     { isLoading, error: postAuthenticationError },
   ] = usePostAuthenticationMutation();
 
-  const [lastnameError, setLastnameError] = useState(undefined);
-  const [dobError, setDobError] = useState(undefined);
+  const [
+    { error: lastnameError, handleSetError: setLastnameError },
+    { error: dobError, handleSetError: setDobError },
+    { handleSetError: setAuthError },
+  ] = useErrorFocus([
+    'va-text-input[data-testid="last-name-input"]',
+    'va-memorable-date[data-testid="dob-input"]',
+    'va-alert[data-testid="verify-error-alert"]',
+  ]);
+
   const [attemptCount, setAttemptCount] = useState(1);
   const [verificationError, setVerificationError] = useState(undefined);
-  const [focusTrigger, setFocusTrigger] = useState(0);
-
-  useEffect(
-    () => {
-      if (postAuthenticationError || lastnameError || dobError) {
-        setTimeout(() => {
-          if (lastnameError) {
-            focusElement('va-text-input[data-testid="last-name-input"]');
-          } else if (dobError) {
-            focusElement('va-memorable-date[data-testid="dob-input"]');
-          } else {
-            focusElement('va-alert[data-testid="verify-error-alert"]');
-          }
-        }, 100);
-      }
-    },
-    [focusTrigger, lastnameError, dobError, postAuthenticationError],
-  );
 
   const handleSubmit = async () => {
     if (lastname === '' || dob === '') {
@@ -65,7 +72,6 @@ const Verify = () => {
       if (dob === '') {
         setDobError('Please enter your date of birth');
       }
-      setFocusTrigger(prev => prev + 1);
       return;
     }
     const response = await postAuthentication({
@@ -74,7 +80,7 @@ const Verify = () => {
       dob,
     });
     if (response.error) {
-      setFocusTrigger(prev => prev + 1);
+      setAuthError('error');
       if (attemptCount === 3 || response.error.code === 'rate_limit_exceeded') {
         setVerificationError(
           'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
@@ -83,11 +89,7 @@ const Verify = () => {
       setAttemptCount(count => count + 1);
       return;
     }
-    let otcRoute = '/enter-otc';
-    if (cancellationFlow) {
-      otcRoute += '?cancel=true';
-    }
-    navigate(otcRoute);
+    navigate(URLS.ENTER_OTC);
   };
 
   const pageTitle = getPageTitle(cancellationFlow, verificationError);
@@ -114,7 +116,7 @@ const Verify = () => {
         onBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
-            setLastnameError(undefined);
+            setLastnameError('');
           }
         }}
         onInput={e => {

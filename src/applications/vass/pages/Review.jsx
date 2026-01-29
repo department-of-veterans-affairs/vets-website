@@ -8,6 +8,7 @@ import {
   selectSelectedTopics,
   selectSelectedDate,
 } from '../redux/slices/formSlice';
+import { URLS } from '../utils/constants';
 
 const Review = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Review = () => {
       dtStartUtc: selectedDate,
       dtEndUtc: selectedDate,
     });
-    navigate(`/confirmation/${res.data.appointmentId}`);
+    navigate(`${URLS.CONFIRMATION}/${res.data.appointmentId}`);
   };
 
   return (
@@ -37,7 +38,7 @@ const Review = () => {
           Date and time
         </p>
         <Link
-          to="/date-time"
+          to={URLS.DATE_TIME}
           data-testid="date-time-edit-link"
           aria-label="Edit date and time"
         >
@@ -57,7 +58,7 @@ const Review = () => {
           Topic
         </p>
         <Link
-          to="/topic-selection"
+          to={URLS.TOPIC_SELECTION}
           data-testid="topic-edit-link"
           aria-label="Edit topic"
         >

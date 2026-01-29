@@ -13,7 +13,9 @@ export class IntroductionPage extends React.Component {
   componentDidMount() {
     if (this.props.isLoggedIn) {
       focusElement('.va-nav-breadcrumbs-list');
-      this.props.getRemainingEntitlement(this.props.enableSobClaimantService);
+      this.props.getRemainingEntitlement(
+        this.props.enableForm10203ClaimantService,
+      );
     }
   }
 
@@ -259,18 +261,18 @@ IntroductionPage.propTypes = {
   isLoggedIn: PropTypes.bool,
   remainingEntitlement: PropTypes.object,
   route: PropTypes.object,
-  enableSobClaimantService: PropTypes.bool,
+  enableForm10203ClaimantService: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
   const toggles = toggleValues(state);
-  const enableSobClaimantService =
-    toggles?.[FEATURE_FLAG_NAMES.sobClaimantService] ?? false;
+  const enableForm10203ClaimantService =
+    toggles?.[FEATURE_FLAG_NAMES.form10203ClaimantService] ?? false;
 
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
-    enableSobClaimantService,
+    enableForm10203ClaimantService,
   };
 };
 

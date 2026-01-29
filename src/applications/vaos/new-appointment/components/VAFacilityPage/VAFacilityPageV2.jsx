@@ -105,7 +105,7 @@ export default function VAFacilityPageV2() {
 
   const uiSchema = {
     vaFacility: {
-      'ui:title': `These facilities you're registered at offer ${lowerCase(
+      'ui:title': `These are the facilities you’re registered at that offer ${lowerCase(
         typeOfCare?.name,
       )}.`,
       'ui:widget': FacilitiesRadioWidget,
@@ -205,8 +205,8 @@ export default function VAFacilityPageV2() {
     return (
       <va-loading-indicator
         set-focus
-        label="We’re checking if we can create an appointment for you at this facility. This may take up to a minute. Thank you for your patience."
-        message="We’re checking if we can create an appointment for you at this facility. This may take up to a minute. Thank you for your patience."
+        label="We’re checking if we can create an appointment for you at this facility. This may take up to a minute."
+        message="We’re checking if we can create an appointment for you at this facility. This may take up to a minute."
       />
     );
   }

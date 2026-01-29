@@ -140,7 +140,7 @@ const ConfirmationQuestion = ({
       <VaAlert id="confirmation-alert" status="warning" uswds visible>
         <h3 slot="headline">Seems like you need a different form.</h3>
         <p>
-          Let's get you to the right place! Visit our forms page to find the
+          Let’s get you to the right place! Visit our forms page to find the
           right one for your needs. Remember, you can always get help from a{' '}
           <a
             href="/disability/get-help-filing-claim/"
@@ -169,7 +169,7 @@ const ConfirmationQuestion = ({
         <p>
           Please remember, if you are filing a claim for a new or secondary
           condition or for increased disability compensation, you will also need
-          to complete the Form 21-526EZ if you haven't done so already.
+          to complete the Form 21-526EZ if you haven’t done so already.
         </p>
         <p>
           <a
@@ -187,7 +187,7 @@ const ConfirmationQuestion = ({
   return (
     <div className="schemaform-intro">
       <h1 id="main-content" className="vads-u-margin-bottom--2">
-        Let's confirm VA Form 21-8940 is the right form for your needs
+        Let’s confirm VA Form 21-8940 is the right form for your needs
       </h1>
       <VaRadio
         id="confirmation-question"

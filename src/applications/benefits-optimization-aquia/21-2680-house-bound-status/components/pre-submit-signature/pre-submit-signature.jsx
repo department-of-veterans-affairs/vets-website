@@ -276,6 +276,7 @@ export const PreSubmitSignature = ({
           inputLabel="Your full name"
           inputValue={signature.value}
           inputError={inputError}
+          inputMessageAriaDescribedby={`Statement of truth: ${statementBody}`}
           checked={signature.checked}
           checkboxLabel="I certify the information above is correct and true to the best of my knowledge and belief."
           checkboxError={checkboxError}

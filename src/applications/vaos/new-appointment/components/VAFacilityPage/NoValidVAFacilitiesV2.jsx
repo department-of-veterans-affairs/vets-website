@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import FacilityPhone from '../../../components/FacilityPhone';
 import InfoAlert from '../../../components/InfoAlert';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import State from '../../../components/State';
 import { lowerCase } from '../../../utils/formatters';
+import { selectFeatureUseVpg } from '../../../redux/selectors';
 
 export default function NoValidVAFacilities({
   facilities,
@@ -15,11 +17,15 @@ export default function NoValidVAFacilities({
   // We're showing the two closest facilities if we have an address to sort by,
   // otherwise we're showing the first 5 facilities in alpha order
   const facilityLimit = address?.addressLine1 ? 2 : 5;
+  const featureUseVpg = useSelector(selectFeatureUseVpg);
   const unsupportedFacilities = facilities
     ?.filter(
       facility =>
-        !facility.legacyVAR.settings[typeOfCare.id]?.direct.enabled &&
-        !facility.legacyVAR.settings[typeOfCare.id]?.request.enabled,
+        featureUseVpg
+          ? !facility.legacyVAR.settings[typeOfCare.id]?.bookedAppointments &&
+            !facility.legacyVAR.settings[typeOfCare.id]?.apptRequests
+          : !facility.legacyVAR.settings[typeOfCare.id]?.direct.enabled &&
+            !facility.legacyVAR.settings[typeOfCare.id]?.request.enabled,
     )
     ?.slice(0, facilityLimit);
 

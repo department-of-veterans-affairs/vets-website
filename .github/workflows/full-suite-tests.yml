@@ -4,12 +4,22 @@ on:
   workflow_dispatch:
     inputs:
       run_full_unit_test_suite:
-        description: 'Run the full unit test suite'
+        description: '[REQUIRED - select at least one] Run the full unit test suite'
         required: false
         type: boolean
         default: false
       run_full_e2e_suite:
-        description: 'Run the full E2E test suite'
+        description: '[REQUIRED - select at least one] Run the full E2E test suite'
+        required: false
+        type: boolean
+        default: false
+      unit_test_app_list:
+        description: 'Unit tests only: comma-separated app folders (e.g., auth,hca). Empty = all apps. Platform always runs.'
+        required: false
+        type: string
+        default: ''
+      use_node_22:
+        description: 'Use Node 22 Docker image for E2E tests (for Node 22 upgrade verification)'
         required: false
         type: boolean
         default: false
@@ -164,6 +174,7 @@ jobs:
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       e2e_count: ${{ steps.e2e-count.outputs.count }}
+      unit_test_matrix: ${{ steps.unit-test-matrix.outputs.matrix }}
 
     steps:
       - name: Checkout
@@ -211,6 +222,28 @@ jobs:
         env:
           CHANGED_FILES: ''
 
+      - name: Generate Unit Test Matrix
+        if: ${{ inputs.run_full_unit_test_suite }}
+        id: unit-test-matrix
+        run: |
+          APP_LIST_INPUT="${{ inputs.unit_test_app_list }}"
+
+          if [[ -n "$APP_LIST_INPUT" ]]; then
+            # Use the provided list of apps
+            APP_FOLDERS=$(echo "$APP_LIST_INPUT" | tr ',' '\n' | jq -R -s -c 'split("\n") | map(select(length > 0)) | map({folder: ., type: "application"})')
+          else
+            # Get all application folders as JSON array
+            APP_FOLDERS=$(ls -d src/applications/*/ 2>/dev/null | xargs -n1 basename | jq -R -s -c 'split("\n") | map(select(length > 0)) | map({folder: ., type: "application"})')
+          fi
+
+          # Always add platform as a separate entry
+          PLATFORM_ENTRY='[{"folder": "platform", "type": "platform"}]'
+
+          # Combine into a single matrix (compact, single-line output)
+          MATRIX=$(echo "$APP_FOLDERS $PLATFORM_ENTRY" | jq -c -s 'add')
+
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+
       - name: Set output of DISALLOWED_TESTS
         if: ${{ always() }}
         id: disallowed-tests
@@ -250,7 +283,7 @@ jobs:
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
   unit-tests:
-    name: Unit Tests
+    name: Unit Tests (${{ matrix.app.folder }})
     needs: [fetch-allow-lists, tests-prep]
     if: ${{ inputs.run_full_unit_test_suite }}
     timeout-minutes: 30
@@ -258,8 +291,12 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    outputs:
-      tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
+
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        app: ${{ fromJson(needs.tests-prep.outputs.unit_test_matrix) }}
 
     env:
       DISALLOWED_TESTS: ${{ needs.tests-prep.outputs.disallowed-tests }}
@@ -314,25 +351,75 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
-      - name: Run unit tests (full suite)
+      - name: Check for tests
+        id: check-tests
+        run: |
+          if [[ "${{ matrix.app.type }}" == "platform" ]]; then
+            TEST_PATTERN="src/platform/**/*.unit.spec.js?(x)"
+          else
+            TEST_PATTERN="src/applications/${{ matrix.app.folder }}/**/*.unit.spec.js?(x)"
+          fi
+
+          TEST_COUNT=$(find . -path "./$TEST_PATTERN" -type f 2>/dev/null | wc -l || echo "0")
+
+          # Use glob to count tests more accurately
+          shopt -s globstar nullglob
+          if [[ "${{ matrix.app.type }}" == "platform" ]]; then
+            TESTS=(src/platform/**/*.unit.spec.js src/platform/**/*.unit.spec.jsx)
+          else
+            TESTS=(src/applications/${{ matrix.app.folder }}/**/*.unit.spec.js src/applications/${{ matrix.app.folder }}/**/*.unit.spec.jsx)
+          fi
+          TEST_COUNT=${#TESTS[@]}
+
+          echo "test_count=$TEST_COUNT" >> $GITHUB_OUTPUT
+          if [[ "$TEST_COUNT" -gt 0 ]]; then
+            echo "has_tests=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_tests=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run unit tests
         id: run-tests
-        run: yarn test:unit:gha --full-suite --coverage --log-level verbose
+        if: steps.check-tests.outputs.has_tests == 'true'
+        run: |
+          if [[ "${{ matrix.app.type }}" == "platform" ]]; then
+            yarn test:unit:gha --coverage --log-level verbose "src/platform/**/*.unit.spec.js?(x)"
+          else
+            yarn test:unit:gha --app-folder ${{ matrix.app.folder }} --coverage --log-level verbose
+          fi
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           IS_STRESS_TEST: false
 
+      - name: Set tests ran output
+        id: tests-ran
+        if: always()
+        run: |
+          if [[ "${{ steps.check-tests.outputs.has_tests }}" == "true" ]]; then
+            echo "tests_ran=true" >> $GITHUB_OUTPUT
+          else
+            echo "tests_ran=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Rename results file to avoid merge collisions
+        if: ${{ always() && steps.check-tests.outputs.has_tests == 'true' }}
+        run: |
+          if [[ -f "mocha/results/unit-tests.json" ]]; then
+            mv mocha/results/unit-tests.json mocha/results/unit-tests-${{ matrix.app.folder }}.json
+          fi
+
       - name: Archive unit test results
-        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
+        if: ${{ always() && steps.check-tests.outputs.has_tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-report
+          name: unit-test-report-${{ matrix.app.folder }}
           path: mocha/results
 
       - name: Upload Coverage Report Artifact
-        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
+        if: ${{ always() && steps.check-tests.outputs.has_tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-coverage
+          name: unit-test-coverage-${{ matrix.app.folder }}
           path: coverage
 
   fetch-ecr-credentials:
@@ -380,10 +467,10 @@ jobs:
       needs.tests-prep.outputs.e2e_count != '0'
 
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: ${{ inputs.use_node_22 && 'cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1' || '008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge' }}
       credentials:
-        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
-        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
+        username: ${{ inputs.use_node_22 && '' || needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ inputs.use_node_22 && '' || needs.fetch-ecr-credentials.outputs.ecr_password }}
 
     strategy:
       fail-fast: false
@@ -479,6 +566,7 @@ jobs:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+          APP_URLS: 'http://localhost:3001'
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
@@ -559,7 +647,7 @@ jobs:
       checks: write
       id-token: write
       contents: read
-    if: ${{ inputs.run_full_unit_test_suite && needs.unit-tests.outputs.tests_ran == 'true' }}
+    if: ${{ always() && inputs.run_full_unit_test_suite && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -594,8 +682,16 @@ jobs:
       - name: Download Unit Test Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-report
+          pattern: unit-test-report-*
           path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
+
+      - name: Download Unit Test Coverage
+        uses: ./.github/workflows/download-artifact
+        with:
+          pattern: unit-test-coverage-*
+          path: qa-standards-dashboard-data/coverage
+          merge-multiple: true
 
       - name: Archive unit test coverage
         if: ${{ always() }}

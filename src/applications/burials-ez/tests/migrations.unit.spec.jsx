@@ -186,4 +186,134 @@ describe('Burials migrations', () => {
       expect(formData.locationOfDeath.other).to.equal('Location');
     });
   });
+
+  context.skip('v4 migration', () => {
+    it('should migrate toursOfDuty to new service period fields when serviceBranch maps cleanly', () => {
+      const { formData, metadata } = migrations[3]({
+        formData: {
+          toursOfDuty: [
+            {
+              serviceBranch: 'Air Force',
+              dateRange: {
+                from: '2005-07-19',
+                to: '2009-04-02',
+              },
+              placeOfEntry: 'Denver, CO',
+              placeOfSeparation: 'Salt Lake City, UT',
+              // legacy fields that may exist on old objects
+              rank: 'E-4',
+              unit: 'Unit 1',
+            },
+          ],
+        },
+        metadata: {
+          returnUrl: '/some-old-url',
+        },
+      });
+
+      expect(metadata.returnUrl).to.equal(
+        '/claimant-information/relationship-to-veteran',
+      );
+
+      expect(formData).to.not.have.property('toursOfDuty');
+      expect(formData.serviceBranch).to.equal('airForce');
+      expect(formData.serviceDateRange).to.deep.equal({
+        from: '2005-07-19',
+        to: '2009-04-02',
+      });
+      expect(formData.placeOfSeparation).to.equal('Salt Lake City, UT');
+    });
+
+    it('should leave serviceBranch undefined when there is no one-to-one mapping but still migrate other fields', () => {
+      const { formData, metadata } = migrations[3]({
+        formData: {
+          toursOfDuty: [
+            {
+              serviceBranch: 'Army National Guard',
+              dateRange: {
+                from: '2010-01-01',
+                to: '2012-01-01',
+              },
+              placeOfSeparation: 'Ogden, UT',
+            },
+          ],
+        },
+        metadata: {
+          returnUrl: '/some-old-url',
+        },
+      });
+
+      expect(metadata.returnUrl).to.equal(
+        '/claimant-information/relationship-to-veteran',
+      );
+
+      expect(formData).to.not.have.property('toursOfDuty');
+      expect(formData).to.not.have.property('serviceBranch');
+      expect(formData.serviceDateRange).to.deep.equal({
+        from: '2010-01-01',
+        to: '2012-01-01',
+      });
+      expect(formData.placeOfSeparation).to.equal('Ogden, UT');
+    });
+
+    it('should use the first toursOfDuty entry when multiple exist', () => {
+      const { formData, metadata } = migrations[3]({
+        formData: {
+          toursOfDuty: [
+            {
+              serviceBranch: 'Navy',
+              dateRange: {
+                from: '2000-01-01',
+                to: '2004-01-01',
+              },
+              placeOfSeparation: 'Norfolk, VA',
+            },
+            {
+              serviceBranch: 'Army',
+              dateRange: {
+                from: '2005-01-01',
+                to: '2009-01-01',
+              },
+              placeOfSeparation: 'Fort Bragg, NC',
+            },
+          ],
+        },
+        metadata: {
+          returnUrl: '/some-old-url',
+        },
+      });
+
+      expect(metadata.returnUrl).to.equal(
+        '/claimant-information/relationship-to-veteran',
+      );
+
+      expect(formData).to.not.have.property('toursOfDuty');
+      expect(formData.serviceBranch).to.equal('navy');
+      expect(formData.serviceDateRange).to.deep.equal({
+        from: '2000-01-01',
+        to: '2004-01-01',
+      });
+      expect(formData.placeOfSeparation).to.equal('Norfolk, VA');
+    });
+
+    it('should always redirect to first page of application', () => {
+      const input = {
+        formData: {
+          claimantEmail: 'user@example.com',
+        },
+        metadata: {
+          returnUrl: '/original-url',
+        },
+      };
+
+      const { formData, metadata } = migrations[3](input);
+
+      expect(metadata.returnUrl).to.equal(
+        '/claimant-information/relationship-to-veteran',
+      );
+      expect(formData).to.deep.equal({
+        claimantEmail: 'user@example.com',
+      });
+    });
+  });
 });

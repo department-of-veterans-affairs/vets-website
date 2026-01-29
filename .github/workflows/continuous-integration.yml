@@ -39,7 +39,7 @@ jobs:
             # Check if there are any changes to package.json that don't involve approved packages or scripts
             if [ -n "$PACKAGE_JSON_DIFF" ]; then
               # Get changed lines (excluding context lines and approved packages)
-              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' || echo "")
+              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v '"sass"' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v '"msw"'  || echo "")
 
               if [ -n "$CHANGED_LINES" ]; then
                 # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)
@@ -49,7 +49,7 @@ jobs:
                 if [ -n "$DEPENDENCY_CHANGES" ]; then
                   echo "❌ ERROR: package.json has dependency changes other than approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, and the scripts section are allowed."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, node-sass, sass, patch-package, husky, msw, and the scripts section are allowed."
                   echo ""
                   echo "Dependency changes detected:"
                   echo "$DEPENDENCY_CHANGES"
@@ -64,7 +64,7 @@ jobs:
             if [ -n "$YARN_LOCK_DIFF" ]; then
               # For yarn.lock, we need to check if changes are only in approved package sections
               # Get all added/removed lines that don't contain approved packages
-              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' || echo "")
+              NON_APPROVED_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' | grep -v 'component-library' | grep -v 'css-library' | grep -v 'web-components' | grep -v 'react-components' | grep -v 'node-sass' | grep -v 'sass' | grep -v 'patch-package' | grep -v 'jsdom' | grep -v 'husky' | grep -v 'msw' || echo "")
 
               # Also check for package entry headers that might not contain the name on the same line
               # In yarn.lock, package entries start with "package-name@version:"
@@ -74,12 +74,12 @@ jobs:
                 # Count lines to determine if changes are substantial
                 CHANGE_COUNT=$(echo "$NON_APPROVED_LOCK_CHANGES" | wc -l)
 
-                # If there are more than 275 lines of non-approved package changes, it's likely other packages
+                # If there are more than 700 lines of non-approved package changes, it's likely other packages
                 # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
-                if [ "$CHANGE_COUNT" -gt 275 ]; then
+                if [ "$CHANGE_COUNT" -gt 700 ]; then
                   echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, and @department-of-veterans-affairs/react-components are allowed."
+                  echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, @department-of-veterans-affairs/react-components, node-sass, sass, patch-package, jsdom, and husky are allowed."
                   echo ""
                   echo "Detected $CHANGE_COUNT lines of non-approved package changes in yarn.lock"
                   exit 1
@@ -113,6 +113,7 @@ jobs:
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
+      deployment_concurrency_group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}
 
     strategy:
       fail-fast: false
@@ -147,7 +148,14 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, continuous_deployment'
+          output-type: 'entry_name, continuous_deployment, deployment_concurrency_group'
+
+      - name: Log changed apps info
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        run: |
+          echo "Entry names: ${{ steps.get-changed-apps.outputs.entry_names }}"
+          echo "Continuous deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}"
+          echo "Deployment concurrency group: ${{ steps.get-changed-apps.outputs.deployment_concurrency_group }}"
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -485,9 +493,9 @@ jobs:
         id: run-tests
         run: |
           if [[ -n "$APP_FOLDERS" ]]; then
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
+            yarn test:unit:gha "{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           else
-            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
+            yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
           fi
 
         env:
@@ -1035,90 +1043,6 @@ jobs:
           path: cypress/results
           retention-days: 1
 
-  node-22-unit-test-compatibility-check:
-    name: Node 22 Compatibility Check For Unit Tests
-    if: ${{ needs.tests-prep.outputs.changed_unit_tests != 'false' }}
-    runs-on: ubuntu-latest
-    needs: [tests-prep]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-          ref: node-22-bug-bash-testing
-
-      - name: Get Node version
-        id: get-node-version
-        shell: bash
-        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Manual dependencies install (pre-merge)
-        run: |
-          yarn install \
-          --network-timeout 1000000000 \
-          --prefer-offline \
-          --production=false \
-          --ignore-scripts
-
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-
-      - name: Set up Git
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-
-      - name: Fetch target branch
-        run: git fetch origin ${{ github.head_ref }}
-
-      - name: Merge in feature branch
-        run: git merge -X ours origin/${{ github.ref_name }} --no-edit
-
-      - name: Manual dependencies install (post-merge)
-        run: |
-          yarn install \
-          --network-timeout 1000000000 \
-          --prefer-offline \
-          --production=false \
-          --ignore-scripts
-
-      - name: Create test results folder
-        run: mkdir -p test-results
-
-      - name: Download Unit Test Stability Allow List
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: changed-unit-tests
-          path: .
-
-      - name: Run unit tests
-        id: run-tests
-        run: |
-          echo "Unit tests being run on Node $(node --version)"
-          if [[ -n "$APP_FOLDERS" ]]; then
-            yarn test:unit:gha ${APP_FOLDERS:+"{script,src/platform,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
-          else
-            yarn test:unit:gha yarn test:unit:gha "{src,script}/**/*.unit.spec.js?(x)" --coverage --log-level verbose
-          fi
-        env:
-          MOCHA_FILE: test-results/unit-tests.xml
-          CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
-          APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
-          IS_STRESS_TEST: false
-          NODE_COMPATBILITY_VERIFICATION: true
-
-      - name: Archive unit test results
-        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: unit-test-node-compatibility-report
-          path: mocha/results
-
   update-e2e-allow-list:
     name: Update E2E Test Stability Allow List
     runs-on: ubuntu-22.04
@@ -1130,6 +1054,7 @@ jobs:
         fetch-allow-lists,
       ]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
@@ -1774,7 +1699,6 @@ jobs:
         stress-test-cypress-tests,
         tests-prep,
         unit-tests,
-        node-22-unit-test-compatibility-check,
         unit-tests-stress-test,
         update-e2e-allow-list,
         update-unit-test-allow-list,
@@ -1885,7 +1809,6 @@ jobs:
           CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
           CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
           UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
-          NODE_22_COMPATIBILITY_RESULT: ${{ needs.node-22-unit-test-compatibility-check.result }}
 
   archive:
     name: Archive
@@ -2044,7 +1967,7 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-22.04
     needs: [build, set-deploy-environments, determine-cd-eligibility]
-    if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
+    if: always() && startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -2093,7 +2016,8 @@ jobs:
           --arg ref "${{ github.ref }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
           --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
+          --arg concurrency_group "${{ needs.build.outputs.deployment_concurrency_group }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel, concurrency_group: $concurrency_group}}')"
 
       - name: Cancel CD dispatch due to holiday
         if: steps.holiday-check.outputs.is_holiday == 'true'

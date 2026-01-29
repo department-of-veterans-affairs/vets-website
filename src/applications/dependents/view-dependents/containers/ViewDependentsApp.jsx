@@ -50,11 +50,13 @@ const ViewDependentsApp = ({
 }) => {
   useEffect(
     () => {
-      fetchAllDependents();
-      fetchRatingInfo();
+      if (isLoggedIn) {
+        fetchAllDependents();
+        fetchRatingInfo();
+      }
       document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
     },
-    [fetchAllDependents, fetchRatingInfo],
+    [fetchAllDependents, fetchRatingInfo, isLoggedIn],
   );
 
   // Add Datadog monitoring to the application
@@ -120,7 +122,10 @@ const ViewDependentsApp = ({
 
 const mapStateToProps = state => ({
   user: state.user,
-  loading: state.allDependents.loading || state.ratingValue.loading,
+  loading:
+    state.allDependents.loading ||
+    state.ratingValue.loading ||
+    state.featureToggles?.loading,
   error: state.allDependents.error || state.ratingValue.error,
   isLoggedIn: state.user?.login?.currentlyLoggedIn,
   manageDependentsToggle: toggleValues(state)[

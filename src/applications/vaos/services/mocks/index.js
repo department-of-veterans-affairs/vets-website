@@ -19,8 +19,9 @@ const { getMockSlots } = require('./utils/slots');
 // v2
 const ccProviders = require('./v2/cc_providers.json');
 const facilitiesV2 = require('./v2/facilities.json');
-const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
-const schedulingConfigurations = require('./v2/scheduling_configurations.json');
+// const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
+// const schedulingConfigurations = require('./v2/scheduling_configurations.json');
+
 // Generate dynamic slots with conflicts based on confirmed appointments
 const mockConfirmedAppointments = getMockConfirmedAppointments();
 // Find appointments scheduled for the next business day to force conflicts
@@ -60,6 +61,8 @@ const appointmentSlotsV2 = getMockSlots({
 const clinics983V2 = require('./v2/clinics_983.json');
 const clinics984V2 = require('./v2/clinics_984.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
+// Comment out line above and uncomment line below to test relationship endpoint error states
+// const patientProviderRelationships = require('./v2/patient_provider_relationships_errors.json');
 const recentLocations = require('./v2/recent_locations.json');
 const vamcEhr = require('./v2/vamc_ehr.json');
 
@@ -71,9 +74,7 @@ const requestsV2 = require('./v2/requests.json');
 
 // Oracle Health appointment requests
 const requestsOh = require('./v2/requests_oh.json');
-
-// Uncomment to produce backend service errors
-// const meta = require('./v2/meta_failures.json');
+const schedulingConfigurationsVPG = require('./v2/scheduling_configurations_vpg.json');
 
 const appointmentRequests = {
   data: requestsV2.data.concat(requestsOh.data),
@@ -88,11 +89,15 @@ const MockReferralSubmitAppointmentResponse = require('../../tests/fixtures/Mock
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
+// Uncomment to produce backend service errors
+// const meta = require('./v2/meta_failures.json');
+
 const features = require('./featureFlags');
 const {
   // defaultUser,
   // acceleratedCernerUser,
   cernerUser,
+  // transitioningUser,
 } = require('../../../../platform/mhv/api/mocks/user');
 
 const mockAppts = [];
@@ -322,10 +327,14 @@ const responses = {
   },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
     if (req.query.cc_enabled === 'true') {
-      return res.json(schedulingConfigurationsCC);
+      // Return VPG scheduling configurations
+      return res.json(schedulingConfigurationsVPG);
+      // return res.json(schedulingConfigurationsCC);
     }
 
-    return res.json(schedulingConfigurations);
+    // Return VPG scheduling configurations
+    return res.json(schedulingConfigurationsVPG);
+    // return res.json(schedulingConfigurations);
   },
   'GET /vaos/v2/community_care/eligibility/:id': (req, res) => {
     return res.json({
@@ -652,6 +661,7 @@ const responses = {
     return res.json(vamcEhr);
   },
   // Required v0 APIs
+  // 'GET /v0/user': transitioningUser, // use this user to test migration alerts
   'GET /v0/user': {
     data: {
       attributes: {

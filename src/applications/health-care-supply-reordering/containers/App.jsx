@@ -41,14 +41,7 @@ class App extends Component {
       datadogRum.startSessionReplayRecording();
     }
 
-    const {
-      location,
-      children,
-      isError,
-      pending,
-      isLoggedIn,
-      featureToggles,
-    } = this.props;
+    const { location, children, isError, pending, featureToggles } = this.props;
     const showMainContent = !pending && !isError && !featureToggles.loading;
     const isMhvSupplyReorderingEnabled =
       featureToggles[FEATURE_FLAG_NAMES.mhvSupplyReorderingEnabled];
@@ -85,8 +78,7 @@ class App extends Component {
           </va-loading-indicator>
         )}
         {isError &&
-          !pending &&
-          isLoggedIn && (
+          !pending && (
             <div className="row vads-u-margin-bottom--3">
               <ErrorMessage />
             </div>
@@ -107,12 +99,10 @@ App.propTypes = {
   featureToggles: PropTypes.object,
   fetchFormStatus: PropTypes.func,
   isError: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
   pending: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.mdot.isError,
   pending: state.mdot.pending,
   featureToggles: state.featureToggles,

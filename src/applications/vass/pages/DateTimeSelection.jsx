@@ -1,59 +1,42 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { focusElement } from 'platform/utilities/ui/focus';
+import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
+
 import Wrapper from '../layout/Wrapper';
-import { usePersistentSelections } from '../hooks/usePersistentSelections';
 import {
   setSelectedDate,
   selectSelectedDate,
   selectUuid,
 } from '../redux/slices/formSlice';
 import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
-
-// TODO: make this component a shared component
-import CalendarWidget from '../components/calendar/CalendarWidget';
+import { useErrorFocus } from '../hooks/useErrorFocus';
 import { mapAppointmentAvailabilityToSlots } from '../utils/slots';
-import { getTimezoneDescByTimeZoneString } from '../utils/timezone';
+import {
+  getTimezoneDescByTimeZoneString,
+  getBrowserTimezone,
+} from '../utils/timezone';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
   const selectedDate = useSelector(selectSelectedDate);
   const uuid = useSelector(selectUuid);
   const navigate = useNavigate();
-  const { saveDateSelection } = usePersistentSelections(uuid);
   const {
     data: appointmentAvailability,
     isLoading: loading,
-  } = useGetAppointmentAvailabilityQuery();
+  } = useGetAppointmentAvailabilityQuery(uuid);
+  const [{ error, handleSetError }] = useErrorFocus([
+    '.vaos-calendar__validation-msg',
+  ]);
 
-  // TODO: determine what timezone to use
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const saveDate = useCallback(
-    date => {
-      saveDateSelection(date);
-      dispatch(setSelectedDate(date));
-    },
-    [saveDateSelection, dispatch],
-  );
+  const timezone = getBrowserTimezone();
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
-
-  // Add a counter state to trigger focusing
-  const [focusTrigger, setFocusTrigger] = useState(0);
-
-  // State for managing errors
-  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
-
-  // Check if a date/time has been selected
-  const showValidationError = hasAttemptedSubmit && !selectedDate;
 
   // This is for loading not sure if we will need it
   const disabledMessage = null;
 
-  const errorMessage = showValidationError
-    ? 'Please select a preferred date and time for your appointment.'
-    : '';
   const latestAvailableSlot = new Date(slots[slots.length - 1]?.end);
 
   const onChange = selectedDateTimes => {
@@ -65,38 +48,23 @@ const DateTimeSelection = () => {
       return;
     }
     // Update selected dates and clear any previous error state
-    saveDate(selectedSlotTime);
-    setHasAttemptedSubmit(false);
+    dispatch(setSelectedDate(selectedSlotTime));
+    handleSetError('');
   };
 
   const handleContinue = () => {
     if (!selectedDate) {
-      // Set error state if no date/time is selected
-      setHasAttemptedSubmit(true);
-      // Increment the focus trigger to force re-focusing the validation message
-      setFocusTrigger(prev => prev + 1);
+      handleSetError(
+        'Please select a preferred date and time for your appointment.',
+      );
       return;
     }
-    // Save date selection and proceed to next page if validation passes
     navigate('/topic-selection');
   };
 
-  // Effect to focus on validation message whenever error state changes
-  useEffect(
-    () => {
-      if (showValidationError) {
-        // Focus on the error message when validation error is shown
-        setTimeout(() => {
-          focusElement('.vaos-calendar__validation-msg');
-        }, 100);
-      }
-    },
-    [showValidationError, focusTrigger],
-  );
-
   return (
     <Wrapper
-      pageTitle="What date and time do you want for this appointment?"
+      pageTitle="When do you want to schedule your appointment?"
       classNames="vads-u-margin-top--4"
       testID="date-time-selection"
       required
@@ -109,8 +77,8 @@ const DateTimeSelection = () => {
           times are displayed in {getTimezoneDescByTimeZoneString(timezone)}.
         </p>
         <p>
-          <strong>Note:</strong> Available dates are shown for the next 2 weeks,
-          and weekends are unavailable.
+          <strong>Note:</strong> You can schedule a appointment on a week day
+          within the next 2 weeks.
         </p>
       </div>
 
@@ -130,9 +98,9 @@ const DateTimeSelection = () => {
         minDate={new Date()}
         maxDate={latestAvailableSlot}
         required
-        requiredMessage={errorMessage}
+        requiredMessage={error}
         startMonth={new Date()}
-        showValidation={showValidationError}
+        showValidation={!!error}
         showWeekends
         overrideMaxDays
       />

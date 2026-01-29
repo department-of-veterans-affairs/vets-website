@@ -21,7 +21,7 @@ const PAGE_DESCRIPTION = (
       <h3 slot="headline">What you can upload</h3>
       <ul className="vads-u-margin-top--1">
         <li>Medical records and treatment history</li>
-        <li>Doctor's statements or reports</li>
+        <li>Doctor’s statements or reports</li>
         <li>Employment records or termination letters</li>
         <li>Disability retirement documentation</li>
         <li>Any other evidence that supports your claim</li>

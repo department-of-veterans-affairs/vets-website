@@ -5,10 +5,11 @@ import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 import FormFooter from '../components/FormFooter';
+import prefillTransformer from './prefillTransformer';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
-import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import migrations from './migrations';
 import { blankSchema } from '../definitions';
@@ -43,11 +44,10 @@ import { healthInsuranceRev2025Pages } from '../chapters/healthInsurance';
 import benefitStatus from '../chapters/signerInformation/benefitStatus';
 import certifierEmail from '../chapters/signerInformation/certifierEmail';
 import certifierRole from '../chapters/signerInformation/certifierRole';
-import CustomAttestation from '../components/CustomAttestation';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import { FEATURE_TOGGLES } from '../hooks/useDefaultFormData';
 
-//  import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 // (First Name Posessive);
 function fnp(formData) {
@@ -74,13 +74,14 @@ const formConfig = {
     disableWindowUnloadInCI: true,
     showNavLinks: false,
   },
+  formOptions: {
+    useWebComponentForNavigation: true,
+    filterInactiveNestedPageData: true,
+  },
   downtime: {
     dependencies: [externalServices.pega, externalServices.form107959c],
   },
-  preSubmitInfo: {
-    required: true,
-    CustomComponent: CustomAttestation,
-  },
+  preSubmitInfo: PreSubmitInfo,
   customText: {
     appType: 'form',
     continueAppButtonText: 'Continue your form',
