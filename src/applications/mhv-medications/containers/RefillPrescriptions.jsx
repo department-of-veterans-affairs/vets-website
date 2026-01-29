@@ -54,7 +54,9 @@ const RefillPrescriptions = () => {
   const [
     bulkRefillPrescriptions,
     result,
-  ] = useBulkRefillPrescriptionsMutation();
+  ] = useBulkRefillPrescriptionsMutation({
+    fixedCacheKey: 'bulk-refill-request',
+  });
   const { isLoading: isRefilling, error: bulkRefillError } = result;
 
   const refillAlertList = refillableData?.refillAlertList || [];

@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, fireEvent } from '@testing-library/react';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
@@ -785,6 +785,85 @@ describe('Refill Prescriptions Component', () => {
         expect(button).to.not.exist;
         expect(checkboxGroup).to.not.exist;
       });
+    });
+
+    it('prevents duplicate refill attempts when isRefilling is true', async () => {
+      sandbox.restore();
+
+      const mockBulkRefill = sinon.stub().resolves({
+        data: { successfulIds: [22377956], failedIds: [] },
+      });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [refillablePrescriptions[0]],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // First call: normal state
+      const mutationStub = sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([mockBulkRefill, { isLoading: false, error: null }]);
+
+      stubAllergiesApi({ sandbox });
+      const screen = setup();
+
+      // Select a prescription
+      const checkbox = await screen.findByTestId(
+        'refill-prescription-checkbox-0',
+      );
+      fireEvent.click(checkbox);
+
+      // Now simulate isRefilling = true for subsequent calls
+      mutationStub.returns([
+        mockBulkRefill,
+        { isLoading: true, error: null }, // isRefilling = true
+      ]);
+
+      // Try to submit refill - should be prevented by isRefilling check
+      const refillButton = screen.getByTestId('request-refill-button');
+
+      // The button should be disabled when isRefilling is true
+      await waitFor(() => {
+        expect(refillButton).to.have.attribute('disabled');
+      });
+    });
+
+    it('uses fixedCacheKey for cross-tab mutation deduplication', () => {
+      sandbox.restore();
+
+      const mockMutation = sinon
+        .stub()
+        .returns([sinon.stub(), { isLoading: false, error: null }]);
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .callsFake(options => {
+          // Verify that fixedCacheKey is being used
+          expect(options).to.have.property(
+            'fixedCacheKey',
+            'bulk-refill-request',
+          );
+          return mockMutation();
+        });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: { prescriptions: [], meta: {} },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      stubAllergiesApi({ sandbox });
+      setup();
     });
   });
 });

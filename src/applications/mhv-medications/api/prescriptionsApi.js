@@ -262,6 +262,9 @@ export const prescriptionsApi = createApi({
     getRefillablePrescriptions: builder.query({
       query: buildRefillablePrescriptionsQuery,
       providesTags: ['Prescription'],
+      // Refetch when tab regains focus to sync state across multiple tabs
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
       transformResponse: transformRefillablePrescriptionsResponse,
     }),
     getPrescriptionDocumentation: builder.query({
