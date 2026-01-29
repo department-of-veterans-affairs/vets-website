@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { labTypes } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
 
 const RadiologyListItem = props => {
@@ -35,20 +36,10 @@ const RadiologyListItem = props => {
         </div>
 
         {/* ordered by */}
-        {record.orderedBy && (
+        {(record.type === labTypes.RADIOLOGY ||
+          record.type === labTypes.CVIX_RADIOLOGY) && (
           <div data-dd-privacy="mask" data-dd-action-name>
             {`Ordered by ${record.orderedBy}`}
-          </div>
-        )}
-
-        {/* image count indicator */}
-        {record.imageCount > 0 && (
-          <div className="vads-u-margin-top--1 vads-u-color--secondary-dark">
-            <va-icon icon="image" size={3} aria-hidden="true" />
-            <span className="vads-u-margin-left--0p5">
-              {record.imageCount} {record.imageCount === 1 ? 'image' : 'images'}{' '}
-              available
-            </span>
           </div>
         )}
       </div>
@@ -64,7 +55,5 @@ RadiologyListItem.propTypes = {
     date: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     orderedBy: PropTypes.string,
-    imageCount: PropTypes.number,
-    studyId: PropTypes.string,
   }).isRequired,
 };

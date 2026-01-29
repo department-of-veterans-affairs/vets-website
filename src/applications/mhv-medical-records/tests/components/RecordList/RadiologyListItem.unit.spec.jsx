@@ -16,8 +16,6 @@ describe('RadiologyListItem', () => {
     date: 'January 6, 2004',
     type: labTypes.RADIOLOGY,
     orderedBy: 'DOE,JANE',
-    imageCount: 0,
-    studyId: '994-5621490',
   };
 
   const cvixRecord = {
@@ -26,8 +24,6 @@ describe('RadiologyListItem', () => {
     date: 'January 26, 2011',
     type: labTypes.CVIX_RADIOLOGY,
     orderedBy: 'PHYSLAST,JANE B',
-    imageCount: 213,
-    studyId: '451-72913365',
   };
 
   it('renders radiology name as a link', () => {
@@ -52,41 +48,25 @@ describe('RadiologyListItem', () => {
     expect(srText.textContent).to.equal('on January 6, 2004');
   });
 
-  it('displays ordered by when present', () => {
+  it('displays ordered by for RADIOLOGY type', () => {
     const screen = renderWithRouter(<RadiologyListItem record={mhvRecord} />);
 
     expect(screen.getByText('Ordered by DOE,JANE')).to.exist;
   });
 
-  it('does not display ordered by when not present', () => {
-    const recordWithoutOrderedBy = { ...mhvRecord, orderedBy: undefined };
+  it('displays ordered by for CVIX_RADIOLOGY type', () => {
+    const screen = renderWithRouter(<RadiologyListItem record={cvixRecord} />);
+
+    expect(screen.getByText('Ordered by PHYSLAST,JANE B')).to.exist;
+  });
+
+  it('does not display ordered by for other record types', () => {
+    const otherTypeRecord = { ...mhvRecord, type: 'OTHER', orderedBy: 'SMITH' };
     const screen = renderWithRouter(
-      <RadiologyListItem record={recordWithoutOrderedBy} />,
+      <RadiologyListItem record={otherTypeRecord} />,
     );
 
     expect(screen.queryByText(/Ordered by/)).to.not.exist;
-  });
-
-  it('displays image count when images are available', () => {
-    const screen = renderWithRouter(<RadiologyListItem record={cvixRecord} />);
-
-    expect(screen.getByText('213 images available')).to.exist;
-  });
-
-  it('displays singular "image" when count is 1', () => {
-    const recordWithOneImage = { ...cvixRecord, imageCount: 1 };
-    const screen = renderWithRouter(
-      <RadiologyListItem record={recordWithOneImage} />,
-    );
-
-    expect(screen.getByText('1 image available')).to.exist;
-  });
-
-  it('does not display image count when zero', () => {
-    const screen = renderWithRouter(<RadiologyListItem record={mhvRecord} />);
-
-    expect(screen.queryByText(/images available/)).to.not.exist;
-    expect(screen.queryByText(/image available/)).to.not.exist;
   });
 
   it('handles minimal record data', () => {
