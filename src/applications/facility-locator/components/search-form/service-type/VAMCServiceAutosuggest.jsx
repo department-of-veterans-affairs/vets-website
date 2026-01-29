@@ -145,28 +145,31 @@ const VAMCServiceAutosuggest = ({
     }
   };
 
-  useEffect(() => {
-    if (!isMobile) return undefined;
-    const servicesTypeInput = document.getElementById('vamc-services');
-    if (!servicesTypeInput) return undefined;
-    
-    const handleFocus = () => {
-      const servicesTypeContainer = document.getElementById(
-        'vamc-services-autosuggest-container',
-      );
-      if (!servicesTypeContainer) return;
-      
-      setTimeout(() => {
-        servicesTypeContainer.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }, 300);
-    };
-    
-    servicesTypeInput.addEventListener('focus', handleFocus);
-    return () => servicesTypeInput.removeEventListener('focus', handleFocus);
-  }, [isMobile]);
+  useEffect(
+    () => {
+      if (!isMobile) return undefined;
+      const servicesTypeInput = document.getElementById('vamc-services');
+      if (!servicesTypeInput) return undefined;
+
+      const handleFocus = () => {
+        const servicesTypeContainer = document.getElementById(
+          'vamc-services-autosuggest-container',
+        );
+        if (!servicesTypeContainer) return;
+
+        setTimeout(() => {
+          servicesTypeContainer.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }, 300);
+      };
+
+      servicesTypeInput.addEventListener('focus', handleFocus);
+      return () => servicesTypeInput.removeEventListener('focus', handleFocus);
+    },
+    [isMobile],
+  );
   return (
     <Autosuggest
       downshiftInputProps={{
