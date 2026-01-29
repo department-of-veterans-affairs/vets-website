@@ -10,14 +10,14 @@ const CONFIG = {
   site: 'ddog-gov.com',
   service: 'my-va',
   sessionSampleRate: 100,
-  sessionReplaySampleRate: 5,
+  sessionReplaySampleRate: 1,
   trackBfcacheViews: true,
+  trackUserInteractions: true,
   defaultPrivacyLevel: 'mask-user-input',
 };
 
 const initializeRealUserMonitoring = () => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
-  // We only want this in staging/production typically.
   if (environment.isLocalhost()) {
     return false;
   }
