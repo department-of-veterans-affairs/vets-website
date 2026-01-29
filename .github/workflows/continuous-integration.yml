@@ -1054,6 +1054,7 @@ jobs:
         fetch-allow-lists,
       ]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
