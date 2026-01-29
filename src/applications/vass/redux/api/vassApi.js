@@ -1,16 +1,14 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import {
-  setObfuscatedEmail,
-  setToken,
-  setLowAuthFormData,
-} from '../slices/formSlice';
+import { setObfuscatedEmail, setLowAuthFormData } from '../slices/formSlice';
+import { setVassToken, getVassToken } from '../../utils/auth';
 
 const api = async (url, options, ...rest) => {
   return apiRequest(`${environment.API_URL}${url}`, options, ...rest);
 };
 
+// TODO if token is not found reject the requets
 export const vassApi = createApi({
   reducerPath: 'vassApi',
   baseQuery: () => ({ data: null }),
@@ -68,11 +66,11 @@ export const vassApi = createApi({
           };
         }
       },
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           if (data?.token) {
-            dispatch(setToken(data.token));
+            setVassToken(data.token);
           }
         } catch {
           // Error is handled by the queryFn
@@ -80,9 +78,9 @@ export const vassApi = createApi({
       },
     }),
     postAppointment: builder.mutation({
-      async queryFn({ topics, dtStartUtc, dtEndUtc }, { getState }) {
+      async queryFn({ topics, dtStartUtc, dtEndUtc }) {
         try {
-          const { token } = getState().vassForm;
+          const token = getVassToken();
           return await api('/vass/v0/appointment', {
             method: 'POST',
             headers: {
@@ -105,9 +103,9 @@ export const vassApi = createApi({
       },
     }),
     getAppointment: builder.query({
-      async queryFn({ appointmentId }, { getState }) {
+      async queryFn({ appointmentId }) {
         try {
-          const { token } = getState().vassForm;
+          const token = getVassToken();
           return await api(`/vass/v0/appointment/${appointmentId}`, {
             method: 'GET',
             headers: {
@@ -125,9 +123,9 @@ export const vassApi = createApi({
       },
     }),
     getTopics: builder.query({
-      async queryFn(arg, { getState }) {
+      async queryFn() {
         try {
-          const { token } = getState().vassForm;
+          const token = getVassToken();
           return await api('/vass/v0/topics', {
             method: 'GET',
             headers: {
@@ -145,9 +143,9 @@ export const vassApi = createApi({
       },
     }),
     getAppointmentAvailability: builder.query({
-      async queryFn(arg, { getState }) {
+      async queryFn() {
         try {
-          const { token } = getState().vassForm;
+          const token = getVassToken();
           return await api('/vass/v0/appointment-availablity', {
             method: 'GET',
             headers: {
@@ -157,6 +155,26 @@ export const vassApi = createApi({
           });
         } catch (error) {
           // captureError(error, false, 'get appointment availability');
+          // TODO: do something with error
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
+      },
+    }),
+    cancelAppointment: builder.mutation({
+      async queryFn({ appointmentId }) {
+        try {
+          const token = getVassToken();
+          return await api(`/vass/v0/appointment/${appointmentId}/cancel`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } catch (error) {
+          // captureError(error, false, 'cancel appointment');
           // TODO: do something with error
           return {
             error: { status: error.status || 500, message: error?.message },
@@ -174,4 +192,5 @@ export const {
   useGetAppointmentQuery,
   useGetTopicsQuery,
   useGetAppointmentAvailabilityQuery,
+  useCancelAppointmentMutation,
 } = vassApi;

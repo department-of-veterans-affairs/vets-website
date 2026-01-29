@@ -31,6 +31,7 @@ const ServiceType = ({
   if (facilityType === LocationType.HEALTH && vamcAutoSuggestEnabled) {
     return (
       <VAMCServiceAutosuggest
+        isMobile={isMobile}
         onChange={onChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
@@ -80,6 +81,7 @@ const ServiceType = ({
               data-testid="cc-service-typeahead-pd"
             >
               <CCServiceTypeAhead
+                getProviderSpecialties={getProviderSpecialties}
                 handleServiceTypeChange={handleServiceTypeChange}
                 initialSelectedServiceType={serviceType}
                 isSmallDesktop={isSmallDesktop}
