@@ -14,7 +14,7 @@ import {
   TITLE,
   SUBTITLE,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
-import IdNotVerifiedAlert from '../../../../simple-forms/shared/components/IdNotVerified';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 
 /** @constant {number} OMB_RES_BURDEN - Estimated burden in minutes */
 const OMB_RES_BURDEN = 30;
@@ -150,7 +150,7 @@ export const IntroductionPage = ({ route }) => {
       </div>
 
       {showVerifyIdentity ? (
-        <IdNotVerifiedAlert formType="application" formNumber="21-2680" />
+        <VerifyAlert headingLevel={3} dataTestId="verifyIdAlert" />
       ) : (
         <SaveInProgressIntro
           headingLevel={2}
