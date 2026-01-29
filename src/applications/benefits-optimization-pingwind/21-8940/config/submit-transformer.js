@@ -272,6 +272,31 @@ const formatDisabilitiesList = value => {
   return truncateString(entries.join(', '), MAX_LENGTHS.disabilities);
 };
 
+const formatRelatedDisabilities = value => {
+  if (typeof value === 'string') {
+    const trimmed = stringOrUndefined(value);
+    return trimmed ? [trimmed] : undefined;
+  }
+
+  const entries = toArray(value)
+    .map(item => {
+      if (typeof item === 'string') {
+        return stringOrUndefined(item);
+      }
+
+      if (item && typeof item === 'object') {
+        return stringOrUndefined(
+          item.relatedDisability || item.disability || item.value,
+        );
+      }
+
+      return undefined;
+    })
+    .filter(Boolean);
+
+  return entries.length ? entries : undefined;
+};
+
 const toInteger = value => {
   if (typeof value === 'number' && Number.isFinite(value)) {
     return value;
@@ -297,6 +322,33 @@ const normalizeYear = value => {
 
 const toBoolean = value => (typeof value === 'boolean' ? value : undefined);
 
+const toVaNetworkFlag = value => {
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  const normalized = stringOrUndefined(value);
+  if (!normalized) {
+    return undefined;
+  }
+
+  const lower = normalized.toLowerCase();
+  if (lower === 'va') {
+    return true;
+  }
+
+  if (
+    lower === 'nonva' ||
+    lower === 'non-va' ||
+    lower === 'non va' ||
+    lower === 'non_va'
+  ) {
+    return false;
+  }
+
+  return undefined;
+};
+
 const ensureDateRange = (value, startKey = 'from', endKey = 'to') => {
   if (!value || typeof value !== 'object') {
     return undefined;
@@ -321,49 +373,47 @@ const ensureDateRange = (value, startKey = 'from', endKey = 'to') => {
   };
 };
 
-const aggregateDateRanges = (items, startKey, endKey) => {
+const toDateRangeArray = (
+  items,
+  startKey = 'startDate',
+  endKey = 'endDate',
+) => {
   const ranges = toArray(items)
     .map(item => ensureDateRange(item, startKey, endKey))
     .filter(Boolean);
 
-  if (!ranges.length) {
-    return undefined;
-  }
-
-  const fromValues = ranges
-    .map(range => range.from)
-    .filter(Boolean)
-    .sort();
-  const toValues = ranges
-    .map(range => range.to)
-    .filter(Boolean)
-    .sort();
-
-  const from = fromValues.length ? fromValues[0] : toValues[0];
-  const to = toValues.length ? toValues[toValues.length - 1] : from;
-
-  if (!from && !to) {
-    return undefined;
-  }
-
-  return {
-    from,
-    to,
-  };
+  return ranges.length ? ranges : undefined;
 };
 
-const buildDelimitedList = (items, formatter, maxLength) => {
-  const values = toArray(items)
-    .map(formatter)
-    .filter(Boolean);
+const buildDoctorsCare = doctors =>
+  pruneEmpty(
+    toArray(doctors).map(entry =>
+      pruneEmpty({
+        doctorsTreatmentDates: toDateRangeArray(entry?.treatmentDates),
+        nameAndAddressOfDoctor: truncateString(
+          formatNameAndAddress(entry?.doctorName, entry?.doctorAddress),
+          MAX_LENGTHS.doctorAddresses,
+        ),
+        inVANetwork: toVaNetworkFlag(entry?.doctorType),
+        relatedDisability: formatRelatedDisabilities(entry?.relatedDisability),
+      }),
+    ),
+  );
 
-  if (!values.length) {
-    return undefined;
-  }
-
-  const combined = values.join('; ');
-  return maxLength ? truncateString(combined, maxLength) : combined;
-};
+const buildHospitalsCare = hospitals =>
+  pruneEmpty(
+    toArray(hospitals).map(entry =>
+      pruneEmpty({
+        hospitalTreatmentDates: toDateRangeArray(entry?.treatmentDates),
+        nameAndAddressOfHospital: truncateString(
+          formatNameAndAddress(entry?.hospitalName, entry?.hospitalAddress),
+          MAX_LENGTHS.hospitalAddresses,
+        ),
+        inVANetwork: toVaNetworkFlag(entry?.hospitalType),
+        relatedDisability: formatRelatedDisabilities(entry?.relatedDisability),
+      }),
+    ),
+  );
 
 const buildVeteranFullName = fullName => {
   if (!fullName || typeof fullName !== 'object') {
@@ -463,7 +513,15 @@ const mapEducation = data => {
 };
 
 const buildTrainingSection = (entries, rangePropName) => {
-  const entryList = toArray(entries);
+  let normalizedEntries = entries;
+
+  if (Array.isArray(entries)) {
+    normalizedEntries = entries;
+  } else if (entries && typeof entries === 'object') {
+    normalizedEntries = [entries];
+  }
+
+  const entryList = toArray(normalizedEntries);
   if (!entryList.length) {
     return { hasTraining: false, details: undefined };
   }
@@ -495,7 +553,8 @@ const buildSubmissionPayload = data => {
     return entryDates.length ? accumulator.concat(entryDates) : accumulator;
   }, []);
   const hospitals = toArray(data?.hospitals);
-  const hospitalDates = toArray(data?.treatmentDates);
+  const doctorsCare = buildDoctorsCare(doctors);
+  const hospitalsCare = buildHospitalsCare(hospitals);
 
   const previousEmployers = mapPreviousEmployers(data?.employersHistory);
   const appliedEmployers = mapAppliedEmployers(
@@ -511,29 +570,6 @@ const buildSubmissionPayload = data => {
   const postTraining = buildTrainingSection(
     data?.educationAfterDisability,
     'datesOfTraining',
-  );
-
-  const doctorNameAddresses = buildDelimitedList(
-    doctors,
-    item => formatNameAndAddress(item?.doctorName, item?.doctorAddress),
-    MAX_LENGTHS.doctorAddresses,
-  );
-
-  const hospitalNameAddresses = buildDelimitedList(
-    hospitals,
-    item => formatNameAndAddress(item?.hospitalName, item?.hospitalAddress),
-    MAX_LENGTHS.hospitalAddresses,
-  );
-
-  const doctorTreatmentRange = aggregateDateRanges(
-    doctorDates,
-    'startDate',
-    'endDate',
-  );
-  const hospitalTreatmentRange = aggregateDateRanges(
-    hospitalDates,
-    'startDate',
-    'endDate',
   );
 
   const doctorCareAnswer = toBoolean(
@@ -589,15 +625,11 @@ const buildSubmissionPayload = data => {
     electronicCorrespondance: Boolean(stringOrUndefined(veteran.email)),
     email: stringOrUndefined(veteran.email),
     veteranPhone: formatPhoneNumber(veteran.homePhone),
-    internationalPhone:
-      formatPhoneNumber(veteran.alternatePhone) ||
-      formatPhoneNumber(veteran.internationalPhone),
+    internationalPhone: formatPhoneNumber(veteran.alternatePhone),
     listOfDisabilities: formatDisabilitiesList(data?.disabilityDescription),
     doctorsCareInLastYTD,
-    doctorsTreatmentDates: doctorTreatmentRange,
-    nameAndAddressesOfDoctors: doctorNameAddresses,
-    nameAndAddressesOfHospitals: hospitalNameAddresses,
-    hospitalCareDateRanges: hospitalTreatmentRange,
+    doctorsCare,
+    hospitalsCare,
     disabilityAffectEmployFTDate: stringOrUndefined(data?.disabilityDate),
     lastWorkedFullTimeDate: stringOrUndefined(data?.lastWorkedDate),
     becameTooDisabledToWorkDate: stringOrUndefined(data?.disabledWorkDate),

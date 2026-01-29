@@ -9,7 +9,7 @@ import { useEditOrAddForm } from './useEditOrAddForm';
 import { useDuplicateChecks } from './useDuplicateChecks';
 import { useItemPageGuard } from './useItemPageGuard';
 import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
-import { getArrayUrlSearchParams } from './helpers';
+import * as helpers from './helpers';
 
 /**
  * @param {ArrayBuilderItemPageProps} itemPageProps
@@ -31,7 +31,7 @@ export default function ArrayBuilderItemPage(itemPageProps) {
       currentPath,
     } = arrayBuilderProps;
 
-    const searchParams = getArrayUrlSearchParams();
+    const searchParams = helpers.getArrayUrlSearchParams();
     const isEdit = !!searchParams.get('edit');
     const isAdd = !!searchParams.get('add');
     const isReview = searchParams?.has('review');

@@ -477,18 +477,18 @@ export const OH_TRANSITION_SITES = {
 
 // Types of care that are allowed in the OH direct scheduling flow and request flow
 export const OH_ENABLED_TYPES_OF_CARE = [
-  'amputation',
-  'audiology',
-  'audiology-hearing aid support',
-  'audiology-routine exam',
+  // 'amputation',
+  // 'audiology',
+  // 'audiology-hearing aid support',
+  // 'audiology-routine exam',
   'clinicalPharmacyPrimaryCare',
-  'cpap',
+  // 'cpap',
   'foodAndNutrition',
-  'homeSleepTesting',
-  'moveProgram',
-  'ophthalmology',
-  'optometry',
-  'socialWork',
+  // 'homeSleepTesting',
+  // 'moveProgram',
+  // 'ophthalmology',
+  // 'optometry',
+  // 'socialWork',
 ];
 
 export const TRAVEL_CLAIM_MESSAGES = {

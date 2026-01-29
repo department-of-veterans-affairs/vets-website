@@ -40,8 +40,11 @@ describe('retrieving results - errors', () => {
 
       h.verifyLoadingIndicatorShown();
 
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(5200);
+
       h.checkServiceAlertText(
-        `We've run into a problemYour information couldn’t go through. Enter a valid 5 digit zip code.`,
+        `Error Alert We've run into a problemYour information couldn’t go through. Enter a valid 5 digit zip code.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -86,8 +89,11 @@ describe('retrieving results - errors', () => {
 
       h.verifyLoadingIndicatorShown();
 
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(5200);
+
       h.checkServiceAlertText(
-        `We've run into a problemYour information couldn’t go through. Enter a valid four digit year again.`,
+        `Error Alert We've run into a problemYour information couldn’t go through. Enter a valid four digit year again.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -132,8 +138,11 @@ describe('retrieving results - errors', () => {
 
       h.verifyLoadingIndicatorShown();
 
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(5200);
+
       h.checkServiceAlertText(
-        `We've run into a problemYour information couldn’t go through. Enter a number of dependents between 0 and 100.`,
+        `Error Alert We've run into a problemYour information couldn’t go through. Enter a number of dependents between 0 and 100.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -180,7 +189,7 @@ describe('retrieving results - errors', () => {
       cy.wait(5200);
 
       h.checkServiceAlertText(
-        `Your answer didn’t go through.We’re sorry. There’s a problem with our system. Refresh this page or try again later.`,
+        `Error Alert Your answer didn’t go through.We’re sorry. There’s a problem with our system. Refresh this page or try again later.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });

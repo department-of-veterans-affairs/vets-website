@@ -1,5 +1,7 @@
-import { arrayBuilderYesNoSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderYesNoUI } from '../array-builder/arrayBuilderPatterns';
+import {
+  arrayBuilderYesNoUI,
+  arrayBuilderYesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { veteranMarriageHistoryOptions } from './marriageHistoryConfig';
 
 export default {

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -9,6 +10,7 @@ import {
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
+import { selectHoldTimeMessagingUpdate } from '../util/selectors';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -38,6 +40,7 @@ import useDateRangeSelector from '../hooks/useDateRangeSelector';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import DateRangeSelector from '../components/shared/DateRangeSelector';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import HoldTimeInfo from '../components/shared/HoldTimeInfo';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -46,6 +49,7 @@ import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const dateRange = useSelector(state => state.mr.labsAndTests.dateRange);
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
@@ -54,6 +58,7 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
   const mergeCvixWithScdf = useSelector(
     state =>
       state.featureToggles[
@@ -137,6 +142,7 @@ const LabsAndTests = () => {
     updateDateRangeAction: updateLabsAndTestDateRange,
     updateListStateActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
     dataDogLabel: 'Date range option',
+    history,
   });
 
   return (
@@ -145,13 +151,16 @@ const LabsAndTests = () => {
         Lab and test results
       </h1>
 
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        Most lab and test results are available{' '}
-        <span className="vads-u-font-weight--bold">36 hours</span> after the lab
-        confirms them. Pathology results may take{' '}
-        <span className="vads-u-font-weight--bold">14 days</span> or longer to
-        confirm.{' '}
-      </p>
+      {holdTimeMessagingUpdate && <HoldTimeInfo locationPhrase="here" />}
+      {!holdTimeMessagingUpdate && (
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Most lab and test results are available{' '}
+          <span className="vads-u-font-weight--bold">36 hours</span> after the
+          lab confirms them. Pathology results may take{' '}
+          <span className="vads-u-font-weight--bold">14 days</span> or longer to
+          confirm.
+        </p>
+      )}
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

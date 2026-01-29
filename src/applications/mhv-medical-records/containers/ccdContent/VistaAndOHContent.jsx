@@ -120,8 +120,9 @@ const VistaAndOHContent = ({
             />
           </>
         )}
-      {(generatingCCD || ccdDownloadSuccess) &&
-        (!ccdError && !CCDRetryTimestamp) && (
+      {ccdDownloadSuccess &&
+        !ccdError &&
+        !CCDRetryTimestamp && (
           <DownloadSuccessAlert
             type="Continuity of Care Document download"
             className="vads-u-margin-bottom--1"

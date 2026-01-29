@@ -49,7 +49,7 @@ export class SearchMenu extends React.Component {
       [SEARCH_LOCATION]: 'Desktop Header Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [SEARCH_TYPEAHEAD_ENABLED]: false,
       [TYPEAHEAD_LIST]: validSuggestions,
     });
 
@@ -75,7 +75,7 @@ export class SearchMenu extends React.Component {
       [SEARCH_LOCATION]: 'Desktop Header Search',
       [SEARCH_APP_USED]: false,
       [SEARCH_SELECTION]: 'All VA.gov',
-      [SEARCH_TYPEAHEAD_ENABLED]: true,
+      [SEARCH_TYPEAHEAD_ENABLED]: false,
       [TYPEAHEAD_CLICKED]: true,
       [TYPEAHEAD_LIST]: validSuggestions,
     };

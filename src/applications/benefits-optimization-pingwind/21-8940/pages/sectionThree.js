@@ -1,25 +1,67 @@
+import React from 'react';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaDateField from 'platform/forms-system/src/js/web-component-fields/VaDateField';
 import { wrapDateUiWithDl } from '../helpers/reviewHelpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Employment Timeline',
-    'ui:description': ' When did your disability affect your work? ',
+    'ui:description': (
+      <div>
+        <h3 style={{ marginTop: 0 }}>Section III: Employment</h3>
+        <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
+          <h4 slot="headline">
+            <b>What to expect:</b>
+          </h4>
+          <div className="vads-u-margin--0">
+            <ul style={{ marginBottom: 0 }}>
+              <li>When your disability began affecting your work</li>
+              <li>Date you last worked full-time</li>
+              <li>
+                Employment details for the last 5 years you worked (employer
+                names, addresses, dates, job duties)
+              </li>
+              <li>Your highest annual earnings and what year</li>
+              <li>Current income information (if working)</li>
+              <li>Whether you've tried to find work since becoming disabled</li>
 
-    disabilityDate: wrapDateUiWithDl(
-      currentOrPastDateUI('Date your disability affected full-time employment'),
+              <li>Takes about 20-25 minutes (longest section)</li>
+            </ul>
+          </div>
+        </VaAlert>
+        <div className="vads-u-margin-top--5">
+          <h4 style={{ marginTop: 0 }}>Employment Timeline</h4>
+          <p>When did your disability affect your work?</p>
+        </div>
+      </div>
     ),
+    disabilityDate: wrapDateUiWithDl({
+      ...currentOrPastDateUI({
+        title: 'Date your disability affected full-time employment',
+        hint: 'For example: January 19 2022',
+      }),
+      'ui:webComponentField': VaDateField,
+    }),
 
-    lastWorkedDate: wrapDateUiWithDl(
-      currentOrPastDateUI('Date you last worked full-time'),
-    ),
-    disabledWorkDate: wrapDateUiWithDl(
-      currentOrPastDateUI('Date you became too disabled to work'),
-    ),
+    lastWorkedDate: wrapDateUiWithDl({
+      ...currentOrPastDateUI({
+        title: 'Date you last worked full-time',
+        hint: 'For example: January 19 2022',
+      }),
+      'ui:webComponentField': VaDateField,
+    }),
+    disabledWorkDate: wrapDateUiWithDl({
+      ...currentOrPastDateUI({
+        title: 'Date you became too disabled to work',
+        hint: 'For example: January 19 2022',
+      }),
+      'ui:webComponentField': VaDateField,
+    }),
   },
   schema: {
     type: 'object',

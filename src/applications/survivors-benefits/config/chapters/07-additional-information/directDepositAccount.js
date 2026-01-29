@@ -1,13 +1,17 @@
 import {
   titleUI,
   bankAccountSchema,
-  radioUI,
-  radioSchema,
+  bankAccountUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { bankAccountUI } from 'platform/forms-system/src/js/web-component-patterns/bankPattern';
-import { bankAccountTypeOptions } from '../../../utils/labels';
 
-const { CHECKING, SAVINGS } = bankAccountTypeOptions;
+const updatedBankAccountSchema = bankAccountSchema();
+updatedBankAccountSchema.required = [
+  'bankName',
+  'accountType',
+  'accountNumber',
+  'routingNumber',
+];
+updatedBankAccountSchema.properties.bankName.maxLength = 34;
 
 function dependsIfHasBankAccount(formData) {
   return (
@@ -17,34 +21,22 @@ function dependsIfHasBankAccount(formData) {
   );
 }
 
-const baseBankUI = bankAccountUI({
-  labels: {
-    routingNumberLabel: "Bank's 9-digit routing number",
-  },
-});
-
-const uiSchema = {
-  ...titleUI('Account information for direct deposit'),
-  ...baseBankUI,
-  accountType: radioUI({
-    title: 'Account type',
-    classNames: 'vads-u-margin-bottom--2',
-    labels: {
-      CHECKING,
-      SAVINGS,
-    },
-  }),
-};
-
-const baseBankSchema = bankAccountSchema();
-baseBankSchema.properties.accountType = radioSchema(
-  Object.keys(bankAccountTypeOptions),
-);
-
-const schema = baseBankSchema;
-
+/** @type {PageSchema} */
 export default {
   depends: dependsIfHasBankAccount,
-  uiSchema,
-  schema,
+  uiSchema: {
+    ...titleUI('Account information for direct deposit'),
+    bankAccount: bankAccountUI({
+      labels: {
+        routingNumberLabel: "Bank's 9-digit routing number",
+      },
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['bankAccount'],
+    properties: {
+      bankAccount: updatedBankAccountSchema,
+    },
+  },
 };

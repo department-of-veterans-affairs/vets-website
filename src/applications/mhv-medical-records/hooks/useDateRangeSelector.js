@@ -13,6 +13,7 @@ import { loadStates } from '../util/constants';
  * @param {Function} options.updateDateRangeAction - Redux action creator to update date range
  * @param {string} options.updateListStateActionType - Action type for updating list state
  * @param {string} options.dataDogLabel - Label for DataDog tracking
+ * @param {Object} options.history - React Router history object (optional, for resetting pagination)
  * @returns {Function} handleDateRangeSelect callback
  *
  * @example
@@ -20,12 +21,14 @@ import { loadStates } from '../util/constants';
  *   updateDateRangeAction: updateNotesDateRange,
  *   updateListStateActionType: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
  *   dataDogLabel: 'Notes date option',
+ *   history,
  * });
  */
 const useDateRangeSelector = ({
   updateDateRangeAction,
   updateListStateActionType,
   dataDogLabel,
+  history,
 }) => {
   const dispatch = useDispatch();
 
@@ -33,6 +36,11 @@ const useDateRangeSelector = ({
     event => {
       const { value } = event.detail;
       const { fromDate, toDate } = calculateDateRange(value);
+
+      // Reset to page 1 when changing date range to avoid pagination issues
+      if (history) {
+        history.push(`${history.location.pathname}?page=1`);
+      }
 
       // Update Redux with new range
       dispatch(updateDateRangeAction(value, fromDate, toDate));
@@ -50,7 +58,13 @@ const useDateRangeSelector = ({
       const label = selectedOption ? selectedOption.label : 'Unknown';
       sendDataDogAction(`${dataDogLabel} - ${label}`);
     },
-    [dispatch, updateDateRangeAction, updateListStateActionType, dataDogLabel],
+    [
+      dispatch,
+      updateDateRangeAction,
+      updateListStateActionType,
+      dataDogLabel,
+      history,
+    ],
   );
 };
 

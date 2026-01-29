@@ -3,24 +3,6 @@ import { SELECTORS as s } from './helpers';
 // Since the search bar in the header connects to the main search app,
 // we need these tests to make sure the connection works as expected
 describe('Global search from the header', () => {
-  beforeEach(() => {
-    cy.intercept('GET', 'v0/search_typeahead?query=benefits', [
-      'benefits response 1',
-      'benefits response 2',
-      'benefits response 3',
-      'benefits response 4',
-      'benefits response 5',
-    ]);
-
-    cy.intercept('GET', 'v0/search_typeahead?query=health', [
-      'health response 1',
-      'health response 2',
-      'health response 3',
-      'health response 4',
-      'health response 5',
-    ]);
-  });
-
   const loadAndAddSearchTerm = term => {
     cy.visit('/');
     cy.get(s.HEADER_SEARCH_TRIGGER).click();
@@ -31,15 +13,8 @@ describe('Global search from the header', () => {
       .type(term, { force: true });
   };
 
-  const verifyTypeaheadDropdown = () => {
-    cy.get(s.HEADER_TYPEAHEAD_DROPDOWN).should('be.visible');
-    cy.get(s.HEADER_TYPEAHEAD_DROPDOWN)
-      .children()
-      .should('have.length', 5);
-  };
-
-  const verifyTypeaheadDropdownCloses = () => {
-    cy.get(s.HEADER_SEARCH_SUBMIT).focus();
+  const verifyTypeaheadDropdownNotShown = () => {
+    // Verify that typeahead dropdown does not appear
     cy.get(s.HEADER_TYPEAHEAD_DROPDOWN).should('not.exist');
   };
 
@@ -51,30 +26,9 @@ describe('Global search from the header', () => {
     cy.get(s.HEADER_SEARCH_SUBMIT).focus();
   };
 
-  it('shows the dropdown from the header', () => {
+  it('does not show typeahead dropdown when typing in the search field', () => {
     loadAndAddSearchTerm('benefits');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('shows suggestions when a search term is present', () => {
-    loadAndAddSearchTerm('benefits');
-    verifyTypeaheadDropdown();
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('closes the typeahead dropdown when the search button is focused', () => {
-    loadAndAddSearchTerm('benefits');
-    verifyTypeaheadDropdown();
-    verifyTypeaheadDropdownCloses();
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('opens the typeahead dropdown again when the input field is focused again', () => {
-    loadAndAddSearchTerm('health');
-    verifyTypeaheadDropdown();
-    verifyTypeaheadDropdownCloses();
-    cy.get(s.HEADER_SEARCH_FIELD).focus();
-    verifyTypeaheadDropdown();
+    verifyTypeaheadDropdownNotShown();
     cy.injectAxeThenAxeCheck();
   });
 
@@ -108,22 +62,13 @@ describe('Global search from the header', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should navigate to the main search page when a typeahead suggestion is clicked', () => {
+  it('verifies typeahead is disabled - no dropdown appears even after typing multiple characters', () => {
     loadAndAddSearchTerm('health');
-    verifyTypeaheadDropdown();
-    cy.get(`#search-header-dropdown-option-3`).click();
-    verifyUrlContains(`/search/?query=health%20response%204`);
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('allows the user to use the arrow keys to navigate suggestions and press enter to search one', () => {
-    loadAndAddSearchTerm('benefits');
-    verifyTypeaheadDropdown();
-    cy.get(s.HEADER_SEARCH_FIELD).type('{downarrow}');
-    cy.get(s.HEADER_SEARCH_FIELD).type('{downarrow}');
-    cy.get(s.HEADER_SEARCH_FIELD).type('{downarrow}');
+    // Verify typeahead dropdown does not appear (typeahead is disabled)
+    verifyTypeaheadDropdownNotShown();
+    // Verify we can still search normally
     cy.get(s.HEADER_SEARCH_FIELD).type('{enter}');
-    verifyUrlContains(`/search/?query=benefits%20response%203`);
+    verifyUrlContains(`/search/?query=health`);
     cy.injectAxeThenAxeCheck();
   });
 });

@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
-import { focusElement } from 'platform/utilities/ui';
+import { useDispatch } from 'react-redux';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
-
-// TODO: remove this and use mock data from the API
-const mockUsers = [
-  {
-    uuid: 'c0ffee-1234-beef-5678',
-    lastname: 'Smith',
-    dob: '1935-04-07',
-    otc: '123456',
-  },
-];
+import { usePostAuthenticationMutation } from '../redux/api/vassApi';
+import { clearFormData, setFlowType } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
+import { useErrorFocus } from '../hooks/useErrorFocus';
 
 const getPageTitle = (cancellationFlow, verificationError) => {
   if (verificationError) {
@@ -26,39 +20,51 @@ const getPageTitle = (cancellationFlow, verificationError) => {
 
 const Verify = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
 
   // Check for cancel=true URL parameter to initiate cancellation flow
   const cancellationFlow = searchParams.get('cancel') === 'true';
+  const uuid = searchParams.get('uuid');
+  if (!uuid) {
+    // TODO: route to the "Something went wrong" page
+  }
+
+  // Ensures a fresh start when landing on Verify page and sets the flow type
+  useEffect(
+    () => {
+      dispatch(clearFormData());
+      // Set flow type based on URL parameter
+      const flowType = cancellationFlow
+        ? FLOW_TYPES.CANCEL
+        : FLOW_TYPES.SCHEDULE;
+      dispatch(setFlowType(flowType));
+    },
+    [dispatch, cancellationFlow],
+  );
 
   const [lastname, setLastname] = useState('');
   const [dob, setDob] = useState('');
 
-  const [error, setError] = useState(false);
-  const [lastnameError, setLastnameError] = useState(undefined);
-  const [dobError, setDobError] = useState(undefined);
+  const [
+    postAuthentication,
+    { isLoading, error: postAuthenticationError },
+  ] = usePostAuthenticationMutation();
+
+  const [
+    { error: lastnameError, handleSetError: setLastnameError },
+    { error: dobError, handleSetError: setDobError },
+    { handleSetError: setAuthError },
+  ] = useErrorFocus([
+    'va-text-input[data-testid="last-name-input"]',
+    'va-memorable-date[data-testid="dob-input"]',
+    'va-alert[data-testid="verify-error-alert"]',
+  ]);
+
   const [attemptCount, setAttemptCount] = useState(1);
   const [verificationError, setVerificationError] = useState(undefined);
-  const [focusTrigger, setFocusTrigger] = useState(0);
 
-  useEffect(
-    () => {
-      if (error || lastnameError || dobError) {
-        setTimeout(() => {
-          if (lastnameError) {
-            focusElement('va-text-input[data-testid="last-name-input"]');
-          } else if (dobError) {
-            focusElement('va-memorable-date[data-testid="dob-input"]');
-          } else {
-            focusElement('va-alert[data-testid="verify-error-alert"]');
-          }
-        }, 100);
-      }
-    },
-    [focusTrigger, error, lastnameError, dobError],
-  );
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (lastname === '' || dob === '') {
       if (lastname === '') {
         setLastnameError('Please enter your last name');
@@ -66,31 +72,24 @@ const Verify = () => {
       if (dob === '') {
         setDobError('Please enter your date of birth');
       }
-      setFocusTrigger(prev => prev + 1);
       return;
     }
-    // TODO: remove this and use the fetch call to the API
-    const mockUser = mockUsers.find(
-      user => user.lastname === lastname && user.dob === dob,
-    );
-    // confirm auth here
-    if (mockUser) {
-      let otcRoute = '/enter-otc';
-      if (cancellationFlow) {
-        otcRoute += '?cancel=true';
-      }
-      setError(false);
-      navigate(otcRoute);
-    } else {
-      if (attemptCount === 3) {
+    const response = await postAuthentication({
+      uuid,
+      lastname,
+      dob,
+    });
+    if (response.error) {
+      setAuthError('error');
+      if (attemptCount === 3 || response.error.code === 'rate_limit_exceeded') {
         setVerificationError(
           'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
         );
-      } else {
-        setError(true);
       }
       setAttemptCount(count => count + 1);
+      return;
     }
+    navigate(URLS.ENTER_OTC);
   };
 
   const pageTitle = getPageTitle(cancellationFlow, verificationError);
@@ -101,7 +100,7 @@ const Verify = () => {
         First, we’ll need your information so we can send you a one-time
         verification code to verify your identity.
       </p>
-      {error && (
+      {postAuthenticationError && (
         <div className="vads-u-margin-bottom--2">
           <va-alert data-testid="verify-error-alert" status="error">
             We’re sorry. We couldn’t find a record that matches that last name
@@ -112,11 +111,12 @@ const Verify = () => {
       <va-text-input
         data-testid="last-name-input"
         label="Your last name"
+        value={lastname}
         name="last-name"
         onBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
-            setLastnameError(undefined);
+            setLastnameError('');
           }
         }}
         onInput={e => {
@@ -130,6 +130,7 @@ const Verify = () => {
         id="dob-input"
         data-testid="dob-input"
         label="Date of birth"
+        value={dob}
         onDateBlur={e => {
           // Clear the error if the user has entered a value
           if (e.target.value !== '') {
@@ -142,16 +143,17 @@ const Verify = () => {
         name="date-of-birth"
         error={dobError}
         required
-        onKeyDown={() => {}}
         monthSelect={false}
       />
       <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
         <va-button
           data-testid="submit-button"
           big
+          disabled={isLoading || verificationError}
           onClick={handleSubmit}
           text="Submit"
           uswds
+          loading={isLoading}
         />
       </div>
     </Wrapper>

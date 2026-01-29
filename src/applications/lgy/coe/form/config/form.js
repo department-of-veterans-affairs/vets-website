@@ -25,10 +25,15 @@ import { serviceStatus, serviceHistory } from './chapters/service';
 import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
-// import disabilitySeparation from '../pages/disabilitySeparation';
 
-// TODO: When schema is migrated to vets-json-schema, remove common
-// definitions from form schema and get them from common definitions instead
+import disabilitySeparation from '../pages/disabilitySeparation';
+import preDischargeClaim from '../pages/preDischargeClaim';
+import purpleHeartRecipient from '../pages/purpleHeartRecipient';
+import serviceStatus2 from '../pages/serviceStatus2';
+
+import { certificateUseOptions } from '../constants';
+import certificateUse from '../pages/certificateUse';
+import hadPriorLoans from '../pages/hadPriorLoans';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -47,6 +52,10 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
   formId: '26-1880',
   version: 0,
   prefillEnabled: true,
@@ -68,11 +77,12 @@ const formConfig = {
   },
   title: 'Request a VA home loan Certificate of Eligibility (COE)',
   subTitle: 'VA Form 26-1880',
+  useCustomScrollAndFocus: true,
   defaultDefinitions: definitions,
   chapters: {
     applicantInformationChapter: {
       title: data => {
-        return data.formData.coeFormRebuildCveteam
+        return data.formData['view:coeFormRebuildCveteam']
           ? 'Your information'
           : 'Your personal information on file';
       },
@@ -110,20 +120,57 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Your service history',
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Military history'
+          : 'Your service history';
+      },
       pages: {
         serviceStatus: {
           path: 'service-status',
           title: 'Service status',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
         },
-        // disabilitySeparationPage: {
-        //   path: 'separation',
-        //   title: 'Separation',
-        //   uiSchema: disabilitySeparation.uiSchema,
-        //   schema: disabilitySeparation.schema,
-        // },
+        serviceStatus2: {
+          path: 'service-status-2',
+          title: 'Service status',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: serviceStatus2.uiSchema,
+          schema: serviceStatus2.schema,
+        },
+        disabilitySeparationPage: {
+          path: 'disability-separation',
+          title: 'Separation',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: disabilitySeparation.uiSchema,
+          schema: disabilitySeparation.schema,
+        },
+        pendingPredischargeClaimPage: {
+          path: 'pending-pre-discharge-claim',
+          title: 'Pending pre-discharge claim',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: preDischargeClaim.uiSchema,
+          schema: preDischargeClaim.schema,
+        },
+        purpleHeartRecipientPage: {
+          path: 'purple-heart-recipient',
+          title: 'Purple Heart recipient',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: purpleHeartRecipient.uiSchema,
+          schema: purpleHeartRecipient.schema,
+        },
         serviceHistory: {
           path: 'service-history',
           title: 'Service history',
@@ -133,11 +180,18 @@ const formConfig = {
       },
     },
     loansChapter: {
-      title: 'Your VA loan history',
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Loan history'
+          : 'Your VA loan history';
+      },
       pages: {
         loanScreener: {
           path: 'existing-loan-screener',
           title: 'Existing loans',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           uiSchema: loanScreener.uiSchema,
           schema: loanScreener.schema,
         },
@@ -146,7 +200,34 @@ const formConfig = {
           title: 'VA-backed loan history',
           uiSchema: loanHistory.uiSchema,
           schema: loanHistory.schema,
-          depends: formData => formData?.vaLoanIndicator,
+          depends: formData =>
+            !formData['view:coeFormRebuildCveteam'] &&
+            formData?.vaLoanIndicator,
+        },
+        certificateUse: {
+          path: 'certificate-use',
+          title: 'Certificate use',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: certificateUse.uiSchema,
+          schema: certificateUse.schema,
+        },
+        hadPriorLoans: {
+          path: 'prior-loans',
+          title: 'Previous VA home loans',
+          depends: formData => {
+            return (
+              formData['view:coeFormRebuildCveteam'] &&
+              [
+                certificateUseOptions.ENTITLEMENT_INQUIRY_ONLY,
+                certificateUseOptions.HOME_PURCHASE,
+                certificateUseOptions.CASH_OUT_REFINANCE,
+              ].includes(formData?.loanHistory?.certificateUse)
+            );
+          },
+          uiSchema: hadPriorLoans.uiSchema,
+          schema: hadPriorLoans.schema,
         },
       },
     },

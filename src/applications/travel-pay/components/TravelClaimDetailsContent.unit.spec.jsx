@@ -94,7 +94,7 @@ describe('TravelClaimDetailsContent', () => {
       expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
       expect(
         $(
-          'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay reimbursement"]',
+          'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay"]',
         ),
       ).to.exist;
       expect(screen.queryByText('Something went wrong on our end')).to.not
@@ -363,7 +363,7 @@ describe('TravelClaimDetailsContent', () => {
       expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
       expect(
         $(
-          'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay reimbursement"]',
+          'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay"]',
         ),
       ).to.exist;
     });

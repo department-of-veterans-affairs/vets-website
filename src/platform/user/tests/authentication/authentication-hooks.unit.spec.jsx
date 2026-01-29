@@ -71,13 +71,13 @@ describe('authentication - hooks', () => {
 
         await waitForNextUpdate();
 
-        expect(result.current?.href).to.include(
-          'https://dev-api.va.gov/v0/sign_in/authorize',
-        );
-        expect(result.current?.href).to.include('acr=ial2');
-        expect(result.current?.href).to.include('type=logingov');
-        expect(result.current?.href).to.include('state=');
-        expect(result.current?.href).to.include('code_challenge=');
+        const href = decodeURIComponent(result.current?.href);
+
+        expect(href).to.include('https://dev-api.va.gov/v0/sign_in/authorize');
+        expect(href).to.include('ial2');
+        expect(href).to.include('type=logingov');
+        expect(href).to.include('state=');
+        expect(href).to.include('code_challenge=');
       });
     });
   });

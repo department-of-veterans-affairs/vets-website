@@ -197,7 +197,7 @@ class ValidateVeteran {
       'We’re sorry. We couldn’t find an account that matches that last name or date of birth. Please try again.';
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')
-      .and('have.text', messageText);
+      .and('contain.text', messageText);
   };
 }
 

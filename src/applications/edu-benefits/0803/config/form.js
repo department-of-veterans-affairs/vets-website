@@ -1,15 +1,14 @@
 // @ts-check
-import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PresubmitInfo from '../components/PresubmitInfo';
-import PersonalInformationNote from '../components/PersonalInformationNote';
 
 import { CustomReviewTopContent } from '../helpers';
 
@@ -17,8 +16,6 @@ import * as PreviouslyApplied from '../pages/PreviouslyApplied';
 import * as SelectVABenefit from '../pages/SelectVABenefit';
 import * as VABenefitWarning from '../pages/VABenefitWarning';
 import * as PayeeNumber from '../pages/PayeeNumber';
-import * as MailingAddress from '../pages/MailingAddress';
-import * as PhoneAndEmail from '../pages/PhoneAndEmail';
 import * as TestNameAndDate from '../pages/TestNameAndDate';
 import * as OrganizationInfo from '../pages/OrganizationInfo';
 import * as TestCost from '../pages/TestCost';
@@ -72,6 +69,10 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
+  customText: {
+    reviewPageTitle: 'Review',
+    submitButtonText: 'Continue',
+  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
@@ -114,7 +115,6 @@ const formConfig = {
           dataAdapter: {
             ssnPath: 'ssn',
           },
-          note: <PersonalInformationNote />,
         }),
         payeeNumber: {
           path: 'payee-number',
@@ -125,18 +125,11 @@ const formConfig = {
             formData?.vaBenefitProgram === 'chapter35' &&
             !!formData.vaFileNumber,
         },
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing Address',
-          uiSchema: MailingAddress.uiSchema,
-          schema: MailingAddress.schema,
-        },
-        phoneAndEmail: {
-          path: 'phone-and-email',
-          title: 'Phone and Email',
-          uiSchema: PhoneAndEmail.uiSchema,
-          schema: PhoneAndEmail.schema,
-        },
+        ...profileContactInfoPages({
+          contactInfoRequiredKeys: ['mailingAddress'],
+          // disableMockContactInfo: true,
+          // prefillPatternEnabled: true,
+        }),
       },
     },
     testInformationChapter: {

@@ -39,6 +39,7 @@ import {
   isLOA1 as isLOA1Selector,
   isLOA3 as isLOA3Selector,
   isInMPI as isInMVISelector,
+  isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector,
   isLoggedIn,
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
@@ -180,6 +181,10 @@ class Profile extends Component {
       );
     }
 
+    if (!this.props.isSchedulingPreferencesPilotEligible) {
+      routes = routes.filter(item => !item.requiresSchedulingPreferencesPilot);
+    }
+
     return (
       <BrowserRouter>
         <LastLocationProvider>
@@ -278,6 +283,7 @@ Profile.propTypes = {
   isDowntimeWarningDismissed: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
+  isSchedulingPreferencesPilotEligible: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
   shouldFetchSchedulingPreferences: PropTypes.bool.isRequired,
@@ -310,6 +316,9 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+  const isSchedulingPreferencesPilotEligible = isSchedulingPreferencesPilotEligibleSelector(
+    state,
+  );
   const shouldShowAccreditedRepTab =
     profileToggles?.representativeStatusEnableV2Features;
   const shouldShowProfile2 = profileToggles?.profile2Enabled;
@@ -323,7 +332,7 @@ const mapStateToProps = state => {
     !profileToggles?.profileHideDirectDeposit;
 
   const shouldFetchSchedulingPreferences =
-    profileToggles?.profileSchedulingPreferences;
+    isSchedulingPreferencesPilotEligible || false;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
@@ -385,6 +394,7 @@ const mapStateToProps = state => {
       'profile',
     ),
     isBlocked,
+    isSchedulingPreferencesPilotEligible,
     togglesLoaded,
     profileToggles,
   };

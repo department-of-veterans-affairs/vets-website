@@ -1,15 +1,11 @@
 import path from 'path';
-
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import { introductionPageFlow } from '../../../shared/tests/e2e/helpers';
-
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-
 import pagePaths from './pagePaths';
 
 const testConfig = createTestConfig(

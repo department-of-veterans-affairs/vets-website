@@ -5,9 +5,8 @@ import sinon from 'sinon';
 
 import TopicSelection from './TopicSelection';
 import topics from '../services/mocks/utils/topic';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
 import * as apiHooks from '../redux/api/vassApi';
+import { getDefaultRenderOptions } from '../utils/test-utils';
 
 describe('VASS Component: TopicSelection', () => {
   const sandbox = sinon.createSandbox();
@@ -20,17 +19,15 @@ describe('VASS Component: TopicSelection', () => {
       .stub(apiHooks, 'useGetTopicsQuery')
       .returns({ data: { topics }, isLoading: false });
 
-    const { getByTestId } = renderWithStoreAndRouterV6(<TopicSelection />, {
-      initialState: {
-        vassForm: {
-          hydrated: false,
-          selectedDate: null,
-          selectedTopics: [],
-        },
-      },
-      reducers,
-      additionalMiddlewares: [vassApi.middleware],
-    });
+    const { getByTestId } = renderWithStoreAndRouterV6(
+      <TopicSelection />,
+      getDefaultRenderOptions({
+        obfuscatedEmail: 's****@email.com',
+        uuid: 'c0ffee-1234-beef-5678',
+        lastname: 'Smith',
+        dob: '1935-04-07',
+      }),
+    );
 
     expect(getByTestId('header')).to.exist;
     expect(getByTestId('back-link')).to.exist;

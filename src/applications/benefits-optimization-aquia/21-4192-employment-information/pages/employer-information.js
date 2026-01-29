@@ -29,6 +29,35 @@ export const employerInformationUiSchema = {
   },
 };
 
+const baseAddressSchema = addressNoMilitarySchema({ omit: ['street3'] });
+
+const customAddressSchema = {
+  ...baseAddressSchema,
+  properties: {
+    ...baseAddressSchema.properties,
+    street: {
+      type: 'string',
+      maxLength: 30,
+    },
+    street2: {
+      type: 'string',
+      maxLength: 30,
+    },
+    city: {
+      type: 'string',
+      maxLength: 18,
+    },
+    state: {
+      type: 'string',
+      maxLength: 2,
+    },
+    postalCode: {
+      type: 'string',
+      maxLength: 9,
+    },
+  },
+};
+
 /**
  * JSON Schema for Employer Information page
  * Validates employer name and address fields
@@ -45,7 +74,7 @@ export const employerInformationSchema = {
           type: 'string',
           maxLength: 100,
         },
-        employerAddress: addressNoMilitarySchema(),
+        employerAddress: customAddressSchema,
       },
     },
   },

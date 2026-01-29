@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 // platform level imports
 import recordEvent from '../../../../monitoring/record-event';
@@ -65,6 +66,7 @@ import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
 import { updateMessagingSignature } from '../../actions/mhv';
 import ProfileInformationEditViewFc from './ProfileInformationEditViewFc';
+import { SCHEDULING_PREF_PATHS } from '../constants/schedulingPreferencesConstants';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -253,6 +255,7 @@ class ProfileInformationFieldController extends React.Component {
         analyticsSectionName,
         value: payload,
       });
+      this.closeModal();
       return;
     }
     if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
@@ -274,6 +277,7 @@ class ProfileInformationFieldController extends React.Component {
         analyticsSectionName,
       );
     }
+    this.closeModal();
   };
 
   confirmDeleteAction = e => {
@@ -293,7 +297,23 @@ class ProfileInformationFieldController extends React.Component {
   onEdit = (event = 'edit-link') => {
     this.captureEvent(event);
     // Check if this field should use subtask editing
-    if (isSubtaskSchedulingPreference(this.props.fieldName)) {
+    if (
+      isSubtaskSchedulingPreference(this.props.fieldName) &&
+      this.props.history
+    ) {
+      switch (this.props.fieldName) {
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+          this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_METHOD);
+          break;
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+          this.props.history.push(SCHEDULING_PREF_PATHS.CONTACT_TIMES);
+          break;
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+          this.props.history.push(SCHEDULING_PREF_PATHS.APPOINTMENT_TIMES);
+          break;
+        default:
+          return;
+      }
       return;
     }
     // Use inline editing flow
@@ -532,6 +552,11 @@ class ProfileInformationFieldController extends React.Component {
           fieldName={fieldName}
           title={title}
           id={ariaDescribedBy}
+          email={this.props.email}
+          mailingAddress={this.props.mailingAddress}
+          mobilePhone={this.props.mobilePhone}
+          homePhone={this.props.homePhone}
+          workPhone={this.props.workPhone}
         />
         <div className="vads-u-width--full">
           <div>
@@ -695,8 +720,13 @@ ProfileInformationFieldController.propTypes = {
   contactInfoFormAppConfig: PropTypes.object,
   data: PropTypes.object,
   editViewData: PropTypes.object,
+  email: PropTypes.object,
   forceEditView: PropTypes.bool,
+  history: PropTypes.object,
+  homePhone: PropTypes.object,
   isDeleteDisabled: PropTypes.bool,
+  mailingAddress: PropTypes.object,
+  mobilePhone: PropTypes.object,
   prefillPatternEnabled: PropTypes.bool,
   recordCustomProfileEvent: PropTypes.func,
   refreshTransaction: PropTypes.func,
@@ -712,6 +742,7 @@ ProfileInformationFieldController.propTypes = {
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   updateMessagingSignature: PropTypes.func,
+  workPhone: PropTypes.object,
   onCancelButtonFocused: PropTypes.func,
 };
 
@@ -814,6 +845,11 @@ export const mapStateToProps = (state, ownProps) => {
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
     showErrorAlert: shouldShowErrorAlert(state, fieldName),
     showCopyAddressModal,
+    email: selectVAPContactInfoField(state, 'email'),
+    mailingAddress: selectVAPContactInfoField(state, 'mailingAddress'),
+    mobilePhone: selectVAPContactInfoField(state, 'mobilePhone'),
+    homePhone: selectVAPContactInfoField(state, 'homePhone'),
+    workPhone: selectVAPContactInfoField(state, 'workPhone'),
   };
 };
 
@@ -831,4 +867,12 @@ export default connect(
   mapDispatchToProps,
 )(ProfileInformationFieldController);
 
-export { ProfileInformationFieldController };
+const RoutedProfileInformationFieldController = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(ProfileInformationFieldController));
+
+export {
+  ProfileInformationFieldController,
+  RoutedProfileInformationFieldController,
+};

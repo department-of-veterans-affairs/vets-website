@@ -10,7 +10,7 @@ import { BTSSS_PORTAL_URL } from '../../../constants';
 const UnsupportedMileage = () => {
   const navigate = useNavigate();
 
-  const title = 'You’ll need to file this claim in another tool';
+  const title = 'Complete and file your claim in BTSSS';
 
   useSetPageTitle(title);
   useSetFocus();
@@ -20,16 +20,15 @@ const UnsupportedMileage = () => {
     <>
       <h1>{title}</h1>
       <p>
-        Right now you can only file travel reimbursement claims on VA.gov if you
-        departed from the address we have on file and traveled round trip.
+        Your travel was one way or you started from somewhere other than your
+        home address. We can’t file your travel reimbursement claim here right
+        now. But you can still file your claim in the Beneficiary Travel Self
+        Service System (BTSSS).
       </p>
-      <p>
-        To file a one-way claim or a claim from another address, use the
-        Beneficiary Travel Self Service System (BTSSS).
-      </p>
+      <p>Any information you’ve added here will be available in BTSSS.</p>
       <va-link
         href={BTSSS_PORTAL_URL}
-        text="Continue this claim in BTSSS"
+        text="Complete and file your claim in BTSSS"
         external
       />
       <VaButton

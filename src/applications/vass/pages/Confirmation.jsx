@@ -4,13 +4,18 @@ import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom-v5-compat';
+import { useDispatch, useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import AppointmentCard from '../components/AppointmentCard';
 import { useGetAppointmentQuery } from '../redux/api/vassApi';
+import { selectSelectedTopics, setFlowType } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
 
 const Confirmation = () => {
   const { appointmentId } = useParams();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
+  const selectedTopics = useSelector(selectSelectedTopics);
   const detailsCardOnly = searchParams.get('details') === 'true';
   const navigate = useNavigate();
   const { data: appointmentData, isLoading, isError } = useGetAppointmentQuery({
@@ -18,13 +23,10 @@ const Confirmation = () => {
   });
 
   const handleCancelAppointment = () => {
-    navigate(`/cancel-appointment/${appointmentId}`);
+    dispatch(setFlowType(FLOW_TYPES.CANCEL));
+    navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`);
   };
 
-  if (isLoading) {
-    // TODO: is there a loading screen?
-    return null;
-  }
   if (isError) {
     return <div>Error</div>;
   }
@@ -33,7 +35,13 @@ const Confirmation = () => {
     <Wrapper
       testID="confirmation-page"
       showBackLink={detailsCardOnly}
-      pageTitle={detailsCardOnly ? undefined : 'Your appointment is scheduled'}
+      loading={isLoading}
+      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
+      pageTitle={
+        detailsCardOnly
+          ? undefined
+          : 'Your VA Solid Start appointment is scheduled'
+      }
     >
       {!detailsCardOnly && (
         <p
@@ -46,9 +54,10 @@ const Confirmation = () => {
       <AppointmentCard
         appointmentData={{
           ...appointmentData,
-          showAddToCalendarButton: true,
+          topics: appointmentData?.topics || selectedTopics,
         }}
         handleCancelAppointment={handleCancelAppointment}
+        showAddToCalendarButton
       />
     </Wrapper>
   );

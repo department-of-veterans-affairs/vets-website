@@ -16,6 +16,13 @@ const CALLSTATUS = {
   skip: 'skipped',
 };
 
+/**
+ * @typedef {Object} ViewDependentsHeaderProps
+ * @property {string} updateDiariesStatus - status of update diaries API call
+ *
+ * @param {ViewDependentsHeaderProps} props - component props
+ * @returns {JSX.Element} - ViewDependentsHeader component
+ */
 function ViewDependentsHeader(props) {
   const { updateDiariesStatus } = props;
   let alertProps;

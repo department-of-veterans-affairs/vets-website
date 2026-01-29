@@ -17,6 +17,9 @@
     },
     "phoneNumber": "555-123-4567",
     "emailAddress": "john.doe@example.com",
+    "employmentCheck": {
+      "hasEmploymentInLast12Months": "no"
+    },
     "view:hasEmployers": false,
     "unemploymentCertifications": {
       "unemploymentCertification": true,

@@ -32,7 +32,7 @@ describe('Mailing Address Page', () => {
       formDOM,
     );
     const vaStreetAddress2Input = $(
-      'va-text-input[label="Street address line 2"]',
+      'va-text-input[label="Apartment or unit number"]',
       formDOM,
     );
     const vaCityInput = $('va-text-input[label="City"]', formDOM);

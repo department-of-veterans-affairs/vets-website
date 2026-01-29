@@ -16,3 +16,5 @@ export const accountTitleLabels = {
   SAVINGS: 'Savings Account',
   NOBANK: 'No Bank Account',
 };
+
+export const REVIEW_AND_SUBMIT = 'Review and submit';

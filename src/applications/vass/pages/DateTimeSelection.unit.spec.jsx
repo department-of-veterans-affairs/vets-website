@@ -3,38 +3,60 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import DateTimeSelection from './DateTimeSelection';
-import reducers from '../redux/reducers';
-import { vassApi } from '../redux/api/vassApi';
+import { generateSlots } from '../utils/mock-helpers';
+import { getDefaultRenderOptions } from '../utils/test-utils';
+
+// Mock appointment availability data
+const mockAppointmentAvailability = {
+  data: {
+    appointmentId: 'test-uuid',
+    availableTimeSlots: generateSlots(),
+  },
+};
 
 describe('VASS Component: DateTimeSelection', () => {
-  const renderComponent = () =>
-    renderWithStoreAndRouterV6(<DateTimeSelection />, {
-      initialState: {
-        vassForm: {
-          selectedDate: null,
-          selectedTopics: [],
-        },
-      },
-      reducers,
-      additionalMiddlewares: [vassApi.middleware],
-    });
-
-  it('should render title', () => {
-    const screen = renderComponent();
-    expect(screen.getByTestId('header')).to.exist;
+  beforeEach(() => {
+    mockFetch();
+    setFetchJSONResponse(global.fetch.onCall(0), mockAppointmentAvailability);
   });
 
-  it('should render the date time page correctly', () => {
+  afterEach(() => {
+    resetFetch();
+  });
+
+  const renderComponent = (selectedDate = null) => {
+    return renderWithStoreAndRouterV6(
+      <DateTimeSelection />,
+      getDefaultRenderOptions({ selectedDate }),
+    );
+  };
+
+  it('should render the date time page correctly', async () => {
     const screen = renderComponent();
+    await waitFor(() => {
+      expect(screen.getByTestId('date-time-selection')).to.exist;
+    });
+    expect(screen.getByTestId('date-time-selection')).to.exist;
+    expect(screen.getByTestId('header')).to.exist;
     expect(screen.getByTestId('content')).to.exist;
     expect(screen.getByTestId('vaos-calendar')).to.exist;
     expect(screen.getByTestId('continue-button')).to.exist;
+    const continueButton = screen.getByTestId('continue-button');
+    expect(continueButton).to.have.attribute('continue');
   });
 
   it('should prevent navigation when no date/time selected and continue button clicked', async () => {
     const screen = renderComponent();
+    await waitFor(() => {
+      expect(screen.getByTestId('date-time-selection')).to.exist;
+    });
     const continueButton = screen.getByTestId('continue-button');
 
     await userEvent.click(continueButton);
@@ -46,25 +68,13 @@ describe('VASS Component: DateTimeSelection', () => {
     });
   });
 
-  it('should have continue button with correct attributes', () => {
-    const screen = renderComponent();
-    const continueButton = screen.getByTestId('continue-button');
-
-    expect(continueButton).to.have.attribute('continue');
-  });
-
   it('should not deselect date when onChange is called with empty array', async () => {
     // Render component with a pre-selected date
-    const selectedDate = '2025-01-15T09:00:00.000Z';
-    const screen = renderWithStoreAndRouterV6(<DateTimeSelection />, {
-      initialState: {
-        vassForm: {
-          selectedDate,
-          selectedTopics: [],
-        },
-      },
-      reducers,
-      additionalMiddlewares: [vassApi.middleware],
+    const selectedDate =
+      mockAppointmentAvailability.data.availableTimeSlots[0].dtStartUtc;
+    const screen = renderComponent(selectedDate);
+    await waitFor(() => {
+      expect(screen.getByTestId('date-time-selection')).to.exist;
     });
 
     // The calendar should show the selected date
@@ -83,6 +93,9 @@ describe('VASS Component: DateTimeSelection', () => {
 
   it('should clear validation error when a date is selected after failed submit', async () => {
     const screen = renderComponent();
+    await waitFor(() => {
+      expect(screen.getByTestId('date-time-selection')).to.exist;
+    });
     const continueButton = screen.getByTestId('continue-button');
 
     // First click continue without selecting a date to trigger validation error

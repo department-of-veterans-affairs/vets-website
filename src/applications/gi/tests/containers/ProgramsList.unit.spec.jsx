@@ -64,7 +64,10 @@ describe('ProgramsList component', () => {
     const wrapper = mountComponent();
     const firstRender = wrapper.find('VaTextInput').exists();
     expect(firstRender).to.be.true;
-    wrapper.find('VaButton.reset-search').simulate('click');
+    wrapper
+      .find('VaButton.reset-search')
+      .getDOMNode()
+      .click();
     wrapper.update();
     const secondRender = wrapper.find('VaTextInput').exists();
     expect(secondRender).to.be.true;
@@ -149,17 +152,18 @@ describe('ProgramsList component', () => {
     const wrapper = mountComponent();
     const searchQuery = 'CISCO SYSTEMS - CCNA'; // Example search query that matches a program name
 
-    // Simulate user input in the search field
-    wrapper
-      .find('VaTextInput')
-      .simulate('input', { target: { value: searchQuery } });
+    // Dispatch native input event on web component
+    const textInput = wrapper.find('VaTextInput').getDOMNode();
+    textInput.value = searchQuery;
+    textInput.dispatchEvent(new Event('input', { bubbles: true }));
     wrapper.update();
 
-    // Simulate form submission
+    // Simulate form submission with native click
     wrapper
       .find('VaButton')
       .at(0)
-      .simulate('click');
+      .getDOMNode()
+      .click();
     wrapper.update();
 
     // Filter the mock programs to find the ones that match the search query
@@ -226,7 +230,10 @@ describe('ProgramsList component', () => {
   });
   it('displays an error when the search input is empty and submitted', () => {
     const wrapper = mountComponent();
-    wrapper.find('VaButton.search-btn').simulate('click');
+    wrapper
+      .find('VaButton.search-btn')
+      .getDOMNode()
+      .click();
     wrapper.update();
     const errorMessage = wrapper.find('VaTextInput').prop('error');
     expect(errorMessage).to.equal(
@@ -306,12 +313,14 @@ describe('ProgramsList component', () => {
     const textInput = wrapper.find('VaTextInput.search-input');
     expect(textInput.exists()).to.be.true;
 
-    textInput.simulate('input', { target: { value: impossibleQuery } });
+    const textInputNode = textInput.getDOMNode();
+    textInputNode.value = impossibleQuery;
+    textInputNode.dispatchEvent(new Event('input', { bubbles: true }));
     wrapper.update();
 
     const searchButton = wrapper.find('VaButton.search-btn');
     expect(searchButton.exists()).to.be.true;
-    searchButton.simulate('click');
+    searchButton.getDOMNode().click();
     wrapper.update();
 
     const noResultsMessage = wrapper.find('#no-results-message');
@@ -331,12 +340,15 @@ describe('ProgramsList component', () => {
     resultsSummaryRef.getDOMNode().focus = mockFocus;
 
     const searchQuery = 'CISCO SYSTEMS - CCNA';
-    wrapper.find('VaTextInput.search-input').simulate('input', {
-      target: { value: searchQuery },
-    });
+    const textInputNode = wrapper.find('VaTextInput.search-input').getDOMNode();
+    textInputNode.value = searchQuery;
+    textInputNode.dispatchEvent(new Event('input', { bubbles: true }));
     wrapper.update();
 
-    wrapper.find('VaButton.search-btn').simulate('click');
+    wrapper
+      .find('VaButton.search-btn')
+      .getDOMNode()
+      .click();
     wrapper.update();
 
     setTimeout(() => {

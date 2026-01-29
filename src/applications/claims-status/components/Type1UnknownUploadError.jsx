@@ -44,7 +44,7 @@ export default function Type1UnknownUploadError({ errorFiles }) {
         <strong>{fileText} we couldn't process:</strong>
       </p>
       <ul
-        className="vads-u-margin-bottom--2"
+        className="vads-u-margin-y--2"
         aria-label="Files that couldn't be processed"
       >
         {errorFiles.map(file => (

@@ -19,7 +19,7 @@ const baseProps = {
   userIdVerified: true,
 };
 
-const mockStore = (currentlyLoggedIn = false) => ({
+const mockStore = (currentlyLoggedIn = false, initialFormData = {}) => ({
   getState: () => ({
     user: {
       login: {
@@ -46,7 +46,7 @@ const mockStore = (currentlyLoggedIn = false) => ({
       loadedData: {
         metadata: {},
       },
-      data: {},
+      data: initialFormData,
     },
   }),
   subscribe: () => {},
@@ -81,7 +81,7 @@ describe('22-10278 <IntroductionPage>', () => {
     expect(subTitle?.textContent).to.include('(VA Form 22-10278)');
   });
 
-  it('renders all section headers (4 h2s)', () => {
+  it('renders all section headers (1 h2)', () => {
     const { container } = renderWithStore(<IntroductionPage {...baseProps} />);
     const h2s = container.querySelectorAll('h2');
     expect(h2s.length).to.equal(1);
@@ -119,6 +119,84 @@ describe('22-10278 <IntroductionPage>', () => {
         'text',
         'Sign in or create an account',
       );
+    });
+
+    it('should not show sign in button when user is authenticated', () => {
+      const { container } = renderWithStore(
+        <IntroductionPage {...baseProps} />,
+        mockStore(true),
+      );
+      const alert = container.querySelector('va-alert-sign-in');
+
+      if (alert) {
+        const signInButton = alert.querySelector(
+          'va-button[text="Sign in or create an account"]',
+        );
+        expect(signInButton).to.be.null;
+      }
+    });
+  });
+
+  describe('authenticated user behavior', () => {
+    it('should sync userLoggedIn to formData when user is authenticated', () => {
+      const store = mockStore(true);
+      const dispatchCalls = [];
+      store.dispatch = action => {
+        dispatchCalls.push(action);
+        return action;
+      };
+
+      renderWithStore(<IntroductionPage {...baseProps} />, store);
+
+      const setDataCall = dispatchCalls.find(
+        call => call.type === 'SET_DATA' && call.data?.userLoggedIn === true,
+      );
+
+      expect(setDataCall).to.exist;
+      expect(setDataCall.data.userLoggedIn).to.be.true;
+    });
+
+    it('should not dispatch setData when userLoggedIn already matches formData', () => {
+      const store = mockStore(true, { userLoggedIn: true });
+      const dispatchCalls = [];
+      store.dispatch = action => {
+        dispatchCalls.push(action);
+        return action;
+      };
+
+      renderWithStore(<IntroductionPage {...baseProps} />, store);
+
+      const setDataCalls = dispatchCalls.filter(
+        call => call.type === 'SET_DATA',
+      );
+      expect(setDataCalls.length).to.equal(0);
+    });
+
+    it('should render SaveInProgressIntro without unauthStartText when authenticated', () => {
+      const { container } = renderWithStore(
+        <IntroductionPage {...baseProps} />,
+        mockStore(true),
+      );
+
+      const alert = container.querySelector('va-alert-sign-in');
+
+      if (alert) {
+        const signInButton = alert.querySelector(
+          'va-button[text="Sign in or create an account"]',
+        );
+        expect(signInButton).to.be.null;
+      }
+    });
+
+    it('should correctly handle authenticated user state from Redux store', () => {
+      const store = mockStore(true);
+      const { container } = renderWithStore(
+        <IntroductionPage {...baseProps} />,
+        store,
+      );
+
+      expect(store.getState().user.login.currentlyLoggedIn).to.be.true;
+      expect(container).to.exist;
     });
   });
 

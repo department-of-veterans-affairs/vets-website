@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { cleanup } from '@testing-library/react';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
@@ -34,6 +35,7 @@ describe('Prescription details container', () => {
   });
 
   afterEach(() => {
+    cleanup();
     sandbox.restore();
   });
 

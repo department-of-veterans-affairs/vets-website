@@ -253,14 +253,16 @@ describe('VistaOnlyContent', () => {
   });
 
   describe('CCD Download Success Alert', () => {
-    it('renders CCD download success alert when generatingCCD is true and no error', () => {
-      const { getByText } = renderComponent({
+    it('does not render CCD download success alert when only generatingCCD is true, but shows spinner', () => {
+      const { queryByText, getByTestId } = renderComponent({
         generatingCCD: true,
+        ccdDownloadSuccess: false,
         ccdError: false,
         CCDRetryTimestamp: null,
       });
 
-      expect(getByText(/Continuity of Care Document download/)).to.exist;
+      expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
+      expect(getByTestId('generating-ccd-indicator')).to.exist;
     });
 
     it('renders CCD download success alert when ccdDownloadSuccess is true and no error', () => {

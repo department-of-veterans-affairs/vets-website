@@ -1,0 +1,68 @@
+{
+  "data": [
+        {
+            "id": "4-1abZUKu7xIvIw6",
+            "type": "medicalCopays",
+            "attributes": {
+                "url": null,
+                "facility": "TEST VAMC",
+                "facilityId": "4-O3d8XK44ejMS",
+                "city": "LYONS",
+                "externalId": "4-1abZUKu7xIvIw6",
+                "latestBillingRef": "4-6c9ZE23XQm5VawK",
+                "currentBalance": 0.0,
+                "previousBalance": 65.71,
+                "previousUnpaidBalance": 0.0,
+                "lastUpdatedAt": "2025-08-29T00:00:00Z"
+            }
+        },
+        {
+            "id": "4-1abZUKu7xIv1t4",
+            "type": "medicalCopays",
+            "attributes": {
+                "url": null,
+                "facility": "TEST VAMC",
+                "facilityId": "4-5pFm5AKcS3F",
+                "city": "LYONS",
+                "externalId": "4-1abZUKu7xIv1t4",
+                "latestBillingRef": "4-6c9ZE23XQjkA9CC",
+                "currentBalance": 85.67,
+                "previousBalance": 76.19,
+                "previousUnpaidBalance": 85.67,
+                "lastUpdatedAt": "2025-08-29T00:00:00Z"
+            }
+        },
+        {
+            "id": "4-1abZUKu7xIukq2",
+            "type": "medicalCopays",
+            "attributes": {
+                "url": null,
+                "facility": "TEST VAMC",
+                "facilityId": "4-O3d8XK3dOgmC",
+                "city": "LYONS",
+                "externalId": "4-1abZUKu7xIukq2",
+                "latestBillingRef": "4-6c9ZE23XQm4MeK0",
+                "currentBalance": 60.790000000000006,
+                "previousBalance": 49.63,
+                "previousUnpaidBalance": 60.790000000000006,
+                "lastUpdatedAt": "2025-08-29T00:00:00Z"
+            }
+        }
+    ],
+    "meta": {
+        "total": 10,
+        "page": 1,
+        "perPage": 3,
+        "copaySummary": {
+            "totalCurrentBalance": 146.46,
+            "copayBillCount": 3,
+            "lastUpdatedOn": "2025-08-29T00:00:00Z"
+        }
+    },
+    "links": {
+        "self": "http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=1",
+        "first": "http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=1",
+        "next": "http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=2",
+        "last": "http://127.0.0.1:3000/services/health-care-costs-coverage/v0/r4/Invoice?_count=3&patient=10000003&page=4"
+    }
+}

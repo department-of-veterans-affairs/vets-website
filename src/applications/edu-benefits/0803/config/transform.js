@@ -1,6 +1,10 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import _ from 'lodash';
-import { getTransformIntlPhoneNumber, todaysDate } from '../helpers';
+import {
+  transformPhoneNumberObject,
+  transformMailingAddress,
+  todaysDate,
+} from '../helpers';
 
 export default function transform(formConfig, form) {
   const data = _.cloneDeep(form.data);
@@ -8,18 +12,21 @@ export default function transform(formConfig, form) {
   delete data.statementOfTruthCertified;
   delete data.AGREED;
 
-  // phone numbers are from 'international phone' input, and
-  // so come as an object, but we only want to send a string
-  // to the back-end. Also, they're optional, so don't send
-  // anything if no phone number is present.
-  data.homePhone = getTransformIntlPhoneNumber(data.homePhone);
-  data.mobilePhone = getTransformIntlPhoneNumber(data.mobilePhone);
+  // since we're using the prefill/ContactInfo pattern for managing
+  // the users address, phones, and email all the relevant data is
+  // under the `veteran` key within formData buy default. We need
+  // to extract and alter the shape a bit to conform to our schema
+  data.homePhone = transformPhoneNumberObject(data.veteran.homePhone);
+  data.mobilePhone = transformPhoneNumberObject(data.veteran.mobilePhone);
   if (data.homePhone === '') {
     delete data.homePhone;
   }
   if (data.mobilePhone === '') {
     delete data.mobilePhone;
   }
+  data.mailingAddress = transformMailingAddress(data.veteran.mailingAddress);
+  data.emailAddress = data.veteran.email?.emailAddress;
+  delete data.veteran;
 
   // Make sure testCost is sent as a number
   if (data.testCost) {

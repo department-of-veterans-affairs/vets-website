@@ -8,6 +8,7 @@ import React, {
 import { Link, useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import PropTypes from 'prop-types';
@@ -16,6 +17,7 @@ import {
   updatePageTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
@@ -48,7 +50,6 @@ import { getFilterOptions } from '../util/helpers/getRxStatus';
 import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
-import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import RxRenewalMessageSuccessAlert from '../components/shared/RxRenewalMessageSuccessAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
@@ -108,6 +109,20 @@ const Prescriptions = () => {
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
 
+  // Track when user returns from Rx Renewal SM flow
+  useEffect(
+    () => {
+      if (rxRenewalMessageSuccess) {
+        recordEvent({
+          event: 'api_call',
+          'api-name': 'Rx SM Renewal',
+          'api-status': 'successful',
+        });
+      }
+    },
+    [rxRenewalMessageSuccess],
+  );
+
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
@@ -155,7 +170,12 @@ const Prescriptions = () => {
     [prescriptionsData],
   );
 
-  const filteredList = prescriptionsData?.prescriptions || [];
+  const filteredList = useMemo(
+    () => {
+      return prescriptionsData?.prescriptions || [];
+    },
+    [prescriptionsData],
+  );
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
@@ -197,15 +217,6 @@ const Prescriptions = () => {
     if (isFiltering) {
       updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
       updates.page = 1;
-
-      if (newFilterOption === selectedFilterOption) {
-        document.getElementById('showingRx').scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest',
-        });
-      }
-
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
     }
@@ -676,6 +687,7 @@ const Prescriptions = () => {
             <MedicationsListFilter
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
+              isLoading={isLoading}
             />
             <InProductionEducationFiltering />
           </>
@@ -719,11 +731,14 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <DisplayCernerFacilityAlert />
+            <CernerFacilityAlert
+              healthTool="MEDICATIONS"
+              apiError={prescriptionsApiError}
+            />
           </>
         ) : (
           <>
-            <DisplayCernerFacilityAlert />
+            <CernerFacilityAlert healthTool="MEDICATIONS" />
             {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>
@@ -737,11 +752,15 @@ const Prescriptions = () => {
     <div>
       {content()}
       <PrescriptionsPrintOnly
-        list={printedList}
+        list={printedList.length > 0 ? printedList : filteredList}
         hasError={
           hasExportListDownloadError || isAlertVisible || !!allergiesError
         }
-        isFullList={printedList.length === prescriptionsExportList.length}
+        isFullList={
+          printedList.length > 0
+            ? printedList.length === prescriptionsExportList.length
+            : true
+        }
       />
     </div>
   );

@@ -16,12 +16,12 @@ export const hasPartsABorC = formData =>
   (hasMedicare(formData) && hasPartsAB(formData)) || hasPartC(formData);
 
 export const hasPartD = formData =>
-  hasMedicare(formData) && hasPartsABorC(formData) && formData.hasMedicarePartD;
+  hasMedicare(formData) && formData.medicarePartDStatus;
 
 export const needsPartADenialNotice = formData =>
   hasPartB(formData) ||
-  (!hasMedicare(formData) && formData['view:beneficiaryAgeOver65']);
+  (!hasMedicare(formData) && formData['view:applicantAgeOver65']);
 
 export const hasPartADenialNotice = formData =>
   needsPartADenialNotice(formData) &&
-  formData['view:hasPartADenial'].hasPartADenial;
+  formData['view:partADenialNotice']['view:hasPartADenial'];

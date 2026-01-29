@@ -5,40 +5,40 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 export const dicOptions = {
   DIC: 'DIC',
-  DIC_1151: 'DIC under U.S.C. 1151',
-  DIC_REEVALUATION: 'DIC re-evaluation based on the PACT Act',
+  '1151DIC': 'DIC under U.S.C. 1151',
+  pactActDIC: 'DIC re-evaluation based on the PACT Act',
 };
 
-export const servicesOptions = {
-  ARMY: 'Army',
-  NAVY: 'Navy',
-  AIR_FORCE: 'Air Force',
-  COAST_GUARD: 'Coast Guard',
-  MARINE_CORPS: 'Marine Corps',
-  SPACE_FORCE: 'Space Force',
-  USPHS: 'USPHS',
-  NOAA: 'NOAA',
-};
+export const servicesOptions = [
+  { value: 'army', label: 'Army' },
+  { value: 'navy', label: 'Navy' },
+  { value: 'airForce', label: 'Air Force' },
+  { value: 'coastGuard', label: 'Coast Guard' },
+  { value: 'marineCorps', label: 'Marine Corps' },
+  { value: 'spaceForce', label: 'Space Force' },
+  { value: 'usphs', label: 'USPHS' },
+  { value: 'noaa', label: 'NOAA' },
+];
 
 export const claimantRelationshipOptions = {
-  SPOUSE: 'Surviving spouse',
-  CUSTODIAN: 'Custodian filing for child under 18',
-  ADULT_CHILD_STILL_IN_SCHOOL:
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  CUSTODIAN_FILING_FOR_CHILD_UNDER_18: 'Custodian filing for child under 18',
+  'CHILD_18-23_IN_SCHOOL':
     'Adult child who is 18-23 years old and still in school',
-  ADULT_CHILD_SERIOUSLY_DISABLED: 'Adult child who is seriously disabled',
+  HELPLESS_ADULT_CHILD: 'Adult child who is seriously disabled',
   OTHER: 'Other',
 };
 
 export const marriageEndOptions = {
-  SPOUSE_DEATH: "Spouse's death",
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
+  death: "Spouse's death",
+  divorce: 'Divorce',
+  other: 'Other',
 };
 
 export const marriageTypeOptions = {
-  CIVIL_RELIGIOUS:
-    'In a civil or religious ceremony with an officiant who signed me marriage license',
-  OTHER_WAY: 'Some other way',
+  ceremonial:
+    'In a civil or religious ceremony with an officiant who signed my marriage license',
+  other: 'Some other way',
 };
 
 export const separationReasonOptions = {
@@ -54,10 +54,10 @@ export const previousMarriageEndOptions = {
 };
 
 export const remarriageEndOptions = {
-  DID_NOT_END: 'Did not end',
-  SPOUSE_DEATH: "Spouse's death",
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
+  didNotEnd: 'Did not end',
+  death: "Spouse's death",
+  divorce: 'Divorce',
+  other: 'Other',
 };
 
 export const bankAccountTypeOptions = {
@@ -74,6 +74,13 @@ export const recipientTypeLabels = {
   CUSTODIAN_SPOUSE: 'Custodian’s spouse',
 };
 
+export const incomeRecipientTypeLabels = {
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  CHILD: 'Veteran’s child',
+  CUSTODIAN: 'Custodian',
+  CUSTODIAN_SPOUSE: 'Custodian’s spouse',
+};
+
 export const medicalExpenseRecipientLabels = {
   VETERAN: 'Veteran (only select if a last or burial expense)',
   SURVIVING_SPOUSE: 'Surviving spouse',
@@ -81,7 +88,7 @@ export const medicalExpenseRecipientLabels = {
 };
 
 export const careTypeLabels = {
-  RESIDENTIAL_CARE_FACILITY: 'Residential care facility',
+  CARE_FACILITY: 'Residential care facility',
   IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
   NURSING_HOME: 'Nursing home',
   ADULT_DAYCARE: 'Adult daycare',
@@ -95,12 +102,12 @@ export const frequencyLabels = {
 
 export const careFrequencyLabels = {
   MONTHLY: 'Once a month',
-  YEARLY: 'Once a year',
+  ANNUALLY: 'Once a year',
 };
 
 export const typeOfIncomeLabels = {
   SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
+  INTEREST_DIVIDENDS: 'Interest or dividend income',
   CIVIL_SERVICE: 'Civil Service',
   PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',

@@ -40,6 +40,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
       vaOnlineSchedulingImmediateCareAlert: true,
+      vaOnlineSchedulingUseVpg: true,
     });
     mockVamcEhrApi({ isCerner: true });
   });
@@ -114,7 +115,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
                 useShadowDOM: true,
               })
               .clickLink({
-                name: 'Choose your preferred date and time',
+                name: 'Choose your preferred appointment date and time',
                 useShadowDOM: true,
               });
 
@@ -189,7 +190,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
                 useShadowDOM: true,
               })
               .clickLink({
-                name: 'Choose your preferred date and time',
+                name: 'Choose your preferred appointment date and time',
                 useShadowDOM: true,
               });
 
@@ -270,7 +271,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
                 useShadowDOM: true,
               })
               .clickLink({
-                name: 'Choose your preferred date and time',
+                name: 'Choose your preferred appointment date and time',
                 useShadowDOM: true,
               });
 
@@ -349,7 +350,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
                 useShadowDOM: true,
               })
               .clickLink({
-                name: 'Choose your preferred date and time',
+                name: 'Choose your preferred appointment date and time',
                 useShadowDOM: true,
               });
 
@@ -430,7 +431,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
                 useShadowDOM: true,
               })
               .clickLink({
-                name: 'Choose your preferred date and time',
+                name: 'Choose your preferred appointment date and time',
                 useShadowDOM: true,
               });
 
@@ -502,7 +503,7 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
                 useShadowDOM: true,
               })
               .clickLink({
-                name: 'Choose your preferred date and time',
+                name: 'Choose your preferred appointment date and time',
                 useShadowDOM: true,
               });
 

@@ -15,6 +15,7 @@ import {
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { selectHoldTimeMessagingUpdate } from '../util/selectors';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -66,6 +67,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     ccdOHFlagEnabled:
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdOH],
   }));
+  const holdTimeMessagingUpdate = useSelector(selectHoldTimeMessagingUpdate);
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
@@ -91,25 +93,27 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
 
-  // Map facility IDs to facility names
+  // Map facility IDs to facility names, fallback to 'None recorded' if empty
   const vistaFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return [];
+      if (!ehrDataByVhaId) return ['None recorded'];
       const vistaFacilities = facilities.filter(f => !f.isCerner);
-      return vistaFacilities
+      const names = vistaFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
+      return names.length ? names : ['None recorded'];
     },
     [facilities, ehrDataByVhaId],
   );
 
   const ohFacilityNames = useMemo(
     () => {
-      if (!ehrDataByVhaId) return [];
+      if (!ehrDataByVhaId) return ['None recorded'];
       const ohFacilities = facilities.filter(f => f.isCerner);
-      return ohFacilities
+      const names = ohFacilities
         .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
         .filter(name => name); // Filter out undefined/null names
+      return names.length ? names : ['None recorded'];
     },
     [facilities, ehrDataByVhaId],
   );
@@ -267,6 +271,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <VistaAndOHIntroText
             ohFacilityNames={ohFacilityNames}
             vistaFacilityNames={vistaFacilityNames}
+            holdTimeMessagingUpdate={holdTimeMessagingUpdate}
           />
           <VistaAndOHContent
             vistaFacilityNames={vistaFacilityNames}
@@ -296,7 +301,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     if (hasOHOnly) {
       return (
         <div>
-          <OHOnlyIntroText />
+          <OHOnlyIntroText holdTimeMessagingUpdate={holdTimeMessagingUpdate} />
           <OHOnlyContent
             testIdSuffix="OH"
             ddSuffix="OH"
@@ -322,7 +327,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   // Default case: OH CCD is disabled, *OR* user has only VistA facilities
   return (
     <div>
-      <VistaIntroText />
+      <VistaIntroText holdTimeMessagingUpdate={holdTimeMessagingUpdate} />
       <VistaOnlyContent
         ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
         failedSeiDomains={failedSeiDomains}

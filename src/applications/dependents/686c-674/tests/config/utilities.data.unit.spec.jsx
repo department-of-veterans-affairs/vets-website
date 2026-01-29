@@ -23,6 +23,7 @@ import {
 import { PICKLIST_DATA } from '../../config/constants';
 import transformedV3RemoveOnlyData from '../e2e/fixtures/transformed-remove-only-v3';
 import v3RemoveOnlyData from '../e2e/fixtures/removal-only-v3.json';
+import { formConfig } from '../../config/form';
 
 const dataOptions = 'view:removeDependentOptions';
 
@@ -618,6 +619,117 @@ describe('customTransformForSubmit - integration tests', () => {
     pages: [],
   };
 
+  it('should not include data property wrapper in final payload - V2 flow (regression test for payload structure bug)', () => {
+    // This test verifies V2 flow with checkbox selection works correctly
+    // and that the final payload sent to backend does NOT have a nested 'data' property.
+    // view:selectable686Options and view:removeDependentOptions should be at the top level
+    const form = {
+      data: {
+        'view:addOrRemoveDependents': { add: false, remove: true },
+        'view:removeDependentOptions': {
+          reportDivorce: true,
+        },
+        reportDivorce: {
+          fullName: { first: 'Ex', last: 'Spouse' },
+          birthDate: '1980-01-01',
+          date: '2024-01-01',
+          reasonMarriageEnded: 'Divorce',
+          divorceLocation: {
+            outsideUsa: false,
+            location: { city: 'City', state: 'CA' },
+          },
+          spouseIncome: 'N',
+        },
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    const result = customTransformForSubmit(mockFormConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    // Critical assertions for the bug:
+    // 1. Should NOT have a 'data' property at the top level
+    expect(submittedData.data).to.be.undefined;
+
+    // 2. Should have view:selectable686Options at the top level
+    expect(submittedData['view:selectable686Options']).to.not.be.undefined;
+    expect(submittedData['view:selectable686Options'].reportDivorce).to.be.true;
+
+    // 3. Should have view:removeDependentOptions at the top level
+    expect(submittedData['view:removeDependentOptions']).to.not.be.undefined;
+    expect(submittedData['view:removeDependentOptions'].reportDivorce).to.be
+      .true;
+
+    // 4. Data fields should be at the top level (not nested under 'data')
+    expect(submittedData.useV2).to.be.true;
+    expect(submittedData.daysTillExpires).to.equal(365);
+    expect(submittedData.reportDivorce).to.not.be.undefined;
+    expect(submittedData.veteranInformation).to.not.be.undefined;
+  });
+
+  it('should not include data property wrapper in final payload - V3 flow (regression test for payload structure bug)', () => {
+    // This test verifies V3 picklist flow works correctly with the payload structure fix.
+    // V3 has empty view:removeDependentOptions (no checkboxes), but after picklist
+    // transformation, flags should be set AND payload should not have nested 'data' property.
+    const form = {
+      data: {
+        vaDependentsV3: true, // Enable V3 flow
+        'view:addOrRemoveDependents': { add: false, remove: true },
+        'view:removeDependentOptions': {}, // EMPTY - typical V3 state
+        [PICKLIST_DATA]: [
+          {
+            fullName: { first: 'Ex', last: 'Spouse' },
+            dateOfBirth: '1980-01-01',
+            relationshipToVeteran: 'Spouse',
+            selected: true,
+            removalReason: 'marriageEnded',
+            endType: 'Divorce',
+            endDate: '2024-01-01',
+            endOutsideUs: false,
+            endCity: 'City',
+            endState: 'CA',
+            spouseIncome: 'N',
+          },
+        ],
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    const result = customTransformForSubmit(mockFormConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    // Critical assertions for V3 + payload structure:
+    // 1. Should NOT have a 'data' property at the top level
+    expect(submittedData.data).to.be.undefined;
+
+    // 2. Should have view:selectable686Options at the top level with reportDivorce flag
+    expect(submittedData['view:selectable686Options']).to.not.be.undefined;
+    expect(submittedData['view:selectable686Options'].reportDivorce).to.be.true;
+
+    // 3. Should have view:removeDependentOptions at the top level with reportDivorce flag
+    expect(submittedData['view:removeDependentOptions']).to.not.be.undefined;
+    expect(submittedData['view:removeDependentOptions'].reportDivorce).to.be
+      .true;
+
+    // 4. Data fields should be at the top level (not nested under 'data')
+    expect(submittedData.useV2).to.be.true;
+    expect(submittedData.daysTillExpires).to.equal(365);
+    expect(submittedData.reportDivorce).to.not.be.undefined;
+    expect(submittedData.veteranInformation).to.not.be.undefined;
+
+    // 5. Transformed divorce data should be present
+    expect(submittedData.reportDivorce.fullName.first).to.equal('Ex');
+    expect(submittedData.reportDivorce.fullName.last).to.equal('Spouse');
+  });
+
   it('should correctly handle V2 flow with empty stepChildren through full transformation pipeline', () => {
     // This integration test verifies the full data flow from form submission
     // through filterInactivePageData, type extraction, and buildSubmissionData
@@ -710,6 +822,128 @@ describe('customTransformForSubmit - integration tests', () => {
           .reportStepchildNotInHousehold,
       ).to.be.true;
     }
+  });
+
+  it('should set flags based on data presence in V3 picklist flow (regression test)', () => {
+    // Regression test for V3 picklist where view:removeDependentOptions is EMPTY
+    // but data arrays exist after transformation. Flags should be set based on
+    // data presence, not checkbox selection.
+    const form = {
+      data: {
+        vaDependentsV3: true,
+        'view:addOrRemoveDependents': { add: false, remove: true },
+        'view:removeDependentOptions': {}, // EMPTY - typical V3 picklist state
+        [PICKLIST_DATA]: [
+          {
+            fullName: { first: 'Ex', last: 'Spouse' },
+            dateOfBirth: '1980-01-01',
+            relationshipToVeteran: 'Spouse',
+            selected: true,
+            removalReason: 'marriageEnded',
+            endType: 'Divorce',
+            endDate: '2024-01-01',
+            endOutsideUs: false,
+            endCity: 'City',
+            endState: 'CA',
+            spouseIncome: 'N',
+          },
+          {
+            fullName: { first: 'Deceased', last: 'Child' },
+            dateOfBirth: '2010-01-01',
+            relationshipToVeteran: 'Child',
+            selected: true,
+            removalReason: 'childDied',
+            endDate: '2024-06-01',
+            endOutsideUs: false,
+            endCity: 'City',
+            endState: 'CA',
+          },
+        ],
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    const result = customTransformForSubmit(mockFormConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    // Critical assertions: flags should be set even though view:removeDependentOptions is empty
+    expect(submittedData['view:selectable686Options']).to.not.be.undefined;
+    expect(submittedData['view:selectable686Options'].reportDivorce).to.be.true;
+    expect(submittedData['view:selectable686Options'].reportDeath).to.be.true;
+
+    expect(submittedData['view:removeDependentOptions']).to.not.be.undefined;
+    expect(submittedData['view:removeDependentOptions'].reportDivorce).to.be
+      .true;
+    expect(submittedData['view:removeDependentOptions'].reportDeath).to.be.true;
+
+    // Data should be present
+    expect(submittedData.reportDivorce).to.not.be.undefined;
+    expect(submittedData.deaths).to.be.an('array');
+    expect(submittedData.deaths).to.have.lengthOf(1);
+  });
+
+  it('should preserve wizard view: fields in add flow with no awarded dependents (regression test)', () => {
+    // This test verifies that wizard fields are preserved even when their pages
+    // are marked inactive due to depends functions checking for awarded dependents.
+    // This was causing a cascade where all view: fields and data were removed.
+    //
+    // CRITICAL: This test MUST use the real formConfig (not mockFormConfig) to
+    // properly exercise the inactive page filtering logic with real depends functions.
+    const form = {
+      data: {
+        vaDependentsV3: true,
+        'view:addOrRemoveDependents': { add: true },
+        'view:addDependentOptions': { addSpouse: true },
+        'view:selectable686Options': { addSpouse: true },
+        currentMarriageInformation: {
+          typeOfMarriage: 'CIVIL',
+          location: { city: 'Test', state: 'AL' },
+          date: '1990-01-01',
+        },
+        doesLiveWithSpouse: {
+          spouseDoesLiveWithVeteran: true,
+        },
+        spouseInformation: {
+          isVeteran: false,
+          fullName: { first: 'Test', last: 'User' },
+          birthDate: '1990-01-01',
+          ssn: '123123123',
+        },
+        dependents: {
+          hasError: false,
+          hasDependents: false,
+          awarded: [], // No awarded dependents - triggers the cascade bug
+        },
+        veteranInformation: { fullName: { first: 'Test', last: 'Veteran' } },
+        veteranContactInformation: { phoneNumber: '555-1234' },
+        statementOfTruthSignature: 'Test Signature',
+        statementOfTruthCertified: true,
+        metadata: { version: 1 },
+      },
+    };
+
+    // Use REAL formConfig to exercise actual page filtering and depends logic
+    const result = customTransformForSubmit(formConfig, form);
+    const submittedData = JSON.parse(result.body);
+
+    // Critical assertions: wizard fields should be preserved
+    expect(submittedData['view:addOrRemoveDependents']).to.not.be.undefined;
+    expect(submittedData['view:addOrRemoveDependents'].add).to.be.true;
+
+    expect(submittedData['view:addDependentOptions']).to.not.be.undefined;
+    expect(submittedData['view:addDependentOptions'].addSpouse).to.be.true;
+
+    expect(submittedData['view:selectable686Options']).to.not.be.undefined;
+    expect(submittedData['view:selectable686Options'].addSpouse).to.be.true;
+
+    // Data fields should also be present
+    expect(submittedData.currentMarriageInformation).to.not.be.undefined;
+    expect(submittedData.doesLiveWithSpouse).to.not.be.undefined;
+    expect(submittedData.spouseInformation).to.not.be.undefined;
   });
 });
 
@@ -1042,7 +1276,7 @@ describe('transformPicklistToV2', () => {
         {
           fullName: { first: 'SUMMER', last: 'SMITH' },
           dateOfBirth: '1990-08-01',
-          ssn: '6790',
+          ssn: '123456790',
           selected: true,
           removalReason: 'marriageEnded',
           endType: 'divorce',
@@ -1058,7 +1292,7 @@ describe('transformPicklistToV2', () => {
     expect(result.reportDivorce).to.be.an('object');
     expect(result.reportDivorce).to.deep.equal({
       fullName: { first: 'SUMMER', last: 'SMITH' },
-      ssn: '6790',
+      ssn: '123456790',
       birthDate: '1990-08-01',
       date: '2000-02-02',
       reasonMarriageEnded: 'Divorce',
@@ -1107,6 +1341,80 @@ describe('transformPicklistToV2', () => {
         country: 'FRA',
       },
     });
+  });
+
+  it('should not include SSN in reportDivorce if SSN is not exactly 9 digits', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '1234', // Only 4 digits
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2020-01-01',
+          endCity: 'test',
+          endState: 'AS',
+          endOutsideUs: false,
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.reportDivorce).to.be.an('object');
+    expect(result.reportDivorce.ssn).to.be.undefined;
+    expect(result.reportDivorce.fullName).to.deep.equal({
+      first: 'SPOUSE',
+      last: 'DOE',
+    });
+  });
+
+  it('should include SSN in reportDivorce if SSN is exactly 9 digits', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '123456789', // Exactly 9 digits
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2020-01-01',
+          endCity: 'test',
+          endState: 'AS',
+          endOutsideUs: false,
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.reportDivorce).to.be.an('object');
+    expect(result.reportDivorce.ssn).to.equal('123456789');
+  });
+
+  it('should normalize SSN in reportDivorce by removing dashes', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'SPOUSE', last: 'DOE' },
+          dateOfBirth: '1985-01-01',
+          ssn: '123-45-6789', // 9 digits with dashes
+          selected: true,
+          removalReason: 'marriageEnded',
+          endType: 'divorce',
+          endDate: '2020-01-01',
+          endCity: 'test',
+          endState: 'AS',
+          endOutsideUs: false,
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.reportDivorce).to.be.an('object');
+    // Should strip dashes and send digits only
+    expect(result.reportDivorce.ssn).to.equal('123456789');
   });
 
   it('should transform spouse death to deaths array', () => {
@@ -1297,7 +1605,30 @@ describe('transformPicklistToV2', () => {
     };
     const result = transformPicklistToV2(data);
 
-    expect(result.stepChildren).to.be.undefined;
+    expect(result.stepChildren).to.deep.equal([
+      {
+        address: {
+          city: 'Las Vegas',
+          country: 'USA',
+          postalCode: '12345',
+          state: 'NV',
+          street: '123 Fake St.',
+        },
+        birthDate: '2012-02-19',
+        dateStepchildLeftHousehold: '2000-02-02',
+        fullName: {
+          first: 'STEP',
+          last: 'CHILD',
+        },
+        livingExpensesPaid: 'Less than half',
+        ssn: '333445555',
+        supportingStepchild: false,
+        whoDoesTheStepchildLiveWith: {
+          first: 'John',
+          last: 'Doe',
+        },
+      },
+    ]);
   });
 
   it('should add stepchild to stepChildren array only when isStepchild is Y and removalReason is childMarried', () => {
@@ -1812,5 +2143,77 @@ describe('enrichDivorceWithSSN', () => {
     const result = enrichDivorceWithSSN(data);
 
     expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should not add SSN if it is not exactly 9 digits', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '12345', // Only 5 digits
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    // Should not add invalid SSN
+    expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should not add SSN if it has more than 9 digits', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '12345678901', // 11 digits
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    // Should not add invalid SSN
+    expect(result.reportDivorce.ssn).to.be.undefined;
+  });
+
+  it('should normalize SSN by removing dashes and formatting', () => {
+    const data = {
+      reportDivorce: {
+        fullName: { first: 'Jane', last: 'Doe' },
+        birthDate: '1990-01-15',
+      },
+      dependents: {
+        awarded: [
+          {
+            fullName: { first: 'Jane', last: 'Doe' },
+            dateOfBirth: '1990-01-15',
+            ssn: '123-45-6789', // 9 digits with formatting
+            relationshipToVeteran: 'Spouse',
+          },
+        ],
+      },
+    };
+
+    const result = enrichDivorceWithSSN(data);
+
+    // Should normalize SSN to digits only (remove dashes)
+    expect(result.reportDivorce.ssn).to.equal('123456789');
   });
 });
