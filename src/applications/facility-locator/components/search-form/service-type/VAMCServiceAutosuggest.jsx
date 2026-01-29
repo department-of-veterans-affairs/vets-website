@@ -158,7 +158,7 @@ const VAMCServiceAutosuggest = ({
       inputRef={inputRef}
       inputValue={inputValue || ''}
       keepDataOnBlur
-      label={<span>Service type</span>}
+      label="Select a health service"
       noItemsMessage="No results found."
       onClearClick={handleClearClick}
       onInputValueChange={handleInputValueChange}
