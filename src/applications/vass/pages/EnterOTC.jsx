@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
-import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
+import {
+  usePostOTCVerificationMutation,
+  useLazyGetUserAppointmentQuery,
+} from '../redux/api/vassApi';
 import {
   selectFlowType,
   selectObfuscatedEmail,
@@ -49,8 +52,10 @@ const EnterOTC = () => {
 
   const [code, setCode] = useState('');
   const [error, setError] = useState(undefined);
+  const [checkingAppointment, setCheckingAppointment] = useState(false);
 
   const [postOTCVerification, { isLoading }] = usePostOTCVerificationMutation();
+  const [getUserAppointment] = useLazyGetUserAppointmentQuery();
 
   const handleSubmit = async () => {
     if (code === '') {
@@ -67,6 +72,19 @@ const EnterOTC = () => {
       setCode('');
       return;
     }
+
+    // Check if user already has an appointment
+    setCheckingAppointment(true);
+    const appointmentCheck = await getUserAppointment();
+    setCheckingAppointment(false);
+
+    // If user has an existing appointment, redirect to already-scheduled page
+    if (appointmentCheck.data?.data) {
+      navigate(URLS.ALREADY_SCHEDULED, { replace: true });
+      return;
+    }
+
+    // Otherwise, continue with normal flow
     if (cancellationFlow) {
       // TODO: handle cancellation flow
       navigate(`${URLS.CANCEL_APPOINTMENT}/abcdef123456`, { replace: true });
@@ -130,7 +148,7 @@ const EnterOTC = () => {
           text="Continue"
           data-testid="continue-button"
           uswds
-          loading={isLoading}
+          loading={isLoading || checkingAppointment}
         />
       </div>
     </Wrapper>
