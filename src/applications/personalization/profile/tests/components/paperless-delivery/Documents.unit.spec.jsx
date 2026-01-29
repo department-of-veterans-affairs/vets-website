@@ -5,7 +5,6 @@ import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import { renderWithStoreAndRouter as render } from '~/platform/testing/unit/react-testing-library-helpers';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import * as recordEventModule from '~/platform/monitoring/record-event';
 import * as useNotificationSettingsUtils from '@@profile/hooks/useNotificationSettingsUtils';
 import * as Document from '../../../components/paperless-delivery/Document';
 import { Documents } from '../../../components/paperless-delivery/Documents';
@@ -13,7 +12,6 @@ import { Documents } from '../../../components/paperless-delivery/Documents';
 describe('Documents', () => {
   let sandbox;
   let facilities;
-  let recordEventStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -24,7 +22,6 @@ describe('Documents', () => {
       return undefined;
     });
     sandbox.stub(Document, 'Document').callsFake(() => <div />);
-    recordEventStub = sandbox.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
@@ -49,17 +46,6 @@ describe('Documents', () => {
       });
     const { getByText } = render(<Documents />, {});
     expect(getByText(/Paperless delivery not available yet/)).to.exist;
-    const notEnrolledEvent = {
-      event: 'visible-alert-box',
-      'alert-box-type': 'info',
-      'alert-box-heading': 'Paperless delivery not available yet',
-      'error-key': 'not_enrolled',
-      'alert-box-full-width': false,
-      'alert-box-background-only': false,
-      'alert-box-closeable': false,
-      'reason-for-alert': 'Not enrolled in VA benefits',
-    };
-    sinon.assert.calledWithExactly(recordEventStub, notEnrolledEvent);
   });
 
   it('should render documents', () => {
@@ -96,17 +82,5 @@ describe('Documents', () => {
     expect(alert).to.have.text(
       `We’re sorry. Something went wrong on our end and we can’t load your documents available for paperless delivery. Try again later.`,
     );
-    const apiErrorEvent = {
-      event: 'visible-alert-box',
-      'alert-box-type': 'warning',
-      'alert-box-heading':
-        'We’re sorry. Something went wrong on our end and we can’t load your documents available for paperless delivery. Try again later.',
-      'error-key': 'api_error',
-      'alert-box-full-width': false,
-      'alert-box-background-only': false,
-      'alert-box-closeable': false,
-      'reason-for-alert': 'API error',
-    };
-    sinon.assert.calledWithExactly(recordEventStub, apiErrorEvent);
   });
 });

@@ -26,8 +26,6 @@ export const FLOW_TYPES = {
 export const AUTH_LEVELS = {
   /** No authentication required - public route */
   NONE: 'none',
-  /** Requires form data (uuid, lastname, dob) but not a token. Redirects authenticated users away. */
-  LOW_AUTH_ONLY: 'lowAuthOnly',
   /** Requires a valid authentication token */
   TOKEN: 'token',
 };
