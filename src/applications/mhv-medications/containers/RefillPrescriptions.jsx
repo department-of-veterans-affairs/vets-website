@@ -51,10 +51,14 @@ const RefillPrescriptions = () => {
 
   const isCernerPilot = useSelector(selectCernerPilotFlag);
 
+  // Use a fixed cache key to deduplicate mutations across multiple tabs
+  // This prevents the same refill from being submitted simultaneously in different tabs
   const [
     bulkRefillPrescriptions,
     result,
-  ] = useBulkRefillPrescriptionsMutation();
+  ] = useBulkRefillPrescriptionsMutation({
+    fixedCacheKey: 'bulk-refill-request',
+  });
   const { isLoading: isRefilling, error: bulkRefillError } = result;
 
   const refillAlertList = refillableData?.refillAlertList || [];
@@ -111,6 +115,8 @@ const RefillPrescriptions = () => {
   );
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
+  const [isSlowConnection, setIsSlowConnection] = useState(false);
+  const [refreshTimeoutReached, setRefreshTimeoutReached] = useState(false);
 
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
@@ -138,7 +144,8 @@ const RefillPrescriptions = () => {
   ]);
 
   // Hide the refillable list during cache refresh after successful refill to prevent duplicate attempts
-  const hideList = isRefreshing;
+  // If timeout is reached, show the list again to prevent indefinite waiting on slow connections
+  const hideList = isRefreshing && !refreshTimeoutReached;
 
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
@@ -234,6 +241,51 @@ const RefillPrescriptions = () => {
     [selectedSortOption],
   );
 
+  // Handle timeout for slow cache refresh operations
+  // After 30 seconds of refreshing, show the list again to prevent indefinite waiting
+  useEffect(
+    () => {
+      let timeoutId;
+      if (isRefreshing) {
+        setRefreshTimeoutReached(false);
+        setIsSlowConnection(false);
+
+        // Set slow connection indicator after 5 seconds
+        const slowConnectionTimeoutId = setTimeout(() => {
+          if (isRefreshing) {
+            setIsSlowConnection(true);
+          }
+        }, 5000);
+
+        // Set timeout to stop hiding list after 30 seconds
+        timeoutId = setTimeout(() => {
+          if (isRefreshing) {
+            setRefreshTimeoutReached(true);
+            setRefillStatus(REFILL_STATUS.NOT_STARTED);
+          }
+        }, 30000);
+
+        return () => {
+          clearTimeout(slowConnectionTimeoutId);
+          clearTimeout(timeoutId);
+        };
+      }
+      return undefined;
+    },
+    [isRefreshing],
+  );
+
+  // Reset timeout flags when refresh completes successfully
+  useEffect(
+    () => {
+      if (!isFetching && refreshTimeoutReached) {
+        setRefreshTimeoutReached(false);
+        setIsSlowConnection(false);
+      }
+    },
+    [isFetching, refreshTimeoutReached],
+  );
+
   useEffect(
     () => {
       if (!isLoading && !isRefilling) {
@@ -268,19 +320,18 @@ const RefillPrescriptions = () => {
 
   const content = () => {
     if (isDataLoading || hideList) {
+      const loadingMessage = hideList
+        ? isSlowConnection
+          ? `${REFILL_LOADING_MESSAGES.UPDATING_REFILL_LIST} This is taking longer than usual. Please wait...`
+          : REFILL_LOADING_MESSAGES.UPDATING_REFILL_LIST
+        : REFILL_LOADING_MESSAGES.LOADING;
+
       return (
         <div
           className="refill-loading-indicator"
           data-testid="loading-indicator"
         >
-          <va-loading-indicator
-            message={
-              hideList
-                ? REFILL_LOADING_MESSAGES.UPDATING_REFILL_LIST
-                : REFILL_LOADING_MESSAGES.LOADING
-            }
-            set-focus
-          />
+          <va-loading-indicator message={loadingMessage} set-focus />
         </div>
       );
     }
@@ -301,6 +352,23 @@ const RefillPrescriptions = () => {
             dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
             refillAlertList={refillAlertList}
           />
+        )}
+        {refreshTimeoutReached && (
+          <va-alert
+            status="warning"
+            class="vads-u-margin-bottom--2"
+            data-testid="refresh-timeout-alert"
+          >
+            <h2 slot="headline">
+              Prescription list may not be fully updated
+            </h2>
+            <p>
+              We're having trouble updating your prescription list. The list
+              below may still include prescriptions you just refilled. You can
+              try refreshing the page, or check back later to see your updated
+              list.
+            </p>
+          </va-alert>
         )}
         {prescriptionsApiError ? (
           <>

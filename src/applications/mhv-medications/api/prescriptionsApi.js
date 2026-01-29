@@ -242,6 +242,10 @@ export const prescriptionsApi = createApi({
   // Refetch data every 60 seconds if the component mounts or the arguments change
   // This is commented out for now due to the 6 requests per day limit to VistA
   // refetchOnMountOrArgChange: 60,
+  // Refetch when window regains focus to sync state across multiple tabs
+  refetchOnFocus: true,
+  // Refetch when network connection is restored for better slow connection handling
+  refetchOnReconnect: true,
   tagTypes: ['Prescription'],
   endpoints: builder => ({
     getPrescriptionsExportList: builder.query({

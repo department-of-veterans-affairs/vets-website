@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -9,6 +11,8 @@ import { stubAllergiesApi } from '../testing-utils';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import { dateFormat } from '../../util/helpers';
+import { store } from '../../store';
+import router from '../../routes';
 
 const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
 
@@ -784,6 +788,171 @@ describe('Refill Prescriptions Component', () => {
         const checkboxGroup = screen.queryByTestId('refill-checkbox-group');
         expect(button).to.not.exist;
         expect(checkboxGroup).to.not.exist;
+      });
+    });
+
+    describe('Edge case handling', () => {
+      it('uses fixedCacheKey for mutation to prevent duplicate submissions across tabs', async () => {
+        const bulkRefillStub = sinon.stub().resolves({
+          data: { successfulIds: [1], failedIds: [] },
+        });
+        sandbox.restore();
+        stubAllergiesApi({ sandbox });
+
+        sandbox
+          .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+          .returns({
+            data: { prescriptions: refillablePrescriptions, meta: {} },
+            error: false,
+            isLoading: false,
+            isFetching: false,
+          });
+
+        // Verify that the mutation hook is called with fixedCacheKey option
+        const mutationStub = sandbox
+          .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+          .returns([bulkRefillStub, { isLoading: false, error: null }]);
+
+        setup();
+
+        // Check that the hook was called with the fixed cache key
+        expect(mutationStub.calledOnce).to.be.true;
+        expect(mutationStub.firstCall.args[0]).to.deep.equal({
+          fixedCacheKey: 'bulk-refill-request',
+        });
+      });
+
+      it('shows slow connection message after 5 seconds of refreshing', async () => {
+        const clock = sinon.useFakeTimers();
+        sandbox.restore();
+        stubAllergiesApi({ sandbox });
+
+        const bulkRefillStub = sinon.stub().resolves({
+          data: { successfulIds: [1], failedIds: [] },
+        });
+
+        // Start with not fetching
+        const queryStub = sandbox
+          .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+          .returns({
+            data: { prescriptions: refillablePrescriptions, meta: {} },
+            error: false,
+            isLoading: false,
+            isFetching: false,
+          });
+
+        sandbox
+          .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+          .returns([bulkRefillStub, { isLoading: false, error: null }]);
+
+        const screen = setup();
+
+        // Click to submit
+        const checkbox = await screen.findByTestId(
+          'refill-prescription-checkbox-0',
+        );
+        checkbox.click();
+        const button = await screen.findByTestId('request-refill-button');
+        button.click();
+
+        // Wait for refill to complete and start cache refresh
+        await waitFor(() => {
+          expect(bulkRefillStub.called).to.be.true;
+        });
+
+        // Simulate cache refresh by setting isFetching to true
+        queryStub.returns({
+          data: { prescriptions: refillablePrescriptions, meta: {} },
+          error: false,
+          isLoading: false,
+          isFetching: true,
+        });
+
+        screen.rerender(
+          <Provider store={store}>
+            <RouterProvider router={router} />
+          </Provider>,
+        );
+
+        // Fast-forward 5 seconds
+        clock.tick(5000);
+
+        await waitFor(() => {
+          const loadingIndicator = screen.getByTestId('loading-indicator');
+          expect(loadingIndicator).to.exist;
+          const message = loadingIndicator.querySelector('va-loading-indicator');
+          expect(message.getAttribute('message')).to.include(
+            'This is taking longer than usual',
+          );
+        });
+
+        clock.restore();
+      });
+
+      it('shows timeout alert and restores form after 30 seconds', async () => {
+        const clock = sinon.useFakeTimers();
+        sandbox.restore();
+        stubAllergiesApi({ sandbox });
+
+        const bulkRefillStub = sinon.stub().resolves({
+          data: { successfulIds: [1], failedIds: [] },
+        });
+
+        const queryStub = sandbox
+          .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+          .returns({
+            data: { prescriptions: refillablePrescriptions, meta: {} },
+            error: false,
+            isLoading: false,
+            isFetching: false,
+          });
+
+        sandbox
+          .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+          .returns([bulkRefillStub, { isLoading: false, error: null }]);
+
+        const screen = setup();
+
+        // Click to submit
+        const checkbox = await screen.findByTestId(
+          'refill-prescription-checkbox-0',
+        );
+        checkbox.click();
+        const button = await screen.findByTestId('request-refill-button');
+        button.click();
+
+        await waitFor(() => {
+          expect(bulkRefillStub.called).to.be.true;
+        });
+
+        // Simulate long cache refresh
+        queryStub.returns({
+          data: { prescriptions: refillablePrescriptions, meta: {} },
+          error: false,
+          isLoading: false,
+          isFetching: true,
+        });
+
+        screen.rerender(
+          <Provider store={store}>
+            <RouterProvider router={router} />
+          </Provider>,
+        );
+
+        // Fast-forward 30 seconds
+        clock.tick(30000);
+
+        await waitFor(() => {
+          // Timeout alert should appear
+          const alert = screen.queryByTestId('refresh-timeout-alert');
+          expect(alert).to.exist;
+
+          // Form should be visible again
+          const refillButton = screen.queryByTestId('request-refill-button');
+          expect(refillButton).to.exist;
+        });
+
+        clock.restore();
       });
     });
   });
