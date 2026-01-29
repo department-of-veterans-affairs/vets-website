@@ -106,7 +106,7 @@ export const employmentEarningsHoursUiSchema = {
     }),
     timeLost: textUI({
       title: 'Time lost to disability',
-      suffix: 'hours',
+      inputSuffix: 'hours',
       errorMessages: {
         required: 'Time lost is required',
         maxLength: 'Time lost must be less than 100 characters',
@@ -114,7 +114,7 @@ export const employmentEarningsHoursUiSchema = {
     }),
     dailyHours: numberUI({
       title: 'Daily hours worked',
-      suffix: 'hours',
+      inputSuffix: 'hours',
       min: 0,
       max: 24,
       errorMessages: {
@@ -125,7 +125,7 @@ export const employmentEarningsHoursUiSchema = {
     }),
     weeklyHours: numberUI({
       title: 'Weekly hours worked',
-      suffix: 'hours',
+      inputSuffix: 'hours',
       min: 0,
       max: 168,
       errorMessages: {
