@@ -95,21 +95,34 @@ class FolderManagementPage {
   };
 
   selectFolderFromModal = (folderName = `Trash`) => {
-    // Wait for folders to load before interacting with the move button
     cy.wait('@folders');
+
     cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
       .should('be.visible')
       .click();
-    // Wait for the modal to appear in DOM first, then check visibility
-    cy.findByTestId(Locators.BUTTONS.MOVE_MODAL_TEST_ID)
-      .should('exist')
-      .and('be.visible')
-      .within(() => {
-        cy.findByLabelText(folderName)
-          .should('exist')
-          .and('be.visible')
-          .click();
-      });
+
+    cy.get('body').then($body => {
+      const byTestIdSelector = `[data-testid="${
+        Locators.BUTTONS.MOVE_MODAL_TEST_ID
+      }"]`;
+
+      // Prefer the existing test id when present, but fall back to the rendered modal host.
+      const hasTestIdModal = $body.find(byTestIdSelector).length > 0;
+
+      const modalChain = hasTestIdModal
+        ? cy.get(byTestIdSelector)
+        : cy.get('va-modal:visible');
+
+      modalChain
+        .should('exist')
+        .and('be.visible')
+        .within(() => {
+          cy.findByLabelText(folderName)
+            .should('exist')
+            .and('be.visible')
+            .click();
+        });
+    });
   };
 
   confirmMovingMessageToFolder = (
