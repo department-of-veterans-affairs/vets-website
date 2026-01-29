@@ -83,14 +83,16 @@
   "diedOnDuty": true,
   "veteranDateOfDeath": "2002-02-02",
   "veteranSocialSecurityNumber": {
-    "ssn": "321313311"
+    "ssn": "321313311",
+    "vaFileNumber": "11001100"
   },
   "veteranServiceNumber": "A11111111",
   "view:warningAlert": {},
   "veteranFullName": {
     "first": "Jonathan",
     "middle": "Kevin",
-    "last": "Testerson"
+    "last": "Testerson",
+    "suffix": "Jr."
   },
   "veteranDateOfBirth": "1954-01-11",
   "view:isAddingDependent": false,
