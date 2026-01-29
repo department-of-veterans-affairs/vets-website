@@ -99,7 +99,7 @@ const Result = ({
     return (
       <li key={result.url} className="result-item vads-u-margin-bottom--4">
         <h4
-          className="vads-u-display--inline vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
+          className="vads-u-display--block vads-u-width--full vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
           data-e2e-id="result-title"
         >
           <va-link

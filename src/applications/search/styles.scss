@@ -24,8 +24,12 @@
 
     &.results-list {
       li.result-item {
+        width: 100%;
+        max-width: none;
         .result-desc {
           color: $color-gray-dark;
+          width: 100%;
+          max-width: none;
         }
 
         .result-url {
@@ -40,13 +44,21 @@
     }
   }
 
+  .more-va-search-tools-list {
+    .more-va-search-tools-item {
+      margin-bottom: 1rem;
+    }
+
+    .more-va-search-tools-item:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   .usa-alert {
     margin-bottom: 1.25rem;
 
-
     .usa-alert-body {
       padding-left: 0.625rem;
-
 
       .usa-alert-text {
         margin-top: 0.625rem;
@@ -54,14 +66,11 @@
     }
   }
 
-
   hr {
     border-bottom: none;
 
-
     &#hr-search-bottom {
       margin-bottom: 0;
-
 
       @include media($small-screen) {
         margin-bottom: 0.9375rem;
@@ -69,24 +78,20 @@
     }
   }
 
-
   .results-footer {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.625rem;
-
+    margin-bottom: 0;
 
     @include media($medium-screen) {
       flex-direction: row;
-      margin-bottom: 2.5rem;
+      margin-bottom: 0;
     }
-
 
     .powered-by {
       font-weight: bold;
       margin: 0.625rem 0 0;
-
 
       @include media($small-screen) {
         margin: 0.625rem 0 1.25rem;
@@ -97,7 +102,6 @@
       }
     }
   }
-
 
   .search-row {
     box-sizing: inherit;

@@ -315,7 +315,6 @@ const SearchApp = ({
                 maxPageListLength={7}
               />
             )}
-          <span className="powered-by">Powered by Search.gov</span>
         </div>
       </div>
     );
@@ -373,8 +372,8 @@ const SearchApp = ({
               />
             </div>
             {!shouldShowErrorMessage && renderResults()}
-            <div className="more-va-search-tools vads-u-margin-top--4">
-              <h2 className="highlight vads-u-font-size--h4">
+            <div className="more-va-search-tools">
+              <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                 More VA search tools
               </h2>
               <MoreVASearchTools />
