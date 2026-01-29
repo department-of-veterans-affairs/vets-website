@@ -54,7 +54,7 @@
   "claimantPhone": {
     "callingCode": 1,
     "countryCode": "US",
-    "contact": "5555112312",
+    "contact": "5551113333",
     "_isValid": true,
     "_error": null,
     "_touched": true,
@@ -74,7 +74,8 @@
   "claimantFullName": {
     "first": "Jane",
     "middle": "Middle",
-    "last": "Doe"
+    "last": "Doe",
+    "suffix": "Jr."
   },
   "claimantDateOfBirth": "1955-05-05",
   "claimantRelationship": "SURVIVING_SPOUSE",
@@ -91,7 +92,7 @@
   "veteranFullName": {
     "first": "Jonathan",
     "middle": "Kevin",
-    "last": "Testerson",
+    "last": "TestersonServiceThatisreall",
     "suffix": "Jr."
   },
   "veteranDateOfBirth": "1954-01-11",
@@ -139,8 +140,9 @@
     {
       "otherServiceName": {
         "first": "Other",
-        "last": "Service",
-        "middle": "Name"
+        "last": "ServiceThatisreallylong",
+        "middle": "Name",
+        "suffix": "Jr."
       }
     },
     {
@@ -155,15 +157,7 @@
   "nationalGuardActivated": true,
   "nationalGuardActivationDate": "2001-09-11",
   "unitName": "Unit Name",
-  "unitPhone": {
-    "callingCode": 1,
-    "countryCode": "US",
-    "contact": "5555112222",
-    "_isValid": true,
-    "_error": null,
-    "_touched": true,
-    "_required": true
-  },
+  "unitPhone": "5551112222",
   "unitAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
@@ -230,16 +224,37 @@
   "veteransChildren": [
     {
       "childFullName": {
+        "first": "MiddleChild",
+        "last": "Testerson"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "Hamburg",
+        "otherCountry": "DEU"
+      },
+      "bornOutsideUS": true,
+      "relationship": "ADOPTED",
+      "inSchool": false,
+      "seriouslyDisabled": true,
+      "hasBeenMarried": false,
+      "currentlyMarried": false,
+      "livesWith": true,
+      "childSupport": 5000
+    },
+    {
+      "childFullName": {
         "first": "FirstChild",
         "middle": "ChildMiddle",
-        "last": "LastName"
+        "last": "LastName",
+        "suffix": "Jr."
       },
       "childDateOfBirth": "2010-10-10",
       "childSocialSecurityNumber": "123451234",
       "birthPlace": {
         "city": "Some City",
         "state": "OH",
-        "country": "USA"
+        "otherCountry": "USA"
       },
       "bornOutsideUS": false,
       "relationship": "BIOLOGICAL",
@@ -252,27 +267,6 @@
     },
     {
       "childFullName": {
-        "first": "MiddleChild",
-        "last": "Testerson"
-      },
-      "childDateOfBirth": "2010-10-10",
-      "childSocialSecurityNumber": "123451234",
-      "birthPlace": {
-        "city": "Some City",
-        "state": "OH",
-        "country": "USA"
-      },
-      "bornOutsideUS": false,
-      "relationship": "ADOPTED",
-      "inSchool": false,
-      "seriouslyDisabled": true,
-      "hasBeenMarried": false,
-      "currentlyMarried": false,
-      "livesWith": true,
-      "childSupport": 5000
-    },
-    {
-      "childFullName": {
         "first": "Reallylongchildfirstname",
         "middle": "Reallylongmiddlename",
         "last": "Reallylongchildlastname"
@@ -280,9 +274,9 @@
       "childDateOfBirth": "2010-10-10",
       "childSocialSecurityNumber": "123451234",
       "birthPlace": {
-        "city": "Some City",
-        "state": "OH",
-        "country": "USA"
+        "city": "SomeAnother City",
+        "state": "MO",
+        "otherCountry": "USA"
       },
       "bornOutsideUS": false,
       "relationship": "STEPCHILD",
@@ -323,7 +317,8 @@
       "spouseFullName": {
         "first": "SpouseFirst",
         "last": "SpouseLast",
-        "middle": "SpouseMiddle"
+        "middle": "SpouseMiddle",
+        "suffix": "Jr."
       }
     },
     {
@@ -363,7 +358,8 @@
       "spouseFullName": {
         "first": "SpouseFirstName",
         "last": "SpouseLastName",
-        "middle": "SpouseMiddleName"
+        "middle": "SpouseMiddleName",
+        "suffix": "Jr."
       }
     },
     {
