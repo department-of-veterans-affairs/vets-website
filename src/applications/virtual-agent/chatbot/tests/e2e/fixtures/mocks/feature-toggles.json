@@ -9,6 +9,10 @@
       {
         "name": "virtual_agent_show_chatbot",
         "value": true
+      },
+      {
+        "name": "virtual_agent_show_ai_disclaimer",
+        "value": true
       }
     ]
   }

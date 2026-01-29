@@ -12,9 +12,12 @@ describe('VA Virtual Agent Chatbot', () => {
 
     // Verify the page loads with expected content
     // Update selector as the chatbot component develops
-    cy.findByRole('heading', { name: 'V2 Chatbot Placeholder' }).should(
-      'be.visible',
-    );
+    cy.findByTestId('chatbox-container').should('be.visible');
+
+    // Verify AI disclaimer is visible
+    cy.contains(
+      'We may use artificial intelligence (AI) for these responses',
+    ).should('be.visible');
 
     cy.injectAxeThenAxeCheck();
   });
