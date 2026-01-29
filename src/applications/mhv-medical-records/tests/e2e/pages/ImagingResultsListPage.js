@@ -79,7 +79,7 @@ class ImagingResultsListPage extends BaseListPage {
   };
 
   verifyPageTitle = () => {
-    cy.get('h1').contains('Radiology');
+    cy.get('h1').contains('Medical imaging results');
   };
 
   verifyRecordCount = () => {
