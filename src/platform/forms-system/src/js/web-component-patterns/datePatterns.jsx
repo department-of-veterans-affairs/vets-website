@@ -24,13 +24,11 @@ import {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- *   errorMessages?: {
- *     pattern?: string,
- *     required?: string
- *   },
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   dataDogHidden?: boolean,
  *   monthYearOnly?: boolean,
  *   removeDateHint?: boolean,
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -40,6 +38,7 @@ const currentOrPastDateUI = options => {
     errorMessages,
     required,
     dataDogHidden = false,
+    validations,
     ...uiOptions
   } = typeof options === 'object' ? options : { title: options };
 
@@ -54,13 +53,18 @@ const currentOrPastDateUI = options => {
     ? { year: 'numeric', month: 'long' }
     : { year: 'numeric', month: 'long', day: 'numeric' };
 
+  const baseValidation = monthYearOnly
+    ? validateCurrentOrPastMonthYear
+    : validateCurrentOrPastMemorableDate;
+  const allValidations = validations
+    ? [baseValidation, ...validations]
+    : [baseValidation];
+
   return {
     'ui:title': uiTitle,
     'ui:webComponentField': monthYearOnly ? VaDateField : VaMemorableDateField,
     'ui:required': required,
-    'ui:validations': monthYearOnly
-      ? [validateCurrentOrPastMonthYear]
-      : [validateCurrentOrPastMemorableDate],
+    'ui:validations': allValidations,
     'ui:errorMessages': {
       pattern:
         errorMessages?.pattern || 'Please enter a valid current or past date',
@@ -105,11 +109,9 @@ const currentOrPastDateUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
- *   errorMessages?: {
- *     pattern?: string,
- *     required?: string
- *   },
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   removeDateHint?: boolean,
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -258,6 +260,8 @@ const currentOrPastMonthYearDateRangeUI = (
  *   hint?: string,
  *   monthYearOnly?: boolean,
  *   removeDateHint?: boolean,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -288,16 +292,18 @@ const currentOrPastDateDigitsUI = options => {
  *   hint?: string,
  *   monthYearOnly?: boolean,
  *   removeDateHint?: boolean,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
 const dateOfBirthUI = options => {
-  const { title, ...uiOptions } =
+  const { title, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return currentOrPastDateUI({
     title: title || 'Date of birth',
-    errorMessages: {
+    errorMessages: errorMessages || {
       pattern: 'Please provide a valid date',
       required: 'Provide a date of birth',
     },
@@ -321,16 +327,18 @@ const dateOfBirthUI = options => {
  *   hint?: string,
  *   monthYearOnly?: boolean,
  *   removeDateHint?: boolean,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
 const dateOfDeathUI = options => {
-  const { title, ...uiOptions } =
+  const { title, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return currentOrPastDateUI({
     title: title || 'Date of death',
-    errorMessages: {
+    errorMessages: errorMessages || {
       pattern: 'Please provide a valid date',
       required: 'Please provide the date of death',
     },
