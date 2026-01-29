@@ -75,9 +75,6 @@ describe('ChunkLoadError Reproduction', () => {
       // Standard React.lazy - current implementation across the codebase
       const LazyComponent = React.lazy(flakyImport);
 
-      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
-      // See: https://github.com/testing-library/react-testing-library/issues/1375
-      // The callback MUST be async for proper Suspense handling
       let getByTestId;
       await act(async () => {
         const result = render(
@@ -129,8 +126,6 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
-      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
-      // See: https://github.com/testing-library/react-testing-library/issues/1375
       let getByTestId;
       await act(async () => {
         const result = render(
@@ -169,8 +164,6 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
-      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
-      // See: https://github.com/testing-library/react-testing-library/issues/1375
       let getByTestId;
       await act(async () => {
         const result = render(
