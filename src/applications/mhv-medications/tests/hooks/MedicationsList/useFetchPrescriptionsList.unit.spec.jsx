@@ -232,7 +232,6 @@ describe('useFetchPrescriptionsList', () => {
         );
         expect(result.current.prescriptionsApiError).to.be.undefined;
         expect(result.current.isLoading).to.be.false;
-        expect(result.current.handlePageChange).to.be.a('function');
         expect(result.current.setQueryParams).to.be.a('function');
       });
     });
