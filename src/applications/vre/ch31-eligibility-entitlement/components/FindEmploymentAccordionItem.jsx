@@ -1,15 +1,16 @@
 import React from 'react';
 
-export default function FindAJobSection() {
+export default function FindEmploymentAccordionItem() {
   return (
-    <>
-      <h2 className="va-nav-linkslist-heading vads-u-margin-top--1 vads-u-margin-bottom--0">
-        3. Find a Job
-      </h2>
-      <ul className="va-nav-linkslist-list">
+    <va-accordion-item header="3. Find Employment" open bordered>
+      <ul className="va-nav-linkslist-list vads-u-margin-bottom--3">
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Compare Costs of Living" />
+            <va-link
+              href="https://www.careeronestop.org/Toolkit/Wages/cost-of-living.aspx"
+              text="Compare Costs of Living"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Evaluate how your income and expenses might vary across different
@@ -19,7 +20,11 @@ export default function FindAJobSection() {
         </li>
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Salary Finder" />
+            <va-link
+              href="https://www.careeronestop.org/Toolkit/Wages/find-salary.aspx"
+              text="Salary Finder"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Compare typical earnings for different occupations to help you
@@ -28,7 +33,11 @@ export default function FindAJobSection() {
         </li>
         <li>
           <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-            <va-link href="https://www.va.gov" text="Job Finder" />
+            <va-link
+              href="https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx"
+              text="Employment Finder"
+              external
+            />
           </h3>
           <p className="va-nav-linkslist-description">
             Search for current job openings in your area or nationwide, filtered
@@ -36,6 +45,6 @@ export default function FindAJobSection() {
           </p>
         </li>
       </ul>
-    </>
+    </va-accordion-item>
   );
 }
