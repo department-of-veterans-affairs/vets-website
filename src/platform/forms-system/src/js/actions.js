@@ -272,6 +272,7 @@ export function uploadFile(
   onError,
   trackingPrefix,
   password,
+  hasAttemptedTokenRefresh = false, //  ADD: Track if we've already tried refreshing
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -325,7 +326,7 @@ export function uploadFile(
       return null;
     }
 
-    // we limit file types, but it’s not respected on mobile and desktop
+    // we limit file types, but it's not respected on mobile and desktop
     // users can bypass it without much effort
     const anyImage =
       uiOptions.fileTypes[0] === 'image/*' && file.type.startsWith('image/');
@@ -385,7 +386,8 @@ export function uploadFile(
           ...fileData,
           isEncrypted: !!password,
         });
-      } else if (req.status === 403) {
+      } else if (req.status === 403 && !hasAttemptedTokenRefresh) {
+        //  FIXED: Add retry check
         let errorResponse;
         try {
           errorResponse = JSON.parse(req.response);
@@ -403,13 +405,31 @@ export function uploadFile(
                   onError,
                   trackingPrefix,
                   password,
+                  true, //  FIXED: Mark that we've attempted refresh
                 )(dispatch, getState);
               },
             );
+            return; //  FIXED: Return early to prevent falling through
           }
         } catch (e) {
           // fall through to show error
         }
+
+        //  FIXED: If we get here, token refresh failed or wasn't attempted
+        const fileObj = { file, name: file.name, size: file.size };
+        const errorMessage = 'Authentication failed. Please sign in again.';
+
+        if (password) {
+          onChange({
+            ...fileObj,
+            errorMessage,
+            isEncrypted: true,
+          });
+        } else {
+          onChange({ ...fileObj, errorMessage });
+        }
+        Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
+        onError();
       } else {
         const fileObj = { file, name: file.name, size: file.size };
         let errorMessage = req.statusText;
@@ -421,7 +441,7 @@ export function uploadFile(
           // intentionally empty
         }
         if (req.status === 429) {
-          errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
+          errorMessage = `You've reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
             new Date(
               parseInt(req.getResponseHeader('x-ratelimit-reset'), 10) * 1000,
             ),

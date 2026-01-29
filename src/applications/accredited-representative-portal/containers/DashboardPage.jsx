@@ -14,14 +14,20 @@ const DashboardPage = props => {
   const params = new URLSearchParams(location.search);
   const unauthorizedParam = params.has('unauthorized');
   const isAuthorized = loaderData?.authorized === true;
+
+  // Store authorization status for other components to check
   localStorage.setItem('userAuthorized', isAuthorized);
-  useEffect(
-    () => {
-      if (title) document.title = title;
-      focusElement('h1');
-    },
-    [title],
-  );
+
+  useEffect(() => {
+    if (title) document.title = title;
+    focusElement('h1');
+
+    // Signal to other services to stop making API calls if unauthorized
+    if (unauthorizedParam || !isAuthorized) {
+      window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+    }
+  }, [title, unauthorizedParam, isAuthorized]);
+
   return (
     <section className="dashboard">
       <div className="arp-container">
@@ -42,7 +48,9 @@ DashboardPage.loader = async ({ request }) => {
   const unauthorizedParam = searchParams.has('unauthorized');
   if (unauthorizedParam) return { authorized: false };
 
-  const res = await api.checkAuthorized();
+  // Skip 403 redirect since we handle authorization state locally
+  const res = await api.checkAuthorized({ skip403Redirect: true });
+
   // Bubble up 401 to the route guard so it can redirect to sign-in
   if (res.status === 401) throw res;
   // 403 → unauthorized

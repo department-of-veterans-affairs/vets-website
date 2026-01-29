@@ -1,6 +1,7 @@
 /* This file is must run in both NodeJS and browser environments */
 
 import { getFlipperId } from './helpers';
+import { apiRequest } from '../api';
 
 const FLIPPER_ID = getFlipperId();
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?cookie_id=${FLIPPER_ID}`;
@@ -8,40 +9,38 @@ const TOGGLE_POLLING_INTERVAL = 5000;
 
 let flipperClientInstance;
 
-function FlipperClient({
-  host = 'http://localhost:3000',
-  toggleValuesPath = TOGGLE_VALUES_PATH,
-} = {}) {
+function FlipperClient({ toggleValuesPath = TOGGLE_VALUES_PATH } = {}) {
   let _timeoutId;
   let _pollingActive;
+  let _authFailureDetected = false;
   const _subscriberCallbacks = [];
-  const csrfTokenStored = localStorage.getItem('csrfToken');
+
+  // Define stopPollingToggleValues FIRST (before it's used)
+  const stopPollingToggleValues = () => {
+    window.clearTimeout(_timeoutId);
+    _pollingActive = false;
+  };
 
   const _fetchToggleValues = async () => {
     try {
-      const response = await fetch(`${host}${toggleValuesPath}`, {
+      // Use platform apiRequest instead of raw fetch
+      return await apiRequest(toggleValuesPath, {
         credentials: 'include',
-        headers: {
-          'X-CSRF-Token': csrfTokenStored,
-        },
       });
-      if (!response.ok) {
-        const errorMessage = `Failed to fetch toggle values with status ${
-          response.status
-        } ${response.statusText}`;
-        return { error: errorMessage };
-      }
-
-      // Get CSRF Token from API header
-      const csrfToken = response.headers.get('X-CSRF-Token');
-
-      if (csrfToken && csrfToken !== csrfTokenStored) {
-        localStorage.setItem('csrfToken', csrfToken);
-      }
-
-      return response.json();
     } catch (error) {
-      return { error: error.message };
+      // CRITICAL: Handle 403 errors by stopping polling
+      if (error instanceof Response && error.status === 403) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          'Feature toggles: Authentication failed (403). Stopping polling.',
+        );
+        _authFailureDetected = true;
+        stopPollingToggleValues();
+        return { error: 'Authentication failed', status: 403 };
+      }
+
+      // For other errors, return error but allow retry
+      return { error: error.message || 'Unknown error' };
     }
   };
 
@@ -52,32 +51,42 @@ function FlipperClient({
     _subscriberCallbacks.forEach(callback => callback(toggleValues));
 
   const refreshToggleValues = async () => {
-    const { toggleValues } = await _fetchToggleValues();
+    // Don't refresh if auth failed
+    if (_authFailureDetected) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'Feature toggles: Cannot refresh, authentication previously failed.',
+      );
+      return;
+    }
 
-    handleToggleValuesRetrieved(toggleValues);
+    const result = await _fetchToggleValues();
+
+    // Check if result has toggleValues before accessing
+    if (result && result.data) {
+      const toggleValues = result.data.features?.reduce((acc, toggle) => {
+        acc[toggle.name] = toggle.value;
+        return acc;
+      }, {});
+
+      if (toggleValues) {
+        handleToggleValuesRetrieved(toggleValues);
+      }
+    }
   };
 
   const fetchToggleValues = async () => {
-    /*
-    {
-      "data":{
-          "type":"feature_toggles",
-          "features":[
-            {
-                "name":"foo",
-                "value":false
-            },
-            {
-                "name":"another_toggle",
-                "value":true
-            }
-          ]
-      }
-    }
-    */
     const result = await _fetchToggleValues();
 
+    // Handle error cases
     if (result.error) {
+      if (result.status === 403) {
+        // Auth failed, return empty toggles
+        return {};
+      }
+      // Other errors, return empty toggles
+      // eslint-disable-next-line no-console
+      console.warn('Feature toggles: Error fetching toggles:', result.error);
       return {};
     }
 
@@ -90,27 +99,65 @@ function FlipperClient({
   };
 
   const removeSubscriberCallback = index => {
-    // TODO: stop polling if no subscribers
     _subscriberCallbacks[index] = () => {};
-  };
 
-  const stopPollingToggleValues = () => {
-    window.clearTimeout(_timeoutId);
-    _pollingActive = false;
+    // IMPROVEMENT: Stop polling if no active subscribers
+    const hasActiveSubscribers = _subscriberCallbacks.some(
+      callback => callback.toString() !== '(() => {}).toString()',
+    );
+
+    if (!hasActiveSubscribers && _pollingActive) {
+      stopPollingToggleValues();
+    }
   };
 
   const startPollingToggleValues = async () => {
+    // Don't start if auth previously failed
+    if (_authFailureDetected) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'Feature toggles: Cannot start polling, authentication previously failed.',
+      );
+      return;
+    }
+
     _pollingActive = true;
-    const { toggleValues } = await _fetchToggleValues();
+    const result = await _fetchToggleValues();
+
+    // CRITICAL: Check for auth failure
+    if (result.error && result.status === 403) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'Feature toggles: Polling stopped due to authentication failure.',
+      );
+      stopPollingToggleValues();
+      return;
+    }
 
     if (_pollingActive) {
-      handleToggleValuesRetrieved(toggleValues);
+      // Extract toggleValues from result
+      if (result && result.data) {
+        const toggleValues = result.data.features?.reduce((acc, toggle) => {
+          acc[toggle.name] = toggle.value;
+          return acc;
+        }, {});
 
+        if (toggleValues) {
+          handleToggleValuesRetrieved(toggleValues);
+        }
+      }
+
+      // Use recursive setTimeout pattern (safer than setInterval)
       _timeoutId = window.setTimeout(
         () => startPollingToggleValues(),
         TOGGLE_POLLING_INTERVAL,
       );
     }
+  };
+
+  // Method to reset auth failure flag (for retry scenarios)
+  const resetAuthFailure = () => {
+    _authFailureDetected = false;
   };
 
   return {
@@ -120,6 +167,7 @@ function FlipperClient({
     removeSubscriberCallback,
     startPollingToggleValues,
     stopPollingToggleValues,
+    resetAuthFailure,
   };
 }
 

@@ -72,13 +72,10 @@ StatusTabLink.propTypes = {
 
 const POARequestSearchPage = title => {
   const [searchParams] = useSearchParams();
-  useEffect(
-    () => {
-      focusElement('h1');
-      document.title = title.title;
-    },
-    [title],
-  );
+  useEffect(() => {
+    focusElement('h1');
+    document.title = title.title;
+  }, [title]);
   const loaderData = useLoaderData() || {};
   const poaRequests = loaderData.data || [];
   const meta =
@@ -308,10 +305,13 @@ POARequestSearchPage.loader = async ({ request }) => {
     );
   } catch (err) {
     if (err instanceof Response && err.status === 403) {
-      // Try authorization endpoint
+      // Try authorization endpoint to distinguish between:
+      // 1. User is authorized as rep but POA feature not enabled (show alert)
+      // 2. User is not authorized at all (redirect to dashboard)
       try {
         await api.checkAuthorized({
           signal: request.signal,
+          skip403Redirect: true, // FIXED: Add this flag
         });
         // If authorized as a representative, show alert and empty data
         return { data: [], meta: {}, showPOA403Alert: true };
