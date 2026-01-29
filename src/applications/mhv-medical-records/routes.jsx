@@ -4,6 +4,7 @@ import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 import { lazyWithRetry } from '~/platform/utilities/lazy-load-with-retry';
 import AppRoute from './components/shared/AppRoute';
+import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 
 // Lazy-loaded components with retry logic for Safari/iOS bfcache issues.
 const HealthConditions = lazyWithRetry(() =>
@@ -137,30 +138,38 @@ const routes = (
         >
           <RadiologySingleImage />
         </AppRoute>
-        <AppRoute exact path="/imaging-results" key="Radiology">
+        <FeatureFlagRoute
+          exact
+          path="/imaging-results"
+          key="Radiology"
+          featureFlag="mhvMedicalRecordsImagesDomain"
+        >
           <Radiology />
-        </AppRoute>
-        <AppRoute
+        </FeatureFlagRoute>
+        <FeatureFlagRoute
           exact
           path="/imaging-results/:radiologyId"
           key="RadiologyDetails"
+          featureFlag="mhvMedicalRecordsImagesDomain"
         >
           <RadiologyDetailsPage />
-        </AppRoute>
-        <AppRoute
+        </FeatureFlagRoute>
+        <FeatureFlagRoute
           exact
           path="/imaging-results/:labId/images"
           key="RadiologyImagesListNew"
+          featureFlag="mhvMedicalRecordsImagesDomain"
         >
           <RadiologyImagesList basePath="/imaging-results" />
-        </AppRoute>
-        <AppRoute
+        </FeatureFlagRoute>
+        <FeatureFlagRoute
           exact
           path="/imaging-results/:labId/images/:imageId"
           key="RadiologySingleImageNew"
+          featureFlag="mhvMedicalRecordsImagesDomain"
         >
           <RadiologySingleImage basePath="/imaging-results" />
-        </AppRoute>
+        </FeatureFlagRoute>
         <AppRoute exact path="/settings" key="Settings">
           <SettingsPage />
         </AppRoute>
