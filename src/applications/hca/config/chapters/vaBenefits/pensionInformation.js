@@ -1,6 +1,9 @@
+// @ts-check
 import {
   titleUI,
   descriptionUI,
+  radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
@@ -17,20 +20,22 @@ export default {
     ),
     ...descriptionUI(PensionDescription),
     vaPensionType: {
-      'ui:title': content['benefits--pension-label'],
-      'ui:reviewField': CustomReviewField,
-      'ui:widget': 'radio',
-      'ui:options': {
+      ...radioUI({
+        title: content['benefits--pension-label'],
         labels: {
           pension: content['form--default-yes-label'],
           none: content['form--default-no-label'],
         },
-      },
+        required: () => true,
+      }),
+      'ui:reviewField': CustomReviewField,
     },
   },
   schema: {
     type: 'object',
     required: ['vaPensionType'],
-    properties: { vaPensionType },
+    properties: {
+      vaPensionType: radioSchema(vaPensionType.enum),
+    },
   },
 };

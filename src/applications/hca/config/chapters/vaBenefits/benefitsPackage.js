@@ -1,6 +1,9 @@
+// @ts-check
 import {
   titleUI,
   descriptionUI,
+  radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import HealthEnrollmentDescription from '../../../components/FormDescriptions/HealthEnrollmentDescription';
 import RegistrationOnlyNote from '../../../components/FormDescriptions/RegistrationOnlyNote';
@@ -14,16 +17,14 @@ export default {
       content['benefits--reg-only-description'],
     ),
     ...descriptionUI(HealthEnrollmentDescription),
-    'view:vaBenefitsPackage': {
-      'ui:title': content['benefits--reg-only-label'],
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: {
-          fullPackage: content['benefits--reg-only-full-package-label'],
-          regOnly: content['benefits--reg-only-service-connected-label'],
-        },
+    'view:vaBenefitsPackage': radioUI({
+      title: content['benefits--reg-only-label'],
+      labels: {
+        fullPackage: content['benefits--reg-only-full-package-label'],
+        regOnly: content['benefits--reg-only-service-connected-label'],
       },
-    },
+      required: () => true,
+    }),
     'view:registrationOnlyNote': {
       ...descriptionUI(RegistrationOnlyNote),
     },
@@ -32,10 +33,7 @@ export default {
     type: 'object',
     required: ['view:vaBenefitsPackage'],
     properties: {
-      'view:vaBenefitsPackage': {
-        type: 'string',
-        enum: ['fullPackage', 'regOnly'],
-      },
+      'view:vaBenefitsPackage': radioSchema(['fullPackage', 'regOnly']),
       'view:registrationOnlyNote': emptyObjectSchema,
     },
   },
