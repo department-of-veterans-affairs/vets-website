@@ -1,4 +1,3 @@
-import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
@@ -12,6 +11,7 @@ import {
   formatNameFirstToLast,
   buildInitialDateRange,
   formatDateTime,
+  sortByDate,
 } from '../util/helpers';
 import {
   loincCodes,
@@ -439,16 +439,6 @@ export const convertUnifiedLabsAndTestRecord = record => {
     },
   };
 };
-
-function sortByDate(array) {
-  return array.sort((a, b) => {
-    const dateA = parseISO(a.sortDate);
-    const dateB = parseISO(b.sortDate);
-    if (!a.sortDate) return 1; // Push nulls to the end
-    if (!b.sortDate) return -1; // Keep non-nulls at the front
-    return dateB - dateA;
-  });
-}
 
 export const labsAndTestsReducer = (state = initialState, action) => {
   switch (action.type) {

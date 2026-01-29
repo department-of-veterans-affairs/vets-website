@@ -1,6 +1,5 @@
-import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
-import { buildInitialDateRange } from '../util/helpers';
+import { buildInitialDateRange, sortByDate } from '../util/helpers';
 import { loadStates, DEFAULT_DATE_RANGE } from '../util/constants';
 import {
   convertMhvRadiologyRecord,
@@ -39,16 +38,6 @@ const initialState = {
    * */
   dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
 };
-
-function sortByDate(array) {
-  return array.sort((a, b) => {
-    const dateA = parseISO(a.sortDate);
-    const dateB = parseISO(b.sortDate);
-    if (!a.sortDate) return 1; // Push nulls to the end
-    if (!b.sortDate) return -1; // Keep non-nulls at the front
-    return dateB - dateA;
-  });
-}
 
 export const radiologyReducer = (state = initialState, action) => {
   switch (action.type) {
