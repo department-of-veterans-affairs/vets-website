@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import WarningNotification from '../../../components/WarningNotification';
 import { selectPendingAppointments } from '../../../redux/selectors';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../../utils/constants';
@@ -137,7 +136,7 @@ export default function AppointmentsPage() {
       </h1>
       {pageTitle === 'Appointments' && (
         <CernerFacilityAlert
-          {...CernerAlertContent.APPOINTMENTS}
+          healthTool="APPOINTMENTS"
           className="vaos-hide-for-print vads-u-margin-bottom--3"
           onLinkClick={() => {
             window.recordEvent({

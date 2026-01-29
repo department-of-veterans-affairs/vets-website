@@ -2,9 +2,6 @@ import { FETCH_TOGGLE_VALUES_STARTED } from 'platform/site-wide/feature-toggles/
 import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
 import { combineReducers } from 'redux';
 import {
-  MCP_STATEMENTS_FETCH_INIT,
-  MCP_STATEMENTS_FETCH_SUCCESS,
-  MCP_STATEMENTS_FETCH_FAILURE,
   DEBTS_FETCH_INITIATED,
   DEBTS_FETCH_SUCCESS,
   DEBTS_FETCH_FAILURE,
@@ -13,6 +10,11 @@ import {
   DEBT_LETTERS_FETCH_FAILURE,
   DEBT_LETTERS_FETCH_INITIATED,
 } from '../actions/debts';
+import {
+  MCP_STATEMENTS_FETCH_INIT,
+  MCP_STATEMENTS_FETCH_SUCCESS,
+  MCP_STATEMENTS_FETCH_FAILURE,
+} from '../actions/copays';
 
 const debtInitialState = {
   isProfileUpdating: true,
