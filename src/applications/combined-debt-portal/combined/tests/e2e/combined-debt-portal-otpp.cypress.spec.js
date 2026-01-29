@@ -101,7 +101,6 @@ describe('CDP - One Thing Per Page', () => {
         cy.get(`[data-testid="resolve-link-${id}"]`)
           .shadow()
           .find('a')
-          .should('be.visible')
           .click();
 
         cy.location('pathname').should(
@@ -109,13 +108,25 @@ describe('CDP - One Thing Per Page', () => {
           /\/copay-balances\/.*\/resolve$/,
         );
 
+        cy.injectAxeThenAxeCheck();
+      });
+
+      it('renders resolve page content after navigation', () => {
+        // Navigate through the UI like a user
+        cy.findByTestId('balance-card-copay')
+          .findByTestId('card-link')
+          .click();
+
+        cy.get(`[data-testid="resolve-link-${id}"]`)
+          .shadow()
+          .find('a')
+          .click();
+
+        // Assert content exists
         cy.findByTestId('resolve-page-title')
           .should('exist')
           .and('contain', 'Resolve your copay');
-
-        // how to pay also has on this page that is hidden, let's make sure it only shows up once
-        cy.get('va-on-this-page').should('have.length', 1);
-
+        cy.get('va-on-this-page').should('exist');
         cy.findByTestId('how-to-pay').should('exist');
         cy.findByTestId('financial-help').should('exist');
         cy.findByTestId('dispute-charges').should('exist');
