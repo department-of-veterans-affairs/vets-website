@@ -78,6 +78,9 @@ src/applications/_mock-form-ae-design-patterns @department-of-veterans-affairs/t
 # Disability Benefits Experience
 src/applications/disability-benefits @department-of-veterans-affairs/disability-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Disability Benefits Employee Experience (DSVA Slack: #benefits-employee-exp)
+src/platform/form-renderer @department-of-veterans-affairs/employee-experience @department-of-veterans-affairs/va-platform-cop-frontend
+
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/disability-benefits/view-payments @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -311,3 +314,6 @@ src/applications/office-directory @department-of-veterans-affairs/va-platform-co
 # BIO Huntridge Labs
 src/applications/medical-expense-report @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/survivors-benefits @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend
+
+#Medallia assets
+src/platform/site-wide/sass/modules/_m-medallia.scss @department-of-veterans-affairs/veteran-support-team

@@ -183,27 +183,6 @@
         "awardIndicator": "Y",
         "dateOfBirth": "2007-11-15",
         "emailAddress": null,
-        "firstName": "MIKE",
-        "gender": "M",
-        "lastName": "FOSTER",
-        "relatedToVet": "Y",
-        "relationship": "Child",
-        "ssn": "349934993",
-        "veteranIndicator": "N",
-        "dependentBenefitType": null,
-        "dob": "November 15, 2007",
-        "fullName": {
-          "first": "MIKE",
-          "last": "FOSTER"
-        },
-        "age": 20,
-        "relationshipToVeteran": "Child",
-        "labeledAge": "20 years old"
-      },
-      {
-        "awardIndicator": "Y",
-        "dateOfBirth": "2007-11-15",
-        "emailAddress": null,
         "firstName": "STACY",
         "gender": "F",
         "lastName": "FOSTER",
@@ -401,7 +380,6 @@
       "selected": true,
       "isStepchild": "N",
       "removalReason": "childDied",
-      "childHasPermanentDisability": "N",
       "endDate": "2025-06-06",
       "endOutsideUs": true,
       "endCity": "Test",
@@ -424,31 +402,7 @@
       "selected": true,
       "isStepchild": "N",
       "removalReason": "childNotInSchool",
-      "childHasPermanentDisability": "N",
       "endDate": "2025-06-07",
-      "endOutsideUs": false,
-      "endCity": "Test",
-      "endProvince": "Prov",
-      "endCountry": "AGO",
-      "endState": "AK"
-    },
-    {
-      "fullName": {
-        "first": "MIKE",
-        "last": "FOSTER"
-      },
-      "dateOfBirth": "2006-08-08",
-      "ssn": "349934993",
-      "relationshipToVeteran": "Child",
-      "awardIndicator": "Y",
-      "key": "mike-3499",
-      "age": 20,
-      "labeledAge": "20 years old",
-      "selected": true,
-      "isStepchild": "N",
-      "removalReason": "childNotInSchool",
-      "childHasPermanentDisability": "Y",
-      "endDate": "2025-06-05",
       "endOutsideUs": false,
       "endCity": "Test",
       "endProvince": "Prov",
@@ -495,11 +449,21 @@
       "removalReason": "stepchildNotMember",
       "stepchildFinancialSupport": "Y",
       "endDate": "2025-06-05",
-      "endOutsideUs": false,
-      "endCity": "Test",
-      "endProvince": "Prov",
-      "endCountry": "AGO",
-      "endState": "AK"
+      "address": {
+        "isMilitary": false,
+        "city": "Test",
+        "country": "USA",
+        "state": "AK",
+        "street": "123 Test St",
+        "street2": "Suite 100",
+        "street3": "Station 3",
+        "postalCode": "99501"
+      },
+      "whoDoesTheStepchildLiveWith": {
+        "first": "First",
+        "middle": "M",
+        "last": "Last"
+      }
     },
     {
       "fullName": {

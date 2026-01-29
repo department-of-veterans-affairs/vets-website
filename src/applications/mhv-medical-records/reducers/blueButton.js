@@ -6,64 +6,6 @@ import { Actions } from '../util/actionTypes';
 import { medicationTypes, NA, NONE_RECORDED, UNKNOWN } from '../util/constants';
 import { dateFormat } from '../util/helpers';
 
-/**
- * Check if a date value is valid and can be safely formatted.
- * @param {*} date - The date value to check
- * @returns {boolean} - True if the date is valid, false otherwise
- */
-const isValidDate = date => {
-  if (!date) return false;
-  const parsed = date instanceof Date ? date : new Date(date);
-  return !Number.isNaN(parsed.getTime());
-};
-
-/**
- * Safely format a date using formatDateLong, returning a fallback if invalid.
- * @param {*} date - The date to format
- * @param {string} fallback - The fallback value if the date is invalid
- * @returns {string} - The formatted date or fallback
- */
-const safeFormatDateLong = (date, fallback = NONE_RECORDED) => {
-  if (!isValidDate(date)) return fallback;
-  try {
-    return formatDateLong(date);
-  } catch {
-    return fallback;
-  }
-};
-
-/**
- * Safely format a date using date-fns format, returning a fallback if invalid.
- * @param {*} date - The date to format
- * @param {string} formatStr - The format string for date-fns
- * @param {string} fallback - The fallback value if the date is invalid
- * @returns {string} - The formatted date or fallback
- */
-const safeFormat = (date, formatStr, fallback = NONE_RECORDED) => {
-  if (!isValidDate(date)) return fallback;
-  try {
-    const parsed = date instanceof Date ? date : new Date(date);
-    return format(parsed, formatStr);
-  } catch {
-    return fallback;
-  }
-};
-
-/**
- * Safely format a date using dateFormat, returning a fallback if invalid.
- * @param {*} date - The date to format
- * @param {string} fallback - The fallback value if the date is invalid
- * @returns {string} - The formatted date or fallback
- */
-const safeDateFormat = (date, fallback = NONE_RECORDED) => {
-  if (!isValidDate(date)) return fallback;
-  try {
-    return dateFormat(date);
-  } catch {
-    return fallback;
-  }
-};
-
 const initialState = {
   /** The list of medications returned from the api @type {Array} */
   medicationsList: undefined,
@@ -98,7 +40,7 @@ export const convertNonVaMedication = med => {
     instructions: med.sig || NA,
     reasonForUse: med.reason || NA,
     status: med.dispStatus || NA,
-    startDate: safeFormatDateLong(med.refillDate || med.orderedDate, NA),
+    startDate: formatDateLong(med.refillDate || med.orderedDate) || NA,
     documentedBy: `${med.providerLastName || NA}, ${med.providerFirstName ||
       NA}`,
     documentedAtFacility: med.facilityName || NA,
@@ -116,25 +58,28 @@ export const convertMedication = med => {
   if (med.dispStatus?.toLowerCase()?.includes('non-va'))
     return convertNonVaMedication(med);
 
-  const { attributes } = med;
-  const phoneNum = pharmacyPhoneNumber(med.attributes);
+  const attributes = med.attributes || {};
+  const phoneNum = pharmacyPhoneNumber(attributes);
 
   return {
     id: med.id,
     type: medicationTypes.VA,
     prescriptionName: attributes.prescriptionName,
-    lastFilledOn: safeFormatDateLong(
-      attributes.sortedDispensedDate,
-      'Not filled yet',
-    ),
+    lastFilledOn: attributes.sortedDispensedDate
+      ? formatDateLong(attributes.sortedDispensedDate)
+      : 'Not filled yet',
     status: attributes.refillStatus,
     refillsLeft: attributes.refillRemaining ?? UNKNOWN,
     prescriptionNumber: attributes.prescriptionNumber,
-    prescribedOn: safeFormatDateLong(attributes.orderedDate, UNKNOWN),
+    prescribedOn: attributes.orderedDate
+      ? formatDateLong(attributes.orderedDate)
+      : UNKNOWN,
     prescribedBy: `${attributes.providerFirstName ||
       ''} ${attributes.providerLastName || ''}`.trim(),
     facility: attributes.facilityName,
-    expirationDate: safeFormatDateLong(attributes.expirationDate),
+    expirationDate: attributes.expirationDate
+      ? formatDateLong(attributes.expirationDate)
+      : NONE_RECORDED,
     instructions: attributes.sig || 'No instructions available',
     quantity: attributes.quantity,
     pharmacyPhoneNumber: phoneNum || UNKNOWN,
@@ -166,8 +111,9 @@ export const convertAppointment = appt => {
   if (!appt) return null;
 
   const now = new Date();
-  const { attributes } = appt;
+  const attributes = appt.attributes || {};
   const appointmentTime = new Date(attributes.localStartTime);
+  const isValidAppointmentTime = !Number.isNaN(appointmentTime.getTime());
   const location = attributes.location?.attributes || { physicalAddress: {} };
   const { line, city, state, postalCode } = location.physicalAddress;
   const addressLines = line || [];
@@ -180,8 +126,8 @@ export const convertAppointment = appt => {
 
   return {
     id: appt.id,
-    date: safeDateFormat(appointmentTime),
-    isUpcoming: isAfter(appointmentTime, now),
+    date: isValidAppointmentTime ? dateFormat(appointmentTime) : UNKNOWN,
+    isUpcoming: isValidAppointmentTime ? isAfter(appointmentTime, now) : false,
     appointmentType: attributes.kind ? capitalize(attributes.kind) : UNKNOWN,
     status: attributes.status === 'booked' ? 'Confirmed' : 'Pending',
     what: attributes.serviceName || 'General',
@@ -218,7 +164,7 @@ export const convertDemographics = info => {
     firstName: info.firstName,
     middleName: info.middleName || NONE_RECORDED,
     lastName: info.lastName || NONE_RECORDED,
-    dateOfBirth: safeFormat(info.dateOfBirth, 'MMMM d, yyyy'),
+    dateOfBirth: format(new Date(info.dateOfBirth), 'MMMM d, yyyy'),
     age: info.age || NONE_RECORDED,
     gender: info.gender || NONE_RECORDED,
     ethnicity: NONE_RECORDED, // no matching attribute in test user data
@@ -357,11 +303,9 @@ export const convertAccountSummary = data => {
     ? {
         source: 'VA',
         authenticationStatus: ipa.status || UNKNOWN,
-        authenticationDate: safeFormat(
-          ipa.authenticationDate,
-          'MMMM d, yyyy',
-          'Unknown date',
-        ),
+        authenticationDate: ipa.authenticationDate
+          ? format(new Date(ipa.authenticationDate), 'MMMM d, yyyy')
+          : 'Unknown date',
         authenticationFacilityName:
           authenticatingFacility?.facilityInfo?.name || 'Unknown facility',
         authenticationFacilityID:

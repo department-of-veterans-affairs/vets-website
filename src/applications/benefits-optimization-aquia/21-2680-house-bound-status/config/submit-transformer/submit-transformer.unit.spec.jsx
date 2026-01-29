@@ -167,11 +167,34 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         claimantContact: {
-          claimantPhoneNumber: '(555) 123-4567',
+          claimantPhoneNumber: {
+            callingCode: 1,
+            contact: '(555) 123-4567',
+            countryCode: 'US',
+          },
         },
       };
       const result = transformAndParse(mockFormConfig, formData);
       expect(result.claimantInformation.phoneNumber).to.equal('5551234567');
+    });
+
+    it('should allow international phone numbers', () => {
+      const formData = {
+        claimantRelationship: {
+          relationship: 'veteran',
+        },
+        claimantContact: {
+          claimantPhoneNumber: {
+            callingCode: 880,
+            contact: '212345678',
+            countryCode: 'BD',
+          },
+        },
+      };
+      const result = transformAndParse(mockFormConfig, formData);
+      expect(result.claimantInformation.internationalPhoneNumber).to.equal(
+        '+880212345678',
+      );
     });
   });
 
@@ -207,7 +230,11 @@ describe('Submit Transformer', () => {
           },
         },
         claimantContact: {
-          claimantPhoneNumber: '5559876543',
+          claimantPhoneNumber: {
+            callingCode: 1,
+            contact: '5559876543',
+            countryCode: 'US',
+          },
           claimantEmail: 'padme@naboo.org',
         },
       };
