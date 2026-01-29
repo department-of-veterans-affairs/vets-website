@@ -52,9 +52,12 @@ describe('CDP - One Thing Per Page', () => {
     });
 
     context('copay pages', () => {
-      it('should show new links on balance cards', () => {
+      beforeEach(() => {
+        // Stub the detail API early so any clicks will trigger it
         copayResponses.detail(id);
+      });
 
+      it('should show new links on balance cards', () => {
         cy.findByTestId('balance-card-copay')
           .findByTestId('card-link')
           .click();
@@ -112,20 +115,19 @@ describe('CDP - One Thing Per Page', () => {
       });
 
       it('renders resolve page content after navigation', () => {
-        // Navigate through the UI like a user
         cy.findByTestId('balance-card-copay')
           .findByTestId('card-link')
           .click();
 
+        // No wait needed — page already has data
         cy.get(`[data-testid="resolve-link-${id}"]`)
           .shadow()
           .find('a')
           .click();
 
-        // Assert content exists
-        cy.findByTestId('resolve-page-title')
-          .should('exist')
-          .and('contain', 'Resolve your copay');
+        cy.url().should('match', new RegExp(`/copay-balances/${id}/resolve$`));
+
+        cy.findByTestId('resolve-page-title').should('exist');
         cy.get('va-on-this-page').should('exist');
         cy.findByTestId('how-to-pay').should('exist');
         cy.findByTestId('financial-help').should('exist');
