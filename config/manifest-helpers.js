@@ -31,10 +31,19 @@ function getAppRoutes() {
 
 function getWebpackEntryPoints(manifests) {
   return manifests.reduce((apps, next) => {
+    // Merge manifest's dependOn with default ['vendor']
+    const defaultDependOn = ['vendor'];
+    const manifestDependOn = next.dependOn || [];
+    const mergedDependOn = [
+      ...defaultDependOn,
+      ...manifestDependOn.filter(dep => !defaultDependOn.includes(dep)),
+    ];
+
     // eslint-disable-next-line no-param-reassign
     apps[next.entryName] = {
       import: next.entryFile,
-      dependOn: 'vendor',
+      dependOn:
+        mergedDependOn.length === 1 ? mergedDependOn[0] : mergedDependOn,
     };
     return apps;
   }, {});
