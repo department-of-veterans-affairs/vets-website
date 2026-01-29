@@ -52,11 +52,15 @@ export const uiSchema = {
     'view:spouseIdTitle': {
       'ui:description': <h4>Spouse’s identification information</h4>,
     },
-    noSsn: checkboxUI({
-      title: 'Spouse doesn’t have a Social Security number',
-      required: () => false,
-      hideIf: formData => !formData?.vaDependentsNoSsn, // check feature flag
-    }),
+    noSsn: {
+      ...checkboxUI({
+        title: 'Spouse doesn’t have a Social Security number',
+        required: () => false,
+      }),
+      'ui:options': {
+        hideIf: (_formData, _index, fullData) => !fullData?.vaDependentsNoSsn, // check feature flag
+      },
+    },
     noSsnReason: radioUI({
       title: 'Why doesn’t your spouse have a Social Security number?',
       labels: {

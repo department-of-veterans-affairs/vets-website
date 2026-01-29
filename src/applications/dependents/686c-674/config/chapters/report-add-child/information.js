@@ -33,11 +33,15 @@ export const information = {
     'view:childIdTitle': {
       'ui:description': <h4>Child’s identification information</h4>,
     },
-    noSsn: checkboxUI({
-      title: 'Child doesn’t have a Social Security number',
-      required: () => false,
-      hideIf: formData => !formData?.vaDependentsNoSsn, // check feature flag
-    }),
+    noSsn: {
+      ...checkboxUI({
+        title: 'Child doesn’t have a Social Security number',
+        required: () => false,
+      }),
+      'ui:options': {
+        hideIf: (_formData, _index, fullData) => !fullData?.vaDependentsNoSsn, // check feature flag
+      },
+    },
     noSsnReason: radioUI({
       title: 'Why doesn’t your child have a Social Security number?',
       labels: {
