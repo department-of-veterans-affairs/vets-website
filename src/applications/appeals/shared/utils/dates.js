@@ -155,6 +155,9 @@ export const isUTCTodayOrFuture = date => {
   return issueDateUtc.getTime() >= utcToday.getTime();
 };
 
+const getAbbreviatedMonth = monthText =>
+  monthText === 'Sep' ? 'Sept.' : `${monthText}.`;
+
 /**
  * Format a date object to VA.gov style with proper month abbreviations
  * VA.gov style guide: Jan., Feb., Aug., Sept., Oct., Nov., Dec.
@@ -175,11 +178,36 @@ export const formatDateToReadableString = date => {
 
   // Use standard abbreviation with period, handle September special case
   const monthText = format(date, 'MMM');
-  const abbreviatedMonth = monthText === 'Sep' ? 'Sept.' : `${monthText}.`;
+  const abbreviatedMonth = getAbbreviatedMonth(monthText);
   const day = format(date, 'd');
   const year = format(date, 'yyyy');
 
   return `${abbreviatedMonth} ${day}, ${year}`;
+};
+
+/**
+ * Format a date string (e.g. '2002-02') to VA.gov style with proper month abbreviations
+ * Similar to the above method, but doesn't include the date, just month and year
+ * @param {string} date
+ * @returns {string} - Date in VA.gov format (e.g. "Dec. 2025" or "March 2025")
+ */
+export const formatMonthYearToReadableString = date => {
+  if (!date || date?.length < 7 || date?.length > 7) {
+    return date;
+  }
+
+  const dateArray = date.split('-');
+  const dateObj = new Date(dateArray[0], dateArray[1] - 1);
+  const month = dateArray[1];
+
+  if (VA_LONG_FORM_MONTHS.includes(parseInt(month - 1, 10))) {
+    return `${format(dateObj, 'MMMM')} ${dateArray[0]}`;
+  }
+
+  // Use standard abbreviation with period, handle September special case
+  const abbreviatedMonth = getAbbreviatedMonth(format(dateObj, 'MMM'));
+
+  return `${abbreviatedMonth} ${dateArray[0]}`;
 };
 
 /**
