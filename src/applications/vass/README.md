@@ -1,5 +1,6 @@
 # VASS
-The VASS (Veterans Affairs Scheduling System) module enables non-authenticated, first-time users to schedule appointments with the VA, including suicide awareness and health appointments.
+
+The Solid Start Scheduling project creates a seamless appointment scheduling experience for Veterans by connecting va.gov frontend with Microsoft Dynamics backend through a standardized API layer.
 
 ## URL
 http://localhost:3001/service-member/benefits/solid-start/schedule
