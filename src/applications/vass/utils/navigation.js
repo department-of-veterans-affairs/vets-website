@@ -123,7 +123,7 @@ export const routes = [
     flowType: FLOW_TYPES.CANCEL,
   },
   {
-    path: URLS.ALREADY_SCHEDULED,
+    path: `${URLS.ALREADY_SCHEDULED}/:appointmentId`,
     component: AlreadyScheduled,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
