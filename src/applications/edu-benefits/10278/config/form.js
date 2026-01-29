@@ -10,6 +10,7 @@ import { organizationRepresentativesArrayOptions } from '../helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrganizationRepresentativesSummary ';
 import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
@@ -61,6 +62,7 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
   preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
     statementOfTruth: {
       heading: 'Declaration of intent',
       body: PrivacyPolicy,
