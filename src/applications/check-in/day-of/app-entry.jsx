@@ -1,4 +1,3 @@
-// NODE_22_CI_TEST_TRIGGER: Temporary comment to trigger app test selection for Node 22 CI verification. Remove after verification.
 import 'platform/polyfills';
 import '../sass/check-in.scss';
 

@@ -1,4 +1,3 @@
-// NODE_22_CI_TEST_TRIGGER: Temporary comment to trigger app test selection for Node 22 CI verification. Remove after verification.
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { MAX_FILE_SIZE_MB, MAX_PDF_SIZE_MB } from './utils/validations';
