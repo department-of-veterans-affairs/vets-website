@@ -52,13 +52,10 @@ export class LetterList extends React.Component {
 
     // Filter out foreign medical program letter if feature flag is disabled
     const filteredLetters = (this.props.letters || []).filter(letter => {
-      if (
-        letter.letterType === LETTER_TYPES.foreignMedicalProgram &&
-        !this.props.fmpBenefitsAuthorizationLetter
-      ) {
-        return false;
-      }
-      return true;
+      return (
+        letter.letterType !== LETTER_TYPES.foreignMedicalProgram ||
+        this.props.fmpBenefitsAuthorizationLetter
+      );
     });
 
     const letterItems = filteredLetters.map((letter, index) => {
