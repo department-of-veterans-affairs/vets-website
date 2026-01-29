@@ -26,7 +26,6 @@ import {
   DISPENSE_STATUS,
 } from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
-import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import SendRxRenewalMessage from '../shared/SendRxRenewalMessage';
 import MedicationDescription from '../shared/MedicationDescription';
@@ -249,7 +248,7 @@ const VaPrescription = prescription => {
                   <>Most recent prescription</>
                 )}
               </h2>
-              {prescription?.isRefillable ? (
+              {prescription?.isRefillable && (
                 <Link
                   className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
                   to="/refill"
@@ -260,8 +259,6 @@ const VaPrescription = prescription => {
                 >
                   {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
                 </Link>
-              ) : (
-                <FillRefillButton {...prescription} />
               )}
 
               {prescription && (
