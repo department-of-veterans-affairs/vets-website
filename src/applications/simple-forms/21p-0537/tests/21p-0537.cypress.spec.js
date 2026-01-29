@@ -9,7 +9,7 @@ import manifest from '../manifest.json';
 
 import { fillMarriageInfo, fillTerminationDetails } from './e2e/utils/fillers';
 
-import { goToNextPage, checkAccessibility } from './e2e/utils/helpers';
+import { goToNextPage } from './e2e/utils/helpers';
 
 import { setupForAuth } from './e2e/utils/setup';
 
@@ -34,7 +34,7 @@ const testConfig = createTestConfig(
       'marriage-info': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            checkAccessibility();
+            cy.injectAxeThenAxeCheck();
             fillMarriageInfo(data);
             goToNextPage();
           });
@@ -45,7 +45,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            checkAccessibility();
+            cy.injectAxeThenAxeCheck();
             fillTerminationDetails(data);
             goToNextPage();
           });
