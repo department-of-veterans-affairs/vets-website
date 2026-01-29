@@ -194,6 +194,139 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
     });
   });
 });
+
+describe('makeSchemaForRatedDisabilities has parity with the previous implementation', () => {
+  it('should have the same deduplication result', () => {
+    const formDataLegacy = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'cat',
+          'view:selected': true,
+        },
+        {
+          name: 'CAT',
+          'view:selected': true,
+        },
+        {
+          name: 'CaT',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+      makeSchemaForRatedDisabilities(formDataLegacy),
+    );
+
+    const formDataV2 = {
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'cat',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'CAT',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'CaT',
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+      makeSchemaForRatedDisabilities(formDataV2),
+    );
+  });
+
+  it('should return the same properties when array ratedDisabilities is present', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd - personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes (mellitus)',
+          'view:selected': true,
+        },
+        {
+          name: 'Type-1 Diabetes',
+          'view:selected': true,
+        },
+        {
+          name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql(
+      makeSchemaForRatedDisabilities(formData),
+    );
+  });
+  it('should return the same properties when rated disabilities are stored in array newDisabilities', () => {
+    const formDataLegacy = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd - personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes (mellitus)',
+          'view:selected': true,
+        },
+        {
+          name: 'Type-1 Diabetes',
+          'view:selected': true,
+        },
+        {
+          name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+      makeSchemaForRatedDisabilities(formDataLegacy),
+    );
+
+    const formDataV2 = {
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Ptsd - personal trauma',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Diabetes (mellitus)',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Type-1 Diabetes',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability:
+            'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+      makeSchemaForRatedDisabilities(formDataV2),
+    );
+  });
+});
+
 describe('makeSchemaForRatedDisabilities', () => {
   it('should return schema for selected disabilities only', () => {
     const formData = {
