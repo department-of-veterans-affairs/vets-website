@@ -184,7 +184,7 @@ const Prescriptions = () => {
     isLoading,
     filteredList,
     noFilterMatches,
-    isReturningFromDetailsPage: !!prescriptionId, // NOTE: This is not currently working because prescriptionId is always null. https://github.com/department-of-veterans-affairs/va.gov-team/issues/131061
+    isReturningFromDetailsPage: !!prescriptionId, // TODO: This is not currently working because prescriptionId is always null. https://github.com/department-of-veterans-affairs/va.gov-team/issues/131061
     scrollLocation,
     showingFocusedAlert: rxRenewalMessageSuccess || deleteDraftSuccess,
   });

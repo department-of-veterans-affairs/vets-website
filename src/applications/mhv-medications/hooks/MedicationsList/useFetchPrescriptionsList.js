@@ -1,5 +1,3 @@
-// src/applications/mhv-medications/hooks/MedicationsList/useFetchPrescriptionsList.js
-
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetPrescriptionsListQuery } from '../../api/prescriptionsApi';
