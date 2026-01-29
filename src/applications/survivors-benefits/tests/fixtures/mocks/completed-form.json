@@ -92,7 +92,7 @@
   "veteranFullName": {
     "first": "Jonathan",
     "middle": "Kevin",
-    "last": "TestersonServiceThatisreall",
+    "last": "Testerson",
     "suffix": "Jr."
   },
   "veteranDateOfBirth": "1954-01-11",
@@ -140,7 +140,7 @@
     {
       "otherServiceName": {
         "first": "Other",
-        "last": "ServiceThatisreallylong",
+        "last": "ServiceThat",
         "middle": "Name",
         "suffix": "Jr."
       }
@@ -267,9 +267,9 @@
     },
     {
       "childFullName": {
-        "first": "Reallylongchildfirstname",
-        "middle": "Reallylongmiddlename",
-        "last": "Reallylongchildlastname"
+        "first": "Reallylong",
+        "middle": "Reallylong",
+        "last": "Reallylong"
       },
       "childDateOfBirth": "2010-10-10",
       "childSocialSecurityNumber": "123451234",
@@ -288,9 +288,9 @@
       "childSupport": 5000
     }
   ],
-  "dependentsResidence": true,
+  "childrenLiveTogetherButNotWithSpouse": true,
   "custodianFullName": {
-    "first": "Custodianfirst",
+    "first": "Custodian",
     "last": "Custodianlast"
   },
   "custodianAddress": {
@@ -356,9 +356,9 @@
         "state": "MO"
       },
       "spouseFullName": {
-        "first": "SpouseFirstName",
+        "first": "SpouseFirs",
         "last": "SpouseLastName",
-        "middle": "SpouseMiddleName",
+        "middle": "SpouseMidd",
         "suffix": "Jr."
       }
     },
@@ -375,9 +375,9 @@
         "state": "PA"
       },
       "spouseFullName": {
-        "first": "Spouse2FirstName",
+        "first": "Spouse2Fi",
         "last": "Spouse2LastName",
-        "middle": "Spouse2MiddleName"
+        "middle": "Spouse2Midd"
       }
     }
   ],
