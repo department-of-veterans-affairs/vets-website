@@ -117,8 +117,7 @@ export const makeLegacySchemaForRatedDisabilities = createSelector(
 /**
  * Create the checkbox schema for rated disabilities based if user has selected
  * Increase claim type
- *
- *  (comment out this version)
+ */
 export const makeSchemaForRatedDisabilities = createSelector(
   formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
   formData =>
@@ -153,62 +152,6 @@ export const makeSchemaForRatedDisabilities = createSelector(
       (schema, disabilityName) => createCheckboxSchema(schema, disabilityName),
       {},
     );
-
-    return { properties };
-  },
-);
-*/
-/**
- * Create the checkbox schema for rated disabilities based if user has selected
- * Increase claim type
- */
-export const makeSchemaForRatedDisabilities = createSelector(
-  formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
-  formData =>
-    Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
-
-  (ratedDisabilities = [], newDisabilities = []) => {
-    // rated disabilities from the current workflow (view:selected)
-    const fromRatedDisabilities = ratedDisabilities
-      .filter(disabilityIsSelected)
-      .map(disability => disability.name);
-
-    // rated disabilities from the v2 workflow (stored in the newDisabilities array)
-    const fromNewDisabilities = newDisabilities
-      .map(d => {
-        const condition =
-          typeof d?.condition === 'string' ? d.condition.trim() : '';
-        const ratedDisability =
-          typeof d?.ratedDisability === 'string'
-            ? d.ratedDisability.trim()
-            : '';
-
-        if (
-          condition &&
-          ratedDisability &&
-          isPlaceholderRated(condition) &&
-          !isNewConditionOption(ratedDisability)
-        ) {
-          return ratedDisability;
-        }
-        return '';
-      })
-      .filter(s => s.length > 0);
-
-    // combine and deduplicate
-    const combined = [...fromRatedDisabilities, ...fromNewDisabilities];
-    const unique = [
-      ...new Set(
-        combined.map(
-          d =>
-            typeof d === 'string' ? d.toLowerCase() : NULL_CONDITION_STRING,
-        ),
-      ),
-    ];
-
-    const properties = unique.reduce((schema, name) => {
-      return createCheckboxSchema(schema, name);
-    }, {});
 
     return { properties };
   },
