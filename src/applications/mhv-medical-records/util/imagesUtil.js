@@ -5,9 +5,7 @@ import { labTypes, EMPTY_FIELD } from './constants';
 export const buildRadiologyResults = record => {
   const reportText = record?.reportText || '\n';
   const impressionText = record?.impressionText || '\n';
-  return `Report:\n${reportText
-    .replace(/\r\n|\r/g, '\n')
-    .replace(/^/gm, '  ')}  
+  return `Report:\n${reportText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '  ')}
 Impression:\n${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '  ')}`;
 };
 
