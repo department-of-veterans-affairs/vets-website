@@ -7,6 +7,8 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
+import StaleMessageAlert from '../shared/StaleMessageAlert';
+
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
 import MessageActionButtons from '../MessageActionButtons';
@@ -38,12 +40,15 @@ const ReplyForm = props => {
     setIsSending,
   } = props;
   const dispatch = useDispatch();
-  const { customFoldersRedesignEnabled } = useFeatureToggles();
+  const {
+    customFoldersRedesignEnabled,
+    useCanReplyField,
+  } = useFeatureToggles();
   const header = useRef();
 
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const signature = useSelector(state => state.sm.preferences?.signature);
-  const { replyToName, isSaving } = useSelector(
+  const { replyToName, isSaving, isStale, providerAllowsReply } = useSelector(
     state => state.sm.threadDetails,
   );
 
@@ -148,10 +153,32 @@ const ReplyForm = props => {
           {messageTitle}
         </h1>
 
-        <CannotReplyAlert
-          visible={cannotReply && !showBlockedTriageGroupAlert}
-          isOhMessage={replyMessage.isOhMessage}
-        />
+        {useCanReplyField ? (
+          <>
+            <CannotReplyAlert
+              visible={
+                cannotReply &&
+                !providerAllowsReply &&
+                !showBlockedTriageGroupAlert
+              }
+              isOhMessage={replyMessage.isOhMessage}
+            />
+            <StaleMessageAlert
+              visible={
+                cannotReply &&
+                isStale &&
+                providerAllowsReply &&
+                !showBlockedTriageGroupAlert
+              }
+              isOhMessage={replyMessage.isOhMessage}
+            />
+          </>
+        ) : (
+          <StaleMessageAlert
+            visible={cannotReply && isStale && !showBlockedTriageGroupAlert}
+            isOhMessage={replyMessage.isOhMessage}
+          />
+        )}
 
         {currentRecipient && (
           <BlockedTriageGroupAlert

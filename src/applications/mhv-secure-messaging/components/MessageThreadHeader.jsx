@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useLocation } from 'react-router-dom';
-import { format, addDays } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MessageActionButtons from './MessageActionButtons';
@@ -16,6 +15,7 @@ import {
 import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
+import StaleMessageAlert from './shared/StaleMessageAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 import ReplyButton from './ReplyButton';
@@ -32,18 +32,17 @@ const MessageThreadHeader = props => {
     threadId,
     category,
     subject,
-    sentDate,
     recipientId,
     isOhMessage = false,
   } = message;
 
-  const { customFoldersRedesignEnabled } = useFeatureToggles();
+  const {
+    customFoldersRedesignEnabled,
+    useCanReplyField,
+  } = useFeatureToggles();
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
-  const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
-  const [hideReplyButton, setReplyButton] = useState(false);
   const [
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
@@ -51,6 +50,9 @@ const MessageThreadHeader = props => {
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
   const messages = useSelector(state => state.sm.threadDetails.messages);
+  const { isStale, providerAllowsReply } = useSelector(
+    state => state.sm.threadDetails,
+  );
 
   useEffect(
     () => {
@@ -71,15 +73,6 @@ const MessageThreadHeader = props => {
       // The Blocked Triage Group alert should stay visible until the user navigates away
     },
     [message, messages, recipientId],
-  );
-
-  useEffect(
-    () => {
-      if (new Date() > cannotReplyDate) {
-        setReplyButton(true);
-      }
-    },
-    [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
   );
 
   useEffect(
@@ -122,10 +115,32 @@ const MessageThreadHeader = props => {
           {`Messages: ${categoryLabel} - ${subject}`}
         </h1>
 
-        <CannotReplyAlert
-          visible={cannotReply && !showBlockedTriageGroupAlert}
-          isOhMessage={isOhMessage}
-        />
+        {useCanReplyField ? (
+          <>
+            <CannotReplyAlert
+              visible={
+                cannotReply &&
+                !providerAllowsReply &&
+                !showBlockedTriageGroupAlert
+              }
+              isOhMessage={isOhMessage}
+            />
+            <StaleMessageAlert
+              visible={
+                cannotReply &&
+                isStale &&
+                providerAllowsReply &&
+                !showBlockedTriageGroupAlert
+              }
+              isOhMessage={isOhMessage}
+            />
+          </>
+        ) : (
+          <StaleMessageAlert
+            visible={cannotReply && isStale && !showBlockedTriageGroupAlert}
+            isOhMessage={isOhMessage}
+          />
+        )}
       </header>
 
       {currentRecipient && (
