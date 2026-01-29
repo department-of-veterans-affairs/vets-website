@@ -57,7 +57,7 @@ describe('Confirmation Page', () => {
 
     cy.axeCheck();
 
-    cy.get('#filter-text').should('contain', 'results with 1 filter applied');
+    cy.get('#filter-text').should('contain', 'results with 2 filters applied');
 
     cy.get('va-search-filter')
       .shadow()
@@ -93,7 +93,7 @@ describe('Confirmation Page', () => {
 
     cy.axeCheck();
 
-    cy.get('#filter-text').should('contain', 'results with 2 filters applied');
+    cy.get('#filter-text').should('contain', 'results with 3 filters applied');
 
     cy.get('va-search-filter', { includeShadowDom: true })
       .shadow()
