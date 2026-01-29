@@ -228,6 +228,7 @@ const RecentCareTeams = () => {
         label-header-level="2"
         required
         onVaValueChange={handleRadioChange}
+        message-aria-describedby="recent-care-teams-error"
         data-testid="recent-care-teams-radio-group"
       >
         {Array.isArray(recentRecipients) &&

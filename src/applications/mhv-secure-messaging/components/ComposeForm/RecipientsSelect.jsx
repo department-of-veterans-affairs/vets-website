@@ -319,6 +319,7 @@ const RecipientsSelect = ({
           onVaSelect={handleRecipientSelect}
           data-testid="compose-recipient-combobox"
           error={error}
+          messageAriaDescribedby="compose-recipient-combobox-error"
           data-dd-privacy="mask"
           data-dd-action-name="Compose Recipient Combobox List"
           onInput={handleInput}
