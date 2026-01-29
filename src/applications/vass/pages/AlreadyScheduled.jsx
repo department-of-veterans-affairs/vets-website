@@ -54,7 +54,7 @@ const AlreadyScheduled = () => {
         number to ensure you don’t miss the appointment.
       </p>
       <va-link-action
-        href={`/cancel-appointment/${appointmentData?.appointmentId}`}
+        href={`${URLS.CANCEL_APPOINTMENT}/${appointmentData?.appointmentId}`}
         text="Cancel this appointment"
         aria-labelledby="appointment-date-time"
         type="secondary"
