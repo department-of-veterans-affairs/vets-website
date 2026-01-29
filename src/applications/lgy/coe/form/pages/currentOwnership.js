@@ -12,10 +12,10 @@ export default {
       currentOwnership: yesNoUI({
         title: 'Do you still own any property you bought using a VA home loan?',
         description: (
-          <span className="vads-u-color--gray-medium">
+          <div className="vads-u-color--gray-medium vads-u-margin-top--2">
             Include homes, condos, or other property purchased with a VA‑backed
             mortgage.
-          </span>
+          </div>
         ),
         labels: {
           Y: 'Yes — I still own at least one property',
