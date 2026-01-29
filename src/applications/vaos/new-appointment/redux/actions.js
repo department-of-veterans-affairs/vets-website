@@ -20,11 +20,9 @@ import {
   selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
   selectFeatureRemoveFacilityConfigCheck,
-  selectFeatureOHRequest,
   selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
-  selectFeatureOHDirectSchedule,
   selectFeatureUseVpg,
 } from '../../redux/selectors';
 import {
@@ -859,8 +857,7 @@ export function submitAppointmentOrRequest(history) {
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
     const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
-    const updateRequestLimits = selectFeatureOHRequest(state);
-    const updateDSLimits = selectFeatureOHDirectSchedule(state);
+    const useVpg = selectFeatureUseVpg(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -881,10 +878,7 @@ export function submitAppointmentOrRequest(history) {
       try {
         let appointment = null;
         appointment = await createAppointment({
-          appointment: transformFormToVAOSAppointment(
-            getState(),
-            updateDSLimits,
-          ),
+          appointment: transformFormToVAOSAppointment(getState(), useVpg),
           featureUseBrowserTimezone,
         });
 
@@ -969,7 +963,7 @@ export function submitAppointmentOrRequest(history) {
       try {
         requestBody = isCommunityCare
           ? transformFormToVAOSCCRequest(getState())
-          : transformFormToVAOSVARequest(getState(), updateRequestLimits);
+          : transformFormToVAOSVARequest(getState(), useVpg);
 
         const requestData = await createAppointment({
           appointment: requestBody,
