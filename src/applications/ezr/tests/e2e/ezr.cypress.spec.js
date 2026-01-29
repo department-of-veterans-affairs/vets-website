@@ -14,6 +14,7 @@ import {
   fillContactPersonalInfo,
   fillContactAddress,
 } from './helpers/emergency-contacts';
+import { handleOptionalServiceHistoryPage } from './helpers/handleOptionalServiceHistoryPage';
 
 const testConfig = createTestConfig(
   {
@@ -148,6 +149,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             fillContactAddress(data.nextOfKins[1]);
           });
+          handleOptionalServiceHistoryPage();
         });
       },
       'household-information/spouse-contact-information': ({ afterHook }) => {
