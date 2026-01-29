@@ -145,8 +145,8 @@ export const studentInformationPage = {
       title: 'Add a student',
       nounSingular: addStudentsOptions.nounSingular,
     }),
-    'view:childNameTitle': {
-      'ui:description': <h4>Child’s name</h4>,
+    'view:studentNameTitle': {
+      'ui:description': <h4>Student’s name</h4>,
     },
     fullName: fullNameNoSuffixUI(title => `Student’s ${title}`),
     birthDate: currentOrPastDateUI({
@@ -155,12 +155,12 @@ export const studentInformationPage = {
       dataDogHidden: true,
       required: () => true,
     }),
-    'view:childIdTitle': {
-      'ui:description': <h4>Child’s identification information</h4>,
+    'view:studentIdTitle': {
+      'ui:description': <h4>Student’s identification information</h4>,
     },
     noSsn: {
       ...checkboxUI({
-        title: 'Child doesn’t have a Social Security number',
+        title: 'Student doesn’t have a Social Security number',
         required: () => false,
       }),
       'ui:options': {
@@ -201,10 +201,10 @@ export const studentInformationPage = {
     type: 'object',
     required: ['fullName', 'birthDate'],
     properties: {
-      'view:childNameTitle': { type: 'object', properties: {} },
+      'view:studentNameTitle': { type: 'object', properties: {} },
       fullName: fullNameNoSuffixSchema,
       birthDate: currentOrPastDateSchema,
-      'view:childIdTitle': { type: 'object', properties: {} },
+      'view:studentIdTitle': { type: 'object', properties: {} },
       noSsn: checkboxSchema,
       noSsnReason: radioSchema(['NONRESIDENT_ALIEN', 'NONE_ASSIGNED']),
       ssn: ssnSchema,
