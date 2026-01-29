@@ -70,9 +70,9 @@ const SUPPORTED_ELEMENTS = [
 
 const ERROR_ATTR_SELECTORS = [
   'error',
-  'input-error',
-  'checkbox-error',
-  'generated-error',
+  'input-error', // for va-statement-of-truth
+  'checkbox-error', // for va-statement-of-truth
+  'generated-error', // generated in this file for group options
 ];
 const ERROR_ATTRIBUTE_SELECTOR_STRING = ERROR_ATTR_SELECTORS.map(
   attr => `[${attr}]`,
