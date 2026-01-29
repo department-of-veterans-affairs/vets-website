@@ -31,7 +31,6 @@ import {
   capitalizeEachWord,
   disabilityIsSelected,
   isClaimingIncrease,
-  isClaimingNew,
   isNewConditionOption,
   isPlaceholderRated,
   pathWithIndex,
@@ -98,20 +97,6 @@ export const makeSchemaForNewDisabilities = createSelector(
 
     return { properties };
   },
-);
-
-/**
- * The original version of makeSchemaForNewDisabilities, prior to
- * changes introduced for the Conditions v2 workflow.
- * Lifted from 2209dab6 (Oct 2025) on the main branch.
- */
-export const makeLegacySchemaForNewDisabilities = createSelector(
-  formData => (isClaimingNew(formData) ? formData.newDisabilities : []),
-  (newDisabilities = []) => ({
-    properties: newDisabilities
-      .map(disability => disability.condition)
-      .reduce(createCheckboxSchema, {}),
-  }),
 );
 
 /**

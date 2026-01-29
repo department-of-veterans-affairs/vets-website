@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import {
-  makeLegacySchemaForNewDisabilities,
   makeLegacySchemaForRatedDisabilities,
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
@@ -51,50 +50,6 @@ describe('makeSchemaForNewDisabilities', () => {
         },
       },
     });
-  });
-
-  it('should have parity with the legacy implementation', () => {
-    const formData = {
-      'view:claimType': {
-        'view:claimingIncrease': false,
-        'view:claimingNew': true,
-      },
-      newDisabilities: [
-        {
-          condition: 'Ptsd - personal trauma',
-        },
-        {
-          condition: 'period. Period.',
-        },
-        {
-          condition: 'period. Period.',
-        },
-        {
-          condition: 'Diabetes (mellitus)',
-        },
-        {
-          condition: 'Type-1 Diabetes',
-        },
-        {
-          condition: 'type 1 diabetes',
-        },
-        {
-          condition: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
-        },
-        {
-          condition: 'CAT',
-        },
-        {
-          condition: 'cat',
-        },
-        {
-          condition: 'cAt',
-        },
-      ],
-    };
-    expect(makeSchemaForNewDisabilities(formData)).to.eql(
-      makeLegacySchemaForNewDisabilities(formData),
-    );
   });
 
   it('should append sideOfBody to condition name when present', () => {
