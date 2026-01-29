@@ -299,11 +299,6 @@ const SearchApp = ({
           searchData={search}
           typeaheadUsed={typeAheadWasUsed}
         />
-        <hr
-          aria-hidden="true"
-          id="hr-search-bottom"
-          className="vads-u-margin-y--0"
-        />
         <div className="vads-u-display--flex vads-u-flex-wrap--wrap results-footer">
           {results &&
             results.length > 0 && (
@@ -360,6 +355,7 @@ const SearchApp = ({
                 Enter a keyword, phrase, or question
               </p>
               <VaSearchInput
+                big
                 class="vads-u-width--full"
                 disableAnalytics
                 id="search-results-page-dropdown-input-field"
@@ -373,7 +369,7 @@ const SearchApp = ({
             </div>
             {!shouldShowErrorMessage && renderResults()}
             <div className="more-va-search-tools">
-              <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+              <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
                 More VA search tools
               </h2>
               <MoreVASearchTools />

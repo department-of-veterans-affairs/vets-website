@@ -23,6 +23,8 @@
     padding: 0;
 
     &.results-list {
+      margin-bottom: 0;
+
       li.result-item {
         width: 100%;
         max-width: none;
@@ -40,6 +42,10 @@
           margin: 0;
           word-wrap: break-word;
         }
+      }
+
+      li.result-item:last-child {
+        margin-bottom: 0;
       }
     }
   }
@@ -70,11 +76,7 @@
     border-bottom: none;
 
     &#hr-search-bottom {
-      margin-bottom: 0;
-
-      @include media($small-screen) {
-        margin-bottom: 0.9375rem;
-      }
+      margin-bottom: var(--vads-spacing-6);
     }
   }
 
@@ -83,6 +85,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0;
+    padding: 0;
 
     @include media($medium-screen) {
       flex-direction: row;
@@ -101,6 +104,10 @@
         margin: 1.25rem 0 0.625rem;
       }
     }
+  }
+
+  .more-va-search-tools {
+    margin-top: calc(var(--vads-spacing-6));
   }
 
   .search-row {
