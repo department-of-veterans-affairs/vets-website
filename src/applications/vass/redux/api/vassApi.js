@@ -162,6 +162,26 @@ export const vassApi = createApi({
         }
       },
     }),
+    cancelAppointment: builder.mutation({
+      async queryFn({ appointmentId }) {
+        try {
+          const token = getVassToken();
+          return await api(`/vass/v0/appointment/${appointmentId}/cancel`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } catch (error) {
+          // captureError(error, false, 'cancel appointment');
+          // TODO: do something with error
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
+      },
+    }),
   }),
 });
 
@@ -172,4 +192,5 @@ export const {
   useGetAppointmentQuery,
   useGetTopicsQuery,
   useGetAppointmentAvailabilityQuery,
+  useCancelAppointmentMutation,
 } = vassApi;
