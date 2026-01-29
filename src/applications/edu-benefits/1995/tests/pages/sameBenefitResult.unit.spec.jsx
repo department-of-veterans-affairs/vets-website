@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { sameBenefitResultPage } from '../../pages/mebQuestionnaire';
+import { buildResultPage } from '../../pages/mebQuestionnaire';
 
 const mockStore = configureStore([]);
 
@@ -20,16 +20,16 @@ describe('sameBenefitResultPage description prioritization', () => {
     });
 
     const formData = {
+      mebWhatDoYouWantToDo: 'same-benefit',
       currentBenefitType: 'chapter30',
       mebSameBenefitSelection: 'chapter33',
     };
 
-    const { uiSchema } = sameBenefitResultPage();
-    const DescriptionComponent = uiSchema['ui:description'];
+    const { CustomPage: DescriptionComponent } = buildResultPage();
 
     const { container } = render(
       <Provider store={store}>
-        <DescriptionComponent formData={formData} />
+        <DescriptionComponent data={formData} setFormData={() => {}} />
       </Provider>,
     );
 
@@ -53,15 +53,15 @@ describe('sameBenefitResultPage description prioritization', () => {
     });
 
     const formData = {
+      mebWhatDoYouWantToDo: 'same-benefit',
       currentBenefitType: 'chapter30',
     };
 
-    const { uiSchema } = sameBenefitResultPage();
-    const DescriptionComponent = uiSchema['ui:description'];
+    const { CustomPage: DescriptionComponent } = buildResultPage();
 
     const { container } = render(
       <Provider store={store}>
-        <DescriptionComponent formData={formData} />
+        <DescriptionComponent data={formData} setFormData={() => {}} />
       </Provider>,
     );
 
@@ -84,15 +84,15 @@ describe('sameBenefitResultPage description prioritization', () => {
     });
 
     const formData = {
+      mebWhatDoYouWantToDo: 'same-benefit',
       mebSameBenefitSelection: 'chapter35',
     };
 
-    const { uiSchema } = sameBenefitResultPage();
-    const DescriptionComponent = uiSchema['ui:description'];
+    const { CustomPage: DescriptionComponent } = buildResultPage();
 
     const { container } = render(
       <Provider store={store}>
-        <DescriptionComponent formData={formData} />
+        <DescriptionComponent data={formData} setFormData={() => {}} />
       </Provider>,
     );
 
@@ -113,14 +113,15 @@ describe('sameBenefitResultPage description prioritization', () => {
       },
     });
 
-    const formData = {};
+    const formData = {
+      mebWhatDoYouWantToDo: 'same-benefit',
+    };
 
-    const { uiSchema } = sameBenefitResultPage();
-    const DescriptionComponent = uiSchema['ui:description'];
+    const { CustomPage: DescriptionComponent } = buildResultPage();
 
     const { container } = render(
       <Provider store={store}>
-        <DescriptionComponent formData={formData} />
+        <DescriptionComponent data={formData} setFormData={() => {}} />
       </Provider>,
     );
 
