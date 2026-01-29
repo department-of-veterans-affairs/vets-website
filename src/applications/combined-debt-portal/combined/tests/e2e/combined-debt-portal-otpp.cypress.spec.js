@@ -53,6 +53,8 @@ describe('CDP - One Thing Per Page', () => {
 
     context('copay pages', () => {
       it('should show new links on balance cards', () => {
+        copayResponses.detail(id);
+
         cy.findByTestId('balance-card-copay')
           .findByTestId('card-link')
           .click();
@@ -71,6 +73,9 @@ describe('CDP - One Thing Per Page', () => {
         cy.get('@detailLink').click();
 
         cy.url().should('match', /\/copay-balances\/[a-f0-9-]+$/);
+
+        cy.wait('@copayDetail');
+
         cy.go('back');
 
         // Resolve this bill link should be present and work
@@ -127,6 +132,8 @@ describe('CDP - One Thing Per Page', () => {
       });
 
       it('should show new version of details page', () => {
+        copayResponses.detail(id);
+
         // Bills select from summary page
         cy.findByTestId('balance-card-copay')
           .findByTestId('card-link')
@@ -136,6 +143,8 @@ describe('CDP - One Thing Per Page', () => {
         cy.findByTestId(`balance-card-${id}`)
           .findByTestId(`detail-link-${id}`)
           .click();
+
+        cy.wait('@copayDetail');
 
         cy.findByTestId('detail-copay-page-title-otpp').should('exist');
         cy.findByTestId('detail-page-title').should('not.exist');
