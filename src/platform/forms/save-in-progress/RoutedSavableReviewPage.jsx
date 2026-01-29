@@ -15,7 +15,7 @@ import DowntimeNotification, {
 import get from '../../utilities/data/get';
 import debounce from '../../utilities/data/debounce';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import SaveStatus from './SaveStatus';
+// import SaveStatus from './SaveStatus';
 import { autoSaveForm } from './actions';
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
@@ -55,7 +55,7 @@ class RoutedSavableReviewPage extends React.Component {
   };
 
   render() {
-    const { form, formConfig, formContext, pageList, path, user } = this.props;
+    const { formConfig, formContext, pageList, path } = this.props;
     const { CustomReviewTopContent, hideReviewChapters } = formConfig;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
     return (
@@ -87,13 +87,13 @@ class RoutedSavableReviewPage extends React.Component {
             path={path}
           />
         </DowntimeNotification>
-        <SaveStatus
+        {/* <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
           showLoginModal={this.props.showLoginModal}
           toggleLoginModal={this.props.toggleLoginModal}
           form={form}
           formConfig={formConfig}
-        />
+        /> */}
       </div>
     );
   }

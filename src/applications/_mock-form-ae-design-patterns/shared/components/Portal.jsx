@@ -13,10 +13,12 @@ export const Portal = ({
 
   React.useEffect(
     () => {
-      if (prepend) {
-        target.prepend(container);
-      } else {
-        target.appendChild(container);
+      if (target) {
+        if (prepend) {
+          target.prepend(container);
+        } else {
+          target.appendChild(container);
+        }
       }
       return () => {
         if (target) {

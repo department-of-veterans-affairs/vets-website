@@ -12,7 +12,7 @@ import LanguageSupport from './LanguageSupport';
 import MobileLinks from './MobileLinks';
 import { createLinkGroups } from '../helpers';
 import { isWideScreen } from '../../../utilities/accessibility/index';
-import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
+// import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 const Footer = ({
   footerData,
@@ -59,10 +59,7 @@ const Footer = ({
         <MobileLinks
           visible={isMobile}
           links={linkObj}
-          langConfig={{
-            dispatchLanguageSelection,
-            languageCode,
-          }}
+          langConfig={{ dispatchLanguageSelection, languageCode }}
           minimalFooter={isMinimalFooter}
         />
         {!isMinimalFooter &&
@@ -77,9 +74,7 @@ const Footer = ({
         <div className="usa-grid usa-grid-full footer-banner">
           <a href="/" title="Go to VA.gov">
             <img
-              src={replaceWithStagingDomain(
-                'https://www.va.gov/img/homepage/va-logo-white.png',
-              )}
+              src="/img/homepage/va-logo-white.png"
               alt="VA logo and Seal, U.S. Department of Veterans Affairs"
               width="200"
               className="vads-u-height--auto"
