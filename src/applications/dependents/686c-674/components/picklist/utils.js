@@ -245,24 +245,9 @@ export const pageDetails = {
           isStepchild,
           reason,
           {
-            label: 'Does this child have a permanent disability?',
-            value: item.childHasPermanentDisability === 'Y' ? 'Yes' : 'No',
+            label: 'Date child stopped attending school',
+            value: getFormatedDate(item.endDate),
           },
-          item.childHasPermanentDisability === 'Y'
-            ? {
-                // We can't leave a DT blank
-                label: (
-                  <div className="sr-only">
-                    This child is still an eligible dependent
-                  </div>
-                ),
-                action: 'This child is still an eligible dependent',
-                value: `${item.fullName.first} will remain on your benefits`,
-              }
-            : {
-                label: 'Date child stopped attending school',
-                value: getFormatedDate(item.endDate),
-              },
         ];
       case 'stepchildNotMember':
         return [
@@ -276,19 +261,35 @@ export const pageDetails = {
           },
           item.stepchildFinancialSupport === 'Y'
             ? {
-                // We can't leave a DT blank
-                label: (
-                  <div className="sr-only">
-                    This child still qualifies as your dependent
-                  </div>
-                ),
-                action: 'This child still qualifies as your dependent',
-                value: `${item.fullName.first} will remain on your benefits`,
+                label: 'Child’s current address',
+                value: `${[
+                  item.address?.street,
+                  item.address?.street2,
+                  item.address?.street3,
+                  item.address?.city,
+                  item.address?.state,
+                  item.address?.country === 'USA' ? '' : item.address?.country,
+                ]
+                  .filter(Boolean)
+                  .join(', ')} ${item.address?.postalCode || ''}`,
               }
-            : {
-                label: 'When did this child stop living with you?',
-                value: getFormatedDate(item.endDate),
-              },
+            : null,
+          item.stepchildFinancialSupport === 'Y'
+            ? {
+                label: 'Child lives with',
+                value: [
+                  item.whoDoesTheStepchildLiveWith.first,
+                  item.whoDoesTheStepchildLiveWith.middle || '',
+                  item.whoDoesTheStepchildLiveWith.last,
+                ]
+                  .filter(Boolean)
+                  .join(' '),
+              }
+            : null,
+          {
+            label: 'When did this child stop living with you?',
+            value: getFormatedDate(item.endDate),
+          },
         ];
       case 'childAdopted':
         return [
