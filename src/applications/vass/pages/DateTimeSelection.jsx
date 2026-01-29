@@ -16,6 +16,7 @@ import {
   getTimezoneDescByTimeZoneString,
   getBrowserTimezone,
 } from '../utils/timezone';
+import { removeVassToken } from '../utils/auth';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const DateTimeSelection = () => {
         window.history.pushState(null, '', window.location.pathname);
       } else {
         isNavigatingAway.current = true;
+        removeVassToken();
         window.history.back();
       }
     };

@@ -13,6 +13,7 @@ import {
 import DateTimeSelection from './DateTimeSelection';
 import { generateSlots } from '../utils/mock-helpers';
 import { getDefaultRenderOptions } from '../utils/test-utils';
+import * as auth from '../utils/auth';
 
 // Mock appointment availability data
 const mockAppointmentAvailability = {
@@ -228,6 +229,58 @@ describe('VASS Component: DateTimeSelection', () => {
 
       confirmStub.restore();
       backSpy.restore();
+    });
+
+    it('should remove VASS token when user confirms navigation', async () => {
+      const confirmStub = sinon.stub(window, 'confirm').returns(true);
+      const removeVassTokenSpy = sinon.spy(auth, 'removeVassToken');
+      const backSpy = sinon.spy(window.history, 'back');
+
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      // Simulate popstate event
+      const popstateEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(popstateEvent);
+
+      await waitFor(() => {
+        expect(confirmStub.called).to.be.true;
+        expect(removeVassTokenSpy.called).to.be.true;
+      });
+
+      expect(backSpy.called).to.be.true;
+
+      confirmStub.restore();
+      removeVassTokenSpy.restore();
+      backSpy.restore();
+    });
+
+    it('should not remove VASS token when user cancels navigation', async () => {
+      const confirmStub = sinon.stub(window, 'confirm').returns(false);
+      const removeVassTokenSpy = sinon.spy(auth, 'removeVassToken');
+      const pushStateSpy = sinon.spy(window.history, 'pushState');
+
+      const screen = renderComponent();
+      await waitFor(() => {
+        expect(screen.getByTestId('date-time-selection')).to.exist;
+      });
+
+      // Simulate popstate event
+      const popstateEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(popstateEvent);
+
+      await waitFor(() => {
+        expect(confirmStub.called).to.be.true;
+      });
+
+      expect(removeVassTokenSpy.called).to.be.false;
+      expect(pushStateSpy.callCount).to.be.at.least(2);
+
+      confirmStub.restore();
+      removeVassTokenSpy.restore();
+      pushStateSpy.restore();
     });
   });
 });
