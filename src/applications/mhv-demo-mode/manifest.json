@@ -1,0 +1,7 @@
+{
+  "appName": "MHV Demo Mode",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mhv-demo-mode",
+  "rootUrl": "/demo-mode/my-health",
+  "productId": "910b171b-c6ee-4bd4-a416-5786bf63ac47"
+}
