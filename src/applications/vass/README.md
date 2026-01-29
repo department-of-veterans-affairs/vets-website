@@ -42,6 +42,47 @@ There are several different mock UUIDs that can be used as a value for the `uuid
 | otc | `123456` |
 | email | `s****@email.com` |
 
+### Error Scenarios
+
+#### OTC Verification - VASS API Error
+**URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=authenticate-otc-vass-api-error`
+
+Triggers a VASS API error (500) during OTC verification step.
+
+| Field | Value |
+|-------|-------|
+| uuid | `authenticate-otc-vass-api-error` |
+| lastname | `Smith` |
+| dob | `1935-04-07` |
+| otc | `123456` |
+| email | `s****@email.com` |
+
+#### OTC Verification - Service Error
+**URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=authenticate-otc-service-error`
+
+Triggers a service error (500) during OTC verification step.
+
+| Field | Value |
+|-------|-------|
+| uuid | `authenticate-otc-service-error` |
+| lastname | `Smith` |
+| dob | `1935-04-07` |
+| otc | `123456` |
+| email | `s****@email.com` |
+
+#### Not Within Cohort
+**URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=not-within-cohort`
+
+User successfully authenticates but is not within the eligible cohort for scheduling. Error occurs when fetching appointment availability.
+
+| Field | Value |
+|-------|-------|
+| uuid | `not-within-cohort` |
+| lastname | `Smith` |
+| dob | `1935-04-07` |
+| otc | `123456` |
+| email | `s****@email.com` |
+
 ### Testing Notes
 - The mock API enforces a **3 attempt limit** for low-auth verification (identity verification with lastname + dob)
 - After 3 failed attempts, a 15-minute lockout is enforced
