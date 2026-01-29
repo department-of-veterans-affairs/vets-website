@@ -1,43 +1,38 @@
-import React, { useMemo, useEffect, useState, useCallback } from 'react';
+import React, {
+  useMemo,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, connect } from 'react-redux';
-
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
+import { isEqual } from 'lodash';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { Element } from 'platform/utilities/scroll';
 import {
   hasVAPServiceConnectionError,
-  selectVAPHomePhone,
-  selectVAPMobilePhone,
-  selectVAPWorkPhone,
-  selectVAPEmailAddress,
-  selectVAPMailingAddress,
   isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector,
 } from 'platform/user/selectors';
 
 import { FIELD_NAMES, FIELD_SECTION_HEADERS } from '@@vap-svc/constants';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
-import { isFieldEmpty } from '@@vap-svc/util';
 import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
 import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
 import {
-  getSchedulingPreferencesContactMethodDisplay,
-  isSubtaskSchedulingPreference,
   schedulingPreferenceOptions,
+  getSchedulingPreferencesContactMethodDisplay,
 } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { createSchedulingPreferencesUpdate } from '@@vap-svc/actions/schedulingPreferences';
-import { FIELD_OPTION_IDS } from '@@vap-svc/constants/schedulingPreferencesConstants';
-import { EditContext } from '../../../edit/EditContext';
-import { EditConfirmCancelModal } from '../../../edit/EditConfirmCancelModal';
-import { EditBreadcrumb } from '../../../edit/EditBreadcrumb';
+import { EditContext } from '../../edit/EditContext';
+import { EditConfirmCancelModal } from '../../edit/EditConfirmCancelModal';
 
-import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../../constants';
-import { getRouteInfoFromPath } from '../../../../../common/helpers';
-import { getRoutesForNav } from '../../../../routesForNav';
-import ContactMethodConfirm from './pages/ContactMethodConfirm';
-import { ContactMethodSelect } from './pages/ContactMethodSelect';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../constants';
+import { getRouteInfoFromPath } from '../../../../common/helpers';
+import { getRoutesForNav } from '../../../routesForNav';
 
 const getFieldInfo = fieldName => {
   const fieldNameKey = Object.entries(FIELD_NAMES).find(
@@ -64,12 +59,20 @@ const clearBeforeUnloadListener = () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler);
 };
 
-export const ContactMethodContainer = () => {
+export const PreferenceSelectionContainer = ({
+  fieldName,
+  noPreferenceValue,
+  getContentComponent,
+  getButtons,
+  emptyValue,
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const historyUnblock = useRef(null);
   const defaultReturnPath = PROFILE_PATHS.SCHEDULING_PREFERENCES;
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  const [hasLocalUnsavedEdits, setHasLocalUnsavedEdits] = useState(false);
   const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);
   const [pageData, setPageData] = useState({
     data: {},
@@ -94,7 +97,6 @@ export const ContactMethodContainer = () => {
     profileSchedulingPreferencesEnabled: isSchedulingPreferencesPilotEligible,
   });
 
-  const fieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
   const fieldInfo = getFieldInfo(fieldName);
 
   const returnRouteInfo = (() => {
@@ -120,30 +122,53 @@ export const ContactMethodContainer = () => {
     state => state.vapService.hasUnsavedEdits,
   );
 
+  const hasAnyUnsavedEdits = hasUnsavedEdits || hasLocalUnsavedEdits;
+
   const fieldData = useSelector(
-    state => state.vaProfile.schedulingPreferences[fieldName] || '',
+    state => state.vaProfile.schedulingPreferences[fieldName] || emptyValue,
+    isEqual,
   );
 
-  const homePhone = useSelector(selectVAPHomePhone);
-  const mobilePhone = useSelector(selectVAPMobilePhone);
-  const workPhone = useSelector(selectVAPWorkPhone);
-  const email = useSelector(selectVAPEmailAddress);
-  const mailingAddress = useSelector(selectVAPMailingAddress);
+  useEffect(
+    () => {
+      // Initialize local pageData from redux fieldData only when redux has meaningful values
+      // or when pageData has an empty value and redux later supplies values. This avoids
+      // overwriting the field with an empty array when the component mounts before redux
+      // finishes populating the scheduling preferences (which happens when visiting the
+      // page directly).
+      const hasPageValue =
+        pageData &&
+        pageData.data &&
+        Object.prototype.hasOwnProperty.call(pageData.data, fieldName);
+
+      const pageValues = hasPageValue ? pageData.data[fieldName] : undefined;
+      const pageHasValues = Array.isArray(pageValues) && pageValues.length > 0;
+      const reduxHasValues = Array.isArray(fieldData) && fieldData.length > 0;
+
+      // Only initialize from redux when redux provides values and the page doesn't already have values.
+      if (reduxHasValues && !pageHasValues) {
+        const quickExit =
+          fieldData.length === 1 && fieldData[0] === noPreferenceValue;
+        setPageData({ data: { [fieldName]: fieldData }, quickExit });
+      }
+    },
+    [fieldData, fieldName, noPreferenceValue, pageData],
+  );
 
   const editPageHeadingString = useMemo(
     () => {
-      if (isSubtaskSchedulingPreference(fieldInfo?.fieldName)) {
-        return `Edit ${FIELD_SECTION_HEADERS?.[
-          fieldInfo.fieldName
-        ].toLowerCase()}`;
-      }
-      const addOrUpdate = isFieldEmpty(fieldData, fieldInfo?.fieldName)
-        ? 'Add'
-        : 'Update';
-
-      return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
+      return `Edit ${FIELD_SECTION_HEADERS?.[
+        fieldInfo.fieldName
+      ].toLowerCase()}`;
     },
-    [fieldData, fieldInfo],
+    [fieldInfo],
+  );
+
+  const pageSection = useMemo(
+    () => {
+      return FIELD_SECTION_HEADERS?.[fieldInfo.fieldName];
+    },
+    [fieldInfo],
   );
 
   const internationalPhonesToggleValue = useToggleValue(
@@ -155,6 +180,16 @@ export const ContactMethodContainer = () => {
       document.title = `${editPageHeadingString} | Veterans Affairs`;
     },
     [editPageHeadingString],
+  );
+
+  useEffect(
+    () => {
+      const hasChanges =
+        pageData.data[fieldName] &&
+        !isEqual(pageData.data[fieldName], fieldData);
+      setHasLocalUnsavedEdits(hasChanges);
+    },
+    [pageData, fieldData, fieldName],
   );
 
   useEffect(
@@ -174,58 +209,86 @@ export const ContactMethodContainer = () => {
     [fieldInfo, hasVAPServiceError],
   );
 
-  useEffect(() => {
-    if (fieldInfo?.fieldName && !hasVAPServiceError) {
-      const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
-        fieldInfo.fieldName,
-        { allowInternationalPhones: internationalPhonesToggleValue },
-      );
-
-      const initialFormData = getInitialFormValues({
-        fieldName: fieldInfo.fieldName,
-        data: fieldData,
-        modalData: null,
-      });
-
-      // update modal state with initial form data for the field being edited
-      // this needs to be done before the form data is updated
-      // so that initialFormFields are looked up correctly
-      dispatch(openModal(fieldInfo.fieldName, initialFormData));
-
-      // update form state with initial form data for the field being edited, so that
-      // the form is pre-populated with the current value for the field
-      // and changes to the form are tracked
-      dispatch(
-        updateFormFieldWithSchema(
+  useEffect(
+    () => {
+      if (fieldInfo?.fieldName && !hasVAPServiceError) {
+        const { uiSchema, formSchema } = getProfileInfoFieldAttributes(
           fieldInfo.fieldName,
-          initialFormData,
-          formSchema,
-          uiSchema,
-        ),
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+          { allowInternationalPhones: internationalPhonesToggleValue },
+        );
+
+        const initialFormData = getInitialFormValues({
+          fieldName: fieldInfo.fieldName,
+          data: fieldData,
+          modalData: null,
+        });
+
+        // update modal state with initial form data for the field being edited
+        // this needs to be done before the form data is updated
+        // so that initialFormFields are looked up correctly
+        dispatch(openModal(fieldInfo.fieldName, initialFormData));
+
+        // update form state with initial form data for the field being edited, so that
+        // the form is pre-populated with the current value for the field
+        // and changes to the form are tracked
+        dispatch(
+          updateFormFieldWithSchema(
+            fieldInfo.fieldName,
+            initialFormData,
+            formSchema,
+            uiSchema,
+          ),
+        );
+      }
+    },
+    [
+      fieldInfo?.fieldName,
+      hasVAPServiceError,
+      internationalPhonesToggleValue,
+      dispatch,
+      fieldData,
+    ],
+  );
+
+  useEffect(
+    () => {
+      // Close out the modal on mount because clicking back
+      // from a sub task causes weird on page behaviors
+      dispatch(openModal(null));
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       // this is where we track the state of the beforeunload listener
       // and add/remove it as needed when the form has unsaved edits
-      if (hasUnsavedEdits && !hasBeforeUnloadListener) {
+      if (hasAnyUnsavedEdits && !hasBeforeUnloadListener) {
         window.addEventListener('beforeunload', beforeUnloadHandler);
+        historyUnblock.current = history.block(() => {
+          if (hasAnyUnsavedEdits) {
+            setShowConfirmCancelModal(true);
+            return false;
+          }
+          return true;
+        });
         setHasBeforeUnloadListener(true);
         return;
       }
 
-      if (!hasUnsavedEdits && hasBeforeUnloadListener) {
+      if (!hasAnyUnsavedEdits && hasBeforeUnloadListener) {
         setHasBeforeUnloadListener(false);
         clearBeforeUnloadListener();
+        if (historyUnblock.current) {
+          historyUnblock.current();
+          historyUnblock.current = null;
+        }
       }
     },
-    [hasUnsavedEdits, hasBeforeUnloadListener],
+    [hasAnyUnsavedEdits, hasBeforeUnloadListener, history],
   );
 
-  const saveContactMethod = useCallback(
+  const savePreference = useCallback(
     () => {
       const {
         apiRoute,
@@ -254,66 +317,6 @@ export const ContactMethodContainer = () => {
     [dispatch, fieldName, pageData.data],
   );
 
-  useEffect(
-    () => {
-      // Check for existing data on the confirm step and push to profile edit if missing
-      if (step === 'confirm') {
-        let data;
-        switch (pageData.data[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]) {
-          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
-            .TELEPHONE_MOBILE:
-          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
-            .TEXT_MESSAGE:
-            data = mobilePhone;
-            break;
-          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
-            .TELEPHONE_HOME:
-            data = homePhone;
-            break;
-          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
-            .TELEPHONE_WORK:
-            data = workPhone;
-            break;
-          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
-            .EMAIL:
-            data = email;
-            break;
-          case FIELD_OPTION_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]
-            .US_POST:
-            data = mailingAddress;
-            break;
-          default:
-            data = false;
-        }
-        if (!data) {
-          // Save the contact method preference in the background as the user is redirected to edit the related contact info field
-          saveContactMethod();
-
-          const relatedField = getSchedulingPreferencesContactMethodDisplay(
-            pageData.data[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
-          );
-          history.push(
-            `${PROFILE_PATHS.EDIT}?returnPath=${encodeURIComponent(
-              returnPath,
-            )}&fieldName=${encodeURIComponent(relatedField.field)}`,
-          );
-        }
-      }
-    },
-    [
-      step,
-      pageData,
-      mobilePhone,
-      homePhone,
-      workPhone,
-      email,
-      mailingAddress,
-      history,
-      returnPath,
-      saveContactMethod,
-    ],
-  );
-
   const optionsMap = schedulingPreferenceOptions(fieldName);
   const options = Object.entries(optionsMap).map(([value, label]) => ({
     value: String(value),
@@ -321,16 +324,40 @@ export const ContactMethodContainer = () => {
   }));
   const optionValues = options.map(option => option.value);
 
-  const validate = data => optionValues.includes(data?.[fieldName]);
+  const validate = data => {
+    const values = data?.[fieldName] || emptyValue;
+
+    if (Array.isArray(values)) {
+      if (!values || values.length === 0) {
+        return false;
+      }
+
+      if (isEqual(values, [noPreferenceValue])) {
+        return true;
+      }
+
+      if (values.includes('continue') && step === 'select') {
+        return true;
+      }
+
+      return values.some(v => optionValues.includes(v));
+    }
+
+    if (isEqual(values, noPreferenceValue)) {
+      return true;
+    }
+
+    return optionValues.includes(values);
+  };
 
   const handlers = {
     cancel: () => {
+      setShowConfirmCancelModal(false);
       clearBeforeUnloadListener();
-
-      // ensures any field editing state is cleared
-      // and that hasUnsavedEdits is set to false
+      if (historyUnblock.current) {
+        historyUnblock.current();
+      }
       dispatch(openModal(null));
-
       history.push(returnPath);
     },
     continue: () => {
@@ -346,30 +373,29 @@ export const ContactMethodContainer = () => {
         return;
       }
 
-      saveContactMethod();
+      savePreference();
+      if (historyUnblock.current) {
+        historyUnblock.current();
+      }
 
       history.push(returnPath, {
         fieldInfo,
       });
     },
-    breadCrumbClick: e => {
-      e.preventDefault();
-
-      if (hasUnsavedEdits) {
-        setShowConfirmCancelModal(true);
-        return;
-      }
-
-      handlers.cancel();
-    },
-
     updateContactInfo: () => {
       if (!validate(pageData.data)) {
         setError(true);
         return;
       }
       // First save the contact method preference
-      saveContactMethod();
+      savePreference();
+
+      if (historyUnblock.current) {
+        historyUnblock.current();
+      }
+      setShowConfirmCancelModal(false);
+      clearBeforeUnloadListener();
+      dispatch(openModal(null));
 
       // Then navigate to the profile sub task flow to edit the related contact info field
       const relatedField = getSchedulingPreferencesContactMethodDisplay(
@@ -381,51 +407,20 @@ export const ContactMethodContainer = () => {
         )}&fieldName=${encodeURIComponent(relatedField.field)}`,
       );
     },
+    breadCrumbClick: e => {
+      e.preventDefault();
+
+      if (hasAnyUnsavedEdits) {
+        setShowConfirmCancelModal(true);
+        return;
+      }
+
+      handlers.cancel();
+    },
   };
 
-  const content =
-    step === 'select' ? (
-      <ContactMethodSelect
-        data={fieldData}
-        error={error}
-        options={options}
-        setPageData={setPageData}
-      />
-    ) : (
-      <ContactMethodConfirm pageData={pageData} />
-    );
-
-  let buttons = (
-    <VaButtonPair
-      onPrimaryClick={handlers.continue}
-      onSecondaryClick={handlers.cancel}
-      leftButtonText="Continue"
-      rightButtonText="Cancel"
-      data-testid="continue-cancel-buttons"
-    />
-  );
-  if (pageData.quickExit) {
-    buttons = (
-      <VaButtonPair
-        onPrimaryClick={handlers.save}
-        onSecondaryClick={handlers.cancel}
-        leftButtonText="Save to profile"
-        rightButtonText="Cancel"
-        data-testid="quick-exit-cancel-buttons"
-      />
-    );
-  }
-  if (step === 'confirm') {
-    buttons = (
-      <VaButtonPair
-        onPrimaryClick={handlers.save}
-        onSecondaryClick={handlers.updateContactInfo}
-        leftButtonText="Confirm information"
-        rightButtonText="Update information"
-        data-testid="confirm-update-buttons"
-      />
-    );
-  }
+  const ContentComponent = getContentComponent(step);
+  const buttons = getButtons(step, pageData.quickExit, handlers);
 
   return (
     <EditContext.Provider value={{ onCancel: handlers.cancel }}>
@@ -434,17 +429,21 @@ export const ContactMethodContainer = () => {
           {/* this modal is triggered by breadcrumb being clicked with unsaved edits */}
           <EditConfirmCancelModal
             isVisible={showConfirmCancelModal}
-            activeSection={fieldInfo.fieldName.toLowerCase()}
+            activeSection={pageSection.toLowerCase()}
             onHide={() => setShowConfirmCancelModal(false)}
           />
           <div className="vads-u-display--block medium-screen:vads-u-display--block">
-            <EditBreadcrumb
-              className="vads-u-margin-top--2 vads-u-margin-bottom--3"
-              onClickHandler={handlers.breadCrumbClick}
-              href={returnPath}
+            <nav
+              aria-label="Breadcrumb"
+              className="vads-u-margin-top--3 vads-u-margin-bottom--3"
             >
-              {returnPathName}
-            </EditBreadcrumb>
+              <va-link
+                back
+                href={returnPath}
+                onClick={handlers.breadCrumbClick}
+                text={returnPathName}
+              />
+            </nav>
 
             <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
               {editPageHeadingString}
@@ -454,7 +453,16 @@ export const ContactMethodContainer = () => {
               <div className="vads-l-row">
                 <div className="vads-l-col--12 medium-screen:vads-l-col--8">
                   <form onSubmit={handlers.save} noValidate>
-                    {content}
+                    <ContentComponent
+                      data={fieldData}
+                      error={error}
+                      fieldName={fieldName}
+                      setPageData={setPageData}
+                      pageData={pageData}
+                      noPreferenceValue={noPreferenceValue}
+                      options={options}
+                      handlers={handlers}
+                    />
                     <div className="vads-u-margin-top--2">{buttons}</div>
                   </form>
                 </div>
@@ -467,6 +475,15 @@ export const ContactMethodContainer = () => {
   );
 };
 
+PreferenceSelectionContainer.propTypes = {
+  emptyValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+    .isRequired,
+  fieldName: PropTypes.string.isRequired,
+  getButtons: PropTypes.func.isRequired,
+  getContentComponent: PropTypes.func.isRequired,
+  noPreferenceValue: PropTypes.string.isRequired,
+};
+
 const mapDispatchToProps = {
   createSchedulingPreferencesUpdate,
 };
@@ -474,4 +491,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps,
-)(ContactMethodContainer);
+)(PreferenceSelectionContainer);
