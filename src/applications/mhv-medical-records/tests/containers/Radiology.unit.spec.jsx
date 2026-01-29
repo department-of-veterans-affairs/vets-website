@@ -38,8 +38,12 @@ describe('Radiology list container', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getByText('Radiology', { exact: true, selector: 'h1' })).to
-      .exist;
+    expect(
+      screen.getByText('Medical imaging results', {
+        exact: true,
+        selector: 'h1',
+      }),
+    ).to.exist;
   });
 
   it('displays a subheading', () => {
