@@ -1,5 +1,5 @@
 # VASS
-// TODO: ADD description
+The VASS (Veterans Affairs Scheduling System) module enables non-authenticated, first-time users to schedule appointments with the VA, including suicide awareness and health appointments.
 
 ## URL
 http://localhost:3001/service-member/benefits/solid-start/schedule
