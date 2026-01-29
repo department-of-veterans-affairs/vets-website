@@ -1,0 +1,44 @@
+[
+  {
+    "id": 7026562,
+    "name": "###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###",
+    "relationType": "PATIENT",
+    "preferredTeam": true
+  },
+  {
+    "id": 6832726,
+    "name": "###PQR TRIAGE_TEAM 747###",
+    "relationType": "PATIENT",
+    "preferredTeam": true
+  },
+  {
+    "id": 6910405,
+    "name": "***Jeasmitha-Cardio-Clinic***",
+    "relationType": "PATIENT",
+    "preferredTeam": true
+  },
+  {
+    "id": 6978853,
+    "name": "***Mohammad_Fort Belovoir TG 100_SLC4%",
+    "relationType": "PATIENT",
+    "preferredTeam": true
+  },
+  {
+    "id": 6978854,
+    "name": "***Mohammad_Fort Belovoir TG 200_APPT_SLC4%",
+    "relationType": "PATIENT",
+    "preferredTeam": true
+  },
+  {
+    "id": "OH567890",
+    "name": "VHA 649 Release of Information (ROI)",
+    "relationType": "PATIENT",
+    "preferredTeam": true
+  },
+  {
+    "id": "OH678901",
+    "name": "Florida Tampa Release of Information – Medical Records",
+    "relationType": "PATIENT", 
+    "preferredTeam": true
+  }
+]

@@ -1,0 +1,121 @@
+{
+  "data": [
+    {
+      "id": "2708329",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 2708329,
+        "category": "COVID",
+        "subject": "Test",
+        "body": "Message to patient\r\n\r\nhttps://vajira.max.gov/browse/MHV-19810",
+        "attachment": null,
+        "sentDate": "2023-07-17T19:57:15.000Z",
+        "senderId": 694294,
+        "senderName": "SPARROW, JACK",
+        "recipientId": 406227,
+        "recipientName": "MHVTP, SAFARI ",
+        "readReceipt": "READ",
+        "triageGroupName": "TG-7410",
+        "proxySenderName": null,
+        "threadId": 2708300,
+        "folderId": -1,
+        "messageBody": "Message to patient\r\n\r\nhttps://vajira.max.gov/browse/MHV-19810",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2708329"
+      }
+    },
+    {
+      "id": "2708301",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 2708301,
+        "category": "COVID",
+        "subject": "Test",
+        "body": "Message to Clinician",
+        "attachment": null,
+        "sentDate": "2023-07-17T19:52:25.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientId": 2298160,
+        "recipientName": "TAYLOR, ELIZABETH",
+        "readReceipt": "READ",
+        "triageGroupName": "TG-7410",
+        "proxySenderName": null,
+        "threadId": 2708300,
+        "folderId": -1,
+        "messageBody": "Message to Clinician",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": true
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2708301"
+      }
+    }
+    ,{
+      "id": "7176701",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7176701,
+        "category": "50",
+        "subject": "Covid-Inquiry",
+        "body": "replying",
+        "attachment": null,
+        "sentDate": "2022-09-06T20:06:15.000Z",
+        "senderId": 6177,
+        "senderName": "TEACH, EDWARD",
+        "recipientId": 6820911,
+        "recipientName": "MORGAN, JAMES",
+        "readReceipt": "READ",
+        "triageGroupName": "Jeasmitha-Cardio-Clinic",
+        "proxySenderName": null,
+        "threadId": 7176615,
+        "folderId": -1,
+        "messageBody": "replying",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7176701"
+      }
+    },
+    {
+      "id": "7176616",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7176616,
+        "category": "50",
+        "subject": "Covid-Inquiry",
+        "body": "Send message Api testing 39",
+        "attachment": null,
+        "sentDate": "2022-09-06T19:31:18.000Z",
+        "senderId": 6820911,
+        "senderName": "MORGAN, JAMES",
+        "recipientId": 6910405,
+        "recipientName": "Jeasmitha-Cardio-Clinic",
+        "readReceipt": "READ",
+        "triageGroupName": "Jeasmitha-Cardio-Clinic",
+        "proxySenderName": null,
+        "threadId": 7176615,
+        "folderId": -1,
+        "messageBody": "Send message Api testing 39",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7176616"
+      }
+    }
+  ]
+}
+
+
+
+
+

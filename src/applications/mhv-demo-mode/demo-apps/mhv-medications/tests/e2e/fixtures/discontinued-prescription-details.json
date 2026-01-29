@@ -1,0 +1,51 @@
+{
+    "data": {
+        "id": "21227553",
+        "type": "prescription_details",
+        "attributes": {
+            "prescriptionId": 21227553,
+            "prescriptionNumber": "2720245A",
+            "prescriptionName": "ACITRETIN 25MG CAP",
+            "refillStatus": "discontinued",
+            "refillSubmitDate": "2022-08-29T18:36:05.000Z",
+            "refillDate": "2022-08-25T04:00:00.000Z",
+            "refillRemaining": 11,
+            "facilityName": "DAYT29",
+            "orderedDate": "2022-08-25T04:00:00.000Z",
+            "quantity": "30",
+            "expirationDate": "2023-08-26T04:00:00.000Z",
+            "dispensedDate": null,
+            "stationNumber": "989",
+            "isRefillable": false,
+            "isTrackable": false,
+            "cmopNdcNumber": null,
+            "inCernerTransition": false,
+            "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
+            "sig": "TAKE 5G DAILY FOR 30 DAYS TEST TEST INDICATION TEST",
+            "cmopDivisionPhone": null,
+            "userId": 17621060,
+            "providerFirstName": "MOHAMMAD",
+            "providerLastName": "ISLAM",
+            "remarks": "RENEWED FROM RX # 2720245",
+            "divisionName": "DAYTON",
+            "modifiedDate": "2023-08-28T00:43:55.000Z",
+            "institutionId": null,
+            "dialCmopDivisionPhone": "",
+            "dispStatus": "Discontinued",
+            "ndc": "00004-0214-57",
+            "reason": null,
+            "prescriptionNumberIndex": "RX",
+            "prescriptionSource": "RX",
+            "disclaimer": null,
+            "indicationForUse": null,
+            "indicationForUseFlag": null,
+            "category": "Rx Medication",
+            "trackingList": [],
+            "rxRfRecords": [],
+            "tracking": false
+        },
+        "links": {
+            "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21227553"
+        }
+    }
+}

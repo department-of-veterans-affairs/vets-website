@@ -1,0 +1,66 @@
+{
+    "data": {
+        "id": "22377955",
+        "type": "prescription_details",
+        "attributes": {
+            "prescriptionId": 22377955,
+            "prescriptionNumber": "2720553",
+            "prescriptionName": "MEGESTROL ACETATE 200MG/5ML ORAL SUSP",
+            "refillStatus": "submitted",
+            "refillSubmitDate": "October 3,2023",
+            "refillDate": "2023-07-18T04:00:00.000Z",
+            "refillRemaining": 5,
+            "facilityName": "DAYT29",
+            "orderedDate": "2023-07-17T04:00:00.000Z",
+            "quantity": "1",
+            "expirationDate": "2024-07-17T04:00:00.000Z",
+            "dispensedDate": null,
+            "stationNumber": "989",
+            "isRefillable": true,
+            "isTrackable": false,
+            "cmopNdcNumber": null,
+            "inCernerTransition": false,
+            "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
+            "sig": "TAKE 1 TEASPOONFUL DAILY FOR 30 DAYS",
+            "cmopDivisionPhone": null,
+            "userId": 16955936,
+            "providerFirstName": "MOHAMMAD",
+            "providerLastName": "ISLAM",
+            "remarks": null,
+            "divisionName": "DAYTON",
+            "modifiedDate": "2023-08-11T15:56:58.000Z",
+            "institutionId": null,
+            "dialCmopDivisionPhone": "410-636-6899",
+            "dispStatus": "Active: Submitted",
+            "ndc": "00015-0508-42",
+            "reason": null,
+            "prescriptionNumberIndex": "RX",
+            "prescriptionSource": "RX",
+            "disclaimer": null,
+            "indicationForUse": null,
+            "indicationForUseFlag": null,
+            "category": "Rx Medication",
+            "trackingList": [
+                {
+                    "id": 49049,
+                    "stationNumber": "979",
+                    "rxNumber": "2720604",
+                    "carrier": "FEDEX",
+                    "trackingNumber": "77298036368890000006962",
+                    "completeDateTime": "Wed, 30 Apr 2025 04:39:11 EDT",
+                    "divisionPhone": "(410)636-6899",
+                    "ndc": "00113002239",
+                    "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",
+                    "isLocalTracking": false,
+                    "othersInSamePackage": false,
+                    "viewImageDisplayed": true
+                }
+            ],
+            "rxRfRecords": [],
+            "tracking": true
+        },
+        "links": {
+            "self": "http://127.0.0.1:3000/my_health/v1/prescriptions/22377955"
+        }
+    }
+}

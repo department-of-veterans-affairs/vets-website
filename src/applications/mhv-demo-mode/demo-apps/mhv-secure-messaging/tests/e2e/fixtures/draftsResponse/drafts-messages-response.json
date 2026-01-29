@@ -1,0 +1,294 @@
+{
+  "data": [
+    {
+      "id": "2848710",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2848710,
+        "folderId": -2,
+        "messageId": 2848711,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "test subject",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": null,
+        "draftDate": "2023-09-05T19:01:15.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "Dimitar's TG",
+        "recipientId": 2298160,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2848710"
+      }
+    },
+    {
+      "id": "2845688",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2845688,
+        "folderId": -2,
+        "messageId": 2845689,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "s",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": null,
+        "draftDate": "2023-06-09T18:33:26.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "Dimitar's TG",
+        "recipientId": 2298160,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2845688"
+      }
+    },
+    {
+      "id": "2811616",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2811616,
+        "folderId": -2,
+        "messageId": 2811617,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "gfdsagfsd",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": null,
+        "draftDate": "2023-06-09T21:18:26.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "Dimitar's TG",
+        "recipientId": 2298160,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2811616"
+      }
+    },
+    {
+      "id": "2811613",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2811613,
+        "folderId": -2,
+        "messageId": 2811614,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "APPOINTMENTS",
+        "subject": "sdfafdas",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": null,
+        "draftDate": "2023-05-15T14:35:36.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "Dimitar's TG",
+        "recipientId": 2298160,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2811613"
+      }
+    },
+    {
+      "id": "2807984",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2807984,
+        "folderId": -2,
+        "messageId": 2807985,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "MEDICATIONS",
+        "subject": "Attachmekts",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": null,
+        "draftDate": "2023-05-15T14:32:42.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "Dimitar's TG",
+        "recipientId": 2298160,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2807984"
+      }
+    },
+    {
+      "id": "2779910",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2779910,
+        "folderId": -2,
+        "messageId": 2779911,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "COVID",
+        "subject": "subject",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": null,
+        "draftDate": "2023-07-12T22:17:44.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "Dimitar's TG",
+        "recipientId": 2298160,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2779910"
+      }
+    },
+    {
+      "id": "2761288",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2761288,
+        "folderId": -2,
+        "messageId": 2761289,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "TEST_RESULTS",
+        "subject": "test",
+        "triageGroupName": "Dimitar's TG",
+        "sentDate": null,
+        "draftDate": "2023-05-12T18:55:23.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "Dimitar's TG",
+        "recipientId": 2298160,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2761288"
+      }
+    },
+    {
+      "id": "2761177",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2761177,
+        "folderId": -2,
+        "messageId": 2761178,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "TEST_RESULTS",
+        "subject": "Test File Attachment ",
+        "triageGroupName": "SM Clinician Redesign TG***01_SLC10",
+        "sentDate": null,
+        "draftDate": "2023-04-19T13:33:12.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "SM Clinician Redesign TG***01_SLC10",
+        "recipientId": 2142750,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2761177"
+      }
+    },
+    {
+      "id": "2761155",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2761155,
+        "folderId": -2,
+        "messageId": 2761156,
+        "threadPageSize": 99,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "File Attachment",
+        "triageGroupName": "SM Clinician Redesign TG***01_SLC10",
+        "sentDate": null,
+        "draftDate": "2023-04-19T13:25:52.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "SM Clinician Redesign TG***01_SLC10",
+        "recipientId": 2142750,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2761155"
+      }
+    },
+    {
+      "id": "2732618",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 2732618,
+        "folderId": -2,
+        "messageId": 2743479,
+        "threadPageSize": 99,
+        "messageCount": 2,
+        "category": "OTHER",
+        "subject": "attachment",
+        "triageGroupName": "SM Clinician Redesign TG***01_SLC10",
+        "sentDate": null,
+        "draftDate": "2023-04-10T21:23:04.000Z",
+        "senderId": 406227,
+        "senderName": "MHVTP, SAFARI ",
+        "recipientName": "SM Clinician Redesign TG***01_SLC10",
+        "recipientId": 2142750,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2732618"
+      }
+    }
+  ]
+}

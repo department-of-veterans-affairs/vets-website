@@ -1,0 +1,11 @@
+{
+    "aal": {
+      "activityType": "Medical Records Activty",
+      "action": "View",
+      "performerType": "Self",
+      "detailValue": null,
+      "status": 1
+    },
+    "product": "mr",
+    "oncePerSession": true
+  }

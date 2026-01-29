@@ -1,0 +1,383 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "./secure-messaging-breadcrumb";
+@import "./navigation";
+@import "./folders-list";
+@import "./folder-thread-list-view";
+@import "src/platform/mhv/secondary-nav/sass/mhv-sec-nav";
+
+.secure-messaging-container {
+  font-size: 1rem;
+}
+
+.bottom-container {
+  background-color: var(--vads-color-white);
+}
+
+.breadcrumb-angle .desktop-view-crumb {
+  color: unset;
+  pointer-events: auto;
+  font-weight: unset;
+  text-decoration: unset;
+}
+
+.alertbox-link:visited {
+  color: var(--vads-color-link);
+}
+.compose-message-link:visited {
+  color: var(--vads-color-link);
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color, border-color;
+}
+
+va-alert button {
+  width: auto;
+}
+
+// Destructive button styling for dangerous/irreversible actions
+// Uses ::part() to pierce shadow DOM and apply red outline style
+// Uses VADS color tokens matching va-button-icon button-type="delete"
+// The outline button uses box-shadow for border, not border-color
+.sm-button-destructive::part(button) {
+  color: var(--vads-color-secondary-dark) !important;
+  box-shadow: inset 0 0 0 2px var(--vads-color-secondary-dark) !important;
+  background-color: transparent !important;
+}
+
+.sm-button-destructive::part(button):hover,
+.sm-button-destructive::part(button):active {
+  color: var(--vads-color-secondary-darkest) !important;
+  box-shadow: inset 0 0 0 2px var(--vads-color-secondary-darkest) !important;
+  background-color: var(--vads-color-secondary-lightest) !important;
+}
+
+va-modal va-radio {
+  margin-left: 0px;
+  margin-bottom: 24px;
+}
+
+// Fix for WCAG 1.4.10 Reflow - prevents va-radio-option text from overflowing at high zoom levels
+// See: https://github.com/department-of-veterans-affairs/va.gov-team/issues/119851
+va-radio {
+  word-break: break-word;
+}
+
+.message-box {
+  background-color: var(--vads-color-base-lightest);
+  border-radius: 4px;
+}
+
+.send-button-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent !important;
+  color: var(--vads-color-link) !important;
+  font-weight: normal;
+  line-height: 24px;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+  .send-button-top-text {
+    text-decoration: underline;
+  }
+}
+
+.section-guide-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 16px 11px 13px;
+  line-height: 1.5;
+  border-color: var(--vads-color-link);
+  * {
+    color: var(--vads-color-link);
+  }
+  width: 100%;
+  @media (min-width: $medium-screen) {
+    display: none;
+  }
+}
+
+.breadcrumb > i {
+  margin-right: 6px;
+  font-size: 0.6875rem;
+}
+
+.reply-button-container {
+  @media (min-width: $xsmall-screen) {
+    min-width: 15em;
+  }
+}
+
+.save-button {
+  background-color: transparent;
+  color: var(--vads-color-link);
+  .save-button-text {
+    text-decoration: underline;
+    font-weight: normal;
+  }
+}
+
+.send-and-save {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.message-title {
+  font-size: 20px;
+  padding: 12px;
+  justify-content: space-between;
+}
+
+.message-input {
+  min-height: 3.25rem;
+  max-width: 100%;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.25rem 0px;
+  resize: none;
+}
+
+.message-body {
+  background-color: var(--vads-color-white);
+  font-size: 16px;
+  border-radius: 0px 0px 4px 4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  .message-body-text {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  a:visited {
+    color: var(--vads-color-link);
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color;
+  }
+}
+
+.attachment-body {
+  display: flex;
+  background-color: var(--vads-color-white);
+  font-size: 16px;
+  border-radius: 0px 0px 4px 4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.attachment-icon {
+  padding-top: 6px;
+  margin-right: 4px;
+}
+
+.expand-messages {
+  align-items: right;
+}
+
+.nav-links {
+  margin-left: 8px;
+  margin-right: 8px;
+  .nav-links-text {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+.link-button,
+.link-button:hover,
+.link-button:active {
+  background-color: transparent;
+  color: var(--vads-color-link);
+  font-weight: normal;
+  text-decoration: underline;
+  border: none;
+  border-radius: 0;
+  transition-duration: 0.3s;
+}
+.link-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.attachments-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 16px;
+  li {
+    padding: 0;
+    margin: 16px 0 0 0;
+    display: flex;
+    @media (min-width: $medium-screen) {
+      align-items: center;
+    }
+    i {
+      margin: 5px 8px 0 0;
+      color: var(--vads-color-link);
+      @media (min-width: $medium-screen) {
+        margin-top: 0;
+      }
+    }
+    .editable-attachment {
+      border: 1px solid var(--vads-color-gray-medium);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.32);
+      padding-left: 12px;
+      span {
+        margin: auto;
+        .attachment-name-text {
+          overflow-wrap: anywhere;
+        }
+      }
+      @media (min-width: $medium-screen) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+  li:last-child {
+    .editable-attachment {
+      border-bottom: 1px solid var(--vads-color-gray-medium);
+    }
+  }
+  .remove-attachment-icon {
+    width: 0.625rem;
+    height: 0.625rem;
+    position: relative;
+    cursor: pointer;
+    font-weight: 400;
+  }
+  .remove-attachment-icon:before,
+  .remove-attachment-icon:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 3.5px;
+    background-color: var(--vads-color-secondary-dark);
+  }
+  .remove-attachment-icon:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .remove-attachment-icon:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+  .remove-attachment-button {
+    color: var(--vads-color-secondary-dark);
+    background-color: var(--vads-color-white);
+    padding: 0;
+    margin: 0;
+    width: fit-content;
+    position: relative;
+    @media (min-width: $medium-screen) {
+      padding: 0 0 0 0.625rem;
+      margin: 0 0 0 0.625rem;
+    }
+    i::before {
+      position: absolute;
+      top: 1px;
+      left: 3px;
+    }
+  }
+}
+
+.close-success-alert-button {
+  background-color: transparent;
+  position: absolute;
+  width: auto;
+  right: 0;
+  top: 4px;
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+pre {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+    "Arial", sans-serif;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+va-loading-indicator {
+  margin: 200px auto;
+}
+
+.interstitial-page {
+  h1 {
+    color: var(--vads-color-base);
+  }
+  strong {
+    color: var(--vads-color-base);
+  }
+  ul {
+    padding-left: 15px;
+  }
+  .no-word-wrap {
+    white-space: nowrap;
+  }
+  ul {
+    margin-top: 32px;
+  }
+  .link:visited {
+    color: var(--vads-color-primary);
+  }
+}
+
+.move-folder-modal-buttons {
+  va-button::part(button) {
+    width: 100%;
+
+    @media (min-width: $small-screen) {
+      width: auto;
+    }
+  }
+}
+
+.continue-button {
+  max-width: 242px;
+  border-radius: 4px;
+  font-size: 16.96px;
+}
+
+.move-folder-modal-buttons {
+  va-button::part(button) {
+    width: 100%;
+
+    @media (min-width: $small-screen) {
+      width: auto;
+    }
+  }
+}
+
+.continue-button {
+  max-width: 242px;
+  border-radius: 4px;
+  font-size: 16.96px;
+}
+
+.unread-bubble {
+  height: 12px;
+  width: 12px;
+  background-color: var(--vads-color-secondary);
+  border-radius: 50%;
+}
+
+.contactListForm {
+  .contactListFacility::part(header) {
+    font-size: 20px;
+  }
+}
+
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
+#edit-preferences-button.vads-u-background-color--transparent {
+  background-color: transparent;
+}
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/

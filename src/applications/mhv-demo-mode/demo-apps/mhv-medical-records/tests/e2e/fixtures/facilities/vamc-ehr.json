@@ -1,0 +1,42 @@
+{
+  "data": {
+    "nodeQuery": {
+      "count": 171,
+      "entities": [
+        {
+          "title": "Captain James A. Lovell Federal Health Care Center",
+          "fieldFacilityLocatorApiId": "vha_556",
+          "fieldRegionPage": {
+            "entity": {
+              "entityId": "49451",
+              "title": "Lovell Federal health care - VA",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        },
+        {
+          "title": "C.W. Bill Young Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_516",
+          "fieldRegionPage": {
+            "entity": {
+              "entityId": "49452",
+              "title": "VA Bay Pines health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_757",
+          "fieldRegionPage": {
+            "entity": {
+              "entityId": "49453",
+              "title": "VA Spokane health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

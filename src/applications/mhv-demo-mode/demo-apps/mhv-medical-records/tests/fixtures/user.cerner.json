@@ -1,0 +1,28 @@
+{
+  "profile": {
+    "userFullName": {
+      "first": "Andrew- Cerner",
+      "middle": "J",
+      "last": "Morkel"
+    },
+    "dob": "1968-11-12",
+    "isCernerPatient": true,
+    "loading": false,
+    "facilities": [
+      {
+        "facilityId": "556",
+        "isCerner": true
+      },
+      {
+        "facilityId": "528",
+        "isCerner": false
+      },
+      {
+        "facilityId": "459",
+        "isCerner": false
+      }
+    ],
+    "vaPatient": true,
+    "mhvAccountState": "OK"
+  }
+}

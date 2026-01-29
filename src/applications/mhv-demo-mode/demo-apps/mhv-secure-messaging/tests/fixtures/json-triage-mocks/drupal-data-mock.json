@@ -1,0 +1,28 @@
+{
+  "vamcEhrData": {
+    "data": {
+      "ehrDataByVhaId": {
+        "662": {
+          "facilityId": "662",
+          "vamcSystemName": "Test Facility 1",
+          "isCerner": false
+        },
+        "636": {
+          "facilityId": "636",
+          "vamcSystemName": "Test Facility 2",
+          "isCerner": false
+        },
+        "583": {
+          "facilityId": "583",
+          "vamcSystemName": "Test Facility 3",
+          "isCerner": false
+        },
+        "757": {
+          "facilityId": "757",
+          "vamcSystemName": "Test Facility 4",
+          "isCerner": true
+        }
+      }
+    }
+  }
+}

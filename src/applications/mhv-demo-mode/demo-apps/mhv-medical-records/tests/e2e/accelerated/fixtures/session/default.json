@@ -1,0 +1,30 @@
+{
+  "retrievedDate": 1732224967218,
+  "lastRefreshDate": null,
+  "facilityExtractStatusList": [
+    {
+      "extract": "Allergy",
+      "lastRequested": 1732224367218,
+      "lastCompleted": 1732224667218,
+      "lastSuccessfulCompleted": 1732224667218
+    },
+    {
+      "extract": "ImagingStudy",
+      "lastRequested": 1732224367218,
+      "lastCompleted": 1732224667218,
+      "lastSuccessfulCompleted": 1732224667218
+    },
+    {
+      "extract": "VPR",
+      "lastRequested": 1732224367218,
+      "lastCompleted": 1732224667218,
+      "lastSuccessfulCompleted": 1732224667218
+    },
+    {
+      "extract": "ChemistryHematology",
+      "lastRequested": 1732224367218,
+      "lastCompleted": 1732224667218,
+      "lastSuccessfulCompleted": 1732224667218
+    }
+  ]
+}

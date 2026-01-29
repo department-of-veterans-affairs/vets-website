@@ -1,0 +1,35 @@
+{
+    "data": {
+        "id": "7192838",
+        "type": "messages",
+        "attributes": {
+            "messageId": 7192838,
+            "category": "MEDICATIONS",
+            "subject": "test1 special message%$#*",
+            "body": "special %$#",
+            "attachment": null,
+            "sentDate": "2022-09-12T14:34:28.000Z",
+            "senderId": 20029,
+            "senderName": "ISLAM, MOHAMMAD RAFIQ",
+            "recipientId": 6820911,
+            "recipientName": "ECSTEN, THOMAS ",
+            "readReceipt": null,
+            "triageGroupName": "Jeasmitha-Cardio-Clinic",
+            "proxySenderName": null,
+            "threadId": 7176615,
+            "folderId": 7038175,
+            "messageBody": "REPLY\r\nFROM ESCALATED FOLDER\r\n\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer",
+            "draftDate": null,
+            "toDate": null,
+            "hasAttachments": false
+        },
+        "relationships": {
+            "attachments": {
+                "data": []
+            }
+        },
+        "links": {
+            "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7192838"
+        }
+    }
+}

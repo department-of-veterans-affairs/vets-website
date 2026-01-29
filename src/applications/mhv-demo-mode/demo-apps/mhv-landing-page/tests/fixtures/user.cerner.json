@@ -1,0 +1,135 @@
+{
+  "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form-save-in-progress",
+        "form-prefill",
+        "user-profile"
+      ],
+      "account": {
+        "accountUuid": "a39e66bb-320e-449f-b30b-c396f1485762"
+      },
+      "profile": {
+        "email": "vets.gov.user+0@gmail.com",
+        "firstName": "HECTOR",
+        "middleName": null,
+        "lastName": "ALLEN",
+        "birthDate": null,
+        "gender": null,
+        "zip": null,
+        "lastSignedIn": "2023-08-14T22:06:54.228Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "accountType": "N/A"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3"
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19320205",
+        "familyName": "Allen",
+        "gender": "M",
+        "givenNames": [
+          "Hector"
+        ],
+        "isCernerPatient": true,
+        "facilities": [
+          {
+            "facilityId": "757",
+            "isCerner": true
+          }
+        ],
+        "vaPatient": true,
+        "mhvAccountState": "NONE"
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": false,
+        "servedInMilitary": false
+      },
+      "inProgressForms": [],
+      "prefillsAvailable": [
+        "21-686C",
+        "40-10007",
+        "0873",
+        "22-1990",
+        "22-1990N",
+        "22-1990E",
+        "22-1990EMEB",
+        "22-1995",
+        "22-5490",
+        "22-5490E",
+        "22-5495",
+        "22-0993",
+        "22-0994",
+        "FEEDBACK-TOOL",
+        "22-10203",
+        "22-1990S",
+        "22-1990EZ",
+        "21-526EZ",
+        "1010ez",
+        "21P-530",
+        "21P-527EZ",
+        "686C-674",
+        "20-0995",
+        "20-0996",
+        "10182",
+        "MDOT",
+        "5655",
+        "28-8832",
+        "28-1900",
+        "26-1880",
+        "26-4555"
+      ],
+      "vet360ContactInformation": {
+        "email": null,
+        "residentialAddress": null,
+        "mailingAddress": null,
+        "mobilePhone": null,
+        "homePhone": {
+          "areaCode": "800",
+          "countryCode": "1",
+          "createdAt": "2023-05-19T14:13:39.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-05-19T14:13:37.000+00:00",
+          "id": 142191,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "5551212",
+          "phoneType": "HOME",
+          "sourceDate": "2023-05-19T14:13:37.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "2c5747c0-6a8d-4a0f-870a-f0227ee39c59",
+          "updatedAt": "2023-05-19T14:13:39.000+00:00",
+          "vet360Id": "17371"
+        },
+        "workPhone": null,
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
+      },
+      "session": {
+        "ssoe": true,
+        "transactionid": "zGEUwB0UZ4Lhsu8SNdnIeNvP2eUePAsYEHsgjazTWxI="
+      }
+    }
+  },
+  "meta": {
+    "errors": null
+  }
+}

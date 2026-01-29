@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "7208913",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 7208913,
+        "category": "APPOINTMENT",
+        "subject": "Appointment Inquiry",
+        "body": "Test Compose Draft",
+        "attachment": null,
+        "sentDate": null,
+        "senderId": 6177,
+        "senderName": "MANIVASAGAM, RAJESH",
+        "recipientId": 6832726,
+        "recipientName": "TG-7410",
+        "readReceipt": null,
+        "triageGroupName": "TG-7410",
+        "proxySenderName": null,
+        "threadId": 2712820,
+        "folderId": -2,
+        "messageBody": "Test Compose Draft",
+        "draftDate": "2023-03-21T15:11:48.000+00:00",
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7177474"
+      }
+    }
+  ]
+}

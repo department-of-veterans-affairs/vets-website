@@ -1,0 +1,79 @@
+{
+    "data": {
+        "nodeQuery": {
+            "count": 5,
+            "entities": [
+                {
+                    "title": "John D. Dingell Department of Veterans Affairs Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_553",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Detroit health care",
+                            "fieldVamcEhrSystem": "vista"
+                        }
+                    }
+                },
+                {
+                    "title": "Marion VA Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_657A5",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Marion health care",
+                            "fieldVamcEhrSystem": "vista"
+                        }
+                    }
+                },
+                {
+                    "title": "Fresno VA Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_570",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Central California health care",
+                            "fieldVamcEhrSystem": "vista"
+                        }
+                    }
+                },
+                {
+                    "title": "Martinez VA Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_612GF",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Northern California health care",
+                            "fieldVamcEhrSystem": "vista"
+                        }
+                    }
+                },
+                {
+                    "title": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_668",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Spokane health care",
+                            "fieldVamcEhrSystem": "cerner"
+                        }
+                    }
+                },
+                {
+                    "title": "Roseburg VA Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_653",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Roseburg health care",
+                            "fieldVamcEhrSystem": "cerner"
+                        }
+                    }
+                },
+                {
+                    "title": "Ioannis A. Lougaris Veterans' Administration Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_654",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Sierra Nevada health care",
+                            "fieldVamcEhrSystem": "vista"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

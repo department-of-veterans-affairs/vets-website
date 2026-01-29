@@ -1,0 +1,198 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.search-form {
+  background-color: var(--vads-color-gray-light-alt);
+  padding: 10px 16px;
+  margin-top: 24px;
+
+  va-accordion {
+    margin-left: -16px;
+    width: 90%;
+    @media (max-width: $small-screen) {
+      width: 106%;
+    }
+  }
+
+  .filter-input-box-container {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .basic-filter-button-container {
+    margin-top: -5px;
+  }
+  va-button {
+    min-width: 90px;
+    min-height: 40px;
+  }
+
+  va-button::part(button) {
+    width: 100%;
+
+    @media (min-width: $small-screen) {
+      width: auto;
+    }
+  }
+
+  .filter-text-input {
+    margin: 0px;
+  }
+
+  #filter-input::part(label) {
+    margin-top: 0;
+  }
+
+  .filter-input-box {
+    margin: 0px;
+  }
+
+  @media (min-width: $small-screen) {
+    #additional-filter-accordion::part(accordion-header) {
+      width: 10.375rem;
+    }
+  }
+
+  #additional-filter-accordion::part(accordion-content) {
+    background-color: var(--color-gray-lightest);
+  }
+
+  .custom-filter-button {
+    @media (max-width: $small-screen) {
+      width: 80%;
+    }
+  }
+
+  .advanced-search-field {
+    margin-left: 11px;
+  }
+
+  .filter-content {
+    padding: 10px;
+    border-bottom: 5px solid var(--color-gray-lightest);
+    margin-bottom: -15px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-top: -40px;
+    background-color: var(--color-gray-lightest);
+    flex-wrap: wrap;
+  }
+  .headline-text {
+    margin-left: -20px;
+  }
+
+  h3 {
+    margin: 0 0 10px 0;
+  }
+
+  .search-in-description {
+    margin: 0 0 6px;
+    @media (min-width: $medium-screen) {
+      margin: 0 0 24px;
+    }
+  }
+
+  .keyword-search-label {
+    width: 100%;
+    margin: 0;
+  }
+  .keyword-help-text {
+    width: 100%;
+    margin: 6px 0 6px;
+  }
+  .error-message {
+    color: var(--vads-color-secondary-dark);
+    padding-top: 0.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  va-search-input {
+    @media (min-width: $medium-screen) {
+      max-width: 90%;
+    }
+  }
+  .advanced-search-expander {
+    padding: 0;
+    margin: 5px 0 0;
+    @media (min-width: $medium-screen) {
+      margin: 13px 0 0;
+    }
+
+    .advanced-open-enter {
+      max-height: 0px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transition: max-height 700ms ease 0ms, opacity 500ms ease 200ms,
+        visibility 500ms ease 200ms;
+    }
+    .advanced-open-enter-active {
+      max-height: 1000px;
+      overflow: hidden;
+      opacity: 1;
+      visibility: visible;
+    }
+    .advanced-open-exit {
+      max-height: 1000px;
+      overflow: hidden;
+      opacity: 1;
+      visibility: visible;
+      transition: max-height 0ms, opacity 0ms, visibility 0ms;
+    }
+    .advanced-open-exit-active {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .advanced-search-toggle,
+    .advanced-search-toggle:hover,
+    .advanced-search-toggle:active {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      color: var(--vads-color-base);
+      font-weight: normal;
+      text-decoration: none;
+      border: none;
+      border-radius: 0;
+      transition-duration: 0.3s;
+      padding: 0;
+      margin: 0 0 5px;
+      transition-duration: 0.3s;
+      transition-timing-function: ease-in-out;
+      transition-property: color, background-color, border-color;
+      line-height: 1.2;
+      width: 100%;
+    }
+    .advanced-search-toggle:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      color: inherit;
+    }
+    .advanced-toggle-text {
+      border-bottom-right-radius: 1px;
+      border-bottom: 2px dotted var(--color-primary-alt-darkest);
+    }
+    .advanced-toggle-icon::before {
+      display: inline-block;
+      color: var(--color-primary-alt-darkest);
+      transform: rotate(0deg);
+      transition: transform 0.15s linear 0s, -webkit-transform 0.15s linear 0s;
+    }
+    .advanced-toggle-icon-active::before {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.advanced-search-form {
+  background-color: var(--color-gray-lightest);
+  margin-bottom: 0;
+  padding: 0px;
+
+  .advanced-search-field::part(label) {
+    font-weight: bold;
+  }
+}
