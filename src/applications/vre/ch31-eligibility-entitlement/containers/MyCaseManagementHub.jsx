@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
@@ -65,18 +66,29 @@ const MyCaseManagementHub = () => {
     [dispatch],
   );
 
+  const getCurrentStepFromStateList = (stateList = [], total) => {
+    if (!Array.isArray(stateList) || stateList.length === 0) return 1;
+
+    // 1) Prefer explicit ACTIVE if present
+    const activeIndex = stateList.findIndex(s => s?.status === 'ACTIVE');
+    if (activeIndex >= 0) return Math.min(activeIndex + 1, total);
+
+    // 2) Otherwise, find the first PENDING and highlight the previous step
+    const firstPendingIndex = stateList.findIndex(s => s?.status === 'PENDING');
+    if (firstPendingIndex === 0) return 1; // step 1 pending => current step is 1
+    if (firstPendingIndex > 0) return Math.min(firstPendingIndex, total); // previous step (index -> step number)
+
+    // 3) If no ACTIVE and no PENDING, assume all complete => last step
+    return total;
+  };
+
   useEffect(
     () => {
       if (!stateList.length) return;
 
-      const activeIndex = stateList.findIndex(step => step.status === 'ACTIVE');
-
-      if (activeIndex >= 0) {
-        setCurrent(Math.min(activeIndex + 1, total));
-      } else {
-        setCurrent(1);
-      }
+      setCurrent(getCurrentStepFromStateList(stateList, total));
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [stateList, total],
   );
 
@@ -93,7 +105,7 @@ const MyCaseManagementHub = () => {
 
   return (
     <div className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
-      <h1>My VR&E Benefits Tracker</h1>
+      <h1>My VR&E Chapter 31 Benefits Tracker</h1>
 
       <p>
         The VR&E Benefits Tracker enables Veterans to manage their entire VR&E
@@ -101,7 +113,7 @@ const MyCaseManagementHub = () => {
         participation and completion.
       </p>
 
-      <h2>Chapter 31 Case Progress</h2>
+      {/* <h2>Chapter 31 Case Progress</h2> */}
 
       {caseStatusError && <LoadCaseDetailsFailedAlert />}
       {isDiscontinued && (
@@ -130,7 +142,7 @@ const MyCaseManagementHub = () => {
               stateList={stateList}
             /> */}
 
-            <HubCardList step={current} />
+            <HubCardList step={current} stateList={stateList} />
           </>
         )}
 

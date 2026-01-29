@@ -245,12 +245,12 @@ const CaseProgressDescription = ({ step, status, showHubCards = false }) => {
         return (
           <>
             <p>
-              Your Counselor is collaborating with you to establish and initiate
+              Your counselor is collaborating with you to establish and initiate
               your Chapter 31 Rehabilitation Plan and/or Career Track. Once your
               primary goals, objectives, services, effective date, duration, and
               schedule are determined, you will be asked to review and approve
-              it before it is finalized and approved. The finalized forms will
-              be uploaded to your VA eFolder.
+              the Rehabilitation Plan. The finalized forms will be uploaded to
+              your VA Electronic Folder (eFolder).
             </p>
             {hubCards}
           </>

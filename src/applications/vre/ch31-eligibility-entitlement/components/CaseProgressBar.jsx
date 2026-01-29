@@ -18,15 +18,15 @@ const CaseProgressBar = ({
 
   let labelsWithStatus = stepLabels;
 
-  if (Array.isArray(stateList) && stateList.length) {
-    labelsWithStatus = stepLabels.map((stepLabel, index) => {
-      const stepState = stateList[index];
-      if (!stepState?.status) {
-        return stepLabel;
-      }
-      return `${stepLabel} - [${stepState.status}]`;
-    });
-  }
+  labelsWithStatus = stepLabels.map((stepLabel, index) => {
+    const stepState = stateList[index];
+    if (!stepState?.status) return stepLabel;
+
+    const status =
+      stepState.status === 'COMPLETED' ? 'COMPLETE' : stepState.status;
+
+    return `${stepLabel} - [${status}]`;
+  });
 
   const currentStatus = stateList?.[current - 1]?.status || 'PENDING';
 
@@ -45,20 +45,20 @@ const CaseProgressBar = ({
 
       <CaseProgressDescription step={current} status={currentStatus} />
 
-      <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
-        <va-button
-          class="vads-u-margin-right--1"
-          secondary
-          onClick={goPrev}
-          disabled={current === 1}
-          text="Previous step"
-        />
-        <va-button
-          class="vads-u-margin-right--1"
-          onClick={goNext}
-          disabled={current === total}
-          text="Next step"
-        />
+      <div className="vads-u-margin-top--3 vads-u-margin-bottom--3 vads-u-display--flex vads-u-align-items--center">
+        {current > 1 && (
+          <va-button
+            class="vads-u-margin-right--1"
+            secondary
+            back
+            onClick={goPrev}
+            text="Previous step"
+          />
+        )}
+
+        {current < total && (
+          <va-button continue onClick={goNext} text="Next step" />
+        )}
       </div>
     </>
   );
