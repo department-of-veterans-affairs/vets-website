@@ -1,4 +1,3 @@
-import React from 'react';
 import { isValidDateString } from 'platform/utilities/date';
 
 export const validatePrepCourseStartDate = (errors, fieldData, formData) => {
