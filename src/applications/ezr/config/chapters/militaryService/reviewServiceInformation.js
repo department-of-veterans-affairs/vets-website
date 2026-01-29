@@ -5,28 +5,21 @@ export default {
   uiSchema: {
     'ui:title': content['military-service-review-title'],
     'ui:description': serviceHistoryDescription,
-    'view:serviceHistoryCorrect': {
+    isServiceHistoryCorrect: {
       'ui:title': content['military-service-review-question'],
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: {
-          yes: 'Yes',
-          no: 'No',
-        },
-      },
+      'ui:widget': 'yesNo',
     },
   },
   schema: {
     type: 'object',
-    required: ['view:serviceHistoryCorrect'],
+    required: ['isServiceHistoryCorrect'],
     properties: {
       'view:serviceHistorySummary': {
         type: 'object',
         properties: {},
       },
-      'view:serviceHistoryCorrect': {
-        type: 'string',
-        enum: ['yes', 'no'],
+      isServiceHistoryCorrect: {
+        type: 'boolean',
       },
     },
   },

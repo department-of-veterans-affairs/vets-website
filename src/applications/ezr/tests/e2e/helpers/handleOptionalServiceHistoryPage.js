@@ -4,7 +4,7 @@ export const handleOptionalServiceHistoryPage = toxicExposureCheck => {
   goToNextPage('/military-service');
   cy.location('pathname').then(path => {
     if (path.includes('/military-service/review-service-information')) {
-      cy.get('[name="root_view:serviceHistoryCorrect"]').check('yes');
+      cy.get('[name="root_isServiceHistoryCorrect"]').check('Y');
       goToNextPage('/military-service/toxic-exposure');
     }
     cy.location('pathname').should(
