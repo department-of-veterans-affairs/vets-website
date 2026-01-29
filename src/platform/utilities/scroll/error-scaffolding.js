@@ -42,7 +42,8 @@
 // Category Detection & Configuration
 // ============================================================================
 // Default value for the scaffoldAndFocusFormErrors formOption
-// If you need to turn this off, set to false in your form config:
+// If you need to turn this off, set this value to false in your form config.
+// Example implementation:
 // formOptions: {scaffoldAndFocusFormErrors: false}
 const DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS = true;
 
@@ -514,7 +515,9 @@ const buildErrorLabelText = (
 ) => {
   const errorText = normalizeText(errorMessage.replace(/^Error\s*/i, ''));
   const parentLabel = normalizeText(getLabelText(errorWebComponent));
-  const hintElement = errorWebComponent.shadowRoot?.querySelector('.usa-hint');
+  const hintElement = errorWebComponent.shadowRoot?.querySelector(
+    '.usa-hint, .hint-text',
+  );
   const hintText = normalizeText(hintElement?.textContent || '');
   const descriptionElement = errorWebComponent.shadowRoot?.querySelector(
     '.usa-checkbox__label-description',
@@ -523,16 +526,21 @@ const buildErrorLabelText = (
 
   let fullText = `Error: ${errorText}.`;
 
-  // Date components: {error}. {child label}. {parent label}
+  // Date components: {error}. {child label}. {parent label}. {hint (va-date only)}
   if (isDateComponent(errorWebComponent) && childOption) {
     const childLabel = normalizeText(getLabelText(childOption));
     if (childLabel) {
       fullText += ` ${childLabel}.`;
     }
 
-    // Add parent legend for context (includes hint text)
+    // Add parent legend for context
     if (parentLabel) {
       fullText += ` ${parentLabel}.`;
+    }
+
+    // Add hint text for va-date only (va-memorable-date default hint is confusing)
+    if (hintText && errorWebComponent.tagName === 'VA-DATE') {
+      fullText += ` ${hintText}.`;
     }
   } else {
     // Groups & direct errors: {error}. {parent label}. {child label}. {hint}. {description}
@@ -609,7 +617,7 @@ const createAndAssociateErrorLabel = (input, fullText, hostComponent) => {
       labelId ||
       `error-label-${Math.random()
         .toString(36)
-        .substr(2, 9)}`;
+        .substring(2, 9)}`;
     labelSpan.className = 'usa-sr-only';
     container.appendChild(labelSpan);
     labelId = labelSpan.id;
