@@ -16,17 +16,12 @@ const stepchildFinancialSupport = {
      * Return "DONE" when we're done with this flow
      * @returns {string} Next page key
      */
-    goForward: ({ itemData /* , index, fullData */ }) => {
+    goForward: ({ itemData /* , index, fullData */ }) =>
       // If providing financial support, stepchild remains eligible
-      if (itemData.stepchildFinancialSupport === 'Y') {
-        return 'stepchild-financial-support-exit';
-      }
       // If not providing financial support, ask when they left household
-      if (itemData.stepchildFinancialSupport === 'N') {
-        return 'stepchild-left-household';
-      }
-      return 'DONE';
-    },
+      itemData.stepchildFinancialSupport === 'Y'
+        ? 'stepchild-current-address'
+        : 'stepchild-left-household',
 
     /**
      * @type {OnSubmitParams}
