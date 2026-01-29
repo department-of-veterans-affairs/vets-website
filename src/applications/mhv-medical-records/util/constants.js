@@ -283,11 +283,12 @@ export const pageTitles = {
   HEALTH_CONDITIONS_DETAILS_PAGE_TITLE:
     'Health Condition Details - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
-  RADIOLOGY_PAGE_TITLE: 'Radiology - Medical Records | Veterans Affairs',
+  RADIOLOGY_PAGE_TITLE:
+    'Medical Imaging Results - Medical Records | Veterans Affairs',
   RADIOLOGY_DETAILS_PAGE_TITLE:
-    'Radiology Details - Medical Records | Veterans Affairs',
+    'Medical Imaging Results Details - Medical Records | Veterans Affairs',
   RADIOLOGY_IMAGES_PAGE_TITLE:
-    'Radiology Images - Medical Records | Veterans Affairs',
+    'Medical Imaging Results Images - Medical Records | Veterans Affairs',
   DOWNLOAD_PAGE_TITLE:
     'Download Medical Records Reports - Medical Records | Veterans Affairs',
   DOWNLOAD_FORMS_PAGES_TITLE:

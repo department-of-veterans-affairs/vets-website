@@ -89,7 +89,10 @@ const RadiologyImagesList = ({ isTesting, basePath = '/labs-and-tests' }) => {
           });
         }
       }
-      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE);
+      const title = isRadiologyDomain
+        ? pageTitles.RADIOLOGY_IMAGES_PAGE_TITLE
+        : pageTitles.LAB_AND_TEST_RESULTS_IMAGES_PAGE_TITLE;
+      updatePageTitle(title);
     },
     [labId, dispatch, isRadiologyDomain, radiologyList],
   );
