@@ -51,10 +51,7 @@ const RefillPrescriptions = () => {
 
   const isCernerPilot = useSelector(selectCernerPilotFlag);
 
-  const [
-    bulkRefillPrescriptions,
-    result,
-  ] = useBulkRefillPrescriptionsMutation({
+  const [bulkRefillPrescriptions, result] = useBulkRefillPrescriptionsMutation({
     fixedCacheKey: 'bulk-refill-request',
   });
   const { isLoading: isRefilling, error: bulkRefillError } = result;
