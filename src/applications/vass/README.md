@@ -28,23 +28,18 @@ yarn cy:run --spec "src/applications/vass/tests/e2e/vass.cypress.spec.js"
 ```
 
 ## Mock UUIDs
-There are several different mock UUIDs that can be used as a value for the `uuid` URL param when testing locally with the mock API.
+There are several different mock UUIDs that can be used as a value for the `uuid` URL param.
 
-### Happy Path
-**URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678`
-**Cancel URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678&cancel=true`
+- Happy path (no existing appointment): `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678`
+  - uuid='c0ffee-1234-beef-5678'
+  - lastname='Smith'
+  - dob='1935-04-07'
+  - otc='123456'
+  - This user has **no** existing appointment and will continue through the scheduling flow
 
-| Field | Value |
-|-------|-------|
-| uuid | `c0ffee-1234-beef-5678` |
-| lastname | `Smith` |
-| dob | `1935-04-07` |
-| otc | `123456` |
-| email | `s****@email.com` |
-
-### Testing Notes
-- The mock API enforces a **3 attempt limit** for low-auth verification (identity verification with lastname + dob)
-- After 3 failed attempts, a 15-minute lockout is enforced
-- The mock API enforces a **5 attempt limit** for OTC verification
-- After 5 failed OTC attempts, the account is locked and a new OTC must be requested
-- Failed attempt counters reset after 15 minutes
+- User with existing appointment: `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=has-appointment`
+  - uuid='has-appointment'
+  - lastname='Smith'
+  - dob='1935-04-07'
+  - otc='123456'
+  - This user has an existing appointment and will be redirected to the already-scheduled page

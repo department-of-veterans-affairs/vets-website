@@ -6,72 +6,44 @@ const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
 const { decodeJwt } = require('../../utils/jwt-utils');
 const { createAppointmentData } = require('../../utils/appointments');
 
-const mockUUIDs = Object.freeze({
-  'c0ffee-1234-beef-5678': {
+const mockUsers = [
+  {
+    uuid: 'c0ffee-1234-beef-5678',
     lastname: 'Smith',
     dob: '1935-04-07',
     otc: '123456',
-    email: 's****@email.com',
   },
-});
+  {
+    uuid: 'has-appointment',
+    lastname: 'Smith',
+    dob: '1935-04-07',
+    otc: '123456',
+  },
+];
 
-// uuid -> date string of last attempt in ISO 8601 format (UTC) delimited by count of attempts example: '2026-01-12T10:00:00Z|1'
-const lowAuthVerifications = new Map();
-const maxLowAuthVerifications = 3;
-const lowAuthVerificationTimeout = 15 * 60 * 1000; // 15 minutes
-
-// Keep a count of how manny attempts to use the OTC have been made for each uuid
+// Keep a count of how many attempts to use the OTC have been made for each uuid
 const otcUseCounts = new Map(); // uuid -> count
 const maxOtcUseCount = 5;
 
 const mockAppointments = [createAppointmentData()];
 
+// Track which UUIDs have existing appointments
+// For testing: 'has-appointment' UUID will have an existing appointment
+const userAppointments = new Map([['has-appointment', mockAppointments[0]]]);
+
 const responses = {
   'POST /vass/v0/authenticate': (req, res) => {
     const { uuid, lastname, dob } = req.body;
-    let attemptCount = 0;
-    const [lastAttempt, attemptCountStr] = lowAuthVerifications
-      .get(uuid)
-      ?.split('|') || [new Date().toISOString(), '0'];
-
-    attemptCount = parseInt(attemptCountStr, 10);
-
-    if (
-      new Date(lastAttempt) < new Date(Date.now() - lowAuthVerificationTimeout)
-    ) {
-      // Reset the attempt count if the last attempt was more than 15 minutes ago
-      attemptCount = 0;
-    }
-
-    // Increment the attempt count
-    lowAuthVerifications.set(
-      uuid,
-      `${new Date().toISOString()}|${attemptCount + 1}`,
-    );
-    const mockUser = mockUUIDs[uuid];
-    if (lastname === mockUser?.lastname && dob === mockUser?.dob) {
-      lowAuthVerifications.delete(uuid);
+    const mockUser = mockUsers.find(user => user.uuid === uuid);
+    if (mockUser && lastname === mockUser.lastname && dob === mockUser.dob) {
       return res.json({
         data: {
           message: 'OTC sent to registered email address',
           expiresIn: 600,
-          email: mockUser.email,
         },
       });
     }
-    if (attemptCount >= maxLowAuthVerifications) {
-      return res.status(401).json({
-        errors: [
-          {
-            code: 'rate_limit_exceeded',
-            detail: 'Too many OTC requests.  Please try again later.',
-            retryAfter: 900,
-          },
-        ],
-      });
-    }
-
-    return res.status(401).json({
+    return res.json({
       errors: [
         {
           code: 'invalid_credentials',
@@ -84,13 +56,13 @@ const responses = {
     const { otc, uuid, lastname, dob } = req.body;
     const useCount = otcUseCounts.get(uuid) || 0;
     otcUseCounts.set(uuid, useCount + 1);
-    const mockUser = mockUUIDs[uuid];
+    const mockUser = mockUsers.find(user => user.uuid === uuid);
     if (
-      otc === mockUser?.otc &&
-      lastname === mockUser?.lastname &&
-      dob === mockUser?.dob
+      mockUser &&
+      otc === mockUser.otc &&
+      lastname === mockUser.lastname &&
+      dob === mockUser.dob
     ) {
-      otcUseCounts.delete(uuid); // reset the use count on successful verification to allow for new attempts
       const expiresIn = 3600; // 1 hour
       return res.json({
         data: {
@@ -124,6 +96,37 @@ const responses = {
     });
   },
   'POST /vass/v0/appointment': (req, res) => {
+    const { headers } = req;
+    const token = headers.authorization;
+    if (!token) {
+      return res.status(401).json({
+        errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
+      });
+    }
+
+    const [, tokenValue] = token.split(' ');
+    const tokenPayload = decodeJwt(tokenValue);
+    const uuid = tokenPayload?.payload?.sub;
+
+    // Check if user already has an appointment
+    const existingAppointment = userAppointments.get(uuid);
+
+    if (existingAppointment) {
+      return res.status(409).json({
+        errors: [
+          {
+            code: 'appointment_already_booked',
+            detail: 'already scheduled',
+            appointment: {
+              appointmentId: existingAppointment.appointmentId,
+              dtStartUTC: existingAppointment.startUTC,
+              dtEndUTC: existingAppointment.endUTC,
+            },
+          },
+        ],
+      });
+    }
+
     return res.json({
       data: {
         appointmentId: 'abcdef123456',
@@ -146,7 +149,7 @@ const responses = {
       },
     });
   },
-  'GET /vass/v0/appointment-availablity': (req, res) => {
+  'GET /vass/v0/appointment-availability': (req, res) => {
     const { headers } = req;
     const [, token] = headers.authorization?.split(' ') || [];
     const tokenPayload = decodeJwt(token);
