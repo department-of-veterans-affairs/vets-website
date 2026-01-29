@@ -5,11 +5,8 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { FULL_SCHEMA } from '../../../utils/imports';
 import { DisabilityRatingDescription } from '../../../components/FormDescriptions';
 import content from '../../../locales/en/content.json';
-
-const { vaCompensationType } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -32,7 +29,11 @@ export default {
     type: 'object',
     required: ['vaCompensationType'],
     properties: {
-      vaCompensationType: radioSchema(vaCompensationType.enum),
+      vaCompensationType: radioSchema([
+        'lowDisability',
+        'highDisability',
+        'none',
+      ]),
     },
   },
 };

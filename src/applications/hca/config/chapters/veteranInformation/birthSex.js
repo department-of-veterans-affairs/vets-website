@@ -5,10 +5,7 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { genderLabels } from 'platform/static-data/labels';
-import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
-
-const { gender } = FULL_SCHEMA.properties;
 
 // Filter genderLabels to only include values that match the schema enum (F, M only)
 const birthSexLabels = {
@@ -29,7 +26,7 @@ export default {
     type: 'object',
     required: ['gender'],
     properties: {
-      gender: radioSchema(gender.enum),
+      gender: radioSchema(['F', 'M']),
     },
   },
 };
