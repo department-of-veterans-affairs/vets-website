@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 import { Title } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { isWithinInterval, parseISO, startOfDay, subYears } from 'date-fns';
-import { showPdfFormAlignment } from '../../../helpers';
+import { formatPossessiveString, showPdfFormAlignment } from '../../../helpers';
 
 /**
  * Checks if the marital status is 'SEPARATED'
@@ -208,3 +208,21 @@ export function createSpouseLabelSelector(nameTemplate) {
 }
 
 export const MarriageTitle = title => <Title title={title} />;
+
+const SpouseTitle = (spouseName, title) =>
+  `${spouseName.first} ${formatPossessiveString(spouseName.last)} ${title}`;
+
+export const generateSpouseLabel = (formData, label) => {
+  const spouseName = get('spouseFullName', formData) || {};
+  return {
+    title: SpouseTitle(spouseName, label),
+  };
+};
+
+export const generateSpouseTitle = title => {
+  return ({ formData }) => {
+    const spouseName = get('spouseFullName', formData) || {};
+
+    return SpouseTitle(spouseName, title);
+  };
+};
