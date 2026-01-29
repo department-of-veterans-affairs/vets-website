@@ -6,21 +6,10 @@ End-to-end tests for the VA Virtual Agent chatbot application (V2).
 
 ### Prerequisites
 
-1. Start the `vets-api` backend in a separate terminal (required for API mocking to work):
-
-   ```bash
-   # In vets-api directory
-   bundle install
-   bundle exec rails s
-   ```
-
-2. Start the frontend dev server in another terminal:
+1. Start the frontend dev server in a separate terminal:
 
    ```bash
    yarn watch --env entry=virtual-agent
-   ```
-
-3. Run the chatbot e2e tests:
    ```bash
    yarn cy:run --spec "src/applications/virtual-agent/chatbot/tests/e2e/**/*.cypress.spec.js"
    ```
