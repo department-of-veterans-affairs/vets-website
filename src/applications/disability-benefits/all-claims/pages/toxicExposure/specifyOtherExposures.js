@@ -9,6 +9,7 @@ import {
   getOtherFieldDescription,
   getSelectedCount,
   notSureHazardDetails,
+  reviewDateField,
   teSubtitle,
 } from '../../content/toxicExposure';
 import { validateToxicExposureDates } from '../../utils/validations';
@@ -50,6 +51,7 @@ export const uiSchema = {
           pattern: 'Please enter a valid date',
           required: 'Please enter a date',
         },
+        'ui:reviewField': reviewDateField,
       },
       endDate: {
         ...currentOrPastMonthYearDateUI({
@@ -62,6 +64,7 @@ export const uiSchema = {
           pattern: 'Please enter a valid date',
           required: 'Please enter a date',
         },
+        'ui:reviewField': reviewDateField,
       },
       'ui:validations': [validateToxicExposureDates],
       'view:notSure': {
@@ -78,6 +81,9 @@ export const uiSchema = {
   },
   _forceFieldBlur: {
     'ui:field': ForceFieldBlur,
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 

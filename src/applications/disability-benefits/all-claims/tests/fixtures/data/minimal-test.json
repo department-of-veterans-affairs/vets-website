@@ -18,6 +18,8 @@
     },
     "view:contactInfoDescription": {},
     "view:hasEvidence": false,
+    "view:hasEvidenceChoice": false,
+    "view:hasMedicalRecords": false,
     "view:powStatus": false,
     "newDisabilities": [],
     "ratedDisabilities": [
