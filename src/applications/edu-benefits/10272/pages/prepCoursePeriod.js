@@ -7,7 +7,6 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import {
     validatePrepCourseStartDate,
-    validatePrepCourseEndDate,
 } from '../helpers';
 import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation';
 

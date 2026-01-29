@@ -16,6 +16,7 @@ import {
   prepCourseAddress,
   prepCourseOnline,
   prepCoursePeriod,
+  prepCourseCost,
 } from '../pages';
 
 /** @type {FormConfig} */
@@ -112,6 +113,12 @@ const formConfig = {
           title: 'Provide the start and end dates of your prep course',
           uiSchema: prepCoursePeriod.uiSchema,
           schema: prepCoursePeriod.schema,
+        },
+         prepCourseCost: {
+          path: 'prep-course-details-4',
+          title: 'Enter the cost of the prep course including all fees',
+          uiSchema: prepCourseCost.uiSchema,
+          schema: prepCourseCost.schema,
         },
       },
     },
