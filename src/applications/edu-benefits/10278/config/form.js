@@ -6,8 +6,11 @@ import { personalInformationPage } from 'platform/forms-system/src/js/components
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import { organizationRepresentativesArrayOptions } from '../helpers';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import thirdPartyOrganizationRepresentativesSummary from '../pages/thirdPartyOrganizationRepresentativesSummary ';
 import thirdPartyOrganizationInformation from '../pages/thirdPartyOrganizationInformation';
 import thirdPartyOrganizationRepresentativesIntro from '../pages/thirdPartyOrganizationRepresentativesIntro';
@@ -57,18 +60,28 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer: prefillTransform,
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Declaration of intent',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'claimantPersonalInformation.fullName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   customText: {
     appType: 'application',
     continueAppButtonText: 'Continue your form',
     startNewAppButtonText: 'Start a new form',
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    reviewPageTitle: 'Review',
     submitButtonText: 'Continue',
   },
   defaultDefinitions: {
