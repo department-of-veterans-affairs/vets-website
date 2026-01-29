@@ -140,7 +140,10 @@ describe('Dependents Pages', () => {
     const formDOM = getFormDOM(form);
     const citySelect = $('va-text-input[name*="birthPlace_city"]', formDOM);
     const stateSelect = $('va-select[name*="birthPlace_state"]', formDOM);
-    const countrySelect = $('va-select[name*="birthPlace_country"]', formDOM);
+    const countrySelect = $(
+      'va-select[name*="birthPlace_otherCountry"]',
+      formDOM,
+    );
     expect(stateSelect).to.not.exist;
     expect(citySelect).to.exist;
     expect(citySelect.getAttribute('required')).to.equal('true');
