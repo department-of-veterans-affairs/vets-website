@@ -81,6 +81,8 @@ function createChecklist(obj) {
 }
 
 function render(cfg, data) {
+  let count = 0;
+  let start = 1;
   const elements = [];
   for (const [index, section] of cfg.sections.entries()) {
     if (index > 0) {
@@ -91,14 +93,43 @@ function render(cfg, data) {
         />,
       );
     }
+
+    let currentListItems = [];
+
     for (const el of renderPart(section, data, 0)) {
       if ('depth' in el) {
+        if (currentListItems.length > 0) {
+          elements.push(
+            <ol start={start} key={`ul-${elements.length}`}>
+              {currentListItems}
+            </ol>,
+          );
+          currentListItems = [];
+        }
+
         elements.push(createLabel(el));
       } else if ('value' in el) {
-        elements.push(createField(el));
+        count += 1;
+        if (currentListItems.length === 0) {
+          start = count;
+        }
+        currentListItems.push(createField(el));
       } else if ('options' in el) {
-        elements.push(createChecklist(el));
+        count += 1;
+        if (currentListItems.length === 0) {
+          start = count;
+        }
+        currentListItems.push(createChecklist(el));
       }
+    }
+
+    // Loop finished: If there are remaining items in the buffer, wrap them now.
+    if (currentListItems.length > 0) {
+      elements.push(
+        <ol start={start} key={`ul-${elements.length}`}>
+          {currentListItems}
+        </ol>,
+      );
     }
   }
   return elements;
