@@ -211,6 +211,24 @@ const responses = {
       ],
     });
   },
+  'POST /vass/v0/appointment/:appointmentId/cancel': (req, res) => {
+    const { headers } = req;
+    const [, token] = headers.authorization?.split(' ') || [];
+    const tokenPayload = decodeJwt(token);
+
+    const uuid = tokenPayload?.payload?.sub;
+    if (!token || !uuid) {
+      return res.status(401).json({
+        errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
+      });
+    }
+    const { appointmentId } = req.params;
+    return res.json({
+      data: {
+        appointmentId,
+      },
+    });
+  },
 };
 
 module.exports = delay(responses, 1000);
