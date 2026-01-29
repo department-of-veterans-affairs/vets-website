@@ -295,7 +295,7 @@ const formConfig = {
           title: 'Marriage to Veteran Details',
           depends: formData =>
             formData.claimantRelationship === 'SURVIVING_SPOUSE' &&
-            !formData.marriedAtDeath,
+            !formData.marriedToVeteranAtTimeOfDeath,
           uiSchema: marriageToVeteranEnd.uiSchema,
           schema: marriageToVeteranEnd.schema,
         },
