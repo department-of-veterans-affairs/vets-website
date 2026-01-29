@@ -380,4 +380,25 @@ describe('Pension migrations', () => {
     expect(formData).to.eql(v11formData);
     expect(metadata.returnUrl).to.eq('/review-and-submit');
   });
+  it('should update from v11 to v12', () => {
+    const { formData, metadata } = migrations[11]({
+      formData: {
+        ...v11formData,
+        // Simulate having extra spouse fields outside of marriages array
+        'view:pastMarriage': {
+          reasonForSeparation: 'DIVORCE',
+          dateOfMarriage: '2000-01-01',
+          dateOfSeparation: '2005-01-01',
+          locationOfMarriage: 'Test, CA',
+          locationOfSeparation: 'United States',
+        },
+      },
+      metadata: {
+        returnUrl: '/review-and-submit',
+      },
+    });
+
+    expect(formData).to.eql(v11formData);
+    expect(metadata.returnUrl).to.eq('/review-and-submit');
+  });
 });
