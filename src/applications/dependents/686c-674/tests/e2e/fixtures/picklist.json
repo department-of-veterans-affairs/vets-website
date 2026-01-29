@@ -194,6 +194,7 @@
       },
       "biologicalParentSsn": "333444554",
       "biologicalParentDob": "2014-09-19",
+      "relationshipType": "STEPCHILD",
       "relationshipToChild": {
         "adopted": true,
         "stepchild": true
@@ -349,7 +350,6 @@
       "selected": true,
       "isStepchild": "N",
       "removalReason": "childNotInSchool",
-      "childHasPermanentDisability": "N",
       "endDate": "2025-06-05"
     },
     {

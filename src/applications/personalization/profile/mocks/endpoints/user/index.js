@@ -91,6 +91,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -314,6 +315,7 @@ const baseUserResponses = {
           ],
           vaPatient: true,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',
@@ -529,6 +531,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',
@@ -740,6 +743,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -951,6 +955,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: 'NOT_AUTHORIZED',
         inProgressForms: [],
@@ -1145,6 +1150,7 @@ const baseUserResponses = {
           facilities: [],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: 'NOT_AUTHORIZED',
         inProgressForms: [],
@@ -1352,6 +1358,7 @@ const baseUserResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -1566,6 +1573,7 @@ const mockErrorResponses = {
           ],
           vaPatient: false,
           mhvAccountState: 'NONE',
+          schedulingPreferencesPilotEligible: false,
         },
         veteranStatus: {
           status: 'OK',
@@ -1759,6 +1767,7 @@ const loa3UserNoVaProfile = {
         ],
         vaPatient: true,
         mhvAccountState: 'REGISTERED',
+        schedulingPreferencesPilotEligible: false,
       },
       veteranStatus: {
         status: 'OK',
@@ -1846,6 +1855,7 @@ const loa3UserNeedsVapInit = {
         ],
         vaPatient: true,
         mhvAccountState: 'REGISTERED',
+        schedulingPreferencesPilotEligible: false,
       },
       veteranStatus: {
         status: 'OK',
