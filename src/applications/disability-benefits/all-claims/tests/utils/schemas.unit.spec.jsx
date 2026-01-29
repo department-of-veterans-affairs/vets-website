@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 
 import {
+  makeLegacySchemaForNewDisabilities,
+  makeLegacySchemaForRatedDisabilities,
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
   makeSchemaForAllDisabilities,
@@ -49,6 +51,50 @@ describe('makeSchemaForNewDisabilities', () => {
         },
       },
     });
+  });
+
+  it('should have parity with the legacy implementation', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': false,
+        'view:claimingNew': true,
+      },
+      newDisabilities: [
+        {
+          condition: 'Ptsd - personal trauma',
+        },
+        {
+          condition: 'period. Period.',
+        },
+        {
+          condition: 'period. Period.',
+        },
+        {
+          condition: 'Diabetes (mellitus)',
+        },
+        {
+          condition: 'Type-1 Diabetes',
+        },
+        {
+          condition: 'type 1 diabetes',
+        },
+        {
+          condition: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+        },
+        {
+          condition: 'CAT',
+        },
+        {
+          condition: 'cat',
+        },
+        {
+          condition: 'cAt',
+        },
+      ],
+    };
+    expect(makeSchemaForNewDisabilities(formData)).to.eql(
+      makeLegacySchemaForNewDisabilities(formData),
+    );
   });
 
   it('should append sideOfBody to condition name when present', () => {
@@ -104,6 +150,204 @@ describe('makeSchemaForNewDisabilities', () => {
         },
       },
     });
+  });
+});
+
+describe('makeLegacySchemaForRatedDisabilities', () => {
+  it('should handle special characters in the disability name', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd - personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes (mellitus)',
+          'view:selected': true,
+        },
+        {
+          name: 'Type-1 Diabetes',
+          'view:selected': true,
+        },
+        {
+          name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        diabetesmellitus: {
+          title: 'Diabetes (Mellitus)',
+          type: 'boolean',
+        },
+        lowerbackinjuryaffectingvertebraec4vertebraec5: {
+          title: 'Lower Back Injury Affecting Vertebrae C-4 Vertebrae C-5',
+          type: 'boolean',
+        },
+        ptsdpersonaltrauma: {
+          title: 'Ptsd - Personal Trauma',
+          type: 'boolean',
+        },
+        type1diabetes: {
+          title: 'Type-1 Diabetes',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+  it('should create unique keys', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'cat',
+          'view:selected': true,
+        },
+        {
+          name: 'CAT',
+          'view:selected': true,
+        },
+        {
+          name: 'cAt',
+          'view:selected': true,
+        },
+        {
+          name: 'cAT',
+          'view:selected': true,
+        },
+        {
+          name: 'CaT',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        cat: {
+          title: 'CaT',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+});
+
+describe('makeSchemaForRatedDisabilities has parity with the previous implementation for deduplication', () => {
+  const formDataLegacy = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
+    ratedDisabilities: [
+      {
+        name: 'cat',
+        'view:selected': true,
+      },
+      {
+        name: 'CAT',
+        'view:selected': true,
+      },
+      {
+        name: 'CaT',
+        'view:selected': true,
+      },
+    ],
+  };
+
+  it('should have the same deduplication result on the v1 conditions flow', () => {
+    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+      makeSchemaForRatedDisabilities(formDataLegacy),
+    );
+  });
+
+  it('should have the same deduplication result on the v2 conditions flow', () => {
+    const formDataV2 = {
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'cat',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'CAT',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'CaT',
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+      makeSchemaForRatedDisabilities(formDataV2),
+    );
+  });
+});
+
+describe('makeSchemaForRatedDisabilities has parity with the previous implementation for creating keys', () => {
+  const formDataLegacy = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
+    ratedDisabilities: [
+      {
+        name: 'Ptsd - personal trauma',
+        'view:selected': true,
+      },
+      {
+        name: 'Diabetes (mellitus)',
+        'view:selected': true,
+      },
+      {
+        name: 'Type-1 Diabetes',
+        'view:selected': true,
+      },
+      {
+        name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+        'view:selected': true,
+      },
+    ],
+  };
+
+  it('should return the same properties on the v1 conditions flow', () => {
+    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+      makeSchemaForRatedDisabilities(formDataLegacy),
+    );
+  });
+
+  it('should return the same properties on the v2 conditions flow', () => {
+    const formDataV2 = {
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Ptsd - personal trauma',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Diabetes (mellitus)',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Type-1 Diabetes',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability:
+            'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+      makeSchemaForRatedDisabilities(formDataV2),
+    );
   });
 });
 
@@ -239,10 +483,18 @@ describe('makeSchemaForRatedDisabilities', () => {
         { name: 'ASTHMA', 'view:selected': true },
       ],
     };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        asthma: {
+          title: 'ASTHMA',
+          type: 'boolean',
+        },
+      },
+    });
     expect(makeSchemaForRatedDisabilities(formData)).to.eql({
       properties: {
         asthma: {
-          title: 'Asthma',
+          title: 'ASTHMA',
           type: 'boolean',
         },
       },

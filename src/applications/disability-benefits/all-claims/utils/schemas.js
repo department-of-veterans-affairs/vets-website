@@ -29,7 +29,9 @@ import {
 
 import {
   capitalizeEachWord,
+  disabilityIsSelected,
   isClaimingIncrease,
+  isClaimingNew,
   isNewConditionOption,
   isPlaceholderRated,
   pathWithIndex,
@@ -99,6 +101,35 @@ export const makeSchemaForNewDisabilities = createSelector(
 );
 
 /**
+ * The original version of makeSchemaForNewDisabilities, prior to
+ * changes introduced for the Conditions v2 workflow.
+ * Lifted from 2209dab6 (Oct 2025) on the main branch.
+ */
+export const makeLegacySchemaForNewDisabilities = createSelector(
+  formData => (isClaimingNew(formData) ? formData.newDisabilities : []),
+  (newDisabilities = []) => ({
+    properties: newDisabilities
+      .map(disability => disability.condition)
+      .reduce(createCheckboxSchema, {}),
+  }),
+);
+
+/**
+ * The original version of makeSchemaForRatedDisabilities, prior to
+ * changes introduced for the Conditions v2 workflow.
+ * Lifted from 2209dab6 (Oct 2025) on the main branch.
+ */
+export const makeLegacySchemaForRatedDisabilities = createSelector(
+  formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
+  (ratedDisabilities = []) => ({
+    properties: ratedDisabilities
+      .filter(disabilityIsSelected)
+      .map(disability => disability.name)
+      .reduce(createCheckboxSchema, {}),
+  }),
+);
+
+/**
  * Create the checkbox schema for rated disabilities based if user has selected
  * Increase claim type
  */
@@ -128,17 +159,9 @@ export const makeSchemaForRatedDisabilities = createSelector(
       })
       .filter(Boolean);
 
-    const dedupedByNormalizedName = new Map();
-
-    [...fromRatedDisabilities, ...fromNewDisabilities].forEach(name => {
-      const normalizedKey = name.toLowerCase();
-
-      if (!dedupedByNormalizedName.has(normalizedKey)) {
-        dedupedByNormalizedName.set(normalizedKey, name);
-      }
-    });
-
-    const uniqueRatedDisabilities = [...dedupedByNormalizedName.values()];
+    const uniqueRatedDisabilities = [
+      ...new Set([...fromRatedDisabilities, ...fromNewDisabilities]),
+    ];
 
     const properties = uniqueRatedDisabilities.reduce(
       (schema, disabilityName) => createCheckboxSchema(schema, disabilityName),
