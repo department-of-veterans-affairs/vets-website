@@ -1,10 +1,13 @@
 import { isEqual } from 'lodash';
+import { add, format, isAfter } from 'date-fns';
+
 import {
   convertToDateField,
   validateCurrentOrPastDate,
 } from '~/platform/forms-system/src/js/validation';
 import { isValidDateRange } from '~/platform/forms/validations';
 import content from '../locales/en/content.json';
+import { replaceStrValues } from './helpers/general';
 
 /**
  * HACK: Due to us-forms-system issue 269 (https://github.com/usds/us-forms-system/issues/269)
@@ -149,3 +152,42 @@ export function validateExposureDates(
     errors.toxicExposureEndDate.addError(messages.format);
   }
 }
+
+/**
+ * Validates Veteran service dates
+ * @param {Object} errors - object holding the error message content
+ * @param {Object} fieldData - field data from the form inputs
+ * @param {Object} formData - the global data object
+ */
+export const validateServiceDates = (
+  errors,
+  { lastDischargeDate, lastEntryDate },
+  { veteranDateOfBirth },
+) => {
+  const fromDate = convertToDateField(lastEntryDate);
+  const toDate = convertToDateField(lastDischargeDate);
+  const dateOfBirthPlus15 = add(new Date(veteranDateOfBirth), { years: 15 });
+  const yearFromToday = add(new Date(), { years: 1 });
+  const endDate = format(yearFromToday, 'MMMM d, yyyy');
+  const messages = {
+    entryDate: content['validation-error--service-entry-date'],
+    dischargeDate: replaceStrValues(
+      content['validation-error--service-discharge-date'],
+      endDate,
+    ),
+  };
+
+  if (
+    veteranDateOfBirth &&
+    isAfter(dateOfBirthPlus15, new Date(lastEntryDate))
+  ) {
+    errors.lastEntryDate.addError(messages.entryDate);
+  }
+
+  if (
+    !isValidDateRange(fromDate, toDate) ||
+    isAfter(new Date(lastDischargeDate), yearFromToday)
+  ) {
+    errors.lastDischargeDate.addError(messages.dischargeDate);
+  }
+};

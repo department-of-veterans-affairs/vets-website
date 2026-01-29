@@ -15,6 +15,7 @@ import {
   fillSpousalIncome,
   fillDeductibleExpenses,
 } from './utils/fillers';
+import { handleOptionalServiceHistoryPage } from './helpers/handleOptionalServiceHistoryPage';
 
 // Add the feature toggle for the providers and dependents prefill
 featureToggles.data.features.push({
@@ -67,8 +68,7 @@ function setUserDataAndAdvanceToHouseholdSection(user, prefillData) {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
   advanceToHouseholdSection();
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('N');
+  handleOptionalServiceHistoryPage();
   cy.injectAxeThenAxeCheck();
 }
 

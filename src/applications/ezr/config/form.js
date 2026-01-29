@@ -36,6 +36,7 @@ import {
   canVeteranProvideAgentOrangeResponse,
   includeHouseholdInformationWithV1Prefill,
   includeSpousalInformationWithV1Prefill,
+  doesVeteranWantToUpdateServiceInfo,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -76,6 +77,9 @@ import spousalInformationPages from './chapters/householdInformation/spouseInfor
 import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 
 // chapter 3 Military Service
+import serviceInformation from './chapters/militaryService/serviceInformation';
+import additionalInformation from './chapters/militaryService/additionalInformation';
+import reviewServiceInformation from './chapters/militaryService/reviewServiceInformation';
 import toxicExposure from './chapters/militaryService/toxicExposure';
 import radiationCleanup from './chapters/militaryService/radiationCleanup';
 import gulfWarService from './chapters/militaryService/gulfWarService';
@@ -98,6 +102,16 @@ import InsurancePolicyInformationPage from '../components/FormPages/InsurancePol
 import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyReviewPage';
 import postSept11Service from './chapters/militaryService/postSept11Service';
 import postSept11ServiceDates from './chapters/militaryService/postSept11ServiceDates';
+
+const showServiceHistoryEnabled = () => {
+  const state = window?.__STORE__?.getState();
+  const featureToggles = state?.featureToggles || {};
+  return (
+    featureToggles?.ezrServiceHistoryEnabled ||
+    featureToggles?.['view:isServiceHistoryEnabled'] ||
+    true
+  );
+};
 
 // declare shared paths for custom form page navigation
 const {
@@ -255,6 +269,27 @@ const formConfig = {
     militaryService: {
       title: 'Military service',
       pages: {
+        reviewServiceInformation: {
+          path: 'military-service/review-service-information',
+          title: 'Review your last military service',
+          uiSchema: reviewServiceInformation.uiSchema,
+          schema: reviewServiceInformation.schema,
+          depends: showServiceHistoryEnabled,
+        },
+        serviceInformation: {
+          path: 'military-service/service-information',
+          title: 'Service periods',
+          uiSchema: serviceInformation.uiSchema,
+          schema: serviceInformation.schema,
+          depends: doesVeteranWantToUpdateServiceInfo,
+        },
+        additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
+          depends: doesVeteranWantToUpdateServiceInfo,
+        },
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
