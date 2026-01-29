@@ -15,7 +15,7 @@ const SchoolAndEmployers = () => {
 
   return (
     <div className="schools-employers-tabs-container">
-      <h1>Schools and employers</h1>
+      <h1>Schools and employers test</h1>
       <p className="vads-u-font-size--h3">
         Learn about and compare your GI Bill benefits at approved schools and
         employers.
