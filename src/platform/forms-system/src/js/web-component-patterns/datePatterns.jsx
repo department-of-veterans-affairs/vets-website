@@ -111,6 +111,7 @@ const currentOrPastDateUI = options => {
  *   hint?: string,
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   removeDateHint?: boolean,
+ *   dataDogHidden?: boolean,
  *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
@@ -143,13 +144,19 @@ const currentOrPastMonthYearDateUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   dataDogHidden?: boolean,
  *   removeDateHint?: boolean,
- * }} [options] accepts a single string for start/from date title, or an object of options
+ *   validations?: UISchemaOptions['ui:validations'],
+ * }} [fromOptions] accepts a single string for start/from date title, or an object of options
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   dataDogHidden?: boolean,
  *   removeDateHint?: boolean,
- * }} [options] accepts a single string for to/end date title, or an object of options
+ *   validations?: UISchemaOptions['ui:validations'],
+ * }} [toOptions] accepts a single string for to/end date title, or an object of options
  * @param {string} [errorMessage] - Optional custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
  */
@@ -159,16 +166,17 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
   let fromCustomOptions = {};
   let toCustomOptions = {};
 
-  // Check if advanced options object is provided
-  if (typeof fromOptions === 'object' && typeof toOptions === 'object') {
-    // Extract custom options
+  if (typeof fromOptions === 'object') {
     fromLabel = fromOptions.title || fromLabel;
-    toLabel = toOptions.title || toLabel;
     fromCustomOptions = { ...fromOptions };
+  } else {
+    fromLabel = fromOptions || fromLabel;
+  }
+
+  if (typeof toOptions === 'object') {
+    toLabel = toOptions.title || toLabel;
     toCustomOptions = { ...toOptions };
   } else {
-    // Simple usage: assign labels
-    fromLabel = fromOptions || fromLabel;
     toLabel = toOptions || toLabel;
   }
 
@@ -214,13 +222,19 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   dataDogHidden?: boolean,
  *   removeDateHint?: boolean,
- * }} [options] accepts a single string for start/from date title, or an object of options
+ *   validations?: UISchemaOptions['ui:validations'],
+ * }} [fromOptions] accepts a single string for start/from date title, or an object of options
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   dataDogHidden?: boolean,
  *   removeDateHint?: boolean,
- * }} [options] accepts a single string for to/end date title, or an object of options
+ *   validations?: UISchemaOptions['ui:validations'],
+ * }} [toOptions] accepts a single string for to/end date title, or an object of options
  * @param {string} [errorMessage] - Optional custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
  */
