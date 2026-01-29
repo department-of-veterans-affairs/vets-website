@@ -508,6 +508,12 @@
       "rootUrl": "/my-health/medications"
     },
     {
+      "directoryPath": "src/applications/mhv-medications-refills",
+      "appName": "MHV Medications Refills",
+      "entryName": "medications-refills",
+      "rootUrl": "/medication-refills"
+    },
+    {
       "directoryPath": "src/applications/mhv-secure-messaging",
       "appName": "MHV Secure Messaging",
       "entryName": "mhv-secure-messaging",
@@ -532,6 +538,10 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
+      "directoryPath": "src/applications/new-28-1900",
+      "appName": "New 28-1900 Veteran Readiness",
+      "entryName": "new-28-1900-chapter-31",
+      "rootUrl": "/temporary/apply-vre-form-28-1900"
       "directoryPath": "src/applications/new-chapter-36-form",
       "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
       "entryName": "new-chapter-36-form",

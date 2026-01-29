@@ -29,6 +29,8 @@ const {
   getAppManifests,
   getWebpackEntryPoints,
 } = require('./manifest-helpers');
+const SkeletonManifestPlugin = require('./webpack-plugins/SkeletonManifestPlugin');
+const SkeletonInjectorPlugin = require('./webpack-plugins/SkeletonInjectorPlugin');
 
 // TODO: refactor the other approach for creating files without the hash so that we're only doing that in the webpack config: https://github.com/department-of-veterans-affairs/vets-website/blob/a012bad17e5bf024b0ea7326a72ae6a737e349ec/src/site/stages/build/plugins/process-entry-names.js#L35
 const vaMedalliaStylesFilename = 'va-medallia-styles';
@@ -257,6 +259,8 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
         widgetTemplate,
         rootUrl,
         ...template, // Unpack any template metadata from the registry entry.
+
+        // Note: skeletonHTML will be injected post-build by SkeletonInjectorPlugin
       },
       title:
         typeof template !== 'undefined' && template.title
@@ -315,6 +319,10 @@ module.exports = async (env = {}) => {
     module: {
       strictExportPresence: true,
       rules: [
+        {
+          test: /\.html$/,
+          type: 'asset/source',
+        },
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
@@ -566,6 +574,10 @@ module.exports = async (env = {}) => {
       }),
     );
   }
+
+  // Generate skeleton manifest and inject into HTML files
+  baseConfig.plugins.push(new SkeletonManifestPlugin());
+  baseConfig.plugins.push(new SkeletonInjectorPlugin());
 
   // Optionally generate mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {

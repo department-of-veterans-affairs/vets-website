@@ -1,0 +1,45 @@
+/**
+ * Styles for medications refills application
+ * Includes skeleton screen animations
+ */
+
+.medications-refills-page {
+  padding: 2rem 0;
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  display: block;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: shimmer 1.6s linear infinite;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer::after {
+    animation: none;
+  }
+}
