@@ -54,6 +54,9 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',
