@@ -140,7 +140,11 @@ const Folders = () => {
   };
 
   return (
-    <div className="folders-container">{folders?.length > 0 && content()}</div>
+    <div className="folders-container">
+      {/* Show alert in error state when folders fail to load */}
+      {(!folders || folders?.length === 0) && <AlertBackgroundBox closeable />}
+      {folders?.length > 0 && content()}
+    </div>
   );
 };
 
