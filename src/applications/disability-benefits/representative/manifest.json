@@ -1,0 +1,7 @@
+{
+  "appName": "21-526EZ disability compensation claim form (Representative)",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "526EZ-representative",
+  "rootUrl": "/disability/representative/file-disability-claim-form-21-526ez",
+  "productId": "arp-526ez-representative"
+}
