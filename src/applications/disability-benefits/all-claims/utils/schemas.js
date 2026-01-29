@@ -144,17 +144,9 @@ export const makeSchemaForRatedDisabilities = createSelector(
       })
       .filter(Boolean);
 
-    const dedupedByNormalizedName = new Map();
-
-    [...fromRatedDisabilities, ...fromNewDisabilities].forEach(name => {
-      const normalizedKey = name.toLowerCase();
-
-      if (!dedupedByNormalizedName.has(normalizedKey)) {
-        dedupedByNormalizedName.set(normalizedKey, name);
-      }
-    });
-
-    const uniqueRatedDisabilities = [...dedupedByNormalizedName.values()];
+    const uniqueRatedDisabilities = [
+      ...new Set([...fromRatedDisabilities, ...fromNewDisabilities]),
+    ];
 
     const properties = uniqueRatedDisabilities.reduce(
       (schema, disabilityName) => createCheckboxSchema(schema, disabilityName),

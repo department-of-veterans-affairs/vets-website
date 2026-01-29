@@ -438,10 +438,18 @@ describe('makeSchemaForRatedDisabilities', () => {
         { name: 'ASTHMA', 'view:selected': true },
       ],
     };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        asthma: {
+          title: 'ASTHMA',
+          type: 'boolean',
+        },
+      },
+    });
     expect(makeSchemaForRatedDisabilities(formData)).to.eql({
       properties: {
         asthma: {
-          title: 'Asthma',
+          title: 'ASTHMA',
           type: 'boolean',
         },
       },
