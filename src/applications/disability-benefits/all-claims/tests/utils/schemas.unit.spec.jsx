@@ -195,32 +195,35 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
   });
 });
 
-describe('makeSchemaForRatedDisabilities has parity with the previous implementation', () => {
-  it('should have the same deduplication result', () => {
-    const formDataLegacy = {
-      'view:claimType': {
-        'view:claimingIncrease': true,
-        'view:claimingNew': false,
+describe('makeSchemaForRatedDisabilities has parity with the previous implementation for deduplication', () => {
+  const formDataLegacy = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
+    ratedDisabilities: [
+      {
+        name: 'cat',
+        'view:selected': true,
       },
-      ratedDisabilities: [
-        {
-          name: 'cat',
-          'view:selected': true,
-        },
-        {
-          name: 'CAT',
-          'view:selected': true,
-        },
-        {
-          name: 'CaT',
-          'view:selected': true,
-        },
-      ],
-    };
+      {
+        name: 'CAT',
+        'view:selected': true,
+      },
+      {
+        name: 'CaT',
+        'view:selected': true,
+      },
+    ],
+  };
+
+  it('should have the same deduplication result on the v1 conditions flow', () => {
     expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
       makeSchemaForRatedDisabilities(formDataLegacy),
     );
+  });
 
+  it('should have the same deduplication result on the v2 conditions flow', () => {
     const formDataV2 = {
       newDisabilities: [
         {
@@ -241,65 +244,41 @@ describe('makeSchemaForRatedDisabilities has parity with the previous implementa
       makeSchemaForRatedDisabilities(formDataV2),
     );
   });
+});
 
-  it('should return the same properties when array ratedDisabilities is present', () => {
-    const formData = {
-      'view:claimType': {
-        'view:claimingIncrease': true,
-        'view:claimingNew': false,
+describe('makeSchemaForRatedDisabilities has parity with the previous implementation for creating keys', () => {
+  const formDataLegacy = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
+    ratedDisabilities: [
+      {
+        name: 'Ptsd - personal trauma',
+        'view:selected': true,
       },
-      ratedDisabilities: [
-        {
-          name: 'Ptsd - personal trauma',
-          'view:selected': true,
-        },
-        {
-          name: 'Diabetes (mellitus)',
-          'view:selected': true,
-        },
-        {
-          name: 'Type-1 Diabetes',
-          'view:selected': true,
-        },
-        {
-          name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
-          'view:selected': true,
-        },
-      ],
-    };
-    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql(
-      makeSchemaForRatedDisabilities(formData),
-    );
-  });
-  it('should return the same properties when rated disabilities are stored in array newDisabilities', () => {
-    const formDataLegacy = {
-      'view:claimType': {
-        'view:claimingIncrease': true,
-        'view:claimingNew': false,
+      {
+        name: 'Diabetes (mellitus)',
+        'view:selected': true,
       },
-      ratedDisabilities: [
-        {
-          name: 'Ptsd - personal trauma',
-          'view:selected': true,
-        },
-        {
-          name: 'Diabetes (mellitus)',
-          'view:selected': true,
-        },
-        {
-          name: 'Type-1 Diabetes',
-          'view:selected': true,
-        },
-        {
-          name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
-          'view:selected': true,
-        },
-      ],
-    };
+      {
+        name: 'Type-1 Diabetes',
+        'view:selected': true,
+      },
+      {
+        name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+        'view:selected': true,
+      },
+    ],
+  };
+
+  it('should return the same properties on the v1 conditions flow', () => {
     expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
       makeSchemaForRatedDisabilities(formDataLegacy),
     );
+  });
 
+  it('should return the same properties on the v2 conditions flow', () => {
     const formDataV2 = {
       newDisabilities: [
         {
