@@ -96,7 +96,7 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 3, // Change to 4 when PDF alignment feature toggle is enabled and enable migration
+  version: 3,
   migrations,
   prefillEnabled: true,
   dev: {
@@ -380,7 +380,7 @@ const formConfig = {
           schema: burialAllowancePartOne.schema,
         },
         burialAllowanceConfirmation: {
-          title: 'Statement of truth',
+          title: 'Burial allowance',
           reviewTitle: ' ',
           path: 'benefits/burial-allowance/statement-of-truth',
           depends: form => {
@@ -392,9 +392,7 @@ const formConfig = {
               'burialAllowanceRequested.unclaimed',
               form,
             );
-            const isFuneralDirector =
-              get('relationshipToVeteran', form) === 'funeralDirector';
-            return burialsSelected && unclaimedSelected && isFuneralDirector;
+            return burialsSelected && unclaimedSelected;
           },
           uiSchema: burialAllowanceConfirmation.uiSchema,
           schema: burialAllowanceConfirmation.schema,

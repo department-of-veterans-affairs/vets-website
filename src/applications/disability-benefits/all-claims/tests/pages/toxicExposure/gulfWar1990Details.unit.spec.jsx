@@ -49,9 +49,11 @@ describe('gulfWar1990Details', () => {
         getByText(gulfWar1990PageTitle);
         getByText(dateRangeDescriptionWithLocation);
 
-        expect($(`va-date[label="${startDateApproximate}"]`, container)).to
-          .exist;
-        expect($(`va-date[label="${endDateApproximate}"]`, container)).to.exist;
+        expect(
+          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
+        ).to.exist;
+        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
+          .to.exist;
 
         expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
           .exist;
@@ -85,11 +87,15 @@ describe('gulfWar1990Details', () => {
         }
       });
 
-      it(`should submit without dates for ${locationId} (dates are optional)`, () => {
+      // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+      // however we want Veterans to be able to submit with a completely blank or partial date.
+      // Note to revisit after we land on a solution for accommodating partial dates.
+      // @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+      it(`should not submit without dates for ${locationId}`, () => {
         pageSubmitTest(
           schemas[`gulf-war-1990-location-${locationId}`],
           formData,
-          true,
+          false,
         );
       });
 
@@ -97,8 +103,8 @@ describe('gulfWar1990Details', () => {
         const data = JSON.parse(JSON.stringify(formData));
         data.toxicExposure.gulfWar1990Details = {};
         data.toxicExposure.gulfWar1990Details[locationId] = {
-          startDate: '1990-01',
-          endDate: '1995-02',
+          startDate: '1990-01-01',
+          endDate: '1995-02-28',
         };
 
         pageSubmitTest(
@@ -110,40 +116,48 @@ describe('gulfWar1990Details', () => {
     });
 
   /*
-   * Date validation tests for toxic exposure dates (month/year format).
-   * Supports year-only (YYYY-XX) or month/year (YYYY-MM).
-   * Full dates (YYYY-MM-DD) are accepted for backward compatibility.
+   * Date validation tests for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend to prevent the 'XX' date issue.
+   * In the future, we may want Veterans to be able to submit with completely blank or partial dates.
+   * Note to revisit after we land on a solution for accommodating partial dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
    */
   describe('date validation', () => {
     const locationId = 'bahrain';
 
-    it(`should submit with start date only (dates are optional)`, () => {
+    // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+    // however we want Veterans to be able to submit with a completely blank date.
+    // Note to revisit after we land on a solution for accommodating partial dates.
+    it(`should not submit with start date only`, () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1990-01',
+          startDate: '1990-01-01',
         },
       };
 
       pageSubmitTest(
         schemas[`gulf-war-1990-location-${locationId}`],
         data,
-        true,
+        false,
       );
     });
 
-    it(`should submit with end date only (dates are optional)`, () => {
+    // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
+    // however we want Veterans to be able to submit with a completely blank date.
+    // Note to revisit after we land on a solution for accommodating partial dates.
+    it(`should not submit with end date only`, () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          endDate: '1995-04',
+          endDate: '1970-04-02',
         },
       };
 
       pageSubmitTest(
         schemas[`gulf-war-1990-location-${locationId}`],
         data,
-        true,
+        false,
       );
     });
 
@@ -151,8 +165,8 @@ describe('gulfWar1990Details', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1991-06',
-          endDate: '1992-07',
+          startDate: '1991-06-03',
+          endDate: '1992-07-04',
           'view:notSure': true,
         },
       };
@@ -164,12 +178,12 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should submit with past month/year for startDate', () => {
+    it('should submit with past date for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 5), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 5), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
@@ -180,12 +194,12 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should not submit with future month/year for startDate', () => {
+    it('should not submit with future date for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: format(addYears(new Date(), 1), 'yyyy-MM'),
-          endDate: format(addYears(new Date(), 2), 'yyyy-MM'),
+          startDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
+          endDate: format(addYears(new Date(), 2), 'yyyy-MM-dd'),
         },
       };
 
@@ -196,12 +210,12 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should not submit with year before 1900 for startDate', () => {
+    it('should not submit with date before 1900 for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1899-12',
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          startDate: '1899-12-31',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
@@ -217,7 +231,7 @@ describe('gulfWar1990Details', () => {
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
           startDate: 'invalid-date',
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
@@ -228,44 +242,12 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should submit with current month/year for endDate', () => {
+    it('should not submit with two digit year for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: format(new Date(), 'yyyy-MM'),
-        },
-      };
-
-      pageSubmitTest(
-        schemas[`gulf-war-1990-location-${locationId}`],
-        data,
-        true,
-      );
-    });
-
-    it('should submit with past month/year for endDate', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.gulfWar1990Details = {
-        [locationId]: {
-          startDate: format(subYears(new Date(), 5), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
-        },
-      };
-
-      pageSubmitTest(
-        schemas[`gulf-war-1990-location-${locationId}`],
-        data,
-        true,
-      );
-    });
-
-    it('should not submit with future month/year for endDate', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.gulfWar1990Details = {
-        [locationId]: {
-          startDate: format(subYears(new Date(), 1), 'yyyy-MM'),
-          endDate: format(addYears(new Date(), 1), 'yyyy-MM'),
+          startDate: '77-05-20',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
@@ -276,12 +258,60 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should not submit with year before 1900 for endDate', () => {
+    it('should submit with current date for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: '1899-12',
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(new Date(), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-1990-location-${locationId}`],
+        data,
+        true,
+      );
+    });
+
+    it('should submit with past date for endDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar1990Details = {
+        [locationId]: {
+          startDate: format(subYears(new Date(), 5), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-1990-location-${locationId}`],
+        data,
+        true,
+      );
+    });
+
+    it('should not submit with future date for endDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar1990Details = {
+        [locationId]: {
+          startDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+          endDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-1990-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with date before 1900 for endDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar1990Details = {
+        [locationId]: {
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: '1899-12-31',
         },
       };
 
@@ -296,7 +326,7 @@ describe('gulfWar1990Details', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
           endDate: 'invalid-date',
         },
       };
@@ -308,12 +338,12 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should submit with valid date range (end after start)', () => {
+    it('should submit with valid date range (to after from)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
@@ -328,8 +358,8 @@ describe('gulfWar1990Details', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1991-09',
-          endDate: '1990-09',
+          startDate: '1991-09-25',
+          endDate: '1990-09-25',
         },
       };
 
@@ -340,12 +370,13 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should not submit when end date month/year is before start date month/year', () => {
+    it('should not submit with equal start and end dates', () => {
       const data = JSON.parse(JSON.stringify(formData));
+      const sameDate = format(subYears(new Date(), 1), 'yyyy-MM-dd');
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1991-09',
-          endDate: '1991-08',
+          startDate: sameDate,
+          endDate: sameDate,
         },
       };
 
@@ -356,12 +387,12 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should not submit when end date is before August 1990', () => {
+    it('should not submit when end date is before August 2, 1990', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1988-09',
-          endDate: '1989-09',
+          startDate: '1988-09-25',
+          endDate: '1989-09-25',
         },
       };
 
@@ -372,19 +403,35 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should submit when end date is August 1990 (accepted due to month/year granularity)', () => {
+    it('should not submit with incomplete start date (missing month)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1988-09',
-          endDate: '1990-08',
+          startDate: '1990-XX-05',
+          endDate: '1991-06-15',
         },
       };
 
       pageSubmitTest(
         schemas[`gulf-war-1990-location-${locationId}`],
         data,
-        true,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete start date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar1990Details = {
+        [locationId]: {
+          startDate: '1990-08-XX',
+          endDate: '1991-02-28',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-1990-location-${locationId}`],
+        data,
+        false,
       );
     });
 
@@ -392,8 +439,40 @@ describe('gulfWar1990Details', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: 'XXXX-08',
-          endDate: '1991-03',
+          startDate: 'XXXX-08-15',
+          endDate: '1991-03-01',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-1990-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar1990Details = {
+        [locationId]: {
+          startDate: '1990-08-15',
+          endDate: '1991-XX-20',
+        },
+      };
+
+      pageSubmitTest(
+        schemas[`gulf-war-1990-location-${locationId}`],
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.gulfWar1990Details = {
+        [locationId]: {
+          startDate: '1990-09-01',
+          endDate: '1991-02-XX',
         },
       };
 
@@ -408,8 +487,8 @@ describe('gulfWar1990Details', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1990-10',
-          endDate: 'XXXX-03',
+          startDate: '1990-10-10',
+          endDate: 'XXXX-03-15',
         },
       };
 
@@ -420,28 +499,28 @@ describe('gulfWar1990Details', () => {
       );
     });
 
-    it('should accept year-only format (YYYY-XX)', () => {
+    it('should not submit with non-leap year February 29', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1990-XX',
-          endDate: '1995-XX',
+          startDate: '2021-02-29',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(
         schemas[`gulf-war-1990-location-${locationId}`],
         data,
-        true,
+        false,
       );
     });
 
-    it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+    it('should submit with leap year February 29', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          startDate: '1990-01-01',
-          endDate: '1995-02-28',
+          startDate: '2020-02-29',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 

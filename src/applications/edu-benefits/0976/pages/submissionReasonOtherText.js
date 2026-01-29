@@ -4,8 +4,6 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { validateWhiteSpace } from 'platform/forms/validations';
-
 export default {
   uiSchema: {
     ...titleUI('Application information'),
@@ -14,7 +12,6 @@ export default {
         title:
           'Since you selected “other” on the previous page, you’ll need to provide more details about the purpose of your application',
         charcount: true,
-        validations: [validateWhiteSpace],
       }),
     },
   },

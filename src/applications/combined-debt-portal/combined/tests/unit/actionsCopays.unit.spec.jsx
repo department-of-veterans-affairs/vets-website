@@ -17,9 +17,6 @@ describe('copays actions', () => {
   let apiRequestStub;
   let getMedicalCenterNameByIDStub;
   let sentryCaptureMessageStub;
-  const errors = {
-    notFoundError: { status: '404', detail: 'Not found' },
-  };
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -123,7 +120,8 @@ describe('copays actions', () => {
     });
 
     it('should handle network errors', async () => {
-      apiRequestStub.rejects({ errors: [errors.notFoundError] });
+      const networkError = { detail: 'Network error' };
+      apiRequestStub.rejects({ errors: [networkError] });
 
       await getStatements(dispatch);
 
@@ -132,11 +130,11 @@ describe('copays actions', () => {
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: MCP_STATEMENTS_FETCH_FAILURE,
-        error: errors.notFoundError,
+        error: networkError,
       });
       expect(sentryCaptureMessageStub.calledOnce).to.be.true;
       expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
-        'medical_copays failed: Not found',
+        'medical_copays failed: Network error',
       );
     });
   });

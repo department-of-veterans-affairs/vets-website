@@ -228,15 +228,23 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     await screen.findByText('We can’t submit your request right now');
 
     expect(screen.baseElement).contain.text(
-      'We’re sorry. There’s a problem with appointments. Refresh this page or try again later.',
+      'We’re sorry. There’s a problem with our system. Refresh this page to start over or try again later.',
     );
     expect(screen.baseElement).contain.text(
-      'If you need to schedule now, call your facility.',
+      'If you need to schedule now, call your VA facility.',
     );
 
-    expect(screen.baseElement).contain.text('Cheyenne VA Medical Center');
+    expect(
+      screen.getByRole('heading', {
+        level: 3,
+        name: /Cheyenne VA Medical Center/i,
+      }),
+    );
 
     const alert = document.querySelector('va-alert');
+    expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
+    expect(alert).to.contain.text('Cheyenne, WyomingWY');
+    expect(within(alert).getByText(/82001-5356/)).to.be.ok;
     expect(within(alert).getByTestId('facility-telephone')).to.be.ok;
 
     expect(screen.history.push.called).to.be.false;

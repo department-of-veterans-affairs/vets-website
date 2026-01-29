@@ -136,20 +136,17 @@ const Allergies = props => {
       ),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
-    try {
-      await makePdf(
-        pdfName,
-        pdfData,
-        'medicalRecords',
-        'Medical Records - Allergies - PDF generation error',
-        runningUnitTest,
-      );
-    } catch {
-      // makePdf handles error logging to Datadog/Sentry
-    }
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Allergies - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateAllergyListItemTxt = item => {
+    setDownloadStarted(true);
     if (isCerner) {
       return `
 ${txtLine}\n\n
@@ -172,7 +169,6 @@ Provider notes: ${item.notes}\n`;
   };
 
   const generateAllergiesTxt = async () => {
-    setDownloadStarted(true);
     // Conditional content based on whether user has Meds by Mail facility
     const additionalInfo = hasMedsByMailFacility
       ? `
@@ -229,9 +225,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         </div>
       )}
 
-      {downloadStarted && (
-        <DownloadSuccessAlert className="vads-u-margin-bottom--3" />
-      )}
+      {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.ALLERGY}

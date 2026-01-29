@@ -23,14 +23,7 @@
       "relationship": "veteran"
     },
     "claimantContact": {
-      "claimantPhoneNumber": {
-        "callingCode": 1,
-        "countryCode": "US",
-        "contact": "(520) 555-1313",
-        "IsValid": true,
-        "Error": null,
-        "Touched": true
-      },
+      "claimantPhoneNumber": "5205551313",
       "claimantEmail": "hsolo@smuggler.net"
     },
     "benefitType": {

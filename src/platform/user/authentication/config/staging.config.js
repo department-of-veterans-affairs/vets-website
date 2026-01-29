@@ -4,6 +4,7 @@ import {
   EXTERNAL_REDIRECTS_ALT,
 } from '../constants';
 import {
+  legacySignInProviders,
   defaultSignInProviders,
   defaultMobileQueryParams,
   defaultWebOAuthOptions,
@@ -14,6 +15,7 @@ import {
 export default {
   default: {
     allowedSignInProviders: { ...defaultSignInProviders },
+    legacySignInProviders,
     isMobile: false,
     queryParams: {
       allowOAuth: true,
@@ -26,6 +28,7 @@ export default {
   },
   [EXTERNAL_APPS.MHV]: {
     allowedSignInProviders: { ...defaultSignInProviders },
+    legacySignInProviders,
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -38,6 +41,7 @@ export default {
   },
   [EXTERNAL_APPS.MY_VA_HEALTH]: {
     allowedSignInProviders: { ...defaultSignInProviders },
+    legacySignInProviders,
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -51,6 +55,7 @@ export default {
   },
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: {
     allowedSignInProviders: { ...defaultSignInProviders },
+    legacySignInProviders,
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: true,
@@ -63,6 +68,7 @@ export default {
       idme: true,
       logingov: true,
     },
+    legacySignInProviders,
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: false,
@@ -74,6 +80,10 @@ export default {
     allowedSignInProviders: {
       idme: true,
       logingov: true,
+    },
+    legacySignInProviders: {
+      mhv: false,
+      dslogon: false,
     },
     isMobile: false,
     queryParams: {
@@ -93,6 +103,9 @@ export default {
     allowedSignInProviders: {
       idme: true,
       logingov: true,
+    },
+    legacySignInProviders: {
+      dslogon: false,
     },
     isMobile: false,
     queryParams: {

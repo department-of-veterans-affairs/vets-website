@@ -304,8 +304,6 @@ const costPage = {
     weeklyHours: {
       ...numberUI({
         title: 'How many hours per week does the care provider work?',
-        hint:
-          'Enter the number of full hours only. Round down any extra minutes to the lowest hour.',
         hideIf: (formData, index, fullData) =>
           hideIfInHomeCare(formData, index, fullData),
         max: 999,

@@ -72,7 +72,6 @@ const PrivatePrompt = ({
         error={error}
         form-heading={privateRecordsPromptTitle}
         form-heading-level="3"
-        label="Do you want us to get your records?"
         onVaValueChange={handlers.onSelected}
         required
         use-forms-pattern="single"
@@ -82,7 +81,7 @@ const PrivatePrompt = ({
           name="private"
           value="y"
           checked={data[HAS_PRIVATE_EVIDENCE]}
-          description="We'll ask you to authorize the release of your medical records to VA and then provide details for your private providers."
+          description="We'll ask you to provide details for your private providers to authorize the release of your medical records to VA."
         />
         <va-radio-option
           label="No"
@@ -103,7 +102,7 @@ const PrivatePrompt = ({
               VA Vet Center (this is different from VA-paid community care)
             </li>
           </ul>
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <strong>Note:</strong> A Disability Benefits Questionnaire (DBQ) is
             an example of a private medical record.
           </p>

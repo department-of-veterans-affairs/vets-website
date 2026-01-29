@@ -3,16 +3,15 @@ import { expect } from 'chai';
 import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../../constants';
 import {
   fixDateFormat,
-  formatDateToReadableString,
-  formatMonthYearToReadableString,
-  getCurrentUTCStartOfDay,
+  parseDateToDateObj,
+  parseDate,
+  parseDateWithOffset,
   getReadableDate,
+  getCurrentUTCStartOfDay,
+  toUTCStartOfDay,
   isLocalToday,
   isUTCTodayOrFuture,
-  parseDate,
-  parseDateToDateObj,
-  parseDateWithOffset,
-  toUTCStartOfDay,
+  formatDateToReadableString,
 } from '../../utils/dates';
 
 describe('parseDateToDateObj', () => {
@@ -247,55 +246,6 @@ describe('formatDateToReadableString', () => {
       const decemberDate = new Date(2025, 11, 10, 12, 0, 0); // December 10, 2025
       const result = formatDateToReadableString(decemberDate);
       expect(result).to.equal('Dec. 10, 2025');
-    });
-  });
-});
-
-describe('formatMonthYearToReadableString', () => {
-  describe('invalid dates', () => {
-    it('should return whatever was passed in', () => {
-      expect(formatMonthYearToReadableString('')).to.eq('');
-      expect(formatMonthYearToReadableString(null)).to.eq(null);
-      expect(formatMonthYearToReadableString(undefined)).to.eq(undefined);
-      expect(formatMonthYearToReadableString('abcd')).to.eq('abcd');
-    });
-  });
-
-  describe('months that should not be abbreviated', () => {
-    const notAbbrMonths = {
-      '03': 'March',
-      '04': 'April',
-      '05': 'May',
-      '06': 'June',
-      '07': 'July',
-    };
-
-    Object.keys(notAbbrMonths).forEach(monthNumber => {
-      it('should give the correct format', () => {
-        expect(formatMonthYearToReadableString(`2025-${monthNumber}`)).to.eq(
-          `${notAbbrMonths[monthNumber]} 2025`,
-        );
-      });
-    });
-  });
-
-  describe('months that should be abbreviated', () => {
-    const abbrMonths = {
-      '01': 'Jan.',
-      '02': 'Feb.',
-      '08': 'Aug.',
-      '09': 'Sept.',
-      '10': 'Oct.',
-      '11': 'Nov.',
-      '12': 'Dec.',
-    };
-
-    Object.keys(abbrMonths).forEach(monthNumber => {
-      it('should give the correct format', () => {
-        expect(formatMonthYearToReadableString(`2025-${monthNumber}`)).to.eq(
-          `${abbrMonths[monthNumber]} 2025`,
-        );
-      });
     });
   });
 });

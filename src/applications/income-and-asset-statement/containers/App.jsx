@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -38,7 +38,6 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
   );
   const assets = useSelector(state => state?.form?.data?.ownedAssets || []);
   const trusts = useSelector(state => state?.form?.data?.trusts || []);
-  const [assetsChecked, setAssetsChecked] = useState(false);
 
   const content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -76,10 +75,8 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
 
   useEffect(
     () => {
-      // Use assetsChecked flag to prevent infinite loop
-      if (!assetsChecked && location.pathname === '/review-and-submit') {
+      if (location.pathname === '/review-and-submit') {
         const assetTypes = getAssetTypes(assets);
-        setAssetsChecked(true);
         if (
           assets.length > 0 &&
           assetTypes.length > 0 &&
@@ -92,7 +89,7 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
         }
       }
     },
-    [assetsChecked, location.pathname, assets, trusts, openReviewChapter],
+    [location.pathname, assets, trusts, openReviewChapter],
   );
 
   if (isLoadingFeatures) {

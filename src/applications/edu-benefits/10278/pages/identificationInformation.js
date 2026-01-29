@@ -12,20 +12,12 @@ export default {
       'Identification information',
       'You must enter a Social Security number or VA file number',
     ),
-    claimantPersonalInformation: {
-      veteranId: ssnOrVaFileNumberNoHintUI(),
-    },
+    veteranId: ssnOrVaFileNumberNoHintUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      claimantPersonalInformation: {
-        type: 'object',
-        properties: {
-          veteranId: ssnOrVaFileNumberNoHintSchema,
-        },
-        required: ['veteranId'],
-      },
+      veteranId: ssnOrVaFileNumberNoHintSchema,
     },
   },
 };

@@ -1137,7 +1137,7 @@ export const mockHealthFacilityResponse = {
   },
 };
 
-// Inbox cards based on Wed Dec 18 for User 119
+// Dashboard cards based on Wed Dec 18 for User 119
 export const mockInquiries = {
   data: [
     {

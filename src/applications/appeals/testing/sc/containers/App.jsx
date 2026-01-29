@@ -151,6 +151,7 @@ export const App = ({
   // Add Datadog UX monitoring to the application
   // useBrowserMonitoring({
   //   loggedIn,
+  //   formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
   //   version: '1.0.0',
   //   // record 100% of staging sessions, but only 10% of production
   //   sessionReplaySampleRate:

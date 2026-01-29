@@ -255,12 +255,10 @@ describe('letters reducer', () => {
     const letter = {
       attributes: {
         documentId: '123',
-        documentVersion: 'abc',
       },
     };
     const successState = {
       documentId: '123',
-      documentVersion: 'abc',
       error: false,
       loading: false,
     };

@@ -11,8 +11,6 @@ import searchMockResponse from './fixtures/searchResponses/search-sent-folder-re
 import PatientRecentRecipientsPage from './pages/PatientRecentRecipientsPage';
 import SharedComponents from './pages/SharedComponents';
 
-const baseUrl = Cypress.config('baseUrl');
-
 describe('SM Medications Renewal Request', () => {
   describe('in curated list flow', () => {
     const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
@@ -385,7 +383,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.deleteUnsavedDraft();
       cy.url().should(
         'include',
-        `${baseUrl}/my-health/medications/?page=1&draftDeleteSuccess=true`,
+        'http://localhost:3001/my-health/medications/?page=1&draftDeleteSuccess=true',
       );
     });
   });

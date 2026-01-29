@@ -3,7 +3,7 @@ import {
   getVAEvidence,
   getOtherEvidence,
   getPrivateEvidence,
-} from '../form-data-retrieval';
+} from '../evidence';
 import { getFacilityType } from './facilities';
 import '../../../shared/definitions';
 import { fixDateFormat } from '../../../shared/utils/dates';

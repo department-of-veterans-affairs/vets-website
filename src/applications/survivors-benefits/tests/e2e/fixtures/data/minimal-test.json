@@ -1,35 +1,33 @@
 {
   "data": {
     "hasBankAccount": false,
-      "claimingMonthlySpecialPension": false,
-      "claimantLivesInANursingHome": false,
+      "needRegularAssistance": false,
+      "inNursingHome": false,
       "dicType": "DIC",
       "view:isAddingDependent": false,
       "recognizedAsSpouse": false,
       "hadPreviousMarriages": false,
-      "remarriedAfterVeteralDeath": false,
+      "remarried": false,
       "livedContinuouslyWithVeteran": true,
-      "validMarriage": false,
+      "awareOfLegalIssues": false,
       "marriageToVeteranEndDate": "1999-05-05",
       "marriageToVeteranEndLocation": {
         "city": "wefgwfg",
         "state": "AL"
       },
-      "pregnantWithVeteran": false,
-      "childWithVeteran": false,
-      "marriageType": "ceremonial",
+      "marriageType": "CIVIL_RELIGIOUS",
       "marriageToVeteranStartDate": "1980-05-05",
       "marriageToVeteranStartLocation": {
         "city": "ewfgw",
         "state": "AL"
       },
-      "marriedToVeteranAtTimeOfDeath": true,
+      "marriedAtDeath": true,
       "receivedBenefits": true,
       "claims": {
-        "DIC": true
+        "dependencyIndemnityComp": true
       },
-      "claimantEmail": "myemail72585885@unattended.com",
-      "claimantPhone": {
+      "email": "myemail72585885@unattended.com",
+      "primaryPhone": {
         "callingCode": 1,
         "countryCode": "US",
         "contact": "(555) 511-2312"
@@ -49,7 +47,7 @@
         "last": "Testerson"
       },
       "claimantDateOfBirth": "1955-05-05",
-      "claimantRelationship": "SURVIVING_SPOUSE",
+      "claimantRelationship": "SPOUSE",
       "vaClaimsHistory": false,
       "diedOnDuty": false,
       "veteranDateOfDeath": "2002-02-02",

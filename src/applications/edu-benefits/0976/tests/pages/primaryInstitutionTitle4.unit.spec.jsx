@@ -41,7 +41,7 @@ describe('22-0976 institution title 4 page', () => {
 
   it('shows error when "No" is selected, but no detail is provided', async () => {
     const { container, getByRole } = renderPage({
-      institutionProfile: { participatesInTitleIv: true },
+      institutionProfile: { participatesInTitleIV: true },
     });
 
     getByRole('button', { name: /submit/i }).click();

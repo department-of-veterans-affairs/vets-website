@@ -13,7 +13,6 @@ import {
   formatGenderIdentity,
 } from 'platform/user/profile/vap-svc/util/personal-information/personalInformationUtils';
 import {
-  getSchedulingPreferencesTimesDisplay,
   getSchedulingPreferencesOptionDisplayName,
   isSchedulingPreference,
   preferredContactMethodDisplay,
@@ -150,9 +149,9 @@ const ProfileInformationView = props => {
           fieldName,
         );
       case FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
-        return getSchedulingPreferencesTimesDisplay(fieldName, data[fieldName]);
+        return displayTitle;
       case FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
-        return getSchedulingPreferencesTimesDisplay(fieldName, data[fieldName]);
+        return displayTitle;
       default:
         return displayTitle;
     }

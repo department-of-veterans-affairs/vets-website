@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatInTimeZone } from 'date-fns-tz';
 
-import { getBrowserTimezone } from '../utils/timezone';
-
-const formatInBrowserTimezone = dateString => {
-  const timezone = getBrowserTimezone();
+const formatDateTime = dateString => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   // Format date as "Weekday, Month DD, YYYY"
   const formattedDate = formatInTimeZone(
     dateString,
     timezone,
-    'EEEE, MMMM dd, yyyy', // e.g., "Monday, November 17, 2025"
+    'EEEE, MMMM dd, yyyy',
   );
 
   // Format time as "HH:MM p.m. TZ"
@@ -21,7 +19,7 @@ const formatInBrowserTimezone = dateString => {
 };
 
 const DateTime = ({ dateTime }) => {
-  const { formattedDate, formattedTime } = formatInBrowserTimezone(dateTime);
+  const { formattedDate, formattedTime } = formatDateTime(dateTime);
   return (
     <p
       className="vads-u-margin-top--0p5 vads-u-margin-bottom--1"

@@ -7,7 +7,8 @@ import { information } from './information';
 import { arrayBuilderOptions } from './config';
 import { identification } from './identification';
 import { placeOfBirth } from './placeOfBirth';
-import { relationshipType } from './relationshipType';
+import { relationshipPartOne } from './relationshipPartOne';
+import { relationshipPartTwo } from './relationshipPartTwo';
 import { stepchild } from './stepchild';
 import { additionalInformationPartOne } from './additionalInformationPartOne';
 import { additionalInformationPartTwo } from './additionalInformationPartTwo';
@@ -63,12 +64,24 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       uiSchema: placeOfBirth.uiSchema,
       schema: placeOfBirth.schema,
     }),
-    addChildRelationshipType: pages.itemPage({
+    addChildRelationshipPartOne: pages.itemPage({
       depends: shouldIncludePage,
       title: 'Your relationship to this child',
-      path: '686-report-add-child/:index/relationship-to-child',
-      uiSchema: relationshipType.uiSchema,
-      schema: relationshipType.schema,
+      path: '686-report-add-child/:index/relationship-part-one',
+      uiSchema: relationshipPartOne.uiSchema,
+      schema: relationshipPartOne.schema,
+    }),
+    addChildRelationshipPartTwo: pages.itemPage({
+      depends: (formData, index) => {
+        if (!shouldIncludePage(formData)) {
+          return false;
+        }
+        return formData?.childrenToAdd?.[index]?.isBiologicalChild === false;
+      },
+      title: 'Your relationship to this child',
+      path: '686-report-add-child/:index/relationship-part-two',
+      uiSchema: relationshipPartTwo.uiSchema,
+      schema: relationshipPartTwo.schema,
     }),
     addChildStepchild: pages.itemPage({
       depends: (formData, index) => {

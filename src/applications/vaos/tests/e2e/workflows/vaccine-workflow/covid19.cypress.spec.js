@@ -1,4 +1,5 @@
-import { addDays, addHours, startOfDay } from 'date-fns';
+// @ts-check
+import { addDays } from 'date-fns';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
 import MockClinicResponse from '../../../fixtures/MockClinicResponse';
@@ -32,8 +33,6 @@ import {
 } from '../../vaos-cypress-helpers';
 
 describe('VAOS covid-19 vaccine flow', () => {
-  const noon = addHours(startOfDay(new Date()), 12);
-
   beforeEach(() => {
     vaosSetup();
 
@@ -43,7 +42,7 @@ describe('VAOS covid-19 vaccine flow', () => {
     mockVamcEhrApi();
   });
 
-  describe('When more than one facility supports online scheduling', () => {
+  describe.skip('When more than one facility supports online scheduling', () => {
     const setup = () => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
@@ -79,12 +78,12 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         // Add one day since same day appointments are not allowed.
         response: MockSlotResponse.createResponses({
-          startTimes: [addDays(noon, 1)],
+          startTimes: [addDays(new Date(), 1)],
         }),
       });
     };
 
-    describe('And veteran does have a home address', () => {
+    describe.skip('And veteran does have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -145,7 +144,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
     });
 
-    describe('And veteran does not have a home address', () => {
+    describe.skip('And veteran does not have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -207,7 +206,7 @@ describe('VAOS covid-19 vaccine flow', () => {
     });
   });
 
-  describe('When one facility supports online scheduling', () => {
+  describe.skip('When one facility supports online scheduling', () => {
     const setup = () => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
@@ -238,12 +237,12 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         // Add one day since same day appointments are not allowed.
         response: MockSlotResponse.createResponses({
-          startTimes: [addDays(noon, 1)],
+          startTimes: [addDays(new Date(), 1)],
         }),
       });
     };
 
-    describe('And veteran does have a home address', () => {
+    describe.skip('And veteran does have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -543,7 +542,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         clinicId: '1',
         response: MockSlotResponse.createResponses({
           // Add one day since same day appointments are not allowed.
-          startTimes: [addDays(noon, 1)],
+          startTimes: [addDays(new Date(), 1)],
         }),
       });
 

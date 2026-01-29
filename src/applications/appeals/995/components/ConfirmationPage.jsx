@@ -23,7 +23,7 @@ import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
-} from '../utils/form-data-retrieval';
+} from '../utils/evidence';
 import { HAS_PRIVATE_LIMITATION } from '../constants';
 import { getReadableDate } from '../../shared/utils/dates';
 
@@ -70,10 +70,12 @@ export const ConfirmationPage = () => {
           we’ve processed your request.
         </p>
       </ConfirmationAlert>
+
       <ConfirmationSummary
         name="Supplemental Claim"
         downloadUrl={downloadUrl}
       />
+
       <h2>What to expect next</h2>
       <p>
         If we need more information, we’ll contact you to tell you what other
@@ -89,6 +91,7 @@ export const ConfirmationPage = () => {
           text="Learn more about what happens after you request a decision review"
         />
       </p>
+
       <p>
         <strong>Note:</strong> You can choose to have a hearing at any point in
         the claims process. Contact us online through Ask VA to request a
@@ -125,7 +128,9 @@ export const ConfirmationPage = () => {
         , don’t request a Supplemental Claim again or another type of decision
         review. Contact us online or call us instead.
       </p>
+
       <h2 className="vads-u-margin-top--4">Your Supplemental Claim request</h2>
+
       <ConfirmationPersonalInfo
         dob={profile.dob}
         formData={data}
@@ -134,7 +139,9 @@ export const ConfirmationPage = () => {
         userFullName={profile.userFullName}
         veteran={data.veteran}
       />
+
       <ConfirmationIssues data={data} />
+
       <h3 className={chapterHeaderClass}>New and relevant evidence</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
@@ -167,6 +174,7 @@ export const ConfirmationPage = () => {
           </div>
         </li>
       </ul>
+
       {noEvidence && (
         <>
           <h3
@@ -180,9 +188,11 @@ export const ConfirmationPage = () => {
           </div>
         </>
       )}
+
       {vaEvidence.length ? (
         <VaDetailsDisplay list={vaEvidence} reviewMode showListOnly />
       ) : null}
+
       {privateEvidence.length ? (
         <PrivateDetailsDisplay
           list={privateEvidence}
@@ -193,9 +203,11 @@ export const ConfirmationPage = () => {
           limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
         />
       ) : null}
+
       {otherEvidence.length ? (
         <EvidenceUploadContent list={otherEvidence} reviewMode showListOnly />
       ) : null}
+
       <h3 className={chapterHeaderClass}>VHA indicator</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
               a problem with Safari not treating the `ul` as a list. */}
@@ -228,6 +240,7 @@ export const ConfirmationPage = () => {
           </li>
         )}
       </ul>
+
       <ConfirmationReturnLink />
     </>
   );

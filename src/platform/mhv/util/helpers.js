@@ -219,7 +219,5 @@ export const makePdf = async (
     pdfModulePromise = null;
     datadogRum.addError(error, { feature: sentryErrorLabel });
     sendErrorToSentry(error, sentryErrorLabel);
-    // Re-throw so callers can handle the error appropriately
-    throw error;
   }
 };

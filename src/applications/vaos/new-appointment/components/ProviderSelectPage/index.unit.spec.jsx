@@ -45,7 +45,8 @@ const serviceFailures = [
 
 const defaultState = {
   featureToggles: {
-    vaOnlineSchedulingUseVpg: true,
+    vaOnlineSchedulingOhDirectSchedule: true,
+    vaOnlineSchedulingOhRequest: true,
   },
   newAppointment: {
     pages: {},

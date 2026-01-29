@@ -149,7 +149,7 @@ const PrescriptionPrintOnly = props => {
                 <>
                   <p>
                     <strong>Prescription number:</strong>{' '}
-                    {rx.prescriptionNumber || 'Not available'}
+                    {rx.prescriptionNumber}
                   </p>
                 </>
               )}
@@ -343,8 +343,7 @@ const PrescriptionPrintOnly = props => {
                           className="vads-u-margin-bottom--2"
                         >
                           <h4>
-                            {`Prescription number: ${entry.prescriptionNumber ||
-                              'Not available'}`}
+                            {`Prescription number: ${entry.prescriptionNumber}`}
                           </h4>
                           {(entry.sortedDispensedDate || !isCernerPilot) && (
                             <p>

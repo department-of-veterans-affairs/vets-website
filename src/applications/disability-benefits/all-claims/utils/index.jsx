@@ -257,33 +257,12 @@ const regexNonWord = /[^\w]/g;
 export const sippableId = str =>
   (str || 'blank').replace(regexNonWord, '').toLowerCase();
 
-// Helper to check if user is in evidence enhancement flow
-export const isEvidenceEnhancement = formData =>
-  !!formData?.disability526SupportingEvidenceEnhancement;
-
 export const hasVAEvidence = formData =>
   _.get(DATA_PATHS.hasVAEvidence, formData, false);
 export const hasOtherEvidence = formData =>
   _.get(DATA_PATHS.hasAdditionalDocuments, formData, false);
 export const hasPrivateEvidence = formData =>
   _.get(DATA_PATHS.hasPrivateEvidence, formData, false);
-
-export const hasMedicalRecords = formData => {
-  if (isEvidenceEnhancement(formData)) {
-    // Enhancement flow: check new field name, with fallback to legacy data for transition compatibility
-    const hasRecords = _.get(DATA_PATHS.hasMedicalRecords, formData);
-    if (hasRecords !== undefined) {
-      return hasRecords;
-    }
-    // Transition compatibility: derive from legacy data if switching from legacy flow
-    const hasLegacyEvidence = _.get(DATA_PATHS.hasEvidence, formData, false);
-    const hasVA = hasVAEvidence(formData);
-    const hasPrivate = hasPrivateEvidence(formData);
-    return hasLegacyEvidence && (hasVA || hasPrivate);
-  }
-  // Legacy flow: use the existing path
-  return _.get(DATA_PATHS.hasEvidence, formData, false);
-};
 
 /**
  * Inspects all given paths in the formData object for presence of values
@@ -1004,34 +983,6 @@ export const redirectWhenNoEvidence = props => {
   );
 };
 
-/**
- * Determines if user should be redirected from legacy evidence page to enhancement page
- * @param {Object} props - { returnUrl, formData }
- * @returns {boolean} true if redirect needed
- */
-export const redirectLegacyToEnhancement = props => {
-  const { returnUrl, formData } = props;
-  return (
-    returnUrl === '/supporting-evidence/evidence-types' &&
-    isEvidenceEnhancement(formData)
-  );
-};
-
-/**
- * Determines if user should be redirected from enhancement evidence pages to legacy page
- * @param {Object} props - { returnUrl, formData }
- * @returns {boolean} true if redirect needed
- */
-export const redirectEnhancementToLegacy = props => {
-  const { returnUrl, formData } = props;
-  const isEnhancement = isEvidenceEnhancement(formData);
-  return (
-    !isEnhancement &&
-    (returnUrl === '/supporting-evidence/evidence-request' ||
-      returnUrl === '/supporting-evidence/medical-records')
-  );
-};
-
 export const isNewConditionsOn = formData =>
   !!formData?.disabilityCompNewConditionsWorkflow;
 
@@ -1042,8 +993,6 @@ export const onFormLoaded = props => {
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
   const shouldRevertWhenFlipperOff = redirectWhenFlipperOff(props);
   const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
-  const shouldRedirectLegacyToEnhancement = redirectLegacyToEnhancement(props);
-  const shouldRedirectEnhancementToLegacy = redirectEnhancementToLegacy(props);
   const redirectUrl = legacy4142AuthURL;
 
   if (shouldRedirectToModern4142Choice === true) {
@@ -1065,24 +1014,8 @@ export const onFormLoaded = props => {
     shouldRevertWhenNoEvidence === true
   ) {
     router.push('/supporting-evidence/evidence-types');
-  } else if (shouldRedirectLegacyToEnhancement === true) {
-    // Handle evidence enhancement flow transition: legacy → enhancement
-    router.push('/supporting-evidence/evidence-request');
-  } else if (shouldRedirectEnhancementToLegacy === true) {
-    // Handle evidence enhancement flow transition: enhancement → legacy
-    router.push('/supporting-evidence/evidence-types');
   } else {
     // otherwise, we just redirect to the returnUrl as usual when resuming a form
     router.push(returnUrl);
   }
-};
-
-/**
- * Checks if
- * Veteran has additional evidence to upload within the 0781 flow
- * @param {object} formData
- * @returns {boolean} true if hasEvidenceChoice is present, false otherwise
- */
-export const hasEvidenceChoice = formData => {
-  return formData?.['view:hasEvidenceChoice'] === true;
 };

@@ -11,6 +11,7 @@ export const PROFILE_TOGGLES = {
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
   profileHealthCareSettingsPage: false,
+  profileSchedulingPreferences: false,
   profileHideHealthCareContacts: false,
 };
 

@@ -7,9 +7,9 @@ import {
 const updatedAddressSchema = addressSchema({
   omit: ['street3'],
   extend: {
-    street: { maxLength: 74 },
+    street: { maxLength: 30 },
     street2: { maxLength: 13 },
-    city: { maxLength: 22 },
+    city: { maxLength: 18 },
   },
 });
 

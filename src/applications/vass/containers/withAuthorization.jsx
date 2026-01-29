@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import {
+  selectToken,
   selectUuid,
   selectHydrated,
   hydrateFormData,
   clearFormData,
   loadFormDataFromStorage,
 } from '../redux/slices/formSlice';
+import { getFirstTokenRoute } from '../utils/navigation';
 import { AUTH_LEVELS, URLS } from '../utils/constants';
-import { getVassToken, isTokenExpired, removeVassToken } from '../utils/auth';
 
 /**
  * HOC that handles route authorization based on auth level.
@@ -22,19 +23,18 @@ const withAuthorization = (Component, authLevel = AUTH_LEVELS.TOKEN) => {
   return props => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const token = getVassToken();
-    const tokenExpired = token ? isTokenExpired(token) : false;
-    const hasValidToken = token && !tokenExpired;
+    const token = useSelector(selectToken);
     const uuid = useSelector(selectUuid);
     const hydrated = useSelector(selectHydrated);
     const [isHydrating, setIsHydrating] = useState(!hydrated);
 
+    const isLowAuthOnly = authLevel === AUTH_LEVELS.LOW_AUTH_ONLY;
     const requiresToken = authLevel === AUTH_LEVELS.TOKEN;
 
     // Attempt to hydrate from sessionStorage on mount
     useEffect(
       () => {
-        if (!hydrated) {
+        if (!hydrated && !token) {
           const savedData = loadFormDataFromStorage();
           if (savedData) {
             dispatch(hydrateFormData(savedData));
@@ -44,21 +44,29 @@ const withAuthorization = (Component, authLevel = AUTH_LEVELS.TOKEN) => {
           setIsHydrating(false);
         }
       },
-      [hydrated, hasValidToken, dispatch],
+      [hydrated, token, dispatch],
     );
 
-    // Handle token routes - redirect unauthenticated or expired token users to Verify page
+    // Handle lowAuthOnly routes - redirect authenticated users to first token route
+    useEffect(
+      () => {
+        if (isHydrating) return;
+
+        if (isLowAuthOnly && token) {
+          const firstTokenRoute = getFirstTokenRoute();
+          navigate(firstTokenRoute, { replace: true });
+        }
+      },
+      [token, navigate, isHydrating, isLowAuthOnly],
+    );
+
+    // Handle token routes - redirect unauthenticated users to Verify page
     useEffect(
       () => {
         // Wait for hydration to complete before redirecting
         if (isHydrating) return;
 
-        if (requiresToken && !hasValidToken) {
-          // Remove expired token cookie if it exists
-          if (token && tokenExpired) {
-            removeVassToken();
-          }
-
+        if (requiresToken && !token) {
           // Clear form data when redirecting to Verify page
           dispatch(clearFormData());
 
@@ -72,20 +80,16 @@ const withAuthorization = (Component, authLevel = AUTH_LEVELS.TOKEN) => {
           }
         }
       },
-      [
-        token,
-        tokenExpired,
-        hasValidToken,
-        navigate,
-        uuid,
-        isHydrating,
-        dispatch,
-        requiresToken,
-      ],
+      [token, navigate, uuid, isHydrating, dispatch, requiresToken],
     );
 
-    // For token routes: don't render until hydration is complete and we have a valid token
-    if (requiresToken && (isHydrating || !hasValidToken)) {
+    // For lowAuthOnly routes: don't render if user has token (they shouldn't be here)
+    if (isLowAuthOnly && token) {
+      return null;
+    }
+
+    // For token routes: don't render until hydration is complete and we have a token
+    if (requiresToken && (isHydrating || !token)) {
       return null;
     }
 

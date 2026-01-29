@@ -10,7 +10,8 @@ import {
 
 const defaultState = {
   featureToggles: {
-    vaOnlineSchedulingUseVpg: true,
+    vaOnlineSchedulingOhDirectSchedule: true,
+    vaOnlineSchedulingOhRequest: true,
   },
 };
 
@@ -59,7 +60,7 @@ describe('ScheduleWithDifferentProvider', () => {
     );
 
     // Info section below h1 now has all the text about contacting the facility when over request limit
-    // Options to request not available since not eligible due to over limit
+    // Options to request not avaialable since not eligible due to over limit
     expect(screen.queryByText(/Option 2: Call the facility/i)).to.not.exist;
     expect(
       screen.queryByText(
@@ -67,54 +68,6 @@ describe('ScheduleWithDifferentProvider', () => {
       ),
     ).to.not.exist;
     expect(screen.queryByText(/Request an appointment/i)).to.not.exist;
-  });
-
-  it('should only display call option under provider list when requestEligibilityError is true', () => {
-    const store = createTestStore(defaultState);
-    const selectedFacility = {
-      id: '692',
-      name: 'White City VA Medical Center',
-      telecom: [
-        {
-          system: 'phone',
-          value: '541-123-4567',
-        },
-      ],
-    };
-
-    const screen = renderWithStoreAndRouter(
-      <ScheduleWithDifferentProvider
-        isEligibleForRequest
-        selectedFacility={selectedFacility}
-        requestEligibilityError
-      />,
-      { store },
-    );
-
-    // Should display the title
-    expect(
-      screen.getByText('If you want to schedule with a different provider'),
-    ).to.exist;
-
-    // Should display call to schedule text with facility phone
-    expect(
-      screen.getByText(
-        /Call the facility and ask to schedule with that provider:/i,
-      ),
-    ).to.exist;
-
-    const phoneEl = screen.getByTestId('facility-telephone');
-    expect(phoneEl).to.exist;
-    expect(phoneEl.getAttribute('contact')).to.equal('541-123-4567');
-
-    // Should NOT display the online request options
-    expect(screen.queryByText(/Option 2: Call the facility/i)).to.not.exist;
-    expect(
-      screen.queryByText(
-        /Option 1: Request your preferred date and time online/i,
-      ),
-    ).to.not.exist;
-    expect(screen.queryByTestId('request-appointment-link')).to.not.exist;
   });
 
   // currently using both facility configurations and eligibility endpoints as source of truth for request eligibility

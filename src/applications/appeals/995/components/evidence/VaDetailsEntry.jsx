@@ -6,8 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EVIDENCE_VA_DETAILS_URL } from '../../constants';
 import { content } from '../../content/evidence/vaDetails';
-import { getIndex, hasErrors } from '../../utils/evidence';
-import { getVAEvidence } from '../../utils/form-data-retrieval';
+import { getIndex, getVAEvidence, hasErrors } from '../../utils/evidence';
 import {
   validateVaLocation,
   validateVaIssues,

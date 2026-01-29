@@ -29,7 +29,7 @@ export const employerInformationUiSchema = {
   },
 };
 
-const baseAddressSchema = addressNoMilitarySchema({ omit: ['street3'] });
+const baseAddressSchema = addressNoMilitarySchema();
 
 const customAddressSchema = {
   ...baseAddressSchema,

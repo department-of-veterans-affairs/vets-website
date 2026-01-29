@@ -43,6 +43,14 @@
           "awardIndicator": "Y"
         },
         {
+          "firstName": "MIKE",
+          "lastName": "FOSTER",
+          "dateOfBirth": "08/08/2006",
+          "ssn": "3499",
+          "relationshipToVeteran": "Child",
+          "awardIndicator": "Y"
+        },
+        {
           "firstName": "STACY",
           "lastName": "FOSTER",
           "dateOfBirth": "06/10/2025",

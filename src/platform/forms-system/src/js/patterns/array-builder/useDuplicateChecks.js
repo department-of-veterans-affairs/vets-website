@@ -4,14 +4,13 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 import { formatPath } from './ArrayBuilderCancelButton';
-import * as helpers from './helpers';
-
-const {
+import {
   checkForDuplicatesInItemPages,
   getItemDuplicateDismissedName,
+  getArrayUrlSearchParams,
   META_DATA_KEY,
   defaultDuplicateResult,
-} = helpers;
+} from './helpers';
 
 /**
  * Handles duplicate checks in array builder forms.
@@ -52,7 +51,7 @@ export function useDuplicateChecks({
   customPageProps: props,
 }) {
   // Derive edit/add mode from URL params
-  const searchParams = helpers.getArrayUrlSearchParams();
+  const searchParams = getArrayUrlSearchParams();
   const isEdit = !!searchParams.get('edit');
   const isAdd = !!searchParams.get('add');
   const isReview = searchParams?.has('review');

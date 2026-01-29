@@ -72,7 +72,10 @@ RUN apt-get install -y --no-install-recommends \
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
 
-# AWS CLI is installed via devcontainer feature (see devcontainer.json)
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+RUN aws --version # Verify AWS CLI installation.
 
 # Explicitly set CA cert to resolve SSL issues with AWS.
 ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt

@@ -6,14 +6,13 @@ import {
   textSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { validateWhiteSpace } from 'platform/forms/validations';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Institution details'),
     institutionProfile: {
-      participatesInTitleIv: yesNoUI({
+      participatesInTitleIV: yesNoUI({
         yesNoReverse: true,
         title:
           'Does the facility participate in a program under Title IV with the U.S. Department of Education?',
@@ -29,20 +28,12 @@ export default {
             required: 'You must enter your institution’s OPEID number below',
           },
           required: formData =>
-            formData.institutionProfile?.participatesInTitleIv === true,
+            formData.institutionProfile?.participatesInTitleIV === true,
         }),
         'ui:options': {
-          expandUnder: 'participatesInTitleIv',
+          expandUnder: 'participatesInTitleIV',
           expandUnderCondition: true,
         },
-        'ui:validations': [
-          validateWhiteSpace,
-          (errors, fieldData, _formData) => {
-            if (fieldData && !/^[\w\s]*$/.test(fieldData)) {
-              errors.addError('No special characters allowed');
-            }
-          },
-        ],
       },
     },
   },
@@ -52,13 +43,13 @@ export default {
       institutionProfile: {
         type: 'object',
         properties: {
-          participatesInTitleIv: yesNoSchema,
+          participatesInTitleIV: yesNoSchema,
           opeidNumber: {
             ...textSchema,
             maxLength: 500,
           },
         },
-        required: ['participatesInTitleIv'],
+        required: ['participatesInTitleIV'],
       },
     },
   },

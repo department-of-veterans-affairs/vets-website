@@ -387,8 +387,6 @@ yourDocument: fileInputUI({
   errorMessages: {
     additionalInput: 'Choose a document status',
   },
-  createPayload: () => {}, // custom function to generate payload when uploading file
-  parseResponse: () => {}, // custom function to handle response after uploading file
   additionalInputRequired: true,
   additionalInput: (error, data) => {
     const { documentStatus } = data;

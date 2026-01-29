@@ -17,15 +17,15 @@ describe('Service period page', () => {
     const formDOM = getFormDOM(form);
     expect(form.getByRole('heading')).to.have.text('Service period');
 
-    const vaSelect = $$('va-select', formDOM);
-    expect(vaSelect.length).to.equal(1);
+    const vaComboBox = $$('va-combo-box', formDOM);
+    expect(vaComboBox.length).to.equal(1);
     const vaMemorableDates = $$('va-memorable-date', formDOM);
     expect(vaMemorableDates.length).to.equal(2);
     const textInputs = $$('va-text-input[type="text"]', formDOM);
     expect(textInputs.length).to.equal(1);
 
     const vaBranchOfService = $(
-      'va-select[label="Branch of service"]',
+      'va-combo-box[label="Branch of service"]',
       formDOM,
     );
     expect(vaBranchOfService.getAttribute('required')).to.equal('true');

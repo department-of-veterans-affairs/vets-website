@@ -120,10 +120,10 @@ const ensureExists = (content, selector = null) => {
 };
 
 const clickTab = text => {
-  cy.get('li.inbox-tab', { includeShadowDom: true })
+  cy.get('.react-tabs__tab-list li', { includeShadowDom: true })
     .contains(text)
     .should('exist');
-  cy.get('li.inbox-tab', { includeShadowDom: true })
+  cy.get('.react-tabs__tab-list li', { includeShadowDom: true })
     .contains(text)
     .click({ force: true });
 };

@@ -49,17 +49,11 @@ const formConfig = {
     // },
   },
   version: 0,
-  migrations: [],
   prefillEnabled: true,
   prefillTransformer,
   dev: {
     disableWindowUnloadInCI: true,
   },
-  downtime: {
-    requiredForPrefill: false,
-    dependencies: [],
-  },
-
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
       {

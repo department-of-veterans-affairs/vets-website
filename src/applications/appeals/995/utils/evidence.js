@@ -4,8 +4,19 @@ import {
   FORMAT_YMD_DATE_FNS,
 } from '../../shared/constants';
 import { parseDate } from '../../shared/utils/dates';
-import { getPrivateEvidence, getVAEvidence } from './form-data-retrieval';
+import {
+  hasOtherEvidence,
+  hasPrivateEvidence,
+  hasVAEvidence,
+} from './form-data-retrieval';
 import numberToWords from './number-to-words';
+
+export const getVAEvidence = formData =>
+  (hasVAEvidence(formData) && formData?.locations) || [];
+export const getPrivateEvidence = formData =>
+  (hasPrivateEvidence(formData) && formData?.providerFacility) || [];
+export const getOtherEvidence = formData =>
+  (hasOtherEvidence(formData) && formData?.additionalDocuments) || [];
 
 export const hasErrors = errors =>
   Object.values(errors).filter(err => (Array.isArray(err) ? err.length : err))

@@ -25,6 +25,8 @@ const ERROR_MSG_DEFAULT = content['validation-facilities--default-required'];
 describe('CG <FacilitySearch>', () => {
   const lat = 1;
   const long = 2;
+  const perPage = 5;
+  const radius = 500;
   const query = 'Tampa';
   const mapBoxSuccessResponse = { center: [long, lat] };
   let mockLogger;
@@ -97,6 +99,8 @@ describe('CG <FacilitySearch>', () => {
       sinon.assert.calledWithExactly(facilitiesStub, {
         lat,
         long,
+        perPage,
+        radius,
         page: 1,
       });
     });
@@ -118,6 +122,7 @@ describe('CG <FacilitySearch>', () => {
             currentPage: 1,
             totalPages: 3,
             totalEntries,
+            perPage,
           },
         },
       });
@@ -318,6 +323,8 @@ describe('CG <FacilitySearch>', () => {
       sinon.assert.calledWithExactly(facilitiesStub, {
         lat,
         long,
+        perPage,
+        radius,
         page: 2,
       });
 
@@ -363,6 +370,8 @@ describe('CG <FacilitySearch>', () => {
       sinon.assert.calledWithExactly(facilitiesStub, {
         lat,
         long,
+        perPage,
+        radius,
         page: 2,
       });
 

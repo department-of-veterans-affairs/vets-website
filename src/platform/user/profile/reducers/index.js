@@ -52,8 +52,6 @@ const initialState = {
   mhvTransitionEligible: false,
   userAtPretransitionedOhFacility: false,
   userFacilityReadyForInfoAlert: false,
-  userFacilityMigratingToOh: false,
-  migrationSchedules: [],
   errors: false,
 };
 

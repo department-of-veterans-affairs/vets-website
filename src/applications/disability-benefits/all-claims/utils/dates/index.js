@@ -58,7 +58,6 @@ export {
   validateSeparationDateWithRules,
   validateTitle10ActivationDate,
   validateApproximateDate,
-  validateApproximateMonthYearDate,
 } from './validations';
 
 // Product-specific exports for one-off functionality

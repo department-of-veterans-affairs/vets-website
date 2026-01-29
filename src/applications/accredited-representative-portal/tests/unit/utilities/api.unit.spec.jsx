@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import localStorage from 'platform/utilities/storage/localStorage';
 import * as sessionApi from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { SORT_DEFAULTS } from '../../../utilities/constants';
+import { SORT_DEFAULTS } from '../../../utilities/submissions';
 import api from '../../../utilities/api';
 import manifest from '../../../manifest.json';
 
@@ -76,8 +76,8 @@ describe('API utilities', () => {
 
       await api.getPOARequests({
         status: 'pending',
-        sort: 'created_at',
-        sortBy: 'desc',
+        sort: 'created_at_desc',
+        sortBy: 'createdAt',
         size: 10,
         number: 2,
       });
@@ -86,6 +86,7 @@ describe('API utilities', () => {
       expect(url).to.include('/power_of_attorney_requests?status=pending');
       expect(url).to.include('&page[size]=10');
       expect(url).to.include('&page[number]=2');
+      expect(url).to.include('&sort[by]=createdAt&sort[order]=created_at_desc');
     });
 
     it('handles getPOARequests with empty query params', async () => {

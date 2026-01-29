@@ -4,8 +4,6 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { validateWhiteSpace } from 'platform/forms/validations';
-
 export default {
   uiSchema: {
     ...titleUI('Application information'),
@@ -16,7 +14,6 @@ export default {
         hint:
           'This may include issues such as change of address, banking information, etc.',
         charcount: true,
-        validations: [validateWhiteSpace],
       }),
     },
   },

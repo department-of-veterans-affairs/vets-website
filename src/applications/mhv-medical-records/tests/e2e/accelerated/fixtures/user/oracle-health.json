@@ -93,12 +93,8 @@
         "vaPatient": true,
         "mhvAccountState": "OK",
         "activeMHVIds": [],
-        "ohMigrationInfo": {
-          "userAtPretransitionedOhFacility": true,
-          "userFacilityReadyForInfoAlert": true,
-          "userFacilityMigratingToOh": false,
-          "migrationSchedules": []
-        }
+        "userAtPretransitionedOhFacility": true,
+        "userFacilityReadyForInfoAlert": true
       },
       "veteranStatus": {
         "status": "OK",

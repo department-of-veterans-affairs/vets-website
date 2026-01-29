@@ -37,11 +37,10 @@ export default function TypeOfCareAlert() {
                 'alert-box-click-label': 'Find a VA location',
               })
             }
-            renderAriaLabel={false}
           >
             {featureImmediateCareAlert
-              ? 'Find your local VA health care facility (opens in a new tab)'
-              : 'Find a VA location (opens in a new tab)'}
+              ? 'Find your local VA health care facility'
+              : 'Find a VA location'}
           </NewTabAnchor>
         </p>
       </InfoAlert>

@@ -102,6 +102,12 @@ $text-color: rgba(27, 27, 27, 1);
       border-top: none;
     }
 
+    @media screen and (min-width: $small-screen) {
+      &.active {
+        border: $focus-outline;
+      }
+    }
+
     a {
       color: var(--vads-color-link);
 

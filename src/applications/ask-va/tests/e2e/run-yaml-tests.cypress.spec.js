@@ -17,9 +17,7 @@ import intercept3rdPartyResponses from './fixtures/api-mocks-for-3rd-party';
 import STEPS from './actions';
 
 import formsTestsToRun from './fixtures/flows/forms/tests-to-run.json';
-import InboxTestsToRun from './fixtures/flows/inbox/tests-to-run.json';
-
-const baseUrl = Cypress.config('baseUrl');
+import dashBoardTestsToRun from './fixtures/flows/dashboard/tests-to-run.json';
 
 const EMPTY_FLOW_YML = `
 flow:
@@ -146,10 +144,10 @@ describe('YAML tests', () => {
           if (flow.runOnCI === true) {
             if (['13m.yml'].includes(file)) {
               cy.visit(
-                `${baseUrl}/contact-us/ask-va/user/dashboard/A-20250409-2205184`,
+                'http://localhost:3001/contact-us/ask-va/user/dashboard/A-20250409-2205184',
               );
             } else {
-              cy.visit(`${baseUrl}/contact-us/ask-va/`);
+              cy.visit('http://localhost:3001/contact-us/ask-va/');
             }
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
@@ -189,13 +187,21 @@ describe('YAML tests', () => {
             if (['4k.yml'].includes(file)) {
               cy.intercept(
                 'GET',
-                '/ask_va_api/v0/inquiries',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
                 mockMultipleInquiries,
               );
             } else if (['14g.yml', '18g.yml'].includes(file)) {
-              cy.intercept('GET', '/ask_va_api/v0/inquiries', mockOneInquiry);
+              cy.intercept(
+                'GET',
+                'http://localhost:3000/ask_va_api/v0/inquiries',
+                mockOneInquiry,
+              );
             } else {
-              cy.intercept('GET', `/ask_va_api/v0/inquiries`, mockNoInquiries);
+              cy.intercept(
+                'GET',
+                `http://localhost:3000/ask_va_api/v0/inquiries`,
+                mockNoInquiries,
+              );
             }
             cy.login(mockUserDefault);
           }
@@ -225,7 +231,7 @@ describe('YAML tests', () => {
           }
         }
       };
-      runTestsForFilesInPath('inbox', InboxTestsToRun);
+      runTestsForFilesInPath('dashboard', dashBoardTestsToRun);
       runTestsForFilesInPath('forms', formsTestsToRun);
     });
   });

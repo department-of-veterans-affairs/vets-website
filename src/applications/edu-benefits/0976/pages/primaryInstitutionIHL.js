@@ -6,14 +6,13 @@ import {
   textSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { validateWhiteSpace } from 'platform/forms/validations';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Institution details'),
     institutionProfile: {
-      isIhl: yesNoUI({
+      isIHL: yesNoUI({
         title:
           'Does your country’s governing authority, with oversight over educational institutions and programs, officially classify the facility as a institution of higher learning?',
       }),
@@ -23,14 +22,13 @@ export default {
           errorMessages: {
             required: 'You must enter a degree type',
           },
-          required: formData => formData.institutionProfile?.isIhl === false,
+          required: formData => formData.institutionProfile?.isIHL === false,
         }),
         'ui:options': {
-          expandUnder: 'isIhl',
+          expandUnder: 'isIHL',
           expandUnderCondition: false,
         },
         'ui:validations': [
-          validateWhiteSpace,
           (errors, fieldData, _formData) => {
             if (fieldData && !/^[\w\s]*$/.test(fieldData)) {
               errors.addError('No special characters allowed');
@@ -46,13 +44,13 @@ export default {
       institutionProfile: {
         type: 'object',
         properties: {
-          isIhl: yesNoSchema,
+          isIHL: yesNoSchema,
           ihlDegreeTypes: {
             ...textSchema,
             maxLength: 500,
           },
         },
-        required: ['isIhl'],
+        required: ['isIHL'],
       },
     },
   },

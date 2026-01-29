@@ -60,17 +60,13 @@ const MicroDetails = props => {
       ...generateMicrobioContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    try {
-      await makePdf(
-        pdfName,
-        pdfData,
-        'medicalRecords',
-        'Medical Records - Microbiology details - PDF generation error',
-        runningUnitTest,
-      );
-    } catch {
-      // makePdf handles error logging to Datadog/Sentry
-    }
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Microbiology details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateMicroTxt = async () => {

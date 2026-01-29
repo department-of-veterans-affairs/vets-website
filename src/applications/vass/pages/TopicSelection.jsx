@@ -15,7 +15,7 @@ import { useErrorFocus } from '../hooks/useErrorFocus';
 import { URLS } from '../utils/constants';
 
 const TopicSelection = () => {
-  const [{ error, handleSetError }] = useErrorFocus(['va-checkbox-group']);
+  const { error, handleSetError } = useErrorFocus('va-checkbox-group');
   const dispatch = useDispatch();
   const selectedTopics = useSelector(selectSelectedTopics);
   const navigate = useNavigate();

@@ -33,6 +33,7 @@ const ReviewAndConfirm = props => {
   const selectedSlot = useSelector(state => getSelectedSlotStartTime(state));
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
+  const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const [skipDraft, setSkipDraft] = useState(false);
   const [createFailed, setCreateFailed] = useState(false);
@@ -53,10 +54,9 @@ const ReviewAndConfirm = props => {
     },
     { skip: skipDraft },
   );
-  // Use savedSelectedSlot as fallback to handle sessionStorage restoration timing
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
-    selectedSlot || savedSelectedSlot,
+    selectedSlot,
   );
   const [
     postReferralAppointment,
@@ -85,6 +85,7 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (!isDraftLoading && !isDraftUninitialized) {
+        setLoading(false);
         setSkipDraft(true);
       }
       if (isDraftError) {
@@ -152,11 +153,7 @@ const ReviewAndConfirm = props => {
           currentReferral.uuid,
           draftAppointmentInfo.id,
         );
-        // CI-FIX: Removed draftAppointmentInfo?.id check from error condition.
-        // When isAppointmentError is true (submit failed), draftAppointmentInfo.id
-        // is guaranteed to exist because the user can only click "Continue" after
-        // the draft appointment loads. The extra check was defensive but unnecessary.
-      } else if (isAppointmentError) {
+      } else if (isAppointmentError && draftAppointmentInfo?.id) {
         setCreateLoading(false);
         setCreateFailed(true);
       }
@@ -176,15 +173,13 @@ const ReviewAndConfirm = props => {
     ],
   );
 
-  // Check for error state before showing loading indicator to prevent race condition
-  // where isDraftError becomes true while isDraftLoading is still true
-  if (isDraftLoading && !isDraftError) {
+  if (isDraftLoading) {
     return (
       <ReferralLayout
         hasEyebrow
         heading="Review your appointment details"
         loadingMessage="Loading your appointment details"
-        apiFailure={false}
+        apiFailure={failed}
       />
     );
   }
@@ -194,12 +189,8 @@ const ReviewAndConfirm = props => {
     <ReferralLayout
       hasEyebrow
       heading="Review your appointment details"
-      apiFailure={failed || isDraftError}
-      loadingMessage={
-        isDraftLoading && !isDraftError
-          ? 'Loading your appointment details'
-          : null
-      }
+      apiFailure={failed}
+      loadingMessage={loading ? 'Loading your appointment details' : null}
     >
       <div>
         <hr className="vads-u-margin-y--2" />
@@ -318,10 +309,7 @@ const ReviewAndConfirm = props => {
             </div>
           </>
         )}
-        {/* CI-FIX: Also check isAppointmentError directly to handle race condition where
-            RTK Query sets isAppointmentError=true before useEffect updates createFailed state.
-            This ensures error alert shows immediately when the mutation fails. */}
-        {(createFailed || isAppointmentError) &&
+        {createFailed &&
           !createLoading && (
             <va-alert
               status="error"

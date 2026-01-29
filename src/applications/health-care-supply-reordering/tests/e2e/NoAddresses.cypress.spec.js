@@ -100,7 +100,6 @@ describe(`${appName} -- Veteran w/o address`, () => {
     cy.findByText(/^Save permanent address$/).click();
 
     // Temp address
-    cy.findByText(/^Add a temporary address$/).click();
     cy.get('select#options[name="root_temporaryAddress_country"]').select(
       'USA',
     );

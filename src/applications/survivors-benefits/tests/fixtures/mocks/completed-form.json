@@ -11,6 +11,7 @@
   "claimantLivesInANursingHome": false,
   "view:vaMedicalCentersMissingInformation": {},
   "view:isAddingDicBenefits": false,
+  "dicType": "DIC",
   "recognizedAsSpouse": true,
   "hadPreviousMarriages": true,
   "remarriedAfterVeteralDeath": true,
@@ -113,17 +114,10 @@
   "totalNetWorth": false,
   "incomeEntries": [
     {
-      "recipient": "CHILD",
+      "recipient": "SURVIVING_SPOUSE",
       "recipientName": "Child name",
       "incomeType": "OTHER",
       "incomeTypeOther": "something",
-      "incomePayer": "USA",
-      "monthlyIncome": 121123
-    },
-    {
-      "recipient": "SURVIVING_SPOUSE",
-      "recipientName": "Child name",
-      "incomeType": "INTEREST_DIVIDENDS",
       "incomePayer": "USA",
       "monthlyIncome": 111111
     }

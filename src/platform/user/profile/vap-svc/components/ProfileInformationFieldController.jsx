@@ -255,7 +255,6 @@ class ProfileInformationFieldController extends React.Component {
         analyticsSectionName,
         value: payload,
       });
-      this.closeModal();
       return;
     }
     if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
@@ -277,7 +276,6 @@ class ProfileInformationFieldController extends React.Component {
         analyticsSectionName,
       );
     }
-    this.closeModal();
   };
 
   confirmDeleteAction = e => {

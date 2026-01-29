@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import vapService from '~/platform/user/profile/vap-svc/reducers';
 import { waitFor } from '@testing-library/dom';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { Edit } from '../../../components/edit/Edit';
 
 describe('<Edit>', () => {
@@ -42,10 +41,8 @@ describe('<Edit>', () => {
       path: '/profile/edit?fieldName=mobilePhone&returnPath=fakeReturnPath',
     });
 
-    // breadcrumb should fall back to profile root (va-link uses shadow DOM)
-    const backLink = $('va-link', view.container);
-    expect(backLink).to.exist;
-    expect(backLink.getAttribute('text')).to.match(/Back to profile/i);
+    // breadcrumb should fall back to profile root
+    expect(await view.findByText(/Back to profile/i)).to.exist;
 
     // since the fieldName is valid, we should still render the correct form
     expect(await view.findByText('Add your mobile phone number')).to.exist;
@@ -81,15 +78,15 @@ describe('<Edit>', () => {
   });
 
   it('renders path name in breadcrumb', () => {
-    const { getByRole, findByText } = renderWithStoreAndRouter(<Edit />, {
+    const { getByRole } = renderWithStoreAndRouter(<Edit />, {
       initialState: {},
       reducers: { vapService },
       path:
         '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
     });
 
-    expect(getByRole('navigation')).to.exist;
-    expect(findByText(/Back to personal information/i)).to.exist;
+    expect(getByRole('link', { name: 'Back to Personal information' })).to
+      .exist;
   });
 
   it('renders path name in body', () => {

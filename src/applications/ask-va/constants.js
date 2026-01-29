@@ -25,8 +25,7 @@ export const baseURL = '/ask_va_api/v0';
 // export const mockTestingFlagforAPI =
 //   (isToggleEnabled || isLocalhost) && !isProduction;
 
-export const mockTestingFlagforAPI =
-  envUrl === 'http://localhost:3000' || envUrl === 'http://127.0.0.1:3000'; // enable this flag when testing locally for API calls
+export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
 
 // Overridable for testing
 export const getMockTestingFlagforAPI = () => mockTestingFlagforAPI;
@@ -51,6 +50,7 @@ export const URL = {
   GET_INQUIRIES: `${baseURL}/inquiries`,
   INQUIRIES: `${baseURL}/inquiries`,
   AUTH_INQUIRIES: `${baseURL}/inquiries/auth`,
+  DASHBOARD_ID: `/user/dashboard/`,
   DOWNLOAD_ATTACHMENT: `${baseURL}/download_attachment?id=`,
 };
 

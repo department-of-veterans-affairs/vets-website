@@ -47,7 +47,6 @@ export const SearchResult = ({
       </div>
       <h3
         aria-describedby={article.entityUrl.path}
-        aria-label={article.title.trim()}
         className="vads-u-margin-top--0 vads-u-font-size--md"
       >
         <va-link
@@ -65,9 +64,9 @@ export const SearchResult = ({
 };
 
 SearchResult.propTypes = {
-  position: PropTypes.number.isRequired,
   article: Article,
   page: PropTypes.number,
+  position: PropTypes.number.isRequired,
   query: PropTypes.string,
   totalResults: PropTypes.number,
 };

@@ -121,7 +121,6 @@ export const IntroductionPage = props => {
       ) : (
         <SaveInProgressIntro
           headingLevel={2}
-          hideUnauthedStartLink
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}

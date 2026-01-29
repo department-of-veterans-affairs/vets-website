@@ -5,10 +5,10 @@
  */
 
 import {
+  firstNameLastNameNoSuffixUI,
+  firstNameLastNameNoSuffixSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
-  fullNameNoSuffixUI,
-  fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
@@ -20,19 +20,7 @@ import {
 const formatVeteranNameTitle = title => {
   if (title === 'first or given name') return "Veteran's first or given name";
   if (title === 'last or family name') return "Veteran's last or family name";
-  if (title === 'middle name') return "Veteran's middle initial";
   return title; // Keep defaults for middle name and suffix
-};
-
-const customVeteranNameSchema = {
-  ...fullNameNoSuffixSchema,
-  properties: {
-    ...fullNameNoSuffixSchema.properties,
-    middle: {
-      type: 'string',
-      maxLength: 1,
-    },
-  },
 };
 
 /**
@@ -42,7 +30,7 @@ const customVeteranNameSchema = {
 export const veteranInformationUiSchema = {
   'ui:title': 'Who is the Veteran you are providing information for?',
   veteranInformation: {
-    veteranFullName: fullNameNoSuffixUI(formatVeteranNameTitle),
+    veteranFullName: firstNameLastNameNoSuffixUI(formatVeteranNameTitle),
     dateOfBirth: dateOfBirthUI({
       title: "Veteran's date of birth",
       errorMessages: {
@@ -64,7 +52,7 @@ export const veteranInformationSchema = {
       type: 'object',
       required: ['veteranFullName', 'dateOfBirth'],
       properties: {
-        veteranFullName: customVeteranNameSchema,
+        veteranFullName: firstNameLastNameNoSuffixSchema,
         dateOfBirth: dateOfBirthSchema,
       },
     },

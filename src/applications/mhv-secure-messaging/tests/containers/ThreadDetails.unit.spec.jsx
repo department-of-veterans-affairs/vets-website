@@ -256,7 +256,7 @@ describe('Thread Details container', () => {
 
     expect(
       document.querySelector('va-alert-expandable').getAttribute('trigger'),
-    ).to.equal('How to get help sooner for urgent needs');
+    ).to.equal('Only use messages for non-urgent needs');
 
     expect(
       screen.getByText(

@@ -1,4 +1,3 @@
-import { PretransitionedFacilitiesByVhaId } from '~/platform/mhv/components/CernerFacilityAlert/constants';
 import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockSignature from '../fixtures/signature-response.json';
@@ -515,68 +514,59 @@ class PatientInboxPage {
     cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };
 
-  verifyCernerFacilityNames(user) {
+  verifyCernerFacilityNames(user, ehrData) {
     this.user = user;
+    this.ehrData = ehrData;
     let cernerIndex = 0;
-    let pretransitionedCernerCount = 0;
-
-    // Count only pretransitioned Cerner facilities
+    let cernerCount = 0;
     for (
       let i = 0;
       i < user.data.attributes.vaProfile.facilities.length;
       i += 1
     ) {
       const facility = user.data.attributes.vaProfile.facilities[i];
-      if (
-        facility.isCerner &&
-        PretransitionedFacilitiesByVhaId[facility.facilityId]
-      ) {
-        pretransitionedCernerCount += 1;
+      if (facility.isCerner) {
+        cernerCount += 1;
       }
     }
 
-    // If no pretransitioned facilities, alert should not be visible
-    if (pretransitionedCernerCount === 0) {
-      cy.get(Locators.ALERTS.CERNER_ALERT).should('not.exist');
-      return;
-    }
-
-    // Verify facility names using PretransitionedFacilitiesByVhaId constant
     for (
       let i = 0;
       i < user.data.attributes.vaProfile.facilities.length;
       i += 1
     ) {
       const facility = user.data.attributes.vaProfile.facilities[i];
+      let facilityName = '';
 
       if (facility.isCerner) {
-        const { facilityId } = facility;
-        const facilityData = PretransitionedFacilitiesByVhaId[facilityId];
-
-        // Only display facility names if they are Pretransitioned
-        if (facilityData) {
-          const facilityName = facilityData.vamcSystemName;
-          cy.log(`Facility ID: ${facilityId}, Name: ${facilityName}`);
-
-          if (pretransitionedCernerCount === 1) {
-            cy.get(Locators.ALERTS.CERNER_ALERT)
-              .shadow()
-              .get(Locators.CERNER_TEXT)
-              .contains(facilityName);
-            break;
-          } else if (pretransitionedCernerCount > 1) {
-            cy.get(Locators.ALERTS.CERNER_ALERT)
-              .shadow()
-              .get(Locators.CERNER)
-              .eq(cernerIndex)
-              .should('contain', `${facilityName}`);
+        const facilityId = `vha_${facility.facilityId}`;
+        cy.log(`id = ${facilityId}`);
+        for (let j = 0; j < ehrData.data.nodeQuery.entities.length; j += 1) {
+          if (
+            ehrData.data.nodeQuery.entities[j].fieldFacilityLocatorApiId ===
+            facilityId
+          ) {
+            facilityName =
+              ehrData.data.nodeQuery.entities[j].fieldRegionPage.entity.title;
           }
-          cernerIndex += 1;
-        } else {
-          cy.log(
-            `Facility ID ${facilityId} not found in PretransitionedFacilitiesByVhaId constant - alert should not show this facility`,
-          );
         }
+        cy.log(`name = ${facilityName}`);
+        if (cernerCount === 0) {
+          cy.get(Locators.ALERTS.CERNER_ALERT).should('not.be.visible');
+        } else if (cernerCount === 1) {
+          cy.get(Locators.ALERTS.CERNER_ALERT)
+            .shadow()
+            .get(Locators.CERNER_TEXT)
+            .contains(facilityName);
+          break;
+        } else if (cernerCount > 1) {
+          cy.get(Locators.ALERTS.CERNER_ALERT)
+            .shadow()
+            .get(Locators.CERNER)
+            .eq(cernerIndex)
+            .should('contain', `${facilityName}`);
+        }
+        cernerIndex += 1;
       }
     }
   }

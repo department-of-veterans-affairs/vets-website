@@ -3,9 +3,7 @@ import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 import ProfileHub from './components/hub/ProfileHub';
-import ContactMethodWrapper from './components/health-care-settings/sub-tasks/ContactMethodWrapper';
-import AppointmentTimesWrapper from './components/health-care-settings/sub-tasks/AppointmentTimesWrapper';
-import ContactTimesWrapper from './components/health-care-settings/sub-tasks/ContactTimesWrapper';
+import { ContactMethodContainer } from './components/health-care-settings/sub-tasks/contact-method/ContactMethodContainer';
 
 const getRoutes = (
   {
@@ -30,7 +28,6 @@ const getRoutes = (
       path: PROFILE_PATHS.EDIT,
       requiresLOA3: true,
       requiresMVI: true,
-      requiresSchedulingPreferencesPilot: false,
     },
     {
       component: profile2Enabled ? ProfileHub : Hub,
@@ -38,31 +35,27 @@ const getRoutes = (
       path: PROFILE_PATHS.PROFILE_ROOT,
       requiresLOA3: true,
       requiresMVI: true,
-      requiresSchedulingPreferencesPilot: false,
     },
     {
-      component: ContactMethodWrapper,
+      component: ContactMethodContainer,
       name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
       path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
       requiresLOA3: true,
       requiresMVI: true,
-      requiresSchedulingPreferencesPilot: true,
     },
     {
-      component: ContactTimesWrapper,
+      component: Edit,
       name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_TIME,
       path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_TIMES,
       requiresLOA3: true,
       requiresMVI: true,
-      requiresSchedulingPreferencesPilot: true,
     },
     {
-      component: AppointmentTimesWrapper,
+      component: Edit,
       name: PROFILE_PATH_NAMES.SCHEDULING_PREF_APPOINTMENT_TIME,
       path: PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
       requiresLOA3: true,
       requiresMVI: true,
-      requiresSchedulingPreferencesPilot: true,
     },
   ];
 };

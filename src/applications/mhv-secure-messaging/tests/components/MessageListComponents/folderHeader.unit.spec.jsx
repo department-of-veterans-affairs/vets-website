@@ -541,8 +541,6 @@ describe('Folder Header component', () => {
             facilities: [],
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: true,
-            userFacilityMigratingToOh: false,
-            migrationSchedules: [],
           },
         },
       };
@@ -579,8 +577,6 @@ describe('Folder Header component', () => {
             facilities: [],
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: true,
-            userFacilityMigratingToOh: false,
-            migrationSchedules: [],
           },
         },
       };
@@ -619,8 +615,6 @@ describe('Folder Header component', () => {
             ],
             userAtPretransitionedOhFacility: true,
             userFacilityReadyForInfoAlert: false,
-            userFacilityMigratingToOh: false,
-            migrationSchedules: [],
           },
         },
       };
@@ -653,8 +647,6 @@ describe('Folder Header component', () => {
             facilities: [],
             userAtPretransitionedOhFacility: false,
             userFacilityReadyForInfoAlert: false,
-            userFacilityMigratingToOh: false,
-            migrationSchedules: [],
           },
         },
       };

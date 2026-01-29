@@ -139,8 +139,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     MockDate.set(getTestDate());
   });
 
-  afterEach(async () => {
-    await cleanup();
+  afterEach(() => {
     MockDate.reset();
   });
 
@@ -486,7 +485,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(await screen.findByText(/Times are displayed in/i)).to.be.ok;
+    expect(screen.findByText('Your appointment time')).to.be.ok;
 
     // 2. Simulate user selecting a date
     let button = screen.queryByLabelText(
@@ -494,13 +493,13 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     );
 
     if (!button) {
-      await userEvent.click(screen.getByText(/^Next/));
+      userEvent.click(screen.getByText(/^Next/));
       button = await screen.findByLabelText(
         new RegExp(format(slot308Date, 'EEEE, MMMM do'), 'i'),
       );
     }
 
-    await userEvent.click(button);
+    userEvent.click(button);
 
     await screen.findAllByRole('radio');
 

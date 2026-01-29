@@ -3,10 +3,11 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import AddToCalendarButton from './AddToCalendarButton';
-import { createAppointmentData } from '../utils/appointments';
 
 describe('VASS Component: AddToCalendarButton', () => {
-  const mockAppointment = createAppointmentData();
+  const mockAppointment = {
+    dateTime: '2025-11-17T20:00:00Z',
+  };
 
   it('should render all content', () => {
     const { getByTestId } = render(

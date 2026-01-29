@@ -8,7 +8,7 @@ export default function SingleFacilityEligibilityCheckMessage({ facility }) {
     <div aria-atomic="true" aria-live="assertive">
       <InfoAlert
         status="warning"
-        headline="We found 1 VA location for you"
+        headline="We found one VA location for you"
         level="2"
       >
         <p>

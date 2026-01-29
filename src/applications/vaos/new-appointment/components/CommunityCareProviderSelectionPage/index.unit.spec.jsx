@@ -1,14 +1,15 @@
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import React from 'react';
-import { server } from 'platform/testing/unit/mocha-setup';
 
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setClosestCity,
+  setCommunityCareFlow,
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../tests/mocks/setup';
@@ -19,14 +20,13 @@ import MockSchedulingConfigurationResponse, {
   MockServiceConfiguration,
 } from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
-import { mockGetCurrentPosition } from '../../../tests/mocks/mockApis';
 import {
-  mockCCEligibilityApi,
   mockCCProviderApi,
   mockFacilitiesApi,
-  mockFacilityByIdApi,
+  mockGetCurrentPosition,
   mockSchedulingConfigurationsApi,
-} from '../../../tests/mocks/mockMswApis';
+  mockV2CommunityCareEligibility,
+} from '../../../tests/mocks/mockApis';
 import { calculateBoundingBox } from '../../../utils/address';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
 
@@ -51,72 +51,6 @@ const initialState = {
   },
 };
 
-const mockV2CommunityCareEligibility = ({
-  parentSites,
-  supportedSites,
-  careType,
-  eligible = true,
-}) => {
-  mockSchedulingConfigurationsApi({
-    facilityIds: parentSites,
-    isCCEnabled: true,
-    response: (supportedSites || parentSites).map(parent => ({
-      id: parent,
-      attributes: {
-        facilityId: parent,
-        communityCare: true,
-      },
-    })),
-  });
-  mockCCEligibilityApi({ serviceType: careType, eligible });
-};
-
-const setCommunityCareFlow = async ({ parentSites, supportedSites }) => {
-  const registeredSites = parentSites
-    .filter(data => data.id.length === 3)
-    .map(data => data.id);
-
-  const store = createTestStore({
-    featureToggles: {
-      vaOnlineSchedulingCommunityCare: true,
-    },
-    user: {
-      profile: {
-        facilities: registeredSites.map(id => ({
-          facilityId: id,
-          isCerner: false,
-        })),
-      },
-      vapContactInfo: {
-        residentialAddress: null,
-      },
-    },
-  });
-
-  mockFacilitiesApi({
-    ids: registeredSites,
-    response: parentSites.map(data => {
-      const facility = new MockFacilityResponse({
-        id: data.id,
-        isParent: true,
-      });
-      if (data.address) facility.setAddress(data.address);
-      return facility;
-    }),
-  });
-
-  mockV2CommunityCareEligibility({
-    parentSites: parentSites.map(data => data.id),
-    supportedSites: supportedSites || parentSites.map(data => data.id),
-    careType: 'PrimaryCare',
-  });
-
-  await setTypeOfCare(store, /primary care/i);
-  await setTypeOfFacility(store, 'Community care facility');
-
-  return store;
-};
-
 describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   const facility = new MockFacilityResponse({
     id: '983',
@@ -126,7 +60,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     .setLongitude(-83.1804804);
 
   beforeEach(() => {
-    server.resetHandlers();
+    mockFetch();
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GJ', '983GC'],
       supportedSites: ['983', '983GJ'],
@@ -147,7 +81,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ids: ['983'],
       response: [facility],
     });
-    mockFacilityByIdApi({ response: facility });
     mockSchedulingConfigurationsApi({
       isCCEnabled: true,
       response: [
@@ -163,11 +96,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ],
     });
   });
-
-  afterEach(async () => {
-    await cleanup();
-  });
-
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
@@ -705,12 +633,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
     await userEvent.click(chooseProviderButton8);
 
-    // Wait for providers request to complete
-    await waitFor(() => {
-      const { requestStatus } = store.getState().newAppointment;
-      expect(requestStatus).to.equal('succeeded');
-    });
-
     // Choose Provider based on current location
     const currentLocButton = await screen.findByText(/your current location$/i);
     await screen.findByText(/Displaying 5 of /i);
@@ -854,7 +776,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
     await userEvent.click(chooseProviderButton10);
     await waitFor(() =>
-      expect(screen.queryAllByRole('radio').length).to.equal(5),
+      expect(screen.getAllByRole('radio').length).to.equal(5),
     );
 
     const providersSelect = await screen.findByTestId('providersSelect');
@@ -900,24 +822,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       screen.getByText(/Retry searching based on current location/i),
     );
 
-    // Wait for current location to be populated in Redux (geolocation succeeded)
-    await waitFor(() => {
-      const { currentLocation } = store.getState().newAppointment;
-      expect(currentLocation?.latitude).to.exist;
-    });
-
-    // Wait for providers to be loaded for current location sort method
-    await waitFor(() => {
-      const { communityCareProviders } = store.getState().newAppointment;
-      const currentLocationKey = Object.keys(communityCareProviders).find(key =>
-        key.startsWith(FACILITY_SORT_METHODS.distanceFromCurrentLocation),
-      );
-      expect(currentLocationKey).to.exist;
-    });
-
-    // should eventually be one provider
+    // should eventually be one provder
     await waitFor(() =>
-      expect(screen.queryAllByRole('radio').length).to.equal(1),
+      expect(screen.getAllByRole('radio').length).to.equal(1),
     );
   });
 

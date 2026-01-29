@@ -35,7 +35,7 @@ describe('VASS Utils: navigation', () => {
       const enterOtcRoute = routes.find(r => r.path === URLS.ENTER_OTC);
       expect(enterOtcRoute).to.exist;
       expect(enterOtcRoute.permissions.requiresAuthorization).to.equal(
-        AUTH_LEVELS.NONE,
+        AUTH_LEVELS.LOW_AUTH_ONLY,
       );
       expect(enterOtcRoute.permissions.requireFormData).to.deep.equal([
         'uuid',

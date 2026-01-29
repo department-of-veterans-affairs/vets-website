@@ -164,20 +164,17 @@ const Vaccines = props => {
       ...generateVaccinesContent(vaccines),
     };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
-    try {
-      await makePdf(
-        pdfName,
-        pdfData,
-        'medicalRecords',
-        'Medical Records - Vaccines - PDF generation error',
-        runningUnitTest,
-      );
-    } catch {
-      // makePdf handles error logging to Datadog/Sentry
-    }
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vaccines - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVaccineListItemTxt = item => {
+    setDownloadStarted(true);
     const content = [
       `${txtLine}\n\n`,
       `${item.name}\n`,
@@ -202,7 +199,6 @@ const Vaccines = props => {
     return content.join('');
   };
   const generateVaccinesTxt = async () => {
-    setDownloadStarted(true);
     const content = [
       `${crisisLineHeader}\n\n`,
       `Vaccines\n`,
@@ -257,9 +253,7 @@ const Vaccines = props => {
           Go to your allergy records
         </Link>
       </div>
-      {downloadStarted && (
-        <DownloadSuccessAlert className="vads-u-margin-bottom--3" />
-      )}
+      {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VACCINE}

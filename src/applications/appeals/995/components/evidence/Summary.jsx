@@ -8,7 +8,7 @@ import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
-} from '../../utils/form-data-retrieval';
+} from '../../utils/evidence';
 import { content } from '../../content/evidence/summary';
 import { PrivateDetailsDisplay } from './PrivateDetailsDisplay';
 import { EvidenceUploadContent } from '../EvidenceUploadContent';

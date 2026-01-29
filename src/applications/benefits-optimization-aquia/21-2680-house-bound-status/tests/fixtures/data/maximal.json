@@ -45,14 +45,7 @@
       }
     },
     "claimantContact": {
-      "claimantPhoneNumber": {
-        "callingCode": 1,
-        "countryCode": "US",
-        "contact": "(505) 555-1977",
-        "IsValid": true,
-        "Error": null,
-        "Touched": true
-      },
+      "claimantPhoneNumber": "5055551977",
       "claimantEmail": "senator.amidala@galacticsenate.gov"
     },
     "benefitType": {

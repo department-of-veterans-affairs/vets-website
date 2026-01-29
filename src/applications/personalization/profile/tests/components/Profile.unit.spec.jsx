@@ -226,7 +226,6 @@ describe('mapStateToProps', () => {
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
-      'isSchedulingPreferencesPilotEligible',
       'togglesLoaded',
       'profileToggles',
     ];

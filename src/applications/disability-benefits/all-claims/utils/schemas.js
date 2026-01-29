@@ -29,6 +29,7 @@ import {
 
 import {
   capitalizeEachWord,
+  disabilityIsSelected,
   isClaimingIncrease,
   isNewConditionOption,
   isPlaceholderRated,
@@ -110,40 +111,45 @@ export const makeSchemaForRatedDisabilities = createSelector(
   (ratedDisabilities = [], newDisabilities = []) => {
     // rated disabilities from the current workflow (view:selected)
     const fromRatedDisabilities = ratedDisabilities
-      .filter(disability => disability?.['view:selected'])
-      .map(disability => disability.name)
-      .filter(name => typeof name === 'string' && name.trim().length > 0);
+      .filter(disabilityIsSelected)
+      .map(disability => disability.name);
 
+    // rated disabilities from the v2 workflow (stored in the newDisabilities array)
     const fromNewDisabilities = newDisabilities
       .map(d => {
+        const condition =
+          typeof d?.condition === 'string' ? d.condition.trim() : '';
         const ratedDisability =
           typeof d?.ratedDisability === 'string'
             ? d.ratedDisability.trim()
-            : null;
+            : '';
 
-        if (!ratedDisability) return null;
-        if (isNewConditionOption(ratedDisability)) return null;
-
-        return ratedDisability;
+        if (
+          condition &&
+          ratedDisability &&
+          isPlaceholderRated(condition) &&
+          !isNewConditionOption(ratedDisability)
+        ) {
+          return ratedDisability;
+        }
+        return '';
       })
-      .filter(Boolean);
+      .filter(s => s.length > 0);
 
-    const dedupedByNormalizedName = new Map();
+    // combine and deduplicate
+    const combined = [...fromRatedDisabilities, ...fromNewDisabilities];
+    const unique = [
+      ...new Set(
+        combined.map(
+          d =>
+            typeof d === 'string' ? d.toLowerCase() : NULL_CONDITION_STRING,
+        ),
+      ),
+    ];
 
-    [...fromRatedDisabilities, ...fromNewDisabilities].forEach(name => {
-      const normalizedKey = name.toLowerCase();
-
-      if (!dedupedByNormalizedName.has(normalizedKey)) {
-        dedupedByNormalizedName.set(normalizedKey, name);
-      }
-    });
-
-    const uniqueRatedDisabilities = [...dedupedByNormalizedName.values()];
-
-    const properties = uniqueRatedDisabilities.reduce(
-      (schema, disabilityName) => createCheckboxSchema(schema, disabilityName),
-      {},
-    );
+    const properties = unique.reduce((schema, name) => {
+      return createCheckboxSchema(schema, name);
+    }, {});
 
     return { properties };
   },

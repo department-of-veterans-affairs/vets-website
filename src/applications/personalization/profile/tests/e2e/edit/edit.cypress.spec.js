@@ -20,7 +20,7 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      cy.get('va-link[back]').click();
+      cy.findByRole('link', { name: /Back to/i }).click();
 
       cy.url().should('contain', '/profile/notifications');
 
@@ -52,7 +52,7 @@ describe('Edit page', () => {
 
       cy.fillVaTextInput('root_inputPhoneNumber', '970-867-5309');
 
-      cy.get('va-link[back]').click();
+      cy.findByRole('link', { name: /Back to/i }).click();
 
       cy.url().should('not.contain', '/profile/notifications');
 

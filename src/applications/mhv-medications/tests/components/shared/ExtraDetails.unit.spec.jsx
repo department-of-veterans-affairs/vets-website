@@ -6,7 +6,6 @@ import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
 import { dispStatusObj, dispStatusObjV2 } from '../../../util/constants';
-import { pageType } from '../../../util/dataDogConstants';
 
 describe('Medications List Card Extra Details', () => {
   const FLAG_COMBINATIONS = [
@@ -53,6 +52,11 @@ describe('Medications List Card Extra Details', () => {
   const V2_STATUS_TESTS = [
     { status: dispStatusObjV2.statusNotAvailable, testId: 'unknown' },
     { status: dispStatusObjV2.inprogress, testId: 'refill-in-process' },
+    {
+      status: dispStatusObjV2.active,
+      testId: 'active',
+      refillRemaining: 3,
+    },
     { status: dispStatusObjV2.inactive, testId: 'inactive' },
     { status: dispStatusObjV2.transferred, testId: 'transferred' },
   ];
@@ -151,21 +155,6 @@ describe('Medications List Card Extra Details', () => {
       );
       expect(await screen.findByTestId('active-no-refill-left')).to.exist;
     });
-
-    it('renders nothing when Active with refills remaining', () => {
-      const screen = setup(
-        {
-          ...prescription,
-          dispStatus: dispStatusObjV2.active,
-          refillRemaining: 3,
-        },
-        {},
-        true,
-        true,
-      );
-      // V2 Active with refills remaining returns null (component renders nothing)
-      expect(screen.container.querySelector('.shipping-info')).to.not.exist;
-    });
   });
 
   describe('CernerPilot and V2StatusMapping flag requirement validation', () => {
@@ -177,9 +166,9 @@ describe('Medications List Card Extra Details', () => {
           // Pass appropriate status based on flag combination
           // When both flags enabled, API returns V2 status; otherwise V1
           const statusToTest = useV2
-            ? dispStatusObjV2.inactive
+            ? dispStatusObjV2.active
             : dispStatusObj.activeParked;
-          const expectedTestId = useV2 ? 'inactive' : 'active-parked';
+          const expectedTestId = useV2 ? 'active' : 'active-parked';
           const screen = setup(
             { ...prescription, dispStatus: statusToTest },
             {},
@@ -211,6 +200,31 @@ describe('Medications List Card Extra Details', () => {
   });
 
   describe('isRenewable for OH prescriptions', () => {
+    it('displays renewal link when isRenewable is true and prescription is not non-VA', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: true,
+        prescriptionSource: 'VA',
+        dispStatus: null,
+        stationNumber: '668',
+      });
+      expect(await screen.findByTestId('send-renewal-request-message-link')).to
+        .exist;
+    });
+
+    it('displays renewal link when isRenewable is true with any dispStatus', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: true,
+        prescriptionSource: 'VA',
+        dispStatus: 'Active',
+        refillRemaining: 5, // Has refills but isRenewable should still show link
+        stationNumber: '668',
+      });
+      expect(await screen.findByTestId('send-renewal-request-message-link')).to
+        .exist;
+    });
+
     it('does not display renewal link when isRenewable is true but prescription is non-VA', async () => {
       const screen = setup({
         ...prescription,
@@ -249,93 +263,6 @@ describe('Medications List Card Extra Details', () => {
       ).to.contain.text(
         'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
-    });
-  });
-  describe('RefillButton rendering based on page prop', () => {
-    it('renders refill button on list page for active prescription with refills', async () => {
-      const screen = setup({
-        ...prescription,
-        dispStatus: dispStatusObj.active,
-        isRefillable: true,
-        refillRemaining: 3,
-        page: pageType.LIST,
-      });
-      expect(await screen.findByTestId('refill-request-button')).to.exist;
-    });
-
-    it('renders refill button on list page for active parked prescription with refills', async () => {
-      const screen = setup({
-        ...prescription,
-        dispStatus: dispStatusObj.activeParked,
-        isRefillable: true,
-        refillRemaining: 3,
-        page: pageType.LIST,
-      });
-      expect(await screen.findByTestId('refill-request-button')).to.exist;
-    });
-
-    it('does not render refill button on details page for active parked prescription', async () => {
-      const screen = setup({
-        ...prescription,
-        dispStatus: dispStatusObj.activeParked,
-        isRefillable: true,
-        refillRemaining: 3,
-        page: pageType.DETAILS,
-      });
-      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
-    });
-
-    it('does not render refill button when page prop is not provided', async () => {
-      const screen = setup({
-        ...prescription,
-        dispStatus: dispStatusObj.activeParked,
-        isRefillable: true,
-        refillRemaining: 3,
-      });
-      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
-    });
-
-    it('does not render refill button when prescription is not refillable', async () => {
-      const screen = setup({
-        ...prescription,
-        dispStatus: dispStatusObj.activeParked,
-        isRefillable: false,
-        refillRemaining: 3,
-        page: pageType.LIST,
-      });
-      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
-    });
-
-    it('renders refill button for V2 Active status on list page', async () => {
-      const screen = setup(
-        {
-          ...prescription,
-          dispStatus: dispStatusObjV2.active,
-          isRefillable: true,
-          refillRemaining: 3,
-          page: pageType.LIST,
-        },
-        {},
-        true,
-        true,
-      );
-      expect(await screen.findByTestId('refill-request-button')).to.exist;
-    });
-
-    it('does not render refill button for V2 Active status on details page', async () => {
-      const screen = setup(
-        {
-          ...prescription,
-          dispStatus: dispStatusObjV2.active,
-          isRefillable: true,
-          refillRemaining: 3,
-          page: pageType.DETAILS,
-        },
-        {},
-        true,
-        true,
-      );
-      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
     });
   });
 });

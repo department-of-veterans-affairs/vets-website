@@ -1,9 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, cleanup } from '@testing-library/react';
+import { mount } from 'enzyme';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { format } from 'date-fns';
+import { cleanup } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
@@ -16,9 +17,7 @@ const initialState = {
     data: testData.data,
     submission: {
       response: {
-        attributes: {
-          confirmationNumber: '1234567890',
-        },
+        confirmationNumber: '1234567890',
       },
       timestamp: submitDate,
     },
@@ -26,9 +25,9 @@ const initialState = {
 };
 const mockStore = state => createStore(() => state);
 
-const renderPage = state => {
+const mountPage = state => {
   const store = mockStore(state);
-  return render(
+  return mount(
     <Provider store={store}>
       <ConfirmationPage route={{ formConfig }} />
     </Provider>,
@@ -36,20 +35,28 @@ const renderPage = state => {
 };
 
 describe('ConfirmationPage', () => {
+  let wrapper = null;
+
+  beforeEach(() => {
+    wrapper = mountPage(initialState);
+  });
+
   afterEach(() => {
+    if (wrapper) {
+      wrapper.unmount();
+    }
     cleanup();
   });
 
-  it('renders confirmation number from the submission response', () => {
-    const { getByText } = renderPage(initialState);
+  it('passes the correct props to ConfirmationPageView', () => {
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
 
-    expect(getByText(/Your confirmation number is 1234567890/i)).to.exist;
+    expect(confirmationViewProps.submitDate).to.equal(submitDate);
+    expect(confirmationViewProps.confirmationNumber).to.equal('1234567890');
   });
 
   it('should select form from state when state.form is defined', () => {
-    const { getByText } = renderPage(initialState);
-
-    expect(getByText(format(submitDate, 'MMMM d, yyyy'), { exact: false })).to
-      .exist;
+    expect(wrapper.text()).to.include(format(submitDate, 'MMMM d, yyyy'));
+    expect(wrapper.text()).to.include('1234');
   });
 });

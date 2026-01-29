@@ -666,7 +666,7 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
         .exist;
 
       expect(screen.baseElement).to.contain.text(
-        'These are the facilities you’re registered at that offer primary care.',
+        "These facilities you're registered at offer primary care.",
       );
 
       expect(await screen.findByTestId('facilitiesSelect')).to.be.ok;
@@ -1084,7 +1084,7 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
 
       // Assert
       await findByText(
-        /We found 1 VA facility for your primary care appointment./i,
+        /We found one VA facility for your primary care appointment./i,
       );
 
       expect(baseElement).to.contain.text('San Diego VA Medical Center');

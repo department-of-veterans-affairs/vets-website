@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
-import mockPretransitionedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-mixed-pretransitioned.json';
+import mockMixedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-mixed.json';
 import mockFacilities from './fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockFeatureToggles from './fixtures/toggles-response.json';
 
@@ -56,7 +56,7 @@ describe('SECURE MESSAGING AAL', () => {
         customFeatureToggles,
         mockEhrData,
         true,
-        mockPretransitionedCernerFacilitiesUser,
+        mockMixedCernerFacilitiesUser,
         mockFacilities,
       );
       cy.intercept('POST', Paths.AAL, {
@@ -89,7 +89,7 @@ describe('SECURE MESSAGING AAL', () => {
         mockFeatureToggles,
         mockEhrData,
         true,
-        mockPretransitionedCernerFacilitiesUser,
+        mockMixedCernerFacilitiesUser,
         mockFacilities,
       );
       cy.intercept('POST', Paths.AAL, {

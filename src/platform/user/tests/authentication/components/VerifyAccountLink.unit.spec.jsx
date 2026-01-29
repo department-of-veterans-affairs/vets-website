@@ -52,17 +52,16 @@ describe('VerifyAccountLink', () => {
     it(`should set correct href for ${policy} (OAuth)`, async () => {
       const screen = render(<VerifyAccountLink policy={policy} useOAuth />);
       const anchor = await screen.findByTestId(policy);
-      const href = decodeURIComponent(anchor.href);
       const expectedAcr =
         externalApplicationsConfig.default.oAuthOptions.acrVerify[policy];
 
-      await waitFor(() => expect(href).to.include(`type=${policy}`));
-      await waitFor(() => expect(href).to.include(`acr=${expectedAcr}`));
-      await waitFor(() => expect(href).to.include(`client_id=vaweb`));
-      await waitFor(() => expect(href).to.include('/authorize'));
-      await waitFor(() => expect(href).to.include('response_type=code'));
-      await waitFor(() => expect(href).to.include('code_challenge='));
-      await waitFor(() => expect(href).to.include('state='));
+      await waitFor(() => expect(anchor.href).to.include(`type=${policy}`));
+      await waitFor(() => expect(anchor.href).to.include(`acr=${expectedAcr}`));
+      await waitFor(() => expect(anchor.href).to.include(`client_id=vaweb`));
+      await waitFor(() => expect(anchor.href).to.include('/authorize'));
+      await waitFor(() => expect(anchor.href).to.include('response_type=code'));
+      await waitFor(() => expect(anchor.href).to.include('code_challenge='));
+      await waitFor(() => expect(anchor.href).to.include('state='));
       screen.unmount();
     });
   });

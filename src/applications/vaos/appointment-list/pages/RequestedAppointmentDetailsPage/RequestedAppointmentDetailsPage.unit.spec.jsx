@@ -87,19 +87,16 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     });
 
     // Assert
-    // CI-FIX: Wait for the error heading to be present first, then verify focus.
-    // On CI (especially with Node 22), async state updates resolve faster than
-    // locally. Waiting for the heading to exist before checking focus ensures
-    // consistent behavior regardless of timing. Test behavior unchanged: still
-    // verifies that error heading is displayed and receives focus.
-    const errorHeading = await screen.findByRole('heading', {
-      level: 1,
-      name: /We can.t access your appointment details right now/,
-    });
-    expect(errorHeading).to.be.ok;
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
     });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'We can’t access your appointment details right now',
+      }),
+    ).to.be.ok;
   });
 
   it('should display pending document title', async () => {
@@ -112,17 +109,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     mockAppointmentApi({ response });
 
     // Act
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+    renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/pending/${response.id}`,
     });
 
     // Assert
-    // CI-FIX: Wait for the h1 heading to be present first, indicating the page has loaded.
-    // Only then check document.title. On CI, the title may not be set until the
-    // component fully renders. Test behavior unchanged: still verifies the correct
-    // document title is set.
-    await screen.findByRole('heading', { level: 1 });
     await waitFor(() => {
       expect(global.document.title).to.equal(
         'Pending Request For Appointment | Veterans Affairs',
@@ -142,17 +134,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     mockAppointmentApi({ response });
 
     // Act
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+    renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/pending/${response.id}`,
     });
 
     // Assert
-    // CI-FIX: Wait for the h1 heading to be present first, indicating the page has loaded.
-    // Only then check document.title. On CI, the title may not be set until the
-    // component fully renders. Test behavior unchanged: still verifies the correct
-    // document title is set.
-    await screen.findByRole('heading', { level: 1 });
     await waitFor(() => {
       expect(global.document.title).to.equal(
         `Pending Request For Community Care Appointment | Veterans Affairs`,
@@ -171,17 +158,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     mockAppointmentApi({ response });
 
     // Act
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+    renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/pending/${response.id}`,
     });
 
     // Assert
-    // CI-FIX: Wait for the h1 heading to be present first, indicating the page has loaded.
-    // Only then check document.title. On CI, the title may not be set until the
-    // component fully renders. Test behavior unchanged: still verifies the correct
-    // document title is set.
-    await screen.findByRole('heading', { level: 1 });
     await waitFor(() => {
       expect(global.document.title).to.equal(
         'Canceled Request For Appointment | Veterans Affairs',

@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { TITLE, SUBTITLE } from '../constants';
 
 // Components
@@ -13,9 +12,7 @@ import OmbInfo from '../components/OmbInfo';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 
 export const IntroductionPage = props => {
-  const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const formData = useSelector(state => state.form?.data || {});
   const { route } = props;
   const { formConfig, pageList } = route;
 
@@ -23,15 +20,6 @@ export const IntroductionPage = props => {
     scrollToTop();
     focusElement('h1');
   }, []);
-
-  useEffect(
-    () => {
-      if (formData.userLoggedIn !== userLoggedIn) {
-        dispatch(setData({ ...formData, userLoggedIn }));
-      }
-    },
-    [userLoggedIn, formData, dispatch],
-  );
 
   return (
     <article className="schemaform-intro">

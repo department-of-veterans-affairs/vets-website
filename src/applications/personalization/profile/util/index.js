@@ -1,8 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
-import { capitalize } from 'lodash';
-import { oxfordCommaList } from './textUtils';
 
 export const BASE_DIRECT_DEPOSIT_ERROR_KEYS = {
   ACCOUNT_FLAGGED_FOR_FRAUD: '.account.number.fraud',
@@ -206,24 +204,6 @@ const getLighthouseErrorCode = (errors = []) => {
   // there should only be one error code in the errors array, but just in case
   const error = errors.find(err => err?.code);
   return `${error?.code || OTHER_ERROR_GA_KEY} | ${error?.detail || ''}`;
-};
-
-export const getHealthCareSettingsHubDescription = ({
-  hideHealthCareContacts,
-  isSchedulingPreferencesPilotEligible,
-}) => {
-  const healthCareSettingsItems = [];
-  if (!hideHealthCareContacts) {
-    healthCareSettingsItems.push('health care contacts');
-  }
-  healthCareSettingsItems.push('messages signature');
-  if (isSchedulingPreferencesPilotEligible) {
-    healthCareSettingsItems.push('scheduling preferences');
-  }
-  if (hideHealthCareContacts && !isSchedulingPreferencesPilotEligible) {
-    healthCareSettingsItems.push('other health care settings');
-  }
-  return capitalize(oxfordCommaList(healthCareSettingsItems));
 };
 
 // Helper that creates and returns an object to pass to the recordEvent()

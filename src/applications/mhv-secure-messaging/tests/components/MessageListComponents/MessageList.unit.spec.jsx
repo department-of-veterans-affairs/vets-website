@@ -352,22 +352,18 @@ describe('Message List component', () => {
   });
 
   it('resets to page 1 when current page exceeds max page after filtering', async () => {
-    // NODE 22 FIX: Use padStart(2, '0') to ensure valid ISO 8601 date format.
-    // Previously, dates like '2023-05-3' were generated when i >= 8, which is
-    // not valid ISO format (should be '2023-05-03'). Moment.js in Node 22
-    // throws an error for non-ISO date strings instead of just warning.
     const fifteenMessages = Array.from({ length: 15 }, (_, i) => ({
       ...mockMessages[0],
       messageId: 2817226 + i,
       subject: `test ${i}`,
-      sentDate: `2023-05-${String(17 - i).padStart(2, '0')}T16:11:26.000Z`,
+      sentDate: `2023-05-${17 - i}T16:11:26.000Z`,
     }));
 
     const fiveMessages = Array.from({ length: 5 }, (_, i) => ({
       ...mockMessages[0],
       messageId: 9000000 + i,
       subject: `filtered test ${i}`,
-      sentDate: `2023-06-${String(10 + i).padStart(2, '0')}T16:11:26.000Z`,
+      sentDate: `2023-06-${10 + i}T16:11:26.000Z`,
     }));
 
     const screen = setup(

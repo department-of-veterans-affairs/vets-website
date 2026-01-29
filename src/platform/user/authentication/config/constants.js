@@ -7,6 +7,10 @@ export const defaultSignInProviders = {
   logingov: true,
 };
 
+export const legacySignInProviders = {
+  dslogon: true,
+};
+
 export const defaultMobileQueryParams = {
   allowOAuth: true,
   allowPostLogin: false,
@@ -15,13 +19,13 @@ export const defaultMobileQueryParams = {
 
 export const defaultMobileOAuthOptions = {
   clientId: CLIENT_IDS.VAMOBILE,
-  acr: { idme: 'loa3', logingov: 'ial2' },
+  acr: { idme: 'loa3', dslogon: 'loa3', logingov: 'ial2' },
   acrSignup: { idme_signup: 'loa3', logingov_signup: 'ial2' },
 };
 
 export const defaultWebOAuthOptions = {
   clientId: CLIENT_IDS.VAWEB,
-  acr: { idme: 'min', logingov: 'min' },
+  acr: { idme: 'min', dslogon: 'min', logingov: 'min' },
   acrSignup: { idme_signup: 'min', logingov_signup: 'min' },
   acrVerify: { idme: 'loa3', logingov: 'ial2' },
 };

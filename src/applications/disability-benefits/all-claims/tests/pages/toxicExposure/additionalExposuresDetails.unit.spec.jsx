@@ -47,10 +47,18 @@ describe('additional exposures details', () => {
         getByText(additionalExposuresPageTitle);
         getByText(dateRangeDescriptionWithHazard);
 
-        expect($(`va-date[label="${exposureStartDateApproximate}"]`, container))
-          .to.exist;
-        expect($(`va-date[label="${exposureEndDateApproximate}"]`, container))
-          .to.exist;
+        expect(
+          $(
+            `va-memorable-date[label="${exposureStartDateApproximate}"]`,
+            container,
+          ),
+        ).to.exist;
+        expect(
+          $(
+            `va-memorable-date[label="${exposureEndDateApproximate}"]`,
+            container,
+          ),
+        ).to.exist;
 
         expect($(`va-checkbox[label="${notSureHazardDetails}"]`, container)).to
           .exist;
@@ -84,11 +92,16 @@ describe('additional exposures details', () => {
         }
       });
 
-      it(`should submit without dates for ${itemId} (dates are optional)`, () => {
+      /*
+       * TODO: We currently validate against partial dates on the frontend.
+       * Future consideration: allow Veterans to submit with completely blank or partial dates.
+       * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
+       */
+      it(`should not submit without dates for ${itemId}`, () => {
         pageSubmitTest(
           schemas[`additional-exposure-${itemId}`],
           formData,
-          true,
+          false,
         );
       });
 
@@ -96,8 +109,8 @@ describe('additional exposures details', () => {
         const data = JSON.parse(JSON.stringify(formData));
         data.toxicExposure.otherExposuresDetails = {};
         data.toxicExposure.otherExposuresDetails[itemId] = {
-          startDate: '2020-05',
-          endDate: '2021-11',
+          startDate: '2020-05-19',
+          endDate: '2021-11-30',
         };
 
         pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
@@ -105,19 +118,68 @@ describe('additional exposures details', () => {
     });
 
   /*
-   * Edge case validations for toxic exposure dates (month/year format).
-   * Supports year-only (YYYY-XX) or month/year (YYYY-MM).
-   * Full dates (YYYY-MM-DD) are accepted for backward compatibility.
+   * Edge case validations for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend.
+   * Future consideration: allow Veterans to submit with completely blank or partial dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
    */
   describe('date validations', () => {
     const itemId = 'asbestos'; // Using asbestos as the test case
+
+    it('should not submit with incomplete start date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-XX-15',
+          endDate: '2021-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with incomplete start date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-XX',
+          endDate: '2021-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
 
     it('should not submit with incomplete start date (missing year)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: 'XXXX-05',
-          endDate: '2021-06',
+          startDate: 'XXXX-05-15',
+          endDate: '2021-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-15',
+          endDate: '2021-XX-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-05-15',
+          endDate: '2021-06-XX',
         },
       };
 
@@ -128,20 +190,20 @@ describe('additional exposures details', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: '2020-05',
-          endDate: 'XXXX-06',
+          startDate: '2020-05-15',
+          endDate: 'XXXX-06-30',
         },
       };
 
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
     });
 
-    it('should accept valid date range (end after start)', () => {
+    it('should accept valid date range (to after from)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
@@ -152,66 +214,66 @@ describe('additional exposures details', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: '2021-05',
-          endDate: '2020-06',
+          startDate: '2021-05-15',
+          endDate: '2020-06-30',
         },
       };
 
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
     });
 
-    it('should submit with only start date (dates are optional)', () => {
+    it('should not submit with only start date', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: '2020-05',
-        },
-      };
-
-      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
-    });
-
-    it('should submit with only end date (dates are optional)', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.otherExposuresDetails = {
-        [itemId]: {
-          endDate: '2021-06',
-        },
-      };
-
-      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
-    });
-
-    it('should accept past month/year for startDate', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.otherExposuresDetails = {
-        [itemId]: {
-          startDate: format(subYears(new Date(), 5), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
-        },
-      };
-
-      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
-    });
-
-    it('should not submit when future month/year for startDate', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.otherExposuresDetails = {
-        [itemId]: {
-          startDate: format(addYears(new Date(), 1), 'yyyy-MM'),
-          endDate: format(addYears(new Date(), 2), 'yyyy-MM'),
+          startDate: '2020-05-15',
         },
       };
 
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
     });
 
-    it('should not submit when year before 1900 for startDate', () => {
+    it('should not submit with only end date', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: '1899-12',
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          endDate: '2021-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should accept past date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(subYears(new Date(), 5), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
+    });
+
+    it('should not submit when future date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
+          endDate: format(addYears(new Date(), 2), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when date before 1900 for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '1899-12-31',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
@@ -223,55 +285,55 @@ describe('additional exposures details', () => {
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
           startDate: 'invalid-date',
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
     });
 
-    it('should accept current month/year for endDate', () => {
+    it('should accept current date for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: format(new Date(), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(new Date(), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
     });
 
-    it('should accept past month/year for endDate', () => {
+    it('should accept past date for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: format(subYears(new Date(), 5), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 5), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
     });
 
-    it('should not submit when future month/year for endDate', () => {
+    it('should not submit when future date for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: format(addYears(new Date(), 1), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
     });
 
-    it('should not submit when year before 1900 for endDate', () => {
+    it('should not submit when date before 1900 for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: '1899-12',
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: '1899-12-31',
         },
       };
 
@@ -282,7 +344,7 @@ describe('additional exposures details', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
           endDate: 'invalid-date',
         },
       };
@@ -290,24 +352,36 @@ describe('additional exposures details', () => {
       pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
     });
 
-    it('should accept year-only format (YYYY-XX)', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.otherExposuresDetails = {
-        [itemId]: {
-          startDate: '2000-XX',
-          endDate: '2001-XX',
-        },
-      };
-
-      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);
-    });
-
-    it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
+    it('should not submit when start and end dates are equal', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherExposuresDetails = {
         [itemId]: {
           startDate: '2020-05-19',
-          endDate: '2021-11-30',
+          endDate: '2020-05-19',
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should not submit when non-leap year February 29', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2021-02-29',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, false);
+    });
+
+    it('should accept leap year February 29', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherExposuresDetails = {
+        [itemId]: {
+          startDate: '2020-02-29',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 

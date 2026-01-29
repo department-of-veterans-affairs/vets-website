@@ -17,7 +17,9 @@ import { useSelector } from 'react-redux';
  * @param {Function} setPageData - updates subtask data
  * @returns {JSX}
  */
-const ContactMethodSelect = ({ error, options, fieldName, setPageData }) => {
+const ContactMethodSelect = ({ error, options, setPageData }) => {
+  const fieldName = FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD;
+
   const isLoading = useSelector(
     state => state.vaProfile.schedulingPreferences.loading,
   );
@@ -98,11 +100,10 @@ const ContactMethodSelect = ({ error, options, fieldName, setPageData }) => {
 };
 
 ContactMethodSelect.propTypes = {
-  fieldName: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   setPageData: PropTypes.func.isRequired,
   data: PropTypes.string,
   error: PropTypes.bool,
 };
 
-export default ContactMethodSelect;
+export { ContactMethodSelect };

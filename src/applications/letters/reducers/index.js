@@ -211,7 +211,6 @@ function letters(state = initialState, action) {
         ...state,
         tsaLetterEligibility: {
           documentId: action.data?.attributes?.documentId,
-          documentVersion: action.data?.attributes?.documentVersion,
           error: false,
           loading: false,
         },

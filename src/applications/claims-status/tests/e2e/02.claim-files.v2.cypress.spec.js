@@ -669,13 +669,7 @@ describe('Failed Submissions in Progress Empty State', () => {
         cy.contains('Date failed:').should('exist');
       });
 
-      // ignore heading order violation (see [Design](https://www.figma.com/design/m1Xt8XjVDjZIbliCYcCKpE/Document-status?node-id=10278-153082&t=Xo9NNjbMT73BjVWx-4))
-      // See decision thread: https://www.figma.com/design/m1Xt8XjVDjZIbliCYcCKpE?node-id=10278-153120#1554363796
-      cy.injectAxeThenAxeCheck('main', {
-        rules: {
-          'heading-order': { enabled: false },
-        },
-      });
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

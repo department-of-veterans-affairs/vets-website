@@ -27,8 +27,8 @@ export default function getEligibilityMessage({
     content = (
       <>
         <p>
-          You haven’t had a recent appointment at this facility. You’ll need to
-          call to schedule, instead.
+          You haven’t had a recent appointment at this facility, so you’ll need
+          to call to schedule instead.
         </p>
         <p>
           <strong>{facilityDetails.name}</strong>

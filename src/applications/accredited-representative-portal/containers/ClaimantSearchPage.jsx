@@ -14,8 +14,8 @@ import {
   SEARCH_BC_LABEL,
   findClaimantBC,
   requestsContainStatus,
+  addStyleToShadowDomOnPages,
 } from '../utilities/poaRequests';
-import { addStyleToShadowDomOnPages } from '../utilities/helpers';
 import POARequestCard from '../components/POARequestCard';
 
 const lastFour = ssn => {

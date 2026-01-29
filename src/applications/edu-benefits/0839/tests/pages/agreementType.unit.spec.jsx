@@ -58,13 +58,11 @@ describe('22-0839 agreementType page', () => {
         agreementType: 'startNewOpenEndedAgreement',
         acknowledgements: { someData: true },
         institutionDetails: { name: 'Test' },
-        isAuthenticated: false,
       };
       const formData = {
         agreementType: 'startNewOpenEndedAgreement',
         acknowledgements: { someData: true },
         institutionDetails: { name: 'Test' },
-        isAuthenticated: false,
       };
 
       expect(updateFormData(oldData, formData)).to.deep.equal(formData);
@@ -73,7 +71,6 @@ describe('22-0839 agreementType page', () => {
     it('should clear related fields when agreementType changes', () => {
       const oldData = {
         agreementType: 'startNewOpenEndedAgreement',
-        isAuthenticated: false,
         authorizedOfficial: [
           {
             officialName: 'John Doe',
@@ -89,7 +86,6 @@ describe('22-0839 agreementType page', () => {
       };
       const formData = {
         agreementType: 'modifyExistingAgreement',
-        isAuthenticated: false,
         acknowledgements: { someData: true },
         institutionDetails: { name: 'Test' },
         additionalInstitutionDetails: [{ id: 1 }],
@@ -107,7 +103,6 @@ describe('22-0839 agreementType page', () => {
           },
         ],
         agreementType: 'modifyExistingAgreement',
-        isAuthenticated: false,
         acknowledgements: {},
         institutionDetails: {},
         additionalInstitutionDetails: [],

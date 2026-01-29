@@ -390,22 +390,6 @@ EXPENSE_TYPES.forEach(type => {
   responses[
     `POST /travel_pay/v0/claims/:claimId/expenses/${type}`
   ] = createExpenseHandler(type);
-  // Error condition example:
-  // responses[`POST /travel_pay/v0/claims/:claimId/expenses/${type}`] = (
-  //   req,
-  //   res,
-  // ) => {
-  //   return res.status(500).json({
-  //     errors: [
-  //       {
-  //         title: 'Server error',
-  //         status: 500,
-  //         detail: 'Failed to create expense',
-  //         code: 'VA900',
-  //       },
-  //     ],
-  //   });
-  // };
 
   // Get individual expense
   responses[

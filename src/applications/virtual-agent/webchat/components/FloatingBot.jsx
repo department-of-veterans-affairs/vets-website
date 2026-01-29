@@ -1,5 +1,5 @@
 import React from 'react';
-import Disclaimer from '../../chatbot/features/shell/components/LeftColumnContent';
+import Disclaimer from '../../shared/components/Disclaimer/Disclaimer';
 import Chatbox from './Chatbox';
 
 function updateElementById(id, classListAdd, classListRemove) {

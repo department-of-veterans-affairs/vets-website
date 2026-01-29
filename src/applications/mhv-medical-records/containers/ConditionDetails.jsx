@@ -106,17 +106,13 @@ const ConditionDetails = props => {
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
     const pdfName = `VA-conditions-details-${getNameDateAndTime(user)}`;
-    try {
-      await makePdf(
-        pdfName,
-        pdfData,
-        'medicalRecords',
-        'Medical Records - Condition details - PDF generation error',
-        runningUnitTest,
-      );
-    } catch {
-      // makePdf handles error logging to Datadog/Sentry
-    }
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Condition details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateConditionTxt = async () => {

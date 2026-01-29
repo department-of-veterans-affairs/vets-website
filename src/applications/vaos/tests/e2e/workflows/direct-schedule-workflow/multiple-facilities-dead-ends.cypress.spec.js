@@ -1,3 +1,4 @@
+// @ts-check
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
@@ -31,9 +32,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
     vaosSetup();
 
     mockAppointmentsGetApi({ response: [] });
-    mockFeatureToggles({
-      vaOnlineSchedulingRemoveFacilityConfigCheck: false,
-    });
+    mockFeatureToggles();
     mockVamcEhrApi();
   });
 
@@ -98,10 +97,11 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .selectLocation(/Facility 983/i)
-          .clickNextButton()
-          .assertErrorModal({
-            text: /You can.t schedule an appointment online right now/,
-          });
+          .clickNextButton();
+
+        cy.get('[data-testid="eligibilityModal"]')
+          .contains('We’re sorry. There’s a problem with our system')
+          .should('exist');
 
         // Assert
         cy.axeCheckBestPractice();
@@ -355,7 +355,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /You can.t schedule an appointment online/i,
+            text: /You haven’t had a recent appointment at this facility/i,
           });
 
         // Assert

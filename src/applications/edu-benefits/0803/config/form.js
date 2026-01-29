@@ -69,10 +69,6 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  customText: {
-    reviewPageTitle: 'Review',
-    submitButtonText: 'Continue',
-  },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},

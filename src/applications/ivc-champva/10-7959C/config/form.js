@@ -7,7 +7,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import FormFooter from '../components/FormFooter';
-import prefillTransformer from './prefillTransformer';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -101,7 +100,6 @@ const formConfig = {
   version: migrations.length,
   migrations,
   prefillEnabled: true,
-  prefillTransformer,
   transformForSubmit,
   savedFormMessages: {
     notFound:

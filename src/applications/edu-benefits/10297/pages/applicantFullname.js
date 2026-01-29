@@ -46,14 +46,11 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    applicantFullName: {
-      ...fullNameNoSuffixSchema,
-      required: [],
-    },
+    applicantFullName: fullNameNoSuffixSchema,
     dateOfBirth: dateOfBirthSchema,
     eligibilityAlert: { type: 'object', properties: {} },
   },
-  // required: ['applicantFullName', 'dateOfBirth'],
+  required: ['applicantFullName', 'dateOfBirth'],
 };
 
 export { schema, uiSchema };

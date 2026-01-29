@@ -16,14 +16,13 @@ const ZeroDebtsCopaysSection = () => {
       <h3>What to do if you think you have an overpayment or copay bill</h3>
       <ul>
         <li>
-          <strong>For overpayments</strong>, call the Debt Management Center
-          (DMC) at {dmcPhoneContent()}
+          <strong>For overpayments</strong>, {dmcPhoneContent()}
         </li>
         <li>
-          <strong>For medical copay bills</strong>, call the VA Health Resource
-          Center at {healthResourceCenterPhoneContent()}
+          <strong>For medical copay bills</strong>,{' '}
+          {healthResourceCenterPhoneContent()}
         </li>
-      </ul>
+      </ul>{' '}
       <va-link
         active
         class="vads-u-margin-top--2"

@@ -96,7 +96,7 @@ describe('VA File Input Multiple', () => {
   };
 
   const getAboveFileInputError = (fileIndex = 0) =>
-    getFileInput(fileIndex).find('span.usa-error-message');
+    getFileInput(fileIndex).find('[role="alert"]');
 
   const getFileError = (fileIndex = 0) =>
     getFileInput(fileIndex).find('#input-error-message');

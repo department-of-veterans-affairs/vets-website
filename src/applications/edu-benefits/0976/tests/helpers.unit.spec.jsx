@@ -6,8 +6,6 @@ import {
   validateInitialsMatch,
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
-  programInformationArrayOptions,
-  officialsArrayOptions,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -195,74 +193,6 @@ describe('0839 Helpers', () => {
           'These are the extension campuses and additional locations officially associated with your institution.',
         );
       });
-    });
-  });
-
-  describe('program information options', () => {
-    const exampleItem = {
-      programName: 'MBA',
-      totalProgramLength: 'Semester',
-      weeksPerTerm: '16',
-      entryRequirements: 'Bachelors',
-      creditHours: '1',
-    };
-
-    const { isItemIncomplete, text } = programInformationArrayOptions;
-
-    it('has the right completeness check', () => {
-      expect(isItemIncomplete({ programName: null, totalProgramLength: null }))
-        .to.be.true;
-      expect(isItemIncomplete(exampleItem)).to.be.false;
-    });
-
-    it('has the right card description', () => {
-      const description = text.cardDescription(exampleItem);
-      const { container } = render(description);
-      expect(container.textContent).to.contain('Semester');
-      expect(container.textContent).to.contain('Bachelors');
-      expect(container.textContent).to.contain('16 weeks');
-      expect(container.textContent).to.contain('1 hour');
-    });
-
-    it('has the right card title', () => {
-      const title = text.getItemName(exampleItem);
-      expect(title).to.eq('MBA');
-    });
-  });
-
-  describe('officials array options', () => {
-    const exampleItem = {
-      fullName: {
-        first: 'John',
-        last: 'Doe',
-      },
-      title: 'Duke',
-    };
-
-    const { isItemIncomplete, text } = officialsArrayOptions;
-
-    it('has the right completeness check', () => {
-      expect(isItemIncomplete({ fullName: null, title: null })).to.be.true;
-      expect(isItemIncomplete(exampleItem)).to.be.false;
-    });
-
-    it('has the right card description', () => {
-      const description = text.cardDescription(exampleItem);
-      const { container } = render(description);
-      expect(container.textContent).to.contain('Duke');
-    });
-
-    it('has the right card title', () => {
-      const title = text.getItemName(exampleItem);
-      expect(title).to.eq('John Doe');
-    });
-
-    it('has the right summary without items', () => {
-      const summary = text.summaryDescriptionWithoutItems();
-      const { container } = render(summary);
-      expect(container.textContent).to.contain(
-        'you will be asked to provide information about faculty members',
-      );
     });
   });
 });

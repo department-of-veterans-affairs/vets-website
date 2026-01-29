@@ -37,50 +37,10 @@ export const SIGN_OUT_URL = (() => {
 
 export const SEARCH_PARAMS = {
   STATUS: 'status',
-  SORT: 'sort',
+  SORTBY: 'sortBy',
+  SORTORDER: 'sortOrder',
   SIZE: 'pageSize',
   NUMBER: 'pageNumber',
-  SELECTED_INDIVIDUAL: 'as_selected_individual',
-};
-export const SORT_BY = {
-  CREATED: 'created_at',
-  RESOLVED: 'resolved_at',
-  OLDEST: 'oldest',
-  NEWEST: 'newest',
-};
-
-export const STATUSES = {
-  PENDING: 'pending',
-  PROCESSED: 'processed',
-};
-
-export const PROCESSED_SORT_DEFAULTS = {
-  SORT_ORDER: 'newest',
-  // default is 20 per page
-  SIZE: '20',
-  // default is page 1
-  NUMBER: '1',
-  SELECTED_INDIVIDUAL: 'false',
-};
-
-export const PENDING_SORT_DEFAULTS = {
-  SORT_ORDER: 'newest',
-  // default is 20 per page
-  SIZE: '20',
-  // default is page 1
-  NUMBER: '1',
-  SELECTED_INDIVIDUAL: 'false',
-};
-
-export const SUBMISSION_DEFAULTS = {
-  STATUS: null,
-  SORT_BY: 'created_at',
-  SORT_ORDER: 'newest',
-  // default is 20 per page
-  SIZE: '20',
-  // default is page 1
-  NUMBER: '1',
-  SELECTED_INDIVIDUAL: null,
 };
 
 export const NAV_MOBILE_DROPDOWN = [
@@ -107,30 +67,5 @@ export const NAV_MENU_DROPDOWN = [
     LABEL: 'Submissions',
     URL: '/submissions',
     TEST_ID: 'submissions-link',
-  },
-];
-export const SORT_OPTIONS = {
-  DESC_OPTION: 'Submitted date (newest)',
-  ASC_OPTION: 'Submitted date (oldest)',
-};
-export const SORT_DEFAULTS = {
-  SORT_BY: 'created_at',
-  SORT_ORDER: 'desc',
-  // default is 20 per page
-  SIZE: 20,
-  // default is page 1
-  NUMBER: 1,
-};
-
-export const DETAILS_BC_LABEL = 'details breadcrumb';
-export const SUBMISSIONS_BC_LABEL = 'submissions breadcrumb';
-export const submissionsBC = [
-  {
-    href: '/representative',
-    label: 'VA.gov/representative home',
-  },
-  {
-    href: window.location.href,
-    label: 'Submissions',
   },
 ];

@@ -6,10 +6,6 @@ on:
 
 run-name: "Triggered by: ${{ github.event.client_payload.entry_app }} commit: ${{ github.event.client_payload.github_sha }}"
 
-concurrency:
-  group: deploy-${{ github.event.client_payload.concurrency_group }}
-  cancel-in-progress: true
-
 jobs:
   notify-pending-deployment:
     name: Notify of Pending Deployment

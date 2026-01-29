@@ -54,7 +54,6 @@ describe('OH request flow - Food and Nutrition', () => {
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
       vaOnlineSchedulingImmediateCareAlert: true,
-      vaOnlineSchedulingUseVpg: true,
     });
     mockVamcEhrApi({ isCerner: true });
   });

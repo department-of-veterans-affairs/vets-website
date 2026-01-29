@@ -225,17 +225,13 @@ const VitalDetails = props => {
       ...generateVitalContent(records, true),
     };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
-    try {
-      await makePdf(
-        pdfName,
-        pdfData,
-        'medicalRecords',
-        'Medical Records - Vital details - PDF generation error',
-        runningUnitTest,
-      );
-    } catch {
-      // makePdf handles error logging to Datadog/Sentry
-    }
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vital details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVitalsTxt = async () => {

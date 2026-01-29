@@ -1,3 +1,4 @@
+import introduction from './introduction';
 import hasAlreadyFiled from './hasAlreadyFiled';
 import hasUnpaidCreditors from './hasUnpaidCreditors';
 import eligibilitySummary from './eligibilitySummary';
@@ -6,8 +7,10 @@ import veteranIdentifiers from './veteranIdentifiers';
 import beneficiaryIsVeteran from './beneficiaryIsVeteran';
 import beneficiaryFullName from './beneficiaryFullName';
 import beneficiaryDateOfDeath from './beneficiaryDateOfDeath';
+import claimantIdentification from './claimantIdentification';
 import claimantNameAndDob from './claimantNameAndDob';
 import claimantSSN from './claimantSSN';
+import claimantContact from './claimantContact';
 import claimantMailingAddress from './claimantMailingAddress';
 import claimantPhoneAndEmail from './claimantPhoneAndEmail';
 import claimantRelationshipToDeceased from './claimantRelationshipToDeceased';
@@ -22,6 +25,7 @@ import remarks from './remarks';
 import supportingDocuments from './supportingDocuments';
 
 export {
+  introduction,
   hasAlreadyFiled,
   hasUnpaidCreditors,
   eligibilitySummary,
@@ -30,8 +34,10 @@ export {
   beneficiaryIsVeteran,
   beneficiaryFullName,
   beneficiaryDateOfDeath,
+  claimantIdentification,
   claimantNameAndDob,
   claimantSSN,
+  claimantContact,
   claimantMailingAddress,
   claimantPhoneAndEmail,
   claimantRelationshipToDeceased,

@@ -22,7 +22,7 @@ const CalendarNavigation = ({
           onClick={prevOnClick}
           disabled={prevDisabled}
           type="button"
-          aria-label="Previous month"
+          aria-label="Previous"
         >
           <span
             className={classNames(
@@ -57,7 +57,7 @@ const CalendarNavigation = ({
           onClick={nextOnClick}
           disabled={nextDisabled}
           type="button"
-          aria-label="Next month"
+          aria-label="Next"
         >
           <span className="vads-u-display--none mobile-lg:vads-u-display--inline vads-u-padding-right--1">
             Next

@@ -15,7 +15,7 @@ export const pageType = {
 
 export const dataDogActionNames = {
   medicationsListPage: {
-    REFILL_BUTTON: `Refill Button - ${pageType.LIST}`,
+    FILL_OR_REFILL_BUTTON: `Fill or Refill Button - ${pageType.LIST}`,
     MEDICATION_NAME_LINK_IN_CARD: `Medication Name Link In Card - ${
       pageType.LIST
     }`,

@@ -459,7 +459,8 @@ describe('VAOS newAppointmentFlow', () => {
           featureToggles: {
             ...defaultState.featureToggles,
             vaOnlineSchedulingDirect: true,
-            vaOnlineSchedulingUseVpg: true,
+            vaOnlineSchedulingOhDirectSchedule: true,
+            vaOnlineSchedulingOhRequest: true,
           },
           user: {
             profile: {

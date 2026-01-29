@@ -1,7 +1,0 @@
-steps:
-  - action: click
-    target: link
-    value:  Next
-  - action: exists
-    target: header
-    value: Showing 5-8 of 10 results with the status set to "All" and the category set to "All" in "Personal."

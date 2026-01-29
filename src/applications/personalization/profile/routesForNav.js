@@ -28,7 +28,6 @@ const routesForNav = [
     path: PROFILE_PATHS.PERSONAL_INFORMATION,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: ContactInformation,
@@ -36,7 +35,6 @@ const routesForNav = [
     path: PROFILE_PATHS.CONTACT_INFORMATION,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: PersonalHealthCareContacts,
@@ -44,7 +42,6 @@ const routesForNav = [
     path: PROFILE_PATHS.CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     featureFlag: 'profileHideHealthCareContacts',
   },
   {
@@ -53,7 +50,6 @@ const routesForNav = [
     path: PROFILE_PATHS.MILITARY_INFORMATION,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: VeteranStatus,
@@ -61,7 +57,6 @@ const routesForNav = [
     path: PROFILE_PATHS.VETERAN_STATUS_CARD,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: DirectDeposit,
@@ -69,7 +64,6 @@ const routesForNav = [
     path: PROFILE_PATHS.DIRECT_DEPOSIT,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: AccreditedRepresentative,
@@ -77,7 +71,6 @@ const routesForNav = [
     path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: NotificationSettings,
@@ -85,7 +78,6 @@ const routesForNav = [
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: AccountSecurity,
@@ -93,7 +85,6 @@ const routesForNav = [
     path: PROFILE_PATHS.ACCOUNT_SECURITY,
     requiresLOA3: false,
     requiresMVI: false,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: ConnectedApplications,
@@ -101,7 +92,6 @@ const routesForNav = [
     path: PROFILE_PATHS.CONNECTED_APPLICATIONS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
 ];
 
@@ -112,7 +102,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.PERSONAL_INFORMATION,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: ContactInformation,
@@ -120,7 +109,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.CONTACT_INFORMATION,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: MilitaryInformation,
@@ -128,7 +116,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.SERVICE_HISTORY_INFORMATION,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: FinancialInformation,
@@ -136,7 +123,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.FINANCIAL_INFORMATION,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     hasSubnav: true,
   },
   {
@@ -145,7 +131,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.DIRECT_DEPOSIT,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     subnavParent: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
   },
   {
@@ -154,7 +139,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.HEALTH_CARE_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     hasSubnav: true,
     featureFlag: 'profileHealthCareSettingsPage',
   },
@@ -164,7 +148,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     featureFlag: 'profileHealthCareSettingsPage|profileHideHealthCareContacts',
     // This field allows for toggling based on two feature flags by using string.includes()
@@ -175,7 +158,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.MESSAGES_SIGNATURE,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     featureFlag: 'profileHealthCareSettingsPage',
   },
@@ -185,7 +167,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.SCHEDULING_PREFERENCES,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     featureFlag: 'profileHealthCareSettingsPage',
   },
@@ -195,7 +176,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.DEPENDENTS_AND_CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     hasSubnav: true,
   },
   {
@@ -204,7 +184,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     subnavParent: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
   },
   {
@@ -213,7 +192,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.LETTERS_AND_DOCUMENTS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     hasSubnav: true,
   },
   {
@@ -222,7 +200,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.VETERAN_STATUS_CARD,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     subnavParent: PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
   },
   {
@@ -231,7 +208,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.EMAIL_AND_TEXT_NOTIFICATIONS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
   },
   {
     component: AccountSecurityPage,
@@ -246,7 +222,6 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.CONNECTED_APPLICATIONS,
     requiresLOA3: true,
     requiresMVI: true,
-    requiresSchedulingPreferencesPilot: false,
     subnavParent: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
   },
   {

@@ -19,11 +19,11 @@ class PatientFilterSortPage {
   };
 
   openAdditionalFilter = () => {
-    cy.findByText('Show filters', { selector: 'h3' }).click({ force: true });
+    cy.findByText('Show filters', { selector: 'h3' }).click();
   };
 
   closeAdditionalFilter = () => {
-    cy.findByText('Hide filters', { selector: 'h3' }).click({ force: true });
+    cy.findByText('Hide filters', { selector: 'h3' }).click();
   };
 
   // This method will access the input field and enters the text that will be used for search.
@@ -274,25 +274,25 @@ class PatientFilterSortPage {
   selectStartMonth = month => {
     cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`[name="discharge-dateMonth"]`)
-      .select(month, { force: true });
+      .select(month);
   };
 
   selectEndMonth = month => {
     cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .find(`[name="discharge-dateMonth"]`)
-      .select(month, { force: true });
+      .select(month);
   };
 
   selectStartDay = day => {
     cy.get(Locators.BLOCKS.FILTER_START_DATE)
       .find(`[name="discharge-dateDay"]`)
-      .select(day, { force: true });
+      .select(day);
   };
 
   selectEndDay = day => {
     cy.get(Locators.BLOCKS.FILTER_END_DATE)
       .find(`[name="discharge-dateDay"]`)
-      .select(day, { force: true });
+      .select(day);
   };
 
   getStartYear = year => {

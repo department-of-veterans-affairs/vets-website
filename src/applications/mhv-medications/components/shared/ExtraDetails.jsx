@@ -11,7 +11,6 @@ import {
   DISPENSE_STATUS,
 } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
-import RefillButton from './RefillButton';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { pageType } from '../../util/dataDogConstants';
 import {
@@ -19,8 +18,8 @@ import {
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
 
-const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
-  const { dispStatus, refillRemaining } = rx;
+const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
+  const { dispStatus, refillRemaining, isRenewable } = rx;
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const noRefillRemaining =
     refillRemaining === 0 && dispStatus === DISPENSE_STATUS.ACTIVE;
@@ -28,8 +27,6 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
   const isCernerPilot = useSelector(selectCernerPilotFlag);
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
-
-  const refillButton = page === pageType.LIST ? <RefillButton {...rx} /> : null;
 
   const renderV2Content = () => {
     switch (dispStatus) {
@@ -102,7 +99,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
                 data-testid="active-no-refill-left"
               >
                 You can’t refill this prescription. If you need more, send a
-                secure message to your care team.
+                secure message to your care team
               </p>
               <SendRxRenewalMessage
                 rx={rx}
@@ -111,7 +108,11 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             </div>
           );
         }
-        return refillButton;
+        return (
+          <p className="vads-u-margin-y--0" data-testid="active">
+            You can request this prescription when you need it.
+          </p>
+        );
 
       case dispStatusObjV2.inactive:
         // All map to "Inactive" in V2
@@ -246,12 +247,9 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
 
       case dispStatusObj.activeParked:
         return (
-          <div>
-            <p className="vads-u-margin-y--0" data-testid="active-parked">
-              You can request this prescription when you need it.
-            </p>
-            {refillButton}
-          </div>
+          <p className="vads-u-margin-y--0" data-testid="active-parked">
+            You can request this prescription when you need it.
+          </p>
         );
 
       case dispStatusObj.expired:
@@ -336,7 +334,7 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
             </div>
           );
         }
-        return refillButton;
+        return null;
 
       default:
         return null;
@@ -353,6 +351,15 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
       );
     }
 
+    // Handle OH prescriptions with isRenewable (may have dispStatus or null)
+    if (isRenewable) {
+      return (
+        <div className="no-print">
+          <SendRxRenewalMessage rx={rx} />
+        </div>
+      );
+    }
+
     // V2 status handling when both flags are enabled
     if (useV2Status) {
       return renderV2Content();
@@ -362,18 +369,12 @@ const ExtraDetails = ({ showRenewalLink = false, page, ...rx }) => {
     return renderV1Content();
   };
 
-  const content = renderContent();
-
-  if (!content) {
-    return null;
-  }
-
   return (
     <div
       className="shipping-info"
       id={`status-description-${rx.prescriptionId}`}
     >
-      {content}
+      {renderContent()}
     </div>
   );
 };

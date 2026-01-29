@@ -570,10 +570,10 @@
     }
   ],
   "links": {
-    "self": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&type=health&page=1",
-    "first": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&type=health&page=1",
-    "next": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&type=health&page=2",
-    "last": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&type=health&page=108"
+    "self": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&radius=500&type=health&page=1&per_page=5",
+    "first": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&radius=500&type=health&page=1&per_page=5",
+    "next": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&radius=500&type=health&page=2&per_page=5",
+    "last": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities?lat=40.099155&long=-82.949986&radius=500&type=health&page=108&per_page=5"
   },
   "meta": {
     "pagination": {

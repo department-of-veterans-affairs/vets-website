@@ -514,21 +514,3 @@ export function detailsPageBegin(title, subTitle, type = 'locations') {
     </legend>
   );
 }
-
-/**
- * Review field component for toxic exposure date fields
- * Handles year-only dates (YYYY-XX) and month/year dates (YYYY-MM) correctly
- * @param {Object} props - Review field props
- * @param {Object} props.children - Children object containing formData and uiSchema
- * @returns {JSX.Element} Review field row
- */
-export const reviewDateField = ({ children }) => {
-  const { formData, uiSchema: fieldUiSchema } = children.props;
-  const formattedDate = formatMonthYearDate(formData);
-  return (
-    <div className="review-row">
-      <dt>{fieldUiSchema['ui:title']}</dt>
-      <dd>{formattedDate}</dd>
-    </div>
-  );
-};

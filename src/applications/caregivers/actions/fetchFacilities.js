@@ -22,7 +22,9 @@ const formatAddress = ({
 export const fetchFacilities = async ({
   lat = null,
   long = null,
+  radius = null,
   page = null,
+  perPage = null,
   facilityIds = [],
   type = 'health',
 }) => {
@@ -35,7 +37,9 @@ export const fetchFacilities = async ({
         type,
         lat,
         long,
+        radius,
         page,
+        perPage,
         facilityIds: facilityIds.join(','),
       }),
       headers: { 'Content-Type': 'application/json' },

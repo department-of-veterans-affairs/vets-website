@@ -1,7 +1,0 @@
-flow:
-  title: Inbox page without cards (auth)
-  runOnCI: true # when this is false, the flow will only run on a scheduled job
-  steps:
-    - action: include
-      target: page
-      value: your-empty-inquiries

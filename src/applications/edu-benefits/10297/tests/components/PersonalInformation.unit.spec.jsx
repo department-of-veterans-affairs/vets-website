@@ -55,4 +55,78 @@ describe('<PersonalInformation />', () => {
     expect(getByText(/May 15, 1990/i)).to.exist;
     expect(container.querySelector('va-card')).to.exist;
   });
+
+  it('should show error alert when name is missing', () => {
+    const profile = {
+      dob: '1990-05-15',
+      userFullName: {},
+      ssn: '123456789',
+    };
+
+    const { container, getByText } = renderWithStore(
+      <PersonalInformation formData={{}} />,
+      profile,
+    );
+
+    expect(getByText(/We need more information/i)).to.exist;
+    expect(getByText(/missing your name/i)).to.exist;
+    expect(container.querySelector('va-alert')).to.exist;
+  });
+
+  it('should show error alert when date of birth is missing', () => {
+    const profile = {
+      userFullName: {
+        first: 'John',
+        middle: 'A',
+        last: 'Doe',
+      },
+      ssn: '123456789',
+    };
+
+    const { getByText } = renderWithStore(
+      <PersonalInformation formData={{}} />,
+      profile,
+    );
+
+    expect(getByText(/We need more information/i)).to.exist;
+    expect(getByText(/missing your date of birth/i)).to.exist;
+  });
+
+  it('should show error alert when SSN is missing', () => {
+    const profile = {
+      dob: '1990-05-15',
+      userFullName: {
+        first: 'John',
+        middle: 'A',
+        last: 'Doe',
+      },
+    };
+
+    const { getByText } = renderWithStore(
+      <PersonalInformation formData={{}} />,
+      profile,
+    );
+
+    expect(getByText(/We need more information/i)).to.exist;
+    expect(getByText(/missing your Social Security number/i)).to.exist;
+  });
+
+  it('should use formData SSN when profile SSN is missing', () => {
+    const profile = {
+      dob: '1990-05-15',
+      userFullName: {
+        first: 'John',
+        middle: 'A',
+        last: 'Doe',
+      },
+    };
+
+    const { getByText } = renderWithStore(
+      <PersonalInformation formData={{ ssn: '987654321' }} />,
+      profile,
+    );
+
+    expect(getByText(/Confirm the personal information/i)).to.exist;
+    expect(getByText(/Last 4 digits of Social Security number/i)).to.exist;
+  });
 });

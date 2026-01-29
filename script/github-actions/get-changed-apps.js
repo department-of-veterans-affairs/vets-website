@@ -75,7 +75,6 @@ const getAllowedApps = (filePath, allowedApps) => {
       entryName,
       rootUrl,
       rootPath: path.join(appsDirectory, rootAppFolderName),
-      rootFolder: rootAppFolderName,
       slackGroup,
       slackChannel,
       continuousDeployment,
@@ -113,8 +112,6 @@ const getChangedAppsString = (
           appStrings.push(app.entryName);
         } else if (outputType === 'folder') {
           appStrings.push(app.rootPath);
-        } else if (outputType === 'concurrency-group') {
-          appStrings.push(app.rootFolder);
         } else if (outputType === 'slack-group') {
           if (app.slackGroup) appStrings.push(app.slackGroup);
         } else if (outputType === 'slack-channel') {
@@ -126,7 +123,7 @@ const getChangedAppsString = (
     } else return '';
   }
 
-  return [...new Set(appStrings)].sort().join(delimiter);
+  return [...new Set(appStrings)].join(delimiter);
 };
 
 /**
@@ -171,7 +168,6 @@ if (process.env.CHANGED_FILE_PATHS) {
     // Use the --output-type option to specify one of the following outputs:
     // 'entry': The entry names of the changed apps.
     // 'folder': The relative path of the changed apps root folders.
-    // 'concurrency-group': The root folder names for deployment concurrency groups.
     // 'url': The root URLs of the changed apps.
     // 'slack-group': The Slack group of the app's team, specified in the config.
     { name: 'output-type', type: String, defaultValue: 'entry' },

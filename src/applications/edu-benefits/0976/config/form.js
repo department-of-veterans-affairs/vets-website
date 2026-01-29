@@ -29,28 +29,9 @@ import submissionReasonOtherText from '../pages/submissionReasonOtherText';
 import primaryInstitutionIHL from '../pages/primaryInstitutionIHL';
 import primaryInstitutionTitle4 from '../pages/primaryInstitutionTitle4';
 
-import programInformationIntro from '../pages/programInformationIntro';
-import programInformationSummary from '../pages/programInformationSummary';
-import programInformationDetails from '../pages/programInformationDetails';
-
-import isMedicalSchool from '../pages/isMedicalSchool';
-import medicalAuthorityName from '../pages/medicalAuthorityName';
-import medical32MonthProgram from '../pages/medical32MonthProgram';
-import medicalHasGraduatingClass from '../pages/medicalHasGraduatingClass';
-import medicalGraduatingClassDetails from '../pages/medicalGraduatingClassDetails';
-
-import institutionContactsInstructions from '../pages/institutionContactsInstructions';
-import institutionFinancialRepresentative from '../pages/institutionFinancialRepresentative';
-import institutionCertifyingOfficial from '../pages/institutionCertifyingOfficial';
-
-import officialsSummary from '../pages/officialsSummary';
-import officialsDetails from '../pages/officialsDetails';
-
 import {
   additionalInstitutionsWithCodeArrayOptions,
   additionalInstitutionsWithoutCodeArrayOptions,
-  programInformationArrayOptions,
-  officialsArrayOptions,
 } from '../helpers';
 
 const formConfig = {
@@ -264,106 +245,6 @@ const formConfig = {
           uiSchema: primaryInstitutionTitle4.uiSchema,
           schema: primaryInstitutionTitle4.schema,
         },
-      },
-    },
-    programInformation: {
-      title: 'Program Information',
-      pages: {
-        ...arrayBuilderPages(programInformationArrayOptions, pageBuilder => ({
-          programInformationIntro: pageBuilder.introPage({
-            path: 'program-information',
-            title: 'Program information',
-            uiSchema: programInformationIntro.uiSchema,
-            schema: programInformationIntro.schema,
-          }),
-          programInformationSummary: pageBuilder.summaryPage({
-            path: 'program-information-summary',
-            title: 'Program information summary',
-            uiSchema: programInformationSummary.uiSchema,
-            schema: programInformationSummary.schema,
-          }),
-          programInformationDetails: pageBuilder.itemPage({
-            path: 'program-information-details/:index',
-            title: 'Program information details',
-            showPagePerItem: true,
-            uiSchema: programInformationDetails.uiSchema,
-            schema: programInformationDetails.schema,
-          }),
-        })),
-        isMedicalSchool: {
-          path: 'is-medical-school',
-          title: 'Medical school information',
-          uiSchema: isMedicalSchool.uiSchema,
-          schema: isMedicalSchool.schema,
-        },
-        medicalAuthorityName: {
-          path: 'medical-authority-name',
-          title: 'Medical authority name',
-          uiSchema: medicalAuthorityName.uiSchema,
-          schema: medicalAuthorityName.schema,
-          depends: formData => formData?.isMedicalSchool === true,
-        },
-        medical32MonthProgram: {
-          path: 'medical-32-month-program',
-          title: 'Medical 32 month program',
-          uiSchema: medical32MonthProgram.uiSchema,
-          schema: medical32MonthProgram.schema,
-          depends: formData => formData?.isMedicalSchool === true,
-        },
-        medicalHasGraduatingClass: {
-          path: 'medical-graduating-class',
-          title: 'Medical graduation class',
-          uiSchema: medicalHasGraduatingClass.uiSchema,
-          schema: medicalHasGraduatingClass.schema,
-          depends: formData => formData?.isMedicalSchool === true,
-        },
-        medicalGraduatingClassDetails: {
-          path: 'medical-graduating-class-details',
-          title: 'Medical graduation class details',
-          uiSchema: medicalGraduatingClassDetails.uiSchema,
-          schema: medicalGraduatingClassDetails.schema,
-          depends: formData =>
-            formData?.isMedicalSchool === true &&
-            formData?.graduatedLast12Months === true,
-        },
-      },
-    },
-    institutionContacts: {
-      title: 'Institution contacts and faculty details',
-      pages: {
-        contactsInstructions: {
-          path: 'contacts-instructions',
-          title: 'Institution contacts instructions',
-          uiSchema: institutionContactsInstructions.uiSchema,
-          schema: institutionContactsInstructions.schema,
-        },
-        institutionFinancialRepresentative: {
-          path: 'financial-representative',
-          title: 'Financial representative',
-          uiSchema: institutionFinancialRepresentative.uiSchema,
-          schema: institutionFinancialRepresentative.schema,
-        },
-        institutionCertifyingOfficial: {
-          path: 'certifying-official',
-          title: 'Certifying official',
-          uiSchema: institutionCertifyingOfficial.uiSchema,
-          schema: institutionCertifyingOfficial.schema,
-        },
-        ...arrayBuilderPages(officialsArrayOptions, pageBuilder => ({
-          officialsSummary: pageBuilder.summaryPage({
-            path: 'officials-summary',
-            title: 'Officials summary',
-            uiSchema: officialsSummary.uiSchema,
-            schema: officialsSummary.schema,
-          }),
-          officialsDetails: pageBuilder.itemPage({
-            path: 'officials-details/:index',
-            title: 'Officials details',
-            showPagePerItem: true,
-            uiSchema: officialsDetails.uiSchema,
-            schema: officialsDetails.schema,
-          }),
-        })),
       },
     },
   },

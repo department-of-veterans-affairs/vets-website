@@ -16,8 +16,6 @@ export const isLOA1 = state => selectProfile(state).loa.current === 1;
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state =>
   selectProfile(state)?.services || [];
-export const isSchedulingPreferencesPilotEligible = state =>
-  selectProfile(state).schedulingPreferencesPilotEligible || false;
 
 export const selectVAPContactInfo = state =>
   selectProfile(state).vapContactInfo;

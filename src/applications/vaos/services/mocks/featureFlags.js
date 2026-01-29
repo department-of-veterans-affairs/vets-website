@@ -10,6 +10,8 @@ module.exports = [
   { name: 'vaOnlineSchedulingCCDirectSchedulingChiropractic', value: true },
   { name: 'vaOnlineSchedulingCommunityCareCancellations', value: true },
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: true },
+  { name: 'vaOnlineSchedulingOhDirectSchedule', value: true },
+  { name: 'vaOnlineSchedulingOhRequest', value: true },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
@@ -26,5 +28,5 @@ module.exports = [
   { name: 'vaOnlineSchedulingImmediateCareAlert', value: false },
   { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
   { name: 'vaOnlineSchedulingUseBrowserTimezone', value: true },
-  { name: 'vaOnlineSchedulingUseVpg', value: false },
+  { name: 'vaOnlineSchedulingUseVpg', value: true },
 ];

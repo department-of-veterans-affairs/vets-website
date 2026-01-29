@@ -86,7 +86,6 @@ const profileContactInfoPages = ({
       depends: () => false, // accessed from contact info page
       uiSchema: {},
       schema: blankSchema,
-      onNavBack: ({ goPath }) => goPath(contactPath),
     };
   }
 
@@ -112,7 +111,6 @@ const profileContactInfoPages = ({
       depends: () => false, // accessed from contact info page
       uiSchema: {},
       schema: blankSchema,
-      onNavBack: ({ goPath }) => goPath(contactPath),
     };
   }
 
@@ -139,7 +137,6 @@ const profileContactInfoPages = ({
       depends: () => false, // accessed from contact info page
       uiSchema: {},
       schema: blankSchema,
-      onNavBack: ({ goPath }) => goPath(contactPath),
     };
   }
 
@@ -164,7 +161,6 @@ const profileContactInfoPages = ({
       depends: () => false, // accessed from contact info page
       uiSchema: {},
       schema: blankSchema,
-      onNavBack: ({ goPath }) => goPath(contactPath),
     };
   }
 

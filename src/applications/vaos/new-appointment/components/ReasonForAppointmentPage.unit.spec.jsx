@@ -247,7 +247,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       featureToggles: {
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingCommunityCare: true,
-        vaOnlineSchedulingUseVpg: true,
+        vaOnlineSchedulingOhRequest: true,
       },
       user: {
         profile: {

@@ -8,7 +8,7 @@ inputs:
     default: ' '
 
   output-type:
-    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `deployment_concurrency_group`, `slack_group`, `slack_channel`, `url`, `continuous_deployment`.'
+    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `slack_channel`, `url`, `continuous_deployment`.'
     required: false
     default: ''
 
@@ -40,10 +40,6 @@ outputs:
   urls:
     description: 'Root URLs of changed applications.'
     value: ${{ steps.get-urls.outputs.urls }}
-
-  deployment_concurrency_group:
-    description: 'Concurrency group identifier for deployments, derived from sorted parent folder names.'
-    value: ${{ steps.get-concurrency-group.outputs.deployment_concurrency_group }}
 
 runs:
   using: 'composite'
@@ -103,13 +99,5 @@ runs:
       if: contains(inputs.output-type, 'continuous_deployment')
       shell: bash
       run: echo is_enabled=$(node script/github-actions/get-changed-apps.js --continuous-deployment) >> $GITHUB_OUTPUT
-      env:
-        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
-
-    - name: Get deployment concurrency group
-      id: get-concurrency-group
-      if: contains(inputs.output-type, 'deployment_concurrency_group')
-      shell: bash
-      run: echo deployment_concurrency_group=$(node script/github-actions/get-changed-apps.js --output-type concurrency-group -d "-") >> $GITHUB_OUTPUT
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}

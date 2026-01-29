@@ -1,7 +1,5 @@
 import manifest from '../manifest.json';
 
-const baseUrl = Cypress.config('baseUrl');
-
 describe(manifest.appName, () => {
   beforeEach(() => {
     const featureToggles = {
@@ -23,7 +21,10 @@ describe(manifest.appName, () => {
   it('is accessible', () => {
     cy.axeCheck();
 
-    cy.url().should('eq', `${baseUrl}/health-care/connected-devices/`);
+    cy.url().should(
+      'eq',
+      'http://localhost:3001/health-care/connected-devices/',
+    );
   });
 
   it("displays login modal after clicking 'Sign in or create an account' for veteran NOT logged in", () => {

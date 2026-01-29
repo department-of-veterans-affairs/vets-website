@@ -25,7 +25,7 @@ const generateAppointmentHeader = avs => {
 };
 
 const Avs = props => {
-  const { isLoggedIn } = props;
+  const { id, isLoggedIn } = props;
   useDatadogRum();
 
   const user = useSelector(selectUser);
@@ -55,6 +55,11 @@ const Avs = props => {
 
   if (isLoggedIn && (!loader.avs || featureTogglesLoading)) {
     return loadingIndicator;
+  }
+
+  if (!id) {
+    window.location.replace('/my-health/medical-records/summaries-and-notes/');
+    return null;
   }
 
   return (

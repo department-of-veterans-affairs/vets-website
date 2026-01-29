@@ -24,20 +24,12 @@ const CrisisLineConnectButton = props => {
         'va-modal-close',
       )[0];
 
-      if (crisisModalOpened && modalCloseButton) {
+      if (crisisModalOpened) {
         modalCloseButton.addEventListener('click', onCrisisModalClose);
         window.addEventListener('keydown', onEscapeKeyPress);
       }
       return () => {
-        // NODE 22 FIX: Add null check before calling removeEventListener.
-        // When crisisModalOpened is false, the modal isn't in the DOM yet,
-        // so modalCloseButton will be undefined. The cleanup function captures
-        // this undefined value in its closure, causing a TypeError when React
-        // runs the cleanup before the next effect. This is a real bug that
-        // can occur in production browsers too, not just a test environment issue.
-        if (modalCloseButton) {
-          modalCloseButton.removeEventListener('click', onCrisisModalClose);
-        }
+        modalCloseButton.removeEventListener('click', onCrisisModalClose);
         window.removeEventListener('keydown', onEscapeKeyPress);
       };
     },

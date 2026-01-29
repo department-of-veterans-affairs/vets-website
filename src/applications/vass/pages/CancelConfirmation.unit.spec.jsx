@@ -1,37 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import CancelConfirmation from './CancelConfirmation';
 import { getDefaultRenderOptions } from '../utils/test-utils';
-import {
-  createAppointmentData,
-  createVassApiStateWithAppointment,
-} from '../utils/appointments';
-import { URLS } from '../utils/constants';
-
-const appointmentId = 'abcdef123456';
-const appointmentData = createAppointmentData({ appointmentId });
-
-const getVassApiState = () =>
-  createVassApiStateWithAppointment(appointmentId, appointmentData);
 
 describe('VASS Component: CancelConfirmation', () => {
   it('renders page, message, and appointment card', () => {
     const { getByTestId } = renderWithStoreAndRouter(
-      <Routes>
-        <Route
-          path={`${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/:appointmentId`}
-          element={<CancelConfirmation />}
-        />
-      </Routes>,
-      {
-        ...getDefaultRenderOptions({}, { vassApi: getVassApiState() }),
-        initialEntries: [
-          `${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${appointmentId}`,
-        ],
-      },
+      <CancelConfirmation />,
+      getDefaultRenderOptions(),
     );
     expect(getByTestId('cancel-confirmation-page')).to.exist;
     expect(getByTestId('cancel-confirmation-message').textContent).to.match(

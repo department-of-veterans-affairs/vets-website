@@ -9,7 +9,7 @@ const ConfirmationScreenView = ({ signerName, submitDate }) => {
     <>
       <div className="success-message vads-u-margin-bottom--4">
         <va-alert status="success">
-          <h2 slot="headline" className="vads-u-font-size--h3">
+          <h2 slot="headline" className="vads-u-margin--0">
             You submitted your CHAMPVA benefits application
           </h2>
         </va-alert>

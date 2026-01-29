@@ -26,35 +26,6 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'claimant-contact': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const { claimantContact } = data;
-            if (claimantContact?.claimantPhoneNumber) {
-              const countryCode =
-                claimantContact.claimantPhoneNumber.countryCode || 'US';
-              cy.get('va-combo-box')
-                .shadow()
-                .find('button.usa-combo-box__toggle-list')
-                .click();
-
-              cy.get(`li[data-value="${countryCode}"]`).click({ force: true });
-
-              const phoneNumber =
-                claimantContact.claimantPhoneNumber.contact || '';
-              cy.get('input[type="tel"]').type(phoneNumber);
-
-              if (claimantContact.claimantEmail) {
-                cy.get('input[name="root_claimantContact_claimantEmail"]').type(
-                  claimantContact.claimantEmail,
-                );
-              }
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {

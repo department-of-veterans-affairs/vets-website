@@ -4,15 +4,6 @@ import {
   bankAccountUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const updatedBankAccountSchema = bankAccountSchema();
-updatedBankAccountSchema.required = [
-  'bankName',
-  'accountType',
-  'accountNumber',
-  'routingNumber',
-];
-updatedBankAccountSchema.properties.bankName.maxLength = 34;
-
 function dependsIfHasBankAccount(formData) {
   return (
     formData?.hasBankAccount === true ||
@@ -36,7 +27,7 @@ export default {
     type: 'object',
     required: ['bankAccount'],
     properties: {
-      bankAccount: updatedBankAccountSchema,
+      bankAccount: bankAccountSchema(),
     },
   },
 };

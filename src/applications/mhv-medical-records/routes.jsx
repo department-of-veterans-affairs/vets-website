@@ -1,60 +1,48 @@
-import React, { Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
-import { lazyWithRetry } from '~/platform/utilities/lazy-load-with-retry';
 import AppRoute from './components/shared/AppRoute';
 
-// Lazy-loaded components with retry logic for Safari/iOS bfcache issues.
-const HealthConditions = lazyWithRetry(() =>
-  import('./containers/HealthConditions'),
-);
-const VaccineDetails = lazyWithRetry(() =>
-  import('./containers/VaccineDetails'),
-);
-const Vaccines = lazyWithRetry(() => import('./containers/Vaccines'));
-const VitalDetails = lazyWithRetry(() => import('./containers/VitalDetails'));
-const Vitals = lazyWithRetry(() => import('./containers/Vitals'));
-const LandingPage = lazyWithRetry(() => import('./containers/LandingPage'));
-const LabsAndTests = lazyWithRetry(() => import('./containers/LabsAndTests'));
-const CareSummariesAndNotes = lazyWithRetry(() =>
+// Lazy-loaded components.
+const HealthConditions = lazy(() => import('./containers/HealthConditions'));
+const VaccineDetails = lazy(() => import('./containers/VaccineDetails'));
+const Vaccines = lazy(() => import('./containers/Vaccines'));
+const VitalDetails = lazy(() => import('./containers/VitalDetails'));
+const Vitals = lazy(() => import('./containers/Vitals'));
+const LandingPage = lazy(() => import('./containers/LandingPage'));
+const LabsAndTests = lazy(() => import('./containers/LabsAndTests'));
+const CareSummariesAndNotes = lazy(() =>
   import('./containers/CareSummariesAndNotes'),
 );
-const ConditionDetails = lazyWithRetry(() =>
-  import('./containers/ConditionDetails'),
-);
-const LabAndTestDetails = lazyWithRetry(() =>
-  import('./containers/LabAndTestDetails'),
-);
-const Allergies = lazyWithRetry(() => import('./containers/Allergies'));
-const AllergyDetails = lazyWithRetry(() =>
-  import('./containers/AllergyDetails'),
-);
-const CareSummariesDetails = lazyWithRetry(() =>
+const ConditionDetails = lazy(() => import('./containers/ConditionDetails'));
+const LabAndTestDetails = lazy(() => import('./containers/LabAndTestDetails'));
+const Allergies = lazy(() => import('./containers/Allergies'));
+const AllergyDetails = lazy(() => import('./containers/AllergyDetails'));
+const CareSummariesDetails = lazy(() =>
   import('./containers/CareSummariesDetails'),
 );
-const SettingsPage = lazyWithRetry(() => import('./containers/SettingsPage'));
-const RadiologyImagesList = lazyWithRetry(() =>
+const SettingsPage = lazy(() => import('./containers/SettingsPage'));
+const RadiologyImagesList = lazy(() =>
   import('./containers/RadiologyImagesList'),
 );
-const RadiologySingleImage = lazyWithRetry(() =>
+const RadiologySingleImage = lazy(() =>
   import('./containers/RadiologySingleImage'),
 );
-const DownloadReportPage = lazyWithRetry(() =>
+const DownloadReportPage = lazy(() =>
   import('./containers/DownloadReportPage'),
 );
-const DownloadDateRange = lazyWithRetry(() =>
+const DownloadDateRange = lazy(() =>
   import('./components/DownloadRecords/DownloadDateRange'),
 );
-const DownloadRecordType = lazyWithRetry(() =>
+const DownloadRecordType = lazy(() =>
   import('./components/DownloadRecords/DownloadRecordType'),
 );
-const DownloadFileType = lazyWithRetry(() =>
+const DownloadFileType = lazy(() =>
   import('./components/DownloadRecords/DownloadFileType'),
 );
 
-// Loading component to display while lazy-loaded components are being fetched
-// and during retry attempts after chunk load failures.
+// Loading component to display while lazy-loaded components are being fetched.
 const Loading = () => (
   <va-loading-indicator
     message="Loading..."

@@ -145,10 +145,10 @@ class PatientMessageCustomFolderPage {
   verifyMainButtons = () => {
     cy.get(Locators.BUTTONS.EDIT_FOLDER)
       .should('be.visible')
-      .and('have.attr', 'text', 'Edit folder name');
+      .and('have.text', `Edit folder name`);
     cy.get(Locators.BUTTONS.REMOVE_FOLDER)
       .should('be.visible')
-      .and('have.attr', 'text', 'Remove folder');
+      .and('have.text', `Remove folder`);
     cy.get(Locators.BUTTONS.SORT)
       .shadow()
       .find(`button`)
@@ -226,11 +226,12 @@ class PatientMessageCustomFolderPage {
   };
 
   submitEditFolderName = folderName => {
-    // Wait for the edit form to be visible
-    cy.findByTestId('edit-folder-form').should('be.visible');
-
-    // Use the fillVaTextInput command for proper web component interaction
-    cy.fillVaTextInput('new-folder-name', folderName);
+    cy.get('[name="new-folder-name"]')
+      .should('be.visible')
+      .shadow()
+      .find('[id="inputField"]')
+      .should('be.visible')
+      .type(folderName, { force: true });
 
     cy.intercept('PUT', `/my_health/v1/messaging/folders/${this.folderId}`, {
       data: {
@@ -250,7 +251,7 @@ class PatientMessageCustomFolderPage {
       },
     }).as('updatedFolderName');
 
-    cy.findByTestId('save-edit-folder-button')
+    cy.get('[text="Save"]')
       .should('be.visible')
       .click();
   };
@@ -258,13 +259,12 @@ class PatientMessageCustomFolderPage {
   verifyRemoveFolderButton = () => {
     cy.get(Locators.BUTTONS.REMOVE_FOLDER)
       .should('be.visible')
-      .and('have.attr', 'text', Data.REMOVE_FOLDER);
+      .and('have.text', Data.REMOVE_FOLDER);
   };
 
   clickRemoveFolderButton = () => {
     cy.get(Locators.BUTTONS.REMOVE_FOLDER).should(
-      'have.attr',
-      'text',
+      'have.text',
       Data.REMOVE_FOLDER,
     );
     cy.get(Locators.BUTTONS.REMOVE_FOLDER).click({ waitForAnimations: true });

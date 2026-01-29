@@ -90,23 +90,9 @@ const testConfig = createTestConfig(
       'supporting-evidence/orientation': () => {
         verifySideNavState(3, 'supportingEvidence');
 
-        // Reuse the shared orientation assertions so this test stays in sync
-        // with the supporting evidence enhancement content.
-        pageHooks(cy)['supporting-evidence/orientation']();
-
         cy.get('va-sidenav-item[data-page="veteranDetails"]').should('exist');
         cy.get('va-sidenav-item[data-page="disabilities"]').should('exist');
         // Mental health chapter is conditionally included based on form data
-      },
-
-      'supporting-evidence/additional-evidence-intro': () => {
-        // Use cy.fillPage() which will handle va-radio components automatically
-        cy.fillPage();
-      },
-
-      'supporting-evidence/evidence-request': () => {
-        // Use cy.fillPage() which will handle va-radio components automatically
-        cy.fillPage();
       },
 
       // Chapter 5: Additional Information
@@ -162,15 +148,7 @@ const testConfig = createTestConfig(
           data: {
             type: 'feature_toggles',
             features: [
-              ...mockFeatureToggles.data.features.filter(
-                feature =>
-                  feature.name !==
-                  'disability_526_supporting_evidence_enhancement',
-              ),
-              {
-                name: 'disability_526_supporting_evidence_enhancement',
-                value: true,
-              },
+              ...mockFeatureToggles.data.features,
               { name: 'sidenav_526ez_enabled', value: true },
             ],
           },

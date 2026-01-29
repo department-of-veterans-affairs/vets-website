@@ -10,25 +10,6 @@ import { standardTitle } from '../content/form0781';
 
 import { evidenceTypeHelp } from '../content/evidenceTypes';
 
-/**
- * Map view:hasMedicalRecords from enhancement flow to view:hasEvidence for legacy flow
- * This ensures compatibility when transitioning from enhancement to legacy flow
- */
-export const updateFormData = (oldFormData, formData) => {
-  const hasMedicalRecords = get('view:hasMedicalRecords', oldFormData);
-  const hasEvidence = get('view:hasEvidence', formData);
-
-  // Only map if enhancement field exists and legacy field doesn't
-  if (hasMedicalRecords !== undefined && hasEvidence === undefined) {
-    return {
-      ...formData,
-      'view:hasEvidence': hasMedicalRecords,
-    };
-  }
-
-  return formData;
-};
-
 export const uiSchema = {
   'ui:title': standardTitle('Types of supporting evidence'),
   'view:hasEvidence': yesNoUI({

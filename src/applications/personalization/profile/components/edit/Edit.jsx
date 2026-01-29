@@ -17,15 +17,13 @@ import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAtt
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import InitializeVAPServiceIDContainer from '@@vap-svc/containers/InitializeVAPServiceID';
 
-import {
-  hasVAPServiceConnectionError,
-  isSchedulingPreferencesPilotEligible as isSchedulingPreferencesPilotEligibleSelector,
-} from '~/platform/user/selectors';
+import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
 import { isSubtaskSchedulingPreference } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { EditFallbackContent } from './EditFallbackContent';
 import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
+import { EditBreadcrumb } from './EditBreadcrumb';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import { getRouteInfoFromPath } from '../../../common/helpers';
@@ -76,14 +74,14 @@ export const Edit = () => {
   const profileHealthCareSettingsPageToggle = useToggleValue(
     TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
-  const isSchedulingPreferencesPilotEligible = useSelector(state =>
-    isSchedulingPreferencesPilotEligibleSelector(state),
+  const profileSchedulingPreferencesToggle = useToggleValue(
+    TOGGLE_NAMES.profileSchedulingPreferences,
   );
 
   const routesForNav = getRoutesForNav({
     profile2Enabled: profile2Toggle,
     profileHealthCareSettingsPage: profileHealthCareSettingsPageToggle,
-    profileSchedulingPreferencesEnabled: isSchedulingPreferencesPilotEligible,
+    profileSchedulingPreferencesEnabled: profileSchedulingPreferencesToggle,
   });
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
@@ -247,10 +245,6 @@ export const Edit = () => {
     },
   };
 
-  const breadcrumbText = isReturningToSchedulingPreferences(returnPath)
-    ? returnPathName
-    : `Back to ${returnPathName}`;
-
   return (
     <EditContext.Provider value={{ onCancel: handlers.cancel }}>
       {fieldInfo && !hasVAPServiceError ? (
@@ -262,17 +256,15 @@ export const Edit = () => {
             onHide={() => setShowConfirmCancelModal(false)}
           />
           <div className="vads-u-display--block medium-screen:vads-u-display--block">
-            <nav
-              aria-label="Breadcrumb"
-              className="vads-u-margin-top--3 vads-u-margin-bottom--3"
+            <EditBreadcrumb
+              className="vads-u-margin-top--2 vads-u-margin-bottom--3"
+              onClickHandler={handlers.breadCrumbClick}
+              href={returnPath}
             >
-              <va-link
-                back
-                href={returnPath}
-                onClick={handlers.breadCrumbClick}
-                text={breadcrumbText}
-              />
-            </nav>
+              {!isReturningToSchedulingPreferences(returnPath)
+                ? `Back to ${returnPathName}`
+                : returnPathName}
+            </EditBreadcrumb>
 
             {!isReturningToSchedulingPreferences(returnPath) && (
               <p className="vads-u-margin-bottom--0p5">

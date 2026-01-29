@@ -1,13 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import { connect } from 'react-redux';
-import { isSchedulingPreferencesPilotEligible as selectIsSchedulingPreferencesPilotEligible } from 'platform/user/selectors';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../constants';
 import Tier2PageContent from './Tier2PageContent';
 import { ProfileHubItem } from './hub/ProfileHubItem';
 
-const HealthCareSettings = ({ isSchedulingPreferencesPilotEligible }) => {
+const HealthCareSettings = () => {
   return (
     <Tier2PageContent pageHeader="Health care settings">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileHideHealthCareContacts}>
@@ -24,13 +21,11 @@ const HealthCareSettings = ({ isSchedulingPreferencesPilotEligible }) => {
         content="Manage the signature on your messages."
         href={PROFILE_PATHS.MESSAGES_SIGNATURE}
       />
-      {isSchedulingPreferencesPilotEligible && (
-        <ProfileHubItem
-          heading={PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES}
-          content="Manage your scheduling preferences for health care appointments."
-          href={PROFILE_PATHS.SCHEDULING_PREFERENCES}
-        />
-      )}
+      <ProfileHubItem
+        heading={PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES}
+        content="Manage your scheduling preferences for health care appointments."
+        href={PROFILE_PATHS.SCHEDULING_PREFERENCES}
+      />
       <va-card
         background
         title="Manage your other health care needs on My HealtheVet"
@@ -49,14 +44,6 @@ const HealthCareSettings = ({ isSchedulingPreferencesPilotEligible }) => {
   );
 };
 
-HealthCareSettings.propTypes = {
-  isSchedulingPreferencesPilotEligible: PropTypes.bool,
-};
+HealthCareSettings.propTypes = {};
 
-const mapStateToProps = state => ({
-  isSchedulingPreferencesPilotEligible: selectIsSchedulingPreferencesPilotEligible(
-    state,
-  ),
-});
-
-export default connect(mapStateToProps)(HealthCareSettings);
+export default HealthCareSettings;

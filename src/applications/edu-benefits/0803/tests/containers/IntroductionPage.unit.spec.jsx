@@ -78,7 +78,7 @@ describe('IntroductionPage', () => {
     // Ensure FormTitle is present by checking the h1 text rendered by it
     const h1 = getByTestId('form-title');
     expect(h1?.textContent).to.contain(
-      'Request licensing or certification test fees reimbursement online',
+      'Request for reimbursement of licensing or certification test fees',
     );
   });
 

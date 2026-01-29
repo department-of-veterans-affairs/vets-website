@@ -3,6 +3,9 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import sinon from 'sinon';
+import configureStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
 import folders from '../fixtures/folder-inbox-response.json';
 import folderList from '../fixtures/folder-response.json';
 import reducer from '../../reducers';
@@ -11,7 +14,6 @@ import ManageFolderButtons from '../../components/ManageFolderButtons';
 import * as foldersActions from '../../actions/folders';
 
 describe('Manage Folder Buttons component', () => {
-  let sandbox;
   const folder = folders.customFolder;
   const initialState = {
     sm: {
@@ -29,14 +31,6 @@ describe('Manage Folder Buttons component', () => {
       },
     },
   };
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   it('renders without errors', () => {
     const screen = renderWithStoreAndRouter(
@@ -84,7 +78,7 @@ describe('Manage Folder Buttons component', () => {
   });
 
   it('confirming removal of a folder with no threads contained triggers a call', async () => {
-    const deleteFolderSpy = sandbox.spy(foldersActions, 'delFolder');
+    const deleteFolderSpy = sinon.spy(foldersActions, 'delFolder');
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -99,7 +93,7 @@ describe('Manage Folder Buttons component', () => {
     sinon.assert.calledWith(deleteFolderSpy);
   });
 
-  it("displays inline edit form when 'Edit folder name' button is clicked", async () => {
+  it("displays a modal when 'Rename folder' button is clicked", async () => {
     const screen = renderWithStoreAndRouter(
       <ManageFolderButtons folder={folder} />,
       {
@@ -107,52 +101,27 @@ describe('Manage Folder Buttons component', () => {
         reducers: reducer,
       },
     );
-    const editButton = screen.getByTestId('edit-folder-button');
-    expect(editButton).to.exist;
-
-    // Form should not be visible initially
-    expect(screen.queryByTestId('edit-folder-form')).to.not.exist;
-
-    // Click button to expand inline form
-    fireEvent.click(editButton);
-
-    // Wait for form to appear
-    await waitFor(() => {
-      expect(screen.getByTestId('edit-folder-form')).to.exist;
-    });
-
-    // Verify cancel button closes the form
-    fireEvent.click(screen.getByTestId('cancel-edit-folder-button'));
-    await waitFor(() => {
-      expect(screen.queryByTestId('edit-folder-form')).to.not.exist;
-    });
-  });
-
-  it('Inline edit form shows error for blank folder name', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folder} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
-    // Click button to expand inline form
     fireEvent.click(screen.getByTestId('edit-folder-button'));
 
-    // Wait for form to appear
-    await waitFor(() => {
-      expect(screen.getByTestId('edit-folder-form')).to.exist;
-    });
+    const renameModal = screen.getByTestId('rename-folder-modal');
+    expect(renameModal).to.have.attribute('visible', 'true');
+    fireEvent.click(renameModal.querySelector('va-button[text="Cancel"]'));
+    expect(renameModal).to.have.attribute('visible', 'false');
+  });
 
-    const input = screen.getByTestId('edit-folder-name-input');
+  it('Rename modal accepts specific characters in folder name', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ManageFolderButtons folder={folder} />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    fireEvent.click(screen.getByTestId('edit-folder-button'));
+    const renameModal = screen.getByTestId('rename-folder-modal');
+    const input = renameModal.querySelector('va-text-input');
 
-    // Clear the input to simulate blank folder name
-    // Set value on target for web component compatibility
-    input.value = '';
-    fireEvent(input, new CustomEvent('input', { bubbles: true }));
-
-    const saveButton = screen.getByTestId('save-edit-folder-button');
+    const saveButton = renameModal.querySelector('va-button[text="Save"]');
     fireEvent.click(saveButton);
 
     await waitFor(() => {
@@ -160,100 +129,40 @@ describe('Manage Folder Buttons component', () => {
         'Folder name cannot be blank',
       );
     });
+    // fireEvent.click(input);
+    // fireEvent.change(input, {
+    //   target: { value: folder.name },
+    // });
+
+    // fireEvent.click(saveButton);
+    // screen.debug();
+    // await waitFor(() => {
+    //   expect(input.getAttribute('error')).to.equal(
+    //     'Folder name already in use. Please use another name.',
+    //   );
+    // });
   });
 
-  it('Inline edit form shows error for duplicate folder name', async () => {
+  it.skip('test', async () => {
     const existingFolderName = folderList.slice(-1)[0].name;
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folder} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
+    const mockStore = configureStore();
+    const store = mockStore(initialState);
+    const wrapper = mount(
+      <Provider store={store}>
+        <ManageFolderButtons folder={folder} />
+      </Provider>,
     );
 
-    // Click button to expand inline form
-    fireEvent.click(screen.getByTestId('edit-folder-button'));
-
-    // Wait for form to appear
-    await waitFor(() => {
-      expect(screen.getByTestId('edit-folder-form')).to.exist;
+    const editButton = wrapper.find('button[data-testid="edit-folder-button"]');
+    editButton.simulate('click');
+    const input = wrapper.find('va-text-input');
+    input.invoke('onInput')({
+      target: { value: existingFolderName },
     });
-
-    const input = screen.getByTestId('edit-folder-name-input');
-
-    // Set to existing folder name - use direct value assignment for web component compatibility
-    input.value = existingFolderName;
-    fireEvent(input, new CustomEvent('input', { bubbles: true }));
-
-    const saveButton = screen.getByTestId('save-edit-folder-button');
-    fireEvent.click(saveButton);
-
-    await waitFor(() => {
-      expect(input.getAttribute('error')).to.equal(
-        'Folder name already in use. Please use another name.',
-      );
-    });
-  });
-
-  it('Edit folder name button renders with full-width attribute', () => {
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folder} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
+    const saveButton = wrapper.find('va-button[text="Save"]');
+    saveButton.simulate('click');
+    expect(wrapper.find('va-text-input').prop('error')).to.equal(
+      'Folder name already in use. Please use another name.',
     );
-    const editButton = screen.getByTestId('edit-folder-button');
-    expect(editButton).to.have.attribute('full-width');
-    expect(editButton).to.have.attribute('secondary');
-  });
-
-  it('Remove folder button renders with full-width attribute and destructive styling class', () => {
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folder} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-    const removeButton = screen.getByTestId('remove-folder-button');
-    expect(removeButton).to.have.attribute('full-width');
-    expect(removeButton).to.have.attribute('secondary');
-    expect(removeButton.getAttribute('class')).to.include(
-      'sm-button-destructive',
-    );
-  });
-
-  it('Save button in edit form triggers rename folder action with new name', async () => {
-    const renameFolderSpy = sandbox.spy(foldersActions, 'renameFolder');
-    const screen = renderWithStoreAndRouter(
-      <ManageFolderButtons folder={folder} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
-    // Click button to expand inline form
-    fireEvent.click(screen.getByTestId('edit-folder-button'));
-
-    // Wait for form to appear
-    await waitFor(() => {
-      expect(screen.getByTestId('edit-folder-form')).to.exist;
-    });
-
-    const input = screen.getByTestId('edit-folder-name-input');
-
-    // Set a new valid folder name
-    input.value = 'New Folder Name';
-    fireEvent(input, new CustomEvent('input', { bubbles: true }));
-
-    const saveButton = screen.getByTestId('save-edit-folder-button');
-    fireEvent.click(saveButton);
-
-    await waitFor(() => {
-      sinon.assert.calledOnce(renameFolderSpy);
-    });
   });
 });

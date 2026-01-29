@@ -187,40 +187,7 @@ describe('Folder Thread List View container', () => {
       ],
     };
     mockFetch(res, false);
-    // NODE 22 FIX: Provide complete initial state structure so reducers and component
-    // can properly handle the error flow. The component needs threads state for rendering
-    // and alerts state for displaying errors.
-    const screen = setup({
-      sm: {
-        alerts: { alertList: [], alertVisible: false },
-        folders: { folder: inbox },
-        threads: {
-          threadList: [],
-          isLoading: false,
-          threadSort: {
-            value: threadSortingOptions.SENT_DATE_DESCENDING.value,
-            folderId: 0,
-            page: 1,
-          },
-        },
-        recipients: { noAssociations: false, allTriageGroupsBlocked: false },
-        search: {
-          searchResults: undefined,
-          awaitingResults: false,
-          keyword: '',
-        },
-      },
-    });
-
-    // NODE 22 FIX: Wait for alert to exist first before checking attributes.
-    // In Node 22, the component may not have rendered the alert yet when
-    // waitFor first runs, causing document.querySelector to return null.
-    // Splitting into separate waitFor calls ensures we don't access properties
-    // on null. This doesn't change test behavior - same assertions, just safer ordering.
-    await waitFor(() => {
-      const alert = document.querySelector('va-alert');
-      expect(alert).to.exist;
-    });
+    const screen = setup({ sm: {} });
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');

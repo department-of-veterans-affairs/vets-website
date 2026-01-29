@@ -68,6 +68,10 @@
             "isCerner": false
           },
           {
+            "facilityId": "668",
+            "isCerner": true
+          },
+          {
             "facilityId": "984",
             "isCerner": false
           },
@@ -110,12 +114,8 @@
         ],
         "vaPatient": true,
         "mhvAccountState": "NONE",
-        "ohMigrationInfo": {
-          "userAtPretransitionedOhFacility": false,
-          "userFacilityReadyForInfoAlert": false,
-          "userFacilityMigratingToOh": false,
-          "migrationSchedules": []
-        }
+        "userAtPretransitionedOhFacility": true,
+        "userFacilityReadyForInfoAlert": false
       },
       "veteranStatus": null,
       "inProgressForms": [

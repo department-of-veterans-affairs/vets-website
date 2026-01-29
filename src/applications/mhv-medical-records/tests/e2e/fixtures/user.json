@@ -71,12 +71,8 @@
         ],
         "vaPatient": true,
         "mhvAccountState": "MULTIPLE",
-        "ohMigrationInfo": {
-          "userAtPretransitionedOhFacility": false,
-          "userFacilityReadyForInfoAlert": false,
-          "userFacilityMigratingToOh": false,
-          "migrationSchedules": []
-        }
+        "userAtPretransitionedOhFacility": false,
+        "userFacilityReadyForInfoAlert": false
       },
       "veteranStatus": null,
       "inProgressForms": [],

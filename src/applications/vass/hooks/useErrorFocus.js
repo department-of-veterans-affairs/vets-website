@@ -1,57 +1,33 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { focusElement } from 'platform/utilities/ui/focus';
 
 /**
- * Custom hook for handling error focus on multiple components
- * @param {string[]} focusSelectors - Array of CSS selectors in priority order (first = highest)
- * @returns {Object} Object containing items array and triggerFocus function
- * @returns {Array<{error: string, handleSetError: Function}>} items - Array of error/setter pairs
- * @returns {Function} triggerFocus - Function to trigger focus on the first error
+ * Custom hook for handling error focus on a component
+ * @param {string} focusSelector - CSS selector or attached DOM element to focus on
+ * @returns {Object} An object containing the error message and a function to set the error message
+ * @returns {string} error - The error message
+ * @returns {Function} handleSetError - A function to set the error message
  */
-export const useErrorFocus = focusSelectors => {
-  // Stabilize the selectors array to prevent unnecessary re-renders
-  const selectorsKey = focusSelectors.join('|');
-  const stableSelectors = useMemo(
-    () => focusSelectors,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectorsKey],
-  );
-
-  const [errors, setErrors] = useState(() => stableSelectors.map(() => ''));
+export const useErrorFocus = focusSelector => {
+  const [error, setError] = useState('');
   const [focusTrigger, setFocusTrigger] = useState(0);
 
-  const triggerFocus = useCallback(() => {
-    setFocusTrigger(prev => prev + 1);
-  }, []);
+  const handleSetError = useCallback(
+    errorMessage => {
+      setError(errorMessage);
+      setFocusTrigger(prev => prev + 1);
+    },
+    [setError, setFocusTrigger],
+  );
 
   useEffect(
     () => {
-      if (focusTrigger > 0) {
-        const errorIndex = errors.findIndex(err => err);
-        if (errorIndex !== -1) {
-          focusElement(stableSelectors[errorIndex]);
-        }
+      if (error) {
+        focusElement(focusSelector);
       }
     },
-    [stableSelectors, focusTrigger, errors],
+    [error, focusSelector, focusTrigger],
   );
 
-  return useMemo(
-    () => {
-      return stableSelectors.map((_, index) => ({
-        error: errors[index],
-        handleSetError: errorMessage => {
-          setErrors(prev => {
-            const next = [...prev];
-            next[index] = errorMessage;
-            return next;
-          });
-          if (errorMessage) {
-            triggerFocus();
-          }
-        },
-      }));
-    },
-    [stableSelectors, errors, triggerFocus],
-  );
+  return { error, handleSetError };
 };

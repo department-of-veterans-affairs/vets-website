@@ -28,8 +28,7 @@
         "givenNames": ["Wesley", "Watson"],
         "facilities": [{ "facilityId": "983", "isCerner": false }],
         "vaPatient": true,
-        "mhvAccountState": "OK",
-        "schedulingPreferencesPilotEligible": true
+        "mhvAccountState": "OK"
       },
       "veteranStatus": {
         "status": "OK",

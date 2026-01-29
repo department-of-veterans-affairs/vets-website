@@ -79,10 +79,4 @@ describe('<Autosuggest inputId="any">', () => {
     fireEvent.blur(input);
     expect(input).to.have.value('any input'); // clear on tab
   });
-
-  it('Autosuggest input should NOT have aria-labelledby attribute', async () => {
-    const screen = render(<AutosuggestTestComponent />);
-    const input = await screen.findByRole('combobox');
-    expect(input.hasAttribute('aria-labelledby')).to.equal(false);
-  });
 });

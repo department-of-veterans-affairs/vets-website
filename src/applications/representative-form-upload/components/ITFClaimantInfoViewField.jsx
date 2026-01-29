@@ -61,9 +61,9 @@ const ITFClaimantInfoViewField = props => {
   return (
     <div className="form-review-panel-page form-review-panel-page-representative-form-upload">
       <div className="form-review-panel-page-header-row vads-u-justify-content--space-between">
-        <h5 className="vads-u-font-size--h5 vads-u-margin--0">
+        <h4 className="vads-u-font-size--h5 vads-u-margin--0">
           Claimant information
-        </h5>
+        </h4>
         {defaultEditButton()}
         <dl className="review vads-u-margin-top--2 vads-u-width--full">
           {Object.entries(claimantDisplay).map(
@@ -83,9 +83,9 @@ const ITFClaimantInfoViewField = props => {
 
       {isDependentClaim && (
         <div className="form-review-panel-page-header-row vads-u-justify-content--flex-start">
-          <h5 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--0">
+          <h4 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--0">
             Veteran identification information
-          </h5>
+          </h4>
           <dl className="review vads-u-margin-top--2 vads-u-width--full">
             {Object.entries(veteranDisplay).map(
               ([label, value]) =>

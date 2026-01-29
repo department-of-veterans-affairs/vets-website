@@ -17,4 +17,3 @@ import 'cypress-wait-until';
 import './injectAxe';
 import './webComponents';
 import './textHelpers';
-import './urlAssertions';

@@ -100,7 +100,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JOE', // Left school
+          firstName: 'JOE', // Left school & no permanent disability
           lastName: 'FOSTER',
           dateOfBirth: createDate(19),
           ssn: '3468',
@@ -109,7 +109,16 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'STACY', // Stepchild left household & < 50% financial support
+          firstName: 'MIKE', // Left school & has permanent disability
+          lastName: 'FOSTER',
+          dateOfBirth: createDate(20),
+          ssn: '3499',
+          relationshipToVeteran: 'Child', // prefill
+          relationship: 'Child', // API
+          awardIndicator: 'Y',
+        },
+        {
+          firstName: 'STACY', // Left household & < 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(0, 4),
           ssn: '3233',
@@ -118,7 +127,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'JENNIFER', // Stepchild left household & >= 50% financial support
+          firstName: 'JENNIFER', // Left household & >= 50% financial support
           lastName: 'FOSTER',
           dateOfBirth: createDate(4),
           ssn: '3311',

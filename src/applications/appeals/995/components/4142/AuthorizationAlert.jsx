@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { EVIDENCE_PRIVATE_PROMPT_URL } from '../../constants';
 import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
-
-export const alertTitle =
-  'We need your authorization to request your medical records';
+import { alertTitle } from '../../content/evidence/form4142';
 
 const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
   <va-alert status="error" visible={hasError} role="alert">

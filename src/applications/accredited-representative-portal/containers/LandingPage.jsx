@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { addStyleToShadowDomOnPages } from '../utilities/helpers';
+import { addStyleToShadowDomOnPages } from '../utilities/poaRequests';
 import { getSignInUrl } from '../utilities/constants';
 import { ProfileContext } from '../context/ProfileContext';
 

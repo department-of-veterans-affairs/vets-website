@@ -97,31 +97,6 @@ export const SearchResultsHeader = ({
     return 'Results';
   };
 
-  const isSpecialCategory = [
-    LocationType.URGENT_CARE,
-    LocationType.EMERGENCY_CARE,
-  ].includes(facilityType);
-
-  const resultsPrefix = isSpecialCategory
-    ? `${messagePrefix} for `
-    : `${handleNumberOfResults()} for `;
-
-  const FormattedServiceTypeText = () =>
-    formattedServiceType ? (
-      <>
-        {`, `}
-        <b>{`"${formattedServiceType}"`}</b>
-      </>
-    ) : null;
-
-  const FormattedLocationText = () =>
-    location ? (
-      <>
-        {` near `}
-        <b>{`"${location}"`}</b>
-      </>
-    ) : null;
-
   return (
     <div>
       <h2
@@ -129,10 +104,28 @@ export const SearchResultsHeader = ({
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        {`${resultsPrefix}`}
-        <b>{`"${facilityTypes[facilityType] || ''}"`}</b>
-        {FormattedServiceTypeText()}
-        {FormattedLocationText()}
+        {[LocationType.URGENT_CARE, LocationType.EMERGENCY_CARE].includes(
+          facilityType,
+        )
+          ? messagePrefix
+          : handleNumberOfResults()}{' '}
+        for &quot;
+        <b>{facilityTypes[facilityType]}</b>
+        &quot;
+        {formattedServiceType && (
+          <>
+            ,&nbsp;&quot;
+            <b>{formattedServiceType}</b>
+            &quot;
+          </>
+        )}
+        {location && (
+          <>
+            &nbsp;near &quot;
+            <b>{location}</b>
+            &quot;
+          </>
+        )}
       </h2>
     </div>
   );

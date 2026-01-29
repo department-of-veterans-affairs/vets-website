@@ -1,27 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { parseISO } from 'date-fns';
+import { addMinutes, parseISO } from 'date-fns';
 import { generateICS } from '../utils/calendar';
-import { VASS_PHONE_NUMBER } from '../utils/constants';
 
-/**
- * @typedef {import('../utils/appointments').Appointment} Appointment
- */
-
-/**
- * Renders a button that allows users to download an ICS calendar file for the appointment.
- * @param {Object} props
- * @param {Appointment} props.appointment - The appointment data for calendar generation
- * @returns {JSX.Element}
- */
 export default function AddToCalendarButton({ appointment }) {
-  const startUtc = parseISO(appointment?.startUTC);
-  const endUtc = parseISO(appointment?.endUTC);
+  const startUtc = parseISO(appointment?.dateTime);
+  const minutesDuration = 30;
+  const endUtc = addMinutes(startUtc, minutesDuration);
 
+  const description = `Your representative will call you from ${
+    appointment.phoneNumber
+  }.`;
   const ics = generateICS(
     'Solid Start Phone Call',
-    `Your representative will call you from ${VASS_PHONE_NUMBER}.`,
+    description,
     startUtc,
     endUtc,
   );
@@ -48,7 +41,6 @@ export default function AddToCalendarButton({ appointment }) {
     </>
   );
 }
-
 AddToCalendarButton.propTypes = {
   appointment: PropTypes.object,
 };

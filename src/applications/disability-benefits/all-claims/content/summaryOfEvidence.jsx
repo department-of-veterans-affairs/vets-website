@@ -71,15 +71,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     const facilitiesList = vaEvidence.map((facility, index) => (
       <li key={index}>{facility.treatmentCenterName}</li>
     ));
-    vaContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll request your VA medical records on your behalf from these VA
-          medical centers:
-        </strong>
-        <ul>{facilitiesList}</ul>
-      </div>
-    ) : (
+    vaContent = (
       <div>
         <p>We’ll get your VA medical records from:</p>
         <ul>{facilitiesList}</ul>
@@ -95,14 +87,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     const privateEvidenceUploadsList = privateEvidenceUploads.map(upload => (
       <li key={upload.name}>{upload.name}</li>
     ));
-    privateContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit these private medical records you uploaded:
-        </strong>
-        <ul>{privateEvidenceUploadsList}</ul>
-      </div>
-    ) : (
+    privateContent = (
       <div>
         <p>We’ll submit the below private medical records you uploaded:</p>
         <ul>{privateEvidenceUploadsList}</ul>
@@ -120,15 +105,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
         {facility.providerFacilityName}
       </li>
     ));
-    privateEvidenceContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll request your private medical records on your behalf from these
-          medical centers:
-        </strong>
-        <ul>{privateEvidenceList}</ul>
-      </div>
-    ) : (
+    privateEvidenceContent = (
       <div>
         <p>We’ll get your non-VA treatment records from:</p>
         <ul>{privateEvidenceList}</ul>
@@ -143,14 +120,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     const serviceTreatmentRecordsUploadsList = serviceTreatmentRecordsUploads.map(
       upload => <li key={upload.name}>{upload.name}</li>,
     );
-    serviceTreatmentRecordsContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit these service treatment records you uploaded:
-        </strong>
-        <ul>{serviceTreatmentRecordsUploadsList}</ul>
-      </div>
-    ) : (
+    serviceTreatmentRecordsContent = (
       <div>
         <p>We’ll submit the below service treatment records you uploaded:</p>
         <ul>{serviceTreatmentRecordsUploadsList}</ul>
@@ -162,15 +132,7 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
     const layEvidenceUploadsList = layEvidenceUploads.map(upload => (
       <li key={upload.name}>{upload.name}</li>
     ));
-    layContent = formData.disability526SupportingEvidenceEnhancement ? (
-      <div className="vads-u-margin-top--2">
-        <strong>
-          We’ll submit these documents you uploaded as evidence supporting your
-          claim:
-        </strong>
-        <ul>{layEvidenceUploadsList}</ul>
-      </div>
-    ) : (
+    layContent = (
       <div>
         <p>We’ll submit the below supporting evidence you uploaded:</p>
         <ul>{layEvidenceUploadsList}</ul>
@@ -179,22 +141,12 @@ export const summaryOfEvidenceDescription = ({ formData }) => {
   }
 
   return (
-    <div className="vads-u-margin-top--3">
-      {(evidenceLength || selectedEvidence) &&
-        formData.disability526SupportingEvidenceEnhancement && (
-          <p>You provided documents to support your claim.</p>
-        )}
+    <div>
       {vaContent}
       {privateContent}
       {privateEvidenceContent}
       {serviceTreatmentRecordsContent}
       {layContent}
-      {formData.disability526SupportingEvidenceEnhancement && (
-        <p>
-          Next, we’ll share some information about what to expect during a claim
-          exam.
-        </p>
-      )}
     </div>
   );
 };

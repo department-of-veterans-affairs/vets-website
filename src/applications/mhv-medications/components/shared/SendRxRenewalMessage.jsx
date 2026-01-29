@@ -29,7 +29,7 @@ const SendRxRenewalMessage = ({
   const isActiveNoRefills =
     rx.dispStatus === 'Active' && rx.refillRemaining === 0;
   const isExpiredLessThan120Days =
-    (rx.dispStatus === 'Expired' || rx.dispStatus === 'Inactive') &&
+    rx.dispStatus === 'Expired' &&
     rx.expirationDate &&
     new Date(rx.expirationDate) >
       new Date(Date.now() - 120 * 24 * 60 * 60 * 1000);
@@ -71,8 +71,8 @@ const SendRxRenewalMessage = ({
         uswds
       >
         <p className="vads-u-margin-bottom--2">
-          You’ll need to select your provider and send the prescription renewal
-          request. We’ll pre-fill your prescription details in the message.
+          You’ll need to select your provider and send them a message requesting
+          a prescription renewal.
         </p>
         <p className="vads-u-margin-bottom--2">
           If you need a medication immediately, call your VA pharmacy’s
@@ -102,6 +102,7 @@ const RenderLinkVariation = ({
   isActionLink,
   setShowRenewalModal,
   isExpired,
+  isActiveNoRefills,
 }) => {
   return isActionLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -115,13 +116,14 @@ const RenderLinkVariation = ({
     </Link>
   ) : (
     <>
-      {isExpired && (
+      {(isExpired || isActiveNoRefills) && (
         <p
           className="vads-u-margin-y--0"
-          data-testid="expired-less-than-120-days"
+          data-testid={
+            isExpired ? 'expired-less-than-120-days' : 'active-no-refills'
+          }
         >
-          You can’t refill this prescription. If you need more, send a secure
-          message to your care team.
+          You have no refills left. If you need more, request a renewal.
         </p>
       )}
       <va-link

@@ -758,13 +758,14 @@ export function deleteExpenseDeleteDocument(
         dispatch(deleteDocumentFailure(error, documentId));
         throw error;
       }
+
+      /**
+       * After deleting the expense + document, fetch the updated claim details.
+       * If this fetch fails, we ignore the error because the deletions have
+       * already completed successfully.
+       */
+      await dispatch(getComplexClaimDetails(claimId));
     }
-    /**
-     * After deleting the expense and for nonmileage expenses the document, fetch the
-     * updated claim details. If this fetch fails, we ignore the error because the deletions
-     * have already completed successfully.
-     */
-    await dispatch(getComplexClaimDetails(claimId));
   };
 }
 

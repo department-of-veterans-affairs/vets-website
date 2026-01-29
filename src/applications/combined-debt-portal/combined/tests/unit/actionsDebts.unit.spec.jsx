@@ -23,9 +23,7 @@ describe('debts actions', () => {
   let apiRequestStub;
   let recordEventStub;
   let sentryCaptureMessageStub;
-  const errors = {
-    notFoundErrors: [{ status: '404', detail: 'Not found' }],
-  };
+
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     dispatch = sandbox.spy();
@@ -80,7 +78,8 @@ describe('debts actions', () => {
     });
 
     it('should dispatch DEBTS_FETCH_FAILURE on fetch error', async () => {
-      apiRequestStub.rejects({ errors: errors.notFoundErrors });
+      const error = new Error('API Error');
+      apiRequestStub.rejects(error);
 
       await fetchDebtLetters(dispatch, true);
 
@@ -89,7 +88,7 @@ describe('debts actions', () => {
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: DEBTS_FETCH_FAILURE,
-        errors: errors.notFoundErrors,
+        errors: undefined,
       });
       expect(
         recordEventStub.calledWith({

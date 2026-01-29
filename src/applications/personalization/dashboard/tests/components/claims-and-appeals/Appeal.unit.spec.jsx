@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { format } from 'date-fns';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import AppealLegacy from '../../../components/claims-and-appeals/AppealLegacy';
+import Appeal from '../../../components/claims-and-appeals/Appeal';
 import { APPEAL_TYPES } from '../../../utils/appeals-helpers';
 import { replaceDashesWithSlashes } from '../../../utils/date-formatting/helpers';
 
@@ -70,7 +70,7 @@ describe('<Appeal />', () => {
     const appealTitle = `Disability compensation appeal updated on ${updatedDate}`;
 
     const tree = renderWithStoreAndRouter(
-      <AppealLegacy appeal={appeal} name={name} />,
+      <Appeal appeal={appeal} name={name} />,
       { initialState: {} },
     );
 
@@ -92,7 +92,7 @@ describe('<Appeal />', () => {
         type: APPEAL_TYPES.supplementalClaim,
       });
       const tree = renderWithStoreAndRouter(
-        <AppealLegacy appeal={appeal} name={name} />,
+        <Appeal appeal={appeal} name={name} />,
         { initialState: {} },
       );
 
@@ -110,7 +110,7 @@ describe('<Appeal />', () => {
       });
 
       const tree = renderWithStoreAndRouter(
-        <AppealLegacy appeal={appeal} name={name} />,
+        <Appeal appeal={appeal} name={name} />,
         { initialState: {} },
       );
 
@@ -128,7 +128,7 @@ describe('<Appeal />', () => {
       });
 
       const tree = renderWithStoreAndRouter(
-        <AppealLegacy appeal={appeal} name={name} />,
+        <Appeal appeal={appeal} name={name} />,
         { initialState: {} },
       );
 
@@ -142,7 +142,7 @@ describe('<Appeal />', () => {
       const appeal = makeAppealObject({ updateDate: daysAgo(1) });
       appeal.attributes.issues.push(appeal.attributes.issues.first);
       const tree = renderWithStoreAndRouter(
-        <AppealLegacy appeal={appeal} name={name} />,
+        <Appeal appeal={appeal} name={name} />,
         { initialState: {} },
       );
 
@@ -158,7 +158,7 @@ describe('<Appeal />', () => {
       });
       appeal.attributes.issues.push(appeal.attributes.issues.first);
       const tree = renderWithStoreAndRouter(
-        <AppealLegacy appeal={appeal} name={name} />,
+        <Appeal appeal={appeal} name={name} />,
         { initialState: {} },
       );
 

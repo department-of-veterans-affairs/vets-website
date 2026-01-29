@@ -31,38 +31,39 @@ flowchart TD
     direction TB
     DepType{Cycle through checked dependent, what is the dependent type?}
     Start --> DepType
-    DepType -- "Spouse" --> SpouseReasonToRemove{Reason to remove}
-    SpouseReasonToRemove -- "divorce" --> SpouseDetails[Divorce details]
-    SpouseDetails --> NextDep
-    SpouseReasonToRemove -- "death" --> SpouseDeathDetails[Death details]
-    SpouseDeathDetails --> NextDep
+    DepType -- "Spouse" --> SpouseQ0{Reason to remove}
+    SpouseQ0 -- "divorce" --> SpouseQ1[Divorce details]
+    SpouseQ1 --> NextDep
+    SpouseQ0 -- "death" --> SpouseQ2[Death details]
+    SpouseQ2 --> NextDep@{ shape: hex, label: "Check next dependent" }
 
-    DepType -- "Child" --> ChildIsStepchild[Is stepchild?]
-    ChildIsStepchild -- yes/no --> ChildReasonToRemove{Reason to remove}
-    ChildLeftSchoolDetails --> NextDep
-    ChildReasonToRemove -- "married" --> ChildMarriedDetails[Married details]
-    ChildMarriedDetails --> NextDep
-    ChildReasonToRemove -- "death" --> ChildDeathDetails[Death details]
-    ChildDeathDetails --> NextDep
-    ChildReasonToRemove -- "left school" --> ChildLeftSchoolDetails[Left school details]
-    ChildReasonToRemove -- "stepchild left household" --> ChildHalfFinancialSupport{Provide at least half financial support?}
-    ChildHalfFinancialSupport -- "no" --> ChildLeftHouseholdDetails[Left household details]
-    ChildLeftHouseholdDetails --> NextDep
-    ChildHalfFinancialSupport -- "yes" --> ChildAddress[Child current address]
-    ChildAddress --> ChildLivesWith[Child lives with]
-    ChildLivesWith --> ChildLeftHouseholdDetails
-    ChildReasonToRemove -- "adopted" --> ChildAdoptedDetails[Adopted details]
-    ChildAdoptedDetails --> exit
+    DepType -- "Child" --> ChildQ0[Stepchild?]
+    ChildQ0 --> ChildQ1{Reason to remove}
+    ChildQ2a -- "No" --> ChildQ2b[Left school details]
+    ChildQ2b --> NextDep
+    ChildQ1 -- "married" --> ChildQ3[Married details]
+    ChildQ3 --> NextDep
+    ChildQ1 -- "death" --> ChildQ4[Death details]
+    ChildQ4 --> NextDep
+    ChildQ1 -- "adopted" --> ChildQ5[Adopted details]
+    ChildQ5 --> NextDep
+    ChildQ1 -- "left school" --> ChildQ2a{disability}
+    ChildQ2a -- "Yes" --> ChildQ2x[Still qualifies]
+    ChildQ2x --> exit[Exit form]
+    ChildQ1 -- "left household" --> ChildQ7{half financial support?}
+    ChildQ7 -- "no" --> ChildQ7b[Left household details]
+    ChildQ7 -- "yes" --> ChildQ7x[Still qualifies]
+    ChildQ7x --> exit[Exit form]
 
-    DepType -- "Parent" --> ParentReasonToRemove{Reason to remove}
-    ParentReasonToRemove -- "Other" --> ParentExit[Use different form]
-    ParentExit --> exit
-    ParentReasonToRemove -- "death" --> ParentDeathDetails[Death details]
-    ParentDeathDetails --> NextDep
 
-    NextDep@{ shape: hex, label: "Check next dependent" }
-    NextDep l1@-- "More dependents" --> DepType
-    NextDep -- "All done" --> Done([Continue to next page])
+    DepType -- "Parent" --> ParentQ0{Reason to remove}
+    ParentQ0 -- "Other" --> ParentQx[Use different form]
+    ParentQx --> exit
+    ParentQ0 -- "death" --> ParentQ1[Death details]
+    ParentQ1 --> NextDep
+
+    NextDep == "More dependents" ==> DepType
+    NextDep -- "All done" --> Done[Continue to next page]
   end
 ```
 

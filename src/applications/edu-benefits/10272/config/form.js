@@ -2,20 +2,10 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
-
-// Components
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// Pages
-import {
-  educationBenefitsElibility,
-  educationBenefitsHistory,
-  hasPreviouslyApplied,
-  prepCourseName,
-  prepCourseAddress,
-  prepCourseOnline,
-} from '../pages';
+import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -59,52 +49,14 @@ const formConfig = {
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
   chapters: {
-    educationBenefitsChapter: {
-      title: 'Your education benefits information',
+    personalInformationChapter: {
+      title: 'Your personal information',
       pages: {
-        hasPreviouslyApplied: {
-          path: 'previously-applied',
-          title: 'Your VA education benefits',
-          uiSchema: hasPreviouslyApplied.uiSchema,
-          schema: hasPreviouslyApplied.schema,
-        },
-        educationBenefitsHistory: {
-          path: 'education-benefits-history',
-          title: 'Your VA education benefits history',
-          uiSchema: educationBenefitsHistory.uiSchema,
-          schema: educationBenefitsHistory.schema,
-          depends: formData => formData?.hasPreviouslyApplied === true,
-        },
-        educationBenefitsEligibility: {
-          path: 'education-benefits-eligibility',
-          title: 'Your VA education benefits history',
-          uiSchema: educationBenefitsElibility.uiSchema,
-          schema: educationBenefitsElibility.schema,
-          depends: formData => formData?.hasPreviouslyApplied === false,
-        },
-      },
-    },
-    prepCourseChapter: {
-      title: 'Prep course details',
-      pages: {
-        prepCourseName: {
-          path: 'prep-course-details',
-          title: 'The name of the prep course',
-          uiSchema: prepCourseName.uiSchema,
-          schema: prepCourseName.schema,
-        },
-        prepCourseAddress: {
-          path: 'prep-course-details-1',
-          title:
-            'The name and mailing address of the organization giving the prep course',
-          uiSchema: prepCourseAddress.uiSchema,
-          schema: prepCourseAddress.schema,
-        },
-        prepCourseOnline: {
-          path: 'prep-course-details-2',
-          title: `How you'll take the prep course`,
-          uiSchema: prepCourseOnline.uiSchema,
-          schema: prepCourseOnline.schema,
+        nameAndDateOfBirth: {
+          path: 'name-and-date-of-birth',
+          title: 'Name and date of birth',
+          uiSchema: nameAndDateOfBirth.uiSchema,
+          schema: nameAndDateOfBirth.schema,
         },
       },
     },

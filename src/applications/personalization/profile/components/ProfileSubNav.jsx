@@ -18,7 +18,6 @@ const ProfileSubNav = ({
   routes,
   clickHandler = null,
   className,
-  isSchedulingPreferencesPilotEligible,
 }) => {
   const mobileNavRef = useRef();
   const history = useHistory();
@@ -33,13 +32,6 @@ const ProfileSubNav = ({
   const filteredRoutes = routes.filter(route => {
     // loa3 check and isBlocked check
     if (route.requiresLOA3 && (!isLOA3 || isBlocked)) {
-      return false;
-    }
-    // scheduling preferences pilot check
-    if (
-      route.requiresSchedulingPreferencesPilot &&
-      !isSchedulingPreferencesPilotEligible
-    ) {
       return false;
     }
 
@@ -156,7 +148,6 @@ ProfileSubNav.propTypes = {
   // Optional handler to fire when a nav item is clicked
   className: PropTypes.string,
   clickHandler: PropTypes.func,
-  isSchedulingPreferencesPilotEligible: PropTypes.bool,
 };
 
 export default ProfileSubNav;

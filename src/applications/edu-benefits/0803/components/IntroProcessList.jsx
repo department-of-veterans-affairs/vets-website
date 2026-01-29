@@ -46,6 +46,7 @@ export default function ProcessList() {
           <li>A receipt showing that you have paid in full</li>
           <li>A copy of your test results</li>
         </ul>
+        <p>You must also have paid in full receipt.</p>
       </va-process-list-item>
       <va-process-list-item header="Fill out the online form">
         <p>

@@ -6,12 +6,14 @@ import reducer from '../../../reducers';
 import BlockedTriageGroupAlert from '../../../components/shared/BlockedTriageGroupAlert';
 import CannotReplyAlert from '../../../components/shared/CannotReplyAlert';
 import EditSignatureLink from '../../../components/ComposeForm/EditSignatureLink';
+import CernerTransitioningFacilityAlert from '../../../components/Alerts/CernerTransitioningFacilityAlert';
 import {
   BlockedTriageAlertStyles,
   ParentComponent,
   RecipientStatus,
   Recipients,
   Paths,
+  CernerTransitioningFacilities,
 } from '../../../util/constants';
 
 /**
@@ -144,6 +146,56 @@ describe('Cross-App Navigation Links', () => {
       );
       expect(link.getAttribute('text')).to.equal(
         'Edit signature for all messages',
+      );
+    });
+  });
+
+  describe('CernerTransitioningFacilityAlert - /find-locations link', () => {
+    const initialState = {
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: {
+              '556': {
+                vhaId: '556',
+                vamcFacilityName:
+                  'Captain James A. Lovell Federal Health Care Center',
+                vamcSystemName: 'Lovell Federal health care - VA',
+                ehr: 'vista',
+              },
+            },
+          },
+        },
+      },
+      user: {
+        profile: {
+          facilities: [
+            {
+              facilityId:
+                CernerTransitioningFacilities.NORTH_CHICAGO.facilityId,
+              isCerner: false,
+            },
+          ],
+        },
+      },
+    };
+
+    it('renders /find-locations as VaLinkAction for T5 alert', async () => {
+      const screen = renderWithStoreAndRouter(
+        <CernerTransitioningFacilityAlert t5 facilityId="556" />,
+        {
+          initialState,
+        },
+      );
+
+      const link = await screen.findByTestId('find-facility-action-link');
+      expect(link).to.exist;
+      // Should be va-link-action (VaLinkAction)
+      expect(link.tagName).to.equal('VA-LINK-ACTION');
+      // Cross-app destination
+      expect(link.getAttribute('href')).to.equal('/find-locations');
+      expect(link.getAttribute('text')).to.equal(
+        'Find your VA health facility',
       );
     });
   });

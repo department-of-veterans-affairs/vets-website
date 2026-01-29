@@ -278,6 +278,7 @@ describe('addressPattern mapping functions', () => {
         expect(result.properties).to.have.property('state');
         expect(result.properties).to.have.property('country');
       });
+
       it('should validate if using wrong keys in omit', () => {
         const keys = {
           street: 'addressLine1',
@@ -1730,54 +1731,6 @@ describe('addressPattern mapping functions', () => {
       expect(result.properties).to.have.property('street');
       expect(result.properties).to.have.property('city');
       expect(result.properties).to.have.property('postalCode');
-    });
-  });
-
-  describe('custom validations option', () => {
-    describe('array validations (whole address)', () => {
-      it('should add array validations to ui:validations', () => {
-        const customValidation = sinon.spy();
-        const result = addressUI({
-          validations: [customValidation],
-        });
-
-        expect(result['ui:validations'].length).to.equal(2); // 1 custom + 1 default military validation
-        expect(result['ui:validations']).to.be.an('array');
-        expect(result['ui:validations']).to.include(customValidation);
-      });
-
-      it('should concatenate multiple array validations', () => {
-        const validation1 = sinon.spy();
-        const validation2 = sinon.spy();
-        const result = addressUI({
-          validations: [validation1, validation2],
-        });
-
-        expect(result['ui:validations'].length).to.equal(3); // 2 custom + 1 default military validation
-        expect(result['ui:validations']).to.include(validation1);
-        expect(result['ui:validations']).to.include(validation2);
-      });
-
-      it('should have 1 validation by default', () => {
-        const result = addressUI();
-        expect(result['ui:validations'].length).to.equal(1); // default military validation
-      });
-    });
-
-    describe('object validations (field-specific)', () => {
-      it('should add field-specific validations', () => {
-        const streetValidation = sinon.spy();
-        const result = addressUI({
-          validations: {
-            street: [streetValidation],
-          },
-        });
-
-        expect(result['ui:validations'].length).to.equal(1); // default military validation
-        expect(result.street['ui:validations']).to.be.an('array');
-        expect(result.street['ui:validations'].length).to.equal(1);
-        expect(result.street['ui:validations']).to.include(streetValidation);
-      });
     });
   });
 });

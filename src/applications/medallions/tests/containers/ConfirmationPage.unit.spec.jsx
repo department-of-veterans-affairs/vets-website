@@ -7,45 +7,39 @@ import { expect } from 'chai';
 import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
-const storeBase1 = {
+const storeBase = {
   form: {
     formId: formConfig.formId,
     submission: {
-      submittedAt: 'Oct. 25, 2023',
-      timestamp: 'Oct. 25, 2023',
       response: {
-        confirmationNumber: 'TEST-123',
+        confirmationNumber: '123456',
       },
+      timestamp: Date.now(),
     },
     data: {
-      firstLastName: {
-        first: 'test',
-        last: 'test',
+      fullName: {
+        first: 'John',
+        middle: '',
+        last: 'Doe',
       },
     },
   },
 };
 
-describe('Pre-need ConfirmationPage component', () => {
+describe('Confirmation page', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
 
-  it('it should render', () => {
-    const screen = render(
-      <Provider store={mockStore(storeBase1)}>
-        <ConfirmationPage route={{ formConfig }} />
+  it('it should show status success and the correct name of person', () => {
+    const { container, getByText } = render(
+      <Provider store={mockStore(storeBase)}>
+        <ConfirmationPage />
       </Provider>,
     );
-    expect(screen.getByText('We sent your application to the cemetery')).to
-      .exist;
-  });
-
-  it('it should show response dependent text', () => {
-    const screen = render(
-      <Provider store={mockStore(storeBase1)}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
+    expect(container.querySelector('va-alert')).to.have.attr(
+      'status',
+      'success',
     );
-    expect(screen.getByText('Applicant information')).to.exist;
+    getByText(/John Doe/);
   });
 });

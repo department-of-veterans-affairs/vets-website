@@ -48,9 +48,11 @@ describe('herbicideDetails', () => {
         getByText(herbicidePageTitle);
         getByText(dateRangeDescriptionWithLocation);
 
-        expect($(`va-date[label="${startDateApproximate}"]`, container)).to
-          .exist;
-        expect($(`va-date[label="${endDateApproximate}"]`, container)).to.exist;
+        expect(
+          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
+        ).to.exist;
+        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
+          .to.exist;
 
         expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
           .exist;
@@ -85,12 +87,15 @@ describe('herbicideDetails', () => {
       });
 
       /*
+       * TODO: We currently validate against partial dates on the frontend.
+       * Future consideration: allow Veterans to submit with completely blank or partial dates.
+       * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
        */
-      it(`should submit without dates for ${locationId} (dates are optional)`, () => {
+      it(`should not submit without dates for ${locationId}`, () => {
         pageSubmitTest(
           schemas[`herbicide-location-${locationId}`],
           formData,
-          true,
+          false,
         );
       });
 
@@ -98,8 +103,8 @@ describe('herbicideDetails', () => {
         const data = JSON.parse(JSON.stringify(formData));
         data.toxicExposure.herbicideDetails = {};
         data.toxicExposure.herbicideDetails[locationId] = {
-          startDate: '1975-04',
-          endDate: '1978-08',
+          startDate: '1975-04-02',
+          endDate: '1978-08-05',
         };
 
         pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
@@ -107,78 +112,162 @@ describe('herbicideDetails', () => {
     });
 
   /*
-   * Date validation tests for toxic exposure dates (month/year format).
-   * Supports year-only (YYYY-XX) or month/year (YYYY-MM).
-   * Full dates (YYYY-MM-DD) are accepted for backward compatibility.
+   * Edge case validations for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend.
+   * Future consideration: allow Veterans to submit with completely blank or partial dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
    */
-  describe('date validation', () => {
+  describe('date validations', () => {
     const locationId = 'cambodia';
 
-    it(`should submit with start date only (dates are optional)`, () => {
+    it('should not submit with incomplete start date (missing month)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: '1975-04',
-        },
-      };
-
-      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
-    });
-
-    it(`should submit with end date only (dates are optional)`, () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.herbicideDetails = {
-        [locationId]: {
-          endDate: '1976-06',
-        },
-      };
-
-      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
-    });
-
-    it(`should submit with both dates and not sure`, () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.herbicideDetails = {
-        [locationId]: {
-          startDate: '1975-04',
-          endDate: '1976-06',
-          'view:notSure': true,
-        },
-      };
-
-      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
-    });
-
-    it('should submit with past month/year for startDate', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.herbicideDetails = {
-        [locationId]: {
-          startDate: format(subYears(new Date(), 5), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
-        },
-      };
-
-      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
-    });
-
-    it('should not submit with future month/year for startDate', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.herbicideDetails = {
-        [locationId]: {
-          startDate: format(addYears(new Date(), 1), 'yyyy-MM'),
-          endDate: format(addYears(new Date(), 2), 'yyyy-MM'),
+          startDate: '1975-XX-15',
+          endDate: '1976-06-30',
         },
       };
 
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
     });
 
-    it('should not submit with year before 1900 for startDate', () => {
+    it('should not submit with incomplete start date (missing day)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: '1899-12',
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          startDate: '1975-04-XX',
+          endDate: '1976-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete start date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: 'XXXX-04-15',
+          endDate: '1976-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-15',
+          endDate: '1976-XX-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-15',
+          endDate: '1976-06-XX',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with incomplete end date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-15',
+          endDate: 'XXXX-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit when end date is before start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1976-04-15',
+          endDate: '1975-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with only start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1975-04-15',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with only end date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          endDate: '1976-06-30',
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should submit with current date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+          endDate: format(new Date(), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
+    });
+
+    it('should submit with past date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: format(subYears(new Date(), 5), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
+    });
+
+    it('should not submit with future date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
+          endDate: format(addYears(new Date(), 2), 'yyyy-MM-dd'),
+        },
+      };
+
+      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
+    });
+
+    it('should not submit with date before 1900 for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.herbicideDetails = {
+        [locationId]: {
+          startDate: '1899-12-31',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
@@ -190,55 +279,55 @@ describe('herbicideDetails', () => {
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
           startDate: 'invalid-date',
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
     });
 
-    it('should submit with current month/year for endDate', () => {
+    it('should submit with current date for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: format(new Date(), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(new Date(), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
     });
 
-    it('should submit with past month/year for endDate', () => {
+    it('should submit with past date for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 5), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 5), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
     });
 
-    it('should not submit with future month/year for endDate', () => {
+    it('should not submit with future date for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 1), 'yyyy-MM'),
-          endDate: format(addYears(new Date(), 1), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
     });
 
-    it('should not submit with year before 1900 for endDate', () => {
+    it('should not submit with date before 1900 for endDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: '1899-12',
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: '1899-12-31',
         },
       };
 
@@ -249,7 +338,7 @@ describe('herbicideDetails', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
           endDate: 'invalid-date',
         },
       };
@@ -257,84 +346,49 @@ describe('herbicideDetails', () => {
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
     });
 
-    it('should submit with valid date range (end after start)', () => {
+    it('should submit with valid date range (to after from)', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: format(subYears(new Date(), 2), 'yyyy-MM'),
-          endDate: format(subYears(new Date(), 1), 'yyyy-MM'),
+          startDate: format(subYears(new Date(), 2), 'yyyy-MM-dd'),
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
     });
 
-    it('should not submit when end date is before start date', () => {
+    it('should not submit with equal start and end dates', () => {
       const data = JSON.parse(JSON.stringify(formData));
+      const sameDate = format(subYears(new Date(), 1), 'yyyy-MM-dd');
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: '1976-04',
-          endDate: '1975-06',
+          startDate: sameDate,
+          endDate: sameDate,
         },
       };
 
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
     });
 
-    it('should not submit when end date month/year is before start date month/year', () => {
+    it('should not submit with non-leap year February 29', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: '1976-04',
-          endDate: '1976-03',
+          startDate: '2021-02-29',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 
       pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
     });
 
-    it('should not submit with incomplete start date (missing year)', () => {
+    it('should submit with leap year February 29', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.herbicideDetails = {
         [locationId]: {
-          startDate: 'XXXX-04',
-          endDate: '1976-06',
-        },
-      };
-
-      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
-    });
-
-    it('should not submit with incomplete end date (missing year)', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.herbicideDetails = {
-        [locationId]: {
-          startDate: '1975-04',
-          endDate: 'XXXX-06',
-        },
-      };
-
-      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, false);
-    });
-
-    it('should accept year-only format (YYYY-XX)', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.herbicideDetails = {
-        [locationId]: {
-          startDate: '1975-XX',
-          endDate: '1976-XX',
-        },
-      };
-
-      pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);
-    });
-
-    it('should accept full date format (YYYY-MM-DD) for backward compatibility', () => {
-      const data = JSON.parse(JSON.stringify(formData));
-      data.toxicExposure.herbicideDetails = {
-        [locationId]: {
-          startDate: '1975-04-02',
-          endDate: '1978-08-05',
+          startDate: '2020-02-29',
+          endDate: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
         },
       };
 

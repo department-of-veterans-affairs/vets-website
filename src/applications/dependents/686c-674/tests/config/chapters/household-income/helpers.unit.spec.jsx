@@ -1,10 +1,8 @@
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import {
   netWorthTitle,
   netWorthDescription,
 } from '../../../../config/chapters/household-income/helpers';
-import { uiSchema } from '../../../../config/chapters/household-income/householdIncome';
 import { NETWORTH_VALUE } from '../../../../config/constants';
 
 describe('household income helpers', () => {
@@ -172,35 +170,6 @@ describe('household income helpers', () => {
       expect(result).to.equal(
         'Did your household have a net worth less than $100 in the last tax year?',
       );
-    });
-  });
-
-  describe('uiSchema ui:description', () => {
-    it('should correctly extract formData from props and show pension text when feature flag is true', () => {
-      const descriptionFn = uiSchema['ui:description'];
-      // Platform forms system passes props object with formData property
-      const props = {
-        formData: { vaDependentsNetWorthAndPension: true },
-        formContext: {},
-      };
-
-      const { container } = render(descriptionFn(props));
-      const text = container.textContent;
-
-      expect(text).to.include('Because you currently receive VA pension');
-    });
-
-    it('should correctly extract formData from props and show default text when feature flag is false', () => {
-      const descriptionFn = uiSchema['ui:description'];
-      const props = {
-        formData: { vaDependentsNetWorthAndPension: false },
-        formContext: {},
-      };
-
-      const { container } = render(descriptionFn(props));
-      const text = container.textContent;
-
-      expect(text).to.include('If you currently receive VA pension');
     });
   });
 });

@@ -201,8 +201,6 @@ class CCServiceTypeAhead extends Component {
           inputValue,
           highlightedIndex,
         }) => {
-          const showExpanded =
-            isOpen && inputValue && MIN_SEARCH_CHARS <= inputValue.length;
           return (
             <div
               id="service-error"
@@ -244,12 +242,14 @@ class CCServiceTypeAhead extends Component {
                   }}
                   id="service-type-ahead-input"
                   aria-describedby="could-not-find-service-prompt error-message"
-                  aria-expanded={showExpanded ? 'true' : 'false'}
+                  aria-expanded={isOpen}
                   aria-controls="service-typeahead-listbox"
                 />
 
                 {this.renderSearchForAvailableServicePrompt(inputValue)}
-                {showExpanded &&
+                {isOpen &&
+                  inputValue &&
+                  inputValue.length >= MIN_SEARCH_CHARS &&
                   this.renderServiceTypeDropdownOptions(
                     getItemProps,
                     highlightedIndex,

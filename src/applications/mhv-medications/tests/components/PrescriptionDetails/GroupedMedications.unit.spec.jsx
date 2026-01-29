@@ -51,36 +51,4 @@ describe('Grouped medications component', () => {
       expect(span.textContent.trim()).to.equal(String(rxNumber));
     });
   });
-
-  it('displays "Not available" when prescription number is missing', async () => {
-    const medicationsWithMissingNumber = [
-      {
-        ...groupedMedicationsList[0],
-        prescriptionNumber: null,
-        prescriptionId: 'test-id-1',
-      },
-    ];
-
-    const screen = renderWithStoreAndRouterV6(
-      <GroupedMedications
-        groupedMedicationsList={medicationsWithMissingNumber}
-      />,
-      {
-        initialState: {},
-        reducers: {},
-        initialEntries: ['/prescriptions/1234567891'],
-      },
-    );
-
-    await waitFor(() => {
-      const h3s = screen.getAllByText('Prescription number:', {
-        selector: 'h3',
-      });
-      expect(h3s).to.have.length(1);
-
-      const span = h3s[0].querySelector('span');
-      expect(span).to.exist;
-      expect(span.textContent.trim()).to.equal('Not available');
-    });
-  });
 });

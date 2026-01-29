@@ -32,20 +32,14 @@ export class LetterList extends React.Component {
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
-    if (
-      this.props.tsaSafeTravelLetter &&
-      this.props.profile?.loa?.current === 3
-    ) {
+    if (this.props.tsaSafeTravelLetter) {
       this.props.getTsaLetterEligibility();
     }
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
-    const hasTsaLetter = Boolean(
-      this.props.tsaLetterEligibility?.documentId &&
-        this.props.tsaLetterEligibility?.documentVersion,
-    );
+    const hasTsaLetter = Boolean(this.props.tsaLetterEligibility?.documentId);
     const isDeterminingTsaEligibility =
       this.props.tsaSafeTravelLetter &&
       this.props.tsaLetterEligibility?.loading;
@@ -133,9 +127,6 @@ export class LetterList extends React.Component {
             {hasTsaLetter && (
               <DownloadTsaLetter
                 documentId={this.props.tsaLetterEligibility?.documentId}
-                documentVersion={
-                  this.props.tsaLetterEligibility?.documentVersion
-                }
               />
             )}
           </va-accordion>
@@ -186,8 +177,6 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
-  const { profile } = state.user;
-
   const letterState = state.letters;
 
   return {
@@ -195,7 +184,6 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
-    profile,
     tsaLetterEligibility: letterState.tsaLetterEligibility,
     tsaSafeTravelLetter:
       state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],
@@ -213,14 +201,8 @@ LetterList.propTypes = {
   ),
   lettersAvailability: PropTypes.string,
   optionsAvailable: PropTypes.bool,
-  profile: PropTypes.shape({
-    loa: PropTypes.shape({
-      current: PropTypes.number,
-    }),
-  }),
   tsaLetterEligibility: PropTypes.shape({
     documentId: PropTypes.string,
-    documentVersion: PropTypes.string,
     error: PropTypes.bool,
     loading: PropTypes.bool,
   }),

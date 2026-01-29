@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
 import {
   datesDescription,
   getKeyIndex,
@@ -9,7 +8,6 @@ import {
   isClaimingTECondition,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
-  reviewDateField,
   showCheckboxLoopDetailsPage,
   showSummaryPage,
   showToxicExposurePages,
@@ -967,66 +965,6 @@ describe('toxicExposure', () => {
       expect(
         getOtherFieldDescription(formData, 'otherHerbicideLocations'),
       ).to.equal('location 1, location 2');
-    });
-  });
-
-  describe('reviewDateField', () => {
-    const createChildren = (formData, uiSchema) => ({
-      props: { formData, uiSchema },
-    });
-
-    it('renders formatted month/year date correctly', () => {
-      const children = createChildren('2023-05', { 'ui:title': 'Start date' });
-      const { container } = render(reviewDateField({ children }));
-
-      expect(container.querySelector('dt').textContent).to.equal('Start date');
-      expect(container.querySelector('dd').textContent).to.equal('May 2023');
-    });
-
-    it('renders year-only date (YYYY-XX) correctly', () => {
-      const children = createChildren('2020-XX', {
-        'ui:title': 'Approximate start date',
-      });
-      const { container } = render(reviewDateField({ children }));
-
-      expect(container.querySelector('dt').textContent).to.equal(
-        'Approximate start date',
-      );
-      expect(container.querySelector('dd').textContent).to.equal('2020');
-    });
-
-    it('handles null formData', () => {
-      const children = createChildren(null, { 'ui:title': 'Date field' });
-      const { container } = render(reviewDateField({ children }));
-
-      expect(container.querySelector('dt').textContent).to.equal('Date field');
-      expect(container.querySelector('dd').textContent).to.equal('');
-    });
-
-    it('handles undefined formData', () => {
-      const children = createChildren(undefined, { 'ui:title': 'Date field' });
-      const { container } = render(reviewDateField({ children }));
-
-      expect(container.querySelector('dt').textContent).to.equal('Date field');
-      expect(container.querySelector('dd').textContent).to.equal('');
-    });
-
-    it('handles empty string formData', () => {
-      const children = createChildren('', { 'ui:title': 'Date field' });
-      const { container } = render(reviewDateField({ children }));
-
-      expect(container.querySelector('dt').textContent).to.equal('Date field');
-      expect(container.querySelector('dd').textContent).to.equal('');
-    });
-
-    it('handles invalid date string', () => {
-      const children = createChildren('invalid-date', {
-        'ui:title': 'Date field',
-      });
-      const { container } = render(reviewDateField({ children }));
-
-      expect(container.querySelector('dt').textContent).to.equal('Date field');
-      expect(container.querySelector('dd').textContent).to.equal('');
     });
   });
 });

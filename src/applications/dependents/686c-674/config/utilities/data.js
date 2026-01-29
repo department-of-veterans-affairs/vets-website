@@ -471,9 +471,9 @@ function transformChildDeath(item) {
     deceasedDependentIncome: 'N',
     childStatus: {
       childUnder18: item.age < 18,
-      // assume disabled if over 24, we'll add a specific question later
+      // assume disabled if over 23, we'll add a specific question later
       // childOver18InSchool: true, // Can't assume this
-      disabled: item.age > 24,
+      disabled: item.age > 23,
       stepChild: item.isStepchild === 'Y',
       // adopted: null, // Optional field
     },
@@ -629,6 +629,20 @@ export function transformPicklistToV2(data) {
     return data;
   }
 
+  // Filter out items that should not be transformed
+  const itemsToTransform = selected.filter(
+    item =>
+      // Skip stepchild left household with financial support > 50% &
+      // Skip child not in school with permanent disability
+      !(
+        (item.isStepchild === 'Y' &&
+          item.removalReason === 'stepchildNotMember' &&
+          item.stepchildFinancialSupport === 'Y') ||
+        (item.removalReason === 'childNotInSchool' &&
+          item.childHasPermanentDisability === 'Y')
+      ),
+  );
+
   // Initialize V2 arrays
   const v2Data = {
     deaths: [],
@@ -651,7 +665,7 @@ export function transformPicklistToV2(data) {
     childAdopted: transformStepchildByFlag,
   };
 
-  selected.forEach(item => {
+  itemsToTransform.forEach(item => {
     const isStepchild = item.isStepchild === 'Y';
 
     // Get destination array from centralized routing

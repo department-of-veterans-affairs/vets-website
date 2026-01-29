@@ -34,6 +34,8 @@ const FacilitySearch = props => {
     coordinates: { lat: '', long: '' },
   });
   const vaSearchInputRef = useRef(null);
+  const radius = 500;
+  const resultsPerPage = 5;
   const hasFacilities = localState.facilities.length > 0;
   const hasMoreFacilities =
     localState.facilities.length < localState.pagination.totalEntries;
@@ -147,7 +149,9 @@ const FacilitySearch = props => {
       const fetchResponse = await fetchFacilities({
         long: longitude,
         lat: latitude,
+        perPage: resultsPerPage,
         page: 1,
+        radius,
       });
       if (fetchResponse.errorMessage) {
         return setLocalState(prev => ({
@@ -184,6 +188,8 @@ const FacilitySearch = props => {
       const response = await fetchFacilities({
         ...localState.coordinates,
         page: localState.pagination.currentPage + 1,
+        perPage: resultsPerPage,
+        radius,
       });
       return response.errorMessage
         ? setLocalState(prev => ({

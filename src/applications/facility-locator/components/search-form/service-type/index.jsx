@@ -80,7 +80,6 @@ const ServiceType = ({
               data-testid="cc-service-typeahead-pd"
             >
               <CCServiceTypeAhead
-                getProviderSpecialties={getProviderSpecialties}
                 handleServiceTypeChange={handleServiceTypeChange}
                 initialSelectedServiceType={serviceType}
                 isSmallDesktop={isSmallDesktop}

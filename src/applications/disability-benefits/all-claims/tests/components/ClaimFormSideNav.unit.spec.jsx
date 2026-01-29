@@ -198,7 +198,7 @@ describe('ClaimFormSideNav', () => {
     const tree = mount(<ClaimFormSideNav {...defaultProps} />);
     const sidenav = tree.find('VaSidenav');
 
-    expect(sidenav.prop('header')).to.equal('Form steps');
+    expect(sidenav.prop('header')).to.equal('Form sections');
     expect(sidenav.prop('icon-name')).to.equal('description');
     expect(sidenav.prop('icon-background-color')).to.equal('vads-color-link');
     tree.unmount();
@@ -278,7 +278,7 @@ describe('ClaimFormSideNav', () => {
     const items = tree.find('VaSidenavItem');
     const reviewItem = items.last();
 
-    expect(reviewItem.prop('label')).to.contain('Review application');
+    expect(reviewItem.prop('label')).to.contain('Review and submit');
     tree.unmount();
   });
 

@@ -26,24 +26,19 @@ import DisabilityRatingCard from './DisabilityRatingCard';
 
 const NoClaimsOrAppealsText = () => {
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-      <Toggler.Disabled>
-        <p
-          className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
-          data-testid="no-outstanding-claims-or-appeals-text"
-        >
+    <p
+      className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
+      data-testid="no-outstanding-claims-or-appeals-text"
+    >
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Disabled>
           You have no claims or appeals to show.
-        </p>
-      </Toggler.Disabled>
-      <Toggler.Enabled>
-        <p
-          className="vads-u-margin-bottom--1 vads-u-margin-top--neg1"
-          data-testid="no-outstanding-claims-or-appeals-text"
-        >
+        </Toggler.Disabled>
+        <Toggler.Enabled>
           You don’t have any open claims or appeals.
-        </p>
-      </Toggler.Enabled>
-    </Toggler>
+        </Toggler.Enabled>
+      </Toggler>
+    </p>
   );
 };
 
@@ -59,15 +54,17 @@ const ClaimsAndAppealsError = ({ hasAppealsError, hasClaimsError }) => {
     errorType = 'appeals';
   } else if (hasClaimsError && !hasAppealsError) {
     errorType = 'claims';
-  } else if (hasAppealsError && hasClaimsError) {
-    errorType = 'claims and appeals';
   }
 
   const content = useRedesignContent ? (
-    <span data-testId="benefit-application-error-redesign">
-      We can’t show some of your {errorType} right now. Refresh this page or try
-      again later.
-    </span>
+    <h3
+      slot="headline"
+      className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
+      data-testId="benefit-application-error-redesign"
+    >
+      We can’t show your claims or appeals information right now. Refresh this
+      page or try again later.
+    </h3>
   ) : (
     <>
       <h3
@@ -221,7 +218,7 @@ const ClaimsAndAppeals = ({
               })()}
             </Toggler.Disabled>
             <Toggler.Enabled>
-              {highlightedClaimOrAppeal && !isLOA1 ? (
+              {highlightedClaimOrAppeal && !hasAPIError && !isLOA1 ? (
                 <HighlightedClaimAppeal
                   claimOrAppeal={highlightedClaimOrAppeal}
                 />
@@ -239,12 +236,12 @@ const ClaimsAndAppeals = ({
       </div>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <div>
+          <p className="vads-u-margin-top--0">
             <va-link
               href="/track-claims/your-claims"
               text="Check claims and appeals"
             />
-          </div>
+          </p>
           {!isLOA1 && (
             <DashboardWidgetWrapper>
               <DisabilityRatingCard />

@@ -32,7 +32,7 @@ export const applicantNameDobSchema = {
       content['beneficiary--basic-info-desc'],
     ),
     applicantName: fullNameMiddleInitialUI,
-    applicantDob: dateOfBirthUI(),
+    applicantDOB: dateOfBirthUI(),
     'ui:validations': [
       (errors, formData) =>
         validObjectCharsOnly(errors, null, formData, 'applicantName'),
@@ -40,10 +40,10 @@ export const applicantNameDobSchema = {
   },
   schema: {
     type: 'object',
-    required: ['applicantDob'],
+    required: ['applicantDOB'],
     properties: {
       applicantName: fullNameMiddleInitialSchema,
-      applicantDob: dateOfBirthSchema,
+      applicantDOB: dateOfBirthSchema,
     },
   },
 };

@@ -13,7 +13,7 @@ import {
 import { focusElement } from '~/platform/utilities/ui';
 import get from '~/platform/utilities/data/get';
 import set from '~/platform/utilities/data/set';
-import * as helpers from './helpers';
+import { getArrayIndexFromPathName, getArrayUrlSearchParams } from './helpers';
 
 export function formatPath(path) {
   return path && path.charAt(0) !== '/' ? `/${path}` : path;
@@ -47,8 +47,8 @@ const ArrayBuilderCancelButton = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const cancelButtonRef = useRef(null);
-  const urlParams = helpers.getArrayUrlSearchParams();
-  const arrayIndex = helpers.getArrayIndexFromPathName();
+  const urlParams = getArrayUrlSearchParams();
+  const arrayIndex = getArrayIndexFromPathName();
   const isEdit = urlParams?.has('edit');
   const isAdd = urlParams?.has('add');
   const isReview = urlParams?.has('review');

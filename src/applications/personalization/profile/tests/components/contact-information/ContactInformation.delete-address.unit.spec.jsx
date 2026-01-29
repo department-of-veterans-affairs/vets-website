@@ -1,5 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { waitForElementToBeRemoved } from '@testing-library/react';
 
 import { expect } from 'chai';
 import { server } from 'platform/testing/unit/mocha-setup';
@@ -34,6 +35,7 @@ function deleteAddress(addressName) {
   const confirmRemoveModal = view.getByTestId('confirm-remove-modal');
   const dummyEvent = new Event('click');
   confirmRemoveModal.__events.primaryButtonClick(dummyEvent);
+  return { confirmRemoveModal };
 }
 
 // When the update happens but not until after the delete modal has exited and the
@@ -41,7 +43,10 @@ function deleteAddress(addressName) {
 async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  deleteAddress(addressName);
+  const { confirmRemoveModal } = deleteAddress(addressName);
+
+  // wait for the confirm removal modal to close
+  await waitForElementToBeRemoved(confirmRemoveModal);
 
   // the va-loading-indicator should display
   await view.findByTestId('loading-indicator');

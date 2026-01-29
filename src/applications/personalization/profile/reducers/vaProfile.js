@@ -14,10 +14,7 @@ import {
   FETCH_SCHEDULING_PREFERENCES_FAILED,
   FETCH_SCHEDULING_PREFERENCES_SUCCESS,
 } from '@@vap-svc/actions/schedulingPreferences';
-import {
-  convertSchedulingPreferenceToReduxFormat,
-  convertSchedulingPreferencesToReduxFormat,
-} from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
+import { convertSchedulingPreferencesToReduxFormat } from '@@vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import {
   FETCH_HERO_SUCCESS,
   FETCH_HERO_FAILED,
@@ -98,10 +95,7 @@ function vaProfile(state = initialState, action) {
     case UPDATE_SCHEDULING_PREFERENCES_FIELD: {
       return set(
         `schedulingPreferences.${action.fieldName}`,
-        convertSchedulingPreferenceToReduxFormat(
-          action.value[action.fieldName],
-          action.fieldName,
-        ),
+        action.value[action.fieldName],
         state,
       );
     }

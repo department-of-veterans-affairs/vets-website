@@ -19,7 +19,6 @@ import {
   claimingRated,
   showSeparationLocation,
   sippableId,
-  isEvidenceEnhancement,
 } from './utils';
 
 import {
@@ -134,9 +133,7 @@ export function validateMilitaryState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(
-    state.trim().toUpperCase(),
-  );
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
@@ -165,9 +162,7 @@ export function validateMilitaryTreatmentCity(
       `vaTreatmentFacilities[${index}].treatmentCenterAddress.state`,
       formData,
       '',
-    )
-      .trim()
-      .toUpperCase(),
+    ),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -204,9 +199,7 @@ export function validateMilitaryTreatmentState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(
-    state.trim().toUpperCase(),
-  );
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
@@ -234,11 +227,7 @@ export const validateIfHasEvidence = (
   index,
 ) => {
   const { wrappedValidator } = options;
-  // In enhancement flow, check view:hasMedicalRecords; otherwise check view:hasEvidence
-  const hasEvidence = isEvidenceEnhancement(formData)
-    ? _.get('view:hasMedicalRecords', formData, true)
-    : _.get('view:hasEvidence', formData, true);
-  if (hasEvidence) {
+  if (_.get('view:hasEvidence', formData, true)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
 };

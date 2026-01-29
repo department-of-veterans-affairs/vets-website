@@ -3,24 +3,36 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
+import * as userSelectors from 'platform/user/selectors';
 import PrivacyPolicy from '../../components/PrivacyPolicy';
 
 describe('22-0839 <PrivacyPolicy>', () => {
   let dispatchSpy;
   let isLoggedInStub;
 
-  const fakeStore = (formData = {}) => {
+  const fakeStore = (formData = {}, isAuthenticated = false) => {
     dispatchSpy = sinon.spy();
     return {
       getState: () => ({
         form: {
           data: formData,
         },
+        user: {
+          login: {
+            currentlyLoggedIn: isAuthenticated,
+          },
+        },
       }),
       subscribe: () => {},
       dispatch: dispatchSpy,
     };
   };
+
+  beforeEach(() => {
+    isLoggedInStub = sinon
+      .stub(userSelectors, 'isLoggedIn')
+      .callsFake(state => state?.user?.login?.currentlyLoggedIn || false);
+  });
 
   afterEach(() => {
     if (isLoggedInStub) {
@@ -141,6 +153,41 @@ describe('22-0839 <PrivacyPolicy>', () => {
 
     const privacyActNotice = getByTestId('privacy-act-notice');
     expect(privacyActNotice).to.exist;
+  });
+
+  it('should dispatch setData with isAuthenticated when user is authenticated', () => {
+    const formData = {
+      authorizedOfficial: {
+        title: 'president',
+      },
+    };
+    render(
+      <Provider store={fakeStore(formData, true)}>
+        <PrivacyPolicy />
+      </Provider>,
+    );
+
+    expect(dispatchSpy.called).to.be.true;
+    const setDataAction = dispatchSpy.getCall(0).args[0];
+    expect(setDataAction.data).to.have.property('isAuthenticated', true);
+    expect(setDataAction.data).to.have.property('authorizedOfficial');
+  });
+
+  it('should dispatch setData with isAuthenticated false when user is not authenticated', () => {
+    const formData = {
+      authorizedOfficial: {
+        title: 'president',
+      },
+    };
+    render(
+      <Provider store={fakeStore(formData, false)}>
+        <PrivacyPolicy />
+      </Provider>,
+    );
+
+    expect(dispatchSpy.called).to.be.true;
+    const setDataAction = dispatchSpy.getCall(0).args[0];
+    expect(setDataAction.data).to.have.property('isAuthenticated', false);
   });
 
   it('should render privacy policy text with link, title section, and handle modal interactions', () => {

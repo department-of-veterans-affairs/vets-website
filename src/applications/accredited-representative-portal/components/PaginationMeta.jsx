@@ -9,7 +9,8 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
   const [searchParams] = useSearchParams();
   const pageSize = Number(searchParams.get('pageSize')) || defaults.SIZE;
   const pageNumber = Number(searchParams.get('pageNumber')) || defaults.NUMBER;
-  const sortOrder = searchParams.get(SEARCH_PARAMS.SORT) || defaults.SORT;
+  const sortOrder =
+    searchParams.get(SEARCH_PARAMS.SORTORDER) || defaults.SORT_ORDER;
   const selectedIndividual =
     searchParams.get('as_selected_individual') || defaults.SELECTED_INDIVIDUAL;
   const searchStatus = searchParams.get('status') || '';
@@ -49,7 +50,7 @@ const PaginationMeta = ({ meta, results, resultType, defaults }) => {
       {selectedIndividual === 'true' && userName} sorted by “
       <strong>
         {searchStatus === 'processed' ? 'Processed' : 'Submitted'} date (
-        {sortOrder})
+        {sortOrder === 'asc' ? 'oldest' : 'newest'})
       </strong>
       ”
     </p>

@@ -7,15 +7,14 @@ export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
-  const attributes = submission?.response?.attributes || {};
-  const confirmationNumber = attributes?.confirmationNumber || '';
+  const confirmationNumber = submission?.response?.confirmationNumber || '';
 
   return (
     <ConfirmationView
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={attributes?.pdfUrl}
+      pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  cleanup,
-  render,
-  fireEvent,
-  waitFor,
-  within,
-} from '@testing-library/react';
+import { render, fireEvent, waitFor, within } from '@testing-library/react';
 import { expect } from 'chai';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import StatementTable from '../../components/StatementTable';
@@ -25,10 +19,6 @@ const createCharges = count => {
 const mockFormatCurrency = val => `$${val.toFixed(2)}`;
 
 describe('Feature Toggle Data Confirmation', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
   it('showVHAPaymentHistory is true', () => {
     const mockState = {
       featureToggles: {

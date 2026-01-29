@@ -35,10 +35,10 @@ class VAFacilityPageObject extends PageObject {
       'not.exist',
     );
     if (isVA) {
-      cy.findByText(/We found 1 VA facility for your .* appointment/i);
+      cy.findByText(/We found one VA facility for your .* appointment/i);
     } else {
       cy.findByText(
-        /We found 1 VA location where you.re registered that offers COVID-19 vaccine appointments/i,
+        /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
       );
     }
     cy.findByText(locationName);

@@ -282,7 +282,12 @@
 .form {
   &__icon {
     &--warning {
-      margin: 0 4px;
+      margin: 0 4px 0 10px;
+    }
+  }
+  &__itf-card {
+    &--date {
+      margin-left: 3px;
     }
   }
 }

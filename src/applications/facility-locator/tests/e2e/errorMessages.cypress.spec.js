@@ -20,7 +20,7 @@ for (const featureSet of featureSets) {
   )}`, () => {
     const addrErrorMessage =
       'Enter a zip code or a city and state in the search box';
-    const faciltyErrorMessage = 'Select a facility type';
+
     const serviceErrorMessage = 'ErrorStart typing and select a service type';
 
     beforeEach(() => {
@@ -40,7 +40,7 @@ for (const featureSet of featureSets) {
       h.elementIsFocused(h.CITY_STATE_ZIP_INPUT);
     });
 
-    it('shows error message on leaving location field empty on submit', () => {
+    it('shows error message on leaving location field empty', () => {
       h.focusElement(h.CITY_STATE_ZIP_INPUT);
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
@@ -48,7 +48,7 @@ for (const featureSet of featureSets) {
       h.errorMessageContains(addrErrorMessage);
     });
 
-    it('shows error message when leaving facility type field empty on submit', () => {
+    it('shows error message when leaving facility type field empty', () => {
       h.typeInCityStateInput('Austin, TX', true);
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
       h.submitSearchForm();
@@ -57,16 +57,15 @@ for (const featureSet of featureSets) {
         .shadow()
         .find('.usa-error-message')
         .contains('Select a facility type');
-
-      h.errorMessageContains2(faciltyErrorMessage);
-
       cy.get(h.FACILITY_TYPE_DROPDOWN)
         .shadow()
         .find('select')
         .select('VA health');
+
+      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
-    it('shows error message when leaving service type field empty on submit', () => {
+    it('shows error message when leaving service type field empty', () => {
       h.typeInCityStateInput('Austin, TX');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
 
@@ -77,6 +76,8 @@ for (const featureSet of featureSets) {
       h.submitSearchForm();
       h.errorMessageContains(serviceErrorMessage);
       h.typeAndSelectInCCPServiceTypeInput('Clinic/Center - Urgent Care');
+
+      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when typing in `back pain`, NOT selecting a service type, and attempting to search', () => {
@@ -93,7 +94,7 @@ for (const featureSet of featureSets) {
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
       h.verifyElementExists(h.CCP_SERVICE_TYPE_INPUT);
-      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE_2);
+      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when deleting service after search', () => {

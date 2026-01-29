@@ -12,9 +12,24 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
+  recipientTypeLabels,
   typeOfIncomeLabels,
-  incomeRecipientTypeLabels,
 } from '../../../../utils/labels';
+
+const {
+  SURVIVING_SPOUSE,
+  VETERANS_CHILD,
+  CUSTODIAN,
+  CUSTODIAN_SPOUSE,
+} = recipientTypeLabels;
+
+// specific income recipient labels for gross income per figma design
+export const incomeRecipients = {
+  SURVIVING_SPOUSE,
+  VETERANS_CHILD,
+  CUSTODIAN,
+  CUSTODIAN_SPOUSE,
+};
 
 const grossDescription = () => (
   <div>
@@ -146,16 +161,16 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
         ...titleUI('Gross monthly income details'),
         recipient: radioUI({
           title: 'Who receives this income?',
-          labels: incomeRecipientTypeLabels,
+          labels: incomeRecipients,
         }),
         recipientName: textUI({
           title: 'Full name of the person who receives this income',
           expandUnder: 'recipient',
-          expandUnderCondition: field => field === 'CHILD',
+          expandUnderCondition: field => field === 'OTHER',
           required: (formData, index, fullData) => {
             const items = formData?.incomeEntries ?? fullData?.incomeEntries;
             const item = items?.[index];
-            return item?.recipient === 'CHILD';
+            return item?.recipient === 'OTHER';
           },
         }),
         incomeType: radioUI({
@@ -187,7 +202,7 @@ export const grossMonthlyIncomePages = arrayBuilderPages(
         type: 'object',
         required: ['recipient', 'incomeType', 'incomePayer', 'monthlyIncome'],
         properties: {
-          recipient: radioSchema(Object.keys(incomeRecipientTypeLabels)),
+          recipient: radioSchema(Object.keys(incomeRecipients)),
           recipientName: { type: 'string' },
           incomeType: radioSchema(Object.keys(typeOfIncomeLabels)),
           incomePayer: { type: 'string' },

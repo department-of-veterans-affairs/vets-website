@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { FETCH_STATUS } from '../../utils/constants';
-import { useOHScheduling } from './useOHScheduling';
+import { useOHDirectScheduling } from './useOHDirectScheduling';
 import { getPatientRelationships } from '../redux/actions';
 import { selectPatientProviderRelationships } from '../redux/selectors';
 
@@ -11,7 +11,7 @@ export function useGetPatientRelationships() {
     false,
   );
   const dispatch = useDispatch();
-  const featureOHScheduling = useOHScheduling();
+  const featureOHDirectSchedule = useOHDirectScheduling();
 
   // Fetches patient relationships
   const {
@@ -28,7 +28,7 @@ export function useGetPatientRelationships() {
   useEffect(
     () => {
       if (
-        featureOHScheduling &&
+        featureOHDirectSchedule &&
         patientProviderRelationshipsStatus === FETCH_STATUS.notStarted
       ) {
         dispatch(getPatientRelationships());
@@ -50,7 +50,7 @@ export function useGetPatientRelationships() {
     },
     [
       dispatch,
-      featureOHScheduling,
+      featureOHDirectSchedule,
       patientProviderRelationshipsStatus,
       patientProviderRelationships,
       hasBackendServiceFailures,

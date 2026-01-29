@@ -86,11 +86,6 @@ export const buildMarker = (
         locationElement.classList.add('active');
         recordMarkerEvents(loc);
 
-        const titleElement = locationElement.querySelector('h3');
-        if (titleElement) {
-          setFocus(titleElement);
-        }
-
         const searchResultsContainer = document.getElementById(
           'searchResultsContainer',
         );

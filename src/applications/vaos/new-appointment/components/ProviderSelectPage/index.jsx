@@ -37,8 +37,6 @@ export default function SelectProviderPage() {
   const isEligibleForRequest = eligibility?.request;
   const overRequestLimit =
     eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
-  const requestEligibilityError =
-    eligibility.requestReasons[0] === ELIGIBILITY_REASONS.error;
 
   useEffect(
     () => {
@@ -137,7 +135,6 @@ export default function SelectProviderPage() {
       ) : null}
 
       <ScheduleWithDifferentProvider
-        requestEligibilityError={requestEligibilityError}
         isEligibleForRequest={isEligibleForRequest}
         overRequestLimit={overRequestLimit}
         selectedFacility={selectedFacility}

@@ -160,9 +160,7 @@ export async function createOAuthRequest({
   );
 
   sessionStorage.setItem('ci', usedClientId);
-  if (environment.isProduction()) {
-    recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
-  }
+  recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
   return url.toString();
 }
 
@@ -215,13 +213,11 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
     credentials: 'include',
   });
 
-  if (environment.isProduction()) {
-    recordEvent({
-      event: response.ok
-        ? `login-success-${csp}-oauth-tokenexchange`
-        : `login-failure-${csp}-oauth-tokenexchange`,
-    });
-  }
+  recordEvent({
+    event: response.ok
+      ? `login-success-${csp}-oauth-tokenexchange`
+      : `login-failure-${csp}-oauth-tokenexchange`,
+  });
 
   if (response.ok) {
     removeStateAndVerifier();
@@ -351,9 +347,7 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   const sleep = time => {
     return new Promise(resolve => setTimeout(resolve, time));
   };
-  if (environment.isProduction()) {
-    recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
-  }
+  recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
 
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   updateLoggedInStatus(false);
@@ -388,8 +382,6 @@ export function createOktaOAuthRequest({
   );
 
   sessionStorage.setItem('ci', clientId);
-  if (environment.isProduction()) {
-    recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
-  }
+  recordEvent({ event: `login-attempted-${loginType}-oauth-${clientId}` });
   return url.toString();
 }

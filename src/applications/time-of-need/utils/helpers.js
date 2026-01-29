@@ -77,11 +77,7 @@ export function getCemeteries(query = '') {
     .catch(error => {
       // Prototype: do not call Sentry.captureException(error)
       // Light dev-only console notice so the variable is used
-      // Note: 127.0.0.1 is included for Node 22+ compatibility where DNS resolution may prefer IPv6
-      if (
-        window?.location?.hostname === 'localhost' ||
-        window?.location?.hostname === '127.0.0.1'
-      ) {
+      if (window?.location?.hostname === 'localhost') {
         // eslint-disable-next-line no-console
         console.warn('getCemeteries request failed', error);
       }

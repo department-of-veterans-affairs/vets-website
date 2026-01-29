@@ -1,27 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import DateTime from './DateTime';
 import AddToCalendarButton from './AddToCalendarButton';
 
-/**
- * Renders a card section.
- * @param {Object} props
- * @param {import('../utils/appointments').Appointment} props.appointmentData - The appointment data
- * @param {string} props.textContent - The text content
- * @param {string} props.heading - The heading
- * @param {number} props.level - The level
- * @param {boolean} props.showAddToCalendarButton - Whether to show the add to calendar button if appointmentData is provided
- * @param {React.ReactNode} props.customBodyElement - The custom body element
- * @returns {JSX.Element}
- */
 export default function CardSection({
-  appointmentData,
+  dateContent,
   textContent,
   heading,
   level = 2,
   customBodyElement,
-  showAddToCalendarButton,
   ...props
 }) {
   const Heading = `h${level}`;
@@ -36,11 +23,11 @@ export default function CardSection({
           {textContent}
         </p>
       )}
-      {appointmentData && (
+      {dateContent && (
         <>
-          <DateTime dateTime={appointmentData.startUTC} />
-          {showAddToCalendarButton && (
-            <AddToCalendarButton appointment={appointmentData} />
+          <DateTime dateTime={dateContent.dateTime} />
+          {dateContent.showAddToCalendarButton && (
+            <AddToCalendarButton appointment={dateContent} />
           )}
         </>
       )}
@@ -50,10 +37,9 @@ export default function CardSection({
 }
 
 CardSection.propTypes = {
-  appointmentData: PropTypes.object,
   customBodyElement: PropTypes.node,
+  dateContent: PropTypes.object,
   heading: PropTypes.string,
   level: PropTypes.number,
-  showAddToCalendarButton: PropTypes.bool,
   textContent: PropTypes.string,
 };

@@ -282,6 +282,7 @@ describe('pageDetails', () => {
         fullName: { first: 'PENNY' },
         isStepchild: 'N',
         removalReason: 'childNotInSchool',
+        childHasPermanentDisability: 'N',
         endDate: '2025-01-01',
       });
       expect(details).to.deep.equal([
@@ -298,21 +299,33 @@ describe('pageDetails', () => {
           hideValue: false,
         },
         {
+          label: 'Does this child have a permanent disability?',
+          value: 'No',
+        },
+        {
           label: 'Date child stopped attending school',
           value: 'January 1, 2025',
         },
       ]);
     });
 
-    it('should return child left school details', () => {
+    it('should return child left school details and has a permanent disability', () => {
       const details = pageDetails.Child({
         fullName: { first: 'PENNY' },
         isStepchild: 'N',
         removalReason: 'childNotInSchool',
-        endDate: '2026-01-10',
+        childHasPermanentDisability: 'Y',
       });
-      expect(details[2].label).to.equal('Date child stopped attending school');
-      expect(details[2].value).to.equal('January 10, 2026');
+      expect(details[2].label).to.equal(
+        'Does this child have a permanent disability?',
+      );
+      expect(details[2].value).to.equal('Yes');
+
+      expect(details[3].label).to.exist; // JSX
+      expect(details[3].value).to.equal('PENNY will remain on your benefits');
+      expect(details[3].action).to.equal(
+        'This child is still an eligible dependent',
+      );
     });
 
     it('should return child not a member of the household details', () => {
@@ -342,8 +355,6 @@ describe('pageDetails', () => {
           value: 'No',
           hideValue: false,
         },
-        null,
-        null,
         {
           label: 'When did this child stop living with you?',
           value: 'January 1, 2025',
@@ -357,20 +368,6 @@ describe('pageDetails', () => {
         isStepchild: 'Y',
         removalReason: 'stepchildNotMember',
         stepchildFinancialSupport: 'Y',
-        address: {
-          street: '123 Test St',
-          street2: 'Suite 100',
-          street3: 'Station 3',
-          city: 'Test City',
-          state: 'AK',
-          postalCode: '99501',
-          country: 'USA',
-        },
-        whoDoesTheStepchildLiveWith: {
-          first: 'John',
-          middle: 'A',
-          last: 'Doe',
-        },
       });
 
       expect(details[2].label).to.equal(
@@ -378,12 +375,11 @@ describe('pageDetails', () => {
       );
       expect(details[2].value).to.equal('Yes');
 
-      expect(details[3].label).to.equal('Child’s current address');
-      expect(details[3].value).to.equal(
-        '123 Test St, Suite 100, Station 3, Test City, AK 99501',
+      expect(details[3].label).to.exist; // JSX
+      expect(details[3].value).to.equal('PENNY will remain on your benefits');
+      expect(details[3].action).to.equal(
+        'This child still qualifies as your dependent',
       );
-      expect(details[4].label).to.equal('Child lives with');
-      expect(details[4].value).to.equal('John A Doe');
     });
 
     it('should return child death details', () => {

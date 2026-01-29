@@ -31,7 +31,7 @@ import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FormFooter from '../components/FormFooter';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
   validAddressCharsOnly,
   validObjectCharsOnly,
@@ -54,7 +54,9 @@ const formConfig = {
   transformForSubmit,
   prefillTransformer,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  footerContent: FormFooter,
+  footerContent: GetFormHelp,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'fmp-cover-sheet-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

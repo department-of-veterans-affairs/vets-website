@@ -97,7 +97,6 @@ const {
   // defaultUser,
   // acceleratedCernerUser,
   cernerUser,
-  // transitioningUser,
 } = require('../../../../platform/mhv/api/mocks/user');
 
 const mockAppts = [];
@@ -661,7 +660,6 @@ const responses = {
     return res.json(vamcEhr);
   },
   // Required v0 APIs
-  // 'GET /v0/user': transitioningUser, // use this user to test migration alerts
   'GET /v0/user': {
     data: {
       attributes: {

@@ -65,17 +65,13 @@ const ChemHemDetails = props => {
       ...generateChemHemContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    try {
-      await makePdf(
-        pdfName,
-        pdfData,
-        'medicalRecords',
-        'Medical Records - Chem/Hem details - PDF generation error',
-        runningUnitTest,
-      );
-    } catch {
-      // makePdf handles error logging to Datadog/Sentry
-    }
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Chem/Hem details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateChemHemTxt = async () => {

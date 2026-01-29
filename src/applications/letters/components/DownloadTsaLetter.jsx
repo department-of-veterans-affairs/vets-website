@@ -10,7 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_TSA_LETTER_ENDPOINT } from '../utils/constants';
 import { apiRequest } from '../utils/helpers';
 
-export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
+export const DownloadTsaLetter = ({ documentId }) => {
   const ref = useRef(null);
   const [error, setError] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
@@ -21,9 +21,7 @@ export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
       let hasFetchedLocal = false;
 
       const getTsaLetterData = () => {
-        return apiRequest(
-          DOWNLOAD_TSA_LETTER_ENDPOINT(documentId, documentVersion),
-        )
+        return apiRequest(DOWNLOAD_TSA_LETTER_ENDPOINT(documentId))
           .then(response => {
             response.blob().then(blob => {
               window.URL = window.URL || window.webkitURL;
@@ -31,8 +29,7 @@ export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
               setLetterData(downloadUrl);
               recordEvent({
                 event: 'api_call',
-                'api-name':
-                  'GET /v0/tsa_letter/:id/version/:version_id/download',
+                'api-name': 'GET /v0/tsa_letter/:id',
                 'api-status': 'successful',
               });
             });
@@ -41,7 +38,7 @@ export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
             setError(true);
             recordEvent({
               event: 'api_call',
-              'api-name': 'GET /v0/tsa_letter/:id/version/:version_id/download',
+              'api-name': 'GET /v0/tsa_letter/:id',
               'api-status': 'error',
             });
           });
@@ -68,7 +65,7 @@ export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
         observer.disconnect();
       };
     },
-    [documentId, documentVersion],
+    [documentId],
   );
 
   useEffect(
@@ -128,5 +125,4 @@ export const DownloadTsaLetter = ({ documentId, documentVersion }) => {
 
 DownloadTsaLetter.propTypes = {
   documentId: PropTypes.string.isRequired,
-  documentVersion: PropTypes.string.isRequired,
 };

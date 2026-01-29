@@ -1,53 +1,74 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route } from 'react-router-dom-v5-compat';
+import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import CancelAppointment from './CancelAppointment';
-import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
-import * as vassApi from '../redux/api/vassApi';
-import {
-  createAppointmentData,
-  createVassApiStateWithAppointment,
-} from '../utils/appointments';
-import { URLS } from '../utils/constants';
+import { getDefaultRenderOptions } from '../utils/test-utils';
+
+// Helper component to display current location for testing navigation
+const LocationDisplay = () => {
+  const location = useLocation();
+  return (
+    <div data-testid="location-display">
+      {location.pathname}
+      {location.search}
+    </div>
+  );
+};
 
 const appointmentId = 'abcdef123456';
-const appointmentData = createAppointmentData({ appointmentId });
+const appointmentData = {
+  appointmentId,
+  startUTC: '2025-12-24T10:00:00Z',
+  endUTC: '2025-12-24T10:30:00Z',
+  agentId: '353dd0fc-335b-ef11-bfe3-001dd80a9f48',
+  agentNickname: 'Bill Brasky',
+  appointmentStatusCode: 1,
+  appointmentStatus: 'Confirmed',
+  cohortStartUtc: '2025-12-01T00:00:00Z',
+  cohortEndUtc: '2026-02-28T23:59:59Z',
+};
 
-const getVassApiState = () =>
-  createVassApiStateWithAppointment(appointmentId, appointmentData);
+// Pre-populate the RTK Query cache with the appointment data
+const vassApiState = {
+  queries: {
+    [`getAppointment({"appointmentId":"${appointmentId}"})`]: {
+      status: 'fulfilled',
+      endpointName: 'getAppointment',
+      requestId: 'test',
+      startedTimeStamp: 0,
+      data: appointmentData,
+    },
+  },
+  mutations: {},
+  provided: {},
+  subscriptions: {},
+  config: {
+    online: true,
+    focused: true,
+    middlewareRegistered: true,
+  },
+};
+
+const defaultRenderOptions = getDefaultRenderOptions(
+  {},
+  { vassApi: vassApiState },
+);
 
 describe('VASS Page: CancelAppointment', () => {
-  let cancelAppointmentStub;
-
-  beforeEach(() => {
-    // Mock the cancelAppointment mutation to resolve immediately
-    const mockCancelAppointment = sinon.stub().returns({
-      unwrap: () => Promise.resolve({ data: {} }),
-    });
-    cancelAppointmentStub = sinon
-      .stub(vassApi, 'useCancelAppointmentMutation')
-      .returns([mockCancelAppointment, { isLoading: false }]);
-  });
-
-  afterEach(() => {
-    cancelAppointmentStub.restore();
-  });
-
   it('renders page, appointment card, and buttons', () => {
     const screen = renderWithStoreAndRouter(
       <Routes>
         <Route
-          path={`${URLS.CANCEL_APPOINTMENT}/:appointmentId`}
+          path="/cancel-appointment/:appointmentId"
           element={<CancelAppointment />}
         />
       </Routes>,
       {
-        ...getDefaultRenderOptions({}, { vassApi: getVassApiState() }),
-        initialEntries: [`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`],
+        ...defaultRenderOptions,
+        initialEntries: [`/cancel-appointment/${appointmentId}`],
       },
     );
 
@@ -57,7 +78,6 @@ describe('VASS Page: CancelAppointment', () => {
     );
     expect(screen.getByTestId('appointment-card')).to.exist;
     expect(screen.getByTestId('cancel-confirm-button-pair')).to.exist;
-    expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
   });
 
   describe('navigation', () => {
@@ -66,19 +86,19 @@ describe('VASS Page: CancelAppointment', () => {
         <>
           <Routes>
             <Route
-              path={`${URLS.CANCEL_APPOINTMENT}/:appointmentId`}
+              path="/cancel-appointment/:appointmentId"
               element={<CancelAppointment />}
             />
             <Route
-              path={`${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/:appointmentId`}
+              path="/cancel-appointment/confirmation"
               element={<div>Cancel Confirmation Page</div>}
             />
           </Routes>
           <LocationDisplay />
         </>,
         {
-          ...getDefaultRenderOptions({}, { vassApi: getVassApiState() }),
-          initialEntries: [`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`],
+          ...defaultRenderOptions,
+          initialEntries: [`/cancel-appointment/${appointmentId}`],
         },
       );
 
@@ -87,7 +107,7 @@ describe('VASS Page: CancelAppointment', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          `${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/${appointmentId}`,
+          '/cancel-appointment/confirmation',
         );
       });
     });
@@ -97,19 +117,19 @@ describe('VASS Page: CancelAppointment', () => {
         <>
           <Routes>
             <Route
-              path={`${URLS.CANCEL_APPOINTMENT}/:appointmentId`}
+              path="/cancel-appointment/:appointmentId"
               element={<CancelAppointment />}
             />
             <Route
-              path={`${URLS.CONFIRMATION}/:appointmentId`}
+              path="/confirmation/:appointmentId"
               element={<div>Confirmation Page</div>}
             />
           </Routes>
           <LocationDisplay />
         </>,
         {
-          ...getDefaultRenderOptions({}, { vassApi: getVassApiState() }),
-          initialEntries: [`${URLS.CANCEL_APPOINTMENT}/${appointmentId}`],
+          ...defaultRenderOptions,
+          initialEntries: [`/cancel-appointment/${appointmentId}`],
         },
       );
 
@@ -118,7 +138,7 @@ describe('VASS Page: CancelAppointment', () => {
 
       await waitFor(() => {
         expect(getByTestId('location-display').textContent).to.equal(
-          `${URLS.CONFIRMATION}/${appointmentId}?details=true`,
+          `/confirmation/${appointmentId}?details=true`,
         );
       });
     });

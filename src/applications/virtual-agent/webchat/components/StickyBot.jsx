@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Disclaimer from '../../chatbot/features/shell/components/LeftColumnContent';
-import useSkipLinkFix from '../../chatbot/features/shell/hooks/useSkipLinkFix';
+import Disclaimer from '../../shared/components/Disclaimer/Disclaimer';
+import useSkipLinkFix from '../../shared/hooks/useSkipLinkFix';
 import Chatbox from './Chatbox';
 
 export default function StickyBot() {

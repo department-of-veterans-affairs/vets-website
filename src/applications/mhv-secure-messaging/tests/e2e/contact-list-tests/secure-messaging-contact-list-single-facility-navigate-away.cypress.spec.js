@@ -3,8 +3,6 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import ContactListPage from '../pages/ContactListPage';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
 
-const baseUrl = Cypress.config('baseUrl');
-
 describe('SM SINGLE FACILITY CONTACT LIST NAVIGATE AWAY', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
@@ -26,7 +24,7 @@ describe('SM SINGLE FACILITY CONTACT LIST NAVIGATE AWAY', () => {
       cy.then(() => {
         expect(beforeUnloadStub).to.have.been.called;
         expect(win.location.href).to.eq(
-          `${baseUrl}${Paths.UI_MAIN}/medications/about`,
+          `http://localhost:3001${Paths.UI_MAIN}/medications/about`,
         );
       });
     });
@@ -45,7 +43,7 @@ describe('SM SINGLE FACILITY CONTACT LIST NAVIGATE AWAY', () => {
       cy.then(() => {
         expect(beforeUnloadStub).to.have.been.called;
         expect(win.location.href).to.eq(
-          `${baseUrl}${Paths.UI_MAIN}/find-locations`,
+          `http://localhost:3001${Paths.UI_MAIN}/find-locations`,
         );
       });
     });
@@ -63,7 +61,9 @@ describe('SM SINGLE FACILITY CONTACT LIST NAVIGATE AWAY', () => {
 
       cy.then(() => {
         expect(beforeUnloadStub).to.have.been.called;
-        expect(win.location.href).to.eq(`${baseUrl}${Paths.UI_MAIN}/inbox/`);
+        expect(win.location.href).to.eq(
+          `http://localhost:3001${Paths.UI_MAIN}/inbox/`,
+        );
       });
     });
   });
@@ -81,7 +81,7 @@ describe('SM SINGLE FACILITY CONTACT LIST NAVIGATE AWAY', () => {
       cy.then(() => {
         expect(beforeUnloadStub).to.have.been.called;
         expect(win.location.href).to.eq(
-          `${baseUrl}${Paths.UI_MAIN}/contact-list`,
+          `http://localhost:3001${Paths.UI_MAIN}/contact-list`,
         );
       });
     });

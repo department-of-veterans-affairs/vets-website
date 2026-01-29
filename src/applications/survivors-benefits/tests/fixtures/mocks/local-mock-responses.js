@@ -2,7 +2,6 @@
 const mockItf = require('./mock-itf');
 const mockUser = require('./user.json');
 const features = require('./feature-flags');
-const submit = require('./completed.json');
 const completedForm = require('./completed-form.json');
 
 const responses = {
@@ -72,7 +71,16 @@ const responses = {
       },
     });
   },
-  'POST /survivors_benefits/v0/form534ez': submit,
+  'POST /survivors_benefits/v0/form534ez': (req, res) => {
+    return res.json({
+      formSubmissionId: '123fake-submission-id-567',
+      confirmationNumber: '123fake-submission-id-567',
+      timestamp: '2020-11-12',
+      attributes: {
+        guid: '123fake-submission-id-567',
+      },
+    });
+  },
 };
 
 module.exports = responses;

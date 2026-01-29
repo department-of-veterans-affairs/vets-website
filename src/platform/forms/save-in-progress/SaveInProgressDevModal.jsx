@@ -21,13 +21,7 @@ const checkHash = () => {
 
 const getAvailablePaths = (pageList, data) =>
   getActivePages(pageList, data)
-    .map(
-      page =>
-        // Include '?edit=true' to allow entering array builder pages
-        page.path.includes('/:index')
-          ? `${page.path.replace('/:index', '/0')}?edit=true`
-          : page.path,
-    )
+    .map(page => page.path)
     // remove introduction page (it'll cause an endless loop if selected)
     .slice(1);
 
@@ -143,7 +137,7 @@ const SipsDevModal = props => {
               {availablePaths &&
                 availablePaths.map(path => (
                   <option key={path} value={path}>
-                    {path.replace('?edit=true', '')}
+                    {path}
                   </option>
                 ))}
             </VaSelect>
@@ -166,7 +160,6 @@ const SipsDevModal = props => {
       <va-link
         key={showLink}
         class="vads-u-margin-left--2"
-        href="#"
         onClick={handlers.openSipsModal}
         icon-name="settings"
         text="Open save-in-progress menu"

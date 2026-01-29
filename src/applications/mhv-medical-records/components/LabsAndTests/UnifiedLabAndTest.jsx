@@ -52,17 +52,7 @@ const UnifiedLabsAndTests = props => {
   const generatePdf = async () => {
     setDownloadStarted(true);
     const data = pdfPrinter({ record, user });
-    try {
-      await makePdf(
-        data.title,
-        data.body,
-        'medicalRecords',
-        'Medical Records - Unified Lab/Test details - PDF generation error',
-        runningUnitTest,
-      );
-    } catch {
-      // makePdf handles error logging to Datadog/Sentry
-    }
+    makePdf(data.title, data.body, 'medicalRecords', runningUnitTest);
   };
 
   const generateTxt = async () => {

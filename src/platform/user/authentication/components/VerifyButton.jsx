@@ -7,25 +7,11 @@ import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-export const verifyHandler = ({
-  ial2Enforcement,
-  policy,
-  queryParams,
-  useOAuth,
-}) => {
-  const needsIal2Enforcement =
-    ial2Enforcement &&
-    [SERVICE_PROVIDERS.logingov.policy, SERVICE_PROVIDERS.idme.policy].includes(
-      policy,
-    );
-
+export const verifyHandler = ({ policy, queryParams, useOAuth }) => {
   verify({
     policy,
-    acr: needsIal2Enforcement
-      ? 'urn:acr.va.gov:verified-facial-match-required'
-      : defaultWebOAuthOptions.acrVerify[policy],
+    acr: defaultWebOAuthOptions.acrVerify[policy],
     queryParams,
     useOAuth,
   });
@@ -42,22 +28,13 @@ export const verifyHandler = ({
 export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
   const { altImage, policy } = SERVICE_PROVIDERS.idme;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityIdmeIal2Enforcement,
-  );
 
   return (
     <button
       type="button"
       className="usa-button idme-verify-button"
       onClick={() =>
-        verifyHandler({
-          ial2Enforcement,
-          policy,
-          useOAuth: forceOAuth,
-          queryParams,
-        })
+        verifyHandler({ policy, useOAuth: forceOAuth, queryParams })
       }
     >
       <span>
@@ -81,27 +58,18 @@ export const VerifyIdmeButton = ({ queryParams, useOAuth = false }) => {
 
 /**
  *
- * @returns The updated design of the Login.gov identity-verification button
+ * @returns The updated design of the Login.gov identity-verification buttion
  */
 export const VerifyLogingovButton = ({ queryParams, useOAuth = false }) => {
   const { image, policy } = SERVICE_PROVIDERS.logingov;
   const forceOAuth = useSelector(isAuthenticatedWithOAuth) || useOAuth;
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityLogingovIal2Enforcement,
-  );
 
   return (
     <button
       type="button"
       className="usa-button logingov-verify-button"
       onClick={() =>
-        verifyHandler({
-          ial2Enforcement,
-          policy,
-          queryParams,
-          useOAuth: forceOAuth,
-        })
+        verifyHandler({ policy, queryParams, useOAuth: forceOAuth })
       }
     >
       <div>Verify with {image}</div>
@@ -124,19 +92,13 @@ export const VerifyButton = ({
 }) => {
   const { image } = SERVICE_PROVIDERS[csp];
   const className = `usa-button ${csp}-verify-buttons`;
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const ial2Enforcement = useToggleValue(
-    TOGGLE_NAMES.identityLogingovIal2Enforcement,
-  );
 
   return (
     <button
       key={csp}
       type="button"
       className={className}
-      onClick={() =>
-        onClick({ ial2Enforcement, policy: csp, queryParams, useOAuth })
-      }
+      onClick={() => onClick({ policy: csp, queryParams, useOAuth })}
     >
       <span className="sr-only">Verify with</span>
       {image}

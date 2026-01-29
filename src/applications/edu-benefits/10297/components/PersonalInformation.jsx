@@ -42,9 +42,7 @@ const PersonalInformation = ({ formData }) => {
     missingFields.push('Social Security number');
   }
 
-  // Setting this to false to disable the alert that blocks form flow.
-  // Most likely will delete this functionality but disabling for now.
-  const hasMissingFields = false;
+  const hasMissingFields = missingFields.length > 0;
   useEffect(
     () => {
       const formPanel = document.querySelector('.form-panel');

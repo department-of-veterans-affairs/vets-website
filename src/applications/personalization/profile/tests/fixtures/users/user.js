@@ -66,7 +66,6 @@ export const makeMockUser = () => {
           facilities: [{ facilityId: '983', isCerner: false }],
           vaPatient: true,
           mhvAccountState: 'OK',
-          schedulingPreferencesPilotEligible: true,
         },
         veteranStatus: {
           status: 'OK',

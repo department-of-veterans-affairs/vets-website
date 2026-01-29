@@ -47,12 +47,17 @@ const IntroductionPage = ({ route }) => {
         </h2>
         <p>When you prepare to file, be sure to have these on hand:</p>
         <ul>
-          <li>An itemized billing statement to support your claim</li>
           <li>
-            A receipt or other proof that you paid, only if you already paid the
-            provider
+            You’ll need to upload an itemized billing statement to support your
+            claim
           </li>
-          <li>Other supporting documents for certain types of claims</li>
+          <li>
+            If you already paid the provider, you’ll need to upload a receipt or
+            other proof that you paid
+          </li>
+          <li>
+            For certain types of claims, you may need other supporting documents
+          </li>
         </ul>
         <p className="vads-u-margin-bottom--4">
           <va-link

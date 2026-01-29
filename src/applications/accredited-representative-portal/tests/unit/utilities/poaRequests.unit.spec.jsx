@@ -3,7 +3,6 @@ import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import * as dateUtils from 'platform/utilities/date';
 import * as poa from '../../../utilities/poaRequests';
-import { addStyleToShadowDomOnPages } from '../../../utilities/helpers';
 
 describe('poaRequests utilities', () => {
   describe('expiresSoon', () => {
@@ -171,7 +170,7 @@ describe('poaRequests utilities', () => {
       };
       global.CSSStyleSheet = sinon.stub().returns(mockStyleSheet);
 
-      await addStyleToShadowDomOnPages(urlArray, targetElements, style);
+      await poa.addStyleToShadowDomOnPages(urlArray, targetElements, style);
 
       expect(mockDocument.querySelectorAll.calledWith('custom-element')).to.be
         .true;
@@ -184,7 +183,7 @@ describe('poaRequests utilities', () => {
 
       mockWindow.location.href = 'https://example.com/other-page';
 
-      await addStyleToShadowDomOnPages(urlArray, targetElements, style);
+      await poa.addStyleToShadowDomOnPages(urlArray, targetElements, style);
 
       expect(mockDocument.querySelectorAll.called).to.be.false;
     });
@@ -201,7 +200,7 @@ describe('poaRequests utilities', () => {
 
       mockDocument.querySelectorAll.returns([mockElement]);
 
-      await addStyleToShadowDomOnPages(urlArray, targetElements, style);
+      await poa.addStyleToShadowDomOnPages(urlArray, targetElements, style);
 
       expect(mockDocument.querySelectorAll.calledWith('custom-element')).to.be
         .true;
@@ -215,7 +214,7 @@ describe('poaRequests utilities', () => {
       mockDocument.querySelectorAll.throws(new Error('DOM error'));
 
       expect(() => {
-        addStyleToShadowDomOnPages(urlArray, targetElements, style);
+        poa.addStyleToShadowDomOnPages(urlArray, targetElements, style);
       }).to.not.throw();
     });
   });

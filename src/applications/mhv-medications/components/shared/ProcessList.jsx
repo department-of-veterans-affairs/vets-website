@@ -312,7 +312,7 @@ const ProcessList = ({ stepGuideProps }) => {
         <section>
           {!isRefillRunningLate && (
             <>
-              <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4" />
+              <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-lighter" />
               <h2
                 className="vads-u-margin-top--0 vads-u-margin-bottom--3"
                 data-testid="progress-list-header"

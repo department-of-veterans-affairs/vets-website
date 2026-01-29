@@ -344,7 +344,12 @@ export const getTsaLetterEligibility = () => dispatch => {
   });
   return apiRequest(GET_TSA_LETTER_ELIGIBILITY_ENDPOINT)
     .then(response => {
-      const hasTSALetter = response.data !== null;
+      const data = (response.data ?? []).reduce((latest, current) => {
+        const latestDate = latest?.attributes?.receivedAt || '0';
+        const currentDate = current?.attributes?.receivedAt || '0';
+        return currentDate > latestDate ? current : latest;
+      }, null);
+      const hasTSALetter = response.data?.length > 0;
       recordEvent({
         event: 'api_call',
         'api-name': 'GET /v0/tsa_letter',
@@ -353,7 +358,7 @@ export const getTsaLetterEligibility = () => dispatch => {
       });
       return dispatch({
         type: GET_TSA_LETTER_ELIGIBILITY_SUCCESS,
-        data: response.data,
+        data,
       });
     })
     .catch(() => {

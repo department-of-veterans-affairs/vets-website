@@ -50,6 +50,10 @@ export const AssetsInformation = () => (
           marriages)
         </li>
         <li>
+          A parent, if you’re directly caring for them and their income and net
+          worth are below a certain amount
+        </li>
+        <li>
           An unmarried child (including an adopted child or stepchild) who meets
           one of the eligibility requirements listed here
         </li>
@@ -65,8 +69,8 @@ export const AssetsInformation = () => (
           They’re under 18 years old, <strong>or</strong>
         </li>
         <li>
-          They’re between the ages of 18 and 23 years old and enrolled in
-          school, <strong>or</strong>
+          They’re between the ages of 18 and 23 years old and enrolled in school
+          full time, <strong>or</strong>
         </li>
         <li>They became permanently disabled before they turned 18</li>
       </ul>

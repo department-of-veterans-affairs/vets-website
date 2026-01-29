@@ -1,7 +1,6 @@
-const baseUrl = Cypress.config('baseUrl');
-
 describe('Confirmation Page', () => {
-  const confirmationUrl = `${baseUrl}/discover-your-benefits/confirmation?benefits=GIB%2CFHV%2CSVC%2CVRE%2CVSC%2CDHS%2CVAP%2CMHC%2CFMP%2CVAL%2CDIS%2CCOE%2CVAH%2CBUR%2CBRG%2CSVB`;
+  const confirmationUrl =
+    'http://localhost:3001/discover-your-benefits/confirmation?benefits=GIB%2CFHV%2CSVC%2CVRE%2CVSC%2CDHS%2CVAP%2CMHC%2CFMP%2CVAL%2CDIS%2CCOE%2CVAH%2CBUR%2CBRG%2CSVB';
 
   beforeEach(() => {
     cy.visit(confirmationUrl);

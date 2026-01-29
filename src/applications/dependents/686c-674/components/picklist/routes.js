@@ -8,8 +8,7 @@ import childIsStepChild from './childIsStepchild';
 import childReasonToRemove from './childReasonToRemove';
 // child left household
 import stepchildFinancialSupport from './stepchildFinancialSupport';
-import stepchildCurrentAddress from './stepchildCurrentAddress';
-import stepchildLivesWith from './stepchildLivesWith';
+import stepchildFinancialSupportExit from './stepchildFinancialSupportExit';
 import stepchildLeftHousehold from './stepchildLeftHousehold';
 // Child marriage
 import childMarriage from './childMarriage';
@@ -45,12 +44,8 @@ export const routing = {
     // Child left household
     { path: 'stepchild-financial-support', page: stepchildFinancialSupport },
     {
-      path: 'stepchild-current-address',
-      page: stepchildCurrentAddress,
-    },
-    {
-      path: 'stepchild-lives-with',
-      page: stepchildLivesWith,
+      path: 'stepchild-financial-support-exit',
+      page: stepchildFinancialSupportExit,
     },
     { path: 'stepchild-left-household', page: stepchildLeftHousehold },
     // Child marriage
