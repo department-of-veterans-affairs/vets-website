@@ -1,38 +1,52 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { formatInTimeZone } from 'date-fns-tz';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
-import { createAppointmentData } from '../utils/appointments';
 import { setFlowType } from '../redux/slices/formSlice';
 import { FLOW_TYPES, URLS, VASS_PHONE_NUMBER } from '../utils/constants';
-
-// TODO: replace with actual data
-const appointmentData = createAppointmentData({
-  startUTC: '2025-05-01T16:00:00.000Z',
-  endUTC: '2025-05-01T16:30:00.000Z',
-  topics: [{ topicName: 'Benefits' }, { topicName: 'Health care' }],
-});
+import { useGetAppointmentQuery } from '../redux/api/vassApi';
+import { getBrowserTimezone } from '../utils/timezone';
 
 const AlreadyScheduled = () => {
-  const appointmentDate = new Date(appointmentData.startUTC);
+  const { appointmentId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { data: appointmentData, isLoading } = useGetAppointmentQuery({
+    appointmentId,
+  });
+
+  const [appointmentDate, appointmentTime] = useMemo(
+    () => {
+      if (!appointmentData?.startUTC) {
+        return ['', ''];
+      }
+      const date = new Date(appointmentData.startUTC);
+      const timezone = getBrowserTimezone();
+      return [
+        formatInTimeZone(date, timezone, 'MM/dd/yyyy'),
+        formatInTimeZone(date, timezone, 'hh:mm a'),
+      ];
+    },
+    [appointmentData?.startUTC],
+  );
 
   const handleCancelAppointment = e => {
     e.preventDefault();
     dispatch(setFlowType(FLOW_TYPES.CANCEL));
     navigate(`${URLS.CANCEL_APPOINTMENT}/${appointmentData.appointmentId}`);
   };
+
   return (
     <Wrapper
       testID="already-scheduled-page"
       pageTitle="You already scheduled your appointment with VA Solid Start"
+      loading={isLoading}
+      loadingMessage="Loading appointment details. This may take up to 30 seconds. Please don’t refresh the page."
     >
       <p id="appointment-date-time" data-testid="already-scheduled-date-time">
-        Your VA Solid Start appointment is scheduled for{' '}
-        {format(appointmentDate, 'MM/dd/yyyy')} at{' '}
-        {format(appointmentDate, 'hh:mm a')}.
+        Your VA Solid Start appointment is scheduled for {appointmentDate} at{' '}
+        {appointmentTime}.
       </p>
       <p data-testid="already-scheduled-phone-number">
         Your VA Solid Start representative will call you at the time you
@@ -40,7 +54,7 @@ const AlreadyScheduled = () => {
         number to ensure you don’t miss the appointment.
       </p>
       <va-link-action
-        href={`/cancel-appointment/${appointmentData.appointmentId}`}
+        href={`/cancel-appointment/${appointmentData?.appointmentId}`}
         text="Cancel this appointment"
         aria-labelledby="appointment-date-time"
         type="secondary"
