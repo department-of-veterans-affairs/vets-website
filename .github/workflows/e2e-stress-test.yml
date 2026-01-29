@@ -291,10 +291,6 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
 
-      - name: Start server
-        if: needs.cypress-tests-prep.outputs.tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
-      
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
         with:
@@ -303,7 +299,38 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        run: node script/github-actions/run-cypress-stress-tests.js
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Starting test server..."
+          node src/platform/testing/e2e/test-server.js \
+            --buildtype=vagovprod \
+            --port=3001 \
+            --host=127.0.0.1 \
+            > test-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          echo "Waiting for server to be ready..."
+          ready=false
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              ready=true
+              break
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+
+          if [ "$ready" = false ]; then
+            echo "Server failed to start. Last 200 log lines:"
+            tail -n 200 test-server.log || cat test-server.log
+            exit 1
+          fi
+
+          node script/github-actions/run-cypress-stress-tests.js
         timeout-minutes: 1200
         env:
           CYPRESS_CI: true
