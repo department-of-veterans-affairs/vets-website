@@ -43,7 +43,7 @@ export function PreSubmitInfo({
   return (
     <VaStatementOfTruth
       heading={statementOfTruth.heading}
-      inputLabel={statementOfTruth.textInputLabel}
+      inputLabel={statementOfTruth.textInputLabel || 'Your full name'}
       inputValue={formData?.statementOfTruthSignature}
       inputMessageAriaDescribedby={`${statementOfTruth.heading}: ${
         statementOfTruth.messageAriaDescribedby
