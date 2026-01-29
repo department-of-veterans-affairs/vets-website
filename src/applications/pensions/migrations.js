@@ -407,6 +407,9 @@ export default [
     if (formData.locationOfSeparation) {
       delete newFormData.locationOfSeparation;
     }
+    if (formData['view:pastMarriage']) {
+      delete newFormData['view:pastMarriage'];
+    }
     return { formData: newFormData, metadata };
   },
 ];

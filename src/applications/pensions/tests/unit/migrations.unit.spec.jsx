@@ -364,6 +364,13 @@ describe('Pension migrations', () => {
         dateOfSeparation: '2005-01-01',
         locationOfMarriage: 'Test, CA',
         locationOfSeparation: 'United States',
+        'view:pastMarriage': {
+          reasonForSeparation: 'DIVORCE',
+          dateOfMarriage: '2000-01-01',
+          dateOfSeparation: '2005-01-01',
+          locationOfMarriage: 'Test, CA',
+          locationOfSeparation: 'United States',
+        },
       },
       metadata: {
         returnUrl: '/review-and-submit',
