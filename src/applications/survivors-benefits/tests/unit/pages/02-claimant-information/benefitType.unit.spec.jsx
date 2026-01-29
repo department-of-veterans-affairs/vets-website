@@ -30,9 +30,7 @@ describe('Claimant Information Page', () => {
     expect(vaCheckboxes[0].getAttribute('label')).to.equal(
       'Dependency and Indemnity Compensation (DIC)',
     );
-    expect(vaCheckboxes[0].getAttribute('data-key')).to.equal(
-      'dependencyIndemnityComp',
-    );
+    expect(vaCheckboxes[0].getAttribute('data-key')).to.equal('DIC');
     expect(vaCheckboxes[1].getAttribute('label')).to.equal('Survivors Pension');
     expect(vaCheckboxes[1].getAttribute('data-key')).to.equal(
       'survivorsPension',

@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { waitFor } from '@testing-library/dom';
 import SchedulingPreferences from '../../../components/health-care-settings/SchedulingPreferences';
 import { PROFILE_PATH_NAMES } from '../../../constants';
 import {
@@ -126,9 +127,11 @@ describe('SchedulingPreferences', () => {
     });
   });
 
-  it('sets correct page title on mount', () => {
+  it('sets correct page title on mount', async () => {
     setup();
 
-    expect(document.title).to.contain('Scheduling Preferences');
+    await waitFor(() =>
+      expect(document.title).to.contain('Scheduling Preferences'),
+    );
   });
 });
