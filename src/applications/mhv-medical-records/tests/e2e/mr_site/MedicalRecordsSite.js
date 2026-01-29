@@ -119,6 +119,14 @@ class MedicalRecordsSite {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
           },
+          {
+            name: 'mhv_medical_records_images_domain',
+            value: true,
+          },
+          {
+            name: 'mhvMedicalRecordsImagesDomain',
+            value: true,
+          },
         ],
       },
     }).as('featureToggles');
