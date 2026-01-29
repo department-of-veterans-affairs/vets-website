@@ -14,7 +14,6 @@ import {
 import environment from 'platform/utilities/environment';
 
 import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession, postCreateAAL } from '../api/MrApi';
 import { sendDataDogAction } from '../util/helpers';
@@ -120,7 +119,7 @@ const LandingPage = () => {
         </p>
       </section>
 
-      <CernerFacilityAlert {...CernerAlertContent.MEDICAL_RECORDS} />
+      <CernerFacilityAlert healthTool="MEDICAL_RECORDS" />
 
       {isLoading && (
         <section>

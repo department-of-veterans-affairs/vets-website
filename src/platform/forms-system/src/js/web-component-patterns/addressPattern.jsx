@@ -310,6 +310,59 @@ export function applyKeyMapping(schema, keys = {}) {
   return mappedSchema;
 }
 
+export function extendFieldProperties(properties, extend = {}) {
+  validateKeys(Object.keys(extend), 'extend', MAPPABLE_KEYS);
+
+  const extendedProperties = {};
+  Object.entries(properties).forEach(([key, fieldConfig]) => {
+    const extensions = extend[key] || {};
+    extendedProperties[key] = {
+      ...fieldConfig,
+      ...extensions,
+    };
+  });
+
+  return extendedProperties;
+}
+
+function updateValidations(uiSchema, validations, keys) {
+  if (!validations) {
+    return;
+  }
+
+  if (Array.isArray(validations)) {
+    // eslint-disable-next-line no-param-reassign
+    uiSchema['ui:validations'] = uiSchema['ui:validations'].concat(validations);
+    return;
+  }
+
+  if (typeof validations === 'object') {
+    validateKeys(Object.keys(validations), 'validations', MAPPABLE_KEYS);
+    Object.keys(validations).forEach(field => {
+      const mappedKey = keys[field] || field;
+      if (uiSchema[mappedKey]) {
+        const fieldValidations = validations[field];
+        if (Array.isArray(fieldValidations)) {
+          // eslint-disable-next-line no-param-reassign
+          uiSchema[mappedKey] = {
+            ...uiSchema[mappedKey],
+            'ui:validations': fieldValidations,
+          };
+        }
+      }
+    });
+    return;
+  }
+
+  if (!environment.isProduction()) {
+    throw new Error(
+      `'validations' for addressUI must be an array or an object of arrays.
+      e.g. [(errors, formData, uiSchema, schema, errorMessages) => {errors.street2.addError('...')}] or
+      { street2: [ (errors, value) => {errors.addError('...')} ] }"`,
+    );
+  }
+}
+
 /**
  * Update form data to remove selected military city & state and restore any
  * previously set city & state when the "I live on a U.S. military base"
@@ -405,6 +458,22 @@ export const updateFormDataAddress = (
  *      street2: 'addressLine2',
  *     }
  *   })
+ *   customValidations: addressUI({
+ *     validations: [(errors, fieldData, uiSchema, schema, errorMessages) => {
+ *       if (fieldData.street && fieldData.street.includes('PO Box')) {
+ *         errors.street.addError('PO Box addresses are not allowed');
+ *       }
+ *     }]
+ *   })
+ *   customValidationIndividualField: addressUI({
+ *     validations: {
+ *      street: [(errors, value) => {
+ *        if (value && value.includes('PO Box')) {
+ *         errors.addError('PO Box addresses are not allowed');
+ *        }
+ *      }]
+ *     }
+ *   })
  * }
  * ```
  * @param {Object} [options]
@@ -431,6 +500,7 @@ export const updateFormDataAddress = (
  * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
  * you will need to include in your `submitTransformer` the `allowPartialAddress` option
  * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
+ * @param {UISchemaOptions['ui:validations'] | Record<AddressSchemaKey, UISchemaOptions['ui:validations']>} [options.validations] - ui:validations for the whole address or an object with field-specific validation arrays
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
@@ -881,11 +951,14 @@ export function addressUI(options = {}) {
       },
     };
   }
+
+  updateValidations(uiSchema, options.validations, keys);
+
   return uiSchema;
 }
 
 /**
- * Schema for addressUI. Fields may be omitted or mapped to alternative key names.
+ * Schema for addressUI. Fields may be omitted, remapped, or extended.
  *
  * ```js
  * schema: {
@@ -894,22 +967,31 @@ export function addressUI(options = {}) {
  *   mappedAddress: addressSchema({
  *     keys: { street: 'addressLine1', postalCode: 'zipCode' }
  *   })
+ *   pdfAddress: addressSchema({
+ *     omit: ['street3'],
+ *     extend: {
+ *       street: { maxLength: 30 },
+ *       city: { maxLength: 18 }
+ *     }
+ *   })
  * }
  * ```
  * @param {Object} [options]
  * @param {Array<AddressSchemaKey>} [options.omit] - Field names to omit from schema
  * @param {Record<AddressSchemaKey, string>} [options.keys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Uses applyKeyMapping utility internally.
+ * @param {Record<string, object>} [options.extend] - Additional schema properties to extend default schema fields (e.g., {street: {maxLength: 30}, city: {maxLength: 18}})
  * @returns {SchemaOptions}
  */
 export const addressSchema = (options = {}) => {
-  const { keys = {}, omit = [] } = options;
+  const { keys = {}, omit = [], extend = {} } = options;
   const schema = commonDefinitions.profileAddress;
 
   // Only modify properties if needed
   const needsOmit = omit.length > 0;
   const needsKeyMapping = Object.keys(keys).length > 0;
+  const needsExtend = Object.keys(extend).length > 0;
 
-  if (!needsOmit && !needsKeyMapping) {
+  if (!needsOmit && !needsKeyMapping && !needsExtend) {
     return schema;
   }
 
@@ -918,6 +1000,10 @@ export const addressSchema = (options = {}) => {
   if (needsOmit) {
     validateKeys(omit, 'omit', MAPPABLE_KEYS);
     properties = utilsOmit(omit, properties);
+  }
+
+  if (needsExtend) {
+    properties = extendFieldProperties(properties, extend);
   }
 
   if (needsKeyMapping) {
@@ -967,14 +1053,31 @@ export const addressNoMilitaryUI = options =>
   });
 
 /**
- * Schema for addressNoMilitaryUI. Fields may be omitted.
+ * Schema for addressNoMilitaryUI. Fields may be omitted, remapped, or extended.
  *
  * ```js
  * schema: {
  *   address: addressNoMilitarySchema()
  *   simpleAddress: addressNoMilitarySchema({ omit: ['street2', 'street3'] })
+ *   mappedAddress: addressNoMilitarySchema({
+ *    keys: { street: 'addressLine1', postalCode: 'zipCode' }
+ *   })
+ *   pdfAddress: addressNoMilitarySchema({
+ *    omit: ['street3'],
+ *    extend: {
+ *      street: { maxLength: 30 },
+ *     city: { maxLength: 18 }
+ *   }
+ *   })
  * }
  * ```
+ *
+ * @param {{
+ *  omit: string[],
+ *  keys: Record<string, string>,
+ *  extend: Record<string, object>
+ * }} [options]
+ * @returns {SchemaOptions}
  */
 export const addressNoMilitarySchema = options =>
   addressSchema({
