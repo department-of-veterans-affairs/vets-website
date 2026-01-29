@@ -62,6 +62,11 @@ const ITFSubmissionError = () => {
           We’re sorry, there was a problem with our system. Try submitting again
           later.
         </p>
+        <p>
+          You can also call us at <va-telephone contact="8552250709" /> for help
+          submitting an intent to file. We’re here Monday through Friday, 8:00
+          a.m. to 9:00 p.m. ET.
+        </p>
       </va-alert>
       <p className="vads-u-margin-top--4">
         <a

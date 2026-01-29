@@ -8,15 +8,14 @@ import childIsStepChild from './childIsStepchild';
 import childReasonToRemove from './childReasonToRemove';
 // child left household
 import stepchildFinancialSupport from './stepchildFinancialSupport';
-import stepchildFinancialSupportExit from './stepchildFinancialSupportExit';
+import stepchildCurrentAddress from './stepchildCurrentAddress';
+import stepchildLivesWith from './stepchildLivesWith';
 import stepchildLeftHousehold from './stepchildLeftHousehold';
 // Child marriage
 import childMarriage from './childMarriage';
 // Child death
 import childDeath from './childDeath';
 // Child left school
-import childHasDisability from './childHasDisability';
-import childDisabilityExit from './childDisabilityExit';
 import childLeftSchool from './childLeftSchool';
 // Child adopted out of family
 import childAdoptedExit from './childAdoptedExit';
@@ -46,8 +45,12 @@ export const routing = {
     // Child left household
     { path: 'stepchild-financial-support', page: stepchildFinancialSupport },
     {
-      path: 'stepchild-financial-support-exit',
-      page: stepchildFinancialSupportExit,
+      path: 'stepchild-current-address',
+      page: stepchildCurrentAddress,
+    },
+    {
+      path: 'stepchild-lives-with',
+      page: stepchildLivesWith,
     },
     { path: 'stepchild-left-household', page: stepchildLeftHousehold },
     // Child marriage
@@ -55,8 +58,6 @@ export const routing = {
     // Child death
     { path: 'child-death', page: childDeath },
     // Child left school
-    { path: 'child-disability', page: childHasDisability },
-    { path: 'child-exit', page: childDisabilityExit },
     { path: 'child-left-school', page: childLeftSchool },
     // Child adopted out of family
     { path: 'child-adopted-exit', page: childAdoptedExit },

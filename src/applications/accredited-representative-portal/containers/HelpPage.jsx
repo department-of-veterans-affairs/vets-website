@@ -39,8 +39,10 @@ const HelpPage = title => {
         const id = hash.replace('#', '');
         const el = document.getElementById(id);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-          focusElement(`#${id}`);
+          setTimeout(() => {
+            el.scrollIntoView({ behavior: 'smooth' });
+            focusElement(`#${id}`);
+          }, 500);
         }
       } else {
         focusElement('h1');

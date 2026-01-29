@@ -1,5 +1,6 @@
 # VASS
-// TODO: ADD description
+
+The VASS (Veteran Affairs Solid Start) project allows veterans to self schedule and cancel appointments with VASS system through a api layer in vets-api.
 
 ## URL
 http://localhost:3001/service-member/benefits/solid-start/schedule
@@ -32,6 +33,7 @@ There are several different mock UUIDs that can be used as a value for the `uuid
 
 ### Happy Path
 **URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678`
+**Cancel URL:** `http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678&cancel=true`
 
 | Field | Value |
 |-------|-------|
