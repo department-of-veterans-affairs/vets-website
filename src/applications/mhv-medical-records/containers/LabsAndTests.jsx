@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -71,16 +71,27 @@ const LabsAndTests = () => {
   );
 
   // Filter out radiology records when the images domain flag is enabled
-  const labsAndTests = useMemo(
-    () => {
-      if (!showImagesDomain || !labsAndTestsRaw) return labsAndTestsRaw;
-      return labsAndTestsRaw.filter(
+  const filterOutRadiology = useCallback(
+    list => {
+      if (!showImagesDomain || !list) return list;
+      return list.filter(
         record =>
           record?.type !== labTypes.RADIOLOGY &&
           record?.type !== labTypes.CVIX_RADIOLOGY,
       );
     },
-    [labsAndTestsRaw, showImagesDomain],
+    [showImagesDomain],
+  );
+
+  const labsAndTests = useMemo(() => filterOutRadiology(labsAndTestsRaw), [
+    filterOutRadiology,
+    labsAndTestsRaw,
+  ]);
+
+  // Also filter updatedRecordList so NewRecordsIndicator comparison is accurate
+  const filteredUpdatedList = useMemo(
+    () => filterOutRadiology(updatedRecordList),
+    [filterOutRadiology, updatedRecordList],
   );
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
@@ -196,8 +207,8 @@ const LabsAndTests = () => {
             ]}
             newRecordsFound={
               Array.isArray(labsAndTests) &&
-              Array.isArray(updatedRecordList) &&
-              labsAndTests.length !== updatedRecordList.length
+              Array.isArray(filteredUpdatedList) &&
+              labsAndTests.length !== filteredUpdatedList.length
             }
             reloadFunction={() => {
               dispatch(reloadRecords());
