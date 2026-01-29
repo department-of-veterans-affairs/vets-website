@@ -3,7 +3,7 @@ name: E2E Test Stability Review
 on:
   schedule:
     - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-  
+
 env:
   BUILDTYPE: vagovprod
 
@@ -203,7 +203,7 @@ jobs:
       - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
         id: cypress-tests-to-stress-test
         run: echo tests=$CYPRESS_TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
-  
+
       - name: Upload artifact of Cypress Tests to Stress Test
         if: ${{ steps.cypress-tests-to-stress-test.outputs.tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
@@ -291,6 +291,10 @@ jobs:
             /github/home/.cache/Cypress
             node_modules
 
+      - name: Start server
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
         with:
@@ -366,6 +370,7 @@ jobs:
     name: Update E2E Test Stability Allow List
     runs-on: ubuntu-22.04
     permissions:
+      checks: write
       id-token: write
       contents: read
     needs:
