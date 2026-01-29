@@ -78,7 +78,8 @@ export const relationshipType = {
         </>
       ),
       'ui:options': {
-        hideIf: formData => formData.relationshipType !== 'STEPCHILD',
+        hideIf: (_formData, index, fullData) =>
+          fullData?.childrenToAdd?.[index]?.relationshipType !== 'STEPCHILD',
       },
     },
     'view:adoptedChildInfo': {
@@ -108,7 +109,8 @@ export const relationshipType = {
         </>
       ),
       'ui:options': {
-        hideIf: formData => formData.relationshipType !== 'ADOPTED',
+        hideIf: (_formData, index, fullData) =>
+          fullData?.childrenToAdd?.[index]?.relationshipType !== 'ADOPTED',
       },
     },
   },
