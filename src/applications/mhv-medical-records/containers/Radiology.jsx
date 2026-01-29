@@ -103,7 +103,9 @@ const Radiology = () => {
 
   return (
     <div id="radiology">
-      <h1 className="page-title vads-u-margin-bottom--1">Radiology</h1>
+      <h1 className="page-title vads-u-margin-bottom--1">
+        Medical imaging results
+      </h1>
 
       {holdTimeMessagingUpdate && <HoldTimeInfo locationPhrase="here" />}
       {!holdTimeMessagingUpdate && (
