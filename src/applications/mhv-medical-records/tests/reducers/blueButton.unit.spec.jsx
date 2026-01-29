@@ -128,6 +128,24 @@ describe('convertMedication', () => {
     expect(result.pharmacyPhoneNumber).to.equal(UNKNOWN);
     expect(result.indicationForUse).to.equal('None recorded');
   });
+
+  it('should handle missing attributes property without crashing', () => {
+    // Test when attributes is undefined
+    const medWithoutAttributes = { id: '789' };
+    expect(() => convertMedication(medWithoutAttributes)).to.not.throw();
+    const result = convertMedication(medWithoutAttributes);
+    expect(result).to.be.an('object');
+    expect(result.id).to.equal('789');
+    expect(result.type).to.equal('va');
+    expect(result.lastFilledOn).to.equal('Not filled yet');
+    expect(result.refillsLeft).to.equal(UNKNOWN);
+    expect(result.expirationDate).to.equal(NONE_RECORDED);
+    expect(result.instructions).to.equal('No instructions available');
+
+    // Test when attributes is null
+    const medWithNullAttributes = { id: '101', attributes: null };
+    expect(() => convertMedication(medWithNullAttributes)).to.not.throw();
+  });
 });
 
 describe('convertAppointment', () => {
@@ -234,6 +252,21 @@ describe('convertAppointment', () => {
 
     appt.attributes.serviceCategory = { text: 'Object' };
     expect(() => convertAppointment(appt)).to.not.throw();
+  });
+
+  it('should handle missing attributes property without crashing', () => {
+    // Test when attributes is undefined
+    const apptWithoutAttributes = { id: '123' };
+    expect(() => convertAppointment(apptWithoutAttributes)).to.not.throw();
+    const result = convertAppointment(apptWithoutAttributes);
+    expect(result).to.be.an('object');
+    expect(result.id).to.equal('123');
+    expect(result.appointmentType).to.equal(UNKNOWN);
+    expect(result.status).to.equal('Pending');
+
+    // Test when attributes is null
+    const apptWithNullAttributes = { id: '456', attributes: null };
+    expect(() => convertAppointment(apptWithNullAttributes)).to.not.throw();
   });
 });
 

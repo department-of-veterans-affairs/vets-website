@@ -206,12 +206,28 @@
   "medicalExpenses": [
     {
       "recipient": "SURVIVING_SPOUSE",
-      "recipientOther": "Spouse name",
       "provider": "Some provider 2",
-      "purpose": "Some purpose",
+      "purpose": "Some purpose2",
       "paymentDate": "2022-05-05",
       "paymentAmount": 150,
       "paymentFrequency": "MONTHLY"
+    },
+    {
+      "recipient": "CHILD",
+      "childName": "Child name",
+      "provider": "Some provider 1",
+      "purpose": "Some purpose1",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "ANNUALLY"
+    },
+    {
+      "recipient": "VETERAN",
+      "provider": "Some provider 32",
+      "purpose": "Some purpose32",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "ONE_TIME"
     }
   ],
   "benefit": "1151DIC",
