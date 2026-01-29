@@ -10,6 +10,7 @@ const delay = require('mocker-api/lib/delay');
 const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
 const mockMaxData = require('./e2e/fixtures/removal-only-v3.json');
+const mockFormSubmission = require('./e2e/fixtures/form-submission.json');
 
 const returnUrl = '/options-selection';
 
@@ -237,6 +238,8 @@ const responses = {
         { name: 'va_dependents_verification', value: true },
         { name: 'vaDependentsBrowserMonitoringEnabled', value: true },
         { name: 'va_dependents_browser_monitoring_enabled', value: true },
+        { name: 'dependentsEnableFormViewerMfe', value: true },
+        { name: 'dependents_enable_form_viewer_mfe', value: true },
       ],
     },
   },
@@ -250,6 +253,8 @@ const responses = {
   'GET /v0/disability_compensation_form/rating_info': mockRatingInfo,
 
   'GET /v0/dependents_applications/show': mockDependents,
+
+  'GET /v0/form_submissions/latest': mockFormSubmission,
 
   'POST /v0/dependents_applications': submission,
 };

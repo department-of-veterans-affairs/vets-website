@@ -1,0 +1,6 @@
+{
+  "appName": "form-renderer",
+  "entryFile": "./form-renderer-entry.jsx",
+  "entryName": "form-renderer",
+  "rootUrl": "/form-renderer"
+}
