@@ -17,6 +17,7 @@ const sharedStore = () => ({
   getState: () => ({
     featureToggles: {
       [TOGGLE_NAMES.identityLogingovIal2Enforcement]: false,
+      [TOGGLE_NAMES.identityIdmeIal2Enforcement]: false,
     },
   }),
   dispatch: () => {},
