@@ -22,7 +22,8 @@ const parseProblemDateTime = dateString => {
     datadogRum.addError(error);
   }
 
-  return 'N/A';
+  // Return null instead of 'N/A' string for consistent Date object handling
+  return null;
 };
 
 const parseVistaDateTime = date => {
@@ -36,7 +37,8 @@ const parseVistaDateTime = date => {
     datadogRum.addError(error);
   }
 
-  return 'N/A';
+  // Return null instead of 'N/A' string for consistent Date object handling
+  return null;
 };
 
 const parseVistaDate = date => {
@@ -50,12 +52,17 @@ const parseVistaDate = date => {
     datadogRum.addError(error);
   }
 
-  return 'N/A';
+  // Return null instead of 'N/A' string for consistent Date object handling
+  return null;
 };
 
 const formatImmunizationDate = date => {
   try {
-    return formatDateLong(parseVistaDate(date));
+    const parsedDate = parseVistaDate(date);
+    if (parsedDate === null) {
+      return 'N/A';
+    }
+    return formatDateLong(parsedDate);
   } catch (error) {
     datadogRum.addError(error);
   }
