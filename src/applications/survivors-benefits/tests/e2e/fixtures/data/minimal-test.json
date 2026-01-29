@@ -3,7 +3,7 @@
     "hasBankAccount": false,
       "claimingMonthlySpecialPension": false,
       "claimantLivesInANursingHome": false,
-      "dicType": "DIC",
+      "benefit": "DIC",
       "view:isAddingDependent": false,
       "recognizedAsSpouse": false,
       "hadPreviousMarriages": false,
