@@ -18,14 +18,24 @@ const doNotRedirectUrl = [
   `${manifest.rootUrl}/sign-in`,
   `${manifest.rootUrl}/auth/login/callback`,
 ];
+
 // 403 redirect handler
 const redirectToUnauthorizedAndReturn = () => {
   const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
-  if (inAppPath) {
+
+  // ADD THIS: Check if already on dashboard to prevent infinite loops
+  const alreadyOnDashboard =
+    window.location.pathname === `${manifest.rootUrl}/dashboard` ||
+    window.location.pathname.startsWith(`${manifest.rootUrl}/dashboard/`);
+
+  // Only redirect if in app AND not already on dashboard
+  if (inAppPath && !alreadyOnDashboard) {
     window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized`);
     // Keep loaders pending until navigation completes to avoid UI flash
     return new Promise(() => {});
   }
+
+  // If already on dashboard or not in app, don't redirect
   return null;
 };
 
@@ -71,7 +81,7 @@ const wrapApiRequest = fn => {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      // For successful responses,return data
+      // For successful responses, return data
       if (response.ok || response.status === 304) {
         return response;
       }
@@ -153,9 +163,7 @@ const api = {
     const subParam = paramUpdate(query.sort);
     const sort = subParam
       ? `&sort[by]=${subParam.sortBy}&sort[order]=${subParam.order}`
-      : `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${
-          SORT_DEFAULTS.SORT_ORDER
-        }`;
+      : `&sort[by]=${SORT_DEFAULTS.SORT_BY}&sort[order]=${SORT_DEFAULTS.SORT_ORDER}`;
     return [`/claim_submissions?${size}${number}${sort}`];
   }),
   claimantSearch: wrapApiRequest(data => {
