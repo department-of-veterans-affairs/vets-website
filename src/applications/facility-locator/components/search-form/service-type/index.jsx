@@ -19,7 +19,8 @@ const ServiceType = ({
   isMobile,
   isSmallDesktop,
   isTablet,
-  onChange,
+  committedVamcServiceDisplay,
+  onVamcDraftChange,
   searchInitiated,
   setSearchInitiated,
   useProgressiveDisclosure,
@@ -31,7 +32,8 @@ const ServiceType = ({
   if (facilityType === LocationType.HEALTH && vamcAutoSuggestEnabled) {
     return (
       <VAMCServiceAutosuggest
-        onChange={onChange}
+        committedServiceDisplay={committedVamcServiceDisplay}
+        onDraftChange={onVamcDraftChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
       />
