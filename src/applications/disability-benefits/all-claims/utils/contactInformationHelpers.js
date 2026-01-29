@@ -107,6 +107,22 @@ const ADDRESS_LINE_PATTERN = new RegExp(
 );
 
 /**
+ * Normalize address line by:
+ * - Trimming leading/trailing spaces
+ * - Collapsing multiple consecutive spaces into a single space
+ * - Converting smart/curly quotes to standard ASCII apostrophe
+ * @param {string} value - The address line value
+ * @returns {string} Normalized value
+ */
+export const normalizeAddressLine = value => {
+  if (!value) return value;
+  return value
+    .trim()
+    .replace(/\s{2,}/g, ' ')
+    .replace(/[''‛`ʼ′]/g, "'");
+};
+
+/**
  * Create address line validation function
  * @param {number} maxLength - Maximum allowed length
  * @param {string} fieldName - Name of the field for error message
@@ -120,7 +136,7 @@ export const createAddressLineValidator = (maxLength, fieldName) => {
       }
       if (!ADDRESS_LINE_PATTERN.test(value)) {
         errors.addError(
-          `${fieldName} may only contain letters, numbers, and these special characters: ' . , & # -`,
+          `${fieldName} may only contain letters, numbers, spaces, and these special characters: ' . , & # -`,
         );
       }
     }
