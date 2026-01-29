@@ -30,7 +30,6 @@ describe('VAOS Services: Patient ', () => {
               vhaFacilityId: '692',
               name: 'Marion VA Clinic',
             },
-
             serviceType: {
               coding: [
                 {
@@ -63,7 +62,77 @@ describe('VAOS Services: Patient ', () => {
       expect(global.fetch.firstCall.args[0]).to.contain(
         `/vaos/v2/relationships`,
       );
-      expect(data[0].providerName).to.equal('Doe, John D, MD');
+      expect(data.patientProviderRelationships[0].providerName).to.equal(
+        'Doe, John D, MD',
+      );
+    });
+
+    it('should return null when fetch throws an error', async () => {
+      global.fetch.rejects(new Error('Network error'));
+
+      const typeOfCare = { idV2: 'foodAndNutrition' };
+      const data = await fetchPatientRelationships(
+        '123',
+        typeOfCare,
+        addDays(new Date(), 395),
+      );
+
+      expect(data).to.be.null;
+    });
+
+    it('should handle backend service failures in meta.failures', async () => {
+      const relationships = [
+        {
+          type: 'relationship',
+          attributes: {
+            provider: {
+              cernerId: 'Practitioner/123456',
+              name: 'Doe, John D, MD',
+            },
+            location: {
+              vhaFacilityId: '692',
+              name: 'Marion VA Clinic',
+            },
+            serviceType: {
+              coding: [
+                {
+                  system:
+                    'http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type',
+                  code: 'foodAndNutrition',
+                  display: 'Food and Nutrition',
+                },
+              ],
+              text: 'Food and Nutrition',
+            },
+            lastSeen: '2024-11-26T00:32:34.216Z',
+            hasAvailability: false,
+          },
+        },
+      ];
+
+      const failures = [
+        {
+          code: 'VAOS_500',
+          details: 'Backend service error',
+        },
+      ];
+
+      setFetchJSONResponse(global.fetch, {
+        data: relationships,
+        meta: { failures },
+      });
+
+      const typeOfCare = { idV2: 'foodAndNutrition' };
+      const data = await fetchPatientRelationships(
+        '123',
+        typeOfCare,
+        addDays(new Date(), 395),
+      );
+
+      expect(data.backendServiceFailures).to.deep.equal(failures);
+      expect(data.patientProviderRelationships[0].providerName).to.equal(
+        'Doe, John D, MD',
+      );
     });
   });
   describe('hasEligibilityError', () => {

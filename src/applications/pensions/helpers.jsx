@@ -21,6 +21,14 @@ const warDates = [
   ['1990-08-02'], // Gulf War (August 2, 1990)
 ];
 
+/**
+ * @typedef {object} PeriodProps
+ * @property {string} from - The start date of the service period
+ * @property {string} to - The end date of the service period
+ *
+ * @param {PeriodProps} period - The date period with from and to dates
+ * @returns {boolean} Whether the period overlaps with any wartime period
+ */
 export function servedDuringWartime(period) {
   return warDates.some(warTime => {
     const [warStart, warEnd] = warTime;
@@ -109,6 +117,11 @@ export const formatPossessiveString = str => {
   return str.endsWith('s') ? `${str}’` : `${str}’s`;
 };
 
+/**
+ * Determine if home acreage is more than two acres
+ * @param {object} formData - Full form data
+ * @returns {boolean} True if home acreage is more than two acres, otherwise false
+ */
 export function isHomeAcreageMoreThanTwo(formData) {
   return (
     formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true

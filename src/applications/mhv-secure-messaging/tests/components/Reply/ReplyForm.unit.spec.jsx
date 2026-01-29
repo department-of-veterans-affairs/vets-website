@@ -116,7 +116,7 @@ describe('Reply form component', () => {
     const { getByText } = screen;
 
     const patientSafetyNotice = document.querySelector(
-      "[trigger='Only use messages for non-urgent needs']",
+      "[trigger='How to get help sooner for urgent needs']",
     );
     const draftToLabel = document.querySelector(
       'span[data-testid=draft-reply-to]',
@@ -401,9 +401,10 @@ describe('Reply form component', () => {
     );
     expect(blockedTriageGroupAlert).to.not.exist;
 
-    expect(screen.getByTestId('edit-draft-button-body')).to.exist;
-    expect(screen.getByTestId('edit-draft-button-body').textContent).to.contain(
-      'Edit draft reply',
+    // Verify reply is enabled by checking for draft reply header
+    expect(screen.getByTestId('draft-reply-header')).to.exist;
+    expect(screen.getByTestId('draft-reply-header').textContent).to.contain(
+      'Draft reply',
     );
   });
 });

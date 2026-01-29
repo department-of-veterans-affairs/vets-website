@@ -1,10 +1,12 @@
+import { parseISO, isValid, differenceInMonths } from 'date-fns';
+
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 import { getFormatedDate, calculateAge } from './dates';
 
 export { getFormatedDate, calculateAge };
 
-const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
+export const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
 
 /**
  * Return formatted full name from name object
@@ -85,8 +87,16 @@ export function getIsDependentsWarningHidden() {
     return false;
   }
 
-  const dateClosed = new Date(rawStoredDate);
-  return !Number.isNaN(dateClosed.getTime());
+  const dateClosed = parseISO(rawStoredDate);
+  const monthsSinceClosed = differenceInMonths(new Date(), dateClosed);
+
+  // If it has been more than 6 months since the warning was closed, show it
+  // again
+  if (monthsSinceClosed >= 6) {
+    localStorage.removeItem(VIEW_DEPENDENTS_WARNING_KEY);
+    return false;
+  }
+  return isValid(dateClosed);
 }
 
 /**

@@ -35,8 +35,8 @@
         "productGroup": "Battery",
         "productId": 1,
         "availableForReorder": true,
-        "lastOrderDate": "2023-12-25",
-        "nextAvailabilityDate": "2024-01-01",
+        "lastOrderDate": "2025-12-25",
+        "nextAvailabilityDate": "2026-01-01",
         "quantity": 60,
         "prescribedDate": "2021-12-20"
       },
@@ -45,8 +45,8 @@
         "productGroup": "Accessory",
         "productId": 3,
         "availableForReorder": true,
-        "lastOrderDate": "2023-06-30",
-        "nextAvailabilityDate": "2023-12-15",
+        "lastOrderDate": "2025-06-30",
+        "nextAvailabilityDate": "2025-12-15",
         "quantity": 10,
         "size": "6mm"
       },
@@ -55,8 +55,8 @@
         "productGroup": "Accessory",
         "productId": 4,
         "availableForReorder": true,
-        "lastOrderDate": "2023-06-30",
-        "nextAvailabilityDate": "2023-12-15",
+        "lastOrderDate": "2025-06-30",
+        "nextAvailabilityDate": "2025-12-15",
         "quantity": 10,
         "size": "7mm"
       },
@@ -65,8 +65,8 @@
         "productGroup": "Accessory",
         "productId": 5,
         "availableForReorder": true,
-        "lastOrderDate": "2023-06-30",
-        "nextAvailabilityDate": "2023-12-15",
+        "lastOrderDate": "2025-06-30",
+        "nextAvailabilityDate": "2025-12-15",
         "quantity": 10
       }
     ]

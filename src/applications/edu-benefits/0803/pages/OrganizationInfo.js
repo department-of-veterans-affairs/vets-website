@@ -1,5 +1,4 @@
 // @ts-check
-import React from 'react';
 import {
   addressNoMilitarySchema,
   addressNoMilitaryUI,
@@ -26,11 +25,13 @@ addressUI.state['ui:errorMessages'] = {
   required: 'Select a state',
   enum: 'Select a state',
 };
+addressUI.state['ui:required'] = () => true;
 delete addressUI.state['ui:options'].replaceSchema;
 
 const uiSchema = {
   ...titleUI(
     'Name and address of organization issuing the license or certification',
+    'To qualify for reimbursement, the organization must be located in the United States.',
   ),
   organizationName: {
     ...textUI({
@@ -40,16 +41,6 @@ const uiSchema = {
         required: 'Enter the name of the organization',
       },
     }),
-  },
-  'view:country': {
-    'ui:description': (
-      <div>
-        <label>Country</label>
-        <p className="vads-u-font-weight--bold vads-u-margin-top--0">
-          United States
-        </p>
-      </div>
-    ),
   },
   organizationAddress: addressUI,
 };
@@ -66,7 +57,6 @@ const schema = {
   type: 'object',
   properties: {
     organizationName: textSchema,
-    'view:country': { type: 'object', properties: {} },
     organizationAddress: addressSchema,
   },
   required: ['organizationName', 'organizationAddress'],

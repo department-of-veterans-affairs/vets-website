@@ -172,7 +172,10 @@ export async function fetchPatientRelationships(
       hasAvailabilityBefore,
     });
 
-    return transformPatientRelationships(data || []);
+    return {
+      patientProviderRelationships: transformPatientRelationships(data),
+      backendServiceFailures: data.meta?.failures,
+    };
   } catch (e) {
     return null;
   }

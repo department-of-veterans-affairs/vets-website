@@ -292,11 +292,8 @@ class MedicationsListPage {
       .should('be.visible')
       .and(
         'contain',
-        'You have no refills left. If you need more, request a renewal.',
+        'You can’t refill this prescription. If you need more, send a secure message to your care team',
       );
-    cy.get('[data-testid="send-renewal-request-message-link"]')
-      .should('exist')
-      .and('be.visible');
   };
 
   verifyInformationBasedOnStatusActiveRefillInProcess = text => {
@@ -326,13 +323,19 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusActiveOnHold = () => {
     cy.get('[data-testid="active-onHold"]')
       .should('be.visible')
-      .and('contain', 'You can’t refill this prescription online right now.');
+      .and(
+        'contain',
+        'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
+      );
   };
 
   verifyInformationBasedOnStatusDiscontinued = () => {
     cy.get('[data-testid="discontinued"]')
       .should('be.visible')
-      .and('contain', 'If you need more, send a message to your care team.');
+      .and(
+        'contain',
+        'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
+      );
   };
 
   verifyInformationBasedOnStatusExpired = () => {
@@ -340,7 +343,7 @@ class MedicationsListPage {
       .should('be.visible')
       .and(
         'contain',
-        'This prescription is too old to refill. If you need more, request a renewal.',
+        'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
       );
   };
 
@@ -1164,6 +1167,38 @@ class MedicationsListPage {
         'contain',
         "If you need a medication immediately, you should call your VA pharmacy's automated refill line",
       );
+  };
+
+  // Request Refill Button on Card methods
+  verifyRequestRefillButtonExistsOnCard = () => {
+    cy.get('[data-testid="refill-nav-button"]')
+      .first()
+      .should('exist');
+  };
+
+  verifyRequestRefillButtonNotExistsOnCard = () => {
+    cy.get('[data-testid="refill-nav-button"]').should('not.exist');
+  };
+
+  verifyRequestRefillButtonText = () => {
+    cy.get('[data-testid="refill-nav-button"]')
+      .first()
+      .shadow()
+      .find('button')
+      .should('contain', 'Request a refill');
+  };
+
+  clickRequestRefillButtonOnFirstCard = () => {
+    cy.get('[data-testid="refill-nav-button"]')
+      .first()
+      .click();
+  };
+
+  verifyRequestRefillButtonHasAriaDescribedBy = () => {
+    cy.get('[data-testid="refill-nav-button"]')
+      .first()
+      .should('have.attr', 'aria-describedby')
+      .and('match', /card-header-\d+/);
   };
 }
 

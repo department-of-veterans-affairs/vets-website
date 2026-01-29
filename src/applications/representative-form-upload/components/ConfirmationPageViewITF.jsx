@@ -61,7 +61,9 @@ export const ConfirmationPageViewITF = ({
           ) : null}
         </va-alert>
       )}
-      <p>This information was recorded for the new intent to file.</p>
+      <p className="vads-u-margin-top--4">
+        This information was recorded for the new intent to file.
+      </p>
       <va-card>
         <h2 className="vads-u-margin--0 vads-u-font-size--h3">
           {last}, {first}
@@ -74,12 +76,13 @@ export const ConfirmationPageViewITF = ({
         </p>
       </va-card>
       <section>
-        <h2>What to expect</h2>
+        <h2 className="vads-u-margin-top--4">What to expect</h2>
         <va-process-list>
-          <va-process-list-item header="We'll confirm the intent to file was recorded">
-            <p>We’ll send you an email with the confirmation.</p>
-          </va-process-list-item>
-          <va-process-list-item header="Submit the claim prior to ITF expiration date">
+          <va-process-list-item header="We'll confirm the intent to file was recorded" />
+          <va-process-list-item
+            header="Submit the claim prior to ITF expiration date"
+            class="vads-u-padding-bottom--3"
+          >
             <p>
               You should submit the claim as soon as possible. The intent to
               file for {benefitType && benefitCopy(benefitType)} expires one

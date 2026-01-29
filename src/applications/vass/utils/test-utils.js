@@ -4,8 +4,13 @@
  * This module provides shared test helpers to avoid duplicating redux state
  * configuration across multiple test files.
  */
+import { combineReducers, applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
 import reducers from '../redux/reducers';
+
 import { vassApi } from '../redux/api/vassApi';
+import { FLOW_TYPES } from './constants';
 
 /**
  * @typedef {{ topicId: string, topicName: string }} Topic
@@ -17,10 +22,10 @@ import { vassApi } from '../redux/api/vassApi';
  * @property {string | null} selectedDate - The selected appointment date (ISO 8601 string)
  * @property {Topic[]} selectedTopics - Array of selected discussion topics
  * @property {string | null} obfuscatedEmail - Partially hidden email for display
- * @property {string | null} token - Authentication token
  * @property {string | null} uuid - Unique identifier from the appointment URL
  * @property {string | null} lastname - User's last name for verification
  * @property {string | null} dob - User's date of birth for verification (YYYY-MM-DD)
+ * @property {'schedule'|'cancel'|'any'} flowType - The current user flow type
  */
 
 /**
@@ -33,10 +38,23 @@ export const defaultVassFormState = {
   selectedDate: null,
   selectedTopics: [],
   obfuscatedEmail: null,
-  token: null,
   uuid: null,
   lastname: null,
   dob: null,
+  flowType: FLOW_TYPES.ANY,
+};
+
+/**
+ * Default initial state for scheduledDowntime slice.
+ * Setting isReady: true bypasses the DowntimeNotification loading indicator.
+ * serviceMap must be a Map (not null) when isReady is true.
+ */
+export const defaultScheduledDowntimeState = {
+  globalDowntime: null,
+  isReady: true,
+  isPending: false,
+  serviceMap: new Map(),
+  dismissedDowntimeWarnings: [],
 };
 
 /**
@@ -53,7 +71,6 @@ export const defaultVassFormState = {
  * @example
  * // With vassForm state overrides
  * const options = getDefaultRenderOptions({
- *   token: 'test-token',
  *   hydrated: true,
  *   uuid: 'test-uuid-1234',
  * });
@@ -61,7 +78,7 @@ export const defaultVassFormState = {
  * @example
  * // Spreading with additional options
  * const options = {
- *   ...getDefaultRenderOptions({ token: 'test-token' }),
+ *   ...getDefaultRenderOptions({ uuid: 'test-uuid-1234' }),
  *   initialEntries: ['/some-path'],
  * };
  *
@@ -78,11 +95,44 @@ export const getDefaultRenderOptions = (
       ...defaultVassFormState,
       ...vassFormOverrides,
     },
+    scheduledDowntime: {
+      ...defaultScheduledDowntimeState,
+    },
     ...additionalState,
   },
   reducers,
   additionalMiddlewares: [vassApi.middleware],
 });
+
+export const getHydratedFormRenderOptions = (vassFormOverrides = {}) => {
+  const defaultOptions = getDefaultRenderOptions(vassFormOverrides);
+  const initialState = {
+    ...defaultOptions.initialState,
+    vassForm: {
+      hydrated: true,
+      selectedDate: '2025-01-01',
+      obfuscatedEmail: 's***@example.com',
+      selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
+      uuid: 'test-uuid',
+      lastname: 'Smith',
+      dob: '1935-04-07',
+      ...vassFormOverrides,
+    },
+  };
+
+  const store = createStore(
+    combineReducers({ ...commonReducer, ...reducers }),
+    initialState,
+    applyMiddleware(thunk, vassApi.middleware),
+  );
+  return {
+    ...defaultOptions,
+    initialState,
+    reducers,
+    additionalMiddlewares: [vassApi.middleware],
+    store,
+  };
+};
 
 // Re-export commonly used items for convenience
 export { reducers, vassApi };

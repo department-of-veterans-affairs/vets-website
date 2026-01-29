@@ -324,6 +324,102 @@ describe('Medication Information Config', () => {
   });
 });
 
+describe('Grouped medications with missing prescription number', () => {
+  const cernerPilotFlag = false;
+  const v2StatusMappingFlag = false;
+
+  it('displays "Not available" when prescription number is null', () => {
+    const rxDetails = {
+      ...prescriptionDetails.data.attributes,
+      groupedMedications: [
+        {
+          prescriptionNumber: null,
+          sortedDispensedDate: '2024-01-15',
+          quantity: 30,
+          orderedDate: '2024-01-10',
+          providerFirstName: 'John',
+          providerLastName: 'Doe',
+        },
+      ],
+    };
+
+    const pdfList = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
+
+    // The grouped medications section should be the second item in the array
+    const groupedSection = pdfList.find(
+      section => section.header === 'Previous prescriptions',
+    );
+    expect(groupedSection).to.exist;
+    expect(groupedSection.sections[1].header).to.equal(
+      'Prescription number: Not available',
+    );
+  });
+
+  it('displays "Not available" when prescription number is undefined', () => {
+    const rxDetails = {
+      ...prescriptionDetails.data.attributes,
+      groupedMedications: [
+        {
+          // prescriptionNumber is intentionally omitted
+          sortedDispensedDate: '2024-01-15',
+          quantity: 30,
+          orderedDate: '2024-01-10',
+          providerFirstName: 'John',
+          providerLastName: 'Doe',
+        },
+      ],
+    };
+
+    const pdfList = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
+
+    const groupedSection = pdfList.find(
+      section => section.header === 'Previous prescriptions',
+    );
+    expect(groupedSection).to.exist;
+    expect(groupedSection.sections[1].header).to.equal(
+      'Prescription number: Not available',
+    );
+  });
+
+  it('displays actual prescription number when present', () => {
+    const rxDetails = {
+      ...prescriptionDetails.data.attributes,
+      groupedMedications: [
+        {
+          prescriptionNumber: '1234567',
+          sortedDispensedDate: '2024-01-15',
+          quantity: 30,
+          orderedDate: '2024-01-10',
+          providerFirstName: 'John',
+          providerLastName: 'Doe',
+        },
+      ],
+    };
+
+    const pdfList = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
+
+    const groupedSection = pdfList.find(
+      section => section.header === 'Previous prescriptions',
+    );
+    expect(groupedSection).to.exist;
+    expect(groupedSection.sections[1].header).to.equal(
+      'Prescription number: 1234567',
+    );
+  });
+});
+
 describe('Feature flag tests for status formatting', () => {
   const createTestPrescription = (
     dispStatus,

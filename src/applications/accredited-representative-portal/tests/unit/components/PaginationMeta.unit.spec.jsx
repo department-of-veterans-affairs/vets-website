@@ -11,7 +11,7 @@ describe('PaginationMeta', () => {
   const defaults = {
     SIZE: 5,
     NUMBER: 1,
-    SORT_ORDER: 'desc',
+    SORT_ORDER: 'newest',
   };
   const contextValue = {
     firstName: 'Test',
@@ -23,7 +23,7 @@ describe('PaginationMeta', () => {
   let useSearchParamsStub;
   beforeEach(() => {
     const searchParams = new URLSearchParams(
-      '?status=processed&sortOrder=asc&sortBy=resolved_at&pageNumber=1&pageSize=20&as_selected_individual=true',
+      '?status=processed&sort=oldest&pageNumber=1&pageSize=20&as_selected_individual=true',
     );
 
     useSearchParamsStub = sinon
