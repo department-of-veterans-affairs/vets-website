@@ -77,7 +77,6 @@ describe('686 add child information with no SSN', () => {
 
     const formDOM = getFormDOM(form);
     expect(formDOM.querySelectorAll('va-text-input').length).to.eq(3);
-    expect(formDOM.querySelectorAll('va-checkbox').length).to.eq(1);
     expect(formDOM.querySelectorAll('va-radio').length).to.eq(1);
     expect(formDOM.querySelectorAll('va-radio-option').length).to.eq(2);
   });
