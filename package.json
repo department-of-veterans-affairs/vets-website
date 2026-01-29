@@ -313,7 +313,6 @@
     "node-lcs": "^1.0.4",
     "octokit": "^2.1.0",
     "octokit-plugin-create-pull-request": "^3.11.0",
-    "p-defer-es5": "2.0.1",
     "prop-types": "^15.6.1",
     "querystring": "^0.2.1",
     "react": "^17.0.2",
