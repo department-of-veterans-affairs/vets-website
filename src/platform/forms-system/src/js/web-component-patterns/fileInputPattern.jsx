@@ -98,7 +98,7 @@ import {
  * @param {boolean} [options.disallowEncryptedPdfs] - don't allow encrypted pdfs
  * @param {function} [options.createPayload] - custom function that creates the payload used when uploading the file
  * @param {function} [options.parseResponse] - custom function that transforms the response from the server after an upload
-
+ * @param {Record<string, { maxFileSize: number, minFileSize: number }>} [options.fileSizesByFileType] - object that specifies max and min file size limits by file type or by default
  }}
  * @returns {UISchemaOptions}
  */

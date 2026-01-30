@@ -99,6 +99,7 @@ import ReviewField from '../review/FileInputMultiple';
  * @param {string} [options.formNumber] - the form's number
  * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
  * @param {boolean} [options.disallowEncryptedPdfs] - don't allow encrypted pdfs
+ * @param {Record<string, { maxFileSize: number, minFileSize: number }>} [options.fileSizesByFileType] - object that specifies max and min file size limits by file type or by default
  * @returns {UISchemaOptions}
  */
 export const fileInputMultipleUI = options => {
