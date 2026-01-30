@@ -11,7 +11,7 @@ import { serviceStatuses } from '../constants';
 import { FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 
-const DocumentTypeSelect = () => {
+export const DocumentTypeSelect = () => {
   const formData = useSelector(state => state?.form?.data);
   const requiredDocumentTypes = [];
   if (
