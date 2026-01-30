@@ -77,6 +77,15 @@ describe('Specify Other Exposures', () => {
     );
   });
 
+  describe('reviewTitle (confirmation accordion heading)', () => {
+    it('returns only the user-entered description', () => {
+      const {
+        reviewTitle,
+      } = formConfig.chapters.disabilities.pages.specifyOtherExposures;
+      expect(reviewTitle({ formData })).to.equal('Test Substance');
+    });
+  });
+
   it('should submit without dates (dates are optional)', () => {
     const dataNoDates = JSON.parse(JSON.stringify(formData));
     dataNoDates.toxicExposure.specifyOtherExposures.startDate = undefined;
