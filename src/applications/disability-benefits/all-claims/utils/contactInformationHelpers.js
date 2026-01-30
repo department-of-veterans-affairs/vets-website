@@ -110,7 +110,6 @@ const ADDRESS_LINE_PATTERN = new RegExp(
  * Normalize address line by:
  * - Trimming leading/trailing spaces
  * - Collapsing multiple consecutive spaces into a single space
- * - Converting smart/curly quotes to standard ASCII apostrophe
  * @param {string} value - The address line value
  * @returns {string} Normalized value
  */
