@@ -116,10 +116,7 @@ const ADDRESS_LINE_PATTERN = new RegExp(
  */
 export const normalizeAddressLine = value => {
   if (!value) return value;
-  return value
-    .trim()
-    .replace(/\s{2,}/g, ' ')
-    .replace(/[''‛`ʼ′]/g, "'");
+  return value.trim().replace(/\s{2,}/g, ' ');
 };
 
 /**
