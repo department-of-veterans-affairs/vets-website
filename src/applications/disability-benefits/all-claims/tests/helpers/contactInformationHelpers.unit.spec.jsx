@@ -410,6 +410,28 @@ describe('contactInformationHelpers', () => {
           ),
         ).to.be.true;
       });
+
+      describe('normalized value validation', () => {
+        it('should validate against normalized value - passes when normalized is within limit', () => {
+          const validator = createAddressLineValidator(20, 'Address line 1');
+          const errors = createMockErrors();
+          // Raw value is 21 chars but normalized is 11 chars - passes
+          validator(errors, '  123    Main    St  ');
+          expect(errors.addError.called).to.be.false;
+        });
+
+        it('should validate against normalized value - fails when normalized exceeds limit', () => {
+          const validator = createAddressLineValidator(20, 'Address line 1');
+          const errors = createMockErrors();
+          // Raw value is 33 chars but normalized is 25 chars - still too long
+          validator(errors, '  123  Main  Street  Apartment  ');
+          expect(
+            errors.addError.calledWith(
+              'Address line 1 must be 20 characters or less',
+            ),
+          ).to.be.true;
+        });
+      });
     });
   });
 });

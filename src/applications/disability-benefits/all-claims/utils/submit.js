@@ -452,12 +452,25 @@ export const cleanUpMailingAddress = formData => {
     'state',
     'zipCode',
   ];
+
+  // Helper to normalize address lines (trim and collapse multiple spaces)
+  const normalizeAddressLine = val => {
+    if (!val) return val;
+    return val.trim().replace(/\s{2,}/g, ' ');
+  };
+
+  const addressLineKeys = ['addressLine1', 'addressLine2', 'addressLine3'];
+
   const mailingAddress = Object.entries(formData.mailingAddress).reduce(
     (address, [key, value]) => {
       if (value && validKeys.includes(key)) {
+        // Normalize address lines before submission
+        const normalizedValue = addressLineKeys.includes(key)
+          ? normalizeAddressLine(value)
+          : value;
         return {
           ...address,
-          [key]: value,
+          [key]: normalizedValue,
         };
       }
       return address;

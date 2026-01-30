@@ -121,6 +121,7 @@ export const normalizeAddressLine = value => {
 
 /**
  * Create address line validation function
+ * Validates against normalized value so extra spaces don't cause false failures
  * @param {number} maxLength - Maximum allowed length
  * @param {string} fieldName - Name of the field for error message
  * @returns {function} Validation function
@@ -128,10 +129,14 @@ export const normalizeAddressLine = value => {
 export const createAddressLineValidator = (maxLength, fieldName) => {
   return (errors, value) => {
     if (value) {
-      if (value.length > maxLength) {
+      // Normalize the value before validation (trim spaces, collapse duplicates)
+      // Actual normalization happens at submit time in cleanUpMailingAddress
+      const normalizedValue = normalizeAddressLine(value);
+
+      if (normalizedValue.length > maxLength) {
         errors.addError(`${fieldName} must be ${maxLength} characters or less`);
       }
-      if (!ADDRESS_LINE_PATTERN.test(value)) {
+      if (!ADDRESS_LINE_PATTERN.test(normalizedValue)) {
         errors.addError(
           `${fieldName} may only contain letters, numbers, spaces, and these special characters: ' . , & # -`,
         );

@@ -1,0 +1,67 @@
+diff --git a/src/applications/disability-benefits/all-claims/pages/contactInformation.js b/src/applications/disability-benefits/all-claims/pages/contactInformation.js
+index 2358288636..5ae5ef867a 100644
+--- a/src/applications/disability-benefits/all-claims/pages/contactInformation.js
++++ b/src/applications/disability-benefits/all-claims/pages/contactInformation.js
+@@ -22,6 +22,7 @@ import {
+   shouldAutoDetectMilitary,
+   shouldShowZipCode,
+   createAddressLineValidator,
++  normalizeAddressLine,
+   updateCountrySchema,
+   updateStateSchema,
+   isStateRequired,
+@@ -67,6 +68,18 @@ export const updateFormData = (oldFormData, formData) => {
+     },
+   );
+ 
++  // Normalize address lines (trim spaces, collapse duplicate spaces, fix quotes)
++  if (updatedFormData.mailingAddress) {
++    const addressFields = ['addressLine1', 'addressLine2', 'addressLine3'];
++    addressFields.forEach(field => {
++      if (updatedFormData.mailingAddress[field]) {
++        updatedFormData.mailingAddress[field] = normalizeAddressLine(
++          updatedFormData.mailingAddress[field],
++        );
++      }
++    });
++  }
++
+   // Auto-detect military status based on city or state and set view:livesOnMilitaryBase accordingly
+   if (shouldAutoDetectMilitary(oldFormData, updatedFormData)) {
+     updatedFormData.mailingAddress['view:livesOnMilitaryBase'] = true;
+diff --git a/src/applications/disability-benefits/all-claims/utils/contactInformationHelpers.js b/src/applications/disability-benefits/all-claims/utils/contactInformationHelpers.js
+index 675e202943..8e0ca31ecd 100644
+--- a/src/applications/disability-benefits/all-claims/utils/contactInformationHelpers.js
++++ b/src/applications/disability-benefits/all-claims/utils/contactInformationHelpers.js
+@@ -106,6 +106,22 @@ const ADDRESS_LINE_PATTERN = new RegExp(
+   fullSchema.definitions.address.properties.addressLine1.pattern,
+ );
+ 
++/**
++ * Normalize address line by:
++ * - Trimming leading/trailing spaces
++ * - Collapsing multiple consecutive spaces into a single space
++ * - Converting smart/curly quotes to standard ASCII apostrophe
++ * @param {string} value - The address line value
++ * @returns {string} Normalized value
++ */
++export const normalizeAddressLine = value => {
++  if (!value) return value;
++  return value
++    .trim()
++    .replace(/\s{2,}/g, ' ')
++    .replace(/[''‛`ʼ′]/g, "'");
++};
++
+ /**
+  * Create address line validation function
+  * @param {number} maxLength - Maximum allowed length
+@@ -120,7 +136,7 @@ export const createAddressLineValidator = (maxLength, fieldName) => {
+       }
+       if (!ADDRESS_LINE_PATTERN.test(value)) {
+         errors.addError(
+-          `${fieldName} may only contain letters, numbers, and these special characters: ' . , & # -`,
++          `${fieldName} may only contain letters, numbers, spaces, and these special characters: ' . , & # -`,
+         );
+       }
+     }

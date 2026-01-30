@@ -22,7 +22,6 @@ import {
   shouldAutoDetectMilitary,
   shouldShowZipCode,
   createAddressLineValidator,
-  normalizeAddressLine,
   updateCountrySchema,
   updateStateSchema,
   isStateRequired,
@@ -67,18 +66,6 @@ export const updateFormData = (oldFormData, formData) => {
       isMilitary: 'view:livesOnMilitaryBase',
     },
   );
-
-  // Normalize address lines (trim spaces, collapse duplicate spaces, fix quotes)
-  if (updatedFormData.mailingAddress) {
-    const addressFields = ['addressLine1', 'addressLine2', 'addressLine3'];
-    addressFields.forEach(field => {
-      if (updatedFormData.mailingAddress[field]) {
-        updatedFormData.mailingAddress[field] = normalizeAddressLine(
-          updatedFormData.mailingAddress[field],
-        );
-      }
-    });
-  }
 
   // Auto-detect military status based on city or state and set view:livesOnMilitaryBase accordingly
   if (shouldAutoDetectMilitary(oldFormData, updatedFormData)) {
