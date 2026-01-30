@@ -59,6 +59,8 @@ export const addStudentsOptions = {
     !item?.fullName?.first ||
     !item?.fullName?.last ||
     !item?.birthDate ||
+    (!item?.noSsn && !item?.ssn) ||
+    (item?.noSsn && !item?.noSsnReason) ||
     (item?.isParent === true && !item?.isParent) ||
     !item?.address?.country ||
     !item?.address?.street ||

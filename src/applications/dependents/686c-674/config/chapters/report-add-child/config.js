@@ -167,6 +167,14 @@ function isItemIncomplete(item) {
   fail(isFieldMissing(item?.fullName?.last), 'Missing child last name');
   fail(isFieldMissing(item?.birthDate), 'Missing birth date');
   fail(
+    isFieldMissing(item?.ssn) && !item?.noSsn,
+    'Missing Social Security number',
+  );
+  fail(
+    isFieldMissing(item?.noSsnReason) && item?.noSsn === true,
+    'Missing reason for no Social Security number',
+  );
+  fail(
     isBirthLocationIncomplete(item?.birthLocation),
     'Incomplete birth location',
   );
