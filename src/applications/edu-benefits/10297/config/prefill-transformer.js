@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { getPrefillIntlPhoneNumber, viewifyFields } from '../helpers';
-
+// Need to use claimant info stuff here
 export default function prefillTransformer(pages, formData, metadata, state) {
   const prefillContactInformation = data => {
     const { applicantFullName, email, ssn, mailingAddress, dateOfBirth } = data;
