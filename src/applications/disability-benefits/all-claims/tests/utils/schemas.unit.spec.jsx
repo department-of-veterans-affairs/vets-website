@@ -199,12 +199,28 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
           name: 'CaT',
           'view:selected': true,
         },
+        {
+          name: 'ptsd personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'PTSD personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Ptsd personal trauma',
+          'view:selected': true,
+        },
       ],
     };
     expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
       properties: {
         cat: {
           title: 'CaT',
+          type: 'boolean',
+        },
+        ptsdpersonaltrauma: {
+          title: 'Ptsd Personal Trauma',
           type: 'boolean',
         },
       },
@@ -300,6 +316,18 @@ describe('makeSchemaForRatedDisabilitiesInNewDisabilities has parity with the se
           name: 'CaT',
           'view:selected': true,
         },
+        {
+          name: 'ptsd personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'PTSD personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Ptsd personal trauma',
+          'view:selected': true,
+        },
       ],
     };
 
@@ -316,6 +344,18 @@ describe('makeSchemaForRatedDisabilitiesInNewDisabilities has parity with the se
         {
           condition: 'Rated Disability',
           ratedDisability: 'CaT',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'ptsd personal trauma',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'PTSD personal trauma',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Ptsd personal trauma',
         },
       ],
     };
@@ -453,7 +493,7 @@ describe('makeSchemaForRatedDisabilitiesInNewDisabilities', () => {
     expect(makeSchemaForRatedDisabilitiesInNewDisabilities(formData)).to.eql({
       properties: {
         ptsdpersonaltrauma: {
-          title: 'Ptsd personal Trauma',
+          title: 'Ptsd Personal Trauma',
           type: 'boolean',
         },
       },
