@@ -31,22 +31,19 @@ const DocumentTypeSelect = () => {
   );
 };
 
-const adsmMultiple = (
-  <>
-    <p>You’ll need to upload these documents:</p>
-    <ul>
-      <li>Statement of Service</li>
-      <li>A copy of your Purple Heart certificate</li>
-    </ul>
-  </>
-);
-
-const adsmSingle = <p>You’ll need to upload a Statement of Service.</p>;
-
 const getAdsmMessage = formData => {
-  return formData?.militaryHistory?.purpleHeartRecipient
-    ? adsmMultiple
-    : adsmSingle;
+  if (formData?.militaryHistory?.purpleHeartRecipient) {
+    return (
+      <>
+        <p>You’ll need to upload these documents:</p>
+        <ul>
+          <li>Statement of Service</li>
+          <li>A copy of your Purple Heart certificate</li>
+        </ul>
+      </>
+    );
+  }
+  return <p>You’ll need to upload a Statement of Service.</p>;
 };
 
 const requiredDocumentMessages = {
