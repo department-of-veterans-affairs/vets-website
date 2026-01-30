@@ -12,11 +12,13 @@ export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
   const {
     inProgress,
+  } = query;
+  const {
     context,
     representativeType,
     sortType,
     searchArea,
-  } = query;
+  } = query.committedSearchQuery;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
   const reportFeatureEnabled = useToggleValue(
@@ -68,11 +70,14 @@ export const SearchResultsHeader = props => {
 
   // selection is updated in redux
   const onClickApplyButton = () => {
-    props.updateSearchQuery({
+    const queryUpdateCommitPayload = {
       id: Date.now(),
       page: 1,
       sortType: selectedSortType,
-    });
+    }
+
+    props.updateSearchQuery(queryUpdateCommitPayload);
+    props.commitSearchQuery(queryUpdateCommitPayload);
   };
 
   return (
@@ -200,6 +205,7 @@ SearchResultsHeader.propTypes = {
   }),
   searchResults: PropTypes.array,
   updateSearchQuery: PropTypes.func,
+  commitSearchQuery: PropTypes.func,
   onClickApplyButtonTester: PropTypes.func,
 };
 
