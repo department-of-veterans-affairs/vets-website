@@ -251,7 +251,7 @@ describe('Medications List Card Extra Details', () => {
       );
     });
   });
-  describe('RefillNavButton rendering based on page prop', () => {
+  describe('RefillButton rendering based on page prop', () => {
     it('renders refill button on list page for active prescription with refills', async () => {
       const screen = setup({
         ...prescription,
@@ -260,7 +260,7 @@ describe('Medications List Card Extra Details', () => {
         refillRemaining: 3,
         page: pageType.LIST,
       });
-      expect(await screen.findByTestId('refill-nav-button')).to.exist;
+      expect(await screen.findByTestId('refill-request-button')).to.exist;
     });
 
     it('renders refill button on list page for active parked prescription with refills', async () => {
@@ -271,7 +271,7 @@ describe('Medications List Card Extra Details', () => {
         refillRemaining: 3,
         page: pageType.LIST,
       });
-      expect(await screen.findByTestId('refill-nav-button')).to.exist;
+      expect(await screen.findByTestId('refill-request-button')).to.exist;
     });
 
     it('does not render refill button on details page for active parked prescription', async () => {
@@ -282,7 +282,7 @@ describe('Medications List Card Extra Details', () => {
         refillRemaining: 3,
         page: pageType.DETAILS,
       });
-      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
     });
 
     it('does not render refill button when page prop is not provided', async () => {
@@ -292,7 +292,7 @@ describe('Medications List Card Extra Details', () => {
         isRefillable: true,
         refillRemaining: 3,
       });
-      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
     });
 
     it('does not render refill button when prescription is not refillable', async () => {
@@ -303,10 +303,10 @@ describe('Medications List Card Extra Details', () => {
         refillRemaining: 3,
         page: pageType.LIST,
       });
-      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
     });
 
-    it('renders nothing for V2 Active status with refills on list page', () => {
+    it('renders refill button for V2 Active status on list page', async () => {
       const screen = setup(
         {
           ...prescription,
@@ -319,8 +319,7 @@ describe('Medications List Card Extra Details', () => {
         true,
         true,
       );
-      // V2 Active with refills remaining returns null (component renders nothing)
-      expect(screen.container.querySelector('.shipping-info')).to.not.exist;
+      expect(await screen.findByTestId('refill-request-button')).to.exist;
     });
 
     it('does not render refill button for V2 Active status on details page', async () => {
@@ -336,7 +335,7 @@ describe('Medications List Card Extra Details', () => {
         true,
         true,
       );
-      expect(screen.queryByTestId('refill-nav-button')).to.not.exist;
+      expect(screen.queryByTestId('refill-request-button')).to.not.exist;
     });
   });
 });
