@@ -1,8 +1,8 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
   radioUI,
+  descriptionUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -15,9 +15,6 @@ import {
   yesNoSchema,
   textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
-import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
-import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
 import {
   replaceStrValues,
@@ -25,6 +22,8 @@ import {
   validateOHIDates,
 } from '../helpers';
 import { healthInsurancePageTitleUI } from '../helpers/titles';
+import { attachmentUI, singleAttachmentSchema } from '../definitions';
+import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 import HealthInsuranceSummaryCard from '../components/FormDescriptions/HealthInsuranceSummaryCard';
 import participants from './healthInsuranceInformation/participants';
 import planTypes from './healthInsuranceInformation/planTypes';
@@ -243,13 +242,12 @@ const healthInsuranceCardUploadPage = {
       'Upload %s health insurance card',
       'You’ll need to submit a copy of the front and back of this health insurance card.',
     ),
-    ...fileUploadBlurb,
-    insuranceCardFront: fileUploadUI({
+    ...descriptionUI(FileUploadDescription),
+    insuranceCardFront: attachmentUI({
       label: 'Upload front of the health insurance card',
       attachmentId: 'Front of health insurance card',
-      'ui:hint': 'Upload front and back as separate files.',
     }),
-    insuranceCardBack: fileUploadUI({
+    insuranceCardBack: attachmentUI({
       label: 'Upload back of the health insurance card',
       attachmentId: 'Back of health insurance card',
     }),
@@ -258,31 +256,8 @@ const healthInsuranceCardUploadPage = {
     type: 'object',
     required: ['insuranceCardFront', 'insuranceCardBack'],
     properties: {
-      'view:fileUploadBlurb': blankSchema,
-      insuranceCardFront: {
-        type: 'array',
-        maxItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
-      insuranceCardBack: {
-        type: 'array',
-        maxItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      insuranceCardFront: singleAttachmentSchema,
+      insuranceCardBack: singleAttachmentSchema,
     },
   },
 };
@@ -336,7 +311,6 @@ export const healthInsurancePages = arrayBuilderPages(
     insuranceCard: pageBuilder.itemPage({
       path: 'health-insurance-card/:index',
       title: 'Upload health insurance card',
-      CustomPage: FileFieldCustom,
       ...healthInsuranceCardUploadPage,
     }),
   }),

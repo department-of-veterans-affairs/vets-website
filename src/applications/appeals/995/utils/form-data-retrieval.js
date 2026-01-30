@@ -16,3 +16,9 @@ export const hasMstOption = formData => formData?.[MST_OPTION];
 export const hasHousingRisk = formData => formData?.housingRisk;
 export const hasOtherHousingRisk = formData =>
   !!(hasHousingRisk(formData) && formData?.livingSituation?.other);
+export const getVAEvidence = formData =>
+  (hasVAEvidence(formData) && formData?.locations) || [];
+export const getPrivateEvidence = formData =>
+  (hasPrivateEvidence(formData) && formData?.providerFacility) || [];
+export const getOtherEvidence = formData =>
+  (hasOtherEvidence(formData) && formData?.additionalDocuments) || [];

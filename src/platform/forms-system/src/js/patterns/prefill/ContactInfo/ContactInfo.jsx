@@ -29,7 +29,6 @@ import { getValidationErrors } from 'platform/forms-system/src/js/utilities/vali
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
-import { useFetchInProgressForm } from '../hooks/useFetchInProgressForm';
 
 /**
  * Render contact info page
@@ -112,19 +111,43 @@ export const ContactInfoBase = ({
   // Get the fieldTransactionMap from Redux store
   const { fieldTransactionMap } = useSelector(state => state.vapService) || {};
 
-  // Map editState field names to actual field names
-  const fieldNameMap = {
-    address: FIELD_NAMES.MAILING_ADDRESS,
-    'home-phone': FIELD_NAMES.HOME_PHONE,
-    'mobile-phone': FIELD_NAMES.MOBILE_PHONE,
-    email: FIELD_NAMES.EMAIL,
+  // Unified field configuration mapping
+  const fieldConfig = {
+    address: {
+      id: 'address',
+      fieldName: FIELD_NAMES.MAILING_ADDRESS,
+      key: keys.address,
+      path: 'mailingAddress',
+      text: content.mailingAddress,
+    },
+    'home-phone': {
+      id: 'home-phone',
+      fieldName: FIELD_NAMES.HOME_PHONE,
+      key: keys.homePhone,
+      path: 'homePhone',
+      text: content.homePhone,
+    },
+    'mobile-phone': {
+      id: 'mobile-phone',
+      fieldName: FIELD_NAMES.MOBILE_PHONE,
+      key: keys.mobilePhone,
+      path: 'mobilePhone',
+      text: content.mobilePhone,
+    },
+    email: {
+      id: 'email',
+      fieldName: FIELD_NAMES.EMAIL,
+      key: keys.email,
+      path: 'email',
+      text: content.email,
+    },
   };
 
   // Check if we have a form-only update for the current field
   const [editField] = editState?.split(',') || [];
-  const fieldName = fieldNameMap[editField];
+  const fieldName = fieldConfig[editField]?.fieldName;
   const hasFormOnlyUpdate = fieldName
-    ? fieldTransactionMap?.[fieldName]?.formOnlyUpdate
+    ? !!fieldTransactionMap?.[fieldName]
     : false;
 
   const handlers = {
@@ -146,7 +169,7 @@ export const ContactInfoBase = ({
         goForward(data);
       }
     },
-    updatePage: () => {
+    onUpdatePage: () => {
       setSubmitted(true);
       if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
@@ -164,14 +187,7 @@ export const ContactInfoBase = ({
     const updatedWrapper = { ...wrapper };
     let needsUpdate = false;
 
-    const fields = [
-      { key: keys.email, path: 'email' },
-      { key: keys.homePhone, path: 'homePhone' },
-      { key: keys.mobilePhone, path: 'mobilePhone' },
-      { key: keys.address, path: 'mailingAddress' },
-    ];
-
-    fields.forEach(({ key, path }) => {
+    Object.values(fieldConfig).forEach(({ key, path }) => {
       const profileValue = contactInfo?.[path];
       const formValue = wrapper?.[key];
 
@@ -254,9 +270,6 @@ export const ContactInfoBase = ({
     [missingInfo, hasInitialized, testContinueAlert],
   );
 
-  // Fetch in-progress form data with prefill
-  useFetchInProgressForm();
-
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
   const headerClassNames = [
@@ -265,41 +278,10 @@ export const ContactInfoBase = ({
     'vads-u-margin-top--0',
   ].join(' ');
 
-  // Extract alert rendering functions
-  const showSuccessAlertInField = (id, text) => (
-    <va-alert
-      id={`updated-${id}`}
-      visible={editState === `${id},updated` && !hasFormOnlyUpdate}
-      class="vads-u-margin-y--1"
-      status="success"
-      slim
-    >
-      {`${text} ${content.updated}`}
-    </va-alert>
-  );
-
-  const showFormOnlyAlert = id => (
-    <va-alert
-      id="form-only-update-alert"
-      visible={
-        hasFormOnlyUpdate &&
-        editState?.includes(`${id}`) &&
-        editState?.includes('updated')
-      }
-      class="vads-u-margin-y--1"
-      status="error"
-      uswds
-      slim
-    >
-      <p>
-        <strong>
-          We couldn’t update your VA.gov profile, but your changes were saved to
-          this form.{' '}
-        </strong>
-        You can try again later to update your profile, or continue with the
-        form using the information you entered.
-      </p>
-    </va-alert>
+  const requiredLabel = (
+    <span className="vads-u-font-weight--normal vads-u-color--secondary-dark vads-u-margin-left--0p5">
+      (*Required)
+    </span>
   );
 
   // Helper function to render email addresses consistently
@@ -308,6 +290,40 @@ export const ContactInfoBase = ({
     return typeof emailData === 'object'
       ? emailData.emailAddress || ''
       : emailData || '';
+  };
+
+  // Render alerts above contact sections
+  const renderContactAlerts = () => {
+    const alerts = [];
+
+    Object.entries(fieldConfig).forEach(([id, { text, key }]) => {
+      if (!key) return; // Skip if this field is not configured
+
+      const isUpdated = editState === `${id},updated`;
+
+      if (isUpdated) {
+        alerts.push(
+          <va-alert
+            key={`success-${id}`}
+            id={`updated-${id}`}
+            class="vads-u-margin-y--1"
+            status="success"
+            role="alert"
+          >
+            <h2 slot="headline">We’ve updated your {text}</h2>
+            <p className="vads-u-margin-y--0">
+              {hasFormOnlyUpdate
+                ? 'We’ve made these changes to only this form.'
+                : 'We’ve made these changes to this form and your profile.'}
+            </p>
+          </va-alert>,
+        );
+      }
+    });
+
+    return alerts.length > 0 ? (
+      <div className="vads-u-margin-bottom--2">{alerts}</div>
+    ) : null;
   };
 
   // Extract contact section rendering
@@ -321,12 +337,9 @@ export const ContactInfoBase = ({
         >
           <Headers name="header-address" className={headerClassNames}>
             {content.mailingAddress}
-            {!requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
-              ' (optional)'}
+            {requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
+              requiredLabel}
           </Headers>
-          {hasFormOnlyUpdate
-            ? showFormOnlyAlert('address')
-            : showSuccessAlertInField('address', content.mailingAddress)}
           <AddressView data={dataWrap[keys.address]} />
           {loggedIn && (
             <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
@@ -374,11 +387,8 @@ export const ContactInfoBase = ({
             className={`${headerClassNames} vads-u-margin-top--0p5`}
           >
             {content.homePhone}
-            {!requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && ' (optional)'}
+            {requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && requiredLabel}
           </Headers>
-          {hasFormOnlyUpdate
-            ? showFormOnlyAlert('home-phone')
-            : showSuccessAlertInField('home-phone', content.homePhone)}
           <span className="dd-privacy-hidden" data-dd-action-name="home phone">
             {renderTelephone(dataWrap[keys.homePhone])}
           </span>
@@ -424,11 +434,8 @@ export const ContactInfoBase = ({
             className={`${headerClassNames} vads-u-margin-top--0p5`}
           >
             {content.mobilePhone}
-            {!requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && ' (optional)'}
+            {requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && requiredLabel}
           </Headers>
-          {hasFormOnlyUpdate
-            ? showFormOnlyAlert('mobile-phone')
-            : showSuccessAlertInField('mobile-phone', content.mobilePhone)}
           <span
             className="dd-privacy-hidden"
             data-dd-action-name="mobile phone"
@@ -474,11 +481,8 @@ export const ContactInfoBase = ({
         >
           <Headers name="header-email" className={headerClassNames}>
             {content.email}
-            {!requiredKeys.includes(FIELD_NAMES.EMAIL) && ' (optional)'}
+            {requiredKeys.includes(FIELD_NAMES.EMAIL) && requiredLabel}
           </Headers>
-          {hasFormOnlyUpdate
-            ? showFormOnlyAlert('email')
-            : showSuccessAlertInField('email', content.email)}
           <span className="dd-privacy-hidden" data-dd-action-name="email">
             {renderEmail(dataWrap[keys.email])}
           </span>
@@ -573,7 +577,7 @@ export const ContactInfoBase = ({
   );
 
   const navButtons = onReviewPage ? (
-    <va-button text={content.update} onClick={handlers.updatePage} />
+    <va-button text={content.update} onClick={handlers.onUpdatePage} />
   ) : (
     <>
       {contentBeforeButtons}
@@ -602,6 +606,7 @@ export const ContactInfoBase = ({
           </strong>
         )}
         {renderValidationMessages()}
+        {renderContactAlerts()}
         <div className="vads-u-margin-top--3">
           <div
             className="va-profile-wrapper vads-l-grid-container vads-u-padding-x--0"
