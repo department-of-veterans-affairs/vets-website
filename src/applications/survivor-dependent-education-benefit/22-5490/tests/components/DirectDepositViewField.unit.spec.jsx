@@ -12,12 +12,21 @@ describe('DirectDepositViewField component', () => {
     },
   };
 
+  const formContext = {
+    onError: () => {},
+  };
+
   it('renders the DirectDepositViewField footer', () => {
     expect(<DirectDepositViewField />);
   });
 
   it('should render obfuscated checking account information', () => {
-    const wrapper = mount(<DirectDepositViewField formData={initialState} />);
+    const wrapper = mount(
+      <DirectDepositViewField
+        formData={initialState}
+        formContext={formContext}
+      />,
+    );
     expect(wrapper.text()).to.include('Checking account');
     expect(wrapper.text()).to.include('●●●●●1321');
     expect(wrapper.text()).to.include('●●●●●3123');
@@ -27,7 +36,12 @@ describe('DirectDepositViewField component', () => {
   it('should render account information when no account type is provided', () => {
     initialState.bankAccount.accountType = '';
 
-    const wrapper = mount(<DirectDepositViewField formData={initialState} />);
+    const wrapper = mount(
+      <DirectDepositViewField
+        formData={initialState}
+        formContext={formContext}
+      />,
+    );
     expect(wrapper.text()).to.include('Account');
     expect(wrapper.text()).to.include('●●●●●1321');
     expect(wrapper.text()).to.include('●●●●●3123');

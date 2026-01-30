@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { obfuscate, titleCase } from '../helpers';
 
-function DirectDepositViewField({ formData }) {
+export default function DirectDepositViewField({
+  formData,
+  formContext,
+  errorSchema,
+  startEditing,
+  title,
+}) {
   const bankAccount = formData?.bankAccount || {};
   const { accountType, accountNumber, routingNumber } = bankAccount;
 
@@ -10,40 +17,70 @@ function DirectDepositViewField({ formData }) {
     ? `${titleCase(accountType)} account`
     : 'Account';
 
+  const editButton = [
+    'edit-button',
+    'vads-u-margin-top--4',
+    'vads-u-width--auto',
+  ].join(' ');
+
+  // Ensure errors are re-validated when this component loads
+  useEffect(
+    () => {
+      formContext.onError();
+    },
+    [formContext],
+  );
+
   return (
-    <div
-      className="survivor-benefit-direct-deposit"
-      aria-labelledby="direct-deposit-info-heading"
-      aria-describedby="direct-deposit-info-note"
-    >
-      <p id="direct-deposit-info-note" className="vads-u-margin-bottom--4">
+    <>
+      <p className="vads-u-margin-bottom--4">
         <strong>Note</strong>: Your bank account information is what we
         currently have on file for you. Please ensure it is correct.
       </p>
       <div className="va-address-block vads-u-margin-left--0">
-        <h5 id="direct-deposit-info-heading">{accountTypeDisplay}</h5>
-        <dl className="survivor-benefit-definition-list">
+        <h4>{`${accountTypeDisplay}`}</h4>
+        <dl className="survivor-benefit-definition-list survivor-benefit-definition-list--normal">
           <dt className="survivor-benefit-definition-list_term">
             Bank routing number:
           </dt>
           <dd className="survivor-benefit-definition-list_definition">
-            <span aria-hidden="true">{obfuscate(routingNumber)}</span>
-            <span className="sr-only">Ending in {routingNumber.slice(-4)}</span>
+            {obfuscate(routingNumber)}
           </dd>
+
           <dt className="survivor-benefit-definition-list_term">
             Bank account number:
           </dt>
           <dd className="survivor-benefit-definition-list_definition">
-            <span aria-hidden="true">{obfuscate(accountNumber)}</span>
-            <span className="sr-only">Ending in {accountNumber.slice(-4)}</span>
+            {obfuscate(accountNumber)}
           </dd>
         </dl>
       </div>
-    </div>
+      {!errorSchemaIsValid(errorSchema) && (
+        <va-alert class="vads-u-margin-top--4" slim status="error">
+          Banking information is missing or invalid. Please make sure it's
+          correct.
+        </va-alert>
+      )}
+      <button
+        className={`usa-button-primary ${editButton}`}
+        style={{ minWidth: '5rem', lineHeight: '1.5' }}
+        onClick={() => {
+          startEditing();
+          formContext.onError();
+        }}
+        aria-label={`Edit ${title}`}
+      >
+        Edit
+      </button>
+    </>
   );
 }
 
 DirectDepositViewField.propTypes = {
+  errorSchema: PropTypes.object.isRequired,
+  formContext: PropTypes.shape({
+    onError: PropTypes.func.isRequired,
+  }).isRequired,
   formData: PropTypes.shape({
     bankAccount: PropTypes.shape({
       accountType: PropTypes.string,
@@ -51,6 +88,6 @@ DirectDepositViewField.propTypes = {
       routingNumber: PropTypes.string,
     }),
   }).isRequired,
+  startEditing: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };
-
-export default DirectDepositViewField;
