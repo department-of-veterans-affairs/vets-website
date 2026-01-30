@@ -389,6 +389,8 @@ export async function fetchFlowEligibilityAndClinics({
     eligibility.request = false;
     eligibility.requestReasons.push(ELIGIBILITY_REASONS.error);
   } else {
+    // When removeFacilityConfigCheck is true, use the API eligible field as the source of truth
+    // but still check for specific reasons to provide better error messages
     if (!results.patientEligibility.request.hasRequiredAppointmentHistory) {
       eligibility.request = false;
       eligibility.requestReasons.push(ELIGIBILITY_REASONS.noRecentVisit);
@@ -401,6 +403,13 @@ export async function fetchFlowEligibilityAndClinics({
       eligibility.request = false;
       eligibility.requestReasons.push(ELIGIBILITY_REASONS.overRequestLimit);
       recordEligibilityFailure('request-exceeded-outstanding-requests');
+    }
+
+    // If the API returned eligible: false but we didn't find a specific reason,
+    // still mark as ineligible with a generic reason
+    if (!results.patientEligibility.request?.eligible && eligibility.request) {
+      eligibility.request = false;
+      eligibility.requestReasons.push(ELIGIBILITY_REASONS.notSupported);
     }
   }
 
@@ -466,6 +475,13 @@ export async function fetchFlowEligibilityAndClinics({
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
       recordEligibilityFailure('direct-no-matching-past-clinics');
+    }
+
+    // If the API returned eligible: false but we didn't find a specific reason,
+    // still mark as ineligible with a generic reason
+    if (!results.patientEligibility.direct?.eligible && eligibility.direct) {
+      eligibility.direct = false;
+      eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);
     }
   }
 

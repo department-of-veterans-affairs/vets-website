@@ -35,6 +35,7 @@ export default function SelectProviderPage() {
 
   // eligibility issues
   const isEligibleForRequest = eligibility?.request;
+  const isEligibleForDirect = eligibility?.direct;
   const overRequestLimit =
     eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
   const requestEligibilityError =
@@ -127,7 +128,7 @@ export default function SelectProviderPage() {
         )}
 
       {/* Has providers returned, no errors */}
-      {hasProviders ? (
+      {hasProviders && isEligibleForDirect ? (
         <>
           <TypeOfCareAndFacilityInfo />
           {patientProviderRelationships.map((provider, index) => (
