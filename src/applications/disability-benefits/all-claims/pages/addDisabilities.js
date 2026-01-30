@@ -72,10 +72,16 @@ const platformArrayFieldWithAutocomplete = {
     showSave: true,
     reviewMode: true,
     keepInPageOnReview: false,
+    itemClassNames: 'schemaform-field-template rated-disability',
   },
   'ui:validations': [requireDisability],
   items: {
     condition: autocompleteUiSchema,
+    ratedDisability: {
+      'ui:options': {
+        classNames: 'schemaform-field-template rated-disability',
+      },
+    },
   },
 };
 
@@ -113,6 +119,10 @@ export const schema = {
         type: 'object',
         properties: {
           condition,
+          ratedDisability: {
+            type: 'string',
+            default: "A condition I haven't claimed before",
+          },
         },
       },
     },
