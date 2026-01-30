@@ -9,6 +9,7 @@ import { requestStates } from 'platform/utilities/constants';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { ITFWrapper } from '../../containers/ITFWrapper';
 import { itfStatuses } from '../../constants';
+import { itfActive, itfSuccess } from '../../content/itfWrapper';
 
 import { parseDate, parseDateWithTemplate } from '../../utils/dates';
 import { daysFromToday } from '../../utils/dates/formatting';
@@ -315,6 +316,33 @@ describe('526 ITFWrapper', () => {
     expect(bannerProps.status).to.equal('itf-created');
     expect(bannerProps.currentExpDate).to.equal(expirationDate);
     expect(bannerProps.previousExpDate).to.equal(previousExpirationDate);
+    tree.unmount();
+  });
+
+  it('should display an expiration date for EVSS +0000 timestamps (active ITF)', () => {
+    const expirationDate = '2030-07-28T19:53:45.810+0000';
+    const tree = mount(itfActive(expirationDate));
+
+    expect(tree.text()).to.include('ET');
+    expect(tree.text()).to.match(/\b2030\b/);
+    expect(tree.text()).to.not.include('Invalid Date');
+
+    tree.unmount();
+  });
+
+  it('should display current and previous expiration dates for EVSS +0000 timestamps (created ITF)', () => {
+    const currentExpirationDate = '2030-07-28T19:53:45.810+0000';
+    const previousExpirationDate = '2029-07-28T19:53:45.810+0000';
+
+    const tree = mount(
+      itfSuccess(true, currentExpirationDate, previousExpirationDate),
+    );
+
+    expect(tree.text()).to.include('ET');
+    expect(tree.text()).to.match(/\b2030\b/);
+    expect(tree.text()).to.match(/\b2029\b/);
+    expect(tree.text()).to.not.include('Invalid Date');
+
     tree.unmount();
   });
 });
