@@ -42,7 +42,7 @@ const DisabilityRating = () => {
       <p>
         <va-link
           href="/resources/the-pact-act-and-your-va-benefits"
-          text="PACT Act: Eligibility updates based on toxic exposure"
+          text="Learn more about the PACT Act and eligibility updates based on toxic exposure"
         />
       </p>
     </div>

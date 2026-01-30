@@ -36,7 +36,7 @@ export const EditConfirmCancelModal = props => {
       uswds
     >
       <p>
-        {`You haven't finished editing and saving the changes to your ${activeSection}. If you cancel now, we won't save your changes.`}
+        {`You haven't saved the changes you made to your ${activeSection}. If you cancel, we won't save your changes.`}
       </p>
     </VaModal>
   );
