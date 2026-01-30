@@ -20,8 +20,8 @@ export default {
       ...radioUI({
         title: content['benefits--pension-label'],
         labels: {
-          pension: content['form--default-yes-label'],
-          none: content['form--default-no-label'],
+          Yes: content['form--default-yes-label'],
+          No: content['form--default-no-label'],
         },
         required: () => true,
       }),
@@ -32,7 +32,7 @@ export default {
     type: 'object',
     required: ['vaPensionType'],
     properties: {
-      vaPensionType: radioSchema(['pension', 'none']),
+      vaPensionType: radioSchema(['Yes', 'No']),
     },
   },
 };
