@@ -5,24 +5,23 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 // Configuration constants
 const CONFIG = {
-  applicationId: '7909bc8f-3e73-43b4-b01c-e0de92ccbe85',
-  clientToken: 'pub1e95c062768737937070fea457e175e2',
+  applicationId: 'ed578a2f-233a-4325-a486-d094b369359d',
+  clientToken: 'puba5417576e681deca63cfc4af20d16950',
   site: 'ddog-gov.com',
-  service: 'my-va',
+  service: 'va.gov-profile',
+  env: environment.vspEnvironment(),
   sessionSampleRate: 100,
-  sessionReplaySampleRate: 1,
+  sessionReplaySampleRate: 3,
   trackBfcacheViews: true,
   trackUserInteractions: true,
   defaultPrivacyLevel: 'mask-user-input',
 };
 
-const initializeRealUserMonitoring = () => {
-  // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
+export const initializeBrowserMonitoring = () => {
   if (environment.isLocalhost()) {
     return false;
   }
 
-  // If RUM is already running from another app, stop and delete it
   if (window.DD_RUM?.getInitConfiguration()) {
     datadogRum.stopSession();
     delete window.DD_RUM;
@@ -30,7 +29,6 @@ const initializeRealUserMonitoring = () => {
 
   datadogRum.init({
     ...CONFIG,
-    env: environment.vspEnvironment(),
   });
 
   if (CONFIG.sessionReplaySampleRate > 0) {
@@ -41,21 +39,21 @@ const initializeRealUserMonitoring = () => {
 
 export const useBrowserMonitoring = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const initializedByMyVA = useRef(false);
+  const initializedByProfile = useRef(false);
 
   const isMonitoringEnabled = useToggleValue(
-    TOGGLE_NAMES.myVaBrowserMonitoring,
+    TOGGLE_NAMES.profileBrowserMonitoring,
   );
 
   useEffect(
     () => {
       if (isMonitoringEnabled) {
-        initializedByMyVA.current = initializeRealUserMonitoring();
+        initializedByProfile.current = initializeBrowserMonitoring();
       }
 
       return () => {
         if (
-          initializedByMyVA.current &&
+          initializedByProfile.current &&
           window.DD_RUM?.getInitConfiguration()
         ) {
           datadogRum.stopSession();
