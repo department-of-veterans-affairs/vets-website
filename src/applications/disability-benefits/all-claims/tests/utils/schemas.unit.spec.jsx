@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   makeLegacySchemaForRatedDisabilities,
   makeSchemaForNewDisabilities,
-  makeSchemaForRatedDisabilities,
+  makeSchemaForRatedDisabilitiesInNewDisabilities,
   makeSchemaForAllDisabilities,
 } from '../../utils/schemas';
 
@@ -108,7 +108,7 @@ describe('makeSchemaForNewDisabilities', () => {
   });
 });
 
-// demonstrates behavior of the legacy (pre-v2) implementation of makeSchemaForRatedDisabilities
+// demonstrates behavior of the legacy implementation of makeSchemaForRatedDisabilities
 describe('makeLegacySchemaForRatedDisabilities', () => {
   it('should handle special characters in the disability name', () => {
     const formData = {
@@ -280,35 +280,29 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
   });
 });
 
-describe('makeSchemaForRatedDisabilities has parity with the previous implementation for deduplication', () => {
-  const formDataLegacy = {
-    'view:claimType': {
-      'view:claimingIncrease': true,
-      'view:claimingNew': false,
-    },
-    ratedDisabilities: [
-      {
-        name: 'cat',
-        'view:selected': true,
+describe('makeSchemaForRatedDisabilitiesInNewDisabilities has parity with the selector for the v1 flow', () => {
+  it('should have the same deduplication result', () => {
+    const formDataLegacy = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
       },
-      {
-        name: 'CAT',
-        'view:selected': true,
-      },
-      {
-        name: 'CaT',
-        'view:selected': true,
-      },
-    ],
-  };
+      ratedDisabilities: [
+        {
+          name: 'cat',
+          'view:selected': true,
+        },
+        {
+          name: 'CAT',
+          'view:selected': true,
+        },
+        {
+          name: 'CaT',
+          'view:selected': true,
+        },
+      ],
+    };
 
-  it('should have the same deduplication result on the v1 conditions flow', () => {
-    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
-      makeSchemaForRatedDisabilities(formDataLegacy),
-    );
-  });
-
-  it('should have the same deduplication result on the v2 conditions flow', () => {
     const formDataV2 = {
       newDisabilities: [
         {
@@ -326,44 +320,36 @@ describe('makeSchemaForRatedDisabilities has parity with the previous implementa
       ],
     };
     expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
-      makeSchemaForRatedDisabilities(formDataV2),
-    );
-  });
-});
-
-describe('makeSchemaForRatedDisabilities has parity with the previous implementation for creating keys', () => {
-  const formDataLegacy = {
-    'view:claimType': {
-      'view:claimingIncrease': true,
-      'view:claimingNew': false,
-    },
-    ratedDisabilities: [
-      {
-        name: 'Ptsd - personal trauma',
-        'view:selected': true,
-      },
-      {
-        name: 'Diabetes (mellitus)',
-        'view:selected': true,
-      },
-      {
-        name: 'Type-1 Diabetes',
-        'view:selected': true,
-      },
-      {
-        name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
-        'view:selected': true,
-      },
-    ],
-  };
-
-  it('should return the same properties on the v1 conditions flow', () => {
-    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
-      makeSchemaForRatedDisabilities(formDataLegacy),
+      makeSchemaForRatedDisabilitiesInNewDisabilities(formDataV2),
     );
   });
 
   it('should return the same properties on the v2 conditions flow', () => {
+    const formDataLegacy = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Ptsd - personal trauma',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes (mellitus)',
+          'view:selected': true,
+        },
+        {
+          name: 'Type-1 Diabetes',
+          'view:selected': true,
+        },
+        {
+          name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
+          'view:selected': true,
+        },
+      ],
+    };
+
     const formDataV2 = {
       newDisabilities: [
         {
@@ -386,64 +372,14 @@ describe('makeSchemaForRatedDisabilities has parity with the previous implementa
       ],
     };
     expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
-      makeSchemaForRatedDisabilities(formDataV2),
+      makeSchemaForRatedDisabilitiesInNewDisabilities(formDataV2),
     );
   });
 });
 
-describe('makeSchemaForRatedDisabilities', () => {
-  it('should return schema for selected disabilities only', () => {
-    const formData = {
-      'view:claimType': {
-        'view:claimingIncrease': true,
-        'view:claimingNew': false,
-      },
-      ratedDisabilities: [
-        {
-          name: 'Ptsd personal trauma',
-          'view:selected': false,
-        },
-        {
-          name: 'Diabetes mellitus',
-          'view:selected': true,
-        },
-      ],
-    };
-    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
-      properties: {
-        diabetesmellitus: {
-          title: 'Diabetes Mellitus',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-
-  it('should return empty properties if disability name is not a string', () => {
-    const formData = {
-      'view:claimType': {
-        'view:claimingIncrease': true,
-        'view:claimingNew': false,
-      },
-      ratedDisabilities: [
-        {
-          name: 'Ptsd personal trauma',
-          'view:selected': false,
-        },
-        {
-          name: null,
-          'view:selected': true,
-        },
-      ],
-    };
-    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
-      properties: {},
-    });
-  });
-
+describe('makeSchemaForRatedDisabilitiesInNewDisabilities', () => {
   it('should include rated disabilities from newDisabilities array', () => {
     const formData = {
-      ratedDisabilities: [],
       newDisabilities: [
         {
           condition: 'Rated Disability',
@@ -452,7 +388,7 @@ describe('makeSchemaForRatedDisabilities', () => {
       ],
     };
 
-    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+    expect(makeSchemaForRatedDisabilitiesInNewDisabilities(formData)).to.eql({
       properties: {
         tinnitus: {
           title: 'Tinnitus',
@@ -462,7 +398,7 @@ describe('makeSchemaForRatedDisabilities', () => {
     });
   });
 
-  it('should deduplicate rated disabilities across workflows', () => {
+  it('should NOT include rated disabilities from the ratedDisabilities array', () => {
     const formData = {
       'view:claimType': {
         'view:claimingIncrease': true,
@@ -470,22 +406,42 @@ describe('makeSchemaForRatedDisabilities', () => {
       },
       ratedDisabilities: [
         {
-          name: 'Ptsd personal trauma',
+          name: 'Diabetes',
           'view:selected': true,
         },
         {
-          name: 'Diabetes mellitus',
-          'view:selected': true,
-        },
-        {
-          name: 'Tachycardia',
+          name: 'Asthma',
           'view:selected': true,
         },
       ],
       newDisabilities: [
         {
           condition: 'Rated Disability',
-          ratedDisability: 'Diabetes mellitus',
+          ratedDisability: 'Tinnitus',
+        },
+      ],
+    };
+
+    expect(makeSchemaForRatedDisabilitiesInNewDisabilities(formData)).to.eql({
+      properties: {
+        tinnitus: {
+          title: 'Tinnitus',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
+  it('should deduplicate disabilities', () => {
+    const formData = {
+      newDisabilities: [
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'ptsd personal trauma',
+        },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'PTSD personal trauma',
         },
         {
           condition: 'Rated Disability',
@@ -494,71 +450,10 @@ describe('makeSchemaForRatedDisabilities', () => {
       ],
     };
 
-    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
+    expect(makeSchemaForRatedDisabilitiesInNewDisabilities(formData)).to.eql({
       properties: {
-        diabetesmellitus: {
-          title: 'Diabetes Mellitus',
-          type: 'boolean',
-        },
         ptsdpersonaltrauma: {
-          title: 'Ptsd Personal Trauma',
-          type: 'boolean',
-        },
-        tachycardia: {
-          title: 'Tachycardia',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-  it('should treat disability names as case-insensitive and avoid duplicate keys', () => {
-    const formData = {
-      'view:claimType': {
-        'view:claimingIncrease': true,
-        'view:claimingNew': false,
-      },
-      ratedDisabilities: [
-        { name: 'Asthma', 'view:selected': true },
-        { name: 'asthma', 'view:selected': true },
-        { name: 'ASTHMA', 'view:selected': true },
-      ],
-    };
-    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
-      properties: {
-        asthma: {
-          title: 'ASTHMA',
-          type: 'boolean',
-        },
-      },
-    });
-    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
-      properties: {
-        asthma: {
-          title: 'ASTHMA',
-          type: 'boolean',
-        },
-      },
-    });
-  });
-
-  it('should only include valid, selected disabilities and filter out unselected or invalid ones', () => {
-    const formData = {
-      'view:claimType': {
-        'view:claimingIncrease': true,
-        'view:claimingNew': false,
-      },
-      ratedDisabilities: [
-        { name: 'Asthma', 'view:selected': true },
-        { name: 'Tachycardia', 'view:selected': false },
-        { name: '', 'view:selected': true },
-        { name: null, 'view:selected': true },
-        { name: undefined, 'view:selected': true },
-      ],
-    };
-    expect(makeSchemaForRatedDisabilities(formData)).to.eql({
-      properties: {
-        asthma: {
-          title: 'Asthma',
+          title: 'Ptsd personal Trauma',
           type: 'boolean',
         },
       },
@@ -587,6 +482,10 @@ describe('makeSchemaForAllDisabilities', () => {
         {
           condition: 'A new Condition.',
         },
+        {
+          condition: 'Rated Disability',
+          ratedDisability: 'Emphysema',
+        },
       ],
     };
     expect(makeSchemaForAllDisabilities(formData)).to.eql({
@@ -597,6 +496,10 @@ describe('makeSchemaForAllDisabilities', () => {
         },
         anewcondition: {
           title: 'A New Condition.',
+          type: 'boolean',
+        },
+        emphysema: {
+          title: 'Emphysema',
           type: 'boolean',
         },
       },
