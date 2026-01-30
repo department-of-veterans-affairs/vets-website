@@ -3,6 +3,7 @@ import {
   SEARCH_FAILED,
   SEARCH_COMPLETE,
   SEARCH_QUERY_UPDATED,
+  SEARCH_QUERY_COMMITED,
   FETCH_REPRESENTATIVES,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
@@ -34,6 +35,7 @@ export const INITIAL_STATE = {
   error: false,
   isValid: true,
   searchCounter: 0,
+  committedSearchQuery: {},
 };
 
 export const validateForm = (oldState, payload) => {
@@ -88,6 +90,14 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+    case SEARCH_QUERY_COMMITED:
+      return {
+        ...state,
+        committedSearchQuery: {
+          ...state.committedSearchQuery,
+          ...action.payload,
+        },
       };
     case GEOCODE_STARTED:
       return {
