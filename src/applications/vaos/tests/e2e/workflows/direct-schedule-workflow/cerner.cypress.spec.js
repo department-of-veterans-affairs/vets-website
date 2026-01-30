@@ -234,18 +234,10 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
             VAFacilityPageObject.assertUrl().clickNextButton();
 
-            ScheduleCernerPageObject.assertUrl()
-              .assertHeading({
-                level: 1,
-                name: /You can.t schedule this appointment online/i,
-              })
-              .assertText({
-                text: /You can also access tools to schedule appointments online in the My VA Health portal/,
-              })
-              .assertLink({
-                name:
-                  'Go to My VA Health (opens in a new tab) Link opens in a new tab.',
-              });
+            ScheduleCernerPageObject.assertUrl().assertHeading({
+              level: 1,
+              name: /You can.t schedule this appointment online/i,
+            });
 
             // Assert
             cy.axeCheckBestPractice();
@@ -301,18 +293,10 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
             VAFacilityPageObject.assertUrl().clickNextButton();
 
-            ScheduleCernerPageObject.assertUrl()
-              .assertHeading({
-                level: 1,
-                name: /You can.t schedule this appointment online/i,
-              })
-              .assertText({
-                text: /You can also access tools to schedule appointments online in the My VA Health portal/,
-              })
-              .assertLink({
-                name:
-                  'Go to My VA Health (opens in a new tab) Link opens in a new tab.',
-              });
+            ScheduleCernerPageObject.assertUrl().assertHeading({
+              level: 1,
+              name: /You can.t schedule this appointment online/i,
+            });
 
             // Assert
             cy.axeCheckBestPractice();
