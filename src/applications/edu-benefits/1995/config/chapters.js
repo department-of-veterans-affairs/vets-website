@@ -32,8 +32,31 @@ import {
   pgibResultPage,
 } from '../pages/mebQuestionnaire';
 
+/**
+ * Checks if form is in reroute (questionnaire) mode
+ * @param {Object} formData - The form data object
+ * @returns {boolean} True if reroute mode is enabled
+ */
 const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
-const isLegacyFlow = formData => !isRerouteEnabledOnForm(formData);
+
+/**
+ * Checks if user is in Rudisill review flow
+ * Checks both formData and sessionStorage for the flag
+ * @param {Object} formData - The form data object
+ * @returns {boolean} True if Rudisill flow is active
+ */
+const isRudisillFlow = formData =>
+  formData?.isRudisillFlow === true ||
+  sessionStorage.getItem('isRudisillFlow') === 'true';
+
+/**
+ * Determines if legacy form pages should be shown
+ * Legacy flow is active when reroute is disabled OR user is in Rudisill flow
+ * @param {Object} formData - The form data object
+ * @returns {boolean} True if legacy pages should be displayed
+ */
+const isLegacyFlow = formData =>
+  !isRerouteEnabledOnForm(formData) || isRudisillFlow(formData);
 
 export const applicantInformationField = () => {
   const applicantInformationPage = {
@@ -221,6 +244,7 @@ export const chapters = {
 export const mebChapters = {
   questionnaire: {
     title: 'Determine your path',
+    depends: formData => isRerouteEnabledOnForm(formData),
     pages: {
       mebYourInformation: {
         path: 'questionnaire/your-information',
