@@ -29,6 +29,7 @@ import {
 
 import {
   capitalizeEachWord,
+  disabilityIsSelected,
   isClaimingIncrease,
   isNewConditionOption,
   isPlaceholderRated,
@@ -100,52 +101,51 @@ export const makeSchemaForNewDisabilities = createSelector(
 
 /**
  * Create the checkbox schema for rated disabilities based if user has selected
- * Increase claim type
+ * Increase claim type. Values are pulled from the ratedDisabilities array.
  */
-export const makeSchemaForRatedDisabilities = createSelector(
+export const makeSchemaForRatedDisabilitiesLegacy = createSelector(
   formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
+  (ratedDisabilities = []) => ({
+    properties: ratedDisabilities
+      .filter(disabilityIsSelected)
+      .map(disability => disability.name)
+      .reduce(createCheckboxSchema, {}),
+  }),
+);
+
+/**
+ * Create the checkbox schema for rated disabilities that may be present in the
+ * newDisabilities array (supported by the v2 Conditions flow).
+ */
+export const makeSchemaForRatedDisabilitiesInNewDisabilities = createSelector(
   formData =>
     Array.isArray(formData?.newDisabilities) ? formData.newDisabilities : [],
 
-  (ratedDisabilities = [], newDisabilities = []) => {
-    // rated disabilities from the current workflow (view:selected)
-    const fromRatedDisabilities = ratedDisabilities
-      .filter(disability => disability?.['view:selected'])
-      .map(disability => disability.name)
-      .filter(name => typeof name === 'string' && name.trim().length > 0);
-
-    const fromNewDisabilities = newDisabilities
+  (newDisabilities = []) => {
+    const raw = newDisabilities
       .map(d => {
+        const condition =
+          typeof d?.condition === 'string' ? d.condition.trim() : '';
+
         const ratedDisability =
           typeof d?.ratedDisability === 'string'
             ? d.ratedDisability.trim()
-            : null;
+            : '';
 
-        if (!ratedDisability) return null;
-        if (isNewConditionOption(ratedDisability)) return null;
+        if (
+          isPlaceholderRated(condition) &&
+          ratedDisability &&
+          !isNewConditionOption(ratedDisability)
+        ) {
+          return ratedDisability;
+        }
 
-        return ratedDisability;
+        return '';
       })
-      .filter(Boolean);
+      .filter(s => s.length > 0);
 
-    const dedupedByNormalizedName = new Map();
-
-    [...fromRatedDisabilities, ...fromNewDisabilities].forEach(name => {
-      const normalizedKey = name.toLowerCase();
-
-      if (!dedupedByNormalizedName.has(normalizedKey)) {
-        dedupedByNormalizedName.set(normalizedKey, name);
-      }
-    });
-
-    const uniqueRatedDisabilities = [...dedupedByNormalizedName.values()];
-
-    const properties = uniqueRatedDisabilities.reduce(
-      (schema, disabilityName) => createCheckboxSchema(schema, disabilityName),
-      {},
-    );
-
-    return { properties };
+    const unique = [...new Set(raw)];
+    return { properties: unique.reduce(createCheckboxSchema, {}) };
   },
 );
 
@@ -155,9 +155,19 @@ export const makeSchemaForRatedDisabilities = createSelector(
  */
 export const makeSchemaForAllDisabilities = createSelector(
   makeSchemaForNewDisabilities,
-  makeSchemaForRatedDisabilities,
-  (newDisabilitiesSchema, ratedDisabilitiesSchema) =>
-    merge({}, newDisabilitiesSchema, ratedDisabilitiesSchema),
+  makeSchemaForRatedDisabilitiesLegacy,
+  makeSchemaForRatedDisabilitiesInNewDisabilities,
+  (
+    newDisabilitiesSchema,
+    ratedDisabilitiesSchema,
+    ratedDisabilitiesNewConditionsSchema,
+  ) =>
+    merge(
+      {},
+      newDisabilitiesSchema,
+      ratedDisabilitiesSchema,
+      ratedDisabilitiesNewConditionsSchema,
+    ),
 );
 
 /**
