@@ -144,18 +144,8 @@ export const makeSchemaForRatedDisabilitiesInNewDisabilities = createSelector(
       })
       .filter(s => s.length > 0);
 
-    const normalized = raw.map(pretty);
-    const unique = [...new Set(normalized)];
-
-    const properties = unique.reduce((schema, name) => {
-      return _.set(
-        [sippableId(name)],
-        { title: name, type: 'boolean' },
-        schema,
-      );
-    }, {});
-
-    return { properties };
+    const unique = [...new Set(raw)];
+    return { properties: unique.reduce(createCheckboxSchema, {}) };
   },
 );
 
