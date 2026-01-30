@@ -1,5 +1,4 @@
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import get from 'platform/utilities/data/get';
 
@@ -42,13 +41,6 @@ export default class DirectDepositField extends ReviewCardField {
         const { ArrayField } = this.props.registry.fields;
         return <ArrayField {...this.props} />;
       }
-
-      // Not having the right type should have been caught in the constructor, but...
-      Sentry.withScope(scope => {
-        scope.setExtra('message', `Expected object or array, got ${dataType}`);
-        Sentry.captureMessage('ReviewCardField-bad-type-on-review');
-      });
-      // Fall back to the ViewComponent
     }
 
     const { viewComponent: ViewComponent, reviewTitle } = this.props.uiSchema[
