@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { render, waitFor, act } from '@testing-library/react';
+import { render, waitFor, act, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -41,8 +41,15 @@ describe('ChunkLoadError Reproduction', () => {
   });
 
   afterEach(() => {
-    consoleErrorStub.restore();
-    consoleWarnStub.restore();
+    // Explicitly cleanup RTL to prevent test pollution
+    cleanup();
+    // Restore console stubs - use try/catch in case test failed before stubs were created
+    try {
+      consoleErrorStub?.restore();
+      consoleWarnStub?.restore();
+    } catch (e) {
+      // Stub may already be restored or never created
+    }
   });
 
   describe('React.lazy', () => {
@@ -68,6 +75,9 @@ describe('ChunkLoadError Reproduction', () => {
       // Standard React.lazy - current implementation across the codebase
       const LazyComponent = React.lazy(flakyImport);
 
+      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
+      // See: https://github.com/testing-library/react-testing-library/issues/1375
+      // The callback MUST be async for proper Suspense handling
       let getByTestId;
       await act(async () => {
         const result = render(
@@ -81,9 +91,7 @@ describe('ChunkLoadError Reproduction', () => {
       });
 
       // Wait for error boundary to catch the failure
-      await waitFor(() => {
-        expect(getByTestId('error-boundary')).to.exist;
-      });
+      await waitFor(() => expect(getByTestId('error-boundary')).to.exist);
 
       expect(loadAttempts).to.equal(1);
     });
@@ -121,6 +129,8 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
+      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
+      // See: https://github.com/testing-library/react-testing-library/issues/1375
       let getByTestId;
       await act(async () => {
         const result = render(
@@ -132,12 +142,9 @@ describe('ChunkLoadError Reproduction', () => {
       });
 
       // Should eventually succeed after retry
-      await waitFor(
-        () => {
-          expect(getByTestId('success')).to.exist;
-        },
-        { timeout: 1000 },
-      );
+      await waitFor(() => expect(getByTestId('success')).to.exist, {
+        timeout: 1000,
+      });
 
       expect(loadAttempts).to.equal(2);
     });
@@ -162,6 +169,8 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
+      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
+      // See: https://github.com/testing-library/react-testing-library/issues/1375
       let getByTestId;
       await act(async () => {
         const result = render(
@@ -174,12 +183,10 @@ describe('ChunkLoadError Reproduction', () => {
         getByTestId = result.getByTestId;
       });
 
-      await waitFor(
-        () => {
-          expect(getByTestId('final-error')).to.exist;
-        },
-        { timeout: 2000 },
-      );
+      // Wait for all retries + error boundary render
+      await waitFor(() => expect(getByTestId('final-error')).to.exist, {
+        timeout: 2000,
+      });
 
       // Should have tried initial + maxRetries times (1 + 2 = 3)
       expect(loadAttempts).to.equal(3);
