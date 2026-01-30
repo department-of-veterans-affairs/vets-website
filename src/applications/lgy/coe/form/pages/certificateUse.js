@@ -15,20 +15,24 @@ import { certificateUseOptions } from '../constants';
 const OptionsAccordion = () => (
   <VaAccordion className="vads-u-margin-top--2">
     <VaAccordionItem header="Understanding your COE options">
-      <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+      <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
         Check your eligibility
       </p>
       <p className="vads-u-margin-top--0">
         Find out if you’re eligible and how much entitlement you have.
       </p>
 
-      <p className="vads-u-font-weight--bold">Purchase a home</p>
+      <p className="vads-u-margin-bottom--0 vads-u-font-weight--bold">
+        Purchase a home
+      </p>
       <p className="vads-u-margin-top--0">Buy a home using a VA home loan.</p>
 
-      <p className="vads-u-font-weight--bold">Refinance and take cash out</p>
+      <p className="vads-u-margin-bottom--0 vads-u-font-weight--bold">
+        Refinance and take cash out
+      </p>
       <p className="vads-u-margin-top--0">
         Refinance your home and take cash out from your equity, even if you
-        didn’t buy it using a VA home loan.
+        didn’t buy it using a VA home loan.{' '}
         <VaLink
           external
           href="https://www.va.gov/housing-assistance/home-loans/loan-types/cash-out-loan/"
@@ -36,12 +40,12 @@ const OptionsAccordion = () => (
         />
       </p>
 
-      <p className="vads-u-font-weight--bold">
+      <p className="vads-u-margin-bottom--0 vads-u-font-weight--bold">
         Refinance to change interest rate
       </p>
       <p className="vads-u-margin-top--0">
         Lower your interest rate or switch from an adjustable rate to a fixable
-        rate with the Interest Rate Reduction Refinance Loan (IRRRL) program.
+        rate with the Interest Rate Reduction Refinance Loan (IRRRL) program.{' '}
         <VaLink
           external
           href="https://www.va.gov/housing-assistance/home-loans/loan-types/interest-rate-reduction-loan/"

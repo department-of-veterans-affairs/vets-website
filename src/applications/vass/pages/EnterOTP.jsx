@@ -3,18 +3,19 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import { useErrorFocus } from '../hooks/useErrorFocus';
 import Wrapper from '../layout/Wrapper';
-import { usePostOTCVerificationMutation } from '../redux/api/vassApi';
+import { usePostOTPVerificationMutation } from '../redux/api/vassApi';
 import {
   selectFlowType,
   selectObfuscatedEmail,
 } from '../redux/slices/formSlice';
-import { FLOW_TYPES, URLS } from '../utils/constants';
+import { FLOW_TYPES, URLS, OTC_ERROR_CODES } from '../utils/constants';
+import { isAccountLockedError, isServerError } from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
-    case 'account_locked':
+    case OTC_ERROR_CODES.ACCOUNT_LOCKED:
       return 'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.';
-    case 'invalid_otc':
+    case OTC_ERROR_CODES.INVALID_OTP:
       if (attemptsRemaining === 1) {
         return 'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again.';
       }
@@ -24,8 +25,8 @@ const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   }
 };
 
-const getPageTitle = (cancellationFlow, error) => {
-  if (error) {
+const getPageTitle = (cancellationFlow, hasError) => {
+  if (hasError) {
     return 'We couldn’t verify your information';
   }
   if (cancellationFlow) {
@@ -34,35 +35,36 @@ const getPageTitle = (cancellationFlow, error) => {
   return 'Schedule an appointment with VA Solid Start';
 };
 
-const EnterOTC = () => {
+const EnterOTP = () => {
   const flowType = useSelector(selectFlowType);
   const cancellationFlow = flowType === FLOW_TYPES.CANCEL;
   const navigate = useNavigate();
   const obfuscatedEmail = useSelector(selectObfuscatedEmail);
   const [
-    { error: otcError, handleSetError: setOtcError },
+    { error: otpError, handleSetError: setOtpError },
     { handleSetError: setApiError },
   ] = useErrorFocus([
-    'va-text-input[name="otc"]',
-    'va-alert[data-testid="enter-otc-error-alert"]',
+    'va-text-input[name="otp"]',
+    'va-alert[data-testid="enter-otp-error-alert"]',
   ]);
 
   const [code, setCode] = useState('');
-  const [error, setError] = useState(undefined);
 
-  const [postOTCVerification, { isLoading }] = usePostOTCVerificationMutation();
+  const [
+    postOTPVerification,
+    { isLoading, error: postOTPVerificationError },
+  ] = usePostOTPVerificationMutation();
 
   const handleSubmit = async () => {
     if (code === '') {
-      setOtcError('Please enter your one-time verification code');
+      setOtpError('Please enter your one-time verification code');
       return;
     }
-    const response = await postOTCVerification({
-      otc: code,
+    const response = await postOTPVerification({
+      otp: code,
     });
 
     if (response.error) {
-      setError(response.error);
       setApiError('API Error');
       setCode('');
       return;
@@ -75,22 +77,30 @@ const EnterOTC = () => {
     }
   };
 
-  const errorMessage = getErrorMessage(error?.code, error?.attemptsRemaining);
+  const errorMessage = getErrorMessage(
+    postOTPVerificationError?.code,
+    postOTPVerificationError?.attemptsRemaining,
+  );
   const pageTitle = getPageTitle(
     cancellationFlow,
-    error?.code === 'account_locked',
+    isAccountLockedError(postOTPVerificationError),
   );
 
-  const verificationError =
-    error?.code === 'account_locked' ? errorMessage : undefined;
-
   return (
-    <Wrapper pageTitle={pageTitle} verificationError={verificationError}>
-      {!error?.code && (
+    <Wrapper
+      pageTitle={pageTitle}
+      verificationError={
+        isAccountLockedError(postOTPVerificationError)
+          ? errorMessage
+          : undefined
+      }
+      errorAlert={isServerError(postOTPVerificationError)}
+    >
+      {!postOTPVerificationError?.code && (
         <va-alert
           status="success"
           visible
-          data-testid="enter-otc-success-alert"
+          data-testid="enter-otp-success-alert"
         >
           <p className="vads-u-margin-y--0">
             {`We just emailed a one-time verification code to ${obfuscatedEmail}.
@@ -100,27 +110,27 @@ const EnterOTC = () => {
         </va-alert>
       )}
 
-      {error?.code && (
-        <va-alert status="error" visible data-testid="enter-otc-error-alert">
+      {postOTPVerificationError?.code && (
+        <va-alert status="error" visible data-testid="enter-otp-error-alert">
           <p className="vads-u-margin-y--0">{errorMessage}</p>
         </va-alert>
       )}
       <va-text-input
         class="vads-u-margin-top--4"
         label="Enter your one-time verification code"
-        name="otc"
+        name="otp"
         value={code}
         onBlur={e => {
           if (e.target.value !== '') {
-            setOtcError('');
+            setOtpError('');
           }
         }}
         onInput={e => {
           setCode(e.target.value);
         }}
         required
-        error={otcError}
-        data-testid="otc-input"
+        error={otpError}
+        data-testid="otp-input"
         show-input-error
       />
       <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column">
@@ -137,4 +147,4 @@ const EnterOTC = () => {
   );
 };
 
-export default EnterOTC;
+export default EnterOTP;

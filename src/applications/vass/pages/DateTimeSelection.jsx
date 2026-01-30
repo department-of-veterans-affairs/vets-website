@@ -16,6 +16,7 @@ import {
   getTimezoneDescByTimeZoneString,
   getBrowserTimezone,
 } from '../utils/timezone';
+import { isNotWhithinCohortError, isServerError } from '../utils/errors';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const DateTimeSelection = () => {
   const {
     data: appointmentAvailability,
     isLoading: loading,
+    error: appointmentAvailabilityError,
   } = useGetAppointmentAvailabilityQuery(uuid);
   const [{ error, handleSetError }] = useErrorFocus([
     '.vaos-calendar__validation-msg',
@@ -70,6 +72,10 @@ const DateTimeSelection = () => {
       required
       loading={loading}
       loadingMessage="Loading appointment availability. This may take up to 30 seconds. Please don’t refresh the page."
+      errorAlert={
+        isServerError(appointmentAvailabilityError) ||
+        isNotWhithinCohortError(appointmentAvailabilityError)
+      }
     >
       <div data-testid="content">
         <p>

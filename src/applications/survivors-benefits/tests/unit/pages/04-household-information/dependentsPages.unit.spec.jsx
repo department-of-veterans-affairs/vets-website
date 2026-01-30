@@ -234,10 +234,11 @@ describe('Dependents Pages', () => {
     expect(text.getItemName(itemWithoutName)).to.equal('Dependent');
   });
 
-  it('VaForm214138Alert only displays when livesWith is explicitly false', () => {
+  it('AdditionalDependentsAlert only displays when livesWith is explicitly false', () => {
     const householdItemUi = findItemUi(dependentHousehold);
     expect(householdItemUi, 'dependentHousehold item UI not found').to.exist;
-    const alertOptions = householdItemUi.vaForm214138Alert['ui:options'];
+    const alertOptions =
+      householdItemUi.additionalDependentsAlert['ui:options'];
 
     // explicit false at item => alert visible (hideIf returns false)
     const itemFalse = { veteransChildren: [{ livesWith: false }] };

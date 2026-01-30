@@ -25,7 +25,8 @@ export default function ScheduleWithDifferentProvider({
   }
 
   // if request eligibility endpoint returns an error, ELIGIBILITY_REASONS.error
-  if (requestEligibilityError) {
+  // AND one or more providers are returned
+  if (requestEligibilityError && hasProviders) {
     return (
       <>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--2">
