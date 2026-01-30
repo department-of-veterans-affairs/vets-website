@@ -38,11 +38,24 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
+  const expectBackBreadcrumbLabel = () => {
+    SharedComponents.backBreadcrumb().then($el => {
+      const tagName = $el[0]?.tagName?.toLowerCase();
+
+      if (tagName === 'va-link') {
+        cy.wrap($el).should('have.attr', 'text', 'Back');
+        return;
+      }
+
+      cy.wrap($el).should('contain.text', 'Back');
+    });
+  };
+
   it('verify Drafts folder details', () => {
     PatientMessageDraftsPage.loadDrafts();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    expectBackBreadcrumbLabel();
     GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
@@ -53,7 +66,7 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
     PatientMessageTrashPage.loadMessages();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Trash`);
-    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+    expectBackBreadcrumbLabel();
     GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
