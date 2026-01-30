@@ -19,21 +19,17 @@ export const minDate = subYears(startOfToday(), MAX_YEARS_PAST);
  */
 export const validateDate = (errors, rawDateString = '') => {
   const date = createDateObject(rawDateString);
-  const error = errorMessages.evidence;
 
-  if (date.isInvalid) {
+  if (date.isInvalid || date.hasErrors) {
     // The va-memorable-date component currently overrides the error message
     // when the value is blank
-    errors.addError(error.blankDate);
-    date.errors.other = true; // other part error
-  } else if (date.hasErrors) {
     errors.addError(sharedErrorMessages.invalidDate);
     date.errors.other = true; // other part error
   } else if (isToday(date.dateObj) || isFuture(date.dateObj)) {
     errors.addError(errorMessages.evidence.pastDate);
     date.errors.year = true; // only the year is invalid at this point
   } else if (isBefore(date.dateObj, minDate)) {
-    errors.addError(error.newerDate);
+    errors.addError(errorMessages.evidence.newerDate);
     date.errors.year = true; // only the year is invalid at this point
   }
 
