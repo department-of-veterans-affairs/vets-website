@@ -30,6 +30,27 @@ export function sanitizeAddress(address) {
   };
 }
 
+const transformInsuranceProviderData = provider => {
+  const {
+    insurancePolicyNumber,
+    insuranceGroupCode,
+    ...remainingData
+  } = provider;
+
+  // If we have policy number or group code at the top level, move them to 'view:policyOrGroup'
+  if (insurancePolicyNumber || insuranceGroupCode) {
+    return {
+      ...remainingData,
+      'view:policyOrGroup': {
+        insurancePolicyNumber,
+        insuranceGroupCode,
+      },
+    };
+  }
+
+  return provider;
+};
+
 /**
  * Map necessary data from prefill to populate initial form data
  * NOTE: mailingAddress === veteranAddress & residentialAddress === veteranHomeAddress
@@ -90,6 +111,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
   if (veteranHomeAddress && !doesAddressMatch) {
     newData = { ...newData, veteranHomeAddress };
   }
+
+  newData.providers = newData.providers?.map(provider =>
+    transformInsuranceProviderData(provider),
+  );
 
   // Wrap necessary data in nested arrays for prefill.
   newData = wrapInSingleArray(newData, state);

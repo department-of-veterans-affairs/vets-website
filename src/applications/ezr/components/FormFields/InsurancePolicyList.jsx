@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
 import { replaceStrValues } from '../../utils/helpers/general';
@@ -21,7 +22,13 @@ const DEFAULT_STATE = {
 };
 
 // declare default component
-const InsurancePolicyList = ({ labelledBy, list, mode, onDelete }) => {
+const InsurancePolicyList = ({
+  labelledBy,
+  list,
+  mode,
+  providerErrors,
+  onDelete,
+}) => {
   const scrollIdPrefix = 'ezr-policy-item';
   const scrollId = `${scrollIdPrefix}--${window.sessionStorage.getItem(
     SESSION_ITEMS.insurance,
@@ -117,6 +124,14 @@ const InsurancePolicyList = ({ labelledBy, list, mode, onDelete }) => {
         >
           {content['insurance-policy-tile-label']} {insurancePolicyHolderName}
         </span>
+        <VaAlert
+          visible={providerErrors.includes(index)}
+          status="error"
+          className="vads-u-margin-top--2"
+        >
+          This provider is missing information. Edit and complete this
+          provider’s information before continuing.
+        </VaAlert>
         <span className="vads-l-row vads-u-justify-content--space-between vads-u-margin-top--2">
           <Link
             className="va-button-link ezr-button-link vads-u-font-weight--bold"
@@ -173,6 +188,7 @@ InsurancePolicyList.propTypes = {
   labelledBy: PropTypes.string,
   list: PropTypes.array,
   mode: PropTypes.string,
+  providerErrors: PropTypes.array,
   onDelete: PropTypes.func,
 };
 

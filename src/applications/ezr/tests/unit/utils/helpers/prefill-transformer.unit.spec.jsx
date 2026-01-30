@@ -144,7 +144,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(11);
+        expect(Object.keys(prefillData)).to.have.lengthOf(12);
         expect(Object.keys(prefillData).veteranAddress).to.not.exist;
         expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -197,7 +197,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(12);
+        expect(Object.keys(prefillData)).to.have.lengthOf(13);
         expect(prefillData.veteranAddress).to.equal(undefined);
         expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(8);
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -273,7 +273,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(13);
+          expect(Object.keys(prefillData)).to.have.lengthOf(14);
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(
             8,
@@ -350,7 +350,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(12);
+          expect(Object.keys(prefillData)).to.have.lengthOf(13);
           expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
@@ -384,7 +384,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(11);
+        expect(Object.keys(prefillData)).to.have.lengthOf(12);
       });
     });
 
@@ -538,6 +538,62 @@ describe('ezr prefill transformer', () => {
         ).to.deep.equal({
           veteranGrossIncome: 45000,
         });
+      });
+    });
+
+    context('when insurance provider information is prefilled', () => {
+      it('wraps provider Policy Numbers and Group Codes into a view group', () => {
+        const state = {
+          user: {
+            profile: {
+              vapContactInfo: {},
+            },
+          },
+          featureToggles: {
+            ezrProvidersAndDependentsPrefillEnabled: true,
+          },
+        };
+        const formDataWithProviders = {
+          ...formData,
+          providers: [
+            {
+              insuranceName: 'Cigna',
+              insurancePolicyHolderName: 'John Smith',
+              insurancePolicyNumber: '006655',
+            },
+            {
+              insuranceName: 'Aetna',
+              insurancePolicyHolderName: 'Mary Smith',
+              insuranceGroupCode: '006655',
+            },
+          ],
+        };
+
+        const { formData: prefillData } = prefillTransformer(
+          null,
+          formDataWithProviders,
+          null,
+          state,
+        );
+
+        const expectedProvider0 = {
+          insuranceName: 'Cigna',
+          insurancePolicyHolderName: 'John Smith',
+          'view:policyOrGroup': {
+            insurancePolicyNumber: '006655',
+            insuranceGroupCode: undefined,
+          },
+        };
+        const expectedProvider1 = {
+          insuranceName: 'Aetna',
+          insurancePolicyHolderName: 'Mary Smith',
+          'view:policyOrGroup': {
+            insurancePolicyNumber: undefined,
+            insuranceGroupCode: '006655',
+          },
+        };
+        expect(prefillData.providers[0]).to.deep.equal(expectedProvider0);
+        expect(prefillData.providers[1]).to.deep.equal(expectedProvider1);
       });
     });
 
