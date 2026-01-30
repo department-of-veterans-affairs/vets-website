@@ -12,7 +12,7 @@ import {
   getPhaseItemText,
   is5103Notice,
   getShowEightPhases,
-  renderDefaultThirdPartyMessage,
+  renderThirdPartyMessage,
   getDisplayFriendlyName,
   getIsDBQ,
 } from '../../utils/helpers';
@@ -212,14 +212,7 @@ export default function RecentActivity({ claim }) {
         status="info"
         slim
       >
-        {item.activityDescription ? (
-          <>
-            {item.activityDescription}
-            <br />
-          </>
-        ) : (
-          renderDefaultThirdPartyMessage(item.oldDisplayName)
-        )}
+        {renderThirdPartyMessage(item)}
         <Link
           aria-label={`About this notice for ${item.friendlyName ||
             item.displayName}`}

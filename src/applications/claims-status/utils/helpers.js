@@ -1652,8 +1652,30 @@ export const getTrackedItemDateFromStatus = item => {
   }
 };
 
-export const renderDefaultThirdPartyMessage = displayName => {
-  return displayName.toLowerCase().includes('dbq') ? (
+export const renderThirdPartyMessage = item => {
+  const isDBQ = getIsDBQ(item);
+  const hasApiContent = item.shortDescription || item.activityDescription;
+
+  // If API provides content, use it
+  if (hasApiContent) {
+    if (isDBQ) {
+      return item.shortDescription || item.activityDescription;
+    }
+
+    if (item.shortDescription) {
+      return (
+        <>
+          <strong>You don’t need to do anything.</strong>{' '}
+          {item.shortDescription}
+        </>
+      );
+    }
+
+    return item.activityDescription;
+  }
+
+  // Otherwise, use default message
+  return isDBQ ? (
     <>
       We’ve requested an exam related to your claim. The examiner’s office will
       contact you to schedule this appointment.
@@ -1666,20 +1688,6 @@ export const renderDefaultThirdPartyMessage = displayName => {
       <br />
     </>
   );
-};
-
-export const renderOverrideThirdPartyMessage = item => {
-  if (getIsDBQ(item)) {
-    return item.shortDescription || item.activityDescription;
-  }
-  if (item.shortDescription) {
-    return (
-      <>
-        <strong>You don’t need to do anything.</strong> {item.shortDescription}
-      </>
-    );
-  }
-  return item.activityDescription;
 };
 
 export const getUploadErrorMessage = (
