@@ -1,7 +1,6 @@
 import get from 'platform/utilities/data/get';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { validateIfHasEvidence } from '../validations';
+import { validateMedicalRecordsAtLeastOne } from '../validations';
 import { standardTitle } from '../content/form0781';
 
 /**
@@ -38,8 +37,8 @@ export const uiSchema = {
     'ui:required': () => true,
     'ui:validations': [
       {
-        validator: validateIfHasEvidence,
-        options: { wrappedValidator: validateBooleanGroup },
+        validator: validateMedicalRecordsAtLeastOne,
+        options: {},
       },
     ],
     'ui:errorMessages': {

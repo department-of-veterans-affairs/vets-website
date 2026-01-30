@@ -7,6 +7,11 @@ import { usePostAuthenticationMutation } from '../redux/api/vassApi';
 import { clearFormData, setFlowType } from '../redux/slices/formSlice';
 import { FLOW_TYPES, URLS } from '../utils/constants';
 import { useErrorFocus } from '../hooks/useErrorFocus';
+import {
+  isInvalidCredentialsError,
+  isRateLimitExceededError,
+  isServerError,
+} from '../utils/errors';
 
 const getPageTitle = (cancellationFlow, verificationError) => {
   if (verificationError) {
@@ -26,9 +31,6 @@ const Verify = () => {
   // Check for cancel=true URL parameter to initiate cancellation flow
   const cancellationFlow = searchParams.get('cancel') === 'true';
   const uuid = searchParams.get('uuid');
-  if (!uuid) {
-    // TODO: route to the "Something went wrong" page
-  }
 
   // Ensures a fresh start when landing on Verify page and sets the flow type
   useEffect(
@@ -81,7 +83,7 @@ const Verify = () => {
     });
     if (response.error) {
       setAuthError('error');
-      if (attemptCount === 3 || response.error.code === 'rate_limit_exceeded') {
+      if (attemptCount === 3 || isRateLimitExceededError(response.error)) {
         setVerificationError(
           'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
         );
@@ -95,12 +97,16 @@ const Verify = () => {
   const pageTitle = getPageTitle(cancellationFlow, verificationError);
 
   return (
-    <Wrapper pageTitle={pageTitle} verificationError={verificationError}>
+    <Wrapper
+      errorAlert={!uuid || isServerError(postAuthenticationError)}
+      pageTitle={pageTitle}
+      verificationError={verificationError}
+    >
       <p data-testid="verify-intro-text">
         First, we’ll need your information so we can send you a one-time
         verification code to verify your identity.
       </p>
-      {postAuthenticationError && (
+      {isInvalidCredentialsError(postAuthenticationError) && (
         <div className="vads-u-margin-bottom--2">
           <va-alert data-testid="verify-error-alert" status="error">
             We’re sorry. We couldn’t find a record that matches that last name
