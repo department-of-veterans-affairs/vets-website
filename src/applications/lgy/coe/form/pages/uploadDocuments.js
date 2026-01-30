@@ -31,21 +31,6 @@ const DocumentTypeSelect = () => {
   );
 };
 
-const getAdsmMessage = formData => {
-  if (formData?.militaryHistory?.purpleHeartRecipient) {
-    return (
-      <>
-        <p>You’ll need to upload these documents:</p>
-        <ul>
-          <li>Statement of Service</li>
-          <li>A copy of your Purple Heart certificate</li>
-        </ul>
-      </>
-    );
-  }
-  return <p>You’ll need to upload a Statement of Service.</p>;
-};
-
 const requiredDocumentMessages = {
   [serviceStatuses.VETERAN]: (
     <p>
@@ -55,7 +40,17 @@ const requiredDocumentMessages = {
   ),
   [serviceStatuses.ADSM]: formData => (
     <>
-      {getAdsmMessage(formData)}
+      {formData?.militaryHistory?.purpleHeartRecipient ? (
+        <>
+          <p>You’ll need to upload these documents:</p>
+          <ul>
+            <li>Statement of Service</li>
+            <li>A copy of your Purple Heart certificate</li>
+          </ul>
+        </>
+      ) : (
+        <p>You’ll need to upload a Statement of Service.</p>
+      )}
       <va-accordion data-testid="statement-of-service-accordion">
         <va-accordion-item open="true">
           <h3 className="vads-u-font-size--h6" slot="headline">
