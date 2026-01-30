@@ -110,6 +110,57 @@ describe('makeSchemaForNewDisabilities', () => {
 
 // demonstrates behavior of the legacy implementation of makeSchemaForRatedDisabilities
 describe('makeSchemaForRatedDisabilitiesLegacy', () => {
+  it('should not return disabilities if view:claimingIncrease is false', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': false,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Asthma',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeSchemaForRatedDisabilitiesLegacy(formData)).to.eql({
+      properties: {},
+    });
+  });
+  it('should not return disabilities if view:selected is false', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: 'Asthma',
+          'view:selected': true,
+        },
+        {
+          name: 'Bradycardia',
+          'view:selected': false,
+        },
+        {
+          name: 'Celiac Disease',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeSchemaForRatedDisabilitiesLegacy(formData)).to.eql({
+      properties: {
+        asthma: {
+          title: 'Asthma',
+          type: 'boolean',
+        },
+        celiacdisease: {
+          title: 'Celiac Disease',
+          type: 'boolean',
+        },
+      },
+    });
+  });
   it('should handle special characters in the disability name', () => {
     const formData = {
       'view:claimType': {
