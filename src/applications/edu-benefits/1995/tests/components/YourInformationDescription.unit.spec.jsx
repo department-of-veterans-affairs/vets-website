@@ -38,7 +38,7 @@ describe('YourInformationDescription component', () => {
     const wrapper = shallow(<YourInformationDescription formData={formData} />);
 
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
-      "We couldn't load your current benefit.",
+      'We don’t have a record of a last used benefit for you in our system.',
     );
     wrapper.unmount();
   });
@@ -77,13 +77,13 @@ describe('YourInformationDescription component', () => {
     const wrapper = shallow(<YourInformationDescription formData={formData} />);
 
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
-      "Dependents' Education Assistance (DEA, Chapter 35)",
+      "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
     );
     wrapper.unmount();
   });
 });
 
-describe('getBenefitLabel function', () => {
+describe('getBenefitLabel and getBenefitHeading functions', () => {
   let useSelectorStub;
 
   beforeEach(() => {
@@ -98,7 +98,7 @@ describe('getBenefitLabel function', () => {
   // Since getBenefitLabel is not exported, we need to test it through the component
   // or we can add export for testing purposes
 
-  it('should return the correct label for a valid benefit type (chapter33)', () => {
+  it('should return the correct label and header for a valid benefit type (chapter33)', () => {
     const formData = {
       currentBenefitType: 'chapter33',
     };
@@ -108,10 +108,13 @@ describe('getBenefitLabel function', () => {
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
       'Post-9/11 GI Bill (PGIB, Chapter 33)',
     );
+    expect(wrapper.find('.usa-summary-box__heading').text()).to.equal(
+      'Your current benefit',
+    );
     wrapper.unmount();
   });
 
-  it('should return a default message when benefitType is null', () => {
+  it('should return the default label and header when benefitType is null', () => {
     const formData = {
       currentBenefitType: null,
     };
@@ -119,12 +122,15 @@ describe('getBenefitLabel function', () => {
     const wrapper = shallow(<YourInformationDescription formData={formData} />);
 
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
-      "We couldn't load your current benefit.",
+      'We don’t have a record of a last used benefit for you in our system.',
+    );
+    expect(wrapper.find('.usa-summary-box__heading').text()).to.equal(
+      'No last used benefit to show',
     );
     wrapper.unmount();
   });
 
-  it('should return a default message when benefitType is undefined', () => {
+  it('should return the default label and header when benefitType is undefined', () => {
     const formData = {
       currentBenefitType: undefined,
     };
@@ -132,7 +138,10 @@ describe('getBenefitLabel function', () => {
     const wrapper = shallow(<YourInformationDescription formData={formData} />);
 
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
-      "We couldn't load your current benefit.",
+      'We don’t have a record of a last used benefit for you in our system.',
+    );
+    expect(wrapper.find('.usa-summary-box__heading').text()).to.equal(
+      'No last used benefit to show',
     );
     wrapper.unmount();
   });
@@ -147,10 +156,13 @@ describe('getBenefitLabel function', () => {
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
       'UNKNOWN_BENEFIT_TYPE',
     );
+    expect(wrapper.find('.usa-summary-box__heading').text()).to.equal(
+      'Your current benefit',
+    );
     wrapper.unmount();
   });
 
-  it('should return correct label for chapter30 benefit type', () => {
+  it('should return correct label and header for chapter30 benefit type', () => {
     const formData = {
       currentBenefitType: 'chapter30',
     };
@@ -160,10 +172,13 @@ describe('getBenefitLabel function', () => {
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
       'Montgomery GI Bill (MGIB-AD, Chapter 30)',
     );
+    expect(wrapper.find('.usa-summary-box__heading').text()).to.equal(
+      'Your current benefit',
+    );
     wrapper.unmount();
   });
 
-  it('should return correct label for chapter1606 benefit type', () => {
+  it('should return correct label and header for chapter1606 benefit type', () => {
     const formData = {
       currentBenefitType: 'chapter1606',
     };
@@ -173,10 +188,13 @@ describe('getBenefitLabel function', () => {
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
       'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
     );
+    expect(wrapper.find('.usa-summary-box__heading').text()).to.equal(
+      'Your current benefit',
+    );
     wrapper.unmount();
   });
 
-  it('should return correct label for CH33_FRY benefit type', () => {
+  it('should return correct label and header for CH33_FRY benefit type', () => {
     const formData = {
       currentBenefitType: 'CH33_FRY',
     };
@@ -186,10 +204,13 @@ describe('getBenefitLabel function', () => {
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
       'Fry Scholarship (Chapter 33)',
     );
+    expect(wrapper.find('.usa-summary-box__heading').text()).to.equal(
+      'Your current benefit',
+    );
     wrapper.unmount();
   });
 
-  it('should return correct label for legacy transferOfEntitlement benefit type', () => {
+  it('should return correct label and header for legacy transferOfEntitlement benefit type', () => {
     const formData = {
       currentBenefitType: 'transferOfEntitlement',
     };
@@ -198,6 +219,9 @@ describe('getBenefitLabel function', () => {
 
     expect(wrapper.find('.usa-summary-box__text p').text()).to.equal(
       'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
+    );
+    expect(wrapper.find('.usa-summary-box__heading').text()).to.equal(
+      'Your current benefit',
     );
     wrapper.unmount();
   });

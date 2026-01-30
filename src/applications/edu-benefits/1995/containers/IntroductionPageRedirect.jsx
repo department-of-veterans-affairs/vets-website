@@ -17,6 +17,9 @@ export const IntroductionPageRedirect = ({ route, router }) => {
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
+    const signInAlert = document.querySelector('va-alert-sign-in');
+    if (!signInAlert) return;
+
     const updateSignInAlertCopy = async () => {
       const alertContent = await querySelectorWithShadowRoot(
         '.va-alert-sign-in__body',
