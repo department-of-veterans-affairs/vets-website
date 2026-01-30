@@ -10,6 +10,24 @@ import { serviceStatuses } from '../constants';
 import { DOCUMENT_TYPES, FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 
+const adsmMultiple = (
+  <>
+    <p>You’ll need to upload these documents:</p>
+    <ul>
+      <li>Statement of Service</li>
+      <li>A copy of your Purple Heart certificate</li>
+    </ul>
+  </>
+);
+
+const adsmSingle = <p>You’ll need to upload a Statement of Service.</p>;
+
+const getAdsmMessage = formData => {
+  return formData?.militaryHistory?.purpleHeartRecipient
+    ? adsmMultiple
+    : adsmSingle;
+};
+
 const requiredDocumentMessages = {
   [serviceStatuses.VETERAN]: (
     <p>
@@ -17,10 +35,10 @@ const requiredDocumentMessages = {
       (DD214) showing character of service.
     </p>
   ),
-  [serviceStatuses.ADSM]: (
+  [serviceStatuses.ADSM]: formData => (
     <>
-      <p>You’ll need to upload a Statement of Service.</p>
-      <va-accordion>
+      {getAdsmMessage(formData)}
+      <va-accordion data-testid="statement-of-service-accordion">
         <va-accordion-item open="true">
           <h3 className="vads-u-font-size--h6" slot="headline">
             Service Statement
@@ -82,10 +100,10 @@ const requiredDocumentMessages = {
 };
 
 export const getUiSchema = () => ({
-  ...titleUI(
-    'Upload your documents',
-    ({ formData }) => requiredDocumentMessages[formData.identity] || null,
-  ),
+  ...titleUI('Upload your documents', ({ formData }) => {
+    const message = requiredDocumentMessages[formData.identity];
+    return typeof message === 'function' ? message(formData) : message || null;
+  }),
   files2: fileInputMultipleUI({
     title: 'Upload your documents',
     required: true,
