@@ -28,7 +28,7 @@ const Review = () => {
     if (res.error) {
       return;
     }
-    navigate(`${URLS.CONFIRMATION}/${res.data?.appointmentId}`);
+    navigate(`${URLS.CONFIRMATION}/${res.data.appointmentId}`);
   };
 
   return (
