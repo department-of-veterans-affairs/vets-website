@@ -63,11 +63,11 @@ const HowDoIDispute = () => {
           <p>Send your written statement to this address:</p>
           <p className="va-address-block vads-u-margin-left--4 vads-u-margin-bottom--0">
             U.S. Department of Veterans Affairs
-            <br />
+            <br aria-hidden="true" />
             Debt Management Center
-            <br />
+            <br aria-hidden="true" />
             PO Box 11930
-            <br />
+            <br aria-hidden="true" />
             St. Paul, MN 55111
           </p>
         </va-accordion-item>
