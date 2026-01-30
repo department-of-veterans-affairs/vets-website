@@ -54,7 +54,7 @@ const ApplicantContactInfoLoggedIn = ({
         class="vads-u-margin-y--1"
         status="success"
       >
-        <h2 slot="headline">We've updated your {text}</h2>
+        <h2 slot="headline">We’ve updated your {text}</h2>
         <p className="vads-u-margin-y--0">
           {isUpdated
             ? `We’ve made these changes to this form and your VA.gov profile.`

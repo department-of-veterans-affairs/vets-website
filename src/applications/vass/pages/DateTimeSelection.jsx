@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { focusElement } from 'platform/utilities/ui/focus';
 import CalendarWidget from 'platform/shared/calendar/CalendarWidget';
+
 import Wrapper from '../layout/Wrapper';
 import {
   setSelectedDate,
@@ -10,9 +10,13 @@ import {
   selectUuid,
 } from '../redux/slices/formSlice';
 import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
-
+import { useErrorFocus } from '../hooks/useErrorFocus';
 import { mapAppointmentAvailabilityToSlots } from '../utils/slots';
-import { getTimezoneDescByTimeZoneString } from '../utils/timezone';
+import {
+  getTimezoneDescByTimeZoneString,
+  getBrowserTimezone,
+} from '../utils/timezone';
+import { isNotWhithinCohortError, isServerError } from '../utils/errors';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();
@@ -22,28 +26,19 @@ const DateTimeSelection = () => {
   const {
     data: appointmentAvailability,
     isLoading: loading,
+    error: appointmentAvailabilityError,
   } = useGetAppointmentAvailabilityQuery(uuid);
+  const [{ error, handleSetError }] = useErrorFocus([
+    '.vaos-calendar__validation-msg',
+  ]);
 
-  // TODO: determine what timezone to use
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const timezone = getBrowserTimezone();
 
   const slots = mapAppointmentAvailabilityToSlots(appointmentAvailability);
-
-  // Add a counter state to trigger focusing
-  const [focusTrigger, setFocusTrigger] = useState(0);
-
-  // State for managing errors
-  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
-
-  // Check if a date/time has been selected
-  const showValidationError = hasAttemptedSubmit && !selectedDate;
 
   // This is for loading not sure if we will need it
   const disabledMessage = null;
 
-  const errorMessage = showValidationError
-    ? 'Please select a preferred date and time for your appointment.'
-    : '';
   const latestAvailableSlot = new Date(slots[slots.length - 1]?.end);
 
   const onChange = selectedDateTimes => {
@@ -56,33 +51,18 @@ const DateTimeSelection = () => {
     }
     // Update selected dates and clear any previous error state
     dispatch(setSelectedDate(selectedSlotTime));
-    setHasAttemptedSubmit(false);
+    handleSetError('');
   };
 
   const handleContinue = () => {
     if (!selectedDate) {
-      // Set error state if no date/time is selected
-      setHasAttemptedSubmit(true);
-      // Increment the focus trigger to force re-focusing the validation message
-      setFocusTrigger(prev => prev + 1);
+      handleSetError(
+        'Please select a preferred date and time for your appointment.',
+      );
       return;
     }
-    // Save date selection and proceed to next page if validation passes
     navigate('/topic-selection');
   };
-
-  // Effect to focus on validation message whenever error state changes
-  useEffect(
-    () => {
-      if (showValidationError) {
-        // Focus on the error message when validation error is shown
-        setTimeout(() => {
-          focusElement('.vaos-calendar__validation-msg');
-        }, 100);
-      }
-    },
-    [showValidationError, focusTrigger],
-  );
 
   return (
     <Wrapper
@@ -92,6 +72,10 @@ const DateTimeSelection = () => {
       required
       loading={loading}
       loadingMessage="Loading appointment availability. This may take up to 30 seconds. Please don’t refresh the page."
+      errorAlert={
+        isServerError(appointmentAvailabilityError) ||
+        isNotWhithinCohortError(appointmentAvailabilityError)
+      }
     >
       <div data-testid="content">
         <p>
@@ -120,9 +104,9 @@ const DateTimeSelection = () => {
         minDate={new Date()}
         maxDate={latestAvailableSlot}
         required
-        requiredMessage={errorMessage}
+        requiredMessage={error}
         startMonth={new Date()}
-        showValidation={showValidationError}
+        showValidation={!!error}
         showWeekends
         overrideMaxDays
       />

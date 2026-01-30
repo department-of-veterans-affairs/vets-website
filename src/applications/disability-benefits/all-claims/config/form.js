@@ -23,6 +23,7 @@ import {
   capitalizeEachWord,
   getPageTitle,
   hasGuardOrReservePeriod,
+  hasMedicalRecords,
   hasNewPtsdDisability,
   hasOtherEvidence,
   hasPrivateEvidence,
@@ -32,6 +33,7 @@ import {
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
+  isEvidenceEnhancement,
   isNewConditionsOn,
   isNewConditionsOff,
   isNotUploadingPrivateMedical,
@@ -48,6 +50,7 @@ import {
   showSeparationLocation,
   isCompletingModern4142,
   onFormLoaded,
+  hasEvidenceChoice,
 } from '../utils';
 
 import { gatePages } from '../utils/gatePages';
@@ -67,13 +70,16 @@ import {
   choosePtsdType,
   claimExamsInfo,
   contactInformation,
+  evidenceRequest,
   evidenceTypes,
   evidenceTypesBDD,
+  evidenceChoiceIntro,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
+  medicalRecords,
   mentalHealthChanges,
   militaryHistory,
   newPTSDFollowUp,
@@ -608,9 +614,30 @@ const formConfig = {
         evidenceTypes: {
           title: 'Types of supporting evidence',
           path: 'supporting-evidence/evidence-types',
-          depends: formData => !isBDD(formData),
+          depends: formData =>
+            !isBDD(formData) && !isEvidenceEnhancement(formData),
+          updateFormData: evidenceTypes.updateFormData,
           uiSchema: evidenceTypes.uiSchema,
           schema: evidenceTypes.schema,
+        },
+        evidenceRequest: {
+          title: 'Medical records that support your disability claim',
+          path: 'supporting-evidence/evidence-request',
+          depends: formData =>
+            !isBDD(formData) && isEvidenceEnhancement(formData),
+          uiSchema: evidenceRequest.uiSchema,
+          schema: evidenceRequest.schema,
+        },
+        medicalRecords: {
+          title: 'Types of medical records',
+          path: 'supporting-evidence/medical-records',
+          depends: formData =>
+            !isBDD(formData) &&
+            isEvidenceEnhancement(formData) &&
+            hasMedicalRecords(formData),
+          updateFormData: medicalRecords.updateFormData,
+          uiSchema: medicalRecords.uiSchema,
+          schema: medicalRecords.schema,
         },
         evidenceTypesBDD: {
           title: 'Types of supporting evidence for BDD',
@@ -671,6 +698,26 @@ const formConfig = {
             },
           },
           schema: privateMedicalRecordsRelease.schema,
+        },
+        evidenceChoiceIntro: {
+          title:
+            'Supporting documents and additional forms for your disability claim',
+          depends: formData =>
+            formData.disability526SupportingEvidenceEnhancement,
+          // TODO: update this path to `'supporting-evidence/additional-evidence', once we can get rid of `additionalDocuments` page
+          path: 'supporting-evidence/additional-evidence-intro',
+          uiSchema: evidenceChoiceIntro.uiSchema,
+          schema: evidenceChoiceIntro.schema,
+        },
+        evidenceChoiceAdditionalDocuments: {
+          title: 'Non-VA treatment records you uploaded',
+          // NOTE: a temporary copy of `additionalDocuments` for testing purposes
+          path: 'supporting-evidence/additional-evidence-enhancement',
+          depends: formData =>
+            hasEvidenceChoice(formData) &&
+            formData.disability526SupportingEvidenceEnhancement,
+          uiSchema: additionalDocuments.uiSchema,
+          schema: additionalDocuments.schema,
         },
         additionalDocuments: {
           title: 'Non-VA treatment records you uploaded',
