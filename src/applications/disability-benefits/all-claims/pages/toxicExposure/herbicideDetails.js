@@ -18,6 +18,7 @@ import { validateToxicExposureDates } from '../../utils/validations';
 import { validateApproximateMonthYearDate } from '../../utils/dates';
 import {
   ForceFieldBlur,
+  makeDateConfirmationField,
   monthYearDateSchemaWithFullDateSupport,
 } from './utils';
 
@@ -52,6 +53,9 @@ function makeUiSchema(locationId) {
               required: 'Please enter a date',
             },
             'ui:reviewField': reviewDateField,
+            'ui:confirmationField': makeDateConfirmationField(
+              startDateApproximate,
+            ),
           },
           endDate: {
             ...currentOrPastMonthYearDateUI({
@@ -65,6 +69,9 @@ function makeUiSchema(locationId) {
               required: 'Please enter a date',
             },
             'ui:reviewField': reviewDateField,
+            'ui:confirmationField': makeDateConfirmationField(
+              endDateApproximate,
+            ),
           },
           'ui:validations': [validateToxicExposureDates],
           'view:notSure': {

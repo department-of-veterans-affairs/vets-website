@@ -83,6 +83,8 @@ export const toxicExposurePages = {
         getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
         getOtherFieldDescription(formData, 'otherHerbicideLocations'),
       ),
+    reviewTitle: ({ formData }) =>
+      getOtherFieldDescription(formData, 'otherHerbicideLocations'),
     path: `${TE_URL_PREFIX}/herbicide-location-other`,
     depends: formData =>
       isClaimingTECondition(formData) &&
@@ -114,6 +116,8 @@ export const toxicExposurePages = {
         getOtherFieldDescription(formData, 'specifyOtherExposures'),
         'Hazard',
       ),
+    reviewTitle: ({ formData }) =>
+      getOtherFieldDescription(formData, 'specifyOtherExposures'),
     path: `${TE_URL_PREFIX}/additional-exposure-other`,
     depends: formData =>
       isClaimingTECondition(formData) &&
