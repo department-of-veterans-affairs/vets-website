@@ -43,7 +43,7 @@ export const getContestableIssues = props => {
             ratingIssuePercentNumber: '10',
             description:
               'Ringing in ears. Decision made today - should be blocked from appeal.',
-            approxDecisionDate: '2026-01-15', // TODAY - triggers blocking
+            approxDecisionDate: '2026-01-30', // TODAY - triggers blocking
           },
         },
 
@@ -56,7 +56,7 @@ export const getContestableIssues = props => {
             ratingIssuePercentNumber: '20',
             description:
               'Lower back pain. Decision made today - should also be blocked.',
-            approxDecisionDate: '2026-01-15', // TODAY - triggers blocking
+            approxDecisionDate: '2026-01-30', // TODAY - triggers blocking
           },
         },
 

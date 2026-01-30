@@ -59,9 +59,12 @@ export const getBlockedMessage = blockedIssues => {
   const issueNames = extractIssueNames(blockedIssues);
   const isSingle = issueNames.length === 1;
   const decisionDate = getDecisionDate(blockedIssues[0]);
-  const availableDateTime = getAvailableDateTimeForBlockedIssue(
-    new Date(decisionDate),
-  );
+
+  // Parse as local date: split the ISO string and construct Date in local timezone
+  const [year, month, day] = decisionDate.split('-').map(Number);
+  const localDate = new Date(year, month - 1, day); // month is 0-indexed
+
+  const availableDateTime = getAvailableDateTimeForBlockedIssue(localDate);
 
   return `We're sorry. Your ${formatIssueList(issueNames)} ${
     isSingle ? 'issue' : 'issues'
