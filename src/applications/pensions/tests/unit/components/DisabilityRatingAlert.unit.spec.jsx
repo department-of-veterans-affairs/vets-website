@@ -46,11 +46,8 @@ describe('DisabilityRatingAlert component', () => {
     const { container, getByText } = render(<DisabilityRatingAlert />);
 
     await waitFor(() => {
-      expect(
-        getByText(
-          /You’re unlikely to get a higher payment from a Veterans Pension/i,
-        ),
-      ).to.exist;
+      expect(getByText(/Applying likely won’t increase your monthly payments/i))
+        .to.exist;
       expect(ddLoggerStub.called).to.be.true;
       expect(ddLoggerStub.args[0][0]).to.deep.equal({
         message: 'Pension disability rating alert visible for 100 rating',
@@ -101,11 +98,8 @@ describe('DisabilityRatingAlert component', () => {
     const { container, getByText } = render(<DisabilityRatingAlert />);
 
     await waitFor(() => {
-      expect(
-        getByText(
-          /A 100% disability rating pays more than a Veterans Pension/i,
-        ),
-      ).to.exist;
+      expect(getByText(/Consider your disability rating before you apply/i)).to
+        .exist;
       expect(ddLoggerStub.args[0][0]).to.deep.equal({
         message: 'Pension disability rating fetch error',
         attributes: {

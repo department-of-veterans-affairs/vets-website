@@ -3,7 +3,7 @@ import React from 'react';
 import { isBefore, parseISO } from 'date-fns';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
-  scrubDescription,
+  formatDescription,
   buildDateFormatter,
   getDisplayFriendlyName,
 } from '../../utils/helpers';
@@ -31,7 +31,7 @@ export default function DefaultPage({
   const frontendDescription = frontendContentOverride?.longDescription;
   const frontendNextSteps = frontendContentOverride?.nextSteps;
   const frontendNoActionNeeded = frontendContentOverride?.noActionNeeded;
-  const apiDescription = scrubDescription(item.description);
+  const apiDescription = formatDescription(item.description);
   const isFirstParty = item.status === 'NEEDED_FROM_YOU';
   const isThirdParty = item.status === 'NEEDED_FROM_OTHERS';
 
@@ -184,7 +184,7 @@ export default function DefaultPage({
             className="vads-u-margin-bottom--4"
             data-testid="api-description"
           >
-            <p className="vads-u-margin-y--2">{apiDescription}</p>
+            {apiDescription}
           </div>
         )}
       {isFirstParty &&

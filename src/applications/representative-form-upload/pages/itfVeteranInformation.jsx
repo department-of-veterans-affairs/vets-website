@@ -46,6 +46,9 @@ export const itfVeteranInformationPage = {
     vaFileNumber: {
       ...vaFileNumberUI,
       'ui:title': 'VA file number',
+      'ui:errorMessages': {
+        pattern: 'Your VA file number must be 8 or 9 digits',
+      },
     },
     benefitType: radioUI({
       title: 'Select the benefit you intend to file a claim for',

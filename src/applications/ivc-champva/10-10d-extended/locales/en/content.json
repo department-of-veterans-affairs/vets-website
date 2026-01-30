@@ -21,6 +21,8 @@
   "arraybuilder--button-cancel-yes": "Yes, cancel",
   "arraybuilder--button-delete-no": "No, keep",
   "arraybuilder--button-delete-yes": "Yes, delete",
+  "attachments--button-text": "Upload file",
+  "attachments--hint-text": "Upload front and back as separate files.",
   "button--edit": "Edit",
   "button--update-page": "Update page",
   "dates--default-label": "Date",

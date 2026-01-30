@@ -358,6 +358,7 @@ export function selectPatientProviderRelationships(state) {
     patientProviderRelationships: newAppointment.patientProviderRelationships,
     patientProviderRelationshipsStatus:
       newAppointment.patientProviderRelationshipsStatus,
+    backendServiceFailures: newAppointment.backendServiceFailures,
   };
 }
 

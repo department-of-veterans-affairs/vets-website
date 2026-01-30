@@ -7,7 +7,7 @@ import Confirmation from '../pages/Confirmation';
 import CancelAppointment from '../pages/CancelAppointment';
 import CancelAppointmentConfirmation from '../pages/CancelConfirmation';
 import AlreadyScheduled from '../pages/AlreadyScheduled';
-import { AUTH_LEVELS, URLS } from './constants';
+import { AUTH_LEVELS, FLOW_TYPES, URLS } from './constants';
 
 /**
  * @typedef {Object} RoutePermissions
@@ -23,6 +23,8 @@ import { AUTH_LEVELS, URLS } from './constants';
  * @property {string} path - The URL path for the route. Supports dynamic segments (e.g., ':appointmentId').
  * @property {React.ComponentType} component - The React component to render for this route.
  * @property {RoutePermissions} permissions - Authorization and form data requirements for the route.
+ * @property {'schedule'|'cancel'|'any'} flowType - Which user flow can access this route.
+ *   'schedule' = only scheduling flow, 'cancel' = only cancellation flow, 'any' = both flows allowed.
  * @property {string[]} [setsData] - Optional array of form data field names that this route's component
  *   is responsible for setting. Used for documentation purposes to track data flow between routes.
  */
@@ -45,24 +47,28 @@ export const routes = [
     permissions: {
       requiresAuthorization: AUTH_LEVELS.NONE,
     },
+    flowType: FLOW_TYPES.ANY, // Entry point for both flows
     setsData: ['uuid', 'lastname', 'dob', 'obfuscatedEmail'],
   },
-  // Low auth routes - require form data but redirect if user already has token
+  // Low auth routes - require form data
   {
     path: URLS.ENTER_OTC,
     component: EnterOTC,
     permissions: {
-      requiresAuthorization: AUTH_LEVELS.LOW_AUTH_ONLY,
+      requiresAuthorization: AUTH_LEVELS.NONE,
       requireFormData: ['uuid', 'lastname', 'dob', 'obfuscatedEmail'],
     },
+    flowType: FLOW_TYPES.ANY, // Both flows go through OTC verification
   },
   // Protected routes (require token)
+  // Schedule Flow Routes
   {
     path: URLS.DATE_TIME,
     component: DateTimeSelection,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
+    flowType: FLOW_TYPES.SCHEDULE,
     setsData: ['selectedDate'],
   },
   {
@@ -71,6 +77,7 @@ export const routes = [
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
+    flowType: FLOW_TYPES.SCHEDULE,
     setsData: ['selectedTopics'],
   },
   {
@@ -88,6 +95,7 @@ export const routes = [
         'obfuscatedEmail',
       ],
     },
+    flowType: FLOW_TYPES.SCHEDULE,
   },
   {
     path: `${URLS.CONFIRMATION}/:appointmentId`,
@@ -95,27 +103,32 @@ export const routes = [
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
+    flowType: FLOW_TYPES.SCHEDULE,
   },
+  // Cancel Appointment Routes
   {
     path: `${URLS.CANCEL_APPOINTMENT}/:appointmentId`,
     component: CancelAppointment,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
+    flowType: FLOW_TYPES.CANCEL,
   },
   {
-    path: URLS.CANCEL_APPOINTMENT_CONFIRMATION,
+    path: `${URLS.CANCEL_APPOINTMENT_CONFIRMATION}/:appointmentId`,
     component: CancelAppointmentConfirmation,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
+    flowType: FLOW_TYPES.CANCEL,
   },
   {
-    path: URLS.ALREADY_SCHEDULED,
+    path: `${URLS.ALREADY_SCHEDULED}/:appointmentId`,
     component: AlreadyScheduled,
     permissions: {
       requiresAuthorization: AUTH_LEVELS.TOKEN,
     },
+    flowType: FLOW_TYPES.SCHEDULE,
   },
 ];
 
