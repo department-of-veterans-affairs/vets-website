@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   titleUI,
@@ -9,6 +10,30 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import { serviceStatuses } from '../constants';
 import { DOCUMENT_TYPES, FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
+
+const getRequiredDocumentTypes = formData => {
+  if (
+    formData?.identity === serviceStatuses.ADSM &&
+    formData?.militaryHistory?.purpleHeartRecipient
+  ) {
+    return ['Statement of service', 'Purple Heart Certificate'];
+  }
+  return DOCUMENT_TYPES;
+};
+
+const DocumentTypeSelect = () => {
+  const formData = useSelector(state => state?.form?.data);
+  const documentTypes = getRequiredDocumentTypes(formData);
+  return (
+    <VaSelect required label="Document type" name="attachmentType">
+      {documentTypes.map(type => (
+        <option key={type} value={type}>
+          {type}
+        </option>
+      ))}
+    </VaSelect>
+  );
+};
 
 const adsmMultiple = (
   <>
@@ -119,24 +144,7 @@ export const getUiSchema = () => ({
       additionalInput: 'Choose a document type',
     },
     additionalInputRequired: true,
-    additionalInput: (error, data) => {
-      const { attachmentType } = data || {};
-      return (
-        <VaSelect
-          required
-          error={error}
-          value={attachmentType}
-          label="Document type"
-          name="attachmentType"
-        >
-          {DOCUMENT_TYPES.map(type => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </VaSelect>
-      );
-    },
+    additionalInput: () => <DocumentTypeSelect />,
     additionalInputUpdate: (instance, error, data) => {
       instance.setAttribute('error', error);
       if (data?.attachmentType) {
