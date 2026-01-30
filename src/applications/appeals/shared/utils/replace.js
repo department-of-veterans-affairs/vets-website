@@ -1,5 +1,5 @@
-import { REGEXP } from '../constants';
 import { coerceStringValue } from '.';
+import { REGEXP } from '../constants';
 
 /** Replace "percent" with "%" - see va.gov-team/issues/34810
  * Include spacing in regexp so:
