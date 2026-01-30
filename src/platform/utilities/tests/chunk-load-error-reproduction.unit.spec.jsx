@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, act } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -68,13 +68,17 @@ describe('ChunkLoadError Reproduction', () => {
       // Standard React.lazy - current implementation across the codebase
       const LazyComponent = React.lazy(flakyImport);
 
-      const { getByTestId } = render(
-        <TestErrorBoundary fallbackTestId="error-boundary">
-          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-            <LazyComponent />
-          </Suspense>
-        </TestErrorBoundary>,
-      );
+      let getByTestId;
+      await act(async () => {
+        const result = render(
+          <TestErrorBoundary fallbackTestId="error-boundary">
+            <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+              <LazyComponent />
+            </Suspense>
+          </TestErrorBoundary>,
+        );
+        getByTestId = result.getByTestId;
+      });
 
       // Wait for error boundary to catch the failure
       await waitFor(() => {
@@ -117,11 +121,15 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
-      const { getByTestId } = render(
-        <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-          <LazyComponent />
-        </Suspense>,
-      );
+      let getByTestId;
+      await act(async () => {
+        const result = render(
+          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+            <LazyComponent />
+          </Suspense>,
+        );
+        getByTestId = result.getByTestId;
+      });
 
       // Should eventually succeed after retry
       await waitFor(
@@ -154,13 +162,17 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
-      const { getByTestId } = render(
-        <TestErrorBoundary fallbackTestId="final-error">
-          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-            <LazyComponent />
-          </Suspense>
-        </TestErrorBoundary>,
-      );
+      let getByTestId;
+      await act(async () => {
+        const result = render(
+          <TestErrorBoundary fallbackTestId="final-error">
+            <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+              <LazyComponent />
+            </Suspense>
+          </TestErrorBoundary>,
+        );
+        getByTestId = result.getByTestId;
+      });
 
       await waitFor(
         () => {

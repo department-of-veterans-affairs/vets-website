@@ -167,6 +167,8 @@ export const createPayload = (file, formId, password) => {
 export function parseResponse({ data }) {
   const { name } = data.attributes;
   const focusFileCard = () => {
+    // Guard against document being undefined if component unmounts before timeout fires
+    if (typeof document === 'undefined') return;
     const target = $$('.schemaform-file-list li').find(entry =>
       entry.textContent?.trim().includes(name),
     );
