@@ -157,7 +157,7 @@ describe('Medications Prescriptions container', () => {
     });
 
     await waitFor(() => {
-      expect(screen.queryByTestId('alert-banner')).not.to.exist;
+      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
       expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
     });
   });

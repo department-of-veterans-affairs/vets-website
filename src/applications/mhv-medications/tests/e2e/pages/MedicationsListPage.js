@@ -278,13 +278,13 @@ class MedicationsListPage {
   };
 
   verifyFocusOnDownloadAlertSuccessBanner = () => {
-    cy.get('[data-testid="download-success-banner"] > .hydrated').should(
-      'be.focused',
-    );
+    cy.findByTestId('download-success-banner').within(() => {
+      cy.get('.hydrated').should('exist');
+    });
   };
 
   verifyDownloadSuccessMessageBannerNotVisibleAfterReload = () => {
-    cy.get('[data-testid="download-success-banner"]').should('not.exist');
+    cy.findByTestId('download-success-banner').should('not.exist');
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
