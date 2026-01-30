@@ -8,24 +8,31 @@ import { HAS_PRIVATE_LIMITATION } from '../constants';
 
 export const promptQuestion =
   'Do you want to limit consent for the information requested?';
+export const requiredError = 'Select if you want to limit consent';
 
 export default {
   uiSchema: {
-    [HAS_PRIVATE_LIMITATION]: yesNoUI({
-      title: promptQuestion,
-      enableAnalytics: true,
-      labelHeaderLevel: '3',
-      labels: {
-        Y: 'Yes',
-        N: 'No',
-      },
-      hideOnReview: true,
-      updateUiSchema: () => ({
-        'ui:options': {
-          labelHeaderLevel: isOnReviewPage() ? 4 : 3,
+    [HAS_PRIVATE_LIMITATION]: {
+      ...yesNoUI({
+        title: promptQuestion,
+        enableAnalytics: true,
+        labelHeaderLevel: '3',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
         },
+        hideOnReview: true,
+        updateUiSchema: () => ({
+          'ui:options': {
+            labelHeaderLevel: isOnReviewPage() ? 4 : 3,
+          },
+        }),
       }),
-    }),
+      'ui:required': formData => formData?.showArrayBuilder,
+      'ui:errorMessages': {
+        required: requiredError,
+      },
+    },
     'view:evidenceLimitInfo': {
       'ui:description': (
         <va-additional-info

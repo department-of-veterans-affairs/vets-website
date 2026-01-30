@@ -76,7 +76,7 @@ describe('PrivateDetailsDisplayNew', () => {
   describe('when on the app review page', () => {
     const evidenceWithAuthAndLc = {
       privateEvidence,
-      auth4142: true,
+      privacyAgreementAccepted: true,
       lcDetails,
       lcPrompt: 'Y',
     };
@@ -150,7 +150,7 @@ describe('PrivateDetailsDisplayNew', () => {
   describe('when on the confirmation page', () => {
     const evidenceWithAuthAndLc = {
       privateEvidence,
-      auth4142: true,
+      privacyAgreementAccepted: true,
       lcDetails,
       lcPrompt: 'Y',
     };
@@ -232,7 +232,7 @@ describe('PrivateDetailsDisplayNew', () => {
             ...dataToReplace,
           },
         ],
-        auth4142: true,
+        privacyAgreementAccepted: true,
         lcDetails,
         lcPrompt: 'Y',
       };
@@ -309,7 +309,7 @@ describe('PrivateDetailsDisplayNew', () => {
     const handlers = { showModal: removeSpy };
     const evidenceWithAuthAndLc = {
       privateEvidence,
-      auth4142: true,
+      privacyAgreementAccepted: true,
       lcDetails,
       lcPrompt: 'Y',
     };

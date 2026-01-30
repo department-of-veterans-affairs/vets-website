@@ -15,7 +15,7 @@ describe('Supplemental Claims Limited Consent Details page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.evidence.pages.limitedConsentDetailsOld;
+  } = formConfig.chapters.evidence.pages.limitedConsentDetails;
 
   it('should render', () => {
     const { container } = render(

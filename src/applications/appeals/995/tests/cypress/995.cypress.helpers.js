@@ -62,19 +62,29 @@ export const ADDTL_EVIDENCE_RADIO = '[name="root_view:hasOtherEvidence"]';
 export const MST_RADIO = '[name="root_mstOption"]';
 export const MST_OPTION_RADIO = '[name="root_optionIndicator"]';
 
-// VA location inputs
+// VA evidence selectors
+export const VA_EVIDENCE_PROMPT_RADIOS = '[name="root_hasVaEvidence"]';
 export const VA_EVIDENCE_FACILITY_NAME_INPUT = '[name="name"]';
 export const VA_EVIDENCE_ISSUES_CHECKBOXES = '[name="issues"]';
 export const VA_EVIDENCE_TREATMENT_YEAR = '[name="txdateYear"]';
+export const VA_EVIDENCE_LOCATION = 'root_vaTreatmentLocation';
+export const VA_EVIDENCE_LOCATION_WITH_NAME =
+  '[name="root_vaTreatmentLocation"]';
 
-// Non-VA location auth & inputs
+// Private evidence selectors
 export const PRIVACY_MODAL_TRIGGER_1_ID = 'privacy-modal-button-1';
 export const PRIVACY_MODAL_TRIGGER_1_BUTTON = `[id="${PRIVACY_MODAL_TRIGGER_1_ID}"]`;
 export const PRIVACY_MODAL_TITLE =
   'va-modal[modal-title="Privacy Act Statement"]';
 export const PRIVACY_AGREEMENT_CHECKBOX = 'input[name="privacy-agreement"]';
-export const LIMITED_CONSENT_RADIOS = '[name="root_view:hasPrivateLimitation"]';
-export const LIMITED_CONSENT_TEXTAREA = '[name="root_limitedConsent"]';
+export const PRIVATE_TREATMENT_LOCATION = 'root_privateTreatmentLocation';
+export const PRIVATE_TREATMENT_LOCATION_WITH_NAME = `[name="${PRIVATE_TREATMENT_LOCATION}"]`;
+export const PRIVATE_TREATMENT_START = '[name="root_treatmentStart"]';
+export const PRIVATE_TREATMENT_END = '[name="root_treatmentEnd"]';
+export const LC_RADIOS = 'root_view:hasPrivateLimitation';
+export const LC_RADIOS_WITH_NAME = `[name="${LC_RADIOS}"]`;
+export const LC_DETAILS = 'root_limitedConsent';
+export const LC_DETAILS_WITH_NAME = `[name="${LC_DETAILS}"]`;
 
 export const clickStartClaim = () =>
   cy
@@ -614,7 +624,7 @@ export const selectVaPromptResponse = response => {
 };
 
 export const addVaLocation = location => {
-  cy.fillVaTextInput('root_vaTreatmentLocation', location);
+  cy.fillVaTextInput(VA_EVIDENCE_LOCATION, location);
   clickContinue();
 };
 

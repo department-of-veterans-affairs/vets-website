@@ -219,7 +219,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       h.verifyUrl(LIMITED_CONSENT_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      cy.tabToElement(h.LIMITED_CONSENT_RADIOS); // Yes radio
+      cy.tabToElement(h.LC_RADIOS_WITH_NAME); // Yes radio
       cy.chooseRadio('Y');
       tabToContinue();
 
@@ -227,7 +227,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       h.verifyUrl(LIMITED_CONSENT_DETAILS_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      cy.tabToElement(h.LIMITED_CONSENT_TEXTAREA);
+      cy.tabToElement(h.LC_DETAILS_WITH_NAME);
       cy.realType('Testing');
       tabToContinue();
 

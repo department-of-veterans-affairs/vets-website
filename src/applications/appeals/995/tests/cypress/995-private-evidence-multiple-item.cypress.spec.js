@@ -16,7 +16,11 @@ import {
 } from '../../content/evidence/private';
 import { privateRecordsPromptError } from '../../components/evidence/PrivatePrompt';
 import { issuesContent } from '../../pages/evidence/privateEvidence';
-import { content as limitedConsentContent } from '../../components/4142/LimitedConsent';
+import {
+  promptQuestion as limitedConsentPrompt,
+  requiredError as limitedConsentPromptError,
+} from '../../pages/limitedConsentPrompt';
+import { detailsQuestion as limitedConsentDetailsQuestion } from '../../pages/limitedConsentDetails';
 import { content as authContent } from '../../components/4142/Authorization';
 
 const issues = mockData.data.contestedIssues;
@@ -83,11 +87,6 @@ describe('Array Builder evidence flow', () => {
         'error',
       );
 
-      h.checkError(
-        '[name="root_limitedConsent"]',
-        limitedConsentContent.radioError,
-      );
-
       cy.get('#privacy-agreement')
         .shadow()
         .find('div input')
@@ -95,26 +94,27 @@ describe('Array Builder evidence flow', () => {
         .scrollIntoView()
         .click();
 
-      cy.selectRadio('limited-consent', 'Y');
+      h.verifyH3(authContent.title);
 
-      // Trigger textarea error
       h.clickContinue();
 
-      h.checkError(
-        '[name="limited-consent-description"]',
-        limitedConsentContent.textareaError,
-      );
+      // Limited consent prompt
+      // Check error handling
+      h.clickContinue();
+      h.verifyFPSH3(limitedConsentPrompt);
+
+      h.checkError(h.LC_RADIOS_WITH_NAME, limitedConsentPromptError);
+
+      cy.selectRadio(h.LC_RADIOS, 'Y');
+
+      h.clickContinue();
+
+      // Limited consent details
+      h.checkTextareaLabel(h.LC_DETAILS, limitedConsentDetailsQuestion);
 
       cy.fillVaTextarea(
-        'limited-consent-description',
+        h.LC_DETAILS,
         'Do not include prescription drugs or follow-up visits',
-      );
-
-      h.verifyH3(authContent.title);
-      h.verifyFPSH3(limitedConsentContent.prompt);
-      h.checkTextareaLabel(
-        'limited-consent-description',
-        limitedConsentContent.textareaLabel,
       );
 
       h.clickContinue();
@@ -131,7 +131,7 @@ describe('Array Builder evidence flow', () => {
       // Check error handling
       h.clickContinue();
       h.checkError(
-        '[name="root_privateTreatmentLocation"]',
+        h.PRIVATE_TREATMENT_LOCATION_WITH_NAME,
         detailsEntryContent.locationRequiredError,
       );
       h.checkError('[name="root_address_country"]', 'Select a country');
@@ -172,13 +172,10 @@ describe('Array Builder evidence flow', () => {
 
       // Check error messaging
       h.checkError(
-        '[name="root_treatmentStart"]',
+        h.PRIVATE_TREATMENT_START,
         treatmentDateContent.requiredError,
       );
-      h.checkError(
-        '[name="root_treatmentEnd"]',
-        treatmentDateContent.requiredError,
-      );
+      h.checkError(h.PRIVATE_TREATMENT_END, treatmentDateContent.requiredError);
       h.addPrivateTreatmentDates('2020-03-01', '2020-11-18');
 
       // Summary
@@ -301,7 +298,7 @@ describe('Array Builder evidence flow', () => {
         'Edit the second location we should request your private provider or VA Vet Center records from',
       );
       h.checkValueOfInput(
-        '[name="root_privateTreatmentLocation"]',
+        h.PRIVATE_TREATMENT_LOCATION_WITH_NAME,
         'Methodist Stone Oak Hospital',
       );
       h.checkValueOfInput('[name="root_address_country"]', 'USA');

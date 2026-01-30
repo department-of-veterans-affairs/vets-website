@@ -12,7 +12,7 @@ describe('Supplemental Claims Limited Consent Prompt Page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.evidence.pages.limitedConsentPromptOld;
+  } = formConfig.chapters.evidence.pages.limitedConsentPrompt;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
