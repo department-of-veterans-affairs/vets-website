@@ -28,12 +28,8 @@ export const vassApi = createApi({
               dob,
             }),
           });
-          if (!response?.data?.email) {
-            // TODO: no email is an error condition. How should we handle this?
-            throw new Error('Email not found');
-          }
           dispatch(setLowAuthFormData({ uuid, lastName, dob }));
-          dispatch(setObfuscatedEmail(response?.data?.email || ''));
+          dispatch(setObfuscatedEmail(response.data.email));
           return response;
         } catch ({ errors }) {
           // captureError(error, false, 'post referral appointment');
