@@ -3,6 +3,7 @@ import { VaSummaryBox } from '@department-of-veterans-affairs/component-library/
 import {
   checkboxRequiredSchema,
   checkboxUI,
+  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 const fieldNames = {
@@ -15,7 +16,7 @@ export default {
   path: 'information-we-are-required-to-share',
   title: 'Information we are required to share',
   uiSchema: {
-    'ui:title': 'Information we are required to share',
+    ...titleUI('Information we are required to share'),
     'ui:order': [fieldNames.fairInformationPractices, fieldNames.privacyAct],
     [fieldNames.fairInformationPractices]: checkboxUI({
       title:

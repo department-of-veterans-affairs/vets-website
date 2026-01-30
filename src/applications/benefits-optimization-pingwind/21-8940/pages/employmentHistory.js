@@ -1,5 +1,5 @@
 import {
-  inlineTitleUI,
+  titleUI,
   textUI,
   addressUI,
   numberUI,
@@ -55,7 +55,7 @@ const addressWithDlWrap = uiSchema =>
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...inlineTitleUI(
+    ...titleUI(
       'Employment History Details',
       `Your employment history (5 years). List all employment (including self-employment) for the last five years in which you worked. If you haven't worked recently, provide your employment history starting from your most recent job and going back five years from that point. Also be sure to include any military duty including inactive duty for training.`,
     ),
@@ -81,6 +81,13 @@ export default {
         employerName: textUI({
           title: "Employer's name",
           useDlWrap: true,
+
+          errorMessages: {
+            required:
+              'Enter the employer name, for example, Local Grocery Store',
+            pattern:
+              'Enter the employer name, for example, Local Grocery Store',
+          },
         }),
 
         employerAddress: addressWithDlWrap(
@@ -95,6 +102,13 @@ export default {
         typeOfWork: textUI({
           title: 'Type of work',
           useDlWrap: true,
+
+          errorMessages: {
+            required:
+              'Enter the kind of work you did or are doing for this employer',
+            pattern:
+              'Enter the kind of work you did or are doing for this employer',
+          },
         }),
         hoursPerWeek: numberUI({
           title: 'Hours worked per week',
@@ -102,6 +116,8 @@ export default {
           max: 168,
           errorMessages: {
             max: 'Hours worked per week cannot exceed 168 hours',
+            required:
+              'Enter the number of hours you worked or work per week for this employer',
           },
         }),
         startDate: {
@@ -125,10 +141,24 @@ export default {
         timeLost: numberUI({
           title: 'Time lost from illness (number of days lost)',
           useDlWrap: true,
+          hint: 'Numeric characters only',
+          errorMessages: {
+            required:
+              'Enter the total number of days lost because of illness at this employer. Enter whole numbers only.',
+            pattern:
+              'Enter the total number of days lost because of illness at this employer. Enter whole numbers only.',
+          },
         }),
         earnings: numberUI({
           title: 'Highest gross earnings per month',
+          hint: 'Numeric characters only',
           useDlWrap: true,
+          errorMessages: {
+            required:
+              'Enter the most you earned per month at this employer. Enter whole numbers only.',
+            pattern:
+              'Enter the most you earned per month at this employer. Enter whole numbers only.',
+          },
         }),
       },
     },

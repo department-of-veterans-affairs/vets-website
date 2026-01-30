@@ -26,9 +26,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const childContent = (
     <>
       <p>
-        Hi there, welcome to VA Form 21-8940. Please use this form if you want
-        to apply for Individual Unemployability disability benefits for a
-        service-connected condition that prevents you from keeping a steady job.
+        Use this form if you want to apply for Individual Unemployability
+        disability benefits for a service-connected condition that prevents you
+        from keeping a steady job.
       </p>
 
       <div>
@@ -100,6 +100,8 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array,
   }),
+  userIdVerified: PropTypes.bool,
+  userLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

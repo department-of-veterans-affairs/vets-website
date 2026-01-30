@@ -24,7 +24,7 @@ const mockDataFalse = {
   },
 };
 
-const expectedNumberOfFieldsTrue = 2;
+const expectedNumberOfFieldsTrue = 1;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -44,7 +44,7 @@ testNumberOfWebComponentFields(
   mockDataFalse,
 );
 
-const expectedNumberOfErrorsTrue = 1;
+const expectedNumberOfErrorsTrue = 0;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

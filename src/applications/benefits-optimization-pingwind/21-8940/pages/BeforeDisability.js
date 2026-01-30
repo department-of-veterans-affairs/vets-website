@@ -1,9 +1,8 @@
-import React from 'react';
-
 import {
   textUI,
   yesNoUI,
   yesNoSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
@@ -11,38 +10,13 @@ import {
   currentOrPastDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
 
-import { HideDefaultDateHint } from '../helpers/dateHint';
 import { wrapDateRangeUiWithDl } from '../helpers/reviewHelpers';
-
-const trainingDateRangeUI = (() => {
-  const dateRange = wrapDateRangeUiWithDl(
-    currentOrPastDateRangeUI(
-      { title: 'Start date of training', hint: 'For example: January 19 2022' },
-      { title: 'End date of training', hint: 'For example: January 19 2022' },
-    ),
-  );
-
-  return {
-    ...dateRange,
-    from: {
-      ...dateRange.from,
-      'ui:description': HideDefaultDateHint,
-    },
-    to: {
-      ...dateRange.to,
-      'ui:description': HideDefaultDateHint,
-    },
-  };
-})();
+import { changeDefaultDateHint } from '../helpers/hintChanger';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
-        Education and Training Before Becoming Disabled
-      </h3>
-    ),
+    ...titleUI('Education and Training Before Becoming Disabled'),
     'ui:description':
       'Tell us about your education or training before becoming too disabled to work.',
 
@@ -73,17 +47,47 @@ export default {
         title: 'Type of education or training',
         useDlWrap: true,
         required: formData => formData.otherBeforeEducation === true,
+        errorMessages: {
+          required:
+            'Tell us what kind of education or training you had before becoming disabled',
+        },
       }),
       datesOfTraining: {
-        ...trainingDateRangeUI,
+        ...wrapDateRangeUiWithDl(
+          currentOrPastDateRangeUI(
+            { title: 'Start date of training' },
+            { title: 'End date of training' },
+          ),
+          { 'ui:description': changeDefaultDateHint },
+        ),
 
         from: {
-          ...trainingDateRangeUI.from,
+          ...wrapDateRangeUiWithDl(
+            currentOrPastDateRangeUI(
+              { title: 'Start date of training' },
+              { title: 'End date of training' },
+            ),
+          ).from,
           'ui:required': formData => formData.otherBeforeEducation === true,
+          'ui:description': changeDefaultDateHint,
+          'ui:errorMessages': {
+            required:
+              'Enter the start date (month, day, and 4-digit year) of your education or training',
+          },
         },
         to: {
-          ...trainingDateRangeUI.to,
+          ...wrapDateRangeUiWithDl(
+            currentOrPastDateRangeUI(
+              { title: 'Start date of training' },
+              { title: 'End date of training' },
+            ),
+          ).to,
           'ui:required': formData => formData.otherBeforeEducation === true,
+          'ui:description': changeDefaultDateHint,
+          'ui:errorMessages': {
+            required:
+              'Enter the end date (month, day, and 4-digit year) of your education or training',
+          },
         },
       },
     },
