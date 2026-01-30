@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import transform from '../../config/transform';
+import { todaysDate } from '../../helpers';
 
 describe('transform function', () => {
   it('should transform form data correctly', () => {
@@ -178,7 +179,7 @@ describe('transform function', () => {
         fullName: { first: 'Johnny', last: 'John' },
         email: 'johnny@example.com',
       },
-      dateSigned: '2026-01-29',
+      dateSigned: todaysDate(),
       isAuthenticated: false,
     });
   });

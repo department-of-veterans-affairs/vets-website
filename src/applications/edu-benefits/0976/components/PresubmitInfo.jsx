@@ -136,6 +136,8 @@ const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
 };
 
+export { PresubmitInfo as BasePresubmitInfo };
+
 export default connect(
   null,
   mapDispatchToProps,
