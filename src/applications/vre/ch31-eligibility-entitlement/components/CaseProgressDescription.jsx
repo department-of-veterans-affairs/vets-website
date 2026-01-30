@@ -82,8 +82,10 @@ const CaseProgressDescription = ({ step, status, showHubCards = false }) => {
           <>
             <p>
               Your VR&E application for Chapter 31 benefits has been reviewed
-              for basic eligibility. Please visit the “Orientation Tools and
-              Resources” link below to complete your CH31 Benefits Orientation.
+              for basic eligibility. To learn more about the program, its five
+              support-and-service tracks, and how to prepare for your career,
+              please visit the links provided in the "Preparing for the Next
+              Steps" section below.
             </p>
             {hubCards}
           </>

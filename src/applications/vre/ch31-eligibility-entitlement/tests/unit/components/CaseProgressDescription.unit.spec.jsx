@@ -74,9 +74,8 @@ describe('CaseProgressDescription', () => {
     const { container, getByText } = renderWithRouter(
       <CaseProgressDescription step={2} status="COMPLETED" />,
     );
-
     getByText(/has been reviewed for basic eligibility/i);
-    getByText(/Orientation Tools and Resources/i);
+    getByText(/Preparing for the Next Steps/i);
 
     const link = container.querySelector('va-link[href="/"]');
     expect(link).to.equal(null);
@@ -193,7 +192,7 @@ describe('CaseProgressDescription', () => {
     );
 
     getByText(/establish and initiate your Chapter 31 Rehabilitation Plan/i);
-    getByText(/uploaded to your VA eFolder/i);
+    getByText(/uploaded to your VA Electronic Folder/i);
   });
 
   it('renders step 6 COMPLETED description', () => {

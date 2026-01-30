@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import HubCardList from '../../../components/HubCardList';
 
 describe('HubCardList', () => {
-  it('renders Orientation + Career Planning links for steps 1-3', () => {
+  it('renders Program Overview + Tracks + Career Planning links for steps 1-3', () => {
     [1, 2, 3].forEach(step => {
       const { container, getByText, unmount } = render(
         <HubCardList step={step} />,
@@ -24,17 +24,17 @@ describe('HubCardList', () => {
       getByText('Preparing for the next steps');
 
       const links = container.querySelectorAll('va-link');
-      expect(links.length).to.equal(2);
-
-      expect(links[0].getAttribute('text')).to.equal(
-        'Orientation Tools and Resources',
+      expect(links.length).to.equal(3);
+      expect(links[0].getAttribute('text')).to.equal('Program Overview');
+      expect(links[0].getAttribute('href')).to.equal('/NeedLinkURL');
+      expect(links[1].getAttribute('text')).to.equal(
+        'VR&E Support-and-Services Tracks',
       );
-      expect(links[0].getAttribute('href')).to.equal(
+      expect(links[1].getAttribute('href')).to.equal(
         '/orientation-tools-and-resources',
       );
-
-      expect(links[1].getAttribute('text')).to.equal('Career Planning');
-      expect(links[1].getAttribute('href')).to.equal(
+      expect(links[2].getAttribute('text')).to.equal('Career Planning');
+      expect(links[2].getAttribute('href')).to.equal(
         '/career-exploration-and-planning',
       );
 
@@ -59,24 +59,61 @@ describe('HubCardList', () => {
     );
   });
 
-  it('renders only Career Planning link for steps 5-7', () => {
-    [5, 6, 7].forEach(step => {
-      const { container, getByText, unmount } = render(
-        <HubCardList step={step} />,
-      );
+  it('renders only Career Planning link for step 5', () => {
+    const { container, getByText } = render(<HubCardList step={5} />);
 
-      getByText('Preparing for the next steps');
+    getByText('Preparing for the next steps');
 
-      const links = container.querySelectorAll('va-link');
-      expect(links.length).to.equal(1);
+    const links = container.querySelectorAll('va-link');
+    expect(links.length).to.equal(1);
 
-      expect(links[0].getAttribute('text')).to.equal('Career Planning');
-      expect(links[0].getAttribute('href')).to.equal(
-        '/career-exploration-and-planning',
-      );
+    expect(links[0].getAttribute('text')).to.equal('Career Planning');
+    expect(links[0].getAttribute('href')).to.equal(
+      '/career-exploration-and-planning',
+    );
+  });
 
-      unmount();
-    });
+  it('renders Career Planning for step 6 when step 6 is NOT complete', () => {
+    // stateList index 5 = step 6
+    const stateList = [
+      {}, // step 1
+      {}, // step 2
+      {}, // step 3
+      {}, // step 4
+      {}, // step 5
+      { status: 'ACTIVE' }, // step 6 NOT complete
+    ];
+
+    const { container, getByText } = render(
+      <HubCardList step={6} stateList={stateList} />,
+    );
+
+    getByText('Preparing for the next steps');
+
+    const links = container.querySelectorAll('va-link');
+    expect(links.length).to.equal(1);
+    expect(links[0].getAttribute('text')).to.equal('Career Planning');
+  });
+
+  it('returns null for step 6 when step 6 is complete', () => {
+    const stateList = [
+      {},
+      {},
+      {},
+      {},
+      {},
+      { status: 'COMPLETED' }, // step 6 complete => no cards
+    ];
+
+    const { container } = render(
+      <HubCardList step={6} stateList={stateList} />,
+    );
+    expect(container.innerHTML).to.equal('');
+  });
+
+  it('returns null for step 7 (never shows any cards)', () => {
+    const { container } = render(<HubCardList step={7} />);
+    expect(container.innerHTML).to.equal('');
   });
 
   it('returns null when no cards are available', () => {
