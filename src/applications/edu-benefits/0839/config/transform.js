@@ -236,7 +236,7 @@ export default function transform(formConfig, form) {
 
     if (isNil(clonedData.isAuthenticated)) {
       clonedData.isAuthenticated =
-        JSON.parse(localStorage.getItem('hasSessionSSO')) ?? false;
+        JSON.parse(localStorage.getItem('hasSession')) ?? false;
     }
 
     return clonedData;
