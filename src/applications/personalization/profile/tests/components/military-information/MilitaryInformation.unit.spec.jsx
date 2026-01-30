@@ -322,4 +322,16 @@ describe('MilitaryInformation', () => {
       expect(view.getByTestId('service-is-down-banner')).to.exist;
     });
   });
+  describe('Veteran Status Card moved alert', () => {
+    it('should not display the Veteran Status Card moved alert', () => {
+      initialState = createBasicInitialState();
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+
+      expect(view.queryByText(/Your Veteran Status Card has moved/i)).to.be
+        .null;
+      expect(view.queryByText(/Access your Veteran Status Card/i)).to.be.null;
+    });
+  });
 });
