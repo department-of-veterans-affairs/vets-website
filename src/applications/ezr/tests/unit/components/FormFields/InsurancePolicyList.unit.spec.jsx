@@ -25,6 +25,7 @@ describe('ezr <InsurancePolicyList>', () => {
     ],
     mode: 'edit',
     onDelete: () => {},
+    providerErrors: [],
   };
 
   describe('when the component renders', () => {
@@ -60,6 +61,36 @@ describe('ezr <InsurancePolicyList>', () => {
           insurancePolicyHolderName,
         );
       });
+    });
+
+    it('should render an Alert in the list if a provider has an error', () => {
+      const indexOfProviderWithError = 1;
+      const propsWithError = {
+        labelledBy: '#root__title',
+        list: [
+          {
+            insuranceName: 'Cigna',
+            insurancePolicyHolderName: 'John Smith',
+            'view:policyOrGroup': {
+              insurancePolicyNumber: '006655',
+            },
+          },
+          {
+            insuranceName: 'Aetna',
+            insurancePolicyHolderName: 'Mary Smith',
+            'view:policyOrGroup': {},
+          },
+        ],
+        mode: 'edit',
+        onDelete: () => {},
+        providerErrors: [indexOfProviderWithError],
+      };
+
+      const { container } = render(<InsurancePolicyList {...propsWithError} />);
+      const providers = container.querySelectorAll('.ezr-listloop--tile');
+      expect(providers[indexOfProviderWithError]).to.contain.text(
+        'This provider is missing information. Edit and complete this provider’s information before continuing.',
+      );
     });
   });
 });

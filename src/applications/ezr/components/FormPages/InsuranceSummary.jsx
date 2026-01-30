@@ -33,6 +33,17 @@ const InsuranceSummary = props => {
     [INSURANCE_VIEW_FIELDS.add]: addProvider = null,
   } = data;
   const mode = onReviewPage ? 'update' : 'edit';
+  const providerErrorIndexes = [];
+  providers.forEach((provider, index) => {
+    if (
+      !provider.insuranceName ||
+      !provider.insurancePolicyHolderName ||
+      (!provider['view:policyOrGroup']?.insurancePolicyNumber &&
+        !provider['view:policyOrGroup']?.insuranceGroupCode)
+    ) {
+      providerErrorIndexes.push(index);
+    }
+  });
 
   /**
    * declare default state variables
@@ -70,6 +81,11 @@ const InsuranceSummary = props => {
       // set error if user hasn't provided a value for the form field
       if (fieldData === null) {
         hasError(true);
+        return;
+      }
+
+      // block progression if any providers are missing required information
+      if (providerErrorIndexes.length > 0) {
         return;
       }
 
@@ -111,6 +127,7 @@ const InsuranceSummary = props => {
                 labelledBy="root_view:insurancePolicyList__title"
                 list={providers}
                 mode={mode}
+                providerErrors={providerErrorIndexes}
                 onDelete={handlers.onDelete}
               />
             </fieldset>

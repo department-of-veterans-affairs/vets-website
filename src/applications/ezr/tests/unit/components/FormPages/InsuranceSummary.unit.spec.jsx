@@ -18,6 +18,13 @@ describe('ezr InsuranceSummary', () => {
         },
       },
     ],
+    notValid: [
+      {
+        insuranceName: 'Cigna',
+        insurancePolicyHolderName: 'John Smith',
+        'view:policyOrGroup': {},
+      },
+    ],
   };
   const getData = ({
     onReviewPage = false,
@@ -119,6 +126,18 @@ describe('ezr InsuranceSummary', () => {
       fireEvent.click(selector);
       expect(props.goForward.called).to.be.false;
       expect(props.goToPath.called).to.be.false;
+      fireEvent.click(selector);
+      expect(props.goForward.called).to.be.false;
+      expect(props.goToPath.called).to.be.false;
+    });
+
+    it('should not fire the `goForward` or `goToPath` spy when there is a provider validation error', () => {
+      const { props } = getData({
+        providers: policyData.notValid,
+        addPolicy: false,
+      });
+      const { container } = render(<InsuranceSummary {...props} />);
+      const selector = container.querySelector('.usa-button-primary');
       fireEvent.click(selector);
       expect(props.goForward.called).to.be.false;
       expect(props.goToPath.called).to.be.false;
