@@ -137,9 +137,9 @@ describe('Private Medical Records Upload page', () => {
   });
 
   describe('schema', () => {
-    it('should have privateMedicalRecordAttachments property', () => {
+    it('should have tempPrivateMedicalRecordAttachments property', () => {
       expect(schema.properties).to.have.property(
-        'privateMedicalRecordAttachments',
+        'tempPrivateMedicalRecordAttachments',
       );
     });
 
@@ -157,14 +157,14 @@ describe('Private Medical Records Upload page', () => {
       expect(uiSchema['ui:description']).to.exist;
     });
 
-    it('should have privateMedicalRecordAttachments field', () => {
-      expect(uiSchema).to.have.property('privateMedicalRecordAttachments');
+    it('should have tempPrivateMedicalRecordAttachments field', () => {
+      expect(uiSchema).to.have.property('tempPrivateMedicalRecordAttachments');
     });
     // TODO: Remove and add new test with V3 File Input Component
-    it('should have ui:required function for privateMedicalRecordAttachments', () => {
-      expect(uiSchema.privateMedicalRecordAttachments['ui:required']).to.be.a(
-        'function',
-      );
+    it('should have ui:required function for tempPrivateMedicalRecordAttachments', () => {
+      expect(
+        uiSchema.tempPrivateMedicalRecordAttachments['ui:required'],
+      ).to.be.a('function');
     });
     // TODO: Remove and add new test with V3 File Input Component
     it('should return true when hasPrivateRecordsToUpload is true', () => {
@@ -174,7 +174,7 @@ describe('Private Medical Records Upload page', () => {
         },
       };
 
-      const isRequired = uiSchema.privateMedicalRecordAttachments[
+      const isRequired = uiSchema.tempPrivateMedicalRecordAttachments[
         'ui:required'
       ](formData);
       expect(isRequired).to.be.true;
@@ -187,7 +187,7 @@ describe('Private Medical Records Upload page', () => {
         },
       };
 
-      const isRequired = uiSchema.privateMedicalRecordAttachments[
+      const isRequired = uiSchema.tempPrivateMedicalRecordAttachments[
         'ui:required'
       ](formData);
       expect(isRequired).to.be.false;
@@ -195,14 +195,14 @@ describe('Private Medical Records Upload page', () => {
     // TODO: Remove and add new test with V3 File Input Component
     it('should have ui:confirmationField', () => {
       expect(
-        uiSchema.privateMedicalRecordAttachments['ui:confirmationField'],
+        uiSchema.tempPrivateMedicalRecordAttachments['ui:confirmationField'],
       ).to.be.a('function');
     });
     // TODO: Remove and add new test with V3 File Input Component
     it('should return correct confirmation field data', () => {
       const mockFormData = [{ name: 'file1.pdf' }, { fileName: 'file2.pdf' }];
 
-      const confirmationField = uiSchema.privateMedicalRecordAttachments[
+      const confirmationField = uiSchema.tempPrivateMedicalRecordAttachments[
         'ui:confirmationField'
       ]({
         formData: mockFormData,
