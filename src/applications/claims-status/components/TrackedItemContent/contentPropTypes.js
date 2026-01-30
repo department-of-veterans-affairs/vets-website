@@ -41,11 +41,9 @@ export const BlockPropType = PropTypes.shape({
 });
 
 /**
- * Top-level content structure from API
+ * Top-level content structure - array of blocks
  */
-export const ContentPropType = PropTypes.shape({
-  blocks: PropTypes.arrayOf(BlockPropType),
-});
+export const ContentPropType = PropTypes.arrayOf(BlockPropType);
 
 /**
  * InlineRenderer content prop type
