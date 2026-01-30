@@ -86,8 +86,6 @@ describe('Unexpected outage from Search.gov', () => {
     enableToggle();
     mockResults();
     cy.visit('/search?query=benefits');
-    // Skip heading-order rule - va-banner uses h3 for maintenance message but page
-    // may not have h1/h2 yet during render. This is a known component limitation.
     cy.injectAxeThenAxeCheck(null, {
       rules: {
         'heading-order': { enabled: false },
@@ -102,8 +100,6 @@ describe('Unexpected outage from Search.gov', () => {
     enableToggle();
     mockResultsEmpty();
     cy.visit('/search?query=benefits');
-    // Skip heading-order rule - va-banner uses h3 for maintenance message but page
-    // may not have h1/h2 yet during render. This is a known component limitation.
     cy.injectAxeThenAxeCheck(null, {
       rules: {
         'heading-order': { enabled: false },
@@ -118,8 +114,6 @@ describe('Unexpected outage from Search.gov', () => {
     enableToggle();
     mockResultsFailure();
     cy.visit('/search?query=benefits');
-    // Skip heading-order rule - va-banner uses h3 for maintenance message but page
-    // may not have h1/h2 yet when showing error state. This is a known component limitation.
     cy.injectAxeThenAxeCheck(null, {
       rules: {
         'heading-order': { enabled: false },
