@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import * as sinon from 'sinon';
-import { renderHook } from '../../testing-utils/renderHook';
 import { useFocusManagement } from '../../../hooks/MedicationsList/useFocusManagement';
 
 const defaultProps = {

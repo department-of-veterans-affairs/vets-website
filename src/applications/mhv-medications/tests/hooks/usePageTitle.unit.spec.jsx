@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import sinon from 'sinon';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import { renderHook } from '../testing-utils/renderHook';
 import { usePageTitle } from '../../hooks/usePageTitle';
 
 describe('usePageTitle', () => {

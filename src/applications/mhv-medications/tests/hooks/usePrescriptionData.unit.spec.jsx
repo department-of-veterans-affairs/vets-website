@@ -2,10 +2,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
-import { renderHook } from '../testing-utils/renderHook';
 import { usePrescriptionData } from '../../hooks/usePrescriptionData';
 import * as prescriptionsApi from '../../api/prescriptionsApi';
 

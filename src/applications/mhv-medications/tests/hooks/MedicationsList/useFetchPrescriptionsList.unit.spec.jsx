@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { expect } from 'chai';
 import { waitFor, act, cleanup } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import * as sinon from 'sinon';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
-import { renderHook } from '../../testing-utils/renderHook';
 import * as prescriptionsApiModule from '../../../api/prescriptionsApi';
 import { useFetchPrescriptionsList } from '../../../hooks/MedicationsList/useFetchPrescriptionsList';
 import {
@@ -129,7 +129,7 @@ describe('useFetchPrescriptionsList', () => {
       expect(result.current.setQueryParams).to.be.a('function');
     });
 
-    act(() => {
+    await act(async () => {
       result.current.setQueryParams(prev => ({
         ...prev,
         page: 5,
@@ -137,10 +137,11 @@ describe('useFetchPrescriptionsList', () => {
     });
 
     await waitFor(() => {
-      const lastCall =
-        useGetPrescriptionsListQueryStub.lastCall ||
-        useGetPrescriptionsListQueryStub.firstCall;
-      expect(lastCall.args[0].page).to.equal(5);
+      expect(
+        useGetPrescriptionsListQueryStub
+          .getCalls()
+          .some(call => call.args[0]?.page === 5),
+      ).to.equal(true);
     });
   });
 

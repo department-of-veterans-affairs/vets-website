@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import * as sinon from 'sinon';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import * as redux from 'react-redux';
-import { renderHook } from '../testing-utils/renderHook';
 import { useURLPagination } from '../../hooks/useURLPagination';
 /**
  * Creates a test wrapper with Redux Provider and MemoryRouter
