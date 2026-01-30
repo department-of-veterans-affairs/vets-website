@@ -19,7 +19,6 @@ const HowDoIDispute = () => {
       <p>You can dispute an overpayment online through our form.</p>
       <va-link-action
         href="/manage-va-debt/dispute-debt/"
-        message-aria-describedby="Opens pay.va.gov"
         text="Dispute an overpayment online"
         type="secondary"
       />
