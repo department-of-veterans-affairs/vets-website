@@ -4,7 +4,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isYes } from '../../../utils/helpers';
-import { VaForm214138Alert } from '../../../components/FormAlerts';
+import { AdditionalDependentsAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
 export default {
@@ -15,7 +15,7 @@ export default {
         'Do the children who don’t live with you reside at the same address?',
     }),
     residenceAlert: {
-      'ui:description': VaForm214138Alert,
+      'ui:description': AdditionalDependentsAlert,
       'ui:options': {
         hideIf: formData =>
           isYes(formData?.childrenLiveTogetherButNotWithSpouse),
