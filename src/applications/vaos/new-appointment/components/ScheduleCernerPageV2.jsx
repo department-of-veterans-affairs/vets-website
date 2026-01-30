@@ -1,11 +1,8 @@
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import { getCernerURL } from 'platform/utilities/cerner';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import FacilityPhone from '../../components/FacilityPhone';
-import NewTabAnchor from '../../components/NewTabAnchor';
-import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { routeToPreviousAppointmentPage } from '../redux/actions';
 import { getChosenFacilityInfo, selectTypeOfCare } from '../redux/selectors';
@@ -35,19 +32,6 @@ export default function ScheduleCernerPageV2() {
       <p>
         <FacilityPhone contact={phone} />
       </p>
-      {(TYPE_OF_CARE_IDS.PHARMACY_ID === typeOfCare?.id ||
-        TYPE_OF_CARE_IDS.FOOD_AND_NUTRITION_ID === typeOfCare?.id) && (
-        <>
-          <p>
-            You can also access tools to schedule appointments online in the My
-            VA Health portal.
-            <br />
-            <NewTabAnchor href={getCernerURL('/pages/scheduling/upcoming')}>
-              Go to My VA Health (opens in a new tab)
-            </NewTabAnchor>
-          </p>
-        </>
-      )}
       <va-additional-info
         trigger="Why can't I schedule online?"
         uswds

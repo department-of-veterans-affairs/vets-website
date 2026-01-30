@@ -99,22 +99,22 @@ async function vaFacilityNext(state, dispatch) {
   const ehr = isCerner ? 'cerner' : 'vista';
   dispatch(updateFacilityEhr(ehr));
 
-  // Fetch eligibility if we haven't already
-  if (!eligibility) {
-    const siteId = getSiteIdFromFacilityId(location.id);
-
-    eligibility = await dispatch(
-      checkEligibility({
-        location,
-        siteId,
-        showModal: !isCerner,
-        isCerner,
-      }),
-    );
-  }
-
   if (isCerner) {
     if (featureUseVpg && typeOfCareEnabled) {
+      // Fetch eligibility if we haven't already
+      if (!eligibility) {
+        const siteId = getSiteIdFromFacilityId(location.id);
+
+        eligibility = await dispatch(
+          checkEligibility({
+            location,
+            siteId,
+            showModal: false,
+            isCerner,
+          }),
+        );
+      }
+
       if (featureRemoveFacilityConfigCheck) {
         if (eligibility.direct === true || eligibility.request === true)
           return 'selectProvider';
@@ -123,6 +123,20 @@ async function vaFacilityNext(state, dispatch) {
     }
 
     return 'scheduleCerner';
+  }
+
+  // Fetch eligibility if we haven't already
+  if (!eligibility) {
+    const siteId = getSiteIdFromFacilityId(location.id);
+
+    eligibility = await dispatch(
+      checkEligibility({
+        location,
+        siteId,
+        showModal: true,
+        isCerner,
+      }),
+    );
   }
 
   if (eligibility.direct) {
@@ -135,10 +149,8 @@ async function vaFacilityNext(state, dispatch) {
     return 'requestDateTime';
   }
 
-  // Display Cerner error page when feature flag is on per conversation with UI team.
-  if (featureRemoveFacilityConfigCheck) return 'scheduleCerner';
-
   dispatch(showEligibilityModal());
+
   return VA_FACILITY_V2_KEY;
 }
 
