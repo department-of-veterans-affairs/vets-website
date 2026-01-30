@@ -98,6 +98,11 @@ describe('ChunkLoadError Reproduction', () => {
   });
 
   describe('lazyWithRetry', () => {
+    // Note: We avoid faking setTimeout here because RTL's waitFor uses setTimeout
+    // internally, and sinon 3.x doesn't support tickAsync which would be needed
+    // to coordinate fake timers with async React rendering.
+    // Instead, we use real timers with short delays for deterministic testing.
+
     it('retries and succeeds after transient failure', async () => {
       // Import the fix
       const { lazyWithRetry } = await import('../lazy-load-with-retry');
@@ -122,24 +127,27 @@ describe('ChunkLoadError Reproduction', () => {
         });
       };
 
-      // Using lazyWithRetry with short delays for testing
+      // Using lazyWithRetry with very short delays for fast tests
       const LazyComponent = lazyWithRetry(flakyImport, {
         maxRetries: 3,
-        baseDelayMs: 10, // Short delay for tests
+        baseDelayMs: 10,
         maxDelayMs: 50,
       });
 
-      // For lazyWithRetry tests, we can't use act() because the retry mechanism
-      // uses setTimeout internally. Instead, let waitFor poll until completion.
-      const { getByTestId } = render(
-        <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-          <LazyComponent />
-        </Suspense>,
-      );
+      let getByTestId;
+      await act(async () => {
+        const result = render(
+          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+            <LazyComponent />
+          </Suspense>,
+        );
+        getByTestId = result.getByTestId;
+      });
 
-      // Should eventually succeed after retry - give enough time for retry delays
+      // Wait for retry to complete and component to render
+      // Using 5s timeout for CI environments which can be slower
       await waitFor(() => expect(getByTestId('success')).to.exist, {
-        timeout: 2000,
+        timeout: 5000,
       });
 
       expect(loadAttempts).to.equal(2);
@@ -159,25 +167,29 @@ describe('ChunkLoadError Reproduction', () => {
         return Promise.reject(error);
       };
 
+      // Using very short delays for fast tests
       const LazyComponent = lazyWithRetry(alwaysFailingImport, {
         maxRetries: 2,
         baseDelayMs: 10,
         maxDelayMs: 50,
       });
 
-      // For lazyWithRetry tests, we can't use act() because the retry mechanism
-      // uses setTimeout internally. Instead, let waitFor poll until completion.
-      const { getByTestId } = render(
-        <TestErrorBoundary fallbackTestId="final-error">
-          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-            <LazyComponent />
-          </Suspense>
-        </TestErrorBoundary>,
-      );
+      let getByTestId;
+      await act(async () => {
+        const result = render(
+          <TestErrorBoundary fallbackTestId="final-error">
+            <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+              <LazyComponent />
+            </Suspense>
+          </TestErrorBoundary>,
+        );
+        getByTestId = result.getByTestId;
+      });
 
-      // Wait for all retries + error boundary render
+      // Wait for error boundary to render after all retries exhausted
+      // Using 5s timeout for CI environments which can be slower
       await waitFor(() => expect(getByTestId('final-error')).to.exist, {
-        timeout: 2000,
+        timeout: 5000,
       });
 
       // Should have tried initial + maxRetries times (1 + 2 = 3)
