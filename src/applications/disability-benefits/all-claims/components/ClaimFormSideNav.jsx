@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -36,6 +36,11 @@ export default function ClaimFormSideNav({
   setFormData,
 }) {
   /**
+   * Ref to access the VaSidenav shadow DOM for mobile accordion control
+   */
+  const sidenavRef = useRef(null);
+
+  /**
    * Memoize major steps with formData and pathname dependencies
    * Rebuilds when save-in-progress loads or when navigating between pages
    * @type {import('../utils/buildMajorStepsFromConfig').MajorStep[]}
@@ -71,6 +76,22 @@ export default function ClaimFormSideNav({
   );
 
   /**
+   * Close mobile accordion when navigating between pages
+   * This matches design spec behavior where accordion should close on navigation
+   */
+  useEffect(
+    () => {
+      if (sidenavRef.current) {
+        const accordionItem = sidenavRef.current.shadowRoot?.querySelector(
+          'va-accordion > va-accordion-item',
+        );
+        accordionItem?.removeAttribute('open');
+      }
+    },
+    [pathname],
+  );
+
+  /**
    * Handle navigation item click
    * Tracks analytics if enabled and navigates to the selected chapter
    * @param {Event} e - Click event
@@ -93,7 +114,8 @@ export default function ClaimFormSideNav({
 
   return (
     <VaSidenav
-      header="Form steps"
+      ref={sidenavRef}
+      header="Select a step"
       icon-background-color="vads-color-link"
       icon-name="description"
       id="default-sidenav"
