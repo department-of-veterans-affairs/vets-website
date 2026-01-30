@@ -34,7 +34,8 @@ describe('evidenceRequest', () => {
       'label',
       'Are there medical records related to your claim that you’d like us to access on your behalf from VA or private medical centers?',
     );
-    expect(container.textContent).to.contain(
+    expect(question).to.have.attribute(
+      'hint',
       'If you select “Yes,” we’ll request these records from VA or private medical centers. Or you can upload copies of your private medical records.',
     );
     expect(container.querySelector('va-radio-option[label="Yes"]')).to.exist;
