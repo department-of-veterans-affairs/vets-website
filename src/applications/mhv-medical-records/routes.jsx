@@ -142,7 +142,7 @@ const routes = (
           exact
           path="/imaging-results"
           key="Radiology"
-          featureFlag="mhvMedicalRecordsImagesDomain"
+          featureFlag="mhv_medical_records_images_domain"
         >
           <Radiology />
         </FeatureFlagRoute>
@@ -150,7 +150,7 @@ const routes = (
           exact
           path="/imaging-results/:radiologyId"
           key="RadiologyDetails"
-          featureFlag="mhvMedicalRecordsImagesDomain"
+          featureFlag="mhv_medical_records_images_domain"
         >
           <RadiologyDetailsPage />
         </FeatureFlagRoute>
@@ -158,7 +158,7 @@ const routes = (
           exact
           path="/imaging-results/:labId/images"
           key="RadiologyImagesListNew"
-          featureFlag="mhvMedicalRecordsImagesDomain"
+          featureFlag="mhv_medical_records_images_domain"
         >
           <RadiologyImagesList basePath="/imaging-results" />
         </FeatureFlagRoute>
@@ -166,7 +166,7 @@ const routes = (
           exact
           path="/imaging-results/:labId/images/:imageId"
           key="RadiologySingleImageNew"
-          featureFlag="mhvMedicalRecordsImagesDomain"
+          featureFlag="mhv_medical_records_images_domain"
         >
           <RadiologySingleImage basePath="/imaging-results" />
         </FeatureFlagRoute>
