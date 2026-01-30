@@ -11,7 +11,8 @@ import { serviceStatuses } from '../constants';
 import { FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 
-const getRequiredDocumentTypes = formData => {
+const DocumentTypeSelect = () => {
+  const formData = useSelector(state => state?.form?.data);
   const requiredDocumentTypes = [];
   if (
     formData?.identity === serviceStatuses.ADSM &&
@@ -19,15 +20,9 @@ const getRequiredDocumentTypes = formData => {
   ) {
     requiredDocumentTypes.push('Purple Heart Certificate');
   }
-  return requiredDocumentTypes;
-};
-
-const DocumentTypeSelect = () => {
-  const formData = useSelector(state => state?.form?.data);
-  const documentTypes = getRequiredDocumentTypes(formData);
   return (
     <VaSelect required label="Document type" name="attachmentType">
-      {documentTypes.map(type => (
+      {requiredDocumentTypes.map(type => (
         <option key={type} value={type}>
           {type}
         </option>
