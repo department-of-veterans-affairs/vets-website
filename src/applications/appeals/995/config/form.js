@@ -4,7 +4,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
 // Components
-import AddContestableIssue from '../components/AddContestableIssue';
+import AddIssue from '../../shared/components/AddIssue';
 import ConfirmationPage from '../components/ConfirmationPage';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -27,7 +27,7 @@ import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 
 // Pages
-import addIssue from '../pages/addIssue';
+import addIssue from '../../shared/pages/addIssue';
 import contactInfo from '../pages/contactInformation';
 import contestableIssues from '../pages/contestableIssues';
 import facilityTypes from '../pages/facilityTypes';
@@ -218,10 +218,10 @@ const formConfig = {
           title: 'Add issues for review',
           path: ADD_ISSUE_URL,
           depends: () => false, // accessed from contestable issues
-          CustomPage: AddContestableIssue,
+          CustomPage: props => AddIssue(props, 'SC'),
           CustomPageReview: null,
-          uiSchema: addIssue.uiSchema,
-          schema: addIssue.schema,
+          uiSchema: addIssue().uiSchema,
+          schema: addIssue().schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
         },
         issueSummary: {

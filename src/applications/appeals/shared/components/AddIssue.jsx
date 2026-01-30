@@ -22,19 +22,17 @@ import {
 import { calculateIndexOffset, getSelected } from '../utils/issues';
 import { setStorage } from '../utils/addIssue';
 import { checkValidations } from '../validations';
-import { uniqueIssue, missingIssueName } from '../validations/issues';
+import {
+  maxNameLength,
+  missingIssueName,
+  uniqueIssue,
+} from '../validations/issues';
+import { validateDecisionDate } from '../validations/date';
 
 import { replaceWhitespace } from '../utils/replace';
 
-const AddIssue = ({
-  validations,
-  description,
-  data,
-  goToPath,
-  setFormData,
-  uiSchema,
-  testingIndex,
-}) => {
+const AddIssue = (props, appAbbr) => {
+  const { data, goToPath, setFormData, uiSchema, testingIndex } = props;
   const { contestedIssues = [], additionalIssues = [] } = data || {};
   const allIssues = contestedIssues.concat(additionalIssues);
 
@@ -54,12 +52,8 @@ const AddIssue = ({
       ? REVIEW_AND_SUBMIT
       : `/${CONTESTABLE_ISSUES_PATH}`;
 
-  const nameValidations = [
-    missingIssueName,
-    validations.maxNameLength,
-    uniqueIssue,
-  ];
-  const dateValidations = [validations.validateDate];
+  const nameValidations = [missingIssueName, maxNameLength, uniqueIssue];
+  const dateValidations = [validateDecisionDate];
   const uniqueValidations = [uniqueIssue];
 
   const [issueName, setIssueName] = useState(
@@ -73,12 +67,21 @@ const AddIssue = ({
   const [submitted, setSubmitted] = useState(false);
 
   // check name
-  const nameErrorMessage = checkValidations(nameValidations, issueName, data);
+  const nameErrorMessage = checkValidations(
+    nameValidations,
+    issueName,
+    data,
+    null,
+    appAbbr,
+  );
+
   // check dates
   const dateErrorMessage = checkValidations(
     dateValidations,
     issueDate || '',
     data,
+    null,
+    appAbbr,
   );
 
   // check name & date combo uniqueness
@@ -183,7 +186,21 @@ const AddIssue = ({
         >
           <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
-        {description}
+        {appAbbr === 'SC' && (
+          <div>
+            If you’re filing a Supplemental Claim within 1 year of receiving a
+            decision from 1 of these courts, provide the date listed on your
+            decision notice and upload a copy of your decision notice as
+            evidence:
+            <ul>
+              <li>The United States Court of Appeals for Veterans Claims</li>
+              <li>
+                The United States Court of Appeals for the Federal Circuit
+              </li>
+              <li>The Supreme Court of the United States</li>
+            </ul>
+          </div>
+        )}
         <VaTextInput
           id="issue-name"
           name="issue-name"
@@ -245,10 +262,6 @@ AddIssue.propTypes = {
     'ui:options': PropTypes.shape({
       focusOnAlertRole: PropTypes.bool,
     }),
-  }),
-  validations: PropTypes.shape({
-    maxNameLength: PropTypes.func,
-    validateDate: PropTypes.func,
   }),
 };
 
