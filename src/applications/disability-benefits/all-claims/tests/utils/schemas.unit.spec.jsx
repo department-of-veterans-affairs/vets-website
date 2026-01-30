@@ -108,6 +108,7 @@ describe('makeSchemaForNewDisabilities', () => {
   });
 });
 
+// demonstrates behavior of the legacy (pre-v2) implementation of makeSchemaForRatedDisabilities
 describe('makeLegacySchemaForRatedDisabilities', () => {
   it('should handle special characters in the disability name', () => {
     const formData = {
@@ -132,6 +133,14 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
           name: 'Lower back injury affecting vertebrae C-4 vertebrae C-5',
           'view:selected': true,
         },
+        {
+          name: 'Migraines [intermittent; 1:30-4:00am typically!)]',
+          'view:selected': true,
+        },
+        {
+          name: 'Dizziness/vertigo. Occurs ~2x/month.',
+          'view:selected': true,
+        },
       ],
     };
     expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
@@ -140,8 +149,16 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
           title: 'Diabetes (Mellitus)',
           type: 'boolean',
         },
+        dizzinessvertigooccurs2xmonth: {
+          title: 'Dizziness/vertigo. Occurs ~2x/month.',
+          type: 'boolean',
+        },
         lowerbackinjuryaffectingvertebraec4vertebraec5: {
           title: 'Lower Back Injury Affecting Vertebrae C-4 Vertebrae C-5',
+          type: 'boolean',
+        },
+        migrainesintermittent130400amtypically: {
+          title: 'Migraines [Intermittent; 1:30-4:00am Typically!)]',
           type: 'boolean',
         },
         ptsdpersonaltrauma: {
@@ -188,6 +205,74 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
       properties: {
         cat: {
           title: 'CaT',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+  it('should handle null or empty disability names', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: null,
+          'view:selected': true,
+        },
+        {
+          name: '',
+          'view:selected': true,
+        },
+        {
+          name: 'Unknown Condition', // NULL_CONDITION_STRING in constants.js
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        blank: {
+          title: null,
+          type: 'boolean',
+        },
+        unknowncondition: {
+          title: 'Unknown Condition',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+  it('should handle a mix of invalid and valid disability names', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
+      ratedDisabilities: [
+        {
+          name: null,
+          'view:selected': true,
+        },
+        {
+          name: '',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes mellitus',
+          'view:selected': true,
+        },
+      ],
+    };
+    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+      properties: {
+        blank: {
+          title: null,
+          type: 'boolean',
+        },
+        diabetesmellitus: {
+          title: 'Diabetes Mellitus',
           type: 'boolean',
         },
       },
