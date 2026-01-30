@@ -33,11 +33,13 @@ export const vassApi = createApi({
             dispatch(setObfuscatedEmail(response.data.email));
           }
           return response;
-        } catch (error) {
+        } catch ({ errors }) {
           // captureError(error, false, 'post referral appointment');
-          // TODO: do something with error
           return {
-            error: error.errors[0],
+            error: {
+              code: errors?.[0]?.code,
+              detail: errors?.[0]?.detail,
+            },
           };
         }
       },
@@ -58,11 +60,10 @@ export const vassApi = createApi({
               dob,
             }),
           });
-        } catch (error) {
+        } catch ({ errors }) {
           // captureError(error, false, 'post referral appointment');
-          // TODO: do something with error
           return {
-            error: error.errors[0],
+            error: errors?.[0],
           };
         }
       },
@@ -93,11 +94,14 @@ export const vassApi = createApi({
               dtEndUtc,
             }),
           });
-        } catch (error) {
+        } catch ({ errors }) {
           // captureError(error, false, 'post appointment');
           // TODO: do something with error
           return {
-            error: { status: error.status || 500, message: error?.message },
+            error: {
+              code: errors?.[0]?.code,
+              detail: errors?.[0]?.detail,
+            },
           };
         }
       },
@@ -113,11 +117,14 @@ export const vassApi = createApi({
               Authorization: `Bearer ${token}`,
             },
           });
-        } catch (error) {
+        } catch ({ errors }) {
           // captureError(error, false, 'get appointment');
           // TODO: do something with error
           return {
-            error: { status: error.status || 500, message: error?.message },
+            error: {
+              code: errors?.[0]?.code,
+              detail: errors?.[0]?.detail,
+            },
           };
         }
       },
@@ -133,11 +140,14 @@ export const vassApi = createApi({
               Authorization: `Bearer ${token}`,
             },
           });
-        } catch (error) {
+        } catch ({ errors }) {
           // captureError(error, false, 'get topics');
           // TODO: do something with error
           return {
-            error: { status: error.status || 500, message: error?.message },
+            error: {
+              code: errors?.[0]?.code,
+              detail: errors?.[0]?.detail,
+            },
           };
         }
       },
@@ -153,11 +163,37 @@ export const vassApi = createApi({
               Authorization: `Bearer ${token}`,
             },
           });
-        } catch (error) {
+        } catch ({ errors }) {
           // captureError(error, false, 'get appointment availability');
           // TODO: do something with error
           return {
-            error: { status: error.status || 500, message: error?.message },
+            error: {
+              code: errors?.[0]?.code,
+              detail: errors?.[0]?.detail,
+            },
+          };
+        }
+      },
+    }),
+    cancelAppointment: builder.mutation({
+      async queryFn({ appointmentId }) {
+        try {
+          const token = getVassToken();
+          return await api(`/vass/v0/appointment/${appointmentId}/cancel`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } catch ({ errors }) {
+          // captureError(error, false, 'cancel appointment');
+          // TODO: do something with error
+          return {
+            error: {
+              code: errors?.[0]?.code,
+              detail: errors?.[0]?.detail,
+            },
           };
         }
       },
@@ -172,4 +208,5 @@ export const {
   useGetAppointmentQuery,
   useGetTopicsQuery,
   useGetAppointmentAvailabilityQuery,
+  useCancelAppointmentMutation,
 } = vassApi;

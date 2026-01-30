@@ -8,13 +8,14 @@ import {
   selectFlowType,
   selectObfuscatedEmail,
 } from '../redux/slices/formSlice';
-import { FLOW_TYPES, URLS } from '../utils/constants';
+import { FLOW_TYPES, URLS, OTC_ERROR_CODES } from '../utils/constants';
+import { isAccountLockedError, isServerError } from '../utils/errors';
 
 const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   switch (errorCode) {
-    case 'account_locked':
+    case OTC_ERROR_CODES.ACCOUNT_LOCKED:
       return 'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes. Check your email and select the link to schedule a call.';
-    case 'invalid_otc':
+    case OTC_ERROR_CODES.INVALID_OTP:
       if (attemptsRemaining === 1) {
         return 'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again.';
       }
@@ -24,8 +25,8 @@ const getErrorMessage = (errorCode, attemptsRemaining = 0) => {
   }
 };
 
-const getPageTitle = (cancellationFlow, error) => {
-  if (error) {
+const getPageTitle = (cancellationFlow, hasError) => {
+  if (hasError) {
     return 'We couldn’t verify your information';
   }
   if (cancellationFlow) {
@@ -48,21 +49,23 @@ const EnterOTC = () => {
   ]);
 
   const [code, setCode] = useState('');
-  const [error, setError] = useState(undefined);
 
-  const [postOTCVerification, { isLoading }] = usePostOTCVerificationMutation();
+  const [
+    postOTCVerification,
+    { isLoading, error: postOTCVerificationError },
+  ] = usePostOTCVerificationMutation();
 
   const handleSubmit = async () => {
     if (code === '') {
       setOtcError('Please enter your one-time verification code');
       return;
     }
+
     const response = await postOTCVerification({
       otc: code,
     });
 
     if (response.error) {
-      setError(response.error);
       setApiError('API Error');
       setCode('');
       return;
@@ -75,18 +78,26 @@ const EnterOTC = () => {
     }
   };
 
-  const errorMessage = getErrorMessage(error?.code, error?.attemptsRemaining);
+  const errorMessage = getErrorMessage(
+    postOTCVerificationError?.code,
+    postOTCVerificationError?.attemptsRemaining,
+  );
   const pageTitle = getPageTitle(
     cancellationFlow,
-    error?.code === 'account_locked',
+    isAccountLockedError(postOTCVerificationError),
   );
 
-  const verificationError =
-    error?.code === 'account_locked' ? errorMessage : undefined;
-
   return (
-    <Wrapper pageTitle={pageTitle} verificationError={verificationError}>
-      {!error?.code && (
+    <Wrapper
+      pageTitle={pageTitle}
+      verificationError={
+        isAccountLockedError(postOTCVerificationError)
+          ? errorMessage
+          : undefined
+      }
+      errorAlert={isServerError(postOTCVerificationError)}
+    >
+      {!postOTCVerificationError?.code && (
         <va-alert
           status="success"
           visible
@@ -100,7 +111,7 @@ const EnterOTC = () => {
         </va-alert>
       )}
 
-      {error?.code && (
+      {postOTCVerificationError?.code && (
         <va-alert status="error" visible data-testid="enter-otc-error-alert">
           <p className="vads-u-margin-y--0">{errorMessage}</p>
         </va-alert>

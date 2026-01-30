@@ -5,9 +5,37 @@ const mockTopics = require('./utils/topic');
 const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
 const { decodeJwt } = require('../../utils/jwt-utils');
 const { createAppointmentData } = require('../../utils/appointments');
+const {
+  createOTPInvalidError,
+  createOTPAccountLockedError,
+  createRateLimitExceededError,
+  createVassApiError,
+  createServiceError,
+  createUnauthorizedError,
+  createInvalidCredentialsError,
+  createNotWithinCohortError,
+} = require('./utils/errors');
 
 const mockUUIDs = Object.freeze({
   'c0ffee-1234-beef-5678': {
+    lastname: 'Smith',
+    dob: '1935-04-07',
+    otc: '123456',
+    email: 's****@email.com',
+  },
+  'authenticate-otc-vass-api-error': {
+    lastname: 'Smith',
+    dob: '1935-04-07',
+    otc: '123456',
+    email: 's****@email.com',
+  },
+  'authenticate-otc-service-error': {
+    lastname: 'Smith',
+    dob: '1935-04-07',
+    otc: '123456',
+    email: 's****@email.com',
+  },
+  'not-within-cohort': {
     lastname: 'Smith',
     dob: '1935-04-07',
     otc: '123456',
@@ -29,6 +57,14 @@ const mockAppointments = [createAppointmentData()];
 const responses = {
   'POST /vass/v0/authenticate': (req, res) => {
     const { uuid, lastname, dob } = req.body;
+
+    if (uuid === 'authenticate-vass-api-error') {
+      return res.status(500).json(createVassApiError());
+    }
+    if (uuid === 'authenticate-service-error') {
+      return res.status(500).json(createServiceError());
+    }
+
     let attemptCount = 0;
     const [lastAttempt, attemptCountStr] = lowAuthVerifications
       .get(uuid)
@@ -60,28 +96,19 @@ const responses = {
       });
     }
     if (attemptCount >= maxLowAuthVerifications) {
-      return res.status(401).json({
-        errors: [
-          {
-            code: 'rate_limit_exceeded',
-            detail: 'Too many OTC requests.  Please try again later.',
-            retryAfter: 900,
-          },
-        ],
-      });
+      return res.status(401).json(createRateLimitExceededError(900));
     }
 
-    return res.status(401).json({
-      errors: [
-        {
-          code: 'invalid_credentials',
-          detail: 'Unable to verify identity. Please check your information.',
-        },
-      ],
-    });
+    return res.status(401).json(createInvalidCredentialsError());
   },
   'POST /vass/v0/authenticate-otc': (req, res) => {
     const { otc, uuid, lastname, dob } = req.body;
+    if (uuid === 'authenticate-otc-vass-api-error') {
+      return res.status(500).json(createVassApiError());
+    }
+    if (uuid === 'authenticate-otc-service-error') {
+      return res.status(500).json(createServiceError());
+    }
     const useCount = otcUseCounts.get(uuid) || 0;
     otcUseCounts.set(uuid, useCount + 1);
     const mockUser = mockUUIDs[uuid];
@@ -101,27 +128,11 @@ const responses = {
       });
     }
     if (useCount >= maxOtcUseCount) {
-      return res.status(401).json({
-        errors: [
-          {
-            code: 'account_locked',
-            detail: 'Too many failed attempts.  Please request a new OTC.',
-            status: 401, // TODO: confirm status code
-            retryAfter: 900, // 15 minutes TODO
-          },
-        ],
-      });
+      return res.status(401).json(createOTPAccountLockedError(900));
     }
-    return res.status(401).json({
-      errors: [
-        {
-          code: 'invalid_otc',
-          detail: 'Invalid or expired OTC.  Please try again.',
-          attemptsRemaining: maxOtcUseCount - useCount,
-          status: 401,
-        },
-      ],
-    });
+    return res
+      .status(401)
+      .json(createOTPInvalidError(maxOtcUseCount - useCount));
   },
   'POST /vass/v0/appointment': (req, res) => {
     return res.json({
@@ -153,14 +164,33 @@ const responses = {
 
     const uuid = tokenPayload?.payload?.sub;
     if (!token || !uuid) {
-      return res.status(401).json({
-        errors: [{ code: 'unauthorized', detail: 'Unauthorized' }],
-      });
+      return res.status(401).json(createUnauthorizedError());
     }
+
+    if (uuid === 'not-within-cohort') {
+      return res.status(401).json(createNotWithinCohortError());
+    }
+
     return res.json({
       data: {
         appointmentId: uuid,
         availableTimeSlots: generateSlots(),
+      },
+    });
+  },
+  'POST /vass/v0/appointment/:appointmentId/cancel': (req, res) => {
+    const { headers } = req;
+    const [, token] = headers.authorization?.split(' ') || [];
+    const tokenPayload = decodeJwt(token);
+
+    const uuid = tokenPayload?.payload?.sub;
+    if (!token || !uuid) {
+      return res.status(401).json(createUnauthorizedError());
+    }
+    const { appointmentId } = req.params;
+    return res.json({
+      data: {
+        appointmentId,
       },
     });
   },
