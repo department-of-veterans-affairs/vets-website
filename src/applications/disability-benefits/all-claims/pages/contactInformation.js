@@ -28,7 +28,6 @@ import {
   isCountryRequired,
   shouldHideState,
 } from '../utils/contactInformationHelpers';
-import NormalizedAddressLineField from '../components/NormalizedAddressLineField';
 
 const { phoneAndEmail } = fullSchema.properties;
 
@@ -141,17 +140,14 @@ export const uiSchema = {
     },
     addressLine1: {
       ...defaultAddressUI.addressLine1,
-      'ui:webComponentField': NormalizedAddressLineField,
       'ui:validations': [createAddressLineValidator(20, 'Address line 1')],
     },
     addressLine2: {
       ...defaultAddressUI.addressLine2,
-      'ui:webComponentField': NormalizedAddressLineField,
       'ui:validations': [createAddressLineValidator(20, 'Address line 2')],
     },
     addressLine3: {
       ...defaultAddressUI.addressLine3,
-      'ui:webComponentField': NormalizedAddressLineField,
       'ui:validations': [createAddressLineValidator(20, 'Address line 3')],
     },
   },
