@@ -112,7 +112,7 @@ const NotificationChannel = props => {
             ? 'We’re sorry. We had a problem saving your update. Try again.'
             : null,
         successMessage:
-          apiStatus === LOADING_STATES.loaded ? 'Update saved.' : null,
+          apiStatus === LOADING_STATES.loaded ? 'Update saved' : null,
         isDisabled: apiStatus === LOADING_STATES.pending,
       };
     },

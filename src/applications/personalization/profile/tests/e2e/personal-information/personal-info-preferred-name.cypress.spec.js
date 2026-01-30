@@ -41,7 +41,7 @@ describe('Preferred name field tests on the personal information page', () => {
       .first()
       .find('va-button')
       .shadow()
-      .findByText(/yes, cancel my changes/i)
+      .findByText(/Cancel changes/i)
       .click();
 
     cy.findByText(nameEditInputLabel).should('not.exist');

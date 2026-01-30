@@ -23,14 +23,14 @@ export const Locators = {
 
 export const Data = {
   SIGNATURE: {
-    UPDATE_SAVED: `Update saved.`,
+    UPDATE_SAVED: `Update saved`,
     CHOOSE_EDIT: `Choose edit to add a messages signature.`,
     ALERTS: {
       EMPTY_FIELD: `Error Both fields are required to save a signature.`,
       CANCEL_CHANGES: `Cancel changes?`,
-      CANCEL_ALERT: `You haven't finished editing and saving the changes to your messages signature. If you cancel now, we won't save your changes.`,
-      CANCEL_BTN: `Yes, cancel my changes`,
-      BACK_TO_EDIT_BTN: `No, go back to editing`,
+      CANCEL_ALERT: `You haven't saved the changes you made to your messages signature. If you cancel, we won't save your changes.`,
+      CANCEL_BTN: `Cancel changes`,
+      BACK_TO_EDIT_BTN: `Keep editing`,
       REQUIRED: `(*Required)`,
       REMOVE: `Remove your messages signature?`,
       REMOVE_TEXT: `Your signature will no longer appear on outgoing secure messages.You can always come back to your profile later if you want to add this signature again.`,

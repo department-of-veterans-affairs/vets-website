@@ -152,7 +152,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
       phoneNumber: '(555) 123-4567',
       extension: '321',
     });
-    cy.contains('Update saved.').should('exist');
+    cy.contains('Update saved').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -162,7 +162,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
       country: 'France',
       phoneNumber: '01 23 45 67 89',
     });
-    cy.contains('Update saved.').should('exist');
+    cy.contains('Update saved').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -182,7 +182,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
       .first()
       .click();
 
-    cy.contains('Update saved.').should('exist');
+    cy.contains('Update saved').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -198,7 +198,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
       'Enter a valid United States of America phone number. Use 10 digits.',
     );
 
-    cy.contains('Update saved.').should('not.exist');
+    cy.contains('Update saved').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 });
