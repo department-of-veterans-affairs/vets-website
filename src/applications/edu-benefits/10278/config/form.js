@@ -78,7 +78,7 @@ const formConfig = {
   subTitle: SUBTITLE,
   CustomReviewTopContent,
   customText: {
-    appType: 'application',
+    appType: 'form',
     continueAppButtonText: 'Continue your form',
     startNewAppButtonText: 'Start a new form',
     finishAppLaterMessage: 'Finish this form later',
