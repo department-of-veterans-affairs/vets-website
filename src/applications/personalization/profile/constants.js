@@ -25,6 +25,8 @@ export const USA_MILITARY_BRANCHES = Object.freeze({
   spaceForce: 'Space Force',
 });
 
+export const VA_SEAL_IMAGE_PATH = '/img/design/seal/seal.png';
+
 export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.army, '/img/vic-army-symbol.png'],
   [USA_MILITARY_BRANCHES.coastGuard, '/img/vic-cg-emblem.png'],

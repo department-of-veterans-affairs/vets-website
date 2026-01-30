@@ -290,27 +290,35 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    // Succcess
-    return res.status(200).json(serviceHistory.airForce);
-
-    // No service history
-    // return res.status(200).json(serviceHistory.none);
-
-    // 403 error (no service found)
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('403'));
-
-    // Non-403 error
-    // return res
-    //   .status(200)
-    //   .json(serviceHistory.generateServiceHistoryError('500'));
-
-    // Dishonorable discharge
-    // return res.status(200).json(serviceHistory.dishonorableDischarge);
-
-    // Unknown discharge
-    // return res.status(200).json(serviceHistory.unknownDischarge);
+    const branch = 'army'; // change this value to get different responses
+    switch (branch) {
+      case 'airForce':
+        return res.status(200).json(serviceHistory.airForce);
+      case 'army':
+        return res.status(200).json(serviceHistory.army);
+      case 'coastGuard':
+        return res.status(200).json(serviceHistory.coastGuard);
+      case 'marineCorps':
+        return res.status(200).json(serviceHistory.marineCorps);
+      case 'navy':
+        return res.status(200).json(serviceHistory.navy);
+      case 'spaceForce':
+        return res.status(200).json(serviceHistory.spaceForce);
+      case 'error403':
+        return res
+          .status(200)
+          .json(serviceHistory.generateServiceHistoryError('403'));
+      case 'error500':
+        return res
+          .status(200)
+          .json(serviceHistory.generateServiceHistoryError('500'));
+      case 'dishonorableDischarge':
+        return res.status(200).json(serviceHistory.dishonorableDischarge);
+      case 'unknownDischarge':
+        return res.status(200).json(serviceHistory.unknownDischarge);
+      default:
+        return res.status(200).json(serviceHistory.none);
+    }
   },
   'GET /v0/profile/vet_verification_status': (_req, res) => {
     return res.status(200).json(vetVerificationStatus.confirmed);
