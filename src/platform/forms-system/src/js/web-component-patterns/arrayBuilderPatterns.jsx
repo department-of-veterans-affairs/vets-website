@@ -1,11 +1,9 @@
 import React from 'react';
 import { titleUI } from './titlePattern';
 import { yesNoSchema, yesNoUI } from './yesNoPattern';
-import {
-  getArrayUrlSearchParams,
-  maxItemsFn,
-  maxItemsHint,
-} from '../patterns/array-builder/helpers';
+import * as arrayBuilderHelpers from '../patterns/array-builder/helpers';
+
+const { maxItemsFn, maxItemsHint } = arrayBuilderHelpers;
 
 /**
  * useFormsPattern helper
@@ -80,7 +78,7 @@ export function withAlertOrDescription({
   showEditExplanationText = true,
 }) {
   return () => {
-    const search = getArrayUrlSearchParams();
+    const search = arrayBuilderHelpers.getArrayUrlSearchParams();
     const isAdd = search.get('add');
     const isEdit = search.get('edit');
     const removedAllWarn = search.get('removedAllWarn');
@@ -114,7 +112,7 @@ export function withAlertOrDescription({
  */
 export const withEditTitle = (title, lowerCase = true) => {
   return props => {
-    const search = getArrayUrlSearchParams();
+    const search = arrayBuilderHelpers.getArrayUrlSearchParams();
     const isEdit = search.get('edit');
     const titleStr = typeof title === 'function' ? title(props) : title;
     if (isEdit) {
