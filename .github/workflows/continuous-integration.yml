@@ -1111,6 +1111,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [tests-prep]
+    if: github.ref != 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -1189,6 +1190,7 @@ jobs:
     timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
+      github.ref != 'refs/heads/main' &&
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
       needs.tests-prep.outputs.e2e_count != '0'
