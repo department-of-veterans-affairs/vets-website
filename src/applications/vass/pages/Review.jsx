@@ -21,7 +21,7 @@ const Review = () => {
   const selectedDate = useSelector(selectSelectedDate);
   const handleConfirmCall = async () => {
     const res = await postAppointment({
-      topics: (selectedTopics || []).map(topic => topic.topicId),
+      topics: selectedTopics.map(topic => topic.topicId),
       dtStartUtc: selectedDate,
       dtEndUtc: selectedDate,
     });
