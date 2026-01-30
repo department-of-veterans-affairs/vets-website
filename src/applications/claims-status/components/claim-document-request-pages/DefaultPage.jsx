@@ -87,6 +87,100 @@ export default function DefaultPage({
     )} for: ${item.displayName}`;
   };
 
+  // Determine longDescription content (Priority 1: API → Priority 2: Frontend → Priority 3: Simple API → Fallback: Empty state)
+  let longDescriptionContent = null;
+  let longDescriptionTestId = null;
+
+  if (apiLongDescription) {
+    // Priority 1: API-provided structured content
+    longDescriptionContent = (
+      <TrackedItemContent content={apiLongDescription} />
+    );
+    longDescriptionTestId = 'api-long-description';
+  } else if (frontendDescription) {
+    longDescriptionContent = frontendDescription;
+    longDescriptionTestId = 'frontend-description';
+  } else if (apiDescription) {
+    // Priority 3: Simple API description
+    longDescriptionContent = apiDescription;
+    longDescriptionTestId = 'api-description';
+  } else if (isFirstParty) {
+    // Fallback: Empty state
+    longDescriptionContent = (
+      <>
+        <p>
+          We’re unable to provide more information about the request on this
+          page. To learn more about it, review your claim letter.
+        </p>
+        <VaLink
+          text="Access your claim letters"
+          label="Access your claim letters"
+          href="/track-claims/your-claim-letters"
+        />
+      </>
+    );
+    longDescriptionTestId = 'empty-state-description';
+  }
+
+  // Determine nextSteps content (Priority 1: API → Priority 2: Frontend → Fallback: Empty state)
+  let nextStepsContent = null;
+
+  if (apiNextSteps) {
+    // Priority 1: API-provided structured content
+    nextStepsContent = (
+      <div data-testid="api-next-steps">
+        <TrackedItemContent content={apiNextSteps} />
+      </div>
+    );
+  } else if (frontendNextSteps) {
+    // Priority 2: Frontend dictionary JSX
+    nextStepsContent = (
+      <div data-testid="frontend-next-steps">{frontendNextSteps}</div>
+    );
+  } else if (isFirstParty) {
+    // Fallback: Empty state
+    nextStepsContent = (
+      <>
+        <p>To respond to this request:</p>
+        <ul className="bullet-disc">
+          {apiLongDescription || frontendDescription || apiDescription ? (
+            <li data-testid="next-steps-in-what-we-need-from-you">
+              Gather and submit any documents or forms listed in the{' '}
+              <strong>What we need from you</strong> section
+            </li>
+          ) : (
+            <li data-testid="next-steps-in-claim-letter">
+              Gather and submit any documents or forms listed in the claim
+              letter
+            </li>
+          )}
+          <li>You can upload documents online or mail them to us</li>
+        </ul>
+        {(apiLongDescription || frontendDescription || apiDescription) && (
+          <p>
+            If you need help understanding this request, check your claim letter
+            online.
+            <br />
+            <VaLink
+              text="Access your claim letters"
+              label="Access your claim letters"
+              href="/track-claims/your-claim-letters"
+            />
+          </p>
+        )}
+        <p>
+          You can find blank copies of many VA forms online.
+          <br />
+          <VaLink
+            text="Find a VA form"
+            label="Find a VA form"
+            href="/find-forms"
+          />
+        </p>
+      </>
+    );
+  }
+
   return (
     <div id="default-page" className="vads-u-margin-bottom--3">
       <div className="vads-u-margin-bottom--4">
@@ -177,56 +271,15 @@ export default function DefaultPage({
         </h2>
       )}
 
-      {/* Priority 1: API-provided structured content */}
-      {apiLongDescription && (
+      {/* Display the longDescription content */}
+      {longDescriptionContent && (
         <div
           className="vads-u-margin-bottom--4"
-          data-testid="api-long-description"
+          data-testid={longDescriptionTestId}
         >
-          <TrackedItemContent content={apiLongDescription} />
+          {longDescriptionContent}
         </div>
       )}
-      {/* Priority 2: Frontend dictionary JSX */}
-      {!apiLongDescription &&
-        frontendDescription && (
-          <div
-            className="vads-u-margin-bottom--4"
-            data-testid="frontend-description"
-          >
-            {frontendDescription}
-          </div>
-        )}
-      {/* Priority 3: Simple API description */}
-      {!apiLongDescription &&
-        !frontendDescription &&
-        apiDescription && (
-          <div
-            className="vads-u-margin-bottom--4"
-            data-testid="api-description"
-          >
-            {apiDescription}
-          </div>
-        )}
-      {/* Fallback: Empty state */}
-      {!apiLongDescription &&
-        !frontendDescription &&
-        !apiDescription &&
-        isFirstParty && (
-          <div
-            className="vads-u-margin-bottom--4"
-            data-testid="empty-state-description"
-          >
-            <p>
-              We’re unable to provide more information about the request on this
-              page. To learn more about it, review your claim letter.
-            </p>
-            <VaLink
-              text="Access your claim letters"
-              label="Access your claim letters"
-              href="/track-claims/your-claim-letters"
-            />
-          </div>
-        )}
 
       {isThirdParty && (
         <div className="optional-upload">
@@ -269,75 +322,15 @@ export default function DefaultPage({
           </div>
         )}
 
-      {/* Priority 1: API structured next steps */}
-      {apiNextSteps && (
+      {/* Display the nextSteps content */}
+      {nextStepsContent && (
         <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Next steps
           </h2>
-          <div data-testid="api-next-steps">
-            <TrackedItemContent content={apiNextSteps} />
-          </div>
+          {nextStepsContent}
         </div>
       )}
-
-      {/* Priority 2: Frontend dictionary next steps */}
-      {!apiNextSteps &&
-        frontendNextSteps && (
-          <div className="vads-u-margin-y--4">
-            <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-              Next steps
-            </h2>
-            <div data-testid="frontend-next-steps">{frontendNextSteps}</div>
-          </div>
-        )}
-
-      {/* Fallback: Generic next steps for first-party requests without custom next steps */}
-      {!apiNextSteps &&
-        !frontendNextSteps &&
-        isFirstParty && (
-          <div className="vads-u-margin-y--4">
-            <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-              Next steps
-            </h2>
-            <p>To respond to this request:</p>
-            <ul className="bullet-disc">
-              {apiLongDescription || frontendDescription || apiDescription ? (
-                <li data-testid="next-steps-in-what-we-need-from-you">
-                  Gather and submit any documents or forms listed in the{' '}
-                  <strong>What we need from you</strong> section
-                </li>
-              ) : (
-                <li data-testid="next-steps-in-claim-letter">
-                  Gather and submit any documents or forms listed in the claim
-                  letter
-                </li>
-              )}
-              <li>You can upload documents online or mail them to us</li>
-            </ul>
-            {(apiLongDescription || frontendDescription || apiDescription) && (
-              <p>
-                If you need help understanding this request, check your claim
-                letter online.
-                <br />
-                <VaLink
-                  text="Access your claim letters"
-                  label="Access your claim letters"
-                  href="/track-claims/your-claim-letters"
-                />
-              </p>
-            )}
-            <p>
-              You can find blank copies of many VA forms online.
-              <br />
-              <VaLink
-                text="Find a VA form"
-                label="Find a VA form"
-                href="/find-forms"
-              />
-            </p>
-          </div>
-        )}
 
       {item.canUploadFile && (
         <AddFilesForm
