@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { obfuscate, titleCase } from '../helpers';
@@ -22,6 +22,14 @@ export default function DirectDepositViewField({
     'vads-u-margin-top--4',
     'vads-u-width--auto',
   ].join(' ');
+
+  // Ensure errors are re-validated when this component loads
+  useEffect(
+    () => {
+      formContext.onError();
+    },
+    [formContext],
+  );
 
   return (
     <>
