@@ -32,6 +32,10 @@ import {
 import { seriouslyDisabledDescription } from '../../../utils/helpers';
 import { VaForm214138Alert } from '../../../components/FormAlerts';
 
+const updatedFullNameSchema = fullNameSchema;
+updatedFullNameSchema.properties.first.maxLength = 12;
+updatedFullNameSchema.properties.last.maxLength = 18;
+
 /**
  * Dependent children (array builder)
  */
@@ -161,7 +165,7 @@ const namePage = {
   schema: {
     type: 'object',
     properties: {
-      childFullName: fullNameSchema,
+      childFullName: updatedFullNameSchema,
       childSocialSecurityNumber: ssnSchema,
       noSsn: checkboxSchema,
     },
@@ -210,7 +214,7 @@ const dobPlacePage = {
           required: 'Please select a state',
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
           const item = formData?.veteransChildren?.[index];
@@ -250,7 +254,7 @@ const dobPlacePage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,

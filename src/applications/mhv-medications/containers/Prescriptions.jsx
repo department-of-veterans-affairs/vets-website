@@ -17,6 +17,7 @@ import {
   updatePageTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import CernerFacilityAlert from '~/platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
@@ -49,7 +50,6 @@ import { getFilterOptions } from '../util/helpers/getRxStatus';
 import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
-import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import RxRenewalMessageSuccessAlert from '../components/shared/RxRenewalMessageSuccessAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
@@ -170,7 +170,12 @@ const Prescriptions = () => {
     [prescriptionsData],
   );
 
-  const filteredList = prescriptionsData?.prescriptions || [];
+  const filteredList = useMemo(
+    () => {
+      return prescriptionsData?.prescriptions || [];
+    },
+    [prescriptionsData],
+  );
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
@@ -212,15 +217,6 @@ const Prescriptions = () => {
     if (isFiltering) {
       updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
       updates.page = 1;
-
-      if (newFilterOption === selectedFilterOption) {
-        document.getElementById('showingRx').scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest',
-        });
-      }
-
       dispatch(setFilterOption(newFilterOption));
       dispatch(setPageNumber(1));
     }
@@ -691,6 +687,7 @@ const Prescriptions = () => {
             <MedicationsListFilter
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
+              isLoading={isLoading}
             />
             <InProductionEducationFiltering />
           </>
@@ -734,11 +731,14 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <DisplayCernerFacilityAlert />
+            <CernerFacilityAlert
+              healthTool="MEDICATIONS"
+              apiError={prescriptionsApiError}
+            />
           </>
         ) : (
           <>
-            <DisplayCernerFacilityAlert />
+            <CernerFacilityAlert healthTool="MEDICATIONS" />
             {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>
@@ -752,11 +752,15 @@ const Prescriptions = () => {
     <div>
       {content()}
       <PrescriptionsPrintOnly
-        list={printedList}
+        list={printedList.length > 0 ? printedList : filteredList}
         hasError={
           hasExportListDownloadError || isAlertVisible || !!allergiesError
         }
-        isFullList={printedList.length === prescriptionsExportList.length}
+        isFullList={
+          printedList.length > 0
+            ? printedList.length === prescriptionsExportList.length
+            : true
+        }
       />
     </div>
   );

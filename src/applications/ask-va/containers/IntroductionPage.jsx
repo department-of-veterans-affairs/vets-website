@@ -32,7 +32,7 @@ import {
 } from '../config/helpers';
 import { envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiryStatusResponse } from '../utils/mockData';
-import DashboardCards from './DashboardCards';
+import Inbox from './Inbox';
 
 const VerifiedAlert = (
   <div className="vads-u-margin-bottom--4">
@@ -367,7 +367,7 @@ const IntroductionPage = props => {
         className="vads-u-margin--0"
         verifiedPrefillAlert={VerifiedAlert}
       />
-      <DashboardCards />
+      <Inbox />
     </>
   );
 
