@@ -10,6 +10,7 @@ import {
   shouldHideState,
   isStateRequired,
   createAddressLineValidator,
+  normalizeAddressLine,
 } from '../../utils/contactInformationHelpers';
 
 describe('contactInformationHelpers', () => {
@@ -219,6 +220,68 @@ describe('contactInformationHelpers', () => {
       });
     });
 
+    describe('normalizeAddressLine', () => {
+      it('should return the same value if no normalization needed', () => {
+        expect(normalizeAddressLine('123 Main St')).to.equal('123 Main St');
+      });
+
+      it('should trim leading whitespace', () => {
+        expect(normalizeAddressLine('   123 Main St')).to.equal('123 Main St');
+      });
+
+      it('should trim trailing whitespace', () => {
+        expect(normalizeAddressLine('123 Main St   ')).to.equal('123 Main St');
+      });
+
+      it('should trim both leading and trailing whitespace', () => {
+        expect(normalizeAddressLine('  123 Main St  ')).to.equal('123 Main St');
+      });
+
+      it('should collapse multiple consecutive spaces into a single space', () => {
+        expect(normalizeAddressLine('123  Main  St')).to.equal('123 Main St');
+      });
+
+      it('should collapse many consecutive spaces into a single space', () => {
+        expect(normalizeAddressLine('123     Main     St')).to.equal(
+          '123 Main St',
+        );
+      });
+
+      it('should handle both trim and collapse together', () => {
+        expect(normalizeAddressLine('  123   Main   St  ')).to.equal(
+          '123 Main St',
+        );
+      });
+
+      it('should return empty string unchanged', () => {
+        expect(normalizeAddressLine('')).to.equal('');
+      });
+
+      it('should return null unchanged', () => {
+        expect(normalizeAddressLine(null)).to.equal(null);
+      });
+
+      it('should return undefined unchanged', () => {
+        expect(normalizeAddressLine(undefined)).to.equal(undefined);
+      });
+
+      it('should handle string with only spaces', () => {
+        expect(normalizeAddressLine('     ')).to.equal('');
+      });
+
+      it('should preserve single spaces between words', () => {
+        expect(normalizeAddressLine('Apt 123 Suite B')).to.equal(
+          'Apt 123 Suite B',
+        );
+      });
+
+      it('should handle addresses with special characters and extra spaces', () => {
+        expect(normalizeAddressLine("  O'Brien   Lane  ")).to.equal(
+          "O'Brien Lane",
+        );
+      });
+    });
+
     describe('createAddressLineValidator', () => {
       const createMockErrors = () => {
         const errorMessages = [];
@@ -335,6 +398,17 @@ describe('contactInformationHelpers', () => {
         const errors = createMockErrors();
         validator(errors, '123 Main Street (Apt 456)');
         expect(errors.addError.callCount).to.equal(2);
+      });
+
+      it('should include "spaces" in the error message for invalid characters', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, 'Apt (2)');
+        expect(
+          errors.addError.calledWith(
+            "Address line 1 may only contain letters, numbers, spaces, and these special characters: ' . , & # -",
+          ),
+        ).to.be.true;
       });
     });
   });
