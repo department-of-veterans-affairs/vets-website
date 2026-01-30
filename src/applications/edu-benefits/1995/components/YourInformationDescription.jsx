@@ -34,9 +34,13 @@ const BENEFIT_TYPE_LABELS = {
   FRY: 'Fry Scholarship (Chapter 33)',
 };
 
+const getBenefitHeading = benefitType => {
+  return benefitType ? 'Your current benefit' : 'No last used benefit to show';
+};
+
 export const getBenefitLabel = benefitType => {
   if (!benefitType) {
-    return "We couldn't load your current benefit.";
+    return 'We don’t have a record of a last used benefit for you in our system.';
   }
   return BENEFIT_TYPE_LABELS[benefitType] || benefitType;
 };
@@ -63,9 +67,9 @@ const YourInformationDescription = ({ formData }) => {
               <h3
                 className="usa-summary-box__heading vads-u-margin-top--0"
                 id="summary-box-current-benefit"
-                style={{ marginBottom: '0.25rem', fontSize: '20px' }}
+                style={{ marginBottom: '0.25rem' }}
               >
-                Your current benefit
+                {getBenefitHeading(formData?.currentBenefitType)}
               </h3>
               <div className="usa-summary-box__text">
                 <p className="vads-u-margin-y--0">

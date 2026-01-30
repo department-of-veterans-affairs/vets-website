@@ -228,7 +228,7 @@ export const yourInformationPage = () => ({
         type: 'string',
         enum: ['same-benefit', 'foreign-school', 'switch-benefit'],
         enumNames: [
-          'Apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
+          'Apply to my last awarded benefit again to get an updated Certificate of Eligibility (COE)',
           'Update my Certificate of Eligibility (COE) for a foreign school',
           'Apply to switch my existing education benefit and get a new Certificate of Eligibility (COE)',
         ],
