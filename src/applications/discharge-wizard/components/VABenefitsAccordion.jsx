@@ -28,13 +28,6 @@ const VABenefitsAccordion = ({ isResultsPage = false }) => {
     </ul>
   );
 
-  let vsoLink = (
-    <va-link
-      href="/get-help-from-accredited-representative/find-rep"
-      text="Get help from an accredited representative"
-    />
-  );
-
   if (isResultsPage) {
     learnMoreLinks = (
       <ul>
@@ -47,46 +40,16 @@ const VABenefitsAccordion = ({ isResultsPage = false }) => {
         ))}
       </ul>
     );
-
-    vsoLink = (
-      <a
-        href="/get-help-from-accredited-representative/find-rep"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Get help from an accredited representative (opens in a new tab)
-      </a>
-    );
   }
 
   return (
-    <va-accordion-item header="Can I get VA benefits without a discharge upgrade?">
+    <va-accordion-item header="Can I get VA benefits without a discharge upgrade or correction?">
       <p>
-        Even with a less than honorable discharge, you may be able to access
-        some VA benefits through the Character of Discharge review process. When
-        you apply for VA benefits, we’ll review your record to determine if your
-        service was “honorable for VA purposes.” This review can take up to a
-        year. Provide us with documents supporting your case, similar to the
-        evidence you’d send with an application to upgrade your discharge.
+        If you need mental health services for conditions related to PTSD,
+        military sexual trauma, or other experiences linked to your service, you
+        may qualify for VA health benefits right away. You don’t need a
+        discharge upgrade or correction to receive these services.
       </p>
-      <p>
-        An accredited attorney, claims agent, or Veterans Service Organization
-        (VSO) representative can help you gather your evidence and submit your
-        application. {vsoLink}.
-      </p>
-      <p>
-        <strong>Note:</strong> You can ask for a VA Character of Discharge
-        review while at the same time applying for a discharge upgrade from the
-        Department of Defense (DOD) or the Coast Guard.
-      </p>
-      <p>
-        If you experienced sexual assault or harassment while in the military,
-        or need mental health services related to PTSD or other mental health
-        conditions linked to your service, you may qualify immediately for VA
-        health benefits, even without a VA Character of Discharge review or a
-        discharge upgrade.
-      </p>
-      <p>Learn more about:</p>
       {learnMoreLinks}
     </va-accordion-item>
   );
