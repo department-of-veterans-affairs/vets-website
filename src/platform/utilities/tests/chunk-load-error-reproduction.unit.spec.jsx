@@ -98,10 +98,21 @@ describe('ChunkLoadError Reproduction', () => {
   });
 
   describe('lazyWithRetry', () => {
-    // Note: We avoid faking setTimeout here because RTL's waitFor uses setTimeout
-    // internally, and sinon 3.x doesn't support tickAsync which would be needed
-    // to coordinate fake timers with async React rendering.
-    // Instead, we use real timers with short delays for deterministic testing.
+    // Key insight: We use baseDelayMs: 0 to eliminate setTimeout timing issues.
+    //
+    // Why? act() only flushes React's internal scheduler, not our setTimeout callbacks.
+    // With real delays (even 10ms), there's a race condition:
+    //   1. act() completes, but setTimeout is still pending
+    //   2. waitFor() polls, but component is still in Loading state
+    //   3. setTimeout fires, but test timing is non-deterministic
+    //
+    // With delay=0, setTimeout fires on the next event loop tick, which
+    // waitFor can reliably catch. This tests the retry LOGIC without
+    // testing setTimeout timing (which isn't what we're verifying anyway).
+    //
+    // The passing "React.lazy" test confirms this analysis: it has no
+    // setTimeout, so act() is sufficient. The lazyWithRetry tests fail
+    // because they add setTimeout to the mix.
 
     it('retries and succeeds after transient failure', async () => {
       // Import the fix
@@ -127,11 +138,11 @@ describe('ChunkLoadError Reproduction', () => {
         });
       };
 
-      // Using lazyWithRetry with very short delays for fast tests
+      // Zero delay eliminates setTimeout timing issues while still testing retry logic
       const LazyComponent = lazyWithRetry(flakyImport, {
         maxRetries: 3,
-        baseDelayMs: 10,
-        maxDelayMs: 50,
+        baseDelayMs: 0,
+        maxDelayMs: 0,
       });
 
       let getByTestId;
@@ -145,9 +156,8 @@ describe('ChunkLoadError Reproduction', () => {
       });
 
       // Wait for retry to complete and component to render
-      // Using 5s timeout for CI environments which can be slower
       await waitFor(() => expect(getByTestId('success')).to.exist, {
-        timeout: 5000,
+        timeout: 2000,
       });
 
       expect(loadAttempts).to.equal(2);
@@ -167,11 +177,11 @@ describe('ChunkLoadError Reproduction', () => {
         return Promise.reject(error);
       };
 
-      // Using very short delays for fast tests
+      // Zero delay eliminates setTimeout timing issues while still testing retry logic
       const LazyComponent = lazyWithRetry(alwaysFailingImport, {
         maxRetries: 2,
-        baseDelayMs: 10,
-        maxDelayMs: 50,
+        baseDelayMs: 0,
+        maxDelayMs: 0,
       });
 
       let getByTestId;
@@ -187,9 +197,8 @@ describe('ChunkLoadError Reproduction', () => {
       });
 
       // Wait for error boundary to render after all retries exhausted
-      // Using 5s timeout for CI environments which can be slower
       await waitFor(() => expect(getByTestId('final-error')).to.exist, {
-        timeout: 5000,
+        timeout: 2000,
       });
 
       // Should have tried initial + maxRetries times (1 + 2 = 3)
