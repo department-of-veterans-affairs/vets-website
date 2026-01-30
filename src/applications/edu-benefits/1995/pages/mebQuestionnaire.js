@@ -49,7 +49,7 @@ const getFormInfo = benefitType => {
   };
   const form5490 = {
     header:
-      "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
+      "Dependents' Application for VA Education Benefits (VA Form 22-5490)",
     link:
       '/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
     linkText: 'Apply for education benefits (VA Form 22-5490)',
@@ -186,7 +186,7 @@ const BenefitSwitchDescription = () => {
           <va-link
             external
             href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
-            text="Survivors' and Dependents' Education Assistance (DEA)"
+            text="Survivors' and Dependents' Educational Assistance (DEA)"
           />{' '}
           and{' '}
           <va-link
@@ -268,7 +268,7 @@ export const sameBenefitSelectionPage = () => ({
           'Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)',
           'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
           'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
-          "Dependents' Educational Assistance (DEA, Chapter 35)",
+          "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
           'Fry Scholarship (Chapter 33)',
         ],
       },
@@ -291,16 +291,12 @@ export const benefitSwitchPage = () => ({
           const currentBenefit = mapCurrentToSelection(
             formData?.currentBenefitType,
           );
-          const exclude = [currentBenefit];
-          if (['dea', 'fry'].includes(currentBenefit)) {
-            exclude.push('dea', 'fry');
-          }
 
-          if (exclude.length > 0) {
+          if (currentBenefit) {
             const newEnum = [];
             const newEnumNames = [];
             schema.enum.forEach((val, idx) => {
-              if (!exclude.includes(val)) {
+              if (val !== currentBenefit) {
                 newEnum.push(val);
                 newEnumNames.push(schema.enumNames[idx]);
               }
@@ -327,7 +323,7 @@ export const benefitSwitchPage = () => ({
           'Montgomery GI Bill (MGIB-AD, Chapter 30)',
           'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
           'Transferred Post-9/11 GI Bill benefits (Transfer of Entitlement Program, TOE)',
-          'Dependents’ Education Assistance (DEA, Chapter 35)',
+          "Survivors' and Dependents' Educational Assistance (DEA, Chapter 35)",
           'Fry Scholarship (Chapter 33)',
         ],
       },

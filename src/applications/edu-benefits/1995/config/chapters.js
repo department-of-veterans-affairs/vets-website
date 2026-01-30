@@ -244,7 +244,7 @@ export const mebChapters = {
       sameBenefitResult: {
         path: 'results/same-benefit',
         title:
-          "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
+          "Dependents' Application for VA Education Benefits (VA Form 22-5490)",
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'same-benefit' &&
