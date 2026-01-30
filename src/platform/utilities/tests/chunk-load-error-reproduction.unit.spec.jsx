@@ -106,9 +106,7 @@ describe('ChunkLoadError Reproduction', () => {
     // React component tests unreliable in CI.
 
     it('retries and succeeds after transient ChunkLoadError', async () => {
-      const {
-        loadWithRetry,
-      } = await import('../lazy-load-with-retry');
+      const { loadWithRetry } = await import('../lazy-load-with-retry');
 
       let loadAttempts = 0;
 
@@ -130,9 +128,7 @@ describe('ChunkLoadError Reproduction', () => {
     });
 
     it('gives up after max retries and throws the final error', async () => {
-      const {
-        loadWithRetry,
-      } = await import('../lazy-load-with-retry');
+      const { loadWithRetry } = await import('../lazy-load-with-retry');
 
       let loadAttempts = 0;
 
@@ -156,9 +152,7 @@ describe('ChunkLoadError Reproduction', () => {
     });
 
     it('does not retry for non-ChunkLoadError errors', async () => {
-      const {
-        loadWithRetry,
-      } = await import('../lazy-load-with-retry');
+      const { loadWithRetry } = await import('../lazy-load-with-retry');
 
       let loadAttempts = 0;
 
