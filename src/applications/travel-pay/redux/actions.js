@@ -22,6 +22,7 @@ export const FETCH_APPOINTMENT_BY_DATE_SUCCESS =
   'FETCH_APPOINTMENT_BY_DATE_SUCCESS';
 export const FETCH_APPOINTMENT_BY_DATE_FAILURE =
   'FETCH_APPOINTMENT_BY_DATE_FAILURE';
+export const CLEAR_APPOINTMENT = 'CLEAR_APPOINTMENT';
 export const SUBMIT_CLAIM_STARTED = 'SUBMIT_CLAIM_STARTED';
 export const SUBMIT_CLAIM_SUCCESS = 'SUBMIT_CLAIM_SUCCESS';
 export const SUBMIT_CLAIM_FAILURE = 'SUBMIT_CLAIM_FAILURE';
@@ -191,7 +192,8 @@ const fetchAppointmentByDateFailure = error => ({
 // get (in local time) from the GET claim details call and use it call
 // GET appointments (takes start/end bounds in UTC) and find the
 // appointment correlated with the claim by `localStartTime` comparison
-export function getAppointmentDataByDateTime(targetDateTime) {
+// and optionally by claim ID to handle multiple appointments at the same time
+export function getAppointmentDataByDateTime(targetDateTime, claimId = null) {
   return async dispatch => {
     const strippedTargetDateTime = stripTZOffset(targetDateTime);
 
@@ -219,15 +221,35 @@ export function getAppointmentDataByDateTime(targetDateTime) {
         );
       }
 
-      const matchingAppointment = appointments.find(
-        appt =>
-          stripTZOffset(appt.attributes.localStartTime) ===
-          strippedTargetDateTime,
-      );
+      // If claimId is provided, try to match by both datetime AND claim ID
+      // This handles cases where multiple appointments exist at the same time
+      let matchingAppointment;
+
+      if (claimId) {
+        matchingAppointment = appointments.find(appt => {
+          const timeMatches =
+            stripTZOffset(appt.attributes.localStartTime) ===
+            strippedTargetDateTime;
+          const claimMatches =
+            appt.attributes.travelPayClaim?.claim?.id === claimId;
+          return timeMatches && claimMatches;
+        });
+      }
+
+      // Fallback to matching by datetime only if no claim ID match found
+      if (!matchingAppointment) {
+        matchingAppointment = appointments.find(
+          appt =>
+            stripTZOffset(appt.attributes.localStartTime) ===
+            strippedTargetDateTime,
+        );
+      }
 
       if (!matchingAppointment) {
         throw new Error(
-          'getAppointmentDataByDateTime: No appointment found with matching localStartTime',
+          claimId
+            ? 'getAppointmentDataByDateTime: No appointment found with matching localStartTime and claimId'
+            : 'getAppointmentDataByDateTime: No appointment found with matching localStartTime',
         );
       }
 
@@ -238,6 +260,13 @@ export function getAppointmentDataByDateTime(targetDateTime) {
     } catch (error) {
       dispatch(fetchAppointmentByDateFailure(error?.toString() ?? ''));
     }
+  };
+}
+
+// Clear appointment data when navigating to a new claim
+export function clearAppointment() {
+  return {
+    type: CLEAR_APPOINTMENT,
   };
 }
 
