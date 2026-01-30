@@ -76,12 +76,7 @@ const YourInformationDescription = ({ formData }) => {
           </div>
           <p className="vads-u-margin-top--2">
             <strong>Note:</strong> If this information is incorrect, contact us
-            at{' '}
-            <va-link
-              href="https://va.gov/contact-us/ask-va/introduction"
-              text="Ask VA"
-            />
-            .
+            at <va-link href="https://ask.va.gov/" text="Ask VA" />.
           </p>
         </>
       )}
