@@ -4,6 +4,7 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import PropTypes from 'prop-types';
 import { employmentCheckFields } from '../definitions/constants';
 import { applyEmploymentSelection } from '../utils/employment';
 
@@ -98,4 +99,9 @@ export default {
     }
     return newFormData;
   },
+};
+
+EmploymentCheckReviewObjectField.propTypes = {
+  renderedProperties: PropTypes.any,
+  title: PropTypes.string,
 };
