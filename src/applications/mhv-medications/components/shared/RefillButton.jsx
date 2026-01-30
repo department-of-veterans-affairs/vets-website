@@ -43,15 +43,17 @@ const RefillButton = rx => {
   return (
     <div className="rx-refill-button" data-testid="refill">
       {isSuccess && (
-        <va-alert status="success" setFocus aria-live="polite" uswds>
-          <p className="vads-u-margin-y--0" data-testid="success-message">
-            We got your refill request.
-          </p>
-        </va-alert>
+        <div className="vads-u-padding-top--2">
+          <va-alert status="success" setFocus aria-live="polite" uswds>
+            <p className="vads-u-margin-y--0" data-testid="success-message">
+              We got your refill request.
+            </p>
+          </va-alert>
+        </div>
       )}
       {isError &&
         !isLoading && (
-          <>
+          <div className="vads-u-padding-y--2">
             <va-alert
               status="error"
               setFocus
@@ -62,15 +64,14 @@ const RefillButton = rx => {
             >
               <p className="vads-u-margin-y--0" data-testid="error-message">
                 We couldn’t submit this refill request. Try again or call your
-                VA pharmacy{' '}
+                VA pharmacy
                 <CallPharmacyPhone
                   cmopDivisionPhone={pharmacyPhone}
                   page={pageType.LIST}
                 />
-                .
               </p>
             </va-alert>
-          </>
+          </div>
         )}
       {isLoading && (
         <va-loading-indicator

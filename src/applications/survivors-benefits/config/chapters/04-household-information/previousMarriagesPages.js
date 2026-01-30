@@ -22,6 +22,10 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { previousMarriageEndOptions } from '../../../utils/labels';
 import { handleSpouseMaxMarriagesAlert } from '../../../components/FormAlerts';
 
+const updatedFullNameSchema = fullNameSchema;
+updatedFullNameSchema.properties.first.maxLength = 12;
+updatedFullNameSchema.properties.last.maxLength = 18;
+
 // Show previous marriages pages ONLY if user answered YES to hadPreviousMarriages
 // Ansering NO skips all previous marriage flows and jumps to Dependents
 const shouldShowPreviousMarriages = formData =>
@@ -61,7 +65,7 @@ export const options = {
     !item?.dateOfMarriage ||
     !item?.locationOfMarriage?.city ||
     (!item?.marriedOutsideUS && !item?.locationOfMarriage?.state) ||
-    (item?.marriedOutsideUS && !item?.locationOfMarriage?.country) ||
+    (item?.marriedOutsideUS && !item?.locationOfMarriage?.otherCountry) ||
     !item?.reasonForSeparation ||
     (item?.reasonForSeparation === 'OTHER' && !item?.separationExplanation),
   maxItems: 2,
@@ -178,7 +182,7 @@ const previousMarriageItemPage = {
   schema: {
     type: 'object',
     properties: {
-      spouseFullName: fullNameSchema,
+      spouseFullName: updatedFullNameSchema,
     },
     required: ['spouseFullName'],
   },
@@ -221,7 +225,7 @@ const marriageDateAndLocationPage = {
           required: 'Please select a state',
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country'),
         'ui:required': (formData, index) => {
           const item = formData?.spouseMarriages?.[index];
@@ -265,7 +269,7 @@ const marriageDateAndLocationPage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,
@@ -319,7 +323,7 @@ const marriageEndDateAndLocationPage = {
           required: 'Please select a state',
         },
       },
-      country: {
+      otherCountry: {
         ...selectUI('Country'),
         'ui:required': (formData, index) => {
           const item = formData?.spouseMarriages?.[index];
@@ -367,7 +371,7 @@ const marriageEndDateAndLocationPage = {
             enum: STATE_VALUES,
             enumNames: STATE_NAMES,
           },
-          country: {
+          otherCountry: {
             type: 'string',
             enum: COUNTRY_VALUES,
             enumNames: COUNTRY_NAMES,
