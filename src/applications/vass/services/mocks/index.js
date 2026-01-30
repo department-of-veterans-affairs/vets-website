@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-/* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const mockTopics = require('./utils/topic');
 const { generateSlots, createMockJwt } = require('../../utils/mock-helpers');
