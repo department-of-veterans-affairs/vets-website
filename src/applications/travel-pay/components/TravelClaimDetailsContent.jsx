@@ -8,8 +8,14 @@ import ClaimDetailsContent from './ClaimDetailsContent';
 import {
   getClaimDetails,
   getAppointmentDataByDateTime,
+  clearAppointment,
 } from '../redux/actions';
 import { TRAVEL_PAY_INFO_LINK, REIMBURSEMENT_URL } from '../constants';
+
+// Module-level cache that persists across component remounts
+// Cache key includes both datetime and claim ID to handle multiple appointments at same time
+const fetchedAppointments = new Set();
+let lastClaimId = null;
 
 export default function TravelClaimDetailsContent() {
   const { id } = useParams();
@@ -20,14 +26,21 @@ export default function TravelClaimDetailsContent() {
   );
 
   const { data, error } = useSelector(state => state.travelPay.claimDetails);
-  const {
-    data: appointmentData,
-    isLoading: appointmentLoading,
-    error: appointmentError,
-  } = useSelector(state => state.travelPay.appointment);
 
   const claimData = data[id];
   const appointmentDateTime = claimData?.appointment?.appointmentDateTime;
+
+  // Clear the cache and Redux state when navigating to a different claim
+  useEffect(
+    () => {
+      if (lastClaimId !== id) {
+        fetchedAppointments.clear();
+        dispatch(clearAppointment());
+        lastClaimId = id;
+      }
+    },
+    [id, dispatch],
+  );
 
   useEffect(
     () => {
@@ -40,24 +53,22 @@ export default function TravelClaimDetailsContent() {
 
   useEffect(
     () => {
-      if (
-        complexClaimsEnabled &&
-        !appointmentData &&
-        appointmentDateTime &&
-        !appointmentLoading &&
-        !appointmentError
-      ) {
-        dispatch(getAppointmentDataByDateTime(appointmentDateTime));
+      if (!complexClaimsEnabled || !appointmentDateTime || !id) {
+        return;
       }
+
+      // Create cache key from both datetime and claim ID to handle multiple appointments at same time
+      const cacheKey = `${appointmentDateTime}|${id}`;
+
+      if (fetchedAppointments.has(cacheKey)) {
+        return;
+      }
+
+      // Mark as fetched and dispatch with claim ID for matching
+      fetchedAppointments.add(cacheKey);
+      dispatch(getAppointmentDataByDateTime(appointmentDateTime, id));
     },
-    [
-      dispatch,
-      complexClaimsEnabled,
-      appointmentData,
-      appointmentDateTime,
-      appointmentLoading,
-      appointmentError,
-    ],
+    [dispatch, complexClaimsEnabled, appointmentDateTime, id],
   );
 
   return (

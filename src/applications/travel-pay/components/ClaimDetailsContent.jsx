@@ -7,7 +7,7 @@ import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs
 
 import { selectAppointment } from '../redux/selectors';
 import useSetPageTitle from '../hooks/useSetPageTitle';
-import { formatDateTime } from '../util/dates';
+import { formatDateTime, stripTZOffset } from '../util/dates';
 import { STATUSES, FORM_100998_LINK, BTSSS_PORTAL_URL } from '../constants';
 import { toPascalCase, currency } from '../util/string-helpers';
 import {
@@ -37,7 +37,38 @@ export default function ClaimDetailsContent({
 }) {
   useSetPageTitle('Travel Reimbursement Claim Details');
   const appointment = useSelector(selectAppointment);
-  const appointmentId = appointment?.data?.id;
+
+  // Only use appointment ID if it matches this claim's datetime
+  // This prevents using stale appointment data from a previous claim
+  const appointmentMatchesClaim =
+    appointment?.data?.localStartTime &&
+    stripTZOffset(appointment.data.localStartTime) ===
+      stripTZOffset(appointmentDateTime);
+  const appointmentId = appointmentMatchesClaim ? appointment?.data?.id : null;
+
+  // eslint-disable-next-line no-console
+  console.log('=== ClaimDetailsContent Debug ===');
+  // eslint-disable-next-line no-console
+  console.log('Claim ID:', claimId);
+  // eslint-disable-next-line no-console
+  console.log('Claim datetime:', appointmentDateTime);
+  // eslint-disable-next-line no-console
+  console.log('Claim datetime (stripped):', stripTZOffset(appointmentDateTime));
+  // eslint-disable-next-line no-console
+  console.log('Redux appointment:', appointment?.data);
+  // eslint-disable-next-line no-console
+  console.log(
+    'Redux datetime (stripped):',
+    appointment?.data?.localStartTime
+      ? stripTZOffset(appointment.data.localStartTime)
+      : 'N/A',
+  );
+  // eslint-disable-next-line no-console
+  console.log('Datetimes match?', appointmentMatchesClaim);
+  // eslint-disable-next-line no-console
+  console.log('Final appointmentId:', appointmentId);
+  // eslint-disable-next-line no-console
+  console.log('=================================');
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,

@@ -20,6 +20,7 @@ import {
   FETCH_APPOINTMENT_BY_DATE_FAILURE,
   FETCH_APPOINTMENT_BY_DATE_STARTED,
   FETCH_APPOINTMENT_BY_DATE_SUCCESS,
+  CLEAR_APPOINTMENT,
   FETCH_CLAIM_DETAILS_FAILURE,
   FETCH_CLAIM_DETAILS_STARTED,
   FETCH_CLAIM_DETAILS_SUCCESS,
@@ -265,6 +266,15 @@ function travelPayReducer(state = initialState, action) {
           ...state.appointment,
           isLoading: false,
           error: action.error,
+        },
+      };
+    case CLEAR_APPOINTMENT:
+      return {
+        ...state,
+        appointment: {
+          isLoading: false,
+          error: null,
+          data: null,
         },
       };
     case SUBMIT_CLAIM_STARTED:
