@@ -15,6 +15,8 @@ import {
   sippableId,
 } from './index';
 
+import { normalizeAddressLine } from './contactInformationHelpers';
+
 import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
@@ -452,12 +454,6 @@ export const cleanUpMailingAddress = formData => {
     'state',
     'zipCode',
   ];
-
-  // Helper to normalize address lines (trim and collapse multiple spaces)
-  const normalizeAddressLine = val => {
-    if (!val) return val;
-    return val.trim().replace(/\s{2,}/g, ' ');
-  };
 
   const addressLineKeys = ['addressLine1', 'addressLine2', 'addressLine3'];
 
