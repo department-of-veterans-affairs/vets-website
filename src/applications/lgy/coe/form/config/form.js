@@ -26,11 +26,19 @@ import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
 
-import certificateUse from '../pages/certificateUse';
 import disabilitySeparation from '../pages/disabilitySeparation';
 import preDischargeClaim from '../pages/preDischargeClaim';
 import purpleHeartRecipient from '../pages/purpleHeartRecipient';
 import serviceStatus2 from '../pages/serviceStatus2';
+import { uploadDocumentsSchema, getUiSchema } from '../pages/uploadDocuments';
+// import disabilitySeparation from '../pages/disabilitySeparation';
+
+// TODO: When schema is migrated to vets-json-schema, remove common
+// definitions from form schema and get them from common definitions instead
+
+import { certificateUseOptions } from '../constants';
+import certificateUse from '../pages/certificateUse';
+import hadPriorLoans from '../pages/hadPriorLoans';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -210,14 +218,46 @@ const formConfig = {
           uiSchema: certificateUse.uiSchema,
           schema: certificateUse.schema,
         },
+        hadPriorLoans: {
+          path: 'prior-loans',
+          title: 'Previous VA home loans',
+          depends: formData => {
+            return (
+              formData['view:coeFormRebuildCveteam'] &&
+              [
+                certificateUseOptions.ENTITLEMENT_INQUIRY_ONLY,
+                certificateUseOptions.HOME_PURCHASE,
+                certificateUseOptions.CASH_OUT_REFINANCE,
+              ].includes(formData?.loanHistory?.certificateUse)
+            );
+          },
+          uiSchema: hadPriorLoans.uiSchema,
+          schema: hadPriorLoans.schema,
+        },
       },
     },
     documentsChapter: {
-      title: 'Your supporting documents',
+      title: data => {
+        return data.formData['view:coeFormRebuildCveteam']
+          ? 'Upload documents'
+          : 'Your supporting documents';
+      },
       pages: {
+        upload2: {
+          path: 'upload-your-documents',
+          title: 'Upload your documents',
+          depends: formData => {
+            return formData['view:coeFormRebuildCveteam'];
+          },
+          uiSchema: getUiSchema(),
+          schema: uploadDocumentsSchema.schema,
+        },
         upload: {
           path: 'upload-supporting-documents',
           title: 'Upload your documents',
+          depends: formData => {
+            return !formData['view:coeFormRebuildCveteam'];
+          },
           uiSchema: fileUpload.uiSchema,
           schema: fileUpload.schema,
         },
