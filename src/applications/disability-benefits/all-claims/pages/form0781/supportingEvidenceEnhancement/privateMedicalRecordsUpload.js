@@ -26,5 +26,13 @@ export const uiSchema = {
 };
 export const schema = {
   type: 'object',
-  properties: {},
+  properties: {
+    privateMedicalRecordAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
 };
