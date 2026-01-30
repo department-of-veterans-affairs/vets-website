@@ -12,6 +12,7 @@ import Notification from '../Notification';
 import Type1UnknownUploadError from '../Type1UnknownUploadError';
 import { focusNotificationAlert } from '../../utils/page';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
+import { TrackedItemContent } from '../TrackedItemContent';
 
 export default function DefaultPage({
   item,
@@ -27,11 +28,17 @@ export default function DefaultPage({
   const dueDate = parseISO(item.suspenseDate);
   const pastDueDate = isBefore(dueDate, now);
 
+  // Priority 1: API-provided structured content (JSON blocks → TrackedItemContent)
+  const apiLongDescription = item.longDescription?.blocks;
+  const apiNextSteps = item.nextSteps?.blocks;
+  // Priority 2: Frontend dictionary JSX (legacy fallback during migration)
   const frontendContentOverride = evidenceDictionary[item.displayName];
   const frontendDescription = frontendContentOverride?.longDescription;
   const frontendNextSteps = frontendContentOverride?.nextSteps;
   const frontendNoActionNeeded = frontendContentOverride?.noActionNeeded;
+  // Priority 3: Simple API description (plain text with formatting markers)
   const apiDescription = formatDescription(item.description);
+
   const isFirstParty = item.status === 'NEEDED_FROM_YOU';
   const isThirdParty = item.status === 'NEEDED_FROM_OTHERS';
 
@@ -170,15 +177,28 @@ export default function DefaultPage({
         </h2>
       )}
 
-      {frontendDescription && (
+      {/* Priority 1: API-provided structured content */}
+      {apiLongDescription && (
         <div
           className="vads-u-margin-bottom--4"
-          data-testid="frontend-description"
+          data-testid="api-long-description"
         >
-          {frontendDescription}
+          <TrackedItemContent content={apiLongDescription} />
         </div>
       )}
-      {!frontendDescription &&
+      {/* Priority 2: Frontend dictionary JSX */}
+      {!apiLongDescription &&
+        frontendDescription && (
+          <div
+            className="vads-u-margin-bottom--4"
+            data-testid="frontend-description"
+          >
+            {frontendDescription}
+          </div>
+        )}
+      {/* Priority 3: Simple API description */}
+      {!apiLongDescription &&
+        !frontendDescription &&
         apiDescription && (
           <div
             className="vads-u-margin-bottom--4"
@@ -187,9 +207,11 @@ export default function DefaultPage({
             {apiDescription}
           </div>
         )}
-      {isFirstParty &&
+      {/* Fallback: Empty state */}
+      {!apiLongDescription &&
         !frontendDescription &&
-        !apiDescription && (
+        !apiDescription &&
+        isFirstParty && (
           <div
             className="vads-u-margin-bottom--4"
             data-testid="empty-state-description"
@@ -247,18 +269,32 @@ export default function DefaultPage({
           </div>
         )}
 
-      {/* Custom next steps from dictionary */}
-      {frontendNextSteps && (
+      {/* Priority 1: API structured next steps */}
+      {apiNextSteps && (
         <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             Next steps
           </h2>
-          <div data-testid="frontend-next-steps">{frontendNextSteps}</div>
+          <div data-testid="api-next-steps">
+            <TrackedItemContent content={apiNextSteps} />
+          </div>
         </div>
       )}
 
-      {/* Generic next steps for first-party requests without custom next steps */}
-      {!frontendNextSteps &&
+      {/* Priority 2: Frontend dictionary next steps */}
+      {!apiNextSteps &&
+        frontendNextSteps && (
+          <div className="vads-u-margin-y--4">
+            <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+              Next steps
+            </h2>
+            <div data-testid="frontend-next-steps">{frontendNextSteps}</div>
+          </div>
+        )}
+
+      {/* Fallback: Generic next steps for first-party requests without custom next steps */}
+      {!apiNextSteps &&
+        !frontendNextSteps &&
         isFirstParty && (
           <div className="vads-u-margin-y--4">
             <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
@@ -266,7 +302,7 @@ export default function DefaultPage({
             </h2>
             <p>To respond to this request:</p>
             <ul className="bullet-disc">
-              {frontendDescription || apiDescription ? (
+              {apiLongDescription || frontendDescription || apiDescription ? (
                 <li data-testid="next-steps-in-what-we-need-from-you">
                   Gather and submit any documents or forms listed in the{' '}
                   <strong>What we need from you</strong> section
@@ -279,7 +315,7 @@ export default function DefaultPage({
               )}
               <li>You can upload documents online or mail them to us</li>
             </ul>
-            {(frontendDescription || apiDescription) && (
+            {(apiLongDescription || frontendDescription || apiDescription) && (
               <p>
                 If you need help understanding this request, check your claim
                 letter online.
