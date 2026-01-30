@@ -484,6 +484,16 @@ describe('validateAirTravelFields', () => {
       };
     });
 
+    it('passes when dates are ISO datetimes and departureDate === returnDate for ROUND_TRIP', () => {
+      formState.departureDate = '2025-01-05T00:00:00.000Z';
+      formState.returnDate = '2025-01-05T23:59:59.000Z';
+
+      const nextErrors = validateAirTravelFields(formState);
+
+      expect(nextErrors.departureDate).to.equal(null);
+      expect(nextErrors.returnDate).to.equal(null);
+    });
+
     it('passes when departureDate === returnDate for ROUND_TRIP', () => {
       formState.departureDate = '2025-01-05';
       formState.returnDate = '2025-01-05';
