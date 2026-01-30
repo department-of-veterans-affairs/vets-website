@@ -6,24 +6,22 @@ import {
   buildDateFormatter,
   renderDefaultThirdPartyMessage,
   renderOverrideThirdPartyMessage,
+  getIsDBQ,
 } from '../../utils/helpers';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 function FilesOptional({ item }) {
   const dateFormatter = buildDateFormatter();
+  const isDBQ = getIsDBQ(item);
+
   const getRequestText = () => {
     const formattedDate = dateFormatter(item.requestedDate);
-    if (
-      (evidenceDictionary[item.displayName] &&
-        evidenceDictionary[item.displayName].isDBQ) ||
-      item.displayName.toLowerCase().includes('dbq')
-    ) {
+    if (isDBQ) {
       return `We made a request for an exam on ${formattedDate}`;
     }
     return `We made a request outside VA on ${formattedDate}`;
   };
   const getItemDisplayName = () => {
-    if (item.displayName.toLowerCase().includes('dbq')) {
+    if (isDBQ) {
       return 'Request for an exam';
     }
     if (item.friendlyName) {

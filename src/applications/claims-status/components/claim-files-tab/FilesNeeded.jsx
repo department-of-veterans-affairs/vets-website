@@ -8,9 +8,10 @@ import {
   isAutomated5103Notice,
   buildDateFormatter,
   getDisplayFriendlyName,
+  getIsSensitive,
+  getNoProvidePrefix,
 } from '../../utils/helpers';
 import { standard5103Item } from '../../constants';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ claimId, item, previousPage = null }) {
   // useNavigate for client-side routing (avoids full page reload with VaLinkAction).
@@ -29,10 +30,10 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
     if (isAutomated5103Notice(item.displayName)) {
       return standard5103Item.displayName;
     }
-    if (evidenceDictionary[item.displayName]?.isSensitive) {
+    if (getIsSensitive(item)) {
       return `Request for evidence`;
     }
-    if (evidenceDictionary[item.displayName]?.noProvidePrefix) {
+    if (getNoProvidePrefix(item)) {
       return item.friendlyName;
     }
     if (item.friendlyName) {

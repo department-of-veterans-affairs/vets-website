@@ -6,6 +6,9 @@ import {
   formatDescription,
   buildDateFormatter,
   getDisplayFriendlyName,
+  getIsSensitive,
+  getIsDBQ,
+  getNoActionNeeded,
 } from '../../utils/helpers';
 import AddFilesForm from '../claim-files-tab/AddFilesForm';
 import Notification from '../Notification';
@@ -30,13 +33,17 @@ export default function DefaultPage({
   const frontendContentOverride = evidenceDictionary[item.displayName];
   const frontendDescription = frontendContentOverride?.longDescription;
   const frontendNextSteps = frontendContentOverride?.nextSteps;
-  const frontendNoActionNeeded = frontendContentOverride?.noActionNeeded;
+
+  const isSensitive = getIsSensitive(item);
+  const isDBQ = getIsDBQ(item);
+  const noActionNeeded = getNoActionNeeded(item);
+
   const apiDescription = formatDescription(item.description);
   const isFirstParty = item.status === 'NEEDED_FROM_YOU';
   const isThirdParty = item.status === 'NEEDED_FROM_OTHERS';
 
   const getItemDisplayName = () => {
-    if (item.displayName.toLowerCase().includes('dbq')) {
+    if (isDBQ) {
       return 'Request for an exam';
     }
     if (item.friendlyName) {
@@ -45,13 +52,13 @@ export default function DefaultPage({
     return 'Request for evidence outside VA';
   };
   const getFirstPartyDisplayName = () => {
-    if (frontendContentOverride?.isSensitive) {
+    if (isSensitive) {
       return `Request for evidence`;
     }
     return item.friendlyName || 'Request for evidence';
   };
   const getFirstPartyRequestText = () => {
-    if (item.friendlyName && frontendContentOverride?.isSensitive) {
+    if (item.friendlyName && isSensitive) {
       return `Respond by ${dateFormatter(
         item.suspenseDate,
       )} for: ${getDisplayFriendlyName(item)}`;
@@ -65,7 +72,7 @@ export default function DefaultPage({
   };
 
   const getRequestText = () => {
-    if (frontendContentOverride?.isDBQ) {
+    if (isDBQ) {
       return `We made a request on ${dateFormatter(item.requestedDate)} for: ${
         item.friendlyName ? getDisplayFriendlyName(item) : item.displayName
       }`;
@@ -210,7 +217,7 @@ export default function DefaultPage({
         <div className="optional-upload">
           <p className="vads-u-margin-y--2">
             <strong>This is just a notice. No action is needed by you.</strong>
-            {!frontendNoActionNeeded && (
+            {!noActionNeeded && (
               <>
                 {' '}
                 But, if you have documents related to this request, uploading

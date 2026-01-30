@@ -1422,6 +1422,37 @@ export const is5103Notice = itemDisplayName => {
   );
 };
 
+/**
+ * @param {Object} item - The tracked item object
+ * @param {string} propertyName - The property to look up (e.g., 'isSensitive', 'isDBQ')
+ * @returns {boolean} The property value
+ */
+export const getTrackedItemProperty = (item, propertyName) => {
+  // Check if the API provides the property directly on the item
+  if (item[propertyName] !== undefined) {
+    return item[propertyName];
+  }
+
+  // Fall back to evidenceDictionary
+  return !!evidenceDictionary[item.displayName]?.[propertyName];
+};
+
+export const getIsSensitive = item =>
+  getTrackedItemProperty(item, 'isSensitive');
+
+export const getIsDBQ = item =>
+  getTrackedItemProperty(item, 'isDBQ') ||
+  item.displayName.toLowerCase().includes('dbq');
+
+export const getNoActionNeeded = item =>
+  getTrackedItemProperty(item, 'noActionNeeded');
+
+export const getIsProperNoun = item =>
+  getTrackedItemProperty(item, 'isProperNoun');
+
+export const getNoProvidePrefix = item =>
+  getTrackedItemProperty(item, 'noProvidePrefix');
+
 // Capitalizes the first letter in a given string
 export const sentenceCase = str => {
   return typeof str === 'string' && str.length > 0
@@ -1527,7 +1558,7 @@ export const generateClaimTitle = (claim, placement, tab) => {
 };
 
 export const getDisplayFriendlyName = item => {
-  if (!evidenceDictionary[item.displayName]?.isProperNoun) {
+  if (!getIsProperNoun(item)) {
     let updatedFriendlyName = item.friendlyName;
     updatedFriendlyName =
       updatedFriendlyName.charAt(0).toLowerCase() +
@@ -1542,7 +1573,7 @@ export const getLabel = trackedItem => {
     return trackedItem?.displayName;
   }
 
-  if (evidenceDictionary[(trackedItem?.displayName)]?.isSensitive) {
+  if (getIsSensitive(trackedItem)) {
     return 'Request for evidence';
   }
   if (trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
@@ -1551,7 +1582,7 @@ export const getLabel = trackedItem => {
   if (!trackedItem?.friendlyName && trackedItem?.status === 'NEEDED_FROM_YOU') {
     return 'Request for evidence';
   }
-  if (trackedItem?.displayName.toLowerCase().includes('dbq')) {
+  if (getIsDBQ(trackedItem)) {
     return 'Request for an exam';
   }
   if (trackedItem?.friendlyName) {
@@ -1638,7 +1669,7 @@ export const renderDefaultThirdPartyMessage = displayName => {
 };
 
 export const renderOverrideThirdPartyMessage = item => {
-  if (item.displayName.toLowerCase().includes('dbq')) {
+  if (getIsDBQ(item)) {
     return item.shortDescription || item.activityDescription;
   }
   if (item.shortDescription) {
