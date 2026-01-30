@@ -4,6 +4,8 @@ import * as educationBenefitsElibility from './educationBenefitsEligibility';
 import * as prepCourseName from './prepCourseName';
 import * as prepCourseAddress from './prepCourseAddress';
 import * as prepCourseOnline from './prepCourseOnline';
+import * as prepCoursePeriod from './prepCoursePeriod';
+import * as prepCourseCost from './prepCourseCost';
 
 export {
   hasPreviouslyApplied,
@@ -12,4 +14,6 @@ export {
   prepCourseName,
   prepCourseAddress,
   prepCourseOnline,
+  prepCoursePeriod,
+  prepCourseCost,
 };
