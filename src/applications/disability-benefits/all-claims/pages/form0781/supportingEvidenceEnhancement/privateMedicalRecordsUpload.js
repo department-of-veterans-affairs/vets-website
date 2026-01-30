@@ -15,7 +15,7 @@ export const uiSchema = {
   'ui:title': standardTitle(pmrTitle),
   'ui:description': pmrDescription,
   // TODO: replace current V1 upload component to V3 Component
-  privateMedicalRecordAttachments: {
+  tempPrivateMedicalRecordAttachments: {
     ...fileUploadUi,
     'ui:options': { ...fileUploadUi['ui:options'] },
     'ui:confirmationField': ({ formData }) => ({
@@ -27,7 +27,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    privateMedicalRecordAttachments: {
+    tempPrivateMedicalRecordAttachments: {
       type: 'array',
       items: {
         type: 'object',
