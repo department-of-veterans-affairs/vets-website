@@ -14,6 +14,10 @@ import {
 import EnterOTC from './EnterOTC';
 import { getDefaultRenderOptions, LocationDisplay } from '../utils/test-utils';
 import { FLOW_TYPES, URLS } from '../utils/constants';
+import {
+  createOTPInvalidError,
+  createOTPAccountLockedError,
+} from '../services/mocks/utils/errors';
 
 const defaultRenderOptions = getDefaultRenderOptions({
   obfuscatedEmail: 't***@test.com',
@@ -82,16 +86,7 @@ describe('VASS Component: EnterOTC', () => {
 
   describe('API error handling', () => {
     it('should display error alert for invalid_otc with multiple attempts remaining', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'invalid_otc',
-            detail: 'Invalid or expired OTC',
-            attemptsRemaining: 2,
-            status: 401,
-          },
-        ],
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -105,16 +100,7 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
     it('should display specific error message when only 1 attempt remaining', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'invalid_otc',
-            detail: 'Invalid or expired OTC',
-            attemptsRemaining: 1,
-            status: 401,
-          },
-        ],
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(1));
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -128,16 +114,10 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
     it('should display account locked error message', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'account_locked',
-            detail: 'Too many failed attempts',
-            status: 401,
-            retryAfter: 900,
-          },
-        ],
-      });
+      setFetchJSONFailure(
+        global.fetch.onCall(0),
+        createOTPAccountLockedError(900),
+      );
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -151,16 +131,7 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
     it('should hide success alert when error is displayed', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'invalid_otc',
-            detail: 'Invalid or expired OTC',
-            attemptsRemaining: 2,
-            status: 401,
-          },
-        ],
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId, queryByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -171,16 +142,7 @@ describe('VASS Component: EnterOTC', () => {
       });
     });
     it('should clear the OTC input after an error', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'invalid_otc',
-            detail: 'Invalid or expired OTC',
-            attemptsRemaining: 2,
-            status: 401,
-          },
-        ],
-      });
+      setFetchJSONFailure(global.fetch.onCall(0), createOTPInvalidError(2));
       const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
       const continueButton = getByTestId('continue-button');
@@ -259,7 +221,7 @@ describe('VASS Component: EnterOTC', () => {
           <Routes>
             <Route path={URLS.ENTER_OTC} element={<EnterOTC />} />
             <Route
-              path="/cancel-appointment/:appointmentId"
+              path={`${URLS.CANCEL_APPOINTMENT}/:appointmentId`}
               element={<div>Cancel Appointment Page</div>}
             />
           </Routes>
