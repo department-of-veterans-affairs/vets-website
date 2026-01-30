@@ -159,7 +159,15 @@ function App({
         );
       }
     },
-    [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
+    [
+      getDuplicateContactInfo,
+      formData?.email,
+      formData?.mobilePhone?.phone,
+      duplicateEmail,
+      formData,
+      duplicatePhone,
+      setFormData,
+    ],
   );
 
   return (
