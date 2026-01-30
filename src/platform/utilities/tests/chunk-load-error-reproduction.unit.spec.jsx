@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, act, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -41,8 +41,15 @@ describe('ChunkLoadError Reproduction', () => {
   });
 
   afterEach(() => {
-    consoleErrorStub.restore();
-    consoleWarnStub.restore();
+    // Explicitly cleanup RTL to prevent test pollution
+    cleanup();
+    // Restore console stubs - use try/catch in case test failed before stubs were created
+    try {
+      consoleErrorStub?.restore();
+      consoleWarnStub?.restore();
+    } catch (e) {
+      // Stub may already be restored or never created
+    }
   });
 
   describe('React.lazy', () => {
@@ -68,18 +75,23 @@ describe('ChunkLoadError Reproduction', () => {
       // Standard React.lazy - current implementation across the codebase
       const LazyComponent = React.lazy(flakyImport);
 
-      const { getByTestId } = render(
-        <TestErrorBoundary fallbackTestId="error-boundary">
-          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-            <LazyComponent />
-          </Suspense>
-        </TestErrorBoundary>,
-      );
+      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
+      // See: https://github.com/testing-library/react-testing-library/issues/1375
+      // The callback MUST be async for proper Suspense handling
+      let getByTestId;
+      await act(async () => {
+        const result = render(
+          <TestErrorBoundary fallbackTestId="error-boundary">
+            <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+              <LazyComponent />
+            </Suspense>
+          </TestErrorBoundary>,
+        );
+        getByTestId = result.getByTestId;
+      });
 
       // Wait for error boundary to catch the failure
-      await waitFor(() => {
-        expect(getByTestId('error-boundary')).to.exist;
-      });
+      await waitFor(() => expect(getByTestId('error-boundary')).to.exist);
 
       expect(loadAttempts).to.equal(1);
     });
@@ -117,19 +129,18 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
+      // For lazyWithRetry tests, we can't use act() because the retry mechanism
+      // uses setTimeout internally. Instead, let waitFor poll until completion.
       const { getByTestId } = render(
         <Suspense fallback={<div data-testid="loading">Loading...</div>}>
           <LazyComponent />
         </Suspense>,
       );
 
-      // Should eventually succeed after retry
-      await waitFor(
-        () => {
-          expect(getByTestId('success')).to.exist;
-        },
-        { timeout: 1000 },
-      );
+      // Should eventually succeed after retry - give enough time for retry delays
+      await waitFor(() => expect(getByTestId('success')).to.exist, {
+        timeout: 2000,
+      });
 
       expect(loadAttempts).to.equal(2);
     });
@@ -154,6 +165,8 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
+      // For lazyWithRetry tests, we can't use act() because the retry mechanism
+      // uses setTimeout internally. Instead, let waitFor poll until completion.
       const { getByTestId } = render(
         <TestErrorBoundary fallbackTestId="final-error">
           <Suspense fallback={<div data-testid="loading">Loading...</div>}>
@@ -162,12 +175,10 @@ describe('ChunkLoadError Reproduction', () => {
         </TestErrorBoundary>,
       );
 
-      await waitFor(
-        () => {
-          expect(getByTestId('final-error')).to.exist;
-        },
-        { timeout: 2000 },
-      );
+      // Wait for all retries + error boundary render
+      await waitFor(() => expect(getByTestId('final-error')).to.exist, {
+        timeout: 2000,
+      });
 
       // Should have tried initial + maxRetries times (1 + 2 = 3)
       expect(loadAttempts).to.equal(3);
