@@ -208,11 +208,11 @@ describe('Profile utilities', () => {
               migration_date: '2026-05-01',
               facilities: [
                 {
-                  facility_id: 528,
+                  facility_id: '528',
                   facility_name: 'Test VA Medical Center',
                 },
                 {
-                  facility_id: 123,
+                  facility_id: '123',
                   facility_name: 'Different VA Medical Center',
                 },
               ],
@@ -242,11 +242,11 @@ describe('Profile utilities', () => {
             migrationDate: '2026-05-01',
             facilities: [
               {
-                facilityId: 528,
+                facilityId: '528',
                 facilityName: 'Test VA Medical Center',
               },
               {
-                facilityId: 123,
+                facilityId: '123',
                 facilityName: 'Different VA Medical Center',
               },
             ],

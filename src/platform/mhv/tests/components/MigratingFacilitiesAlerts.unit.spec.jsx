@@ -336,7 +336,7 @@ describe('MigratingFacilitiesAlerts', () => {
           ...mockMigratingFacilities[0],
           phases: {
             ...mockMigratingFacilities[0].phases,
-            current: 'p4', // In error array for MEDICAL_RECORDS
+            current: 'p5', // In error array for MEDICAL_RECORDS
           },
         },
       ],
@@ -706,7 +706,7 @@ describe('MigratingFacilitiesAlerts', () => {
             ...mockMigratingFacilities[0],
             phases: {
               ...mockMigratingFacilities[0].phases,
-              current: 'p4',
+              current: 'p5',
             },
           },
         ],
@@ -780,7 +780,7 @@ describe('MigratingFacilitiesAlerts', () => {
             ...mockMigratingFacilities[0],
             phases: {
               ...mockMigratingFacilities[0].phases,
-              current: 'p4',
+              current: 'p5',
             },
           },
         ],

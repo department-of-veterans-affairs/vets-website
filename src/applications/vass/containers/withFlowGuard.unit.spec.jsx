@@ -1,28 +1,16 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import { Routes, Route, useLocation } from 'react-router-dom-v5-compat';
+import { Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import withFlowGuard from './withFlowGuard';
 import { FLOW_TYPES, URLS } from '../utils/constants';
-import { getDefaultRenderOptions } from '../utils/test-utils';
-
-// Helper component to display current location for testing navigation
-const LocationDisplay = () => {
-  const location = useLocation();
-  return (
-    <div data-testid="location-display">
-      {location.pathname}
-      {location.search}
-    </div>
-  );
-};
-
-// Simple test component to wrap
-const TestComponent = () => (
-  <div data-testid="test-component">Test Content</div>
-);
+import {
+  getDefaultRenderOptions,
+  LocationDisplay,
+  TestComponent,
+} from '../utils/test-utils';
 
 describe('VASS Containers: withFlowGuard', () => {
   describe('with FLOW_TYPES.ANY (default)', () => {
@@ -92,7 +80,7 @@ describe('VASS Containers: withFlowGuard', () => {
         expect(queryByTestId('test-component')).to.not.exist;
       });
 
-      it('should redirect to Verify page with uuid', async () => {
+      it('should redirect to Verify page with uuid and cancel param', async () => {
         const WrappedComponent = withFlowGuard(
           TestComponent,
           FLOW_TYPES.SCHEDULE,
@@ -120,14 +108,14 @@ describe('VASS Containers: withFlowGuard', () => {
 
         await waitFor(() => {
           expect(getByTestId('location-display').textContent).to.equal(
-            `${URLS.VERIFY}?uuid=test-uuid-1234`,
+            `${URLS.VERIFY}?uuid=test-uuid-1234&cancel=true`,
           );
         });
 
         expect(queryByTestId('test-component')).to.not.exist;
       });
 
-      it('should redirect to Verify page without uuid when uuid is not set', async () => {
+      it('should redirect to Verify page with cancel param when uuid is not set', async () => {
         const WrappedComponent = withFlowGuard(
           TestComponent,
           FLOW_TYPES.SCHEDULE,
@@ -155,7 +143,7 @@ describe('VASS Containers: withFlowGuard', () => {
 
         await waitFor(() => {
           expect(getByTestId('location-display').textContent).to.equal(
-            URLS.VERIFY,
+            `${URLS.VERIFY}?cancel=true`,
           );
         });
       });

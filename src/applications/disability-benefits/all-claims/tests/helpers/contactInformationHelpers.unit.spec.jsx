@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
   getCountryOptions,
@@ -8,6 +9,7 @@ import {
   isCountryRequired,
   shouldHideState,
   isStateRequired,
+  createAddressLineValidator,
 } from '../../utils/contactInformationHelpers';
 
 describe('contactInformationHelpers', () => {
@@ -214,6 +216,125 @@ describe('contactInformationHelpers', () => {
           },
         };
         expect(isStateRequired(formData)).to.be.false;
+      });
+    });
+
+    describe('createAddressLineValidator', () => {
+      const createMockErrors = () => {
+        const errorMessages = [];
+        return {
+          addError: sinon.spy(msg => errorMessages.push(msg)),
+          getErrors: () => errorMessages,
+        };
+      };
+
+      it('should not add error for valid address line', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, '123 Main St');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should not add error for empty value', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, '');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should not add error for undefined value', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, undefined);
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should add error when value exceeds max length', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, '123 Main Street Apartment 456');
+        expect(
+          errors.addError.calledWith(
+            'Address line 1 must be 20 characters or less',
+          ),
+        ).to.be.true;
+      });
+
+      it('should add error for invalid characters - parentheses', () => {
+        const validator = createAddressLineValidator(20, 'Address line 2');
+        const errors = createMockErrors();
+        validator(errors, 'Apt (2)');
+        expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
+      });
+
+      it('should add error for invalid characters - forward slash', () => {
+        const validator = createAddressLineValidator(20, 'Address line 2');
+        const errors = createMockErrors();
+        validator(errors, 'Suite 1/2');
+        expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
+      });
+
+      it('should add error for invalid characters - colon', () => {
+        const validator = createAddressLineValidator(20, 'Address line 2');
+        const errors = createMockErrors();
+        validator(errors, 'Unit: 5');
+        expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
+      });
+
+      it('should add error for invalid characters - at symbol', () => {
+        const validator = createAddressLineValidator(20, 'Address line 2');
+        const errors = createMockErrors();
+        validator(errors, 'Care @ John');
+        expect(errors.addError.calledWithMatch(/may only contain/)).to.be.true;
+      });
+
+      it('should allow valid special characters - apostrophe', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, "O'Brien Lane");
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow valid special characters - period', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, 'St. James Ave');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow valid special characters - comma', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, 'Bldg 1, Suite 2');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow valid special characters - ampersand', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, 'A & B Street');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow valid special characters - hash', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, 'Apt #5');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should allow valid special characters - hyphen', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, '123-A Main St');
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should add both errors when value is too long and has invalid characters', () => {
+        const validator = createAddressLineValidator(20, 'Address line 1');
+        const errors = createMockErrors();
+        validator(errors, '123 Main Street (Apt 456)');
+        expect(errors.addError.callCount).to.equal(2);
       });
     });
   });
