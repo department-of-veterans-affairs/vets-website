@@ -22,8 +22,18 @@ import {
   LocationDisplay,
 } from '../utils/test-utils';
 import { FLOW_TYPES, URLS } from '../utils/constants';
+import { createRateLimitExceededError } from '../services/mocks/utils/errors';
+
+const entryWithUuid = {
+  initialEntries: [`${URLS.VERIFY}?uuid=c0ffee-1234-beef-5678`],
+};
 
 const defaultRenderOptions = getDefaultRenderOptions();
+
+const defaultRenderOptionsWithUuid = {
+  ...defaultRenderOptions,
+  ...entryWithUuid,
+};
 
 describe('VASS Component: Verify', () => {
   beforeEach(() => {
@@ -37,7 +47,7 @@ describe('VASS Component: Verify', () => {
   it('should render all content', () => {
     const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
       <Verify />,
-      defaultRenderOptions,
+      defaultRenderOptionsWithUuid,
     );
 
     expect(getByTestId('header')).to.exist;
@@ -46,6 +56,20 @@ describe('VASS Component: Verify', () => {
     expect(getByTestId('dob-input')).to.exist;
     expect(getByTestId('submit-button')).to.exist;
     expect(queryByTestId('verify-error-alert')).to.not.exist;
+  });
+
+  describe('when URL does not have a UUID', () => {
+    it('should display error alert when URL does not have a UUID', () => {
+      const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
+        <Verify />,
+        defaultRenderOptions,
+      );
+
+      expect(getByTestId('api-error-alert')).to.exist;
+      expect(queryByTestId('submit-button')).to.not.exist;
+      expect(queryByTestId('last-name-input')).to.not.exist;
+      expect(queryByTestId('dob-input')).to.not.exist;
+    });
   });
 
   describe('when cancellation url parameter is true', () => {
@@ -69,7 +93,7 @@ describe('VASS Component: Verify', () => {
     it('should display the correct page title', () => {
       const { getByTestId } = renderWithStoreAndRouterV6(<Verify />, {
         ...defaultRenderOptions,
-        initialEntries: [`${URLS.VERIFY}?cancel=true`],
+        initialEntries: [`${URLS.VERIFY}?cancel=true&uuid=test-uuid`],
       });
 
       expect(getByTestId('header').textContent).to.contain(
@@ -94,10 +118,7 @@ describe('VASS Component: Verify', () => {
           </Routes>
           <LocationDisplay />
         </>,
-        {
-          ...defaultRenderOptions,
-          initialEntries: [URLS.VERIFY],
-        },
+        defaultRenderOptionsWithUuid,
       );
 
       // Fill in valid credentials
@@ -140,10 +161,7 @@ describe('VASS Component: Verify', () => {
           </Routes>
           <LocationDisplay />
         </>,
-        {
-          ...defaultRenderOptions,
-          initialEntries: ['/?uuid=c0ffee-1234-beef-5678'],
-        },
+        defaultRenderOptionsWithUuid,
       );
 
       // Fill in valid credentials
@@ -190,11 +208,7 @@ describe('VASS Component: Verify', () => {
           </Routes>
           <LocationDisplay />
         </>,
-        {
-          ...defaultRenderOptions,
-          store,
-          initialEntries: ['/?uuid=c0ffee-1234-beef-5678'],
-        },
+        { ...defaultRenderOptionsWithUuid, store },
       );
 
       // Fill in valid credentials
@@ -240,7 +254,7 @@ describe('VASS Component: Verify', () => {
         getByTestId,
         queryByTestId,
         container,
-      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
+      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptionsWithUuid);
 
       const submitButton = getByTestId('submit-button');
 
@@ -263,21 +277,16 @@ describe('VASS Component: Verify', () => {
     });
 
     it('should display verification error message when rate limit is exceeded', async () => {
-      setFetchJSONFailure(global.fetch.onCall(0), {
-        errors: [
-          {
-            code: 'rate_limit_exceeded',
-            detail: 'Too many OTC requests.  Please try again later.',
-            retryAfter: 900,
-          },
-        ],
-      });
+      setFetchJSONFailure(
+        global.fetch.onCall(0),
+        createRateLimitExceededError(900),
+      );
 
       const {
         getByTestId,
         queryByTestId,
         container,
-      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptions);
+      } = renderWithStoreAndRouterV6(<Verify />, defaultRenderOptionsWithUuid);
 
       const submitButton = getByTestId('submit-button');
 
