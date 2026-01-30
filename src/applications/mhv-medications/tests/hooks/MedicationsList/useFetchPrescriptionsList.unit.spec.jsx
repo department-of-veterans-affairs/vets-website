@@ -17,6 +17,9 @@ import {
   ACTIVE_FILTER_KEY,
 } from '../../../util/constants';
 
+const CERNER_PILOT_TOGGLE = 'mhv_medications_cerner_pilot';
+const V2_STATUS_MAPPING_TOGGLE = 'mhv_medications_v2_status_mapping';
+
 /**
  * Creates a test wrapper with Redux Provider and MemoryRouter
  * @param {Object} mockStore the mock Redux store
@@ -49,8 +52,8 @@ const baseState = {
   },
   featureToggles: {
     loading: false,
-    mhv_medications_cerner_pilot: false, // eslint-disable-line camelcase
-    mhv_medications_v2_status_mapping: false, // eslint-disable-line camelcase
+    [CERNER_PILOT_TOGGLE]: false,
+    [V2_STATUS_MAPPING_TOGGLE]: false,
   },
 };
 
@@ -360,8 +363,8 @@ describe('useFetchPrescriptionsList', () => {
       const mockStore = createMockStore({
         rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } },
         featureToggles: {
-          mhv_medications_cerner_pilot: true, // eslint-disable-line camelcase
-          mhv_medications_v2_status_mapping: true, // eslint-disable-line camelcase
+          [CERNER_PILOT_TOGGLE]: true,
+          [V2_STATUS_MAPPING_TOGGLE]: true,
         },
       });
       const wrapper = createTestWrapper(mockStore);
@@ -404,7 +407,7 @@ describe('useFetchPrescriptionsList', () => {
       const mockStore = createMockStore({
         rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } },
         featureToggles: {
-          mhv_medications_cerner_pilot: true, // eslint-disable-line camelcase
+          [CERNER_PILOT_TOGGLE]: true,
         },
       });
       const wrapper = createTestWrapper(mockStore);
@@ -427,7 +430,7 @@ describe('useFetchPrescriptionsList', () => {
       const mockStore = createMockStore({
         rx: { preferences: { filterOption: ACTIVE_FILTER_KEY } },
         featureToggles: {
-          mhv_medications_v2_status_mapping: true, // eslint-disable-line camelcase
+          [V2_STATUS_MAPPING_TOGGLE]: true,
         },
       });
       const wrapper = createTestWrapper(mockStore);
