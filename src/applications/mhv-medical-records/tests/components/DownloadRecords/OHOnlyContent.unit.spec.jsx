@@ -3,13 +3,11 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
-import {
-  ALERT_TYPE_SEI_ERROR,
-  SEI_DOMAINS,
-} from '@department-of-veterans-affairs/mhv/exports';
-import OHOnlyContent from '../../containers/ccdContent/OHOnlyContent';
-import { ALERT_TYPE_CCD_ERROR } from '../../util/constants';
-import reducer from '../../reducers';
+import { ALERT_TYPE_SEI_ERROR } from '@department-of-veterans-affairs/mhv/exports';
+import OHOnlyContent from '../../../components/DownloadRecords/OHOnlyContent';
+import { ALERT_TYPE_CCD_ERROR } from '../../../util/constants';
+import reducer from '../../../reducers';
+import { DownloadReportProvider } from '../../../context/DownloadReportContext';
 
 describe('OHOnlyContent', () => {
   const initialState = {
@@ -28,25 +26,28 @@ describe('OHOnlyContent', () => {
     },
   };
 
-  const defaultProps = {
-    ddSuffix: 'OH',
+  const defaultContextValue = {
     generatingCCD: false,
-    handleDownload: () => {},
-    testIdSuffix: 'OH',
-    lastSuccessfulUpdate: null,
-    accessErrors: () => null,
+    handleDownloadCCD: () => {},
+    handleDownloadCCDV2: () => {},
     activeAlert: null,
-    successfulSeiDownload: false,
-    failedSeiDomains: [],
     ccdExtendedFileTypeFlag: true,
     ccdDownloadSuccess: false,
     ccdError: false,
     CCDRetryTimestamp: null,
+    runningUnitTest: true,
+    vistaFacilityNames: [],
+    ohFacilityNames: [],
+    expandSelfEntered: false,
+    selfEnteredAccordionRef: { current: null },
   };
 
-  const renderComponent = (props = {}, state = {}) => {
+  const renderComponent = (contextOverrides = {}, state = {}) => {
+    const contextValue = { ...defaultContextValue, ...contextOverrides };
     return renderWithStoreAndRouter(
-      <OHOnlyContent {...defaultProps} {...props} />,
+      <DownloadReportProvider value={contextValue}>
+        <OHOnlyContent />
+      </DownloadReportProvider>,
       {
         initialState: { ...initialState, ...state },
         reducers: reducer,
@@ -67,14 +68,13 @@ describe('OHOnlyContent', () => {
   });
 
   it('shows loading spinner when generatingCCD is true', () => {
-    const { getByTestId, queryByText } = renderComponent({
+    const { getByTestId, getByText } = renderComponent({
       generatingCCD: true,
     });
 
     expect(getByTestId('generating-ccd-OH-indicator')).to.exist;
-
-    expect(queryByText('Download your Continuity of Care Document')).to.not
-      .exist;
+    // Heading remains visible while loading spinner is shown
+    expect(getByText('Download your Continuity of Care Document')).to.exist;
   });
 
   describe('when ccdExtendedFileTypeFlag is true', () => {
@@ -88,40 +88,40 @@ describe('OHOnlyContent', () => {
       expect(getByTestId('generateCcdButtonHtmlOH')).to.exist;
     });
 
-    it('calls handleDownload with correct format when XML link is clicked', () => {
-      const handleDownload = sinon.spy();
+    it('calls handleDownloadCCDV2 with correct format when XML link is clicked', () => {
+      const handleDownloadCCDV2 = sinon.spy();
       const { getByTestId } = renderComponent({
-        handleDownload,
+        handleDownloadCCDV2,
         ccdExtendedFileTypeFlag: true,
       });
 
       fireEvent.click(getByTestId('generateCcdButtonXmlOH'));
-      expect(handleDownload.calledOnce).to.be.true;
-      expect(handleDownload.firstCall.args[1]).to.equal('xml');
+      expect(handleDownloadCCDV2.calledOnce).to.be.true;
+      expect(handleDownloadCCDV2.firstCall.args[1]).to.equal('xml');
     });
 
-    it('calls handleDownload with correct format when PDF link is clicked', () => {
-      const handleDownload = sinon.spy();
+    it('calls handleDownloadCCDV2 with correct format when PDF link is clicked', () => {
+      const handleDownloadCCDV2 = sinon.spy();
       const { getByTestId } = renderComponent({
-        handleDownload,
+        handleDownloadCCDV2,
         ccdExtendedFileTypeFlag: true,
       });
 
       fireEvent.click(getByTestId('generateCcdButtonPdfOH'));
-      expect(handleDownload.calledOnce).to.be.true;
-      expect(handleDownload.firstCall.args[1]).to.equal('pdf');
+      expect(handleDownloadCCDV2.calledOnce).to.be.true;
+      expect(handleDownloadCCDV2.firstCall.args[1]).to.equal('pdf');
     });
 
-    it('calls handleDownload with correct format when HTML link is clicked', () => {
-      const handleDownload = sinon.spy();
+    it('calls handleDownloadCCDV2 with correct format when HTML link is clicked', () => {
+      const handleDownloadCCDV2 = sinon.spy();
       const { getByTestId } = renderComponent({
-        handleDownload,
+        handleDownloadCCDV2,
         ccdExtendedFileTypeFlag: true,
       });
 
       fireEvent.click(getByTestId('generateCcdButtonHtmlOH'));
-      expect(handleDownload.calledOnce).to.be.true;
-      expect(handleDownload.firstCall.args[1]).to.equal('html');
+      expect(handleDownloadCCDV2.calledOnce).to.be.true;
+      expect(handleDownloadCCDV2.firstCall.args[1]).to.equal('html');
     });
 
     it('has correct data attributes for Datadog tracking', () => {
@@ -162,38 +162,6 @@ describe('OHOnlyContent', () => {
         'Download HTML (best for screen readers, enlargers, and refreshable Braille displays)',
       );
     });
-
-    it('uses the correct testIdSuffix in test ids', () => {
-      const { getByTestId } = renderComponent({
-        testIdSuffix: 'CustomSuffix',
-        ccdExtendedFileTypeFlag: true,
-      });
-
-      expect(getByTestId('generateCcdButtonXmlCustomSuffix')).to.exist;
-      expect(getByTestId('generateCcdButtonPdfCustomSuffix')).to.exist;
-      expect(getByTestId('generateCcdButtonHtmlCustomSuffix')).to.exist;
-    });
-
-    it('uses the correct ddSuffix in data-dd-action-name attributes', () => {
-      const { getByTestId } = renderComponent({
-        ddSuffix: 'CustomDD',
-        ccdExtendedFileTypeFlag: true,
-      });
-
-      const xmlLink = getByTestId('generateCcdButtonXmlOH');
-      const pdfLink = getByTestId('generateCcdButtonPdfOH');
-      const htmlLink = getByTestId('generateCcdButtonHtmlOH');
-
-      expect(xmlLink.getAttribute('data-dd-action-name')).to.equal(
-        'Download CCD XML CustomDD',
-      );
-      expect(pdfLink.getAttribute('data-dd-action-name')).to.equal(
-        'Download CCD PDF CustomDD',
-      );
-      expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
-        'Download CCD HTML CustomDD',
-      );
-    });
   });
 
   describe('when ccdExtendedFileTypeFlag is false', () => {
@@ -230,33 +198,17 @@ describe('OHOnlyContent', () => {
       ).to.exist;
     });
 
-    it('calls handleDownload with xml format when XML link is clicked', () => {
-      const handleDownload = sinon.spy();
+    it('calls handleDownloadCCD with xml format when XML link is clicked', () => {
+      const handleDownloadCCD = sinon.spy();
       const { getByTestId } = renderComponent({
-        handleDownload,
+        handleDownloadCCD,
         ccdExtendedFileTypeFlag: false,
       });
 
       fireEvent.click(getByTestId('generateCcdButtonXmlOH'));
-      expect(handleDownload.calledOnce).to.be.true;
-      expect(handleDownload.firstCall.args[1]).to.equal('xml');
+      expect(handleDownloadCCD.calledOnce).to.be.true;
+      expect(handleDownloadCCD.firstCall.args[1]).to.equal('xml');
     });
-  });
-
-  it('renders last successful update card when lastSuccessfulUpdate is provided', () => {
-    const { getByTestId, getByText } = renderComponent({
-      lastSuccessfulUpdate: { date: 'December 9, 2025', time: '10:30 AM ET' },
-    });
-
-    expect(getByTestId('new-records-last-updated')).to.exist;
-    expect(getByText(/Records in these reports last updated at/)).to.exist;
-    expect(getByText(/10:30 AM ET/)).to.exist;
-    expect(getByText(/December 9, 2025/)).to.exist;
-  });
-
-  it('does not render last successful update card when lastSuccessfulUpdate is null', () => {
-    const { queryByTestId } = renderComponent();
-    expect(queryByTestId('new-records-last-updated')).to.not.exist;
   });
 
   it('renders AccessTroubleAlertBox when activeAlert type is ALERT_TYPE_CCD_ERROR', () => {
@@ -267,12 +219,14 @@ describe('OHOnlyContent', () => {
     expect(getByTestId('expired-alert-message')).to.exist;
   });
 
-  it('renders AccessTroubleAlertBox when activeAlert type is ALERT_TYPE_SEI_ERROR', () => {
-    const { getByTestId } = renderComponent({
+  it('does not render SEI error alert when activeAlert type is ALERT_TYPE_SEI_ERROR (OH-only users do not have SEI)', () => {
+    const { queryByTestId, queryByText } = renderComponent({
       activeAlert: { type: ALERT_TYPE_SEI_ERROR },
     });
 
-    expect(getByTestId('expired-alert-message')).to.exist;
+    // SEI alerts should NOT be shown for OH-only users
+    expect(queryByTestId('expired-alert-message')).to.not.exist;
+    expect(queryByText(/self-entered information/)).to.not.exist;
   });
 
   it('does not render error alerts when activeAlert is null', () => {
@@ -280,44 +234,17 @@ describe('OHOnlyContent', () => {
     expect(queryAllByTestId('expired-alert-message').length).to.equal(0);
   });
 
-  it('calls accessErrors function', () => {
-    const accessErrors = sinon.spy(() => (
-      <div data-testid="custom-access-error">Custom Error</div>
-    ));
-    const { getByTestId } = renderComponent({ accessErrors });
-
-    expect(accessErrors.called).to.be.true;
-    expect(getByTestId('custom-access-error')).to.exist;
-  });
-
-  it('renders MissingRecordsError and DownloadSuccessAlert when SEI download is successful with some failed domains', () => {
-    const { getByTestId, getByText } = renderComponent({
-      successfulSeiDownload: true,
-      failedSeiDomains: ['allergies', 'medications'],
+  it('renders CcdAccessErrors with CCD error when CCDRetryTimestamp is set', () => {
+    const { getAllByTestId } = renderComponent({
+      CCDRetryTimestamp: '2025-01-01T00:00:00Z',
     });
 
-    expect(getByTestId('alert-download-started')).to.exist;
-    expect(getByText(/Self-entered health information report download/)).to
-      .exist;
+    expect(getAllByTestId('expired-alert-message').length).to.be.greaterThan(0);
   });
 
-  it('does not render MissingRecordsError when all SEI domains failed', () => {
-    const { queryByTestId } = renderComponent({
-      successfulSeiDownload: true,
-      failedSeiDomains: SEI_DOMAINS,
-    });
-
-    expect(queryByTestId('alert-download-started')).to.not.exist;
-  });
-
-  it('does not render SEI alerts when successfulSeiDownload is false', () => {
-    const { queryByTestId } = renderComponent({
-      successfulSeiDownload: false,
-      failedSeiDomains: ['allergies'],
-    });
-
-    expect(queryByTestId('alert-download-started')).to.not.exist;
-  });
+  // Note: OHOnlyContent does not handle SEI functionality.
+  // SEI alerts are handled by VistaOnlyContent and VistaAndOHContent.
+  // The component only renders CCD-related content.
 
   describe('CCD Download Success Alert', () => {
     it('does not render CCD download success alert when only generatingCCD is true, but shows spinner', () => {

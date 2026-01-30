@@ -94,7 +94,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     expect(ccdAccordion).to.exist;
 
     fireEvent.click(ccdAccordion);
-    const ccdGenerateButton = screen.getByTestId('generateCcdButtonXml');
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonXmlVistA');
     expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
@@ -102,7 +102,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
+    expect(screen.getByTestId('generating-ccd-VistA-indicator')).to.exist;
   });
 
   it('generates CCD (PDF) on button click', () => {
@@ -110,7 +110,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     expect(ccdAccordion).to.exist;
 
     fireEvent.click(ccdAccordion);
-    const ccdGenerateButton = screen.getByTestId('generateCcdButtonPdf');
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonPdfVistA');
     expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
@@ -118,7 +118,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
+    expect(screen.getByTestId('generating-ccd-VistA-indicator')).to.exist;
   });
 
   it('generates CCD (HTML) on button click', () => {
@@ -126,7 +126,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     expect(ccdAccordion).to.exist;
 
     fireEvent.click(ccdAccordion);
-    const ccdGenerateButton = screen.getByTestId('generateCcdButtonHtml');
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonHtmlVistA');
     expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
@@ -134,7 +134,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
+    expect(screen.getByTestId('generating-ccd-VistA-indicator')).to.exist;
   });
 });
 
