@@ -1,5 +1,6 @@
 # VASS
-// TODO: ADD description
+
+The VASS (Veteran Affairs Solid Start) project allows veterans to self schedule and cancel appointments with VASS system through a api layer in vets-api.
 
 ## URL
 http://localhost:3001/service-member/benefits/solid-start/schedule
