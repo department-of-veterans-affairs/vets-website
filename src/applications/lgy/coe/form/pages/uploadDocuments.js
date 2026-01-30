@@ -8,17 +8,18 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { serviceStatuses } from '../constants';
-import { DOCUMENT_TYPES, FILE_TYPES } from '../../status/constants';
+import { FILE_TYPES } from '../../status/constants';
 import { UploadDocumentsReview } from '../components/UploadDocumentsReview';
 
 const getRequiredDocumentTypes = formData => {
+  const requiredDocumentTypes = [];
   if (
     formData?.identity === serviceStatuses.ADSM &&
     formData?.militaryHistory?.purpleHeartRecipient
   ) {
-    return ['Statement of service', 'Purple Heart Certificate'];
+    requiredDocumentTypes.push('Purple Heart Certificate');
   }
-  return DOCUMENT_TYPES;
+  return requiredDocumentTypes;
 };
 
 const DocumentTypeSelect = () => {
