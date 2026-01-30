@@ -11,8 +11,8 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
-import AuthorizationAlert from './AuthorizationAlert';
-import { auth4142Title, alertTitle } from '../../content/evidence/form4142';
+import AuthorizationAlert, { alertTitle } from './AuthorizationAlert';
+import { auth4142Title } from '../../content/evidence/form4142';
 import { AUTHORIZATION_LABEL } from '../../constants';
 import { customPageProps995 } from '../../../shared/props';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
