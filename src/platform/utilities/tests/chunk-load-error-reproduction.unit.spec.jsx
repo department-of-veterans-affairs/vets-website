@@ -129,21 +129,17 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
-      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
-      // See: https://github.com/testing-library/react-testing-library/issues/1375
-      let getByTestId;
-      await act(async () => {
-        const result = render(
-          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-            <LazyComponent />
-          </Suspense>,
-        );
-        getByTestId = result.getByTestId;
-      });
+      // For lazyWithRetry tests, we can't use act() because the retry mechanism
+      // uses setTimeout internally. Instead, let waitFor poll until completion.
+      const { getByTestId } = render(
+        <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+          <LazyComponent />
+        </Suspense>,
+      );
 
-      // Should eventually succeed after retry
+      // Should eventually succeed after retry - give enough time for retry delays
       await waitFor(() => expect(getByTestId('success')).to.exist, {
-        timeout: 1000,
+        timeout: 2000,
       });
 
       expect(loadAttempts).to.equal(2);
@@ -169,19 +165,15 @@ describe('ChunkLoadError Reproduction', () => {
         maxDelayMs: 50,
       });
 
-      // RTL recommends wrapping Suspense renders in `await act(async () => ...)`
-      // See: https://github.com/testing-library/react-testing-library/issues/1375
-      let getByTestId;
-      await act(async () => {
-        const result = render(
-          <TestErrorBoundary fallbackTestId="final-error">
-            <Suspense fallback={<div data-testid="loading">Loading...</div>}>
-              <LazyComponent />
-            </Suspense>
-          </TestErrorBoundary>,
-        );
-        getByTestId = result.getByTestId;
-      });
+      // For lazyWithRetry tests, we can't use act() because the retry mechanism
+      // uses setTimeout internally. Instead, let waitFor poll until completion.
+      const { getByTestId } = render(
+        <TestErrorBoundary fallbackTestId="final-error">
+          <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+            <LazyComponent />
+          </Suspense>
+        </TestErrorBoundary>,
+      );
 
       // Wait for all retries + error boundary render
       await waitFor(() => expect(getByTestId('final-error')).to.exist, {
