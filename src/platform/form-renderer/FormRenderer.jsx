@@ -59,24 +59,28 @@ function createLabel(obj) {
 function createField(obj) {
   const label = obj.label.endsWith('?') ? obj.label : `${obj.label}:`;
   return (
-    <div className="vads-grid-row vads-u-margin-x--neg2p5" key={obj.key}>
-      <div className="vads-grid-col-5 vads-u-padding-x--2p5">{label}</div>
-      <div className="vads-grid-col-7 vads-u-padding-x--2p5 vads-u-font-weight--bold">
-        {obj.value}
+    <li id={`li-${obj.key}`} key={obj.key}>
+      <div key={obj.key} className="vads-grid-row vads-u-margin-x--0">
+        <div className="vads-grid-col-5 vads-u-padding-x--0">{label}</div>
+        <div className="vads-grid-col-7 vads-u-padding-x--2p5 vads-u-font-weight--bold">
+          {obj.value}
+        </div>
       </div>
-    </div>
+    </li>
   );
 }
 
 function createChecklist(obj) {
   const label = obj.label.endsWith('?') ? obj.label : `${obj.label}:`;
   return (
-    <div key={obj.key}>
-      {label}
-      {obj.options.map(opt => (
-        <div key={opt}>✓ {opt}</div>
-      ))}
-    </div>
+    <li id={`li-${obj.key}`} key={obj.key}>
+      <div key={obj.key}>
+        {label}
+        {obj.options.map(opt => (
+          <div key={opt}>✓ {opt}</div>
+        ))}
+      </div>
+    </li>
   );
 }
 
@@ -84,6 +88,19 @@ function render(cfg, data) {
   let count = 0;
   let start = 1;
   const elements = [];
+
+  const addToCurrentItems = (currentListItems, element, type) => {
+    count += 1;
+    if (currentListItems.length === 0) {
+      start = count;
+    }
+    if (type === 'field') {
+      currentListItems.push(createField(element));
+    } else if (type === 'checklist') {
+      currentListItems.push(createChecklist(element));
+    }
+  };
+
   for (const [index, section] of cfg.sections.entries()) {
     if (index > 0) {
       elements.push(
@@ -100,7 +117,11 @@ function render(cfg, data) {
       if ('depth' in el) {
         if (currentListItems.length > 0) {
           elements.push(
-            <ol start={start} key={`ul-${elements.length}`}>
+            <ol
+              start={start}
+              key={`ol-${elements.length}`}
+              id={`ol-${elements.length}`}
+            >
               {currentListItems}
             </ol>,
           );
@@ -109,24 +130,19 @@ function render(cfg, data) {
 
         elements.push(createLabel(el));
       } else if ('value' in el) {
-        count += 1;
-        if (currentListItems.length === 0) {
-          start = count;
-        }
-        currentListItems.push(createField(el));
+        addToCurrentItems(currentListItems, el, 'field');
       } else if ('options' in el) {
-        count += 1;
-        if (currentListItems.length === 0) {
-          start = count;
-        }
-        currentListItems.push(createChecklist(el));
+        addToCurrentItems(currentListItems, el, 'checklist');
       }
     }
 
-    // Loop finished: If there are remaining items in the buffer, wrap them now.
     if (currentListItems.length > 0) {
       elements.push(
-        <ol start={start} key={`ul-${elements.length}`}>
+        <ol
+          start={start}
+          key={`ol-${elements.length}`}
+          id={`ol-${elements.length}`}
+        >
           {currentListItems}
         </ol>,
       );
