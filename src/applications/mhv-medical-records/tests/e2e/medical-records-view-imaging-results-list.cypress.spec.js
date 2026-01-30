@@ -9,7 +9,7 @@ describe('Medical Records View Imaging Results List', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
-    site.login();
+    site.login(undefined, true, { isImagesDomainEnabled: true });
   });
 
   it('Visits Medical Records Imaging Results List Page', () => {

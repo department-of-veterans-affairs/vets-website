@@ -8,7 +8,7 @@ describe('Medical Records View Imaging Results Details', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
-    site.login();
+    site.login(undefined, true, { isImagesDomainEnabled: true });
     ImagingResultsListPage.goToImagingResults();
   });
 

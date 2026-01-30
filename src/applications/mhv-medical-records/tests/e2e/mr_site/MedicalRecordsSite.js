@@ -4,9 +4,13 @@ import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
 
 class MedicalRecordsSite {
-  login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
+  login = (
+    userFixture = mockUser,
+    useDefaultFeatureToggles = true,
+    featureToggleOptions = {},
+  ) => {
     if (useDefaultFeatureToggles) {
-      this.mockFeatureToggles();
+      this.mockFeatureToggles(featureToggleOptions);
     }
     this.mockVamcEhr();
     this.mockMaintenanceWindow();
@@ -36,6 +40,7 @@ class MedicalRecordsSite {
     isAcceleratingConditions = false,
     isCcdExtendedFileTypesEnabled = false,
     isCcdOHEnabled = false,
+    isImagesDomainEnabled = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -121,11 +126,11 @@ class MedicalRecordsSite {
           },
           {
             name: 'mhv_medical_records_images_domain',
-            value: true,
+            value: isImagesDomainEnabled,
           },
           {
             name: 'mhvMedicalRecordsImagesDomain',
-            value: true,
+            value: isImagesDomainEnabled,
           },
         ],
       },
