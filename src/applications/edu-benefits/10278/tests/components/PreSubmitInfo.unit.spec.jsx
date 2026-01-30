@@ -66,7 +66,7 @@ describe('10278 <PreSubmitInfo />', () => {
     const sot = container.querySelector('va-statement-of-truth');
     const inputError = sot.getAttribute('input-error');
     expect(inputError).to.include(
-      'Enter your name exactly as it appears on your application',
+      'Enter your name exactly as it appears on your form',
     );
     expect(inputError).to.include('John A Doe');
   });
