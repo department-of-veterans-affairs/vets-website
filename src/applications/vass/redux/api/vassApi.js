@@ -15,23 +15,25 @@ export const vassApi = createApi({
   keepUnusedDataFor: environment.isUnitTest() ? 0 : 60,
   endpoints: builder => ({
     postAuthentication: builder.mutation({
-      async queryFn({ uuid, lastname, dob }, { dispatch }) {
+      async queryFn({ uuid, lastName, dob }, { dispatch }) {
         try {
-          const response = await api('/vass/v0/authenticate', {
+          const response = await api('/vass/v0/request-otp', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               uuid,
-              lastname,
+              lastName,
               dob,
             }),
           });
-          if (response.data?.email) {
-            dispatch(setLowAuthFormData({ uuid, lastname, dob }));
-            dispatch(setObfuscatedEmail(response.data.email));
+          if (!response?.data?.email) {
+            // TODO: no email is an error condition. How should we handle this?
+            throw new Error('Email not found');
           }
+          dispatch(setLowAuthFormData({ uuid, lastName, dob }));
+          dispatch(setObfuscatedEmail(response?.data?.email || ''));
           return response;
         } catch ({ errors }) {
           // captureError(error, false, 'post referral appointment');
@@ -44,19 +46,19 @@ export const vassApi = createApi({
         }
       },
     }),
-    postOTCVerification: builder.mutation({
-      async queryFn({ otc }, { getState }) {
-        const { uuid, lastname, dob } = getState().vassForm;
+    postOTPVerification: builder.mutation({
+      async queryFn({ otp }, { getState }) {
+        const { uuid, lastName, dob } = getState().vassForm;
         try {
-          return await api('/vass/v0/authenticate-otc', {
+          return await api('/vass/v0/authenticate-otp', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              otc,
+              otp,
               uuid,
-              lastname,
+              lastName,
               dob,
             }),
           });
@@ -156,7 +158,7 @@ export const vassApi = createApi({
       async queryFn() {
         try {
           const token = getVassToken();
-          return await api('/vass/v0/appointment-availablity', {
+          return await api('/vass/v0/appointment-availability', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -203,7 +205,7 @@ export const vassApi = createApi({
 
 export const {
   usePostAuthenticationMutation,
-  usePostOTCVerificationMutation,
+  usePostOTPVerificationMutation,
   usePostAppointmentMutation,
   useGetAppointmentQuery,
   useGetTopicsQuery,

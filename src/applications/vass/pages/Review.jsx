@@ -21,14 +21,14 @@ const Review = () => {
   const selectedDate = useSelector(selectSelectedDate);
   const handleConfirmCall = async () => {
     const res = await postAppointment({
-      topics: selectedTopics,
+      topics: (selectedTopics || []).map(topic => topic.topicId),
       dtStartUtc: selectedDate,
       dtEndUtc: selectedDate,
     });
     if (res.error) {
       return;
     }
-    navigate(`${URLS.CONFIRMATION}/${res.data.appointmentId}`);
+    navigate(`${URLS.CONFIRMATION}/${res.data?.appointmentId}`);
   };
 
   return (
