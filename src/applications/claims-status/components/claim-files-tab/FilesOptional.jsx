@@ -11,19 +11,23 @@ import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 function FilesOptional({ item }) {
   const dateFormatter = buildDateFormatter();
+
+  // Use API boolean properties with fallback to evidenceDictionary
+  const isDBQ =
+    item.isDBQ ??
+    evidenceDictionary[item.displayName]?.isDBQ ??
+    item.displayName?.toLowerCase().includes('dbq') ??
+    false;
+
   const getRequestText = () => {
     const formattedDate = dateFormatter(item.requestedDate);
-    if (
-      (evidenceDictionary[item.displayName] &&
-        evidenceDictionary[item.displayName].isDBQ) ||
-      item.displayName.toLowerCase().includes('dbq')
-    ) {
+    if (isDBQ) {
       return `We made a request for an exam on ${formattedDate}`;
     }
     return `We made a request outside VA on ${formattedDate}`;
   };
   const getItemDisplayName = () => {
-    if (item.displayName.toLowerCase().includes('dbq')) {
+    if (isDBQ) {
       return 'Request for an exam';
     }
     if (item.friendlyName) {

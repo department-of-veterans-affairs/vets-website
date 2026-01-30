@@ -98,11 +98,16 @@ export default function RecentActivity({ claim }) {
 
       if (item.requestedDate) {
         if (item.status === 'NEEDED_FROM_OTHERS') {
+          // Use API boolean properties with fallback to evidenceDictionary
+          const isDBQ =
+            item.isDBQ ??
+            evidenceDictionary[item.displayName]?.isDBQ ??
+            item.displayName?.toLowerCase().includes('dbq') ??
+            false;
+
           addItems(
             item.requestedDate,
-            (evidenceDictionary[item.displayName] &&
-              evidenceDictionary[item.displayName].isDBQ) ||
-            item.displayName.toLowerCase().includes('dbq')
+            isDBQ
               ? `We made a request: “${displayName}.”`
               : `We made a request outside the VA: “${displayName}.”`,
             item,
