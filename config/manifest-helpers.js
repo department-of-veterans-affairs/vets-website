@@ -32,10 +32,7 @@ function getAppRoutes() {
 function getWebpackEntryPoints(manifests) {
   return manifests.reduce((apps, next) => {
     // eslint-disable-next-line no-param-reassign
-    apps[next.entryName] = {
-      import: next.entryFile,
-      dependOn: 'vendor',
-    };
+    apps[next.entryName] = next.entryFile;
     return apps;
   }, {});
 }
