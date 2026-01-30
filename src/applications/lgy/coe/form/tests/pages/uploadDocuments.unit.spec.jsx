@@ -1,0 +1,50 @@
+import React from 'react';
+import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { DocumentTypeSelect } from '../../pages/uploadDocuments';
+import { serviceStatuses } from '../../constants';
+
+const mockStore = configureStore([]);
+
+const renderWithStore = formData => {
+  const store = mockStore({
+    form: {
+      data: formData,
+    },
+  });
+  return render(
+    <Provider store={store}>
+      <DocumentTypeSelect />
+    </Provider>,
+  );
+};
+
+describe('DocumentTypeSelect component', () => {
+  it('should show no options for ADSM without Purple Heart', () => {
+    const { container } = renderWithStore({
+      identity: serviceStatuses.ADSM,
+      militaryHistory: {
+        purpleHeartRecipient: false,
+      },
+    });
+
+    const options = container.querySelectorAll('option');
+    expect(options).to.have.length(0);
+  });
+
+  it('should show Purple Heart Certificate for ADSM with Purple Heart', () => {
+    const { container } = renderWithStore({
+      identity: serviceStatuses.ADSM,
+      militaryHistory: {
+        purpleHeartRecipient: true,
+      },
+    });
+
+    const options = container.querySelectorAll('option');
+    expect(options).to.have.length(1);
+    expect(options[0].textContent).to.equal('Purple Heart Certificate');
+    expect(options[0].value).to.equal('Purple Heart Certificate');
+  });
+});
