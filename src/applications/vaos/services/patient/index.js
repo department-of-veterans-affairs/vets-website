@@ -333,36 +333,46 @@ export async function fetchFlowEligibilityAndClinics({
     featurePastVisitMHFilter,
   );
 
-  const apiCalls = {
-    patientEligibility: fetchPatientEligibility({
-      typeOfCare,
-      location,
-      type: !directSchedulingAvailable ? 'request' : null,
-    }),
-  };
-
   // When removeFacilityConfigCheck is removed, directTypeOfCareSettings should be removed and not used
   // location contains legacyVAR that contains patientHistoryRequired
   const directTypeOfCareSettings =
     location.legacyVAR.settings?.[typeOfCare.id]?.direct;
 
-  // We don't want to make unnecessary api calls if DS is turned off and we are using the configuration call
-  if (directSchedulingAvailable && !isCerner) {
-    apiCalls.clinics = getAvailableHealthcareServices({
+  // First, fetch patient eligibility to determine if we should make additional API calls
+  const patientEligibility = await fetchPatientEligibility({
+    typeOfCare,
+    location,
+    type: !directSchedulingAvailable ? 'request' : null,
+  });
+
+  // Only fetch clinics and past appointments if:
+  // 1. Direct scheduling is available based on configuration
+  // 2. Not a Cerner site
+  // 3. The API says the patient is eligible for direct scheduling (when removeFacilityConfigCheck is true)
+  const shouldFetchClinics =
+    directSchedulingAvailable &&
+    !isCerner &&
+    (!removeFacilityConfigCheck || patientEligibility.direct?.eligible);
+
+  const additionalApiCalls = {};
+  if (shouldFetchClinics) {
+    additionalApiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
       typeOfCare,
     }).catch(createErrorHandler('direct-available-clinics-error'));
 
-    apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+    additionalApiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
       featureUseBrowserTimezone,
     ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
   }
 
-  // This waits for all the api calls we're running in parallel to finish
-  // It does not have a try/catch because all errors in the calls are caught
-  // and resolved, so that we can still provide users a path forward if enough
-  // checks succeeded
-  const results = await promiseAllFromObject(apiCalls);
+  // Wait for additional API calls to finish
+  const additionalResults = await promiseAllFromObject(additionalApiCalls);
+
+  const results = {
+    patientEligibility,
+    ...additionalResults,
+  };
 
   const eligibility = {
     direct: directSchedulingEnabled,

@@ -21,11 +21,13 @@ export default function SelectProviderPage() {
   const eligibility = useSelector(selectEligibility);
   const selectedFacility = useSelector(selectChosenFacilityInfo);
 
+  const isEligibleForDirect = eligibility?.direct;
+
   const {
     loading,
     patientRelationshipsError,
     patientProviderRelationships,
-  } = useGetPatientRelationships();
+  } = useGetPatientRelationships({ skip: !isEligibleForDirect });
 
   // page header setup
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
@@ -35,7 +37,6 @@ export default function SelectProviderPage() {
 
   // eligibility issues
   const isEligibleForRequest = eligibility?.request;
-  const isEligibleForDirect = eligibility?.direct;
   const overRequestLimit =
     eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
   const requestEligibilityError =
