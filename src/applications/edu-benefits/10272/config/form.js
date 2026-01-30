@@ -1,8 +1,10 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
-import { profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill/ContactInfo';
+import {
+  profilePersonalInfoPage,
+  profileContactInfoPages,
+} from 'platform/forms-system/src/js/patterns/prefill';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 
 import { TITLE, SUBTITLE } from '../constants';
