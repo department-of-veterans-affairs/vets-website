@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import {
-  makeLegacySchemaForRatedDisabilities,
+  makeSchemaForRatedDisabilitiesLegacy,
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilitiesInNewDisabilities,
   makeSchemaForAllDisabilities,
@@ -109,7 +109,7 @@ describe('makeSchemaForNewDisabilities', () => {
 });
 
 // demonstrates behavior of the legacy implementation of makeSchemaForRatedDisabilities
-describe('makeLegacySchemaForRatedDisabilities', () => {
+describe('makeSchemaForRatedDisabilitiesLegacy', () => {
   it('should handle special characters in the disability name', () => {
     const formData = {
       'view:claimType': {
@@ -143,7 +143,7 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
         },
       ],
     };
-    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+    expect(makeSchemaForRatedDisabilitiesLegacy(formData)).to.eql({
       properties: {
         diabetesmellitus: {
           title: 'Diabetes (Mellitus)',
@@ -213,7 +213,7 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
         },
       ],
     };
-    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+    expect(makeSchemaForRatedDisabilitiesLegacy(formData)).to.eql({
       properties: {
         cat: {
           title: 'CaT',
@@ -247,7 +247,7 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
         },
       ],
     };
-    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+    expect(makeSchemaForRatedDisabilitiesLegacy(formData)).to.eql({
       properties: {
         blank: {
           title: null,
@@ -281,7 +281,7 @@ describe('makeLegacySchemaForRatedDisabilities', () => {
         },
       ],
     };
-    expect(makeLegacySchemaForRatedDisabilities(formData)).to.eql({
+    expect(makeSchemaForRatedDisabilitiesLegacy(formData)).to.eql({
       properties: {
         blank: {
           title: null,
@@ -359,7 +359,7 @@ describe('makeSchemaForRatedDisabilitiesInNewDisabilities has parity with the se
         },
       ],
     };
-    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+    expect(makeSchemaForRatedDisabilitiesLegacy(formDataLegacy)).to.eql(
       makeSchemaForRatedDisabilitiesInNewDisabilities(formDataV2),
     );
   });
@@ -411,7 +411,7 @@ describe('makeSchemaForRatedDisabilitiesInNewDisabilities has parity with the se
         },
       ],
     };
-    expect(makeLegacySchemaForRatedDisabilities(formDataLegacy)).to.eql(
+    expect(makeSchemaForRatedDisabilitiesLegacy(formDataLegacy)).to.eql(
       makeSchemaForRatedDisabilitiesInNewDisabilities(formDataV2),
     );
   });

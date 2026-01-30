@@ -103,7 +103,7 @@ export const makeSchemaForNewDisabilities = createSelector(
  * Create the checkbox schema for rated disabilities based if user has selected
  * Increase claim type. Values are pulled from the ratedDisabilities array.
  */
-export const makeLegacySchemaForRatedDisabilities = createSelector(
+export const makeSchemaForRatedDisabilitiesLegacy = createSelector(
   formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
   (ratedDisabilities = []) => ({
     properties: ratedDisabilities
@@ -155,7 +155,7 @@ export const makeSchemaForRatedDisabilitiesInNewDisabilities = createSelector(
  */
 export const makeSchemaForAllDisabilities = createSelector(
   makeSchemaForNewDisabilities,
-  makeLegacySchemaForRatedDisabilities,
+  makeSchemaForRatedDisabilitiesLegacy,
   makeSchemaForRatedDisabilitiesInNewDisabilities,
   (
     newDisabilitiesSchema,
