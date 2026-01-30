@@ -12,7 +12,7 @@ import {
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
 const SIGNATURE_MISMATCH_MESSAGE =
-  'Enter your name exactly as it appears on your application';
+  'Enter your name exactly as it appears on your form';
 
 export function PreSubmitInfo({
   formData,
