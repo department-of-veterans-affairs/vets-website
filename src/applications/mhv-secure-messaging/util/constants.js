@@ -165,7 +165,7 @@ export const Alerts = {
     CANNOT_REPLY_BODY: {
       MAIN: 'The last message in this conversation is more than 45 days old.',
       VISTA:
-        "If you want to continue this conversation, you'll need to start a new message.",
+        "If you want to continue this conversation, you'll need to start a new message..",
       OH:
         'If you want to continue this conversation directly with your provider, call your VA health facility. Ask to speak to the My HealtheVet coordinator or secure messaging administrator.',
       OH_CONTACT:
