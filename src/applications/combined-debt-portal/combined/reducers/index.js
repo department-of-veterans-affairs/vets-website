@@ -11,6 +11,8 @@ import {
   DEBT_LETTERS_FETCH_INITIATED,
 } from '../actions/debts';
 import {
+  MCP_DETAIL_FETCH_FAILURE,
+  MCP_DETAIL_FETCH_SUCCESS,
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
   MCP_STATEMENTS_FETCH_FAILURE,
@@ -48,6 +50,13 @@ export const medicalCopaysReducer = (state = mcpInitialState, action) => {
         pending: false,
         statements: action.response,
       };
+    case MCP_DETAIL_FETCH_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        selectedStatement: action.response.data,
+      };
+    case MCP_DETAIL_FETCH_FAILURE:
     case MCP_STATEMENTS_FETCH_FAILURE:
       return {
         ...state,

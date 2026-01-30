@@ -69,4 +69,18 @@ export const copayResponses = {
   notEnrolled: (name = 'copays') => {
     cy.intercept('GET', '/v0/medical_copays', req => reply403(req)).as(name);
   },
+  detail: (id, name = 'copayDetail') => {
+    cy.intercept('GET', `/v1/medical_copays/${id}`, req => {
+      const copay = mockCopaysv1.data.find(c => c.id === id);
+
+      if (copay) {
+        req.reply({
+          statusCode: 200,
+          body: { data: copay },
+        });
+      } else {
+        req.reply(404, { errors: ['Copay not found'] });
+      }
+    }).as(name);
+  },
 };
