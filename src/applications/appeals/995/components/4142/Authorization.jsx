@@ -15,11 +15,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import AuthorizationAlert, { alertTitle } from './AuthorizationAlert';
 import { AUTHORIZATION_LABEL } from '../../constants';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
-import LimitedConsent from './LimitedConsent';
 
 export const content = {
-  title:
-    'Authorize the release of private provider or VA Vet Center medical records to VA',
+  title: 'Authorize the release of non-VA medical records to VA',
 };
 
 const Authorization = ({
@@ -30,11 +28,7 @@ const Authorization = ({
   goForward,
   setFormData,
 }) => {
-  const { auth4142, lcPrompt, lcDetails, showArrayBuilder } = data || {};
-
-  const [checkboxError, setCheckboxError] = useState(false);
-  const [radioError, setRadioError] = useState(false);
-  const [textAreaError, setTextAreaError] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalOpenedBy, setModalOpenedBy] = useState(null);
 
@@ -91,7 +85,7 @@ const Authorization = ({
 
   useEffect(
     () => {
-      if (checkboxError) {
+      if (hasError) {
         recordEvent({
           event: 'visible-alert-box',
           'alert-box-type': 'warning',
@@ -104,34 +98,12 @@ const Authorization = ({
         });
       }
     },
-    [checkboxError],
+    [hasError],
   );
 
   const focusOnAlert = () => {
     scrollTo('topScrollElement');
     waitForRenderThenFocus('va-alert h3');
-  };
-
-  const allDataIsPresent = () => {
-    const lcDetailsRequirement = lcPrompt === 'Y' && !!lcDetails;
-
-    return auth4142 && (lcPrompt === 'N' || lcDetailsRequirement);
-  };
-
-  const setErrorsForMissingData = () => {
-    if (!auth4142) {
-      // Show error and move focus ONLY when Continue is clicked
-      setCheckboxError(true);
-      focusOnAlert();
-    }
-
-    if (!lcPrompt) {
-      setRadioError(true);
-    }
-
-    if (!lcDetails && lcPrompt === 'Y') {
-      setTextAreaError(true);
-    }
   };
 
   const handlers = {
@@ -145,32 +117,26 @@ const Authorization = ({
       scrollTo(checkbox);
       waitForRenderThenFocus('input', checkbox.shadowRoot);
     },
-    onCheckboxChange: event => {
+    onChange: event => {
       const { checked } = event.target;
 
-      if (checked && checkboxError) {
-        setCheckboxError(false);
-      }
+      setFormData({ ...data, privacyAgreementAccepted: checked });
 
-      if (showArrayBuilder) {
-        setFormData({ ...data, auth4142: checked });
-      } else {
-        setFormData({ ...data, privacyAgreementAccepted: checked });
+      if (checked && hasError) {
+        setHasError(false);
       }
-    },
-    onLcChange: lcData => {
-      setFormData({ ...data, ...lcData });
     },
     onGoForward: () => {
-      if (!showArrayBuilder && !data.privacyAgreementAccepted) {
-        // Show error and move focus ONLY when Continue is clicked without checkbox
-        setCheckboxError(true);
-        focusOnAlert();
-      } else if (showArrayBuilder && !allDataIsPresent()) {
-        setErrorsForMissingData();
-      } else {
-        setCheckboxError(false);
+      // Validation ONLY happens on form submission attempt
+      if (data.privacyAgreementAccepted) {
+        setHasError(false);
+
         goForward(data);
+      } else {
+        // Show error and move focus ONLY when Continue is clicked without checkbox
+        setHasError(true);
+
+        focusOnAlert();
       }
     },
   };
@@ -205,26 +171,22 @@ const Authorization = ({
   const nextPageText =
     'You can limit your authorization to specific sources and information on the next page.';
 
-  const checkboxIsChecked = showArrayBuilder
-    ? auth4142
-    : data.privacyAgreementAccepted;
-
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
-        {checkboxError && (
+        {hasError && (
           <AuthorizationAlert
-            checkboxError={checkboxError}
+            hasError={hasError}
             onAnchorClick={handlers.onAnchorClick}
           />
         )}
         <h3>{content.title}</h3>
         <p>
-          Only provide this authorization if you want us to obtain your medical
-          records from private health care providers on your behalf. If you
-          already provided these records or plan to get them yourself, you don’t
-          need to fill out this authorization. Doing so will lengthen your claim
-          processing time.
+          Only provide this authorization if you want The Department of Veterans
+          Affairs (VA) to obtain non-VA medical records on your behalf. If
+          you’ve already provided these records or intend to get them yourself,
+          there’s no need to fill out this authorization. Doing so will lengthen
+          your claim processing time.
         </p>
         <va-accordion>
           <va-accordion-item
@@ -522,23 +484,12 @@ const Authorization = ({
             id="privacy-agreement"
             name="privacy-agreement"
             label={AUTHORIZATION_LABEL}
-            checked={checkboxIsChecked}
-            onVaChange={handlers.onCheckboxChange}
+            checked={data.privacyAgreementAccepted}
+            onVaChange={handlers.onChange}
             required
             enable-analytics
           />
         </div>
-        {showArrayBuilder && (
-          <LimitedConsent
-            lcDetails={data.lcDetails}
-            lcPrompt={data.lcPrompt}
-            onChange={handlers.onLcChange}
-            radioError={radioError}
-            setRadioError={setRadioError}
-            textAreaError={textAreaError}
-            setTextAreaError={setTextAreaError}
-          />
-        )}
         <div className="vads-u-margin-top--5">
           {contentBeforeButtons}
           <FormNavButtons

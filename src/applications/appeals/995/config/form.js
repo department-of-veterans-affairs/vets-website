@@ -305,25 +305,23 @@ const formConfig = {
           schema: privateAuthorization.schema,
           depends: hasPrivateEvidence,
         },
-        ...privateEvidence,
-        limitedConsentPromptOld: {
+        limitedConsentPrompt: {
           title: 'Non-VA medical record: limited consent prompt',
           path: LIMITED_CONSENT_PROMPT_URL,
           uiSchema: limitedConsentPromptPage.uiSchema,
           schema: limitedConsentPromptPage.schema,
           scrollAndFocusTarget: focusRadioH3,
-          depends: formData =>
-            !redesignActive(formData) && hasPrivateEvidence(formData),
+          depends: formData => hasPrivateEvidence(formData),
         },
-        limitedConsentDetailsOld: {
+        limitedConsentDetails: {
           title: 'Non-VA medical record: limited consent details',
           path: LIMITED_CONSENT_DETAILS_URL,
           uiSchema: limitedConsentDetailsPage.uiSchema,
           schema: limitedConsentDetailsPage.schema,
           scrollAndFocusTarget: focusRadioH3,
-          depends: formData =>
-            !redesignActive(formData) && hasPrivateLimitation(formData),
+          depends: formData => hasPrivateLimitation(formData),
         },
+        ...privateEvidence,
         privateDetailsOld: {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_DETAILS_URL,

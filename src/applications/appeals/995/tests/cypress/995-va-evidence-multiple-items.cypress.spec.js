@@ -55,7 +55,7 @@ describe('Array Builder evidence flow', () => {
         'We can collect your VA medical records or military health records',
       );
       h.checkErrorHandlingWithClass(
-        '[name="root_hasVaEvidence"]',
+        h.VA_EVIDENCE_PROMPT_RADIOS,
         promptContent.requiredError,
       );
 
@@ -66,7 +66,7 @@ describe('Array Builder evidence flow', () => {
         'What VA or military treatment location should we request records from?',
       );
       h.checkErrorHandlingWithClass(
-        '[name="root_vaTreatmentLocation"]',
+        h.VA_EVIDENCE_LOCATION_WITH_NAME,
         locationContent.requiredError,
       );
       h.addVaLocation('South Texas VA Hospital');
@@ -98,7 +98,7 @@ describe('Array Builder evidence flow', () => {
 
       // ---------------------------------------- SECOND ITEM
       h.checkErrorHandlingWithClass(
-        '[name="root_hasVaEvidence"]',
+        h.VA_EVIDENCE_PROMPT_RADIOS,
         summaryContent.requiredError,
       );
       h.selectVaPromptResponse('Y');
@@ -183,11 +183,11 @@ describe('Array Builder evidence flow', () => {
         'Edit the first VA or military treatment location we should request records from',
       );
       h.checkValueOfInput(
-        'input[name="root_vaTreatmentLocation"]',
+        `input${h.VA_EVIDENCE_LOCATION_WITH_NAME}`,
         'South Texas VA Hospital',
       );
       cy.fillVaTextInput(
-        'root_vaTreatmentLocation',
+        h.VA_EVIDENCE_LOCATION,
         'South Texas VA Medical Center',
       );
       h.clickContinue();

@@ -12,6 +12,7 @@ import {
   LIMITED_CONSENT_PROMPT_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITATION_KEY,
+  HAS_PRIVATE_LIMITATION,
 } from '../../constants';
 import {
   confirmationPageLabel,
@@ -45,8 +46,8 @@ export const PrivateDetailsDisplayNew = ({
     return null;
   }
 
-  const { auth4142, lcDetails, lcPrompt, privateEvidence } = data;
-
+  const { privacyAgreementAccepted, limitedConsent, privateEvidence } = data;
+  const lcPrompt = data[HAS_PRIVATE_LIMITATION];
   const Header = isOnReviewPage ? 'h5' : 'h4';
   const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
@@ -100,7 +101,7 @@ export const PrivateDetailsDisplayNew = ({
             {authContent.title}
           </SubHeader>
           <p>
-            {auth4142 ? (
+            {privacyAgreementAccepted ? (
               AUTHORIZATION_LABEL
             ) : (
               // including non-empty error attribute for focus management
@@ -132,7 +133,7 @@ export const PrivateDetailsDisplayNew = ({
           >
             {limitedConsentPromptQuestion}
           </SubHeader>
-          <p>{lcPrompt === 'Y' ? 'Yes' : 'No'}</p>
+          <p>{lcPrompt ? 'Yes' : 'No'}</p>
           {!reviewMode && (
             <div className="vads-u-margin-top--1p5">
               <BasicLink
@@ -147,8 +148,8 @@ export const PrivateDetailsDisplayNew = ({
             </div>
           )}
         </li>
-        {lcPrompt === 'Y' &&
-          lcDetails && (
+        {lcPrompt &&
+          limitedConsent && (
             <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
               <SubHeader
                 className={`private-limitation
@@ -157,7 +158,7 @@ export const PrivateDetailsDisplayNew = ({
               >
                 {limitedConsentDetailsQuestion}
               </SubHeader>
-              <p>{lcDetails}</p>
+              <p>{limitedConsent}</p>
               {!reviewMode && (
                 <div className="vads-u-margin-top--1p5">
                   <BasicLink
@@ -285,8 +286,8 @@ export const PrivateDetailsDisplayNew = ({
 
 PrivateDetailsDisplayNew.propTypes = {
   data: PropTypes.shape({
-    auth4142: PropTypes.bool,
-    lcDetails: PropTypes.string,
+    privacyAgreementAccepted: PropTypes.bool,
+    limitedConsent: PropTypes.string,
     lcPrompt: PropTypes.string,
     privateEvidence: PropTypes.arrayOf(
       PropTypes.shape({

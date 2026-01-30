@@ -6,7 +6,11 @@ import mockData from '../fixtures/data/pre-api-comprehensive-test.json';
 import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 import { introContent, summaryContent } from '../../content/evidence/private';
 import * as sh from '../../../shared/tests/cypress.helpers';
-import { content as limitedConsentContent } from '../../components/4142/LimitedConsent';
+import {
+  promptQuestion as limitedConsentPrompt,
+  requiredError as limitedConsentPromptError,
+} from '../../pages/limitedConsentPrompt';
+import { detailsQuestion as limitedConsentDetailsQuestion } from '../../pages/limitedConsentDetails';
 import { content as authContent } from '../../components/4142/Authorization';
 
 const issues = mockData.data.contestedIssues;
@@ -60,6 +64,15 @@ describe('Array Builder evidence flow', () => {
       h.selectPrivatePromptResponse('y');
 
       // 4142 Auth
+      // Check error handling
+      h.clickContinue();
+
+      h.checkAlertText(
+        null,
+        'Error Alert We need your authorization to request your medical records',
+        'error',
+      );
+
       cy.get('#privacy-agreement')
         .shadow()
         .find('div input')
@@ -67,18 +80,26 @@ describe('Array Builder evidence flow', () => {
         .scrollIntoView()
         .click();
 
-      cy.selectRadio('limited-consent', 'Y');
+      h.verifyH3(authContent.title);
+
+      h.clickContinue();
+
+      // Limited consent prompt
+      // Check error handling
+      h.clickContinue();
+      h.verifyFPSH3(limitedConsentPrompt);
+
+      h.checkError(h.LC_RADIOS_WITH_NAME, limitedConsentPromptError);
+      cy.selectRadio(h.LC_RADIOS, 'Y');
+
+      h.clickContinue();
+
+      // Limited consent details
+      h.checkTextareaLabel(h.LC_DETAILS, limitedConsentDetailsQuestion);
 
       cy.fillVaTextarea(
-        'limited-consent-description',
+        h.LC_DETAILS,
         'Do not include prescription drugs or follow-up visits',
-      );
-
-      h.verifyH3(authContent.title);
-      h.verifyFPSH3(limitedConsentContent.prompt);
-      h.checkTextareaLabel(
-        'limited-consent-description',
-        limitedConsentContent.textareaLabel,
       );
 
       h.clickContinue();

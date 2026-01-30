@@ -1,4 +1,8 @@
-import { HAS_OTHER_EVIDENCE, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+import {
+  HAS_OTHER_EVIDENCE,
+  HAS_PRIVATE_LIMITATION,
+  SUPPORTED_BENEFIT_TYPES_LIST,
+} from '../constants';
 import {
   getHomeless,
   getAddress,
@@ -21,14 +25,15 @@ export function transform(form) {
   const mainTransform = formData => {
     const {
       additionalDocuments,
-      auth4142,
       benefitType,
-      lcDetails,
-      lcPrompt,
+      limitedConsent,
+      privacyAgreementAccepted,
       privateEvidence,
       scRedesign,
       vaEvidence,
     } = formData;
+
+    const lcPrompt = formData[HAS_PRIVATE_LIMITATION];
 
     if (scRedesign) {
       const attributes = {
@@ -72,15 +77,15 @@ export function transform(form) {
       if (privateEvidence && privateEvidence?.length) {
         dataToSend.form4142 = {
           evidenceEntries: privateEvidence,
-          auth4142,
+          authorization: privacyAgreementAccepted,
           lcPrompt,
         };
       }
 
-      if (lcPrompt && lcPrompt === 'Y') {
+      if (lcPrompt) {
         dataToSend.form4142 = {
           ...dataToSend.form4142,
-          lcDetails,
+          lcDetails: limitedConsent,
         };
       }
 
