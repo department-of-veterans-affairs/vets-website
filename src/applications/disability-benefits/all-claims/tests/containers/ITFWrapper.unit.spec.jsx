@@ -3,11 +3,13 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import { merge } from 'lodash';
+import { Provider } from 'react-redux';
 
 import { requestStates } from 'platform/utilities/constants';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { ITFWrapper } from '../../containers/ITFWrapper';
 import { itfStatuses } from '../../constants';
+import { itfActive, itfSuccess } from '../../content/itfWrapper';
 
 import { parseDate, parseDateWithTemplate } from '../../utils/dates';
 import { daysFromToday } from '../../utils/dates/formatting';
@@ -23,6 +25,7 @@ const defaultProps = {
     creationCallState: requestStates.notCalled,
     currentITF: null,
     previousITF: null,
+    messageDismissed: false,
   },
   fetchITF,
   createITF,
@@ -122,7 +125,7 @@ describe('526 ITFWrapper', () => {
         <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
-    const banner = tree.find('ITFBanner');
+    const banner = tree.find('Connect(ITFBanner)');
     expect(banner.length).to.equal(1);
     expect(banner.props().status).to.equal('error');
     tree.unmount();
@@ -132,17 +135,34 @@ describe('526 ITFWrapper', () => {
     const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.pending,
+        messageDismissed: false,
       },
     });
+    const mockStore = {
+      getState: () => ({
+        itf: props.itf,
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const tree = mount(
-      <ITFWrapper {...props}>
-        <p>Shouldn’t see me yet...</p>
-      </ITFWrapper>,
+      <Provider store={mockStore}>
+        <ITFWrapper {...props}>
+          <p>Shouldn’t see me yet...</p>
+        </ITFWrapper>
+      </Provider>,
     );
     // The ITF call happens in componentWillReceiveProps, so trigger that function call
-    tree.setProps(
-      merge({}, props, { itf: { fetchCallState: requestStates.failed } }),
-    );
+    const newProps = merge({}, props, {
+      itf: { fetchCallState: requestStates.failed, messageDismissed: false },
+    });
+    tree.setProps({
+      children: (
+        <ITFWrapper {...newProps}>
+          <p>Shouldn't see me yet...</p>
+        </ITFWrapper>
+      ),
+    });
     expect(createITF.called).to.be.true;
     tree.unmount();
   });
@@ -200,8 +220,8 @@ describe('526 ITFWrapper', () => {
         <p>I'm a ninja; you can’t see me!</p>
       </ITFWrapper>,
     );
-    const banner = tree.find('ITFBanner');
-    expect(tree.dive().find('h1')).to.have.lengthOf(1);
+    const banner = tree.find('Connect(ITFBanner)');
+
     expect(banner.length).to.equal(1);
     expect(banner.props().status).to.equal('error');
     tree.unmount();
@@ -220,8 +240,7 @@ describe('526 ITFWrapper', () => {
         <p>I'm a ninja; you can’t see me!</p>
       </ITFWrapper>,
     );
-    const banner = tree.find('ITFBanner');
-    expect(tree.dive().find('h1')).to.have.lengthOf(1);
+    const banner = tree.find('Connect(ITFBanner)');
     expect(banner.length).to.equal(1);
     expect(banner.props().status).to.equal('error');
     tree.unmount();
@@ -238,12 +257,21 @@ describe('526 ITFWrapper', () => {
         },
       },
     });
+    const mockStore = {
+      getState: () => ({
+        itf: props.itf,
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const tree = mount(
-      <ITFWrapper {...props}>
-        <p>Hello, world.</p>
-      </ITFWrapper>,
+      <Provider store={mockStore}>
+        <ITFWrapper {...props}>
+          <p>Hello, world.</p>
+        </ITFWrapper>
+      </Provider>,
     );
-    const banner = tree.find('ITFBanner');
+    const banner = tree.find('Connect(ITFBanner)');
     const bannerProps = banner.props();
     expect(banner.length).to.equal(1);
     expect(bannerProps.status).to.equal('itf-found');
@@ -268,17 +296,53 @@ describe('526 ITFWrapper', () => {
         },
       },
     });
+    const mockStore = {
+      getState: () => ({
+        itf: props.itf,
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const tree = mount(
-      <ITFWrapper {...props}>
-        <p>Hello, world.</p>
-      </ITFWrapper>,
+      <Provider store={mockStore}>
+        <ITFWrapper {...props}>
+          <p>Hello, world.</p>
+        </ITFWrapper>
+      </Provider>,
     );
-    const banner = tree.find('ITFBanner');
+    const banner = tree.find('Connect(ITFBanner)');
     const bannerProps = banner.props();
     expect(banner.length).to.equal(1);
     expect(bannerProps.status).to.equal('itf-created');
     expect(bannerProps.currentExpDate).to.equal(expirationDate);
     expect(bannerProps.previousExpDate).to.equal(previousExpirationDate);
+    tree.unmount();
+  });
+
+  it('should display an expiration date for EVSS +0000 timestamps (active ITF)', () => {
+    const expirationDate = '2030-07-28T19:53:45.810+0000';
+    const tree = mount(itfActive(expirationDate));
+
+    expect(tree.text()).to.include('ET');
+    expect(tree.text()).to.match(/\b2030\b/);
+    expect(tree.text()).to.not.include('Invalid Date');
+
+    tree.unmount();
+  });
+
+  it('should display current and previous expiration dates for EVSS +0000 timestamps (created ITF)', () => {
+    const currentExpirationDate = '2030-07-28T19:53:45.810+0000';
+    const previousExpirationDate = '2029-07-28T19:53:45.810+0000';
+
+    const tree = mount(
+      itfSuccess(true, currentExpirationDate, previousExpirationDate),
+    );
+
+    expect(tree.text()).to.include('ET');
+    expect(tree.text()).to.match(/\b2030\b/);
+    expect(tree.text()).to.match(/\b2029\b/);
+    expect(tree.text()).to.not.include('Invalid Date');
+
     tree.unmount();
   });
 });
