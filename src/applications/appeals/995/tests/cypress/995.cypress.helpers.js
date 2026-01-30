@@ -44,7 +44,7 @@ export const NOTICE_5103_PATH = chapters.evidence.pages.notice5103.path;
 export const EVIDENCE_SUMMARY_PATH = chapters.evidence.pages.summary.path;
 export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
-  chapters.evidence.pages.vaDetails.path;
+  chapters.evidence.pages.vaDetailsOld.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
 export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
@@ -62,28 +62,197 @@ export const ADDTL_EVIDENCE_RADIO = '[name="root_view:hasOtherEvidence"]';
 export const MST_RADIO = '[name="root_mstOption"]';
 export const MST_OPTION_RADIO = '[name="root_optionIndicator"]';
 
-// VA location inputs
+// VA evidence selectors
+export const VA_EVIDENCE_PROMPT_RADIOS = '[name="root_hasVaEvidence"]';
 export const VA_EVIDENCE_FACILITY_NAME_INPUT = '[name="name"]';
 export const VA_EVIDENCE_ISSUES_CHECKBOXES = '[name="issues"]';
 export const VA_EVIDENCE_TREATMENT_YEAR = '[name="txdateYear"]';
+export const VA_EVIDENCE_LOCATION = 'root_vaTreatmentLocation';
+export const VA_EVIDENCE_LOCATION_WITH_NAME =
+  '[name="root_vaTreatmentLocation"]';
 
-// Non-VA location auth & inputs
+// Private evidence selectors
 export const PRIVACY_MODAL_TRIGGER_1_ID = 'privacy-modal-button-1';
 export const PRIVACY_MODAL_TRIGGER_1_BUTTON = `[id="${PRIVACY_MODAL_TRIGGER_1_ID}"]`;
 export const PRIVACY_MODAL_TITLE =
   'va-modal[modal-title="Privacy Act Statement"]';
 export const PRIVACY_AGREEMENT_CHECKBOX = 'input[name="privacy-agreement"]';
-export const LIMITED_CONSENT_RADIOS = '[name="root_view:hasPrivateLimitation"]';
-export const LIMITED_CONSENT_TEXTAREA = '[name="root_limitedConsent"]';
+export const PRIVATE_TREATMENT_LOCATION = 'root_privateTreatmentLocation';
+export const PRIVATE_TREATMENT_LOCATION_WITH_NAME = `[name="${PRIVATE_TREATMENT_LOCATION}"]`;
+export const PRIVATE_TREATMENT_START = '[name="root_treatmentStart"]';
+export const PRIVATE_TREATMENT_END = '[name="root_treatmentEnd"]';
+export const LC_RADIOS = 'root_view:hasPrivateLimitation';
+export const LC_RADIOS_WITH_NAME = `[name="${LC_RADIOS}"]`;
+export const LC_DETAILS = 'root_limitedConsent';
+export const LC_DETAILS_WITH_NAME = `[name="${LC_DETAILS}"]`;
+
+export const clickStartClaim = () =>
+  cy
+    .get('va-link-action[text="Start your claim"]')
+    .eq(0)
+    .click();
+
+export const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
+
+export const checkVaFacilityBox = () =>
+  cy
+    .get('[name="root_facilityTypes_vamc"]')
+    .eq(0)
+    .click();
+
+// ------------ COMMON HELPERS ------------ //
 
 export const clickContinue = () =>
   cy.get('va-button[continue]', { selector: 'button' }).click();
 
-const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
-
 export const selectDropdownWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="${fieldName}"]`);
   cy.chooseSelectOptionUsingValue(value);
+};
+
+export const selectShadowDropdownWithKeyboard = (
+  parentSelector,
+  fieldName,
+  value,
+) => {
+  cy.tabToElement(parentSelector)
+    .shadow()
+    .find(`select[name="${fieldName}"]`);
+  cy.chooseSelectOptionUsingValue(value);
+};
+
+export const fillVaTextInputWithoutName = (selector, value) => {
+  cy.get('va-text-input')
+    .shadow()
+    .find(`input[name="${selector}"]`)
+    .focus()
+    .type(value);
+};
+
+export const getToEvidenceFlow = () => {
+  // Start
+  cy.selectRadio('benefitType', 'compensation');
+  clickContinue();
+
+  // Intro
+  clickStartClaim();
+
+  // ITF
+  clickContinue();
+
+  // Confirm Personal Info
+  clickContinue();
+
+  // Homelessness
+  cy.selectRadio('root_housingRisk', 'N');
+  clickContinue();
+
+  // Confirm Contact Info
+  clickContinue();
+
+  // Primary Phone
+  cy.get('va-radio-option[name="primary"][value="home"]').click();
+  clickContinue();
+
+  // Contestable Issues
+  cy.get('va-link-action[text="Add a new issue"]')
+    .eq(0)
+    .click();
+  cy.fillVaTextInput('issue-name', 'Hypertension');
+  cy.fillDate('decision-date', '2020-01-01');
+  cy.get('#submit').click();
+
+  cy.get('va-link-action[text="Add a new issue"]')
+    .eq(0)
+    .click();
+  cy.fillVaTextInput('issue-name', `Tendonitis, left ankle`);
+  cy.fillDate('decision-date', '2023-07-14');
+  cy.get('#submit').click();
+
+  cy.get('va-link-action[text="Add a new issue"]')
+    .eq(0)
+    .click();
+  cy.fillVaTextInput('issue-name', `Sleep apnea`);
+  cy.fillDate('decision-date', '2007-06-29');
+  cy.get('#submit').click();
+
+  clickContinue();
+
+  // Issues Review
+  clickContinue();
+
+  // DR Process Review
+  clickContinue();
+
+  // 5103 Review
+  cy.get('[name="5103"]')
+    .eq(0)
+    .click();
+  clickContinue();
+};
+
+export const verifyH3 = (expectedText, index = 0) =>
+  cy
+    .get('form h3')
+    .eq(index)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', expectedText);
+
+// Forms Pattern Single has a nested h3 structure for the header, it's inside the va-radio
+export const verifyFPSH3 = expectedText =>
+  cy
+    .get('va-radio')
+    .shadow()
+    .find('h3')
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', expectedText);
+
+export const verifyFPSDesc = expectedSnippet =>
+  cy
+    .get('va-radio div[slot="form-description"] p')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and('contain.text', expectedSnippet);
+
+export const verifyParagraph = (expectedText, index = 0) =>
+  cy
+    .get('p')
+    .eq(index)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', expectedText);
+
+export const checkError = (parentSelector, expectedErrorMessage) =>
+  cy
+    .get(parentSelector)
+    .shadow()
+    .find('.usa-error-message')
+    .should('be.visible')
+    .and('have.text', expectedErrorMessage);
+
+export const checkErrorHandlingWithClass = (
+  parentSelector,
+  expectedErrorMessage,
+) => {
+  clickContinue();
+
+  checkError(parentSelector, expectedErrorMessage);
+};
+
+export const checkErrorHandlingWithId = (
+  parentSelector,
+  expectedErrorMessage,
+) => {
+  clickContinue();
+
+  cy.get(parentSelector)
+    .shadow()
+    .find('#error-message')
+    .should('be.visible')
+    .and('have.text', `Error ${expectedErrorMessage}`);
 };
 
 export const errorItf = () => ({
@@ -388,4 +557,245 @@ export const pageHooks = {
       .find('select')
       .select('Buddy/Lay Statement', { force: true });
   },
+};
+
+export const clickArrayBuilderCardEditLink = locationName => {
+  cy.get(`va-link[label="Edit ${locationName}"]`).click();
+};
+
+export const clickArrayBuilderDeleteCardButton = locationName => {
+  cy.contains('va-card h4', locationName)
+    .parents('va-card')
+    .find('va-button-icon[data-action="remove"]')
+    .click();
+};
+
+export const clickArrayBuilderDeleteModalYesButton = () => {
+  cy.get('va-modal[status="warning"]')
+    .shadow()
+    .find('.va-modal-alert-body va-button')
+    .first()
+    .click();
+};
+
+export const confirmCheckboxesChecked = issues => {
+  issues.forEach(issue => {
+    cy.get(`[name="root_issues_${issue}"]`).should('be.checked');
+  });
+};
+
+export const checkValueOfInput = (selector, value) => {
+  cy.get(selector).should('have.value', value);
+};
+
+export const checkAlertText = (name, text, status = null) => {
+  if (status === 'warning') {
+    cy.get(`va-alert[status="warning"]`)
+      .eq(0)
+      .find('p')
+      .should('have.text', text);
+
+    return;
+  }
+
+  if (name) {
+    cy.get(`va-alert[name="${name}"]`).should('have.text', text);
+  } else {
+    cy.get(`va-alert[status="${status}"]`)
+      .eq(0)
+      .find('h3')
+      .should('have.text', text);
+  }
+};
+
+export const checkTextareaLabel = (name, text) => {
+  cy.get(`va-textarea[name="${name}"]`)
+    .shadow()
+    .find('label')
+    .should('be.visible')
+    .and('include.text', text);
+};
+
+// ------------ VA EVIDENCE HELPERS ------------ //
+
+export const selectVaPromptResponse = response => {
+  cy.selectRadio('root_hasVaEvidence', response);
+  clickContinue();
+};
+
+export const addVaLocation = location => {
+  cy.fillVaTextInput(VA_EVIDENCE_LOCATION, location);
+  clickContinue();
+};
+
+export const addVaTreatmentAfter2005 = () => {
+  cy.selectRadio('root_treatmentBefore2005', 'N');
+  clickContinue();
+};
+
+export const addVaTreatmentBefore2005 = () => {
+  cy.selectRadio('root_treatmentBefore2005', 'Y');
+  clickContinue();
+};
+
+export const addVaTreatmentDate = (monthIndex, year) => {
+  cy.get('.select-month')
+    .shadow()
+    .find('select')
+    .select(monthIndex, { force: true });
+  cy.realPress('Tab');
+  cy.realType(year);
+  clickContinue();
+};
+
+export const verifyArrayBuilderReviewVACard = (
+  index,
+  location,
+  treatmentDate,
+) => {
+  cy.get('va-card')
+    .eq(index)
+    .within(() => {
+      cy.get('h4')
+        .should('exist')
+        .and('be.visible')
+        .and('have.text', location);
+
+      if (treatmentDate) {
+        cy.get('p')
+          .eq(0)
+          .should('exist')
+          .and('be.visible')
+          .and('contain.text', 'Start of treatment')
+          .and('contain.text', 'Before 2005');
+
+        cy.get('p')
+          .eq(1)
+          .should('exist')
+          .and('be.visible')
+          .and('contain.text', 'Date')
+          .and('contain.text', treatmentDate);
+      } else {
+        cy.get('p')
+          .eq(0)
+          .should('exist')
+          .and('be.visible')
+          .and('contain.text', 'Start of treatment')
+          .and('contain.text', '2005 or later');
+      }
+    });
+
+  cy.get('h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and(
+      'have.text',
+      'Do you want us to request records from another VA provider?',
+    );
+};
+
+// ------------ PRIVATE EVIDENCE HELPERS ------------ //
+
+export const checkValueOfTreatmentDateInput = (index, value) => {
+  cy.get('va-text-input')
+    .eq(index)
+    .shadow()
+    .find('input')
+    .should('have.value', value);
+};
+
+// Used specifically for the private prompt page (not the summary in the L&L flow)
+export const selectPrivatePromptResponse = response => {
+  cy.selectRadio('private', response);
+  clickContinue();
+};
+
+// Used specifically for the summary page for private evidence
+export const selectPrivatePromptRepeaterResponse = response => {
+  cy.selectRadio('root_hasPrivateEvidence', response);
+  clickContinue();
+};
+
+export const addPrivateLocationData = (
+  name,
+  addressLine1,
+  city,
+  stateCode,
+  zip,
+  addressLine2 = null,
+) => {
+  cy.fillVaTextInput('root_privateTreatmentLocation', name);
+  cy.selectVaSelect('root_address_country', 'USA');
+  cy.fillVaTextInput('root_address_street', addressLine1);
+
+  if (addressLine2) {
+    cy.fillVaTextInput('root_address_street2', addressLine2);
+  }
+
+  cy.fillVaTextInput('root_address_city', city);
+
+  cy.get('.usa-select')
+    .eq(1)
+    .scrollIntoView();
+  cy.selectVaSelect('root_address_state', stateCode);
+  cy.fillVaTextInput('root_address_postalCode', zip);
+
+  clickContinue();
+};
+
+export const addPrivateTreatmentDates = (
+  treatmentStartDate,
+  treatmentEndDate,
+) => {
+  const [startYear, startMonth, startDay] = treatmentStartDate.split('-');
+  const [endYear, endMonth, endDay] = treatmentEndDate.split('-');
+
+  fillVaTextInputWithoutName('root_treatmentStartMonth', startMonth);
+  fillVaTextInputWithoutName('root_treatmentStartDay', startDay);
+  fillVaTextInputWithoutName('root_treatmentStartYear', startYear);
+
+  fillVaTextInputWithoutName('root_treatmentEndMonth', endMonth);
+  fillVaTextInputWithoutName('root_treatmentEndDay', endDay);
+  fillVaTextInputWithoutName('root_treatmentEndYear', endYear);
+  clickContinue();
+};
+
+export const verifyArrayBuilderReviewPrivateCard = (
+  index,
+  location,
+  conditionsCount,
+  conditions,
+  treatmentDateRange,
+) => {
+  cy.get('va-card')
+    .eq(index)
+    .within(() => {
+      cy.get('h4')
+        .should('exist')
+        .and('be.visible')
+        .and('have.text', location);
+
+      if (conditionsCount > 1) {
+        verifyParagraph(`Conditions: ${conditions}`, 0);
+      } else {
+        verifyParagraph(`Condition: ${conditions}`, 0);
+      }
+
+      cy.get('p')
+        .eq(1)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', 'Treatment')
+        .and('contain.text', treatmentDateRange);
+    });
+
+  cy.get('h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and(
+      'have.text',
+      'Do you want us to request records from another private provider or VA Vet Center?',
+    );
 };
