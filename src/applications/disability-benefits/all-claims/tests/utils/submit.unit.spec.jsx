@@ -25,6 +25,7 @@ import {
   sanitizeNewDisabilities,
   removeRatedDisabilityFromNew,
   removeExtraData,
+  cleanUpMailingAddress,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -1540,5 +1541,85 @@ describe('removeExtraData', () => {
     const result = removeExtraData(formData);
 
     expect(result).to.deep.equal(formData);
+  });
+});
+
+describe('cleanUpMailingAddress', () => {
+  it('should normalize address lines by trimming and collapsing spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '  123   Main   St  ',
+        addressLine2: '  Apt   5  ',
+        addressLine3: '  Building   A  ',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.addressLine1).to.equal('123 Main St');
+    expect(result.mailingAddress.addressLine2).to.equal('Apt 5');
+    expect(result.mailingAddress.addressLine3).to.equal('Building A');
+  });
+
+  it('should preserve other address fields unchanged', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        city: 'New York',
+        state: 'NY',
+        zipCode: '12345',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress.country).to.equal('USA');
+    expect(result.mailingAddress.city).to.equal('New York');
+    expect(result.mailingAddress.state).to.equal('NY');
+    expect(result.mailingAddress.zipCode).to.equal('12345');
+  });
+
+  it('should remove invalid keys from mailing address', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        'view:livesOnMilitaryBase': true,
+        invalidKey: 'should be removed',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress).to.not.have.property(
+      'view:livesOnMilitaryBase',
+    );
+    expect(result.mailingAddress).to.not.have.property('invalidKey');
+  });
+
+  it('should handle empty address lines', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '',
+        city: 'New York',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    expect(result.mailingAddress).to.not.have.property('addressLine2');
+  });
+
+  it('should handle address line with only spaces', () => {
+    const formData = {
+      mailingAddress: {
+        country: 'USA',
+        addressLine1: '123 Main St',
+        addressLine2: '     ',
+        city: 'New York',
+      },
+    };
+    const result = cleanUpMailingAddress(formData);
+    // Empty after trim should be filtered out
+    expect(result.mailingAddress.addressLine2).to.equal('');
   });
 });

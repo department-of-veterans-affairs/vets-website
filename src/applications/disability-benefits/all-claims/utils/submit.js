@@ -15,6 +15,8 @@ import {
   sippableId,
 } from './index';
 
+import { normalizeAddressLine } from './contactInformationHelpers';
+
 import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
@@ -452,12 +454,19 @@ export const cleanUpMailingAddress = formData => {
     'state',
     'zipCode',
   ];
+
+  const addressLineKeys = ['addressLine1', 'addressLine2', 'addressLine3'];
+
   const mailingAddress = Object.entries(formData.mailingAddress).reduce(
     (address, [key, value]) => {
       if (value && validKeys.includes(key)) {
+        // Normalize address lines before submission
+        const normalizedValue = addressLineKeys.includes(key)
+          ? normalizeAddressLine(value)
+          : value;
         return {
           ...address,
-          [key]: value,
+          [key]: normalizedValue,
         };
       }
       return address;
