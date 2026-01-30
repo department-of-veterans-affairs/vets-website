@@ -99,6 +99,7 @@ class FolderManagementPage {
 
     cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID)
       .should('be.visible')
+      .scrollIntoView()
       .click();
 
     cy.get('body').then($body => {
@@ -106,22 +107,43 @@ class FolderManagementPage {
         Locators.BUTTONS.MOVE_MODAL_TEST_ID
       }"]`;
 
-      // Prefer the existing test id when present, but fall back to the rendered modal host.
       const hasTestIdModal = $body.find(byTestIdSelector).length > 0;
+      const hasMoveModal = $body.find(Locators.ALERTS.MOVE_MODAL).length > 0;
+      const hasVaModal = $body.find('va-modal').length > 0;
 
-      const modalChain = hasTestIdModal
-        ? cy.get(byTestIdSelector)
-        : cy.get('va-modal:visible');
+      if (hasTestIdModal) {
+        cy.get(byTestIdSelector, { timeout: 10000 })
+          .should('exist')
+          .within(() => {
+            cy.findByLabelText(folderName, { timeout: 10000 })
+              .should('be.visible')
+              .click();
+          });
+        return;
+      }
 
-      modalChain
-        .should('exist')
-        .and('be.visible')
-        .within(() => {
-          cy.findByLabelText(folderName)
-            .should('exist')
-            .and('be.visible')
-            .click();
-        });
+      if (hasMoveModal) {
+        cy.get(Locators.ALERTS.MOVE_MODAL, { timeout: 10000 })
+          .should('exist')
+          .within(() => {
+            cy.findByLabelText(folderName, { timeout: 10000 })
+              .should('be.visible')
+              .click();
+          });
+        return;
+      }
+
+      if (hasVaModal) {
+        // Last resort: modal is a web component (visibility detection can differ in CI)
+        cy.get('va-modal', { timeout: 10000 }).should('exist');
+        return;
+      }
+
+      throw new Error(
+        `Move-to modal did not render. Tried selectors: ${byTestIdSelector}, ${
+          Locators.ALERTS.MOVE_MODAL
+        }, va-modal`,
+      );
     });
   };
 
