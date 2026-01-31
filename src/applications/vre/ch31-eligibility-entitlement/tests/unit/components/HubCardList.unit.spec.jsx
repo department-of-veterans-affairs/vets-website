@@ -42,21 +42,21 @@ describe('HubCardList', () => {
     });
   });
 
-  it('renders Scheduling + Career Planning links for step 4', () => {
+  it('renders only Career Planning link for step 4', () => {
     const { container, getByText } = render(<HubCardList step={4} />);
 
     getByText('Preparing for the next steps');
 
     const links = container.querySelectorAll('va-link');
-    expect(links.length).to.equal(2);
+    expect(links.length).to.equal(1);
 
-    expect(links[0].getAttribute('text')).to.equal('Scheduling');
-    expect(links[0].getAttribute('href')).to.equal('/my-case-management-hub');
-
-    expect(links[1].getAttribute('text')).to.equal('Career Planning');
-    expect(links[1].getAttribute('href')).to.equal(
+    expect(links[0].getAttribute('text')).to.equal('Career Planning');
+    expect(links[0].getAttribute('href')).to.equal(
       '/career-exploration-and-planning',
     );
+
+    getByText(/prepare you for/i);
+    getByText(/Initial Evaluation Counselor Meeting/i);
   });
 
   it('renders only Career Planning link for step 5', () => {

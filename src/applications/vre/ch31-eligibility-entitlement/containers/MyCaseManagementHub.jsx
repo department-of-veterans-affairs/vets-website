@@ -11,6 +11,7 @@ import ApplicationDiscontinuedAlert from '../components/ApplicationDiscontinuedA
 import LoadCaseDetailsFailedAlert from '../components/LoadCaseDetailsFailedAlert';
 import ApplicationInterruptedAlert from '../components/ApplicationInterruptedAlert';
 import CaseProgressBar from '../components/CaseProgressBar';
+import { getCurrentStepFromStateList } from '../helpers';
 // import CaseProgressAccordion from '../components/CaseProgressAccordion';
 // import CaseProgressProcessList from '../components/CaseProgressProcessList';
 
@@ -39,20 +40,22 @@ const MyCaseManagementHub = () => {
 
   const caseStatusDetails = caseStatusState?.data;
   const caseStatusError = caseStatusState?.error;
-  const isDiscontinued =
-    caseStatusDetails?.attributes?.externalStatus?.isDiscontinued;
 
-  const discontinuedReason =
-    caseStatusDetails?.attributes?.externalStatus?.discontinuedReason;
+  const attrs = caseStatusDetails?.attributes || {};
+  const externalStatus = attrs.externalStatus || {};
 
-  const isInterrupted = caseStatusDetails?.attributes?.isInterrupted;
-
-  const attrs = caseStatusDetails?.attributes;
-  const stateList = attrs?.externalStatus?.stateList || [];
+  const {
+    isDiscontinued = false,
+    discontinuedReason,
+    isInterrupted = false,
+    interruptedReason,
+    stateList = [],
+  } = externalStatus;
 
   const showAppointmentAlert = stateList.some(
-    step => step?.stepCode === 'INTAKE' && step?.status === 'ACTIVE',
+    s => s?.stepCode === 'INTAKE' && s?.status === 'ACTIVE',
   );
+  const appointment = attrs?.orientationAppointmentDetails;
 
   useEffect(() => {
     scrollToTop();
@@ -65,22 +68,6 @@ const MyCaseManagementHub = () => {
     },
     [dispatch],
   );
-
-  const getCurrentStepFromStateList = (stateList = [], total) => {
-    if (!Array.isArray(stateList) || stateList.length === 0) return 1;
-
-    // 1) Prefer explicit ACTIVE if present
-    const activeIndex = stateList.findIndex(s => s?.status === 'ACTIVE');
-    if (activeIndex >= 0) return Math.min(activeIndex + 1, total);
-
-    // 2) Otherwise, find the first PENDING and highlight the previous step
-    const firstPendingIndex = stateList.findIndex(s => s?.status === 'PENDING');
-    if (firstPendingIndex === 0) return 1; // step 1 pending => current step is 1
-    if (firstPendingIndex > 0) return Math.min(firstPendingIndex, total); // previous step (index -> step number)
-
-    // 3) If no ACTIVE and no PENDING, assume all complete => last step
-    return total;
-  };
 
   useEffect(
     () => {
@@ -119,13 +106,20 @@ const MyCaseManagementHub = () => {
       {isDiscontinued && (
         <ApplicationDiscontinuedAlert discontinuedReason={discontinuedReason} />
       )}
-      {isInterrupted && <ApplicationInterruptedAlert />}
+      {isInterrupted && (
+        <ApplicationInterruptedAlert interruptedReason={interruptedReason} />
+      )}
 
       {!caseStatusError &&
         !isDiscontinued &&
         !isInterrupted && (
           <>
-            {showAppointmentAlert && <AppointmentScheduledAlert />}
+            {showAppointmentAlert && (
+              <AppointmentScheduledAlert
+                appointmentDateTime={appointment?.appointmentDateTime}
+                appointmentPlace={appointment?.appointmentPlace}
+              />
+            )}
 
             <CaseProgressBar
               current={current}
@@ -147,6 +141,7 @@ const MyCaseManagementHub = () => {
         )}
 
       <NeedHelp />
+      <va-back-to-top />
     </div>
   );
 };

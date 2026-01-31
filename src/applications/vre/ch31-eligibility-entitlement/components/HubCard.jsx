@@ -20,7 +20,6 @@ const HubCard = ({ title, body }) => (
 HubCard.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
 };
 
 export default HubCard;

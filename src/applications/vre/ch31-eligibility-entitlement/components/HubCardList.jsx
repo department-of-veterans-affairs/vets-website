@@ -33,11 +33,11 @@ const getCareerPlanningCard = step => {
   };
 };
 
-const schedulingCard = {
-  title: 'Scheduling',
-  body: `Use this link to schedule or reschedule your Initial Evaluation Counselor Meeting appointment. Follow the on-screen instructions to choose your preferred date and time.`,
-  href: '/my-case-management-hub',
-};
+// const schedulingCard = {
+//   title: 'Scheduling',
+//   body: `Use this link to schedule or reschedule your Initial Evaluation Counselor Meeting appointment. Follow the on-screen instructions to choose your preferred date and time.`,
+//   href: '/my-case-management-hub',
+// };
 
 const getCardsForStep = (step, stateList = []) => {
   const careerPlanningCard = getCareerPlanningCard(step);
@@ -52,7 +52,7 @@ const getCardsForStep = (step, stateList = []) => {
     case 3:
       return [programOverviewCard, orientationCard, careerPlanningCard];
     case 4:
-      return [schedulingCard, careerPlanningCard];
+      return [careerPlanningCard];
     case 5:
       return [careerPlanningCard];
     case 6:
