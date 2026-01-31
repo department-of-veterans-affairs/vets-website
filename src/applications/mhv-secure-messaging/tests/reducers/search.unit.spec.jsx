@@ -14,6 +14,14 @@ import searchResponse from '../fixtures/searchResponses/search-COVID-results.jso
 import inbox from '../fixtures/folder-inbox-metadata.json';
 
 describe('search reducer', () => {
+  it('should return initial state', () => {
+    const state = searchReducer(undefined, {});
+    expect(state).to.have.property('awaitingResults', false);
+    expect(state).to.have.property('searchResults', undefined);
+    expect(state).to.have.property('keyword', '');
+    expect(state).to.have.property('page', 1);
+  });
+
   const mockStore = (initialState = { featureToggles: {} }) => {
     return createStore(searchReducer, initialState, applyMiddleware(thunk));
   };
