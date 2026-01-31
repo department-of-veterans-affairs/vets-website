@@ -58,6 +58,12 @@ import {
   formatUploadDateTime,
   getTrackedItemDisplayFromSupportingDocument,
   getTrackedItemDisplayNameFromEvidenceSubmission,
+  getTrackedItemProperty,
+  getIsSensitive,
+  getIsDBQ,
+  getNoActionNeeded,
+  getIsProperNoun,
+  getNoProvidePrefix,
 } from '../../utils/helpers';
 
 import {
@@ -2675,6 +2681,134 @@ describe('Disability benefits helpers: ', () => {
         );
 
         expect(result).to.equal(null);
+      });
+    });
+  });
+
+  describe('getTrackedItemProperty', () => {
+    context('when the API provides the property', () => {
+      it('should return a boolean value', () => {
+        const item = { displayName: 'Test Item', isSensitive: true };
+
+        expect(getTrackedItemProperty(item, 'isSensitive')).to.be.true;
+      });
+    });
+
+    context('when the API does not provide the property', () => {
+      it('should fall back to the evidenceDictionary', () => {
+        const item = { displayName: 'ASB - tell us where, when, how exposed' };
+
+        expect(getTrackedItemProperty(item, 'isSensitive')).to.be.true;
+      });
+
+      it('should return false for entries not defined in the evidenceDictionary', () => {
+        const item = { displayName: 'Unknown item' };
+
+        expect(getTrackedItemProperty(item, 'isSensitive')).to.be.false;
+      });
+
+      it('should return false for item properties not defined in the evidenceDictionary', () => {
+        const item = { displayName: '21-4142/21-4142a' };
+
+        expect(getTrackedItemProperty(item, 'isSensitive')).to.be.false;
+      });
+    });
+  });
+
+  const booleanPropertyHelpers = [
+    {
+      name: 'getIsSensitive',
+      fn: getIsSensitive,
+      property: 'isSensitive',
+      apiValue: true,
+      displayName: 'ASB - tell us where, when, how exposed',
+      evidenceDictionaryValue: true,
+    },
+    {
+      name: 'getNoActionNeeded',
+      fn: getNoActionNeeded,
+      property: 'noActionNeeded',
+      apiValue: false,
+      displayName: 'DBQ PSYCH PTSD initial',
+      evidenceDictionaryValue: true,
+    },
+    {
+      name: 'getIsProperNoun',
+      fn: getIsProperNoun,
+      property: 'isProperNoun',
+      apiValue: true,
+      displayName: 'Employment info needed',
+      evidenceDictionaryValue: false,
+    },
+    {
+      name: 'getNoProvidePrefix',
+      fn: getNoProvidePrefix,
+      property: 'noProvidePrefix',
+      apiValue: false,
+      displayName: 'Clarification of Claimed Issue',
+      evidenceDictionaryValue: true,
+    },
+  ];
+
+  booleanPropertyHelpers.forEach(
+    ({
+      name,
+      fn,
+      property,
+      apiValue,
+      displayName,
+      evidenceDictionaryValue,
+    }) => {
+      describe(name, () => {
+        it(`should return a boolean value when API provides ${property}`, () => {
+          const item = { displayName, [property]: apiValue };
+
+          expect(fn(item)).to.equal(apiValue);
+        });
+
+        it(`should fall back to the evidenceDictionary when API does not provide ${property}`, () => {
+          const item = { displayName };
+
+          expect(fn(item)).to.equal(evidenceDictionaryValue);
+        });
+      });
+    },
+  );
+
+  describe('getIsDBQ', () => {
+    context('when API provides isDBQ', () => {
+      it('should return a boolean value', () => {
+        const item = { displayName: 'Test', isDBQ: true };
+
+        expect(getIsDBQ(item)).to.be.true;
+      });
+    });
+
+    context('when API does not provide isDBQ', () => {
+      it('should return true for DBQ items in the evidenceDictionary', () => {
+        const item = { displayName: 'DBQ PSYCH PTSD initial' };
+
+        expect(getIsDBQ(item)).to.be.true;
+      });
+
+      it('should return false for non-DBQ items that do not contain dbq in the displayName', () => {
+        const item = { displayName: 'Employment info needed' };
+
+        expect(getIsDBQ(item)).to.be.false;
+      });
+    });
+
+    context('string matching fallback', () => {
+      it('should return true when displayName contains "DBQ" (case-insensitive)', () => {
+        const item = { displayName: 'Some New DBQ Exam Request' };
+
+        expect(getIsDBQ(item)).to.be.true;
+      });
+
+      it('should return true even when isDBQ is undefined but the displayName contains DBQ', () => {
+        const item = { displayName: 'Some DBQ exam type' };
+
+        expect(getIsDBQ(item)).to.be.true;
       });
     });
   });

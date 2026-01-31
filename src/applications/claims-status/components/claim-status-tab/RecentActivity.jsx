@@ -12,10 +12,10 @@ import {
   getPhaseItemText,
   is5103Notice,
   getShowEightPhases,
-  renderDefaultThirdPartyMessage,
+  renderThirdPartyMessage,
   getDisplayFriendlyName,
+  getIsDBQ,
 } from '../../utils/helpers';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
 import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
 export default function RecentActivity({ claim }) {
@@ -100,17 +100,15 @@ export default function RecentActivity({ claim }) {
         if (item.status === 'NEEDED_FROM_OTHERS') {
           addItems(
             item.requestedDate,
-            (evidenceDictionary[item.displayName] &&
-              evidenceDictionary[item.displayName].isDBQ) ||
-            item.displayName.toLowerCase().includes('dbq')
-              ? `We made a request: “${displayName}.”`
-              : `We made a request outside the VA: “${displayName}.”`,
+            getIsDBQ(item)
+              ? `We made a request: "${displayName}."`
+              : `We made a request outside the VA: "${displayName}."`,
             item,
           );
         } else {
           addItems(
             item.requestedDate,
-            `We opened a request: “${displayName}”`,
+            `We opened a request: "${displayName}"`,
             item,
           );
         }
@@ -214,14 +212,7 @@ export default function RecentActivity({ claim }) {
         status="info"
         slim
       >
-        {item.activityDescription ? (
-          <>
-            {item.activityDescription}
-            <br />
-          </>
-        ) : (
-          renderDefaultThirdPartyMessage(item.oldDisplayName)
-        )}
+        {renderThirdPartyMessage(item)}
         <Link
           aria-label={`About this notice for ${item.friendlyName ||
             item.displayName}`}

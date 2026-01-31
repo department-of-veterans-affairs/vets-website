@@ -4,26 +4,23 @@ import { Link } from 'react-router-dom-v5-compat';
 
 import {
   buildDateFormatter,
-  renderDefaultThirdPartyMessage,
-  renderOverrideThirdPartyMessage,
+  renderThirdPartyMessage,
+  getIsDBQ,
 } from '../../utils/helpers';
-import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 function FilesOptional({ item }) {
   const dateFormatter = buildDateFormatter();
+  const isDBQ = getIsDBQ(item);
+
   const getRequestText = () => {
     const formattedDate = dateFormatter(item.requestedDate);
-    if (
-      (evidenceDictionary[item.displayName] &&
-        evidenceDictionary[item.displayName].isDBQ) ||
-      item.displayName.toLowerCase().includes('dbq')
-    ) {
+    if (isDBQ) {
       return `We made a request for an exam on ${formattedDate}`;
     }
     return `We made a request outside VA on ${formattedDate}`;
   };
   const getItemDisplayName = () => {
-    if (item.displayName.toLowerCase().includes('dbq')) {
+    if (isDBQ) {
       return 'Request for an exam';
     }
     if (item.friendlyName) {
@@ -37,11 +34,7 @@ function FilesOptional({ item }) {
         {getItemDisplayName()}
       </h4>
       <p>{getRequestText()}</p>
-      <p className="alert-description">
-        {item.shortDescription || item.activityDescription
-          ? renderOverrideThirdPartyMessage(item)
-          : renderDefaultThirdPartyMessage(item.displayName)}
-      </p>
+      <p className="alert-description">{renderThirdPartyMessage(item)}</p>
       <div className="call-to-action">
         <Link
           aria-label={`About this notice for ${item.friendlyName ||
