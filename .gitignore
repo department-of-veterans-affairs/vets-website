@@ -35,7 +35,7 @@ temp
 dump.rdb
 
 # Ignore user's editor/IDE prefs
-.vscode/
+.vscode/*
 *.code-workspace
 .idea/
 .nova/
@@ -54,6 +54,7 @@ src/applications/benefits-optimization-aquia/**/generated/
 # Track shared IDE config
 !.vscode/extensions.json
 !.vscode/launch.json
+!.vscode/mcp.json
 
 # Ignore custom generated Cypress-TestRail configs
 config/my-cypress-testrail.json
