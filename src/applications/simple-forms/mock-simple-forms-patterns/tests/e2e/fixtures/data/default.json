@@ -205,6 +205,7 @@
       "error": null
     },
     "wcv3ServiceBranchDefault": "NAVY",
-    "wcv3ServiceBranchCustom": "CG"
+    "wcv3ServiceBranchCustom": "CG",
+    "wcv3ServiceBranchCustomBranches": "PHS"
   }
 }
