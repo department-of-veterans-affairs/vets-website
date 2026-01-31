@@ -76,7 +76,7 @@ const makeState = ({
 
 beforeEach(() => {
   // Neutralize DOM side effects
-  // sandbox.stub(UI, 'scrollToTop');
+  sandbox.stub(UI, 'scrollToTop');
   sandbox.stub(UI, 'focusElement');
 
   // Force the feature toggle ON for all tests
