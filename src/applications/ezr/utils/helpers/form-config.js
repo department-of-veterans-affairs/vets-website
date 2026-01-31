@@ -3,6 +3,7 @@ import {
   DEPENDENT_VIEW_FIELDS,
   INSURANCE_VIEW_FIELDS,
   MAX_DEPENDENTS,
+  HIGH_DISABILITY_MINIMUM,
 } from '../constants';
 
 /**
@@ -111,7 +112,7 @@ export function canVeteranProvidePostSept11ServiceResponse(formData) {
  * toxic exposure file upload in the Military Service chapter
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the user wants to fill out TERA information and the
- * EZR Upload feature flag is set to true
+ * EZR Upload feature flag is set to truehttps://scontent-msp1-1.xx.fbcdn.net/v/t39.30808-6/622598243_1327415432763600_3487962595209849757_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=f727a1&_nc_ohc=M28qjJjVuU0Q7kNvwFf2Fxv&_nc_oc=AdmWhQN8-g3YG35CH0TK__U3iXBWFPAsw-SQuznh3ooqXmydVrWXNTUe1zXwQYdchi0&_nc_zt=23&_nc_ht=scontent-msp1-1.xx&_nc_gid=8-JSHfX8fllCFq1HP15R_g&oh=00_AfpyeGpb3H1VfiT42XbVBcV0gLkqerdEFXTLmCVkevfP_g&oe=698168B1
  */
 export function teraUploadEnabled(formData) {
   const { hasTeraResponse } = formData;
@@ -405,3 +406,39 @@ export function spouseAddressDoesNotMatchVeteransV2(formData) {
   const sameAddress = arraySameAddress ?? rootSameAddress;
   return includeSpousalInformationV2(formData) && !sameAddress;
 }
+
+/**
+ * Helper that determines if the Veteran has a lower disability rating
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the viewfield value is less than the high-
+ * disability minimum
+ */
+export const hasLowDisabilityRating = formData => {
+  return formData['view:totalDisabilityRating'] < HIGH_DISABILITY_MINIMUM;
+};
+
+export const hasHighCompensation = formData => {
+  const { vaCompensationType } = formData;
+  return vaCompensationType === 'highDisability';
+};
+
+/**
+ * Helper that determines if the user is short form eligible
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the total disability rating is less than the
+ * minimum percetage and the user does not self-declares they receive
+ * compensation equal to that of a high-disability-rated Veteran
+ */
+export const notShortFormEligible = formData => {
+  return hasLowDisabilityRating(formData) && !hasHighCompensation(formData);
+};
+
+/**
+ * Helper that determines if the user has available service history or wishes
+ * to update it
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they want to update their
+ * service information (or lacks service history on file)
+ */
+export const doesVeteranWantToUpdateServiceInfo = formData =>
+  !formData.isServiceHistoryCorrect;

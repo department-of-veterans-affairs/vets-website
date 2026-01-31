@@ -19,6 +19,7 @@ import {
 } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import { advanceToHouseholdSection } from './helpers/household';
+import { handleOptionalServiceHistoryPage } from './helpers/handleOptionalServiceHistoryPage';
 
 function setUserData(user, prefillData) {
   cy.login(user);
@@ -40,9 +41,7 @@ function goToToxicExposurePageAndCheckYes() {
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
   advanceToHouseholdSection();
-
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('Y');
+  handleOptionalServiceHistoryPage(true);
   cy.injectAxeThenAxeCheck();
 }
 
