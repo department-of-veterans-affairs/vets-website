@@ -35,6 +35,8 @@ export default function ClaimDetailsContent({
   isOutOfBounds,
   claimSource,
 }) {
+
+  console.log('ClaimDetailsContent | render');
   useSetPageTitle('Travel Reimbursement Claim Details');
   const appointment = useSelector(selectAppointment);
   const appointmentId = appointment?.data?.id;
@@ -67,6 +69,10 @@ export default function ClaimDetailsContent({
     claimSource !== 'VaGov' ||
     hasUnassociatedDocuments(documents) ||
     !appointmentId;
+
+  console.log('claimSource:', claimSource);
+  console.log('hasUnassociatedDocuments:', hasUnassociatedDocuments(documents));
+  console.log('appointmentId:', appointmentId);
 
   // Condition for showing any claim action link (BTSSS or VA.gov)
   const shouldShowClaimAction =

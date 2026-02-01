@@ -43,6 +43,7 @@ import {
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
   SET_EXPENSE_BACK_DESTINATION,
+  CLEAR_APPOINTMENT_DATA,
 } from './actions';
 
 // Helper function to merge expenses, avoiding duplicates
@@ -265,6 +266,15 @@ function travelPayReducer(state = initialState, action) {
           ...state.appointment,
           isLoading: false,
           error: action.error,
+        },
+      };
+    case CLEAR_APPOINTMENT_DATA:
+      return {
+        ...state,
+        appointment: {
+          error: null,
+          isLoading: false,
+          data: null,
         },
       };
     case SUBMIT_CLAIM_STARTED:

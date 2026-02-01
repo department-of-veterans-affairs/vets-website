@@ -69,6 +69,7 @@ export const CLEAR_UNSAVED_EXPENSE_CHANGES = 'CLEAR_UNSAVED_EXPENSE_CHANGES';
 export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
 export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
 export const SET_EXPENSE_BACK_DESTINATION = 'SET_EXPENSE_BACK_DESTINATION';
+export const CLEAR_APPOINTMENT_DATA = 'CLEAR_APPOINTMENT_DATA';
 
 // Helper function to add isOutOfBounds to claim details
 function addOutOfBoundsFlag(claimData) {
@@ -230,6 +231,8 @@ export function getAppointmentDataByDateTime(targetDateTime) {
           'getAppointmentDataByDateTime: No appointment found with matching localStartTime',
         );
       }
+
+      console.log('getAppointmentDataByDateTime: Found matching appointment with id:', matchingAppointment.id);
 
       const appointmentData = transformVAOSAppointment(
         matchingAppointment.attributes,
@@ -780,4 +783,10 @@ export function clearReviewPageAlert() {
   return {
     type: CLEAR_REVIEW_PAGE_ALERT,
   };
+}
+
+export function clearAppointmentData() {
+  return {
+    type: CLEAR_APPOINTMENT_DATA,
+  }
 }

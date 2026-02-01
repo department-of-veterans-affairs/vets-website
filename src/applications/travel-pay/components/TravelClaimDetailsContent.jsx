@@ -1,68 +1,14 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom-v5-compat';
-import { useDispatch, useSelector } from 'react-redux';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import React from 'react';
 
 import { ComplexClaimsHelpSection } from './HelpText';
 import ClaimDetailsContent from './ClaimDetailsContent';
-import {
-  getClaimDetails,
-  getAppointmentDataByDateTime,
-} from '../redux/actions';
 import { TRAVEL_PAY_INFO_LINK, REIMBURSEMENT_URL } from '../constants';
 
-export default function TravelClaimDetailsContent() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const complexClaimsEnabled = useToggleValue(
-    TOGGLE_NAMES.travelPayEnableComplexClaims,
-  );
-
-  const { data, error } = useSelector(state => state.travelPay.claimDetails);
-  const {
-    data: appointmentData,
-    isLoading: appointmentLoading,
-    error: appointmentError,
-  } = useSelector(state => state.travelPay.appointment);
-
-  const claimData = data[id];
-  const appointmentDateTime = claimData?.appointment?.appointmentDateTime;
-
-  useEffect(
-    () => {
-      if (id && !data[id] && !error) {
-        dispatch(getClaimDetails(id));
-      }
-    },
-    [dispatch, data, error, id],
-  );
-
-  useEffect(
-    () => {
-      if (
-        complexClaimsEnabled &&
-        !appointmentData &&
-        appointmentDateTime &&
-        !appointmentLoading &&
-        !appointmentError
-      ) {
-        dispatch(getAppointmentDataByDateTime(appointmentDateTime));
-      }
-    },
-    [
-      dispatch,
-      complexClaimsEnabled,
-      appointmentData,
-      appointmentDateTime,
-      appointmentLoading,
-      appointmentError,
-    ],
-  );
-
+export default function TravelClaimDetailsContent({ claimDetails, hasError }) {
+  console.log('TravelClaimDetailsContent | render: ', claimDetails);
   return (
     <>
-      {error && (
+      {hasError && (
         <>
           <h1>Your travel reimbursement claim</h1>
           <va-alert
@@ -88,7 +34,7 @@ export default function TravelClaimDetailsContent() {
           </va-alert>
         </>
       )}
-      {data[id] && <ClaimDetailsContent {...data[id]} />}
+      {claimDetails && <ClaimDetailsContent {...claimDetails} />}
       <hr className="vads-u-margin-bottom--0" />
 
       <div className="vads-u-margin-bottom--4">
