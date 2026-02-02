@@ -8,7 +8,7 @@ import {
   textSchema,
   currentOrPastMonthYearDateSchema,
   currentOrPastMonthYearDateUI,
-  inlineTitleUI,
+  titleUI,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -29,7 +29,7 @@ const treatmentDateSchema = {
     startDate: currentOrPastMonthYearDateSchema,
     endDate: currentOrPastMonthYearDateSchema,
   },
-  required: ['startDate', 'endDate'],
+  required: ['startDate'],
 };
 
 const hospitalItemSchema = {
@@ -66,7 +66,7 @@ const hospitalItemSchema = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...inlineTitleUI(
+    ...titleUI(
       'Hospital Information',
       'Please provide information about your hospital stays and treatment dates',
     ),
@@ -259,10 +259,9 @@ export default {
             },
             endDate: {
               ...currentOrPastMonthYearDateUI({
-                title: 'End date of treatment',
+                title: 'End date of treatment (if applicable)',
                 hint: 'For example: January 19 2022',
               }),
-              'ui:required': () => true,
             },
           },
         },

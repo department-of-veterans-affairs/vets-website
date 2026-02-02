@@ -25,7 +25,7 @@ import { FLOW_TYPES } from './constants';
  * @property {Topic[]} selectedTopics - Array of selected discussion topics
  * @property {string | null} obfuscatedEmail - Partially hidden email for display
  * @property {string | null} uuid - Unique identifier from the appointment URL
- * @property {string | null} lastname - User's last name for verification
+ * @property {string | null} lastName - User's last name for verification
  * @property {string | null} dob - User's date of birth for verification (YYYY-MM-DD)
  * @property {'schedule'|'cancel'|'any'} flowType - The current user flow type
  */
@@ -41,7 +41,7 @@ export const defaultVassFormState = {
   selectedTopics: [],
   obfuscatedEmail: null,
   uuid: null,
-  lastname: null,
+  lastName: null,
   dob: null,
   flowType: FLOW_TYPES.ANY,
 };
@@ -116,7 +116,7 @@ export const getHydratedFormRenderOptions = (vassFormOverrides = {}) => {
       obfuscatedEmail: 's***@example.com',
       selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
       uuid: 'test-uuid',
-      lastname: 'Smith',
+      lastName: 'Smith',
       dob: '1935-04-07',
       ...vassFormOverrides,
     },
@@ -151,6 +151,28 @@ export const LocationDisplay = () => {
 export const TestComponent = () => (
   <div data-testid="test-component">Test Content</div>
 );
+
+/**
+ * Creates root state object for testing selectors.
+ * Wraps vassForm state in the expected root state structure.
+ *
+ * @param {Object} overrides - Override values for vassForm state fields
+ * @returns {Object} Root state with vassForm slice
+ *
+ * @example
+ * // Basic usage with defaults
+ * const state = createVassFormRootState();
+ *
+ * @example
+ * // With overrides
+ * const state = createVassFormRootState({
+ *   selectedDate: '2025-01-15T10:00:00.000Z',
+ *   hydrated: true,
+ * });
+ */
+export const createVassFormRootState = (overrides = {}) => ({
+  vassForm: { ...defaultVassFormState, ...overrides },
+});
 
 // Re-export commonly used items for convenience
 export { reducers, vassApi };
