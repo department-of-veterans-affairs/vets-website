@@ -3,6 +3,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { waitFor } from '@testing-library/react';
+import * as featureToggle from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 import TravelClaimDetailsContent from './TravelClaimDetailsContent';
 import * as actions from '../redux/actions';
 import reducer from '../redux/reducer';
@@ -12,6 +15,13 @@ describe('TravelClaimDetailsContent', () => {
   let getAppointmentDataByDateTimeStub;
 
   beforeEach(() => {
+    sinon.stub(featureToggle, 'useFeatureToggle').returns({
+      useToggleValue: () => true,
+      TOGGLE_NAMES: {
+        travelPayEnableComplexClaims: 'travel_pay_enable_complex_claims',
+      },
+    });
+
     getClaimDetailsStub = sinon.stub(actions, 'getClaimDetails');
     getAppointmentDataByDateTimeStub = sinon.stub(
       actions,
@@ -20,6 +30,7 @@ describe('TravelClaimDetailsContent', () => {
   });
 
   afterEach(() => {
+    featureToggle.useFeatureToggle.restore();
     getClaimDetailsStub.restore();
     getAppointmentDataByDateTimeStub.restore();
   });
@@ -326,6 +337,43 @@ describe('TravelClaimDetailsContent', () => {
       });
 
       expect(getAppointmentDataByDateTimeStub.called).to.be.false;
+      getAppointmentDataByDateTimeStub.restore();
+    });
+
+    it('does not dispatch getAppointmentDataByDateTime when appointmentData belongs to the same claim', async () => {
+      const initialState = {
+        // eslint-disable-next-line camelcase
+        featureToggles: { travel_pay_enable_complex_claims: true },
+        travelPay: {
+          claimDetails: {
+            data: {
+              '123': {
+                id: '123',
+                appointment: { appointmentDateTime: '2025-12-15T10:00:00Z' },
+              },
+            },
+            error: null,
+          },
+          appointment: {
+            data: { travelPayClaim: { claim: { id: '123' } } }, // Same claim id
+            isLoading: false,
+            error: null,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/claim/123']}>
+          <Routes>
+            <Route path="/claim/:id" element={<TravelClaimDetailsContent />} />
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
+      waitFor(() => {
+        expect(getAppointmentDataByDateTimeStub.called).to.be.false;
+      });
+      getAppointmentDataByDateTimeStub.restore();
     });
   });
 
