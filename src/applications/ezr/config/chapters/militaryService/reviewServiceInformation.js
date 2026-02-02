@@ -1,8 +1,8 @@
-// import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import content from '../../../locales/en/content.json';
 import serviceHistoryDescription from '../../../components/FormDescriptions/ServiceHistoryDescription';
 
-// const { isServiceHistoryCorrect } = ezrSchema.properties;
+const { isServiceHistoryCorrect } = ezrSchema.properties;
 
 export default {
   uiSchema: {
@@ -21,7 +21,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      isServiceHistoryCorrect: { type: 'boolean' },
+      isServiceHistoryCorrect,
     },
   },
 };

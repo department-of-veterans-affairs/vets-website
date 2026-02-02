@@ -74,7 +74,7 @@
       }
     ],
     "hasTeraResponse": true,
-    "isServiceHistoryCorrect": false,
+    "isServiceHistoryCorrect": true,
     "privacyAgreementAccepted": true
   }
 }

@@ -1,5 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import ezSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import content from '../../../locales/en/content.json';
 
 const {
