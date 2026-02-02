@@ -13,8 +13,8 @@ const {
 export default {
   uiSchema: {
     ...titleUI(
-      content['service-info--history-title'],
-      content['service-info--history-description'],
+      content['military-service-info-history-title'],
+      content['military-service-info-history-description'],
     ),
     'view:serviceHistory': {
       purpleHeartRecipient: {
