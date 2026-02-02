@@ -174,7 +174,11 @@ const formConfig = {
           title: 'Add issues for review',
           path: 'add-issue',
           depends: () => false, // accessed from contestableIssues page
-          CustomPage: props => AddIssue(props, 'NOD'),
+          CustomPage: props =>
+            AddIssue({
+              ...props,
+              appAbbr: 'NOD',
+            }),
           uiSchema: addIssue(MAX_LENGTH.NOD_ISSUE_NAME).uiSchema,
           schema: addIssue(MAX_LENGTH.NOD_ISSUE_NAME).schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,

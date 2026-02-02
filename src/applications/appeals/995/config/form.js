@@ -218,7 +218,11 @@ const formConfig = {
           title: 'Add issues for review',
           path: ADD_ISSUE_URL,
           depends: () => false, // accessed from contestable issues
-          CustomPage: props => AddIssue(props, 'SC'),
+          CustomPage: props =>
+            AddIssue({
+              ...props,
+              appAbbr: 'SC',
+            }),
           CustomPageReview: null,
           uiSchema: addIssue().uiSchema,
           schema: addIssue().schema,

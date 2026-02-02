@@ -167,7 +167,11 @@ const formConfig = {
           title: 'Add issues for review',
           path: ADD_ISSUE_PATH,
           depends: () => false,
-          CustomPage: props => AddIssue(props, 'HLR'),
+          CustomPage: props =>
+            AddIssue({
+              ...props,
+              appAbbr: 'HLR',
+            }),
           uiSchema: addIssue().uiSchema,
           schema: addIssue().schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,

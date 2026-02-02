@@ -31,8 +31,14 @@ import { validateDecisionDate } from '../validations/date';
 
 import { replaceWhitespace } from '../utils/replace';
 
-const AddIssue = (props, appAbbr) => {
-  const { data, goToPath, setFormData, uiSchema, testingIndex } = props;
+const AddIssue = ({
+  appAbbr,
+  data,
+  goToPath,
+  setFormData,
+  uiSchema,
+  testingIndex,
+}) => {
   const { contestedIssues = [], additionalIssues = [] } = data || {};
   const allIssues = contestedIssues.concat(additionalIssues);
 
@@ -187,7 +193,7 @@ const AddIssue = (props, appAbbr) => {
           <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
         {appAbbr === 'SC' && (
-          <div>
+          <div data-testid="sc-description">
             If you’re filing a Supplemental Claim within 1 year of receiving a
             decision from 1 of these courts, provide the date listed on your
             decision notice and upload a copy of your decision notice as
@@ -253,8 +259,8 @@ const AddIssue = (props, appAbbr) => {
 };
 
 AddIssue.propTypes = {
+  appAbbr: PropTypes.string.isRequired,
   data: PropTypes.shape({}),
-  description: PropTypes.any,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
