@@ -61,7 +61,9 @@ const PdfDownload = ({ pdfUrl, trackingPrefix }) => {
 
   return (
     <div>
-      <h2>You’ll need to download a copy of your completed form</h2>
+      <h2 id="download-header">
+        You’ll need to download a copy of your completed form
+      </h2>
       <p>
         Download the completed PDF copy of your form and send it to{' '}
         <a href="mailto:Federal.Approvals@va.gov" rel="noreferrer">
@@ -95,6 +97,11 @@ export const ConfirmationPage = ({ router, route }) => {
     dispatch(setSubmission('timestamp', now));
   };
 
+  useEffect(() => {
+    const h2 = document.querySelector('#download-header');
+    scrollAndFocus(h2);
+  }, []);
+
   const goBack = e => {
     e.preventDefault();
     resetSubmissionStatus();
@@ -104,11 +111,6 @@ export const ConfirmationPage = ({ router, route }) => {
       window.history.back();
     }
   };
-
-  useEffect(() => {
-    const alert = document.querySelector('va-alert');
-    scrollAndFocus(alert);
-  }, []);
 
   return (
     <ConfirmationView
