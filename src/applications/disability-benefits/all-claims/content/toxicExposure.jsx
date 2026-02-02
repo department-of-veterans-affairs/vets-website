@@ -387,7 +387,7 @@ export function getSpecifyOtherExposuresSubtitle(formData) {
 
 /**
  * Review/confirmation title for herbicide "other" location.
- * Confirmation (onReviewPage === false): description only. Review page: full "Location # of #: description".
+ * Confirmation: description only. Review page: full "Location # of #: description".
  */
 export function getHerbicideOtherLocationsReviewTitle(context) {
   const formData = context?.formData ?? context;
@@ -399,7 +399,7 @@ export function getHerbicideOtherLocationsReviewTitle(context) {
 
 /**
  * Review/confirmation title for specify other exposures.
- * Confirmation (onReviewPage === false): description only. Review page: full "Hazard # of #: description".
+ * Confirmation: description only. Review page: full "Hazard # of #: description".
  */
 export function getSpecifyOtherExposuresReviewTitle(context) {
   const formData = context?.formData ?? context;
