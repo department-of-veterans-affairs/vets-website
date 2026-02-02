@@ -1,4 +1,3 @@
-import manifest from '../../../manifest.json';
 import mockAttachment from '../fixtures/mocks/attachment.json';
 import mockFeatures from '../fixtures/mocks/feature-toggles.json';
 import mockMaintenanceWindows from '../fixtures/mocks/maintenance-windows.json';
@@ -27,9 +26,5 @@ export const setupBasicTest = (props = {}) => {
 
 export const setupForGuest = (props = {}) => {
   const { features = mockFeatures } = props;
-
   setupBasicTest({ features });
-
-  cy.visit(manifest.rootUrl);
-  cy.wait(['@mockFeatures']);
 };

@@ -7,19 +7,21 @@ import { startAsNewUser } from './helpers';
 import { setupForGuest } from './setup';
 
 export const getConfig = (dataSets = []) =>
-  createTestConfig({
-    dataSets,
-    dataPrefix: 'data',
-    fixtures: { data: path.join(__dirname, 'fixtures/data') },
-    pageHooks: {
-      introduction: ({ afterHook }) => {
-        afterHook(() => startAsNewUser());
+  createTestConfig(
+    {
+      dataSets,
+      dataPrefix: 'data',
+      fixtures: { data: path.join(__dirname, '../fixtures/data') },
+      pageHooks: {
+        introduction: ({ afterHook }) => {
+          afterHook(() => startAsNewUser());
+        },
+        'review-and-submit': ({ afterHook }) => {
+          afterHook(() => fillStatementOfTruthAndSubmit());
+        },
       },
-      'review-and-submit': ({ afterHook }) => {
-        afterHook(() => fillStatementOfTruthAndSubmit());
-      },
+      setupPerTest: () => setupForGuest(),
     },
-    setupPerTest: () => setupForGuest(),
     manifest,
     formConfig,
-  });
+  );
