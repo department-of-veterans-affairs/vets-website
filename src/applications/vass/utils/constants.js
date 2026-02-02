@@ -2,7 +2,7 @@ const VASS_PHONE_NUMBER = '8008270611';
 
 const URLS = Object.freeze({
   VERIFY: '/',
-  ENTER_OTC: '/enter-otc',
+  ENTER_OTP: '/enter-otp',
   DATE_TIME: '/date-time',
   TOPIC_SELECTION: '/topic-selection',
   REVIEW: '/review',
