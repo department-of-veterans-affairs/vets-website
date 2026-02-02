@@ -814,15 +814,22 @@ const FacilitiesMap = props => {
         setMapEventHandlers();
       }
     },
+    // Use primitive values to prevent unnecessary re-runs when object reference changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [map, props.currentQuery.searchCoords],
+    [
+      map,
+      props.currentQuery.searchCoords?.lat,
+      props.currentQuery.searchCoords?.lng,
+    ],
   );
 
   useEffect(
     () => {
       searchCurrentArea();
     },
-    [props.currentQuery.searchArea],
+    // Use primitive value to prevent unnecessary re-runs when object reference changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.currentQuery.searchArea?.locationString],
   );
 
   useEffect(
@@ -870,7 +877,13 @@ const FacilitiesMap = props => {
     () => {
       handleMapOnNoResultsFound();
     },
-    [props.currentQuery.searchCoords, props.results],
+    // Use primitive values to prevent unnecessary re-runs when object/array reference changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      props.currentQuery.searchCoords?.lat,
+      props.currentQuery.searchCoords?.lng,
+      props.results?.length,
+    ],
   );
 
   useEffect(
