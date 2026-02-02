@@ -1428,6 +1428,8 @@ export const is5103Notice = itemDisplayName => {
  * @returns {boolean} The property value
  */
 export const getTrackedItemProperty = (item, propertyName) => {
+  if (!item) return false;
+
   // Check if the API provides the property directly on the item
   if (item[propertyName] !== undefined) {
     return item[propertyName];
@@ -1442,7 +1444,7 @@ export const getIsSensitive = item =>
 
 export const getIsDBQ = item =>
   getTrackedItemProperty(item, 'isDBQ') ||
-  item.displayName.toLowerCase().includes('dbq');
+  item?.displayName?.toLowerCase().includes('dbq');
 
 export const getNoActionNeeded = item =>
   getTrackedItemProperty(item, 'noActionNeeded');

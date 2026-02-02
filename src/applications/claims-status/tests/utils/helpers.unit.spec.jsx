@@ -2713,6 +2713,12 @@ describe('Disability benefits helpers: ', () => {
         expect(getTrackedItemProperty(item, 'isSensitive')).to.be.false;
       });
     });
+
+    context('when item is null or undefined', () => {
+      it('should return false for null item', () => {
+        expect(getTrackedItemProperty(null, 'isSensitive')).to.be.false;
+      });
+    });
   });
 
   const booleanPropertyHelpers = [
