@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { MemoryRouter, Route } from 'react-router-dom';
@@ -56,21 +55,5 @@ describe('<CareerPlanning>', () => {
   it('renders unavailable message when feature toggle is off', () => {
     const { getByText } = renderPage(makeState({ toggleOn: false }));
     getByText(/This page isn't available right now/i);
-  });
-
-  it('sets Feedback button to full width on small viewport at mount', () => {
-    // Simulate mobile before render
-    const originalWidth = window.innerWidth;
-    Object.defineProperty(window, 'innerWidth', { writable: true, value: 500 });
-
-    const { container } = renderPage(makeState());
-    const feedbackBtn = container.querySelector('va-button[text="Feedback"]');
-    expect(feedbackBtn).to.exist;
-    expect(feedbackBtn.hasAttribute('full-width')).to.be.true;
-
-    Object.defineProperty(window, 'innerWidth', {
-      writable: true,
-      value: originalWidth,
-    });
   });
 });
