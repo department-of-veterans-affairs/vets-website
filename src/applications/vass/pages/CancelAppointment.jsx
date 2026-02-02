@@ -8,8 +8,8 @@ import {
   useGetAppointmentQuery,
   useCancelAppointmentMutation,
 } from '../redux/api/vassApi';
-import { URLS } from '../utils/constants';
-import { setSelectedDate } from '../redux/slices/formSlice';
+import { FLOW_TYPES, URLS } from '../utils/constants';
+import { setFlowType, setSelectedDate } from '../redux/slices/formSlice';
 
 const CancelAppointment = () => {
   const { appointmentId } = useParams();
@@ -42,6 +42,16 @@ const CancelAppointment = () => {
     ],
   );
 
+  const onAbortCancelAppointment = useCallback(
+    () => {
+      dispatch(setFlowType(FLOW_TYPES.SCHEDULE));
+      navigate(
+        `${URLS.CONFIRMATION}/${appointmentData?.appointmentId}?details=true`,
+      );
+    },
+    [appointmentData?.appointmentId, dispatch, navigate],
+  );
+
   return (
     <Wrapper
       showBackLink
@@ -61,13 +71,7 @@ const CancelAppointment = () => {
         leftButtonText="Yes, cancel appointment"
         rightButtonText="No, don’t cancel"
         onPrimaryClick={onCancelAppointment}
-        onSecondaryClick={() => {
-          navigate(
-            `${URLS.CONFIRMATION}/${
-              appointmentData.appointmentId
-            }?details=true`,
-          );
-        }}
+        onSecondaryClick={onAbortCancelAppointment}
         class="vads-u-margin-top--4"
       />
     </Wrapper>
