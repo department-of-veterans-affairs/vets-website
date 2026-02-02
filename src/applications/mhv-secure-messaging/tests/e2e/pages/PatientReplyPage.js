@@ -59,6 +59,7 @@ class PatientReplyPage {
     testCategory,
     testSubject,
     testBody,
+    testStationNumber,
   ) => {
     mockMessage.data.attributes.recipientId = testRecipientId;
     mockMessage.data.attributes.category = testCategory;
@@ -89,6 +90,9 @@ class PatientReplyPage {
         expect(message.category).to.eq(testCategory);
         expect(message.subject).to.eq(testSubject);
         expect(message.body).to.eq(`${testBody}`);
+        if (testStationNumber) {
+          expect(message.station_number).to.eq(testStationNumber);
+        }
       });
   };
 
