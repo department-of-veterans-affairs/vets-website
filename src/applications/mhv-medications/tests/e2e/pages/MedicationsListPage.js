@@ -1171,17 +1171,17 @@ class MedicationsListPage {
 
   // Request Refill Button on Card methods
   verifyRequestRefillButtonExistsOnCard = () => {
-    cy.get('[data-testid="refill-nav-button"]')
+    cy.get('[data-testid="refill-request-button"]')
       .first()
       .should('exist');
   };
 
   verifyRequestRefillButtonNotExistsOnCard = () => {
-    cy.get('[data-testid="refill-nav-button"]').should('not.exist');
+    cy.get('[data-testid="refill-request-button"]').should('not.exist');
   };
 
   verifyRequestRefillButtonText = () => {
-    cy.get('[data-testid="refill-nav-button"]')
+    cy.get('[data-testid="refill-request-button"]')
       .first()
       .shadow()
       .find('button')
@@ -1189,13 +1189,13 @@ class MedicationsListPage {
   };
 
   clickRequestRefillButtonOnFirstCard = () => {
-    cy.get('[data-testid="refill-nav-button"]')
+    cy.get('[data-testid="refill-request-button"]')
       .first()
       .click();
   };
 
   verifyRequestRefillButtonHasAriaDescribedBy = () => {
-    cy.get('[data-testid="refill-nav-button"]')
+    cy.get('[data-testid="refill-request-button"]')
       .first()
       .should('have.attr', 'aria-describedby')
       .and('match', /card-header-\d+/);
