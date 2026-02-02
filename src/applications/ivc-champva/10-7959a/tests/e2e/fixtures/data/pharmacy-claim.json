@@ -1,0 +1,55 @@
+{
+  "description": "New pharmacy claim with applicant as other",
+  "data": {
+    "certifierRole": "other",
+    "certifierReceivedPacket": true,
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Cert St",
+      "city": "Certland",
+      "state": "AS",
+      "postalCode": "12312"
+    },
+    "certifierPhone": "5554443333",
+    "certifierEmail": "cert@email.gov",
+    "certifierRelationship": "parent",
+    "claimStatus": "new",
+    "sponsorName": {
+      "first": "Sponsor",
+      "last": "Jones"
+    },
+    "applicantName": {
+      "first": "Jim",
+      "last": "Jones"
+    },
+    "applicantDob": "2000-10-25",
+    "applicantMemberNumber": "222111123",
+    "view:sharesAddressWith": "na",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Bene Street",
+      "city": "Citytown",
+      "state": "MD",
+      "postalCode": "12345"
+    },
+    "applicantNewAddress": "no",
+    "applicantPhone": "1231231234",
+    "hasOhi": true,
+    "view:hasPolicies": true,
+    "policies": [
+      {
+        "type": "group",
+        "name": "BCBS"
+      }
+    ],
+    "claimType": "pharmacy",
+    "claimIsAutoRelated": true,
+    "claimIsWorkRelated": true,
+    "pharmacyUpload": [],
+    "statementOfTruthSignature": "Certifier Jones"
+  }
+}

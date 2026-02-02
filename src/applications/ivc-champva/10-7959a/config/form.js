@@ -111,6 +111,10 @@ const formConfig = {
   title: content['form--title'],
   subTitle: content['form--subtitle'],
   dev: { disableWindowUnloadInCI: true },
+  formOptions: {
+    useWebComponentForNavigation: true,
+    filterInactiveNestedPageData: true,
+  },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
       {
