@@ -95,6 +95,8 @@ describe('FormRenderer', () => {
 
     const olElement = document.querySelector('#ol-2');
     const listItems = document.querySelectorAll('#ol-2 li');
+    const firstItemTextContent = listItems[0].textContent;
+    expect(firstItemTextContent).to.equal('Name:Samantha Carrie Reid');
 
     expect(olElement).to.exist;
     expect(listItems.length).to.equal(1);
@@ -106,9 +108,17 @@ describe('FormRenderer', () => {
 
     const olElement = document.querySelector('#ol-7');
     const listItems = document.querySelectorAll('#ol-7 li');
+    const firstItemTextContent = listItems[0].textContent;
+    const secondItemTextContent = listItems[1].textContent;
 
     expect(olElement).to.exist;
     expect(listItems.length).to.equal(2);
+    expect(firstItemTextContent).to.equal(
+      'Is this child your biological child?No',
+    );
+    expect(secondItemTextContent).to.equal(
+      "What's your relationship to this child?✓ They're my adopted child✓ They're my stepchild",
+    );
 
     tree.unmount();
   });
