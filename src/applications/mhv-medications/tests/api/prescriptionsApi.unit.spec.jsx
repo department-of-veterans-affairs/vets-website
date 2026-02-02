@@ -30,6 +30,7 @@ import {
   transformPrescriptionByIdResponse,
   transformRefillablePrescriptionsResponse,
   transformBulkRefillResponse,
+  transformPrescriptionDocumentationResponse,
 } from '../../api/prescriptionsApi';
 import { INCLUDE_IMAGE_ENDPOINT } from '../../util/constants';
 
@@ -906,6 +907,79 @@ describe('prescriptionsApi', () => {
 
       expect(result.successfulIds).to.deep.equal([]);
       expect(result.failedIds).to.deep.equal([]);
+    });
+  });
+
+  describe('transformPrescriptionDocumentationResponse', () => {
+    const mockHtml = '<html><body>Test content</body></html>';
+
+    it('should return sanitized HTML when feature flag is enabled (true)', () => {
+      const mockResponse = {
+        data: {
+          attributes: {
+            html: mockHtml,
+          },
+        },
+      };
+      const mockState = {
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvMedicationsEnableKramesHtmlSanitization]: true,
+          loading: false,
+        },
+      };
+
+      const result = transformPrescriptionDocumentationResponse(
+        mockResponse,
+        mockState,
+      );
+
+      // The result should be different from the original HTML since it's sanitized
+      expect(result).to.not.equal(mockHtml);
+      expect(result).to.be.a('string');
+    });
+
+    it('should return unsanitized HTML when feature flag is disabled (false)', () => {
+      const mockResponse = {
+        data: {
+          attributes: {
+            html: mockHtml,
+          },
+        },
+      };
+      const mockState = {
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvMedicationsEnableKramesHtmlSanitization]: false,
+          loading: false,
+        },
+      };
+
+      const result = transformPrescriptionDocumentationResponse(
+        mockResponse,
+        mockState,
+      );
+
+      expect(result).to.equal(mockHtml);
+    });
+
+    it('should return null when html is missing', () => {
+      const mockResponse = {
+        data: {
+          attributes: {},
+        },
+      };
+      const mockState = {
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvMedicationsEnableKramesHtmlSanitization]: true,
+          loading: false,
+        },
+      };
+
+      const result = transformPrescriptionDocumentationResponse(
+        mockResponse,
+        mockState,
+      );
+
+      expect(result).to.be.null;
     });
   });
 });

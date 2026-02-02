@@ -20,7 +20,7 @@ import {
   COOKIES,
   CLIENT_IDS,
 } from '../../oauth/constants';
-import { mockCrypto } from '../../oauth/mockCrypto';
+import { setupMockCrypto } from '../../oauth/mockCrypto';
 import * as oAuthUtils from '../../oauth/utilities';
 import { infoTokenExists, getInfoToken } from '../../oauth/utilities';
 import * as oauthCrypto from '../../oauth/crypto';
@@ -41,18 +41,7 @@ describe('OAuth - Utilities', () => {
   let validCookie;
 
   beforeEach(() => {
-    let hasNodeCrypto = false;
-    try {
-      // eslint-disable-next-line import/no-unresolved
-      require('node:crypto');
-      hasNodeCrypto = true;
-    } catch {
-      hasNodeCrypto = false;
-    }
-
-    if (!hasNodeCrypto) {
-      window.crypto = mockCrypto;
-    }
+    setupMockCrypto();
 
     document.cookie.split(';').forEach(cookie => {
       document.cookie = cookie
@@ -700,6 +689,18 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[0]).to.include('type=logingov');
+      expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
+    });
+
+    it('should protect against repeated refresh calls of the same type', async () => {
+      mockFetch();
+      setFetchResponse(global.fetch.onFirstCall(), []);
+      const refreshPromise1 = oAuthUtils.refresh({ type: 'idme' });
+      const refreshPromise2 = oAuthUtils.refresh({ type: 'idme' });
+      await Promise.all([refreshPromise1, refreshPromise2]);
+      expect(global.fetch.calledOnce).to.be.true;
+      expect(global.fetch.firstCall.args[1].method).to.equal('POST');
+      expect(global.fetch.firstCall.args[0]).to.include('type=idme');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
     });
   });

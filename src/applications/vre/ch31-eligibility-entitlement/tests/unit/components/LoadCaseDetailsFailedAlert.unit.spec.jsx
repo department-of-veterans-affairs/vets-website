@@ -29,7 +29,6 @@ describe('LoadCaseDetailsFailedAlert', () => {
 
     const message = getByText(/please wait a few minutes/i);
     expect(message).to.exist;
-    expect(message.classList.contains('vads-u-margin-y--0')).to.be.true;
   });
 
   it('applies layout classes on outer container', () => {

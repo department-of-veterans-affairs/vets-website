@@ -18,7 +18,9 @@ describe('22-0803 benenfit warning page', () => {
   it('renders the static content correctly', () => {
     const { getByText } = renderPage();
     expect(
-      getByText('You have not previously applied for VA education benefits.'),
+      getByText(
+        'You have not previously applied and been found eligible for the VA education benefit you want to use',
+      ),
     ).to.exist;
     expect(
       getByText(

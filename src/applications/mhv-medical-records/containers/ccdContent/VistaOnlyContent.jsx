@@ -92,7 +92,7 @@ const VistaOnlyContent = ({
 
       <h2>Other reports you can download</h2>
 
-      {(generatingCCD || ccdDownloadSuccess) &&
+      {ccdDownloadSuccess &&
         !ccdError &&
         !CCDRetryTimestamp && (
           <DownloadSuccessAlert

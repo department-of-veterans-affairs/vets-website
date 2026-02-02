@@ -2,12 +2,12 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { additionalInstitutionsArrayOptions } from '../helpers';
+import { additionalInstitutionsWithCodeArrayOptions } from '../helpers';
 
 export default {
   uiSchema: {
     'view:hasAdditionalInstitutions': arrayBuilderYesNoUI(
-      additionalInstitutionsArrayOptions,
+      additionalInstitutionsWithCodeArrayOptions,
       {
         title:
           'Do you have any additional locations you’d like to add to this application?',
@@ -18,7 +18,7 @@ export default {
           N: 'No, I don’t have additional locations to add',
         },
         errorMessages: {
-          required: 'Select ‘yes’ if you have a additional locations to add',
+          required: 'You must make a selection',
         },
       },
       {
@@ -31,7 +31,7 @@ export default {
           N: "No, I don't have another location to add",
         },
         errorMessages: {
-          required: 'Select ‘yes’ if you have an additional location to add',
+          required: 'You must make a selection',
         },
       },
     ),

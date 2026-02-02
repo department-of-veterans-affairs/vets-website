@@ -7,18 +7,22 @@ import reducers from '../../../reducers';
 import SendRxRenewalMessage from '../../../components/shared/SendRxRenewalMessage';
 
 describe('SendRxRenewalMessage Component', () => {
+  // Oracle Health prescription with stationNumber matching cernerFacilityIds
   const mockRx = {
     prescriptionId: 12345,
     refillRemaining: 0,
     dispStatus: 'Active',
     expirationDate: '2024-01-01',
+    stationNumber: '668', // Oracle Health/Cerner facility
   };
 
   const setup = (rx = mockRx, props = {}, initialState = {}) => {
     const featureToggleReducer = (state = {}) => state;
+    const drupalStaticDataReducer = (state = {}) => state;
     const testReducers = {
       ...reducers,
       featureToggles: featureToggleReducer,
+      drupalStaticData: drupalStaticDataReducer,
     };
 
     const state = {
@@ -26,6 +30,14 @@ describe('SendRxRenewalMessage Component', () => {
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
         ...(initialState.featureToggles || {}),
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            cernerFacilities: [{ vhaId: '668', ehrSystem: 'cerner' }],
+          },
+        },
+        ...(initialState.drupalStaticData || {}),
       },
     };
 
@@ -49,24 +61,26 @@ describe('SendRxRenewalMessage Component', () => {
       expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
 
-    it('renders renewal link when prescription is Active: Refill in Process with 0 refills', () => {
+    it('does not render renewal link when prescription is Active: Refill in Process with 0 refills', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active: Refill in Process',
         refillRemaining: 0,
       };
       const screen = setup(rx);
-      expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
     });
 
-    it('renders renewal link when prescription is Active: Submitted with 0 refills', () => {
+    it('does not render renewal link when prescription is Active: Submitted with 0 refills', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active: Submitted',
         refillRemaining: 0,
       };
       const screen = setup(rx);
-      expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
     });
 
     it('renders renewal link when prescription is Expired within 120 days', () => {
@@ -114,6 +128,18 @@ describe('SendRxRenewalMessage Component', () => {
         ...mockRx,
         dispStatus: 'Discontinued',
         refillRemaining: 0,
+      };
+      const screen = setup(rx);
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('does not render renewal link for non-Oracle Health prescription', () => {
+      const rx = {
+        ...mockRx,
+        dispStatus: 'Active',
+        refillRemaining: 0,
+        stationNumber: '989', // Not an Oracle Health/Cerner facility
       };
       const screen = setup(rx);
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
@@ -332,7 +358,7 @@ describe('SendRxRenewalMessage Component', () => {
       const screen = setup();
       const modal = screen.container.querySelector('va-modal');
       expect(modal?.innerHTML).to.include(
-        'select your provider and send them a message requesting a prescription renewal',
+        'You’ll need to select your provider and send the prescription renewal request. We’ll pre-fill your prescription details in the message.',
       );
     });
 
@@ -431,14 +457,29 @@ describe('SendRxRenewalMessage Component', () => {
       expect(screen).to.exist;
     });
 
-    it('renders with minimal props', () => {
+    it('renders with minimal props (non-Oracle Health returns null)', () => {
       const minimalRx = {
         prescriptionId: 123,
         dispStatus: 'Active',
         refillRemaining: 0,
+        // No stationNumber - not Oracle Health, so returns null
       };
       const screen = setup(minimalRx);
       expect(screen).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('renders renewal link for Oracle Health prescription with minimal props', () => {
+      const minimalRx = {
+        prescriptionId: 123,
+        dispStatus: 'Active',
+        refillRemaining: 0,
+        stationNumber: '668', // Oracle Health facility
+      };
+      const screen = setup(minimalRx);
+      expect(screen).to.exist;
+      expect(screen.getByTestId('send-renewal-request-message-link')).to.exist;
     });
   });
 });

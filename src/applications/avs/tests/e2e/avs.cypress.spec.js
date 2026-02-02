@@ -82,15 +82,24 @@ describe('After-visit Summary - Happy Path', () => {
     cy.get('h1').contains('After-visit summary');
 
     cy.contains('Consultations').should('not.be.visible');
-    cy.get("[header='Your treatment plan from this appointment']").click();
+    cy.get("[header='Your treatment plan from this appointment']")
+      .shadow()
+      .find('button')
+      .click({ force: true });
     cy.contains('Consultations').should('be.visible');
 
     cy.contains('Primary care team').should('not.be.visible');
-    cy.get("[header='Your health information as of this appointment']").click();
+    cy.get("[header='Your health information as of this appointment']")
+      .shadow()
+      .find('button')
+      .click({ force: true });
     cy.contains('Primary care team').should('be.visible');
 
     cy.contains('More help and information').should('not.be.visible');
-    cy.get("[header='More information']").click();
+    cy.get("[header='More information']")
+      .shadow()
+      .find('button')
+      .click({ force: true });
     cy.contains('More help and information').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
@@ -137,7 +146,7 @@ describe('After-visit Summary - Authentication', () => {
     setup({ login: false });
     cy.visit(testUrl);
     cy.injectAxeThenAxeCheck();
-    const urlPattern = `\\/\\?next=%2Fmy-health%2Fmedical-records%2Fsummaries-and-notes%2Fvisit-summary%2F${avsId}$`;
+    const urlPattern = `\\/\\?next=%2Fmy-health%2Fmedical-records%2Fsummaries-and-notes%2Fvisit-summary%2F${avsId}(&oauth=true)?$`;
     cy.url().should('match', new RegExp(urlPattern));
   });
 });

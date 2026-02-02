@@ -1,10 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CardSection from './CardSection';
+import { VASS_PHONE_NUMBER } from '../utils/constants';
+/**
+ * @typedef {import('../utils/appointments').Appointment} Appointment
+ */
 
-const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
-  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const phoneNumber = '8008270611';
+/**
+ * Renders a card for an appointment.
+ * @param {Object} props
+ * @param {Appointment} props.appointmentData - The appointment data
+ * @param {Function} props.handleCancelAppointment - The function to handle canceling the appointment
+ * @param {boolean} props.showAddToCalendarButton - Whether to show the add to calendar button
+ * @returns {JSX.Element}
+ */
+const AppointmentCard = ({
+  appointmentData,
+  handleCancelAppointment,
+  showAddToCalendarButton,
+}) => {
   return (
     <va-card
       data-testid="appointment-card"
@@ -24,7 +38,7 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
             Your representative will call you from{' '}
             <va-telephone
-              contact={phoneNumber}
+              contact={VASS_PHONE_NUMBER}
               data-testid="solid-start-telephone"
             />
             . If you have questions or need to reschedule, contact VA Solid
@@ -32,16 +46,14 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
           </p>
         }
       />
-      <CardSection
-        data-testid="when-section"
-        heading="When"
-        dateContent={{
-          dateTime: appointmentData?.startUTC,
-          timezone: browserTimezone,
-          phoneNumber,
-          showAddToCalendarButton: appointmentData?.showAddToCalendarButton,
-        }}
-      />
+      {appointmentData?.startUTC && (
+        <CardSection
+          data-testid="when-section"
+          heading="When"
+          appointmentData={appointmentData}
+          showAddToCalendarButton={showAddToCalendarButton}
+        />
+      )}
       <CardSection
         data-testid="what-section"
         heading="What"
@@ -95,4 +107,5 @@ export default AppointmentCard;
 AppointmentCard.propTypes = {
   appointmentData: PropTypes.object.isRequired,
   handleCancelAppointment: PropTypes.func,
+  showAddToCalendarButton: PropTypes.bool,
 };

@@ -11,7 +11,6 @@ export const PROFILE_TOGGLES = {
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
   profileHealthCareSettingsPage: false,
-  profileSchedulingPreferences: false,
   profileHideHealthCareContacts: false,
 };
 
@@ -42,6 +41,9 @@ export const PROFILE_BREADCRUMB_BASE = [
   { href: '/profile', label: 'Profile', isRouterLink: true },
 ];
 
+const SCHEDULING_PREF_BASE_PATH =
+  '/profile/health-care-settings/scheduling-preferences';
+
 export const PROFILE_PATHS = Object.freeze({
   PROFILE_ROOT: '/profile',
   PERSONAL_INFORMATION: '/profile/personal-information',
@@ -53,6 +55,9 @@ export const PROFILE_PATHS = Object.freeze({
   HEALTH_CARE_SETTINGS: '/profile/health-care-settings',
   SCHEDULING_PREFERENCES:
     '/profile/health-care-settings/scheduling-preferences',
+  SCHEDULING_PREF_CONTACT_METHOD: `${SCHEDULING_PREF_BASE_PATH}/contact-method`,
+  SCHEDULING_PREF_CONTACT_TIMES: `${SCHEDULING_PREF_BASE_PATH}/contact-times`,
+  SCHEDULING_PREF_APPOINTMENT_TIMES: `${SCHEDULING_PREF_BASE_PATH}/appointment-times`,
   HEALTH_CARE_CONTACTS: '/profile/contacts',
   MESSAGES_SIGNATURE: '/profile/message-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
@@ -79,6 +84,9 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   DIRECT_DEPOSIT: 'Direct deposit information',
   HEALTH_CARE_SETTINGS: 'Health care settings',
   SCHEDULING_PREFERENCES: 'Scheduling preferences',
+  SCHEDULING_PREF_CONTACT_METHOD: 'Contact method',
+  SCHEDULING_PREF_CONTACT_TIMES: 'Contact times',
+  SCHEDULING_PREF_APPOINTMENT_TIMES: 'Appointment times',
   HEALTH_CARE_CONTACTS: 'Health care contacts',
   MESSAGES_SIGNATURE: 'Messages signature',
   DEPENDENTS_AND_CONTACTS: 'Dependents and contacts',

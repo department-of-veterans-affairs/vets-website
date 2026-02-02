@@ -1,6 +1,5 @@
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import get from 'platform/forms-system/src/js/utilities/data/get';
 import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -12,6 +11,19 @@ import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileU
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 import { blankSchema } from '../definitions';
+import {
+  canSelectAddress,
+  hasOhiAndMedicalClaim,
+  hasOhiMedicalAndMultiplePolicies,
+  isNewClaim,
+  isNewMedicalClaim,
+  isNewPharmacyClaim,
+  isNotEnrolledInChampva,
+  isResubmissionClaim,
+  isResubmissionEnabled,
+  isRoleOther,
+  isRoleSponsor,
+} from '../utils/helpers';
 import {
   certifierRoleSchema,
   certifierBenefitStatusSchema,
@@ -52,6 +64,7 @@ import {
 } from '../chapters/resubmission';
 
 import content from '../locales/en/content.json';
+
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 const formConfig = {
@@ -138,7 +151,7 @@ const formConfig = {
         },
         page1a2: {
           path: 'not-enrolled-champva',
-          depends: formData => !get('certifierReceivedPacket', formData),
+          depends: isNotEnrolledInChampva,
           CustomPage: NotEnrolledPage,
           CustomPageReview: null,
           ...certifierNotEnrolledChampvaSchema,
@@ -146,32 +159,31 @@ const formConfig = {
         page1a: {
           path: 'signer-info',
           title: 'Your name',
-          depends: formData => get('certifierRole', formData) === 'other',
+          depends: isRoleOther,
           ...certifierNameSchema,
         },
         page1b: {
           path: 'signer-mailing-address',
           title: 'Your mailing address',
-          depends: formData => get('certifierRole', formData) === 'other',
+          depends: isRoleOther,
           ...certifierAddressSchema,
         },
         page1c: {
           path: 'signer-contact-info',
           title: 'Your contact information',
-          depends: formData => get('certifierRole', formData) === 'other',
+          depends: isRoleOther,
           ...certifierContactSchema,
         },
         page1d: {
           path: 'signer-relationship',
           title: 'Your relationship to the beneficiary',
-          depends: formData => get('certifierRole', formData) === 'other',
+          depends: isRoleOther,
           ...certifierRelationshipSchema,
         },
         page1e: {
-          path: 'is-resubmit',
+          path: 'champva-claim-status',
           title: 'CHAMPVA claim status',
-          depends: formData =>
-            formData['view:champvaEnableClaimResubmitQuestion'],
+          depends: isResubmissionEnabled,
           ...certifierClaimStatusSchema,
         },
       },
@@ -182,21 +194,21 @@ const formConfig = {
         page1e1: {
           path: 'resubmission-claim-number',
           title: 'Claim ID number',
-          depends: formData => get('claimStatus', formData) === 'resubmission',
+          depends: isResubmissionClaim,
           ...claimIdentificationNumber,
         },
         page1e2: {
-          path: 'resubmission-letter-upload',
+          path: 'resubmission-letter',
           title: 'CHAMPVA resubmission letter',
-          depends: formData => get('claimStatus', formData) === 'resubmission',
+          depends: isResubmissionClaim,
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
           ...resubmissionLetterUpload,
         },
         page1e3: {
-          path: 'resubmission-supporting-docs-upload',
+          path: 'resubmission-supporting-docs',
           title: 'Supporting documents for claim',
-          depends: formData => get('claimStatus', formData) === 'resubmission',
+          depends: isResubmissionClaim,
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
           ...resubmissionDocsUpload,
@@ -214,13 +226,13 @@ const formConfig = {
         page2a1: {
           path: 'sponsor-mailing-address',
           title: 'Veteran mailing address',
-          depends: formData => get('certifierRole', formData) === 'sponsor',
+          depends: isRoleSponsor,
           ...sponsorAddressSchema,
         },
         page2a2: {
           path: 'sponsor-contact-info',
           title: 'Veteran contact information',
-          depends: formData => get('certifierRole', formData) === 'sponsor',
+          depends: isRoleSponsor,
           ...sponsorContactSchema,
         },
       },
@@ -241,10 +253,7 @@ const formConfig = {
         page2c: {
           path: 'beneficiary-address',
           title: 'Beneficiary address',
-          depends: formData =>
-            get('certifierRole', formData) !== 'applicant' &&
-            (get('street', formData?.certifierAddress) ||
-              get('street', formData?.sponsorAddress)),
+          depends: canSelectAddress,
           CustomPage: props => {
             const opts = { ...props, dataKey: 'applicantAddress' };
             return AddressSelectionPage(opts);
@@ -271,7 +280,7 @@ const formConfig = {
         page3: {
           path: 'insurance-status',
           title: 'Beneficiary health insurance status',
-          depends: formData => get('claimStatus', formData) !== 'resubmission',
+          depends: isNewClaim,
           ...insuranceStatusSchema,
         },
         ...insurancePages,
@@ -283,52 +292,43 @@ const formConfig = {
         page4: {
           path: 'claim-type',
           title: 'Claim type',
-          depends: formData => get('claimStatus', formData) !== 'resubmission',
+          depends: isNewClaim,
           ...claimTypeSchema,
         },
         page5: {
           path: 'claim-work',
           title: 'Claim relationship to work',
-          depends: formData => get('claimStatus', formData) !== 'resubmission',
+          depends: isNewClaim,
           ...claimWorkSchema,
         },
         page6: {
           path: 'claim-auto-accident',
           title: 'Claim relationship to a car accident',
-          depends: formData => get('claimStatus', formData) !== 'resubmission',
+          depends: isNewClaim,
           ...claimAutoSchema,
         },
         page7: {
           path: 'medical-claim-upload',
           title: 'Supporting documents',
-          depends: formData =>
-            get('claimType', formData) === 'medical' &&
-            get('claimStatus', formData) !== 'resubmission',
+          depends: isNewMedicalClaim,
           ...medicalClaimUploadSchema,
         },
         page8: {
           path: 'eob-upload',
           title: 'Explanation of benefits',
-          depends: formData =>
-            get('hasOhi', formData) && get('claimType', formData) === 'medical',
+          depends: hasOhiAndMedicalClaim,
           ...eobUploadSchema(true),
         },
         page9: {
           path: 'additional-eob-upload',
           title: 'Additional explanation of benefits',
-          depends: formData =>
-            get('hasOhi', formData) &&
-            get('claimType', formData) === 'medical' &&
-            get('policies', formData) &&
-            formData?.policies?.length > 1,
+          depends: hasOhiMedicalAndMultiplePolicies,
           ...eobUploadSchema(false),
         },
         page10: {
           path: 'pharmacy-claim-upload',
           title: 'Supporting document for prescription medication claim',
-          depends: formData =>
-            get('claimType', formData) === 'pharmacy' &&
-            get('claimStatus', formData) !== 'resubmission',
+          depends: isNewPharmacyClaim,
           ...pharmacyClaimUploadSchema,
         },
       },

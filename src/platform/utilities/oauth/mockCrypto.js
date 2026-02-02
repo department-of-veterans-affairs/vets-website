@@ -21,12 +21,36 @@ export const mockCrypto = {
       const _data = getArrayBufferOrView(data);
 
       return new Promise((resolve, _) => {
-        resolve(
-          createHash(_algorithm)
-            .update(_data)
-            .digest(),
+        const buffer = createHash(_algorithm)
+          .update(_data)
+          .digest();
+        // Convert Node Buffer to ArrayBuffer to match native crypto.subtle.digest()
+        const arrayBuffer = buffer.buffer.slice(
+          buffer.byteOffset,
+          buffer.byteOffset + buffer.byteLength,
         );
+        resolve(arrayBuffer);
       });
     },
   },
+};
+
+/**
+ * Sets up window.crypto with mockCrypto if native webcrypto.subtle is not available.
+ * Node 14 has node:crypto but lacks webcrypto.subtle (added in Node 15).
+ * Call this in beforeEach() for tests that use crypto functions.
+ */
+export const setupMockCrypto = () => {
+  let hasWebCryptoSubtle = false;
+  try {
+    // eslint-disable-next-line import/no-unresolved, global-require
+    const nodeCrypto = require('node:crypto');
+    hasWebCryptoSubtle = !!nodeCrypto?.webcrypto?.subtle;
+  } catch {
+    hasWebCryptoSubtle = false;
+  }
+
+  if (!hasWebCryptoSubtle) {
+    window.crypto = mockCrypto;
+  }
 };

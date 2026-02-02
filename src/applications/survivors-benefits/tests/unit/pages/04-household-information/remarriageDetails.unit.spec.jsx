@@ -13,25 +13,22 @@ describe('Remarriage details page', () => {
 
   it('uiSchema contains remarriage fields and options are correct', () => {
     expect(uiSchema).to.be.an('object');
-    expect(uiSchema.remarriageEndReason, 'remarriageEndReason missing').to
+    expect(uiSchema.remarriageEndCause, 'remarriageEndCause missing').to.exist;
+    expect(uiSchema.endCauseExplanation, 'endCauseExplanation missing').to
       .exist;
-    expect(
-      uiSchema.remarriageEndOtherReason,
-      'remarriageEndOtherReason missing',
-    ).to.exist;
-    const other = uiSchema.remarriageEndOtherReason;
+    const other = uiSchema.endCauseExplanation;
     expect(other['ui:options']).to.be.an('object');
-    expect(other['ui:options'].expandUnder).to.equal('remarriageEndReason');
-    expect(other['ui:options'].expandUnderCondition).to.equal('OTHER');
+    expect(other['ui:options'].expandUnder).to.equal('remarriageEndCause');
+    expect(other['ui:options'].expandUnderCondition).to.equal('other');
     const requiredFn = other['ui:required'] || other.required;
     expect(requiredFn).to.be.a('function');
-    expect(Boolean(requiredFn({ remarriageEndReason: 'OTHER' }))).to.be.true;
-    expect(Boolean(requiredFn({ remarriageEndReason: 'DIVORCE' }))).to.be.false;
+    expect(Boolean(requiredFn({ remarriageEndCause: 'other' }))).to.be.true;
+    expect(Boolean(requiredFn({ remarriageEndCause: 'divorce' }))).to.be.false;
   });
 
-  it('schema requires remarriageEndReason and remarriageDate', () => {
+  it('schema requires remarriageEndCause and remarriageDates', () => {
     expect(schema).to.be.an('object');
-    expect(schema.required).to.include('remarriageEndReason');
-    expect(schema.required).to.include('remarriageDate');
+    expect(schema.required).to.include('remarriageEndCause');
+    expect(schema.required).to.include('remarriageDates');
   });
 });

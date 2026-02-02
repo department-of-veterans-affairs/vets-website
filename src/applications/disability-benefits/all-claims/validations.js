@@ -1,5 +1,6 @@
 import _ from 'platform/utilities/data';
 import some from 'lodash/some';
+import { validateBooleanGroup as platformValidateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { isValid, isBefore, isAfter, add, startOfToday } from 'date-fns';
 
 import {
@@ -19,9 +20,11 @@ import {
   claimingRated,
   showSeparationLocation,
   sippableId,
+  isEvidenceEnhancement,
 } from './utils';
 
 import {
+  DATA_PATHS,
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
@@ -133,7 +136,9 @@ export function validateMilitaryState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+    state.trim().toUpperCase(),
+  );
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
@@ -162,7 +167,9 @@ export function validateMilitaryTreatmentCity(
       `vaTreatmentFacilities[${index}].treatmentCenterAddress.state`,
       formData,
       '',
-    ),
+    )
+      .trim()
+      .toUpperCase(),
   );
   const isMilitaryCity = MILITARY_CITIES.includes(city.trim().toUpperCase());
   if (isMilitaryState && !isMilitaryCity) {
@@ -199,11 +206,25 @@ export function validateMilitaryTreatmentState(
       .trim()
       .toUpperCase(),
   );
-  const isMilitaryState = MILITARY_STATE_VALUES.includes(state);
+  const isMilitaryState = MILITARY_STATE_VALUES.includes(
+    state.trim().toUpperCase(),
+  );
   if (isMilitaryCity && !isMilitaryState) {
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
 }
+
+/**
+ * Whether the user has indicated they have evidence (gate for evidence-type validations).
+ * In enhancement flow uses view:hasMedicalRecords; in legacy flow uses view:hasEvidence.
+ *
+ * @param {Object} formData - Full formData
+ * @returns {boolean}
+ */
+const getHasEvidence = formData =>
+  isEvidenceEnhancement(formData)
+    ? _.get('view:hasMedicalRecords', formData, true)
+    : _.get('view:hasEvidence', formData, true);
 
 /**
  * Validate that at least one type of evidence is selected. Adds error message
@@ -227,9 +248,48 @@ export const validateIfHasEvidence = (
   index,
 ) => {
   const { wrappedValidator } = options;
-  if (_.get('view:hasEvidence', formData, true)) {
+  if (getHasEvidence(formData)) {
     wrappedValidator(errors, fieldData, formData, schema, messages, index);
   }
+};
+
+/** Paths for VA and private medical records; used to build subset for validation */
+const MEDICAL_RECORD_PATHS = [
+  DATA_PATHS.hasVAEvidence,
+  DATA_PATHS.hasPrivateEvidence,
+];
+
+/**
+ * Validates that at least one of VA or private medical records is selected on the
+ * medical-records page. Ignores view:hasOtherEvidence so legacy data with only
+ * "other evidence" checked does not bypass the requirement.
+ *
+ * @param {Object} errors - Errors object from rjsf
+ * @param {Object} fieldData - view:selectableEvidenceTypes
+ * @param {Object} formData - Full formData
+ * @param {Object} schema - Schema for the field
+ * @param {Object} messages - Error messages (e.g. atLeastOne)
+ */
+export const validateMedicalRecordsAtLeastOne = (
+  errors,
+  fieldData,
+  formData,
+  schema,
+  messages,
+) => {
+  if (!getHasEvidence(formData)) return;
+
+  const medicalOnly = MEDICAL_RECORD_PATHS.reduce(
+    (acc, path) => ({ ...acc, [path.split('.').pop()]: _.get(path, formData) }),
+    {},
+  );
+  platformValidateBooleanGroup(
+    errors,
+    medicalOnly,
+    formData,
+    schema,
+    messages || {},
+  );
 };
 
 // Need the Lambda to pass the disability list type, so only 1 disability list has the error message.

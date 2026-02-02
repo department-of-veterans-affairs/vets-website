@@ -1,10 +1,36 @@
 /* eslint-disable no-console */
 const fs = require('fs');
-const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
 const changedAppsConfig = require('../../config/changed-apps-build.json');
+
+/**
+ * Recursively finds all files matching a pattern in a directory.
+ * Uses native fs operations for mock-fs compatibility in Node 22+.
+ *
+ * @param {RegExp} pattern - Regex pattern to match file names.
+ * @param {string} directory - Directory to search in.
+ * @returns {string[]} Array of matching file paths.
+ */
+const findFilesSync = (pattern, directory) => {
+  const results = [];
+
+  const search = dir => {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        search(fullPath);
+      } else if (entry.isFile() && pattern.test(entry.name)) {
+        results.push(fullPath);
+      }
+    }
+  };
+
+  search(directory);
+  return results;
+};
 
 /**
  * Gets the manifest of all apps in the root app folder that a file belongs to.
@@ -19,9 +45,9 @@ const getManifests = filePath => {
 
   if (!fs.existsSync(fullAppPath)) return [];
 
-  return find
-    .fileSync(/manifest\.(json|js)$/, fullAppPath)
-    .map(file => JSON.parse(fs.readFileSync(file)));
+  return findFilesSync(/manifest\.(json|js)$/, fullAppPath).map(file =>
+    JSON.parse(fs.readFileSync(file)),
+  );
 };
 
 /**
@@ -49,6 +75,7 @@ const getAllowedApps = (filePath, allowedApps) => {
       entryName,
       rootUrl,
       rootPath: path.join(appsDirectory, rootAppFolderName),
+      rootFolder: rootAppFolderName,
       slackGroup,
       slackChannel,
       continuousDeployment,
@@ -86,6 +113,8 @@ const getChangedAppsString = (
           appStrings.push(app.entryName);
         } else if (outputType === 'folder') {
           appStrings.push(app.rootPath);
+        } else if (outputType === 'concurrency-group') {
+          appStrings.push(app.rootFolder);
         } else if (outputType === 'slack-group') {
           if (app.slackGroup) appStrings.push(app.slackGroup);
         } else if (outputType === 'slack-channel') {
@@ -97,7 +126,7 @@ const getChangedAppsString = (
     } else return '';
   }
 
-  return [...new Set(appStrings)].join(delimiter);
+  return [...new Set(appStrings)].sort().join(delimiter);
 };
 
 /**
@@ -142,6 +171,7 @@ if (process.env.CHANGED_FILE_PATHS) {
     // Use the --output-type option to specify one of the following outputs:
     // 'entry': The entry names of the changed apps.
     // 'folder': The relative path of the changed apps root folders.
+    // 'concurrency-group': The root folder names for deployment concurrency groups.
     // 'url': The root URLs of the changed apps.
     // 'slack-group': The Slack group of the app's team, specified in the config.
     { name: 'output-type', type: String, defaultValue: 'entry' },

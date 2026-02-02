@@ -102,8 +102,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
   });
 
   it('generates CCD (PDF) on button click', () => {
@@ -119,8 +118,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
   });
 
   it('generates CCD (HTML) on button click', () => {
@@ -136,8 +134,7 @@ describe('DownloadRecordsPage - VistA Only User', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
-      .exist;
+    expect(screen.getByTestId('generating-ccd-indicator')).to.exist;
   });
 });
 
@@ -420,6 +417,37 @@ describe('DownloadRecordsPage with last successful update timestamp', () => {
 
   it('renders the last updated card', () => {
     expect(screen.getByTestId('new-records-last-updated')).to.exist;
+  });
+});
+
+describe('DownloadRecordsPage - Missing EHR data for facility names', () => {
+  const testNoneRecordedFallback = ehrData => {
+    const state = {
+      ...getBaseState(bothFacilities, ['456']),
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: ehrData,
+            cernerFacilities: [{ vhaId: '456' }],
+          },
+          loading: false,
+        },
+      },
+    };
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: state,
+      reducers: reducer,
+      path: '/download-all',
+    });
+    expect(screen.getAllByText('None recorded').length).to.be.greaterThan(0);
+  };
+
+  it('renders "None recorded" when ehrDataByVhaId is missing', () => {
+    testNoneRecordedFallback(undefined);
+  });
+
+  it('renders "None recorded" when facility IDs not found', () => {
+    testNoneRecordedFallback({ 999: { vamcSystemName: 'Other' } });
   });
 });
 

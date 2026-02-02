@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isNil } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export default function transform(formConfig, form) {
@@ -27,10 +27,10 @@ export default function transform(formConfig, form) {
       formData.agreementType === 'modifyExistingAgreement'
     ) {
       clonedData.yellowRibbonProgramTerms = {
-        firstAcknowledgement: 'yes',
-        secondAcknowledgement: 'yes',
-        thirdAcknowledgement: 'yes',
-        fourthAcknowledgement: 'yes',
+        firstAcknowledgement: formData.statement1Initial,
+        secondAcknowledgement: formData.statement2Initial,
+        thirdAcknowledgement: formData.statement3Initial,
+        fourthAcknowledgement: formData.statement4Initial,
         agreeToProvideYellowRibbonProgramContributions: true,
       };
     }
@@ -46,12 +46,15 @@ export default function transform(formConfig, form) {
 
   const yellowRibbonProgramRequestTransform = formData => {
     const clonedData = cloneDeep(formData);
+    let yearRange;
 
     clonedData.yellowRibbonProgramAgreementRequest = formData.yellowRibbonProgramRequest.map(
-      request => {
-        const yearRange = request.academicYearDisplay
-          ? request.academicYearDisplay.split('-')
-          : request.academicYear.split('-');
+      (request, idx) => {
+        if (idx === 0) {
+          yearRange = request.academicYearDisplay
+            ? request.academicYearDisplay.split('-')
+            : request.academicYear.split('-');
+        }
 
         request.yearRange = {
           from: `${yearRange[0]}-XX-XX`,
@@ -76,14 +79,6 @@ export default function transform(formConfig, form) {
           : 'USD';
 
         request.degreeProgram = request.collegeOrProfessionalSchool;
-
-        if (
-          request.degreeLevel !== 'undergraduate' ||
-          request.degreeLevel !== 'graduate' ||
-          request.degreeLevel !== 'doctoral'
-        ) {
-          request.degreeLevel = 'all';
-        }
 
         request.eligibleIndividuals = 1000000;
 
@@ -172,23 +167,26 @@ export default function transform(formConfig, form) {
       clonedData.pointOfContact.emailAddress = clonedData.pointsOfContact.email;
 
       if (
-        pointOfContactRole.includes('YellowRibbonProgramPOC') &&
-        pointOfContactRole.includes('schoolCertifyingOfficial')
+        pointOfContactRole.includes('YellowRibbonProgramPOC') ||
+        pointOfContactRole.includes('schoolFinancialRepresentative')
       ) {
-        clonedData.pointOfContactTwo = clonedData.pointsOfContact;
-
         clonedData.pointOfContact.role = 'YellowRibbonProgramPOC';
-        clonedData.pointOfContactTwo.role = 'schoolCertifyingOfficial';
 
-        clonedData.pointOfContactTwo.phoneNumber =
-          clonedData.pointsOfContact.phoneNumber.callingCode +
-          clonedData.pointsOfContact.phoneNumber.contact;
+        if (pointOfContactRole.includes('schoolCertifyingOfficial')) {
+          clonedData.pointOfContactTwo = clonedData.pointsOfContact;
 
-        clonedData.pointOfContactTwo.emailAddress =
-          clonedData.pointsOfContact.email;
+          clonedData.pointOfContactTwo.role = 'schoolCertifyingOfficial';
 
-        delete clonedData.pointOfContactTwo.email;
-        delete clonedData.pointOfContactTwo.roles;
+          clonedData.pointOfContactTwo.phoneNumber =
+            clonedData.pointsOfContact.phoneNumber.callingCode +
+            clonedData.pointsOfContact.phoneNumber.contact;
+
+          clonedData.pointOfContactTwo.emailAddress =
+            clonedData.pointsOfContact.email;
+
+          delete clonedData.pointOfContactTwo.email;
+          delete clonedData.pointOfContactTwo.roles;
+        }
       }
 
       delete clonedData.pointOfContact.email;
@@ -232,10 +230,14 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
-  const statementTransform = formData => {
+  const statementAndAuthTransform = formData => {
     const clonedData = cloneDeep(formData);
-
     delete clonedData.statementOfTruthCertified;
+
+    if (isNil(clonedData.isAuthenticated)) {
+      clonedData.isAuthenticated =
+        JSON.parse(localStorage.getItem('hasSession')) ?? false;
+    }
 
     return clonedData;
   };
@@ -265,7 +267,7 @@ export default function transform(formConfig, form) {
     yellowRibbonProgramRequestTransform,
     institutionDetailsTransform,
     pointOfContactTransform,
-    statementTransform,
+    statementAndAuthTransform,
     dateTransform,
     usFormTransform, // this must appear last
   ].reduce((formData, transformer) => {

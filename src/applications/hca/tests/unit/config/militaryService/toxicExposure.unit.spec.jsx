@@ -1,8 +1,10 @@
-import formConfig from '../../../../config/form';
+// @ts-check
 import {
   testNumberOfErrorsOnSubmit,
-  testNumberOfFormFields,
-} from '../../../helpers.spec';
+  testNumberOfFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
+import { runSchemaRegressionTests } from 'platform/forms-system/test/schemaRegressionHelpers.spec';
+import formConfig from '../../../../config/form';
 
 describe('hca Toxic Exposure config', () => {
   const {
@@ -13,7 +15,7 @@ describe('hca Toxic Exposure config', () => {
 
   // run test for correct number of fields on the page
   const expectedNumberOfFields = 2;
-  testNumberOfFormFields(
+  testNumberOfFields(
     formConfig,
     schema,
     uiSchema,
@@ -30,4 +32,27 @@ describe('hca Toxic Exposure config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        hasTeraResponse: {
+          type: 'boolean',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'ui:description': {},
+      hasTeraResponse: {
+        'ui:title': {},
+      },
+    },
+    expectedRequired: ['hasTeraResponse'],
+    pageName: pageTitle,
+  });
 });

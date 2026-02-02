@@ -40,15 +40,6 @@ describe('Profile utils', () => {
           result[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
         ).to.have.property('ui:options');
       });
-
-      it('returns empty schema for subtask scheduling preference fields', () => {
-        const result = schedulingPreferencesUtils.schedulingPreferencesUiSchema(
-          FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
-        );
-        expect(result).to.deep.equal({
-          [FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD]: {},
-        });
-      });
     });
 
     describe('schedulingPreferencesFormSchema', () => {
@@ -67,16 +58,6 @@ describe('Profile utils', () => {
         expect(
           result.properties[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
         ).to.have.property('enum');
-      });
-
-      it('returns empty schema for subtask scheduling preference fields', () => {
-        const result = schedulingPreferencesUtils.schedulingPreferencesFormSchema(
-          FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
-        );
-        expect(result).to.deep.equal({
-          type: 'object',
-          properties: {},
-        });
       });
     });
   });

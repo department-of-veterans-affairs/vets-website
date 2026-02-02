@@ -1,33 +1,35 @@
 {
   "data": {
     "hasBankAccount": false,
-      "needRegularAssistance": false,
-      "inNursingHome": false,
-      "dicType": "DIC",
+      "claimingMonthlySpecialPension": false,
+      "claimantLivesInANursingHome": false,
+      "benefit": "DIC",
       "view:isAddingDependent": false,
       "recognizedAsSpouse": false,
       "hadPreviousMarriages": false,
-      "remarried": false,
+      "remarriedAfterVeteralDeath": false,
       "livedContinuouslyWithVeteran": true,
-      "awareOfLegalIssues": false,
+      "validMarriage": false,
       "marriageToVeteranEndDate": "1999-05-05",
       "marriageToVeteranEndLocation": {
         "city": "wefgwfg",
         "state": "AL"
       },
-      "marriageType": "CIVIL_RELIGIOUS",
+      "pregnantWithVeteran": false,
+      "childWithVeteran": false,
+      "marriageType": "ceremonial",
       "marriageToVeteranStartDate": "1980-05-05",
       "marriageToVeteranStartLocation": {
         "city": "ewfgw",
         "state": "AL"
       },
-      "marriedAtDeath": true,
+      "marriedToVeteranAtTimeOfDeath": true,
       "receivedBenefits": true,
       "claims": {
-        "dependencyIndemnityComp": true
+        "DIC": true
       },
-      "email": "myemail72585885@unattended.com",
-      "primaryPhone": {
+      "claimantEmail": "myemail72585885@unattended.com",
+      "claimantPhone": {
         "callingCode": 1,
         "countryCode": "US",
         "contact": "(555) 511-2312"
@@ -47,7 +49,7 @@
         "last": "Testerson"
       },
       "claimantDateOfBirth": "1955-05-05",
-      "claimantRelationship": "SPOUSE",
+      "claimantRelationship": "SURVIVING_SPOUSE",
       "vaClaimsHistory": false,
       "diedOnDuty": false,
       "veteranDateOfDeath": "2002-02-02",
@@ -58,6 +60,9 @@
         "first": "John",
         "last": "Doe"
       },
-      "veteranDateOfBirth": "1954-01-11"
+      "veteranDateOfBirth": "1954-01-11",
+      "veteranChildrenCount": "0",
+      "veteranAdditionalMarriagesCount": "0",
+      "spouseAdditionalMarriagesCount": "0"
   }
 }

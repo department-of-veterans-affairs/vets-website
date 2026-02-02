@@ -237,10 +237,7 @@ const transformMilitaryDutyStatus = data => {
   // If user answered "No" to Reserve/Guard, still send data with false value
   // so backend can fill "NO" in the PDF
   if (reserveOrGuardStatus === 'no' || reserveOrGuardStatus === false) {
-    return {
-      currentDutyStatus: null,
-      veteranDisabilitiesPreventMilitaryDuties: false,
-    };
+    return null;
   }
 
   // If user answered "Yes" to Reserve/Guard, send details
@@ -275,6 +272,7 @@ const transformBenefitEntitlementPayments = data => {
   if (benefitEntitlement === 'no' || benefitEntitlement === false) {
     return {
       sickRetirementOtherBenefits: false,
+      remarks: remarks.remarks || null,
     };
   }
 
@@ -324,27 +322,9 @@ export const transformForSubmit = (formConfig, form) => {
     delete transformed.benefitEntitlementPayments;
   }
 
-  // Add certification (required by API)
-  // Handle both platform statementOfTruth pattern and custom component pattern
-  const veteranName = data?.veteranInformation?.veteranFullName || {};
-  const defaultSignature = [
-    veteranName.first,
-    veteranName.middle,
-    veteranName.last,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  // Platform's statementOfTruth stores: signature and statementOfTruthCertified
-  // Custom component (for fixtures) stores: certification.signature and certification.certified
-  const signatureValue =
-    data?.signature || data?.certification?.signature || defaultSignature;
-  const certifiedValue =
-    data?.statementOfTruthCertified ?? data?.certification?.certified ?? true;
-
   transformed.certification = {
-    signature: signatureValue,
-    certified: Boolean(certifiedValue),
+    signature: data?.statementOfTruthSignature,
+    certified: Boolean(data?.statementOfTruthCertified),
   };
 
   // Remove all null and undefined values from the payload
