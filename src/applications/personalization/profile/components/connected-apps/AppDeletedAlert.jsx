@@ -13,7 +13,7 @@ export const AppDeletedAlert = ({ title, privacyUrl }) => {
       <va-alert
         status="success"
         backgroundOnly
-        class="vads-u-padding-bottom--0 vasd-u-margin-bottom--2"
+        class="vads-u-padding-bottom--0 vads-u-margin-bottom--2"
         uswds
       >
         <p className="vads-u-margin-top--0" role="alert" aria-live="polite">

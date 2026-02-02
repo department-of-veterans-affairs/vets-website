@@ -79,7 +79,7 @@ export class ConnectedApps extends Component {
           href="/resources/find-apps-you-can-use"
           onClick={this.connectedAppsEvent}
         >
-          go to the app directory
+          Go to the app directory
         </a>
       </p>
     </va-additional-info>
@@ -106,39 +106,6 @@ export class ConnectedApps extends Component {
       <div className="va-connected-apps">
         <Headline>Connected apps</Headline>
 
-        {showHasConnectedApps && (
-          <p className="va-introtext vads-u-font-size--md">
-            Your VA.gov profile is connected to the third-party (non-VA) apps
-            listed below. If you want to stop sharing information with an app,
-            you can disconnect it from your profile at any time.
-          </p>
-        )}
-
-        {showHasNoConnectedApps && (
-          <>
-            <p className="va-introtext vads-u-font-size--md">
-              Connected apps are third-party (non-VA) applications or websites
-              that can share certain information from your VA.gov profile, with
-              your permission. For example, you can connect information from
-              your VA health record to an app that helps you track your health.
-            </p>
-
-            <p className="va-introtext vads-u-font-size--md">
-              We offer this feature for your convenience. It’s always your
-              choice whether to connect, or stay connected, to a third-party
-              app.
-            </p>
-
-            <p className="va-introtext vads-u-font-size--md">
-              You don’t have any third-party apps connected to your profile. Go
-              to the app directory to find out what apps are available to
-              connect to your profile.
-            </p>
-          </>
-        )}
-
-        {showHasServerError && <LoadFail />}
-
         {deletedApps.map(app => (
           <AppDeletedAlert
             title={app?.attributes?.title}
@@ -146,24 +113,6 @@ export class ConnectedApps extends Component {
             key={app.id}
           />
         ))}
-
-        {showHasNoConnectedApps && (
-          <a
-            className="vads-u-margin-bottom--3"
-            href="/resources/find-apps-you-can-use"
-            onClick={this.connectedAppsEvent}
-          >
-            Go to app directory
-          </a>
-        )}
-
-        {loading && (
-          <va-loading-indicator
-            set-focus
-            message="Loading your connected apps..."
-            data-testid="connected-apps-loading-indicator"
-          />
-        )}
         {!isEmpty(disconnectErrorApps) &&
           disconnectErrorApps.map(app => (
             <>
@@ -187,6 +136,57 @@ export class ConnectedApps extends Component {
               </va-alert>
             </>
           ))}
+
+        {showHasConnectedApps && (
+          <p>
+            Your VA.gov profile is connected to the third-party (non-VA) apps
+            listed below. If you want to stop sharing information with an app,
+            you can disconnect it from your profile at any time.
+          </p>
+        )}
+
+        {showHasNoConnectedApps && (
+          <>
+            <p>
+              Connected apps are third-party (non-VA) applications or websites
+              that can share certain information from your VA.gov profile, with
+              your permission. For example, you can connect information from
+              your VA health record to an app that helps you track your health.
+            </p>
+
+            <p>
+              We offer this feature for your convenience. It’s always your
+              choice whether to connect, or stay connected, to a third-party
+              app.
+            </p>
+
+            <p>
+              You don’t have any third-party apps connected to your profile. Go
+              to the app directory to find out what apps are available to
+              connect to your profile.
+            </p>
+          </>
+        )}
+
+        {showHasServerError && <LoadFail />}
+
+        {showHasNoConnectedApps && (
+          <a
+            className="vads-u-display--inline-block vads-u-margin-bottom--3"
+            href="/resources/find-apps-you-can-use"
+            onClick={this.connectedAppsEvent}
+          >
+            Go to app directory
+          </a>
+        )}
+
+        {loading && (
+          <va-loading-indicator
+            set-focus
+            message="Loading your connected apps..."
+            data-testid="connected-apps-loading-indicator"
+          />
+        )}
 
         {!isEmpty(activeApps) && (
           <Toggler toggleName={Toggler.TOGGLE_NAMES.profile2Enabled}>
@@ -216,14 +216,11 @@ export class ConnectedApps extends Component {
           </Toggler>
         )}
 
-        <va-summary-box uswds class="vads-u-margin-top--2">
-          <h2
-            slot="headline"
-            className="vads-u-margin-top--0 vads-u-font-size--lg"
-          >
+        <va-card background uswds>
+          <h2 className="vads-u-margin-top--0 vads-u-font-size--lg">
             Have more questions about connected apps?
           </h2>
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <a
               className="vads-u-color--primary-alt-darkest"
               onClick={this.faqEvent}
@@ -233,7 +230,7 @@ export class ConnectedApps extends Component {
               profile
             </a>
           </p>
-        </va-summary-box>
+        </va-card>
       </div>
     );
   }

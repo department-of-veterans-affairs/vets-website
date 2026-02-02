@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { isEmpty } from 'lodash';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import PropTypes from 'prop-types';
 
@@ -46,8 +46,9 @@ export class ConnectedApp extends Component {
                 {title}
               </h2>
               <p className="vads-u-margin-top--0p5">
-                {`Connected on ${moment(grants[0]?.created).format(
-                  'MMMM D, YYYY h:mm A',
+                {`Connected on ${format(
+                  new Date(grants[0]?.created),
+                  'MMMM d, yyyy h:mm a',
                 )}`}
               </p>
             </div>
