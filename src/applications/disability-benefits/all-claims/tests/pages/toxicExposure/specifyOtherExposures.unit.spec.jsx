@@ -77,12 +77,23 @@ describe('Specify Other Exposures', () => {
     );
   });
 
-  describe('reviewTitle (confirmation accordion heading)', () => {
-    it('returns only the user-entered description', () => {
+  describe('reviewTitle', () => {
+    it('returns only the user-entered description when on confirmation', () => {
       const {
         reviewTitle,
       } = formConfig.chapters.disabilities.pages.specifyOtherExposures;
-      expect(reviewTitle({ formData })).to.equal('Test Substance');
+      expect(reviewTitle({ formData, onReviewPage: false })).to.equal(
+        'Test Substance',
+      );
+    });
+
+    it('returns full "Hazard # of #: description" when on review page', () => {
+      const {
+        reviewTitle,
+      } = formConfig.chapters.disabilities.pages.specifyOtherExposures;
+      expect(reviewTitle({ formData })).to.equal(
+        'Hazard 3 of 3: Test Substance',
+      );
     });
   });
 

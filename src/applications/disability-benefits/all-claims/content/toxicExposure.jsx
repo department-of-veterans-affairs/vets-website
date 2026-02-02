@@ -363,6 +363,53 @@ export function getSelectedCount(
 }
 
 /**
+ * Full page subtitle for herbicide "other" location: "Location # of #: description"
+ */
+export function getHerbicideOtherLocationsSubtitle(formData) {
+  return teSubtitle(
+    getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+    getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+    getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+  );
+}
+
+/**
+ * Full page subtitle for specify other exposures: "Hazard # of #: description"
+ */
+export function getSpecifyOtherExposuresSubtitle(formData) {
+  return teSubtitle(
+    getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+    getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+    getOtherFieldDescription(formData, 'specifyOtherExposures'),
+    'Hazard',
+  );
+}
+
+/**
+ * Review/confirmation title for herbicide "other" location.
+ * Confirmation (onReviewPage === false): description only. Review page: full "Location # of #: description".
+ */
+export function getHerbicideOtherLocationsReviewTitle(context) {
+  const formData = context?.formData ?? context;
+  if (context?.onReviewPage === false) {
+    return getOtherFieldDescription(formData, 'otherHerbicideLocations');
+  }
+  return getHerbicideOtherLocationsSubtitle(formData);
+}
+
+/**
+ * Review/confirmation title for specify other exposures.
+ * Confirmation (onReviewPage === false): description only. Review page: full "Hazard # of #: description".
+ */
+export function getSpecifyOtherExposuresReviewTitle(context) {
+  const formData = context?.formData ?? context;
+  if (context?.onReviewPage === false) {
+    return getOtherFieldDescription(formData, 'specifyOtherExposures');
+  }
+  return getSpecifyOtherExposuresSubtitle(formData);
+}
+
+/**
  * Validates selected items (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
  * If the 'none' checkbox is selected along with another item, adds an error.
  *

@@ -62,12 +62,23 @@ describe('Herbicide Other Locations', () => {
     );
   });
 
-  describe('reviewTitle (confirmation accordion heading)', () => {
-    it('returns only the user-entered description', () => {
+  describe('reviewTitle', () => {
+    it('returns only the user-entered description when on confirmation', () => {
       const {
         reviewTitle,
       } = formConfig.chapters.disabilities.pages.herbicideOtherLocations;
-      expect(reviewTitle({ formData })).to.equal('Test Location 1');
+      expect(reviewTitle({ formData, onReviewPage: false })).to.equal(
+        'Test Location 1',
+      );
+    });
+
+    it('returns full "Location # of #: description" when on review page', () => {
+      const {
+        reviewTitle,
+      } = formConfig.chapters.disabilities.pages.herbicideOtherLocations;
+      expect(reviewTitle({ formData })).to.equal(
+        'Location 3 of 3: Test Location 1',
+      );
     });
   });
 
