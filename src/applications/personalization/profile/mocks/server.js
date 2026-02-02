@@ -123,6 +123,7 @@ const responses = {
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
             profileHideHealthCareContacts: true,
+            profileHideMissingClaimInformationNotificationSetting: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,

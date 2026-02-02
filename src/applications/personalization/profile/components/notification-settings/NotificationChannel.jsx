@@ -161,7 +161,7 @@ const NotificationChannel = props => {
       <VaCheckbox
         label={label}
         checked={checked}
-        hint={description}
+        checkboxDescription={description}
         onVaChange={e => handleChange(e)}
         disabled={disabledForCheckbox}
         className={className}
