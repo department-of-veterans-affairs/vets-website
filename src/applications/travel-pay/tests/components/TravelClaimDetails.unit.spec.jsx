@@ -171,4 +171,28 @@ describe('TravelClaimDetails', () => {
 
     expect(screen.getByText(/is down for maintenance/i)).to.exist;
   });
+
+  it('should render content when complex claims feature flag is disabled', () => {
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: {
+        ...getState({ detailsData: { '1234': { ...claimDetailsProps } } }),
+        featureToggles: {
+          loading: false,
+          /* eslint-disable camelcase */
+          travel_pay_power_switch: true,
+          travel_pay_view_claim_details: true,
+          travel_pay_enable_complex_claims: false,
+          /* eslint-enable camelcase */
+        },
+      },
+      path: '/claims/1234',
+      reducers: reducer,
+    });
+
+    // Verify content still renders when complex claims is disabled
+    expect(screen.getByText(/set up another direct deposit for VA travel pay/i))
+      .to.exist;
+    expect(screen.getByText(/deposit your funds in your bank account/i)).to
+      .exist;
+  });
 });

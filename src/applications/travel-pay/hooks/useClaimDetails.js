@@ -36,9 +36,12 @@ export const useClaimDetails = claimId => {
   const appointmentDateTime = claimData?.appointment?.appointmentDateTime;
 
   // Clear appointment data
-  useEffect(() => {
-    dispatch(clearAppointmentData());
-  }, [dispatch]);
+  useEffect(
+    () => {
+      dispatch(clearAppointmentData());
+    },
+    [dispatch],
+  );
 
   // Fetch claim details if not already loaded
   useEffect(

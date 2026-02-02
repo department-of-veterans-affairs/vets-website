@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { ComplexClaimsHelpSection } from './HelpText';
 import ClaimDetailsContent from './ClaimDetailsContent';
 import { TRAVEL_PAY_INFO_LINK, REIMBURSEMENT_URL } from '../constants';
 
 export default function TravelClaimDetailsContent({ claimDetails, hasError }) {
-  console.log('TravelClaimDetailsContent | render: ', claimDetails);
   return (
     <>
       {hasError && (
@@ -53,3 +53,8 @@ export default function TravelClaimDetailsContent({ claimDetails, hasError }) {
     </>
   );
 }
+
+TravelClaimDetailsContent.propTypes = {
+  claimDetails: PropTypes.object,
+  hasError: PropTypes.bool,
+};

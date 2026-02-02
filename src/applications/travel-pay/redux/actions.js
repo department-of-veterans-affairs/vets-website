@@ -232,8 +232,6 @@ export function getAppointmentDataByDateTime(targetDateTime) {
         );
       }
 
-      console.log('getAppointmentDataByDateTime: Found matching appointment with id:', matchingAppointment.id);
-
       const appointmentData = transformVAOSAppointment(
         matchingAppointment.attributes,
       );
@@ -788,5 +786,5 @@ export function clearReviewPageAlert() {
 export function clearAppointmentData() {
   return {
     type: CLEAR_APPOINTMENT_DATA,
-  }
+  };
 }

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -7,17 +8,12 @@ import { Element, scrollTo } from 'platform/utilities/scroll';
 import Breadcrumbs from './Breadcrumbs';
 import DowntimeWindowAlert from '../containers/DownTimeWindowAlert';
 import TravelClaimDetailsContent from './TravelClaimDetailsContent';
-import { useParams } from 'react-router-dom-v5-compat';
 import { useClaimDetails } from '../hooks/useClaimDetails';
 
 export default function TravelClaimDetails() {
   const { id } = useParams();
 
-  const {
-    claimData,
-    isLoading,
-    error,
-  } = useClaimDetails(id);
+  const { claimData, isLoading, error } = useClaimDetails(id);
 
   useEffect(() => {
     focusElement('h1');
