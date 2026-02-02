@@ -76,6 +76,10 @@ describe('TravelClaimDetailsContent', () => {
       actions,
       'getAppointmentDataByDateTime',
     );
+
+    // Return thunk functions for the stubs (they're async actions)
+    getClaimDetailsStub.returns(() => Promise.resolve());
+    getAppointmentDataByDateTimeStub.returns(() => Promise.resolve());
   });
 
   afterEach(() => {
@@ -277,10 +281,9 @@ describe('TravelClaimDetailsContent', () => {
       });
 
       expect(getAppointmentDataByDateTimeStub.called).to.be.false;
-      getAppointmentDataByDateTimeStub.restore();
     });
     // need to figure out how to get these to work
-    it.skip('does not dispatch getAppointmentDataByDateTime when appointmentData belongs to the same claim', async () => {
+    it('does not dispatch getAppointmentDataByDateTime when appointmentData belongs to the same claim', async () => {
       const initialState = getInitialState({
         claimId: '123',
         appointmentId: 'appt-123', // existing appointment data belongs to same claim
@@ -306,14 +309,14 @@ describe('TravelClaimDetailsContent', () => {
         </MemoryRouter>,
         { initialState, reducers: reducer },
       );
-      waitFor(() => {
+
+      await waitFor(() => {
         expect(getAppointmentDataByDateTimeStub.called).to.be.false;
       });
-      getAppointmentDataByDateTimeStub.restore();
     });
     // need to figure out how to get these to work
 
-    it.skip('dispatches getAppointmentDataByDateTime when appointmentData belongs to a different claim', async () => {
+    it('dispatches getAppointmentDataByDateTime when appointmentData belongs to a different claim', async () => {
       const initialState = getInitialState({
         claimId: '123',
         appointmentId: 'appt-999', // appointment belongs to a different claim
@@ -331,12 +334,14 @@ describe('TravelClaimDetailsContent', () => {
         travelPayClaim: { claim: { id: '999' } },
       };
 
-      renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/:id',
-        initialEntries: ['/claim/123'],
-        reducers: reducer,
-      });
+      renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/claim/123']}>
+          <Routes>
+            <Route path="/claim/:id" element={<TravelClaimDetailsContent />} />
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
 
       await waitFor(() => {
         expect(getAppointmentDataByDateTimeStub.calledOnce).to.be.true;
