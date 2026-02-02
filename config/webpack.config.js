@@ -478,7 +478,9 @@ module.exports = async (env = {}) => {
             },
             warnings: false,
           },
-          parallel: true,
+          // Disable parallel processing to ensure compression works in CI
+          // (parallel: true causes compression to silently fail in GitHub Actions)
+          parallel: false,
         }),
       ],
       splitChunks: {
